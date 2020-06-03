@@ -8,9 +8,6 @@ namespace EEMod.Items.Weapons.Ranger
 {
 	public class Napalm : ModItem
 	{
-		public override string Texture => "PLACEHOLDER";
-
-
         public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Napalm");

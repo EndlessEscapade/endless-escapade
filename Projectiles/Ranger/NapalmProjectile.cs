@@ -8,7 +8,6 @@ namespace EEMod.Projectiles.Ranger
 {
     public class NapalmProjectile : ModProjectile
     {
-        public override string Texture => "PLACEHOLDER";
         public override void SetDefaults()
         {
             projectile.width = 10;
