@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "4nEgd4PHimTUNxw4Y8A3u63PjYJHyfTlVruDQAwtxF+V/722wTlfkRDJf3/gZdT+X4ur1yGAI92powGwEFMJiA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Win\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Win\\.nuget\\packages\\tmodloader.codeassist\\0.1.1\\tmodloader.codeassist.0.1.1.nupkg.sha512"
+  ],
+  "logs": []
+}
