@@ -1,0 +1,3 @@
+displayName = Endless Endscape
+author = Universe, Zarn and the Devs
+version = 0.1
