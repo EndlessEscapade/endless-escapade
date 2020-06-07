@@ -1,0 +1,63 @@
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using InteritosMod.Items.Placeables.Ores;
+using Microsoft.Xna.Framework;
+
+namespace InteritosMod.Items.Weapons.Ranger
+{
+    public class DalantiniumShotgun : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dalantinium Shotgun");
+        }
+
+        public override void SetDefaults()
+        {
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useAmmo = AmmoID.Bullet;
+            item.shoot = 10;
+            item.shootSpeed = 36f;
+            item.rare = ItemRarityID.Green;
+            item.width = 20;
+            item.height = 20;
+            item.noMelee = true;
+            item.ranged = true;
+            item.damage = 20;
+            item.useTime = 36;
+            item.useAnimation = 36;
+            item.value = Item.buyPrice(0, 0, 30, 0);
+            item.autoReuse = false;
+            item.knockBack = 6f;
+            item.UseSound = SoundID.Item11;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-3, 0);
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
+            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
+            recipe.AddIngredient(ItemID.Boomstick, 1);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            int numberProjectiles = 3 + Main.rand.Next(2);
+            for (int i = 0; i < numberProjectiles; i++)
+            {
+                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(22));
+
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
+            }
+            return false;
+        }
+    }
+}

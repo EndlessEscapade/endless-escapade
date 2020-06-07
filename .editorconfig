@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CS0162: Código inacessível detectado
+dotnet_diagnostic.CS0162.severity = none
+
+# CS1718: Comparação feita com a mesma variável
+dotnet_diagnostic.CS1718.severity = none

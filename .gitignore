@@ -1,0 +1,8 @@
+﻿bin
+obj
+bin/*
+obj/*
+.vs
+.vs/*
+.vscode
+.vscode/*

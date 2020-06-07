@@ -1,0 +1,52 @@
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using InteritosMod.Items.Placeables;
+using InteritosMod.Items.Placeables.Ores;
+
+namespace InteritosMod.Items.Armor.Hydrofluoric
+{
+    [AutoloadEquip(EquipType.Head)]
+    public class HydrofluoricHelm : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Hydrofluoric Helm");
+            Tooltip.SetDefault("18% increased melee damage");
+        }
+
+        public override void SetDefaults()
+        {
+            item.width = 18;
+            item.height = 18;
+            item.value = Item.sellPrice(0, 0, 30);
+            item.rare = ItemRarityID.LightPurple;
+            item.defense = 22;
+        }
+
+        public override bool IsArmorSet(Item head, Item body, Item legs)
+        {
+            return body.type == ModContent.ItemType<HydrofluoricPlatemail>() && legs.type == ModContent.ItemType<HydrofluoricBoots>();
+        }
+
+        public override void UpdateEquip(Player player)
+        {
+            player.meleeDamage += 18;
+        }
+
+        public override void UpdateArmorSet(Player player)
+        {
+            player.meleeDamage += 10;
+            player.meleeSpeed += 6;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 11);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
+    }
+}

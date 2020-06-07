@@ -1,0 +1,143 @@
+﻿using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Prophecy;
+
+namespace Prophecy.UI
+{
+    public class SavingSky : CustomSky
+    {
+        public bool Active;
+        public float Intensity;
+
+        public override void OnLoad()
+        {
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+           
+        }
+
+        public override Color OnTileColor(Color inColor)
+        {
+            return new Color(255,255,255);
+        }
+
+
+        Texture2D texture;
+        Texture2D texture2;
+        Rectangle frame;
+        int Countur;
+        int frames;
+        int frameSpeed;
+        public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
+        {
+
+            Mod mod = ModLoader.GetMod("Prophecy");
+            texture2 = mod.GetTexture("BleckScren");
+            switch (Prophecy.loadingChooseImage)
+            {
+                case 0:
+                    {
+                        texture = mod.GetTexture("NPCs/DuneShambler");
+                        frames = 6;
+                        frameSpeed = 15;
+                        break;
+                    }
+
+                case 1:
+                    {
+                        texture = mod.GetTexture("LoadingScreenImages/GiantSquid");
+                        frames = 3;
+                        frameSpeed = 30;
+                        break;
+                    }
+                case 2:
+                    {
+                        texture = mod.GetTexture("LoadingScreenImages/Clam");
+                        frames = 3;
+                        frameSpeed = 30;
+                        break;
+                    }
+                case 3:
+                    {
+                        texture = mod.GetTexture("LoadingScreenImages/Hydros");
+                        frames = 8;
+                        frameSpeed = 25;
+                        break;
+                    }
+                case 4:
+                    {
+                        texture = mod.GetTexture("LoadingScreenImages/Seahorse");
+                        frames = 5;
+                        frameSpeed = 20;
+                        break;
+                    }
+            }
+            if (Countur++ > frameSpeed)
+            {
+                Countur = 0;
+                frame.Y += texture.Height/ frames;
+            }
+            if (frame.Y >= (texture.Height / frames) * (frames-1))
+            {
+                frame.Y = 0;
+            }
+            Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
+            Main.spriteBatch.Draw(texture2, new Vector2(0, 0), new Color(204,204,204));
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0,frame.Y,texture.Width,texture.Height/ frames), new Color(15,15,15), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height/ frames).Size() / 2, 1,SpriteEffects.None, 0);
+        }
+
+        public override float GetCloudAlpha()
+        {
+            return 0f;
+        }
+
+        public override void Activate(Vector2 position, params object[] args)
+        {
+            
+        }
+
+        public override void Deactivate(params object[] args)
+        {
+            
+        }
+
+        public override void Reset()
+        {
+            
+        }
+
+        public override bool IsActive()
+        {
+            return Prophecy.isSaving;
+        }
+    }
+
+    public class SavingSkyData : ScreenShaderData
+    {
+        public SavingSkyData(string passName) : base(passName)
+        {
+        }
+
+        private void UpdateSavingSky()
+        {
+
+        }
+
+        public override void Apply()
+        {
+            if (Prophecy.isSaving)
+            {
+                UpdateSavingSky();
+                base.Apply();
+            }
+        }
+    }
+}

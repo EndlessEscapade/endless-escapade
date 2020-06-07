@@ -1,0 +1,43 @@
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace Prophecy.Weapons
+{
+    public class SaharaSceptoid : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("SaharaSceptoid");
+        }
+
+        public override void SetDefaults()
+        {
+            item.damage = 8;
+            item.magic = true;
+            item.mana = 4;
+            item.width = 46;
+            item.height = 46;
+            item.useTime = 6;
+            item.useAnimation = 6;
+            item.useStyle = 5;
+            item.noMelee = true;
+            item.knockBack = 0f;
+            item.value = 500000000;
+            item.UseSound = SoundID.Item73;
+            item.autoReuse = true;
+            item.shoot = mod.ProjectileType("Crystal");
+            item.shootSpeed = 6f;
+            item.rare = 5;
+            item.crit = 5;
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            speedX *= 2f;
+            speedY += Main.rand.NextFloat(0.9f, -0.9f);
+            return true;
+        }
+    }
+}
