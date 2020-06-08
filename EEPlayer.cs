@@ -203,7 +203,7 @@ namespace EEMod
                 titleText2 = 1;
                 if (!arrowFlag)
                 {
-                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("DesArrow"), 0, 0, player.whoAmI);
+                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("DesArrowProjectile"), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
                 if (player.Center.X / 16 >= Main.spawnTileX - 5 &&
@@ -211,11 +211,11 @@ namespace EEMod
                     player.Center.Y / 16 >= Main.spawnTileY - 5 &&
                     player.Center.Y / 16 <= Main.spawnTileY + 5)
                 {
-                    (Main.projectile[Arrow].modProjectile as DesertArrowProjectile).visible = true;
+                    (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = true;
                 }
                 else
                 {
-                    (Main.projectile[Arrow].modProjectile as DesertArrowProjectile).visible = false;
+                    (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = false;
                 }
                 Filters.Scene.Deactivate(key4);
             }
