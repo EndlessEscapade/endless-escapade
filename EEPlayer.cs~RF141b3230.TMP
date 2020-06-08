@@ -90,7 +90,6 @@ namespace EEMod
         public static bool isSaving;
         public float titleText;
         public float titleText2;
-        public float subText;
         public bool noU;
         public static bool triggerSeaCutscene;
         public static int cutSceneTriggerTimer;
@@ -102,7 +101,6 @@ namespace EEMod
         public static List<Vector2> objectPos = new List<Vector2>();
         public static bool isNearIsland;
         public static bool isNearVolcano;
-        public static string baseWorldName;
         public override void Initialize()
         {
             isSaving = false;
@@ -113,13 +111,8 @@ namespace EEMod
             noU = false;
             triggerSeaCutscene = false;
             cutSceneTriggerTimer = 0;
-            cutSceneTriggerTimer2 = 500;
+            cutSceneTriggerTimer2 = 1000;
             position = player.Center;
-            speedOfPan = 0;
-            subText = 0;
-            EEMod.position = new Vector2(1000, 1000);
-            objectPos.Clear();
-            EEMod.ShipHelth = EEMod.ShipHelthMax;
         }
 
         public override void ResetEffects()
@@ -142,11 +135,8 @@ namespace EEMod
         }
         int Arrow;
         int Arrow2;
-        int Anchors;
         float positionOfGlacX;
         float positionOfGlacY;
-        float speedOfPan = 1;
-        int AnchorsVolc;
 
         public override void ModifyScreenPosition()
         {
@@ -154,24 +144,21 @@ namespace EEMod
             if (Main.ActiveWorldFileData.Name == key2)
             {
                 Main.screenPosition += new Vector2(0, 1000);
+                //Main.GameZoomTarget += markerPlacer/1000;
             }
 
-            if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
+            if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
             {
                 Main.screenPosition.X -= cutSceneTriggerTimer;
             }
-            if (cutSceneTriggerTimer >= 500)
+            if (cutSceneTriggerTimer >= 1000)
             {
-                speedOfPan += 0.005f;
-                Main.screenPosition.X -= cutSceneTriggerTimer2 * speedOfPan;
+                Main.screenPosition.X -= cutSceneTriggerTimer2;
             }
         }
         public override void UpdateBiomeVisuals()
         {
-            Action newWorld = EnterSub1;
-            Action newWorld2 = EnterSub2;
-            Action returnToBaseWorld = Return;
-            //player.ManageSpecialBiomeVisuals("InteritosMod:Akumo", NPC.AnyNPCs(ModContent.NPCType<Akumo>()));
+            player.ManageSpecialBiomeVisuals("InteritosMod:Akumo", NPC.AnyNPCs(ModContent.NPCType<Akumo>()));
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
             {
                 cutSceneTriggerTimer += 6;
@@ -262,82 +249,19 @@ namespace EEMod
                 {
                     isNearVolcano = true;
                 }
-                if (!arrowFlag)
-                {
-                    Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("Anchor"), 0, 0, player.whoAmI, pos3X, pos3Y);
-                    AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("Anchor"), 0, 0, player.whoAmI, pos2X, pos2Y - 50);
-                    arrowFlag = true;
-                }
-                if (isNearIsland)
-                {
-                    (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
-                    subText += 0.02f;
-                    if (subText >= 1)
-                        subText = 1;
-
-                }
-                else
-                {
-                    (Main.projectile[Anchors].modProjectile as Anchor).visible = false;
-                }
-                if (isNearVolcano)
-                {
-                    subText += 0.02f;
-                    if (subText >= 1)
-                        subText = 1;
-                    (Main.projectile[AnchorsVolc].modProjectile as Anchor).visible = true;
-                }
-                else
-                {
-                    (Main.projectile[AnchorsVolc].modProjectile as Anchor).visible = false;
-                }
-                if (!isNearVolcano && !isNearIsland)
-                {
-                    subText -= 0.02f;
-                    if (subText <= 0)
-                        subText = 0;
-                }
-
-                for (int j = 0; j < 450; j++)
+                for (int j = 0; j < 200; j++)
                 {
                     if (Main.projectile[j].type == mod.ProjectileType("PirateShip"))
                     {
+                        Main.NewText((Main.projectile[j].Center - EEMod.position - Main.screenPosition).Length());
                         if ((Main.projectile[j].Center - EEMod.position - Main.screenPosition).Length() < 40)
                         {
-                            EEMod.ShipHelth -= 20;
                             EEMod.velocity += Main.projectile[j].velocity * 20;
                         }
                     }
                 }
                 if (markerPlacer == 1)
                 {
-                    for (int i = 0; i < 400; i++)
-                    {
-                        int CloudChoose = Main.rand.Next(3);
-                        Vector2 CloudPos = new Vector2(Main.rand.NextFloat(Main.screenPosition.X - 200, Main.screenPosition.X + Main.screenWidth), Main.rand.NextFloat(Main.screenPosition.Y + 800, Main.screenPosition.Y + Main.screenHeight + 1000));
-                        Vector2 dist = (Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight + 1000)) - CloudPos;
-                        if (dist.Length() > 1140)
-                        {
-                            switch (CloudChoose)
-                            {
-                                case 0:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, mod.ProjectileType("DarkCloud1"), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                                case 1:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, mod.ProjectileType("DarkCloud2"), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, mod.ProjectileType("DarkCloud3"), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                            }
-                        }
-                    }
                     //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, mod.ProjectileType("Land"), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, mod.ProjectileType("VolcanoIsland"), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, mod.ProjectileType("Land"), 0, 0f, Main.myPlayer, 0, 0);
@@ -434,35 +358,30 @@ namespace EEMod
             }
             else
             {
-                baseWorldName = Main.ActiveWorldFileData.Name;
                 Filters.Scene.Deactivate(key4);
                 EEMod.position = EEMod.start;
                 EEMod.velocity = Vector2.Zero;
                 titleText2 = 0;
                 if (!arrowFlag)
                 {
-                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("DesArrowProjectile"), 0, 0, player.whoAmI);
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("OceanArrowProjectile"), 0, 0, player.whoAmI);
+                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("DesArrow"), 0, 0, player.whoAmI);
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("OceanArrow"), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
-                if (EEWorld.EntracesPosses.Count > 0)
+                if (player.Center.X / 16 >= (EEWorld.yes.X + 12) - 2 &&
+                    player.Center.X / 16 <= (EEWorld.yes.X + 12) + 2 &&
+                    player.Center.Y / 16 >= (EEWorld.yes.Y + 7) - 2 &&
+                    player.Center.Y / 16 <= (EEWorld.yes.Y + 7) + 2)
                 {
-                    if (player.Center.X / 16 >= (EEWorld.EntracesPosses[0].X + 12) - 2 &&
-                        player.Center.X / 16 <= (EEWorld.EntracesPosses[0].X + 12) + 2 &&
-                        player.Center.Y / 16 >= (EEWorld.EntracesPosses[0].Y + 7) - 2 &&
-                        player.Center.Y / 16 <= (EEWorld.EntracesPosses[0].Y + 7) + 2 &&
-                            EEWorld.EntracesPosses.Count > 0)
+                    if (player.controlUp)
                     {
-                        if (player.controlUp)
-                        {
-                            godMode = true;
-                        }
-                        (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = true;
+                        godMode = true;
                     }
-                    else
-                    {
-                        (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = false;
-                    }
+                    (Main.projectile[Arrow].modProjectile as DesertArrowProjectile).visible = true;
+                }
+                else
+                {
+                    (Main.projectile[Arrow].modProjectile as DesertArrowProjectile).visible = false;
                 }
                 if (player.Center.X / 16 >= (EEWorld.ree.X + 2) - 2 &&
                     player.Center.X / 16 <= (EEWorld.ree.X + 2) + 2 &&
@@ -499,6 +418,8 @@ namespace EEMod
             {
                 Filters.Scene.Deactivate(key3);
             }
+            Action newWorld = EnterSub1;
+            Action newWorld2 = EnterSub2;
             if (timerForCutscene >= 1400)
             {
                 isSaving = false;
@@ -511,10 +432,10 @@ namespace EEMod
                 cutSceneTriggerTimer2 = 1000;
                 WorldGen.SaveAndQuit(newWorld);
             }
-            if (cutSceneTriggerTimer >= 500)
+            if (cutSceneTriggerTimer >= 1000)
             {
                 cutSceneTriggerTimer2 -= 5;
-                if (cutSceneTriggerTimer >= 1520)
+                if (cutSceneTriggerTimer >= 2020)
                 {
                     markerPlacer = 0;
                     EEMod.position = new Vector2(1000, 1000);
@@ -525,7 +446,7 @@ namespace EEMod
                     noU = false;
                     triggerSeaCutscene = false;
                     cutSceneTriggerTimer = 0;
-                    cutSceneTriggerTimer2 = 500;
+                    cutSceneTriggerTimer2 = 1000;
                     WorldGen.SaveAndQuit(newWorld2);
                 }
             }
@@ -538,16 +459,6 @@ namespace EEMod
             {
                 mods[i].PreSaveAndQuit();
             }
-        }
-        public void Return()
-        {
-            GenerationProgress progress = new GenerationProgress();
-            ReturnOnName(baseWorldName, progress);
-        }
-        private void ReturnOnName(string text, GenerationProgress progress)
-        {
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld", false);
-            WorldGen.playWorld();
         }
         public static void SaveAndQuit(Action callback = null)
         {
@@ -604,7 +515,7 @@ namespace EEMod
             WorldGen.clearWorld();
             EEMod.GenerateWorld(Main.ActiveWorldFileData.Seed, threadContext as GenerationProgress);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key1}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\tafid\Documents\My Games\Terraria\ModLoader\Worlds\{key1}.wld", false);
             WorldGen.playWorld();
         }
         public static void Do_worldGenCallBack2(object threadContext)
@@ -613,7 +524,7 @@ namespace EEMod
             WorldGen.clearWorld();
             EEMod.GenerateWorld2(Main.ActiveWorldFileData.Seed, threadContext as GenerationProgress);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key2}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\tafid\Documents\My Games\Terraria\ModLoader\Worlds\{key2}.wld", false);
             WorldGen.playWorld();
         }
         public override void UpdateBadLifeRegen()
@@ -646,7 +557,7 @@ namespace EEMod
         {
             if (text == key1)
             {
-                string path = $@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key1}.wld";
+                string path = $@"C:\Users\tafid\Documents\My Games\Terraria\ModLoader\Worlds\{key1}.wld";
                 if (!File.Exists(path))
                 {
                     Main.worldName = text.Trim();
@@ -657,7 +568,7 @@ namespace EEMod
             }
             if (text == key2)
             {
-                string path = $@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key2}.wld";
+                string path = $@"C:\Users\tafid\Documents\My Games\Terraria\ModLoader\Worlds\{key2}.wld";
                 if (!File.Exists(path))
                 {
                     Main.worldName = text.Trim();

@@ -454,7 +454,7 @@ namespace EEMod
             velocity = Vector2.Zero;
             if (isSaving)
             {
-                Mod mod = ModLoader.GetMod("Prophecy");
+                Mod mod = ModLoader.GetMod("EEMod");
                 //Main.spriteBatch.Draw(texture, new Vector2(Main.screenWidth / 2, 100), new Rectangle(0, 0, 100, 100), Color.Black, 0, origin, 5, SpriteEffects.None, 0);
                 for (int i = 0; i < Main.backgroundTexture.Length; i++)
                     Main.backgroundTexture[i] = Main.magicPixel;
@@ -711,13 +711,35 @@ namespace EEMod
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
+            if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
+            {
+                for (int i = 0; i < layers.Count; i++)
+                {
+                    //Remove Resource bars
+                    if (layers[i].Name.Contains("Vanilla: Resource Bars"))
+                    {
+                        layers.RemoveAt(i);
+                    }
+                }
+                for (int i = 0; i < layers.Count; i++)
+                {
+                    //Remove Resource bars
+                    if (layers[i].Name.Contains("Vanilla: Info Accessories Bar"))
+                    {
+                        layers.RemoveAt(i);
+                    }
+                }
+            }
             EEPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<EEPlayer>();
             var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
             var computerState = new LegacyGameInterfaceLayer("EE: UI",
                 delegate
                 {
                     if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
+                    {
                         DrawShip();
+                        DrawSubText();
+                    }
                     if (Main.ActiveWorldFileData.Name == EEPlayer.key1 || Main.ActiveWorldFileData.Name == EEPlayer.key2)
                         DrawText();
                     return true;
@@ -728,7 +750,7 @@ namespace EEMod
         public string text;
         private void DrawText()
         {
-            Mod mod = ModLoader.GetMod("Prophecy");
+            Mod mod = ModLoader.GetMod("EEMod");
             EEPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<EEPlayer>();
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
@@ -752,9 +774,26 @@ namespace EEMod
         int Countur;
         int frames;
         int frameSpeed;
+        public static float ShipHelthMax = 100;
+        public static float ShipHelth = 100;
         public static Vector2 position;
         public static Vector2 velocity;
         public static readonly Vector2 start = new Vector2(1700, 900);
+        private void DrawSubText()
+        {
+            EEPlayer modPlayer = Main.player[Main.myPlayer].GetModPlayer<EEPlayer>();
+            float alpha = modPlayer.subText;
+            Color color = Color.White;
+            if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
+            {
+                text = "Disembark?";
+                color *= alpha;
+            }
+            Vector2 textSize = Main.fontMouseText.MeasureString(text);
+            float textPositionLeft = position.X - textSize.X / 2;
+            float textPositionRight = position.X + textSize.X / 2;
+            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        }
         private void DrawShip()
         {
             Player modPlayer = Main.player[Main.myPlayer];
@@ -786,7 +825,7 @@ namespace EEMod
                 velocity.Y = 1;
             if (velocity.Y < -1)
                 velocity.Y = -1;
-            Mod mod = ModLoader.GetMod("Prophecy");
+            Mod mod = ModLoader.GetMod("EEMod");
             texture = mod.GetTexture("ShipMount");
             frames = 1;
             frameSpeed = 15;
@@ -820,26 +859,13 @@ namespace EEMod
                     Lighting.AddLight(EEPlayer.objectPos[i], .15f, .15f, .15f);
             }
 
+            Texture2D texture3 = mod.GetTexture("ShipHelth");
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
-            //Dust.NewDust(ProphecyPlayer.objectPos[i], 1, 1, DustID.BlueCrystalShard,0,0,255);
-            //Lighting.AddLight(ProphecyPlayer.objectPos[i], .2f, .2f, .2f);
+            float quotient = ShipHelth / ShipHelthMax;
+            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, 0, (int)(texture3.Width * quotient), texture3.Height), Color.White, 0, new Rectangle(0, 0, texture3.Width, texture3.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
-        /*private bool DrawSomethingUI()
-    {
 
-        // it will only draw if the player is not on the main menu
-        /*	if (!Main.gameMenu
-                && EEUI.visible)
-            {
-                EEInterface.Draw(Main.spriteBatch, new GameTime());
-            }
-            if (Main.gameMenu)
-            {
-                EEInterface.Draw(Main.spriteBatch, new GameTime());
-            }
-        return true;
-    }*/
 
         public override void AddRecipeGroups()
         {
@@ -854,7 +880,7 @@ namespace EEMod
                 ItemID.Topaz
             });
             // Registers the new recipe group with the specified name
-            RecipeGroup.RegisterGroup("Prophecy:Gemstones", group0);
+            RecipeGroup.RegisterGroup("EEMod:Gemstones", group0);
         }
 
         public override void AddRecipes()

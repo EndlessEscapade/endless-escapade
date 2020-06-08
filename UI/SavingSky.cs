@@ -21,7 +21,7 @@ namespace EEMod.UI
 
         public override void Update(GameTime gameTime)
         {
-           
+
         }
 
         public override Color OnTileColor(Color inColor)
@@ -39,7 +39,7 @@ namespace EEMod.UI
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
 
-            Mod mod = ModLoader.GetMod("Prophecy");
+            Mod mod = ModLoader.GetMod("EEMod");
             texture2 = mod.GetTexture("BleckScren");
             switch (EEMod.loadingChooseImage)
             {
@@ -101,17 +101,17 @@ namespace EEMod.UI
 
         public override void Activate(Vector2 position, params object[] args)
         {
-            
+
         }
 
         public override void Deactivate(params object[] args)
         {
-            
+
         }
 
         public override void Reset()
         {
-            
+
         }
 
         public override bool IsActive()

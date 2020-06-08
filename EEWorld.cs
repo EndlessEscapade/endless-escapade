@@ -119,9 +119,11 @@ namespace EEMod
         public static IList<Vector2> EntracesPosses = new List<Vector2>();
         public override void Initialize()
         {
-            
+
             eocFlag = NPC.downedBoss1;
             ree = new Vector2(100, TileCheck(100) - 22);
+            if (EntracesPosses.Count > 0)
+                yes = EntracesPosses[0];
         }
         public void FillRegion(int width, int height, Vector2 startingPoint, int type)
         {
@@ -726,15 +728,12 @@ namespace EEMod
 
         public void DoAndAssignShrineValues()
         {
-            for (int l = 0; l < 1; l++)
-            {
                 int posX = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int posY = WorldGen.genRand.Next((int)WorldGen.worldSurfaceHigh, Main.maxTilesY);
                 PlaceEntrance(posX, posY, IntWorld.EEWorld.pyroEntrance);
                 PlaceWalls(posX, posY, IntWorld.EEWorld.pyroEntranceWalls);
                 EntracesPosses.Add(new Vector2(posX, posY));
                 yes = new Vector2(posX, posY);
-            }
         }
         public void DoAndAssignShipValues()
         {
@@ -920,13 +919,17 @@ namespace EEMod
 
         public override void Load(TagCompound tag)
         {
-            if (tag.ContainsKey("yes") && tag.ContainsKey("yes").GetType().Name == "Vector2") // check if the altar coordinates exist in the save file
+            if (tag.ContainsKey("EntracesPosses"))
             {
-              yes = tag.Get<Vector2>("yes");
+                EntracesPosses = tag.GetList<Vector2>("EntracesPosses");
             }
-            if (tag.ContainsKey("ree") && tag.ContainsKey("ree").GetType().Name == "Vector2") // check if the altar coordinates exist in the save file
+            if (tag.ContainsKey("yes") && tag.ContainsKey("yes").GetType().Name == "Vector2")
             {
-              ree = tag.Get<Vector2>("ree");
+                yes = tag.Get<Vector2>("yes");
+            }
+            if (tag.ContainsKey("ree") && tag.ContainsKey("ree").GetType().Name == "Vector2")
+            {
+                ree = tag.Get<Vector2>("ree");
             }
             var downed = new List<string>();
             if (eocFlag) downed.Add("eocFlag");
@@ -950,7 +953,7 @@ namespace EEMod
         public override TagCompound Save()
         {
             return new TagCompound {
-            {"yes", yes },{"ree", ree }
+            {"EntracesPosses",EntracesPosses},{"yes", yes },{"ree", ree }
         };
             /*List<string> boolflags = new List<string>();
 
@@ -1245,7 +1248,7 @@ namespace EEMod
                 WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, true, true);
             }
             float grad = WorldGen.genRand.NextFloat(0, 1);
-            killWall(1000, 500, new Vector2(0, 0));
+          //  killWall(1000, 500, new Vector2(0, 0));
             makeLayer(chasmX, chasmY + firstLayerPosY, sizeOfLayer1, 1);
             makeLayer(chasmX + 30, chasmY + secondLayerPosY + sizeOfLayer1, sizeOfLayer2, 2);
             //---------------------------1
