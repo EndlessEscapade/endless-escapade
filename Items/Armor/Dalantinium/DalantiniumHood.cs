@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables;
+using EEMod.Items.Placeables.Ores;
 
-namespace InteritosMod.Items.Armor.Dalantinium
+namespace EEMod.Items.Armor.Dalantinium
 {
     [AutoloadEquip(EquipType.Head)]
     public class DalantiniumHood : ModItem
@@ -31,7 +31,7 @@ namespace InteritosMod.Items.Armor.Dalantinium
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<InteritosPlayer>().dalantiniumHood = true;
+            player.GetModPlayer<EEPlayer>().dalantiniumHood = true;
         }
 
         public override void UpdateArmorSet(Player player)

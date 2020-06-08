@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using InteritosMod.Items.Placeables;
+using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Tiles.Furniture
+namespace EEMod.Tiles.Furniture
 {
     public class MysteriousJarTile : ModTile
     {

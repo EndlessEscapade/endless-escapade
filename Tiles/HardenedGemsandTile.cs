@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables;
+using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Tiles
+namespace EEMod.Tiles
 {
     public class HardenedGemsandTile : ModTile
     {

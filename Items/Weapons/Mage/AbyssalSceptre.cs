@@ -2,9 +2,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.Projectiles.Mage;
+using EEMod.Projectiles.Mage;
 
-namespace InteritosMod.Items.Weapons.Mage
+namespace EEMod.Items.Weapons.Mage
 {
     public class AbyssalSceptre : ModItem
     {

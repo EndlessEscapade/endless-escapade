@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables.Ores;
 
-namespace InteritosMod.Items.Tools.Lythen
+namespace EEMod.Items.Tools.Lythen
 {
     public class LythenHammer : ModItem
     {

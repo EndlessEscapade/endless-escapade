@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -6,10 +6,10 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using InteritosMod.Items.Placeables;
+using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Tiles
+namespace EEMod.Tiles
 {
     public class AtlanteanCrystal : ModTile
     {
@@ -28,4 +28,4 @@ namespace InteritosMod.Tiles
             minPick = 0;
         }
     }
-}
+}*/

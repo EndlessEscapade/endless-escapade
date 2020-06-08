@@ -2,9 +2,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Utilities;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables.Ores;
 
-namespace InteritosMod.Items.Accessories
+namespace EEMod.Items.Accessories
 {
 	public class HydrodynamicalDivingGear : ModItem
 	{

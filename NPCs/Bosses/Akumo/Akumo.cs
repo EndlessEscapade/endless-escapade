@@ -6,10 +6,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using InteritosMod.Compatibility;
-using InteritosMod.IntWorld;
+using EEMod.Compatibility;
+using EEMod.IntWorld;
 
-namespace InteritosMod.NPCs.Akumo
+namespace EEMod.NPCs.Bosses.Akumo
 {
     public class Akumo : ModNPC
     {
@@ -84,8 +84,8 @@ namespace InteritosMod.NPCs.Akumo
 
         public override void NPCLoot()
         {
-            InteritosWorld.downedAkumo = true;
-            InteritosMod.ServBoolUpdate();
+            EEWorld.downedAkumo = true;
+            //EEMod.ServBoolUpdate();
         }
         Vector2 addOn;
         private void switchPos(int mode)

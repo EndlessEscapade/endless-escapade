@@ -3,9 +3,9 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables.Ores;
 
-namespace InteritosMod.Tiles.Ores
+namespace EEMod.Tiles.Ores
 {
     public class DalantiniumBarTile : ModTile
     {

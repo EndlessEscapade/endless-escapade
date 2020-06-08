@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Prophecy;
-namespace Prophecy.Accessories
+
+namespace EEMod.Items.Accessories
 {
 
     public class LargeQuartzGem : ModItem

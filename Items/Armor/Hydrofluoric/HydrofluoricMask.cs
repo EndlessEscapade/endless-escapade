@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables;
+using EEMod.Items.Placeables.Ores;
 
-namespace InteritosMod.Items.Armor.Hydrofluoric
+namespace EEMod.Items.Armor.Hydrofluoric
 {
 	[AutoloadEquip(EquipType.Head)]
 	public class HydrofluoricMask : ModItem

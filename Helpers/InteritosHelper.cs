@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Terraria;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod
+namespace EEMod
 {
     public static partial class Helpers
     {

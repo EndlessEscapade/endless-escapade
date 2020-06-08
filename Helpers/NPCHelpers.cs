@@ -8,7 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod
+namespace EEMod
 {
     public static partial class Helpers
     {

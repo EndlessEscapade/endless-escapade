@@ -1,11 +1,11 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using InteritosMod.Items;
+using EEMod.Items;
 
-namespace InteritosMod.Extensions
+namespace EEMod.Extensions
 {
     public static class ItemExtensions
     {
-        public static InteritosGlobalItem Interitos(this Item item) => item.GetGlobalItem<InteritosGlobalItem>();
+        public static EEGlobalItem EEMod(this Item item) => item.GetGlobalItem<EEGlobalItem>();
     }
 }

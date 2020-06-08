@@ -3,10 +3,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 using Microsoft.Xna.Framework;
-using InteritosMod.Items.Placeables.Ores;
-using InteritosMod.Projectiles.Mage;
+using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Mage;
 
-namespace InteritosMod.Items.Weapons.Mage
+namespace EEMod.Items.Weapons.Mage
 {
     public class LythenStaff : ModItem
     {

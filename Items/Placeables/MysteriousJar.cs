@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Tiles.Furniture;
+using EEMod.Tiles.Furniture;
 
-namespace InteritosMod.Items.Placeables
+namespace EEMod.Items.Placeables
 {
     public class MysteriousJar : ModItem
     {

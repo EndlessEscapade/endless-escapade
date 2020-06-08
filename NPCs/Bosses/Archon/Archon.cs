@@ -4,10 +4,10 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.Compatibility;
+using EEMod.Compatibility;
 // using static Terraria.ModLoader.ModContent;
 
-namespace InteritosMod.NPCs.Archon
+namespace EEMod.NPCs.Bosses.Archon
 {
     [AutoloadBossHead]
     internal class Archon : ModNPC

@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace Prophecy.Dusts
+namespace EEMod.Dusts
 {
     public class Sandy : ModDust
     {

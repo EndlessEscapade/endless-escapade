@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Projectiles.Mage
+namespace EEMod.Projectiles.Mage
 {
     public class Snowball : ModProjectile
     {

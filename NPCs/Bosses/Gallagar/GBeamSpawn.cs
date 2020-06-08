@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace InteritosMod.NPCs.Gallagar
+namespace EEMod.NPCs.Bosses.Gallagar
 {
     public class GBeamSpawn : ModProjectile
     {

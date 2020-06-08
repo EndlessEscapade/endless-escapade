@@ -1,10 +1,10 @@
-
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-namespace Prophecy.Projectiles
+
+namespace EEMod.Projectiles
 {
     public class PirateShip : ModProjectile
     {
@@ -24,7 +24,7 @@ namespace Prophecy.Projectiles
         }
         public override void AI()
         {
-            Vector2 moveTo = Main.screenPosition + Prophecy.position;
+            Vector2 moveTo = Main.screenPosition + EEMod.position;
             projectile.spriteDirection = 1;
             if (projectile.velocity.X > 0)
             {

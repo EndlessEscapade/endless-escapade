@@ -2,18 +2,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.Items.Weapons.Mage;
-using Microsoft.Xna.Framework;
+using EEMod.Items.Weapons.Mage;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Terraria;
-using Terraria.ID;
 using Terraria.Localization;
-using Terraria.ModLoader;
 
-namespace InteritosMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs
 {
     public class Ball : ModNPC
     {

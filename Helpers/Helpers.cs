@@ -7,15 +7,15 @@ using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using InteritosMod.Items;
+using EEMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace InteritosMod
+namespace EEMod
 {
     public static partial class Helpers
     {
-        internal const string EmptyTexture = "InteritosMod/Empty";
+        internal const string EmptyTexture = "EEMod/Empty";
         // public static InteritosGlobalNPC Interitos(this NPC npc) => npc.GetGlobalNPC<InteritosGlobalNPC>();
         // public static InteritosGlobalProjectile Interitos(this Projectile proj) => proj.GetGlobalProjectile<InteritosGlobalProjectile>();
 

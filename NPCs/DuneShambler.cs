@@ -4,7 +4,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
-namespace Prophecy.NPCs
+
+namespace EEMod.NPCs
 {
     public class DuneShambler : ModNPC
     {

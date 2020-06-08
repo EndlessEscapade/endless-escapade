@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Prophecy.Items.Armour
+namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(new EquipType[]
 	{
@@ -38,7 +38,7 @@ namespace Prophecy.Items.Armour
         {
             player.setBonus = "7% Increased summon damage and a chance for minions to inflict On Fire on enemy hits";
             player.minionDamage *= 1.07f;
-            player.GetModPlayer<ProphecyPlayer>().isQuartzSummonOn = true;
+            player.GetModPlayer<EEPlayer>().isQuartzSummonOn = true;
         }
 
         public override void UpdateEquip(Player player)

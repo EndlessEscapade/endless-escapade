@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs
 {
     public class ManoWar : ModNPC
     {

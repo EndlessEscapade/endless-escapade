@@ -1,7 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Prophecy.Tools
+namespace EEMod.Items.Tools.Quartz
 {
     public class QuartzHammer : ModItem
     {

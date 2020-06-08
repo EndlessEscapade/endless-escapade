@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Items.Weapons.Ranger
+namespace EEMod.Items.Weapons.Ranger
 {
     public class SandBuster : ModItem
     {

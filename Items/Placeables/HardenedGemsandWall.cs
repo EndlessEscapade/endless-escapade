@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Tiles.Walls;
+using EEMod.Tiles.Walls;
 
-namespace InteritosMod.Items.Placeables
+namespace EEMod.Items.Placeables
 {
     public class HardenedGemsandWall : ModItem
     {

@@ -1,9 +1,9 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables;
+using EEMod.Items.Placeables;
 
-namespace InteritosMod.Items.Weapons.Melee
+namespace EEMod.Items.Weapons.Melee
 {
     public class MagmaticGreatsword : ModItem
     {

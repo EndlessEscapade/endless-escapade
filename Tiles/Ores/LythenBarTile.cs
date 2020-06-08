@@ -3,9 +3,9 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables.Ores;
 
-namespace InteritosMod.Tiles.Ores
+namespace EEMod.Tiles.Ores
 {
     public class LythenBarTile : ModTile
     {

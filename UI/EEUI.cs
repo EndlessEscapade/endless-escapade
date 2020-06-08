@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 
-namespace Prophecy.UI
+namespace EEMod.UI
 {
      internal class EEUI : UIState
      {

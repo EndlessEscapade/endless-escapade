@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Prophecy.Items.Armour
+namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(new EquipType[]
 	{
@@ -38,7 +38,7 @@ namespace Prophecy.Items.Armour
         {
             player.setBonus = "10% Increased damage for Melee Weapons\nChance to shoot out crystal projectiles on swing";
             player.meleeDamage *= 1.1f;
-            player.GetModPlayer<ProphecyPlayer>().isQuartzMeleeOn = true;
+            player.GetModPlayer<EEPlayer>().isQuartzMeleeOn = true;
         }
 
         public override void UpdateEquip(Player player)

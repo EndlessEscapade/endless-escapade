@@ -2,7 +2,7 @@ using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace InteritosMod.Items.Materials
+namespace EEMod.Items.Materials
 {
     public class HydrosScales : ModItem
     {

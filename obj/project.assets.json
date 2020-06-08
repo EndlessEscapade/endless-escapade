@@ -31,19 +31,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Win\\.nuget\\packages\\": {}
+    "C:\\Users\\epicc\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Win\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
+      "projectUniqueName": "C:\\Users\\epicc\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
       "projectName": "EEMod",
-      "projectPath": "C:\\Users\\Win\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
-      "packagesPath": "C:\\Users\\Win\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Win\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\obj\\",
+      "projectPath": "C:\\Users\\epicc\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
+      "packagesPath": "C:\\Users\\epicc\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\epicc\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Win\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\epicc\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -57,11 +57,6 @@
         "net45": {
           "projectReferences": {}
         }
-      },
-      "warningProperties": {
-        "warnAsError": [
-          "NU1605"
-        ]
       }
     },
     "frameworks": {
@@ -71,8 +66,7 @@
             "target": "Package",
             "version": "[0.1.*, )"
           }
-        },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+        }
       }
     }
   }

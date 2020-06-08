@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace InteritosMod.NPCs.Gallagar
+namespace EEMod.NPCs.Bosses.Gallagar
 {
     public class Portal : ModProjectile
     {

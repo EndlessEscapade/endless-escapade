@@ -3,14 +3,14 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
-using InteritosMod.Items.Weapons.Melee;
-using InteritosMod.Items.Weapons.Mage;
-using InteritosMod.Items.Weapons.Ranger;
-using InteritosMod.Items.Materials;
+using EEMod.Items.Weapons.Melee;
+using EEMod.Items.Weapons.Mage;
+using EEMod.Items.Weapons.Ranger;
+using EEMod.Items.Materials;
 using Terraria.Audio;
-using InteritosMod.IntWorld;
+using EEMod.IntWorld;
 
-namespace InteritosMod.NPCs.Hydros
+namespace EEMod.NPCs.Bosses.Hydros
 {
     [AutoloadBossHead]
     public class Hydros : ModNPC
@@ -75,7 +75,7 @@ namespace InteritosMod.NPCs.Hydros
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
             }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
-            InteritosWorld.downedHydros = true;
+            EEWorld.downedHydros = true;
         }
 
         private int attackTimer = 180;

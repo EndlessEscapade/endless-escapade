@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.Audio;
 
-namespace InteritosMod.NPCs.Hydros
+namespace EEMod.NPCs.Bosses.Hydros
 {
     internal class HydrosMinion : ModNPC
     {

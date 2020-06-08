@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace Prophecy.NPCs.Bosses
+namespace EEMod.NPCs.Bosses
 {
     public delegate void ExtraAction();
 

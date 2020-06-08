@@ -2,13 +2,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.Compatibility;
+using EEMod.Compatibility;
 using Microsoft.Xna.Framework.Graphics;
-using InteritosMod.IntWorld;
-using InteritosMod.Items.Weapons.Ranger;
-using InteritosMod.Items.Weapons.Mage;
+using EEMod.IntWorld;
+using EEMod.Items.Weapons.Ranger;
+using EEMod.Items.Weapons.Mage;
 
-namespace InteritosMod.NPCs.Stagrel
+namespace EEMod.NPCs.Bosses.Stagrel
 {
     public class Stagrel : ModNPC
     {
@@ -62,8 +62,8 @@ namespace InteritosMod.NPCs.Stagrel
                     Item.NewItem(npc.getRect(), ModContent.ItemType<SandBuster>());
             }
 
-            InteritosWorld.downedStagrel = true;
-            InteritosMod.ServBoolUpdate();
+            EEWorld.downedStagrel = true;
+            //EEMod.ServBoolUpdate();   Not working for some reason ;-;
         }
 
         // Phases
@@ -118,7 +118,7 @@ namespace InteritosMod.NPCs.Stagrel
                 if (player.Center.X < npc.position.X)
                     npc.velocity.X = -1f;
 
-                if (Timer >= (InteritosWorld.GenkaiMode ? 4 * 60 : Main.expertMode ? 60 * 6 : 60 * 10))
+                if (Timer >= (EEWorld.GenkaiMode ? 4 * 60 : Main.expertMode ? 60 * 6 : 60 * 10))
                 {
                     Phase++;
                 }

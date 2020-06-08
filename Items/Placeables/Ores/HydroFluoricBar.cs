@@ -1,9 +1,9 @@
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using InteritosMod.Tiles.Ores;
+using EEMod.Tiles.Ores;
 
-namespace InteritosMod.Items.Placeables.Ores
+namespace EEMod.Items.Placeables.Ores
 {
     public class HydroFluoricBar : ModItem
     {

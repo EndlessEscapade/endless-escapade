@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace Prophecy.Buffs
+namespace EEMod.Buffs.Buffs
 {
 	public class QuartzCrystal : ModBuff
 	{
@@ -15,7 +15,7 @@ namespace Prophecy.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			ProphecyPlayer modPlayer = player.GetModPlayer<ProphecyPlayer>();
+            EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
 			if (player.ownedProjectileCounts[mod.ProjectileType("QuartzCrystal")] > 0)
 			{
 				modPlayer.quartzCrystal = true;

@@ -6,9 +6,9 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Prophecy;
+using EEMod;
 
-namespace Prophecy.UI
+namespace EEMod.UI
 {
     public class SavingSky : CustomSky
     {
@@ -41,7 +41,7 @@ namespace Prophecy.UI
 
             Mod mod = ModLoader.GetMod("Prophecy");
             texture2 = mod.GetTexture("BleckScren");
-            switch (Prophecy.loadingChooseImage)
+            switch (EEMod.loadingChooseImage)
             {
                 case 0:
                     {
@@ -116,7 +116,7 @@ namespace Prophecy.UI
 
         public override bool IsActive()
         {
-            return Prophecy.isSaving;
+            return EEMod.isSaving;
         }
     }
 
@@ -133,7 +133,7 @@ namespace Prophecy.UI
 
         public override void Apply()
         {
-            if (Prophecy.isSaving)
+            if (EEMod.isSaving)
             {
                 UpdateSavingSky();
                 base.Apply();

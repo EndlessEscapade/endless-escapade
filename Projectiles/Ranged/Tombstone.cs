@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Projectiles.Ranged
+namespace EEMod.Projectiles.Ranged
 {
     public class Tombstone : ModProjectile
     {

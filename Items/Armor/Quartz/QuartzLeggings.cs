@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Prophecy.Items.Armour
+namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(new EquipType[]
 	{

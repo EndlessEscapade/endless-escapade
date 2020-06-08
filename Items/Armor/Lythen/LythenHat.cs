@@ -1,11 +1,10 @@
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables;
 
-namespace InteritosMod.Items.Armor.Lythen
+namespace EEMod.Items.Armor.Lythen
 {
 	[AutoloadEquip(EquipType.Head)]
 	public class LythenHat : ModItem

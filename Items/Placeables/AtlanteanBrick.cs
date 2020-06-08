@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Tiles;
+using EEMod.Tiles;
 
-namespace InteritosMod.Items.Placeables
+namespace EEMod.Items.Placeables
 {
     public class AtlanteanBrick : ModItem
     {

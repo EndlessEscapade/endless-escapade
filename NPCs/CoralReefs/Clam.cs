@@ -2,9 +2,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.Items.Weapons.Mage;
+using EEMod.Items.Weapons.Mage;
 
-namespace InteritosMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs
 {
     public class Clam : ModNPC
     {

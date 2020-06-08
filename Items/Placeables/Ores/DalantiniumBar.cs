@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Tiles.Ores;
+using EEMod.Tiles.Ores;
 
-namespace InteritosMod.Items.Placeables.Ores
+namespace EEMod.Items.Placeables.Ores
 {
     public class DalantiniumBar : ModItem
     {

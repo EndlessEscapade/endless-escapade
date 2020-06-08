@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace InteritosMod.NPCs.Archon
+namespace EEMod.NPCs.Bosses.Archon
 {
     public class HadesFireball : ModProjectile
     {

@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Terraria;
 
-namespace InteritosMod.Extensions
+namespace EEMod.Extensions
 {
     public static class PlayerExtensions
     {
-        public static InteritosPlayer Interitos(this Player player) => player.GetModPlayer<InteritosPlayer>();
+        public static EEPlayer Interitos(this Player player) => player.GetModPlayer<EEPlayer>();
 
         public static float MeleeDamage(this Player player) => player.allDamage + player.meleeDamage - 1f;
         public static float RangedDamage(this Player player) => player.allDamage + player.rangedDamage - 1f;

@@ -1,10 +1,10 @@
-using InteritosMod.Projectiles.Melee;
+using EEMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace InteritosMod.Items.Weapons.Melee
+namespace EEMod.Items.Weapons.Melee
 {
     public class PharaohsThrow : ModItem
     {

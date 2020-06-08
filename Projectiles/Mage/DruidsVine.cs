@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace InteritosMod.Projectiles.Mage
+namespace EEMod.Projectiles.Mage
 {
     public class DruidsVine : ModProjectile
     {

@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Projectiles.Melee
+namespace EEMod.Projectiles.Melee
 {
     public class PharaohsThrowProjectile : ModProjectile
     {

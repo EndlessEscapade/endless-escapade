@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Buffs.Debuffs
+namespace EEMod.Buffs.Debuffs
 {
     public class MagmaticFlames : ModBuff
     {

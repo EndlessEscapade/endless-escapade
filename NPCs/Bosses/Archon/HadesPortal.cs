@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.NPCs.Archon
+namespace EEMod.NPCs.Bosses.Archon
 {
     public class HadesPortal : ModProjectile
     {

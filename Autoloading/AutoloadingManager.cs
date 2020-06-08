@@ -4,16 +4,16 @@ using System.Reflection;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
-using InteritosMod.Extensions;
+using EEMod.Extensions;
 
-namespace InteritosMod.Autoloading
+namespace EEMod.Autoloading
 {
     public static class AutoloadingManager
     {
         public const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
         public const BindingFlags flags0 = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 
-        internal static void LoadManager(InteritosMod mod)
+        internal static void LoadManager(EEMod mod)
         {
             Assembly assembly = mod.Code ?? mod.GetType().Assembly;
             Type[] types = assembly.GetTypesSafe();
@@ -21,7 +21,7 @@ namespace InteritosMod.Autoloading
 
             Loading(members, mod);
         }
-        private static void Loading(IEnumerable<MemberInfo> members, InteritosMod mod)
+        private static void Loading(IEnumerable<MemberInfo> members, EEMod mod)
         {
             foreach (MemberInfo member in members)
             {
@@ -32,7 +32,7 @@ namespace InteritosMod.Autoloading
                 }
             }
         }
-        private static void LoadInvoke(MethodInfo m, InteritosMod mod)
+        private static void LoadInvoke(MethodInfo m, EEMod mod)
         {
             if (!ValidMethod(m, out LoadingAttribute attribute)) // if it has the attribute
                 return;
@@ -59,7 +59,7 @@ namespace InteritosMod.Autoloading
 
 
 
-        internal static void UnloadManager(InteritosMod mod)
+        internal static void UnloadManager(EEMod mod)
         {
             Assembly assembly = mod.Code ?? mod.GetType().Assembly;
             Type[] types = assembly.GetTypesSafe();
@@ -67,7 +67,7 @@ namespace InteritosMod.Autoloading
 
             Unloading(members, mod);
         }
-        private static void Unloading(IEnumerable<MemberInfo> members, InteritosMod mod)
+        private static void Unloading(IEnumerable<MemberInfo> members, EEMod mod)
         {
             foreach (MemberInfo member in members)
             {
@@ -77,7 +77,7 @@ namespace InteritosMod.Autoloading
                     UnloadField(field);
             }
         }
-        private static void UnloadInvoke(MethodInfo method, InteritosMod mod)
+        private static void UnloadInvoke(MethodInfo method, EEMod mod)
         {
             if (!ValidMethod(method, out UnloadingAttribute attribute)) // if it has the attribute
                 return;

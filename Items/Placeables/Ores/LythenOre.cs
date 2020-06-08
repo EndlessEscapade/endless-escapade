@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ModLoader;
-using InteritosMod.Tiles.Ores;
+using EEMod.Tiles.Ores;
 using Terraria.ID;
 
-namespace InteritosMod.Items.Placeables.Ores
+namespace EEMod.Items.Placeables.Ores
 {
     public class LythenOre : ModItem
     {

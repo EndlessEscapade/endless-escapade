@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.ID;
 
-namespace InteritosMod.NPCs.Archon
+namespace EEMod.NPCs.Bosses.Archon
 {
     public class Magic2 : ModNPC
     {

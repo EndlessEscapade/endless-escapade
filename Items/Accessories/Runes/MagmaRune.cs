@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.Utilities;
 using Terraria.ModLoader;
 
-namespace InteritosMod.Items.Accessories.Runes
+namespace EEMod.Items.Accessories.Runes
 {
     public class MagmaRune : ModItem
     {
@@ -30,7 +30,7 @@ namespace InteritosMod.Items.Accessories.Runes
         public override void UpdateEquip(Player player)
         {
             player.allDamage += 0.04f;
-            player.GetModPlayer<InteritosPlayer>().magmaRune = true; ;
+            player.GetModPlayer<EEPlayer>().magmaRune = true;
         }
 
         public override void AddRecipes()

@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables;
+using EEMod.Items.Placeables.Ores;
 
-namespace InteritosMod.Items.Armor.Dalantinium
+namespace EEMod.Items.Armor.Dalantinium
 {
     [AutoloadEquip(EquipType.Body)]
     public class DalantiniumPlatemail : ModItem

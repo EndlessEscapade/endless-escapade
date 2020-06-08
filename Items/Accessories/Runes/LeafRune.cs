@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.Utilities;
 using Terraria.ModLoader;
 
-namespace InteritosMod.Items.Accessories.Runes
+namespace EEMod.Items.Accessories.Runes
 {
     public class LeafRune : ModItem
     {

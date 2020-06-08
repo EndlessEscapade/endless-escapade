@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Projectiles.Mage;
+using EEMod.Projectiles.Mage;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Items.Weapons.Mage
+namespace EEMod.Items.Weapons.Mage
 {
     public class Stalagtite : ModItem
     {

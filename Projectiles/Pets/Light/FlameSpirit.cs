@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace InteritosMod.Projectiles.Pets.Light
+namespace EEMod.Projectiles.Pets.Light
 {
 	public class FlameSpirit : ModProjectile
 	{
@@ -38,7 +38,7 @@ namespace InteritosMod.Projectiles.Pets.Light
 		public override void AI()
 		{
 			Player player = Main.player[projectile.owner];
-			InteritosPlayer modPlayer = player.GetModPlayer<InteritosPlayer>();
+			EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
 			if (!player.active)
 			{
 				projectile.active = false;

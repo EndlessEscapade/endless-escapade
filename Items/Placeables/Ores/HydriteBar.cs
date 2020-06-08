@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Tiles.Ores;
+using EEMod.Tiles.Ores;
 using static Terraria.ModLoader.ModContent;
 
-namespace InteritosMod.Items.Placeables.Ores
+namespace EEMod.Items.Placeables.Ores
 {
     public class HydriteBar : ModItem
     {

@@ -3,14 +3,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.IntWorld;
-using InteritosMod.NPCs.Archon;
+using EEMod.IntWorld;
+using EEMod.NPCs.Bosses.Archon;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 
-namespace InteritosMod.NPCs.Gallagar
+namespace EEMod.NPCs.Bosses.Gallagar
 {
     //	[AutoloadBossHead]
     public class Gallagar : ModNPC
@@ -214,7 +214,7 @@ namespace InteritosMod.NPCs.Gallagar
 
         public override bool CheckDead()
         {
-            return InteritosWorld.downedGallagar = true;
+            return EEWorld.downedGallagar = true;
         }
 
         public override void FindFrame(int frameHeight) //Frame counter

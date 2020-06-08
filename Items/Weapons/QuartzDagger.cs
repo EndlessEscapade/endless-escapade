@@ -3,7 +3,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-namespace Prophecy.Weapons
+namespace EEMod.Items.Weapons
 {
     public class QuartzDagger : ModItem
     {

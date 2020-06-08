@@ -7,7 +7,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace InteritosMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs
 {
     public class Dreadmine : ModProjectile
     {

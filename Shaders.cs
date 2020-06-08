@@ -4,15 +4,15 @@ using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using InteritosMod.Autoloading;
-using InteritosMod.NPCs.Akumo;
+using EEMod.Autoloading;
+using EEMod.NPCs.Bosses.Akumo;
 
-namespace InteritosMod
+namespace EEMod
 {
-    public partial class InteritosMod
+    public partial class EEMod
     {
         [Loading(LoadingMode.Client)]
-        internal static void ShaderLoading(InteritosMod mod)
+        internal static void ShaderLoading(EEMod mod)
         {
             Ref<Effect> screenRef = new Ref<Effect>(mod.GetEffect("Effects/PracticeEffect"));
             Filters.Scene["InteritosMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);

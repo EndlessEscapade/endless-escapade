@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables;
+using EEMod.Items.Placeables.Ores;
 
-namespace InteritosMod.Items.Armor.Hydrite
+namespace EEMod.Items.Armor.Hydrite
 {
 	[AutoloadEquip(EquipType.Head)]
 	public class HydriteVisage : ModItem
@@ -34,7 +34,7 @@ namespace InteritosMod.Items.Armor.Hydrite
         public override void UpdateEquip(Player player)
         {
             player.magicDamage += 12;
-            player.GetModPlayer<InteritosPlayer>().hydriteVisage = true;
+            player.GetModPlayer<EEPlayer>().hydriteVisage = true;
             player.statManaMax += 100;
         }
 

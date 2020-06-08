@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Prophecy.Items.Armour
+namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(new EquipType[]
 	{
@@ -37,7 +37,7 @@ namespace Prophecy.Items.Armour
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Criticals inflict cursed inferno for 2 seconds";
-            player.GetModPlayer<ProphecyPlayer>().isQuartzRangedOn = true;
+            player.GetModPlayer<EEPlayer>().isQuartzRangedOn = true;
         }
 
         public override void UpdateEquip(Player player)

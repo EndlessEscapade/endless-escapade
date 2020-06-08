@@ -3,8 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-
-namespace Prophecy.NPCs
+namespace EEMod.NPCs
 {
     public class QuartzSlime : ModNPC
     {

@@ -4,7 +4,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-namespace InteritosMod.NPCs.Akumo
+namespace EEMod.NPCs.Bosses.Akumo
 {
     public class AkumoFeather : ModProjectile
     {

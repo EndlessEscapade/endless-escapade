@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace InteritosMod.Tiles.Furniture
+namespace EEMod.Tiles.Furniture
 {
     public class CoralLanternLamp : ModTile
     {

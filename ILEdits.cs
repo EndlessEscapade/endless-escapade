@@ -6,9 +6,9 @@ using InteritosMod.IntWorld;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 
-namespace InteritosMod
+namespace EEMod
 {
-    public partial class InteritosMod : Mod
+    public partial class EEMod : Mod
     {
         private void LoadIL()
         {
@@ -153,7 +153,7 @@ namespace InteritosMod
                 Main.PlaySound(10, -1, -1, 1, 1f, 0f);
                 Main.menuMode = Main.SettingsUnlock_WorldEvil ? -71 : 7;
                 Main.expertMode = true;
-                InteritosWorld.GenkaiMode = true;
+                EEWorld.GenkaiMode = true;
             }
             else if (selectedMenu == 4 || flag5)
             {

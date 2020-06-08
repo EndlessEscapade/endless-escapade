@@ -4,7 +4,7 @@ using static Terraria.ModLoader.ModContent;
 using System;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.NPCs.Hydros
+namespace EEMod.NPCs.Bosses.Hydros
 {
     public class HydrosBeam : ModProjectile
     {

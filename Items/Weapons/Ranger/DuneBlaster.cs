@@ -2,9 +2,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.Items.Placeables;
+using EEMod.Items.Placeables;
 
-namespace InteritosMod.Items.Weapons.Ranger
+namespace EEMod.Items.Weapons.Ranger
 {
     public class DuneBlaster : ModItem
     {
@@ -54,7 +54,7 @@ namespace InteritosMod.Items.Weapons.Ranger
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HardenedSand, 20);
-            recipe.AddRecipeGroup("InteritosMod:SilverBar", 6);
+            //recipe.AddRecipeGroup("InteritosMod:SilverBar", 6);
             recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

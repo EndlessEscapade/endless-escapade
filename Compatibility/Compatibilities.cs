@@ -1,8 +1,8 @@
 using Terraria.ModLoader;
-using InteritosMod.Autoloading;
+using EEMod.Autoloading;
 using System;
 
-namespace InteritosMod.Compatibility
+namespace EEMod.Compatibility
 {
     /// <summary>
     /// For mods that need constant access in code, mods like bosschecklist aren't needed here since it only needs 1 access.

@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using Prophecy;
-using Prophecy.Materials;
+using EEMod;
+using EEMod.Items.Materials;
+
 using static Terraria.ModLoader.ModContent;
 
-namespace Prophecy.Accessories
+namespace EEMod.Items.Accessories
 {
 
     public class QuartzCirclet : ModItem
@@ -26,7 +27,7 @@ namespace Prophecy.Accessories
         {
             base.SetDefaults();
             item.accessory = true;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.width = 32;
             item.height = 34;
         }

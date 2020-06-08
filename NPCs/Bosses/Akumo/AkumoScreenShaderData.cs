@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
-namespace InteritosMod.NPCs.Akumo
+namespace EEMod.NPCs.Bosses.Akumo
 {
     public class AkumoScreenShaderData : ScreenShaderData
     {

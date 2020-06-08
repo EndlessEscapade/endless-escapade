@@ -2,10 +2,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.Items.Placeables;
-using InteritosMod.Projectiles.Ranged;
+using EEMod.Items.Placeables;
+using EEMod.Projectiles.Ranged;
 
-namespace InteritosMod.Items.Weapons.Ranger
+namespace EEMod.Items.Weapons.Ranger
 {
     public class TombstoneCannon : ModItem
     {

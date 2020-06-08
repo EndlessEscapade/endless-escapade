@@ -4,9 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using InteritosMod.NPCs.Archon;
+using EEMod.NPCs.Bosses.Archon;
 
-namespace InteritosMod.NPCs.Gallagar
+namespace EEMod.NPCs.Bosses.Gallagar
 {
     public class GallagarLHand : ModNPC
     {

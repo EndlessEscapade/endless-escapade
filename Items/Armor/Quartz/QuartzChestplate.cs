@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Prophecy.Items.Armour
+namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(new EquipType[]
 	{
@@ -33,7 +33,7 @@ namespace Prophecy.Items.Armour
 		{
             player.statDefense += 7;
             player.meleeSpeed *= 1.12f;
-            player.GetModPlayer<ProphecyPlayer>().isQuartzChestOn = true;
+            player.GetModPlayer<EEPlayer>().isQuartzChestOn = true;
         }
 
         public override void AddRecipes()

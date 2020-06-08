@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Projectiles.Melee;
+using EEMod.Projectiles.Melee;
 
-namespace InteritosMod.Items.Weapons.Melee
+namespace EEMod.Items.Weapons.Melee
 {
     public class HydrosEye : ModItem
     {

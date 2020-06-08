@@ -1,10 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using InteritosMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Tiles.Ores
+namespace EEMod.Tiles.Ores
 {
     public class HydroFluorideOreTile : ModTile
     {

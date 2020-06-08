@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace InteritosMod.Tiles.Furniture
+namespace EEMod.Tiles.Furniture
 {
     public class CoralLanternTile : ModTile
     {

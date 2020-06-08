@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InteritosMod.Autoloading
+namespace EEMod.Autoloading
 {
     /// <summary>
     /// This attribute is meant to be applied to static methods and fields. <br />

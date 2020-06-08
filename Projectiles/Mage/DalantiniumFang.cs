@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Projectiles.Mage
+namespace EEMod.Projectiles.Mage
 {
     public class DalantiniumFang : ModProjectile
     {

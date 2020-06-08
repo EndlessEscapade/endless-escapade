@@ -3,7 +3,7 @@ using Terraria;
 using System;
 using Microsoft.Xna.Framework;
 
-namespace InteritosMod.Projectiles.Mage
+namespace EEMod.Projectiles.Mage
 {
     public class StalagtiteProjectile : ModProjectile
     {

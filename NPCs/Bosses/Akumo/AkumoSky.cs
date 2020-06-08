@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace InteritosMod.NPCs.Akumo
+namespace EEMod.NPCs.Bosses.Akumo
 {
     public class AkumoSky : CustomSky
     {

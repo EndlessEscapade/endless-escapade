@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace InteritosMod.Autoloading
+namespace EEMod.Autoloading
 {
     [Flags]
     public enum LoadingMode : byte

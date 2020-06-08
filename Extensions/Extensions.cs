@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace InteritosMod.Extensions
+namespace EEMod.Extensions
 {
     public static class MemeberInfoExtensions
     {

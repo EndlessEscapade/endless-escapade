@@ -1,10 +1,10 @@
 using Terraria.ID;
 using Terraria;
 using Terraria.ModLoader;
-using InteritosMod.Tiles.Ores;
-using InteritosMod.Items.Materials;
+using EEMod.Tiles.Ores;
+using EEMod.Items.Materials;
 
-namespace InteritosMod.Items.Placeables.Ores
+namespace EEMod.Items.Placeables.Ores
 {
     public class LythenBar : ModItem
     {

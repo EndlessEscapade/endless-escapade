@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace InteritosMod.Tiles.Furniture
+namespace EEMod.Tiles.Furniture
 {
     public class Coral3Tile : ModTile
     {
