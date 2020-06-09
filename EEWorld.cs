@@ -1185,7 +1185,7 @@ namespace EEMod
             }
             for (int i = 0; i < 800; i++)
             {
-                for (int j = 0; j < 1000; j++)
+                for (int j = 0; j < 2000; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (tile.type == TileID.StoneSlab)
@@ -1215,7 +1215,7 @@ namespace EEMod
         public void CoralReef()
         {
             int chasmX = WorldGen.genRand.Next(150, 200);
-            int chasmY = tileCheck(chasmX);
+            int chasmY = 100;
             int sizeOfLayer1 = 80;
             int sizeOfLayer2 = 50;
             int firstLayerPosY = 220;

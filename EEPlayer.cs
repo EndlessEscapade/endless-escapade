@@ -86,6 +86,7 @@ namespace EEMod
         public int timerForCutscene;
         public static string key1 = "Pyramid";
         public static string key2 = "Sea";
+        public static string key3 = "CoralReefs";
         public bool arrowFlag = false;
         public static bool isSaving;
         public float titleText;
@@ -170,6 +171,7 @@ namespace EEMod
         {
             Action newWorld = EnterSub1;
             Action newWorld2 = EnterSub2;
+            Action newWorld3 = EnterSub3;
             Action returnToBaseWorld = Return;
             //player.ManageSpecialBiomeVisuals("InteritosMod:Akumo", NPC.AnyNPCs(ModContent.NPCType<Akumo>()));
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
@@ -185,9 +187,9 @@ namespace EEMod
             {
                 timerForCutscene += 20;
             }
-            string key = "Prophecy:Ripple";
-            string key4 = "Prophecy:SunThroughWalls";
-            string key3 = "Prophecy:SeaTrans";
+            string shad1 = "Prophecy:Ripple";
+            string shad2 = "Prophecy:SunThroughWalls";
+            string shad3 = "Prophecy:SeaTrans";
             if (Main.ActiveWorldFileData.Name == key1)
             {
                 if (!noU)
@@ -217,7 +219,7 @@ namespace EEMod
                 {
                     (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = false;
                 }
-                Filters.Scene.Deactivate(key4);
+                Filters.Scene.Deactivate(shad2);
             }
             else if (Main.ActiveWorldFileData.Name == key2)
             {
@@ -227,10 +229,10 @@ namespace EEMod
                     noU = true;
                 if (noU)
                     titleText -= 0.005f;
-                Filters.Scene[key4].GetShader().UseOpacity(EEMod.position.X);
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene[key4].IsActive())
+                Filters.Scene[shad2].GetShader().UseOpacity(EEMod.position.X);
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad2].IsActive())
                 {
-                    Filters.Scene.Activate(key4, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
+                    Filters.Scene.Activate(shad2, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
                 }
                 markerPlacer++;
                 float pos1X = Main.screenPosition.X + Main.screenWidth - 900;
@@ -274,7 +276,10 @@ namespace EEMod
                     subText += 0.02f;
                     if (subText >= 1)
                         subText = 1;
-
+                    if (player.controlUp)
+                    {
+                        SaveAndQuit(newWorld3);
+                    }
                 }
                 else
                 {
@@ -432,10 +437,22 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + EEMod.position, Vector2.Zero, mod.ProjectileType("RedStrip"), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                 }
             }
+            else if(Main.ActiveWorldFileData.Name == key3)
+            {
+                if (!noU)
+                    titleText += 0.005f;
+                if (titleText >= 1)
+                    noU = true;
+                if (noU)
+                    titleText -= 0.005f;
+
+                if (titleText <= 0)
+                    titleText = 0;
+            }
             else
             {
                 baseWorldName = Main.ActiveWorldFileData.Name;
-                Filters.Scene.Deactivate(key4);
+                Filters.Scene.Deactivate(shad2);
                 EEMod.position = EEMod.start;
                 EEMod.velocity = Vector2.Zero;
                 titleText2 = 0;
@@ -481,23 +498,23 @@ namespace EEMod
                     (Main.projectile[Arrow2].modProjectile as OceanArrowProjectile).visible = false;
                 }
             }
-            Filters.Scene[key].GetShader().UseOpacity(timerForCutscene);
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[key].IsActive())
+            Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad1].IsActive())
             {
-                Filters.Scene.Activate(key, player.Center).GetShader().UseOpacity(timerForCutscene);
+                Filters.Scene.Activate(shad1, player.Center).GetShader().UseOpacity(timerForCutscene);
             }
             if (!godMode)
             {
-                Filters.Scene.Deactivate(key);
+                Filters.Scene.Deactivate(shad1);
             }
-            Filters.Scene[key3].GetShader().UseOpacity(cutSceneTriggerTimer);
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[key].IsActive())
+            Filters.Scene[shad3].GetShader().UseOpacity(cutSceneTriggerTimer);
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad3].IsActive())
             {
-                Filters.Scene.Activate(key3, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
+                Filters.Scene.Activate(shad3, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
             }
             if (!triggerSeaCutscene)
             {
-                Filters.Scene.Deactivate(key3);
+                Filters.Scene.Deactivate(shad3);
             }
             if (timerForCutscene >= 1400)
             {
@@ -616,6 +633,15 @@ namespace EEMod
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key2}.wld", false);
             WorldGen.playWorld();
         }
+        public static void Do_worldGenCallBack3(object threadContext)
+        {
+            Main.PlaySound(SoundID.MenuOpen);
+            WorldGen.clearWorld();
+            EEMod.GenerateWorld3(Main.ActiveWorldFileData.Seed, threadContext as GenerationProgress);
+            WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key3}.wld", false);
+            WorldGen.playWorld();
+        }
         public override void UpdateBadLifeRegen()
         {
             if (player.position.Y < Main.rockLayer + 80f + 640f)
@@ -641,6 +667,8 @@ namespace EEMod
                 ThreadPool.QueueUserWorkItem(Do_worldGenCallBack, progress);
             if (text == key2)
                 ThreadPool.QueueUserWorkItem(Do_worldGenCallBack2, progress);
+            if (text == key3)
+                ThreadPool.QueueUserWorkItem(Do_worldGenCallBack3, progress);
         }
         private void OnWorldNamed(string text, GenerationProgress progress)
         {
@@ -666,6 +694,17 @@ namespace EEMod
                 Main.ActiveWorldFileData = Terraria.IO.WorldFile.GetAllMetadata(path, false);
                 WorldGen.playWorld();
             }
+            if (text == key3)
+            {
+                string path = $@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key3}.wld";
+                if (!File.Exists(path))
+                {
+                    Main.worldName = text.Trim();
+                    CreateNewWorld(key3, progress);
+                }
+                Main.ActiveWorldFileData = Terraria.IO.WorldFile.GetAllMetadata(path, false);
+                WorldGen.playWorld();
+            }
         }
         public void EnterSub1()
         {
@@ -676,6 +715,11 @@ namespace EEMod
         {
             GenerationProgress progress = new GenerationProgress();
             OnWorldNamed(key2, progress);
+        }
+        public void EnterSub3()
+        {
+            GenerationProgress progress = new GenerationProgress();
+            OnWorldNamed(key3, progress);
         }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {

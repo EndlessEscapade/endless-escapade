@@ -33,7 +33,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Terraria.ModLoader.Core;
 using Terraria.ModLoader.UI;
-
+using EEMod.Tiles;
 namespace EEMod
 {
     public static class Logging
@@ -369,6 +369,39 @@ namespace EEMod
             _generator.GenerateWorld(customProgressObject);
             EEWorld pW = new EEWorld();
             pW.FillWall(400, 400, new Vector2(0, 0), WallID.Waterfall);
+            //Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
+        }
+        public static void GenerateWorld3(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 1000;
+            Main.maxTilesY = 2000;
+            Main.spawnTileX = 234;
+            Main.spawnTileY = 92;
+            Logging.Terraria.InfoFormat("Generating World: {0}", (object)Main.ActiveWorldFileData.Name);
+            _lastSeed = seed;
+            _generator = new WorldGenerator(seed);
+            MicroBiome.ResetAll();
+
+            //WorldHooks.PreWorldGen();
+            AddGenerationPass("Reset", delegate (GenerationProgress progress)
+            {
+                Liquid.ReInit();
+                progress.Message = "";
+                Main.cloudAlpha = 0f;
+                Main.maxRaining = 0f;
+                Main.raining = false;
+                WorldGen.RandomizeTreeStyle();
+                WorldGen.RandomizeCaveBackgrounds();
+                WorldGen.RandomizeBackgrounds();
+                WorldGen.RandomizeMoonState();
+
+            });
+            Main.worldID = WorldGen.genRand.Next(int.MaxValue);
+            //WorldHooks.ModifyWorldGenTasks(_generator._passes, ref _generator._totalLoadWeight);
+            _generator.GenerateWorld(customProgressObject);
+            EEWorld pW = new EEWorld();
+            pW.FillRegion(1000, 2000, Vector2.Zero, ModContent.TileType<HardenedGemsandTile>());
+            pW.CoralReef();
             //Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
         }
 
@@ -737,10 +770,10 @@ namespace EEMod
                 {
                     if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
                     {
-                        DrawShip();
                         DrawSubText();
+                        DrawShip();
                     }
-                    if (Main.ActiveWorldFileData.Name == EEPlayer.key1 || Main.ActiveWorldFileData.Name == EEPlayer.key2)
+                    if (Main.ActiveWorldFileData.Name == EEPlayer.key1 || Main.ActiveWorldFileData.Name == EEPlayer.key2 || Main.ActiveWorldFileData.Name == EEPlayer.key3)
                         DrawText();
                     return true;
                 },
@@ -761,6 +794,8 @@ namespace EEMod
             }
             if (Main.ActiveWorldFileData.Name == EEPlayer.key1)
                 text = "The Pyramids";
+            if (Main.ActiveWorldFileData.Name == EEPlayer.key3)
+                text = "The Coral Reefs";
             Texture2D Outline = mod.GetTexture("Outline");
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
