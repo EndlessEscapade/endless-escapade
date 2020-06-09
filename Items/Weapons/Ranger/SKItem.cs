@@ -1,5 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Materials;
+using EEMod.Projectiles;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -13,12 +15,12 @@ namespace EEMod.Items.Weapons.Ranger
 
         public override void SetDefaults()
         {
-            item.shoot = mod.ProjectileType("SandvekKunai");
+            item.shoot = ModContent.ProjectileType<SandvekKunai>();
             item.shootSpeed = 8f;
             item.damage = 50;
             item.knockBack = 5f;
             item.ranged = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
             item.useAnimation = 60;
             item.useTime = 60;
@@ -30,22 +32,19 @@ namespace EEMod.Items.Weapons.Ranger
             item.noMelee = true;
             item.autoReuse = true;
             item.value = 10000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
         }
 
-       
         public override void AddRecipes()
         {
-            {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.HardenedSand, 8);
-                recipe.AddIngredient(ItemID.Sandstone, 3);
-                recipe.AddIngredient(ItemID.Diamond, 1);
-                recipe.AddIngredient(mod.ItemType("MummifiedRag"), 2);
-                recipe.AddTile(TileID.Anvils);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.HardenedSand, 8);
+            recipe.AddIngredient(ItemID.Sandstone, 3);
+            recipe.AddIngredient(ItemID.Diamond, 1);
+            recipe.AddIngredient(ModContent.ItemType<MummifiedRag>(), 2);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

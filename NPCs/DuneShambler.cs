@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using EEMod.Items.Materials;
 
 namespace EEMod.NPCs
 {
@@ -106,7 +107,7 @@ namespace EEMod.NPCs
         {
             if (Main.rand.Next(0) == 0)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MummifiedRag"), Main.rand.Next(0, 2));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(0, 2));
             }
 
         }
@@ -245,7 +246,8 @@ namespace EEMod.NPCs
                 //Universe is so stupid and noone likes him. STFU u stupid ass mofo bitch monkey ass mofo bitch ass monkey mofo ass monkey bitch fucking slutbag.
                 if (npc.ai[1] == timeInDig)
                 {
-                    if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) > 2000f)
+                    // Vector2.Distance(npc.Center, Main.player[npc.target].Center) > 2000f
+                    if (!Main.player[npc.target].WithinRange(npc.Center, 2000))
                     {
                         teleportCheckCount = 100;
                         hasTeleportPoint = true;
@@ -286,12 +288,12 @@ namespace EEMod.NPCs
             if ((canTp && npc.ai[1] < timeInDig))
                 npc.velocity.X = 0;
         }
-        public override bool PreDraw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Main.spriteBatch.Draw(Main.magicPixel, tilePos - Main.screenPosition, new Rectangle(0,0,16,16), drawColor * alpha, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-            Mod mod = ModLoader.GetMod("Prophecy");
-            Texture2D texture = mod.GetTexture("NPCs/DuneShambler");
-            Texture2D texture2 = mod.GetTexture("NPCs/DuneShamblerDig");
+            // Mod mod = ModLoader.GetMod("EEMod");
+            Texture2D texture = TextureCache.DuneShambler;
+            Texture2D texture2 = TextureCache.DuneShamblerDig;
             Player player = Main.player[npc.target];
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             if (player.Center.X - npc.Center.X > 0)

@@ -8,10 +8,10 @@ namespace EEMod
     // This class stores necessary player info for our custom damage class, such as damage multipliers and additions to knockback and crit.
     public class EEDamagePlayer : ModPlayer
     {
-        public static EEDamagePlayer ModPlayer(Player player)
-        {
-            return player.GetModPlayer<EEDamagePlayer>();
-        }
+        //public static EEDamagePlayer ModPlayer(Player player) // there's an extension for this
+        //{
+        //    return player.GetModPlayer<EEDamagePlayer>();
+        //}
 
         // Vanilla only really has damage multipliers in code
         // And crit and knockback is usually just added to

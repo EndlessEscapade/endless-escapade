@@ -19,13 +19,11 @@ namespace EEMod.Items.Accessories
         //commit check
         public override void SetStaticDefaults()
         {
-            base.SetStaticDefaults();
             DisplayName.SetDefault("Quartz Circlet");
             Tooltip.SetDefault("When Equipped: \n4% damage increase, \n2% crit increase overall, \n3% move speed increase \nPower surges through you..");
         }
         public override void SetDefaults()
         {
-            base.SetDefaults();
             item.accessory = true;
             item.rare = ItemRarityID.Pink;
             item.width = 32;
@@ -34,8 +32,7 @@ namespace EEMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            base.UpdateAccessory(player, hideVisual);
-            hideVisual = true;
+            // hideVisual = true; // note a ref param
 
             player.allDamageMult *= 1.04f;
             player.magicCrit += 2;
@@ -45,6 +42,7 @@ namespace EEMod.Items.Accessories
             player.moveSpeed *= 1.03f;
             //reminder: make crit increasing method for compatability and stuff
         }
+
         public override void AddRecipes()
         {
             base.AddRecipes();
@@ -62,7 +60,6 @@ namespace EEMod.Items.Accessories
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-
     }
 }
 

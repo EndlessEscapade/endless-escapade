@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using EEMod.Items.Materials;
+using EEMod.Projectiles;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -24,15 +25,15 @@ namespace EEMod.Items.Weapons.Mage
             item.height = 46;
             item.useTime = 30;
             item.useAnimation = 30;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = 10000;
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("Crystal");
+            item.shoot = ModContent.ProjectileType<Crystal>();
             item.shootSpeed = 6f;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.crit = 5;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -46,7 +47,7 @@ namespace EEMod.Items.Weapons.Mage
             {
                 ModRecipe recipe = new ModRecipe(mod);
                 recipe.AddIngredient(ItemID.Diamond, 1);
-                recipe.AddIngredient(mod.ItemType("MummifiedRag"), 7);
+                recipe.AddIngredient(ModContent.ItemType<MummifiedRag>(), 7);
                 recipe.AddIngredient(ItemID.Sandstone, 15);
                 recipe.AddTile(TileID.Anvils);
                 recipe.SetResult(this);

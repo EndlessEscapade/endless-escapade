@@ -1,5 +1,5 @@
-using Terraria.ID;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.Ores;
 using EEMod.Items.Materials;

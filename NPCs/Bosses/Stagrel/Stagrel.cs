@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Compatibility;
 using Microsoft.Xna.Framework.Graphics;
-using EEMod.IntWorld;
+using EEMod.EEWorld;
 using EEMod.Items.Weapons.Ranger;
 using EEMod.Items.Weapons.Mage;
 
@@ -38,7 +38,7 @@ namespace EEMod.NPCs.Bosses.Stagrel
 
             musicPriority = MusicPriority.BossMedium;
 
-            music = Compatibilities.InteritosMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Stagrel") ?? MusicID.Boss2;
+            music = Compatibilities.EEMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Stagrel") ?? MusicID.Boss2;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -62,7 +62,7 @@ namespace EEMod.NPCs.Bosses.Stagrel
                     Item.NewItem(npc.getRect(), ModContent.ItemType<SandBuster>());
             }
 
-            EEWorld.downedStagrel = true;
+            EEWorld.EEWorld.downedStagrel = true;
             //EEMod.ServBoolUpdate();   Not working for some reason ;-;
         }
 
@@ -118,7 +118,7 @@ namespace EEMod.NPCs.Bosses.Stagrel
                 if (player.Center.X < npc.position.X)
                     npc.velocity.X = -1f;
 
-                if (Timer >= (EEWorld.GenkaiMode ? 4 * 60 : Main.expertMode ? 60 * 6 : 60 * 10))
+                if (Timer >= (EEWorld.EEWorld.GenkaiMode ? 4 * 60 : Main.expertMode ? 60 * 6 : 60 * 10))
                 {
                     Phase++;
                 }
@@ -149,7 +149,7 @@ namespace EEMod.NPCs.Bosses.Stagrel
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = mod.GetTexture("NPCs/Stagrel/Stagrel_Glow");
+            Texture2D texture = TextureCache.Stagrel_Glow;
             spriteBatch.Draw
             (
                 texture,

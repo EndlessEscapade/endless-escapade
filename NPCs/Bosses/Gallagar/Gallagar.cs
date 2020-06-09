@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.IntWorld;
+using EEMod.EEWorld;
 using EEMod.NPCs.Bosses.Archon;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -25,7 +25,7 @@ namespace EEMod.NPCs.Bosses.Gallagar
         {
             if (npc.life <= 0)
             {
-                Filters.Scene.Deactivate("InteritosMod:Boom");
+                Filters.Scene.Deactivate("EEMod:Boom");
             }
         }
 
@@ -160,20 +160,20 @@ namespace EEMod.NPCs.Bosses.Gallagar
         public float opac = 0;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = mod.GetTexture("NPCs/Gallagar/Gallagar");
+            Texture2D texture = TextureCache.Gallagar;
             if (npc.ai[1] == 4)
             {
                 AfterImage.DrawAfterimage(spriteBatch, texture, 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
             }
             string key = "";
-            key = "InteritosMod:Boom";
+            key = "EEMod:Boom";
             opac += 0.1f;
             if (opac < 0)
                 opac = 0;
-            Filters.Scene["InteritosMod:Boom"].GetShader().UseOpacity(opac);
+            Filters.Scene["EEMod:Boom"].GetShader().UseOpacity(opac);
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[key].IsActive())
             {
-                Filters.Scene.Activate("InteritosMod:Boom", npc.Center).GetShader().UseColor(0, 0, 0).UseOpacity(opac);
+                Filters.Scene.Activate("EEMod:Boom", npc.Center).GetShader().UseColor(0, 0, 0).UseOpacity(opac);
             }
 
             return;
@@ -214,7 +214,7 @@ namespace EEMod.NPCs.Bosses.Gallagar
 
         public override bool CheckDead()
         {
-            return EEWorld.downedGallagar = true;
+            return EEWorld.EEWorld.downedGallagar = true;
         }
 
         public override void FindFrame(int frameHeight) //Frame counter

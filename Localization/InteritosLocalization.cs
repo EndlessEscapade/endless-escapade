@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace InteritosMod.Localization
+namespace EEMod.Localization
 {
 	public static class InteritosLocalization
 	{
@@ -84,9 +84,9 @@ namespace InteritosMod.Localization
 		//	Load();
 		//	//foreach (string[] localization in _localizations)
 		//	//{
-		//	//	ModTranslation text = ModContent.GetInstance<InteritosMod>().CreateTranslation(localization[0]);
+		//	//	ModTranslation text = ModContent.GetInstance<EEMod>().CreateTranslation(localization[0]);
 		//	//	text.SetDefault(localization[1]);
-		//	//	ModContent.GetInstance<InteritosMod>().AddTranslation(text);
+		//	//	ModContent.GetInstance<EEMod>().AddTranslation(text);
 		//	//}
 		//	Unload();
 		//}

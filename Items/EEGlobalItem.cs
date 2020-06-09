@@ -4,6 +4,7 @@ using EEMod.Items.Armor.Dalantinium;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System;
+using EEMod.Projectiles;
 
 namespace EEMod.Items
 {
@@ -60,7 +61,7 @@ namespace EEMod.Items
                     float distX = Main.mouseX + Main.screenPosition.X - player.Center.X;
                     float distY = Main.mouseY + Main.screenPosition.Y - player.Center.Y;
                     float mag = (float)Math.Sqrt(distX * distX + distY * distY);
-                    Projectile.NewProjectile(player.position.X, player.position.Y, distX * speed / mag, distY * speed / mag, mod.ProjectileType("QuartzProjSwords"), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.position.X, player.position.Y, distX * speed / mag, distY * speed / mag, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
                     return true;
                 }
                 else
@@ -78,7 +79,7 @@ namespace EEMod.Items
                     float distX = Main.mouseX + Main.screenPosition.X - player.Center.X;
                     float distY = Main.mouseY + Main.screenPosition.Y - player.Center.Y;
                     float mag = (float)Math.Sqrt(distX * distX + distY * distY);
-                    Projectile.NewProjectile(player.position.X, player.position.Y, distX * speed / mag, distY * speed / mag, mod.ProjectileType("QuartzProjSwords"), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
+                    Projectile.NewProjectile(player.position.X, player.position.Y, distX * speed / mag, distY * speed / mag, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
                     return false;
                 }
             }

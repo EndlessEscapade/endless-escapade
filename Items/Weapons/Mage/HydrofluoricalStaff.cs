@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 using Microsoft.Xna.Framework;
 using EEMod.Projectiles.Mage;
 using EEMod.Items.Placeables.Ores;
@@ -35,10 +34,11 @@ namespace EEMod.Items.Weapons.Mage
             item.autoReuse = true;
         }
 
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position.X,position.Y,speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, Vector2.Normalize(new Vector2(speedX, speedY)).Y, Vector2.Normalize(new Vector2(speedX, speedY)).X);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, -Vector2.Normalize(new Vector2(speedX, speedY)).Y, -Vector2.Normalize(new Vector2(speedX, speedY)).X);
+            Vector2 vector = Vector2.Normalize(new Vector2(speedX, speedY));
+            Projectile.NewProjectile(position.X,position.Y,speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, vector.Y, vector.X);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, -vector.Y, -vector.X);
             return false;
         }
         public override void AddRecipes()

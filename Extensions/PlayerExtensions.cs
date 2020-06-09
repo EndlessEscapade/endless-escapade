@@ -5,7 +5,7 @@ namespace EEMod.Extensions
 {
     public static class PlayerExtensions
     {
-        public static EEPlayer Interitos(this Player player) => player.GetModPlayer<EEPlayer>();
+        public static EEPlayer EEPlayer(this Player player) => player.GetModPlayer<EEPlayer>();
 
         public static float MeleeDamage(this Player player) => player.allDamage + player.meleeDamage - 1f;
         public static float RangedDamage(this Player player) => player.allDamage + player.rangedDamage - 1f;
@@ -24,6 +24,6 @@ namespace EEMod.Extensions
         }
 
         public static bool PillarZone(this Player player) => player.ZoneTowerStardust || player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula;
-        public static bool InventoryHas(this Player player, params int[] items) => player.inventory.Any(item => items.Contains(item.type));
+        public static bool InventoryHas(this Player player, params int[] items) => items.Any(itemType => player.HasItem(itemType));//player.inventory.Any(item => items.Contains(item.type));
     }
 }

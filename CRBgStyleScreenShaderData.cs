@@ -1,6 +1,6 @@
 using Terraria.Graphics.Shaders;
 
-namespace InteritosMod
+namespace EEMod
 {
     public class CRBgStyleScreenShaderData : ScreenShaderData
     {

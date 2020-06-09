@@ -2,9 +2,9 @@ using System.Reflection;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using InteritosMod.IntWorld;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
+using EEMod.EEWorld;
 
 namespace EEMod
 {
@@ -153,7 +153,7 @@ namespace EEMod
                 Main.PlaySound(10, -1, -1, 1, 1f, 0f);
                 Main.menuMode = Main.SettingsUnlock_WorldEvil ? -71 : 7;
                 Main.expertMode = true;
-                EEWorld.GenkaiMode = true;
+                EEWorld.EEWorld.GenkaiMode = true;
             }
             else if (selectedMenu == 4 || flag5)
             {

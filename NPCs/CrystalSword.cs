@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EEMod.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -137,10 +138,8 @@ namespace EEMod.NPCs
                 int projHolder = Main.rand.Next(0, 1);
                 float speedX = -(projectile.velocity.X * Main.rand.NextFloat(-.1f, .8f) + Main.rand.NextFloat(-.4f, 2f));
                 float speedY = -(projectile.velocity.Y * Main.rand.Next(0, 30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
-                if (projHolder == 0)
-                    Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX*1.3f, speedY, mod.ProjectileType("CrystalKill"), (int)(projectile.damage * 0.7), 0f, projectile.owner, 0f, 0f);
-                if (projHolder == 1)
-                    Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX*1.3f, speedY, mod.ProjectileType("CrystalKill"), (int)(projectile.damage * 0.7), 0f, projectile.owner, 0f, 0f);
+                if (projHolder == 0 || projHolder == 1)
+                    Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX*1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(projectile.damage * 0.7), 0f, projectile.owner, 0f, 0f);
                 Main.PlaySound(SoundID.Item27, projectile.position);
             }
             for (var i = 0; i < 20; i++)

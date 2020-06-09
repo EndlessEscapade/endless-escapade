@@ -113,8 +113,8 @@ namespace EEMod.NPCs.Bosses.Gallagar
                 return false;
             }
             Texture2D projectileTexture = Main.projectileTexture[projectile.type];
-            Texture2D beamTexture = mod.GetTexture("NPCs/Gallagar/GBeam_Beam");
-            Texture2D beamEndTexture = mod.GetTexture("NPCs/Gallagar/GBeam_End");
+            Texture2D beamTexture = TextureCache.GBeam_Beam; 
+            Texture2D beamEndTexture = TextureCache.GBeam_End;
             float laserLength = LaserLength;
             Color color44 = Color.White * 0.8f;
             Texture2D projectileTexture2 = projectileTexture;

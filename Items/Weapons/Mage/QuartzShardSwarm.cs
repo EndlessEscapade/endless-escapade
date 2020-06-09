@@ -1,8 +1,9 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using EEMod.Projectiles;
+using EEMod.Items.Materials;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -23,25 +24,27 @@ namespace EEMod.Items.Weapons.Mage
             item.height = 46;
             item.useTime = 6;
             item.useAnimation = 6;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true;
             item.knockBack = 0f;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.UseSound = SoundID.Item73;
             item.autoReuse = true;
-            item.shoot = mod.ProjectileType("QuartzProj");
+            item.shoot = ModContent.ProjectileType<QuartzProj>();
             item.shootSpeed = 6f;
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.crit = 5;
         }
+
         public override Vector2? HoldoutOffset()
         {
             return new Vector2(-15, -5);
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             speedX *= 2f;
-            position += (new Vector2(speedX, speedY*2)) * 5;
+            position += new Vector2(speedX, speedY*2) * 5;
             speedY += Main.rand.NextFloat(0.9f, -0.9f);
             return true;
         }
@@ -50,13 +53,13 @@ namespace EEMod.Items.Weapons.Mage
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PlatinumBar, 4);
-            recipe.AddIngredient(mod.ItemType("Quartz"), 7);
+            recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.PlatinumBar, 4);
-            recipe.AddIngredient(mod.ItemType("Quartz"), 7);
+            recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

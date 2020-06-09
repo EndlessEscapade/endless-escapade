@@ -1,10 +1,16 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Materials;
 
 namespace EEMod.Items.Tools.Quartz
 {
     public class QuartzHammer : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Quartz Hammer");
+        }
+
         public override void SetDefaults()
         {
             item.damage = 10;
@@ -14,24 +20,19 @@ namespace EEMod.Items.Tools.Quartz
             item.useTime = 18;
             item.useAnimation = 29;
             item.hammer = 59;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 1;
             // item.value = Item.sellPrice(0, 0, 10, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.useTurn = true;
         }
 
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Quartz Hammer");
-        }
-
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(null, "QuartzGem", 15);
+            recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 15);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Compatibility;
-using EEMod.IntWorld;
+using EEMod.EEWorld;
 
 namespace EEMod.NPCs.Bosses.Akumo
 {
@@ -72,7 +72,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                 npc.buffImmune[k] = true;
             }
 
-            music = Compatibilities.InteritosMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Precursors") ?? MusicID.Boss3;
+            music = Compatibilities.EEMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Precursors") ?? MusicID.Boss3;
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -84,7 +84,7 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override void NPCLoot()
         {
-            EEWorld.downedAkumo = true;
+            EEWorld.EEWorld.downedAkumo = true;
             //EEMod.ServBoolUpdate();
         }
         Vector2 addOn;
@@ -423,7 +423,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         bool scree => npc.ai[0] < 60 && npc.ai[0] > 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = mod.GetTexture("NPCs/Akumo/Akumo");
+            Texture2D texture = TextureCache.Akumo; 
             if (scree)
             {
                 if (npc.ai[0] == 1)

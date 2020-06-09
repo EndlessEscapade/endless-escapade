@@ -27,9 +27,7 @@ namespace EEMod.Autoloading
             {
                 // nested types also appear from Assembly.GetTypes()
                 if (member is MethodInfo m)
-                {
                     LoadInvoke(m, mod);
-                }
             }
         }
         private static void LoadInvoke(MethodInfo m, EEMod mod)
@@ -55,7 +53,7 @@ namespace EEMod.Autoloading
             attribute = null;
             return m.IsStatic && !(m.IsAbstract || m.IsGenericMethod || m.IsGenericMethodDefinition || m.GetMethodBody()?.GetILAsByteArray() is null) && m.TryGetCustomAttribute(out attribute);
         }
-        private static bool ValidInCurrent(LoadingMode mode, bool server) => mode == LoadingMode.Both ? true : mode == LoadingMode.Server == server;
+        private static bool ValidInCurrent(LoadingMode mode, bool server) => mode == LoadingMode.Both || mode == LoadingMode.Server == server;
 
 
 
@@ -98,9 +96,9 @@ namespace EEMod.Autoloading
         private static void UnloadField(FieldInfo field)
         {
             Type fieldtype = field.FieldType;
-            if (!field.IsStatic || field.IsInitOnly || field.IsLiteral || fieldtype.IsValueType || Nullable.GetUnderlyingType(fieldtype) != null)
-                return;
             if (!field.TryGetCustomAttribute(out UnloadingAttribute _))
+                return;
+            if (!field.IsStatic || field.IsInitOnly || field.IsLiteral || fieldtype.IsValueType || Nullable.GetUnderlyingType(fieldtype) != null)
                 return;
             field.SetValue(null, null);
         }

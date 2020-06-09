@@ -54,7 +54,7 @@ namespace EEMod.Items.Weapons.Ranger
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.HardenedSand, 20);
-            //recipe.AddRecipeGroup("InteritosMod:SilverBar", 6);
+            //recipe.AddRecipeGroup("EEMod:SilverBar", 6);
             recipe.AddIngredient(ItemID.IllegalGunParts);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
