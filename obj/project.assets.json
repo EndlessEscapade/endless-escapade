@@ -31,27 +31,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Leo\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\tafid\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Leo\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
+      "projectUniqueName": "C:\\Users\\tafid\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
       "projectName": "EEMod",
-      "projectPath": "C:\\Users\\Leo\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
-      "packagesPath": "C:\\Users\\Leo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Leo\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\obj\\",
+      "projectPath": "C:\\Users\\tafid\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\EEMod.csproj",
+      "packagesPath": "C:\\Users\\tafid\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tafid\\Documents\\My Games\\Terraria\\ModLoader\\Mod Sources\\EEMod\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Leo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\tafid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net45"
@@ -79,7 +72,7 @@
             "version": "[0.1.*, )"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

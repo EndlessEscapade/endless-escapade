@@ -10,77 +10,7 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
-        private void LoadIL()
-        {
-            IL.Terraria.Main.DrawMenu += DrawMenuPatch;
-        }
-        private void UnloadIL()
-        {
-            IL.Terraria.Main.DrawMenu -= DrawMenuPatch;
-        }
-        private void DrawMenuPatch(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            ILLabel ifStatementEnd = null;
-            var a = typeof(Main).GetField(nameof(Main.menuMode));
-            if (!c.TryGotoNext(i => i.MatchLdsfld(a),
-                i => i.MatchLdcI4(-7),
-                i => i.MatchBneUn(out ifStatementEnd)))
-            {
-                Logger.Info("Draw menu's patch failed");
-                return;
-            }
-            if (ifStatementEnd == null)
-            {
-                Logger.Info("Draw menu's patch's label is null");
-                return;
-            }
-
-            ILLabel reeee = il.DefineLabel();
-
-            int start = c.Index; // i need to remove this or something
-            c.GotoLabel(ifStatementEnd);
-            int end = c.Index;
-            c.Goto(start);
-            // c.RemoveRange(end - start);
-
-            c.Emit(OpCodes.Br, reeee);
-            c.Goto(end);
-            c.MarkLabel(reeee);
-
-            var focus = typeof(Main).GetField("focusMenu", BindingFlags.NonPublic | BindingFlags.Instance);
-            var selectedmenu = typeof(Main).GetField("selectedMenu", BindingFlags.NonPublic | BindingFlags.Instance);
-
-            // TODO: turn this to pure IL (only emits and removes)
-
-            // pushing fields by reference to the delegate (except this)
-            c.Emit(OpCodes.Ldarg_0); // this
-            c.Emit(OpCodes.Ldarg_0); // this
-            c.Emit(OpCodes.Ldflda, focus); // focusmenu
-            c.Emit(OpCodes.Ldarg_0); // this
-            c.Emit(OpCodes.Ldflda, selectedmenu); // selectedmenu
-            c.Emit(OpCodes.Ldloca, 5); // num2
-            c.Emit(OpCodes.Ldloca, 7); // num4
-            c.Emit(OpCodes.Ldloca, 19); // array4
-            c.Emit(OpCodes.Ldloca, 21); // array6
-            c.Emit(OpCodes.Ldloca, 26); // array9
-            c.Emit(OpCodes.Ldloca, 16); // array
-            c.Emit(OpCodes.Ldloca, 8); // num5
-            c.Emit(OpCodes.Ldloca, 25); // flag5
-
-            c.Emit(OpCodes.Call, ((modifyingdelegate)GenkaiMenu).Method); // now we call E V E R Y T H I N G that was inside that if statement manually, rip
-
-            // var rgbbs = typeof(Color).GetProperty(nameof(Color.B)).GetSetMethod();
-
-            //if (!c.TryGotoNext(i => i.MatchStloc(172))) // color10
-            //    throw new Exception();
-            //if (!c.TryGotoNext(i => i.MatchCall(rgbbs)))
-            //    throw new Exception();
-
-            //c.Emit(OpCodes.Ldloca, 172);
-            //c.Emit(OpCodes.Ldloc, 180);
-            // c.Emit(OpCodes.Call, ((colorrefdelegate)ModifyColor).Method);
-        }
+       
         //private static void ModifyColor(ref Color color, byte val)
         //{
         // 

@@ -126,11 +126,6 @@ namespace EEMod
 
         public override void ResetEffects()
         {
-            //Minions
-
-            //Pets
-
-            //Acessories, Weapons, Armors, etc
             isQuartzChestOn = false;
             isQuartzRangedOn = false;
             isQuartzMeleeOn = false;
@@ -168,11 +163,10 @@ namespace EEMod
                 Main.screenPosition.X -= cutSceneTriggerTimer2 * speedOfPan;
             }
         }
+        readonly SubworldManager SM = new SubworldManager();
         public override void UpdateBiomeVisuals()
         {
-            Action newWorld = EnterSub1;
-            Action newWorld2 = EnterSub2;
-            Action newWorld3 = EnterSub3;
+            Action<string> newWorld = new Action<string>(SubworldManager.EnterSub);
             Action returnToBaseWorld = Return;
             //player.ManageSpecialBiomeVisuals("EEMod:Akumo", NPC.AnyNPCs(ModContent.NPCType<Akumo>()));
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
@@ -279,7 +273,7 @@ namespace EEMod
                         subText = 1;
                     if (player.controlUp)
                     {
-                        SaveAndQuit(newWorld3);
+                        SM.SaveAndQuit(key3);
                     }
                 }
                 else
@@ -519,32 +513,16 @@ namespace EEMod
             }
             if (timerForCutscene >= 1400)
             {
-                isSaving = false;
-                godMode = false;
-                timerForCutscene = 0;
-                arrowFlag = false;
-                noU = false;
-                triggerSeaCutscene = false;
-                cutSceneTriggerTimer = 0;
-                cutSceneTriggerTimer2 = 1000;
-                WorldGen.SaveAndQuit(newWorld);
+                Initialize();
+                SM.SaveAndQuit(key1); //pyramid
             }
             if (cutSceneTriggerTimer >= 500)
             {
                 cutSceneTriggerTimer2 -= 5;
                 if (cutSceneTriggerTimer >= 1520)
                 {
-                    markerPlacer = 0;
-                    EEMod.position = new Vector2(1000, 1000);
-                    isSaving = false;
-                    godMode = false;
-                    timerForCutscene = 0;
-                    arrowFlag = false;
-                    noU = false;
-                    triggerSeaCutscene = false;
-                    cutSceneTriggerTimer = 0;
-                    cutSceneTriggerTimer2 = 500;
-                    WorldGen.SaveAndQuit(newWorld2);
+                    Initialize();
+                    SM.SaveAndQuit(key2); //sea
                 }
             }
         }
@@ -567,7 +545,7 @@ namespace EEMod
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld", false);
             WorldGen.playWorld();
         }
-        public static void SaveAndQuit(Action callback = null)
+        public static void SaveAndQuit(Action<string> callback = null)
         {
             Main.PlaySound(SoundID.MenuClose);
             PreSaveAndQuit();
@@ -616,112 +594,10 @@ namespace EEMod
             }
         }
 
-        public static void Do_worldGenCallBack(object threadContext)
-        {
-            Main.PlaySound(SoundID.MenuOpen);
-            WorldGen.clearWorld();
-            EEMod.GenerateWorld(Main.ActiveWorldFileData.Seed, threadContext as GenerationProgress);
-            WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key1}.wld", false);
-            WorldGen.playWorld();
-        }
-        public static void Do_worldGenCallBack2(object threadContext)
-        {
-            Main.PlaySound(SoundID.MenuOpen);
-            WorldGen.clearWorld();
-            EEMod.GenerateWorld2(Main.ActiveWorldFileData.Seed, threadContext as GenerationProgress);
-            WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key2}.wld", false);
-            WorldGen.playWorld();
-        }
-        public static void Do_worldGenCallBack3(object threadContext)
-        {
-            Main.PlaySound(SoundID.MenuOpen);
-            WorldGen.clearWorld();
-            EEMod.GenerateWorld3(Main.ActiveWorldFileData.Seed, threadContext as GenerationProgress);
-            WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key3}.wld", false);
-            WorldGen.playWorld();
-        }
-        public override void UpdateBadLifeRegen()
-        {
-            if (player.position.Y < Main.rockLayer + 80f + 640f)
-            {
-                _ = EESub.Enter(EESub.mySubworldID) ?? false;
-            }
-        }
-        public static void WorldGenCallBack(object threadContext)
-        {
-            try
-            {
-                Do_worldGenCallBack(threadContext);
-            }
-            catch (Exception ex)
-            {
-                Logging.Terraria.Error((object)Language.GetTextValue("tModLoader.WorldGenError"), ex);
-            }
-        }
-        public static void CreateNewWorld(string text, GenerationProgress progress = null)
-        {
-            Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
-            if (text == key1)
-                ThreadPool.QueueUserWorkItem(Do_worldGenCallBack, progress);
-            if (text == key2)
-                ThreadPool.QueueUserWorkItem(Do_worldGenCallBack2, progress);
-            if (text == key3)
-                ThreadPool.QueueUserWorkItem(Do_worldGenCallBack3, progress);
-        }
-        private void OnWorldNamed(string text, GenerationProgress progress)
-        {
-            if (text == key1)
-            {
-                string path = $@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key1}.wld";
-                if (!File.Exists(path))
-                {
-                    Main.worldName = text.Trim();
-                    CreateNewWorld(key1, progress);
-                }
-                Main.ActiveWorldFileData = Terraria.IO.WorldFile.GetAllMetadata(path, false);
-                WorldGen.playWorld();
-            }
-            if (text == key2)
-            {
-                string path = $@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key2}.wld";
-                if (!File.Exists(path))
-                {
-                    Main.worldName = text.Trim();
-                    CreateNewWorld(key2, progress);
-                }
-                Main.ActiveWorldFileData = Terraria.IO.WorldFile.GetAllMetadata(path, false);
-                WorldGen.playWorld();
-            }
-            if (text == key3)
-            {
-                string path = $@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{key3}.wld";
-                if (!File.Exists(path))
-                {
-                    Main.worldName = text.Trim();
-                    CreateNewWorld(key3, progress);
-                }
-                Main.ActiveWorldFileData = Terraria.IO.WorldFile.GetAllMetadata(path, false);
-                WorldGen.playWorld();
-            }
-        }
-        public void EnterSub1()
-        {
-            GenerationProgress progress = new GenerationProgress();
-            OnWorldNamed(key1, progress);
-        }
-        public void EnterSub2()
-        {
-            GenerationProgress progress = new GenerationProgress();
-            OnWorldNamed(key2, progress);
-        }
-        public void EnterSub3()
-        {
-            GenerationProgress progress = new GenerationProgress();
-            OnWorldNamed(key3, progress);
-        }
+
+
+ 
+        
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
 

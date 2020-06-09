@@ -63,37 +63,14 @@ namespace EEMod
             _generator.Append(new PassLegacy(name, method));
         }
 
-        public static void GenerateWorld(int seed, GenerationProgress customProgressObject = null)
+        public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
-            Main.maxTilesX = 400;
-            Main.maxTilesY = 400;
-            Main.spawnTileX = 234;
-            Main.spawnTileY = 92;
-            Logging.Terraria.InfoFormat("Generating World: {0}", (object)Main.ActiveWorldFileData.Name);
-            _lastSeed = seed;
-            _generator = new WorldGenerator(seed);
-            MicroBiome.ResetAll();
-
-            //WorldHooks.PreWorldGen();
-            AddGenerationPass("Reset", delegate (GenerationProgress progress)
-            {
-                Liquid.ReInit();
-                progress.Message = "";
-                Main.cloudAlpha = 0f;
-                Main.maxRaining = 0f;
-                Main.raining = false;
-                WorldGen.RandomizeTreeStyle();
-                WorldGen.RandomizeCaveBackgrounds();
-                WorldGen.RandomizeBackgrounds();
-                WorldGen.RandomizeMoonState();
-
-            });
-            Main.worldID = WorldGen.genRand.Next(int.MaxValue);
-            //WorldHooks.ModifyWorldGenTasks(_generator._passes, ref _generator._totalLoadWeight);
-            _generator.GenerateWorld(customProgressObject);
-            EEWorld.EEWorld.FillRegion(400, 400, new Vector2(0, 0), TileID.SandstoneBrick);
-            EEWorld.EEWorld.Pyramid(63, 42);
-            //Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
+            if (key == "CoralReefs")
+                EESubWorlds.CoralReefs(seed, customProgressObject = null);
+            if (key == "Pyramids")
+                EESubWorlds.Pyramids(seed, customProgressObject = null);
+            if (key == "Sea")
+                EESubWorlds.Sea(seed, customProgressObject = null);
         }
         public static void GenerateWorld2(int seed, GenerationProgress customProgressObject = null)
         {
@@ -195,10 +172,10 @@ namespace EEMod
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
             }
             On.Terraria.Main.DoUpdate += OnUpdate;
-            On.Terraria.Main.DrawMenu += OnDrawMenu;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
+            On.Terraria.Main.DrawMenu += OnDrawMenu;
         }
-
+        
         public static bool isSaving = false;
         public static int loadingChoose;
         public static int loadingChooseImage;
@@ -232,12 +209,11 @@ namespace EEMod
         }
         private void OnDrawMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
+            
             position = start;
             velocity = Vector2.Zero;
             if (isSaving)
             {
-                // Mod mod = EEMod.instance;
-                //Main.spriteBatch.Draw(texture, new Vector2(Main.screenWidth / 2, 100), new Rectangle(0, 0, 100, 100), Color.Black, 0, origin, 5, SpriteEffects.None, 0);
                 for (int i = 0; i < Main.backgroundTexture.Length; i++)
                     Main.backgroundTexture[i] = Main.magicPixel;
                 Main.numClouds = 0;
@@ -456,26 +432,7 @@ namespace EEMod
                     Main.backgroundTexture[i] = ModContent.GetTexture("Terraria/Background_" + i);
             }
             orig(self, gameTime);
-
         }
-
-        public override void UpdateUI(GameTime gameTime)
-        {
-            // it will only draw if the player is not on the main menu
-            /*if (!Main.gameMenu
-				&& EEUI.visible)
-			{
-				EEInterface?.Update(gameTime);
-			}
-			if(Main.gameMenu)
-			{
-				EEInterface?.Update(gameTime);
-			}*/
-        }
-
-        // Load
-
-        // Load
 
         private static void ILSaveWorldTiles(ILContext il)
         {
@@ -532,7 +489,6 @@ namespace EEMod
         public string text;
         private void DrawText()
         {
-            Mod mod = EEMod.instance;
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
@@ -575,7 +531,6 @@ namespace EEMod
             }
             Vector2 textSize = Main.fontMouseText.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
-            float textPositionRight = position.X + textSize.X / 2;
             Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
         private void DrawShip()
