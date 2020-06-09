@@ -142,6 +142,10 @@ namespace EEMod
 
         public override void Unload()
         {
+            IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
+            On.Terraria.Main.DoUpdate -= OnUpdate;
+            On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
+            On.Terraria.Main.DrawMenu -= OnDrawMenu;
             AutoloadingManager.UnloadManager(this);
             instance = null;
         }
@@ -197,11 +201,11 @@ namespace EEMod
                 loadingChooseImage = Main.rand.Next(5);
                 Main.numClouds = 10;
                 if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                Main.logo2Texture = ModContent.GetTexture("Terraria/Logo2");
-                Main.logoTexture = ModContent.GetTexture("Terraria/Logo");
-                Main.sun2Texture = ModContent.GetTexture("Terraria/Sun2");
-                Main.sun3Texture = ModContent.GetTexture("Terraria/Sun3");
-                Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
+                Main.logo2Texture = TextureCache.Terraria_Logo2Texture; 
+                Main.logoTexture = TextureCache.Terraria_LogoTexture; 
+                Main.sun2Texture = TextureCache.Terraria_Sun2Texture; 
+                Main.sun3Texture = TextureCache.Terraria_Sun3Texture; 
+                Main.sunTexture = TextureCache.Terraria_SunTexture;
                 for (int i = 0; i < Main.backgroundTexture.Length - 1; i++)
                     Main.backgroundTexture[i] = ModContent.GetTexture("Terraria/Background_" + i);
             }
