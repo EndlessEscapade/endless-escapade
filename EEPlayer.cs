@@ -17,6 +17,7 @@ using Terraria.IO;
 using Terraria.Localization;
 using System.Collections.Generic;
 using EEMod.Projectiles;
+using EEMod.Projectiles.OceanMap;
 using EEMod.EEWorld;
 using EEMod.Compatibility;
 
