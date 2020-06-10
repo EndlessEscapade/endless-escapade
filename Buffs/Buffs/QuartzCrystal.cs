@@ -1,5 +1,6 @@
 using Terraria;
 using Terraria.ModLoader;
+using EEMod.Projectiles;
 
 namespace EEMod.Buffs.Buffs
 {
@@ -16,7 +17,7 @@ namespace EEMod.Buffs.Buffs
 		public override void Update(Player player, ref int buffIndex)
 		{
             EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
-			if (player.ownedProjectileCounts[mod.ProjectileType("QuartzCrystal")] > 0)
+			if (player.ownedProjectileCounts[ModContent.ProjectileType<QuartzCrystalProjectile>()] > 0)
 			{
 				modPlayer.quartzCrystal = true;
 			}

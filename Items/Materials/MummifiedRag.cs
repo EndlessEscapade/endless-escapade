@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Items.Materials
@@ -21,7 +17,7 @@ namespace EEMod.Items.Materials
             item.height = 24;
             item.maxStack = 999;
             item.value = 100;
-            item.rare = 1;
+            item.rare = ItemRarityID.Blue;
         }
     }
 }

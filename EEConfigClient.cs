@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
-namespace Prophecy
+namespace EEMod
 {
-    public class ProphecyConfigClient : ModConfig
+    public class EEModConfigClient : ModConfig
     {
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
-        public static ProphecyConfigClient Instance;
+        public static EEModConfigClient Instance;
 
         [DefaultValue(true)]
-        [Label("$Mods.Prophecy.Common.ProphecyClassTips")]
-        [Tooltip("$Mods.Prophecy.Common.ProphecyClassTipsInfo")]
-        public bool ProphecyClassTooltips;
+        [Label("$Mods.EEMod.Common.EEModClassTips")]
+        [Tooltip("$Mods.EEMod.Common.EEModClassTipsInfo")]
+        public bool EEModClassTooltips;
     }
 }

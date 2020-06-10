@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod
+namespace EEMod.Projectiles
 {
     public abstract class Javelin : ModProjectile
     {
@@ -38,13 +38,10 @@ namespace EEMod
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y); // Play a death sound
-            _ = projectile.position; // Position to use for dusts
+            //_ = projectile.position; // Position to use for dusts
                                      // Please note the usage of MathHelper, please use projectile! We subtract 90 degrees as radians to the rotation vector to offset the sprite as its default rotation in the sprite isn't aligned properly.
-            Vector2 rotVector =
-                (projectile.rotation - MathHelper.ToRadians(90f)).ToRotationVector2();
-            _ = rotVector * 16f;
-
-
+            // Vector2 rotVector = (projectile.rotation - MathHelper.ToRadians(90f)).ToRotationVector2();
+            //_ = rotVector * 16f;
 
 
             if (projectile.owner == Main.myPlayer && dropItem != -1)
@@ -69,19 +66,18 @@ namespace EEMod
         // Are we sticking to a target?
         public bool IsStickingToTarget
         {
-            get { return projectile.ai[0] == 1f; }
-            set { projectile.ai[0] = value ? 1f : 0f; }
+            get => projectile.ai[0] == 1f; 
+            set => projectile.ai[0] = value ? 1f : 0f;
         }
 
         // WhoAmI of the current target
         public float TargetWhoAmI
         {
-            get { return projectile.ai[1]; }
-            set { projectile.ai[1] = value; }
+            get => projectile.ai[1];
+            set => projectile.ai[1] = value;
         }
 
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit,
-            ref int hitDirection)
+        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             projectile.timeLeft = 30 * 60;
             // If you'd use the example above, you'd do: isStickingToTarget = 1f;
@@ -175,10 +171,8 @@ namespace EEMod
                 // Make sure to set the rotation accordingly to the velocity, and add some to work around the sprite's rotation
                 projectile.rotation =
                     projectile.velocity.ToRotation() + (float)Math.PI / 2 + rotationOffset;
-
-
-
             }
+
             // projectile code is ran when the javelin is sticking to a target
             if (IsStickingToTarget)
             {

@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.IntWorld;
+using EEMod.EEWorld;
 using EEMod.NPCs.Bosses.Archon;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
@@ -37,14 +37,14 @@ namespace EEMod
 				opac++;
 				if (opac > 100)
 					opac = 100;
-				//Filters.Scene.Activate("InteritosMod:CR").GetShader().UseOpacity(opac);
+				//Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
 			}
 			else
 			{
 				opac--;
 				if (opac < 0)
 					opac = 0;
-			//	Filters.Scene.Deactivate("InteritosMod:CR");
+			//	Filters.Scene.Deactivate("EEMod:CR");
 			}
 		}
 
@@ -158,7 +158,7 @@ namespace EEMod
         }
         public override void UpdateBiomeVisuals()
         {
-            player.ManageSpecialBiomeVisuals("InteritosMod:Akumo", NPC.AnyNPCs(ModContent.NPCType<Akumo>()));
+            player.ManageSpecialBiomeVisuals("EEMod:Akumo", NPC.AnyNPCs(ModContent.NPCType<Akumo>()));
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
             {
                 cutSceneTriggerTimer += 6;
@@ -172,9 +172,9 @@ namespace EEMod
             {
                 timerForCutscene += 20;
             }
-            string key = "Prophecy:Ripple";
-            string key4 = "Prophecy:SunThroughWalls";
-            string key3 = "Prophecy:SeaTrans";
+            string key = "EEMod:Ripple";
+            string key4 = "EEMod:SunThroughWalls";
+            string key3 = "EEMod:SeaTrans";
             if (Main.ActiveWorldFileData.Name == key1)
             {
                 if (!noU)
@@ -190,7 +190,7 @@ namespace EEMod
                 titleText2 = 1;
                 if (!arrowFlag)
                 {
-                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("DesArrow"), 0, 0, player.whoAmI);
+                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DesArrow>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
                 if (player.Center.X / 16 >= Main.spawnTileX - 5 &&
@@ -251,7 +251,7 @@ namespace EEMod
                 }
                 for (int j = 0; j < 200; j++)
                 {
-                    if (Main.projectile[j].type == mod.ProjectileType("PirateShip"))
+                    if (Main.projectile[j].type == ModContent.ProjectileType<PirateShip>())
                     {
                         Main.NewText((Main.projectile[j].Center - EEMod.position - Main.screenPosition).Length());
                         if ((Main.projectile[j].Center - EEMod.position - Main.screenPosition).Length() < 40)
@@ -262,14 +262,14 @@ namespace EEMod
                 }
                 if (markerPlacer == 1)
                 {
-                    //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, mod.ProjectileType("Land"), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, mod.ProjectileType("VolcanoIsland"), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, mod.ProjectileType("Land"), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, mod.ProjectileType("Lighthouse"), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, mod.ProjectileType("Lighthouse2"), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, mod.ProjectileType("Rock1"), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, mod.ProjectileType("Rock2"), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, mod.ProjectileType("Rock3"), 0, 0f, Main.myPlayer, 0, 0);
+                    //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, ModContent.ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ModContent.ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ModContent.ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ModContent.ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ModContent.ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ModContent.ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ModContent.ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ModContent.ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
                     objectPos.Add(new Vector2(pos1X, pos1Y));
                     objectPos.Add(new Vector2(pos2X, pos2Y));
                     objectPos.Add(new Vector2(pos3X, pos3Y));
@@ -293,17 +293,17 @@ namespace EEMod
                             {
                                 case 0:
                                     {
-                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, mod.ProjectileType("Glacier"), 0, 0f, Main.myPlayer, Prophecy.velocity.X, Prophecy.velocity.Y);
+                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ModContent.ProjectileType<Glacier>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                                         break;
                                     }
                                 case 1:
                                     {
-                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, mod.ProjectileType("Glacier2"), 0, 0f, Main.myPlayer, Prophecy.velocity.X, Prophecy.velocity.Y);
+                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ModContent.ProjectileType<Glacier2>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                                         break;
                                     }
                                 case 2:
                                     {
-                                        //  Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, mod.ProjectileType("Glacier3"), 0, 0f, Main.myPlayer, Prophecy.velocity.X, Prophecy.velocity.Y);
+                                        //  Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ModContent.ProjectileType<Glacier3>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                                         break;
                                     }
                             }
@@ -315,8 +315,8 @@ namespace EEMod
                 player.AddBuff(BuffID.Cursed, 100000);
                 if (markerPlacer % 600 == 0)
                 {
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, mod.ProjectileType("PirateShip"), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, mod.ProjectileType("PirateShip"), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
                 }
                 if (markerPlacer % 20 == 0)
                 {
@@ -325,27 +325,27 @@ namespace EEMod
                     {
                         case 0:
                             {
-                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, mod.ProjectileType("Cloud1"), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                         case 1:
                             {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, mod.ProjectileType("Cloud6"), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                         case 2:
                             {
-                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, mod.ProjectileType("Cloud3"), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                         case 3:
                             {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, mod.ProjectileType("Cloud4"), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                         case 4:
                             {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, mod.ProjectileType("Cloud5"), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                     }
@@ -353,7 +353,7 @@ namespace EEMod
 
                 if (markerPlacer % 40 == 0)
                 {
-                    Projectile.NewProjectile(Main.screenPosition + EEMod.position, Vector2.Zero, mod.ProjectileType("RedStrip"), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
+                    Projectile.NewProjectile(Main.screenPosition + EEMod.position, Vector2.Zero, ModContent.ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                 }
             }
             else
@@ -364,8 +364,8 @@ namespace EEMod
                 titleText2 = 0;
                 if (!arrowFlag)
                 {
-                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("DesArrow"), 0, 0, player.whoAmI);
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("OceanArrow"), 0, 0, player.whoAmI);
+                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DesArrow>(), 0, 0, player.whoAmI);
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrow>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
                 if (player.Center.X / 16 >= (EEWorld.yes.X + 12) - 2 &&

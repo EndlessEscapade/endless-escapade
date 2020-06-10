@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
-using EEMod.IntWorld;
+using EEMod.EEWorld;
 
 namespace EEMod.Tiles.Ores
 {
@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Ores
 
         public override bool CanExplode(int i, int j)
         {
-            return EEWorld.downedHydros;
+            return EEWorld.EEWorld.downedHydros;
         }
     }
 }

@@ -6,13 +6,13 @@ namespace EEMod.Autoloading
     /// This attribute is meant to be applied to static methods and fields. <br />
     /// For methods:
     ///  <list type="bullet">
-    ///     <item>Static methods with this attribute will be called during <seealso cref="InteritosMod.Unload"/></item>
+    ///     <item>Static methods with this attribute will be called during <seealso cref="EEMod.Unload"/></item>
     ///     <item>Can't be applied to methods that are abstract or generic</item>
     ///  </list>
     ///     
     /// For fields: 
     /// <list type="bullet">
-    ///     <item>Static fields with this attribute will be set to null during <seealso cref="InteritosMod.Unload"/></item>
+    ///     <item>Static fields with this attribute will be set to null during <seealso cref="EEMod.Unload"/></item>
     ///     <item>Can't be applied to fields which type isn't nullable</item>
     ///     <item><strong>DO NOT</strong> apply to constant/readonly fields</item>
     /// </list>

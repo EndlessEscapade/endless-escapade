@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod
+namespace EEMod.Projectiles
 {
     public class Anchor : ModProjectile
     {
@@ -27,8 +27,8 @@ namespace EEMod
         public override void AI()
         {
             yes += 0.1f;
-            projectile.position.X = projectile.ai[0] - projectile.width/2;
-            projectile.position.Y = projectile.ai[1] - 100 + (float)Math.Sin(yes)*10;
+            projectile.position.X = projectile.ai[0] - projectile.width / 2;
+            projectile.position.Y = projectile.ai[1] - 100 + (float)Math.Sin(yes) * 10;
             if (!visible)
                 projectile.alpha += 5;
             else
@@ -44,7 +44,7 @@ namespace EEMod
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)  //this make the projectile sprite rotate perfectaly around the player
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.White * (float)((double)(255- projectile.alpha)/(double)255), projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.White * (float)((255 - projectile.alpha) / (double)255), projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
         }
         public override void SetStaticDefaults()

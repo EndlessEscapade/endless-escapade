@@ -1,19 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.IO;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.GameContent.UI;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
+using Terraria.UI;
+using Terraria.Map;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using System.Reflection;
-using Terraria.Map;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System.IO;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.UI;
-using Terraria.DataStructures;
-using Terraria.GameContent.UI;
-using System;
+using EEMod.NPCs;
+using EEMod.Items.Materials;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -33,14 +35,14 @@ namespace EEMod.Items.Weapons.Melee
             item.height = 80;
             item.useTime = 20;
             item.useAnimation = 20;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 5;
             item.value = 10000;
-            item.rare = 3;
+            item.rare = ItemRarityID.Orange;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.crit = 6;
-            item.shoot = mod.ProjectileType("CrystalSword");
+            item.shoot = ModContent.ProjectileType<CrystalSword>();
         }
         public override void AddRecipes()
         {
@@ -49,17 +51,19 @@ namespace EEMod.Items.Weapons.Melee
                 recipe.AddIngredient(ItemID.HardenedSand, 5);
                 recipe.AddIngredient(ItemID.Sandstone, 8);
                 recipe.AddIngredient(ItemID.Diamond, 1);
-                recipe.AddIngredient(mod.ItemType("MummifiedRag"), 2);
+                recipe.AddIngredient(ModContent.ItemType<MummifiedRag>(), 2);
                 recipe.AddTile(TileID.Anvils);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
             }
         }
+
         public override bool UseItem(Player player)
         {
             return base.UseItem(player);
         }
-        public override bool Shoot(Player player, ref Microsoft.Xna.Framework.Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             keeper++;
             float speed = 7;
@@ -67,7 +71,7 @@ namespace EEMod.Items.Weapons.Melee
             float distY = Main.mouseY + Main.screenPosition.Y - player.Center.Y;
             float mag = (float)Math.Sqrt(distX * distX + distY * distY);
             if (keeper % 3 == 0)
-                Projectile.NewProjectile(position.X, position.Y, distX*speed/mag, distY*speed/mag, mod.ProjectileType("CrystalSword"), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position.X, position.Y, distX*speed/mag, distY*speed/mag, ModContent.ProjectileType<CrystalSword>(), damage, knockBack, player.whoAmI, 0f, 0f);
 
             return false;
         }

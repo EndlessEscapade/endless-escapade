@@ -131,7 +131,7 @@ namespace EEMod
         }
         public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)
         {
-            return npc.GetAlpha(BuffEffects(npc, GetLightColor(position != null ? (Vector2)position : npc.Center), (shadowOverride != 0f ? shadowOverride : 0f), effects, npc.poisoned, npc.onFire, npc.onFire2, Main.player[Main.myPlayer].detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor, npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky));
+            return npc.GetAlpha(BuffEffects(npc, GetLightColor(position != null ? (Vector2)position : npc.Center), (shadowOverride != 0f ? shadowOverride : 0f), effects, npc.poisoned, npc.onFire, npc.onFire2, Main.LocalPlayer.detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor, npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky));
         }
         public static Color GetLightColor(Vector2 position)
         {
@@ -492,7 +492,7 @@ namespace EEMod
                 {
                     spriteBatch.End();
                     spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-                    GameShaders.Armor.ApplySecondary(shader, Main.player[Main.myPlayer], null);
+                    GameShaders.Armor.ApplySecondary(shader, Main.LocalPlayer, null);
                 }
                 spriteBatch.Draw(texture, GetDrawPosition(position, origin, width, height, texture.Width, texture.Height, frame, framecount, framecountX, scale, drawCentered), frame, lightColor, rotation, origin, scale, direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
                 if (applyDye)

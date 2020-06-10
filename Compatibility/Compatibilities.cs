@@ -1,6 +1,5 @@
 using Terraria.ModLoader;
 using EEMod.Autoloading;
-using System;
 
 namespace EEMod.Compatibility
 {
@@ -9,7 +8,7 @@ namespace EEMod.Compatibility
     /// </summary>
 	public static partial class Compatibilities
     {
-        public static Mod InteritosMusic;
+        public static Mod EEMusic;
         public static Mod CalamityMod;
         public static Mod SpiritMod;
         public static Mod OrchidMod;
@@ -17,7 +16,7 @@ namespace EEMod.Compatibility
         [Loading]
         public static void LoadModFields()
         {
-            InteritosMusic = ModLoader.GetMod("InteritosModMusic");
+            EEMusic = ModLoader.GetMod("EEModMusic");
             CalamityMod = ModLoader.GetMod("CalamityMod");
             SpiritMod = ModLoader.GetMod("SpiritMod");
             OrchidMod = ModLoader.GetMod("OrchidMod");
@@ -26,7 +25,7 @@ namespace EEMod.Compatibility
         [Unloading]
         public static void Unload()
         {
-            InteritosMusic = null;
+            EEMusic = null;
             CalamityMod = null;
             SpiritMod = null;
             OrchidMod = null;

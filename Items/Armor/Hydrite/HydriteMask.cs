@@ -31,13 +31,13 @@ namespace EEMod.Items.Armor.Hydrite
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 16;
+            player.meleeDamage += 0.16f;
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.meleeDamage += 8;
-            player.meleeSpeed += 8;
+            player.meleeDamage += 0.8f;
+            player.meleeSpeed += 0.8f;
         }
 
         public override void AddRecipes()

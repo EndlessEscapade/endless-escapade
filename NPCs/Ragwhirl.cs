@@ -1,3 +1,4 @@
+using EEMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -108,7 +109,7 @@ namespace EEMod.NPCs
             if (Main.rand.Next(0) == 0 && NPC.downedBoss1)
             {
                 // this is still pretty useless to do
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("MummifiedRag"), Main.rand.Next(0, 2));
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(0, 2));
             }
         }
 

@@ -1,6 +1,6 @@
 using Terraria.ModLoader;
 
-namespace InteritosMod.IntWorld
+namespace EEMod.EEWorld
 {
 	public partial class EEWorld : ModWorld
 	{

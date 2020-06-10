@@ -55,9 +55,9 @@ namespace EEMod.Projectiles
                 float speedX = -projectile.velocity.X * Main.rand.NextFloat(-.4f, .8f) + Main.rand.NextFloat(-2f, 2f);
                 float speedY = -projectile.velocity.Y * Main.rand.Next(34, 37) * 0.01f + Main.rand.NextFloat(-12f, 12.1f) * 0.4f;
                 if(projHolder == 0)
-                Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX, speedY, mod.ProjectileType("Shard2"), (int)(projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX, speedY, ModContent.ProjectileType<Shard2>(), (int)(projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
                 if (projHolder == 1)
-                Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX, speedY, mod.ProjectileType("Shard1"), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX, speedY, ModContent.ProjectileType<Shard1>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
                 Main.PlaySound(SoundID.Item27, projectile.position);
             }
         }

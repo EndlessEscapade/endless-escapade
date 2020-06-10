@@ -45,7 +45,7 @@ namespace EEMod.Projectiles
             for (int j = 0; j < 200; j++)
             {
                 
-                if (Main.projectile[j].type == mod.ProjectileType("QuartzProjSwords") && Main.projectile[j].type != projectile.whoAmI && Math.Sqrt(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y) < 5)
+                if (Main.projectile[j].type == ModContent.ProjectileType<QuartzProjSwords>() && Main.projectile[j].type != projectile.whoAmI && Math.Sqrt(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y) < 5)
                 {
                     float oldVel = (float)Math.Sqrt(Main.projectile[j].velocity.X * Main.projectile[j].velocity.X + Main.projectile[j].velocity.Y * Main.projectile[j].velocity.Y);
                     float vel = (float)Math.Sqrt(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y);

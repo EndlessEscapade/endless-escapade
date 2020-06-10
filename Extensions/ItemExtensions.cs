@@ -6,6 +6,6 @@ namespace EEMod.Extensions
 {
     public static class ItemExtensions
     {
-        public static EEGlobalItem EEMod(this Item item) => item.GetGlobalItem<EEGlobalItem>();
+        public static EEGlobalItem EEGlobalItem(this Item item) => item.GetGlobalItem<EEGlobalItem>();
     }
 }

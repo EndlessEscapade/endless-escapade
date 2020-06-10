@@ -33,14 +33,14 @@ namespace EEMod.Items.Armor.Hydrite
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 12;
             player.GetModPlayer<EEPlayer>().hydriteVisage = true;
+            player.magicDamage += 0.12f;
             player.statManaMax += 100;
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.magicDamage += 10;
+            player.magicDamage += 0.10f;
         }
 
         public override void AddRecipes()

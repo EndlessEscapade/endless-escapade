@@ -1,95 +1,19 @@
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
+using Terraria.GameContent.Events;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria.GameContent.Events;
-using EEMod.IntWorld;
-using EEMod.Tiles.Ores;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
+using EEMod.Tiles.Ores;
 
-namespace EEMod
+namespace EEMod.EEWorld
 {
-    public class EEWorld : ModWorld
+    public partial class EEWorld
     {
-        public static bool GenkaiMode;
-
-        public static bool downedGallagar;
-        public static bool downedForerunner;
-        public static bool downedSoS;
-        public static bool downedFlare;
-        public static bool downedAssimilator;
-        public static bool downedAkumo;
-        public static bool downedHydros;
-        public static bool downedStagrel;
-        public static bool downedBeheader;
-
-        private static List<Point> BiomeCenters;
-        public static int CoralReefsTiles = 0;
-
-        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
-        {
-            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
-            if (ShiniesIndex != -1)
-            {
-                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Interitos Mod Ores", InteritosModOres));
-            }
-            int MicroBiomes = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
-            int LivingTreesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Living Trees"));
-            /*if (LivingTreesIndex != -1)
-            {
-                tasks.Insert(LivingTreesIndex + 1, new PassLegacy("Post Terrain", delegate (GenerationProgress progress)
-                {
-                    progress.Message = "Generating structures";
-                    for (int l = 0; l < 30; l++)
-                    {
-                        int posX = WorldGen.genRand.Next(0, Main.maxTilesX);
-                        int posY = WorldGen.genRand.Next((int)WorldGen.rockLayerLow, Main.maxTilesY);
-                        PlaceRuins(posX, posY, ruinsShape);
-                    }
-                }));
-            }*/
-            if (MicroBiomes != -1)
-            {
-                tasks.Insert(MicroBiomes, new PassLegacy("Coral Reef", delegate (GenerationProgress progress)
-                {
-                    CoralReef();
-                }));
-            }
-        }
-
-        private void InteritosModOres(GenerationProgress progress)
-        {
-            progress.Message = "Interitos Mod Ores";
-            int maxTiles = Main.maxTilesX * Main.maxTilesY;
-            int rockLayerLow = (int)WorldGen.rockLayerLow;
-            int OreAmmount;
-
-            OreAmmount = (int)(maxTiles * 0.00008);
-            for (int k = 0; k < OreAmmount; k++)
-            {
-                int x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
-                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<LythenOreTile>());
-
-                x = WorldGen.genRand.Next(0, Main.maxTilesX);
-                y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
-                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<DalantiniumOreTile>());
-            }
-        }
-
-        public static int customBiome = 0;
-        public static bool eocFlag;
         private static void StartSandstorm()
         {
             Sandstorm.Happening = true;
@@ -116,16 +40,28 @@ namespace EEMod
             }
         }
 
-        public static IList<Vector2> EntracesPosses = new List<Vector2>();
-        public override void Initialize()
+        private static void EEModOres(GenerationProgress progress)
         {
+            progress.Message = "Interitos Mod Ores";
+            int maxTiles = Main.maxTilesX * Main.maxTilesY;
+            int rockLayerLow = (int)WorldGen.rockLayerLow;
+            int OreAmmount;
 
-            eocFlag = NPC.downedBoss1;
-            ree = new Vector2(100, TileCheck(100) - 22);
-            if (EntracesPosses.Count > 0)
-                yes = EntracesPosses[0];
+            OreAmmount = (int)(maxTiles * 0.00008);
+            for (int k = 0; k < OreAmmount; k++)
+            {
+                int x = WorldGen.genRand.Next(0, Main.maxTilesX);
+                int y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
+                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<LythenOreTile>());
+
+                x = WorldGen.genRand.Next(0, Main.maxTilesX);
+                y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
+                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<DalantiniumOreTile>());
+            }
         }
-        public void FillRegion(int width, int height, Vector2 startingPoint, int type)
+
+
+        public static void FillRegion(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {
@@ -136,7 +72,7 @@ namespace EEMod
             }
         }
 
-        public void FillWall(int width, int height, Vector2 startingPoint, int type)
+        public static void FillWall(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {
@@ -146,7 +82,7 @@ namespace EEMod
                 }
             }
         }
-        private void FillRegionDiag(int width, int height, Vector2 startingPoint, int type, int leftOrRight)
+        private static void FillRegionDiag(int width, int height, Vector2 startingPoint, int type, int leftOrRight)
         {
             if (leftOrRight == 0)
             {
@@ -170,7 +106,7 @@ namespace EEMod
             }
         }
 
-        private void ClearRegion(int width, int height, Vector2 startingPoint)
+        private static void ClearRegion(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
             {
@@ -181,7 +117,7 @@ namespace EEMod
                 }
             }
         }
-        private void ClearPathWay(int width, int height, float gradient, Vector2 startingPoint, bool withPillars)
+        private static void ClearPathWay(int width, int height, float gradient, Vector2 startingPoint, bool withPillars)
         {
             for (int i = 0; i < width; i++)
             {
@@ -204,7 +140,7 @@ namespace EEMod
             }
 
         }
-        private void Hole(int height, int width, Vector2 startingPoint)
+        private static void Hole(int height, int width, Vector2 startingPoint)
         {
             for (int i = 0; i < height; i++)
             {
@@ -215,37 +151,37 @@ namespace EEMod
                 }
             }
         }
-        private void MakePathWay(Vector2 firstRoom, Vector2 secondRoom, Vector2 firstRoomSize, Vector2 secondRoomSize, int heightOfConnection, bool withPillars)
+        private static void MakePathWay(Vector2 firstRoom, Vector2 secondRoom, Vector2 firstRoomSize, Vector2 secondRoomSize, int heightOfConnection, bool withPillars)
         {
             Vector2 secondRoomDoorPos = new Vector2(secondRoom.X, secondRoomSize.Y / 2 + secondRoom.Y - heightOfConnection);
             Vector2 firstRoomDoorPos = new Vector2(firstRoom.X, firstRoomSize.Y / 2 + firstRoom.Y - heightOfConnection);
             if (firstRoom.X > secondRoom.X)
             {
-                float gradient = (firstRoomDoorPos.Y - secondRoomDoorPos.Y) / ((firstRoomDoorPos.X - firstRoomSize.X / 2) - (secondRoomDoorPos.X + secondRoomSize.X / 2));
-                ClearPathWay((int)(firstRoomDoorPos.X - firstRoomSize.X / 2) - (int)(secondRoomDoorPos.X + (secondRoomSize.X / 2)) + 1, heightOfConnection, gradient, secondRoomDoorPos + new Vector2((secondRoomSize.X / 2), 0), withPillars);
-                if ((firstRoomDoorPos.X - firstRoomSize.X / 2) - (int)(secondRoomDoorPos.X + (secondRoomSize.X / 2)) <= 4)
+                float gradient = (firstRoomDoorPos.Y - secondRoomDoorPos.Y) / (firstRoomDoorPos.X - firstRoomSize.X / 2 - (secondRoomDoorPos.X + secondRoomSize.X / 2));
+                ClearPathWay((int)(firstRoomDoorPos.X - firstRoomSize.X / 2) - (int)(secondRoomDoorPos.X + secondRoomSize.X / 2) + 1, heightOfConnection, gradient, secondRoomDoorPos + new Vector2(secondRoomSize.X / 2, 0), withPillars);
+                if (firstRoomDoorPos.X - firstRoomSize.X / 2 - (int)(secondRoomDoorPos.X + secondRoomSize.X / 2) <= 4)
                 {
                     if (secondRoomDoorPos.Y < firstRoomDoorPos.Y)
-                        Hole((int)((firstRoomDoorPos.Y) - secondRoomDoorPos.Y), 5, new Vector2(firstRoomDoorPos.X - (firstRoomSize.X / 2), secondRoomDoorPos.Y));
+                        Hole((int)(firstRoomDoorPos.Y - secondRoomDoorPos.Y), 5, new Vector2(firstRoomDoorPos.X - firstRoomSize.X / 2, secondRoomDoorPos.Y));
                     else
-                        Hole((int)((secondRoomDoorPos.Y) - firstRoomDoorPos.Y), 5, new Vector2(secondRoomDoorPos.X - (secondRoomSize.X / 2), firstRoomDoorPos.Y));
+                        Hole((int)(secondRoomDoorPos.Y - firstRoomDoorPos.Y), 5, new Vector2(secondRoomDoorPos.X - secondRoomSize.X / 2, firstRoomDoorPos.Y));
                 }
             }
             else
             {
-                float gradient = (secondRoomDoorPos.Y - firstRoomDoorPos.Y) / ((secondRoomDoorPos.X - secondRoomSize.X / 2) - (firstRoomDoorPos.X + firstRoomSize.X / 2));
-                ClearPathWay((int)(secondRoomDoorPos.X - (secondRoomSize.X / 2)) - (int)(firstRoomDoorPos.X + firstRoomSize.X / 2) + 1, heightOfConnection, gradient, firstRoomDoorPos + new Vector2((firstRoomSize.X / 2), 0), withPillars);
-                if ((secondRoomDoorPos.X - (secondRoomSize.X / 2)) - (int)(firstRoomDoorPos.X + firstRoomSize.X / 2) <= 4)
+                float gradient = (secondRoomDoorPos.Y - firstRoomDoorPos.Y) / (secondRoomDoorPos.X - secondRoomSize.X / 2 - (firstRoomDoorPos.X + firstRoomSize.X / 2));
+                ClearPathWay((int)(secondRoomDoorPos.X - secondRoomSize.X / 2) - (int)(firstRoomDoorPos.X + firstRoomSize.X / 2) + 1, heightOfConnection, gradient, firstRoomDoorPos + new Vector2(firstRoomSize.X / 2, 0), withPillars);
+                if (secondRoomDoorPos.X - secondRoomSize.X / 2 - (int)(firstRoomDoorPos.X + firstRoomSize.X / 2) <= 4)
                 {
                     if (secondRoomDoorPos.Y < firstRoomDoorPos.Y)
-                        Hole((int)((firstRoomDoorPos.Y) - secondRoomDoorPos.Y), 5, new Vector2(firstRoomDoorPos.X + (firstRoomSize.X / 2), secondRoomDoorPos.Y));
+                        Hole((int)(firstRoomDoorPos.Y - secondRoomDoorPos.Y), 5, new Vector2(firstRoomDoorPos.X + firstRoomSize.X / 2, secondRoomDoorPos.Y));
                     else
-                        Hole((int)((secondRoomDoorPos.Y) - firstRoomDoorPos.Y), 5, new Vector2(secondRoomDoorPos.X + (secondRoomSize.X / 2), firstRoomDoorPos.Y));
+                        Hole((int)(secondRoomDoorPos.Y - firstRoomDoorPos.Y), 5, new Vector2(secondRoomDoorPos.X + secondRoomSize.X / 2, firstRoomDoorPos.Y));
                 }
             }
         }
 
-        public void PlaceEntrance(int i, int j, int[,] shape)
+        public static void PlaceEntrance(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
             {
@@ -277,7 +213,7 @@ namespace EEMod
                 }
             }
         }
-        public void PlaceWalls(int i, int j, int[,] shape)
+        public static void PlaceWalls(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
             {
@@ -310,7 +246,7 @@ namespace EEMod
                 }
             }
         }
-        public void PlaceShip(int i, int j, int[,] shape)
+        public static void PlaceShip(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
             {
@@ -350,7 +286,7 @@ namespace EEMod
                 }
             }
         }
-        public void PlaceShipWalls(int i, int j, int[,] shape)
+        public static void PlaceShipWalls(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
             {
@@ -394,17 +330,7 @@ namespace EEMod
                 }
             }
         }
-        public override void NetSend(BinaryWriter writer)
-        {
-            writer.WriteVector2(ree);
-            writer.WriteVector2(yes);
-        }
-        public override void NetReceive(BinaryReader reader)
-        {
-            ree = reader.ReadVector2();
-            yes = reader.ReadVector2();
-        }
-        private void MakePillar(Vector2 startingPos, int height, bool water, bool fire)
+        private static void MakePillar(Vector2 startingPos, int height, bool water, bool fire)
         {
 
             if (water)
@@ -412,7 +338,7 @@ namespace EEMod
                 Main.tile[(int)startingPos.X - 1, (int)startingPos.Y - 3].liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
                 Main.tile[(int)startingPos.X - 1, (int)startingPos.Y - 3].liquid = 255; // set liquid ammount
                 Main.tile[(int)startingPos.X - 1, (int)startingPos.Y - 4].liquid = 255;
-                WorldGen.SquareTileFrame((int)startingPos.X - 1, (int)startingPos.Y - 3, true); // soemthing for avoiding the liquid from being static
+                WorldGen.SquareTileFrame((int)startingPos.X - 1, (int)startingPos.Y - 3, true); // soemthing for astatic voiding the liquid from being static
                 if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                     NetMessage.sendWater((int)startingPos.X - 1, (int)startingPos.Y - 3);
             }
@@ -438,7 +364,7 @@ namespace EEMod
             MakePillarWalls(new Vector2(startingPos.X + 2 - 2, startingPos.Y + 2 - 4), height);
         }
 
-        private void MakePillarWalls(Vector2 startingPos, int height)
+        private static void MakePillarWalls(Vector2 startingPos, int height)
         {
             var tile1 = Framing.GetTileSafely((int)startingPos.X + 1, (int)startingPos.Y);
             var tile2 = Framing.GetTileSafely((int)startingPos.X + 0, (int)startingPos.Y);
@@ -460,7 +386,7 @@ namespace EEMod
                 }
             }
         }
-        private void MakeGoldPile(Vector2 startingPos, int type)
+        private static void MakeGoldPile(Vector2 startingPos, int type)
         {
             if (type == 0)
             {
@@ -481,7 +407,7 @@ namespace EEMod
             }
         }
 
-        private void MakeShelf(Vector2 startingPos, int leftOrRight, int length)
+        private static void MakeShelf(Vector2 startingPos, int leftOrRight, int length)
         {
             if (leftOrRight == 0)
             {
@@ -511,7 +437,7 @@ namespace EEMod
             }
         }
 
-        private void FirstRoomFirstVariation(Vector2 startingPos)
+        private static void FirstRoomFirstVariation(Vector2 startingPos)
         {
             int RoomPosX = (int)startingPos.X;
             int RoomPosY = (int)startingPos.Y;
@@ -608,140 +534,24 @@ namespace EEMod
             }
 
         }
-        static readonly byte[,] TowerTiles =
-        {
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 3, 4, 4, 4, 3, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 0, 0, 0, 0, 0, 1, 1, 3, 4, 4, 4, 3, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 4, 4, 3, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 4, 4, 4, 3, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 3, 4, 4, 3, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 4, 4, 4, 3, 0, 0, 8, 1, 1, 1, 0, 0, 0, 1, 1, 3, 4, 4, 3, 0, 0, 0, 0, 8, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 3, 4, 4, 4, 3, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 3, 4, 4, 3, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1},
-{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 4, 3, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 3, 4, 4, 3, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 4, 3, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 3, 4, 4, 3, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 4, 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 3, 4, 4, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 4, 3, 3, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 3, 4, 4, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 0, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-{1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6, 4, 4, 4, 6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 1, 1},
-{1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6, 3, 3, 3, 6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 2, 2, 2, 2, 0, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6, 3, 5, 3, 6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 6, 3, 5, 3, 6, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 3, 3, 0, 0, 3, 3, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 4, 5, 4, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 4, 4, 5, 4, 4, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 4, 4, 3, 3, 3, 4, 4, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 0, 7, 0, 0, 0, 0, 0, 7, 0, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 6, 6, 6, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 2, 2, 2, 0, 1, 1},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1},
-{0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 
-        };
-        static readonly byte[,] TowerWalls =
-        {
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0},
-{0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0},
-{0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 0, 0, 0},
-{0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0},
-{0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0},
-{0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0},
-{0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 0},
-{0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 3, 3, 3, 3, 3, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 3, 3, 3, 3, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 0, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 0, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-{0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 0, 3, 3, 0, 3, 3, 3, 3, 3, 2, 2, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-{0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-{0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-{0, 0, 0, 0, 0, 0, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-{0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-{0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
-{0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0},
-{0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 1, 1, 1, 0, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 0, 3, 3, 3, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 5, 5, 5, 0, 0, 0, 5, 5, 5, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 3, 0, 3, 3, 3, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 5, 5, 0, 0, 0, 0, 0, 5, 5, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 5, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 5, 4, 4, 4, 4, 4, 4, 4, 5, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 5, 4, 4, 4, 4, 4, 4, 4, 5, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 3, 3, 3, 3, 3, 3, 3, 3, 0},
-{1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 0, 0, 3, 3, 0, 0, 0, 3, 0, 0},
-{1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-        };
 
-        public void DoAndAssignShrineValues()
+        public static void DoAndAssignShrineValues()
         {
-                int posX = WorldGen.genRand.Next(0, Main.maxTilesX);
-                int posY = WorldGen.genRand.Next((int)WorldGen.worldSurfaceHigh, Main.maxTilesY);
-                PlaceEntrance(posX, posY, IntWorld.EEWorld.pyroEntrance);
-                PlaceWalls(posX, posY, IntWorld.EEWorld.pyroEntranceWalls);
-                EntracesPosses.Add(new Vector2(posX, posY));
-                yes = new Vector2(posX, posY);
+            int posX = WorldGen.genRand.Next(0, Main.maxTilesX);
+            int posY = WorldGen.genRand.Next((int)WorldGen.worldSurfaceHigh, Main.maxTilesY);
+            PlaceEntrance(posX, posY, pyroEntrance);
+            PlaceWalls(posX, posY, pyroEntranceWalls);
+            EntracesPosses.Add(new Vector2(posX, posY));
+            yes = new Vector2(posX, posY);
         }
-        public void DoAndAssignShipValues()
+        public static void DoAndAssignShipValues()
         {
-            PlaceShip(100, TileCheck(100)-22, IntWorld.EEWorld.ShipTiles);
-            PlaceShipWalls(100, TileCheck(100)-22, IntWorld.EEWorld.ShipWalls);
+            PlaceShip(100, TileCheck(100) - 22, ShipTiles);
+            PlaceShipWalls(100, TileCheck(100) - 22, ShipWalls);
             ree = new Vector2(100, TileCheck(100) - 22);
         }
-        private int TileCheck(int positionX)
+        private static int TileCheck(int positionX)
         {
             for (int i = 0; i < Main.maxTilesY; i++)
             {
@@ -753,7 +563,7 @@ namespace EEMod
             }
             return 0;
         }
-        public void Pyramid(float startX, float startY)
+        public static void Pyramid(float startX, float startY)
         {
             int noOfRooms = 12;
             int waterBoltRoom = WorldGen.genRand.Next(2, noOfRooms - 2);
@@ -794,15 +604,15 @@ namespace EEMod
                         int chosenHeight = WorldGen.genRand.Next(15, 25);
                         float chosenX = startingX + WorldGen.genRand.Next(width - chosenWidth);
                         float chosenY = startingY + WorldGen.genRand.Next(height - chosenHeight - 55);
-                        Rooms[i] = new Vector2(chosenX + (chosenWidth / 2), chosenY + (chosenHeight / 2));
+                        Rooms[i] = new Vector2(chosenX + chosenWidth / 2, chosenY + chosenHeight / 2);
                         RoomSizes[i] = new Vector2(chosenWidth, chosenHeight);
                         for (int k = 1; k <= i; k++)
                         {
                             if (
-                               (Math.Abs(Rooms[i].X - Rooms[i - k].X) > ((RoomSizes[i].X / 2) + (RoomSizes[i - k].X / 2)) + 20 ||
-                               Math.Abs(Rooms[i].Y - Rooms[i - k].Y) > (RoomSizes[i].Y / 2) + (RoomSizes[i - 1].Y / 2)) &&
-                               (Math.Abs(Rooms[i].X - Rooms[i - 1].X) < ((RoomSizes[i].X / 2) + (RoomSizes[i - 1].X / 2)) + 50 &&
-                               Math.Abs(Rooms[i].Y - Rooms[i - 1].Y) < (RoomSizes[i].Y / 2) + (RoomSizes[i - 1].Y / 2) + 2) &&
+                               (Math.Abs(Rooms[i].X - Rooms[i - k].X) > RoomSizes[i].X / 2 + RoomSizes[i - k].X / 2 + 20 ||
+                               Math.Abs(Rooms[i].Y - Rooms[i - k].Y) > RoomSizes[i].Y / 2 + RoomSizes[i - 1].Y / 2) &&
+                               Math.Abs(Rooms[i].X - Rooms[i - 1].X) < RoomSizes[i].X / 2 + RoomSizes[i - 1].X / 2 + 50 &&
+                               Math.Abs(Rooms[i].Y - Rooms[i - 1].Y) < RoomSizes[i].Y / 2 + RoomSizes[i - 1].Y / 2 + 2 &&
                                Rooms[i].Y - Rooms[i - 1].Y > 0)
                             {
                                 counter++;
@@ -842,7 +652,7 @@ namespace EEMod
                     }
                 }
             }
-            Hole((int)((Rooms[noOfRooms - 1].Y - RoomSizes[noOfRooms - 1].Y / 2) - (Rooms[noOfRooms - 2].Y + RoomSizes[noOfRooms - 2].Y / 2)) + 5, 10, new Vector2(Rooms[noOfRooms - 2].X, (Rooms[noOfRooms - 2].Y + RoomSizes[noOfRooms - 2].Y / 2)));
+            Hole((int)(Rooms[noOfRooms - 1].Y - RoomSizes[noOfRooms - 1].Y / 2 - (Rooms[noOfRooms - 2].Y + RoomSizes[noOfRooms - 2].Y / 2)) + 5, 10, new Vector2(Rooms[noOfRooms - 2].X, Rooms[noOfRooms - 2].Y + RoomSizes[noOfRooms - 2].Y / 2));
 
             FillWall(width, height, new Vector2(startingX, startingY), WallID.SandstoneBrick);
 
@@ -860,7 +670,7 @@ namespace EEMod
                     MakePillar(Rooms[i] + new Vector2(-RoomSizes[i].X / 4, 0), (int)RoomSizes[i].Y / 2 + 3, true, false);
                     MakePillar(Rooms[i] + new Vector2(RoomSizes[i].X / 4, 0), (int)RoomSizes[i].Y / 2 + 3, true, false);
                     FillRegion((int)RoomSizes[i].X / 2, 1, Rooms[i] + new Vector2(-RoomSizes[i].X / 4, 0), TileID.Platforms);
-                    FillRegion((int)RoomSizes[i].X / 2 - 2, 1, Rooms[i] + new Vector2((-RoomSizes[i].X / 4) + 1, -1), TileID.Books);
+                    FillRegion((int)RoomSizes[i].X / 2 - 2, 1, Rooms[i] + new Vector2(-RoomSizes[i].X / 4 + 1, -1), TileID.Books);
                     WorldGen.PlaceObject((int)Rooms[i].X, (int)Rooms[i].Y + (int)RoomSizes[i].Y / 2, TileID.WaterFountain, true, 1);
                     WorldGen.PlaceObject(WorldGen.genRand.Next((int)Rooms[i].X - (int)RoomSizes[i].X / 4 + 1, (int)Rooms[i].X - (int)RoomSizes[i].X / 4 + 1 + (int)RoomSizes[i].X / 2 - 2), (int)Rooms[i].Y - 1, TileID.Books, false, 1);
                 }
@@ -877,7 +687,7 @@ namespace EEMod
                     FillRegionDiag(slit2, slit2, Rooms[i] - new Vector2(-RoomSizes[i].X / 2, RoomSizes[i].Y / 2), TileID.SandstoneBrick, 1);
                 }
                 if (i != waterBoltRoom)
-                    MakeGoldPile(new Vector2((int)Rooms[i].X + WorldGen.genRand.Next(-(int)RoomSizes[i].X / 2, (int)RoomSizes[i].X / 2), (int)Rooms[i].Y + ((int)RoomSizes[i].Y / 2)), WorldGen.genRand.Next(2));
+                    MakeGoldPile(new Vector2((int)Rooms[i].X + WorldGen.genRand.Next(-(int)RoomSizes[i].X / 2, (int)RoomSizes[i].X / 2), (int)Rooms[i].Y + (int)RoomSizes[i].Y / 2), WorldGen.genRand.Next(2));
                 MakeShelf(new Vector2(Rooms[i].X - RoomSizes[i].X / 2, Rooms[i].Y - WorldGen.genRand.Next((int)RoomSizes[i].Y / 2)), 0, Main.rand.Next(2, 6));
                 MakeShelf(new Vector2(Rooms[i].X + RoomSizes[i].X / 2, Rooms[i].Y - WorldGen.genRand.Next((int)RoomSizes[i].Y / 2)), 1, Main.rand.Next(2, 6));
                 //WorldGen.PlaceObject((int)Rooms[i].X + WorldGen.genRand.Next(-(int)RoomSizes[i].X / 2, (int)RoomSizes[i].X / 2), (int)Rooms[i].Y + (int)RoomSizes[i].Y / 2, TileID.Bathtubs, false, 26);
@@ -896,110 +706,10 @@ namespace EEMod
             FirstRoomFirstVariation(new Vector2(Rooms[0].X - RoomSizes[0].X / 2 - 2, Rooms[0].Y + RoomSizes[0].Y / 2));
         }
 
-        public override void PostWorldGen()
-        {
-            DoAndAssignShrineValues();
-            DoAndAssignShipValues();
-            CoralReef();
-        }
-        public override void PostUpdate()
-        {
-            if (NPC.downedBoss1)
-            {
-                if (!eocFlag)
-                {
-                    eocFlag = true;
-                    Main.NewText("You hear a strong wind erupting from the desert...", 228, 171, 72);
-                    StartSandstorm();
-                }
-            }
-        }
-        public static Vector2 yes;
-        public static Vector2 ree;
-
-        public override void Load(TagCompound tag)
-        {
-            if (tag.ContainsKey("EntracesPosses"))
-            {
-                EntracesPosses = tag.GetList<Vector2>("EntracesPosses");
-            }
-            if (tag.ContainsKey("yes") && tag.ContainsKey("yes").GetType().Name == "Vector2")
-            {
-                yes = tag.Get<Vector2>("yes");
-            }
-            if (tag.ContainsKey("ree") && tag.ContainsKey("ree").GetType().Name == "Vector2")
-            {
-                ree = tag.Get<Vector2>("ree");
-            }
-            var downed = new List<string>();
-            if (eocFlag) downed.Add("eocFlag");
-
-            IList<string> flags = tag.GetList<string>("boolFlags");
-
-            // Game modes
-            GenkaiMode = flags.Contains("GenkaiMode");
-
-            // Downed bosses
-            downedGallagar = flags.Contains("downedGallagar");
-            downedForerunner = flags.Contains("downedForerunner");
-            downedSoS = flags.Contains("downedSoS");
-            downedFlare = flags.Contains("downedFlare");
-            downedAssimilator = flags.Contains("downedAssimilator");
-            downedAkumo = flags.Contains("downedAkumo");
-            downedHydros = flags.Contains("downedHydros");
-            downedStagrel = flags.Contains("downedStagrel");
-            downedBeheader = flags.Contains("downedBeheader");
-        }
-        public override TagCompound Save()
-        {
-            return new TagCompound {
-            {"EntracesPosses",EntracesPosses},{"yes", yes },{"ree", ree }
-        };
-            /*List<string> boolflags = new List<string>();
-
-            // Game modes
-            if (GenkaiMode)
-                boolflags.Add("GenkaiMode");
-
-            // Downed bosses
-            if (downedGallagar)
-                boolflags.Add("downedGallagar");
-            if (downedForerunner)
-                boolflags.Add("downedForerunner");
-            if (downedSoS)
-                boolflags.Add("downedSoS");
-            if (downedFlare)
-                boolflags.Add("downedFlare");
-            if (downedAssimilator)
-                boolflags.Add("downedAssimilator");
-            if (downedAkumo)
-                boolflags.Add("downedAkumo");
-            if (downedHydros)
-                boolflags.Add("downedHydros");
-            if (downedStagrel)
-                boolflags.Add("downedStagrel");
-            if (downedBeheader)
-                boolflags.Add("downedBeheader");
 
 
-            return new TagCompound
-            {
-                ["SaveVersion"] = new Version(0, 3, 0, 0).ToString(),
-                ["boolFlags"] = boolflags
-            };*/
-        }
 
-        public override void ResetNearbyTileEffects()
-        {
-            CoralReefsTiles = 0;
-        }
-
-        public override void TileCountsAvailable(int[] tileCounts)
-        {
-            CoralReefsTiles = tileCounts[mod.TileType("GemsandstoneTile")];
-        }
-
-        private void clearRegion(int width, int height, Vector2 startingPoint)
+        private static void clearRegion(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
             {
@@ -1018,7 +728,7 @@ namespace EEMod
             }
 
         }
-        private void fillRegionWithWater(int width, int height, Vector2 startingPoint)
+        private static void fillRegionWithWater(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
             {
@@ -1026,13 +736,13 @@ namespace EEMod
                 {
                     Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
                     Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid = 255; // set liquid ammount
-                    WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for avoiding the liquid from being static
+                    WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
                     if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                         NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                 }
             }
         }
-        private int tileCheck2(int i, int j)
+        private static int tileCheck2(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);
             Tile tile2 = Framing.GetTileSafely(i, j - 1);
@@ -1052,7 +762,7 @@ namespace EEMod
                 return 0;
             }
         }
-        private void makeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
+        private static void makeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {
@@ -1077,7 +787,7 @@ namespace EEMod
                 }
             }
         }
-        private void fillRegion(int width, int height, Vector2 startingPoint, int type)
+        private static void fillRegion(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {
@@ -1087,7 +797,7 @@ namespace EEMod
                 }
             }
         }
-        private void fillWall(int width, int height, Vector2 startingPoint, int type)
+        private static void fillWall(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {
@@ -1098,7 +808,7 @@ namespace EEMod
             }
         }
         // ---- overload
-        private void fillRegion(int width, int height, Vector2 startingPoint, int type1, int type2)
+        private static void fillRegion(int width, int height, Vector2 startingPoint, int type1, int type2)
         {
             for (int i = 0; i < width; i++)
             {
@@ -1114,7 +824,7 @@ namespace EEMod
                 }
             }
         }
-        private void makeChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
+        private static void makeChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
         {
             for (int i = 0; i < height; i++)
             {
@@ -1122,7 +832,7 @@ namespace EEMod
                 WorldGen.TileRunner(positionX + (int)(i * slant), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
             }
         }
-        private void makeWavyChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
+        private static void makeWavyChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
         {
             for (int i = 0; i < height; i++)
             {
@@ -1130,7 +840,7 @@ namespace EEMod
                 WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)30) * 60), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
             }
         }
-        private int tileCheck(int positionX)
+        private static int tileCheck(int positionX)
         {
             for (int i = 0; i < Main.maxTilesY; i++)
             {
@@ -1142,7 +852,7 @@ namespace EEMod
             }
             return 0;
         }
-        private void killWall(int width, int height, Vector2 startingPoint)
+        private static void killWall(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
             {
@@ -1153,15 +863,15 @@ namespace EEMod
             }
         }
 
-        private bool OvalCheck(int h, int k, int x, int y, int a, int b)
+        private static bool OvalCheck(int h, int k, int x, int y, int a, int b)
         {
-            double p = (Math.Pow((x - h), 2) / Math.Pow(a, 2))
-                    + (Math.Pow((y - k), 2) / Math.Pow(b, 2));
+            double p = Math.Pow(x - h, 2) / Math.Pow(a, 2)
+                    + Math.Pow(y - k, 2) / Math.Pow(b, 2);
 
             return p < 1 ? true : false;
         }
 
-        private void makeLayer(int X, int midY, int size, int layer)
+        private static void makeLayer(int X, int midY, int size, int layer)
         {
             double density = 9000;
             if (layer == 2)
@@ -1174,7 +884,7 @@ namespace EEMod
                 // Tile tile = Framing.GetTileSafely(x, y);
                 if (layer == 1)
                 {
-                    if (Vector2.Distance(new Vector2(x, y), new Vector2(X, midY)) < size)
+                    if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < size * size)
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
                 }
                 if (layer == 2)
@@ -1185,7 +895,7 @@ namespace EEMod
             }
             for (int i = 0; i < 800; i++)
             {
-                for (int j = 0; j < 1000; j++)
+                for (int j = 0; j < 2000; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (tile.type == TileID.StoneSlab)
@@ -1212,10 +922,11 @@ namespace EEMod
             if (layer == 1)
                 WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(30, 50), WorldGen.genRand.Next(10, 20), ModContent.TileType<HardenedGemsandTile>(), true, 1f, 1f, false, true);
         }
-        public void CoralReef()
+
+        public static void CoralReef()
         {
             int chasmX = WorldGen.genRand.Next(150, 200);
-            int chasmY = tileCheck(chasmX);
+            int chasmY = 100;
             int sizeOfLayer1 = 80;
             int sizeOfLayer2 = 50;
             int firstLayerPosY = 220;
@@ -1248,7 +959,7 @@ namespace EEMod
                 WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, true, true);
             }
             float grad = WorldGen.genRand.NextFloat(0, 1);
-          //  killWall(1000, 500, new Vector2(0, 0));
+            //  killWall(1000, 500, new Vector2(0, 0));
             makeLayer(chasmX, chasmY + firstLayerPosY, sizeOfLayer1, 1);
             makeLayer(chasmX + 30, chasmY + secondLayerPosY + sizeOfLayer1, sizeOfLayer2, 2);
             //---------------------------1
@@ -1320,7 +1031,7 @@ namespace EEMod
             fillWall(300, 700, new Vector2(0, chasmY), WallID.GraniteBlock);
         }
 
-        public void PlaceRuins(int i, int j, int[,] shape)
+        public static void PlaceRuins(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
             {

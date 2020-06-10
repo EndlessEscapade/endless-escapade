@@ -1,8 +1,7 @@
-using EEMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
+using EEMod.Projectiles.Melee;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -38,7 +37,7 @@ namespace EEMod.Items.Weapons.Melee
 
             item.UseSound = SoundID.Item1;
             item.value = Item.sellPrice(silver: 1);
-            item.shoot = ProjectileType<PharaohsThrowProjectile>();
+            item.shoot = ModContent.ProjectileType<PharaohsThrowProjectile>();
         }
 
         public override void AddRecipes()

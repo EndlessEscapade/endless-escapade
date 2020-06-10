@@ -1,6 +1,7 @@
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria;
+using EEMod.Items.Materials;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -32,13 +33,13 @@ namespace EEMod.Items.Weapons.Melee
             {
                 ModRecipe recipe = new ModRecipe(mod);
                 recipe.AddIngredient(ItemID.PlatinumBroadsword, 1);
-                recipe.AddIngredient(mod.ItemType("QuartzGem"), 7);
+                recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
                 recipe.AddTile(TileID.Anvils);
                 recipe.SetResult(this);
                 recipe.AddRecipe();
                 recipe = new ModRecipe(mod);
                 recipe.AddIngredient(ItemID.GoldBroadsword, 1);
-                recipe.AddIngredient(mod.ItemType("QuartzGem"), 7);
+                recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
                 recipe.AddTile(TileID.Anvils);
                 recipe.SetResult(this);
                 recipe.AddRecipe();

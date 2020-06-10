@@ -2,7 +2,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.Ores;
-using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.Placeables.Ores
 {
@@ -27,14 +26,14 @@ namespace EEMod.Items.Placeables.Ores
             item.useAnimation = 15;
             item.useTime = 10;
             item.autoReuse = true;
-            item.createTile = TileType<HydriteBarTile>();
+            item.createTile = ModContent.TileType<HydriteBarTile>();
             item.placeStyle = 0;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemType<HydriteOre>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<HydriteOre>(), 4);
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();

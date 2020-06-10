@@ -1,3 +1,4 @@
+using EEMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -131,7 +132,7 @@ namespace EEMod.NPCs
             {
                 if (Main.rand.Next(0) == 0)
                 {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, mod.ItemType("QuartzGem"), Main.rand.Next(2,3));
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(2,3));
                 }
             }
 

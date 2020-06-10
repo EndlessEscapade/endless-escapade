@@ -31,12 +31,12 @@ namespace EEMod.Items.Armor.Hydrite
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 18;
+            player.rangedDamage += 0.18f;
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.rangedDamage += 10;
+            player.rangedDamage += 0.10f;
         }
 
         public override void AddRecipes()

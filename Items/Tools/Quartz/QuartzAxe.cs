@@ -1,16 +1,22 @@
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Materials;
 
 namespace EEMod.Items.Tools.Quartz
 {
     public class QuartzAxe : ModItem
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Quartz Axe");
+        }
+
         public override void SetDefaults()
         {
             item.width = 40;
             item.height = 40;
 
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 20;
             item.useTime = 20;
@@ -25,18 +31,13 @@ namespace EEMod.Items.Tools.Quartz
             item.melee = true;
             item.autoReuse = true;
             item.useTurn = true;
-            item.rare = 5;
-        }
-
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Quartz Axe");
+            item.rare = ItemRarityID.Pink;
         }
 
         public override void AddRecipes()  //How to craft item item
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(mod, "QuartzGem", 10);
+            recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

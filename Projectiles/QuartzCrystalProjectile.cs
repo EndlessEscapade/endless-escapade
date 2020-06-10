@@ -1,12 +1,13 @@
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Microsoft.Xna.Framework;
+using EEMod.Buffs.Buffs;
 
 namespace EEMod.Projectiles
 {
-    public class QuartzCrystal : ModProjectile
+    public class QuartzCrystalProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,7 +22,6 @@ namespace EEMod.Projectiles
         private int delay;
         public override void SetDefaults()
         {
-            
             projectile.netImportant = true;
             projectile.CloneDefaults(533); // ID for Deadly Sphere proj
             aiType = 533;
@@ -39,16 +39,16 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            bool areYouHere = projectile.type == mod.ProjectileType("QuartzCrystal");
+            bool areYouHere = projectile.type == ModContent.ProjectileType<QuartzCrystalProjectile>();
             Player player = Main.player[projectile.owner];
-            player.AddBuff(mod.BuffType("QuartzCrystal"), 3600);
+            player.AddBuff(ModContent.BuffType<QuartzCrystal>(), 3600);
             projectile.rotation += projectile.velocity.X / 32f;
             float extra = 0.1f;
             float projWidth = projectile.width;
             float variation = 0.5f;
             projectile.velocity += new Vector2(Main.rand.NextFloat(-variation, variation), Main.rand.NextFloat(-variation, variation));
             projWidth *= 2f;
-           
+
             for (int j = 0; j < 1000; j++)
             {
                 if (j != projectile.whoAmI && Main.projectile[j].active && Main.projectile[j].owner == projectile.owner && Main.projectile[j].type == projectile.type && Math.Abs(projectile.position.X - Main.projectile[j].position.X) + Math.Abs(projectile.position.Y - Main.projectile[j].position.Y) < projWidth)
@@ -79,7 +79,7 @@ namespace EEMod.Projectiles
             if (ownerMinionAttackTargetNPC != null && ownerMinionAttackTargetNPC.CanBeChasedBy(this, false))
             {
                 float disFromBitch = Vector2.Distance(ownerMinionAttackTargetNPC.Center, projectile.Center);
-                if (((Vector2.Distance(projectile.Center, projOrMinionPos) > disFromBitch && disFromBitch < minDist) || !zombieAboutToDie) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, ownerMinionAttackTargetNPC.position, ownerMinionAttackTargetNPC.width, ownerMinionAttackTargetNPC.height))
+                if (((Vector2.DistanceSquared(projectile.Center, projOrMinionPos) > disFromBitch * disFromBitch && disFromBitch < minDist) || !zombieAboutToDie) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, ownerMinionAttackTargetNPC.position, ownerMinionAttackTargetNPC.width, ownerMinionAttackTargetNPC.height))
                 {
                     minDist = disFromBitch;
                     projOrMinionPos = ownerMinionAttackTargetNPC.Center;
@@ -94,7 +94,7 @@ namespace EEMod.Projectiles
                     if (nPC2.CanBeChasedBy(this, false))
                     {
                         float distFromTarget = Vector2.Distance(nPC2.Center, projectile.Center);
-                        if (((Vector2.Distance(projectile.Center, projOrMinionPos) > distFromTarget && distFromTarget < minDist) || !zombieAboutToDie) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC2.position, nPC2.width, nPC2.height))
+                        if (((Vector2.DistanceSquared(projectile.Center, projOrMinionPos) > distFromTarget * distFromTarget && distFromTarget < minDist) || !zombieAboutToDie) && Collision.CanHitLine(projectile.position, projectile.width, projectile.height, nPC2.position, nPC2.width, nPC2.height))
                         {
                             minDist = distFromTarget;
                             projOrMinionPos = nPC2.Center;
@@ -125,7 +125,8 @@ namespace EEMod.Projectiles
 
                 for (var c = 0; c < 200; c++)
                 {
-                    if (Main.npc[c].lifeMax >= b && Main.npc[c].lifeMax > 1 && !Main.npc[c].townNPC && !Main.npc[c].dontTakeDamage && Main.npc[c].active && Vector2.Distance(Main.npc[c].Center, projectile.Center) < 300f)
+                    // Vector2.Distance(Main.npc[c].Center, projectile.Center) < 300f
+                    if (Main.npc[c].lifeMax >= b && Main.npc[c].lifeMax > 1 && !Main.npc[c].townNPC && !Main.npc[c].dontTakeDamage && Main.npc[c].active && Main.npc[c].WithinRange(projectile.Center, 300))
                     {
                         b = Main.npc[c].lifeMax;
                         a = c;
@@ -259,19 +260,19 @@ namespace EEMod.Projectiles
 
         public override bool PreAI()
         {
-            bool areYouHere = projectile.type == mod.ProjectileType("QuartzCrystal");
+            bool areYouHere = projectile.type == ModContent.ProjectileType<QuartzCrystalProjectile>();
             Player player = Main.player[projectile.owner];
             EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
-         
-                if (player.dead)
-                {
-                    modPlayer.quartzCrystal = false;
-                }
-                if (modPlayer.quartzCrystal)
-                {
-                    projectile.timeLeft = 2;
-                }
-            
+
+            if (player.dead)
+            {
+                modPlayer.quartzCrystal = false;
+            }
+            if (modPlayer.quartzCrystal)
+            {
+                projectile.timeLeft = 2;
+            }
+
             if (Main.rand.Next(6) == 0)
             {
                 int num25 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 123, 0f, 0f, 100, default, 1f);

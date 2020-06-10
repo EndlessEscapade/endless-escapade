@@ -31,12 +31,12 @@ namespace EEMod.Items.Armor.Hydrofluoric
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 24;
+            player.rangedDamage += 0.24f;
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.rangedDamage += 10;
+            player.rangedDamage += 0.10f;
         }
 
         public override void AddRecipes()

@@ -32,13 +32,13 @@ namespace EEMod.Items.Armor.Hydrofluoric
 
         public override void UpdateEquip(Player player)
         {
-            player.magicDamage += 14;
+            player.magicDamage += 0.14f;
             player.statManaMax += 60;
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.magicDamage += 6;
+            player.magicDamage += 0.06f;
         }
 
         public override void AddRecipes()

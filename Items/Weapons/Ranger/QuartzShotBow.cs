@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EEMod.Items.Materials;
+using EEMod.Projectiles;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,37 +28,34 @@ namespace EEMod.Items.Weapons.Ranger
             item.height = 60;
             item.useTime = 25;
             item.useAnimation = 25;
-            item.useStyle = 5; // Bow Use Style
+            item.useStyle = ItemUseStyleID.HoldingOut; // Bow Use Style
             item.noMelee = true; // Doesn't deal damage if an enemy touches at melee range.
             item.value = Item.sellPrice(0, 1, 0, 0); // Another way to handle value of item.
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.useTurn = false;
             item.autoReuse = true;
             item.UseSound = SoundID.Item5;
             item.useAmmo = AmmoID.Arrow; // The ammo used with this weapon
-            item.shoot = mod.ProjectileType("QuartzArrow");
+            item.shoot = ModContent.ProjectileType<QuartzArrow>();
             item.shootSpeed = 1f;
             item.ranged = true; // For Ranged Weapon
             item.crit = 5;
         }
         public override void AddRecipes()
         {
-            {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.PlatinumBow, 1);
-                recipe.AddIngredient(mod.ItemType("QuartzGem"), 6);
-                recipe.AddTile(TileID.Anvils);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
-            {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.GoldBow, 1);
-                recipe.AddIngredient(mod.ItemType("QuartzGem"), 6);
-                recipe.AddTile(TileID.Anvils);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.PlatinumBow, 1);
+            recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 6);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.GoldBow, 1);
+            recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 6);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
         public override bool ConsumeAmmo(Player player)
         {
@@ -71,12 +70,12 @@ namespace EEMod.Items.Weapons.Ranger
             double offsetAngle;
             if (!(player.itemAnimation == 1))
             {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("QuartzArrow"), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<QuartzArrow>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
             }
             for (int i = 0; i < 1; i++)
             {
                 offsetAngle = startAngle + (deltaAngle * i);
-                Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), mod.ProjectileType("QuartzArrow"), damage, knockBack, item.owner);
+                Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<QuartzArrow>(), damage, knockBack, item.owner);
             }
             return false;
         }
