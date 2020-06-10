@@ -24,12 +24,13 @@ namespace EEMod.Items.Weapons.Ranger
             item.width = 20;
             item.height = 20;
             item.shoot = 10;
+            item.crit = 4;
             item.rare = ItemRarityID.Lime;
             item.knockBack = 1.25f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.shootSpeed = 13f;
             item.UseSound = SoundID.Item11;
-            item.useAmmo = AmmoID.Bullet;
+            item.useAmmo = AmmoID.Rocket;
         }
 
         public override Vector2? HoldoutOffset()

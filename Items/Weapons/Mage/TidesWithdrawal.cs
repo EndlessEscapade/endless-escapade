@@ -27,7 +27,7 @@ namespace EEMod.Items.Weapons.Mage
             item.autoReuse = true;
             item.noMelee = true;
             item.magic = true;
-            //item.shoot = ModContent.ProjectileType<TidesWithdrawalProjectile>();
+            item.shoot = ModContent.ProjectileType<TidesWithdrawalProjectile>();
             item.shootSpeed = 22f;
             item.mana = 8;
             item.UseSound = SoundID.Item1;

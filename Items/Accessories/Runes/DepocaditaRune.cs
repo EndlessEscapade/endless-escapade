@@ -10,7 +10,7 @@ namespace EEMod.Items.Accessories.Runes
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Depocadita Rune");
-            Tooltip.SetDefault("3% increased critical strike" + "\nchance while on the Mushroom Biome" + "\n5% increased damage while" + "\non the Mushroom Biome" + "7% velocity decreased while out of" + "\nthe Mushroom Biome");
+            Tooltip.SetDefault("3% increased critical strike" + "\nchance while in the Mushroom Biome" + "\n5% increased damage while" + "\nin the Mushroom Biome" + "\n7% decreased velocity while out of" + "\nthe Mushroom Biome");
         }
 
         public override void SetDefaults()

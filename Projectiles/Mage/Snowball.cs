@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -21,6 +22,7 @@ namespace EEMod.Projectiles.Mage
             projectile.tileCollide = true;
             projectile.penetrate = 1;
             projectile.ignoreWater = true;
+            projectile.timeLeft = 120;
         }
 
         private float Timer { get => projectile.ai[0]; set => projectile.ai[0] = value; }
@@ -31,18 +33,12 @@ namespace EEMod.Projectiles.Mage
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 149, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.7f);
             }
-            if (Main.rand.Next(5) == 0)
-            {
-                Timer++;
-                if (Timer >= 5)
-                {
-                    projectile.scale++;
-                    projectile.width++;
-                    projectile.height++;
-                    Timer = 0;
-                }
-                projectile.netUpdate = true;
-            }
+
+            projectile.scale *= 1.01f;
+            projectile.width = (int)Math.Floor(projectile.width * 1.01f);
+            projectile.height = (int)Math.Floor(projectile.height * 1.01f);
+            projectile.netUpdate = true;
+
             projectile.velocity.Y = projectile.velocity.Y + 0.25f;
             if (projectile.velocity.Y > 16f)
             {

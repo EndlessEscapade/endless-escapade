@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Furniture
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
 
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("MysteriousJar");
