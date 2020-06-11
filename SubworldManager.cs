@@ -112,7 +112,7 @@ namespace EEMod
             WorldGen.clearWorld();
             EEMod.GenerateWorld(threadContext as string,Main.ActiveWorldFileData.Seed, null);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\tafid\Documents\My Games\Terraria\ModLoader\Worlds\{threadContext as string}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{threadContext as string}.wld", false);
             WorldGen.playWorld();
         }
         public static void WorldGenCallBack(object threadContext)
@@ -133,7 +133,7 @@ namespace EEMod
         }
         private static void OnWorldNamed(string text, GenerationProgress progress)
         {
-                string path = $@"C:\Users\tafid\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld";
+                string path = $@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld";
                 if (!File.Exists(path))
                 {
                     Main.worldName = text.Trim();
@@ -145,7 +145,7 @@ namespace EEMod
         }
         private void ReturnOnName(string text, GenerationProgress progress)
         {
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\tafid\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld", false);
             WorldGen.playWorld();
         }
         public static void EnterSub(string key)
