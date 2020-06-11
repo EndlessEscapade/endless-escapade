@@ -261,7 +261,7 @@ namespace EEMod
                         Main.statusText = "Dont ping everyone you big dumb stupid";
                         break;
                     case 8:
-                        Main.statusText = "Im nothing without attention";
+                        Main.statusText = "I'm nothing without attention";
                         break;
                     case 9:
                         Main.statusText = "Why are you even reading this?";
@@ -372,7 +372,7 @@ namespace EEMod
                         Main.statusText = "We all eventually die!";
                         break;
                     case 45:
-                        Main.statusText = "twinkle twinkle little dick";
+                        Main.statusText = "An apple a day keeps the errors away!";
                         break;
                     case 46:
                         Main.statusText = "Poggers? Poggers.";
