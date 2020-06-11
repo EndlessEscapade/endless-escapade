@@ -551,7 +551,7 @@ namespace EEMod.EEWorld
             PlaceShipWalls(100, TileCheck(100) - 22, ShipWalls);
             ree = new Vector2(100, TileCheck(100) - 22);
         }
-        private static int TileCheck(int positionX)
+        public static int TileCheck(int positionX)
         {
             for (int i = 0; i < Main.maxTilesY; i++)
             {

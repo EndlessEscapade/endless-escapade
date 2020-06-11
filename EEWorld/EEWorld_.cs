@@ -41,7 +41,6 @@ namespace EEMod.EEWorld
 
         public override void Initialize()
         {
-
             eocFlag = NPC.downedBoss1;
             ree = new Vector2(100, TileCheck(100) - 22);
             if (EntracesPosses.Count > 0)
@@ -91,7 +90,6 @@ namespace EEMod.EEWorld
         {
             DoAndAssignShrineValues();
             DoAndAssignShipValues();
-            CoralReef();
         }
         public override void PostUpdate()
         {
@@ -183,7 +181,7 @@ namespace EEMod.EEWorld
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
-            CoralReefsTiles = tileCounts[ModContent.TileType<GemsandstoneTile>()];
+            CoralReefsTiles = tileCounts[ModContent.TileType<GemsandstoneTile>()] + tileCounts[ModContent.TileType<HardenedGemsandTile>()];
         }
 
         public static int customBiome = 0;

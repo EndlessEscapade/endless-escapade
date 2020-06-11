@@ -5,6 +5,7 @@ using Terraria.World.Generation;
 using Terraria.ModLoader;
 using EEMod.Walls;
 using EEMod.Tiles;
+using EEMod.EEWorld;
 namespace EEMod
 {
 
@@ -36,11 +37,14 @@ namespace EEMod
             Main.maxTilesY = 2000;
             Main.spawnTileX = 234;
             Main.spawnTileY = 92;
+            int boatPos = Main.maxTilesX / 2;
             SubworldManager.Reset(seed, customProgressObject);
             EEWorld.EEWorld.FillRegion(1000, 2000, new Vector2(0, 0), ModContent.TileType<HardenedGemsandTile>());
             EEWorld.EEWorld.CoralReef();
             EEWorld.EEWorld.ClearRegion(1000, 80, Vector2.Zero);
             EEWorld.EEWorld.fillRegionWithWater(1000, 1930, new Vector2(0,70));
+            EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheck(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
+            EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheck(boatPos) - 22, EEWorld.EEWorld.ShipWalls);
         }
     }
 }
