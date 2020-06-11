@@ -106,7 +106,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        private static void ClearRegion(int width, int height, Vector2 startingPoint)
+        public static void ClearRegion(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
             {
@@ -728,7 +728,7 @@ namespace EEMod.EEWorld
             }
 
         }
-        private static void fillRegionWithWater(int width, int height, Vector2 startingPoint)
+        public static void fillRegionWithWater(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
             {
@@ -824,12 +824,12 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        private static void makeChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
+        private static void makeChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon, int stepAddon)
         {
             for (int i = 0; i < height; i++)
             {
                 // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
-                WorldGen.TileRunner(positionX + (int)(i * slant), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
+                WorldGen.TileRunner(positionX + (int)(i * slant), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10) + stepAddon, type, true, 0f, 0f, true, true);
             }
         }
         private static void makeWavyChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
@@ -837,7 +837,15 @@ namespace EEMod.EEWorld
             for (int i = 0; i < height; i++)
             {
                 // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
-                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)30) * 60), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
+                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20*(1+(i*1.5f/(float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
+            }
+        }
+        private static void makeWavyChasm2(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
+        {
+            for (int i = 0; i < height; i++)
+            {
+                // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
+                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(20, 40), type, true, 0f, 0f, true, true);
             }
         }
         private static int tileCheck(int positionX)
@@ -873,14 +881,12 @@ namespace EEMod.EEWorld
 
         private static void makeLayer(int X, int midY, int size, int layer)
         {
-            double density = 9000;
-            if (layer == 2)
-                density = 30000;
+
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
-            for (int k = 0; k < maxTiles; k++)
+            for (int k = 0; k < maxTiles*5; k++)
             {
-                int x = WorldGen.genRand.Next(X - 150, X + 150);
-                int y = WorldGen.genRand.Next(midY - 100, midY + 100);
+                int x = WorldGen.genRand.Next(X - 80, X + 80);
+                int y = WorldGen.genRand.Next(midY -  80, midY + 80);
                 // Tile tile = Framing.GetTileSafely(x, y);
                 if (layer == 1)
                 {
@@ -902,88 +908,82 @@ namespace EEMod.EEWorld
                         WorldGen.KillTile(i, j);
                 }
             }
-            for (int k = 0; k < density; k++)
+          /*  for (int k = 0; k < density; k++)
             {
-                int x = WorldGen.genRand.Next(X - 150, X + 150);
+                int x = WorldGen.genRand.Next(X - 80, X + 80);
                 int y = WorldGen.genRand.Next(midY - 100, midY + 100);
                 Tile tile = Framing.GetTileSafely(x, y);
                 if (layer == 1)
                 {
                     int sizeSQ = size * size + 50 * 50;
-                    if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < (sizeSQ) && tile.active())
-                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, true, true);
+                   // if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < (sizeSQ) && tile.active())
+                      //  WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, true, true);
                 }
                 if (layer == 2)
                 {
-                    if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.active())
-                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<GemsandstoneTile>(), true, 0f, 0f, true, true);
+                   // if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.active())
+                      //  WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<GemsandstoneTile>(), true, 1, 1, true, true);
                 }
-            }
+            }*/
             if (layer == 1)
                 WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(30, 50), WorldGen.genRand.Next(10, 20), ModContent.TileType<HardenedGemsandTile>(), true, 1f, 1f, false, true);
         }
 
         public static void CoralReef()
         {
-            int chasmX = WorldGen.genRand.Next(150, 200);
+            int chasmX = 100;
             int chasmY = 100;
             int sizeOfLayer1 = 80;
-            int sizeOfLayer2 = 50;
+            int sizeOfLayer2 = 100;
             int firstLayerPosY = 220;
             int secondLayerPosY = 350;
             //clearRegion(chasmX, 1000, new Vector2(0, tileCheck(chasmX)));
-            makeChasm(chasmX, chasmY + 50, 160, TileID.StoneSlab, WorldGen.genRand.NextFloat(-0.1f, 0.1f), WorldGen.genRand.Next(30, 50));
+            makeWavyChasm(chasmX, chasmY, 1000, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60));
+            makeWavyChasm2(chasmX-50, chasmY, 1000, ModContent.TileType<HardenedGemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20));
+            makeWavyChasm2(chasmX + 50, chasmY, 1000, ModContent.TileType<HardenedGemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20));
+            for (int i = 0; i < 5; i++)
+            {
+                makeChasm(chasmX + Main.rand.Next(-50, 50) + i * 20, chasmY + (i * 200) + Main.rand.Next(-50, 50), Main.rand.Next(5, 30), TileID.StoneSlab, Main.rand.Next(5, 10), WorldGen.genRand.Next(20, 60), Main.rand.Next(10, 20));
 
-            for (int i = 0; i < 800; i++)
+
+            }
+            for(int i = 0; i<20; i++)
             {
-                for (int j = 0; j < 1000; j++)
+                makeOvalFlatTop(Main.rand.Next(10, 20), Main.rand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + (i * 50) + Main.rand.Next(-20, 20)), ModContent.TileType<HardenedGemsandTile>());
+                if (i % 5 == 0)
                 {
-                    Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile.type == TileID.StoneSlab || tile.type == TileID.Granite || tile.type == TileID.Marble)
-                        WorldGen.KillTile(i, j);
+                    makeLayer(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + Main.rand.Next(-20, 20) + (i * 50), 25, 2);
+
+                    for (int j = 0; j < 7; j++)
+                        makeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<GemsandstoneTile>());
                 }
-            }
-            for (int k = 0; k < 50; k++)
-            {
-                int x = WorldGen.genRand.Next(chasmX - 25, chasmX - 25);
-                int y = WorldGen.genRand.Next(chasmY + 50, chasmY + 50 + 160);
-                // Tile tile = Framing.GetTileSafely(x, y);
-                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, true, true);
-            }
-            //-right border
-            for (int k = 0; k < 50; k++)
-            {
-                int x = WorldGen.genRand.Next(chasmX + 25, chasmX + 25);
-                int y = WorldGen.genRand.Next(chasmY + 50, chasmY + 50 + 160);
-                // Tile tile = Framing.GetTileSafely(x, y);
-                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, true, true);
             }
             float grad = WorldGen.genRand.NextFloat(0, 1);
             //  killWall(1000, 500, new Vector2(0, 0));
-            makeLayer(chasmX, chasmY + firstLayerPosY, sizeOfLayer1, 1);
-            makeLayer(chasmX + 30, chasmY + secondLayerPosY + sizeOfLayer1, sizeOfLayer2, 2);
+            //makeLayer(chasmX, chasmY + firstLayerPosY, sizeOfLayer1, 1);
+            //makeLayer(chasmX + 30, chasmY + secondLayerPosY + sizeOfLayer1, sizeOfLayer2, 2);
             //---------------------------1
-            makeChasm(chasmX, chasmY + firstLayerPosY + sizeOfLayer1, 100, TileID.StoneSlab, grad, WorldGen.genRand.Next(10, 20));
-            makeChasm(chasmX - 15, chasmY + firstLayerPosY + sizeOfLayer1, 80 * (int)(1 + grad / 2), ModContent.TileType<HardenedGemsandTile>(), grad, WorldGen.genRand.Next(5, 10));
-            makeChasm(chasmX + 15, chasmY + firstLayerPosY + sizeOfLayer1, 80 * (int)(1 + grad / 2), ModContent.TileType<HardenedGemsandTile>(), grad, WorldGen.genRand.Next(5, 10));
+            //makeChasm(chasmX, chasmY + firstLayerPosY + sizeOfLayer1, 100, TileID.StoneSlab, grad, WorldGen.genRand.Next(10, 20));
+            //makeChasm(chasmX - 15, chasmY + firstLayerPosY + sizeOfLayer1, 80 * (int)(1 + grad / 2), ModContent.TileType<HardenedGemsandTile>(), grad, WorldGen.genRand.Next(5, 10));
+            //makeChasm(chasmX + 15, chasmY + firstLayerPosY + sizeOfLayer1, 80 * (int)(1 + grad / 2), ModContent.TileType<HardenedGemsandTile>(), grad, WorldGen.genRand.Next(5, 10));
             //---------------------------2
-            makeWavyChasm(chasmX, chasmY + secondLayerPosY + sizeOfLayer2 + 60, 150, TileID.StoneSlab, grad, WorldGen.genRand.Next(20, 30));
-            makeWavyChasm(chasmX - 25, chasmY + secondLayerPosY + sizeOfLayer2 + 60, 130 * (int)(1 + grad / 2), ModContent.TileType<GemsandstoneTile>(), grad, WorldGen.genRand.Next(5, 10));
-            makeWavyChasm(chasmX + 25, chasmY + secondLayerPosY + sizeOfLayer2 + 60, 130 * (int)(1 + grad / 2), ModContent.TileType<GemsandstoneTile>(), grad, WorldGen.genRand.Next(5, 10));
-            for (int i = 0; i < 7; i++)
-                makeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX - 100 + (i * 35), chasmY + sizeOfLayer1 + 350 + WorldGen.genRand.Next(-10, 0)), ModContent.TileType<GemsandstoneTile>());
+            //makeWavyChasm(chasmX, chasmY + secondLayerPosY + sizeOfLayer2 + 60, 150, TileID.StoneSlab, grad, WorldGen.genRand.Next(20, 30));
+            //makeWavyChasm(chasmX - 25, chasmY + secondLayerPosY + sizeOfLayer2 + 60, 130 * (int)(1 + grad / 2), ModContent.TileType<GemsandstoneTile>(), grad, WorldGen.genRand.Next(5, 10));
+           // makeWavyChasm(chasmX + 25, chasmY + secondLayerPosY + sizeOfLayer2 + 60, 130 * (int)(1 + grad / 2), ModContent.TileType<GemsandstoneTile>(), grad, WorldGen.genRand.Next(5, 10));
+           /* for (int i = 0; i < 7; i++)
+                makeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX - 100 + (i * 35), chasmY + sizeOfLayer1 + 350 + WorldGen.genRand.Next(-10, 0)), ModContent.TileType<GemsandstoneTile>());*/
             for (int i = 0; i < 800; i++)
             {
-                for (int j = 0; j < 1000; j++)
+                for (int j = 0; j < 2000; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (tile.type == TileID.StoneSlab)
                         WorldGen.KillTile(i, j);
                 }
             }
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 500; i++)
             {
-                for (int j = 0; j < 700; j++)
+                for (int j = 0; j < 1500; j++)
                 {
                     int yes = WorldGen.genRand.Next(5, 10);
                     if (tileCheck2(i, chasmY + j) == 1 && j % yes == 0)
@@ -1027,8 +1027,6 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-            fillRegionWithWater(300, 700, new Vector2(0, chasmY));
-            fillWall(300, 700, new Vector2(0, chasmY), WallID.GraniteBlock);
         }
 
         public static void PlaceRuins(int i, int j, int[,] shape)

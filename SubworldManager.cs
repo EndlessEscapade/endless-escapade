@@ -34,7 +34,7 @@ namespace EEMod
             {
                 MicroBiome.ResetAll();
                 Liquid.ReInit();
-                progress.Message = "";
+                progress.Message = "Resetting";
                 Main.cloudAlpha = 0f;
                 Main.maxRaining = 0f;
                 Main.raining = false;
