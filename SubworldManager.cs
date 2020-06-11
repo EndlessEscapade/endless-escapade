@@ -65,7 +65,7 @@ namespace EEMod
         }
         public static void SaveAndQuitCallBack(object threadContext)
         {
-            //ssEEisSaving = true;
+            EEMod.isSaving = true;
             try
             {
                 Main.PlaySound(SoundID.Waterfall, -1, -1, 0);

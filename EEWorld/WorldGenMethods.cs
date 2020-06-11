@@ -71,6 +71,16 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void FillRegionNoEdit(int width, int height, Vector2 startingPoint, int type)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y,30,20, type,false,0,0,false,true);
+                }
+            }
+        }
 
         public static void FillWall(int width, int height, Vector2 startingPoint, int type)
         {
@@ -958,6 +968,7 @@ namespace EEMod.EEWorld
                         makeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<GemsandstoneTile>());
                 }
             }
+            
             float grad = WorldGen.genRand.NextFloat(0, 1);
             //  killWall(1000, 500, new Vector2(0, 0));
             //makeLayer(chasmX, chasmY + firstLayerPosY, sizeOfLayer1, 1);
