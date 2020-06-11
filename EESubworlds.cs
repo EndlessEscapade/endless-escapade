@@ -40,7 +40,7 @@ namespace EEMod
             EEWorld.EEWorld.FillRegion(1000, 2000, new Vector2(0, 0), ModContent.TileType<HardenedGemsandTile>());
             EEWorld.EEWorld.CoralReef();
             EEWorld.EEWorld.ClearRegion(1000, 80, Vector2.Zero);
-            EEWorld.EEWorld.fillRegionWithWater(1000, 1940, new Vector2(0,60));
+            EEWorld.EEWorld.fillRegionWithWater(1000, 1930, new Vector2(0,70));
         }
     }
 }
