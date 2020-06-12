@@ -279,6 +279,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.RichMahogany;
+                                tile.wallColor(PaintID.Brown);
                                 tile.active(true);
                                 break;
                             case 3:
@@ -317,9 +318,11 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.wall = WallID.RichMahoganyFence;
+                                tile.wallColor(PaintID.Brown);
                                 break;
                             case 3:
-                                tile.type = TileID.WebRope;
+                                tile.type = TileID.SilkRope;
+                                tile.wallColor(PaintID.White);
                                 tile.active(true);
                                 break;
                             case 4:
