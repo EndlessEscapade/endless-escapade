@@ -279,7 +279,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.RichMahogany;
-                                tile.wallColor(PaintID.Brown);
+                                tile.color(28);
                                 tile.active(true);
                                 break;
                             case 3:
@@ -318,11 +318,11 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.wall = WallID.RichMahoganyFence;
-                                tile.wallColor(PaintID.Brown);
+                                tile.wallColor(28);
                                 break;
                             case 3:
                                 tile.type = TileID.SilkRope;
-                                tile.wallColor(PaintID.White);
+                                tile.wallColor(28);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -343,6 +343,45 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
+        public static void GenerateStructure(int i, int j, int[,] shape, int[] blocks, int[] paints = null, int[,] wallShape = null, int[] walls = null, int[] wallPaints = null)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        tile.type = (ushort)blocks[shape[y, x]];
+                        if (paints[blocks[shape[y, x]]] != default)
+                            tile.color((byte)paints[blocks[shape[y, x]]]);
+                        tile.active(true);
+                    }
+                }
+            }
+            if (wallShape != default && walls != default)
+            {
+                for (int y = 0; y < wallShape.GetLength(0); y++)
+                {
+                    for (int x = 0; x < wallShape.GetLength(1); x++)
+                    {
+                        int k = i - 3 + x;
+                        int l = j - 6 + y;
+                        if (WorldGen.InWorld(k, l, 30))
+                        {
+                            Tile tile = Framing.GetTileSafely(k, l);
+                            tile.wall = (ushort)walls[wallShape[y, x]];
+                            if (wallPaints[walls[wallShape[y, x]]] != default)
+                                tile.color((byte)wallPaints[walls[wallShape[y, x]]]);
+                        }
+                    }
+                }
+            }
+        }
+
         private static void MakePillar(Vector2 startingPos, int height, bool water, bool fire)
         {
 
@@ -560,8 +599,9 @@ namespace EEMod.EEWorld
         }
         public static void DoAndAssignShipValues()
         {
-            PlaceShip(100, TileCheck(100) - 22, ShipTiles);
-            PlaceShipWalls(100, TileCheck(100) - 22, ShipWalls);
+            //PlaceShip(100, TileCheck(100) - 22, ShipTiles);
+            //PlaceShipWalls(100, TileCheck(100) - 22, ShipWalls);
+            GenerateStructure(100, TileCheck(100) - 22, ShipTiles, new int[]{ TileID.WoodBlock, TileID.RichMahogany, TileID.GoldCoinPile, TileID.Platforms, TileID.WoodenBeam, TileID.SilkRope}, new int[] { 0, 28, 0, 0, 0, 26 }, ShipWalls, new int[] { WallID.Cloud, WallID.RichMahoganyFence, WallID.Cloud, WallID.Wood }, new int[] { 0, 28, 29, 0 });
             ree = new Vector2(100, TileCheck(100) - 22);
         }
         public static int TileCheck(int positionX)
