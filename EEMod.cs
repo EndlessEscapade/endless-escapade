@@ -219,14 +219,13 @@ namespace EEMod
             if (isSaving)
             {
                 for (int i = 0; i < Main.backgroundTexture.Length; i++)
-                    Main.backgroundTexture[i] = Main.magicPixel;
+                    Main.backgroundTexture[i] = TextureCache.Empty;
                 Main.numClouds = 0;
                 Main.logo2Texture = TextureCache.Empty;
                 Main.logoTexture = TextureCache.Empty;
                 Main.sun2Texture = TextureCache.Empty;
                 Main.sun3Texture = TextureCache.Empty;
                 Main.sunTexture = TextureCache.Empty;
-                Main.PlaySound(10);
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null) SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
                 if (loadingFlag)
                 {
@@ -586,7 +585,7 @@ namespace EEMod
                 velocity *= 0.98f;
             }
             //Dust.NewDust(Main.screenPosition + position, 1, 1, DustID.BlueCrystalShard);
-            Lighting.AddLight(new Vector2(Main.screenPosition.X + Main.screenWidth, Main.screenPosition.Y + Main.screenHeight), 1f, 1f, 1f);
+            //Lighting.AddLight(new Vector2(Main.screenPosition.X + Main.screenWidth, Main.screenPosition.Y + Main.screenHeight), 1f, 1f, 1f);
             for (int i = 0; i < 200; i++)
             {
                 for (int j = 0; j < 100; j++)
@@ -596,7 +595,7 @@ namespace EEMod
             }
             for (int i = 0; i < EEPlayer.objectPos.Count; i++)
             {
-                if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1)
+                if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i !=7 && i != 8)
                     Lighting.AddLight(EEPlayer.objectPos[i], .4f, .4f, .4f);
                 if (i == 1)
                     Lighting.AddLight(EEPlayer.objectPos[i], .15f, .15f, .15f);

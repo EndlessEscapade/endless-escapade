@@ -17,7 +17,7 @@ using Terraria.IO;
 using Terraria.Localization;
 using System.Collections.Generic;
 using EEMod.Projectiles;
-using EEMod.Projectiles.OceanMap;
+using EEMod.Projectiles;
 using EEMod.EEWorld;
 using EEMod.Compatibility;
 
@@ -105,8 +105,6 @@ namespace EEMod
         public static List<Vector2> objectPos = new List<Vector2>();
         public static bool isNearIsland;
         public static bool isNearVolcano;
-        public static bool isNearMainIsland;
-        public static bool isNearCoralReefs;
         public static string baseWorldName;
         public override void Initialize()
         {
@@ -147,8 +145,6 @@ namespace EEMod
         float positionOfGlacY;
         float speedOfPan = 1;
         int AnchorsVolc;
-        int AnchorsMain;
-        int AnchorsCoral;
 
         public override void ModifyScreenPosition()
         {
@@ -251,41 +247,23 @@ namespace EEMod
                 float pos7Y = Main.screenPosition.Y + Main.screenHeight - 150 + 1000;
                 float pos8X = Main.screenPosition.X + Main.screenWidth - 200;
                 float pos8Y = Main.screenPosition.Y + Main.screenHeight - 300 + 1000;
-                float pos9X = Main.screenPosition.X + Main.screenWidth - 100;
-                float pos9Y = Main.screenPosition.Y + Main.screenHeight - 40 + 1000;
-                float pos10X = Main.screenPosition.X + Main.screenWidth - 300;
-                float pos10Y = Main.screenPosition.Y + Main.screenHeight -600 + 1000;
                 Rectangle rectangle1 = new Rectangle((int)pos3X - 56, (int)pos3Y - 32, 118, 64);
                 Rectangle rectangle2 = new Rectangle((int)pos2X - 56, (int)pos2Y - 32, 118, 64);
-                Rectangle rectangle3 = new Rectangle((int)pos9X - 115, (int)pos9Y - 49, 330, 98);
-                Rectangle rectangle4 = new Rectangle((int)pos10X - 110, (int)pos10Y - 58, 220, 116);
-                Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.position.Y - 30 + 1000, 60, 60);
+                Rectangle rectangle3 = new Rectangle((int)Main.screenPosition.X + (int)EEMod.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.position.Y - 30 + 1000, 60, 60);
                 isNearIsland = false;
                 isNearVolcano = false;
-                isNearMainIsland = false;
-                isNearCoralReefs = false;
-                if (rectangle1.Intersects(ShipHitBox))
+                if (rectangle1.Intersects(rectangle3))
                 {
                     isNearIsland = true;
                 }
-                if (rectangle2.Intersects(ShipHitBox))
+                if (rectangle2.Intersects(rectangle3))
                 {
                     isNearVolcano = true;
-                }
-                if (rectangle3.Intersects(ShipHitBox))
-                {
-                    isNearMainIsland = true;
-                }
-                if (rectangle4.Intersects(ShipHitBox))
-                {
-                    isNearCoralReefs = true;
                 }
                 if (!arrowFlag)
                 {
                     Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos3X, pos3Y);
                     AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos2X, pos2Y - 50);
-                    AnchorsMain = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos9X, pos9Y - 50);
-                    AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos10X, pos10Y - 50);
                     arrowFlag = true;
                 }
                 if (isNearIsland)
@@ -314,34 +292,7 @@ namespace EEMod
                 {
                     (Main.projectile[AnchorsVolc].modProjectile as Anchor).visible = false;
                 }
-
-                if (isNearMainIsland)
-                {
-                    subText += 0.02f;
-                    if (subText >= 1)
-                        subText = 1;
-                    (Main.projectile[AnchorsMain].modProjectile as Anchor).visible = true;
-                }
-                else
-                {
-                    (Main.projectile[AnchorsMain].modProjectile as Anchor).visible = false;
-                }
-                if (isNearCoralReefs)
-                {
-                    subText += 0.02f;
-                    if (subText >= 1)
-                        subText = 1;
-                    (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = true;
-                    if (player.controlUp)
-                    {
-                        SM.SaveAndQuit(key3);
-                    }
-                }
-                else
-                {
-                    (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = false;
-                }
-                if (!isNearVolcano && !isNearIsland && !isNearCoralReefs && !isNearMainIsland)
+                if (!isNearVolcano && !isNearIsland)
                 {
                     subText -= 0.02f;
                     if (subText <= 0)
@@ -396,8 +347,6 @@ namespace EEMod
                     Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ModContent.ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ModContent.ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ModContent.ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos9X, pos9Y), Vector2.Zero, ModContent.ProjectileType<MainIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos10X, pos10Y), Vector2.Zero, ModContent.ProjectileType<CoralReefsEntrance>(), 0, 0f, Main.myPlayer, 0, 0);
                     objectPos.Add(new Vector2(pos1X, pos1Y));
                     objectPos.Add(new Vector2(pos2X, pos2Y));
                     objectPos.Add(new Vector2(pos3X, pos3Y));
@@ -406,8 +355,6 @@ namespace EEMod
                     objectPos.Add(new Vector2(pos6X, pos6Y));
                     objectPos.Add(new Vector2(pos7X, pos7Y));
                     objectPos.Add(new Vector2(pos8X, pos8Y));
-                    objectPos.Add(new Vector2(pos9X, pos9Y));
-                    objectPos.Add(new Vector2(pos10X, pos10Y));
                     //upgrade, pirates, radial
                     for (int i = 0; i < 2; i++)
                     {
@@ -488,14 +435,13 @@ namespace EEMod
             }
             else if(Main.ActiveWorldFileData.Name == key3)
             {
-                player.ClearBuff(BuffID.Cursed);
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)
                     noU = true;
                 if (noU)
                     titleText -= 0.005f;
-                EEMod.isSaving = false;
+
                 if (titleText <= 0)
                     titleText = 0;
             }
@@ -651,8 +597,8 @@ namespace EEMod
 
 
 
- 
-        
+
+
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
 

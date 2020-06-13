@@ -37,18 +37,25 @@ namespace EEMod
         {
             Main.maxTilesX = 1000;
             Main.maxTilesY = 2000;
+            int depth = 70;
             int boatPos = Main.maxTilesX / 2;
             SubworldManager.Reset(seed, customProgressObject);
-            EEWorld.EEWorld.FillRegion(1000, 2000, new Vector2(0, 0), ModContent.TileType<HardenedGemsandTile>());
-            EEWorld.EEWorld.ClearRegion(1000, 100, Vector2.Zero);
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<HardenedGemsandTile>());
+            EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY/20, Vector2.Zero);
             for (int i = 0; i < 10; i++)
             {
                 for (int j = -5; j < 5; j++)
-                    WorldGen.TileRunner(300 + (i * 170) + (j * 10), 100, 10, 10, ModContent.TileType<HardenedGemsandTile>(), true, 0, 0, true, true);
+                    WorldGen.TileRunner(300 + (i * 170) + (j * 10), Main.maxTilesY / 20, 10, 10, ModContent.TileType<HardenedGemsandTile>(), true, 0, 0, true, true);
             }
-            EEWorld.EEWorld.FillRegionNoEdit(1000, 100, new Vector2(0, 50), ModContent.TileType<CoralSand>());
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = -5; j < 5; j++)
+                    WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<HardenedGemsandTile>(), true, 0, 0, true, true);
+            }
+            EEWorld.EEWorld.killWall(1000, 1000, Vector2.Zero);
+            EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 40), ModContent.TileType<CoralSand>());
             EEWorld.EEWorld.CoralReef();
-            EEWorld.EEWorld.fillRegionWithWater(1000, 1930, new Vector2(0,70));
+            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY- depth, new Vector2(0, depth));
             EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheck(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheck(boatPos) - 22, EEWorld.EEWorld.ShipWalls);
             Main.spawnTileX = boatPos;

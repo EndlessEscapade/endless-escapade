@@ -14,15 +14,8 @@ namespace EEMod.Tiles.Walls
 
             Main.wallHouse[Type] = true;
             dustType = 154;
-            drop = ModContent.ItemType<GemsandWall>();
+            drop = ModContent.ItemType<GemsandstoneWall>();
             soundStyle = 1;
-        }
-
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            r = 0.4f;
-            g = 0.4f;
-            b = 0.4f;
         }
     }
 }

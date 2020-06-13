@@ -45,9 +45,8 @@ namespace EEMod
             });
 
             Main.worldID = WorldGen.genRand.Next(int.MaxValue);
-            // WorldHooks.ModifyWorldGenTasks(_generator._passes, ref _generator._totalLoadWeight);
             _generator.GenerateWorld(customProgressObject);
-           // Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
+            Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
         }
         internal static void PreSaveAndQuit()
         {
