@@ -1084,7 +1084,7 @@ namespace EEMod.EEWorld
             }
 
 
-            int barrier = 250;
+            int barrier = 1000;
 
             for (int j = 0; j < barrier; j++)
             {
