@@ -42,17 +42,17 @@ namespace EEMod.EEWorld
 
         private static void EEModOres(GenerationProgress progress)
         {
-            progress.Message = "Interitos Mod Ores";
+            progress.Message = "Endless Escapade Ores";
             int maxTiles = Main.maxTilesX * Main.maxTilesY;
             int rockLayerLow = (int)WorldGen.rockLayerLow;
-            int OreAmmount;
+            int OreAmount;
 
-            OreAmmount = (int)(maxTiles * 0.00008);
-            for (int k = 0; k < OreAmmount; k++)
+            OreAmount = (int)(maxTiles * 0.00008);
+            for (int k = 0; k < OreAmount; k++)
             {
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
-                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<LythenOreTile>());
+                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydroFluorideOreTile>());
 
                 x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
@@ -127,6 +127,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         private static void ClearPathWay(int width, int height, float gradient, Vector2 startingPoint, bool withPillars)
         {
             for (int i = 0; i < width; i++)
@@ -605,7 +606,7 @@ namespace EEMod.EEWorld
         {
             PlaceShip(100, TileCheck(100) - 22, ShipTiles);
             PlaceShipWalls(100, TileCheck(100) - 22, ShipWalls);
-           // GenerateStructure(100, TileCheck(100) - 22, ShipTiles, new int[]{ TileID.WoodBlock, TileID.RichMahogany, TileID.GoldCoinPile, TileID.Platforms, TileID.WoodenBeam, TileID.SilkRope}, new int[] { 0, 28, 0, 0, 0, 26 }, ShipWalls, new int[] { WallID.Cloud, WallID.RichMahoganyFence, WallID.Cloud, WallID.Wood }, new int[] { 0, 28, 29, 0 });
+            //GenerateStructure(100, TileCheck(100) - 22, ShipTiles, new int[]{ TileID.WoodBlock, TileID.RichMahogany, TileID.GoldCoinPile, TileID.Platforms, TileID.WoodenBeam, TileID.SilkRope}, new int[] { 0, 28, 0, 0, 0, 26 }, ShipWalls, new int[] { WallID.Cloud, WallID.RichMahoganyFence, WallID.Cloud, WallID.Wood }, new int[] { 0, 28, 29, 0 });
             ree = new Vector2(100, TileCheck(100) - 22);
         }
         public static int TileCheck(int positionX)
@@ -1002,7 +1003,7 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 1f, 1f, false, true);
         }
 
-        
+
         public static void CoralReef()
         {
             int chasmX = 100;
@@ -1081,6 +1082,40 @@ namespace EEMod.EEWorld
                         }
                         if(selection == 5 && j<300 && Main.rand.Next(4)==0)
                         makeCoral(new Vector2(i, chasmY + j), TileID.Coralstone, Main.rand.Next(4, 8));
+                    }
+                }
+            }
+
+
+            int barrier = 1000;
+
+            for (int j = 0; j < barrier; j++)
+            {
+                for (int i = 0; i < Main.maxTilesX; i++)
+                {
+                    Tile tile = Main.tile[i, j];
+                    if (tile.type == ModContent.TileType<HardenedGemsandTile>() || tile.type == ModContent.TileType<GemsandstoneTile>() || tile.type == ModContent.TileType<GemsandTile>())
+                    {
+                        if (Main.rand.Next(2000) == 0)
+                        {
+                            WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<LythenOreTile>());
+                        }
+                    }
+                }
+            }
+
+
+            for (int j = barrier; j < Main.maxTilesY; j++)
+            {
+                for (int i = 0; i < Main.maxTilesX; i++)
+                {
+                    Tile tile = Main.tile[i, j];
+                    if (tile.type == ModContent.TileType<HardenedGemsandTile>() || tile.type == ModContent.TileType<GemsandstoneTile>() || tile.type == ModContent.TileType<GemsandTile>())
+                    {
+                        if (Main.rand.Next(2000) == 0)
+                        {
+                            WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydriteOreTile>());
+                        }
                     }
                 }
             }
