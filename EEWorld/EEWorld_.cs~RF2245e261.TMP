@@ -41,6 +41,7 @@ namespace EEMod.EEWorld
 
         public override void Initialize()
         {
+
             eocFlag = NPC.downedBoss1;
             ree = new Vector2(100, TileCheck(100) - 22);
             if (EntracesPosses.Count > 0)
@@ -68,6 +69,13 @@ namespace EEMod.EEWorld
                     }
                 }));
             }*/
+            if (MicroBiomes != -1)
+            {
+                tasks.Insert(MicroBiomes, new PassLegacy("Coral Reef", delegate (GenerationProgress progress)
+                {
+                    CoralReef();
+                }));
+            }
         }
         public override void NetSend(BinaryWriter writer)
         {
@@ -83,6 +91,7 @@ namespace EEMod.EEWorld
         {
             DoAndAssignShrineValues();
             DoAndAssignShipValues();
+            CoralReef();
         }
         public override void PostUpdate()
         {
@@ -174,11 +183,11 @@ namespace EEMod.EEWorld
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
-            CoralReefsTiles = tileCounts[ModContent.TileType<GemsandstoneTile>()] + tileCounts[ModContent.TileType<HardenedGemsandTile>()];
+            CoralReefsTiles = tileCounts[ModContent.TileType<GemsandstoneTile>()];
         }
 
         public static int customBiome = 0;
         public static bool eocFlag;
-        
+
     }
 }
