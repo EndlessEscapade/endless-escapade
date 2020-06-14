@@ -290,6 +290,10 @@ namespace EEMod.EEWorld
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+                            case 5:
+                                tile.type = TileID.WoodenBeam;
+                                tile.active(true);
+                                break;
                             default:
                                 break;
                         }
@@ -321,8 +325,8 @@ namespace EEMod.EEWorld
                                 tile.wallColor(28);
                                 break;
                             case 3:
-                                tile.type = TileID.SilkRope;
-                                tile.wallColor(28);
+                                tile.wall = WallID.Cloud;
+                                tile.wallColor(29);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -599,9 +603,9 @@ namespace EEMod.EEWorld
         }
         public static void DoAndAssignShipValues()
         {
-            //PlaceShip(100, TileCheck(100) - 22, ShipTiles);
-            //PlaceShipWalls(100, TileCheck(100) - 22, ShipWalls);
-            GenerateStructure(100, TileCheck(100) - 22, ShipTiles, new int[]{ TileID.WoodBlock, TileID.RichMahogany, TileID.GoldCoinPile, TileID.Platforms, TileID.WoodenBeam, TileID.SilkRope}, new int[] { 0, 28, 0, 0, 0, 26 }, ShipWalls, new int[] { WallID.Cloud, WallID.RichMahoganyFence, WallID.Cloud, WallID.Wood }, new int[] { 0, 28, 29, 0 });
+            PlaceShip(100, TileCheck(100) - 22, ShipTiles);
+            PlaceShipWalls(100, TileCheck(100) - 22, ShipWalls);
+           // GenerateStructure(100, TileCheck(100) - 22, ShipTiles, new int[]{ TileID.WoodBlock, TileID.RichMahogany, TileID.GoldCoinPile, TileID.Platforms, TileID.WoodenBeam, TileID.SilkRope}, new int[] { 0, 28, 0, 0, 0, 26 }, ShipWalls, new int[] { WallID.Cloud, WallID.RichMahoganyFence, WallID.Cloud, WallID.Wood }, new int[] { 0, 28, 29, 0 });
             ree = new Vector2(100, TileCheck(100) - 22);
         }
         public static int TileCheck(int positionX)
@@ -852,7 +856,7 @@ namespace EEMod.EEWorld
         }
         private static void makeCoral(Vector2 startingPoint,int type, int strength)
         {
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < 5; j++)
             {
                 int displacement = 0;
                 for (int i = 0; i < strength; i++)
@@ -1076,7 +1080,7 @@ namespace EEMod.EEWorld
                                 break;
                         }
                         if(selection == 5 && j<300 && Main.rand.Next(4)==0)
-                        makeCoral(new Vector2(i, chasmY + j - 1), TileID.Coralstone, Main.rand.Next(4, 8));
+                        makeCoral(new Vector2(i, chasmY + j), TileID.Coralstone, Main.rand.Next(4, 8));
                     }
                 }
             }

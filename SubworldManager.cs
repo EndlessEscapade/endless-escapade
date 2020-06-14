@@ -10,7 +10,7 @@ using Terraria.Utilities;
 using Terraria.IO;
 using Terraria.Localization;
 using Terraria.GameContent.Generation;
-
+using Terraria.Social;
 namespace EEMod
 {
 
@@ -25,14 +25,14 @@ namespace EEMod
             _generator.Append(new PassLegacy(name, method));
         }
 
-        public static void Reset(int seed, GenerationProgress customProgressObject = null)
+        public static void Reset(int seed)
         {
             Logging.Terraria.InfoFormat("Generating World: {0}", (object)Main.ActiveWorldFileData.Name);
             _lastSeed = seed;
             _generator = new WorldGenerator(seed);
+            MicroBiome.ResetAll();
             AddGenerationPass("Reset", delegate (GenerationProgress progress)
             {
-                MicroBiome.ResetAll();
                 Liquid.ReInit();
                 progress.Message = "Resetting";
                 Main.cloudAlpha = 0f;
@@ -42,13 +42,16 @@ namespace EEMod
                 WorldGen.RandomizeCaveBackgrounds();
                 WorldGen.RandomizeBackgrounds();
                 WorldGen.RandomizeMoonState();
+                Main.worldID = WorldGen.genRand.Next(int.MaxValue);
             });
+        }
 
-            Main.worldID = WorldGen.genRand.Next(int.MaxValue);
+        public static void PostReset(GenerationProgress customProgressObject = null)
+        {
             _generator.GenerateWorld(customProgressObject);
             Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
         }
-        internal static void PreSaveAndQuit()
+            internal static void PreSaveAndQuit()
         {
             Mod[] mods = ModLoader.Mods;
             for (int i = 0; i < mods.Length; i++)
@@ -111,7 +114,7 @@ namespace EEMod
             WorldGen.clearWorld();
             EEMod.GenerateWorld(threadContext as string,Main.ActiveWorldFileData.Seed, null);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{threadContext as string}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{threadContext as string}.wld", false);
             WorldGen.playWorld();
         }
         public static void WorldGenCallBack(object threadContext)
@@ -128,23 +131,24 @@ namespace EEMod
         public static void CreateNewWorld(string text, GenerationProgress progress = null)
         {
             Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
-            ThreadPool.QueueUserWorkItem(Do_worldGenCallBack, text);
+            ThreadPool.QueueUserWorkItem(WorldGenCallBack, text);
         }
         private static void OnWorldNamed(string text, GenerationProgress progress)
         {
-                string path = $@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld";
+                string path = $@"{Main.SavePath}\Worlds\{text}.wld";
                 if (!File.Exists(path))
                 {
-                    Main.worldName = text.Trim();
-                    CreateNewWorld(text, progress);
+                Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
+                Main.worldName = text.Trim();
+                CreateNewWorld(text, progress);
+                return;
                 }
-                Main.ActiveWorldFileData = Terraria.IO.WorldFile.GetAllMetadata(path, false);
+                Main.ActiveWorldFileData = WorldFile.GetAllMetadata(path, false);
                 WorldGen.playWorld();
-
         }
         private void ReturnOnName(string text, GenerationProgress progress)
         {
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);
             WorldGen.playWorld();
         }
         public static void EnterSub(string key)

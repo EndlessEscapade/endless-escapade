@@ -171,6 +171,15 @@ namespace EEMod
         readonly SubworldManager SM = new SubworldManager();
         public override void UpdateBiomeVisuals()
         {
+            string path = $@"{Main.SavePath}\Worlds\CoralReefs.wld";
+            if (File.Exists(path))
+            {
+                Main.NewText("yes");
+            }
+            else
+            {
+                Main.NewText("no");
+            }
             Action<string> newWorld = new Action<string>(SubworldManager.EnterSub);
             Action returnToBaseWorld = Return;
             //player.ManageSpecialBiomeVisuals("EEMod:Akumo", NPC.AnyNPCs(ModContent.NPCType<Akumo>()));
