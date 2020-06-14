@@ -86,7 +86,7 @@ namespace EEMod
         public bool isQuartzMeleeOn = false;
         public bool isQuartzChestOn = false;
         public int timerForCutscene;
-        public static string key1 = "Pyramid";
+        public static string key1 = "Pyramids";
         public static string key2 = "Sea";
         public static string key3 = "CoralReefs";
         public bool arrowFlag = false;
@@ -171,6 +171,7 @@ namespace EEMod
         readonly SubworldManager SM = new SubworldManager();
         public override void UpdateBiomeVisuals()
         {
+            EEMod.isSaving = false;
             string path = $@"{Main.SavePath}\Worlds\CoralReefs.wld";
             Action<string> newWorld = new Action<string>(SubworldManager.EnterSub);
             Action returnToBaseWorld = Return;
@@ -496,7 +497,6 @@ namespace EEMod
                     noU = true;
                 if (noU)
                     titleText -= 0.005f;
-                EEMod.isSaving = false;
                 if (titleText <= 0)
                     titleText = 0;
             }
@@ -609,7 +609,7 @@ namespace EEMod
         }
         public static void SaveAndQuitCallBack(object threadContext)
         {
-            isSaving = true;
+            EEMod.isSaving = true;
             try
             {
                 Main.PlaySound(SoundID.Waterfall, -1, -1, 0);

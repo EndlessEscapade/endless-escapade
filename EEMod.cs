@@ -209,7 +209,7 @@ namespace EEMod
                 Main.sun2Texture = TextureCache.Terraria_Sun2Texture; 
                 Main.sun3Texture = TextureCache.Terraria_Sun3Texture; 
                 Main.sunTexture = TextureCache.Terraria_SunTexture;
-                for (int i = 0; i < Main.backgroundTexture.Length - 1; i++)
+                for (int i = 0; i < Main.backgroundTexture.Length; i++)
                     Main.backgroundTexture[i] = ModContent.GetTexture("Terraria/Background_" + i);
             }
             orig(self, gameTime);

@@ -30,6 +30,7 @@ namespace EEMod
             Logging.Terraria.InfoFormat("Generating World: {0}", (object)Main.ActiveWorldFileData.Name);
             _lastSeed = seed;
             _generator = new WorldGenerator(seed);
+            WorldGen.structures = new StructureMap();
             MicroBiome.ResetAll();
             AddGenerationPass("Reset", delegate (GenerationProgress progress)
             {

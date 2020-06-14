@@ -20,10 +20,10 @@ namespace EEMod
            Main.spawnTileX = 234;
            Main.spawnTileY = 92;
            SubworldManager.Reset(seed);
-           EEWorld.EEWorld.FillRegion(400, 400, new Vector2(0, 0), TileID.SandstoneBrick);
+            SubworldManager.PostReset(customProgressObject);
+            EEWorld.EEWorld.FillRegion(400, 400, new Vector2(0, 0), TileID.SandstoneBrick);
            EEWorld.EEWorld.Pyramid(63, 42);
            EEMod.isSaving = false;
-           SubworldManager.PostReset(customProgressObject);
         }
         public static void Sea(int seed, GenerationProgress customProgressObject = null)
         {
