@@ -52,7 +52,13 @@ namespace EEMod.Projectiles
         }
         public override void AI()
         {
+            projectile.ai[0]+=5;
+            if(projectile.ai[0] >= 255)
+            {
+                projectile.ai[0] = 0;
+            }
+            projectile.alpha = (int)projectile.ai[0];
+            projectile.scale = 1 + projectile.ai[0] / (float)255;
         }
-
     }
 }
