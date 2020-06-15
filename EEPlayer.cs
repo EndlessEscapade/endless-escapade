@@ -290,11 +290,7 @@ namespace EEMod
                     (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
-<<<<<<< HEAD
                         SM.SaveAndQuit(key4);
-=======
-
->>>>>>> 611b679786b9ca79c551eb20580cc40dcc964d9d
                     }
                 }
                 else
