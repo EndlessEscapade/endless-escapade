@@ -74,5 +74,16 @@ namespace EEMod
             Main.spawnTileY = EEWorld.EEWorld.TileCheck(boatPos) - 22;
 
         }
+        public static void Island(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 400;
+            Main.maxTilesY = 200;
+            Main.spawnTileX = 234;
+            Main.spawnTileY = 92;
+            SubworldManager.Reset(seed);
+            EEMod.isSaving = false;
+            SubworldManager.PostReset(customProgressObject);
+            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
+        }
     }
 }

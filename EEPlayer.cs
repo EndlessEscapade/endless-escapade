@@ -89,6 +89,7 @@ namespace EEMod
         public static string key1 = "Pyramids";
         public static string key2 = "Sea";
         public static string key3 = "CoralReefs";
+        public static string key4 = "Island";
         public bool arrowFlag = false;
         public static bool isSaving;
         public float titleText;
@@ -292,13 +293,13 @@ namespace EEMod
                 }
                 if (isNearIsland)
                 {
-                    (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
                     subText += 0.02f;
                     if (subText >= 1)
                         subText = 1;
+                    (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
-                        SM.SaveAndQuit(key3);
+                        SM.SaveAndQuit(key4);
                     }
                 }
                 else
