@@ -69,7 +69,7 @@ namespace EEMod.NPCs
                     if (npc.ai[0] >= 410 && npc.ai[0] <= 420)
                     {
                         // LookInDirectionP(look);
-                        npc.velocity = JSHelper.MoveTowardsPlayer(30f, npc.velocity.X, npc.velocity.Y, player, npc.Center, npc.direction);
+                        npc.velocity = Helpers.MoveTowardsPlayer(30f, npc.velocity.X, npc.velocity.Y, player, npc.Center, npc.direction);
                     }
                 }
                 if (npc.ai[0] == 550)
