@@ -291,6 +291,10 @@ namespace EEMod.EEWorld
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+                            case 5:
+                                tile.type = TileID.WoodenBeam;
+                                tile.active(true);
+                                break;
                             default:
                                 break;
                         }
@@ -322,8 +326,8 @@ namespace EEMod.EEWorld
                                 tile.wallColor(28);
                                 break;
                             case 3:
-                                tile.type = TileID.SilkRope;
-                                tile.wallColor(28);
+                                tile.wall = WallID.Cloud;
+                                tile.wallColor(29);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -853,7 +857,7 @@ namespace EEMod.EEWorld
         }
         private static void makeCoral(Vector2 startingPoint,int type, int strength)
         {
-            for (int j = 0; j < 3; j++)
+            for (int j = 0; j < 5; j++)
             {
                 int displacement = 0;
                 for (int i = 0; i < strength; i++)
@@ -999,7 +1003,7 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 1f, 1f, false, true);
         }
 
-        
+
         public static void CoralReef()
         {
             int chasmX = 100;
@@ -1077,7 +1081,7 @@ namespace EEMod.EEWorld
                                 break;
                         }
                         if(selection == 5 && j<300 && Main.rand.Next(4)==0)
-                        makeCoral(new Vector2(i, chasmY + j - 1), TileID.Coralstone, Main.rand.Next(4, 8));
+                        makeCoral(new Vector2(i, chasmY + j), TileID.Coralstone, Main.rand.Next(4, 8));
                     }
                 }
             }

@@ -62,7 +62,10 @@ namespace EEMod
         {
             _generator.Append(new PassLegacy(name, method));
         }
-
+        public void InvokeMethod(string methodName, List<object> args)
+        {
+            GetType().GetMethod(methodName).Invoke(this, args.ToArray());
+        }
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
             if (key == "CoralReefs")
@@ -206,7 +209,7 @@ namespace EEMod
                 Main.sun2Texture = TextureCache.Terraria_Sun2Texture; 
                 Main.sun3Texture = TextureCache.Terraria_Sun3Texture; 
                 Main.sunTexture = TextureCache.Terraria_SunTexture;
-                for (int i = 0; i < Main.backgroundTexture.Length - 1; i++)
+                for (int i = 0; i < Main.backgroundTexture.Length; i++)
                     Main.backgroundTexture[i] = ModContent.GetTexture("Terraria/Background_" + i);
             }
             orig(self, gameTime);
@@ -600,12 +603,18 @@ namespace EEMod
                 if (i == 1)
                     Lighting.AddLight(EEPlayer.objectPos[i], .15f, .15f, .15f);
             }
-
+            
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, 0, (int)(texture3.Width * quotient), texture3.Height), Color.White, 0, new Rectangle(0, 0, texture3.Width, texture3.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+
+          /*  Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin();*/
         }
 
 
