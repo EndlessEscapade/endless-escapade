@@ -492,6 +492,9 @@ namespace EEMod
                 if (titleText <= 0)
                     titleText = 0;
             }
+            else if (Main.ActiveWorldFileData.Name == key4)
+            {
+            }
             else
             {
                 baseWorldName = Main.ActiveWorldFileData.Name;
