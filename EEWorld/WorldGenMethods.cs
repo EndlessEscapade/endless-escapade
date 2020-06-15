@@ -328,7 +328,6 @@ namespace EEMod.EEWorld
                             case 3:
                                 tile.wall = WallID.Cloud;
                                 tile.wallColor(29);
-                                tile.active(true);
                                 break;
                             case 4:
                                 tile.wall = WallID.Wood;

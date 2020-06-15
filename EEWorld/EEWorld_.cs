@@ -17,6 +17,7 @@ using EEMod.Tiles.Ores;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using EEMod.EEWorld;
+using EEMod.Projectiles;
 
 namespace EEMod.EEWorld
 {
@@ -98,6 +99,11 @@ namespace EEMod.EEWorld
             }
             ShipComplete();
             Main.NewText("Ship Complete: " + shipComplete);
+
+            foreach(Vector2 tile in missingShipTiles)
+            {
+                Projectile.NewProjectile(tile, Vector2.Zero, ModContent.ProjectileType<ShipHelper>(), 0, 0);
+            }
         }
         public override void Load(TagCompound tag)
         {
