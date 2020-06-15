@@ -62,18 +62,9 @@ namespace EEMod
         {
             _generator.Append(new PassLegacy(name, method));
         }
-        public void InvokeMethod(string methodName, List<object> args)
-        {
-            GetType().GetMethod(methodName).Invoke(this, args.ToArray());
-        }
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
-            if (key == "CoralReefs")
-                EESubWorlds.CoralReefs(seed, customProgressObject = null);
-            if (key == "Pyramids")
-                EESubWorlds.Pyramids(seed, customProgressObject = null);
-            if (key == "Sea")
-                EESubWorlds.Sea(seed, customProgressObject = null);
+            typeof(EESubWorlds).GetMethod(key).Invoke(null,new object[] { seed, customProgressObject = null });
         }
         public static void GenerateWorld2(int seed, GenerationProgress customProgressObject = null)
         {

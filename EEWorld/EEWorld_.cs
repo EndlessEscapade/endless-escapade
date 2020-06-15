@@ -97,20 +97,23 @@ namespace EEMod.EEWorld
                     StartSandstorm();
                 }
             }
-            int lastNoOfShipTiles = missingShipTiles.Count;
-            ShipComplete();
-            if (missingShipTiles.Count != lastNoOfShipTiles)
+            if (Main.ActiveWorldFileData.Name == EEPlayer.baseWorldName)
             {
-                for(int i = 0; i<200; i++)
+                int lastNoOfShipTiles = missingShipTiles.Count;
+                ShipComplete();
+                if (missingShipTiles.Count != lastNoOfShipTiles)
                 {
-                  if(Main.projectile[i].type == ModContent.ProjectileType<WhiteBlock>())
+                    for (int i = 0; i < 200; i++)
                     {
-                        Main.projectile[i].Kill();
+                        if (Main.projectile[i].type == ModContent.ProjectileType<WhiteBlock>())
+                        {
+                            Main.projectile[i].Kill();
+                        }
                     }
-                }
-                foreach (Vector2 tile in missingShipTiles)
-                {
-                    Projectile.NewProjectile(tile * 16 + new Vector2(8,8) + new Vector2(-3*16,-6*16), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);
+                    foreach (Vector2 tile in missingShipTiles)
+                    {
+                        Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);
+                    }
                 }
             }
         }
