@@ -137,7 +137,7 @@ namespace EEMod.Projectiles
                     delay++;
                     if (delay < 14)
                     {
-                        projectile.velocity = JSHelper.MoveTowardsNPC(128f, projectile.velocity.X, projectile.velocity.Y, Main.npc[a], projectile.Center, projectile.direction);
+                        projectile.velocity = Helpers.MoveTowardsNPC(128f, projectile.velocity.X, projectile.velocity.Y, Main.npc[a], projectile.Center, projectile.direction);
                     }
                     else
                     {
