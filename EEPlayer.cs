@@ -216,10 +216,6 @@ namespace EEMod
                     player.Center.Y / 16 <= Main.spawnTileY + 5)
                 {
                     (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = true;
-                    if (player.controlUp)
-                    {
-                        SM.SaveAndQuit(baseWorldName);
-                    }
                 }
                 else
                 {
@@ -539,7 +535,8 @@ namespace EEMod
                 if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X + 2) - 2 &&
                     player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 2) + 2 &&
                     player.Center.Y / 16 >= (EEWorld.EEWorld.ree.Y + 14) - 2 &&
-                    player.Center.Y / 16 <= (EEWorld.EEWorld.ree.Y + 14) + 2)
+                    player.Center.Y / 16 <= (EEWorld.EEWorld.ree.Y + 14) + 2 &&
+                    EEWorld.EEWorld.shipComplete == true)
                 {
                     if (player.controlUp)
                     {
