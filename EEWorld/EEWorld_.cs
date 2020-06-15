@@ -96,10 +96,22 @@ namespace EEMod.EEWorld
                     StartSandstorm();
                 }
             }
-            Main.NewText(ree);
+            int lastNoOfShipTiles = missingShipTiles.Count;
             ShipComplete();
-            Main.NewText(missingShipTiles.Count);
-            Main.NewText("Ship Complete: " + shipComplete);
+            if (missingShipTiles.Count != lastNoOfShipTiles)
+            {
+                for(int i = 0; i<200; i++)
+                {
+                  if(Main.projectile[i].type == ModContent.ProjectileType<WhiteBlock>())
+                    {
+                        Main.projectile[i].Kill();
+                    }
+                }
+                foreach (Vector2 tile in missingShipTiles)
+                {
+                    Projectile.NewProjectile(tile * 16 + new Vector2(8,8) + new Vector2(-3*16,-6*16), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);
+                }
+            }
         }
         public override void Load(TagCompound tag)
         {
@@ -227,7 +239,6 @@ namespace EEMod.EEWorld
                             expectedType = -1;
                             break;
                     }
-                    Projectile.NewProjectile(new Vector2(i, j) + new Vector2(8, 8), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);
                     if (tile.type != expectedType && expectedType != -1)
                     {
                         missingShipTiles.Add(new Vector2(i, j));

@@ -216,6 +216,10 @@ namespace EEMod
                     player.Center.Y / 16 <= Main.spawnTileY + 5)
                 {
                     (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = true;
+                    if (player.controlUp)
+                    {
+                        SM.SaveAndQuit(baseWorldName);
+                    }
                 }
                 else
                 {

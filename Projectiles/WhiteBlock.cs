@@ -17,14 +17,14 @@ namespace EEMod.Projectiles
             projectile.width = 16;
             projectile.height = 16;
             projectile.alpha = 0;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 60000;
             projectile.penetrate = -1;
             projectile.hostile = false;
             projectile.friendly = true;
             projectile.magic = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.scale *= 0.7f;
+            projectile.scale *= 1;
         }
 
         private void LookToPlayer()
