@@ -302,7 +302,7 @@ namespace EEMod
                         subText = 1;
                     if (player.controlUp)
                     {
-                        SM.SaveAndQuit(key3);
+
                     }
                 }
                 else
@@ -340,7 +340,7 @@ namespace EEMod
                     (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
-                        SM.SaveAndQuit(key3);
+                        SM.SaveAndQuit(key3); // coral reefs
                     }
                 }
                 else
