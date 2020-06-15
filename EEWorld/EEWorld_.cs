@@ -18,6 +18,7 @@ using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using EEMod.EEWorld;
 using EEMod.Projectiles;
+
 namespace EEMod.EEWorld
 {
     public partial class EEWorld : ModWorld
@@ -204,11 +205,11 @@ namespace EEMod.EEWorld
 
         public static void ShipComplete()
         {
-            
+
             missingShipTiles.Clear();
             int ShipTilePosX =(int)(ree.X);
             int ShipTilePosY = (int)(ree.Y);
-            
+
             for (int i = ShipTilePosX; i< ShipTilePosX + ShipTiles.GetLength(1); i++)
             {
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
@@ -242,7 +243,7 @@ namespace EEMod.EEWorld
                     if (tile.type != expectedType && expectedType != -1)
                     {
                         missingShipTiles.Add(new Vector2(i, j));
-                        
+
                     }
                     if (expectedType == -1 && tile.active())
                     {
