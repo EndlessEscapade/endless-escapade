@@ -14,6 +14,7 @@ namespace EEMod.NPCs.Bosses.Gallagar
         {
             DisplayName.SetDefault("Gallagar Beam");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 18;
@@ -25,18 +26,22 @@ namespace EEMod.NPCs.Bosses.Gallagar
             projectile.timeLeft = 3600;
             projectile.tileCollide = false;
         }
+
         internal const float charge = 240;
         public float LaserLength { get => projectile.localAI[1]; set => projectile.localAI[1] = value; }
         public const float LaserLengthMax = 2000f;
         int multiplier = 1;
+
         public override bool ShouldUpdatePosition()
         {
             return false;
         }
+
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
             drawCacheProjsBehindProjectiles.Add(index);
         }
+
         float attackCounter = 0;
         float chargeCounter = 0;
         public override void SendExtraAI(BinaryWriter writer)
@@ -113,7 +118,7 @@ namespace EEMod.NPCs.Bosses.Gallagar
                 return false;
             }
             Texture2D projectileTexture = Main.projectileTexture[projectile.type];
-            Texture2D beamTexture = TextureCache.GBeam_Beam; 
+            Texture2D beamTexture = TextureCache.GBeam_Beam;
             Texture2D beamEndTexture = TextureCache.GBeam_End;
             float laserLength = LaserLength;
             Color color44 = Color.White * 0.8f;

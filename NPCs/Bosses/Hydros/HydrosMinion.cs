@@ -1,7 +1,7 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria.Audio;
 
 namespace EEMod.NPCs.Bosses.Hydros
 {

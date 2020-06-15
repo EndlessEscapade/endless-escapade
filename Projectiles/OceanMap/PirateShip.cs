@@ -1,8 +1,7 @@
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles.OceanMap
 {
@@ -22,6 +21,7 @@ namespace EEMod.Projectiles.OceanMap
             projectile.ignoreWater = true;
             projectile.scale = 1f;
         }
+
         public override void AI()
         {
             Vector2 moveTo = Main.screenPosition + EEMod.position;

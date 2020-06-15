@@ -1,9 +1,6 @@
+using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
@@ -22,9 +19,9 @@ namespace EEMod.Projectiles
             //projectile.GetGlobalProjectile<ImplaingProjectile>().damagePerImpaler = 5;  Didn't work, couldn't find where this was created
             //rotationOffset = (float)Math.PI / 4;
         }
+
         public override void Kill(int timeLeft)
         {
-
             for (var i = 0; i < 50; i++)
             {
                 int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 0, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-6f, 6f), 6, default, projectile.scale);

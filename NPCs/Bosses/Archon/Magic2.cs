@@ -1,7 +1,7 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria.ID;
 
 namespace EEMod.NPCs.Bosses.Archon
 {
@@ -49,6 +49,5 @@ namespace EEMod.NPCs.Bosses.Archon
         }
 
         private int attackCounter = 30;
-
     }
 }

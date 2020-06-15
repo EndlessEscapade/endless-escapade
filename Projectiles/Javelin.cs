@@ -1,8 +1,8 @@
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
@@ -39,7 +39,7 @@ namespace EEMod.Projectiles
         {
             Main.PlaySound(SoundID.Dig, (int)projectile.position.X, (int)projectile.position.Y); // Play a death sound
             //_ = projectile.position; // Position to use for dusts
-                                     // Please note the usage of MathHelper, please use projectile! We subtract 90 degrees as radians to the rotation vector to offset the sprite as its default rotation in the sprite isn't aligned properly.
+            // Please note the usage of MathHelper, please use projectile! We subtract 90 degrees as radians to the rotation vector to offset the sprite as its default rotation in the sprite isn't aligned properly.
             // Vector2 rotVector = (projectile.rotation - MathHelper.ToRadians(90f)).ToRotationVector2();
             //_ = rotVector * 16f;
 
@@ -66,7 +66,7 @@ namespace EEMod.Projectiles
         // Are we sticking to a target?
         public bool IsStickingToTarget
         {
-            get => projectile.ai[0] == 1f; 
+            get => projectile.ai[0] == 1f;
             set => projectile.ai[0] = value ? 1f : 0f;
         }
 
@@ -133,7 +133,6 @@ namespace EEMod.Projectiles
                 Main.projectile[stickingJavelins[oldJavelinIndex].X].Kill();
             }
         }
-
 
         public virtual void NonStickingBehavior()
         {

@@ -12,6 +12,7 @@ namespace EEMod.Items.Weapons.Ranger
             DisplayName.SetDefault("Desert Arrow");
             Tooltip.SetDefault("Yes, this is a ranged weapon.");
         }
+
         public override void SetDefaults()
         {
             item.width = 22;
@@ -33,6 +34,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.shoot = ModContent.ProjectileType<DesArrowProjectile>();
             item.shootSpeed = 11f;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

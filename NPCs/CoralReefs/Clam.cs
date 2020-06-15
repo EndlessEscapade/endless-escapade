@@ -2,7 +2,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.Items.Weapons.Mage;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -14,6 +13,7 @@ namespace EEMod.NPCs.CoralReefs
             DisplayName.SetDefault("Clam");
             Main.npcFrameCount[npc.type] = 2;
         }
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;

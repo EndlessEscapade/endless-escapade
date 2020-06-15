@@ -1,9 +1,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using EEMod.Dusts;
+using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Tiles.Ores
 {
@@ -27,7 +27,7 @@ namespace EEMod.Tiles.Ores
             dustType = ModContent.DustType<HydriteOreDust>();
             drop = ModContent.ItemType<HydriteOre>();
             //dustType = ModContent.DustType<NauticOreDust>();
-          //  drop = ModContent.ItemType<NauticOre>();
+            //  drop = ModContent.ItemType<NauticOre>();
             soundType = SoundID.Tink;
             soundStyle = 1;
             mineResist = 1f;

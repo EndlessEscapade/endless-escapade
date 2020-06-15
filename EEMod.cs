@@ -1,35 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.ExceptionServices;
-using System.Text;
 using Terraria;
-using Terraria.DataStructures;
+using Terraria.GameContent.Generation;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
-using Terraria.GameContent.Generation;
 using Terraria.ID;
-using Terraria.UI;
 using Terraria.Localization;
-using Terraria.World.Generation;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Core;
-using Terraria.ModLoader.UI;
+using Terraria.UI;
+using Terraria.World.Generation;
+using ReLogic.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using MonoMod.Cil;
-using log4net.Appender;
-using log4net.Config;
-using log4net.Core;
-using log4net.Layout;
-using ReLogic.OS;
 using EEMod.Autoloading;
-using EEMod.UI;
-using EEMod.Tiles;
-using EEMod.EEWorld;
-using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Materials;
+using EEMod.Items.Weapons.Mage;
+using EEMod.Tiles;
+using EEMod.UI;
 
 namespace EEMod
 {
@@ -64,7 +53,7 @@ namespace EEMod
         }
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
-            typeof(EESubWorlds).GetMethod(key).Invoke(null,new object[] { seed, customProgressObject = null });
+            typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject = null });
         }
         public static void GenerateWorld2(int seed, GenerationProgress customProgressObject = null)
         {
@@ -133,7 +122,7 @@ namespace EEMod
         }
 
 
-            
+
         public override void Unload()
         {
             IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
@@ -182,7 +171,7 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawMenu += OnDrawMenu;
         }
-        
+
         public static bool isSaving = false;
         public static int loadingChoose;
         public static int loadingChooseImage;
@@ -204,10 +193,10 @@ namespace EEMod
                 loadingChooseImage = Main.rand.Next(5);
                 Main.numClouds = 10;
                 if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                Main.logo2Texture = TextureCache.Terraria_Logo2Texture; 
-                Main.logoTexture = TextureCache.Terraria_LogoTexture; 
-                Main.sun2Texture = TextureCache.Terraria_Sun2Texture; 
-                Main.sun3Texture = TextureCache.Terraria_Sun3Texture; 
+                Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
+                Main.logoTexture = TextureCache.Terraria_LogoTexture;
+                Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
+                Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
                 Main.sunTexture = TextureCache.Terraria_SunTexture;
                 for (int i = 0; i < Main.backgroundTexture.Length; i++)
                     Main.backgroundTexture[i] = ModContent.GetTexture("Terraria/Background_" + i);
@@ -216,7 +205,7 @@ namespace EEMod
         }
         private void OnDrawMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
-            
+
             position = start;
             velocity = Vector2.Zero;
             if (isSaving)
@@ -430,10 +419,10 @@ namespace EEMod
                 Main.numClouds = 10;
                 if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
                 Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
-                Main.logoTexture = TextureCache.Terraria_LogoTexture; 
-                Main.sun2Texture = TextureCache.Terraria_Sun2Texture; 
-                Main.sun3Texture = TextureCache.Terraria_Sun3Texture; 
-                Main.sunTexture = TextureCache.Terraria_SunTexture; 
+                Main.logoTexture = TextureCache.Terraria_LogoTexture;
+                Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
+                Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
+                Main.sunTexture = TextureCache.Terraria_SunTexture;
                 for (int i = 0; i < Main.backgroundTexture.Length; i++)
                     Main.backgroundTexture[i] = ModContent.GetTexture("Terraria/Background_" + i);
             }
@@ -475,7 +464,7 @@ namespace EEMod
                     {
                         if (lastGameTime != null && EEInterface?.CurrentState != null)
                         {
-                           // EEInterface.Draw(Main.spriteBatch, lastGameTime);
+                            // EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         return true;
                     },
@@ -623,23 +612,23 @@ namespace EEMod
             }
             for (int i = 0; i < EEPlayer.objectPos.Count; i++)
             {
-                if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i !=7 && i != 8)
+                if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i != 7 && i != 8)
                     Lighting.AddLight(EEPlayer.objectPos[i], .4f, .4f, .4f);
                 if (i == 1)
                     Lighting.AddLight(EEPlayer.objectPos[i], .15f, .15f, .15f);
             }
-            
+
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, 0, (int)(texture3.Width * quotient), texture3.Height), Color.White, 0, new Rectangle(0, 0, texture3.Width, texture3.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
-          /*  Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            /*  Main.spriteBatch.End();
+              Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin();*/
+              Main.spriteBatch.End();
+              Main.spriteBatch.Begin();*/
         }
 
 

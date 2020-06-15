@@ -1,8 +1,6 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -26,7 +24,7 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.lifeMax = 5;
 
-            
+
             npc.lavaImmune = false;
             npc.noTileCollide = false;
         }

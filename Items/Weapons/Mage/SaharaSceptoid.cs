@@ -36,23 +36,23 @@ namespace EEMod.Items.Weapons.Mage
             item.rare = ItemRarityID.Orange;
             item.crit = 5;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             speedX *= 2f;
             speedY *= 2f;
             return true;
         }
+
         public override void AddRecipes()
         {
-            {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.Diamond, 1);
-                recipe.AddIngredient(ModContent.ItemType<MummifiedRag>(), 7);
-                recipe.AddIngredient(ItemID.Sandstone, 15);
-                recipe.AddTile(TileID.Anvils);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Diamond, 1);
+            recipe.AddIngredient(ModContent.ItemType<MummifiedRag>(), 7);
+            recipe.AddIngredient(ItemID.Sandstone, 15);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

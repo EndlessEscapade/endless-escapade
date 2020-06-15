@@ -1,10 +1,9 @@
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.Enums;
-using Terraria.ModLoader;
+using Terraria.ID;
 using Terraria.ObjectData;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -28,12 +27,9 @@ namespace EEMod.Tiles.Furniture
             adjTiles = new int[] { TileID.HangingLanterns };
         }
 
-
         public override void NumDust(int i, int j, bool fail, ref int num)
         {
             num = fail ? 1 : 3;
         }
-
-
     }
 }

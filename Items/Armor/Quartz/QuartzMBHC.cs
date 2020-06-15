@@ -6,26 +6,26 @@ using EEMod.Items.Materials;
 namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(EquipType.Head)]
-	public class QuartzMBHC : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
+    public class QuartzMBHC : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Quartz Moonbrace Hair Clip");
             Tooltip.SetDefault("1 defense\n6% increased summon damage\n+1 max minions");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 26;
             item.height = 24;
             item.value = Item.buyPrice(0, 12, 35, 0);
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
-		public override void ArmorSetShadows(Player player)
-		{
-			player.armorEffectDrawShadow = true;
-		}
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -40,7 +40,7 @@ namespace EEMod.Items.Armor.Quartz
         }
 
         public override void UpdateEquip(Player player)
-		{
+        {
             player.statDefense += 1;
             player.minionDamage *= 1.06f;
             player.maxMinions += 1;

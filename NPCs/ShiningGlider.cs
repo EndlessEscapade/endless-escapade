@@ -1,9 +1,7 @@
-using EEMod.Items.Materials;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Materials;
 
 namespace EEMod.NPCs
 {
@@ -34,17 +32,19 @@ namespace EEMod.NPCs
             npc.value = 100f;
         }
 
-        public override void HitEffect(int hitDirection, double damage)
-        {
-            bool isDead = npc.life <= 0;
-            for (int m = 0; m < (isDead ? 25 : 5); m++)
-            {
-            }
-        }
+        //public override void HitEffect(int hitDirection, double damage)
+        //{
+        //    bool isDead = npc.life <= 0;
+        //    for (int m = 0; m < (isDead ? 25 : 5); m++)
+        //    {
+        //    }
+        //}
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             return SpawnCondition.Underground.Chance * 0.1f;
         }
+
         float shootAI = 0;
         public bool isGliding = false;
         public override void AI()
@@ -79,9 +79,8 @@ namespace EEMod.NPCs
                 }
                 npc.netUpdate = true;
             }
-
-
         }
+
         public override void FindFrame(int frameHeight) //Frame counter
         {
             npc.spriteDirection = -1;
@@ -105,40 +104,31 @@ namespace EEMod.NPCs
             }
             if (isGliding)
             {
-
                 npc.frame.Y = frameHeight * 4;
             }
+        }
 
-        }
-        private void LookInDirectionP(Vector2 look)
-        {
-            float angle = 0.5f * (float)Math.PI;
-            if (look.X != 0f)
-            {
-                angle = (float)Math.Atan(look.Y / look.X);
-            }
-            else if (look.Y < 0f)
-            {
-                angle += (float)Math.PI;
-            }
-            if (look.X < 0f)
-            {
-                angle += (float)Math.PI;
-            }
-            npc.rotation = angle;
-        }
+        //private void LookInDirectionP(Vector2 look) // unused
+        //{
+        //    float angle = 0.5f * (float)Math.PI;
+        //    if (look.X != 0f)
+        //    {
+        //        angle = (float)Math.Atan(look.Y / look.X);
+        //    }
+        //    else if (look.Y < 0f)
+        //    {
+        //        angle += (float)Math.PI;
+        //    }
+        //    if (look.X < 0f)
+        //    {
+        //        angle += (float)Math.PI;
+        //    }
+        //    npc.rotation = angle;
+        //}
+
         public override void NPCLoot()
         {
-            {
-                if (Main.rand.Next(0) == 0)
-                {
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(2,3));
-                }
-            }
-
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(2, 3));
         }
-
-
-
     }
 }

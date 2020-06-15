@@ -2,11 +2,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.Compatibility;
 using Microsoft.Xna.Framework.Graphics;
-using EEMod.EEWorld;
-using EEMod.Items.Weapons.Ranger;
+using EEMod.Compatibility;
 using EEMod.Items.Weapons.Mage;
+using EEMod.Items.Weapons.Ranger;
 
 namespace EEMod.NPCs.Bosses.Stagrel
 {

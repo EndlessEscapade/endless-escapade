@@ -4,7 +4,6 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.Compatibility;
 // using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.NPCs.Bosses.Archon

@@ -20,11 +20,13 @@ namespace EEMod.NPCs
         readonly float accel = 0.2f;
         readonly float maxSpeed = 1.4f;
         public Vector2 tilePos;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dune Shambler");
             Main.npcFrameCount[npc.type] = 6;
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (NPC.downedBoss1 == true)
@@ -36,6 +38,7 @@ namespace EEMod.NPCs
                 return SpawnCondition.DesertCave.Chance * 0f;
             }
         }
+
         public override void SetDefaults()
         {
 
@@ -51,16 +54,17 @@ namespace EEMod.NPCs
             npc.alpha = 20;
             npc.behindTiles = true;
         }
+
         public override void FindFrame(int frameHeight)
         {
             Player player = Main.player[npc.target];
-            if (player.Center.X - npc.Center.X> 0)
+            if (player.Center.X - npc.Center.X > 0)
             {
                 npc.spriteDirection = -1;
             }
             else
                 npc.spriteDirection = 1;
-            
+
             if (npc.ai[0] > 0 || ((canTp && npc.ai[1] >= timeInDig && npc.ai[1] >= timeInDig + 24)))
             {
                 if (npc.frameCounter++ > 4)
@@ -74,7 +78,7 @@ namespace EEMod.NPCs
                     return;
                 }
             }
-                if (npc.ai[0] <= 0 && Math.Abs(npc.velocity.X) <= accel * 2.5f && npc.ai[1]< timeInDig)
+            if (npc.ai[0] <= 0 && Math.Abs(npc.velocity.X) <= accel * 2.5f && npc.ai[1] < timeInDig)
             {
                 if (npc.frameCounter++ > 6)
                 {
@@ -87,7 +91,7 @@ namespace EEMod.NPCs
                     return;
                 }
             }
-            if (canTp && npc.ai[1] >= timeInDig && npc.ai[1] <= timeInDig+24)
+            if (canTp && npc.ai[1] >= timeInDig && npc.ai[1] <= timeInDig + 24)
             {
                 alpha = 1;
                 if (npc.frameCounter++ > 4)
@@ -103,21 +107,18 @@ namespace EEMod.NPCs
             }
 
         }
+
         public override void NPCLoot()
         {
-            if (Main.rand.Next(0) == 0)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(0, 2));
-            }
-
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(0, 2));
         }
-        
+
         public override void AI()
         {
             npc.ai[0] = coolDown;
             npc.TargetClosest(false);
             Player player = Main.player[npc.target];
-            Vector2 moveTo = player.Center + new Vector2(npc.spriteDirection*(npc.width*4),0);
+            Vector2 moveTo = player.Center + new Vector2(npc.spriteDirection * (npc.width * 4), 0);
 
             onGround = false;
             collision = false;
@@ -127,12 +128,12 @@ namespace EEMod.NPCs
                 accel2 = 0.7f;
             if (npc.Center.X < player.Center.X)
             {
-                npc.velocity.X += accel* accel2;
+                npc.velocity.X += accel * accel2;
             }
 
             if (npc.Center.X > player.Center.X)
             {
-                npc.velocity.X -= accel* accel2;
+                npc.velocity.X -= accel * accel2;
             }
 
             if (Math.Abs(npc.velocity.X) == maxSpeed)
@@ -156,14 +157,14 @@ namespace EEMod.NPCs
             {
                 minTilePosY = 0;
             }
-            
+
             if (maxTilePosY > Main.maxTilesY)
             {
                 maxTilePosY = Main.maxTilesY;
             }
             for (int i = minTilePosX; i < maxTilePosX; ++i)
             {
-                for (int j = minTilePosY; j < maxTilePosY+5; ++j)
+                for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
                     if (Main.tile[i, j] != null && (Main.tile[i, j].nactive() && (Main.tileSolid[(int)Main.tile[i, j].type] || Main.tileSolidTop[(int)Main.tile[i, j].type] && (int)Main.tile[i, j].frameY == 0)))
                     {
@@ -178,7 +179,7 @@ namespace EEMod.NPCs
                     }
                 }
             }
-        for (int i = minTilePosX; i < maxTilePosX; ++i)
+            for (int i = minTilePosX; i < maxTilePosX; ++i)
             {
                 for (int j = minTilePosY; j < maxTilePosY; ++j)
                 {
@@ -187,8 +188,8 @@ namespace EEMod.NPCs
                         Vector2 vector2;
                         vector2.X = (float)(i * 16);
                         vector2.Y = (float)(j * 16);
-                        
-                        if (Math.Abs(npc.Center.X - vector2.X) <= 16+(npc.width/2))
+
+                        if (Math.Abs(npc.Center.X - vector2.X) <= 16 + (npc.width / 2))
                         {
                             coolDown--;
                             collision = true;
@@ -200,30 +201,30 @@ namespace EEMod.NPCs
             }
             if (Main.netMode != 1)
             {
-                if (Math.Abs(npc.velocity.X) <= accel*2.5f)
+                if (Math.Abs(npc.velocity.X) <= accel * 2.5f)
                 {
                     npc.ai[2] = Main.rand.NextFloat(12);
                     if (npc.ai[2] <= 1 && onGround)
                     {
                         npc.velocity.Y -= 1.8f;
                     }
-                    if(onGround)
-                    coolDown -= 2;
+                    if (onGround)
+                        coolDown -= 2;
                     if (Main.rand.NextFloat(5) <= 1 && onGround && collision)
                         npc.velocity.Y -= 1.7f;
 
                     npc.netUpdate = true;
                 }
             }
-            if (npc.ai[0] <= 0 && Math.Abs(npc.velocity.X)<= accel*2.5f && onGround)
+            if (npc.ai[0] <= 0 && Math.Abs(npc.velocity.X) <= accel * 2.5f && onGround)
             {
                 canTp = true;
             }
-            if(canTp)
+            if (canTp)
             {
                 if (npc.ai[1] == 0)
                     npc.frame.Y = 0;
-                if (npc.ai[1] < 30 || npc.ai[1]>100 && npc.ai[1]<130)
+                if (npc.ai[1] < 30 || npc.ai[1] > 100 && npc.ai[1] < 130)
                 {
                     int num = Dust.NewDust(npc.position + new Vector2(0, 30), npc.width, npc.height, 0, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-6f, 6f), 6, default, npc.scale);
                     Main.dust[num].noGravity = false;
@@ -239,8 +240,8 @@ namespace EEMod.NPCs
                 int tileY = (int)npc.position.Y / 16;
                 int teleportCheckCount = 0;
                 bool hasTeleportPoint = false;
-                if(npc.ai[1] < timeInDig)
-                npc.velocity = new Vector2(0,0);
+                if (npc.ai[1] < timeInDig)
+                    npc.velocity = new Vector2(0, 0);
                 //gayass
                 //player is too far away, don't teleport.
                 //Universe is so stupid and noone likes him. STFU u stupid ass mofo bitch monkey ass mofo bitch ass monkey mofo ass monkey bitch fucking slutbag.
@@ -273,24 +274,25 @@ namespace EEMod.NPCs
                                 }
                             }
                         }
-                        
+
                     }
-                    
+
                 }
-                if (npc.ai[1] == timeInDig*2)
+                if (npc.ai[1] == timeInDig * 2)
                 {
                     canTp = false;
                     npc.ai[1] = 0;
                     coolDown = coolDownMax;
                     npc.netUpdate = true;
                 }
-                }
+            }
             if ((canTp && npc.ai[1] < timeInDig))
                 npc.velocity.X = 0;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(Main.magicPixel, tilePos - Main.screenPosition, new Rectangle(0,0,16,16), drawColor * alpha, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(Main.magicPixel, tilePos - Main.screenPosition, new Rectangle(0, 0, 16, 16), drawColor * alpha, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             // Mod mod = ModLoader.GetMod("EEMod");
             Texture2D texture = TextureCache.DuneShambler;
             Texture2D texture2 = TextureCache.DuneShamblerDig;
@@ -304,9 +306,9 @@ namespace EEMod.NPCs
                 npc.spriteDirection = 1;
 
             if (!canTp || ((canTp && npc.ai[1] >= timeInDig && npc.ai[1] >= timeInDig + 24)))
-                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition+new Vector2(0,13), npc.frame, drawColor*alpha, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, 13), npc.frame, drawColor * alpha, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             else
-                Main.spriteBatch.Draw(texture2, npc.Center - Main.screenPosition + new Vector2(0, 13), npc.frame, drawColor*alpha, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                Main.spriteBatch.Draw(texture2, npc.Center - Main.screenPosition + new Vector2(0, 13), npc.frame, drawColor * alpha, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
     }

@@ -1,5 +1,4 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
@@ -36,7 +35,7 @@ namespace EEMod.Projectiles.Mage
             {
                 float rot = Main.rand.NextFloat(6.28f);
                 Vector2 position = target.Center + Vector2.One.RotatedBy(rot) * 160;
-                for(int i=0; i<30; i++)
+                for (int i = 0; i < 30; i++)
                     Dust.NewDust(position, projectile.width, projectile.height, 75);
                 Vector2 velocity = Vector2.One.RotatedBy(rot) * -1 * 16f;
                 int newProj = Projectile.NewProjectile(position, velocity, ModContent.ProjectileType<AbyssalSceptreProjectile>(), projectile.damage, projectile.knockBack);

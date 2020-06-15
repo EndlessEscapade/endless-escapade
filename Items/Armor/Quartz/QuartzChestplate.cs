@@ -6,29 +6,29 @@ using EEMod.Items.Materials;
 namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(EquipType.Body)]
-	public class QuartzChestplate : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
+    public class QuartzChestplate : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Quartz Chestplate");
             Tooltip.SetDefault("7 defense\n12% increased weapon speed");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 34;
             item.height = 16;
             item.value = Item.buyPrice(0, 15, 0, 0);
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
-		public override void ArmorSetShadows(Player player)
-		{
-			player.armorEffectDrawShadow = true;
-		}
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
 
-		public override void UpdateEquip(Player player)
-		{
+        public override void UpdateEquip(Player player)
+        {
             player.statDefense += 7;
             player.meleeSpeed *= 1.12f;
             player.GetModPlayer<EEPlayer>().isQuartzChestOn = true;

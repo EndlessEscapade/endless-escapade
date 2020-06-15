@@ -1,14 +1,11 @@
 using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.EEWorld;
-using EEMod.NPCs.Bosses.Archon;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.DataStructures;
+using EEMod.NPCs.Bosses.Archon;
 
 namespace EEMod.NPCs.Bosses.Gallagar
 {

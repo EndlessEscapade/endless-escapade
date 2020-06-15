@@ -1,7 +1,4 @@
-using System;
-using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles.Ranged
 {
@@ -23,7 +20,7 @@ namespace EEMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.rotation++;
-            if(projectile.velocity.Y < 16)
+            if (projectile.velocity.Y < 16)
             {
                 projectile.velocity.Y *= 1.003f;
             }

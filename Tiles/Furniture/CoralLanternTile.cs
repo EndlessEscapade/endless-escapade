@@ -1,9 +1,9 @@
-using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.Enums;
-using Terraria.ModLoader;
+using Terraria.ID;
 using Terraria.ObjectData;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles.Furniture
@@ -28,6 +28,7 @@ namespace EEMod.Tiles.Furniture
             adjTiles = new int[] { TileID.HangingLanterns };
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
+
         public override void HitWire(int i, int j)
         {
             int left = i - (Main.tile[i, j].frameX / 18) % 1;
@@ -60,6 +61,7 @@ namespace EEMod.Tiles.Furniture
         {
             num = fail ? 1 : 3;
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Main.tile[i, j];
@@ -76,6 +78,7 @@ namespace EEMod.Tiles.Furniture
             //Item.NewItem(i * 16, j * 16, 48, 32, ModContent.ItemType<CoralLante>());
             Chest.DestroyChest(i, j);
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             ulong randSeed = Main.TileFrameSeed ^ (ulong)(j << 32 | (long)((ulong)i));

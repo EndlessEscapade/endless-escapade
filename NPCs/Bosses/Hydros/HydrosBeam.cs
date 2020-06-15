@@ -1,18 +1,19 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
-using System;
 using Microsoft.Xna.Framework;
+using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.NPCs.Bosses.Hydros
 {
     public class HydrosBeam : ModProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydros Beam");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -25,6 +26,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             projectile.alpha = 0;
             projectile.timeLeft = 120;
         }
+
         public override void AI()
         {
             if (projectile.localAI[0] == 0f)

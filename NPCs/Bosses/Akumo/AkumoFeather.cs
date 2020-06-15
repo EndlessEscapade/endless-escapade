@@ -1,9 +1,10 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+
 namespace EEMod.NPCs.Bosses.Akumo
 {
     public class AkumoFeather : ModProjectile

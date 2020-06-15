@@ -2,7 +2,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables;
 
 namespace EEMod.Items.Weapons.Ranger
 {

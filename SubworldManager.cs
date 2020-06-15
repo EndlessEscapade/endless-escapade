@@ -1,19 +1,18 @@
 using System;
 using System.IO;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using System.Threading;
-using Terraria.World.Generation;
-using Terraria.Utilities;
+using Terraria;
+using Terraria.GameContent.Generation;
+using Terraria.ID;
 using Terraria.IO;
 using Terraria.Localization;
-using Terraria.GameContent.Generation;
 using Terraria.Social;
+using Terraria.Utilities;
+using Terraria.World.Generation;
+using Terraria.ModLoader;
+
 namespace EEMod
 {
-
     public class SubworldManager
     {
         public static int _lastSeed;
@@ -52,7 +51,7 @@ namespace EEMod
             _generator.GenerateWorld(customProgressObject);
             Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
         }
-            internal static void PreSaveAndQuit()
+        internal static void PreSaveAndQuit()
         {
             Mod[] mods = ModLoader.Mods;
             for (int i = 0; i < mods.Length; i++)
@@ -113,7 +112,7 @@ namespace EEMod
         {
             Main.PlaySound(SoundID.MenuOpen);
             WorldGen.clearWorld();
-            EEMod.GenerateWorld(threadContext as string,Main.ActiveWorldFileData.Seed, null);
+            EEMod.GenerateWorld(threadContext as string, Main.ActiveWorldFileData.Seed, null);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{threadContext as string}.wld", false);
             WorldGen.playWorld();
@@ -136,16 +135,16 @@ namespace EEMod
         }
         private static void OnWorldNamed(string text, GenerationProgress progress)
         {
-                string path = $@"{Main.SavePath}\Worlds\{text}.wld";
-                if (!File.Exists(path))
-                {
+            string path = $@"{Main.SavePath}\Worlds\{text}.wld";
+            if (!File.Exists(path))
+            {
                 Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
                 Main.worldName = text.Trim();
                 CreateNewWorld(text, progress);
                 return;
-                }
-                Main.ActiveWorldFileData = WorldFile.GetAllMetadata(path, false);
-                WorldGen.playWorld();
+            }
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata(path, false);
+            WorldGen.playWorld();
         }
         private void ReturnOnName(string text, GenerationProgress progress)
         {

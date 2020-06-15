@@ -1,13 +1,11 @@
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.UI
 {
-     internal class EEUI : UIState
-     {
-
+    internal class EEUI : UIState
+    {
         public override void OnActivate()
         {
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using Terraria;
-using Terraria.ModLoader;
 using EEMod.Extensions;
 
 namespace EEMod.Autoloading

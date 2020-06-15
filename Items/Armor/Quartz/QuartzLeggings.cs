@@ -6,29 +6,29 @@ using EEMod.Items.Materials;
 namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(EquipType.Legs)]
-	public class QuartzLeggings : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
+    public class QuartzLeggings : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Quartz Greaves");
             Tooltip.SetDefault("6 defense\n15% increased movement speed");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 22;
             item.height = 16;
             item.value = Item.buyPrice(0, 10, 0, 0);
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
-		public override void ArmorSetShadows(Player player)
-		{
-			player.armorEffectDrawShadow = true;
-		}
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
 
-		public override void UpdateEquip(Player player)
-		{
+        public override void UpdateEquip(Player player)
+        {
             player.statDefense += 6;
             player.moveSpeed *= 1.15f;
         }

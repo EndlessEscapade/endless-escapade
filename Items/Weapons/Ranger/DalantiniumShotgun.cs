@@ -38,16 +38,6 @@ namespace EEMod.Items.Weapons.Ranger
             return new Vector2(-3, 0);
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
-            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
-            recipe.AddIngredient(ItemID.Boomstick, 1);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             int numberProjectiles = 3 + Main.rand.Next(2);
@@ -58,6 +48,17 @@ namespace EEMod.Items.Weapons.Ranger
                 Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
             }
             return false;
+        }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
+            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
+            recipe.AddIngredient(ItemID.Boomstick, 1);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

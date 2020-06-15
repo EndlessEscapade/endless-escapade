@@ -1,9 +1,8 @@
 using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
@@ -30,6 +29,7 @@ namespace EEMod.Projectiles
             projectile.aiStyle = 0;
             projectile.arrow = true;
         }
+
         public override void AI()           //this make that the projectile will face the corect way
         {
             projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
@@ -52,10 +52,12 @@ namespace EEMod.Projectiles
                 }
             }
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             //target.AddBuff(BuffID.Chilled, 100);
         }
+
         public override void Kill(int timeleft)
         {
             //Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 50);
@@ -68,6 +70,5 @@ namespace EEMod.Projectiles
                 Main.dust[num].noLight = false;
             }
         }
-
     }
 }

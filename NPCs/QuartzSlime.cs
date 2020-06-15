@@ -1,8 +1,7 @@
-using EEMod.Items.Materials;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Materials;
 
 namespace EEMod.NPCs
 {
@@ -13,6 +12,7 @@ namespace EEMod.NPCs
             DisplayName.SetDefault("Quartz Slime");
             Main.npcFrameCount[npc.type] = Main.npcFrameCount[NPCID.BlueSlime];
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (NPC.downedBoss1 == false)
@@ -24,9 +24,9 @@ namespace EEMod.NPCs
                 return SpawnCondition.Underground.Chance * 0.1f;
             }
         }
+
         public override void SetDefaults()
         {
-
             npc.width = 50;
             npc.height = 50;
             npc.damage = 12;
@@ -41,18 +41,11 @@ namespace EEMod.NPCs
             aiType = NPCID.BlueSlime;
             animationType = NPCID.BlueSlime;
         }
-        public override void FindFrame(int frameHeight)
-        {
 
-        }
         public override void NPCLoot()
         {
-            if (Main.rand.Next(0) == 0)
-            {
-                 // this is still pretty useless to do
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(1,3));
-            }
-
+            // this is still pretty useless to do
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(1, 3));
         }
     }
 }

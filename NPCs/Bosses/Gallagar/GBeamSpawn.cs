@@ -6,10 +6,12 @@ namespace EEMod.NPCs.Bosses.Gallagar
     public class GBeamSpawn : ModProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Gallagar Beam");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -22,6 +24,7 @@ namespace EEMod.NPCs.Bosses.Gallagar
             projectile.alpha = 0;
             projectile.timeLeft = 120;
         }
+
         public override void AI()
         {
             if (projectile.localAI[0] == 0f)

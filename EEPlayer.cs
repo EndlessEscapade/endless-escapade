@@ -1,25 +1,16 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
+using Terraria.IO;
+using Terraria.World.Generation;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.NPCs.Bosses.Archon;
-using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.DataStructures;
-using EEMod.NPCs.Bosses.Akumo;
-using System.Threading;
-using Terraria.World.Generation;
-using Terraria.Utilities;
-using Terraria.IO;
-using Terraria.Localization;
-using System.Collections.Generic;
 using EEMod.Projectiles;
 using EEMod.Projectiles.OceanMap;
-using EEMod.EEWorld;
-using EEMod.Compatibility;
 
 namespace EEMod
 {
@@ -30,25 +21,25 @@ namespace EEMod
         public bool dalantiniumHood;
         public bool hydriteVisage;
         public bool ZoneCoralReefs;
-		private int opac;
+        private int opac;
         public override void UpdateBiomes()
-		{
+        {
             ZoneCoralReefs = EEWorld.EEWorld.CoralReefsTiles > 200;
-			if(ZoneCoralReefs)
-			{
-				opac++;
-				if (opac > 100)
-					opac = 100;
-				//Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
-			}
-			else
-			{
-				opac--;
-				if (opac < 0)
-					opac = 0;
-			//	Filters.Scene.Deactivate("EEMod:CR");
-			}
-		}
+            if (ZoneCoralReefs)
+            {
+                opac++;
+                if (opac > 100)
+                    opac = 100;
+                //Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
+            }
+            else
+            {
+                opac--;
+                if (opac < 0)
+                    opac = 0;
+                //	Filters.Scene.Deactivate("EEMod:CR");
+            }
+        }
 
         public override bool CustomBiomesMatch(Player other)
         {
@@ -257,7 +248,7 @@ namespace EEMod
                 float pos9X = Main.screenPosition.X + Main.screenWidth - 100;
                 float pos9Y = Main.screenPosition.Y + Main.screenHeight - 40 + 1000;
                 float pos10X = Main.screenPosition.X + Main.screenWidth - 300;
-                float pos10Y = Main.screenPosition.Y + Main.screenHeight -600 + 1000;
+                float pos10Y = Main.screenPosition.Y + Main.screenHeight - 600 + 1000;
                 Rectangle rectangle1 = new Rectangle((int)pos3X - 56, (int)pos3Y - 32, 118, 64);
                 Rectangle rectangle2 = new Rectangle((int)pos2X - 56, (int)pos2Y - 32, 118, 64);
                 Rectangle rectangle3 = new Rectangle((int)pos9X - 115, (int)pos9Y - 49, 330, 98);
@@ -299,7 +290,11 @@ namespace EEMod
                     (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
+<<<<<<< HEAD
                         SM.SaveAndQuit(key4);
+=======
+
+>>>>>>> 611b679786b9ca79c551eb20580cc40dcc964d9d
                     }
                 }
                 else
@@ -337,7 +332,7 @@ namespace EEMod
                     (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
-                        SM.SaveAndQuit(key3);
+                        SM.SaveAndQuit(key3); // coral reefs
                     }
                 }
                 else
@@ -489,7 +484,7 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + EEMod.position, Vector2.Zero, ModContent.ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                 }
             }
-            else if(Main.ActiveWorldFileData.Name == key3)
+            else if (Main.ActiveWorldFileData.Name == key3)
             {
                 player.ClearBuff(BuffID.Cursed);
                 if (!noU)
@@ -654,8 +649,8 @@ namespace EEMod
 
 
 
- 
-        
+
+
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
 

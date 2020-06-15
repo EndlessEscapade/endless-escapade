@@ -11,6 +11,7 @@ namespace EEMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Dalantinium Steelbat");
         }
+
         public override void SetDefaults()
         {
             item.melee = true;
@@ -26,6 +27,7 @@ namespace EEMod.Items.Weapons.Melee
             item.height = 20;
             item.UseSound = SoundID.Item1;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

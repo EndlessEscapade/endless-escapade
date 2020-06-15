@@ -1,15 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using EEMod.Items;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod
 {

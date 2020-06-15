@@ -28,22 +28,21 @@ namespace EEMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.crit = 6;
         }
+
         public override void AddRecipes()
         {
-            {
-                ModRecipe recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.PlatinumBroadsword, 1);
-                recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
-                recipe.AddTile(TileID.Anvils);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-                recipe = new ModRecipe(mod);
-                recipe.AddIngredient(ItemID.GoldBroadsword, 1);
-                recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
-                recipe.AddTile(TileID.Anvils);
-                recipe.SetResult(this);
-                recipe.AddRecipe();
-            }
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.PlatinumBroadsword, 1);
+            recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+            recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.GoldBroadsword, 1);
+            recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

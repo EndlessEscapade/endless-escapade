@@ -31,6 +31,5 @@ namespace EEMod.Items.Materials
         {
             Lighting.AddLight(item.Center, Color.Pink.ToVector3() * 0.55f * Main.essScale);
         }
-
     }
 }

@@ -6,26 +6,26 @@ using EEMod.Items.Materials;
 namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(EquipType.Head)]
-	public class QuartzEyeSights : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
+    public class QuartzEyeSights : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Quartz Eyesights");
             Tooltip.SetDefault("2 defense\n6% increased throwing damage\n5% increased throwing critical strike chance");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 20;
             item.height = 8;
             item.value = Item.buyPrice(0, 12, 35, 0);
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
-		public override void ArmorSetShadows(Player player)
-		{
-			player.armorEffectDrawShadow = true;
-		}
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
             drawHair = drawAltHair = true;  //this make so the player hair does not show when the vanity mask is equipped.  add true if you want to show the player hair.
@@ -42,7 +42,7 @@ namespace EEMod.Items.Armor.Quartz
         }
 
         public override void UpdateEquip(Player player)
-		{
+        {
             player.statDefense += 2;
             player.thrownDamage *= 1.06f;
             player.thrownCrit += 5;

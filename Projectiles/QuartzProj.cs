@@ -1,9 +1,7 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
@@ -41,7 +39,7 @@ namespace EEMod.Projectiles
                     Main.dust[num].noLight = false;
                 }
             }
-            
+
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {

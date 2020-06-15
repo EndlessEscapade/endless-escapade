@@ -6,26 +6,26 @@ using EEMod.Items.Materials;
 namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(EquipType.Head)]
-	public class QuartzHellhelm : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
+    public class QuartzHellhelm : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Quartzic Hellhelm");
             Tooltip.SetDefault("5 defense\n7% increased prophet damage\n4% increased prophet critical strike chance\nProphet class feature not out yet. Have some vanity. =)");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 26;
             item.height = 24;
             item.value = Item.buyPrice(0, 12, 35, 0);
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
-		public override void ArmorSetShadows(Player player)
-		{
-			player.armorEffectDrawShadow = true;
-		}
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -39,7 +39,7 @@ namespace EEMod.Items.Armor.Quartz
         }
 
         public override void UpdateEquip(Player player)
-		{
+        {
             player.statDefense += 5;
         }
 

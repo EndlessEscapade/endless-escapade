@@ -44,7 +44,7 @@ namespace EEMod.Items.Weapons.Mage
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             speedX *= 2f;
-            position += new Vector2(speedX, speedY*2) * 5;
+            position += new Vector2(speedX, speedY * 2) * 5;
             speedY += Main.rand.NextFloat(0.9f, -0.9f);
             return true;
         }
