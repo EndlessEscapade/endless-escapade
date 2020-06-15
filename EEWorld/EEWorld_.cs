@@ -16,6 +16,7 @@ using Terraria.GameContent.Events;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
+using EEMod.EEWorld;
 
 namespace EEMod.EEWorld
 {
@@ -95,6 +96,8 @@ namespace EEMod.EEWorld
                     StartSandstorm();
                 }
             }
+            ShipComplete();
+            Main.NewText("Ship Complete: " + shipComplete);
         }
         public override void Load(TagCompound tag)
         {
@@ -179,6 +182,58 @@ namespace EEMod.EEWorld
 
         public static int customBiome = 0;
         public static bool eocFlag;
-        
+
+
+        public static bool shipComplete;
+
+        public static List<Vector2> missingShipTiles = new List<Vector2>();
+
+        public static void ShipComplete()
+        {
+            int[,] completeShip = ShipTiles;
+            for(int i = (int)ree.X; i<(int)ree.X + completeShip.GetLength(0); i++)
+            {
+                for (int j = (int)ree.X; j < (int)ree.X + completeShip.GetLength(1); j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    int expectedType = 0;
+
+                    switch (completeShip[i,j])
+                    {
+                        case 1:
+                            expectedType = TileID.WoodBlock;
+                            break;
+                        case 2:
+                            expectedType = TileID.RichMahogany;
+                            break;
+                        case 3:
+                            expectedType = TileID.GoldCoinPile;
+                            break;
+                        case 4:
+                            expectedType = TileID.Platforms;
+                            break;
+                        case 5:
+                            expectedType = TileID.WoodenBeam;
+                            break;
+                        case 6:
+                            expectedType = TileID.SilkRope;
+                            break;
+                        default:
+                            missingShipTiles.Add(new Vector2(i, j));
+                            break;
+                    }
+
+                    if(tile.type != expectedType)
+                    {
+                        missingShipTiles.Add(new Vector2(i, j));
+                    }
+                }
+            }
+
+            if(missingShipTiles.Count == 0)
+                shipComplete = true;
+            else
+                shipComplete = false;
+        }
     }
 }
