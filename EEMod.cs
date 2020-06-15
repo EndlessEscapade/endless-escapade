@@ -53,7 +53,18 @@ namespace EEMod
         }
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
-            typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject = null });
+            switch (key)
+            {
+                case nameof(EESubWorlds.CoralReefs):
+                    EESubWorlds.CoralReefs(seed);
+                    break;
+                case nameof(EESubWorlds.Pyramids):
+                    EESubWorlds.Pyramids(seed);
+                    break;
+                case nameof(EESubWorlds.Sea):
+                    EESubWorlds.Sea(seed);
+                    break;
+            }
         }
         public static void GenerateWorld2(int seed, GenerationProgress customProgressObject = null)
         {
