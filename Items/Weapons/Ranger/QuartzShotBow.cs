@@ -1,14 +1,10 @@
-﻿using EEMod.Items.Materials;
-using EEMod.Projectiles;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using EEMod.Items.Materials;
+using EEMod.Projectiles;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -41,6 +37,29 @@ namespace EEMod.Items.Weapons.Ranger
             item.ranged = true; // For Ranged Weapon
             item.crit = 5;
         }
+
+        public override bool ConsumeAmmo(Player player)
+        {
+            return !(player.itemAnimation < item.useAnimation - 2);
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            float spread = 22f * 0.0174f;
+            float baseSpeed = (float)Math.Sqrt((speedX * speedX) + (speedY * speedY));
+            double startAngle = Math.Atan2(speedX, speedY) - .1d;
+            double deltaAngle = spread / 6f;
+            if (player.itemAnimation != 1)
+            {
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<QuartzArrow>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
+            }
+
+            double offsetAngle = startAngle + deltaAngle;
+            Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<QuartzArrow>(), damage, knockBack, Main.myPlayer);
+
+            return false;
+        }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
@@ -56,28 +75,6 @@ namespace EEMod.Items.Weapons.Ranger
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
-        public override bool ConsumeAmmo(Player player)
-        {
-            return !(player.itemAnimation < item.useAnimation - 2);
-        }
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {
-            float spread = 22f * 0.0174f;
-            float baseSpeed = (float)Math.Sqrt((speedX * speedX) + (speedY * speedY));
-            double startAngle = Math.Atan2(speedX, speedY) - .1d;
-            double deltaAngle = spread / 6f;
-            double offsetAngle;
-            if (!(player.itemAnimation == 1))
-            {
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<QuartzArrow>(), damage, knockBack, player.whoAmI, 0.0f, 0.0f);
-            }
-            for (int i = 0; i < 1; i++)
-            {
-                offsetAngle = startAngle + (deltaAngle * i);
-                Projectile.NewProjectile(position.X, position.Y, baseSpeed * (float)Math.Sin(offsetAngle), baseSpeed * (float)Math.Cos(offsetAngle), ModContent.ProjectileType<QuartzArrow>(), damage, knockBack, item.owner);
-            }
-            return false;
         }
     }
 }

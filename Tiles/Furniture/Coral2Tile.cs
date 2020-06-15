@@ -1,8 +1,8 @@
+using Terraria;
+using Terraria.ObjectData;
+using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {

@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -11,6 +10,7 @@ namespace EEMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Magmatic Greatsword");
         }
+
         public override void SetDefaults()
         {
             item.melee = true;
@@ -26,6 +26,7 @@ namespace EEMod.Items.Weapons.Melee
             item.height = 64;
             item.UseSound = SoundID.Item1;
         }
+
         public override void AddRecipes()
         {
             //ModRecipe recipe = new ModRecipe(mod);

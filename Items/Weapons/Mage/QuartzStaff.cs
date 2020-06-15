@@ -71,6 +71,7 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.NewProjectile(vector2.X, vector2.Y, num78, num79, ModContent.ProjectileType<QuartzCrystalProjectile>(), num73, num74, i, 0f, 0f);
             return false;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

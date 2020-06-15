@@ -1,14 +1,18 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.OceanMap
 {
     public class Anchor : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Anchor");
+        }
+
         public override void SetDefaults()
         {
             projectile.width = 52;       //projectile width
@@ -22,6 +26,7 @@ namespace EEMod.Projectiles.OceanMap
             projectile.aiStyle = 0;
             projectile.timeLeft = 1000000000;
         }
+
         public bool visible = false;
         public float yes;
         public override void AI()
@@ -37,19 +42,13 @@ namespace EEMod.Projectiles.OceanMap
                 projectile.alpha = 0;
             if (projectile.alpha > 255)
                 projectile.alpha = 255;
-
-
-
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)  //this make the projectile sprite rotate perfectaly around the player
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
             spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.White * (float)((255 - projectile.alpha) / (double)255), projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
-        }
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Anchor");
         }
     }
 }

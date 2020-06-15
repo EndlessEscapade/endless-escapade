@@ -1,14 +1,13 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables;
 using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Items.Armor.Hydrite
 {
-	[AutoloadEquip(EquipType.Head)]
-	public class HydriteVisage : ModItem
-	{
+    [AutoloadEquip(EquipType.Head)]
+    public class HydriteVisage : ModItem
+    {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydrite Visage");

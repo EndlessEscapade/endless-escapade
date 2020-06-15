@@ -1,9 +1,8 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Terraria.ID;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles
 {
@@ -29,7 +28,7 @@ namespace EEMod.Projectiles
         public bool visible = true;
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.8f+(float)(Math.PI/4);
+            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.8f + (float)(Math.PI / 4);
             if (Main.rand.Next(2) == 0)
             {
                 //int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 123, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 217, 184, 255), projectile.scale * 0.5f);
@@ -40,7 +39,7 @@ namespace EEMod.Projectiles
             }
             for (var i = 0; i < 2; i++)
             {
-                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 0, 0, 0, 6, default, projectile.scale*0.7f);
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 0, 0, 0, 6, default, projectile.scale * 0.7f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].noLight = false;
             }
@@ -55,20 +54,20 @@ namespace EEMod.Projectiles
 
         public override void Kill(int timeLeft)
         {
-          for (var i = 0; i < 10; i++)
-          {
-              int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 0, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-6f, 6f), 6, default, projectile.scale);
-              Main.dust[num].noGravity = false;
-              Main.dust[num].velocity *= 2.5f;
-              Main.dust[num].noLight = false;
-          }
+            for (var i = 0; i < 10; i++)
+            {
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 0, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-6f, 6f), 6, default, projectile.scale);
+                Main.dust[num].noGravity = false;
+                Main.dust[num].velocity *= 2.5f;
+                Main.dust[num].noLight = false;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-          projectile.velocity.X *= Main.rand.NextFloat(-.1f,-.4f);
-          projectile.velocity.Y *= Main.rand.NextFloat(-.8f,-.5f);
-          projectile.velocity.Y += Main.rand.NextFloat(-1,-1.5f);
+            projectile.velocity.X *= Main.rand.NextFloat(-.1f, -.4f);
+            projectile.velocity.Y *= Main.rand.NextFloat(-.8f, -.5f);
+            projectile.velocity.Y += Main.rand.NextFloat(-1, -1.5f);
         }
     }
 }

@@ -1,23 +1,14 @@
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using Terraria;
+using Terraria.GameContent.Generation;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria.GameContent.Events;
-using EEMod.Tiles.Ores;
-using EEMod.Tiles;
-using EEMod.Tiles.Furniture;
-using EEMod.EEWorld;
 using EEMod.Projectiles;
+using EEMod.Tiles;
 
 namespace EEMod.EEWorld
 {
@@ -48,6 +39,7 @@ namespace EEMod.EEWorld
             if (EntracesPosses.Count > 0)
                 yes = EntracesPosses[0];
         }
+
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
@@ -71,21 +63,25 @@ namespace EEMod.EEWorld
                 }));
             }*/
         }
+
         public override void NetSend(BinaryWriter writer)
         {
             writer.WriteVector2(ree);
             writer.WriteVector2(yes);
         }
+
         public override void NetReceive(BinaryReader reader)
         {
             ree = reader.ReadVector2();
             yes = reader.ReadVector2();
         }
+
         public override void PostWorldGen()
         {
             DoAndAssignShrineValues();
             DoAndAssignShipValues();
         }
+
         public override void PostUpdate()
         {
             if (NPC.downedBoss1)
@@ -117,6 +113,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("EntracesPosses"))
@@ -210,16 +207,16 @@ namespace EEMod.EEWorld
         {
 
             missingShipTiles.Clear();
-            int ShipTilePosX =(int)(ree.X);
+            int ShipTilePosX = (int)(ree.X);
             int ShipTilePosY = (int)(ree.Y);
 
-            for (int i = ShipTilePosX; i< ShipTilePosX + ShipTiles.GetLength(1); i++)
+            for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
             {
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
                 {
-                    Tile tile = Framing.GetTileSafely(i-3, j-6);
+                    Tile tile = Framing.GetTileSafely(i - 3, j - 6);
                     int expectedType = 0;
-                    switch (ShipTiles[j - ShipTilePosY,i-ShipTilePosX])
+                    switch (ShipTiles[j - ShipTilePosY, i - ShipTilePosX])
                     {
                         case 1:
                             expectedType = TileID.WoodBlock;

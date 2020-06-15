@@ -10,6 +10,7 @@ namespace EEMod.Projectiles.Mage
         {
             DisplayName.SetDefault("Druid's Vine");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 8;
@@ -22,6 +23,7 @@ namespace EEMod.Projectiles.Mage
             projectile.alpha = 0;
             projectile.timeLeft = 10;
         }
+
         public override void AI()
         {
             if (projectile.localAI[0] == 0f)

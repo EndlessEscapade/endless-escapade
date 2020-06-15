@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -11,6 +10,7 @@ namespace EEMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Barrier Greatsword");
         }
+
         public override void SetDefaults()
         {
             item.melee = true;
@@ -18,7 +18,7 @@ namespace EEMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 9f; // 5 and 1/4
-            item.useTime = 40; 
+            item.useTime = 40;
             item.useAnimation = 40;
             item.value = Item.buyPrice(0, 0, 30, 0);
             item.damage = 55;

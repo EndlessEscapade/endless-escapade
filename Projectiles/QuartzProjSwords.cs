@@ -1,14 +1,17 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
     public class QuartzProjSwords : ModProjectile
     {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Quartz");
+        }
 
         public override void SetDefaults()
         {
@@ -44,7 +47,7 @@ namespace EEMod.Projectiles
             }
             for (int j = 0; j < 200; j++)
             {
-                
+
                 if (Main.projectile[j].type == ModContent.ProjectileType<QuartzProjSwords>() && Main.projectile[j].type != projectile.whoAmI && Math.Sqrt(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y) < 5)
                 {
                     float oldVel = (float)Math.Sqrt(Main.projectile[j].velocity.X * Main.projectile[j].velocity.X + Main.projectile[j].velocity.Y * Main.projectile[j].velocity.Y);
@@ -69,6 +72,7 @@ namespace EEMod.Projectiles
 
             }
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.timeLeft = 10;
@@ -76,9 +80,9 @@ namespace EEMod.Projectiles
             projectile.light = 0.6f;
             return false;
         }
+
         public override void Kill(int timeLeft)
         {
-
             Main.PlaySound(SoundID.Item27, projectile.position);
             for (var i = 0; i < 20; i++)
             {
@@ -87,10 +91,6 @@ namespace EEMod.Projectiles
                 Main.dust[num].velocity *= 2.5f;
                 Main.dust[num].noLight = false;
             }
-        }
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Quartz");
         }
     }
 }

@@ -1,8 +1,7 @@
-using Microsoft.Xna.Framework;
 using System;
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+
 namespace EEMod.Projectiles
 {
     public class Shard1 : ModProjectile
@@ -27,12 +26,12 @@ namespace EEMod.Projectiles
             projectile.scale *= 0.7f;
         }
 
-        private void LookToPlayer()
-        {
-            Player player = Main.player[projectile.owner];
-            Vector2 look = Main.player[projectile.owner].Center - projectile.Center;
-            LookInDirectionP(look);
-        }
+        //private void LookToPlayer() // unused
+        //{
+        //    Player player = Main.player[projectile.owner];
+        //    Vector2 look = Main.player[projectile.owner].Center - projectile.Center;
+        //    LookInDirectionP(look);
+        //}
         private void LookInDirectionP(Vector2 look)
         {
             float angle = 0.5f * (float)Math.PI;
@@ -50,17 +49,16 @@ namespace EEMod.Projectiles
             }
             projectile.rotation = angle;
         }
+
         public override void AI()
         {
-
             LookInDirectionP(projectile.velocity);
-          //  projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
+            //  projectile.rotation = projectile.velocity.ToRotation() + MathHelper.ToRadians(90f);
             projectile.velocity.Y = projectile.velocity.Y + 0.3f;
             if (projectile.velocity.Y > 16f)
             {
                 projectile.velocity.Y = 16f;
             }
         }
-
     }
 }

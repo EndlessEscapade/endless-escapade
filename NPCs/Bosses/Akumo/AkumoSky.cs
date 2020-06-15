@@ -50,7 +50,7 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         private bool UpdateAkumoIndex()
         {
-            int num = ModContent.NPCType<Akumo>(); 
+            int num = ModContent.NPCType<Akumo>();
             if (akumoIndex >= 0 && Main.npc[akumoIndex].active && Main.npc[akumoIndex].type == num)
             {
                 return true;

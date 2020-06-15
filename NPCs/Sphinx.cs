@@ -1,8 +1,7 @@
-using EEMod.Items.Materials;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Materials;
 
 namespace EEMod.NPCs
 {
@@ -16,7 +15,6 @@ namespace EEMod.NPCs
 
         public override void SetDefaults()
         {
-
             npc.width = 816;
             npc.height = 508;
             npc.damage = 12;
@@ -28,18 +26,11 @@ namespace EEMod.NPCs
             npc.knockBackResist = 0.3f;
             npc.alpha = 0;
         }
-        public override void FindFrame(int frameHeight)
-        {
 
-        }
         public override void NPCLoot()
         {
-            if (Main.rand.Next(0) == 0)
-            {
-                 // this is still pretty useless to do
-                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(1,3));
-            }
-
+            // this is still pretty useless to do
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(1, 3));
         }
     }
 }

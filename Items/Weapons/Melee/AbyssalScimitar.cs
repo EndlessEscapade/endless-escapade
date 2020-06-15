@@ -10,6 +10,7 @@ namespace EEMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Abyssal Scimitar");
         }
+
         public override void SetDefaults()
         {
             item.melee = true;
@@ -17,7 +18,7 @@ namespace EEMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 3.5f; // 5 and 1/4
-            item.useTime = 22; 
+            item.useTime = 22;
             item.useAnimation = 22;
             item.value = Item.buyPrice(0, 0, 30, 0);
             item.damage = 13;

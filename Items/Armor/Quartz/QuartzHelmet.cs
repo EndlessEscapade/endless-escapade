@@ -6,26 +6,26 @@ using EEMod.Items.Materials;
 namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(EquipType.Head)]
-	public class QuartzHelmet : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
+    public class QuartzHelmet : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Quartz Helmet");
             Tooltip.SetDefault("5 defense\n7% increased melee damage\n3% increased melee critical strike chance");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 26;
             item.height = 24;
             item.value = Item.buyPrice(0, 12, 35, 0);
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
-		public override void ArmorSetShadows(Player player)
-		{
-			player.armorEffectDrawShadow = true;
-		}
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -40,7 +40,7 @@ namespace EEMod.Items.Armor.Quartz
         }
 
         public override void UpdateEquip(Player player)
-		{
+        {
             player.statDefense += 5;
             player.meleeDamage *= 1.07f;
             player.meleeCrit += 3;

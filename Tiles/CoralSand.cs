@@ -1,7 +1,5 @@
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 
 namespace EEMod.Tiles
@@ -14,7 +12,7 @@ namespace EEMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
 
-            AddMapEntry(new Color(253,247,173));
+            AddMapEntry(new Color(253, 247, 173));
 
             dustType = 154;
             //drop = ModContent.ItemType<Gemsand>();

@@ -1,55 +1,30 @@
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using EEMod.Items.Armor.Dalantinium;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using System;
 using EEMod.Projectiles;
 
 namespace EEMod.Items
 {
-	public class EEGlobalItem : GlobalItem
-	{
-		public override void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult)
-		{
-			if (player.GetModPlayer<EEPlayer>().dalantiniumHood)
-			{
-				reduce -= 0.05f;
-			}
+    public class EEGlobalItem : GlobalItem
+    {
+        //private bool randomAssVanillaAdaptedFlag = false;
+        //private int debug = 0;
+        public override bool InstancePerEntity => true;
+
+        public override bool CloneNewInstances => true;
+
+        public override void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult)
+        {
+            if (player.GetModPlayer<EEPlayer>().dalantiniumHood)
+            {
+                reduce -= 0.05f;
+            }
             if (player.GetModPlayer<EEPlayer>().hydriteVisage)
             {
                 reduce -= 0.1f;
             }
         }
-
-        private bool randomAssVanillaAdaptedFlag = false;
-        private int debug = 0;
-        public override bool InstancePerEntity
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public override bool CloneNewInstances
-        {
-            get
-            {
-                return true;
-            }
-        }
-
-        public override void SetDefaults(Item item)
-        {
-
-        }
-
-        public override void UpdateEquip(Item item, Player player)
-        {
-
-        }
-
 
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
@@ -62,13 +37,14 @@ namespace EEMod.Items
                     float distY = Main.mouseY + Main.screenPosition.Y - player.Center.Y;
                     float mag = (float)Math.Sqrt(distX * distX + distY * distY);
                     Projectile.NewProjectile(player.position.X, player.position.Y, distX * speed / mag, distY * speed / mag, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
-                    return true;
+                    //return true;
                 }
-                else
-                    return true;
+                // else
+                // return true;
             }
             return true;
         }
+
         public override bool UseItem(Item item, Player player)
         {
             if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == 1)
@@ -84,12 +60,6 @@ namespace EEMod.Items
                 }
             }
             return false;
-        }
-
-
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-        {
-
         }
     }
 }

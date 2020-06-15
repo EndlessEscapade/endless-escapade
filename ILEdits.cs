@@ -1,16 +1,12 @@
-using System.Reflection;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using MonoMod.Cil;
-using Mono.Cecil.Cil;
-using EEMod.EEWorld;
 
 namespace EEMod
 {
     public partial class EEMod : Mod
     {
-       
+
         //private static void ModifyColor(ref Color color, byte val)
         //{
         // 

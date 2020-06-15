@@ -1,13 +1,13 @@
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.Items.Weapons.Melee;
-using EEMod.Items.Weapons.Mage;
-using EEMod.Items.Weapons.Ranger;
 using EEMod.Items.Materials;
-using Terraria.Audio;
-using EEMod.EEWorld;
+using EEMod.Items.Weapons.Mage;
+using EEMod.Items.Weapons.Melee;
+using EEMod.Items.Weapons.Ranger;
+
 using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.NPCs.Bosses.Hydros
@@ -66,7 +66,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosEye>(), 1);
             }
-            else if(randVal == 1)
+            else if (randVal == 1)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
             }
@@ -194,7 +194,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                 }
 
                 attackTimer--;
-                if(attackTimer <= 0)
+                if (attackTimer <= 0)
                 {
                     npc.ai[0] = Main.rand.Next(3);
                     attackTimer = 120;
@@ -203,13 +203,13 @@ namespace EEMod.NPCs.Bosses.Hydros
                 }
             }
         }
-            /*public override bool CheckDead()
-            {
-                int goreIndex = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default(Vector2), mod.GetGoreSlot("Gores/HydrosGore"), 1f);
-                Main.gore[goreIndex].scale = 1.5f;
-                Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y + 1.5f;
+        /*public override bool CheckDead()
+        {
+            int goreIndex = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default(Vector2), mod.GetGoreSlot("Gores/HydrosGore"), 1f);
+            Main.gore[goreIndex].scale = 1.5f;
+            Main.gore[goreIndex].velocity.Y = Main.gore[goreIndex].velocity.Y + 1.5f;
 
-                return true;
-            }*/
+            return true;
+        }*/
     }
 }

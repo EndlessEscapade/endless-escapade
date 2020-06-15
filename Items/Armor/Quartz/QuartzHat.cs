@@ -6,26 +6,26 @@ using EEMod.Items.Materials;
 namespace EEMod.Items.Armor.Quartz
 {
     [AutoloadEquip(EquipType.Head)]
-	public class QuartzHat : ModItem
-	{
-		public override void SetStaticDefaults()
-		{
+    public class QuartzHat : ModItem
+    {
+        public override void SetStaticDefaults()
+        {
             DisplayName.SetDefault("Quartz Hat");
             Tooltip.SetDefault("3 defense\n6% increased magic damage\n6% reduced mana usage\n+20 Mana");
-		}
+        }
 
-		public override void SetDefaults()
-		{
+        public override void SetDefaults()
+        {
             item.width = 26;
             item.height = 24;
             item.value = Item.buyPrice(0, 12, 35, 0);
             item.rare = ItemRarityID.Pink;
-		}
+        }
 
-		public override void ArmorSetShadows(Player player)
-		{
-			player.armorEffectDrawShadow = true;
-		}
+        public override void ArmorSetShadows(Player player)
+        {
+            player.armorEffectDrawShadow = true;
+        }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
@@ -41,7 +41,7 @@ namespace EEMod.Items.Armor.Quartz
         }
 
         public override void UpdateEquip(Player player)
-		{
+        {
             player.statDefense += 3;
             player.magicDamage *= 1.06f;
             player.manaCost *= 0.94f;

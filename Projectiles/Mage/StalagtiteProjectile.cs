@@ -1,7 +1,4 @@
 using Terraria.ModLoader;
-using Terraria;
-using System;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles.Mage
 {

@@ -1,8 +1,6 @@
 ﻿using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Autoloading;
 using EEMod.NPCs.Bosses.Akumo;

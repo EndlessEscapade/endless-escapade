@@ -1,9 +1,9 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles
 {
@@ -48,16 +48,16 @@ namespace EEMod.Projectiles
 
         public override void Kill(int timeLeft)
         {
-            
+
             for (int i = 0; i < 3; i++)
             {
                 int projHolder = Main.rand.Next(0, 1);
                 float speedX = -projectile.velocity.X * Main.rand.NextFloat(-.4f, .8f) + Main.rand.NextFloat(-2f, 2f);
                 float speedY = -projectile.velocity.Y * Main.rand.Next(34, 37) * 0.01f + Main.rand.NextFloat(-12f, 12.1f) * 0.4f;
-                if(projHolder == 0)
-                Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX, speedY, ModContent.ProjectileType<Shard2>(), (int)(projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
+                if (projHolder == 0)
+                    Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX, speedY, ModContent.ProjectileType<Shard2>(), (int)(projectile.damage * 0.4), 0f, projectile.owner, 0f, 0f);
                 if (projHolder == 1)
-                Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX, speedY, ModContent.ProjectileType<Shard1>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX, speedY, ModContent.ProjectileType<Shard1>(), (int)(projectile.damage * 0.3), 0f, projectile.owner, 0f, 0f);
                 Main.PlaySound(SoundID.Item27, projectile.position);
             }
         }

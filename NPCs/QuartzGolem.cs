@@ -1,21 +1,20 @@
-using EEMod.Items.Materials;
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using EEMod.Items.Materials;
 
 namespace EEMod.NPCs
 {
-
     public class QuartzGolem : ModNPC
     {
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Quartz Golem");
             Main.npcFrameCount[npc.type] = 8;
         }
+
         public bool flaginOut;
         public override void SetDefaults()
         {
@@ -43,7 +42,7 @@ namespace EEMod.NPCs
         public int Timer;
         public float dist;
         public float dist1;
-        
+
         public override void AI()
         {
             npc.ai[2]++;
@@ -72,9 +71,9 @@ namespace EEMod.NPCs
             npc.velocity = move;
             Vector2 moveFor = moveTo - npc.Center;
             dist = (float)Math.Sqrt(moveFor.X * moveFor.X + moveFor.Y * moveFor.Y);
-            if (dist < 200 && npc.ai[2]==100)
+            if (dist < 200 && npc.ai[2] == 100)
             {
-                flaginOut = true; 
+                flaginOut = true;
             }
             if (dist < 200)
                 npc.defense = 20;
@@ -120,7 +119,7 @@ namespace EEMod.NPCs
                     {
                         if (Main.rand.Next(2) == 0)
                         {
-                           Main.dust[num7].scale *= 0.5f; 
+                            Main.dust[num7].scale *= 0.5f;
                         }
                         npc.netUpdate = true;
                     }
@@ -135,8 +134,8 @@ namespace EEMod.NPCs
                     npc.alpha = 0;
                 npc.ai[0] = 0;
             }
-                
         }
+
         public int animDir = 1;
         public override void FindFrame(int frameHeight) //Frame counter
         {
@@ -161,7 +160,7 @@ namespace EEMod.NPCs
                 if (npc.frameCounter++ > 4)
                 {
                     npc.frameCounter = 0;
-                    npc.frame.Y = npc.frame.Y + frameHeight*animDir;
+                    npc.frame.Y = npc.frame.Y + frameHeight * animDir;
                 }
                 if (npc.frame.Y >= frameHeight * 7)
                 {
@@ -174,8 +173,8 @@ namespace EEMod.NPCs
                     return;
                 }
             }
+        }
 
-            }
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (NPC.downedBoss1 == false)
@@ -187,22 +186,18 @@ namespace EEMod.NPCs
                 return SpawnCondition.Underground.Chance * 0.1f;
             }
         }
+
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             scale = 1f;
             return null;
         }
+
         public override void NPCLoot()
         {
-            if (Main.rand.Next(0) == 0)
-            {
-                // this is still pretty useless to do
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzicLifeFragment>(), Main.rand.Next(0, 1));
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(2, 4));
-            }
+            // this is still pretty useless to do
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzicLifeFragment>(), Main.rand.Next(0, 1));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(2, 4));
         }
-
-
-
     }
 }

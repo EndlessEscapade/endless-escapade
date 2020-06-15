@@ -1,8 +1,5 @@
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace EEMod.Projectiles.OceanMap
 {
     public class Cloud1 : ModProjectile
@@ -19,8 +16,8 @@ namespace EEMod.Projectiles.OceanMap
             projectile.hostile = false;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            
         }
+
         public override void AI()
         {
             projectile.scale = projectile.ai[0];

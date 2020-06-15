@@ -1,10 +1,8 @@
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.Enums;
-using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.DataStructures;
+using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles.Furniture
@@ -32,9 +30,8 @@ namespace EEMod.Tiles.Furniture
             AddMapEntry(new Color(0, 100, 200), name);
             dustType = DustID.Dirt;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-
-
         }
+
         public override void HitWire(int i, int j)
         {
             int left = i - (Main.tile[i, j].frameX / 18) % 1;
@@ -68,6 +65,7 @@ namespace EEMod.Tiles.Furniture
         {
             num = fail ? 1 : 3;
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Main.tile[i, j];
@@ -79,10 +77,6 @@ namespace EEMod.Tiles.Furniture
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-
-        }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Color color = Color.White;

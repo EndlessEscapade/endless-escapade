@@ -1,8 +1,6 @@
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -14,7 +12,7 @@ namespace EEMod.NPCs.CoralReefs
             Main.npcFrameCount[npc.type] = 3;
         }
 
-        private int frameNumber = 0;
+        // private int frameNumber = 0;
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -24,7 +22,7 @@ namespace EEMod.NPCs.CoralReefs
                 npc.frameCounter = 0;
             }
             if (npc.frame.Y >= frameHeight * 3)
-            { 
+            {
                 npc.frame.Y = 0;
                 return;
             }
@@ -48,7 +46,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.noGravity = true;
 
             npc.buffImmune[BuffID.Confused] = true;
-            
+
             npc.lavaImmune = false;
             npc.noTileCollide = false;
         }

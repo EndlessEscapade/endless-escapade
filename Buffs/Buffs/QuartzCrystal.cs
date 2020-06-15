@@ -31,6 +31,5 @@ namespace EEMod.Buffs.Buffs
 				player.buffTime[buffIndex] = 18000;
 			}
 		}
-
 	}
 }

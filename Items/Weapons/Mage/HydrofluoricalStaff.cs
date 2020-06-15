@@ -37,7 +37,7 @@ namespace EEMod.Items.Weapons.Mage
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Vector2 vector = Vector2.Normalize(new Vector2(speedX, speedY));
-            Projectile.NewProjectile(position.X,position.Y,speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, vector.Y, vector.X);
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, vector.Y, vector.X);
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, -vector.Y, -vector.X);
             return false;
         }

@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Compatibility;
-using EEMod.EEWorld;
 
 namespace EEMod.NPCs.Bosses.Akumo
 {
@@ -24,28 +21,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             DisplayName.SetDefault("Akumo");
             Main.npcFrameCount[npc.type] = 9;
         }
-        private int frameUpdate;
 
-        public override void FindFrame(int frameHeight)
-        {
-
-            frameUpdate++;
-            if (frameUpdate == wingsPer)
-            {
-                npc.frame.Y = npc.frame.Y + frameHeight;
-                frameUpdate = 0;
-            }
-            if (npc.frame.Y == frameHeight * 2)
-            {
-                Main.PlaySound(SoundID.Item32);
-            }
-            if (npc.frame.Y >= frameHeight * 9)
-            {
-
-                npc.frame.Y = 0;
-                return;
-            }
-        }
         public override void SetDefaults()
         {
             npc.boss = true;
@@ -73,6 +49,29 @@ namespace EEMod.NPCs.Bosses.Akumo
             }
 
             music = Compatibilities.EEMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Precursors") ?? MusicID.Boss3;
+        }
+
+        private int frameUpdate;
+
+        public override void FindFrame(int frameHeight)
+        {
+
+            frameUpdate++;
+            if (frameUpdate == wingsPer)
+            {
+                npc.frame.Y = npc.frame.Y + frameHeight;
+                frameUpdate = 0;
+            }
+            if (npc.frame.Y == frameHeight * 2)
+            {
+                Main.PlaySound(SoundID.Item32);
+            }
+            if (npc.frame.Y >= frameHeight * 9)
+            {
+
+                npc.frame.Y = 0;
+                return;
+            }
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
@@ -423,7 +422,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         bool scree => npc.ai[0] < 60 && npc.ai[0] > 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = TextureCache.Akumo; 
+            Texture2D texture = TextureCache.Akumo;
             if (scree)
             {
                 if (npc.ai[0] == 1)

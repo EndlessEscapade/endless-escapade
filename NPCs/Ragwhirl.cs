@@ -1,13 +1,12 @@
-using EEMod.Items.Materials;
-using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using EEMod.Items.Materials;
 
 namespace EEMod.NPCs
 {
-
     public class Ragwhirl : ModNPC
     {
         private int aiPhase;
@@ -18,6 +17,7 @@ namespace EEMod.NPCs
             DisplayName.SetDefault("Ragwhirl");
             Main.npcFrameCount[npc.type] = 4;
         }
+
         public override void SetDefaults()
         {
             npc.alpha = 100;
@@ -42,13 +42,14 @@ namespace EEMod.NPCs
             aiPhase = 1;
             //npc.music = (this.music = mod.GetSoundSlot(SoundType.Music, "Sounds/Music/Dionysus"));
         }
+
         public int Timer;
-        public override void AI() 
+        public override void AI()
         {
             npc.TargetClosest(false);
 
             Player player = Main.player[npc.target];
-            Vector2 moveTo = player.Center; 
+            Vector2 moveTo = player.Center;
 
             npc.TargetClosest(true);
             float speed = 2.5f;
@@ -58,7 +59,7 @@ namespace EEMod.NPCs
             {
                 move *= speed / magnitude;
             }
-            float turnResistance = 10f; 
+            float turnResistance = 10f;
             move = (npc.velocity * turnResistance + move) / (turnResistance + 1f);
             magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
             if (magnitude > speed)
@@ -69,6 +70,7 @@ namespace EEMod.NPCs
 
             npc.rotation = npc.velocity.X / 10f;
         }
+
         public override void FindFrame(int frameHeight) //Frame counter
         {
             npc.spriteDirection = 1;
@@ -76,18 +78,18 @@ namespace EEMod.NPCs
             {
                 npc.spriteDirection = -1;
             }
-                if (npc.frameCounter++ > 4)
-                {
-                    npc.frameCounter = 0;
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                }
-                if (npc.frame.Y >= frameHeight * 3)
-                {
-                    npc.frame.Y = 0;
-                    return;
-                }
-
+            if (npc.frameCounter++ > 4)
+            {
+                npc.frameCounter = 0;
+                npc.frame.Y = npc.frame.Y + frameHeight;
+            }
+            if (npc.frame.Y >= frameHeight * 3)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
         }
+
         public override float SpawnChance(NPCSpawnInfo spawnInfo)
         {
             if (NPC.downedBoss1 == true)
@@ -99,21 +101,17 @@ namespace EEMod.NPCs
                 return SpawnCondition.SandstormEvent.Chance * 0f;
             }
         }
+
         public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
         {
             scale = 1f;
             return null;
         }
+
         public override void NPCLoot()
         {
-            if (Main.rand.Next(0) == 0 && NPC.downedBoss1)
-            {
-                // this is still pretty useless to do
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(0, 2));
-            }
+            // this is still pretty useless to do
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(0, 2));
         }
-
-
-
     }
 }

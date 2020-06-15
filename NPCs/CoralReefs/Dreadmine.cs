@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -14,7 +10,7 @@ namespace EEMod.NPCs.CoralReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dreadmine");
-          //  Main.projFrames[projectile.type] = 4;
+            //  Main.projFrames[projectile.type] = 4;
         }
 
         public override void SetDefaults()
@@ -28,6 +24,7 @@ namespace EEMod.NPCs.CoralReefs
             projectile.hostile = true;
             projectile.damage = 200;
         }
+
         private NPC OwnerNpc => Main.npc[(int)projectile.ai[0]];
         // It appears that for this AI, only the ai0 field is used!
         public override void AI()
@@ -37,7 +34,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            for(int i=0; i<30; i++)
+            for (int i = 0; i < 30; i++)
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 55);
             }

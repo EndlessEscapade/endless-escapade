@@ -1,8 +1,5 @@
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace EEMod.Projectiles
 {
     public class WhiteBlock : ModProjectile
@@ -27,33 +24,33 @@ namespace EEMod.Projectiles
             projectile.scale *= 1;
         }
 
-        private void LookToPlayer()
-        {
-            Player player = Main.player[projectile.owner];
-            Vector2 look = Main.player[projectile.owner].Center - projectile.Center;
-            LookInDirectionP(look);
-        }
-        private void LookInDirectionP(Vector2 look)
-        {
-            float angle = 0.5f * (float)Math.PI;
-            if (look.X != 0f)
-            {
-                angle = (float)Math.Atan(look.Y / look.X);
-            }
-            else if (look.Y < 0f)
-            {
-                angle += (float)Math.PI;
-            }
-            if (look.X < 0f)
-            {
-                angle += (float)Math.PI;
-            }
-            projectile.rotation = angle;
-        }
+        //private void LookToPlayer() // unused
+        //{
+        //    Player player = Main.player[projectile.owner];
+        //    Vector2 look = Main.player[projectile.owner].Center - projectile.Center;
+        //    LookInDirectionP(look);
+        //}
+        //private void LookInDirectionP(Vector2 look)
+        //{
+        //    float angle = 0.5f * (float)Math.PI;
+        //    if (look.X != 0f)
+        //    {
+        //        angle = (float)Math.Atan(look.Y / look.X);
+        //    }
+        //    else if (look.Y < 0f)
+        //    {
+        //        angle += (float)Math.PI;
+        //    }
+        //    if (look.X < 0f)
+        //    {
+        //        angle += (float)Math.PI;
+        //    }
+        //    projectile.rotation = angle;
+        //}
         public override void AI()
         {
-            projectile.ai[0]+=5;
-            if(projectile.ai[0] >= 255)
+            projectile.ai[0] += 5;
+            if (projectile.ai[0] >= 255)
             {
                 projectile.ai[0] = 0;
             }

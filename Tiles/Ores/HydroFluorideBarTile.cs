@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.Localization;
-using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Items.Placeables.Ores;
 

@@ -1,7 +1,4 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Terraria.DataStructures;
-using Terraria.Localization;
+﻿using Terraria.ModLoader;
 
 namespace EEMod
 {

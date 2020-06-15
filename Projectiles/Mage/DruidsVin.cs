@@ -35,10 +35,12 @@ namespace EEMod.Projectiles.Mage
         {
             return false;
         }
+
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
             drawCacheProjsBehindProjectiles.Add(index);
         }
+
         float attackCounter = 0;
         float chargeCounter = 0;
         public override void SendExtraAI(BinaryWriter writer)
@@ -97,6 +99,7 @@ namespace EEMod.Projectiles.Mage
             float collisionPoint = 0f;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength, projHitbox.Width, ref collisionPoint);
         }
+
         public override bool? CanCutTiles()
         {
             DelegateMethods.tilecut_0 = Terraria.Enums.TileCuttingContext.AttackProjectile;
@@ -108,6 +111,7 @@ namespace EEMod.Projectiles.Mage
         {
             return DelegateMethods.CutTiles(x, y);
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.velocity == Vector2.Zero)

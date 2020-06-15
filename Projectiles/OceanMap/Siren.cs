@@ -1,8 +1,5 @@
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace EEMod.Projectiles.OceanMap
 {
     public class Siren : ModProjectile
@@ -21,6 +18,7 @@ namespace EEMod.Projectiles.OceanMap
             projectile.ignoreWater = true;
             projectile.scale = 1f;
         }
+
         public override void AI()
         {
 
