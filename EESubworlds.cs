@@ -56,10 +56,17 @@ namespace EEMod
                     for (int j = -5; j < 5; j++)
                         WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<HardenedGemsandTile>(), true, 0, 0, true, true);
                 }
-                EEWorld.EEWorld.killWall(1000, 1000, Vector2.Zero);
                 EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 40), ModContent.TileType<CoralSand>());
                 EEWorld.EEWorld.CoralReef();
-                EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
+            for (int i = 2; i < Main.maxTilesX - 2; i++)
+            {
+                for (int j = 2; j < Main.maxTilesY - 2; j++)
+                {
+                    Tile.SmoothSlope(i, j);
+                }
+            }
+            EEWorld.EEWorld.killWall(1000, 1000, Vector2.Zero);
+            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
                 EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheck(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
                 EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheck(boatPos) - 22, EEWorld.EEWorld.ShipWalls);
             EEMod.isSaving = false;

@@ -295,6 +295,10 @@ namespace EEMod.EEWorld
                                 tile.type = TileID.WoodenBeam;
                                 tile.active(true);
                                 break;
+                            case 6:
+                                tile.type = TileID.SilkRope;
+                                tile.active(true);
+                                break;
                             default:
                                 break;
                         }

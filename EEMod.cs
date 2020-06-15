@@ -142,7 +142,7 @@ namespace EEMod
         }
 
 
-
+            
         public override void Unload()
         {
             IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
@@ -154,7 +154,16 @@ namespace EEMod
         }
         internal EEUI eeui;
         public UserInterface EEInterface;
-
+        private GameTime lastGameTime;
+        public override void UpdateUI(GameTime gameTime)
+        {
+            lastGameTime = gameTime;
+            if (EEInterface?.CurrentState != null)
+            {
+                EEInterface.Update(gameTime);
+            }
+            base.UpdateUI(gameTime);
+        }
         public override void Load()
         {
             instance = this;
@@ -454,8 +463,33 @@ namespace EEMod
                 return originalText;
             });
         }
+
+        internal void ShowMyUI()
+        {
+            EEInterface?.SetState(eeui);
+        }
+
+        internal void HideMyUI()
+        {
+            EEInterface?.SetState(null);
+        }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            if (mouseTextIndex != -1)
+            {
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "MyMod: MyInterface",
+                    delegate
+                    {
+                        if (lastGameTime != null && EEInterface?.CurrentState != null)
+                        {
+                           // EEInterface.Draw(Main.spriteBatch, lastGameTime);
+                        }
+                        return true;
+                    },
+                       InterfaceScaleType.UI));
+            }
             if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
             {
                 for (int i = 0; i < layers.Count; i++)
