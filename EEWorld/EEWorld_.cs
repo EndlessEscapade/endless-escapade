@@ -17,7 +17,7 @@ using EEMod.Tiles.Ores;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using EEMod.EEWorld;
-
+using EEMod.Projectiles;
 namespace EEMod.EEWorld
 {
     public partial class EEWorld : ModWorld
@@ -96,7 +96,9 @@ namespace EEMod.EEWorld
                     StartSandstorm();
                 }
             }
+            Main.NewText(ree);
             ShipComplete();
+            Main.NewText(missingShipTiles.Count);
             Main.NewText("Ship Complete: " + shipComplete);
         }
         public override void Load(TagCompound tag)
@@ -190,15 +192,18 @@ namespace EEMod.EEWorld
 
         public static void ShipComplete()
         {
-            int[,] completeShip = ShipTiles;
-            for(int i = (int)ree.X; i<(int)ree.X + completeShip.GetLength(0); i++)
+            
+            missingShipTiles.Clear();
+            int ShipTilePosX =(int)(ree.X);
+            int ShipTilePosY = (int)(ree.Y);
+            
+            for (int i = ShipTilePosX; i< ShipTilePosX + ShipTiles.GetLength(1); i++)
             {
-                for (int j = (int)ree.X; j < (int)ree.X + completeShip.GetLength(1); j++)
+                for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
                 {
-                    Tile tile = Framing.GetTileSafely(i, j);
+                    Tile tile = Framing.GetTileSafely(i-3, j-6);
                     int expectedType = 0;
-
-                    switch (completeShip[i,j])
+                    switch (ShipTiles[j - ShipTilePosY,i-ShipTilePosX])
                     {
                         case 1:
                             expectedType = TileID.WoodBlock;
@@ -219,18 +224,23 @@ namespace EEMod.EEWorld
                             expectedType = TileID.SilkRope;
                             break;
                         default:
-                            missingShipTiles.Add(new Vector2(i, j));
+                            expectedType = -1;
                             break;
                     }
-
-                    if(tile.type != expectedType)
+                    Projectile.NewProjectile(new Vector2(i, j) + new Vector2(8, 8), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);
+                    if (tile.type != expectedType && expectedType != -1)
+                    {
+                        missingShipTiles.Add(new Vector2(i, j));
+                        
+                    }
+                    if (expectedType == -1 && tile.active())
                     {
                         missingShipTiles.Add(new Vector2(i, j));
                     }
                 }
             }
 
-            if(missingShipTiles.Count == 0)
+            if (missingShipTiles.Count == 0)
                 shipComplete = true;
             else
                 shipComplete = false;
