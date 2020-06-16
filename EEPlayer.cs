@@ -494,7 +494,11 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == key4)
             {
+<<<<<<< HEAD
                 player.ClearBuff(BuffID.Cursed);
+=======
+
+>>>>>>> 50973c09919ab2bd890f0d4dac2a1e60be43d146
             }
             else
             {
@@ -511,6 +515,7 @@ namespace EEMod
                 }
                 if (EEWorld.EEWorld.EntracesPosses.Count > 0)
                 {
+                    DesArrowProjectile arrow = Main.projectile[Arrow].modProjectile as DesArrowProjectile;
                     if (player.Center.X / 16 >= (EEWorld.EEWorld.EntracesPosses[0].X + 12) - 2 &&
                         player.Center.X / 16 <= (EEWorld.EEWorld.EntracesPosses[0].X + 12) + 2 &&
                         player.Center.Y / 16 >= (EEWorld.EEWorld.EntracesPosses[0].Y + 7) - 2 &&
@@ -521,13 +526,14 @@ namespace EEMod
                         {
                             godMode = true;
                         }
-                        (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = true;
+                        arrow.visible = true;
                     }
                     else
                     {
-                        (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = false;
+                        arrow.visible = false;
                     }
                 }
+                OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
                 if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X + 2) - 2 &&
                     player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 2) + 2 &&
                     player.Center.Y / 16 >= (EEWorld.EEWorld.ree.Y + 14) - 2 &&
@@ -538,12 +544,12 @@ namespace EEMod
                     {
                         triggerSeaCutscene = true;
                     }
-                    (Main.projectile[Arrow2].modProjectile as OceanArrowProjectile).visible = true;
+                    oceanarrow.visible = true;
 
                 }
                 else
                 {
-                    (Main.projectile[Arrow2].modProjectile as OceanArrowProjectile).visible = false;
+                    oceanarrow.visible = false;
                 }
             }
             Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);

@@ -52,11 +52,8 @@ namespace EEMod.Items.Weapons.Melee
         {
             keeper++;
             float speed = 7;
-            float distX = Main.mouseX + Main.screenPosition.X - player.Center.X;
-            float distY = Main.mouseY + Main.screenPosition.Y - player.Center.Y;
-            float mag = (float)Math.Sqrt(distX * distX + distY * distY);
             if (keeper % 3 == 0)
-                Projectile.NewProjectile(position.X, position.Y, distX * speed / mag, distY * speed / mag, ModContent.ProjectileType<CrystalSword>(), damage, knockBack, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(position, Vector2.Normalize(Main.MouseWorld - player.Center) * speed, ModContent.ProjectileType<CrystalSword>(), damage, knockBack, player.whoAmI, 0f, 0f);
 
             return false;
         }

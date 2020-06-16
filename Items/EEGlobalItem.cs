@@ -16,11 +16,12 @@ namespace EEMod.Items
 
         public override void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult)
         {
-            if (player.GetModPlayer<EEPlayer>().dalantiniumHood)
+            EEPlayer eeplayer = player.GetModPlayer<EEPlayer>();
+            if (eeplayer.dalantiniumHood)
             {
                 reduce -= 0.05f;
             }
-            if (player.GetModPlayer<EEPlayer>().hydriteVisage)
+            if (eeplayer.hydriteVisage)
             {
                 reduce -= 0.1f;
             }
@@ -28,38 +29,23 @@ namespace EEMod.Items
 
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == 1)
+            if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == 1 && Main.rand.NextBool(3))
             {
-                if (Main.rand.Next(3) == 1)
-                {
-                    float speed = Main.rand.NextFloat(9, 11);
-                    float distX = Main.mouseX + Main.screenPosition.X - player.Center.X;
-                    float distY = Main.mouseY + Main.screenPosition.Y - player.Center.Y;
-                    float mag = (float)Math.Sqrt(distX * distX + distY * distY);
-                    Projectile.NewProjectile(player.position.X, player.position.Y, distX * speed / mag, distY * speed / mag, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
-                    //return true;
-                }
-                // else
-                // return true;
+                float speed = Main.rand.NextFloat(9, 11);
+                Projectile.NewProjectile(player.position, Vector2.Normalize(Main.MouseWorld - player.Center) * speed, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
             }
             return true;
         }
 
         public override bool UseItem(Item item, Player player)
         {
-            if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == 1)
+            if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == 1 && Main.rand.NextBool(68))
             {
-                if (Main.rand.Next(68) == 1)
-                {
-                    float speed = Main.rand.NextFloat(9, 11);
-                    float distX = Main.mouseX + Main.screenPosition.X - player.Center.X;
-                    float distY = Main.mouseY + Main.screenPosition.Y - player.Center.Y;
-                    float mag = (float)Math.Sqrt(distX * distX + distY * distY);
-                    Projectile.NewProjectile(player.position.X, player.position.Y, distX * speed / mag, distY * speed / mag, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
-                    return false;
-                }
+                float speed = Main.rand.NextFloat(9, 11);
+                Projectile.NewProjectile(player.position, Vector2.Normalize(Main.MouseWorld - player.Center) * speed, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
+                return false;
             }
-            return false;
+            return true;
         }
     }
 }
