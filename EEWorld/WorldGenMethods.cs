@@ -822,7 +822,7 @@ namespace EEMod.EEWorld
                 return 0;
             }
         }
-        private static void makeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
+        public static void makeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {

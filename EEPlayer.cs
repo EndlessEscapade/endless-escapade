@@ -494,6 +494,7 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == key4)
             {
+                player.ClearBuff(BuffID.Cursed);
             }
             else
             {
