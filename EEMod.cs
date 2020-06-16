@@ -189,7 +189,7 @@ namespace EEMod
         {
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
             {
-                loadingChoose = Main.rand.Next(61);
+                loadingChoose = 47;// Main.rand.Next(62);
                 loadingChooseImage = Main.rand.Next(5);
                 Main.numClouds = 10;
                 if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
@@ -221,7 +221,7 @@ namespace EEMod
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null) SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
                 if (loadingFlag)
                 {
-                    loadingChoose = Main.rand.Next(61);
+                    loadingChoose = 47;// Main.rand.Next(62);
                     loadingChooseImage = Main.rand.Next(5);
                     loadingFlag = false;
                 }
@@ -237,7 +237,7 @@ namespace EEMod
                         Main.statusText = "Tip of the Day! Loading screens are useless";
                         break;
                     case 3:
-                        Main.statusText = "OH YES LOAD ME HARDER";
+                        Main.statusText = "Fear the MS Paint cat";
                         break;
                     case 4:
                         Main.statusText = "Terraria sprites need outlines... except when I make them";
@@ -246,7 +246,7 @@ namespace EEMod
                         Main.statusText = "Remove the Banding";
                         break;
                     case 6:
-                        Main.statusText = Main.LocalPlayer.name + " ....huh...what a shitty name";
+                        Main.statusText = Main.LocalPlayer.name + " ....huh...what a cruddy name";
                         break;
                     case 7:
                         Main.statusText = "Dont ping everyone you big dumb stupid";
@@ -279,7 +279,7 @@ namespace EEMod
                         Main.statusText = "Mod is not edgy I swear!";
                         break;
                     case 17:
-                        Main.statusText = "Help help help please god jesus fucking chirst help me it hurts so fucking bad please help me please god why";
+                        Main.statusText = "All programmers are cyniks";
                         break;
                     case 18:
                         Main.statusText = "Im gonna have to mute you for that";
@@ -291,7 +291,7 @@ namespace EEMod
                         Main.statusText = "THATS NOT THE CONCEPT";
                         break;
                     case 21:
-                        Main.statusText = "Help help help please god jesus fucking chirst help me it hurts so fucking bad please help me please god why";
+                        Main.statusText = "caramel popcorn and celeste";
                         break;
                     case 22:
                         Main.statusText = "D D D A G# G F D F G";
@@ -309,31 +309,31 @@ namespace EEMod
                         Main.statusText = "Sans in real!";
                         break;
                     case 27:
-                        Main.statusText = "daimgamer craves penis";
+                        Main.statusText = "I sure hope I didnt break the codeghsduighshsy";
                         break;
                     case 28:
                         Main.statusText = "If you liked endless escapade you will love endless escapade premium!";
                         break;
                     case 29:
-                        Main.statusText = "daddy oh yes";
+                        Main.statusText = "IL edit that breaks the runtime";
                         break;
                     case 30:
                         Main.statusText = "mario in real life";
                         break;
                     case 31:
-                        Main.statusText = "I love it when you load me like that";
+                        Main.statusText = "the 𝖕𝖍𝖆𝖓𝖙𝖆m of the opera";
                         break;
                     case 32:
                         Main.statusText = "EEMod Foretold? More like doesn't exist";
                         break;
                     case 33:
-                        Main.statusText = "Endless Escapade is the new PornHub";
+                        Main.statusText = "You think this is a game? Look behind you 0_0";
                         break;
                     case 34:
                         Main.statusText = "Respect the drip Karen";
                         break;
                     case 35:
-                        Main.statusText = "Its not Animal abuse he is just a chonker!";
+                        Main.statusText = "trust me there is a lot phesh down in here, the longer the player is in the reefs the more amphibious he will become";
                         break;
                     case 36:
                         Main.statusText = "All good sprites made by daimgamer!";
@@ -342,10 +342,10 @@ namespace EEMod
                         Main.statusText = "All (good) music made by Universe";
                         break;
                     case 38:
-                        Main.statusText = "All good sprites made by vadim";
+                        Main.statusText = "All good sprites made by Vadim";
                         break;
                     case 39:
-                        Main.statusText = "All good sprites made by zarn";
+                        Main.statusText = "All good sprites made by Zarn";
                         break;
                     case 40:
                         Main.statusText = "ni-𝕌ℕ𝕀𝕍𝔼ℝ𝕊𝔼";
@@ -369,7 +369,7 @@ namespace EEMod
                         Main.statusText = "Poggers? Poggers.";
                         break;
                     case 47:
-                        Main.statusText = "Totally not sentient AI";
+                        Main.statusText = $@"Totally not sentient AI. By the way, {Environment.UserName} is a dumb computer name";
                         break;
                     case 48:
                         Main.statusText = "Ḯ̴͝t̶͐̈́ ̶̄͆ȁ̷͠l̶̄̑l̵̇͝ ̴̀̎e̶͌̌n̶̍̓d̵͋̂s̶̑̃ ̵͊̉ẻ̶̛v̶̍̍ë̴́́n̶͗͠t̷́͘u̵͒̆à̶̎l̷̊͗l̶͊̍y̴̌̋!̴͂̑";
@@ -393,16 +393,16 @@ namespace EEMod
                         Main.statusText = "When";
                         break;
                     case 55:
-                        Main.statusText = "Yoda cbt hard style remix 2019";
+                        Main.statusText = "[Insert non funny joke here]";
                         break;
                     case 56:
-                        Main.statusText = "Enabling large chode mode";
+                        Main.statusText = "The dev server is indeed an asylum";
                         break;
                     case 57:
                         Main.statusText = "owo";
                         break;
                     case 58:
-                        Main.statusText = "*nuzzles you";
+                        Main.statusText = "That's how the mafia works";
                         break;
                     case 59:
                         Main.statusText = "Hacking the mainframe...";
@@ -410,11 +410,14 @@ namespace EEMod
                     case 60:
                         Main.statusText = "Not Proud";
                         break;
+                    case 61:
+                        Main.statusText = "You know I think the ocean needs more con- Haha the literal ocean goes brr";
+                        break;
                 }
             }
             else
             {
-                loadingChoose = Main.rand.Next(61);
+                loadingChoose = 47;//Main.rand.Next(62);
                 loadingChooseImage = Main.rand.Next(5);
                 Main.numClouds = 10;
                 if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
