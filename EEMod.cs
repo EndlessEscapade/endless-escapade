@@ -54,7 +54,6 @@ namespace EEMod
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject = null });
-            typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, null });
         }
         public static void GenerateWorld2(int seed, GenerationProgress customProgressObject = null)
         {
