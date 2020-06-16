@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Projectiles;
 using EEMod.Projectiles.OceanMap;
+using EEMod.Projectiles.CoralReefs;
 
 namespace EEMod
 {
@@ -282,7 +283,8 @@ namespace EEMod
                     (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
-                        SM.SaveAndQuit(key4);
+                      Initialize();
+                      SM.SaveAndQuit(key4);
                     }
                 }
                 else
@@ -483,6 +485,12 @@ namespace EEMod
                     titleText -= 0.005f;
                 if (titleText <= 0)
                     titleText = 0;
+                markerPlacer++;
+                if (markerPlacer % 40 == 0)
+                {
+                    int CloudChoose = Main.rand.Next(5);
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f,0.5f), Main.rand.Next(100, 180));
+                }
             }
             else if (Main.ActiveWorldFileData.Name == key4)
             {
