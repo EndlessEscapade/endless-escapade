@@ -8,16 +8,16 @@ namespace EEMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Spear");
+            DisplayName.SetDefault("Trident Of The Depths");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
+            projectile.width = 50;
+            projectile.height = 50;
             projectile.aiStyle = 19;
             projectile.penetrate = -1;
-            projectile.scale = 1.3f;
+            projectile.scale = 1f;
             projectile.alpha = 0;
 
             projectile.hide = true;
@@ -25,6 +25,8 @@ namespace EEMod.Projectiles.Melee
             projectile.melee = true;
             projectile.tileCollide = false;
             projectile.friendly = true;
+            projectile.damage = 40;
+            projectile.knockBack = 4.5f;
         }
 
         // In here the AI uses this example, to make the code more organized and readable
@@ -35,6 +37,7 @@ namespace EEMod.Projectiles.Melee
             set => projectile.ai[0] = value;
         }
 
+        private int timer = 5;
         // It appears that for this AI, only the ai0 field is used!
         public override void AI()
         {
@@ -63,6 +66,12 @@ namespace EEMod.Projectiles.Melee
                 else // Otherwise, increase the movement factor
                 {
                     movementFactor += 2.1f;
+                }
+                timer--;
+                if(timer <= 0)
+                {
+                    Projectile.NewProjectile(projectile.position, projectile.velocity * 3, ModContent.ProjectileType<TridentOfTheDepthsWhirlpool>(), projectile.damage, projectile.knockBack);
+                    timer = 5;
                 }
             }
             // Change the spear position based off of the velocity and the movementFactor

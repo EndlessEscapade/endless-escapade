@@ -19,5 +19,10 @@ namespace EEMod.Projectiles.Melee
             projectile.penetrate = -1;
             projectile.melee = true;
         }
+
+        public override void AI()
+        {
+            projectile.velocity *= 1.002f;
+        }
     }
 }

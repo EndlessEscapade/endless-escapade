@@ -66,10 +66,6 @@ namespace EEMod
             ZoneCoralReefs = flags[0];
         }
 
-        public bool radiationResist = false;
-        public bool alchemistFire = false;
-        public bool alchemistElectric = false;
-        public bool alchemistNuclear = false;
         public static bool godMode = false;
         public bool quartzCrystal = false;
         public bool isQuartzRangedOn = false;
@@ -125,10 +121,6 @@ namespace EEMod
             isQuartzRangedOn = false;
             isQuartzMeleeOn = false;
             isQuartzSummonOn = false;
-            radiationResist = false;
-            alchemistFire = false;
-            alchemistElectric = false;
-            alchemistNuclear = false;
             ResetMinionEffect();
             isSaving = false;
         }
@@ -494,11 +486,7 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == key4)
             {
-<<<<<<< HEAD
                 player.ClearBuff(BuffID.Cursed);
-=======
-
->>>>>>> 50973c09919ab2bd890f0d4dac2a1e60be43d146
             }
             else
             {
