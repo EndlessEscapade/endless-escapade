@@ -73,14 +73,14 @@ namespace EEMod
         }
         public static void Island(int seed, GenerationProgress customProgressObject = null)
         {
-            Main.maxTilesX = 700;
-            Main.maxTilesY = 500;
+            Main.maxTilesX = 400;
+            Main.maxTilesY = 405;
             Main.spawnTileX = 234;
             Main.spawnTileY = 92;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            //EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
-            EEWorld.EEWorld.makeOvalFlatTop(350, 250, new Vector2(350/2, 250/2), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
+            EEWorld.EEWorld.makeOvalFlatTop(200, 200, new Vector2(350/2, 250/2), ModContent.TileType<CoralSand>());
             EEMod.isSaving = false;
         }
     }

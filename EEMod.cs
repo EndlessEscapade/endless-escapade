@@ -189,7 +189,7 @@ namespace EEMod
         {
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
             {
-                loadingChoose = 47;// Main.rand.Next(62);
+                loadingChoose = Main.rand.Next(62);
                 loadingChooseImage = Main.rand.Next(5);
                 Main.numClouds = 10;
                 if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
@@ -221,7 +221,7 @@ namespace EEMod
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null) SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
                 if (loadingFlag)
                 {
-                    loadingChoose = 47;// Main.rand.Next(62);
+                    loadingChoose = Main.rand.Next(62);
                     loadingChooseImage = Main.rand.Next(5);
                     loadingFlag = false;
                 }
