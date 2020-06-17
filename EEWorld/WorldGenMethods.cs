@@ -822,7 +822,7 @@ namespace EEMod.EEWorld
                 return 0;
             }
         }
-        public static void makeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
+        public static void makeOvalJaggedTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {
@@ -843,6 +843,31 @@ namespace EEMod.EEWorld
                 if (Main.rand.Next(2) == 0)
                     steps += Main.rand.Next(-1, 2);
                 for (int j = -6; j < height / 2 - 2 + steps; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    if (tile.type == type)
+                        WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                }
+            }
+        }
+        public static void makeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+
+                    if (i == width / 2 && j == height / 2)
+                    {
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), type, true, 0f, 0f, true, true);
+                    }
+                }
+            }
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = -6; j < height / 2 - 2; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     if (tile.type == type)
