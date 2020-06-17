@@ -837,9 +837,12 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            int steps = 0;
             for (int i = 0; i < width; i++)
             {
-                for (int j = -6; j < height / 2 - 2; j++)
+                if (Main.rand.Next(2) == 0)
+                    steps += Main.rand.Next(-1, 2);
+                for (int j = -6; j < height / 2 - 2 + steps; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     if (tile.type == type)

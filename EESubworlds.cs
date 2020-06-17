@@ -80,7 +80,7 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
             EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
-            EEWorld.EEWorld.makeOvalFlatTop(200, 200, new Vector2(350/2, 250/2), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.makeOvalFlatTop(400, 150, new Vector2(0, 100), ModContent.TileType<CoralSand>());
             EEMod.isSaving = false;
         }
     }
