@@ -24,14 +24,14 @@ namespace EEMod.Items.Weapons
             item.consumable = false;
             item.noUseGraphic = true;
             item.useAnimation = 14;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 14;
             item.knockBack = 0f;
             item.UseSound = SoundID.Item18;
             item.autoReuse = true;
             item.maxStack = 1;
             item.value = Item.sellPrice(0, 1, 0, 0);
-            item.rare = 5;
+            item.rare = ItemRarityID.Pink;
             item.shoot = ModContent.ProjectileType<QuartzDaggerProj>();
             item.shootSpeed = 11f;
         }

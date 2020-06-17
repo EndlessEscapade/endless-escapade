@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Projectiles;
+using Terraria.ID;
 
 namespace EEMod.Items
 {
@@ -29,7 +30,7 @@ namespace EEMod.Items
 
         public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == 1 && Main.rand.NextBool(3))
+            if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == ItemUseStyleID.SwingThrow && Main.rand.NextBool(3))
             {
                 float speed = Main.rand.NextFloat(9, 11);
                 Projectile.NewProjectile(player.position, Vector2.Normalize(Main.MouseWorld - player.Center) * speed, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
@@ -39,7 +40,7 @@ namespace EEMod.Items
 
         public override bool UseItem(Item item, Player player)
         {
-            if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == 1 && Main.rand.NextBool(68))
+            if (player.GetModPlayer<EEPlayer>().isQuartzMeleeOn && item.melee && item.useStyle == ItemUseStyleID.SwingThrow && Main.rand.NextBool(68))
             {
                 float speed = Main.rand.NextFloat(9, 11);
                 Projectile.NewProjectile(player.position, Vector2.Normalize(Main.MouseWorld - player.Center) * speed, ModContent.ProjectileType<QuartzProjSwords>(), (int)(item.damage * 0.7f), item.knockBack, player.whoAmI, 0f, 0f);
