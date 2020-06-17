@@ -283,7 +283,7 @@ namespace EEMod
                     (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
-                      //Initialize();
+                      Initialize();
                       SM.SaveAndQuit(key4);
                     }
                 }

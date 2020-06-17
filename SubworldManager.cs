@@ -114,7 +114,7 @@ namespace EEMod
             WorldGen.clearWorld();
             EEMod.GenerateWorld(threadContext as string, Main.ActiveWorldFileData.Seed, null);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            //Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{threadContext as string}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{threadContext as string}.wld", false);
             WorldGen.playWorld();
         }
         public static void WorldGenCallBack(object threadContext)
