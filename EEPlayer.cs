@@ -283,7 +283,7 @@ namespace EEMod
                     (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
-                      Initialize();
+                      //Initialize();
                       SM.SaveAndQuit(key4);
                     }
                 }
@@ -492,10 +492,10 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f,0.5f), Main.rand.Next(100, 180));
                 }
             }
-            else if (Main.ActiveWorldFileData.Name == key4)
+            /*else if (Main.ActiveWorldFileData.Name == key4)
             {
                 player.ClearBuff(BuffID.Cursed);
-            }
+            }*/
             else
             {
                 baseWorldName = Main.ActiveWorldFileData.Name;

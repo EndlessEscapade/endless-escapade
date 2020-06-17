@@ -125,7 +125,7 @@ namespace EEMod
 
         public override void Unload()
         {
-            IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
+            //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             On.Terraria.Main.DoUpdate -= OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
             On.Terraria.Main.DrawMenu -= OnDrawMenu;
@@ -148,7 +148,7 @@ namespace EEMod
         {
             instance = this;
             AutoloadingManager.LoadManager(this);
-            IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
+            //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
             if (!Main.dedServ)
             {
                 eeui = new EEUI();
@@ -432,7 +432,7 @@ namespace EEMod
             orig(self, gameTime);
         }
 
-        private static void ILSaveWorldTiles(ILContext il)
+        /*private static void ILSaveWorldTiles(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             PropertyInfo statusText = typeof(Main).GetProperty(nameof(Main.statusText));
@@ -445,7 +445,7 @@ namespace EEMod
             {
                 return originalText;
             });
-        }
+        }*/
 
         internal void ShowMyUI()
         {

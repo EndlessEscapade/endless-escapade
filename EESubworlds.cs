@@ -78,10 +78,10 @@ namespace EEMod
             Main.spawnTileX = 234;
             Main.spawnTileY = 92;
             SubworldManager.Reset(seed);
-            EEMod.isSaving = false;
             SubworldManager.PostReset(customProgressObject);
-            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
-            //EEWorld.EEWorld.makeOvalFlatTop(350, 250, new Vector2(350/2, 250/2), ModContent.TileType<CoralSand>());
+            //EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
+            EEWorld.EEWorld.makeOvalFlatTop(350, 250, new Vector2(350/2, 250/2), ModContent.TileType<CoralSand>());
+            EEMod.isSaving = false;
         }
     }
 }
