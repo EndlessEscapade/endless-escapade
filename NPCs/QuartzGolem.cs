@@ -115,7 +115,7 @@ namespace EEMod.NPCs
                     Main.dust[num7].position.Y = npc.Center.Y - (int)(Math.Sin(rad) * dist1);
 
                     npc.ai[1] += 1;
-                    if (Main.netMode != 1)
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
                         if (Main.rand.Next(2) == 0)
                         {

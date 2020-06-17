@@ -53,7 +53,7 @@ namespace EEMod.NPCs
             npc.ai[0]++;
             Player player = Main.player[npc.target];
             bool playerActive = player != null && player.active && !player.dead;
-            if (Main.netMode != 1 && playerActive)
+            if (Main.netMode != NetmodeID.MultiplayerClient && playerActive)
             {
                 if (npc.ai[0] >= 350 && npc.ai[0] <= 400)
                 {

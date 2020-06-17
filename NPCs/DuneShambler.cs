@@ -199,7 +199,7 @@ namespace EEMod.NPCs
                     }
                 }
             }
-            if (Main.netMode != 1)
+            if (Main.netMode != NetmodeID.MultiplayerClient)
             {
                 if (Math.Abs(npc.velocity.X) <= accel * 2.5f)
                 {
