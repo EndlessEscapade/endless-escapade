@@ -35,7 +35,7 @@ namespace EEMod.EEWorld
         public static bool downedStagrel;
         public static bool downedBeheader;
 
-        private static List<Point> BiomeCenters;
+       // private static List<Point> BiomeCenters;
         public static int CoralReefsTiles = 0;
         public static Vector2 yes;
         public static Vector2 ree;
@@ -44,7 +44,7 @@ namespace EEMod.EEWorld
         public override void Initialize()
         {
             eocFlag = NPC.downedBoss1;
-            ree = new Vector2(100, TileCheck(100) - 22);
+            ree = new Vector2(100, TileCheckWater(100) - 22);
             if (EntracesPosses.Count > 0)
                 yes = EntracesPosses[0];
         }
@@ -218,7 +218,7 @@ namespace EEMod.EEWorld
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
                 {
                     Tile tile = Framing.GetTileSafely(i-3, j-6);
-                    int expectedType = 0;
+                    int expectedType;
                     switch (ShipTiles[j - ShipTilePosY,i-ShipTilePosX])
                     {
                         case 1:

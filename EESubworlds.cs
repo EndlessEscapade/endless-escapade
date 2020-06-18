@@ -63,13 +63,13 @@ namespace EEMod
                     Tile.SmoothSlope(i, j);
                 }
             }
-            EEWorld.EEWorld.killWall(1000, 1000, Vector2.Zero);
-            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
-            EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheck(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
-            EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheck(boatPos) - 22, EEWorld.EEWorld.ShipWalls);
+            EEWorld.EEWorld.KillWall(1000, 1000, Vector2.Zero);
+            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
+            EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
+            EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipWalls);
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
-            Main.spawnTileY = EEWorld.EEWorld.TileCheck(boatPos) - 22;
+            Main.spawnTileY = EEWorld.EEWorld.TileCheckWater(boatPos) - 22;
         }
         public static void Island(int seed, GenerationProgress customProgressObject = null)
         {
@@ -79,8 +79,8 @@ namespace EEMod
             Main.spawnTileY = 92;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
-            EEWorld.EEWorld.makeOvalJaggedTop(400, 150, new Vector2(0, 100), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
+            EEWorld.EEWorld.MakeOvalJaggedTop(400, 150, new Vector2(0, 100), ModContent.TileType<CoralSand>());
             EEMod.isSaving = false;
         }
     }

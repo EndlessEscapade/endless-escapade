@@ -128,38 +128,36 @@ namespace EEMod
                 Logging.Terraria.Error((object)Language.GetTextValue("tModLoader.WorldGenError"), ex);
             }
         }
-        public static void CreateNewWorld(string text, GenerationProgress progress = null)
+        public static void CreateNewWorld(string text)
         {
             Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
             ThreadPool.QueueUserWorkItem(WorldGenCallBack, text);
         }
-        private static void OnWorldNamed(string text, GenerationProgress progress)
+        private static void OnWorldNamed(string text)
         {
             string path = $@"{Main.SavePath}\Worlds\{text}.wld";
             if (!File.Exists(path))
             {
                 Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
                 Main.worldName = text.Trim();
-                CreateNewWorld(text, progress);
+                CreateNewWorld(text);
                 return;
             }
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata(path, false);
             WorldGen.playWorld();
         }
-        private void ReturnOnName(string text, GenerationProgress progress)
+        private void ReturnOnName(string text)
         {
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);
             WorldGen.playWorld();
         }
         public static void EnterSub(string key)
         {
-            GenerationProgress progress = new GenerationProgress();
-            OnWorldNamed(key, progress);
+            OnWorldNamed(key);
         }
         public void Return(string baseWorldName)
         {
-            GenerationProgress progress = new GenerationProgress();
-            ReturnOnName(baseWorldName, progress);
+            ReturnOnName(baseWorldName);
         }
     }
 }
