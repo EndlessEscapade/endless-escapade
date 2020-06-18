@@ -23,6 +23,7 @@ namespace EEMod
         public bool hydriteVisage;
         public bool ZoneCoralReefs;
         private int opac;
+
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = EEWorld.EEWorld.CoralReefsTiles > 200;
@@ -88,6 +89,7 @@ namespace EEMod
         public static int cutSceneTriggerTimer;
         public static int cutSceneTriggerTimer2;
         public static float cutSceneTriggerTimer3;
+        public static int coralReefTrans;
         public static int markerPlacer;
         public Vector2 position;
         public Vector2 velocity;
@@ -495,6 +497,8 @@ namespace EEMod
             else if (Main.ActiveWorldFileData.Name == key4)
             {
             player.ClearBuff(BuffID.Cursed);
+                for (int i = 0; i < Main.backgroundTexture.Length; i++)
+                    Main.backgroundTexture[i] = TextureCache.Empty;
             }
             else
             {
