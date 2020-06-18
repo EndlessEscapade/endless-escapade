@@ -19,6 +19,9 @@ using EEMod.Items.Materials;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Tiles;
 using EEMod.UI;
+using System.Reflection.Emit;
+using Mono.Cecil.Cil;
+using OpCodes = Mono.Cecil.Cil.OpCodes;
 
 namespace EEMod
 {
@@ -144,6 +147,11 @@ namespace EEMod
             }
             base.UpdateUI(gameTime);
         }
+
+        private void Main_DrawBackground(ILContext il)
+        {
+
+        }
         public override void Load()
         {
             instance = this;
@@ -167,6 +175,7 @@ namespace EEMod
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
             }
+            IL.Terraria.Main.DrawBackground += Main_DrawBackground;
             On.Terraria.Main.DoUpdate += OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawMenu += OnDrawMenu;

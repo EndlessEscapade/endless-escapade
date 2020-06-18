@@ -855,11 +855,6 @@ namespace EEMod.EEWorld
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2) + steps, i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
-
-                    if (i == width / 2 && j == height / 2)
-                    {
-                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), type, true, 0f, 0f, true, true);
-                    }
                 }
             }
             int steps2 = 0;
@@ -867,7 +862,7 @@ namespace EEMod.EEWorld
             {
                 if (Main.rand.Next(2) == 0)
                     steps2 += Main.rand.Next(-1, 2);
-                for (int j = height / 2 - 2 + steps2; j < height + 2 + steps2; j++)
+                for (int j = height / 2 - 2 + steps2; j < height + 2; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     if (tile.type == type)

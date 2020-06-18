@@ -497,8 +497,6 @@ namespace EEMod
             else if (Main.ActiveWorldFileData.Name == key4)
             {
             player.ClearBuff(BuffID.Cursed);
-                for (int i = 0; i < Main.backgroundTexture.Length; i++)
-                    Main.backgroundTexture[i] = TextureCache.Empty;
             }
             else
             {
