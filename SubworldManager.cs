@@ -24,6 +24,53 @@ namespace EEMod
             _generator.Append(new PassLegacy(name, method));
         }
 
+        public static void SettleLiquids()
+        {
+            AddGenerationPass("Settle Liquids", delegate (GenerationProgress progress)
+            {
+                progress.Message = "Settling Liquids";
+                Liquid.QuickWater(3);
+                WorldGen.WaterCheck();
+                int num362 = 0;
+                Liquid.quickSettle = true;
+                while (num362 < 10)
+                {
+                    int num363 = Liquid.numLiquid + LiquidBuffer.numLiquidBuffer;
+                    num362++;
+                    float num364 = 0f;
+                    while (Liquid.numLiquid > 0)
+                    {
+                        float num365 = (float)(num363 - (Liquid.numLiquid + LiquidBuffer.numLiquidBuffer)) / (float)num363;
+                        if (Liquid.numLiquid + LiquidBuffer.numLiquidBuffer > num363)
+                        {
+                            num363 = Liquid.numLiquid + LiquidBuffer.numLiquidBuffer;
+                        }
+                        if (num365 > num364)
+                        {
+                            num364 = num365;
+                        }
+                        else
+                        {
+                            num365 = num364;
+                        }
+                        if (num362 == 1)
+                        {
+                            progress.Set(num365 / 3f + 0.33f);
+                        }
+                        int num366 = 10;
+                        if (num362 > num366)
+                        {
+                            num366 = num362;
+                        }
+                        Liquid.UpdateLiquid();
+                    }
+                    WorldGen.WaterCheck();
+                    progress.Set((float)num362 * 0.1f / 3f + 0.66f);
+                }
+                Liquid.quickSettle = false;
+                Main.tileSolid[190] = true;
+            });
+        }
         public static void Reset(int seed)
         {
             Logging.Terraria.InfoFormat("Generating World: {0}", (object)Main.ActiveWorldFileData.Name);
