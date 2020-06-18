@@ -82,21 +82,32 @@ namespace EEMod
 
 
             int islandWidth = 274;
-            int islandHeight = 150;
+            int islandHeight = 120;
 
 
             //This is going to move later, just here for now for simplicity, don't @ me
             //Not the island
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
-            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 175, new Vector2(0, 0));
+            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 180, new Vector2(0, 0));
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
 
             //The island
-            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 107), ModContent.TileType<CoralSand>());
-            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth - 60, islandHeight - 40, new Vector2((Main.maxTilesX / 2) - (islandWidth - 60) / 2, 110), TileID.Dirt);
-            //EEWorld.EEWorld.MakeOval(20, 30, new Vector2(Main.maxTilesX - 110, 165), TileID.Dirt);
-            //EEWorld.EEWorld.MakeOval(20, 30, new Vector2(90, 165), TileID.Dirt);
+            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth - 60, islandHeight - 40, new Vector2((Main.maxTilesX / 2) - (islandWidth - 60) / 2, 160), TileID.Dirt);
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            for(int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    WorldGen.SpreadGrass(i, j);
+                }
+            }
+            /*for(int j = 0; j < Main.maxTilesX; j++)
+            {
+                if(Main.rand.Next(0, 10) == 0)
+                    WorldGen.GrowTree(j, EEWorld.EEWorld.TileCheck(j, TileID.Grass) - 1);
+            }*/
+            
             SubworldManager.SettleLiquids();
 
 
