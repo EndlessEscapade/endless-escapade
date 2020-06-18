@@ -84,14 +84,19 @@ namespace EEMod
             int islandWidth = 274;
             int islandHeight = 150;
 
+
+            //This is going to move later, just here for now for simplicity, don't @ me
             //Not the island
-            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, (Main.maxTilesY - 190), new Vector2(0, 190));
-            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 20, new Vector2(0, 380), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
+            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 175, new Vector2(0, 0));
+            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
 
             //The island
-            EEWorld.EEWorld.MakeOvalJaggedTop(274, 150, new Vector2((Main.maxTilesX / 2) - 274 / 2, 100), ModContent.TileType<CoralSand>());
-            EEWorld.EEWorld.MakeOvalJaggedTop(216, 150, new Vector2((Main.maxTilesX / 2) - 216 / 2, 100), TileID.Dirt);
-            
+            EEWorld.EEWorld.MakeOvalJaggedTop(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 107), ModContent.TileType<CoralSand>(), 0, 0);
+            EEWorld.EEWorld.MakeOvalJaggedTop(islandWidth - 60, islandHeight - 40, new Vector2((Main.maxTilesX / 2) - (islandWidth - 60) / 2, 110), TileID.Dirt, 0, 0);
+            EEWorld.EEWorld.MakeOval(20, 30, new Vector2(Main.maxTilesX - 110, 165), TileID.Dirt);
+            EEWorld.EEWorld.MakeOval(20, 30, new Vector2(90, 165), TileID.Dirt);
+            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
             EEMod.isSaving = false;
         }

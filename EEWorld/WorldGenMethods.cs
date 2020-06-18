@@ -781,6 +781,21 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void RemoveWaterFromRegion(int width, int height, Vector2 startingPoint)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType() == 0)
+                    {
+                        Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].ClearEverything();
+                        if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                            NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    }
+                }
+            }
+        }
         private static int TileCheck2(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);
@@ -801,7 +816,7 @@ namespace EEMod.EEWorld
                 return 0;
             }
         }
-        public static void MakeOvalJaggedTop(int width, int height, Vector2 startingPoint, int type)
+        public static void MakeOvalJaggedTop(int width, int height, Vector2 startingPoint, int type, int lowRand = 10, int highRand = 20)
         {
             for (int i = 0; i < width; i++)
             {
@@ -812,7 +827,7 @@ namespace EEMod.EEWorld
 
                     if (i == width / 2 && j == height / 2)
                     {
-                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), type, true, 0f, 0f, true, true);
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(lowRand, highRand), WorldGen.genRand.Next(lowRand, highRand), type, true, 0f, 0f, true, true);
                     }
                 }
             }
@@ -851,6 +866,22 @@ namespace EEMod.EEWorld
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     if (tile.type == type)
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                }
+            }
+        }
+        public static void MakeOval(int width, int height, Vector2 startingPoint, int type)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+
+                    if (i == width / 2 && j == height / 2)
+                    {
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), type, true, 0f, 0f, true, true);
+                    }
                 }
             }
         }
