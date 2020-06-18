@@ -81,6 +81,9 @@ namespace EEMod
             SubworldManager.PostReset(customProgressObject);
 
 
+            int islandWidth = 274;
+            int islandHeight = 150;
+
             //Not the island
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, (Main.maxTilesY - 190), new Vector2(0, 190));
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 20, new Vector2(0, 380), ModContent.TileType<CoralSand>());
