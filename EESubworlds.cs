@@ -79,8 +79,14 @@ namespace EEMod
             Main.spawnTileY = 92;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, Main.maxTilesY / 2, new Vector2(0, Main.maxTilesY/2));
-            EEWorld.EEWorld.makeOvalJaggedTop(400, 150, new Vector2(0, 100), ModContent.TileType<CoralSand>());
+
+
+            EEWorld.EEWorld.fillRegionWithWater(Main.maxTilesX, (Main.maxTilesY - 190), new Vector2(0, 190));
+            EEWorld.EEWorld.makeOvalJaggedTop(274, 150, new Vector2((Main.maxTilesX / 2) - 274 / 2, 100), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.makeOvalJaggedTop(Main.maxTilesX, 20, new Vector2(0, 380), ModContent.TileType<CoralSand>());
+            WorldGen.TileRunner();
+
+
             EEMod.isSaving = false;
         }
     }

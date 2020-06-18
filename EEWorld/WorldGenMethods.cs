@@ -875,6 +875,24 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
+        public static void makeOval(int width, int height, Vector2 startingPoint, int type)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+
+                    if (i == width / 2 && j == height / 2)
+                    {
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), type, true, 0f, 0f, true, true);
+                    }
+                }
+            }
+        }
+
         private static void fillRegion(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
