@@ -880,7 +880,6 @@ namespace EEMod.EEWorld
             }
         }
 
-        // ---- overload
         private static void FillRegion(int width, int height, Vector2 startingPoint, int type1, int type2)
         {
             for (int i = 0; i < width; i++)

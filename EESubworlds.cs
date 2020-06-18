@@ -81,11 +81,14 @@ namespace EEMod
             SubworldManager.PostReset(customProgressObject);
 
 
+            //Not the island
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, (Main.maxTilesY - 190), new Vector2(0, 190));
-            EEWorld.EEWorld.MakeOvalJaggedTop(274, 150, new Vector2((Main.maxTilesX / 2) - 274 / 2, 100), ModContent.TileType<CoralSand>());
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 20, new Vector2(0, 380), ModContent.TileType<CoralSand>());
-            WorldGen.TileRunner();
 
+            //The island
+            EEWorld.EEWorld.MakeOvalJaggedTop(274, 150, new Vector2((Main.maxTilesX / 2) - 274 / 2, 100), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.MakeOvalJaggedTop(216, 150, new Vector2((Main.maxTilesX / 2) - 216 / 2, 100), TileID.Dirt);
+            
 
             EEMod.isSaving = false;
         }
