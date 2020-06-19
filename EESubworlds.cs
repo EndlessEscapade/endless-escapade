@@ -87,17 +87,16 @@ namespace EEMod
             int islandHeight = 120;
 
 
-            //This is going to move later, just here for now for simplicity, don't @ me
             //Not the island
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 180, new Vector2(0, 0));
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
-
             
             //The island
             EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
-            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth - 60, islandHeight - 40, new Vector2((Main.maxTilesX / 2) - (islandWidth - 60) / 2, 160), TileID.Dirt);
+            EEWorld.EEWorld.MakeOvalJaggedBottom((int)(islandWidth * (2/3)), (int)(islandHeight * (2 / 3)), new Vector2((Main.maxTilesX / 2) - (int)(islandWidth * (1/3)), EEWorld.EEWorld.TileCheck(Main.maxTilesX/2, ModContent.TileType<CoralSand>()) + 2), TileID.Dirt);
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+
             for(int i = 0; i < Main.maxTilesX; i++)
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
@@ -113,40 +112,37 @@ namespace EEMod
 
             for (int i = 42; i < Main.maxTilesX-42; i++)
             {
-                for (int j = 42; j < Main.maxTilesY-42; j++)
+                for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
                     int yes = WorldGen.genRand.Next(0, 5);
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes < 4 && tile.type == ModContent.TileType<CoralSand>())
+                    if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSand>())
                     {
-                        int selection = WorldGen.genRand.Next(6);
+                        int selection = WorldGen.genRand.Next(3);
                         switch (selection)
                         {
                             case 0:
-                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                WorldGen.PlaceTile(i, j - 1, 324);
                                 break;
                             case 1:
-                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                WorldGen.PlaceTile(i, j - 1, 324, style: 2);
                                 break;
                             case 2:
                                 WorldGen.PlaceTile(i, j - 1, TileID.Coral);
                                 break;
-                            case 3:
-                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
-                                break;
-                            case 4:
-                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
-                                break;
-                            case 5:
-                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
-                                break;
                         }
+                    }
+                    yes = WorldGen.genRand.Next(0, 10);
+                    if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes == 0 && tile.type == TileID.Grass)
+                    {
+                        WorldGen.GrowTree(i, j - 1);
                     }
                 }
             }
             EEWorld.EEWorld.PlaceShip(50, 158, EEWorld.EEWorld.ShipTiles);
             EEWorld.EEWorld.PlaceShipWalls(50, 158, EEWorld.EEWorld.ShipWalls);
 
+            WorldGen.AddTrees();
             SubworldManager.SettleLiquids();
 
 
