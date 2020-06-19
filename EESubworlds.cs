@@ -115,9 +115,9 @@ namespace EEMod
             {
                 for (int j = 42; j < Main.maxTilesY-42; j++)
                 {
-                    int yes = WorldGen.genRand.Next(5, 10);
+                    int yes = WorldGen.genRand.Next(0, 5);
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && j % yes <= 4 && tile.type == ModContent.TileType<CoralSand>())
+                    if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes < 4 && tile.type == ModContent.TileType<CoralSand>())
                     {
                         int selection = WorldGen.genRand.Next(6);
                         switch (selection)
