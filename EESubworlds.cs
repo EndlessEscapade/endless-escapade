@@ -93,6 +93,7 @@ namespace EEMod
             EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 180, new Vector2(0, 0));
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
 
+            
             //The island
             EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
             EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth - 60, islandHeight - 40, new Vector2((Main.maxTilesX / 2) - (islandWidth - 60) / 2, 160), TileID.Dirt);
@@ -110,7 +111,39 @@ namespace EEMod
                     WorldGen.PlaceTile(j, EEWorld.EEWorld.TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
             }
 
-
+            for (int i = 42; i < Main.maxTilesX-42; i++)
+            {
+                for (int j = 42; j < Main.maxTilesY-42; j++)
+                {
+                    int yes = WorldGen.genRand.Next(5, 10);
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && j % yes <= 4 && tile.type == ModContent.TileType<CoralSand>())
+                    {
+                        int selection = WorldGen.genRand.Next(6);
+                        switch (selection)
+                        {
+                            case 0:
+                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                break;
+                            case 1:
+                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                break;
+                            case 2:
+                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                break;
+                            case 3:
+                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                break;
+                            case 4:
+                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                break;
+                            case 5:
+                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                break;
+                        }
+                    }
+                }
+            }
             EEWorld.EEWorld.PlaceShip(50, 158, EEWorld.EEWorld.ShipTiles);
             EEWorld.EEWorld.PlaceShipWalls(50, 158, EEWorld.EEWorld.ShipWalls);
 
