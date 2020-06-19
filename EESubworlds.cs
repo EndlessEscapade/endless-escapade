@@ -104,12 +104,16 @@ namespace EEMod
                     WorldGen.SpreadGrass(i, j);
                 }
             }
-            /*for(int j = 0; j < Main.maxTilesX; j++)
+            for (int j = 0; j < Main.maxTilesX; j++)
             {
-                if(Main.rand.Next(0, 10) == 0)
-                    WorldGen.GrowTree(j, EEWorld.EEWorld.TileCheck(j, TileID.Grass) - 1);
-            }*/
-            
+                if ((Main.rand.Next(5) == 0) && (EEWorld.EEWorld.TileCheck(j, ModContent.TileType<CoralSand>()) < EEWorld.EEWorld.TileCheck(j, TileID.Dirt)) && (EEWorld.EEWorld.TileCheck(j, ModContent.TileType<CoralSand>()) < EEWorld.EEWorld.TileCheck(j, TileID.Grass)))
+                    WorldGen.PlaceTile(j, EEWorld.EEWorld.TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
+            }
+
+
+            EEWorld.EEWorld.PlaceShip(50, 158, EEWorld.EEWorld.ShipTiles);
+            EEWorld.EEWorld.PlaceShipWalls(50, 158, EEWorld.EEWorld.ShipWalls);
+
             SubworldManager.SettleLiquids();
 
 

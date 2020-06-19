@@ -330,7 +330,7 @@ namespace EEMod
                         Main.statusText = "mario in real life";
                         break;
                     case 31:
-                        Main.statusText = "the 𝖕𝖍𝖆𝖓𝖙𝖆m of the opera";
+                        Main.statusText = "the phantam of the opera";
                         break;
                     case 32:
                         Main.statusText = "EEMod Foretold? More like doesn't exist";
@@ -357,7 +357,7 @@ namespace EEMod
                         Main.statusText = "All good sprites made by Zarn";
                         break;
                     case 40:
-                        Main.statusText = "ni-𝕌ℕ𝕀𝕍𝔼ℝ𝕊𝔼";
+                        Main.statusText = "ni-UNIVERSE";
                         break;
                     case 41:
                         Main.statusText = "Totally not copying Starlight River";
@@ -381,7 +381,7 @@ namespace EEMod
                         Main.statusText = $@"Totally not sentient AI. By the way, {Environment.UserName} is a dumb computer name";
                         break;
                     case 48:
-                        Main.statusText = "Ḯ̴͝t̶͐̈́ ̶̄͆ȁ̷͠l̶̄̑l̵̇͝ ̴̀̎e̶͌̌n̶̍̓d̵͋̂s̶̑̃ ̵͊̉ẻ̶̛v̶̍̍ë̴́́n̶͗͠t̷́͘u̵͒̆à̶̎l̷̊͗l̶͊̍y̴̌̋!̴͂̑";
+                        Main.statusText = "It all ends eventually!";
                         break;
                     case 49:
                         Main.statusText = "Illegal in 5 countries!";

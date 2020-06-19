@@ -796,7 +796,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        private static int TileCheck2(int i, int j)
+        public static int TileCheck2(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);
             Tile tile2 = Framing.GetTileSafely(i, j - 1);
