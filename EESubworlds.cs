@@ -77,6 +77,7 @@ namespace EEMod
             Main.maxTilesY = 405;
             Main.spawnTileX = 234;
             Main.spawnTileY = 92;
+            Main.worldSurface = Main.maxTilesY;
             Main.rockLayer = Main.maxTilesY;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
