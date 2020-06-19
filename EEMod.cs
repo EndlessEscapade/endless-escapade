@@ -202,13 +202,11 @@ namespace EEMod
                 loadingChooseImage = Main.rand.Next(5);
                 Main.numClouds = 10;
                 if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
-                Main.logoTexture = TextureCache.Terraria_LogoTexture;
-                Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
-                Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
-                Main.sunTexture = TextureCache.Terraria_SunTexture;
-                for (int i = 0; i < Main.backgroundTexture.Length; i++)
-                    Main.backgroundTexture[i] = ModContent.GetTexture("Terraria/Background_" + i);
+                    Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
+                    Main.logoTexture = TextureCache.Terraria_LogoTexture;
+                    Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
+                    Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
+                    Main.sunTexture = TextureCache.Terraria_SunTexture;
             }
             orig(self, gameTime);
         }
@@ -219,8 +217,6 @@ namespace EEMod
             velocity = Vector2.Zero;
             if (isSaving)
             {
-                for (int i = 0; i < Main.backgroundTexture.Length; i++)
-                    Main.backgroundTexture[i] = TextureCache.Empty;
                 Main.numClouds = 0;
                 Main.logo2Texture = TextureCache.Empty;
                 Main.logoTexture = TextureCache.Empty;
@@ -426,17 +422,19 @@ namespace EEMod
             }
             else
             {
-                loadingChoose = 47;//Main.rand.Next(62);
-                loadingChooseImage = Main.rand.Next(5);
-                Main.numClouds = 10;
-                if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
-                Main.logoTexture = TextureCache.Terraria_LogoTexture;
-                Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
-                Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
-                Main.sunTexture = TextureCache.Terraria_SunTexture;
-                for (int i = 0; i < Main.backgroundTexture.Length; i++)
-                    Main.backgroundTexture[i] = ModContent.GetTexture("Terraria/Background_" + i);
+                if(!Main.dedServ)
+                {
+                    loadingChoose = 47;//Main.rand.Next(62);
+                    loadingChooseImage = Main.rand.Next(5);
+                    Main.numClouds = 10;
+                    if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
+                    Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
+                    Main.logoTexture = TextureCache.Terraria_LogoTexture;
+                    Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
+                    Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
+                    Main.sunTexture = TextureCache.Terraria_SunTexture;
+                }
+               
             }
             orig(self, gameTime);
         }

@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using EEMod.Projectiles;
 using EEMod.Projectiles.OceanMap;
 using EEMod.Projectiles.CoralReefs;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod
 {
@@ -139,6 +140,7 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
+           
             base.ModifyScreenPosition();
             if (Main.ActiveWorldFileData.Name == key2)
             {
@@ -159,10 +161,6 @@ namespace EEMod
         public override void UpdateBiomeVisuals()
         {
             EEMod.isSaving = false;
-            string path = $@"{Main.SavePath}\Worlds\CoralReefs.wld";
-            Action<string> newWorld = new Action<string>(SubworldManager.EnterSub);
-            Action returnToBaseWorld = Return;
-            //player.ManageSpecialBiomeVisuals("EEMod:Akumo", NPC.AnyNPCs(ModContent.NPCType<Akumo>()));
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
             {
                 cutSceneTriggerTimer += 6;
@@ -496,6 +494,7 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == key4)
             {
+
             player.ClearBuff(BuffID.Cursed);
             }
             else
@@ -652,7 +651,14 @@ namespace EEMod
         }
 
 
-
+        public override Texture2D GetMapBackgroundImage()
+        {
+            if (ZoneCoralReefs)
+            {
+                return mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
+            }
+            return null;
+        }
 
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
