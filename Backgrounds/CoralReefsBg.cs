@@ -10,7 +10,7 @@ namespace EEMod.Backgrounds
     {
         public override bool ChooseBgStyle()
         {
-            return !Main.gameMenu;
+            return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs;
         }
         public override void ModifyFarFades(float[] fades, float transitionSpeed)
         {
