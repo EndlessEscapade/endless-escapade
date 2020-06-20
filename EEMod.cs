@@ -132,6 +132,7 @@ namespace EEMod
             On.Terraria.Main.DoUpdate -= OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
             On.Terraria.Main.DrawMenu -= OnDrawMenu;
+            On.Terraria.WorldGen.SmashAltar -= EEPlayer.WorldGen_SmashAltar;
             AutoloadingManager.UnloadManager(this);
             instance = null;
         }
@@ -170,6 +171,7 @@ namespace EEMod
         }
         public override void Load()
         {
+            On.Terraria.WorldGen.SmashAltar += EEPlayer.WorldGen_SmashAltar;
             instance = this;
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
