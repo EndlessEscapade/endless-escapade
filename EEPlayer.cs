@@ -101,7 +101,7 @@ namespace EEMod
         public static bool isNearCoralReefs;
         public static string baseWorldName;
 
-        public int moralScore;
+        public static int moralScore;
         public int initialMoralScore;
 
         private void MoralFirstFrame()
