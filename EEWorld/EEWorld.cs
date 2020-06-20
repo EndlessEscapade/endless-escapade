@@ -117,11 +117,17 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
+        public static Vector2 SubWorldSpecificCoralBoatPos;
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("EntracesPosses"))
             {
                 EntracesPosses = tag.GetList<Vector2>("EntracesPosses");
+            }
+            if (tag.ContainsKey("CoralBoatPos"))
+            {
+                SubWorldSpecificCoralBoatPos = tag.Get<Vector2>("CoralBoatPos");
             }
             if (tag.ContainsKey("yes") && tag.ContainsKey("yes").GetType().Name == "Vector2")
             {
@@ -152,6 +158,13 @@ namespace EEMod.EEWorld
         }
         public override TagCompound Save()
         {
+            if (Main.ActiveWorldFileData.Name == EEPlayer.key3 && EESubWorlds.CoralBoatPos != Vector2.Zero)
+            {
+                return new TagCompound
+                {
+                {"CoralBoatPos",EESubWorlds.CoralBoatPos}
+                };
+            }
             return new TagCompound {
             {"EntracesPosses",EntracesPosses},{"yes", yes },{"ree", ree }
         };

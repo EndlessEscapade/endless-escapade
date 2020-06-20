@@ -150,7 +150,23 @@ namespace EEMod
 
         private void Main_DrawBackground(ILContext il)
         {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(i => i.MatchLdloc(18))) throw new Exception("Load for local variable 'flag' (18) not found");
+            int ldlocindex = c.Index;
+            ILLabel ifend = default;
+            if (!c.TryGotoNext(i => i.MatchBrfalse(out ifend))) throw new Exception("brfalse of the 'if' statement not found");
+            if (ifend is null) throw new Exception("The 'if' statement end label is null");
+            c.Goto(ldlocindex);
+            c.Emit(OpCodes.Br, ifend);
 
+            if (!c.TryGotoNext(i => i.MatchLdloc(20))) throw new Exception("Load for local variable 'flag4' (20) not found");
+            ldlocindex = c.Index;
+            ifend = default;
+            if (!c.TryGotoNext(i => i.MatchBrfalse(out ifend))) throw new Exception("brfalse of the 2nd 'if' statement not found");
+            if (ifend is null) throw new Exception("The 2nd 'if' statement end label is null");
+
+            c.Goto(ldlocindex);
+            c.Emit(OpCodes.Br, ifend);
         }
         public override void Load()
         {
@@ -212,8 +228,6 @@ namespace EEMod
         }
         private void OnDrawMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
-
-            position = start;
             velocity = Vector2.Zero;
             if (isSaving)
             {

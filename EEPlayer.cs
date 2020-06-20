@@ -114,7 +114,7 @@ namespace EEMod
             position = player.Center;
             speedOfPan = 0;
             subText = 0;
-            EEMod.position = new Vector2(1000, 1000);
+            EEMod.position = new Vector2(1700, 900);
             objectPos.Clear();
             EEMod.ShipHelth = EEMod.ShipHelthMax;
         }
@@ -314,7 +314,7 @@ namespace EEMod
                 {
                     (Main.projectile[AnchorsMain].modProjectile as Anchor).visible = false;
                 }
-                if (isNearCoralReefs)
+                if (isNearCoralReefs && markerPlacer > 1)
                 {
                     subText += 0.02f;
                     if (subText >= 1)
@@ -322,6 +322,7 @@ namespace EEMod
                     (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
+                        Initialize();
                         SM.SaveAndQuit(key3); // coral reefs
                     }
                 }
@@ -488,14 +489,40 @@ namespace EEMod
                 markerPlacer++;
                 if (markerPlacer % 40 == 0)
                 {
-                    int CloudChoose = Main.rand.Next(5);
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f,0.5f), Main.rand.Next(100, 180));
+                }
+
+                if (!arrowFlag)
+                {
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
+                    arrowFlag = true;
+                }
+                if(EEWorld.EEWorld.SubWorldSpecificCoralBoatPos == Vector2.Zero)
+                {
+                    EEWorld.EEWorld.SubWorldSpecificCoralBoatPos = new Vector2(200, 48);
+                }
+                OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
+                if (player.Center.X / 16 >= (EEWorld.EEWorld.SubWorldSpecificCoralBoatPos.X + 2) - 2 &&
+                    player.Center.X / 16 <= (EEWorld.EEWorld.SubWorldSpecificCoralBoatPos.X + 2) + 2 &&
+                    player.Center.Y / 16 >= (EEWorld.EEWorld.SubWorldSpecificCoralBoatPos.Y + 14) - 2 &&
+                    player.Center.Y / 16 <= (EEWorld.EEWorld.SubWorldSpecificCoralBoatPos.Y + 14) + 2)
+                {
+                    if (player.controlUp)
+                    {
+                        Initialize();
+                        EEMod.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
+                        SM.SaveAndQuit(key2);
+                    }
+                    oceanarrow.visible = true;
+                }
+                else
+                {
+                    oceanarrow.visible = false;
                 }
             }
             else if (Main.ActiveWorldFileData.Name == key4)
             {
-
-            player.ClearBuff(BuffID.Cursed);
+                player.ClearBuff(BuffID.Cursed);
             }
             else
             {
