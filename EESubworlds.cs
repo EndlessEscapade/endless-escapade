@@ -94,7 +94,7 @@ namespace EEMod
             
             //The island
             EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
-            EEWorld.EEWorld.MakeOvalJaggedBottom((int)(islandWidth * (2/3)), (int)(islandHeight * (2 / 3)), new Vector2((Main.maxTilesX / 2) - (int)(islandWidth * (1/3)), EEWorld.EEWorld.TileCheck(Main.maxTilesX/2, ModContent.TileType<CoralSand>()) + 2), TileID.Dirt);
+            EEWorld.EEWorld.MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) * 0.66), EEWorld.EEWorld.TileCheck((int)(Main.maxTilesX/2), ModContent.TileType<CoralSand>()) - 5), TileID.Dirt);
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
             for(int i = 0; i < Main.maxTilesX; i++)
