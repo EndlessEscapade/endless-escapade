@@ -152,22 +152,55 @@ namespace EEMod
         private void Main_DrawBackground(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            if (!c.TryGotoNext(i => i.MatchLdloc(18))) throw new Exception("Load for local variable 'flag' (18) not found");
-            int ldlocindex = c.Index;
-            ILLabel ifend = default;
-            if (!c.TryGotoNext(i => i.MatchBrfalse(out ifend))) throw new Exception("brfalse of the 'if' statement not found");
-            if (ifend is null) throw new Exception("The 'if' statement end label is null");
-            c.Goto(ldlocindex);
-            c.Emit(OpCodes.Br, ifend);
+            Type spritebatchtype = typeof(SpriteBatch);
 
-            if (!c.TryGotoNext(i => i.MatchLdloc(20))) throw new Exception("Load for local variable 'flag4' (20) not found");
-            ldlocindex = c.Index;
-            ifend = default;
-            if (!c.TryGotoNext(i => i.MatchBrfalse(out ifend))) throw new Exception("brfalse of the 2nd 'if' statement not found");
-            if (ifend is null) throw new Exception("The 2nd 'if' statement end label is null");
+            if (!c.TryGotoNext(i => i.MatchLdloc(18)))
+                throw new Exception();
 
-            c.Goto(ldlocindex);
-            c.Emit(OpCodes.Br, ifend);
+            MethodInfo call1 = spritebatchtype.GetMethod("Draw", new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color) });
+
+            if (!c.TryGotoNext(i => i.MatchCallvirt(call1)))
+                throw new Exception();
+
+            // 1st call
+            c.Remove();
+            c.Emit(OpCodes.Ldloc, 13); // array
+            c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, int[]>>((spritebatch, texture, pos, sourcerectangle, color, array) =>
+            {
+                if (array[4] != 135)
+                    spritebatch.Draw(texture, pos, sourcerectangle, color);
+            });
+
+            // 2nd call
+            // getting to the else
+            MethodInfo lightningnoretroget = typeof(Lighting).GetProperty(nameof(Lighting.NotRetro)).GetGetMethod();
+            if (!c.TryGotoNext(i => i.MatchCallOrCallvirt(lightningnoretroget)))
+                throw new Exception();
+            // finding the call       
+            MethodInfo draw = spritebatchtype.GetMethod("Draw", new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) });
+            for (int k = 0; k < 4; k++) // 4 calls
+            {
+                if (!c.TryGotoNext(i => i.MatchCallvirt(draw)))
+                    throw new Exception();
+                c.Remove();
+                c.Emit(OpCodes.Ldloc, 13); // array
+                c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, float, Vector2, float, SpriteEffects, float, int[]>>((spritebatch, texture, position, sourcerectangle, color, rotation, origin, scale, effects, layerdepth, array) =>
+                {
+                    if (array[5] != 126)
+                        spritebatch.Draw(texture, position, sourcerectangle, color, rotation, origin, scale, effects, layerdepth);
+                });
+            }
+
+            // 3rd call
+            if (!c.TryGotoNext(i => i.MatchLdloc(20))) throw new Exception(); // flag4
+            if (!c.TryGotoNext(i => i.MatchCallvirt(call1))) throw new Exception(); // same overload
+            c.Remove();
+            c.Emit(OpCodes.Ldloc, 13); // array
+            c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, int[]>>((spritebatch, texture, position, sourcerectangle, color, array) =>
+            {
+                if (array[6] != 186)
+                    spritebatch.Draw(texture, position, sourcerectangle, color);
+            });
         }
         public override void Load()
         {
