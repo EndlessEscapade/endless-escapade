@@ -100,6 +100,34 @@ namespace EEMod
         public static bool isNearMainIsland;
         public static bool isNearCoralReefs;
         public static string baseWorldName;
+
+        public static int moralScore;
+        public int initialMoralScore;
+
+        private void MoralFirstFrame()
+        {
+            if (player.name == "OS" || player.name == "EpicCrownKing" || player.name == "Coolo109" || player.name == "Pyxis" || player.name == "Adarian Virell" || player.name == "phanta" || player.name == "cynik" || player.name == "daimgamer" || player.name == "Thecherrynuke" || player.name == "Vadim" || player.name == "CrackJackery" || player.name == "Exitium" || player.name == "Franswal")
+                initialMoralScore += 1000;
+        }
+        private void Moral()
+        {
+            moralScore = 0;
+            moralScore += initialMoralScore;
+            moralScore -= (int)WorldGen.totalEvil * 30;
+            if(WorldGen.totalEvil == 0)
+            {
+                moralScore += 1000;
+            }
+            //Main.NewText(moralScore);
+        }
+
+        public static void WorldGen_SmashAltar(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
+        {
+            orig(i, j);
+            moralScore -= 50;
+            Main.NewText(moralScore);
+        }
+
         public override void Initialize()
         {
             isSaving = false;
@@ -117,6 +145,7 @@ namespace EEMod
             EEMod.position = new Vector2(1700, 900);
             objectPos.Clear();
             EEMod.ShipHelth = EEMod.ShipHelthMax;
+            MoralFirstFrame();
         }
 
         public override void ResetEffects()
@@ -160,6 +189,7 @@ namespace EEMod
         readonly SubworldManager SM = new SubworldManager();
         public override void UpdateBiomeVisuals()
         {
+            Moral();
             EEMod.isSaving = false;
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
             {

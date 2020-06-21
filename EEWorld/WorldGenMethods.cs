@@ -844,7 +844,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void MakeOvalJaggedBottom(int width, int height, Vector2 startingPoint, int type)
+        public static void MakeOvalJaggedBottom(int width, int height, Vector2 startingPoint, int type, bool overwrite = false)
         {
             int steps = 0;
             for (int i = 0; i < width; i++)
