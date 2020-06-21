@@ -911,6 +911,42 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false)
+        {
+            int initialStartingPosX = (int)startingPoint.X;
+            for (int j = 0; j < height; j++)
+            {
+                for (int k = 0; k < slope; k++)
+                {
+                    for (int i = 0; i < width; i++)
+                    {
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), type);
+                    }
+                }
+                startingPoint.X += 1;
+                width-=2;
+                j += slope - 1;
+            }
+            int topRight = (int)startingPoint.Y - height;
+            if (isFlat)
+            {
+                ClearRegion(width, height, new Vector2(initialStartingPosX, 0));
+            }
+            if (hasChasm)
+            {
+                MakeChasm((int)(startingPoint.X + width/2), (int)(topRight + (height/(slope*10))), height, TileID.StoneSlab, 0, 0, 0);
+
+                for(int i = 0; i < Main.maxTilesX; i++)
+                {
+                    for (int j = 0; j < Main.maxTilesY; j++)
+                    {
+                        Tile tile = Framing.GetTileSafely(i, j);
+                        if (tile.type == TileID.StoneSlab)
+                            WorldGen.KillTile(i, j);
+                    }
+                }
+            }
+        }
         public static void FillRegion(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
@@ -1207,6 +1243,25 @@ namespace EEMod.EEWorld
                         }
                     }
                 }
+            }
+        }
+        public static void Island(int islandWidth, int islandHeight)
+        {
+            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
+            MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) * 0.66), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSand>()) - 5), TileID.Dirt);
+            KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    WorldGen.SpreadGrass(i, j);
+                }
+            }
+            for (int j = 0; j < Main.maxTilesX; j++)
+            {
+                if ((Main.rand.Next(5) == 0) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Dirt)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Grass)))
+                    WorldGen.PlaceTile(j, TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
             }
         }
     }

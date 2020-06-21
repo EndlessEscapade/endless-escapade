@@ -86,32 +86,13 @@ namespace EEMod
             SubworldManager.PostReset(customProgressObject);
 
 
-            int islandWidth = 274;
-            int islandHeight = 120;
-
-
             //Not the island
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 180, new Vector2(0, 0));
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
-            
-            //The island
-            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
-            EEWorld.EEWorld.MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) * 0.66), EEWorld.EEWorld.TileCheck((int)(Main.maxTilesX/2), ModContent.TileType<CoralSand>()) - 5), TileID.Dirt);
-            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
-            for(int i = 0; i < Main.maxTilesX; i++)
-            {
-                for (int j = 0; j < Main.maxTilesY; j++)
-                {
-                    WorldGen.SpreadGrass(i, j);
-                }
-            }
-            for (int j = 0; j < Main.maxTilesX; j++)
-            {
-                if ((Main.rand.Next(5) == 0) && (EEWorld.EEWorld.TileCheck(j, ModContent.TileType<CoralSand>()) < EEWorld.EEWorld.TileCheck(j, TileID.Dirt)) && (EEWorld.EEWorld.TileCheck(j, ModContent.TileType<CoralSand>()) < EEWorld.EEWorld.TileCheck(j, TileID.Grass)))
-                    WorldGen.PlaceTile(j, EEWorld.EEWorld.TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
-            }
+            //The island
+            EEWorld.EEWorld.Island(274, 120);
 
             for (int i = 42; i < Main.maxTilesX-42; i++)
             {
@@ -147,18 +128,26 @@ namespace EEMod
 
             WorldGen.AddTrees();
             SubworldManager.SettleLiquids();
-
-
-
-
-            /*EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 20, new Vector2(0, 380), ModContent.TileType<CoralSand>());
-
-            //The island
-            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 170), ModContent.TileType<CoralSand>());
-            EEWorld.EEWorld.MakeOvalJaggedBottom(216, 150, new Vector2((Main.maxTilesX / 2) - 216 / 2, 165), TileID.Dirt);
             EEMod.isSaving = false;
-            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, (Main.maxTilesY - 190), new Vector2(0, 190));
-            SubworldManager.SettleLiquids();*/
+        }
+        public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 400;
+            Main.maxTilesY = 405;
+            Main.spawnTileX = 500;
+            Main.spawnTileY = 500;
+            Main.worldSurface = Main.maxTilesY;
+            Main.rockLayer = Main.maxTilesY;
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
+
+            int islandWidth = 450;
+            int islandHeight = 210;
+
+            EEWorld.EEWorld.MakeTriangle(new Vector2(200, 300), 100, 200, 4, TileID.Stone, true, true);
+            //EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), TileID.Ash);
+
+            EEMod.isSaving = false;
         }
     }
 }

@@ -133,6 +133,7 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
             On.Terraria.Main.DrawMenu -= OnDrawMenu;
             On.Terraria.WorldGen.SmashAltar -= EEPlayer.WorldGen_SmashAltar;
+            IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
             AutoloadingManager.UnloadManager(this);
             instance = null;
         }
@@ -155,12 +156,12 @@ namespace EEMod
             Type spritebatchtype = typeof(SpriteBatch);
 
             if (!c.TryGotoNext(i => i.MatchLdloc(18)))
-                throw new Exception();
+                throw new Exception("Ldloc for local variable 18 not found");
 
             MethodInfo call1 = spritebatchtype.GetMethod("Draw", new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color) });
 
             if (!c.TryGotoNext(i => i.MatchCallvirt(call1)))
-                throw new Exception();
+                throw new Exception("No call found for SpriteBatch.Draw(Texture2D, Vector2, Rectangle?, Color)");
 
             // 1st call
             c.Remove();
@@ -170,18 +171,18 @@ namespace EEMod
                 if (array[4] != 135)
                     spritebatch.Draw(texture, pos, sourcerectangle, color);
             });
-
             // 2nd call
             // getting to the else
             MethodInfo lightningnoretroget = typeof(Lighting).GetProperty(nameof(Lighting.NotRetro)).GetGetMethod();
             if (!c.TryGotoNext(i => i.MatchCallOrCallvirt(lightningnoretroget)))
-                throw new Exception();
+                throw new Exception("Call for the get method of the property Lighting.NoRetro not found");
             // finding the call       
             MethodInfo draw = spritebatchtype.GetMethod("Draw", new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) });
             for (int k = 0; k < 4; k++) // 4 calls
             {
                 if (!c.TryGotoNext(i => i.MatchCallvirt(draw)))
-                    throw new Exception();
+                    throw new Exception($"Call number {k} not found");
+
                 c.Remove();
                 c.Emit(OpCodes.Ldloc, 13); // array
                 c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, float, Vector2, float, SpriteEffects, float, int[]>>((spritebatch, texture, position, sourcerectangle, color, rotation, origin, scale, effects, layerdepth, array) =>
@@ -192,8 +193,8 @@ namespace EEMod
             }
 
             // 3rd call
-            if (!c.TryGotoNext(i => i.MatchLdloc(20))) throw new Exception(); // flag4
-            if (!c.TryGotoNext(i => i.MatchCallvirt(call1))) throw new Exception(); // same overload
+            if (!c.TryGotoNext(i => i.MatchLdloc(20))) throw new Exception("Ldloc for local variable 20 (flag4) not found"); // flag4
+            if (!c.TryGotoNext(i => i.MatchCallvirt(call1))) throw new Exception("'Last' SpriteBatch.Draw call not found"); // same overload
             c.Remove();
             c.Emit(OpCodes.Ldloc, 13); // array
             c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, int[]>>((spritebatch, texture, position, sourcerectangle, color, array) =>
@@ -205,6 +206,7 @@ namespace EEMod
         public override void Load()
         {
             On.Terraria.WorldGen.SmashAltar += EEPlayer.WorldGen_SmashAltar;
+            IL.Terraria.Main.DrawBackground += Main_DrawBackground;
             instance = this;
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;

@@ -20,6 +20,7 @@ namespace EEMod
     {
         public bool FlameSpirit;
         public bool magmaRune;
+        public bool duneRune;
         public bool dalantiniumHood;
         public bool hydriteVisage;
         public bool ZoneCoralReefs;
@@ -80,6 +81,8 @@ namespace EEMod
         public static string key2 = "Sea";
         public static string key3 = "CoralReefs";
         public static string key4 = "Island";
+        public static string key5 = "VolcanoIsland";
+        public static string key6 = "VolcanoInside";
         public bool arrowFlag = false;
         public static bool isSaving;
         public float titleText;
@@ -327,6 +330,11 @@ namespace EEMod
                     if (subText >= 1)
                         subText = 1;
                     (Main.projectile[AnchorsVolc].modProjectile as Anchor).visible = true;
+                    if (player.controlUp)
+                    {
+                        Initialize();
+                        SM.SaveAndQuit(key5);
+                    }
                 }
                 else
                 {
@@ -551,6 +559,10 @@ namespace EEMod
                 }
             }
             else if (Main.ActiveWorldFileData.Name == key4)
+            {
+                player.ClearBuff(BuffID.Cursed);
+            }
+            else if (Main.ActiveWorldFileData.Name == key5)
             {
                 player.ClearBuff(BuffID.Cursed);
             }
