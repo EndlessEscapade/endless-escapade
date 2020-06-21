@@ -141,12 +141,17 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            int islandWidth = 450;
-            int islandHeight = 210;
+            int islandWidth = 300;
+            int islandHeight = 70;
 
-            EEWorld.EEWorld.MakeTriangle(new Vector2(200, 300), 100, 200, 4, TileID.Stone, true, true);
-            //EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), TileID.Ash);
+            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
+            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 210, new Vector2(0, 0));
+            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
 
+            EEWorld.EEWorld.MakeTriangle(new Vector2(100, 200), 200, 150, 2, TileID.Ash, true, true);
+            EEWorld.EEWorld.MakeOvalJaggedTop(islandWidth, islandHeight, new Vector2(50, 170), TileID.Obsidian);
+
+            SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
         }
     }
