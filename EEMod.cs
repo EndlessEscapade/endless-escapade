@@ -206,7 +206,6 @@ namespace EEMod
         public override void Load()
         {
             On.Terraria.WorldGen.SmashAltar += EEPlayer.WorldGen_SmashAltar;
-            IL.Terraria.Main.DrawBackground += Main_DrawBackground;
             instance = this;
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
