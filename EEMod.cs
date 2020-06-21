@@ -530,7 +530,7 @@ namespace EEMod
                     },
                        InterfaceScaleType.UI));
             }
-            if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
+            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 for (int i = 0; i < layers.Count; i++)
                 {
@@ -554,12 +554,12 @@ namespace EEMod
             var computerState = new LegacyGameInterfaceLayer("EE: UI",
                 delegate
                 {
-                    if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
+                    if (Main.ActiveWorldFileData.Name == KeyID.Sea)
                     {
                         DrawSubText();
                         DrawShip();
                     }
-                    if (Main.ActiveWorldFileData.Name == EEPlayer.key1 || Main.ActiveWorldFileData.Name == EEPlayer.key2 || Main.ActiveWorldFileData.Name == EEPlayer.key3)
+                    if (Main.ActiveWorldFileData.Name == KeyID.Pyramids || Main.ActiveWorldFileData.Name == KeyID.Sea || Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
                         DrawText();
                     return true;
                 },
@@ -572,14 +572,14 @@ namespace EEMod
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
-            if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
+            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 text = "The Ocean";
                 color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
             }
-            if (Main.ActiveWorldFileData.Name == EEPlayer.key1)
+            if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
                 text = "The Pyramids";
-            if (Main.ActiveWorldFileData.Name == EEPlayer.key3)
+            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
                 text = "The Coral Reefs";
             Texture2D Outline = TextureCache.Outline;
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
@@ -604,7 +604,7 @@ namespace EEMod
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.subText;
             Color color = Color.White;
-            if (Main.ActiveWorldFileData.Name == EEPlayer.key2)
+            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 text = "Disembark?";
                 color *= alpha;
@@ -661,8 +661,6 @@ namespace EEMod
             {
                 velocity *= 0.98f;
             }
-            //Dust.NewDust(Main.screenPosition + position, 1, 1, DustID.BlueCrystalShard);
-            //Lighting.AddLight(new Vector2(Main.screenPosition.X + Main.screenWidth, Main.screenPosition.Y + Main.screenHeight), 1f, 1f, 1f);
             for (int i = 0; i < 200; i++)
             {
                 for (int j = 0; j < 100; j++)

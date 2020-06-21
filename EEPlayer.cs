@@ -174,7 +174,7 @@ namespace EEMod
         {
            
             base.ModifyScreenPosition();
-            if (Main.ActiveWorldFileData.Name == key2)
+            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 Main.screenPosition += new Vector2(0, 1000);
             }
@@ -210,7 +210,7 @@ namespace EEMod
             string shad1 = "EEMod:Ripple";
             string shad2 = "EEMod:SunThroughWalls";
             string shad3 = "EEMod:SeaTrans";
-            if (Main.ActiveWorldFileData.Name == key1)
+            if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
             {
                 if (!noU)
                     titleText += 0.005f;
@@ -241,7 +241,7 @@ namespace EEMod
                 }
                 Filters.Scene.Deactivate(shad2);
             }
-            else if (Main.ActiveWorldFileData.Name == key2)
+            else if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 if (!noU)
                     titleText += 0.005f;
@@ -317,7 +317,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                       Initialize();
-                      SM.SaveAndQuit(key4);
+                      SM.SaveAndQuit(KeyID.Island);
                     }
                 }
                 else
@@ -333,7 +333,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                         Initialize();
-                        SM.SaveAndQuit(key5);
+                        SM.SaveAndQuit(KeyID.VolcanoIsland);
                     }
                 }
                 else
@@ -361,7 +361,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                         Initialize();
-                        SM.SaveAndQuit(key3); // coral reefs
+                        SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
                     }
                 }
                 else
@@ -513,7 +513,7 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + EEMod.position, Vector2.Zero, ModContent.ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                 }
             }
-            else if (Main.ActiveWorldFileData.Name == key3)
+            else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
                 player.ClearBuff(BuffID.Cursed);
                 if (!noU)
@@ -549,7 +549,7 @@ namespace EEMod
                     {
                         Initialize();
                         EEMod.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
-                        SM.SaveAndQuit(key2);
+                        SM.SaveAndQuit(KeyID.Sea);
                     }
                     oceanarrow.visible = true;
                 }
@@ -558,11 +558,11 @@ namespace EEMod
                     oceanarrow.visible = false;
                 }
             }
-            else if (Main.ActiveWorldFileData.Name == key4)
+            else if (Main.ActiveWorldFileData.Name == KeyID.Island)
             {
                 player.ClearBuff(BuffID.Cursed);
             }
-            else if (Main.ActiveWorldFileData.Name == key5)
+            else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
             {
                 player.ClearBuff(BuffID.Cursed);
             }
@@ -639,7 +639,7 @@ namespace EEMod
             if (timerForCutscene >= 1400)
             {
                 Initialize();
-                SM.SaveAndQuit(key1); //pyramid
+                SM.SaveAndQuit(KeyID.Pyramids); //pyramid
             }
             if (cutSceneTriggerTimer >= 500)
             {
@@ -647,7 +647,7 @@ namespace EEMod
                 if (cutSceneTriggerTimer >= 1520)
                 {
                     Initialize();
-                    SM.SaveAndQuit(key2); //sea
+                    SM.SaveAndQuit(KeyID.Sea); //sea
                 }
             }
         }

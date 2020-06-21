@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-
+using System;
 namespace EEMod.NPCs.CoralReefs
 {
     public class Clam : ModNPC
@@ -22,9 +22,9 @@ namespace EEMod.NPCs.CoralReefs
             npc.damage = 13;
             npc.defense = 3;
 
-            npc.width = 400;
-            npc.width = 400;
-
+            npc.width = 84;
+            npc.height = 53;
+            npc.noGravity = false;
             npc.knockBackResist = 0f;
 
             npc.npcSlots = 1f;
@@ -39,88 +39,90 @@ namespace EEMod.NPCs.CoralReefs
             npc.lifeMax = (int)(npc.lifeMax * 0.22f);
         }
 
-        /* public override void NPCLoot()
+        public bool CheckIfEntityOnGround(NPC npc)
         {
-            Item.NewItem(npc.getRect(), ItemID.);
-        } */
+            Vector2 tilePos;
+            int minTilePosX = (int)(npc.position.X / 16.0) - 5;
+            int maxTilePosX = (int)((npc.position.X + npc.width) / 16.0) + 5;
+            int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
+            int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
+            if (minTilePosX < 0)
+            {
+                minTilePosX = 0;
+            }
 
-        private const int State_Asleep = 0;
-        private const int State_Notice = 1;
-        private const int State_Attack = 2;
-        private const int State_Fall = 3;
+            if (maxTilePosX > Main.maxTilesX)
+            {
+                maxTilePosX = Main.maxTilesX;
+            }
 
-        public float AI_State { get => npc.ai[0]; set => npc.ai[0] = value; }
-        public float AI_Timer { get => npc.ai[1]; set => npc.ai[1] = value; }
-        public float AI_ClamTime { get => npc.ai[2]; set => npc.ai[2] = value; }
+            if (minTilePosY < 0)
+            {
+                minTilePosY = 0;
+            }
+
+            if (maxTilePosY > Main.maxTilesY)
+            {
+                maxTilePosY = Main.maxTilesY;
+            }
+            for (int i = minTilePosX; i < maxTilePosX; ++i)
+            {
+                for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
+                {
+                    if (Main.tile[i, j] != null && (Main.tile[i, j].nactive() && (Main.tileSolid[(int)Main.tile[i, j].type] || Main.tileSolidTop[(int)Main.tile[i, j].type] && (int)Main.tile[i, j].frameY == 0)))
+                    {
+                        tilePos.X = (float)(i * 16);
+                        tilePos.Y = (float)(j * 16);
+
+                        if (Math.Abs(npc.Center.Y - tilePos.Y) <= 16 + (npc.height / 2))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
 
         public override void AI()
         {
             Player player = Main.player[npc.target];
-            if (AI_State == State_Asleep)
+            float dist = Vector2.Distance(player.Center, npc.Center);
+            float yChange = npc.Center.Y - player.Center.Y ;
+            if (dist < 200)
+                npc.ai[2] = 1;
+            npc.TargetClosest(true);
+            if (npc.ai[2] == 1)
             {
-                npc.TargetClosest(true);
-
-                if (npc.HasValidTarget && player.WithinRange(npc.Center, 256f))
-                {
-                    AI_State = State_Notice;
-                    AI_Timer = 0;
-                }
-            }
-            else if (AI_State == State_Notice)
-            {
-                if (player.WithinRange(npc.Center, 256f))
-                {
-                    AI_Timer++;
-                    if (AI_Timer >= 20)
-                    {
-                        AI_State = State_Attack;
-                        AI_Timer = 0;
-                    }
-                }
+                if (player.Center.X - npc.Center.X > 0)
+                    npc.spriteDirection = 1;
                 else
+                    npc.spriteDirection = -1;
+                if (npc.ai[0] % 200 == 0 && npc.ai[1] == 0 && npc.ai[0] != 0)
                 {
-                    npc.TargetClosest(true);
-                    if (!npc.HasValidTarget || !player.WithinRange(npc.Center, 256f))
+                    npc.velocity.X += 10 * npc.spriteDirection;
+                    npc.velocity.Y -= 10 * (1+yChange/500);
+                    npc.ai[1] = 1;
+                }
+                if (CheckIfEntityOnGround(npc))
+                {
+                    if (npc.velocity.Y == 0)
                     {
-                        AI_State = State_Asleep;
-                        AI_Timer = 0;
+                        npc.velocity.X = 0;
+                        npc.ai[1] = 0;
                     }
+                    npc.ai[0]++;
                 }
-            }
-            else if (AI_State == State_Attack)
-            {
-                AI_Timer += 1;
-                if (AI_Timer == 1 && npc.velocity.Y == 0)
-                {
-                    npc.velocity = new Vector2(npc.direction * 2, -10f);
-                }
-                else if (AI_Timer > 40)
-                {
-                    AI_State = State_Fall;
-                    AI_Timer = 0;
-                }
-            }
-            else if (AI_State == State_Fall)
-            {
-                if (npc.velocity.Y == 0)
-                {
-                    npc.velocity.X = 0;
-                    AI_State = State_Asleep;
-                    AI_Timer = 0;
-                }
+
+                npc.velocity *= .98f;
             }
         }
 
         public override void FindFrame(int frameHeight)
         {
-            if (AI_State == State_Asleep)
-            {
-                npc.frame.Y = 0;
-            }
-            else
+            if(npc.ai[2] == 1)
             {
                 npc.frame.Y = frameHeight;
-                npc.spriteDirection = npc.direction;
             }
         }
     }

@@ -1133,6 +1133,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < 1500; j++)
                 {
+                    Tile tile = Framing.GetTileSafely(i, chasmY + j);
                     int yes = WorldGen.genRand.Next(5, 10);
                     if (TileCheck2(i, chasmY + j) == 1 && j % yes == 0)
                     {
@@ -1149,7 +1150,7 @@ namespace EEMod.EEWorld
                     }
                     if (TileCheck2(i, chasmY + j) == 2 && j % yes <= 4)
                     {
-                        int selection = WorldGen.genRand.Next(6);
+                        int selection = WorldGen.genRand.Next(10);
                         switch (selection)
                         {
                             case 0:
@@ -1169,6 +1170,18 @@ namespace EEMod.EEWorld
                                 break;
                             case 5:
                                 WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<BrainTile>());
+                                break;
+                            case 6:
+                                WorldGen.PlaceTile(i, chasmY + j - 7, ModContent.TileType<BigCoral>());
+                                break;
+                            case 7:
+                                WorldGen.PlaceTile(i, chasmY + j - 7, ModContent.TileType<WavyBigCoral>());
+                                break;
+                            case 8:
+                                WorldGen.PlaceTile(i, chasmY + j - 3, ModContent.TileType<Brain1BigCoral>());
+                                break;
+                            case 9:
+                                WorldGen.PlaceTile(i, chasmY + j - 3, ModContent.TileType<Brain2BigCoral>());
                                 break;
                         }
                         if (selection == 5 && j < 300 && Main.rand.Next(4) == 0)

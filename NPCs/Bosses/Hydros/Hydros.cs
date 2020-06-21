@@ -81,10 +81,6 @@ namespace EEMod.NPCs.Bosses.Hydros
             EEWorld.EEWorld.downedHydros = true;
         }
 
-        private int attackTimer = 180;
-        private int dashCooldown = 30;
-        private bool canAttack;
-        private bool usingLazer;
 
         public float[] ai = new float[NPC.maxAI];
         private void Move(Player player, float sped, float TR, Vector2 addon)
