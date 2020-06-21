@@ -7,7 +7,9 @@ using EEMod.Items.Materials;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Weapons.Melee;
 using EEMod.Items.Weapons.Ranger;
-
+using System;
+using EEMod.NPCs.Bosses.Hydros;
+using EEMod.Projectiles.CoralReefs;
 using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.NPCs.Bosses.Hydros
@@ -20,27 +22,26 @@ namespace EEMod.NPCs.Bosses.Hydros
             Main.npcFrameCount[npc.type] = 8;
         }
 
-        private int frameNumber = 0;
-        private int frameSpeed = 4;
-        public override void FindFrame(int frameHeight)
+        public override void FindFrame(int frameHeight) //Frame counter
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= frameSpeed)
+            npc.TargetClosest(true);
+            Player player = Main.player[npc.target];
+            if (npc.frameCounter++ > 4)
             {
                 npc.frameCounter = 0;
-                frameNumber++;
-                if (frameNumber >= 8)
-                {
-                    frameNumber = 0;
-                }
-                npc.frame.Y = frameNumber * 120;
+                npc.frame.Y = npc.frame.Y + frameHeight;
+            }
+            if (npc.frame.Y >= frameHeight * 7)
+            {
+                npc.frame.Y = 0;
+                return;
             }
         }
 
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 0;
+            npc.aiStyle = -1;
 
             npc.lifeMax = 1600;
             npc.defense = 12;
@@ -57,6 +58,8 @@ namespace EEMod.NPCs.Bosses.Hydros
 
             npc.boss = true;
             npc.noGravity = true;
+
+            npc.noTileCollide = true;
         }
 
         public override void NPCLoot()
@@ -84,122 +87,207 @@ namespace EEMod.NPCs.Bosses.Hydros
         private bool usingLazer;
 
         public float[] ai = new float[NPC.maxAI];
+        private void Move(Player player, float sped, float TR, Vector2 addon)
+        {
+            Vector2 moveTo = player.Center + addon;
+            float speed = sped;
+            Vector2 move = moveTo - npc.Center;
+            float magnitude = move.Length(); // (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
+            if (magnitude > speed)
+            {
+                move *= speed / magnitude;
+            }
+            float turnResistance = TR;
 
+            move = (npc.velocity * turnResistance + move) / (turnResistance + 1f);
+            magnitude = move.Length();
+            if (magnitude > speed)
+            {
+                move *= speed / magnitude;
+            }
+            npc.velocity = move;
+        }
 
+        public void SpawnProjectileNearPlayerOnTile(int dist)
+        {
+            int distFromPlayer = dist;
+            int playerTileX = (int)Main.player[npc.target].position.X / 16;
+            int playerTileY = (int)Main.player[npc.target].position.Y / 16;
+            int tileX = (int)npc.position.X / 16;
+            int tileY = (int)npc.position.Y / 16;
+            int teleportCheckCount = 0;
+            bool hasTeleportPoint = false;
+            //player is too far away, don't teleport.
+            if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) > 2000f)
+            {
+                teleportCheckCount = 100;
+                hasTeleportPoint = true;
+            }
+            while (!hasTeleportPoint && teleportCheckCount < 100)
+            {
+                teleportCheckCount++;
+                int tpTileX = Main.rand.Next(playerTileX - distFromPlayer, playerTileX + distFromPlayer);
+                int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
+                for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
+                {
+                    if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && (Main.tile[tpTileX, tpY].nactive()))
+                    {
+                        if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
+                        {
+                            Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f,Main.myPlayer,.3f,140);
+                            hasTeleportPoint = true;
+                            npc.netUpdate = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        int prepare;
+        int timeForAttack;
+        public bool flaginOut;
+        public float dist1;
+        Vector2[] potentialMinionArray = new Vector2[3];
         public override void AI()
         {
+            int phaseChange = 400;
+            int speed = 6;
+            int TR = 40;
+            npc.ai[0]++;
+            
+            if (Main.netMode != NetmodeID.MultiplayerClient) // 1
             if (Main.netMode != NetmodeID.MultiplayerClient) // 1
             {
                 //Idle
                 npc.TargetClosest();
                 Player target = Main.player[npc.target];
-
-                if (target.Center.X > npc.Center.X)
+                if (npc.ai[1] != 2)
                 {
-                    npc.spriteDirection = 1;
-                }
-                else
-                {
-                    npc.spriteDirection = -1;
-                }
-
-                if (!target.wet)
-                {
-                    npc.damage = 9999;
-                    npc.defense = 9999;
-                }
-                else
-                {
-                    npc.defense = 12;
-                    npc.damage = 20;
-                }
-
-                if (npc.Center.Y < target.Center.Y && usingLazer == false)
-                {
-                    npc.position.Y += 2;
-                }
-                if (npc.Center.Y > target.Center.Y && usingLazer == false)
-                {
-                    npc.position.Y -= 2;
-                }
-
-                if (npc.Center.X < target.Center.X && usingLazer == false)
-                {
-                    npc.position.X += 2;
-                }
-                if (npc.Center.X > target.Center.X && usingLazer == false)
-                {
-                    npc.position.X -= 2;
-                }
-
-                //Idle Dash attacks
-                if (npc.ai[0] == 0 && canAttack == true)
-                {
-                    usingLazer = false;
-                    // Vector2.Distance(npc.Center, target.Center) < 5000
-                    if (dashCooldown > 0 && npc.WithinRange(target.Center, 5000))
+                    npc.rotation = npc.velocity.X / 32f;
+                    if (target.Center.X > npc.Center.X)
                     {
-                        frameSpeed = 8;
-                        if (npc.Center.X > target.Center.X)
-                        {
-                            npc.position.X -= 13;
-                        }
-                        if (npc.Center.X < target.Center.X)
-                        {
-                            npc.position.X += 13;
-                        }
-                        if (npc.Center.X > target.Center.X - 7 && npc.Center.X < target.Center.X + 7)
-                        {
-                            canAttack = false;
-                        }
-
-                        dashCooldown--;
-                        npc.netUpdate = true;
+                        npc.spriteDirection = 1;
                     }
-                    if (dashCooldown <= 0)
+                    else
                     {
-                        dashCooldown = 60;
-                        frameSpeed = 4;
-                        canAttack = false;
+                        npc.spriteDirection = -1;
                     }
                 }
 
-
-                //Attack 1
-                if (npc.ai[0] == 1 && canAttack == true)
+                if (npc.ai[1] == 0)
+                Move(target, speed, TR, Vector2.Zero);
+               
+                if (npc.ai[0] % 400 == 0)
                 {
-                    frameSpeed = 4;
-                    usingLazer = true;
-                    int projectile = Projectile.NewProjectile(new Vector2(npc.Center.X, npc.Center.Y + 16), new Vector2(1, 0), ProjectileType<HydrosBeam>(), 24, 0f, Main.myPlayer, 0, npc.whoAmI);
-                    Vector2 direction = Main.projectile[projectile].DirectionTo(Main.player[npc.target].Center);
-                    Main.projectile[projectile].velocity = Main.projectile[projectile].velocity.RotatedBy(direction.ToRotation() - Main.projectile[projectile].rotation);
-                    canAttack = false;
-                    npc.netUpdate = true;
-                }
-
-
-
-                //Attack 2
-                if (npc.ai[0] == 2 && canAttack == true)
-                {
-                    usingLazer = false;
-                    frameSpeed = 4;
-                    int maxMinions = Main.rand.Next(1, 3);
-                    for (int i = 0; i < maxMinions; i++)
+                    for(int i = 0; i<5; i++)
+                    npc.ai[1] = Main.rand.Next(0,4);
+                    prepare = 0;
+                    npc.rotation = 0;
+                    flaginOut = true;
+                    npc.ai[2] = 0;
+                    dist1 = 200;
+                    for(int i = 0; i<3;i++)
                     {
-                        int newnpc = NPC.NewNPC((int)npc.Center.X + Main.rand.Next(-60, 61), (int)npc.Center.Y + Main.rand.Next(-40, 41), NPCType<HydrosMinion>(), 20, 0, Main.myPlayer);
+                        potentialMinionArray[i] = npc.Center + new Vector2(Main.rand.Next(-500,500), Main.rand.Next(-500, 500)); 
                     }
-                    canAttack = false;
-                    npc.netUpdate = true;
                 }
-
-                attackTimer--;
-                if (attackTimer <= 0)
+                switch(npc.ai[1])
                 {
-                    npc.ai[0] = Main.rand.Next(3);
-                    attackTimer = 120;
-                    canAttack = true;
-                    frameSpeed = 4;
+                    case 0:
+                        break;
+                    case 1:
+                        {
+                            Move(target, speed, TR, Vector2.Zero);
+                            for (int i = 0; i < 10; i++)
+                            {
+                                if (npc.ai[0] % 200 == 0)
+                                SpawnProjectileNearPlayerOnTile(30);
+                            }
+                            npc.velocity *= 0.98f;
+                            break;
+                        }
+                    case 2:
+                        {
+                            float timeToDash = 320;
+                            if (npc.ai[0] % 400 <= timeToDash - 50)
+                            {
+                                npc.rotation = npc.velocity.X / 32f;
+                                if (target.Center.X > npc.Center.X)
+                                {
+                                    npc.spriteDirection = 1;
+                                }
+                                else
+                                {
+                                    npc.spriteDirection = -1;
+                                }
+                                Move(target, speed, 9, new Vector2(400, 0));
+                            }
+                            else if (npc.ai[0] % 400 >= timeToDash && npc.ai[0] % 400 < phaseChange - 20)
+                            {
+                                npc.rotation = (target.position.X - npc.position.X) / 500f;
+                                if(npc.rotation > 1.6f) { npc.rotation = 1.6f; }
+                                //npc.rotation = npc.velocity.X / 16f;
+                                npc.velocity.Y = ((float)Math.Sin((6 * ((npc.ai[0] % phaseChange) - timeToDash) / (phaseChange - timeToDash)) + 1.57f)) * 10;
+                                int speedOfDash = 25;
+                                npc.velocity.X = -(speedOfDash - ((npc.ai[0] % phaseChange) - timeToDash) / (float)((phaseChange - timeToDash) / speedOfDash));
+                            }
+                            else if(npc.ai[0] % 400 < phaseChange - 60)
+                            {
+                                npc.rotation = -(prepare / 190f);
+                                prepare += 4;
+                                Move(target, 19, 9, new Vector2(400 + prepare, -prepare/2));
+                                npc.velocity *= 0.99f;
+                            }
+                            else
+                            {
+                               npc.rotation -= npc.rotation/16f;
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            npc.velocity *= .99f;
+                            Move(target, speed, TR, Vector2.Zero);
+                                dist1 -= 1;
+                            
+                            if (npc.ai[0] % 400 < 200)
+                            {
+                                for (int j = 0; j < 3; j++)
+                                {
+                                    for (int i = 0; i < 10; i++)
+                                    {
+                                        double deg = (double)npc.ai[2] + (i * 36); //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
+                                        double rad = deg * (Math.PI / 180) * 0.7f; //Convert degrees to radians
+                                        if (dist1 - (i * 10) > 0)
+                                        {
+                                            int num7 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 113, 0f, 0f, 0, Color.AliceBlue, .7f);
+                                            Main.dust[num7].position.X = potentialMinionArray[j].X - (int)(Math.Cos(rad) * (dist1 - (i * 10)));
+                                            Main.dust[num7].position.Y = potentialMinionArray[j].Y - (int)(Math.Sin(rad) * (dist1 - (i * 10)));
+                                            Main.dust[num7].noGravity = true;
+                                        }
+                                        npc.ai[2] += 1;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (npc.ai[0] % 400 == 200)
+                                {
+                                    for (int j = 0; j < 3; j++)
+                                    {
+                                        for (var a = 0; a < 50; a++)
+                                        {
+                                            Vector2 vector = new Vector2(0, 20).RotatedBy(((Math.PI * 0.04) * a), default);
+                                            int index = Dust.NewDust(potentialMinionArray[j], 22, 22, 113, vector.X, vector.Y, 0, Color.AliceBlue, .7f);
+                                            Main.dust[index].velocity *= .5f;
+                                            Main.dust[index].noGravity = true;
+                                        }
+                                        NPC.NewNPC((int)potentialMinionArray[j].X, (int)potentialMinionArray[j].Y, NPCType<HydrosMinion>());
+                                    }
+                                }
+                            }
+                            break;
+                        }
                 }
             }
         }

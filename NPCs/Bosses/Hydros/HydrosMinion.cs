@@ -31,7 +31,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
         public override void SetDefaults()
         {
-            npc.lifeMax = 200;
+            npc.lifeMax = 50;
             npc.defense = 6;
             npc.damage = 20;
             npc.width = 52;

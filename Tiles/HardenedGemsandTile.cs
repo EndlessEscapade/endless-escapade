@@ -7,6 +7,10 @@ namespace EEMod.Tiles
 {
     public class HardenedGemsandTile : ModTile
     {
+        public override void ChangeWaterfallStyle(ref int style)
+        {
+            style = mod.GetWaterfallStyleSlot("Surfacebg");
+        }
         public override void SetDefaults()
         {
             Main.tileMergeDirt[Type] = true;
