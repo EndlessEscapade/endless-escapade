@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 using EEMod.Projectiles.Melee;
-
+using EEMod.Projectiles.Runes;
 namespace EEMod.Items.Weapons
 {
     public class TridentOfTheDepths : ModItem
@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 18;
             item.useTime = 24;
-            item.shootSpeed = 3.7f;
+            item.shootSpeed = 0;
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;
@@ -33,7 +33,7 @@ namespace EEMod.Items.Weapons
             item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<TridentOfTheDepthsProjectile>();
+            item.shoot = ModContent.ProjectileType<DesertRune>();
         }
 
         public override bool CanUseItem(Player player)

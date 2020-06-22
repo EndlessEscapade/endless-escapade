@@ -140,6 +140,8 @@ namespace EEMod
         internal EEUI eeui;
         public UserInterface EEInterface;
         private GameTime lastGameTime;
+        int delay;
+        float pauseShaderTImer;
         public override void UpdateUI(GameTime gameTime)
         {
             lastGameTime = gameTime;
@@ -148,6 +150,47 @@ namespace EEMod
                 EEInterface.Update(gameTime);
             }
             base.UpdateUI(gameTime);
+
+            if(Main.LocalPlayer.controlUp && delay == 0)
+            {
+                if (EEInterface?.CurrentState != null)
+                {
+                    HideMyUI();
+                    if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Pause"].IsActive())
+                    {
+                        Filters.Scene.Deactivate("EEMod:Pause");
+                    }
+                }
+                else
+                {
+                    ShowMyUI();
+                    if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Pause"].IsActive())
+                    {
+                        Filters.Scene.Activate("EEMod:Pause").GetShader().UseOpacity(pauseShaderTImer);
+                    }
+                }
+                delay++;
+            }
+            if (EEInterface?.CurrentState != null)
+            {
+                Filters.Scene["EEMod:Pause"].GetShader().UseOpacity(pauseShaderTImer);
+                pauseShaderTImer += 50;
+                if(pauseShaderTImer > 1000)
+                {
+                    pauseShaderTImer = 1000;
+                }
+            }
+            else
+            {
+               pauseShaderTImer = 0;
+            }
+                if (delay > 0)
+            {
+                delay++;
+                if (delay == 60)
+                    delay = 0;
+            }
+
         }
 
         private void Main_DrawBackground(ILContext il)
@@ -214,7 +257,7 @@ namespace EEMod
                 eeui = new EEUI();
                 eeui.Initialize();
                 EEInterface = new UserInterface();
-                EEInterface.SetState(eeui);
+                EEInterface.SetState(null);
                 Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Ripple"));
                 Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/SeaTrans"));
                 Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/SunThroughWalls"));
@@ -524,7 +567,7 @@ namespace EEMod
                     {
                         if (lastGameTime != null && EEInterface?.CurrentState != null)
                         {
-                            // EEInterface.Draw(Main.spriteBatch, lastGameTime);
+                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         return true;
                     },

@@ -190,6 +190,10 @@ namespace EEMod
             }
         }
         readonly SubworldManager SM = new SubworldManager();
+        public int rippleCount = 3;
+        public int rippleSize = 5;
+        public int rippleSpeed = 15;
+        public int distortStrength = 100;
         public override void UpdateBiomeVisuals()
         {
             Moral();
@@ -212,6 +216,7 @@ namespace EEMod
             string shad3 = "EEMod:SeaTrans";
             if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
             {
+                
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)
@@ -386,6 +391,7 @@ namespace EEMod
                         }
                     }
                 }
+                
                 if (markerPlacer == 1)
                 {
                     for (int i = 0; i < 400; i++)
