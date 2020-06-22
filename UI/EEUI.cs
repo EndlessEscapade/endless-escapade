@@ -24,13 +24,6 @@ namespace EEMod.UI
         public static string[] StringOfTextures = new string[7];
         bool[] isPulsating = new bool[5];
         DragableUIPanel[] panels = new DragableUIPanel[7];
-        private UIText text;
-        private UIText text2;
-        private UIText text3;
-        private UIText text4;
-        private UIText text5;
-        private UIText firstRune;
-        private UIText secondRune;
         public float pivot;
         public int pauseTimer;
 

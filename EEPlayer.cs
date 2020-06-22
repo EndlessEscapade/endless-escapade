@@ -680,6 +680,9 @@ namespace EEMod
             {
                 {
                     "hasGottenRuneBefore", hasGottenRuneBefore
+                },
+                {
+                    "moral", moralScore
                 }
             };
         }
@@ -689,6 +692,10 @@ namespace EEMod
             if (tag.ContainsKey("hasGottenRuneBefore"))
             {
                 hasGottenRuneBefore = tag.GetByteArray("hasGottenRuneBefore");
+            }
+            if (tag.ContainsKey("moral"))
+            {
+                moralScore = tag.GetInt("moral");
             }
         }
 
