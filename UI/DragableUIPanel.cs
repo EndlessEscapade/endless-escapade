@@ -21,7 +21,7 @@ namespace EEMod.UI
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] == 1)
             {
-                if (_backgroundTexture == ModContent.GetTexture("EEMod/NPCs/Sphinx"))
+                if (_backgroundTexture == ModContent.GetTexture(EEUI.StringOfTextures[0]))
                 {
                     if (color.R < 255)
                         color.R++;

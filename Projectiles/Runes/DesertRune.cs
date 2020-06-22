@@ -12,13 +12,13 @@ namespace EEMod.Projectiles.Runes
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desert Rune");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 34;
+            projectile.width = 22;
+            projectile.height = 52;
             projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.hostile = true;
@@ -38,6 +38,7 @@ namespace EEMod.Projectiles.Runes
         public float distortStrength = 200;
         public override void AI()           //this make that the projectile will face the corect way
         {
+            projectile.damage = 0;
             projectile.velocity = Vector2.Zero;
             projectile.ai[1] += 0.5f;
             //projectile.velocity.Y = (float)Math.Sin(projectile.ai[1]/16) / 4;

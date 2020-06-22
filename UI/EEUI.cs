@@ -23,26 +23,27 @@ namespace EEMod.UI
         }
         public static string[] StringOfTextures = new string[7];
         bool[] isPulsating = new bool[5];
+        Vector2[] sizes = new Vector2[5];
         DragableUIPanel[] panels = new DragableUIPanel[7];
         public float pivot;
         public int pauseTimer;
 
         public override void OnInitialize()
         {
-            StringOfTextures[0] = "EEMod/NPCs/Sphinx";
-            StringOfTextures[1] = "EEMod/NPCs/Bosses/Stagrel/Stagrel";
-            StringOfTextures[2] = "EEMod/NPCs/CoralReefs/ToxicPuffer";
-            StringOfTextures[3] = "EEMod/NPCs/CoralReefs/Dreadmine";
-            StringOfTextures[4] = "EEMod/NPCs/CoralReefs/ToxicPufferSmall";
-            StringOfTextures[5] = "EEMod/NPCs/CoralReefs/Dreadmine";
-            StringOfTextures[6] = "EEMod/NPCs/CoralReefs/Dreadmine";
+            StringOfTextures[0] = "EEMod/Projectiles/Runes/DesertRune";
+            StringOfTextures[1] = "EEMod/Items/Accessories/Runes/DepocaditaRune";
+            StringOfTextures[2] = "EEMod/Items/Accessories/Runes/LeafRune";
+            StringOfTextures[3] = "EEMod/Items/Accessories/Runes/BubbleRune";
+            StringOfTextures[4] = "EEMod/Items/Accessories/Runes/MagmaRune";
+            StringOfTextures[5] = "EEMod/Projectiles/Runes/RunePlacement";
+            StringOfTextures[6] = "EEMod/Projectiles/Runes/RunePlacement";
             for(int i = 0; i<7; i++)
             {
                 panels[i] = new DragableUIPanel(StringOfTextures[i]);
                 if (i < 5)
                 {
-                    panels[i].Width.Set(100, 0);
-                    panels[i].Height.Set(100, 0);
+                    panels[i].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
+                    panels[i].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
                     panels[i].Left.Set((Main.screenWidth / 2) + (float)(Math.Sin(pivot / 10)) * 500, 0);
                     panels[i].Top.Set((Main.screenHeight / 2) + (float)(Math.Sin(pivot / 10)) * 500, 0);
                     Append(panels[i]);
@@ -143,6 +144,10 @@ namespace EEMod.UI
                 if(isPulsating[i])
                 {
                     panels[5]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
+                    panels[5].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width,0);
+                    panels[5].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
+                    panels[5].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width/2 - 100, 0);
+                    panels[5].Top.Set(500-ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
                     break;
                 }
             }
@@ -159,6 +164,10 @@ namespace EEMod.UI
                 if (isPulsating[i])
                 {
                     panels[6]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
+                    panels[6].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
+                    panels[6].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
+                    panels[6].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + 100, 0);
+                    panels[6].Top.Set(500 - +ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
                     break;
                 }
             }
@@ -174,21 +183,21 @@ namespace EEMod.UI
             pivot = 0.05f;
             for(int i = 0; i<5; i++)
             {
-               panels[i].Left.Set((Main.screenWidth / 2) - 50 + (float)(Math.Sin((pivot / 10) + (Math.PI * (i*2)) / 5)) * 300, 0);
-               panels[i].Top.Set((Main.screenHeight / 2) - 50 + (float)(Math.Cos((pivot / 10) + (Math.PI * (i * 2)) / 5)) * 300, 0);
+               panels[i].Left.Set((Main.screenWidth / 2) - ModContent.GetTexture(StringOfTextures[i]).Width/2 + (float)(Math.Sin((pivot / 10) + (Math.PI * (i*2)) / 5)) * 200, 0);
+               panels[i].Top.Set((Main.screenHeight / 2) - ModContent.GetTexture(StringOfTextures[i]).Height/2 + (float)(Math.Cos((pivot / 10) + (Math.PI * (i * 2)) / 5)) * 200, 0);
             }
             pulsatingControl += 0.2f;
             for(int i = 0; i<5; i++)
             {
                 if (isPulsating[i])
                 {
-                    panels[i].Width.Set(105 + (float)Math.Sin(pulsatingControl) * 10, 0);
-                    panels[i].Height.Set(105 + (float)Math.Sin(pulsatingControl) * 10, 0);
+                    panels[i].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width + (float)Math.Sin(pulsatingControl) * 2, 0);
+                    panels[i].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height + (float)Math.Sin(pulsatingControl) * 2, 0);
                 }
                 else
                 {
-                    panels[i].Width.Set(100, 0);
-                    panels[i].Height.Set(100, 0);
+                    panels[i].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
+                    panels[i].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
                 }
             }
         }
