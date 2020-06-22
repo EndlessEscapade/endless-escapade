@@ -21,7 +21,7 @@ namespace EEMod.Projectiles.Runes
             projectile.height = 34;
             projectile.aiStyle = 1;
             projectile.friendly = true;
-            projectile.hostile = false;
+            projectile.hostile = true;
             projectile.ranged = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 100000;
@@ -30,6 +30,7 @@ namespace EEMod.Projectiles.Runes
             projectile.extraUpdates = 1;
             projectile.aiStyle = -1;
             projectile.arrow = true;
+            projectile.damage = 0;
         }
         public int rippleCount = 3;
         public int rippleSize = 500;
@@ -59,6 +60,11 @@ namespace EEMod.Projectiles.Runes
             }
         }
 
+        public override void OnHitPlayer(Player target, int damage, bool crit)
+        {
+            damage = 0;
+            target.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] = 1;
+        }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             //target.AddBuff(BuffID.Chilled, 100);

@@ -13,6 +13,7 @@ using EEMod.Projectiles;
 using EEMod.Projectiles.OceanMap;
 using EEMod.Projectiles.CoralReefs;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
@@ -103,10 +104,13 @@ namespace EEMod
         public static bool isNearMainIsland;
         public static bool isNearCoralReefs;
         public static string baseWorldName;
-
+        public byte[] hasGottenRuneBefore = new byte[5];
         public static int moralScore;
         public int initialMoralScore;
+        private void UpdateRuneCollection()
+        {
 
+        }
         private void MoralFirstFrame()
         {
             if (player.name == "OS" || player.name == "EpicCrownKing" || player.name == "Coolo109" || player.name == "Pyxis" || player.name == "Adarian Virell" || player.name == "phanta" || player.name == "cynik" || player.name == "daimgamer" || player.name == "Thecherrynuke" || player.name == "Vadim" || player.name == "CrackJackery" || player.name == "Exitium" || player.name == "Franswal")
@@ -197,6 +201,11 @@ namespace EEMod
         public override void UpdateBiomeVisuals()
         {
             Moral();
+            if(player.controlHook)
+            {
+                for (int i = 0; i < hasGottenRuneBefore.Length; i++)
+                    hasGottenRuneBefore[i] = 0;
+            }
             EEMod.isSaving = false;
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
             {
@@ -657,75 +666,6 @@ namespace EEMod
                 }
             }
         }
-        internal static void PreSaveAndQuit()
-        {
-
-            Mod[] mods = ModLoader.Mods;
-            for (int i = 0; i < mods.Length; i++)
-            {
-                mods[i].PreSaveAndQuit();
-            }
-        }
-        public void Return()
-        {
-            GenerationProgress progress = new GenerationProgress();
-            ReturnOnName(baseWorldName, progress);
-        }
-        private void ReturnOnName(string text, GenerationProgress progress)
-        {
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"C:\Users\{Environment.UserName}\Documents\My Games\Terraria\ModLoader\Worlds\{text}.wld", false);
-            WorldGen.playWorld();
-        }
-        public static void SaveAndQuit(Action<string> callback = null)
-        {
-            Main.PlaySound(SoundID.MenuClose);
-            PreSaveAndQuit();
-            ThreadPool.QueueUserWorkItem(SaveAndQuitCallBack, callback);
-        }
-        public static void SaveAndQuitCallBack(object threadContext)
-        {
-            EEMod.isSaving = true;
-            try
-            {
-                Main.PlaySound(SoundID.Waterfall, -1, -1, 0);
-                Main.PlaySound(SoundID.Lavafall, -1, -1, 0);
-            }
-            catch
-            {
-            }
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                WorldFile.CacheSaveTime();
-            }
-            Main.invasionProgress = 0;
-            Main.invasionProgressDisplayLeft = 0;
-            Main.invasionProgressAlpha = 0f;
-            Main.menuMode = 10;
-            Main.gameMenu = true;
-            Main.StopTrackedSounds();
-            Terraria.Graphics.Capture.CaptureInterface.ResetFocus();
-            Main.ActivePlayerFileData.StopPlayTimer();
-            Player.SavePlayer(Main.ActivePlayerFileData);
-            if (Main.netMode == NetmodeID.SinglePlayer)
-            {
-                WorldFile.saveWorld();
-                Main.PlaySound(SoundID.MenuOpen);
-            }
-            else
-            {
-                Netplay.disconnect = true;
-                Main.netMode = NetmodeID.SinglePlayer;
-            }
-            Main.fastForwardTime = false;
-            Main.UpdateSundial();
-            Main.menuMode = 0;
-            if (threadContext != null)
-            {
-                ((Action)threadContext)();
-            }
-        }
-
-
         public override Texture2D GetMapBackgroundImage()
         {
             if (ZoneCoralReefs)
@@ -734,7 +674,23 @@ namespace EEMod
             }
             return null;
         }
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                {
+                    "hasGottenRuneBefore", hasGottenRuneBefore
+                }
+            };
+        }
 
+        public override void Load(TagCompound tag)
+        {
+            if (tag.ContainsKey("hasGottenRuneBefore"))
+            {
+                hasGottenRuneBefore = tag.GetByteArray("hasGottenRuneBefore");
+            }
+        }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
@@ -785,6 +741,9 @@ namespace EEMod
                     target.AddBuff(BuffID.OnFire, 180);
             }
         }
+
+
+
         private void ResetMinionEffect()
         {
             quartzCrystal = false;
