@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
 
-namespace InteritosMod.Projectiles.Mage
+namespace EEMod.Projectiles.Mage
 {
     public class AbyssalSceptreProjectile : ModProjectile
     {
@@ -45,7 +45,6 @@ namespace InteritosMod.Projectiles.Mage
         private bool isClone;
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.NewText("Yes");
             if (!isClone)
             {
                 float rot = Main.rand.NextFloat(6.28f);
