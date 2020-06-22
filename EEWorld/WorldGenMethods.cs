@@ -914,6 +914,7 @@ namespace EEMod.EEWorld
         public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false)
         {
             int initialStartingPosX = (int)startingPoint.X;
+            int initialWidth = width;
             for (int j = 0; j < height; j++)
             {
                 for (int k = 0; k < slope; k++)
@@ -930,11 +931,11 @@ namespace EEMod.EEWorld
             int topRight = (int)startingPoint.Y - height;
             if (isFlat)
             {
-                ClearRegion(width, height, new Vector2(initialStartingPosX, 0));
+                ClearRegion(initialWidth, height/5, new Vector2(initialStartingPosX, topRight));
             }
             if (hasChasm)
             {
-                MakeChasm((int)(startingPoint.X + width/2), (int)(topRight + (height/(slope*10))), height, TileID.StoneSlab, 0, 0, 0);
+                MakeChasm((int)(startingPoint.X + width/2), (int)(topRight + (height/(slope*10))), height, TileID.StoneSlab, 0, 10, 20);
 
                 for(int i = 0; i < Main.maxTilesX; i++)
                 {
@@ -942,7 +943,9 @@ namespace EEMod.EEWorld
                     {
                         Tile tile = Framing.GetTileSafely(i, j);
                         if (tile.type == TileID.StoneSlab)
+                        {
                             WorldGen.KillTile(i, j);
+                        }
                     }
                 }
             }
