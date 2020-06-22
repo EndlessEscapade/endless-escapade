@@ -781,13 +781,27 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void FillRegionWithLava(int width, int height, Vector2 startingPoint)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType(1); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
+                    Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid = 255; // set liquid ammount
+                    WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
+                    if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                        NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                }
+            }
+        }
         public static void RemoveWaterFromRegion(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType() == 0)
+                    if (Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType() == 0 && Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid > 64)
                     {
                         Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].ClearEverything();
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
@@ -915,8 +929,10 @@ namespace EEMod.EEWorld
         {
             int initialStartingPosX = (int)startingPoint.X;
             int initialWidth = width;
+            int initialSlope = slope;
             for (int j = 0; j < height; j++)
             {
+                slope = Main.rand.Next(-1, 2) + initialSlope;
                 for (int k = 0; k < slope; k++)
                 {
                     for (int i = 0; i < width; i++)
@@ -931,7 +947,7 @@ namespace EEMod.EEWorld
             int topRight = (int)startingPoint.Y - height;
             if (isFlat)
             {
-                ClearRegion(initialWidth, height/5, new Vector2(initialStartingPosX, topRight));
+                ClearRegion(initialWidth, height/5, new Vector2(initialStartingPosX, topRight - 5));
             }
             if (hasChasm)
             {
