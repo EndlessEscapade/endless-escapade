@@ -152,11 +152,12 @@ namespace EEMod
             EEWorld.EEWorld.MakeTriangle(new Vector2(100, 230), 200, 160, 2, TileID.Ash, true, true);
             EEWorld.EEWorld.FillRegionWithLava(40, 50, new Vector2(180, 190));
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            EEWorld.EEWorld.MakeVolcanoEntrance(new Vector2(198, 186), EEWorld.EEWorld.VolcanoEntrance);
 
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;
-            Main.spawnTileY = 200;
+            Main.spawnTileY = 100;
         }
     }
 }

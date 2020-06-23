@@ -795,6 +795,32 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void MakeVolcanoEntrance(Vector2 startingPoint, int[,] shape)
+        {
+            for (int i = 0; i < shape.GetLength(0); i++)
+            {
+                for (int j = 0; j < shape.GetLength(1); j++)
+                {
+                    int k = i - 3 + (int)startingPoint.X;
+                    int l = j - 6 + (int)startingPoint.Y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        switch (shape[k, l])
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                Framing.GetTileSafely(k, l).type = TileID.Ash;
+                                break;
+                            case 2:
+                                WorldGen.PlaceWall(k, l, WallID.Cloud);
+                                Framing.GetTileSafely(k, l).wallColor(29);
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         public static void RemoveWaterFromRegion(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
