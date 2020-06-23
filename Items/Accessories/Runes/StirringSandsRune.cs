@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Utilities;
 using Terraria.ModLoader;
+using EEMod.Projectiles.Runes;
 
 namespace EEMod.Items.Accessories.Runes
 {
@@ -18,19 +19,12 @@ namespace EEMod.Items.Accessories.Runes
             item.accessory = true;
             item.width = 20;
             item.height = 20;
+            item.useTime = 60;
+            item.useAnimation = 60;
+            item.useStyle = 4;
             item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(0, 0, 32);
-        }
-
-        public override int ChoosePrefix(UnifiedRandom rand)
-        {
-            return rand.Next(new int[] { PrefixID.Arcane, PrefixID.Lucky, PrefixID.Menacing, PrefixID.Quick, PrefixID.Violent, PrefixID.Warding });
-        }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.allDamage += 0.04f;
-            player.GetModPlayer<EEPlayer>().duneRune = true;
+            item.shoot = ModContent.ProjectileType<DesertRune>();
         }
     }
 }

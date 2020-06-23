@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Utilities;
 using Terraria.ModLoader;
+using EEMod.Projectiles.Runes;
 
 namespace EEMod.Items.Accessories.Runes
 {
@@ -18,29 +19,12 @@ namespace EEMod.Items.Accessories.Runes
             item.accessory = true;
             item.width = 20;
             item.height = 20;
+            item.useTime = 60;
+            item.useAnimation = 60;
+            item.useStyle = 4;
             item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(0, 0, 32);
-        }
-
-        public override int ChoosePrefix(UnifiedRandom rand)
-        {
-            return rand.Next(new int[] { PrefixID.Arcane, PrefixID.Lucky, PrefixID.Menacing, PrefixID.Quick, PrefixID.Violent, PrefixID.Warding });
-        }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.allDamage += 0.04f;
-            player.GetModPlayer<EEPlayer>().magmaRune = true;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Obsidian, 20);
-            recipe.AddIngredient(ItemID.HellstoneBar, 4);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            item.shoot = ModContent.ProjectileType<IgnisRune>();
         }
     }
 }
