@@ -795,26 +795,28 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void MakeVolcanoEntrance(Vector2 startingPoint, int[,] shape)
+        public static void MakeVolcanoEntrance(int i, int j, int[,] shape)
         {
-            for (int i = 0; i < shape.GetLength(0); i++)
+            for (int y = 0; y < shape.GetLength(0); y++)
             {
-                for (int j = 0; j < shape.GetLength(1); j++)
+                for (int x = 0; x < shape.GetLength(1); x++)
                 {
-                    int k = i - 3 + (int)startingPoint.X;
-                    int l = j - 6 + (int)startingPoint.Y;
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
                     if (WorldGen.InWorld(k, l, 30))
                     {
-                        switch (shape[k, l])
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        //tile.ClearTile();
+                        switch (shape[y, x])
                         {
                             case 0:
                                 break;
                             case 1:
-                                Framing.GetTileSafely(k, l).type = TileID.Ash;
+                                WorldGen.PlaceTile(k, l, TileID.Ash);
                                 break;
                             case 2:
                                 WorldGen.PlaceWall(k, l, WallID.Cloud);
-                                Framing.GetTileSafely(k, l).wallColor(29);
+                                tile.wallColor(29);
                                 break;
                         }
                     }
