@@ -31,10 +31,10 @@ namespace EEMod.UI
         public override void OnInitialize()
         {
             StringOfTextures[0] = "EEMod/Projectiles/Runes/DesertRune";
-            StringOfTextures[1] = "EEMod/Projectiles/Runes/Runes/DepocaditaRune";
-            StringOfTextures[2] = "EEMod/Projectiles/Runes/Runes/LeafRune";
-            StringOfTextures[3] = "EEMod/Projectiles/Runes/Runes/BubbleRune";
-            StringOfTextures[4] = "EEMod/Projectiles/Runes/Runes/MagmaRune";
+            StringOfTextures[1] = "EEMod/Projectiles/Runes/DepocaditaRune";
+            StringOfTextures[2] = "EEMod/Projectiles/Runes/LeafRune";
+            StringOfTextures[3] = "EEMod/Projectiles/Runes/BubblingWatersRune";
+            StringOfTextures[4] = "EEMod/Projectiles/Runes/IgnisRune";
             StringOfTextures[5] = "EEMod/Projectiles/Runes/RunePlacement";
             StringOfTextures[6] = "EEMod/Projectiles/Runes/RunePlacement";
             for(int i = 0; i<7; i++)

@@ -330,6 +330,39 @@ namespace EEMod.EEWorld
             }
         }
 
+        public static void ClearOval(int width, int height, Vector2 startingPoint)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                        WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+
+                    if (i == width / 2 && j == height / 2)
+                    {
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), TileID.StoneSlab, true, 0f, 0f, true, true);
+                        for (int k = 0; k < width; k++)
+                        {
+                            for (int l = 0; l < height; l++)
+                            {
+                                if(Framing.GetTileSafely(k, l).type == TileID.StoneSlab)
+                                {
+                                    WorldGen.KillTile(k + (int)startingPoint.X, l + (int)startingPoint.Y);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void MakeLavaPit(int width, int height, Vector2 startingPoint, float lavaLevel)
+        {
+            ClearOval(width, height, startingPoint);
+            FillRegionWithLava(width, (int)(height * lavaLevel), new Vector2(startingPoint.X, startingPoint.Y - (int)(height - (height * lavaLevel))));
+        }
+
         public static void GenerateStructure(int i, int j, int[,] shape, int[] blocks, int[] paints = null, int[,] wallShape = null, int[] walls = null, int[] wallPaints = null)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
