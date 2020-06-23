@@ -200,6 +200,7 @@ namespace EEMod
         public int distortStrength = 100;
         public override void UpdateBiomeVisuals()
         {
+            
             Moral();
             if(player.controlHook)
             {

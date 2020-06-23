@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.Graphics.Effects;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.Runes
 {
@@ -38,7 +39,7 @@ namespace EEMod.Projectiles.Runes
         public float distortStrength = 200;
         public override void AI()           //this make that the projectile will face the corect way
         {
-            projectile.damage = 0;
+            projectile.damage = 1;
             projectile.velocity = Vector2.Zero;
             projectile.ai[1] += 0.5f;
             //projectile.velocity.Y = (float)Math.Sin(projectile.ai[1]/16) / 4;
@@ -60,10 +61,22 @@ namespace EEMod.Projectiles.Runes
                 projectile.ai[1] = 0;
             }
         }
+        float flash = 0;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            flash += 0.01f;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0,0,174,174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, projectile.rotation + flash, new Rectangle(0, 0, 174, 174).Size()/2, projectile.scale,SpriteEffects.None,0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin();
+
+            return true;
+        }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            damage = 0;
+            
             target.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] = 1;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
