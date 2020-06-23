@@ -61,7 +61,6 @@ namespace EEMod.UI
             panels[5].Top.Set(450, 0);
             panels[5].OnClick += ChooseFirstRune;
             Append(panels[5]);
-
             panels[6].Width.Set(100, 0);
             panels[6].Height.Set(100, 0);
             panels[6].Left.Set(Main.screenWidth * .5f + 50, 0);

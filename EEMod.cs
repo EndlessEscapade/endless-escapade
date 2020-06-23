@@ -725,11 +725,7 @@ namespace EEMod
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, 0, (int)(texture3.Width * quotient), texture3.Height), Color.White, 0, new Rectangle(0, 0, texture3.Width, texture3.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
-            /*  Main.spriteBatch.End();
-              Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-
-              Main.spriteBatch.End();
-              Main.spriteBatch.Begin();*/
+              
         }
 
 
