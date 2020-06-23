@@ -134,29 +134,29 @@ namespace EEMod
         {
             Main.maxTilesX = 400;
             Main.maxTilesY = 405;
-            Main.spawnTileX = 500;
-            Main.spawnTileY = 500;
-            Main.worldSurface = Main.maxTilesY;
-            Main.rockLayer = Main.maxTilesY;
+            //Main.worldSurface = Main.maxTilesY;
+            //Main.rockLayer = Main.maxTilesY;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
             int islandWidth = 300;
             int islandHeight = 90;
 
-            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
-            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 210, new Vector2(0, 0));
+            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 210, Vector2.Zero);
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
 
 
-            EEWorld.EEWorld.MakeOvalJaggedTop(islandWidth, islandHeight, new Vector2(50, 165), TileID.Obsidian);
-            EEWorld.EEWorld.MakeTriangle(new Vector2(100, 220), 200, 150, 2, TileID.Ash, true, true);
-            //EEWorld.EEWorld.RemoveWaterFromRegion(30, 60, new Vector2(185, 210));
-            //EEWorld.EEWorld.FillRegionWithLava(30, 60, new Vector2(185, 210));
+            EEWorld.EEWorld.RemoveWaterFromRegion(40, 40, new Vector2(180, 170));
+            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2(50, 210), TileID.Obsidian);
+            EEWorld.EEWorld.MakeTriangle(new Vector2(100, 230), 200, 160, 2, TileID.Ash, true, true);
+            EEWorld.EEWorld.FillRegionWithLava(40, 50, new Vector2(180, 190));
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
+            Main.spawnTileX = 200;
+            Main.spawnTileY = 200;
         }
     }
 }

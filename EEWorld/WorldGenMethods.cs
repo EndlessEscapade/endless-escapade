@@ -951,7 +951,7 @@ namespace EEMod.EEWorld
             }
             if (hasChasm)
             {
-                MakeChasm((int)(startingPoint.X + width/2), (int)(topRight + (height/(slope*10))), height, TileID.StoneSlab, 0, 10, 20);
+                MakeChasm((int)(startingPoint.X + width/2), (int)(topRight + (height/(slope*10))), height - 30, TileID.StoneSlab, 0, 10, 20);
 
                 for(int i = 0; i < Main.maxTilesX; i++)
                 {
