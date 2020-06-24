@@ -159,5 +159,47 @@ namespace EEMod
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;
         }
+        public static void VolcanoInside(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 400;
+            Main.maxTilesY = 405;
+            //Main.worldSurface = Main.maxTilesY;
+            //Main.rockLayer = Main.maxTilesY;
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
+
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, TileID.Ash);
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    if(Main.rand.Next(3000) == 0)
+                        EEWorld.EEWorld.MakeLavaPit(Main.rand.Next(20, 30), Main.rand.Next(7, 20), new Vector2(i, j), Main.rand.NextFloat(0.1f, 0.5f));
+                }
+            }
+            EEWorld.EEWorld.MakeChasm(200, 10, 100, TileID.StoneSlab, 0, 10, 20);
+            for (int i = 0; i < 5; i++)
+            {
+                WorldGen.TileRunner(200, 190, 200, 1, TileID.StoneSlab);
+            }
+            for (int k = 0; k < Main.maxTilesX; k++)
+            {
+                for (int l = 0; l < Main.maxTilesY; l++)
+                {
+                    if (Framing.GetTileSafely(k, l).type == TileID.StoneSlab)
+                    {
+                        WorldGen.KillTile(k, l);
+                    }
+                }
+            }
+            EEWorld.EEWorld.MakeOvalJaggedTop(80, 60, new Vector2(160, 170), TileID.Ash);
+            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            EEWorld.EEWorld.FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, WallID.Stone);
+
+            SubworldManager.SettleLiquids();
+            EEMod.isSaving = false;
+            Main.spawnTileX = 200;
+            Main.spawnTileY = 20;
+        }
     }
 }

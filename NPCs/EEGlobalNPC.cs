@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Terraria.ModLoader;
 using EEMod.NPCs.CoralReefs;
+using Terraria;
+using Terraria.ID;
 
 namespace EEMod.NPCs
 {
@@ -16,6 +18,13 @@ namespace EEMod.NPCs
                 pool.Add(ModContent.NPCType<LunaJelly>(), 0.5f);
                 pool.Add(ModContent.NPCType<SeaSlug>(), 0.5f);
                 pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
+            }
+        }
+        public override void NPCLoot(NPC npc)
+        {
+            if(npc.type == NPCID.MoonLordCore && !NPC.downedMoonlord)
+            {
+                EEWorld.EEWorld.GenerateLuminite();
             }
         }
     }

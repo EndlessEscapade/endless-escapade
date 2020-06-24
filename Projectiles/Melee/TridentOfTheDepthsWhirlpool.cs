@@ -1,4 +1,5 @@
 using Terraria.ModLoader;
+using Terraria;
 
 namespace EEMod.Projectiles.Melee
 {
@@ -7,6 +8,7 @@ namespace EEMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Whirlpool");
+            Main.projFrames[projectile.type] = 6;
         }
 
         public override void SetDefaults()

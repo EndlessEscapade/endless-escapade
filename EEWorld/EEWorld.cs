@@ -119,6 +119,7 @@ namespace EEMod.EEWorld
         }
 
         public static Vector2 SubWorldSpecificCoralBoatPos;
+        public static Vector2 SubWorldSpecificVolcanoInsidePos = new Vector2(198, 189);
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("EntracesPosses"))
@@ -128,6 +129,10 @@ namespace EEMod.EEWorld
             if (tag.ContainsKey("CoralBoatPos"))
             {
                 SubWorldSpecificCoralBoatPos = tag.Get<Vector2>("CoralBoatPos");
+            }
+            if (tag.ContainsKey("SubWorldSpecificVolcanoInsidePos"))
+            {
+                SubWorldSpecificVolcanoInsidePos = tag.Get<Vector2>("SubWorldSpecificVolcanoInsidePos");
             }
             if (tag.ContainsKey("yes") && tag.ContainsKey("yes").GetType().Name == "Vector2")
             {
@@ -163,6 +168,13 @@ namespace EEMod.EEWorld
                 return new TagCompound
                 {
                 {"CoralBoatPos",EESubWorlds.CoralBoatPos}
+                };
+            }
+            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
+            {
+                return new TagCompound
+                {
+                {"SubWorldSpecificVolcanoInsidePos", SubWorldSpecificVolcanoInsidePos}
                 };
             }
             return new TagCompound {
