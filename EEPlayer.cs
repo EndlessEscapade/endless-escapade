@@ -580,6 +580,40 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
             {
+                Main.NewText(EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos);
+                Main.NewText(player.Center/16);
+                player.ClearBuff(BuffID.Cursed);
+
+                if (!arrowFlag)
+                {
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
+                    arrowFlag = true;
+                }
+                if (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos == Vector2.Zero)
+                {
+                    EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos = new Vector2(200, 48);
+                }
+                OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
+                if (player.Center.X / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X + 2) - 2 &&
+                    player.Center.X / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X + 2) + 2 &&
+                    player.Center.Y / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 14) - 2 &&
+                    player.Center.Y / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 14) + 2)
+                {
+                    if (player.controlUp)
+                    {
+                        Initialize();
+                        EEMod.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
+                        SM.SaveAndQuit(KeyID.VolcanoInside);
+                    }
+                    oceanarrow.visible = true;
+                }
+                else
+                {
+                    oceanarrow.visible = false;
+                }
+            }
+            else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
+            {
                 player.ClearBuff(BuffID.Cursed);
             }
             else

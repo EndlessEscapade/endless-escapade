@@ -342,16 +342,6 @@ namespace EEMod.EEWorld
                     if (i == width / 2 && j == height / 2)
                     {
                         WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), TileID.StoneSlab, true, 0f, 0f, true, true);
-                        for (int k = 0; k < width; k++)
-                        {
-                            for (int l = 0; l < height; l++)
-                            {
-                                if(Framing.GetTileSafely(k, l).type == TileID.StoneSlab)
-                                {
-                                    WorldGen.KillTile(k + (int)startingPoint.X, l + (int)startingPoint.Y);
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -360,7 +350,7 @@ namespace EEMod.EEWorld
         public static void MakeLavaPit(int width, int height, Vector2 startingPoint, float lavaLevel)
         {
             ClearOval(width, height, startingPoint);
-            FillRegionWithLava(width, (int)(height * lavaLevel), new Vector2(startingPoint.X, startingPoint.Y - (int)(height - (height * lavaLevel))));
+            FillRegionWithLava(width, (int)(height * lavaLevel), new Vector2(startingPoint.X, startingPoint.Y + (int)(height - (height * lavaLevel))));
         }
 
         public static void GenerateStructure(int i, int j, int[,] shape, int[] blocks, int[] paints = null, int[,] wallShape = null, int[] walls = null, int[] wallPaints = null)
@@ -820,11 +810,14 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType(1); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
-                    Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid = 255; // set liquid ammount
-                    WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
-                    if (Main.netMode == NetmodeID.MultiplayerClient) // sync
-                        NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    if (WorldGen.InWorld(i + (int)startingPoint.X, j + (int)startingPoint.Y))
+                    {
+                        Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType(1); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
+                        Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid = 255; // set liquid ammount
+                        WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
+                        if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                            NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    }
                 }
             }
         }
@@ -851,6 +844,23 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceWall(k, l, WallID.Cloud);
                                 tile.wallColor(29);
                                 break;
+                        }
+                    }
+                }
+            }
+        }
+        public static void GenerateLuminite()
+        {
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesX; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if(tile.type == TileID.Stone)
+                    {
+                        if(Main.rand.Next(2000) == 0)
+                        {
+                            WorldGen.TileRunner(i, j, 10, 10, TileID.LunarOre);
                         }
                     }
                 }
@@ -1069,7 +1079,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        private static void MakeChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon, int stepAddon)
+        public static void MakeChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon, int stepAddon)
         {
             for (int i = 0; i < height; i++)
             {

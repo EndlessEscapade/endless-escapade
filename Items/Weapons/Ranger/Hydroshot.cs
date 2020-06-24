@@ -15,6 +15,7 @@ namespace EEMod.Items.Weapons.Ranger
         public override void SetDefaults()
         {
             item.melee = false;
+            item.ranged = true;
             item.noMelee = true;
             item.autoReuse = true;
             item.value = Item.sellPrice(0, 0, 18);
