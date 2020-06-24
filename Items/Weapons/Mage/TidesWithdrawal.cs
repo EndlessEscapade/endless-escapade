@@ -41,6 +41,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            position += new Vector2(100, 100);
             Vector2 target = Main.screenPosition + new Vector2(Main.mouseX, Main.mouseY);
             float ceilingLimit = target.Y;
             if (ceilingLimit > player.Center.Y - 200f)

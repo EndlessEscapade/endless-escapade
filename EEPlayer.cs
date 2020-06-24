@@ -137,6 +137,8 @@ namespace EEMod
 
         public override void Initialize()
         {
+            EEMod.isAscending = false;
+            EEMod.AscentionHandler = 0;
             isSaving = false;
             godMode = false;
             timerForCutscene = 0;

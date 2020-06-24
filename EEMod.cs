@@ -129,6 +129,7 @@ namespace EEMod
         public override void Unload()
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
+            RuneActivator = null;
             On.Terraria.Main.DoUpdate -= OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
             On.Terraria.Main.DrawMenu -= OnDrawMenu;
@@ -151,7 +152,7 @@ namespace EEMod
             }
             base.UpdateUI(gameTime);
 
-            if(Main.LocalPlayer.controlUp && delay == 0)
+            if(RuneActivator.JustPressed && delay == 0)
             {
                 if (EEInterface?.CurrentState != null)
                 {
@@ -248,6 +249,7 @@ namespace EEMod
         }
         public override void Load()
         {
+            RuneActivator = RegisterHotKey("Rune UI", "Z");
             On.Terraria.WorldGen.SmashAltar += EEPlayer.WorldGen_SmashAltar;
             instance = this;
             AutoloadingManager.LoadManager(this);
@@ -305,6 +307,7 @@ namespace EEMod
             }
             orig(self, gameTime);
         }
+        public static ModHotKey RuneActivator;
         private void OnDrawMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
         {
             velocity = Vector2.Zero;
@@ -597,6 +600,7 @@ namespace EEMod
             var computerState = new LegacyGameInterfaceLayer("EE: UI",
                 delegate
                 {
+                    Ascension();
                     if (Main.ActiveWorldFileData.Name == KeyID.Sea)
                     {
                         DrawSubText();
@@ -610,6 +614,51 @@ namespace EEMod
             layers.Insert(textLayer, computerState);
         }
         public string text;
+        public static int AscentionHandler;
+        public static bool isAscending;
+        private void Ascension()
+        {
+            float seperation = 400;
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            if (isAscending)
+            {
+                float alpha;
+                AscentionHandler++;
+                if (AscentionHandler % seperation <= (seperation/2) && AscentionHandler > seperation)
+                {
+                    alpha = (float)Math.Sin((AscentionHandler % seperation / (seperation/2)) * Math.PI);
+                }
+                else
+                {
+                    alpha = 0;
+                }
+                Color color = Color.Black;
+                    if (AscentionHandler < seperation * 2)
+                    {
+                        text = "You have discovered your first rune";
+                    }
+                    else if (AscentionHandler < seperation * 3)
+                    {
+                        text = "Be wary, many more remain";
+
+                    }
+                    else if (AscentionHandler < seperation * 4)
+                    {
+                        text = "Collect runes for synergies";
+
+                    }
+                    else
+                    {
+                        text = "Good luck.";
+
+                    }
+                    color *= alpha;
+                Vector2 textSize = Main.fontDeathText.MeasureString(text);
+                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
+                float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
+                Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            }
+        }
         private void DrawText()
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();

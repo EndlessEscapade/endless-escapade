@@ -6,7 +6,7 @@ using EEMod.Projectiles.Runes;
 
 namespace EEMod.Items.Accessories.Runes
 {
-    public class DecapoditaRune : ModItem
+    public class DepocaditaRuneItem : ModItem
     {
         public override void SetStaticDefaults()
         {
