@@ -348,7 +348,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                         Initialize();
-                        SM.SaveAndQuit(KeyID.VolcanoIsland);
+                        SM.SaveAndQuit(KeyID.VolcanoInside);
                     }
                 }
                 else
