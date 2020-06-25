@@ -3,12 +3,92 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
 using EEMod.Extensions;
 
 namespace EEMod.Autoloading
 {
     public static class AutoloadingManager
     {
+        public const BindingFlags FLAGS_ANY = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
+        public const BindingFlags FLAGS_STATIC = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+        public const BindingFlags FLAGS_INSTANCE = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+        internal static void LoadManager(EEMod a)
+        {
+            DoMagik<FieldInitAttribute>(a, out var memebers); // initialize fields
+            DoMagik<LoadingMethodAttribute>(memebers); // call loading methods
+        }
+
+        internal static void UnloadManager(EEMod a)
+        {
+            DoMagik<UnloadingMethodAttribute>(a, out var members); // call unloading methods
+            DoMagik<FieldUnloadAttribute>(members); // then initialize fields
+        }
+
+        private static IEnumerable<MemberInfo> MembersAll(Type type) => type.GetMembers(FLAGS_ANY);
+        public static void DoMagik<T>(Mod formod, out IEnumerable<MemberInfo> members) where T : Attribute, IMemberHandler => 
+            DoMagik<T>(formod.Code ?? formod.GetType().Assembly, out members); // vv
+
+        public static void DoMagik<T>(Assembly forAssembly, out IEnumerable<MemberInfo> members) where T : Attribute, IMemberHandler => 
+            DoMagik<T>(forAssembly.GetTypesSafe(), out members); // vv
+
+        public static void DoMagik<T>(IEnumerable<Type> fromtypes, out IEnumerable<MemberInfo> members) where T : Attribute, IMemberHandler => 
+            DoMagik<T>(members = fromtypes.SelectMany(MembersAll)); // --
+
+        //public static void DoMagik(Mod forMod, params Type[] HandlerAttributesTypes) => DoMagik(forMod.Code ?? forMod.GetType().Assembly, HandlerAttributesTypes); // vv
+        //public static void DoMagik(Assembly assembly, params Type[] HandlerAttributesTypes) => DoMagik(assembly.GetTypesSafe(), HandlerAttributesTypes); // vv
+        //public static void DoMagik(IEnumerable<Type> types, params Type[] HandlerAttributesTypes) => DoMagik(types.SelectMany(MembersAll), HandlerAttributesTypes); // --
+        
+        //public static void DoMagik(IEnumerable<MemberInfo> members, IEnumerable<Type> handlerAttributesTypes)
+        //{
+        //    foreach (var member in members)
+        //        DoMagik(member, handlerAttributesTypes);
+        //}
+        //public static void DoMagik(MemberInfo member, IEnumerable<Type> handlerAttributesTypes)
+        //{
+        //    foreach (var type in handlerAttributesTypes)
+        //        DoMagik(member, type);
+        //}
+        //public static void DoMagik(MemberInfo member, Type handlerAttributeType)
+        //{
+        //    if (!handlerAttributeType.IsSubclassOf(typeof(Attribute)))
+        //        throw new ArgumentException($"The type {handlerAttributeType.Name} does not inherit from {nameof(Attribute)}");
+        //    if (!handlerAttributeType.ImplementsInterface<IMemberHandler>())
+        //        throw new ArgumentException($"The type {handlerAttributeType.Name} does not implement the interface {nameof(IMemberHandler)}");
+
+        //    DoMagik(member, (IMemberHandler)member.GetCustomAttribute(handlerAttributeType));
+        //}
+
+        public static void DoMagik<T>(IEnumerable<MemberInfo> members) where T : Attribute, IMemberHandler
+        {
+            foreach (var member in members)
+                DoMagik<T>(member);
+        }
+
+        //public static void DoMagik(MemberInfo member, IEnumerable<IMemberHandler> handlers)
+        //{
+        //    foreach (var handler in handlers)
+        //        DoMagik(member, handler);
+        //}
+
+        public static void DoMagik<T>(MemberInfo member) where T : Attribute, IMemberHandler
+        {
+            if (member.TryGetCustomAttribute(out T attribute))
+                DoMagik(member, attribute);
+        }
+
+        public static void DoMagik(MemberInfo member, IMemberHandler handler)
+        {
+            var targetMembers = handler.HandlingMembers;
+
+            if(targetMembers == MemberTypes.All || targetMembers.HasFlag(member.MemberType)) // if it can handle what it specifies
+                if (handler.IsValid(member)) // if it allows it
+                    handler.HandleMember(member); // handle it
+        }
+    }
+}
+/*
         public const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
         public const BindingFlags flags0 = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 
@@ -101,5 +181,4 @@ namespace EEMod.Autoloading
                 return;
             field.SetValue(null, null);
         }
-    }
-}
+*/
