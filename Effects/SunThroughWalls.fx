@@ -23,14 +23,13 @@ float2 uZoom;
 float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 colour = tex2D(uImage0, coords);
-    double distance = sqrt(pow(coords.x - 0.5, 2) + pow(coords.y - 0.5, 2));
-    colour *= (1.3f - (uOpacity / 1000)) + (1/distance);
+    colour.b *= 1.2f;
     return colour;
 }
 
 technique Technique1
 {
-    pass CutSceneWhite
+    pass SunThroughWalls
     {
         PixelShader = compile ps_2_0 FilterMyShader();
     }

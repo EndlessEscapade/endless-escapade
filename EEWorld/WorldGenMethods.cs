@@ -1187,6 +1187,7 @@ namespace EEMod.EEWorld
 
         public static void CoralReef()
         {
+            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
             int chasmX = 100;
             int chasmY = 100;
             MakeWavyChasm(chasmX, chasmY, 1000, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60));
@@ -1209,7 +1210,17 @@ namespace EEMod.EEWorld
                         MakeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<GemsandstoneTile>());
                 }
             }
-
+            for (int k = 0; k < maxTiles * 9; k++)
+            {
+                int xPos = 500;
+                int yPos = 1200;
+                int size = 80;
+                int x = WorldGen.genRand.Next(xPos - (size*3), xPos + (size * 3));
+                int y = WorldGen.genRand.Next(yPos - (size * 3), yPos + (size * 3));
+                if (OvalCheck(xPos, yPos, x, y, size * 3, size))
+                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+            }
+            
             for (int i = 0; i < 800; i++)
             {
                 for (int j = 0; j < 2000; j++)
@@ -1297,7 +1308,13 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            for (int j = 0; j < 2; j++)
+                MakeOvalJaggedTop(WorldGen.genRand.Next(50, 60), WorldGen.genRand.Next(25, 30), new Vector2(375 + (j * 250) - 25, 1225), ModContent.TileType<GemsandstoneTile>());
+            for (int j = 0; j < 2; j++)
+                MakeOvalJaggedTop(WorldGen.genRand.Next(50, 60), WorldGen.genRand.Next(25, 30), new Vector2(375 + (j * 250) - 25, 1150), ModContent.TileType<GemsandstoneTile>());
 
+            for (int j = 0; j < 2; j++)
+                MakeOvalJaggedTop(WorldGen.genRand.Next(40, 50), WorldGen.genRand.Next(25, 30), new Vector2(450 + (j * 100) - 22, 1180), ModContent.TileType<GemsandstoneTile>());
 
             for (int j = barrier; j < Main.maxTilesY; j++)
             {

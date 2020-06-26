@@ -1,4 +1,5 @@
 ﻿using System;
+using Terraria;
 
 namespace EEMod.Autoloading
 {
@@ -17,5 +18,13 @@ namespace EEMod.Autoloading
         /// Indicates it will only be for servers.
         /// </summary>
         Server
+    }
+    interface ILoadModeAttribute
+    {
+        LoadingMode LoadMode { get; }
+    }
+    internal static class LoadH
+    {
+        internal static bool ValidCurrent(LoadingMode mode) => mode == LoadingMode.Both || mode == LoadingMode.Server == Main.dedServ;
     }
 }

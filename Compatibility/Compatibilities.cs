@@ -13,7 +13,7 @@ namespace EEMod.Compatibility
         public static Mod SpiritMod;
         public static Mod OrchidMod;
 
-        [Loading]
+        [LoadingMethod]
         public static void LoadModFields()
         {
             EEMusic = ModLoader.GetMod("EEModMusic");
@@ -22,7 +22,7 @@ namespace EEMod.Compatibility
             OrchidMod = ModLoader.GetMod("OrchidMod");
         }
 
-        [Unloading]
+        [UnloadingMethod]
         public static void Unload()
         {
             EEMusic = null;

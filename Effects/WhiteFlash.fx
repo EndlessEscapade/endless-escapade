@@ -24,7 +24,7 @@ float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 colour = tex2D(uImage0, coords);
     double distance = sqrt(pow(coords.x - 0.5, 2) + pow(coords.y - 0.5, 2));
-    colour *= (1.3f - (uOpacity / 1000)) + (1 / distance);
+    colour *= 1 + ((1 - (uOpacity / 1000)) + (3 / distance))*(uOpacity / 100);
     return colour;
 }
 
