@@ -159,7 +159,7 @@ namespace EEMod
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;*/
 
-            int depth = 70;
+            //int depth = 70;
             int boatPos = Main.maxTilesX / 2;
             Main.maxTilesX = 1000;
             Main.maxTilesY = 2000;
@@ -177,23 +177,23 @@ namespace EEMod
                 for (int j = -5; j < 5; j++)
                     WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<HardenedGemsandTile>(), true, 0, 0, true, true);
             }
-            EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 40), ModContent.TileType<CoralSand>());*/
+            EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 40), ModContent.TileType<CoralSand>());
             EEWorld.EEWorld.CoralReef();
-            /*for (int i = 2; i < Main.maxTilesX - 2; i++)
+            for (int i = 2; i < Main.maxTilesX - 2; i++)
             {
                 for (int j = 2; j < Main.maxTilesY - 2; j++)
                 {
                     Tile.SmoothSlope(i, j);
                 }
-            }*/
+            }
             EEWorld.EEWorld.KillWall(1000, 1000, Vector2.Zero);
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
             EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipWalls);
-            CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
+            CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);*/
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
-            Main.spawnTileY = EEWorld.EEWorld.TileCheckWater(boatPos) - 22;
+            Main.spawnTileY = boatPos;
         }
         public static void VolcanoInside(int seed, GenerationProgress customProgressObject = null)
         {
