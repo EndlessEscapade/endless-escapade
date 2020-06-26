@@ -148,8 +148,8 @@ namespace EEMod
 
 
             EEWorld.EEWorld.RemoveWaterFromRegion(40, 40, new Vector2(180, 170));
-            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2(50, 210), TileID.Obsidian);
-            EEWorld.EEWorld.MakeTriangle(new Vector2(100, 230), 200, 160, 2, TileID.Ash, true, true);
+            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2(50, 210), ModContent.TileType<VolcanicAshTile>());
+            EEWorld.EEWorld.MakeTriangle(new Vector2(100, 230), 200, 160, 2, ModContent.TileType<MagmastoneTile>(), true, true);
             EEWorld.EEWorld.FillRegionWithLava(40, 50, new Vector2(180, 190));
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             EEWorld.EEWorld.MakeVolcanoEntrance(198, 192, EEWorld.EEWorld.VolcanoEntrance);
