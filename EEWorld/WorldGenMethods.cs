@@ -235,6 +235,35 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void LowerResident1(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (shape[y, x])
+                        {
+                            case 1:
+                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.active(true);
+                                break;
+
+                            case 2:
+                                tile.type = TileID.Platforms;
+                                tile.active(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         public static void PlaceShip(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
