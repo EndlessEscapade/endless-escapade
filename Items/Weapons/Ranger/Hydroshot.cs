@@ -1,36 +1,45 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
-namespace EEMod.Items.Weapons.Ranger
+using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Melee;
+using EEMod.Projectiles.Runes;
+namespace EEMod.Items.Weapons
 {
-    public class Hydroshot : ModItem
+    public class TridentOfTheDepths : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hydroshot");
-            Tooltip.SetDefault("Keeps away the buccaneers");
+            Tooltip.SetDefault("Trident of the Depths");
         }
 
         public override void SetDefaults()
         {
-            item.melee = false;
-            item.ranged = true;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 12;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.width = 20;
-            item.height = 20;
-            item.shoot = 10;
-            item.rare = ItemRarityID.Green;
-            item.knockBack = 4f;
+            item.damage = 40;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shootSpeed = 17f;
-            item.UseSound = SoundID.Item11;
-            item.useAmmo = AmmoID.Bullet;
+            item.useAnimation = 18;
+            item.useTime = 24;
+            item.shootSpeed = 0;
+            item.knockBack = 6.5f;
+            item.width = 32;
+            item.height = 32;
+            item.scale = 1f;
+            item.rare = ItemRarityID.Pink;
+            item.value = Item.sellPrice(silver: 10);
+
+            item.melee = true;
+            item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
+            item.noUseGraphic = true; // Important, it's kind of wired if people see two spears at one time. This prevents the melee animation of this item.
+            item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
+
+            item.UseSound = SoundID.Item1;
+            item.shoot = ModContent.ProjectileType<DesertRune>();
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            // Ensures no more than one spear can be thrown out, use this when using autoReuse
+            return player.ownedProjectileCounts[item.shoot] < 1;
         }
     }
 }
