@@ -25,6 +25,22 @@ namespace EEMod
             comparer.Compare(value, min) < 0 ? min :
             comparer.Compare(value, max) > 0 ? max :
             value;
+        public static void Clamp(ref byte value, byte min, byte max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp(ref sbyte value, sbyte min, sbyte max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp(ref int value, int min, int max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp(ref uint value, uint min, uint max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp(ref long value, long min, long max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp(ref ulong value, ulong min, ulong max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp(ref float value, float min, float max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp(ref double value, double min, double max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp(ref decimal value, decimal min, decimal max) { if (value < min) value = min; else if (value > max)value = max; }
+        public static void Clamp<T>(ref T value, T min, T max) where T : IComparable<T> 
+        { 
+            if (value.CompareTo(min) < 0) 
+                value = min; 
+            else if (value.CompareTo(max) > 0) 
+                value = max; 
+        }
 
 
         // HALF CHANCE - Basically a coin flip.

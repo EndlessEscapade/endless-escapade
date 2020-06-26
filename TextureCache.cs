@@ -37,6 +37,8 @@ namespace EEMod
         public static Texture2D Terraria_Sun2Texture;
         public static Texture2D Terraria_Sun3Texture;
 
+        public static Texture2D CoralReefsSurfaceClose;
+
         [LoadingMethod(Loadmode = LoadingMode.Client)]
         public static void Load()
         {
@@ -71,6 +73,8 @@ namespace EEMod
             Terraria_SunTexture = ModContent.GetTexture("Terraria/Sun");
             Terraria_Sun2Texture = ModContent.GetTexture("Terraria/Sun2");
             Terraria_Sun3Texture = ModContent.GetTexture("Terraria/Sun3");
+
+            CoralReefsSurfaceClose = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
         }
 
         [UnloadingMethod]
@@ -106,6 +110,8 @@ namespace EEMod
             Terraria_SunTexture = null;
             Terraria_Sun2Texture = null;
             Terraria_Sun3Texture = null;
+
+            CoralReefsSurfaceClose = null;
         }
     }
 }

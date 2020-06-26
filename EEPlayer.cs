@@ -88,7 +88,7 @@ namespace EEMod
         public static bool isSaving;
         public float titleText;
         public float titleText2;
-        public float subText;
+        public float subTextAlpha;
         public bool noU;
         public static bool triggerSeaCutscene;
         public static int cutSceneTriggerTimer;
@@ -107,33 +107,46 @@ namespace EEMod
         public byte[] hasGottenRuneBefore = new byte[5];
         public static int moralScore;
         public int initialMoralScore;
+
         private void UpdateRuneCollection()
         {
 
         }
+
         private void MoralFirstFrame()
         {
-            if (player.name == "OS" || player.name == "EpicCrownKing" || player.name == "Coolo109" || player.name == "Pyxis" || player.name == "Adarian Virell" || player.name == "phanta" || player.name == "cynik" || player.name == "daimgamer" || player.name == "Thecherrynuke" || player.name == "Vadim" || player.name == "CrackJackery" || player.name == "Exitium" || player.name == "Franswal")
-                initialMoralScore += 1000;
+            switch (player.name)
+            {
+                case "OS":
+                case "EpicCrownKing":
+                case "Coolo109":
+                case "Pyxis":
+                case "Adarian Virell":
+                case "phanta":
+                case "cynik":
+                case "daimgamer":
+                case "Thecherrynuke":
+                case "Vadim":
+                case "CrackJackery":
+                case "Exitium":
+                case "Franswal":
+                    initialMoralScore += 1000;
+                    break;
+            }
         }
         private void Moral()
         {
             moralScore = 0;
             moralScore += initialMoralScore;
             moralScore -= (int)WorldGen.totalEvil * 30;
-            if(WorldGen.totalEvil == 0)
+            if (WorldGen.totalEvil == 0)
             {
                 moralScore += 1000;
             }
             //Main.NewText(moralScore);
         }
 
-        public static void WorldGen_SmashAltar(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
-        {
-            orig(i, j);
-            moralScore -= 50;
-            Main.NewText(moralScore);
-        }
+
 
         public override void Initialize()
         {
@@ -150,7 +163,7 @@ namespace EEMod
             cutSceneTriggerTimer2 = 500;
             position = player.Center;
             speedOfPan = 0;
-            subText = 0;
+            subTextAlpha = 0;
             EEMod.position = new Vector2(1700, 900);
             objectPos.Clear();
             EEMod.ShipHelth = EEMod.ShipHelthMax;
@@ -178,7 +191,7 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
-           
+
             base.ModifyScreenPosition();
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
@@ -202,9 +215,9 @@ namespace EEMod
         public int distortStrength = 100;
         public override void UpdateBiomeVisuals()
         {
-            
+
             Moral();
-            if(player.controlHook)
+            if (player.controlHook)
             {
                 for (int i = 0; i < hasGottenRuneBefore.Length; i++)
                     hasGottenRuneBefore[i] = 0;
@@ -228,7 +241,7 @@ namespace EEMod
             string shad3 = "EEMod:SeaTrans";
             if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
             {
-                
+
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)
@@ -245,16 +258,17 @@ namespace EEMod
                     Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
+                DesArrowProjectile desArrowProj = Main.projectile[Arrow].modProjectile as DesArrowProjectile;
                 if (player.Center.X / 16 >= Main.spawnTileX - 5 &&
                     player.Center.X / 16 <= Main.spawnTileX + 5 &&
                     player.Center.Y / 16 >= Main.spawnTileY - 5 &&
                     player.Center.Y / 16 <= Main.spawnTileY + 5)
                 {
-                    (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = true;
+                    desArrowProj.visible = true;
                 }
                 else
                 {
-                    (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = false;
+                    desArrowProj.visible = false;
                 }
                 Filters.Scene.Deactivate(shad2);
             }
@@ -327,14 +341,14 @@ namespace EEMod
                 }
                 if (isNearIsland)
                 {
-                    subText += 0.02f;
-                    if (subText >= 1)
-                        subText = 1;
+                    subTextAlpha += 0.02f;
+                    if (subTextAlpha >= 1)
+                        subTextAlpha = 1;
                     (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
-                      Initialize();
-                      SM.SaveAndQuit(KeyID.Island);
+                        Initialize();
+                        SM.SaveAndQuit(KeyID.Island);
                     }
                 }
                 else
@@ -343,9 +357,9 @@ namespace EEMod
                 }
                 if (isNearVolcano)
                 {
-                    subText += 0.02f;
-                    if (subText >= 1)
-                        subText = 1;
+                    subTextAlpha += 0.02f;
+                    if (subTextAlpha >= 1)
+                        subTextAlpha = 1;
                     (Main.projectile[AnchorsVolc].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
@@ -360,9 +374,9 @@ namespace EEMod
 
                 if (isNearMainIsland)
                 {
-                    subText += 0.02f;
-                    if (subText >= 1)
-                        subText = 1;
+                    subTextAlpha += 0.02f;
+                    if (subTextAlpha >= 1)
+                        subTextAlpha = 1;
                     (Main.projectile[AnchorsMain].modProjectile as Anchor).visible = true;
                 }
                 else
@@ -371,9 +385,9 @@ namespace EEMod
                 }
                 if (isNearCoralReefs && markerPlacer > 1)
                 {
-                    subText += 0.02f;
-                    if (subText >= 1)
-                        subText = 1;
+                    subTextAlpha += 0.02f;
+                    if (subTextAlpha >= 1)
+                        subTextAlpha = 1;
                     (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = true;
                     if (player.controlUp)
                     {
@@ -387,9 +401,9 @@ namespace EEMod
                 }
                 if (!isNearVolcano && !isNearIsland && !isNearCoralReefs && !isNearMainIsland)
                 {
-                    subText -= 0.02f;
-                    if (subText <= 0)
-                        subText = 0;
+                    subTextAlpha -= 0.02f;
+                    if (subTextAlpha <= 0)
+                        subTextAlpha = 0;
                 }
 
                 for (int j = 0; j < 450; j++)
@@ -403,7 +417,7 @@ namespace EEMod
                         }
                     }
                 }
-                
+
                 if (markerPlacer == 1)
                 {
                     for (int i = 0; i < 400; i++)
@@ -545,7 +559,7 @@ namespace EEMod
                 markerPlacer++;
                 if (markerPlacer % 40 == 0)
                 {
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f,0.5f), Main.rand.Next(100, 180));
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                 }
 
                 if (!arrowFlag)
@@ -553,7 +567,7 @@ namespace EEMod
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
-                if(EEWorld.EEWorld.SubWorldSpecificCoralBoatPos == Vector2.Zero)
+                if (EEWorld.EEWorld.SubWorldSpecificCoralBoatPos == Vector2.Zero)
                 {
                     EEWorld.EEWorld.SubWorldSpecificCoralBoatPos = new Vector2(200, 48);
                 }
@@ -583,7 +597,7 @@ namespace EEMod
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
             {
                 Main.NewText(EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos);
-                Main.NewText(player.Center/16);
+                Main.NewText(player.Center / 16);
                 player.ClearBuff(BuffID.Cursed);
 
                 if (!arrowFlag)
@@ -596,10 +610,10 @@ namespace EEMod
                     EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos = new Vector2(200, 48);
                 }
                 OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
-                if (player.Center.X / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X + 2) - 2 &&
-                    player.Center.X / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X + 2) + 2 &&
-                    player.Center.Y / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 14) - 2 &&
-                    player.Center.Y / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 14) + 2)
+                if (player.Center.X / 16 >= EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X &&
+                    player.Center.X / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X + 4) &&
+                    player.Center.Y / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 12) &&
+                    player.Center.Y / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 16))
                 {
                     if (player.controlUp)
                     {
@@ -634,10 +648,10 @@ namespace EEMod
                 if (EEWorld.EEWorld.EntracesPosses.Count > 0)
                 {
                     DesArrowProjectile arrow = Main.projectile[Arrow].modProjectile as DesArrowProjectile;
-                    if (player.Center.X / 16 >= (EEWorld.EEWorld.EntracesPosses[0].X + 12) - 2 &&
-                        player.Center.X / 16 <= (EEWorld.EEWorld.EntracesPosses[0].X + 12) + 2 &&
-                        player.Center.Y / 16 >= (EEWorld.EEWorld.EntracesPosses[0].Y + 7) - 2 &&
-                        player.Center.Y / 16 <= (EEWorld.EEWorld.EntracesPosses[0].Y + 7) + 2 &&
+                    if (player.Center.X / 16 >= (EEWorld.EEWorld.EntracesPosses[0].X + 10) &&
+                        player.Center.X / 16 <= (EEWorld.EEWorld.EntracesPosses[0].X + 14) &&
+                        player.Center.Y / 16 >= (EEWorld.EEWorld.EntracesPosses[0].Y + 5) &&
+                        player.Center.Y / 16 <= (EEWorld.EEWorld.EntracesPosses[0].Y + 9) &&
                             EEWorld.EEWorld.EntracesPosses.Count > 0)
                     {
                         if (player.controlUp)
@@ -652,10 +666,10 @@ namespace EEMod
                     }
                 }
                 OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
-                if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X + 2) - 2 &&
-                    player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 2) + 2 &&
-                    player.Center.Y / 16 >= (EEWorld.EEWorld.ree.Y + 14) - 2 &&
-                    player.Center.Y / 16 <= (EEWorld.EEWorld.ree.Y + 14) + 2 &&
+                if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X)  &&
+                    player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 4) &&
+                    player.Center.Y / 16 >= (EEWorld.EEWorld.ree.Y + 12) &&
+                    player.Center.Y / 16 <= (EEWorld.EEWorld.ree.Y + 16) &&
                     EEWorld.EEWorld.shipComplete == true)
                 {
                     if (player.controlUp)
@@ -703,24 +717,22 @@ namespace EEMod
                 }
             }
         }
+
         public override Texture2D GetMapBackgroundImage()
         {
             if (ZoneCoralReefs)
             {
-                return mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
+                return TextureCache.CoralReefsSurfaceClose;
             }
             return null;
         }
+
         public override TagCompound Save()
         {
             return new TagCompound
             {
-                {
-                    "hasGottenRuneBefore", hasGottenRuneBefore
-                },
-                {
-                    "moral", moralScore
-                }
+                ["hasGottenRuneBefore"] = hasGottenRuneBefore,
+                ["moral"] = moralScore
             };
         }
 
@@ -738,10 +750,8 @@ namespace EEMod
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-
             if (godMode)
             {
-
                 int getRand = Main.rand.Next(5);
                 int healSet = damage / 9;
                 if (healSet > 5)

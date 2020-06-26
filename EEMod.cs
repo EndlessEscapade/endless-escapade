@@ -130,11 +130,7 @@ namespace EEMod
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             RuneActivator = null;
-            On.Terraria.Main.DoUpdate -= OnUpdate;
-            On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
-            On.Terraria.Main.DrawMenu -= OnDrawMenu;
-            On.Terraria.WorldGen.SmashAltar -= EEPlayer.WorldGen_SmashAltar;
-            IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
+            UnloadIL();
             AutoloadingManager.UnloadManager(this);
             instance = null;
         }
@@ -152,11 +148,11 @@ namespace EEMod
             }
             base.UpdateUI(gameTime);
 
-            if(RuneActivator.JustPressed && delay == 0)
+            if (RuneActivator.JustPressed && delay == 0)
             {
-                if (EEInterface?.CurrentState != null)
+                if (EEUIVisible)
                 {
-                    HideMyUI();
+                    EEUIVisible = false;
                     if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Pause"].IsActive())
                     {
                         Filters.Scene.Deactivate("EEMod:Pause");
@@ -164,7 +160,7 @@ namespace EEMod
                 }
                 else
                 {
-                    ShowMyUI();
+                    EEUIVisible = true;
                     if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Pause"].IsActive())
                     {
                         Filters.Scene.Activate("EEMod:Pause").GetShader().UseOpacity(pauseShaderTImer);
@@ -172,94 +168,39 @@ namespace EEMod
                 }
                 delay++;
             }
-            if (EEInterface?.CurrentState != null)
+            if (EEUIVisible)
             {
                 Filters.Scene["EEMod:Pause"].GetShader().UseOpacity(pauseShaderTImer);
                 pauseShaderTImer += 50;
-                if(pauseShaderTImer > 1000)
+                if (pauseShaderTImer > 1000)
                 {
                     pauseShaderTImer = 1000;
                 }
             }
             else
             {
-               pauseShaderTImer = 0;
+                pauseShaderTImer = 0;
             }
-                if (delay > 0)
+            if (delay > 0)
             {
                 delay++;
                 if (delay == 60)
                     delay = 0;
             }
-
         }
 
-        private void Main_DrawBackground(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            Type spritebatchtype = typeof(SpriteBatch);
 
-            if (!c.TryGotoNext(i => i.MatchLdloc(18)))
-                throw new Exception("Ldloc for local variable 18 not found");
-
-            MethodInfo call1 = spritebatchtype.GetMethod("Draw", new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color) });
-
-            if (!c.TryGotoNext(i => i.MatchCallvirt(call1)))
-                throw new Exception("No call found for SpriteBatch.Draw(Texture2D, Vector2, Rectangle?, Color)");
-
-            // 1st call
-            c.Remove();
-            c.Emit(OpCodes.Ldloc, 13); // array
-            c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, int[]>>((spritebatch, texture, pos, sourcerectangle, color, array) =>
-            {
-                if (array[4] != 135)
-                    spritebatch.Draw(texture, pos, sourcerectangle, color);
-            });
-            // 2nd call
-            // getting to the else
-            MethodInfo lightningnoretroget = typeof(Lighting).GetProperty(nameof(Lighting.NotRetro)).GetGetMethod();
-            if (!c.TryGotoNext(i => i.MatchCallOrCallvirt(lightningnoretroget)))
-                throw new Exception("Call for the get method of the property Lighting.NoRetro not found");
-            // finding the call       
-            MethodInfo draw = spritebatchtype.GetMethod("Draw", new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) });
-            for (int k = 0; k < 4; k++) // 4 calls
-            {
-                if (!c.TryGotoNext(i => i.MatchCallvirt(draw)))
-                    throw new Exception($"Call number {k} not found");
-
-                c.Remove();
-                c.Emit(OpCodes.Ldloc, 13); // array
-                c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, float, Vector2, float, SpriteEffects, float, int[]>>((spritebatch, texture, position, sourcerectangle, color, rotation, origin, scale, effects, layerdepth, array) =>
-                {
-                    if (array[5] != 126)
-                        spritebatch.Draw(texture, position, sourcerectangle, color, rotation, origin, scale, effects, layerdepth);
-                });
-            }
-
-            // 3rd call
-            if (!c.TryGotoNext(i => i.MatchLdloc(20))) throw new Exception("Ldloc for local variable 20 (flag4) not found"); // flag4
-            if (!c.TryGotoNext(i => i.MatchCallvirt(call1))) throw new Exception("'Last' SpriteBatch.Draw call not found"); // same overload
-            c.Remove();
-            c.Emit(OpCodes.Ldloc, 13); // array
-            c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, int[]>>((spritebatch, texture, position, sourcerectangle, color, array) =>
-            {
-                if (array[6] != 186)
-                    spritebatch.Draw(texture, position, sourcerectangle, color);
-            });
-        }
         public override void Load()
         {
             RuneActivator = RegisterHotKey("Rune UI", "Z");
-            On.Terraria.WorldGen.SmashAltar += EEPlayer.WorldGen_SmashAltar;
             instance = this;
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
             if (!Main.dedServ)
             {
                 eeui = new EEUI();
-                eeui.Initialize();
+                eeui.Activate();
                 EEInterface = new UserInterface();
-                EEInterface.SetState(null);
                 Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Ripple"));
                 Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/SeaTrans"));
                 Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/SunThroughWalls"));
@@ -272,345 +213,68 @@ namespace EEMod
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
             }
-            IL.Terraria.Main.DrawBackground += Main_DrawBackground;
-            On.Terraria.Main.DoUpdate += OnUpdate;
-            On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
-            On.Terraria.Main.DrawMenu += OnDrawMenu;
+            LoadIL();
         }
 
         public static bool isSaving = false;
         public static int loadingChoose;
         public static int loadingChooseImage;
         public static bool loadingFlag = true;
-        public void OnSave(On.Terraria.WorldGen.orig_SaveAndQuitCallBack orig, object threadcontext)
-        {
-            isSaving = true;
-            orig(threadcontext);
-            isSaving = false;
 
-            //saveInterface?.SetState(null);
-
-        }
-        public void OnUpdate(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
-        {
-            if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
-            {
-                loadingChoose = Main.rand.Next(62);
-                loadingChooseImage = Main.rand.Next(5);
-                Main.numClouds = 10;
-                if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                    Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
-                    Main.logoTexture = TextureCache.Terraria_LogoTexture;
-                    Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
-                    Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
-                    Main.sunTexture = TextureCache.Terraria_SunTexture;
-            }
-            orig(self, gameTime);
-        }
         public static ModHotKey RuneActivator;
-        private void OnDrawMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
+
+        internal bool EEUIVisible
         {
-            velocity = Vector2.Zero;
-            if (isSaving)
-            {
-                Main.numClouds = 0;
-                Main.logo2Texture = TextureCache.Empty;
-                Main.logoTexture = TextureCache.Empty;
-                Main.sun2Texture = TextureCache.Empty;
-                Main.sun3Texture = TextureCache.Empty;
-                Main.sunTexture = TextureCache.Empty;
-                if (SkyManager.Instance["EEMod:SavingCutscene"] != null) SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
-                if (loadingFlag)
-                {
-                    loadingChoose = Main.rand.Next(62);
-                    loadingChooseImage = Main.rand.Next(5);
-                    loadingFlag = false;
-                }
-                switch (loadingChoose)
-                {
-                    case 0:
-                        Main.statusText = "Watch Out! Dune Shamblers Pop from the ground from time to time!";
-                        break;
-                    case 1:
-                        Main.statusText = "Gallagar is Satan!";
-                        break;
-                    case 2:
-                        Main.statusText = "Tip of the Day! Loading screens are useless";
-                        break;
-                    case 3:
-                        Main.statusText = "Fear the MS Paint cat";
-                        break;
-                    case 4:
-                        Main.statusText = "Terraria sprites need outlines... except when I make them";
-                        break;
-                    case 5:
-                        Main.statusText = "Remove the Banding";
-                        break;
-                    case 6:
-                        Main.statusText = Main.LocalPlayer.name + " ....huh...what a cruddy name";
-                        break;
-                    case 7:
-                        Main.statusText = "Dont ping everyone you big dumb stupid";
-                        break;
-                    case 8:
-                        Main.statusText = "I'm nothing without attention";
-                        break;
-                    case 9:
-                        Main.statusText = "Why are you even reading this?";
-                        break;
-                    case 10:
-                        Main.statusText = "We actually think we are funny";
-                        break;
-                    case 11:
-                        Main.statusText = "Interitos...whats that?";
-                        break;
-                    case 12:
-                        Main.statusText = "its my style";
-                        break;
-                    case 13:
-                        Main.statusText = "Now featuring 50% more monkey per chimp!";
-                        break;
-                    case 14:
-                        Main.statusText = "im angy";
-                        break;
-                    case 15:
-                        Main.statusText = "Send help, please this is not a joke im actually being held hostage";
-                        break;
-                    case 16:
-                        Main.statusText = "Mod is not edgy I swear!";
-                        break;
-                    case 17:
-                        Main.statusText = "All programmers are cyniks";
-                        break;
-                    case 18:
-                        Main.statusText = "Im gonna have to mute you for that";
-                        break;
-                    case 19:
-                        Main.statusText = "Gamers rise up!";
-                        break;
-                    case 20:
-                        Main.statusText = "THATS NOT THE CONCEPT";
-                        break;
-                    case 21:
-                        Main.statusText = "caramel popcorn and celeste";
-                        break;
-                    case 22:
-                        Main.statusText = "D D D A G# G F D F G";
-                        break;
-                    case 23:
-                        Main.statusText = "We live in a society";
-                        break;
-                    case 24:
-                        Main.statusText = "Dont mine at night!";
-                        break;
-                    case 25:
-                        Main.statusText = "deleting system32...";
-                        break;
-                    case 26:
-                        Main.statusText = "Sans in real!";
-                        break;
-                    case 27:
-                        Main.statusText = "I sure hope I didnt break the codeghsduighshsy";
-                        break;
-                    case 28:
-                        Main.statusText = "If you liked endless escapade you will love endless escapade premium!";
-                        break;
-                    case 29:
-                        Main.statusText = "IL edit that breaks the runtime";
-                        break;
-                    case 30:
-                        Main.statusText = "mario in real life";
-                        break;
-                    case 31:
-                        Main.statusText = "the phantam of the opera";
-                        break;
-                    case 32:
-                        Main.statusText = "EEMod Foretold? More like doesn't exist";
-                        break;
-                    case 33:
-                        Main.statusText = "You think this is a game? Look behind you 0_0";
-                        break;
-                    case 34:
-                        Main.statusText = "Respect the drip Karen";
-                        break;
-                    case 35:
-                        Main.statusText = "trust me there is a lot phesh down in here, the longer the player is in the reefs the more amphibious he will become";
-                        break;
-                    case 36:
-                        Main.statusText = "All good sprites made by daimgamer!";
-                        break;
-                    case 37:
-                        Main.statusText = "All (good) music made by Universe";
-                        break;
-                    case 38:
-                        Main.statusText = "All good sprites made by Vadim";
-                        break;
-                    case 39:
-                        Main.statusText = "All good sprites made by Zarn";
-                        break;
-                    case 40:
-                        Main.statusText = "ni-UNIVERSE";
-                        break;
-                    case 41:
-                        Main.statusText = "Totally not copying Starlight River";
-                        break;
-                    case 42:
-                        Main.statusText = "Do a Barrel Roll";
-                        break;
-                    case 43:
-                        Main.statusText = "The man behind the laughter";
-                        break;
-                    case 44:
-                        Main.statusText = "We all eventually die!";
-                        break;
-                    case 45:
-                        Main.statusText = "An apple a day keeps the errors away!";
-                        break;
-                    case 46:
-                        Main.statusText = "Poggers? Poggers.";
-                        break;
-                    case 47:
-                        Main.statusText = $@"Totally not sentient AI. By the way, {Environment.UserName} is a dumb computer name";
-                        break;
-                    case 48:
-                        Main.statusText = "It all ends eventually!";
-                        break;
-                    case 49:
-                        Main.statusText = "Illegal in 5 countries!";
-                        break;
-                    case 50:
-                        Main.statusText = "Inside jokes you wont understand!";
-                        break;
-                    case 51:
-                        Main.statusText = "Big content mod bad!";
-                        break;
-                    case 52:
-                        Main.statusText = "Loading the random chimp event...";
-                        break;
-                    case 53:
-                        Main.statusText = "Sending you to the Aether...";
-                        break;
-                    case 54:
-                        Main.statusText = "When";
-                        break;
-                    case 55:
-                        Main.statusText = "[Insert non funny joke here]";
-                        break;
-                    case 56:
-                        Main.statusText = "The dev server is indeed an asylum";
-                        break;
-                    case 57:
-                        Main.statusText = "owo";
-                        break;
-                    case 58:
-                        Main.statusText = "That's how the mafia works";
-                        break;
-                    case 59:
-                        Main.statusText = "Hacking the mainframe...";
-                        break;
-                    case 60:
-                        Main.statusText = "Not Proud";
-                        break;
-                    case 61:
-                        Main.statusText = "You know I think the ocean needs more con- Haha the literal ocean goes brr";
-                        break;
-                }
-            }
-            else
-            {
-                if(!Main.dedServ)
-                {
-                    loadingChoose = 47;//Main.rand.Next(62);
-                    loadingChooseImage = Main.rand.Next(5);
-                    Main.numClouds = 10;
-                    if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                    Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
-                    Main.logoTexture = TextureCache.Terraria_LogoTexture;
-                    Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
-                    Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
-                    Main.sunTexture = TextureCache.Terraria_SunTexture;
-                }
-               
-            }
-            orig(self, gameTime);
+            get => EEInterface?.CurrentState != null;
+            set => EEInterface?.SetState(value ? eeui : null);
         }
 
-        /*private static void ILSaveWorldTiles(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            PropertyInfo statusText = typeof(Main).GetProperty(nameof(Main.statusText));
-            MethodInfo set = statusText.GetSetMethod();
-
-            if (!c.TryGotoNext(i => i.MatchCall(set)))
-                throw new Exception();
-
-            c.EmitDelegate<Func<string, string>>((originalText) =>
-            {
-                return originalText;
-            });
-        }*/
-
-        internal void ShowMyUI()
-        {
-            EEInterface?.SetState(eeui);
-        }
-
-        internal void HideMyUI()
-        {
-            EEInterface?.SetState(null);
-        }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             if (mouseTextIndex != -1)
             {
-                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "MyMod: MyInterface",
-                    delegate
+                LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface",
+                delegate
+                {
+                    if (lastGameTime != null && EEInterface?.CurrentState != null)
                     {
-                        if (lastGameTime != null && EEInterface?.CurrentState != null)
-                        {
-                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
-                        }
-                        return true;
-                    },
-                       InterfaceScaleType.UI));
+                        EEInterface.Draw(Main.spriteBatch, lastGameTime);
+                    }
+                    return true;
+                }, InterfaceScaleType.UI);
+                layers.Insert(mouseTextIndex, EEInterfaceLayer);
             }
+
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 for (int i = 0; i < layers.Count; i++)
                 {
+                    var layer = layers[i];
                     //Remove Resource bars
-                    if (layers[i].Name.Contains("Vanilla: Resource Bars"))
-                    {
-                        layers.RemoveAt(i);
-                    }
-                }
-                for (int i = 0; i < layers.Count; i++)
-                {
-                    //Remove Resource bars
-                    if (layers[i].Name.Contains("Vanilla: Info Accessories Bar"))
+                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar"))
                     {
                         layers.RemoveAt(i);
                     }
                 }
             }
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+
+            // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
             var computerState = new LegacyGameInterfaceLayer("EE: UI",
-                delegate
+            delegate
+            {
+                Ascension();
+                if (Main.ActiveWorldFileData.Name == KeyID.Sea)
                 {
-                    Ascension();
-                    if (Main.ActiveWorldFileData.Name == KeyID.Sea)
-                    {
-                        DrawSubText();
-                        DrawShip();
-                    }
-                    if (Main.ActiveWorldFileData.Name == KeyID.Pyramids || Main.ActiveWorldFileData.Name == KeyID.Sea || Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
-                        DrawText();
-                    return true;
-                },
-                InterfaceScaleType.UI);
+                    DrawSubText();
+                    DrawShip();
+                }
+                if (Main.ActiveWorldFileData.Name == KeyID.Pyramids || Main.ActiveWorldFileData.Name == KeyID.Sea || Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+                    DrawText();
+                return true;
+            },
+            InterfaceScaleType.UI);
             layers.Insert(textLayer, computerState);
         }
         public string text;
@@ -619,43 +283,40 @@ namespace EEMod
         private void Ascension()
         {
             float seperation = 400;
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             if (isAscending)
             {
                 float alpha;
                 AscentionHandler++;
-                if (AscentionHandler % seperation <= (seperation/2) && AscentionHandler > seperation)
+                if (AscentionHandler % seperation <= (seperation / 2) && AscentionHandler > seperation)
                 {
-                    alpha = (float)Math.Sin((AscentionHandler % seperation / (seperation/2)) * Math.PI);
+                    alpha = (float)Math.Sin(AscentionHandler % seperation / (seperation / 2) * Math.PI);
                 }
                 else
                 {
                     alpha = 0;
                 }
                 Color color = Color.Black;
-                    if (AscentionHandler < seperation * 2)
-                    {
-                        text = "You have discovered your first rune";
-                    }
-                    else if (AscentionHandler < seperation * 3)
-                    {
-                        text = "Be wary, many more remain";
-
-                    }
-                    else if (AscentionHandler < seperation * 4)
-                    {
-                        text = "Collect runes for synergies";
-
-                    }
-                    else
-                    {
-                        text = "Good luck.";
-
-                    }
-                    color *= alpha;
+                if (AscentionHandler < seperation * 2)
+                {
+                    text = "You have discovered your first rune";
+                }
+                else if (AscentionHandler < seperation * 3)
+                {
+                    text = "Be wary, many more remain";
+                }
+                else if (AscentionHandler < seperation * 4)
+                {
+                    text = "Collect runes for synergies";
+                }
+                else
+                {
+                    text = "Good luck.";
+                }
+                color *= alpha;
                 Vector2 textSize = Main.fontDeathText.MeasureString(text);
                 float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-                float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
+                //float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
                 Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
             }
         }
@@ -694,7 +355,7 @@ namespace EEMod
         private void DrawSubText()
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            float alpha = modPlayer.subText;
+            float alpha = modPlayer.subTextAlpha;
             Color color = Color.White;
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
@@ -707,35 +368,29 @@ namespace EEMod
         }
         private void DrawShip()
         {
-            Player modPlayer = Main.LocalPlayer;
+            Player player = Main.LocalPlayer;
             if (!Main.gamePaused)
             {
                 position += velocity;
-                if (modPlayer.controlJump)
+                if (player.controlJump)
                 {
                     velocity.Y -= 0.1f;
                 }
-                if (modPlayer.controlDown)
+                if (player.controlDown)
                 {
                     velocity.Y += 0.1f;
                 }
-                if (modPlayer.controlRight)
+                if (player.controlRight)
                 {
                     velocity.X += 0.1f;
                 }
-                if (modPlayer.controlLeft)
+                if (player.controlLeft)
                 {
                     velocity.X -= 0.1f;
                 }
             }
-            if (velocity.X > 1)
-                velocity.X = 1;
-            if (velocity.X < -1)
-                velocity.X = -1;
-            if (velocity.Y > 1)
-                velocity.Y = 1;
-            if (velocity.Y < -1)
-                velocity.Y = -1;
+            velocity.X = Helpers.Clamp(velocity.X, -1, 1);
+            velocity.Y = Helpers.Clamp(velocity.Y, -1, 1);
             // Mod mod = EEMod.instance;
             texture = TextureCache.ShipMount;
             frames = 1;
@@ -753,13 +408,13 @@ namespace EEMod
             {
                 velocity *= 0.98f;
             }
-            for (int i = 0; i < 200; i++)
-            {
-                for (int j = 0; j < 100; j++)
-                {
+            //for (int i = 0; i < 200; i++)
+            //{
+            //    for (int j = 0; j < 100; j++)
+            //    {
 
-                }
-            }
+            //    }
+            //}
             for (int i = 0; i < EEPlayer.objectPos.Count; i++)
             {
                 if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i != 7 && i != 8)
@@ -773,8 +428,6 @@ namespace EEMod
             float quotient = ShipHelth / ShipHelthMax;
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, 0, (int)(texture3.Width * quotient), texture3.Height), Color.White, 0, new Rectangle(0, 0, texture3.Width, texture3.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-
-              
         }
 
 
