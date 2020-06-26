@@ -37,7 +37,7 @@ namespace EEMod
         public static Texture2D Terraria_Sun2Texture;
         public static Texture2D Terraria_Sun3Texture;
 
-        [Loading(Loadmode = LoadingMode.Client)]
+        [LoadingMethod(Loadmode = LoadingMode.Client)]
         public static void Load()
         {
             Mod mod = EEMod.instance;
@@ -73,7 +73,7 @@ namespace EEMod
             Terraria_Sun3Texture = ModContent.GetTexture("Terraria/Sun3");
         }
 
-        [Unloading]
+        [UnloadingMethod]
         public static void Unload()
         {
             CoralLanternLampGlow = null;
