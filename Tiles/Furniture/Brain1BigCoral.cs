@@ -5,7 +5,7 @@ using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
 
-namespace EEMod.Tiles
+namespace EEMod.Tiles.Furniture
 {
     public class Brain1BigCoral : ModTile
     {

@@ -1,31 +1,25 @@
-/*using System;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.Enums;
-using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ObjectData;
-using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
+using EEMod.Items.Placeables;
 
 namespace EEMod.Tiles
 {
-    public class AtlanteanCrystal : ModTile
+    public class AtlanteanSlabTile : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
 
             AddMapEntry(new Color(67, 47, 155));
 
             dustType = 154;
+            drop = ModContent.ItemType<AtlanteanSlab>();
             soundStyle = 1;
             mineResist = 1f;
             minPick = 0;
         }
     }
-}*/
+}

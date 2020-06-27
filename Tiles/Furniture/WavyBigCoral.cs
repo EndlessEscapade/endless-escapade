@@ -5,9 +5,9 @@ using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
 
-namespace EEMod.Tiles
+namespace EEMod.Tiles.Furniture
 {
-    public class Brain2BigCoral : ModTile
+    public class WavyBigCoral : ModTile
     {
         public override void SetDefaults()
         {
@@ -15,11 +15,11 @@ namespace EEMod.Tiles
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
-            TileObjectData.newTile.Width = 8;
-            TileObjectData.newTile.Height = 3;
+            TileObjectData.newTile.Width = 7;
+            TileObjectData.newTile.Height = 7;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16};
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16};
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;

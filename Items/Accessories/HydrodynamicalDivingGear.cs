@@ -10,7 +10,7 @@ namespace EEMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydrodynamical Diving Gear");
-            Tooltip.SetDefault("3% increased critical strike chance while on the Mushroom Biome" + "\n5% increased damage while on the Mushroom Biome" + "7% velocity decreased while outside of the Mushroom Biome");
+            //Tooltip.SetDefault("3% increased critical strike chance while on the Mushroom Biome" + "\n5% increased damage while on the Mushroom Biome" + "7% velocity decreased while outside of the Mushroom Biome");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace EEMod.Items.Accessories
             item.scale = 0.2f;
         }
 
-        public override void UpdateEquip(Player player)
+        /*public override void UpdateEquip(Player player)
         {
             if (player.ZoneGlowshroom)
             {
@@ -50,6 +50,6 @@ namespace EEMod.Items.Accessories
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
+        }*/
     }
 }

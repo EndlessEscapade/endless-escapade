@@ -4,11 +4,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons
 {
-    public class Hydroshot : ModItem
+    public class Fishtol : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hydroshot");
+            Tooltip.SetDefault("Fishtol");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace EEMod.Items.Weapons
             item.scale = 1f;
             item.rare = ItemRarityID.Pink;
             item.value = Item.sellPrice(silver: 10);
-            item.useAmmo = AmmoID.Arrow;
+            item.useAmmo = AmmoID.Bullet;
 
             item.ranged = true;
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

@@ -1,14 +1,16 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Melee;
+using EEMod.Projectiles.Runes;
 namespace EEMod.Items.Weapons
 {
-    public class Hydroshot : ModItem
+    public class CoralStrike : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Hydroshot");
+            Tooltip.SetDefault("Coral Strike");
         }
 
         public override void SetDefaults()
