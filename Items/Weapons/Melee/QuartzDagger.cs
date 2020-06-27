@@ -4,7 +4,7 @@ using Terraria.ID;
 using EEMod.Projectiles;
 using EEMod.Items.Materials;
 
-namespace EEMod.Items.Weapons
+namespace EEMod.Items.Weapons.Melee
 {
     public class QuartzDagger : ModItem
     {

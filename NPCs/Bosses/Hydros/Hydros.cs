@@ -10,6 +10,7 @@ using EEMod.Items.Weapons.Ranger;
 using System;
 using EEMod.NPCs.Bosses.Hydros;
 using EEMod.Projectiles.CoralReefs;
+using EEMod.Items.Weapons.Summon;
 using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.NPCs.Bosses.Hydros
@@ -64,7 +65,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
         public override void NPCLoot()
         {
-            int randVal = Main.rand.Next(3);
+            int randVal = Main.rand.Next(5);
             if (randVal == 0)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosEye>(), 1);
@@ -73,9 +74,17 @@ namespace EEMod.NPCs.Bosses.Hydros
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
             }
-            else
+            else if (randVal == 2)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Fishtol>(), 1);
+            }
+            else if (randVal == 3)
             {
                 Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
+            }
+            else if (randVal == 4)
+            {
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EnchantedCoral>(), 1);
             }
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
             EEWorld.EEWorld.downedHydros = true;

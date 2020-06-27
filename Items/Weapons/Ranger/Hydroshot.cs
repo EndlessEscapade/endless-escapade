@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Weapons
+namespace EEMod.Items.Weapons.Ranger
 {
     public class Hydroshot : ModItem
     {

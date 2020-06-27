@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 
-namespace EEMod.Items.Weapons
+namespace EEMod.Items.Weapons.Ranger
 {
     public class CorrodentShotbow : ModItem
     {

@@ -6,17 +6,17 @@ using Microsoft.Xna.Framework;
 
 namespace EEMod.Tiles.Furniture.DevPaintings
 {
-    public class MysteriousJarTile : ModTile
+    public class OSPaintingTile : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
 
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("MysteriousJar");
+            name.SetDefault("OSPainting");
             AddMapEntry(new Color(255, 168, 28), name);
             dustType = 11;
             disableSmartCursor = true;
@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Furniture.DevPaintings
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<MysteriousJar>());
+            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<OSPainting>());
         }
     }
 }

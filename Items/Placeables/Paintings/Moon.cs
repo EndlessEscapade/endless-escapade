@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.Furniture.DevPaintings;
 
-namespace EEMod.Items.Placeables.DevPaintings
+namespace EEMod.Items.Placeables.Paintings
 {
     public class Moon : ModItem
     {
