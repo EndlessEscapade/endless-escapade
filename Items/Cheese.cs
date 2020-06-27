@@ -16,8 +16,8 @@ namespace EEMod.Items
 
         public override void SetDefaults()
         {
-            item.width = 30;
-            item.height = 30;
+            item.width = 50;
+            item.height = 34;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 1, 0, 0);
             item.rare = ItemRarityID.White;
