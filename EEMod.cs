@@ -46,10 +46,6 @@ namespace EEMod
     {
         public static EEMod instance;
 
-        public override void PostSetupContent()
-        {
-
-        }
         public static double worldSurface;
 
         public static double worldSurfaceLow;
