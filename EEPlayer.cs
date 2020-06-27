@@ -19,6 +19,7 @@ namespace EEMod
 {
     public class EEPlayer : ModPlayer
     {
+        public bool importantCutscene;
         public bool FlameSpirit;
         public bool magmaRune;
         public bool duneRune;
@@ -150,6 +151,7 @@ namespace EEMod
 
         public override void Initialize()
         {
+            importantCutscene = false;
             EEMod.isAscending = false;
             EEMod.AscentionHandler = 0;
             isSaving = false;
@@ -215,7 +217,7 @@ namespace EEMod
         public int distortStrength = 100;
         public override void UpdateBiomeVisuals()
         {
-
+            
             Moral();
             if (player.controlHook)
             {
@@ -374,6 +376,10 @@ namespace EEMod
 
                 if (isNearMainIsland)
                 {
+                    if(player.controlUp)
+                    {
+                        SM.SaveAndQuit(baseWorldName);
+                    }
                     subTextAlpha += 0.02f;
                     if (subTextAlpha >= 1)
                         subTextAlpha = 1;
@@ -634,6 +640,7 @@ namespace EEMod
             }
             else
             {
+                markerPlacer++;
                 baseWorldName = Main.ActiveWorldFileData.Name;
                 Filters.Scene.Deactivate(shad2);
                 EEMod.position = EEMod.start;
@@ -681,6 +688,7 @@ namespace EEMod
                 }
                 else
                 {
+                    if(markerPlacer > 120)
                     oceanarrow.visible = false;
                 }
             }
@@ -732,7 +740,8 @@ namespace EEMod
             return new TagCompound
             {
                 ["hasGottenRuneBefore"] = hasGottenRuneBefore,
-                ["moral"] = moralScore
+                ["moral"] = moralScore,
+                ["baseworldname"] = baseWorldName
             };
         }
 
@@ -745,6 +754,10 @@ namespace EEMod
             if (tag.ContainsKey("moral"))
             {
                 moralScore = tag.GetInt("moral");
+            }
+            if (tag.ContainsKey("baseworldname"))
+            {
+                baseWorldName = tag.GetString("baseworldname");
             }
         }
 
