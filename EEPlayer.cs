@@ -202,34 +202,39 @@ namespace EEMod
         float displacmentY = 0;
         public override void ModifyScreenPosition()
         {
+            int clamp = 80;
+            float disSpeed = .4f;
             base.ModifyScreenPosition();
-            if (player.velocity.X > 1)
+            if (Main.ActiveWorldFileData.Name != KeyID.Sea)
             {
-                displacmentX++;
+                if (player.velocity.X > 1)
+                {
+                    displacmentX += disSpeed;
+                }
+                else if (player.velocity.X < -1)
+                {
+                    displacmentX -= disSpeed;
+                }
+                else
+                {
+                    displacmentX -= displacmentX / 16f;
+                }
+                if (player.velocity.Y > 1)
+                {
+                    displacmentY += disSpeed/2;
+                }
+                else if (player.velocity.Y < -1)
+                {
+                    displacmentY -= disSpeed/2;
+                }
+                else
+                {
+                    displacmentY -= displacmentY / 16f;
+                }
+                displacmentX = Helpers.Clamp(displacmentX, -clamp, clamp);
+                displacmentY = Helpers.Clamp(displacmentY, -clamp, clamp);
+                Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
-            else if (player.velocity.X < -1)
-            {
-                displacmentX--;
-            }
-            else
-            {
-                displacmentX -= displacmentX / 16f;
-            }
-            if (player.velocity.Y > 1)
-            {
-                displacmentY += 0.2f;
-            }
-            else if (player.velocity.Y < -1)
-            {
-                displacmentY -= 0.2f;
-            }
-            else
-            {
-                displacmentY -= displacmentY / 16f;
-            }
-            displacmentX = Helpers.Clamp(displacmentX, -100, 100);
-            displacmentY = Helpers.Clamp(displacmentY, - 100, 100);
-            Main.screenPosition += new Vector2(displacmentX, displacmentY);
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 Main.screenPosition += new Vector2(0, 1000);
@@ -647,30 +652,29 @@ namespace EEMod
 
                 if (!arrowFlag)
                 {
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
                 if (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos == Vector2.Zero)
                 {
-                    EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos = new Vector2(200, 48);
+                    EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos = new Vector2(198, 198);
                 }
-                OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
-                if (player.Center.X / 16 >= EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X &&
+                VolcanoArrowProj voclanoarrow = Main.projectile[Arrow2].modProjectile as VolcanoArrowProj;
+                if (player.Center.X / 16 >= EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X -4 &&
                     player.Center.X / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X + 4) &&
-                    player.Center.Y / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 12) &&
-                    player.Center.Y / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 16))
+                    player.Center.Y / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y -4) &&
+                    player.Center.Y / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 4))
                 {
                     if (player.controlUp)
                     {
                         Initialize();
-                        EEMod.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
                         SM.SaveAndQuit(KeyID.VolcanoInside);
                     }
-                    oceanarrow.visible = true;
+                    voclanoarrow.visible = true;
                 }
                 else
                 {
-                    oceanarrow.visible = false;
+                    voclanoarrow.visible = false;
                 }
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)

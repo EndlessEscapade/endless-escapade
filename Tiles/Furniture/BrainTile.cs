@@ -3,7 +3,8 @@ using Terraria.ObjectData;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using Terraria.DataStructures;
+using Terraria.Enums;
 namespace EEMod.Tiles.Furniture
 {
     public class BrainTile : ModTile
@@ -20,7 +21,7 @@ namespace EEMod.Tiles.Furniture
             {
                 16
             };
-            TileObjectData.newTile.AnchorBottom = default;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));

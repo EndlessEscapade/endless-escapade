@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -29,7 +30,7 @@ namespace EEMod.Tiles.Furniture
             name.SetDefault("Big Coral");
             AddMapEntry(new Color(20, 60, 20), name);
             disableSmartCursor = true;
-            dustType = 107;
+            dustType = DustID.Dirt;
         }
     }
 }
