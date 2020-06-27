@@ -170,6 +170,8 @@ namespace EEMod
             objectPos.Clear();
             EEMod.ShipHelth = EEMod.ShipHelthMax;
             MoralFirstFrame();
+            displacmentX = 0;
+            displacmentY = 0;
         }
 
         public override void ResetEffects()
@@ -196,10 +198,38 @@ namespace EEMod
             Initialize();
             SM.SaveAndQuit(baseWorldName);
         }
+        float displacmentX = 0;
+        float displacmentY = 0;
         public override void ModifyScreenPosition()
         {
-
             base.ModifyScreenPosition();
+            if (player.velocity.X > 1)
+            {
+                displacmentX++;
+            }
+            else if (player.velocity.X < -1)
+            {
+                displacmentX--;
+            }
+            else
+            {
+                displacmentX -= displacmentX / 16f;
+            }
+            if (player.velocity.Y > 1)
+            {
+                displacmentY += 0.2f;
+            }
+            else if (player.velocity.Y < -1)
+            {
+                displacmentY -= 0.2f;
+            }
+            else
+            {
+                displacmentY -= displacmentY / 16f;
+            }
+            displacmentX = Helpers.Clamp(displacmentX, -100, 100);
+            displacmentY = Helpers.Clamp(displacmentY, - 100, 100);
+            Main.screenPosition += new Vector2(displacmentX, displacmentY);
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 Main.screenPosition += new Vector2(0, 1000);
@@ -649,9 +679,10 @@ namespace EEMod
             }
             else
             {
-                if (markerPlacer % 40 == 0)
+                markerPlacer++;
+                if (markerPlacer % 10 == 0)
                 {
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<Particles>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                 }
                 baseWorldName = Main.ActiveWorldFileData.Name;
                 Filters.Scene.Deactivate(shad2);
