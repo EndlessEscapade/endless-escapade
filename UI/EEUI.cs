@@ -24,7 +24,7 @@ namespace EEMod.UI
         public static string[] StringOfTextures = new string[7];
         bool[] isPulsating = new bool[5];
         Vector2[] sizes = new Vector2[5];
-        DragableUIPanel[] panels = new DragableUIPanel[7];
+        DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[7];
         public float pivot;
         public int pauseTimer;
 
@@ -39,7 +39,7 @@ namespace EEMod.UI
             StringOfTextures[6] = "EEMod/Projectiles/Runes/RunePlacement";
             for(int i = 0; i<7; i++)
             {
-                panels[i] = new DragableUIPanel(StringOfTextures[i]);
+                panels[i] = new DragableUIPanelBackgroundTexture(StringOfTextures[i]);
                 if (i < 5)
                 {
                     panels[i].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
