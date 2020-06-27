@@ -191,6 +191,11 @@ namespace EEMod
         int AnchorsMain;
         int AnchorsCoral;
 
+        public void ReturnHome()
+        {
+            Initialize();
+            SM.SaveAndQuit(baseWorldName);
+        }
         public override void ModifyScreenPosition()
         {
 
@@ -266,6 +271,10 @@ namespace EEMod
                     player.Center.Y / 16 >= Main.spawnTileY - 5 &&
                     player.Center.Y / 16 <= Main.spawnTileY + 5)
                 {
+                    if(player.controlUp)
+                    {
+                        ReturnHome();
+                    }
                     desArrowProj.visible = true;
                 }
                 else
@@ -378,7 +387,7 @@ namespace EEMod
                 {
                     if(player.controlUp)
                     {
-                        SM.SaveAndQuit(baseWorldName);
+                        ReturnHome();
                     }
                     subTextAlpha += 0.02f;
                     if (subTextAlpha >= 1)
@@ -640,7 +649,10 @@ namespace EEMod
             }
             else
             {
-                markerPlacer++;
+                if (markerPlacer % 40 == 0)
+                {
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
+                }
                 baseWorldName = Main.ActiveWorldFileData.Name;
                 Filters.Scene.Deactivate(shad2);
                 EEMod.position = EEMod.start;
@@ -665,11 +677,17 @@ namespace EEMod
                         {
                             godMode = true;
                         }
-                        arrow.visible = true;
+                        (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = true;
                     }
                     else
                     {
-                        arrow.visible = false;
+                        try
+                        {
+                            (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = false;
+                        }
+                        catch (Exception ex)
+                        {
+                        }
                     }
                 }
                 OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
@@ -683,13 +701,24 @@ namespace EEMod
                     {
                         triggerSeaCutscene = true;
                     }
-                    oceanarrow.visible = true;
-
+                    try
+                    {
+                        (Main.projectile[Arrow2].modProjectile as OceanArrowProjectile).visible = true;
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                 }
                 else
                 {
-                    if(markerPlacer > 120)
-                    oceanarrow.visible = false;
+                    try
+                    {
+                        (Main.projectile[Arrow2].modProjectile as OceanArrowProjectile).visible = false;
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                    
                 }
             }
             Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
