@@ -27,6 +27,8 @@ namespace EEMod
         public bool hydriteVisage;
         public bool ZoneCoralReefs;
         private int opac;
+        public bool Cheese1;
+        public bool Cheese2;
 
         public override void UpdateBiomes()
         {
@@ -760,9 +762,20 @@ namespace EEMod
                 baseWorldName = tag.GetString("baseworldname");
             }
         }
-
+        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        {
+            if (NPC.AnyNPCs(NPCID.KingSlime))
+            {
+                Cheese1 = true;
+            }
+            else
+            {
+                Cheese1 = false;
+            }
+        }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+
             if (godMode)
             {
                 int getRand = Main.rand.Next(5);

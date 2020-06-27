@@ -22,6 +22,14 @@ namespace EEMod.NPCs
         }
         public override void NPCLoot(NPC npc)
         {
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().Cheese1 == false)
+            {
+                if (npc.type == NPCID.KingSlime)
+                {
+                    Item.NewItem(npc.getRect(), mod.ItemType("Cheese"), 1);
+                }
+            }
+
             if(npc.type == NPCID.MoonLordCore && !NPC.downedMoonlord)
             {
                 EEWorld.EEWorld.GenerateLuminite();
