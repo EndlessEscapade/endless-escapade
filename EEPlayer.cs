@@ -677,13 +677,13 @@ namespace EEMod
                         {
                             godMode = true;
                         }
-                        (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = true;
+                        arrow.visible = true;
                     }
                     else
                     {
                         try
                         {
-                            (Main.projectile[Arrow].modProjectile as DesArrowProjectile).visible = false;
+                            arrow.visible = false;
                         }
                         catch (Exception ex)
                         {
@@ -703,7 +703,7 @@ namespace EEMod
                     }
                     try
                     {
-                        (Main.projectile[Arrow2].modProjectile as OceanArrowProjectile).visible = true;
+                        oceanarrow.visible = true;
                     }
                     catch (Exception ex)
                     {
@@ -713,7 +713,7 @@ namespace EEMod
                 {
                     try
                     {
-                        (Main.projectile[Arrow2].modProjectile as OceanArrowProjectile).visible = false;
+                        oceanarrow.visible = false;
                     }
                     catch (Exception ex)
                     {
