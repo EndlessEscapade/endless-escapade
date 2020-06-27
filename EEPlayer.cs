@@ -10,10 +10,12 @@ using Terraria.World.Generation;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Projectiles;
+using EEMod.Projectiles.Mage;
 using EEMod.Projectiles.OceanMap;
 using EEMod.Projectiles.CoralReefs;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader.IO;
+using Terraria.GameInput;
 
 namespace EEMod
 {
@@ -26,6 +28,8 @@ namespace EEMod
         public bool dalantiniumHood;
         public bool hydriteVisage;
         public bool ZoneCoralReefs;
+        public bool hydroGear;
+        public bool dragonScale;
         private int opac;
         public bool Cheese1;
         public bool Cheese2;
@@ -46,6 +50,27 @@ namespace EEMod
                 if (opac < 0)
                     opac = 0;
                 //	Filters.Scene.Deactivate("EEMod:CR");
+            }
+        }
+
+        private int bubbleTimer = 4;
+        private int bubbleLen = 0;
+        private int dur = 60;
+        private int bubbleColumn;
+
+        public override void UpdateVanityAccessories()
+        {
+            if (hydroGear || dragonScale)
+            {
+                player.accFlipper = true;
+            }
+            if(dragonScale && player.wet && PlayerInput.Triggers.JustPressed.Jump)
+            {
+                if (dur <= 0)
+                {
+                    bubbleColumn = 0;
+                    dur = 60;
+                }
             }
         }
 
@@ -224,7 +249,18 @@ namespace EEMod
         public int distortStrength = 100;
         public override void UpdateBiomeVisuals()
         {
-            
+            if (dur > 0)
+            {
+                bubbleTimer--;
+                if (bubbleTimer <= 0)
+                {
+                    bubbleTimer = 4;
+                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), Vector2.Zero, ModContent.ProjectileType<InkCloud>(), 0, 0);
+                    bubbleLen = Main.rand.Next(-16, 17);
+                    bubbleColumn += 2;
+                }
+                dur--;
+            }
             Moral();
             if (player.controlHook)
             {
