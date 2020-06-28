@@ -777,10 +777,11 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
             {
-                player.ClearBuff(BuffID.Cursed);
+                
                 markerPlacer++;
                 if (markerPlacer == 5)
                 {
+                    player.AddBuff(BuffID.Cursed, 100000);
                     NPC.NewNPC(193 * 16, (120-30) * 16, NPCType<SansSlime>());
                     NPC.NewNPC(207 * 16, (120 - 30) * 16, NPCType<GreenSlimeGoBurr>());
                 }
@@ -811,6 +812,7 @@ namespace EEMod
                 titleText2 = 0;
                 if (!arrowFlag)
                 {
+                    player.ClearBuff(BuffID.Cursed);
                     Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
