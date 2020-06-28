@@ -5,11 +5,7 @@ using EEMod.Items.Placeables;
 
 namespace EEMod.Tiles.Walls
 {
-<<<<<<< HEAD:Tiles/Walls/VolcanoBG.cs
-    public class VolcanoBG : ModWall
-=======
-    public class MagmastoneWallTile : ModWall
->>>>>>> a33e64a6c41d4223e366e34f6700c915ee454c03:Tiles/Walls/MagmastoneWallTile.cs
+    public class VolcanicAshWallTile : ModWall
     {
         public override void SetDefaults()
         {
@@ -17,7 +13,7 @@ namespace EEMod.Tiles.Walls
 
             Main.wallHouse[Type] = true;
             dustType = 154;
-            drop = ModContent.ItemType<MagmastoneWall>();
+            drop = ModContent.ItemType<VolcanicAshWall>();
             soundStyle = 1;
         }
 
