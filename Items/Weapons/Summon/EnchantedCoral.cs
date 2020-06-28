@@ -2,6 +2,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using EEMod.Buffs.Buffs;
+using EEMod.Projectiles.Summons;
 
 namespace EEMod.Items.Weapons.Summon
 {
@@ -28,6 +30,12 @@ namespace EEMod.Items.Weapons.Summon
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item11;
+            item.shoot = ModContent.ProjectileType<BabyHydros>();
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return !Main.LocalPlayer.HasBuff(ModContent.BuffType<BabyHydrosBuff>());
         }
     }
 }

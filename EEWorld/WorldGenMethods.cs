@@ -1025,7 +1025,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false)
+        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false, int wallType = 0)
         {
             int initialStartingPosX = (int)startingPoint.X;
             int initialWidth = width;
@@ -1045,18 +1045,18 @@ namespace EEMod.EEWorld
                 j += slope - 1;
             }
             int topRight = (int)startingPoint.Y - height;
-            if (isFlat)
-            {
-                ClearRegion(initialWidth, height/5, new Vector2(initialStartingPosX, topRight - 5));
-            }
             if (hasChasm)
             {
-                MakeChasm((int)(startingPoint.X + width/2), (int)(topRight + (height/(slope*10))), height - 30, TileID.StoneSlab, 0, 10, 20);
+                MakeChasm((int)(startingPoint.X + width / 2), (int)(topRight + (height / (slope * 10))), height - 30, TileID.StoneSlab, 0, 10, 20);
 
-                for(int i = 0; i < Main.maxTilesX; i++)
+                for (int i = 0; i < Main.maxTilesX; i++)
                 {
                     for (int j = 0; j < Main.maxTilesY; j++)
                     {
+                        if (wallType != 0)
+                        {
+                            WorldGen.PlaceWall(i, j, wallType);
+                        }
                         Tile tile = Framing.GetTileSafely(i, j);
                         if (tile.type == TileID.StoneSlab)
                         {
@@ -1064,6 +1064,11 @@ namespace EEMod.EEWorld
                         }
                     }
                 }
+            }
+            if (isFlat)
+            {
+                ClearRegion(initialWidth, height/5, new Vector2(initialStartingPosX, topRight - 5));
+                KillWall(initialWidth, height / 5, new Vector2(initialStartingPosX, topRight - 5));
             }
         }
         public static void FillRegion(int width, int height, Vector2 startingPoint, int type)

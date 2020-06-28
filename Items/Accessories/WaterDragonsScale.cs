@@ -20,7 +20,7 @@ namespace EEMod.Items.Accessories
         public override void SetDefaults()
         {
             item.accessory = true;
-            item.rare = ItemRarityID.Pink;
+            item.rare = ItemRarityID.Expert;
             item.width = 32;
             item.height = 34;
         }
