@@ -178,7 +178,9 @@ namespace EEMod
 
         public override void Initialize()
         {
-           // importantCutscene = false;
+            // importantCutscene = false;
+            EEMod.AscentionHandler = 0;
+            EEMod.startingTextHandler = 0;
             EEMod.isAscending = false;
             EEMod.AscentionHandler = 0;
             isSaving = false;
@@ -410,7 +412,10 @@ namespace EEMod
                 {
                     desArrowProj.visible = false;
                 }
-                Filters.Scene.Deactivate(shad2);
+                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
+                {
+                    Filters.Scene.Deactivate(shad2);
+                }
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
@@ -806,7 +811,10 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<Particles>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                 }
                 baseWorldName = Main.ActiveWorldFileData.Name;
-                Filters.Scene.Deactivate(shad2);
+                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
+                {
+                    Filters.Scene.Deactivate(shad2);
+                }
                 EEMod.position = EEMod.start;
                 EEMod.velocity = Vector2.Zero;
                 titleText2 = 0;
@@ -881,7 +889,10 @@ namespace EEMod
             }
             if (!godMode)
             {
-                Filters.Scene.Deactivate(shad1);
+                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad1].IsActive())
+                {
+                    Filters.Scene.Deactivate(shad1);
+                }
             }
             Filters.Scene[shad3].GetShader().UseOpacity(cutSceneTriggerTimer);
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad3].IsActive())
@@ -890,7 +901,10 @@ namespace EEMod
             }
             if (!triggerSeaCutscene)
             {
-                Filters.Scene.Deactivate(shad3);
+                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad3].IsActive())
+                {
+                    Filters.Scene.Deactivate(shad3);
+                }
             }
             if (timerForCutscene >= 1400)
             {
