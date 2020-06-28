@@ -9,14 +9,7 @@ using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
 using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using Terraria.GameContent.Events;
-using EEMod.Tiles.Ores;
 using EEMod.Tiles;
-using EEMod.Tiles.Furniture;
-using EEMod.EEWorld;
 using EEMod.Projectiles;
 
 namespace EEMod.EEWorld
@@ -163,7 +156,7 @@ namespace EEMod.EEWorld
         }
         public override TagCompound Save()
         {
-            if (Main.ActiveWorldFileData.Name == EEPlayer.key3 && EESubWorlds.CoralBoatPos != Vector2.Zero)
+            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs && EESubWorlds.CoralBoatPos != Vector2.Zero)
             {
                 return new TagCompound
                 {

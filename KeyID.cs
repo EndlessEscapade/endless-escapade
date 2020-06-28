@@ -10,5 +10,6 @@ namespace EEMod
         public static string Island => "Island";
         public static string VolcanoIsland => "VolcanoIsland";
         public static string VolcanoInside => "VolcanoInside";
+        public static string Cutscene1 => "Cutscene1";
     }
 }

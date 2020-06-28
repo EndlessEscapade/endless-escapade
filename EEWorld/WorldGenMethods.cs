@@ -1155,7 +1155,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        private static bool OvalCheck(int h, int k, int x, int y, int a, int b)
+        public static bool OvalCheck(int h, int k, int x, int y, int a, int b)
         {
             double p = Math.Pow(x - h, 2) / Math.Pow(a, 2)
                     + Math.Pow(y - k, 2) / Math.Pow(b, 2);
@@ -1163,11 +1163,11 @@ namespace EEMod.EEWorld
             return p < 1 ? true : false;
         }
 
-        private static void MakeLayer(int X, int midY, int size, int layer)
+        public static void MakeLayer(int X, int midY, int size, int layer, int type)
         {
 
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
-            for (int k = 0; k < maxTiles * 5; k++)
+            for (int k = 0; k < maxTiles * (size/8); k++)
             {
                 int x = WorldGen.genRand.Next(X - 80, X + 80);
                 int y = WorldGen.genRand.Next(midY - 80, midY + 80);
@@ -1210,7 +1210,7 @@ namespace EEMod.EEWorld
                   }
               }*/
             if (layer == 1)
-                WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 1f, 1f, false, true);
+                WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), type, true, 1f, 1f, false, true);
         }
 
 
@@ -1232,8 +1232,8 @@ namespace EEMod.EEWorld
                 MakeOvalFlatTop(Main.rand.Next(10, 20), Main.rand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + (i * 50) + Main.rand.Next(-20, 20)), ModContent.TileType<HardenedGemsandTile>());
                 if (i % 5 == 0)
                 {
-                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + Main.rand.Next(-20, 20) + (i * 50), 25, 2);
-                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50), 20, 1);
+                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + Main.rand.Next(-20, 20) + (i * 50), 25, 2, ModContent.TileType<HardenedGemsandTile>());
+                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50), 20, 1, ModContent.TileType<HardenedGemsandTile>());
                     MakeCoral(new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50)), TileID.Coralstone, Main.rand.Next(4, 8));
                     for (int j = 0; j < 7; j++)
                         MakeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<GemsandstoneTile>());

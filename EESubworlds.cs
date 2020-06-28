@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
 using EEMod.Tiles;
+using EEMod.Tiles.Walls;
 
 namespace EEMod
 {
@@ -200,6 +201,32 @@ namespace EEMod
             EEMod.isSaving = false;
             Main.spawnTileX = 200;
             Main.spawnTileY = 20;
+        }
+        public static void Cutscene1(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 400;
+            Main.maxTilesY = 400;
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<VolcanicAshTile>());
+            EEWorld.EEWorld.MakeLayer(200, 100, 90, 1, ModContent.TileType<VolcanicAshTile>());
+            EEWorld.EEWorld.MakeOvalFlatTop(40,10,new Vector2(200-20,100), ModContent.TileType<VolcanicAshTile>());
+            EEWorld.EEWorld.MakeChasm(200, 140, 110, ModContent.TileType<GemsandTile>(), 0, 5, 0);
+            for (int i = 0; i < 400; i++)
+            {
+                for (int j = 0; j < 400; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.type == ModContent.TileType<GemsandTile>())
+                        WorldGen.KillTile(i, j);
+                }
+            }
+            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            EEWorld.EEWorld.FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero,ModContent.WallType<VolcanoBG>());
+            SubworldManager.SettleLiquids();
+            EEMod.isSaving = false;
+            Main.spawnTileX = 200;
+            Main.spawnTileY = 140;
         }
     }
 }

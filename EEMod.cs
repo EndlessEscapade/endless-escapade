@@ -58,74 +58,7 @@ namespace EEMod
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
         }
-        public static void GenerateWorld2(int seed, GenerationProgress customProgressObject = null)
-        {
-            Main.maxTilesX = 400;
-            Main.maxTilesY = 400;
-            Main.spawnTileX = 234;
-            Main.spawnTileY = 92;
-            Logging.Terraria.InfoFormat("Generating World: {0}", (object)Main.ActiveWorldFileData.Name);
-            _lastSeed = seed;
-            _generator = new WorldGenerator(seed);
-            MicroBiome.ResetAll();
-
-            //WorldHooks.PreWorldGen();
-            AddGenerationPass("Reset", delegate (GenerationProgress progress)
-            {
-                Liquid.ReInit();
-                progress.Message = "";
-                Main.cloudAlpha = 0f;
-                Main.maxRaining = 0f;
-                Main.raining = false;
-                WorldGen.RandomizeTreeStyle();
-                WorldGen.RandomizeCaveBackgrounds();
-                WorldGen.RandomizeBackgrounds();
-                WorldGen.RandomizeMoonState();
-
-            });
-            Main.worldID = WorldGen.genRand.Next(int.MaxValue);
-            //WorldHooks.ModifyWorldGenTasks(_generator._passes, ref _generator._totalLoadWeight);
-            _generator.GenerateWorld(customProgressObject);
-
-            EEWorld.EEWorld.FillWall(400, 400, new Vector2(0, 0), WallID.Waterfall);
-            //Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
-        }
-        public static void GenerateWorld3(int seed, GenerationProgress customProgressObject = null)
-        {
-            Main.maxTilesX = 1000;
-            Main.maxTilesY = 2000;
-            Main.spawnTileX = 234;
-            Main.spawnTileY = 92;
-            Logging.Terraria.InfoFormat("Generating World: {0}", (object)Main.ActiveWorldFileData.Name);
-            _lastSeed = seed;
-            _generator = new WorldGenerator(seed);
-            MicroBiome.ResetAll();
-
-            //WorldHooks.PreWorldGen();
-            AddGenerationPass("Reset", delegate (GenerationProgress progress)
-            {
-                Liquid.ReInit();
-                progress.Message = "";
-                Main.cloudAlpha = 0f;
-                Main.maxRaining = 0f;
-                Main.raining = false;
-                WorldGen.RandomizeTreeStyle();
-                WorldGen.RandomizeCaveBackgrounds();
-                WorldGen.RandomizeBackgrounds();
-                WorldGen.RandomizeMoonState();
-
-            });
-            Main.worldID = WorldGen.genRand.Next(int.MaxValue);
-            //WorldHooks.ModifyWorldGenTasks(_generator._passes, ref _generator._totalLoadWeight);
-            _generator.GenerateWorld(customProgressObject);
-
-            EEWorld.EEWorld.FillRegion(1000, 2000, Vector2.Zero, ModContent.TileType<HardenedGemsandTile>());
-            EEWorld.EEWorld.CoralReef();
-            //Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
-        }
-
-
-
+      
         public override void Unload()
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
@@ -279,10 +212,47 @@ namespace EEMod
         }
         public string text;
         public static int AscentionHandler;
+        public static int startingTextHandler;
         public static bool isAscending;
         private void Ascension()
         {
             float seperation = 400;
+            // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            if (EEPlayer.startingText)
+            {
+                float alpha;
+                startingTextHandler++;
+                if (startingTextHandler % seperation <= (seperation / 2) && startingTextHandler > seperation)
+                {
+                    alpha = (float)Math.Sin(startingTextHandler % seperation / (seperation / 2) * Math.PI);
+                }
+                else
+                {
+                    alpha = 0;
+                }
+                Color color = Color.White;
+                if (startingTextHandler < seperation * 2)
+                {
+                    text = "Im too weak";
+                }
+                else if (startingTextHandler < seperation * 3)
+                {
+                    text = "Haha Funny Sans Go Burr";
+                }
+                else if (startingTextHandler < seperation * 4)
+                {
+                    text = "Sans Slime was too much";
+                }
+                else
+                {
+                    text = "Go to the world and avenge me ples ok? Thx bye";
+                }
+                color *= alpha;
+                Vector2 textSize = Main.fontDeathText.MeasureString(text);
+                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
+                //float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
+                Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            }
             // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             if (isAscending)
             {

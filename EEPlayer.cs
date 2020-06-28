@@ -16,12 +16,16 @@ using EEMod.Projectiles.CoralReefs;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader.IO;
 using Terraria.GameInput;
+using EEMod.NPCs.Bosses.Hydros;
+using static Terraria.ModLoader.ModContent;
+using EEMod.NPCs;
 
 namespace EEMod
 {
     public class EEPlayer : ModPlayer
     {
         public bool importantCutscene;
+        public static bool startingText;
         public bool FlameSpirit;
         public bool magmaRune;
         public bool duneRune;
@@ -33,7 +37,9 @@ namespace EEMod
         private int opac;
         public bool Cheese1;
         public bool Cheese2;
-
+        string shad1 = "EEMod:Ripple";
+        string shad2 = "EEMod:SunThroughWalls";
+        string shad3 = "EEMod:SeaTrans";
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = EEWorld.EEWorld.CoralReefsTiles > 200;
@@ -106,12 +112,6 @@ namespace EEMod
         public bool isQuartzMeleeOn = false;
         public bool isQuartzChestOn = false;
         public int timerForCutscene;
-        public static string key1 = "Pyramids";
-        public static string key2 = "Sea";
-        public static string key3 = "CoralReefs";
-        public static string key4 = "Island";
-        public static string key5 = "VolcanoIsland";
-        public static string key6 = "VolcanoInside";
         public bool arrowFlag = false;
         public static bool isSaving;
         public float titleText;
@@ -178,7 +178,7 @@ namespace EEMod
 
         public override void Initialize()
         {
-            importantCutscene = false;
+           // importantCutscene = false;
             EEMod.isAscending = false;
             EEMod.AscentionHandler = 0;
             isSaving = false;
@@ -199,6 +199,7 @@ namespace EEMod
             MoralFirstFrame();
             displacmentX = 0;
             displacmentY = 0;
+            startingText = false;
         }
 
         public override void ResetEffects()
@@ -232,7 +233,60 @@ namespace EEMod
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
-            if (Main.ActiveWorldFileData.Name != KeyID.Sea)
+            if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
+            {
+                if (markerPlacer < 120 * 8)
+                {
+                  displacmentX -= (displacmentX - (200 * 16)) / 32f;
+                  displacmentY -= (displacmentY - (110 * 16)) / 32f;
+                  Main.screenPosition += new Vector2(displacmentX - player.Center.X, displacmentY - player.Center.Y);
+                  player.position = player.oldPosition;
+                }
+                else
+                {
+
+                    startingText = true;
+                    Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
+                    if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad1].IsActive())
+                    {
+                        Filters.Scene.Activate(shad1, player.Center).GetShader().UseOpacity(timerForCutscene);
+                    }
+                    Main.screenPosition += new Vector2(displacmentX - player.Center.X, displacmentY - player.Center.Y);
+                    displacmentX -= (displacmentX - player.Center.X) / 16f;
+                    displacmentY -= (displacmentY - player.Center.Y) / 16f;
+                    timerForCutscene += 10;
+                    if (timerForCutscene > 1000)
+                        timerForCutscene = 1000;
+                    if (markerPlacer >= (120 * 8) + 1400)
+                    {
+                        if (Main.netMode != NetmodeID.Server && Filters.Scene[shad1].IsActive())
+                        {
+                            Filters.Scene[shad1].Deactivate();
+                        }
+                        if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive())
+                        {
+                            Filters.Scene.Activate("EEMod:WhiteFlash", player.Center).GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
+                        }
+
+                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                        Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f,(markerPlacer - ((120 * 8) + 1400))/10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
+                        Main.spriteBatch.End();
+                        Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
+                    }
+                    if (markerPlacer >= (120*8) + 1800)
+                    {
+                        startingText = false;
+                        if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:WhiteFlash"].IsActive())
+                        {
+                            Filters.Scene["EEMod:WhiteFlash"].Deactivate();
+                        }
+                        
+                        Initialize();
+                        SM.SaveAndQuit(baseWorldName);
+                    }
+                }
+            }
+            if (Main.ActiveWorldFileData.Name != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1)
             {
                 if (player.velocity.X > 1)
                 {
@@ -262,6 +316,9 @@ namespace EEMod
                 displacmentY = Helpers.Clamp(displacmentY, -clamp, clamp);
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
+
+            
+            
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 Main.screenPosition += new Vector2(0, 1000);
@@ -284,6 +341,7 @@ namespace EEMod
         public int distortStrength = 100;
         public override void UpdateBiomeVisuals()
         {
+
             if (dur > 0)
             {
                 bubbleTimer--;
@@ -316,9 +374,7 @@ namespace EEMod
             {
                 timerForCutscene += 20;
             }
-            string shad1 = "EEMod:Ripple";
-            string shad2 = "EEMod:SunThroughWalls";
-            string shad3 = "EEMod:SeaTrans";
+            
             if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
             {
 
@@ -496,7 +552,7 @@ namespace EEMod
 
                 for (int j = 0; j < 450; j++)
                 {
-                    if (Main.projectile[j].type == ModContent.ProjectileType<PirateShip>())
+                    if (Main.projectile[j].type == ProjectileType<PirateShip>())
                     {
                         if ((Main.projectile[j].Center - EEMod.position - Main.screenPosition).Length() < 40)
                         {
@@ -719,8 +775,30 @@ namespace EEMod
             {
                 player.ClearBuff(BuffID.Cursed);
             }
+            else if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
+            {
+                player.ClearBuff(BuffID.Cursed);
+                markerPlacer++;
+                if (markerPlacer == 5)
+                {
+                    NPC.NewNPC(193 * 16, (120-30) * 16, NPCType<SansSlime>());
+                    NPC.NewNPC(207 * 16, (120 - 30) * 16, NPCType<GreenSlimeGoBurr>());
+                }
+                if(markerPlacer > 120*8)
+                {
+                    if (markerPlacer % 5 == 0)
+                    {
+                        Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particles>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
+                    }
+                }
+            }
             else
             {
+                if (!importantCutscene)
+                {
+                    SM.SaveAndQuit(KeyID.Cutscene1);
+                    importantCutscene = true;
+                }
                 markerPlacer++;
                 if (markerPlacer % 10 == 0)
                 {
@@ -843,7 +921,8 @@ namespace EEMod
             {
                 ["hasGottenRuneBefore"] = hasGottenRuneBefore,
                 ["moral"] = moralScore,
-                ["baseworldname"] = baseWorldName
+                ["baseworldname"] = baseWorldName,
+                ["importantCutscene"] = importantCutscene
             };
         }
 
@@ -860,6 +939,10 @@ namespace EEMod
             if (tag.ContainsKey("baseworldname"))
             {
                 baseWorldName = tag.GetString("baseworldname");
+            }
+            if (tag.ContainsKey("importantCutscene"))
+            {
+                importantCutscene = tag.GetBool("importantCutscene");
             }
         }
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
