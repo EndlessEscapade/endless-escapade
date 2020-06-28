@@ -31,6 +31,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.shootSpeed = 17f;
             item.UseSound = SoundID.Item11;
             item.ammo = ItemID.Tombstone;
+            item.notAmmo = true;
         }
     }
 }

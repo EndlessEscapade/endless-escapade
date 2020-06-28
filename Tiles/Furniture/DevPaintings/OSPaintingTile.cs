@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Furniture.DevPaintings
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<OSPainting>());
+            Item.NewItem(i * 24, j * 24, 24, 24, ModContent.ItemType<OSPainting>());
         }
     }
 }

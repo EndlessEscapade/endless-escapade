@@ -15,16 +15,16 @@ namespace EEMod.Items.Weapons.Ranger
         {
             item.damage = 40;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 18;
+            item.useAnimation = 24;
             item.useTime = 24;
-            item.shootSpeed = 0;
+            item.shootSpeed = 5f;
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;
-            item.scale = 1f;
             item.rare = ItemRarityID.Pink;
             item.value = Item.sellPrice(silver: 10);
             item.useAmmo = AmmoID.Bullet;
+            item.shoot = 10;
 
             item.ranged = true;
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

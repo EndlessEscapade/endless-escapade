@@ -31,7 +31,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.maxStack = 1;
             item.value = 500;
             item.rare = ItemRarityID.Orange;
-            item.shoot = ModContent.ProjectileType<DesArrowProjectile>();
+            item.shoot = ModContent.ProjectileType<DesertArrowProjectile>();
             item.shootSpeed = 11f;
         }
 

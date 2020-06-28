@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -16,8 +15,8 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
+            projectile.width = 0;
+            projectile.height = 0;
             projectile.hostile = false;
             projectile.friendly = true;
             projectile.ignoreWater = true;
@@ -52,5 +51,5 @@ namespace EEMod.Projectiles
             Main.spriteBatch.Begin();
             return false;
         }
-        }
+    }
 }

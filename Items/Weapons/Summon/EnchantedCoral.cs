@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Summon
             item.rare = ItemRarityID.Green;
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item11;
+            item.UseSound = SoundID.Item8;
             item.shoot = ModContent.ProjectileType<BabyHydros>();
         }
 
