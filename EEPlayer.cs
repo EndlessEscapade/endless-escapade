@@ -61,7 +61,7 @@ namespace EEMod
 
         private int bubbleTimer = 4;
         private int bubbleLen = 0;
-        private int dur = 60;
+        private int dur = 0;
         private int bubbleColumn;
 
         public override void UpdateVanityAccessories()
@@ -212,6 +212,8 @@ namespace EEMod
             isQuartzSummonOn = false;
             ResetMinionEffect();
             isSaving = false;
+            dragonScale = false;
+            hydroGear = false;
         }
         int Arrow;
         int Arrow2;
