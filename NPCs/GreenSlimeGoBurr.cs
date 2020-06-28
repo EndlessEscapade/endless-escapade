@@ -29,6 +29,7 @@ namespace EEMod.NPCs
             aiType = NPCID.BlueSlime;
             animationType = NPCID.BlueSlime;
             npc.noGravity = false;
+            npc.dontTakeDamage = true;
         }
 
         public int yes;
