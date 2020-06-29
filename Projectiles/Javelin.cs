@@ -47,7 +47,7 @@ namespace EEMod.Projectiles
             if (projectile.owner == Main.myPlayer && dropItem != -1)
             {
                 int item =
-                Main.rand.Next(18) == 0
+                Main.rand.NextBool(18)
                     ? Item.NewItem((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height, dropItem)
                     : 0;
 

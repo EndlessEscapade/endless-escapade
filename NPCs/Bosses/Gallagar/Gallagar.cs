@@ -106,7 +106,7 @@ namespace EEMod.NPCs.Bosses.Gallagar
                 {
                     if (npc.ai[0] % 80 == 0)
                     {
-                        int randDisX = Main.rand.Next(0, 800) * (leftOrRight ? 1 : -1);
+                        int randDisX = Main.rand.Next(800) * (leftOrRight ? 1 : -1);
                         int randDisY = Main.rand.Next(-400, 400);
                         float disX = (float)(Main.player[npc.target].position.X + (double)Main.player[npc.target].width * 0.5 - (npc.position.X + randDisX)) + (float)Main.rand.Next(-50, 51);
                         float disY = (float)(Main.player[npc.target].position.Y + (double)Main.player[npc.target].height * 0.5 - (npc.position.Y + randDisY)) + (float)Main.rand.Next(-50, 51);

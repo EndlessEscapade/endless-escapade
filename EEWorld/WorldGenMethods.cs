@@ -25,7 +25,7 @@ namespace EEMod.EEWorld
             {
                 Sandstorm.IntendedSeverity = 0.4f + Main.rand.NextFloat();
             }
-            else if (Main.rand.Next(3) == 0)
+            else if (Main.rand.NextBool(3))
             {
                 Sandstorm.IntendedSeverity = 0f;
             }
@@ -887,7 +887,7 @@ namespace EEMod.EEWorld
                     Tile tile = Framing.GetTileSafely(i, j);
                     if(tile.type == TileID.Stone)
                     {
-                        if(Main.rand.Next(2000) == 0)
+                        if(Main.rand.NextBool(2000))
                         {
                             WorldGen.TileRunner(i, j, 10, 10, TileID.LunarOre);
                         }
@@ -948,7 +948,7 @@ namespace EEMod.EEWorld
             int steps = 0;
             for (int i = 0; i < width; i++)
             {
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                     steps += Main.rand.Next(-1, 2);
                 for (int j = -6; j < height / 2 - 2 + steps; j++)
                 {
@@ -963,7 +963,7 @@ namespace EEMod.EEWorld
             int steps = 0;
             for (int i = 0; i < width; i++)
             {
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                     steps += Main.rand.Next(-1, 2);
                 for (int j = 0; j < height; j++)
                 {
@@ -974,7 +974,7 @@ namespace EEMod.EEWorld
             int steps2 = 0;
             for (int i = 0; i < width; i++)
             {
-                if (Main.rand.Next(2) == 0)
+                if (Main.rand.NextBool(2))
                     steps2 += Main.rand.Next(-1, 2);
                 for (int j = height / 2 - 2 + steps2; j < height + 12 + steps2; j++)
                 {
@@ -1088,7 +1088,7 @@ namespace EEMod.EEWorld
                 int displacement = 0;
                 for (int i = 0; i < strength; i++)
                 {
-                    if (Main.rand.Next(1) == 0)
+                    if (Main.rand.NextBool(1))
                     {
                         displacement += Main.rand.Next(-1, 2);
                     }
@@ -1319,7 +1319,7 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, chasmY + j - 3, ModContent.TileType<Brain2BigCoral>());
                                 break;
                         }
-                        if (selection == 5 && j < 300 && Main.rand.Next(4) == 0)
+                        if (selection == 5 && j < 300 && Main.rand.NextBool(4))
                             MakeCoral(new Vector2(i, chasmY + j), TileID.Coralstone, Main.rand.Next(4, 8));
                     }
                 }
@@ -1335,7 +1335,7 @@ namespace EEMod.EEWorld
                     Tile tile = Main.tile[i, j];
                     if (tile.type == ModContent.TileType<HardenedGemsandTile>() || tile.type == ModContent.TileType<GemsandstoneTile>() || tile.type == ModContent.TileType<GemsandTile>())
                     {
-                        if (Main.rand.Next(2000) == 0)
+                        if (Main.rand.NextBool(2000))
                         {
                             WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<LythenOreTile>());
                         }
@@ -1357,7 +1357,7 @@ namespace EEMod.EEWorld
                     Tile tile = Main.tile[i, j];
                     if (tile.type == ModContent.TileType<HardenedGemsandTile>() || tile.type == ModContent.TileType<GemsandstoneTile>() || tile.type == ModContent.TileType<GemsandTile>())
                     {
-                        if (Main.rand.Next(2000) == 0)
+                        if (Main.rand.NextBool(2000))
                         {
                             WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydriteOreTile>());
                         }
@@ -1414,7 +1414,7 @@ namespace EEMod.EEWorld
             }
             for (int j = 0; j < Main.maxTilesX; j++)
             {
-                if ((Main.rand.Next(5) == 0) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Dirt)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Grass)))
+                if ((Main.rand.NextBool(5)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Dirt)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Grass)))
                     WorldGen.PlaceTile(j, TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
             }
         }

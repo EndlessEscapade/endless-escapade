@@ -69,10 +69,11 @@ namespace EEMod.NPCs.CoralReefs
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
-                    if (Main.tile[i, j] != null && (Main.tile[i, j].nactive() && (Main.tileSolid[(int)Main.tile[i, j].type] || Main.tileSolidTop[(int)Main.tile[i, j].type] && (int)Main.tile[i, j].frameY == 0)))
+                    Tile tile = Main.tile[i, j];
+                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
-                        tilePos.X = (float)(i * 16);
-                        tilePos.Y = (float)(j * 16);
+                        tilePos.X = i * 16f;
+                        tilePos.Y = j * 16f;
 
                         if (Math.Abs(npc.Center.Y - tilePos.Y) <= 16 + (npc.height / 2))
                         {
@@ -87,9 +88,8 @@ namespace EEMod.NPCs.CoralReefs
         public override void AI()
         {
             Player player = Main.player[npc.target];
-            float dist = Vector2.Distance(player.Center, npc.Center);
-            float yChange = npc.Center.Y - player.Center.Y ;
-            if (dist < 200)
+            float yChange = npc.Center.Y - player.Center.Y;
+            if (npc.WithinRange(player.Center, 200))
                 npc.ai[2] = 1;
             npc.TargetClosest(true);
             if (npc.ai[2] == 1)

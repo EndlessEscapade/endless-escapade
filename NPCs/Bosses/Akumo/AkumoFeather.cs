@@ -27,7 +27,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         }
         public override bool PreAI()
         {
-            if (Main.rand.Next(6) == 0)
+            if (Main.rand.NextBool(6))
             {
                 int num25 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 35, 0f, 0f, 100, default, 1f);
                 Main.dust[num25].velocity *= 0.3f;
@@ -41,7 +41,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         public override void AI()
         {
             projectile.ai[0] += 0.1f;
-            if (Main.rand.Next(2) == 0)
+            if (Main.rand.NextBool(2))
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 35, 0.0f, 0.0f, 100, new Color(), 1f);
             }

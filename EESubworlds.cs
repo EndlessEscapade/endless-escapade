@@ -174,7 +174,7 @@ namespace EEMod
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
                 {
-                    if(Main.rand.Next(3000) == 0)
+                    if(Main.rand.NextBool(3000))
                         EEWorld.EEWorld.MakeLavaPit(Main.rand.Next(20, 30), Main.rand.Next(7, 20), new Vector2(i, j), Main.rand.NextFloat(0.1f, 0.5f));
                 }
             }

@@ -29,10 +29,9 @@ namespace EEMod.Projectiles
             }
             if (projectile.ai[0] > 1f)  //this defines where the flames starts
             {
-
                 for (int i = 0; i < 15; i++)    //this defines how many dust to spawn
                 {
-                    int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 64, projectile.velocity.X * 0.3f, projectile.velocity.Y * 0.3f, 0, new Color(255, 255, 153), 1);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
+                    int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 64, projectile.velocity.X * 0.3f, projectile.velocity.Y * 0.3f, 0, new Color(255, 255, 153), 1);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
                     Main.dust[dust].noGravity = true;
                 }
             }
@@ -48,9 +47,9 @@ namespace EEMod.Projectiles
         {
             for (int i = 0; i < 4; i++)
             {
-                int projHolder = Main.rand.Next(0, 1);
+                int projHolder = Main.rand.Next(1);
                 float speedX = -(projectile.velocity.X * Main.rand.NextFloat(-.1f, .8f) + Main.rand.NextFloat(-.4f, 2f));
-                float speedY = -(projectile.velocity.Y * Main.rand.Next(0, 30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
+                float speedY = -(projectile.velocity.Y * Main.rand.Next(30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
                 if (projHolder == 0 || projHolder == 1)
                     Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(projectile.damage * 0.7), 0f, projectile.owner, 0f, 0f);
                 Main.PlaySound(SoundID.Item27, projectile.position);

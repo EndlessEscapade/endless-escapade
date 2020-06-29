@@ -49,11 +49,13 @@ namespace EEMod.Projectiles
             projectile.velocity += new Vector2(Main.rand.NextFloat(-variation, variation), Main.rand.NextFloat(-variation, variation));
             projWidth *= 2f;
 
-            for (int j = 0; j < 1000; j++)
+            int maxprojectiles = Main.projectile.Length - 1;
+            for (int j = 0; j < maxprojectiles; j++)
             {
-                if (j != projectile.whoAmI && Main.projectile[j].active && Main.projectile[j].owner == projectile.owner && Main.projectile[j].type == projectile.type && Math.Abs(projectile.position.X - Main.projectile[j].position.X) + Math.Abs(projectile.position.Y - Main.projectile[j].position.Y) < projWidth)
+                Projectile p = Main.projectile[j];
+                if (j != projectile.whoAmI && p.active && p.owner == projectile.owner && p.type == projectile.type && Math.Abs(projectile.position.X - p.position.X) + Math.Abs(projectile.position.Y - p.position.Y) < projWidth)
                 {
-                    if (projectile.position.X < Main.projectile[j].position.X)
+                    if (projectile.position.X < p.position.X)
                     {
                         projectile.velocity.X = projectile.velocity.X - extra;
                     }
@@ -61,7 +63,7 @@ namespace EEMod.Projectiles
                     {
                         projectile.velocity.X = projectile.velocity.X + extra;
                     }
-                    if (projectile.position.Y < Main.projectile[j].position.Y)
+                    if (projectile.position.Y < p.position.Y)
                     {
                         projectile.velocity.Y = projectile.velocity.Y - extra;
                     }
@@ -108,8 +110,8 @@ namespace EEMod.Projectiles
             {
                 minDisFromPlayer = 2000;
             }
-            float disFromPlayer = Vector2.Distance(player.Center, projectile.Center);
-            if (disFromPlayer > minDisFromPlayer)
+            float disFromPlayerSQ = Vector2.DistanceSquared(player.Center, projectile.Center);
+            if (disFromPlayerSQ > minDisFromPlayer*minDisFromPlayer)
             {
                 projectile.ai[0] = 1f;
                 projectile.netUpdate = true;
@@ -176,7 +178,8 @@ namespace EEMod.Projectiles
                 int bitchGetAwayFromMeX = 1;
                 for (int m = 0; m < projectile.whoAmI; m++)
                 {
-                    if (Main.projectile[m].active && Main.projectile[m].owner == projectile.owner && Main.projectile[m].type == projectile.type)
+                    Projectile p = Main.projectile[m];
+                    if (p.active && p.owner == projectile.owner && p.type == projectile.type)
                     {
                         bitchGetAwayFromMeX++;
                     }
@@ -197,8 +200,9 @@ namespace EEMod.Projectiles
                 }
                 if (distFromPlayerMag > 2000f)
                 {
-                    projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width / 2;
-                    projectile.position.Y = Main.player[projectile.owner].Center.Y - projectile.width / 2;
+                    Player ownerplayer = Main.player[projectile.owner];
+                    projectile.position.X = ownerplayer.position.X;
+                    projectile.position.Y = ownerplayer.Center.Y - projectile.width / 2;
                 }
                 if (distFromPlayerMag > 10f)
                 {
@@ -220,7 +224,7 @@ namespace EEMod.Projectiles
             if (projectile.ai[1] > 0f)
             {
                 projectile.ai[1] += 1f;
-                if (Main.rand.Next(3) == 0)
+                if (Main.rand.NextBool(3))
                 {
                     projectile.ai[1] += 1f;
                 }
@@ -273,9 +277,9 @@ namespace EEMod.Projectiles
                 projectile.timeLeft = 2;
             }
 
-            if (Main.rand.Next(6) == 0)
+            if (Main.rand.NextBool(6))
             {
-                int num25 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), projectile.width, projectile.height, 123, 0f, 0f, 100, default, 1f);
+                int num25 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 123, 0f, 0f, 100, default, 1f);
                 Main.dust[num25].velocity *= 0.3f;
                 Main.dust[num25].noGravity = true;
                 Main.dust[num25].noLight = true;

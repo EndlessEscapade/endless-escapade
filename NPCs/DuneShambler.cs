@@ -110,7 +110,7 @@ namespace EEMod.NPCs
 
         public override void NPCLoot()
         {
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(0, 2));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(2));
         }
 
         public override void AI()
@@ -166,11 +166,11 @@ namespace EEMod.NPCs
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
-                    if (Main.tile[i, j] != null && (Main.tile[i, j].nactive() && (Main.tileSolid[(int)Main.tile[i, j].type] || Main.tileSolidTop[(int)Main.tile[i, j].type] && (int)Main.tile[i, j].frameY == 0)))
+                    Tile tile = Main.tile[i, j];
+                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
-                        Vector2 vector2;
-                        tilePos.X = (float)(i * 16);
-                        tilePos.Y = (float)(j * 16);
+                        tilePos.X = i * 16;
+                        tilePos.Y = j * 16;
 
                         if (Math.Abs(npc.Center.Y - tilePos.Y) <= 16 + (npc.height / 2))
                         {
@@ -183,11 +183,12 @@ namespace EEMod.NPCs
             {
                 for (int j = minTilePosY; j < maxTilePosY; ++j)
                 {
-                    if (Main.tile[i, j] != null && (Main.tile[i, j].nactive() && (Main.tileSolid[(int)Main.tile[i, j].type] || Main.tileSolidTop[(int)Main.tile[i, j].type] && (int)Main.tile[i, j].frameY == 0)))
+                    Tile tile = Main.tile[i, j];
+                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         Vector2 vector2;
-                        vector2.X = (float)(i * 16);
-                        vector2.Y = (float)(j * 16);
+                        vector2.X = i * 16;
+                        vector2.Y = j * 16;
 
                         if (Math.Abs(npc.Center.X - vector2.X) <= 16 + (npc.width / 2))
                         {
@@ -297,7 +298,7 @@ namespace EEMod.NPCs
             Texture2D texture = TextureCache.DuneShambler;
             Texture2D texture2 = TextureCache.DuneShamblerDig;
             Player player = Main.player[npc.target];
-            Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
+            //Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             if (player.Center.X - npc.Center.X > 0)
             {
                 npc.spriteDirection = -1;

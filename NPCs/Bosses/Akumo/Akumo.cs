@@ -181,7 +181,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             if (npc.ai[0] == nextAttackTime + lengthOfAttack + 2)
             {
                 for (int i = 0; i < 20; i++)
-                    npc.ai[2] = Main.rand.Next(0, 4);
+                    npc.ai[2] = Main.rand.Next(4);
                 frameUpdate = 0;
                 alpha = 1;
                 scale = 0;
@@ -198,7 +198,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             if (npc.ai[3] == lengthOfBreak)
             {
                 npc.ai[3] = 0;
-                npc.ai[2] = Main.rand.Next(0, 2);
+                npc.ai[2] = Main.rand.Next(2);
                 npc.ai[1] = 0;
                 npc.ai[0] = 1;
                 frameUpdate = 0;
@@ -223,7 +223,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             Player player = Main.player[npc.target];
             isDashing = true;
             if (npc.ai[0] == nextAttackTime)
-                akumoDirectionDescision = Main.rand.Next(0, 3);
+                akumoDirectionDescision = Main.rand.Next(3);
             switchPos(akumoDirectionDescision);
             if (npc.ai[0] < nextAttackTime + 80)
                 Move(player, 30, 40);
@@ -300,7 +300,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                 npc.ai[1] += 0.5f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    if (Main.rand.Next(2) == 0)
+                    if (Main.rand.NextBool(2))
                     {
                         Main.dust[num7].scale *= (npc.ai[0] / 255);
                     }
