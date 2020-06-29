@@ -19,6 +19,8 @@ using Terraria.GameInput;
 using EEMod.NPCs.Bosses.Hydros;
 using static Terraria.ModLoader.ModContent;
 using EEMod.NPCs;
+using EEMod.Tiles;
+using EEMod.NPCs.Bosses.Akumo;
 
 namespace EEMod
 {
@@ -40,6 +42,9 @@ namespace EEMod
         string shad1 = "EEMod:Ripple";
         string shad2 = "EEMod:SunThroughWalls";
         string shad3 = "EEMod:SeaTrans";
+
+        public bool firstFrameVolcano;
+
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = EEWorld.EEWorld.CoralReefsTiles > 200;
@@ -747,6 +752,7 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
             {
+                firstFrameVolcano = true;
                 Main.NewText(EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos);
                 Main.NewText(player.Center / 16);
                 player.ClearBuff(BuffID.Cursed);
@@ -781,6 +787,11 @@ namespace EEMod
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {
                 player.ClearBuff(BuffID.Cursed);
+                if (firstFrameVolcano)
+                {
+                    NPC.NewNPC(200, EEWorld.EEWorld.TileCheck(200, ModContent.TileType<MagmastoneTile>()), ModContent.NPCType<Akumo>());
+                    firstFrameVolcano = false;
+                }
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
             {
