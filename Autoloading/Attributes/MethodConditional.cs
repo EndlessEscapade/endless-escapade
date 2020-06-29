@@ -23,10 +23,10 @@ namespace EEMod.Autoloading
         /// How the method that has the attribute is invoked
         /// </summary>
         /// <param name="method">The method</param>
-        public virtual void Invoke(MethodInfo method) => method.Invoke(null, null);
+        public virtual void Invoke(MethodInfo method, object o) => method.Invoke(null, null);
 
         bool IMemberConditionalAttribute.IsValid(MemberInfo member) => member is MethodInfo m && IsValidMethod(m);
 
-        void IMemberHandler.HandleMember(MemberInfo member) => Invoke((MethodInfo)member);
+        void IMemberHandler.HandleMember(MemberInfo member, object o) => Invoke((MethodInfo)member, o);
     }
 }

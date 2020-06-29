@@ -17,6 +17,6 @@ namespace EEMod.Autoloading
     }
     public interface IMemberHandler : IMemberConditionalAttribute
     {
-        void HandleMember(MemberInfo member);
+        void HandleMember(MemberInfo member, object o);
     }
 }

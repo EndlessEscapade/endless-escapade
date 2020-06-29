@@ -17,24 +17,26 @@ namespace EEMod.Autoloading
         internal static void LoadManager(EEMod a)
         {
             DoMagik<FieldInitAttribute>(a, out var memebers); // initialize fields
+            DoMagik<FieldAutoInitUnloadAttribute>(memebers, true);
             DoMagik<LoadingMethodAttribute>(memebers); // call loading methods
         }
 
         internal static void UnloadManager(EEMod a)
         {
             DoMagik<UnloadingMethodAttribute>(a, out var members); // call unloading methods
+            DoMagik<FieldAutoInitUnloadAttribute>(members, false);
             DoMagik<FieldUnloadAttribute>(members); // then initialize fields
         }
 
         private static IEnumerable<MemberInfo> MembersAll(Type type) => type.GetMembers(FLAGS_ANY);
-        public static void DoMagik<T>(Mod formod, out IEnumerable<MemberInfo> members) where T : Attribute, IMemberHandler => 
-            DoMagik<T>(formod.Code ?? formod.GetType().Assembly, out members); // vv
+        public static void DoMagik<T>(Mod formod, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler => 
+            DoMagik<T>(formod.Code ?? formod.GetType().Assembly, out members, o); // vv
 
-        public static void DoMagik<T>(Assembly forAssembly, out IEnumerable<MemberInfo> members) where T : Attribute, IMemberHandler => 
-            DoMagik<T>(forAssembly.GetTypesSafe(), out members); // vv
+        public static void DoMagik<T>(Assembly forAssembly, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler => 
+            DoMagik<T>(forAssembly.GetTypesSafe(), out members, o); // vv
 
-        public static void DoMagik<T>(IEnumerable<Type> fromtypes, out IEnumerable<MemberInfo> members) where T : Attribute, IMemberHandler => 
-            DoMagik<T>(members = fromtypes.SelectMany(MembersAll)); // --
+        public static void DoMagik<T>(IEnumerable<Type> fromtypes, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler => 
+            DoMagik<T>(members = fromtypes.SelectMany(MembersAll), o); // --
 
         //public static void DoMagik(Mod forMod, params Type[] HandlerAttributesTypes) => DoMagik(forMod.Code ?? forMod.GetType().Assembly, HandlerAttributesTypes); // vv
         //public static void DoMagik(Assembly assembly, params Type[] HandlerAttributesTypes) => DoMagik(assembly.GetTypesSafe(), HandlerAttributesTypes); // vv
@@ -60,10 +62,10 @@ namespace EEMod.Autoloading
         //    DoMagik(member, (IMemberHandler)member.GetCustomAttribute(handlerAttributeType));
         //}
 
-        public static void DoMagik<T>(IEnumerable<MemberInfo> members) where T : Attribute, IMemberHandler
+        public static void DoMagik<T>(IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler
         {
             foreach (var member in members)
-                DoMagik<T>(member);
+                DoMagik<T>(member, o);
         }
 
         //public static void DoMagik(MemberInfo member, IEnumerable<IMemberHandler> handlers)
@@ -72,19 +74,19 @@ namespace EEMod.Autoloading
         //        DoMagik(member, handler);
         //}
 
-        public static void DoMagik<T>(MemberInfo member) where T : Attribute, IMemberHandler
+        public static void DoMagik<T>(MemberInfo member, object o = null) where T : Attribute, IMemberHandler
         {
             if (member.TryGetCustomAttribute(out T attribute))
-                DoMagik(member, attribute);
+                DoMagik(member, attribute, o);
         }
 
-        public static void DoMagik(MemberInfo member, IMemberHandler handler)
+        public static void DoMagik(MemberInfo member, IMemberHandler handler, object o = null)
         {
             var targetMembers = handler.HandlingMembers;
 
             if(targetMembers == MemberTypes.All || targetMembers.HasFlag(member.MemberType)) // if it can handle what it specifies
                 if (handler.IsValid(member)) // if it allows it
-                    handler.HandleMember(member); // handle it
+                    handler.HandleMember(member, o); // handle it
         }
     }
 }

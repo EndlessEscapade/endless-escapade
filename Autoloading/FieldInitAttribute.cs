@@ -15,7 +15,7 @@ namespace EEMod.Autoloading
     public class FieldInitAttribute : FieldConditional
     {
         public override bool IsValidField(FieldInfo field) => base.IsValidField(field) && !field.FieldType.IsStruct() && field.FieldType.GetConstructor(AutoloadingManager.FLAGS_INSTANCE, null, Type.EmptyTypes, null) != null;
-        public override void ManipField(FieldInfo field)
+        public override void ManipField(FieldInfo field, object o)
         {
             field.SetValue(null, Activator.CreateInstance(field.FieldType)); // initialize it
         }
