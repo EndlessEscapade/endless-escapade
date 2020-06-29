@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles
 {
@@ -9,7 +10,7 @@ namespace EEMod.Tiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("RedStrip");
+            DisplayName.SetDefault("Tile Experimentation");
         }
 
         public override void SetDefaults()
@@ -17,7 +18,7 @@ namespace EEMod.Tiles
             projectile.width = 64;
             projectile.height = 16;
             projectile.alpha = 0;
-            projectile.timeLeft = 600;
+            projectile.timeLeft = 10000;
             projectile.penetrate = -1;
             projectile.hostile = false;
             projectile.friendly = true;
@@ -26,6 +27,18 @@ namespace EEMod.Tiles
             projectile.ignoreWater = true;
             projectile.scale *= 1f;
         }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (projectile.ai[0] >= 10 && !canspawn)
+            {
+                canspawn = true;
+                Helpers.DrawBezierProj(Main.LocalPlayer.Center - new Vector2(200, 200), Main.LocalPlayer.Center, Main.LocalPlayer.Center - new Vector2(120, 100), Main.LocalPlayer.Center - new Vector2(120, 100), 0.005f, (float)Math.PI / 2, ModContent.ProjectileType<Bridge>());
+            }
+
+            return true;
+        }
+        bool canspawn = false;
         public override void AI()
         {
             projectile.ai[0] += 0.1f;
@@ -39,7 +52,6 @@ namespace EEMod.Tiles
                 Main.LocalPlayer.velocity.Y = 0;
                 Main.LocalPlayer.bodyFrame.Y = 0;
                 Main.LocalPlayer.legFrame.Y = 0;
-                Main.NewText("yes");
                 Main.LocalPlayer.position.Y = projectile.position.Y - Main.LocalPlayer.height + 1;
             }
         }

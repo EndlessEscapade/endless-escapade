@@ -47,13 +47,8 @@ namespace EEMod
 
         public static int _lastSeed;
 
-        private static WorldGenerator _generator;
         public UserInterface customResources;
 
-        private static void AddGenerationPass(string name, WorldGenLegacyMethod method)
-        {
-            _generator.Append(new PassLegacy(name, method));
-        }
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
@@ -308,6 +303,7 @@ namespace EEMod
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
             float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
+
             Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(Outline, new Vector2(textPositionLeft - 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, new Rectangle(0, 0, Outline.Width, Outline.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(Outline, new Vector2(textPositionRight + 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, new Rectangle(0, 0, Outline.Width, Outline.Height).Size() / 2, 1, SpriteEffects.FlipHorizontally, 0);

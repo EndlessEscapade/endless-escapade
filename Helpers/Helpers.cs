@@ -5,6 +5,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Microsoft.Xna.Framework;
+using System;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
+using EEMod.Tiles;
 
 namespace EEMod
 {
@@ -13,7 +17,67 @@ namespace EEMod
         internal const string EmptyTexture = "EEMod/Empty";
         // public static InteritosGlobalNPC Interitos(this NPC npc) => npc.GetGlobalNPC<InteritosGlobalNPC>();
         // public static InteritosGlobalProjectile Interitos(this Projectile proj) => proj.GetGlobalProjectile<InteritosGlobalProjectile>();
-
+        private static float X(float t,
+    float x0, float x1, float x2, float x3)
+        {
+            return (float)(
+                x0 * Math.Pow((1 - t), 3) +
+                x1 * 3 * t * Math.Pow((1 - t), 2) +
+                x2 * 3 * Math.Pow(t, 2) * (1 - t) +
+                x3 * Math.Pow(t, 3)
+            );
+        }
+        private static float Y(float t,
+            float y0, float y1, float y2, float y3)
+        {
+            return (float)(
+                 y0 * Math.Pow((1 - t), 3) +
+                 y1 * 3 * t * Math.Pow((1 - t), 2) +
+                 y2 * 3 * Math.Pow(t, 2) * (1 - t) +
+                 y3 * Math.Pow(t, 3)
+             );
+        }
+        public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2,float chainsPerUse, float rotDis)
+        {
+                for (float i = 0; i <= 1; i += chainsPerUse)
+                {
+                    Vector2 distBetween;
+                    float projTrueRotation;
+                    if (i != 0)
+                    {
+                        distBetween = new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) -
+                        X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
+                        Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
+                        Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
+                        projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
+                        spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
+                        new Rectangle(0, 0, headTexture.Width, headTexture.Height), drawColor, projTrueRotation,
+                        new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), 1, SpriteEffects.None, 0f);
+                    }   
+                }
+                //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+                //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+        }
+        public static void DrawBezierProj(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, int projType)
+        {
+            for (float i = 0; i <= 1; i += chainsPerUse)
+            {
+                Vector2 distBetween;
+                float projTrueRotation;
+                if (i != 0)
+                {
+                    distBetween = new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) -
+                    X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
+                    Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
+                    Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
+                    projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
+                    int proj = Projectile.NewProjectile(new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) , Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y)), Vector2.Zero, projType, 0, 0f, Main.myPlayer, 0, i);
+                    Main.projectile[proj].rotation = projTrueRotation;
+                }
+            }
+            //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+        }
         public static void NewTextAutoSync(string text, Color color)
         {
             if (Main.netMode == NetmodeID.SinglePlayer)

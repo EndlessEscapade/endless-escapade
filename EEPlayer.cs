@@ -40,6 +40,7 @@ namespace EEMod
         string shad1 = "EEMod:Ripple";
         string shad2 = "EEMod:SunThroughWalls";
         string shad3 = "EEMod:SeaTrans";
+
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = EEWorld.EEWorld.CoralReefsTiles > 200;
@@ -844,13 +845,7 @@ namespace EEMod
                     }
                     else
                     {
-                        try
-                        {
                             arrow.visible = false;
-                        }
-                        catch (Exception ex)
-                        {
-                        }
                     }
                 }
                 OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
@@ -864,23 +859,12 @@ namespace EEMod
                     {
                         triggerSeaCutscene = true;
                     }
-                    try
-                    {
                         oceanarrow.visible = true;
-                    }
-                    catch (Exception ex)
-                    {
-                    }
+
                 }
                 else
                 {
-                    try
-                    {
                         oceanarrow.visible = false;
-                    }
-                    catch (Exception ex)
-                    {
-                    }
                     
                 }
             }
