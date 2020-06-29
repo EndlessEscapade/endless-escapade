@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles
 {
-    public class OceanArrowProjectile : ModProjectile
+    public class OceanArrowProjectile : VisualProjectile
     {
         public override void SetStaticDefaults()
         {

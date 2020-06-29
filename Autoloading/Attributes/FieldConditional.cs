@@ -25,9 +25,9 @@ namespace EEMod.Autoloading.Attributes
         /// Hook for doing something with the field
         /// </summary>
         /// <param name="field">The field</param>
-        public virtual void ManipField(FieldInfo field) { }
+        public virtual void ManipField(FieldInfo field, object o) { }
 
-        void IMemberHandler.HandleMember(MemberInfo member) => ManipField((FieldInfo)member);
+        void IMemberHandler.HandleMember(MemberInfo member, object o) => ManipField((FieldInfo)member, o);
 
         bool IMemberConditionalAttribute.IsValid(MemberInfo member) => member is FieldInfo f && IsValidField(f);
     }

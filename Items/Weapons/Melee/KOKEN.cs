@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Weapons.Ranger
+namespace EEMod.Items.Weapons.Melee
 {
     public class KOKEN : ModItem
     {

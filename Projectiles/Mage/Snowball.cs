@@ -28,7 +28,7 @@ namespace EEMod.Projectiles.Mage
 
         public override void AI()
         {
-            if (Main.rand.Next(3) == 0)
+            if (Main.rand.NextBool(3))
             {
                 Dust.NewDust(projectile.position, projectile.width, projectile.height, 149, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.7f);
             }

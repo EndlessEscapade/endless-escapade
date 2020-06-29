@@ -15,7 +15,7 @@ namespace EEMod.Autoloading
     public class FieldUnloadAttribute : FieldConditional
     {
         public override bool IsValidField(FieldInfo field) => base.IsValidField(field) && !field.FieldType.IsStruct(); // not structs since they're not nullable
-        public override void ManipField(FieldInfo field)
+        public override void ManipField(FieldInfo field, object o)
         {
             field.SetValue(null, null);
         }

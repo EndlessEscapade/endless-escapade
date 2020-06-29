@@ -28,6 +28,7 @@ namespace EEMod.Items.Weapons.Mage
             item.value = Item.sellPrice(0, 0, 30);
             item.rare = ItemRarityID.Yellow;
             item.shoot = ProjectileID.RuneBlast;
+            item.UseSound = SoundID.DD2_MonkStaffSwing;
             item.shootSpeed = 15f;
             item.damage = 48;
             item.knockBack = 3;

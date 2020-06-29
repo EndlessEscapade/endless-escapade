@@ -28,8 +28,8 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.8f;
-            if (Main.rand.Next(2) == 0)
+            projectile.rotation = projectile.velocity.ToRotation() + 0.8f;
+            if (Main.rand.NextBool(2))
             {
                 //int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 123, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 217, 184, 255), projectile.scale * 0.5f);
             }
@@ -51,7 +51,7 @@ namespace EEMod.Projectiles
 
             for (int i = 0; i < 3; i++)
             {
-                int projHolder = Main.rand.Next(0, 1);
+                int projHolder = Main.rand.Next(1);
                 float speedX = -projectile.velocity.X * Main.rand.NextFloat(-.4f, .8f) + Main.rand.NextFloat(-2f, 2f);
                 float speedY = -projectile.velocity.Y * Main.rand.Next(34, 37) * 0.01f + Main.rand.NextFloat(-12f, 12.1f) * 0.4f;
                 if (projHolder == 0)

@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ID;
 
 namespace EEMod.Items
 {
@@ -23,7 +22,7 @@ namespace EEMod.Items
             item.rare = ItemRarityID.White;
             item.useAnimation = 12;
             item.useTime = 12;
-            item.useStyle = 2;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.consumable = true;
             item.UseSound = SoundID.Item2;
         }

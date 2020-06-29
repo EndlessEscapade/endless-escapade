@@ -9,7 +9,7 @@ namespace EEMod.Projectiles
 {
     public class GraniteGauntletsShield : ModProjectile
     {
-        public override string Texture => "EEMod/Empty";
+        public override string Texture => Helpers.EmptyTexture;
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Granite Shield");
@@ -32,13 +32,14 @@ namespace EEMod.Projectiles
         private bool firstFrame = true;
         public override void AI()
         {
+            Player ownerplayer = Main.player[projectile.owner];
             if (firstFrame)
             {
-                Main.player[projectile.owner].AddBuff(ModContent.BuffType<RechargingGauntlets>(), 15 * 60);
+                ownerplayer.AddBuff(ModContent.BuffType<RechargingGauntlets>(), 15 * 60);
                 firstFrame = false;
-                Main.player[projectile.owner].noKnockback = true;
+                ownerplayer.noKnockback = true;
             }
-            Main.player[projectile.owner].statDefense += 12;
+            ownerplayer.statDefense += 12;
             Vector2 origin = Main.LocalPlayer.Center;
             float radius = 48;
             //Get 30 locations in a circle around 'origin'
@@ -50,7 +51,7 @@ namespace EEMod.Projectiles
                 Dust.NewDustPerfect(position, 13);
             }
 
-            Main.player[projectile.owner].position = Main.player[projectile.owner].oldPosition;
+            ownerplayer.position = ownerplayer.oldPosition;
         }
 
         public override void Kill(int timeLeft)

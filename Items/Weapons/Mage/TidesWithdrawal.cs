@@ -50,7 +50,7 @@ namespace EEMod.Items.Weapons.Mage
             }
             for (int i = 0; i < 2; i++)
             {
-                position = player.Center + new Vector2(-(float)Main.rand.Next(0, 401) * player.direction, -600f);
+                position = player.Center + new Vector2(-(float)Main.rand.Next(401) * player.direction, -600f);
                 position.Y -= 100 * i;
                 Vector2 heading = target - position;
                 if (heading.Y < 0f)

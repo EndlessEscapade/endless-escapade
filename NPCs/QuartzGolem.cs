@@ -117,7 +117,7 @@ namespace EEMod.NPCs
                     npc.ai[1] += 1;
                     if (Main.netMode != NetmodeID.MultiplayerClient)
                     {
-                        if (Main.rand.Next(2) == 0)
+                        if (Main.rand.NextBool(2))
                         {
                             Main.dust[num7].scale *= 0.5f;
                         }
@@ -196,7 +196,7 @@ namespace EEMod.NPCs
         public override void NPCLoot()
         {
             // this is still pretty useless to do
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzicLifeFragment>(), Main.rand.Next(0, 1));
+            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzicLifeFragment>(), Main.rand.Next(1));
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(2, 4));
         }
     }

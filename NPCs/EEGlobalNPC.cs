@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using Terraria.ModLoader;
-using EEMod.NPCs.CoralReefs;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
+using EEMod.NPCs.CoralReefs;
+using EEMod.Items;
 
 namespace EEMod.NPCs
 {
@@ -26,7 +27,7 @@ namespace EEMod.NPCs
             {
                 if (npc.type == NPCID.KingSlime)
                 {
-                    Item.NewItem(npc.getRect(), mod.ItemType("Cheese"), 1);
+                    Item.NewItem(npc.getRect(), ModContent.ItemType<Cheese>(), 1);
                 }
             }
 

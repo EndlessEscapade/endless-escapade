@@ -19,6 +19,8 @@ using Terraria.GameInput;
 using EEMod.NPCs.Bosses.Hydros;
 using static Terraria.ModLoader.ModContent;
 using EEMod.NPCs;
+using EEMod.Tiles;
+using EEMod.NPCs.Bosses.Akumo;
 
 namespace EEMod
 {
@@ -40,6 +42,8 @@ namespace EEMod
         string shad1 = "EEMod:Ripple";
         string shad2 = "EEMod:SunThroughWalls";
         string shad3 = "EEMod:SeaTrans";
+
+        public bool firstFrameVolcano;
 
         public override void UpdateBiomes()
         {
@@ -285,7 +289,7 @@ namespace EEMod
                         {
                             Filters.Scene["EEMod:WhiteFlash"].Deactivate();
                         }
-                        
+
                         Initialize();
                         SM.SaveAndQuit(baseWorldName);
                     }
@@ -322,8 +326,8 @@ namespace EEMod
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
 
-            
-            
+
+
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 Main.screenPosition += new Vector2(0, 1000);
@@ -379,7 +383,7 @@ namespace EEMod
             {
                 timerForCutscene += 20;
             }
-            
+
             if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
             {
 
@@ -748,6 +752,7 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
             {
+                firstFrameVolcano = true;
                 Main.NewText(EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos);
                 Main.NewText(player.Center / 16);
                 player.ClearBuff(BuffID.Cursed);
@@ -782,10 +787,15 @@ namespace EEMod
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {
                 player.ClearBuff(BuffID.Cursed);
+                if (firstFrameVolcano)
+                {
+                    NPC.NewNPC(200, EEWorld.EEWorld.TileCheck(200, ModContent.TileType<MagmastoneTile>()), ModContent.NPCType<Akumo>());
+                    firstFrameVolcano = false;
+                }
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
             {
-                
+
                 markerPlacer++;
                 if (markerPlacer == 5)
                 {
@@ -865,7 +875,7 @@ namespace EEMod
                 else
                 {
                         oceanarrow.visible = false;
-                    
+
                 }
             }
             Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);

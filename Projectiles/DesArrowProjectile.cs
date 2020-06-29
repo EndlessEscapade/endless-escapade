@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles
 {
-    public class DesArrowProjectile : ModProjectile
+    public class DesArrowProjectile : visual
     {
         public override void SetStaticDefaults()
         {
@@ -31,8 +31,9 @@ namespace EEMod.Projectiles
         public override void AI()
         {
             projectile.ai[0] += 0.1f;
-            projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width / 2;
-            projectile.position.Y = Main.player[projectile.owner].Center.Y - 100 + (float)Math.Sin(projectile.ai[0]) * 10;
+            Player ownerplayer = Main.player[projectile.owner];
+            projectile.position.X = ownerplayer.position.X; 
+            projectile.position.Y = ownerplayer.Center.Y - 100 + (float)Math.Sin(projectile.ai[0]) * 10;
             if (!visible)
                 projectile.alpha += 5;
             else

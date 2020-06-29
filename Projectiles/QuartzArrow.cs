@@ -32,10 +32,10 @@ namespace EEMod.Projectiles
 
         public override void AI()           //this make that the projectile will face the corect way
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 1.57f;
+            projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
             projectile.velocity.X *= 1.01f;
             projectile.velocity.Y *= 1.01f;
-            projectile.damage = (int)Math.Sqrt(projectile.velocity.X * projectile.velocity.X + projectile.velocity.Y * projectile.velocity.Y) * 2 + 6;
+            projectile.damage = (int)projectile.velocity.Length() * 2 + 6;
             if (projectile.damage > 24)
             {
                 projectile.damage = 24;

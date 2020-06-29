@@ -14,6 +14,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
+            item.CloneDefaults(ItemID.Vilethorn);
             item.melee = false;
             item.magic = true;
             item.width = 20;
@@ -24,7 +25,6 @@ namespace EEMod.Items.Weapons.Mage
             item.useAnimation = 22;
             item.value = Item.sellPrice(0, 0, 17);
             item.rare = ItemRarityID.Green;
-            item.shoot = ModContent.ProjectileType<DruidsVine>();
             item.shootSpeed = 12f;
             item.UseSound = SoundID.Item19;
             item.autoReuse = false;

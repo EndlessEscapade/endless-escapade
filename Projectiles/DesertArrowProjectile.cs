@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles
 {
-    public class DesertArrowProjectile : ModProjectile
+    public class DesertArrowProjectile : VisualProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -28,11 +28,11 @@ namespace EEMod.Projectiles
         public bool visible = true;
         public override void AI()
         {
-            projectile.rotation = (float)Math.Atan2((double)projectile.velocity.Y, (double)projectile.velocity.X) + 0.8f + (float)(Math.PI / 4);
-            if (Main.rand.Next(2) == 0)
-            {
+            projectile.rotation = projectile.velocity.ToRotation() + 0.8f + MathHelper.PiOver4;
+            //if (Main.rand.NextBool(2))
+            //{
                 //int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 123, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 217, 184, 255), projectile.scale * 0.5f);
-            }
+            //}
             if (projectile.spriteDirection == -1)
             {
                 projectile.rotation -= 1.57f;
