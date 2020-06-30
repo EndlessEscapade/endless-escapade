@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles
 {
-    public class DesArrowProjectile : visual
+    public class DesArrowProjectile : VisualProjectile
     {
         public override void SetStaticDefaults()
         {
