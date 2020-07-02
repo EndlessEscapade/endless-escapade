@@ -58,10 +58,14 @@ namespace EEMod
                 //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
                 //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
-        public static void DrawBezierProj(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, int projType)
+        static int misckeep;
+        public static void DrawBezierProj(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, int projType, bool isBridge)
         {
+            bool misc;
+            misckeep = 0;
             for (float i = 0; i <= 1; i += chainsPerUse)
             {
+                misckeep++;
                 Vector2 distBetween;
                 float projTrueRotation;
                 if (i != 0)
@@ -70,9 +74,19 @@ namespace EEMod
                     X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
                     Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
-                    projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
+                    projTrueRotation = distBetween.ToRotation() + rotDis;
                     int proj = Projectile.NewProjectile(new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) , Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y)), Vector2.Zero, projType, 0, 0f, Main.myPlayer, 0, i);
                     Main.projectile[proj].rotation = projTrueRotation;
+                    if (misckeep % 3 == 0)
+                        misc = true;
+                    else
+                        misc = false;
+                    if (isBridge)
+                    {
+                        (Main.projectile[proj].modProjectile as Bridge).isSupport = misc;
+                        (Main.projectile[proj].modProjectile as Bridge).chainsPerUse = chainsPerUse;
+                        (Main.projectile[proj].modProjectile as Bridge).rotDis = rotDis;
+                    }
                 }
             }
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);

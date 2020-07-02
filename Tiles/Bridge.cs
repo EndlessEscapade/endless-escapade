@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace EEMod.Tiles
 {
@@ -32,10 +33,19 @@ namespace EEMod.Tiles
                  y3 * Math.Pow(t, 3)
              );
         }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if(isSupport)
+            {
+                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/BridgeSupport"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, projectile.rotation, new Rectangle(0, 0, 16, 16).Size() / 2,1, SpriteEffects.None, 0);
+                return false;
+            }
+            return true;
+        }
         public override void SetDefaults()
         {
-            projectile.width = 2;
-            projectile.height = 2;
+            projectile.width = 16;
+            projectile.height = 16;
             projectile.alpha = 0;
             projectile.timeLeft = 10000;
             projectile.penetrate = -1;
@@ -66,10 +76,42 @@ namespace EEMod.Tiles
         float firstPosY = (Main.LocalPlayer.Center).Y;
         float secondPosY = (Main.LocalPlayer.Center - new Vector2(200, 200)).Y;
         public static float checkForLowest;
-        float trueControlPoint;
+        public static float trueControlPoint = ((Main.LocalPlayer.Center).X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X)/2;
+        public float chainsPerUse;
+        public float rotDis;
+        public bool isSupport;
         public override void AI()
-        {
-            trueControlPoint = (firstPosX + secondPosX) / 2;
+        {   
+            Rectangle upperPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + 13, projectile.width, 3);
+            Rectangle upperPortionWholeEntityCheck = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - 10 + 13, projectile.width, 13);
+            Rectangle lowerPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + projectile.height - 2, projectile.width, 2);
+            Rectangle playerHitBoxFeet = new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y + Main.LocalPlayer.height - (int)(Main.LocalPlayer.velocity.Y / 2) - 10, Main.LocalPlayer.width, (int)Math.Round(projectile.velocity.Y) + (int)(Main.LocalPlayer.velocity.Y / 2) + 10);
+
+            if (playerHitBoxFeet.Intersects(upperPortion) && Main.LocalPlayer.velocity.Y >= 0)
+            {
+                Main.LocalPlayer.velocity.Y = 0;
+                Main.LocalPlayer.position.Y = projectile.position.Y - Main.LocalPlayer.height + 16;
+                trueControlPoint = Main.LocalPlayer.Center.X;
+            }
+            if (playerHitBoxFeet.Intersects(upperPortionWholeEntityCheck) && Main.LocalPlayer.velocity.Y >= 0)
+            {
+                Main.LocalPlayer.bodyFrameCounter += (double)Math.Abs(Main.LocalPlayer.velocity.X) * 1.5;
+                Main.LocalPlayer.bodyFrame.Y = Main.LocalPlayer.legFrame.Y;
+                Main.LocalPlayer.legFrameCounter += (double)Math.Abs(Main.LocalPlayer.velocity.X) * 1.3;
+                while (Main.LocalPlayer.legFrameCounter > 8.0)
+                {
+                    Main.LocalPlayer.legFrameCounter -= 8.0;
+                    Main.LocalPlayer.legFrame.Y += Main.LocalPlayer.legFrame.Height;
+                }
+                if (Main.LocalPlayer.legFrame.Y < Main.LocalPlayer.legFrame.Height * 7)
+                {
+                    Main.LocalPlayer.legFrame.Y = Main.LocalPlayer.legFrame.Height * 19;
+                }
+                else if (Main.LocalPlayer.legFrame.Y > Main.LocalPlayer.legFrame.Height * 19)
+                {
+                    Main.LocalPlayer.legFrame.Y = Main.LocalPlayer.legFrame.Height * 7;
+                }
+            }
             if (secondPosY > firstPosY)
                 checkForLowest = secondPosY;
             else
@@ -107,7 +149,7 @@ namespace EEMod.Tiles
                     maxSpeedX = (dipX - checkForLowest) / 20;
                 else
                     maxSpeedX = (checkForLowest - dipX) / 20;
-                
+
             }
             secondPosX = endPoints.X;
             secondPosY = endPoints.Y;
@@ -160,38 +202,15 @@ namespace EEMod.Tiles
                     accelY = maxSpeedY;
             }
             projectile.Center = new Vector2(X(projectile.ai[1], firstPosX, dipX, dipX, endPoints.X), Y(projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y));
+            Vector2 distBetween = new Vector2(X(projectile.ai[1], firstPosX, dipX, dipX, endPoints.X) -
+                    X(projectile.ai[1] - chainsPerUse, firstPosX, dipX, dipX, endPoints.X),
+                    Y(projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y) -
+                    Y(projectile.ai[1] - chainsPerUse, firstPosY, dipY, dipY, endPoints.Y));
+            float projTrueRotation = distBetween.ToRotation() + rotDis;
+            projectile.rotation = projTrueRotation;
             projectile.ai[0] += 0.1f;
             projectile.velocity.Y += (float)Math.Sin(projectile.ai[0]) * 0.1f;
-            Rectangle upperPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, 3);
-            Rectangle upperPortionWholeEntityCheck = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - 10, projectile.width, 13);
-            Rectangle lowerPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + projectile.height - 2, projectile.width, 2);
-            Rectangle playerHitBoxFeet = new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y + Main.LocalPlayer.height-(int)(Main.LocalPlayer.velocity.Y/2) -10, Main.LocalPlayer.width, (int)Math.Round(projectile.velocity.Y) + (int)(Main.LocalPlayer.velocity.Y / 2) + 10);
-
-            if (playerHitBoxFeet.Intersects(upperPortion) && Main.LocalPlayer.velocity.Y >= 0)
-            {
-                Main.LocalPlayer.velocity.Y = 0;
-                Main.LocalPlayer.position.Y = projectile.position.Y - Main.LocalPlayer.height + 1;
-                trueControlPoint = Main.LocalPlayer.Center.X;
-            }
-            if(playerHitBoxFeet.Intersects(upperPortionWholeEntityCheck) && Main.LocalPlayer.velocity.Y >= 0)
-            {
-                Main.LocalPlayer.bodyFrameCounter += (double)Math.Abs(Main.LocalPlayer.velocity.X) * 1.5;
-                Main.LocalPlayer.bodyFrame.Y = Main.LocalPlayer.legFrame.Y;
-                Main.LocalPlayer.legFrameCounter += (double)Math.Abs(Main.LocalPlayer.velocity.X) * 1.3;
-                while (Main.LocalPlayer.legFrameCounter > 8.0)
-                {
-                    Main.LocalPlayer.legFrameCounter -= 8.0;
-                    Main.LocalPlayer.legFrame.Y += Main.LocalPlayer.legFrame.Height;
-                }
-                if (Main.LocalPlayer.legFrame.Y < Main.LocalPlayer.legFrame.Height * 7)
-                {
-                    Main.LocalPlayer.legFrame.Y = Main.LocalPlayer.legFrame.Height * 19;
-                }
-                else if (Main.LocalPlayer.legFrame.Y > Main.LocalPlayer.legFrame.Height * 19)
-                {
-                    Main.LocalPlayer.legFrame.Y = Main.LocalPlayer.legFrame.Height * 7;
-                }
-            }
+            
         }
 
     }

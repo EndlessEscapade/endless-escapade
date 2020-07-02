@@ -33,7 +33,7 @@ namespace EEMod.Tiles
             if (projectile.ai[0] >= 10 && !canspawn)
             {
                 canspawn = true;
-                Helpers.DrawBezierProj(Main.LocalPlayer.Center - new Vector2(200, 200), Main.LocalPlayer.Center, Main.LocalPlayer.Center - new Vector2(120, 100), Main.LocalPlayer.Center - new Vector2(120, 100), 0.005f, (float)Math.PI / 2, ModContent.ProjectileType<Bridge>());
+                Helpers.DrawBezierProj(Main.LocalPlayer.Center - new Vector2(200, 200), Main.LocalPlayer.Center, Main.LocalPlayer.Center - new Vector2(120, 100), Main.LocalPlayer.Center - new Vector2(120, 100), 0.015f, (float)Math.PI, ModContent.ProjectileType<Bridge>(), true);
             }
 
             return true;
