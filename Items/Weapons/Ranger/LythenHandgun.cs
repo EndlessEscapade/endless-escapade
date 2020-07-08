@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.noMelee = true;
             item.autoReuse = true;
             item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 11;
+            item.damage = 15;
             item.useTime = 26;
             item.useAnimation = 26;
             item.width = 20;
@@ -31,6 +31,8 @@ namespace EEMod.Items.Weapons.Ranger
             item.shootSpeed = 17f;
             item.UseSound = SoundID.Item11;
             item.useAmmo = AmmoID.Bullet;
+            item.ranged = true;
+            item.crit = 3;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,8 +43,7 @@ namespace EEMod.Items.Weapons.Ranger
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 8);
-            recipe.AddIngredient(ItemID.Handgun);
+            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

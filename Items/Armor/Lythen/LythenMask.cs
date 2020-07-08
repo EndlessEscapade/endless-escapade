@@ -38,7 +38,7 @@ namespace EEMod.Items.Armor.Lythen
             player.setBonus = "All stats increased while submerged on water";
             if (player.wet)
             {
-                player.allDamage += 0.03f;
+                player.allDamage += 0.02f;
                 player.moveSpeed += 0.07f;
                 player.maxRunSpeed += 0.07f;
                 player.magicCrit += 2;

@@ -31,7 +31,7 @@ namespace EEMod.Items.Armor.Lythen
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 16);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

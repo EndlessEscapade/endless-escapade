@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            item.damage = 11;
+            item.damage = 13;
             item.magic = true;
             item.noMelee = true;
             item.knockBack = 1f;
@@ -39,26 +39,28 @@ namespace EEMod.Items.Weapons.Mage
             return new Vector2(0, -2);
         }
 
-        /* public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
 		{
 			float numProj = 3;
-			float rotation = MathHelper.ToRadians(25);
+			float rotation = MathHelper.ToRadians(15);
 			position += Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
 			for (int i = 0; i < numProj; i++)
 			{
-				Vector2 pertSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1))) * .2f;
-				Projectile.NewProjectile(position.X, position.Y, pertSpeed.X, pertSpeed.Y, type, damage, knockBack, player.whoAmI);
+				Vector2 pertSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1))); // * .7f
+                Projectile.NewProjectile(position.X, position.Y, pertSpeed.X, pertSpeed.Y, type, damage, knockBack, player.whoAmI);
 			}
 
 			return false;
-		} */
+		} 
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 5);
+            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
             recipe.AddIngredient(ItemID.ThrowingKnife, 20);
+            recipe.SetResult(this);
             recipe.AddTile(TileID.Anvils);
+            recipe.AddRecipe();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace EEMod.Items.Armor.DevSets.Exitium
 	[AutoloadEquip(EquipType.Wings)]
 	public class ExitCrystal : ModItem
 	{
+		public bool DevWing;
 		public override void SetStaticDefaults()
 		{
 			DisplayName.SetDefault("Exitium's Crystal");
@@ -20,11 +21,27 @@ namespace EEMod.Items.Armor.DevSets.Exitium
 			item.height = 26;
 			item.rare = ItemRarityID.Cyan;
 			item.accessory = true;
+
 		}
-
-
 		public override void UpdateAccessory(Player player, bool hideVisual)
 		{
+			if (NPC.downedMechBoss1)
+			{
+				DevWing = true;
+			}
+			if (NPC.downedMechBoss2)
+			{
+				DevWing = true;
+			}
+			if (NPC.downedMechBoss3)
+			{
+				DevWing = true;
+			}
+
+			if (DevWing == false)
+			{
+				player.AddBuff(BuffID.Stoned, 1);
+			}
 			player.wingTimeMax = 150;
 		}
 
