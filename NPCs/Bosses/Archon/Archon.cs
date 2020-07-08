@@ -11,11 +11,6 @@ namespace EEMod.NPCs.Bosses.Archon
     [AutoloadBossHead]
     internal class Archon : ModNPC
     {
-        public override void SetStaticDefaults()
-        {
-            Main.npcFrameCount[npc.type] = 4;
-        }
-
         public override void SetDefaults()
         {
             music = MusicID.Boss3;
@@ -174,17 +169,6 @@ namespace EEMod.NPCs.Bosses.Archon
                 {
                     Main.NewText("Running is futile.", new Color(81, 0, 73));
                     npc.Teleport(new Vector2(target.Center.X, target.Center.Y - 256));
-                }
-
-
-
-
-                //Animation
-                npc.frameCounter++;
-                if (npc.frameCounter >= 12)
-                {
-                    npc.frameCounter = 0;
-                    npc.frame.Y = (npc.frame.Y + 1) % 4;
                 }
             }
         }
