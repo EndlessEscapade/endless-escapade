@@ -91,7 +91,6 @@ namespace EEMod.Tiles
             {
                 Main.LocalPlayer.velocity.Y = 0;
                 Main.LocalPlayer.position.Y = projectile.position.Y - Main.LocalPlayer.height + 16;
-                trueControlPoint = Main.LocalPlayer.Center.X;
             }
             if (playerHitBoxFeet.Intersects(upperPortionWholeEntityCheck) && Main.LocalPlayer.velocity.Y >= 0)
             {
