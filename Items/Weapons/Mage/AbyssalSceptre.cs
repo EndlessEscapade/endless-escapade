@@ -11,6 +11,7 @@ namespace EEMod.Items.Weapons.Mage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyssal Sceptre");
+            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
@@ -33,14 +34,16 @@ namespace EEMod.Items.Weapons.Mage
             item.useStyle = ItemUseStyleID.HoldingOut;
         }
 
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.BorealWood, 16);
-            recipe.AddIngredient(ItemID.Snowball, 50);
-            recipe.AddTile(TileID.WorkBenches);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
+        //    public override void AddRecipes()
+        //    {
+        // ModRecipe recipe = new ModRecipe(mod);
+        // recipe.AddIngredient(ItemID.BorealWood, 16);
+        // recipe.AddIngredient(ItemID.Snowball, 50);
+        //  recipe.AddTile(TileID.WorkBenches);
+        //    recipe.SetResult(this);
+        //      recipe.AddRecipe();
+        //    }
+
+        //Imagine copy pasting code lmao
     }
 }

@@ -31,6 +31,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.autoReuse = false;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item11;
+            item.crit = 1;
         }
 
         public override Vector2? HoldoutOffset()

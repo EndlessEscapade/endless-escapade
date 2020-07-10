@@ -11,7 +11,7 @@ namespace EEMod.Items.Armor.Lythen
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lythen Horned Greathelm");
-            Tooltip.SetDefault("1+ max minion");
+            Tooltip.SetDefault("1+ max minion" + "\n3% increased minion damage");
         }
 
         public override void SetDefaults()
@@ -31,6 +31,7 @@ namespace EEMod.Items.Armor.Lythen
         public override void UpdateEquip(Player player)
         {
             player.maxMinions += 1;
+            player.minionDamage += 0.03f;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -38,7 +39,7 @@ namespace EEMod.Items.Armor.Lythen
             player.setBonus = "All stats increased while submerged on water";
             if (player.wet)
             {
-                player.allDamage += 0.08f;
+                player.allDamage += 0.05f;
                 player.moveSpeed += 0.07f;
                 player.maxRunSpeed += 0.07f;
                 player.magicCrit += 2;

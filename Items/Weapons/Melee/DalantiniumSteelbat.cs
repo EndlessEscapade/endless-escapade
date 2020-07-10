@@ -18,20 +18,21 @@ namespace EEMod.Items.Weapons.Melee
             item.rare = ItemRarityID.Green;
             item.autoReuse = false;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f; // 5 and 1/4
+            item.knockBack = 10f;
             item.useTime = 15;
             item.useAnimation = 15;
             item.value = Item.buyPrice(0, 0, 30, 0);
             item.damage = 17;
             item.width = 20;
             item.height = 20;
+            item.crit = 2;
             item.UseSound = SoundID.Item1;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

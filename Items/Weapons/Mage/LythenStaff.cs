@@ -17,21 +17,21 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            item.damage = 12;
+            item.damage = 22;
             item.width = 32;
             item.height = 32;
-            item.useTime = 30;
-            item.useAnimation = 30;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.knockBack = 0;
             item.rare = ItemRarityID.Green;
-            item.autoReuse = false;
-            item.crit = 4;
+            item.autoReuse = true;
+            item.crit = 3;
             item.noMelee = true;
             item.magic = true;
             item.shoot = ModContent.ProjectileType<LythenStaffProjectile>();
             item.shootSpeed = 16f;
-            item.mana = 2;
-            item.UseSound = SoundID.Item1;
+            item.mana = 5;
+            item.UseSound = SoundID.Item8;
             item.useStyle = ItemUseStyleID.HoldingOut;
         }
 

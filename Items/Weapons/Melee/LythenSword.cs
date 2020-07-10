@@ -21,7 +21,7 @@ namespace EEMod.Items.Weapons.Melee
             item.useTime = 15;
             item.useAnimation = 15;
             item.value = Item.buyPrice(0, 0, 30, 0);
-            item.damage = 12;
+            item.damage = 20;
             item.width = 20;
             item.height = 20;
             item.UseSound = SoundID.Item1;
@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

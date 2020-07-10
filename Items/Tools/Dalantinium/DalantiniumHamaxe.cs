@@ -34,7 +34,7 @@ namespace EEMod.Items.Tools.Dalantinium
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

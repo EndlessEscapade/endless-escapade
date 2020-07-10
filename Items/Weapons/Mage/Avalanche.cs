@@ -11,6 +11,7 @@ namespace EEMod.Items.Weapons.Mage
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Avalanche");
+            Item.staff[item.type] = true;
         }
 
         public override void SetDefaults()
@@ -22,7 +23,7 @@ namespace EEMod.Items.Weapons.Mage
             item.useAnimation = 30;
             item.knockBack = 0;
             item.rare = ItemRarityID.Green;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.crit = 4;
             item.noMelee = true;
             item.magic = true;
