@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using EEMod.Tiles.Ores;
+using EEMod.Tiles.Walls;
 
 namespace EEMod.EEWorld
 {
@@ -1401,7 +1402,7 @@ namespace EEMod.EEWorld
         }
         public static void Island(int islandWidth, int islandHeight)
         {
-            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
+            /*MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
             MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) * 0.66), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSand>()) - 5), TileID.Dirt);
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
@@ -1416,7 +1417,211 @@ namespace EEMod.EEWorld
             {
                 if ((Main.rand.NextBool(5)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Dirt)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Grass)))
                     WorldGen.PlaceTile(j, TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
+            }*/
+            MakeAtlantisCastle(75, 100);
+        }
+        public static void PlaceAtlantisCastleRoom(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (shape[y, x])
+                        {
+                            case 1:
+                                tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
+                                tile.active(true);
+                                break;
+
+                            case 2:
+                                tile.type = TileID.PalladiumColumn;
+                                tile.color(27);
+                                Main.tile[k, l].inActive(true);
+                                tile.active(true);
+                                break;
+
+                            case 3:
+                                tile.type = TileID.Platforms;
+                                tile.active(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
             }
+        }
+
+        public static void PlaceAtlantisCastleRoomWalls(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        switch (shape[y, x])
+                        {
+                            case 1:
+                                tile.wall = (ushort)ModContent.WallType<AtlanteanBrickWallTile>();
+                                break;
+
+                            case 2:
+                                tile.wall = WallID.BlueDungeonTile;
+                                tile.wallColor(20);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void MakeAtlantisCastle(int i, int j)
+        {
+            int x = i;
+            int y = j;
+            int corriDiff = -24;
+            int pillarDiff = -6 + corriDiff;
+
+            int lengthL = Main.rand.Next(10, 15);
+
+            for (int k = 0; k < lengthL; k++)
+            {
+                if (k == (int)(lengthL / 2))
+                {
+                    GenerateSubfloors(x, y, corriDiff);
+                }
+                else
+                {
+                    PlaceAtlantisCastleRoom(x, y - corriDiff, EEWorld.CastleCorridor);
+                    PlaceAtlantisCastleRoomWalls(x, y - corriDiff, EEWorld.CastleCorridorWalls);
+                }
+                x += 9;
+                PlaceAtlantisCastleRoom(x, y - pillarDiff, EEWorld.CastlePillar);
+                PlaceAtlantisCastleRoomWalls(x, y - pillarDiff, EEWorld.CastlePillarWalls);
+                x += 2;
+            }
+            PlaceAtlantisCastleRoom(x, y, EEWorld.MainCastleRoom);
+            PlaceAtlantisCastleRoomWalls(x, y, EEWorld.MainCastleRoomWalls);
+            x += 31;
+            PlaceAtlantisCastleRoom(x, y - pillarDiff, EEWorld.CastlePillar);
+            PlaceAtlantisCastleRoomWalls(x, y - pillarDiff, EEWorld.CastlePillarWalls);
+            x += 2;
+
+            int lengthR = Main.rand.Next(5, 9);
+
+            for (int k = 0; k < lengthR; k++)
+            {
+                PlaceAtlantisCastleRoom(x, y - corriDiff, EEWorld.CastleCorridor);
+                PlaceAtlantisCastleRoomWalls(x, y - corriDiff, EEWorld.CastleCorridorWalls);
+                x += 9;
+                PlaceAtlantisCastleRoom(x, y - pillarDiff, EEWorld.CastlePillar);
+                PlaceAtlantisCastleRoomWalls(x, y - pillarDiff, EEWorld.CastlePillarWalls);
+                x += 2;
+            }
+        }
+
+        private static void GenerateSubfloors(int x, int y, int corriDiff)
+        {
+            PlaceAtlantisCastleRoom(x, y - corriDiff + 1, EEWorld.CastleStaircaseCorridor);
+            PlaceAtlantisCastleRoomWalls(x, y - corriDiff + 1, EEWorld.CastleStaircaseCorridorWalls);
+            int tempY = y + 73;
+            PlaceAtlantisCastleRoom(x, tempY, EEWorld.CastleStaircaseUnderground);
+            PlaceAtlantisCastleRoomWalls(x, tempY, EEWorld.CastleStaircaseUndergroundWalls);
+            int undLength = Main.rand.Next(2, 4);
+            int tempX = x - undLength * 11;
+
+            PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastleBorderLUnderground);
+            PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastleBorderLUndergroundWalls);
+            tempX += 9;
+            PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastlePillarUnderground);
+            PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastlePillarUndergroundWalls);
+            tempX += 2;
+            for (int m = 0; m < undLength; m++)
+            {
+                if (m == undLength / 2)
+                {
+                    PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastleStaircaseUndergrounder);
+                    PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastleStaircaseUndergrounderWalls);
+                    int tempY2 = tempY + 22;
+                    PlaceAtlantisCastleRoom(tempX, tempY2, EEWorld.CastleStaircaseUndergrounderBottom);
+                    PlaceAtlantisCastleRoomWalls(tempX, tempY2, EEWorld.CastleStaircaseUndergrounderBottomWalls);
+                    int undLength2 = Main.rand.Next(1, 3);
+                    int tempX2 = tempX - undLength2 * 11;
+
+                    PlaceAtlantisCastleRoom(tempX2, tempY2, EEWorld.CastleBorderLUnderground);
+                    PlaceAtlantisCastleRoomWalls(tempX2, tempY2, EEWorld.CastleBorderLUndergroundWalls);
+                    tempX2 += 9;
+                    PlaceAtlantisCastleRoom(tempX2, tempY2, EEWorld.CastlePillarUnderground);
+                    PlaceAtlantisCastleRoomWalls(tempX2, tempY2, EEWorld.CastlePillarUndergroundWalls);
+                    tempX2 += 2;
+
+                    for (int w = 0; w < undLength2; w++)
+                    {
+                        PlaceAtlantisCastleRoom(tempX2, tempY2, EEWorld.CastleCorridorUnderground);
+                        PlaceAtlantisCastleRoomWalls(tempX2, tempY2, EEWorld.CastleCorridorUndergroundWalls);
+                        tempX2 += 9;
+                        PlaceAtlantisCastleRoom(tempX2, tempY2, EEWorld.CastlePillarUnderground);
+                        PlaceAtlantisCastleRoomWalls(tempX2, tempY2, EEWorld.CastlePillarUndergroundWalls);
+                        tempX2 += 2;
+                    }
+
+                    for (int z = 0; z < undLength2 - 1; z++)
+                    {
+                        PlaceAtlantisCastleRoom(tempX2, tempY2, EEWorld.CastleCorridorUnderground);
+                        PlaceAtlantisCastleRoomWalls(tempX2, tempY2, EEWorld.CastleCorridorUndergroundWalls);
+                        tempX2 += 9;
+                        PlaceAtlantisCastleRoom(tempX2, tempY2, EEWorld.CastlePillarUnderground);
+                        PlaceAtlantisCastleRoomWalls(tempX2, tempY2, EEWorld.CastlePillarUndergroundWalls);
+                        tempX2 += 2;
+                    }
+
+                    PlaceAtlantisCastleRoom(tempX2, tempY2, EEWorld.CastleBorderRUnderground);
+                    PlaceAtlantisCastleRoomWalls(tempX2, tempY2, EEWorld.CastleBorderRUndergroundWalls);
+
+                    tempX += 9;
+                    PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastlePillarUnderground);
+                    PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastlePillarUndergroundWalls);
+                    tempX += 2;
+                }
+                else
+                {
+                    PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastleCorridorUnderground);
+                    PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastleCorridorUndergroundWalls);
+                    tempX += 9;
+                    PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastlePillarUnderground);
+                    PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastlePillarUndergroundWalls);
+                    tempX += 2;
+                }
+            }
+
+            tempX = x + 9;
+            PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastlePillarUnderground);
+            PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastlePillarUndergroundWalls);
+            tempX += 2;
+
+            for (int n = 0; n < undLength - 1; n++)
+            {
+                PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastleCorridorUnderground);
+                PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastleCorridorUndergroundWalls);
+                tempX += 9;
+                PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastlePillarUnderground);
+                PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastlePillarUndergroundWalls);
+                tempX += 2;
+            }
+
+            PlaceAtlantisCastleRoom(tempX, tempY, EEWorld.CastleBorderRUnderground);
+            PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastleBorderRUndergroundWalls);
         }
     }
 }
