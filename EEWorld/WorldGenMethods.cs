@@ -1217,7 +1217,58 @@ namespace EEMod.EEWorld
             if (layer == 1)
                 WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), type, true, 1f, 1f, false, true);
         }
+        public static void MakeLayerWithOutline(int X, int midY, int size, int layer, int type, int thickness)
+        {
 
+            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
+            for (int k = 0; k < maxTiles * (size / 8); k++)
+            {
+                int x = WorldGen.genRand.Next(X - size, X + size);
+                int y = WorldGen.genRand.Next(midY - size, midY + size);
+                // Tile tile = Framing.GetTileSafely(x, y);
+                if (layer == 1)
+                {
+                    if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < size * size)
+                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+                }
+                if (layer == 2)
+                {
+                    if (OvalCheck(X, midY, x, y, size * 3, size))
+                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+                }
+            }
+            
+              for (int k = 0; k < maxTiles * (size / 8); k++)
+              {
+                  int x = WorldGen.genRand.Next(X - size, X + size);
+                  int y = WorldGen.genRand.Next(midY - size, midY + size);
+                  Tile tile = Framing.GetTileSafely(x, y);
+                  if (layer == 1)
+                  {
+                      int sizeSQ = size * size + thickness * thickness;
+                      if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < (sizeSQ))
+                          WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, false, false);
+                  }
+                  if (layer == 2)
+                  {
+                      if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.active())
+                          WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<GemsandstoneTile>(), true, 1, 1, true, true);
+                  }
+              }
+            for (int i = 0; i < 800; i++)
+            {
+                for (int j = 0; j < 2000; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.type == TileID.StoneSlab)
+                        WorldGen.KillTile(i, j);
+                }
+            }
+            if (layer == 1)
+            {
+                MakeOvalJaggedTop(20, 10, new Vector2(X - 12, midY), ModContent.TileType<GemsandstoneTile>());
+            }
+        }
 
         public static void CoralReef()
         {

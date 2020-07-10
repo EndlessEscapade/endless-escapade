@@ -10,6 +10,8 @@ using Terraria.Social;
 using Terraria.Utilities;
 using Terraria.World.Generation;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using EEMod.Tiles;
 
 namespace EEMod
 {
@@ -97,6 +99,8 @@ namespace EEMod
         {
             _generator.GenerateWorld(customProgressObject);
             Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<HardenedGemsandTile>());
+            EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
         }
         internal static void PreSaveAndQuit()
         {
@@ -161,6 +165,7 @@ namespace EEMod
             WorldGen.clearWorld();
             EEMod.GenerateWorld(threadContext as string, Main.ActiveWorldFileData.Seed, null);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
+            FileUtilities.Copy($@"{Main.SavePath}\Worlds\{threadContext as string}.wld", $@"{Main.SavePath}\EEWorlds" + ".wld", false);
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{threadContext as string}.wld", false);
             WorldGen.playWorld();
         }
@@ -172,16 +177,22 @@ namespace EEMod
             }
             catch (Exception ex)
             {
-                Logging.Terraria.Error((object)Language.GetTextValue("tModLoader.WorldGenError"), ex);
+                Logging.Terraria.Error(Language.GetTextValue("tModLoader.WorldGenError"), ex);
             }
         }
         public static void CreateNewWorld(string text)
         {
-            Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
+                Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
             ThreadPool.QueueUserWorkItem(WorldGenCallBack, text);
         }
         private static void OnWorldNamed(string text)
         {
+            string EEpath = $@"{Main.SavePath}\EEWorlds";
+            if (!Directory.Exists(EEpath))
+            {
+                DirectoryInfo di = Directory.CreateDirectory(EEpath);
+            }
+
             string path = $@"{Main.SavePath}\Worlds\{text}.wld";
             if (!File.Exists(path))
             {
