@@ -277,7 +277,7 @@ namespace EEMod.NPCs.Friendly
 
         public override void AI()
         {
-            if (Main.LocalPlayer.talkNPC)
+            //if (Main.LocalPlayer.talkNPC)
             {
 
             }
