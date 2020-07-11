@@ -1522,8 +1522,15 @@ namespace EEMod.EEWorld
 
             for (int k = 0; k < lengthR; k++)
             {
-                PlaceAtlantisCastleRoom(x, y - corriDiff, EEWorld.CastleCorridor);
-                PlaceAtlantisCastleRoomWalls(x, y - corriDiff, EEWorld.CastleCorridorWalls);
+                if (k == (int)(lengthL / 2))
+                {
+                    GenerateSubfloors(x, y, corriDiff);
+                }
+                else
+                {
+                    PlaceAtlantisCastleRoom(x, y - corriDiff, EEWorld.CastleCorridor);
+                    PlaceAtlantisCastleRoomWalls(x, y - corriDiff, EEWorld.CastleCorridorWalls);
+                }
                 x += 9;
                 PlaceAtlantisCastleRoom(x, y - pillarDiff, EEWorld.CastlePillar);
                 PlaceAtlantisCastleRoomWalls(x, y - pillarDiff, EEWorld.CastlePillarWalls);
