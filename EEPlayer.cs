@@ -295,7 +295,7 @@ namespace EEMod
                     }
                 }
             }
-            if (Main.ActiveWorldFileData.Name != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1)
+            if (Main.ActiveWorldFileData.Name != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
             {
                 if (player.velocity.X > 1)
                 {
@@ -819,7 +819,7 @@ namespace EEMod
                     importantCutscene = true;
                 }
                 markerPlacer++;
-                if (markerPlacer % 10 == 0)
+                if (markerPlacer % 10 == 0 && EEModConfigClient.Instance.ParticleEffects)
                 {
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<Particles>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                 }
