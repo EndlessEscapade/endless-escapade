@@ -1794,7 +1794,7 @@ namespace EEMod.EEWorld
             PlaceAtlantisCastleRoomWalls(x, y - pillarDiff, EEWorld.CastlePillarWalls);
             x += 2;
 
-            int lengthR = Main.rand.Next(5, 9);
+            int lengthR = Main.rand.Next(10, 14);
 
             for (int k = 0; k < lengthR; k++)
             {
