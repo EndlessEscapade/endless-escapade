@@ -247,7 +247,7 @@ namespace EEMod.NPCs.Friendly
                 shop.item[nextSlot].SetDefaults(ItemID.SlimeStaff);
                 nextSlot++;
             }
-            if (Main.rand.Next(25) == 0 && NPC.downedBoss3)
+            if (Main.rand.Next(50) == 0 && NPC.downedBoss3)
             {
                 shop.item[nextSlot].SetDefaults(ItemID.BoneKey);
                 nextSlot++;
