@@ -5,6 +5,8 @@ using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
 using EEMod.Tiles;
 using EEMod.Tiles.Walls;
+using System.Collections.Generic;
+using System;
 
 namespace EEMod
 {
@@ -32,9 +34,9 @@ namespace EEMod
             Main.spawnTileX = 234;
             Main.spawnTileY = 92;
             SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
             EEWorld.EEWorld.FillWall(400, 400, new Vector2(0, 0), WallID.Waterfall);
             EEMod.isSaving = false;
-            SubworldManager.PostReset(customProgressObject);
         }
 
         public static void CoralReefs(int seed, GenerationProgress customProgressObject = null)
@@ -77,16 +79,12 @@ namespace EEMod
         }
         public static void Island(int seed, GenerationProgress customProgressObject = null)
         {
-            Main.maxTilesX = 400;
-            Main.maxTilesY = 405;
-            Main.spawnTileX = 234;
-            Main.spawnTileY = 92;
-            Main.worldSurface = Main.maxTilesY;
-            Main.rockLayer = Main.maxTilesY;
+            Main.maxTilesX = 900;
+            Main.maxTilesY = 500;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-
-
+            List<Vector2> islandPositions = new List<Vector2>();
+            /*
             //Not the island
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 180, new Vector2(0, 0));
@@ -128,8 +126,72 @@ namespace EEMod
             EEWorld.EEWorld.PlaceShipWalls(50, 158, EEWorld.EEWorld.ShipWalls);
 
             WorldGen.AddTrees();
+            */
+            int sizeX = 120;
+            int sizeY = 60;
+            int yPos = 80;
+            int numberOfBuildingsInMidClass = 7;
+            int number;
+            List<int> listNumbers = new List<int>();
+            int numberOfBuildings = 10;
+            for (int i = 0; i < numberOfBuildings; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, numberOfBuildings);
+                } while (listNumbers.Contains(number));
+                listNumbers.Add(number);
+            } 
+            for (int i = 0; i < numberOfBuildingsInMidClass; i++)
+            {
+                float randomPosMiddleClass = Main.maxTilesX / 2 - sizeX + (i*((sizeX*2)/ (numberOfBuildingsInMidClass - 1)));
+                float whereTheYShouldBe = yPos + sizeY - (float)(Math.Pow(randomPosMiddleClass - (Main.maxTilesX / 2), 2) / (Math.Pow(sizeX, 2) / (float)sizeY)) ;
+                Vector2 actualPlace = new Vector2(randomPosMiddleClass, whereTheYShouldBe);
+                islandPositions.Add(actualPlace);
+            }
+           
+            float displacement = 180;
+            float startingHeightOfUpperClass = sizeY + yPos + 10;
+            for (int j = 0; j < islandPositions.Count; j++)
+            {
+                EEWorld.EEWorld.MakeOvalFlatTop(40, 13, new Vector2(islandPositions[j].X - 15, islandPositions[j].Y), ModContent.TileType<HardenedGemsandTile>());
+            }
+           
+            for (int j = 0; j < 3; j++)
+            {
+                EEWorld.EEWorld.MakeOvalFlatTop(44, 17, new Vector2(Main.maxTilesX/2 - displacement, startingHeightOfUpperClass + (j*50) + 10), ModContent.TileType<GemsandTile>());
+            }
+            for (int j = 0; j < 3; j++)
+            {
+                EEWorld.EEWorld.MakeOvalFlatTop(44, 17, new Vector2(Main.maxTilesX / 2 + displacement, startingHeightOfUpperClass + (j * 50) + 10), ModContent.TileType<GemsandTile>());
+            }
+            int distanceFromEdge = 100;
+            for (int j = 0; j < 2; j++)
+            { 
+                for (int i = 2; i > 0; i--)
+                {
+                    if((j == 0 && i == 2) || (j == 1 && i == 1))
+                    EEWorld.EEWorld.MakeOvalFlatTop(44, 12, new Vector2(distanceFromEdge + (j * 50), distanceFromEdge + (i * 40) - 50), ModContent.TileType<GemsandstoneTile>());
+                }
+            }
+            EEWorld.EEWorld.MakeChasm(distanceFromEdge - 20, distanceFromEdge + 60, 170, ModContent.TileType<GemsandstoneTile>(), 0, 10, 10);
+            EEWorld.EEWorld.MakeChasm(distanceFromEdge + 70, distanceFromEdge + 60, 170, ModContent.TileType<GemsandstoneTile>(), 0, 10, 10);
+            EEWorld.EEWorld.MakeOvalJaggedTop(25, 40, new Vector2(distanceFromEdge + 12, distanceFromEdge + 120), ModContent.TileType<GemsandstoneTile>());
+            for (int j = 0; j < 2; j++)
+            {
+                for (int i = 2; i > 0; i--)
+                {
+                    if ((j == 0 && i == 2) || (j == 1 && i == 1))
+                    EEWorld.EEWorld.MakeOvalFlatTop(44, 12, new Vector2(Main.maxTilesX - distanceFromEdge - (j * 50) - 44, distanceFromEdge + (i * 40) - 50), ModContent.TileType<GemsandstoneTile>());
+                }
+            }
+            EEWorld.EEWorld.MakeLayerWithOutline(Main.maxTilesX / 2, 70, 30, 1, ModContent.TileType<HardenedGemsandTile>(),40);
+            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            Main.spawnTileX = 500;
+            Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
+            //imagine coding...
         }
         public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
         {
