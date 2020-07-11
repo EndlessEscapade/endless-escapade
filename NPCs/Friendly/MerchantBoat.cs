@@ -18,6 +18,7 @@ namespace EEMod.NPCs.Friendly
             npc.friendly = true;
             npc.lifeMax = 2000;
             npc.aiStyle = 0;
+            npc.noGravity = true;
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
@@ -276,7 +277,10 @@ namespace EEMod.NPCs.Friendly
 
         public override void AI()
         {
-            
+            if (Main.LocalPlayer.talkNPC)
+            {
+
+            }
         }
     }
 }
