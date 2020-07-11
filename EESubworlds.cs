@@ -153,32 +153,42 @@ namespace EEMod
             float startingHeightOfUpperClass = sizeY + yPos + 10;
             for (int j = 0; j < islandPositions.Count; j++)
             {
-                EEWorld.EEWorld.MakeOvalFlatTop(40, 13, new Vector2(islandPositions[j].X - 15, islandPositions[j].Y), ModContent.TileType<HardenedGemsandTile>());
+                //EEWorld.EEWorld.MakeOvalFlatTop(40, 13, new Vector2(islandPositions[j].X - 15, islandPositions[j].Y), ModContent.TileType<HardenedGemsandTile>());
                 switch(listNumbers[j])
                 {
                     case 0:
                         {
-                            EEWorld.EEWorld.PlaceM1((int)islandPositions[j].X, (int)islandPositions[j].Y - 20, EEWorld.EEWorld.M1);
+                            EEWorld.EEWorld.PlaceM1((int)islandPositions[j].X - EEWorld.EEWorld.M1.GetLength(0)/2, (int)islandPositions[j].Y - EEWorld.EEWorld.M1.GetLength(1)/2, EEWorld.EEWorld.M1);
                             break;
                         }
                     case 1:
                         {
-                            EEWorld.EEWorld.PlaceM2((int)islandPositions[j].X, (int)islandPositions[j].Y - 20, EEWorld.EEWorld.M2);
+                            EEWorld.EEWorld.PlaceM2((int)islandPositions[j].X - EEWorld.EEWorld.M2.GetLength(0) / 2, (int)islandPositions[j].Y - EEWorld.EEWorld.M2.GetLength(1)/2, EEWorld.EEWorld.M2);
                             break;
                         }
                     case 2:
                         {
-                            EEWorld.EEWorld.PlaceM3((int)islandPositions[j].X, (int)islandPositions[j].Y - 20, EEWorld.EEWorld.M3);
+                            EEWorld.EEWorld.PlaceM3((int)islandPositions[j].X - EEWorld.EEWorld.M3.GetLength(0) / 2, (int)islandPositions[j].Y - EEWorld.EEWorld.M3.GetLength(1) / 2, EEWorld.EEWorld.M3);
                             break;
                         }
                     case 3:
                         {
-                            EEWorld.EEWorld.PlaceBlackSmith((int)islandPositions[j].X, (int)islandPositions[j].Y - 20, EEWorld.EEWorld.Blacksmith);
+                            EEWorld.EEWorld.PlaceBlackSmith((int)islandPositions[j].X - EEWorld.EEWorld.Blacksmith.GetLength(0) / 2, (int)islandPositions[j].Y - EEWorld.EEWorld.Blacksmith.GetLength(1) / 2, EEWorld.EEWorld.Blacksmith);
                             break;
                         }
                     case 4:
                         {
-                            EEWorld.EEWorld.PlaceM1((int)islandPositions[j].X, (int)islandPositions[j].Y - 20, EEWorld.EEWorld.M1);
+                            EEWorld.EEWorld.PlaceM4Temple((int)islandPositions[j].X - EEWorld.EEWorld.M4Temple.GetLength(0) / 2, (int)islandPositions[j].Y - EEWorld.EEWorld.M4Temple.GetLength(1) / 2, EEWorld.EEWorld.M4Temple);
+                            break;
+                        }
+                    case 5:
+                        {
+                            EEWorld.EEWorld.PlaceBrewery((int)islandPositions[j].X - EEWorld.EEWorld.Brewery.GetLength(0) / 2, (int)islandPositions[j].Y - EEWorld.EEWorld.Brewery.GetLength(1) / 2, EEWorld.EEWorld.Brewery);
+                            break;
+                        }
+                    case 6:
+                        {
+                            EEWorld.EEWorld.PlaceHeadQ((int)islandPositions[j].X - EEWorld.EEWorld.HeadQ.GetLength(0) / 2, (int)islandPositions[j].Y - EEWorld.EEWorld.HeadQ.GetLength(1) / 2, EEWorld.EEWorld.HeadQ);
                             break;
                         }
                 }
@@ -218,8 +228,8 @@ namespace EEMod
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
-            EEWorld.EEWorld.MakeOval(330, 170, new Vector2(Main.maxTilesX / 2 - 145, (int)startingHeightOfUpperClass + 25), ModContent.TileType<GemsandstoneTile>(), false);
-            EEWorld.EEWorld.MakeOval(300, 140, new Vector2(Main.maxTilesX / 2 - 150, (int)startingHeightOfUpperClass + 40), TileID.StoneSlab, true);
+            EEWorld.EEWorld.MakeOval(340, 180, new Vector2(Main.maxTilesX / 2 - 145, (int)startingHeightOfUpperClass + 25), ModContent.TileType<GemsandstoneTile>(), false);
+            EEWorld.EEWorld.MakeOval(325, 150, new Vector2(Main.maxTilesX / 2 - 150, (int)startingHeightOfUpperClass + 40), TileID.StoneSlab, true);
             for (int i = 0; i < Main.maxTilesX; i++)
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
@@ -229,8 +239,8 @@ namespace EEMod
                         WorldGen.KillTile(i, j);
                 }
             }
-            EEWorld.EEWorld.MakeChasm(Main.maxTilesX / 2 - 120, (int)startingHeightOfUpperClass + 75, 70, ModContent.TileType<GemsandstoneTile>(), 0, 1,1);
-            EEWorld.EEWorld.MakeAtlantisCastle(Main.maxTilesX / 2 - 110, (int)startingHeightOfUpperClass + 55);
+            //EEWorld.EEWorld.MakeChasm(Main.maxTilesX / 2 - 120, (int)startingHeightOfUpperClass + 75, 70, ModContent.TileType<GemsandstoneTile>(), 0, 1,1);
+            EEWorld.EEWorld.MakeAtlantisCastle(Main.maxTilesX / 2 - 120, (int)startingHeightOfUpperClass + 55);
             //imagine coding...
         }
         public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
