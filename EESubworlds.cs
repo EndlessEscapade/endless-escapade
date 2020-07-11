@@ -131,8 +131,13 @@ namespace EEMod
             int sizeY = 60;
             int yPos = 80;
             int numberOfBuildingsInMidClass = 7;
+            int numberOfBuildingsInHighClass = 6;
+            int numberOfFillers = 6;
             int number;
             List<int> listNumbers = new List<int>();
+            List<int> listNumbersHighClass = new List<int>();
+            List<int> listNumbersFillers = new List<int>();
+            List<Vector2> fillers = new List<Vector2>();
             for (int i = 0; i < numberOfBuildingsInMidClass; i++)
             {
                 do
@@ -140,15 +145,30 @@ namespace EEMod
                     number = Main.rand.Next(0, numberOfBuildingsInMidClass);
                 } while (listNumbers.Contains(number));
                 listNumbers.Add(number);
-            } 
+            }
+            for (int i = 0; i < numberOfFillers; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, numberOfFillers);
+                } while (listNumbersFillers.Contains(number));
+                listNumbersFillers.Add(number);
+            }
+            for (int i = 0; i < numberOfBuildingsInHighClass; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, numberOfBuildingsInHighClass);
+                } while (listNumbersHighClass.Contains(number));
+                listNumbersHighClass.Add(number);
+            }
             for (int i = 0; i < numberOfBuildingsInMidClass; i++)
             {
-                float randomPosMiddleClass = Main.maxTilesX / 2 - sizeX + (i*((sizeX*2)/ (numberOfBuildingsInMidClass - 1)));
-                float whereTheYShouldBe = yPos + sizeY - (float)(Math.Pow(randomPosMiddleClass - (Main.maxTilesX / 2), 2) / (Math.Pow(sizeX, 2) / (float)sizeY)) ;
+                float randomPosMiddleClass = Main.maxTilesX / 2 - sizeX + (i * ((sizeX * 2) / (numberOfBuildingsInMidClass - 1)));
+                float whereTheYShouldBe = yPos + sizeY - (float)(Math.Pow(randomPosMiddleClass - (Main.maxTilesX / 2), 2) / (Math.Pow(sizeX, 2) / (float)sizeY));
                 Vector2 actualPlace = new Vector2(randomPosMiddleClass, whereTheYShouldBe);
                 islandPositions.Add(actualPlace);
             }
-           
             float displacement = 220;
             float startingHeightOfUpperClass = sizeY + yPos + 10;
             for (int j = 0; j < islandPositions.Count; j++)
@@ -193,14 +213,81 @@ namespace EEMod
                         }
                 }
             }
-           
+            fillers.Add(new Vector2(Main.maxTilesX / 2 - (int)displacement + 90, (int)startingHeightOfUpperClass + 40));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 + (int)displacement - 90, (int)startingHeightOfUpperClass + 20));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 + (int)displacement + 50, (int)startingHeightOfUpperClass + 50 + 130));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 - (int)displacement + 20, (int)startingHeightOfUpperClass + 40 + 130));
             for (int j = 0; j < 3; j++)
             {
-                EEWorld.EEWorld.MakeOvalFlatTop(44, 17, new Vector2(Main.maxTilesX/2 - displacement, startingHeightOfUpperClass + (j*50) + 10), ModContent.TileType<GemsandTile>());
+                switch (listNumbersHighClass[j])
+                {
+                    case 0:
+                        {
+                            EEWorld.EEWorld.PlaceH2(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.H2.GetLength(1) / 2, EEWorld.EEWorld.H2);
+                            break;
+                        }
+                    case 1:
+                        {
+                            EEWorld.EEWorld.PlaceLootRoom(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.LootRoom.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.LootRoom.GetLength(1) / 2, EEWorld.EEWorld.LootRoom);
+                            break;
+                        }
+                    case 2:
+                        {
+                            EEWorld.EEWorld.PlaceH1(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.H1.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.H1.GetLength(1) / 2, EEWorld.EEWorld.H1);
+                            break;
+                        }
+                    case 3:
+                        {
+                            EEWorld.EEWorld.MidTemp2(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.WorshipPlaceAtlantis.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.WorshipPlaceAtlantis.GetLength(1) / 2, EEWorld.EEWorld.WorshipPlaceAtlantis);
+                            break;
+                        }
+                    case 4:
+                        {
+                            EEWorld.EEWorld.PlaceFountain(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.Fountain.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.Fountain.GetLength(1) / 2, EEWorld.EEWorld.Fountain);
+                            break;
+                        }
+                    case 5:
+                        {
+                            EEWorld.EEWorld.PlaceH2(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.H2.GetLength(1) / 2, EEWorld.EEWorld.H2);
+                            break;
+                        }
+                }
             }
             for (int j = 0; j < 3; j++)
             {
-                EEWorld.EEWorld.MakeOvalFlatTop(44, 17, new Vector2(Main.maxTilesX / 2 + displacement, startingHeightOfUpperClass + (j * 50) + 10), ModContent.TileType<GemsandTile>());
+                switch (listNumbersHighClass[j +3])
+                {
+                    case 0:
+                        {
+                            EEWorld.EEWorld.PlaceH2(Main.maxTilesX / 2 + (int)displacement - EEWorld.EEWorld.H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.H2.GetLength(1) / 2, EEWorld.EEWorld.H2);
+                            break;
+                        }
+                    case 1:
+                        {
+                            EEWorld.EEWorld.PlaceLootRoom(Main.maxTilesX / 2 + (int)displacement - EEWorld.EEWorld.LootRoom.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.LootRoom.GetLength(1) / 2, EEWorld.EEWorld.LootRoom);
+                            break;
+                        }
+                    case 2:
+                        {
+                            EEWorld.EEWorld.PlaceH1(Main.maxTilesX / 2 + (int)displacement - EEWorld.EEWorld.H1.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.H1.GetLength(1) / 2, EEWorld.EEWorld.H1);
+                            break;
+                        }
+                    case 3:
+                        {
+                            EEWorld.EEWorld.MidTemp2(Main.maxTilesX / 2 + (int)displacement - EEWorld.EEWorld.WorshipPlaceAtlantis.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.WorshipPlaceAtlantis.GetLength(1) / 2, EEWorld.EEWorld.WorshipPlaceAtlantis);
+                            break;
+                        }
+                    case 4:
+                        {
+                            EEWorld.EEWorld.PlaceFountain(Main.maxTilesX / 2 + (int)displacement - EEWorld.EEWorld.Fountain.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.Fountain.GetLength(1) / 2, EEWorld.EEWorld.Fountain);
+                            break;
+                        }
+                    case 5:
+                        {
+                            EEWorld.EEWorld.PlaceH2(Main.maxTilesX / 2 + (int)displacement - EEWorld.EEWorld.H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.H2.GetLength(1) / 2, EEWorld.EEWorld.H2);
+                            break;
+                        }
+                }
             }
             int distanceFromEdge = 100;
             for (int j = 0; j < 2; j++)
@@ -222,14 +309,16 @@ namespace EEMod
                     EEWorld.EEWorld.MakeOvalFlatTop(44, 12, new Vector2(Main.maxTilesX - distanceFromEdge - (j * 50) - 44, distanceFromEdge + (i * 40) - 50), ModContent.TileType<GemsandstoneTile>());
                 }
             }
+            fillers.Add(new Vector2(Main.maxTilesX - distanceFromEdge - 44, distanceFromEdge + 120));
+            fillers.Add(new Vector2(60, 60));
             EEWorld.EEWorld.MakeLayerWithOutline(Main.maxTilesX / 2, 70, 30, 1, ModContent.TileType<HardenedGemsandTile>(),40);
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
-            EEWorld.EEWorld.MakeOval(340, 180, new Vector2(Main.maxTilesX / 2 - 145, (int)startingHeightOfUpperClass + 25), ModContent.TileType<GemsandstoneTile>(), false);
-            EEWorld.EEWorld.MakeOval(325, 150, new Vector2(Main.maxTilesX / 2 - 150, (int)startingHeightOfUpperClass + 40), TileID.StoneSlab, true);
+            EEWorld.EEWorld.MakeOval(350, 190, new Vector2(Main.maxTilesX / 2 - 160, (int)startingHeightOfUpperClass + 25), ModContent.TileType<GemsandstoneTile>(), false);
+            EEWorld.EEWorld.MakeOval(335, 160, new Vector2(Main.maxTilesX / 2 - 165, (int)startingHeightOfUpperClass + 40), TileID.StoneSlab, true);
             for (int i = 0; i < Main.maxTilesX; i++)
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
@@ -240,8 +329,46 @@ namespace EEMod
                 }
             }
             //EEWorld.EEWorld.MakeChasm(Main.maxTilesX / 2 - 120, (int)startingHeightOfUpperClass + 75, 70, ModContent.TileType<GemsandstoneTile>(), 0, 1,1);
-            EEWorld.EEWorld.MakeAtlantisCastle(Main.maxTilesX / 2 - 120, (int)startingHeightOfUpperClass + 55);
+            EEWorld.EEWorld.MakeAtlantisCastle(Main.maxTilesX / 2 - 146, (int)startingHeightOfUpperClass + 65);
             //imagine coding...
+            for (int j = 0; j < fillers.Count; j++)
+            {
+                switch (listNumbersFillers[j])
+                {
+                    case 0:
+                        {
+                            EEWorld.EEWorld.PlaceFiller1((int)fillers[j].X - EEWorld.EEWorld.Filler1.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Filler1.GetLength(1) / 2, EEWorld.EEWorld.Filler1);
+                            break;
+                        }
+                    case 1:
+                        {
+                            EEWorld.EEWorld.PlaceFiller2((int)fillers[j].X - EEWorld.EEWorld.Filler2.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Filler2.GetLength(1) / 2, EEWorld.EEWorld.Filler2);
+                            break;
+                        }
+                    case 2:
+                        {
+                            EEWorld.EEWorld.PlaceFiller3((int)fillers[j].X - EEWorld.EEWorld.Filler3.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Filler3.GetLength(1) / 2, EEWorld.EEWorld.Filler3);
+                            break;
+                        }
+                    case 3:
+                        {
+                            EEWorld.EEWorld.PlaceFiller4((int)fillers[j].X - EEWorld.EEWorld.Filler4.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Filler4.GetLength(1) / 2, EEWorld.EEWorld.Filler4);
+                            break;
+                        }
+                    case 4:
+                        {
+                            EEWorld.EEWorld.PlaceFiller5((int)fillers[j].X - EEWorld.EEWorld.Filler5.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Filler5.GetLength(1) / 2, EEWorld.EEWorld.Filler5);
+                            break;
+                        }
+                    case 5:
+                        {
+                            EEWorld.EEWorld.PlaceFiller6((int)fillers[j].X - EEWorld.EEWorld.Filler6.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Filler6.GetLength(1) / 2, EEWorld.EEWorld.Filler6);
+                            break;
+                        }
+                }
+            }
+            WorldGen.TileRunner(80, 80, 30, 10, ModContent.TileType<GemsandstoneTile>());
+            WorldGen.TileRunner(100, 60, 30, 10, ModContent.TileType<GemsandstoneTile>());
         }
         public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
         {
