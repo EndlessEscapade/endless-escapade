@@ -314,6 +314,231 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void PlaceFountain(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        //tile.ClearTile();
+                        switch (shape[y, x])
+                        {
+                            case 0:
+                                //WorldGen.KillTile(k, l, false, false, true);
+                                break;
+                            case 1:
+                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.active(true);
+                                break;
+                            case 2:
+                                tile.type = TileID.Sand;
+                                tile.color(28);
+                                tile.active(true);
+                                break;
+                            case 3:
+                                tile.type = TileID.Stone;
+                                tile.active(true);
+                                break;
+                            case 4:
+                                tile.type = TileID.Platforms;
+                                tile.active(true);
+                                break;
+                            case 5:
+                                tile.type = TileID.LivingFire;
+                                tile.active(true);
+                                break;
+                            case 6:
+                                tile.type = TileID.SilkRope;
+                                tile.active(true);
+                                break;
+                            case 7:
+                                tile.type = TileID.LeafBlock;
+                                tile.active(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        public static void PlaceM1(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        //tile.ClearTile();
+                        switch (shape[y, x])
+                        {
+                            case 0:
+                                //WorldGen.KillTile(k, l, false, false, true);
+                                break;
+                            case 1:
+                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.active(true);
+                                break;
+                            case 2:
+                                tile.type = TileID.LunarBlockStardust;
+                                tile.color(28);
+                                tile.active(true);
+                                break;
+                            case 3:
+                                tile.type = TileID.LeafBlock;
+                                tile.active(true);
+                                break;
+                            case 4:
+                                tile.type = TileID.Platforms;
+                                tile.active(true);
+                                break;
+                            case 5:
+                                tile.type = TileID.Books;
+                                tile.active(true);
+                                break;
+                            case 6:
+                                tile.type = TileID.VineRope;
+                                tile.active(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        public static void PlaceBlackSmith(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        //tile.ClearTile();
+                        switch (shape[y, x])
+                        {
+                            case 0:
+                                //WorldGen.KillTile(k, l, false, false, true);
+                                break;
+                            case 1:
+                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.active(true);
+                                break;
+                            case 2:
+                                tile.type = TileID.Coralstone;
+                                tile.color(28);
+                                tile.active(true);
+                                break;
+                            case 3:
+                                tile.type = TileID.MetalBars;
+                                tile.active(true);
+                                break;
+                            case 4:
+                                tile.type = TileID.Platforms;
+                                tile.active(true);
+                                break;
+                            case 5:
+                                tile.type = TileID.Chain;
+                                tile.active(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        public static void PlaceM2(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        //tile.ClearTile();
+                        switch (shape[y, x])
+                        {
+                            case 0:
+                                //WorldGen.KillTile(k, l, false, false, true);
+                                break;
+                            case 1:
+                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.active(true);
+                                break;
+                            case 2:
+                                tile.type = TileID.Coralstone;
+                                tile.color(28);
+                                tile.active(true);
+                                break;
+                            case 3:
+                                tile.type = TileID.Books;
+                                tile.active(true);
+                                break;
+                            case 4:
+                                tile.type = TileID.Platforms;
+                                tile.active(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+        public static void PlaceM3(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        //tile.ClearTile();
+                        switch (shape[y, x])
+                        {
+                            case 0:
+                                //WorldGen.KillTile(k, l, false, false, true);
+                                break;
+                            case 1:
+                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.active(true);
+                                break;
+                            case 2:
+                                tile.type = TileID.Books;
+                                tile.color(28);
+                                tile.active(true);
+                                break;
+                            case 3:
+                                tile.type = TileID.Platforms;
+                                tile.active(true);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         public static void PlaceShipWalls(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1010,14 +1235,14 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void MakeOval(int width, int height, Vector2 startingPoint, int type)
+        public static void MakeOval(int width, int height, Vector2 startingPoint, int type, bool forced)
         {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type,false, forced);
 
                     if (i == width / 2 && j == height / 2)
                     {
@@ -1122,7 +1347,7 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(positionX + (int)(i * slant), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10) + stepAddon, type, true, 0f, 0f, true, true);
             }
         }
-        private static void MakeWavyChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
+        public static void MakeWavyChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
         {
             for (int i = 0; i < height; i++)
             {
@@ -1130,7 +1355,7 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
             }
         }
-        private static void MakeWavyChasm2(int positionX, int positionY, int height, int type, float slant, int sizeAddon, bool Override)
+        public static void MakeWavyChasm2(int positionX, int positionY, int height, int type, float slant, int sizeAddon, bool Override)
         {
             for (int i = 0; i < height; i++)
             {

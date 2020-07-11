@@ -182,7 +182,7 @@ namespace EEMod
         }
         public static void CreateNewWorld(string text)
         {
-                Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
+            Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
             ThreadPool.QueueUserWorkItem(WorldGenCallBack, text);
         }
         private static void OnWorldNamed(string text)
