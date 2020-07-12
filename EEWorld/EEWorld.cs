@@ -16,17 +16,13 @@ namespace EEMod.EEWorld
 {
     public partial class EEWorld : ModWorld
     {
-        public static bool GenkaiMode;
+        //public static bool GenkaiMode;
 
-        public static bool downedGallagar;
-        public static bool downedForerunner;
-        public static bool downedSoS;
-        public static bool downedFlare;
-        public static bool downedAssimilator;
+        //public static bool downedGallagar;
         public static bool downedAkumo;
         public static bool downedHydros;
-        public static bool downedStagrel;
-        public static bool downedBeheader;
+        //public static bool downedStagrel;
+        public static bool downedKraken;
 
        // private static List<Point> BiomeCenters;
         public static int CoralReefsTiles = 0;
@@ -141,18 +137,11 @@ namespace EEMod.EEWorld
             IList<string> flags = tag.GetList<string>("boolFlags");
 
             // Game modes
-            GenkaiMode = flags.Contains("GenkaiMode");
 
             // Downed bosses
-            downedGallagar = flags.Contains("downedGallagar");
-            downedForerunner = flags.Contains("downedForerunner");
-            downedSoS = flags.Contains("downedSoS");
-            downedFlare = flags.Contains("downedFlare");
-            downedAssimilator = flags.Contains("downedAssimilator");
             downedAkumo = flags.Contains("downedAkumo");
             downedHydros = flags.Contains("downedHydros");
-            downedStagrel = flags.Contains("downedStagrel");
-            downedBeheader = flags.Contains("downedBeheader");
+            downedKraken = flags.Contains("downedKraken");
         }
         public override TagCompound Save()
         {

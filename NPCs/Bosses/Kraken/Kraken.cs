@@ -37,5 +37,10 @@ namespace EEMod.NPCs.Bosses.Kraken
 
             musicPriority = MusicPriority.BossMedium;
         }
+
+        public override void NPCLoot()
+        {
+            EEWorld.EEWorld.downedKraken = true;
+        }
     }
 }
