@@ -315,8 +315,8 @@ namespace EEMod
         int frameSpeed;
         public static float ShipHelthMax = 100;
         public static float ShipHelth = 100;
-        public static Vector2 position;
-        public static Vector2 velocity;
+        public Vector2 position;
+        public Vector2 velocity;
         public static readonly Vector2 start = new Vector2(1700, 900);
         private void DrawSubText()
         {
@@ -334,6 +334,24 @@ namespace EEMod
         }
         float flash = 0;
         float markerPlacer = 0;
+        public static bool IsPlayerLocalServerOwner(int whoAmI)
+        {
+            if (Main.netMode == 1)
+            {
+                return Netplay.Connection.Socket.GetRemoteAddress().IsLocalHost();
+            }
+
+            for (int i = 0; i < Main.maxPlayers; i++)
+            {
+                RemoteClient client = Netplay.Clients[i];
+                if (client.State == 10 && i == whoAmI && client.Socket.GetRemoteAddress().IsLocalHost())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
         private void DrawShip()
         {
             markerPlacer++;
@@ -377,14 +395,15 @@ namespace EEMod
             {
                 velocity *= 0.98f;
             }
-            for (int i = 0; i < EEPlayer.objectPos.Count; i++)
+            for (int i = 0; i < eePlayer.objectPos.Count; i++)
             {
+                Main.NewText(eePlayer.objectPos[i]);
                 if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i != 7 && i != 8)
-                    Lighting.AddLight(EEPlayer.objectPos[i], .4f, .4f, .4f);
+                    Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
                 if (i == 1)
-                    Lighting.AddLight(EEPlayer.objectPos[i], .15f, .15f, .15f);
+                    Lighting.AddLight(eePlayer.objectPos[i], .15f, .15f, .15f);
             }
-
+            
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;

@@ -24,7 +24,7 @@ namespace EEMod.Projectiles.OceanMap
 
         public override void AI()
         {
-            Vector2 moveTo = Main.screenPosition + EEMod.position;
+            Vector2 moveTo = Main.screenPosition + EEMod.instance.position;
             projectile.spriteDirection = 1;
             if (projectile.velocity.X > 0)
             {

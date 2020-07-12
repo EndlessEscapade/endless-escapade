@@ -27,7 +27,6 @@ namespace EEMod.UI
         DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[7];
         public float pivot;
         public int pauseTimer;
-
         public override void OnInitialize()
         {
             StringOfTextures[0] = "EEMod/Projectiles/Runes/DesertRune";

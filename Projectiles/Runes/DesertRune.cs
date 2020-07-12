@@ -76,7 +76,6 @@ namespace EEMod.Projectiles.Runes
         float flash = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-           
             flash += 0.01f;
             if(flash == 2)
             {

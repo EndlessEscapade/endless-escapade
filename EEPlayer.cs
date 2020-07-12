@@ -116,7 +116,7 @@ namespace EEMod
             ZoneCoralReefs = flags[0];
         }
 
-        public static bool godMode = false;
+        public bool godMode = false;
         public bool quartzCrystal = false;
         public bool isQuartzRangedOn = false;
         public bool isQuartzSummonOn = false;
@@ -134,15 +134,15 @@ namespace EEMod
         public int cutSceneTriggerTimer2;
         public float cutSceneTriggerTimer3;
         public int coralReefTrans;
-        public static int markerPlacer;
+        public int markerPlacer;
         public Vector2 position;
         public Vector2 velocity;
-        public static List<Vector2> objectPos = new List<Vector2>();
-        public static bool isNearIsland;
-        public static bool isNearVolcano;
-        public static bool isNearMainIsland;
-        public static bool isNearCoralReefs;
-        public static string baseWorldName;
+        public List<Vector2> objectPos = new List<Vector2>();
+        public bool isNearIsland;
+        public bool isNearVolcano;
+        public bool isNearMainIsland;
+        public bool isNearCoralReefs;
+        public string baseWorldName;
         public byte[] hasGottenRuneBefore = new byte[5];
         public static int moralScore;
         public int initialMoralScore;
@@ -189,30 +189,32 @@ namespace EEMod
 
         public override void Initialize()
         {
-            // importantCutscene = false;
-            EEMod.AscentionHandler = 0;
-            EEMod.startingTextHandler = 0;
-            EEMod.isAscending = false;
-            EEMod.AscentionHandler = 0;
-            isSaving = false;
-            godMode = false;
-            timerForCutscene = 0;
-            markerPlacer = 0;
-            arrowFlag = false;
-            noU = false;
-            triggerSeaCutscene = false;
-            cutSceneTriggerTimer = 0;
-            cutSceneTriggerTimer2 = 500;
-            position = player.Center;
-            speedOfPan = 0;
-            subTextAlpha = 0;
-            EEMod.position = new Vector2(1700, 900);
-            objectPos.Clear();
-            EEMod.ShipHelth = EEMod.ShipHelthMax;
-            MoralFirstFrame();
-            displacmentX = 0;
-            displacmentY = 0;
-            startingText = false;
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                EEMod.AscentionHandler = 0;
+                EEMod.startingTextHandler = 0;
+                EEMod.isAscending = false;
+                EEMod.AscentionHandler = 0;
+                isSaving = false;
+                godMode = false;
+                timerForCutscene = 0;
+                markerPlacer = 0;
+                arrowFlag = false;
+                noU = false;
+                triggerSeaCutscene = false;
+                cutSceneTriggerTimer = 0;
+                cutSceneTriggerTimer2 = 500;
+                position = player.Center;
+                speedOfPan = 0;
+                subTextAlpha = 0;
+                EEMod.instance.position = new Vector2(1700, 900);
+                objectPos.Clear();
+                EEMod.ShipHelth = EEMod.ShipHelthMax;
+                MoralFirstFrame();
+                displacmentX = 0;
+                displacmentY = 0;
+                startingText = false;
+            }
         }
 
         public override void ResetEffects()
@@ -337,17 +339,11 @@ namespace EEMod
 
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
+               if(Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    //
+                }
                 Main.screenPosition += new Vector2(0, 1000);
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                if (markerPlacer / 10 > 1)
-                {
-                    Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), EEMod.position, new Rectangle(0, 0, 174, 174), Color.White * flash * 0.5f, flash, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer / 10, SpriteEffects.None, 0);
-                }
-                else
-                {
-                    Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), EEMod.position, new Rectangle(0, 0, 174, 174), Color.White * Math.Abs((float)Math.Sin(flash)) * 0.5f, flash, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer / 10, SpriteEffects.None, 0);
-                }
-                Main.spriteBatch.End();
             }
 
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
@@ -450,7 +446,7 @@ namespace EEMod
                     noU = true;
                 if (noU)
                     titleText -= 0.005f;
-                Filters.Scene[shad2].GetShader().UseOpacity(EEMod.position.X);
+                Filters.Scene[shad2].GetShader().UseOpacity(EEMod.instance.position.X);
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad2].IsActive())
                 {
                     Filters.Scene.Activate(shad2, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
@@ -480,7 +476,7 @@ namespace EEMod
                 Rectangle rectangle2 = new Rectangle((int)pos2X - 56, (int)pos2Y - 32, 118, 64);
                 Rectangle rectangle3 = new Rectangle((int)pos9X - 115, (int)pos9Y - 49, 330, 98);
                 Rectangle rectangle4 = new Rectangle((int)pos10X - 110, (int)pos10Y - 58, 220, 116);
-                Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.position.Y - 30 + 1000, 60, 60);
+                Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
                 isNearIsland = false;
                 isNearVolcano = false;
                 isNearMainIsland = false;
@@ -584,10 +580,10 @@ namespace EEMod
                 {
                     if (Main.projectile[j].type == ProjectileType<PirateShip>())
                     {
-                        if ((Main.projectile[j].Center - EEMod.position - Main.screenPosition).Length() < 40)
+                        if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40)
                         {
                             EEMod.ShipHelth -= 20;
-                            EEMod.velocity += Main.projectile[j].velocity * 20;
+                            EEMod.instance.velocity += Main.projectile[j].velocity * 20;
                         }
                     }
                 }
@@ -717,7 +713,7 @@ namespace EEMod
 
                 if (markerPlacer % 40 == 0)
                 {
-                    Projectile.NewProjectile(Main.screenPosition + EEMod.position, Vector2.Zero, ModContent.ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
+                    Projectile.NewProjectile(Main.screenPosition + EEMod.instance.position, Vector2.Zero, ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.instance.velocity.X, EEMod.instance.velocity.Y);
                 }
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
@@ -755,7 +751,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                         Initialize();
-                        EEMod.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
+                        EEMod.instance.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
                         SM.SaveAndQuit(KeyID.Sea);
                     }
                     oceanarrow.visible = true;
@@ -777,8 +773,6 @@ namespace EEMod
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
             {
                 firstFrameVolcano = true;
-                Main.NewText(EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos);
-                Main.NewText(player.Center / 16);
                 player.ClearBuff(BuffID.Cursed);
 
                 if (!arrowFlag)
@@ -875,8 +869,8 @@ namespace EEMod
                 {
                     Filters.Scene.Deactivate(shad2);
                 }
-                EEMod.position = EEMod.start;
-                EEMod.velocity = Vector2.Zero;
+                EEMod.instance.position = EEMod.start;
+                EEMod.instance.velocity = Vector2.Zero;
                 titleText2 = 0;
                 if (!arrowFlag)
                 {
@@ -905,7 +899,6 @@ namespace EEMod
                         arrow.visible = false;
                     }
                 }
-                Main.NewText(triggerSeaCutscene);
                 OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
                 if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X)  &&
                     player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 4) &&
@@ -1077,18 +1070,26 @@ namespace EEMod
             EEPlayer clone = clientClone as EEPlayer;
         }
 
+        public Vector2 EEPosition;
         public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
         {
             ModPacket packet = mod.GetPacket();
-            packet.Write(triggerSeaCutscene); 
+            packet.Write(triggerSeaCutscene);
+            packet.WriteVector2(EEPosition);
             packet.Send(toWho, fromWho);
         }
 
         public override void SendClientChanges(ModPlayer clientPlayer)
         {
+            EEPlayer clone = clientPlayer as EEPlayer;
+
+            if (clone.EEPosition != EEMod.instance.position)
+            {
                 var packet = mod.GetPacket();
                 packet.Write(triggerSeaCutscene);
+                packet.WriteVector2(EEPosition);
                 packet.Send();
+            }
         }
 
         private void ResetMinionEffect()
