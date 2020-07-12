@@ -44,7 +44,6 @@ namespace EEMod
         string shad1 = "EEMod:Ripple";
         string shad2 = "EEMod:SunThroughWalls";
         string shad3 = "EEMod:SeaTrans";
-
         public bool firstFrameVolcano;
 
         public override void UpdateBiomes()
@@ -237,7 +236,7 @@ namespace EEMod
         int AnchorsVolc;
         int AnchorsMain;
         int AnchorsCoral;
-
+        public int offSea = 1000;
         public void ReturnHome()
         {
             Initialize();
@@ -339,11 +338,8 @@ namespace EEMod
 
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
-               if(Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    //
-                }
-                Main.screenPosition += new Vector2(0, 1000);
+                if(markerPlacer > 1)
+                Main.screenPosition += new Vector2(0, offSea);
             }
 
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
@@ -619,8 +615,8 @@ namespace EEMod
                         }
                     }
                     //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, ModContent.ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ModContent.ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ModContent.ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ModContent.ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ModContent.ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ModContent.ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);

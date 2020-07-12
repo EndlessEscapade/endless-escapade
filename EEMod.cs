@@ -397,7 +397,6 @@ namespace EEMod
             }
             for (int i = 0; i < eePlayer.objectPos.Count; i++)
             {
-                Main.NewText(eePlayer.objectPos[i]);
                 if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i != 7 && i != 8)
                     Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
                 if (i == 1)
