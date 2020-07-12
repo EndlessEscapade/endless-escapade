@@ -15,7 +15,7 @@ namespace EEMod
         public bool EEModClassTooltips;
         [DefaultValue(false)]
         [Label("Particles")]
-        [Tooltip("Enable Particle Effects")]
+        [Tooltip("Enable Particle Effects, May have to restart world!")]
         public bool ParticleEffects;
         [DefaultValue(false)]
         [Label("Dynamic Camera Movement")]
