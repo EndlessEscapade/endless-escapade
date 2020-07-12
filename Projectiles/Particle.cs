@@ -42,6 +42,10 @@ namespace EEMod.Projectiles
                 particle.Position = particlesPos;
                 Particles.Add(particle);
             }
+            if(!EEModConfigClient.Instance.ParticleEffects)
+            {
+                projectile.Kill();
+            }
         }
 
         public float flash;
