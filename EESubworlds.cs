@@ -132,11 +132,13 @@ namespace EEMod
             int yPos = 80;
             int numberOfBuildingsInMidClass = 7;
             int numberOfBuildingsInHighClass = 6;
-            int numberOfFillers = 6;
+            int numberOfFillers = 9;
+            int numberMisc = 4;
             int number;
             List<int> listNumbers = new List<int>();
             List<int> listNumbersHighClass = new List<int>();
             List<int> listNumbersFillers = new List<int>();
+            List<int> listNumbersMisc = new List<int>();
             List<Vector2> fillers = new List<Vector2>();
             for (int i = 0; i < numberOfBuildingsInMidClass; i++)
             {
@@ -145,6 +147,14 @@ namespace EEMod
                     number = Main.rand.Next(0, numberOfBuildingsInMidClass);
                 } while (listNumbers.Contains(number));
                 listNumbers.Add(number);
+            }
+            for (int i = 0; i < numberMisc; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, numberMisc);
+                } while (listNumbersMisc.Contains(number));
+                listNumbersMisc.Add(number);
             }
             for (int i = 0; i < numberOfFillers; i++)
             {
@@ -170,7 +180,7 @@ namespace EEMod
                 islandPositions.Add(actualPlace);
             }
             float displacement = 220;
-            float startingHeightOfUpperClass = sizeY + yPos + 10;
+            float startingHeightOfUpperClass = sizeY + yPos + 30;
             for (int j = 0; j < islandPositions.Count; j++)
             {
                 //EEWorld.EEWorld.MakeOvalFlatTop(40, 13, new Vector2(islandPositions[j].X - 15, islandPositions[j].Y), ModContent.TileType<HardenedGemsandTile>());
@@ -213,10 +223,14 @@ namespace EEMod
                         }
                 }
             }
-            fillers.Add(new Vector2(Main.maxTilesX / 2 - (int)displacement + 90, (int)startingHeightOfUpperClass + 40));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 - (int)displacement + 90, (int)startingHeightOfUpperClass + 20));
             fillers.Add(new Vector2(Main.maxTilesX / 2 + (int)displacement - 90, (int)startingHeightOfUpperClass + 20));
-            fillers.Add(new Vector2(Main.maxTilesX / 2 + (int)displacement + 50, (int)startingHeightOfUpperClass + 50 + 130));
-            fillers.Add(new Vector2(Main.maxTilesX / 2 - (int)displacement + 20, (int)startingHeightOfUpperClass + 40 + 130));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 - (int)displacement, (int)startingHeightOfUpperClass - 60));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 - (int)displacement + 90 - 40, (int)startingHeightOfUpperClass - 30));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 + (int)displacement - 90 + 30, (int)startingHeightOfUpperClass + 20 - 40));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 + (int)displacement - 30, (int)startingHeightOfUpperClass + 50 + 130));
+            fillers.Add(new Vector2(Main.maxTilesX / 2 - (int)displacement + 30, (int)startingHeightOfUpperClass + 50 + 130));
+            EEWorld.EEWorld.MakeLayerWithOutline(Main.maxTilesX / 2, (int)startingHeightOfUpperClass + 10, 10, 1, ModContent.TileType<HardenedGemsandTile>(), 10);
             for (int j = 0; j < 3; j++)
             {
                 switch (listNumbersHighClass[j])
@@ -249,6 +263,11 @@ namespace EEMod
                     case 5:
                         {
                             EEWorld.EEWorld.PlaceH2(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.H2.GetLength(1) / 2, EEWorld.EEWorld.H2);
+                            break;
+                        }
+                    case 6:
+                        {
+                            EEWorld.EEWorld.PlaceObservatory(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.Observatory.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.Observatory.GetLength(1) / 2, EEWorld.EEWorld.Observatory);
                             break;
                         }
                 }
@@ -287,6 +306,11 @@ namespace EEMod
                             EEWorld.EEWorld.PlaceH2(Main.maxTilesX / 2 + (int)displacement - EEWorld.EEWorld.H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.H2.GetLength(1) / 2, EEWorld.EEWorld.H2);
                             break;
                         }
+                    case 6:
+                        {
+                            EEWorld.EEWorld.PlaceObservatory(Main.maxTilesX / 2 - (int)displacement - EEWorld.EEWorld.Observatory.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 - EEWorld.EEWorld.Observatory.GetLength(1) / 2, EEWorld.EEWorld.Observatory);
+                            break;
+                        }
                 }
             }
             int distanceFromEdge = 100;
@@ -294,8 +318,32 @@ namespace EEMod
             { 
                 for (int i = 2; i > 0; i--)
                 {
-                    if((j == 0 && i == 2) || (j == 1 && i == 1))
-                    EEWorld.EEWorld.MakeOvalFlatTop(44, 12, new Vector2(distanceFromEdge + (j * 50), distanceFromEdge + (i * 40) - 50), ModContent.TileType<GemsandstoneTile>());
+                    if ((j == 0 && i == 2) || (j == 1 && i == 1))
+                    {
+                        switch (listNumbersMisc[j])
+                        {
+                            case 0:
+                                {
+                                    EEWorld.EEWorld.PlaceMisc1(distanceFromEdge + (j * 50) - EEWorld.EEWorld.Misc1.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - EEWorld.EEWorld.Misc1.GetLength(1) / 2, EEWorld.EEWorld.Misc1);
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    EEWorld.EEWorld.PlaceMisc2(distanceFromEdge + (j * 50) - EEWorld.EEWorld.Misc2.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - EEWorld.EEWorld.Misc2.GetLength(1) / 2, EEWorld.EEWorld.Misc2);
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    EEWorld.EEWorld.PlaceMisc3(distanceFromEdge + (j * 50) - EEWorld.EEWorld.Misc3.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - EEWorld.EEWorld.Misc3.GetLength(1) / 2, EEWorld.EEWorld.Misc3);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    EEWorld.EEWorld.PlaceMisc4(distanceFromEdge + (j * 50) - EEWorld.EEWorld.Misc4.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - EEWorld.EEWorld.Misc4.GetLength(1) / 2, EEWorld.EEWorld.Misc4);
+                                    break;
+                                }
+                        }
+                    }
                 }
             }
             EEWorld.EEWorld.MakeChasm(distanceFromEdge - 20, distanceFromEdge + 60, 170, ModContent.TileType<GemsandstoneTile>(), 0, 10, 10);
@@ -306,12 +354,36 @@ namespace EEMod
                 for (int i = 2; i > 0; i--)
                 {
                     if ((j == 0 && i == 2) || (j == 1 && i == 1))
-                    EEWorld.EEWorld.MakeOvalFlatTop(44, 12, new Vector2(Main.maxTilesX - distanceFromEdge - (j * 50) - 44, distanceFromEdge + (i * 40) - 50), ModContent.TileType<GemsandstoneTile>());
+                    {
+                        switch (listNumbersMisc[j + 2])
+                        {
+                            case 0:
+                                {
+                                    EEWorld.EEWorld.PlaceMisc1(Main.maxTilesX - distanceFromEdge - (j * 50) - 44 - EEWorld.EEWorld.Misc1.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - EEWorld.EEWorld.Misc1.GetLength(1) / 2, EEWorld.EEWorld.Misc1);
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    EEWorld.EEWorld.PlaceMisc2(Main.maxTilesX - distanceFromEdge - (j * 50) - 44 - EEWorld.EEWorld.Misc2.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - EEWorld.EEWorld.Misc2.GetLength(1) / 2, EEWorld.EEWorld.Misc2);
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    EEWorld.EEWorld.PlaceMisc3(Main.maxTilesX - distanceFromEdge - (j * 50) - 44 - EEWorld.EEWorld.Misc3.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - EEWorld.EEWorld.Misc3.GetLength(1) / 2, EEWorld.EEWorld.Misc3);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                    EEWorld.EEWorld.PlaceMisc4(Main.maxTilesX - distanceFromEdge - (j * 50) - 44 - EEWorld.EEWorld.Misc4.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - EEWorld.EEWorld.Misc4.GetLength(1) / 2, EEWorld.EEWorld.Misc4);
+                                    break;
+                                }
+                        }
+                    }
                 }
             }
             fillers.Add(new Vector2(Main.maxTilesX - distanceFromEdge - 44, distanceFromEdge + 120));
             fillers.Add(new Vector2(60, 60));
-            EEWorld.EEWorld.MakeLayerWithOutline(Main.maxTilesX / 2, 70, 30, 1, ModContent.TileType<HardenedGemsandTile>(),40);
+            EEWorld.EEWorld.MakeLayerWithOutline(Main.maxTilesX / 2, 70, 20, 1, ModContent.TileType<HardenedGemsandTile>(),10);
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
@@ -363,6 +435,21 @@ namespace EEMod
                     case 5:
                         {
                             EEWorld.EEWorld.PlaceFiller6((int)fillers[j].X - EEWorld.EEWorld.Filler6.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Filler6.GetLength(1) / 2, EEWorld.EEWorld.Filler6);
+                            break;
+                        }
+                    case 6:
+                        {
+                            EEWorld.EEWorld.PlaceShrine((int)fillers[j].X - EEWorld.EEWorld.Shrine.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Shrine.GetLength(1) / 2, EEWorld.EEWorld.Shrine);
+                            break;
+                        }
+                    case 7:
+                        {
+                            EEWorld.EEWorld.PlaceDome((int)fillers[j].X - EEWorld.EEWorld.Dome.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Dome.GetLength(1) / 2, EEWorld.EEWorld.Dome);
+                            break;
+                        }
+                    case 8:
+                        {
+                            EEWorld.EEWorld.PlaceMisc((int)fillers[j].X - EEWorld.EEWorld.Misc.GetLength(0) / 2, (int)fillers[j].Y - EEWorld.EEWorld.Misc.GetLength(1) / 2, EEWorld.EEWorld.Misc);
                             break;
                         }
                 }
