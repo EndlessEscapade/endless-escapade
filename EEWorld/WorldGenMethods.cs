@@ -9,6 +9,7 @@ using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
+using System.Collections.Generic;
 
 namespace EEMod.EEWorld
 {
@@ -2302,7 +2303,408 @@ namespace EEMod.EEWorld
 
             return p < 1 ? true : false;
         }
+        public static void MakeAtlantis(Vector2 startingPoint, Vector2 size)
+        {
+            List<Vector2> islandPositions = new List<Vector2>();
+            int sizeX = 120;
+            int sizeY = 60;
+            int numberOfBuildingsInMidClass = 7;
+            int numberOfBuildingsInHighClass = 6;
+            int numberOfFillers = 9;
+            int numberMisc = 4;
+            int number;
+            List<int> listNumbers = new List<int>();
+            List<int> listNumbersHighClass = new List<int>();
+            List<int> listNumbersFillers = new List<int>();
+            List<int> listNumbersMisc = new List<int>();
+            List<Vector2> fillers = new List<Vector2>();
+            int yPos = (int)startingPoint.Y + 80;
+            for (int i = 0; i < numberOfBuildingsInMidClass; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, numberOfBuildingsInMidClass);
+                } while (listNumbers.Contains(number));
+                listNumbers.Add(number);
+            }
+            for (int i = 0; i < numberMisc; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, numberMisc);
+                } while (listNumbersMisc.Contains(number));
+                listNumbersMisc.Add(number);
+            }
+            for (int i = 0; i < numberOfFillers; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, numberOfFillers);
+                } while (listNumbersFillers.Contains(number));
+                listNumbersFillers.Add(number);
+            }
+            for (int i = 0; i < numberOfBuildingsInHighClass; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, numberOfBuildingsInHighClass);
+                } while (listNumbersHighClass.Contains(number));
+                listNumbersHighClass.Add(number);
+            }
+            Vector2 midpoint = (startingPoint + size) / 2;
+            for (int i = 0; i < numberOfBuildingsInMidClass; i++)
+            {
+                float randomPosMiddleClass = midpoint.X - sizeX + (i * ((sizeX * 2) / (numberOfBuildingsInMidClass - 1)));
+                float whereTheYShouldBe = yPos + sizeY - (float)(Math.Pow(randomPosMiddleClass - midpoint.X, 2) / (Math.Pow(sizeX, 2) / (float)sizeY));
+                Vector2 actualPlace = new Vector2(randomPosMiddleClass, whereTheYShouldBe);
+                islandPositions.Add(actualPlace);
+            }
+            float displacement = 220;
+            float startingHeightOfUpperClass = sizeY + yPos + 30;
+            for (int j = 0; j < islandPositions.Count; j++)
+            {
+                // MakeOvalFlatTop(40, 13, new Vector2(islandPositions[j].X - 15, islandPositions[j].Y), ModContent.TileType<HardenedGemsandTile>());
+                switch (listNumbers[j])
+                {
+                    case 0:
+                        {
+                            PlaceM1((int)islandPositions[j].X - M1.GetLength(0) / 2, (int)islandPositions[j].Y -  M1.GetLength(1) / 2,  M1);
+                            break;
+                        }
+                    case 1:
+                        {
+                             PlaceM2((int)islandPositions[j].X -  M2.GetLength(0) / 2, (int)islandPositions[j].Y -  M2.GetLength(1) / 2,  M2);
+                            break;
+                        }
+                    case 2:
+                        {
+                             PlaceM3((int)islandPositions[j].X -  M3.GetLength(0) / 2, (int)islandPositions[j].Y -  M3.GetLength(1) / 2,  M3);
+                            break;
+                        }
+                    case 3:
+                        {
+                             PlaceBlackSmith((int)islandPositions[j].X -  Blacksmith.GetLength(0) / 2, (int)islandPositions[j].Y -  Blacksmith.GetLength(1) / 2,  Blacksmith);
+                            break;
+                        }
+                    case 4:
+                        {
+                             PlaceM4Temple((int)islandPositions[j].X -  M4Temple.GetLength(0) / 2, (int)islandPositions[j].Y -  M4Temple.GetLength(1) / 2,  M4Temple);
+                            break;
+                        }
+                    case 5:
+                        {
+                             PlaceBrewery((int)islandPositions[j].X -  Brewery.GetLength(0) / 2, (int)islandPositions[j].Y -  Brewery.GetLength(1) / 2,  Brewery);
+                            break;
+                        }
+                    case 6:
+                        {
+                             PlaceHeadQ((int)islandPositions[j].X -  HeadQ.GetLength(0) / 2, (int)islandPositions[j].Y -  HeadQ.GetLength(1) / 2,  HeadQ);
+                            break;
+                        }
+                }
+            }
+            fillers.Add(new Vector2(midpoint.X - (int)displacement + 90, (int)startingHeightOfUpperClass + 20));
+            fillers.Add(new Vector2(midpoint.X + (int)displacement - 90, (int)startingHeightOfUpperClass + 20));
+            fillers.Add(new Vector2(midpoint.X - (int)displacement, (int)startingHeightOfUpperClass - 60));
+            fillers.Add(new Vector2(midpoint.X - (int)displacement + 90 - 40, (int)startingHeightOfUpperClass - 30));
+            fillers.Add(new Vector2(midpoint.X + (int)displacement - 90 + 30, (int)startingHeightOfUpperClass + 20 - 40));
+            fillers.Add(new Vector2(midpoint.X + (int)displacement - 30, (int)startingHeightOfUpperClass + 50 + 130));
+            fillers.Add(new Vector2(midpoint.X - (int)displacement + 30, (int)startingHeightOfUpperClass + 50 + 130));
+             MakeLayerWithOutline((int)midpoint.X, 70, 20, 1, ModContent.TileType<HardenedGemsandTile>(), 10);
+            for (int j = 0; j < 3; j++)
+            {
+                switch (listNumbersHighClass[j])
+                {
+                    case 0:
+                        {
+                             PlaceH2((int)midpoint.X - (int)displacement -  H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  H2.GetLength(1) / 2,  H2);
+                            break;
+                        }
+                    case 1:
+                        {
+                             PlaceLootRoom((int)midpoint.X - (int)displacement -  LootRoom.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  LootRoom.GetLength(1) / 2,  LootRoom);
+                            break;
+                        }
+                    case 2:
+                        {
+                             PlaceH1((int)midpoint.X - (int)displacement -  H1.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  H1.GetLength(1) / 2,  H1);
+                            break;
+                        }
+                    case 3:
+                        {
+                             MidTemp2((int)midpoint.X - (int)displacement -  WorshipPlaceAtlantis.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  WorshipPlaceAtlantis.GetLength(1) / 2,  WorshipPlaceAtlantis);
+                            break;
+                        }
+                    case 4:
+                        {
+                             PlaceFountain((int)midpoint.X - (int)displacement -  Fountain.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  Fountain.GetLength(1) / 2,  Fountain);
+                            break;
+                        }
+                    case 5:
+                        {
+                             PlaceH2((int)midpoint.X - (int)displacement -  H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  H2.GetLength(1) / 2,  H2);
+                            break;
+                        }
+                    case 6:
+                        {
+                             PlaceObservatory((int)midpoint.X - (int)displacement -  Observatory.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  Observatory.GetLength(1) / 2,  Observatory);
+                            break;
+                        }
+                }
+            }
+            for (int j = 0; j < 3; j++)
+            {
+                switch (listNumbersHighClass[j + 3])
+                {
+                    case 0:
+                        {
+                             PlaceH2((int)midpoint.X + (int)displacement -  H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  H2.GetLength(1) / 2,  H2);
+                            break;
+                        }
+                    case 1:
+                        {
+                             PlaceLootRoom((int)midpoint.X + (int)displacement -  LootRoom.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  LootRoom.GetLength(1) / 2,  LootRoom);
+                            break;
+                        }
+                    case 2:
+                        {
+                             PlaceH1((int)midpoint.X + (int)displacement -  H1.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  H1.GetLength(1) / 2,  H1);
+                            break;
+                        }
+                    case 3:
+                        {
+                             MidTemp2((int)midpoint.X + (int)displacement -  WorshipPlaceAtlantis.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  WorshipPlaceAtlantis.GetLength(1) / 2,  WorshipPlaceAtlantis);
+                            break;
+                        }
+                    case 4:
+                        {
+                             PlaceFountain((int)midpoint.X + (int)displacement -  Fountain.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  Fountain.GetLength(1) / 2,  Fountain);
+                            break;
+                        }
+                    case 5:
+                        {
+                             PlaceH2((int)midpoint.X + (int)displacement -  H2.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  H2.GetLength(1) / 2,  H2);
+                            break;
+                        }
+                    case 6:
+                        {
+                             PlaceObservatory((int)midpoint.X - (int)displacement -  Observatory.GetLength(0) / 2, (int)startingHeightOfUpperClass + (j * 50) + 10 -  Observatory.GetLength(1) / 2,  Observatory);
+                            break;
+                        }
+                }
+            }
+            int distanceFromEdge = 100 + (int)startingPoint.X;
+            for (int j = 0; j < 2; j++)
+            {
+                for (int i = 2; i > 0; i--)
+                {
+                    if ((j == 0 && i == 2) || (j == 1 && i == 1))
+                    {
+                        switch (listNumbersMisc[j])
+                        {
+                            case 0:
+                                {
+                                     PlaceMisc1(distanceFromEdge + (j * 50) -  Misc1.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 -  Misc1.GetLength(1) / 2,  Misc1);
+                                    break;
+                                }
+                            case 1:
+                                {
+                                     PlaceMisc2(distanceFromEdge + (j * 50) -  Misc2.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 -  Misc2.GetLength(1) / 2,  Misc2);
+                                    break;
+                                }
+                            case 2:
+                                {
+                                     PlaceMisc3(distanceFromEdge + (j * 50) -  Misc3.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 -  Misc3.GetLength(1) / 2,  Misc3);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                     PlaceMisc4(distanceFromEdge + (j * 50) -  Misc4.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 -  Misc4.GetLength(1) / 2,  Misc4);
+                                    break;
+                                }
+                        }
+                    }
+                }
+            }
+             MakeChasm(distanceFromEdge - 20, distanceFromEdge + 60, 170, ModContent.TileType<GemsandstoneTile>(), 0, 10, 10);
+             MakeChasm(distanceFromEdge + 70, distanceFromEdge + 60, 170, ModContent.TileType<GemsandstoneTile>(), 0, 10, 10);
+             MakeOvalJaggedTop(25, 40, new Vector2(distanceFromEdge + 12, distanceFromEdge + 120), ModContent.TileType<GemsandstoneTile>());
+            for (int j = 0; j < 2; j++)
+            {
+                for (int i = 2; i > 0; i--)
+                {
+                    if ((j == 0 && i == 2) || (j == 1 && i == 1))
+                    {
+                        switch (listNumbersMisc[j + 2])
+                        {
+                            case 0:
+                                {
+                                     PlaceMisc1((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 -  Misc1.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 -  Misc1.GetLength(1) / 2,  Misc1);
+                                    break;
+                                }
+                            case 1:
+                                {
+                                     PlaceMisc2((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 -  Misc2.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 -  Misc2.GetLength(1) / 2,  Misc2);
+                                    break;
+                                }
+                            case 2:
+                                {
+                                     PlaceMisc3((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 -  Misc3.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 -  Misc3.GetLength(1) / 2,  Misc3);
+                                    break;
+                                }
+                            case 3:
+                                {
+                                     PlaceMisc4((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 -  Misc4.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 -  Misc4.GetLength(1) / 2,  Misc4);
+                                    break;
+                                }
+                        }
+                    }
+                }
+            }
+            fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, distanceFromEdge + 120));
+            fillers.Add(new Vector2(60, 60));
+             KillWall((int)(size.X), (int)(size.Y), startingPoint);
+            Main.spawnTileX = 500;
+            Main.spawnTileY = 300;
+            SubworldManager.SettleLiquids();
+            EEMod.isSaving = false;
+             MakeOval(350, 190, new Vector2(midpoint.X - 160, (int)startingHeightOfUpperClass + 25), ModContent.TileType<GemsandstoneTile>(), false);
+             MakeOval(335, 160, new Vector2(midpoint.X - 165, (int)startingHeightOfUpperClass + 40), TileID.StoneSlab, true);
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.type == TileID.StoneSlab)
+                        WorldGen.KillTile(i, j);
+                }
+            }
+            // MakeChasm(Main.maxTilesX / 2 - 120, (int)startingHeightOfUpperClass + 75, 70, ModContent.TileType<GemsandstoneTile>(), 0, 1,1);
+             MakeAtlantisCastle((int)midpoint.X - 146, (int)startingHeightOfUpperClass + 65);
+            //imagine coding...
+            for (int j = 0; j < fillers.Count; j++)
+            {
+                switch (listNumbersFillers[j])
+                {
+                    case 0:
+                        {
+                             PlaceFiller1((int)fillers[j].X -  Filler1.GetLength(0) / 2, (int)fillers[j].Y -  Filler1.GetLength(1) / 2,  Filler1);
+                            break;
+                        }
+                    case 1:
+                        {
+                             PlaceFiller2((int)fillers[j].X -  Filler2.GetLength(0) / 2, (int)fillers[j].Y -  Filler2.GetLength(1) / 2,  Filler2);
+                            break;
+                        }
+                    case 2:
+                        {
+                             PlaceFiller3((int)fillers[j].X -  Filler3.GetLength(0) / 2, (int)fillers[j].Y -  Filler3.GetLength(1) / 2,  Filler3);
+                            break;
+                        }
+                    case 3:
+                        {
+                             PlaceFiller4((int)fillers[j].X -  Filler4.GetLength(0) / 2, (int)fillers[j].Y -  Filler4.GetLength(1) / 2,  Filler4);
+                            break;
+                        }
+                    case 4:
+                        {
+                             PlaceFiller5((int)fillers[j].X -  Filler5.GetLength(0) / 2, (int)fillers[j].Y -  Filler5.GetLength(1) / 2,  Filler5);
+                            break;
+                        }
+                    case 5:
+                        {
+                             PlaceFiller6((int)fillers[j].X -  Filler6.GetLength(0) / 2, (int)fillers[j].Y -  Filler6.GetLength(1) / 2,  Filler6);
+                            break;
+                        }
+                    case 6:
+                        {
+                             PlaceShrine((int)fillers[j].X -  Shrine.GetLength(0) / 2, (int)fillers[j].Y -  Shrine.GetLength(1) / 2,  Shrine);
+                            break;
+                        }
+                    case 7:
+                        {
+                             PlaceDome((int)fillers[j].X -  Dome.GetLength(0) / 2, (int)fillers[j].Y -  Dome.GetLength(1) / 2,  Dome);
+                            break;
+                        }
+                    case 8:
+                        {
+                             PlaceMisc((int)fillers[j].X -  Misc.GetLength(0) / 2, (int)fillers[j].Y -  Misc.GetLength(1) / 2,  Misc);
+                            break;
+                        }
+                }
+            }
+            WorldGen.TileRunner(80, 80, 30, 10, ModContent.TileType<GemsandstoneTile>());
+            WorldGen.TileRunner(100, 60, 30, 10, ModContent.TileType<GemsandstoneTile>());
+             FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
+             FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
+             FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
+        }
+        public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 400;
+            Main.maxTilesY = 405;
+            //Main.worldSurface = Main.maxTilesY;
+            //Main.rockLayer = Main.maxTilesY;
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
 
+            int islandWidth = 300;
+            int islandHeight = 90;
+
+             FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+             RemoveWaterFromRegion(Main.maxTilesX, 210, Vector2.Zero);
+             MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
+
+
+             RemoveWaterFromRegion(40, 40, new Vector2(180, 170));
+             MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2(50, 210), ModContent.TileType<VolcanicAshTile>());
+             MakeTriangle(new Vector2(100, 230), 200, 160, 2, ModContent.TileType<VolcanicAshTile>(), true, true, ModContent.WallType<VolcanicAshWallTile>());
+             FillRegionWithLava(40, 50, new Vector2(180, 190));
+             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+             MakeVolcanoEntrance(198, 192,  VolcanoEntrance);
+
+            SubworldManager.SettleLiquids();
+            EEMod.isSaving = false;
+            Main.spawnTileX = 200;
+            Main.spawnTileY = 100;
+        }
+        public static void VolcanoInside(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 400;
+            Main.maxTilesY = 405;
+            //Main.worldSurface = Main.maxTilesY;
+            //Main.rockLayer = Main.maxTilesY;
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
+
+             FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<MagmastoneTile>());
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    if (Main.rand.NextBool(3000))
+                         MakeLavaPit(Main.rand.Next(20, 30), Main.rand.Next(7, 20), new Vector2(i, j), Main.rand.NextFloat(0.1f, 0.5f));
+                }
+            }
+             MakeChasm(200, 10, 100, TileID.StoneSlab, 0, 10, 20);
+            for (int i = 0; i < 5; i++)
+            {
+                WorldGen.TileRunner(200, 190, 200, 1, TileID.StoneSlab);
+            }
+            for (int k = 0; k < Main.maxTilesX; k++)
+            {
+                for (int l = 0; l < Main.maxTilesY; l++)
+                {
+                    if (Framing.GetTileSafely(k, l).type == TileID.StoneSlab)
+                    {
+                        WorldGen.KillTile(k, l);
+                    }
+                }
+            }
+             MakeOvalJaggedTop(80, 60, new Vector2(160, 170), ModContent.TileType<MagmastoneTile>());
+             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+             FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());
+        }
         public static void MakeLayer(int X, int midY, int size, int layer, int type)
         {
 
