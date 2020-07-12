@@ -195,6 +195,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                     {
                         potentialMinionArray[i] = npc.Center + new Vector2(Main.rand.Next(-500,500), Main.rand.Next(-500, 500)); 
                     }
+                        npc.netUpdate = true;
                 }
                 switch(npc.ai[1])
                 {
@@ -288,6 +289,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                                             Main.dust[index].noGravity = true;
                                         }
                                         NPC.NewNPC((int)potentialMinionArray[j].X, (int)potentialMinionArray[j].Y, NPCType<HydrosMinion>());
+                                        npc.netUpdate = true;
                                     }
                                 }
                             }
