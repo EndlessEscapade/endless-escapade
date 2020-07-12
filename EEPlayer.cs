@@ -21,6 +21,7 @@ using static Terraria.ModLoader.ModContent;
 using EEMod.NPCs;
 using EEMod.Tiles;
 using EEMod.NPCs.Bosses.Akumo;
+using EEMod.NPCs.CoralReefs;
 
 namespace EEMod
 {
@@ -749,6 +750,11 @@ namespace EEMod
             else if (Main.ActiveWorldFileData.Name == KeyID.Island)
             {
                 player.ClearBuff(BuffID.Cursed);
+                if (!arrowFlag)
+                {
+                    NPC.NewNPC((Main.maxTilesX / 2) * 16, 75 * 16, NPCType<AtlantisCore>());
+                    arrowFlag = true;
+                }
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
             {
