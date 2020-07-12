@@ -177,7 +177,7 @@ namespace EEMod
             Vector2 midpoint = (startingPoint + size) / 2;
             for (int i = 0; i < numberOfBuildingsInMidClass; i++)
             {
-                float randomPosMiddleClass = midpoint.X + (i * ((sizeX * 2) / (numberOfBuildingsInMidClass - 1)));
+                float randomPosMiddleClass = midpoint.X - sizeX + (i * ((sizeX * 2) / (numberOfBuildingsInMidClass - 1)));
                 float whereTheYShouldBe = yPos + sizeY - (float)(Math.Pow(randomPosMiddleClass - midpoint.X, 2) / (Math.Pow(sizeX, 2) / (float)sizeY));
                 Vector2 actualPlace = new Vector2(randomPosMiddleClass, whereTheYShouldBe);
                 islandPositions.Add(actualPlace);
@@ -233,7 +233,7 @@ namespace EEMod
             fillers.Add(new Vector2(midpoint.X + (int)displacement - 90 + 30, (int)startingHeightOfUpperClass + 20 - 40));
             fillers.Add(new Vector2(midpoint.X + (int)displacement - 30, (int)startingHeightOfUpperClass + 50 + 130));
             fillers.Add(new Vector2(midpoint.X - (int)displacement + 30, (int)startingHeightOfUpperClass + 50 + 130));
-            EEWorld.EEWorld.MakeLayerWithOutline((int)midpoint.X, (int)startingHeightOfUpperClass + 10, 10, 1, ModContent.TileType<HardenedGemsandTile>(), 10);
+            EEWorld.EEWorld.MakeLayerWithOutline((int)midpoint.X, 70, 20, 1, ModContent.TileType<HardenedGemsandTile>(), 10);
             for (int j = 0; j < 3; j++)
             {
                 switch (listNumbersHighClass[j])
