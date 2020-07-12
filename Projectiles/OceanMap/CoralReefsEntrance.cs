@@ -22,7 +22,7 @@ namespace EEMod.Projectiles.OceanMap
 
         public override void AI()
         {
-
+            projectile.timeLeft = 1000;
         }
     }
 }

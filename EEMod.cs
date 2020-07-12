@@ -332,8 +332,11 @@ namespace EEMod
             float textPositionLeft = position.X - textSize.X / 2;
             Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
+        float flash = 0;
+        float markerPlacer = 0;
         private void DrawShip()
         {
+            markerPlacer++;
             Player player = Main.LocalPlayer;
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             if (!Main.gamePaused)
@@ -358,7 +361,6 @@ namespace EEMod
             }
             velocity.X = Helpers.Clamp(velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             velocity.Y = Helpers.Clamp(velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
-            // Mod mod = EEMod.instance;
             texture = TextureCache.ShipMount;
             frames = 1;
             frameSpeed = 15;
@@ -375,13 +377,6 @@ namespace EEMod
             {
                 velocity *= 0.98f;
             }
-            //for (int i = 0; i < 200; i++)
-            //{
-            //    for (int j = 0; j < 100; j++)
-            //    {
-
-            //    }
-            //}
             for (int i = 0; i < EEPlayer.objectPos.Count; i++)
             {
                 if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i != 7 && i != 8)
@@ -395,6 +390,11 @@ namespace EEMod
             float quotient = ShipHelth / ShipHelthMax;
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, 0, (int)(texture3.Width * quotient), texture3.Height), Color.White, 0, new Rectangle(0, 0, texture3.Width, texture3.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            flash += 0.01f;
+            if (flash == 2)
+            {
+                flash = 10;
+            }
         }
 
 

@@ -243,6 +243,7 @@ namespace EEMod
         }
         float displacmentX = 0;
         float displacmentY = 0;
+        float flash = 0;
         public override void ModifyScreenPosition()
         {
             int clamp = 80;
@@ -337,6 +338,16 @@ namespace EEMod
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
                 Main.screenPosition += new Vector2(0, 1000);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                if (markerPlacer / 10 > 1)
+                {
+                    Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), EEMod.position, new Rectangle(0, 0, 174, 174), Color.White * flash * 0.5f, flash, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer / 10, SpriteEffects.None, 0);
+                }
+                else
+                {
+                    Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), EEMod.position, new Rectangle(0, 0, 174, 174), Color.White * Math.Abs((float)Math.Sin(flash)) * 0.5f, flash, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer / 10, SpriteEffects.None, 0);
+                }
+                Main.spriteBatch.End();
             }
 
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
@@ -354,6 +365,7 @@ namespace EEMod
         public int rippleSize = 5;
         public int rippleSpeed = 15;
         public int distortStrength = 100;
+        
         public override void UpdateBiomeVisuals()
         {
 
@@ -432,6 +444,7 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
+                
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)
