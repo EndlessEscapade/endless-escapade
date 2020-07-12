@@ -356,8 +356,8 @@ namespace EEMod
                     velocity.X -= 0.1f * eePlayer.boatSpeed;
                 }
             }
-            velocity.X = Helpers.Clamp(velocity.X, -1, 1);
-            velocity.Y = Helpers.Clamp(velocity.Y, -1, 1);
+            velocity.X = Helpers.Clamp(velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
+            velocity.Y = Helpers.Clamp(velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             // Mod mod = EEMod.instance;
             texture = TextureCache.ShipMount;
             frames = 1;

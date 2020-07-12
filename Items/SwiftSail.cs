@@ -30,10 +30,8 @@ namespace EEMod.Items
         public override void OnConsumeItem(Player player)
         {
             EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
-            if (modPlayer.boatSpeed != 2)
-            {
-                modPlayer.boatSpeed = 2;
-            }
+            modPlayer.boatSpeed = 3;
+            Main.NewText(modPlayer.boatSpeed);
         }
 
         public override bool UseItem(Player player)
