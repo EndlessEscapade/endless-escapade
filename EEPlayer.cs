@@ -129,11 +129,11 @@ namespace EEMod
         public float titleText2;
         public float subTextAlpha;
         public bool noU;
-        public static bool triggerSeaCutscene;
-        public static int cutSceneTriggerTimer;
-        public static int cutSceneTriggerTimer2;
-        public static float cutSceneTriggerTimer3;
-        public static int coralReefTrans;
+        public bool triggerSeaCutscene;
+        public int cutSceneTriggerTimer;
+        public int cutSceneTriggerTimer2;
+        public float cutSceneTriggerTimer3;
+        public int coralReefTrans;
         public static int markerPlacer;
         public Vector2 position;
         public Vector2 velocity;
@@ -368,7 +368,6 @@ namespace EEMod
         
         public override void UpdateBiomeVisuals()
         {
-
             if (dur > 0)
             {
                 bubbleTimer--;
@@ -606,7 +605,8 @@ namespace EEMod
                             {
                                 case 0:
                                     {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ModContent.ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                         break;
                                     }
                                 case 1:
@@ -837,6 +837,29 @@ namespace EEMod
             }
             else
             {
+                int lastNoOfShipTiles = EEWorld.EEWorld.missingShipTiles.Count;
+                EEWorld.EEWorld.ShipComplete();
+                if (EEWorld.EEWorld.missingShipTiles.Count != lastNoOfShipTiles)
+                {
+                    for (int i = 0; i < 200; i++)
+                    {
+                        if (Main.projectile[i].type == ModContent.ProjectileType<WhiteBlock>())
+                        {
+                            Main.projectile[i].Kill();
+                        }
+                    }
+
+                    foreach (Vector2 tile in EEWorld.EEWorld.missingShipTiles)
+                    {
+                        Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);
+                    }
+                }
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    var netMessage = mod.GetPacket();
+                    netMessage.Write(EEWorld.EEWorld.shipComplete);
+                    netMessage.Send();
+                }
                 if (!importantCutscene)
                 {
                     SM.SaveAndQuit(KeyID.Cutscene1);
@@ -858,8 +881,8 @@ namespace EEMod
                 if (!arrowFlag)
                 {
                     player.ClearBuff(BuffID.Cursed);
-                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
+                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
                 if (EEWorld.EEWorld.EntracesPosses.Count > 0)
@@ -879,9 +902,10 @@ namespace EEMod
                     }
                     else
                     {
-                            arrow.visible = false;
+                        arrow.visible = false;
                     }
                 }
+                Main.NewText(triggerSeaCutscene);
                 OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
                 if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X)  &&
                     player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 4) &&
@@ -889,9 +913,16 @@ namespace EEMod
                     player.Center.Y / 16 <= (EEWorld.EEWorld.ree.Y + 16) &&
                     EEWorld.EEWorld.shipComplete == true)
                 {
+                    
                     if (player.controlUp)
                     {
                         triggerSeaCutscene = true;
+                        if (Main.netMode == NetmodeID.Server)
+                        {
+                            var netMessage = mod.GetPacket();
+                            netMessage.Write(triggerSeaCutscene);
+                            netMessage.Send();
+                        }
                     }
                         oceanarrow.visible = true;
 
@@ -1041,7 +1072,24 @@ namespace EEMod
             }
         }
 
+        public override void clientClone(ModPlayer clientClone)
+        {
+            EEPlayer clone = clientClone as EEPlayer;
+        }
 
+        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
+        {
+            ModPacket packet = mod.GetPacket();
+            packet.Write(triggerSeaCutscene); 
+            packet.Send(toWho, fromWho);
+        }
+
+        public override void SendClientChanges(ModPlayer clientPlayer)
+        {
+                var packet = mod.GetPacket();
+                packet.Write(triggerSeaCutscene);
+                packet.Send();
+        }
 
         private void ResetMinionEffect()
         {

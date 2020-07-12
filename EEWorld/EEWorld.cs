@@ -77,34 +77,17 @@ namespace EEMod.EEWorld
         }
         public override void PostUpdate()
         {
-            if (NPC.downedBoss1)
-            {
-                if (!eocFlag)
+
+                if (NPC.downedBoss1)
                 {
-                    eocFlag = true;
-                    Main.NewText("You hear a strong wind erupting from the desert...", 228, 171, 72);
-                    StartSandstorm();
-                }
-            }
-            if (Main.ActiveWorldFileData.Name == EEPlayer.baseWorldName)
-            {
-                int lastNoOfShipTiles = missingShipTiles.Count;
-                ShipComplete();
-                if (missingShipTiles.Count != lastNoOfShipTiles)
-                {
-                    for (int i = 0; i < 200; i++)
+                    if (!eocFlag)
                     {
-                        if (Main.projectile[i].type == ModContent.ProjectileType<WhiteBlock>())
-                        {
-                            Main.projectile[i].Kill();
-                        }
-                    }
-                    foreach (Vector2 tile in missingShipTiles)
-                    {
-                        Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);
+                        eocFlag = true;
+                        Main.NewText("You hear a strong wind erupting from the desert...", 228, 171, 72);
+                        StartSandstorm();
                     }
                 }
-            }
+
         }
 
         public static Vector2 SubWorldSpecificCoralBoatPos;
