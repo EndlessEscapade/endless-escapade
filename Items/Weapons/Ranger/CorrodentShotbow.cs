@@ -31,7 +31,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
             item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
-            item.UseSound = SoundID.Item1;
+            item.UseSound = SoundID.Item5;
         }
     }
 }

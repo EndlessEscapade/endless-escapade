@@ -20,11 +20,7 @@ namespace EEMod.Projectiles.Mage
 
         public override void AI()
         {
-            if (Main.rand.NextBool(3)) // only spawn 20% of the time
-            {
-                // Spawn the dust
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.7f);
-            }
+            Dust.NewDust(projectile.position, projectile.width, projectile.height, 33, projectile.velocity.X * 0.25f, projectile.velocity.Y * 0.25f, 150, default, 0.7f);
         }
     }
 }

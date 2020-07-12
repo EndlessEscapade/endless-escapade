@@ -36,6 +36,7 @@ namespace EEMod.Projectiles.Mage
             projectile.scale *= 1.01f;
             projectile.width = (int)Math.Floor(projectile.width * 1.01f);
             projectile.height = (int)Math.Floor(projectile.height * 1.01f);
+            projectile.damage = (int)Math.Floor(projectile.damage * 1.01f);
             projectile.netUpdate = true;
 
             projectile.velocity.Y = projectile.velocity.Y + 0.25f;

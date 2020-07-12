@@ -335,28 +335,29 @@ namespace EEMod
         private void DrawShip()
         {
             Player player = Main.LocalPlayer;
+            EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             if (!Main.gamePaused)
             {
                 position += velocity;
                 if (player.controlJump)
                 {
-                    velocity.Y -= 0.1f;
+                    velocity.Y -= 0.1f * eePlayer.boatSpeed;
                 }
                 if (player.controlDown)
                 {
-                    velocity.Y += 0.1f;
+                    velocity.Y += 0.1f * eePlayer.boatSpeed;
                 }
                 if (player.controlRight)
                 {
-                    velocity.X += 0.1f;
+                    velocity.X += 0.1f * eePlayer.boatSpeed;
                 }
                 if (player.controlLeft)
                 {
-                    velocity.X -= 0.1f;
+                    velocity.X -= 0.1f * eePlayer.boatSpeed;
                 }
             }
-            velocity.X = Helpers.Clamp(velocity.X, -1, 1);
-            velocity.Y = Helpers.Clamp(velocity.Y, -1, 1);
+            velocity.X = Helpers.Clamp(velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
+            velocity.Y = Helpers.Clamp(velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             // Mod mod = EEMod.instance;
             texture = TextureCache.ShipMount;
             frames = 1;
