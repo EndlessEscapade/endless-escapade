@@ -13,7 +13,7 @@ namespace EEMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
 
-            AddMapEntry(new Color(67, 47, 155));
+            AddMapEntry(new Color(68, 89, 195));
 
             dustType = 154;
             drop = ModContent.ItemType<AtlanteanBrick>();
