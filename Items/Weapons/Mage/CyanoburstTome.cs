@@ -33,15 +33,5 @@ namespace EEMod.Items.Weapons.Mage
             item.UseSound = SoundID.Item1;
             item.useStyle = ItemUseStyleID.HoldingOut;
         }
-
-        /*public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydriteBar>(), 16);
-            recipe.AddIngredient(ItemID.SpellTome, 1);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }*/ //Hydros drop, no?
     }
 }

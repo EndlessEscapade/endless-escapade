@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Projectiles.Mage;
@@ -40,4 +40,4 @@ namespace EEMod.Items.Weapons.Mage
             recipe.AddRecipe();
         }
     }
-}
+}*/

@@ -27,5 +27,15 @@ namespace EEMod.Items.Accessories
         {
             player.GetModPlayer<EEPlayer>().hydroGear = true;
         }
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<HydriteBar>(), 8);
+            recipe.AddIngredient(ItemID.ArcticDivingGear, 1);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

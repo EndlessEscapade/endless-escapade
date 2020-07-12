@@ -12,6 +12,7 @@ using EEMod.NPCs.Bosses.Hydros;
 using EEMod.Projectiles.CoralReefs;
 using EEMod.Items.Weapons.Summon;
 using static Terraria.ModLoader.ModContent;
+using EEMod.Items.TreasureBags;
 
 namespace EEMod.NPCs.Bosses.Hydros
 {
@@ -53,7 +54,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
             npc.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
             npc.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
-
+            bossBag = ItemType<HydrosBag>();
             npc.width = 226;
             npc.height = 120;
 
@@ -65,29 +66,36 @@ namespace EEMod.NPCs.Bosses.Hydros
 
         public override void NPCLoot()
         {
-            int randVal = Main.rand.Next(5);
-            if (randVal == 0)
+            if (!Main.expertMode)
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosEye>(), 1);
+                int randVal = Main.rand.Next(5);
+                if (randVal == 0)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosEye>(), 1);
+                }
+                else if (randVal == 1)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
+                }
+                else if (randVal == 2)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Fishtol>(), 1);
+                }
+                else if (randVal == 3)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
+                }
+                else if (randVal == 4)
+                {
+                    Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EnchantedCoral>(), 1);
+                }
+                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
+                EEWorld.EEWorld.downedHydros = true;
             }
-            else if (randVal == 1)
+            else
             {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
+                npc.DropBossBags();
             }
-            else if (randVal == 2)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Fishtol>(), 1);
-            }
-            else if (randVal == 3)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
-            }
-            else if (randVal == 4)
-            {
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EnchantedCoral>(), 1);
-            }
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
-            EEWorld.EEWorld.downedHydros = true;
         }
 
 

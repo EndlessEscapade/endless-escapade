@@ -58,7 +58,7 @@ namespace EEMod.Items.Weapons.Mage
             recipe.SetResult(this);
             recipe.AddRecipe();
             recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.PlatinumBar, 4);
+            recipe.AddIngredient(ItemID.GoldBar, 4);
             recipe.AddIngredient(ModContent.ItemType<QuartzGem>(), 7);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);

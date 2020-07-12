@@ -33,5 +33,15 @@ namespace EEMod.Items.Weapons.Ranger
 
             item.UseSound = SoundID.Item5;
         }
+
+
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 14);
+            recipe.AddTile(TileID.Anvils);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }
