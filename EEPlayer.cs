@@ -185,7 +185,6 @@ namespace EEMod
         }
 
 
-
         public override void Initialize()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -213,6 +212,7 @@ namespace EEMod
                 displacmentX = 0;
                 displacmentY = 0;
                 startingText = false;
+                Particles.Clear();
             }
         }
 
@@ -357,7 +357,9 @@ namespace EEMod
         public int rippleSize = 5;
         public int rippleSpeed = 15;
         public int distortStrength = 100;
-        
+        public List<ParticlesClass> Particles = new List<ParticlesClass>();
+        public List<Vector2> Velocity;
+
         public override void UpdateBiomeVisuals()
         {
             if (dur > 0)
@@ -819,9 +821,9 @@ namespace EEMod
                 }
                 if(markerPlacer > 120*8)
                 {
-                    if (markerPlacer % 5 == 0)
+                    if (markerPlacer == 5)
                     {
-                        Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particles>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
+                        Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                     }
                 }
             }
@@ -856,9 +858,9 @@ namespace EEMod
                     importantCutscene = true;
                 }
                 markerPlacer++;
-                if (markerPlacer % 10 == 0 && EEModConfigClient.Instance.ParticleEffects)
+                if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
                 {
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<Particles>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), player.whoAmI);
                 }
                 baseWorldName = Main.ActiveWorldFileData.Name;
                 if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
