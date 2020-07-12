@@ -10,7 +10,6 @@ namespace EEMod.Items.Tools.Lythen
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lythen Pickaxe");
-            Tooltip.SetDefault("I wonder who cares about tooltips");
         }
 
         public override void SetDefaults()

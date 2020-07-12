@@ -39,7 +39,7 @@ namespace EEMod
         private int opac;
         public bool Cheese1;
         public bool Cheese2;
-        public int boatSpeed;
+        public int boatSpeed = 1;
         string shad1 = "EEMod:Ripple";
         string shad2 = "EEMod:SunThroughWalls";
         string shad3 = "EEMod:SeaTrans";
@@ -75,6 +75,10 @@ namespace EEMod
             if (hydroGear || dragonScale)
             {
                 player.accFlipper = true;
+            }
+            if (hydroGear)
+            {
+                player.accDivingHelm = true;
             }
             if(dragonScale && player.wet && PlayerInput.Triggers.JustPressed.Jump)
             {

@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -84,8 +84,7 @@ namespace EEMod.NPCs.Bosses.Stagrel
                 npc.timeLeft = 10;
                 npc.noTileCollide = true;
             }
-
-            /*Behaviour
+Behaviour
 			  Idle
 			  Stagrel slowly moves in the player's direction. DONE
 
@@ -103,7 +102,6 @@ namespace EEMod.NPCs.Bosses.Stagrel
 			  Idle => Jump => Idle => Projectiles => Idle => Fist => Loop(Idle (0)) (aka restart)
 
 			  The idle phase is 10 seconds long on normal, 6 on expert and 4 on genkai
-			  */
 
             Timer++;
 
@@ -162,4 +160,4 @@ namespace EEMod.NPCs.Bosses.Stagrel
             npc.spriteDirection = npc.direction;
         }
     }
-}
+}*/

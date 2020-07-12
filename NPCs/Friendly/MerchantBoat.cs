@@ -39,13 +39,13 @@ namespace EEMod.NPCs.Friendly
                 case 0:
                     return "Hey! There's my little moneymake--erm, intrepid treasure hunter!";
                 case 1:
-                    return "What's your favorite color? My favorite colors are white and black.";
+                    return "Linebe... who's that?";
                 case 2:
-                    return "ae";
+                    return "Beed.. who's that?";
                 case 3:
-                    return "I sell wares from places that don't even exist!";
+                    return "I've heard rumors of a mysterious wand that can control the weather... ever seen it?";
                 default:
-                    return "What? I don't have any arms or legs? Oh, don't be ridiculous!";
+                    return "Tetra... who's that?";
             }
         }
 
