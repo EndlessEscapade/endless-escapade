@@ -36,6 +36,8 @@ namespace EEMod
         public static Texture2D Terraria_SunTexture;
         public static Texture2D Terraria_Sun2Texture;
         public static Texture2D Terraria_Sun3Texture;
+        public static Texture2D PufferBig;
+        public static Texture2D PufferSmall;
 
         public static Texture2D CoralReefsSurfaceClose;
 
@@ -68,6 +70,8 @@ namespace EEMod
             CoralLanternTileGlow = mod.GetTexture("Tiles/Furniture/CoralLanternTileGlow");
             AkumoFeather = mod.GetTexture("NPCs/Bosses/Akumo/AkumoFeather");
             Akumo = mod.GetTexture("NPCs/Bosses/Akumo/Akumo");
+            PufferBig = mod.GetTexture("NPCs/CoralReefs/ToxicPuffer");
+            PufferSmall = mod.GetTexture("NPCs/CoralReefs/ToxicPufferSmall");
             Terraria_LogoTexture = ModContent.GetTexture("Terraria/Logo");
             Terraria_Logo2Texture = ModContent.GetTexture("Terraria/Logo2");
             Terraria_SunTexture = ModContent.GetTexture("Terraria/Sun");

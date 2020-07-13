@@ -1,3 +1,5 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -13,25 +15,56 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 18;
-
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
-
-            npc.alpha = 20;
 
             npc.lifeMax = 38;
             npc.defense = 2;
 
             npc.buffImmune[BuffID.Confused] = true;
 
-            npc.width = 22;
-            npc.height = 50;
+            npc.width = 62;
+            npc.height = 48;
 
             npc.noGravity = true;
 
             npc.lavaImmune = false;
             npc.noTileCollide = false;
+        }
+
+        public bool big;
+
+        public override void AI()
+        {
+            bool isBig = false;
+            foreach(Player player in Main.player)
+                if(Vector2.Distance(npc.position, player.position) <= 160)
+                    isBig = true;
+
+            if (isBig == false)
+            {
+                big = false;
+                npc.width = 26;
+                npc.height = 26;
+            }
+            if (isBig == true)
+            {
+                big = true;
+                npc.width = 62;
+                npc.height = 48;
+            }
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Texture2D texture = TextureCache.PufferSmall;
+            Vector2 offset = new Vector2(0, 0);
+            if (big)
+                texture = TextureCache.PufferBig;
+            if (!big)
+                offset = new Vector2(8, 16);
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + offset, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            return false;
         }
     }
 }
