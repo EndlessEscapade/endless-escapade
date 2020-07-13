@@ -857,7 +857,14 @@ namespace EEMod
                     SM.SaveAndQuit(KeyID.Cutscene1);
                     importantCutscene = true;
                 }
-                markerPlacer++;
+                if (EEModConfigClient.Instance.ParticleEffects)
+                {
+                    markerPlacer++;
+                }
+                else
+                {
+                    markerPlacer = 0;
+                }
                 if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
                 {
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), player.whoAmI);
