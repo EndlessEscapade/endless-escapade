@@ -22,6 +22,7 @@ using EEMod.NPCs;
 using EEMod.Tiles;
 using EEMod.NPCs.Bosses.Akumo;
 using EEMod.NPCs.CoralReefs;
+using EEMod.NPCs.Bosses.Kraken;
 
 namespace EEMod
 {
@@ -227,6 +228,7 @@ namespace EEMod
             dragonScale = false;
             hydroGear = false;
         }
+        public static EEPlayer instance;
         int Arrow;
         int Arrow2;
         int Anchors;
@@ -244,7 +246,24 @@ namespace EEMod
         }
         float displacmentX = 0;
         float displacmentY = 0;
-        float flash = 0;
+        public static bool isCameraFixating;
+        public static bool isCameraShaking;
+        public static Vector2 fixatingPoint;
+        public static float fixatingSpeedInv;
+        public static void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings)
+        {
+            fixatingPoint = fixatingPointCamera;
+            isCameraFixating = true;
+            fixatingSpeedInv = fixatingSpeed;
+            isCameraShaking = isCameraShakings;
+        }
+        public static void TurnCameraFixationsOff()
+        {
+            isCameraFixating = false;
+            isCameraShaking = false;
+            fixatingPoint.X = 0;
+            fixatingPoint.Y = 0;
+        }
         public override void ModifyScreenPosition()
         {
             int clamp = 80;
@@ -261,7 +280,6 @@ namespace EEMod
                 }
                 else
                 {
-
                     startingText = true;
                     Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
                     if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad1].IsActive())
@@ -350,6 +368,24 @@ namespace EEMod
             {
                 speedOfPan += 0.005f;
                 Main.screenPosition.X -= cutSceneTriggerTimer2 * speedOfPan;
+            }
+            if (isCameraFixating)
+            {
+                displacmentX += ((fixatingPoint.X - player.Center.X) - displacmentX) / fixatingSpeedInv;
+                displacmentY += ((fixatingPoint.Y - player.Center.Y) - displacmentY) / fixatingSpeedInv;
+                Main.screenPosition += new Vector2(displacmentX, displacmentY);
+                if(isCameraShaking)
+                Main.screenPosition += new Vector2(Main.rand.Next(-10,10), Main.rand.Next(-10,10));
+            }
+            else if (Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && Math.Abs(displacmentX + displacmentY) > 0.01f && NPC.AnyNPCs(NPCType<KrakenHead>()))
+            {
+                displacmentX *= 0.95f;
+                displacmentY *= 0.95f;
+                Main.screenPosition += new Vector2(displacmentX, displacmentY);
+            }
+            else
+            {
+
             }
         }
         readonly SubworldManager SM = new SubworldManager();

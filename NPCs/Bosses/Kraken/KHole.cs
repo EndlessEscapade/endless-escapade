@@ -36,8 +36,6 @@ namespace EEMod.NPCs.Bosses.Kraken
 
             musicPriority = MusicPriority.BossMedium;
         }
-        Vector2 topLeft = new Vector2(6000, 18300);
-        Vector2 topRight = new Vector2(10000, 18300);
 
         public override void AI()
         {
