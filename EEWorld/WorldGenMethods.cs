@@ -394,6 +394,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, LootRoomWalls);
         }
         public static void PlaceFountain(int i, int j, int[,] shape)
         {
@@ -446,6 +447,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, FountainWalls);
         }
         public static void PlaceM1(int i, int j, int[,] shape)
         {
@@ -494,6 +496,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, M1Walls);
         }
         public static void PlaceBlackSmith(int i, int j, int[,] shape)
         {
@@ -538,6 +541,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, BlacksmithWalls);
         }
         public static void PlaceM2(int i, int j, int[,] shape)
         {
@@ -614,6 +618,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, M3Walls);
         }
         public static void PlaceBrewery(int i, int j, int[,] shape)
         {
@@ -662,6 +667,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, BreweryWalls);
         }
         public static void PlaceM4Temple(int i, int j, int[,] shape)
         {
@@ -706,6 +712,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, M4TempleWalls);
         }
         public static void PlaceH2(int i, int j, int[,] shape)
         {
@@ -778,6 +785,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, H2Walls);
         }
         public static void MidTemp2(int i, int j, int[,] shape)
         {
@@ -1144,6 +1152,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, DomeWalls);
         }
         public static void PlaceMisc(int i, int j, int[,] shape)
         {
@@ -1220,6 +1229,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, M1Walls);
         }
         public static void PlaceMisc2(int i, int j, int[,] shape)
         {
@@ -1296,6 +1306,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            PlaceAtlantisWalls(i, j, M3Walls);
         }
         public static void PlaceMisc4(int i, int j, int[,] shape)
         {
@@ -1466,6 +1477,98 @@ namespace EEMod.EEWorld
                             case 0:
                                 break;
                             case 1:
+                                tile.wall = WallID.SandstoneBrick;
+                                tile.wallColor(PaintID.DeepBlue);
+                                break;
+                            case 2:
+                                tile.wall = WallID.SapphireGemspark;
+                                break;
+                            case 3:
+                                tile.wall = (ushort)ModContent.TileType<GemsandTile>();
+                                break;
+                            case 4:
+                                tile.wall = WallID.ShroomitePlating;
+                                tile.wallColor(PaintID.DeepGreen);
+                                break;
+                            case 5:
+                                tile.wall = WallID.BlueDungeonTile;
+                                tile.wallColor(21);
+                                break;
+                            case 6:
+                                tile.wall = WallID.StoneSlab;
+                                tile.wallColor(PaintID.DeepBlue);
+                                break;
+                            case 7:
+                                tile.wall = (ushort)ModContent.TileType<GemsandTile>();
+                                break;
+                            case 8:
+                                tile.wall = WallID.Stone;
+                                tile.wallColor(PaintID.DeepBlue);
+                                break;
+                            case 9:
+                                tile.wall = WallID.BlueDungeon;
+                                tile.wallColor(PaintID.DeepBlue);
+                                break;
+                            case 10:
+                                tile.wall = WallID.Grass;
+                                break;
+                            case 11:
+                                tile.wall = (ushort)ModContent.TileType<GemsandTile>();
+                                break;
+                            case 12:
+                                tile.wall = (ushort)ModContent.TileType<GemsandTile>();
+                                break;
+                            case 13:
+                                tile.wall = WallID.AdamantiteBeam;
+                                break;
+                            case 14:
+                                tile.wall = WallID.BlueDungeonTile;
+                                tile.wallColor(PaintID.Gray);
+                                break;
+                            case 15:
+                                tile.wall = WallID.Waterfall;
+                                break;
+                            case 16:
+                                tile.wall = WallID.CobaltBrick;
+                                break;
+                            case 17:
+                                tile.wall = (ushort)ModContent.TileType<GemsandTile>();
+                                break;
+                            case 18:
+                                tile.wall = WallID.Grass;
+                                tile.wallColor(PaintID.Red);
+                                break;
+                            case 19:
+                                tile.wall = WallID.Grass;
+                                tile.wallColor(PaintID.Purple);
+                                break;
+                            case 20:
+                                tile.wall = (ushort)ModContent.TileType<GemsandTile>();
+                                break;
+                            case 21:
+                                tile.wall = (ushort)ModContent.TileType<GemsandTile>();
+                                break;
+                            case 22:
+                                tile.wall = WallID.SilverBrick;
+                                break;
+                            case 23:
+                                tile.wall = WallID.SapphireGemspark;
+                                break;
+                            case 24:
+                                tile.wall = WallID.GreenDungeonSlab;
+                                break;
+                            case 25:
+                                tile.wall = WallID.DiscWall;
+                                tile.wallColor(PaintID.Purple);
+                                break;
+                            case 26:
+                                tile.wall = WallID.RichMahoganyFence;
+                                tile.wallColor(PaintID.DeepBlue);
+                                break;
+                            case 27:
+                                tile.wall = WallID.Waterfall;
+                                break;
+                            case 28:
                                 tile.wall = (ushort)ModContent.TileType<GemsandTile>();
                                 break;
                             default:
