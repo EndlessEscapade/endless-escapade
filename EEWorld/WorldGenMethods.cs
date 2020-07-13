@@ -1449,6 +1449,32 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void PlaceAtlantisWalls(int i, int j, int[,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        //tile.ClearTile();
+                        switch (shape[y, x])
+                        {
+                            case 0:
+                                break;
+                            case 1:
+                                tile.wall = (ushort)ModContent.TileType<GemsandTile>();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         public static void PlaceShipWalls(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
