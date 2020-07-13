@@ -69,17 +69,28 @@ namespace EEMod.NPCs.Bosses.Kraken
         bool resetAnim = false;
         Vector2 arenaPosition = new Vector2(8000, 19500);
         Rectangle seperateFrame = new Rectangle(0,0, 568, 472);
-        
+        float numberOfPushes;
+        float tentaclerotation;
         public override void AI()
         {
+            npc.ai[2]++;
+            tentaclerotation += 0.1f;
+            if (npc.ai[2] < 180)
+            {
+                EEPlayer.FixateCameraOn(npc.Center, 32f, false);
+            }
+            else if(npc.ai[2] == 181)
+            {
+                EEPlayer.TurnCameraFixationsOff();
+            }
+            npc.ai[0]++;
             Vector2 topLeft = arenaPosition - new Vector2(2500, 1200);
             Vector2 topRight = arenaPosition - new Vector2(-2500, 1200);
             Vector2[] holePositions = { new Vector2((int)topLeft.X, (int)topLeft.Y - 100), new Vector2((int)topRight.X, (int)topRight.Y - 100), new Vector2((int)topLeft.X, (int)topLeft.Y + 1200), new Vector2((int)topRight.X, (int)topRight.Y + 1200) };
             Vector2[] geyserPositions = { arenaPosition + new Vector2(-100, 1000), arenaPosition + new Vector2(100, 1000) };
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
-            Main.NewText(player.Center);
-            npc.rotation = npc.velocity.X / 128f;
+            npc.rotation = npc.velocity.X / 80f;
             if(firstFrame)
             {
                 npc.Center = topLeft;
@@ -115,6 +126,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 thrust = true;
                                 resetAnim = true;
+                                numberOfPushes++;
                             }
                             if(thrust && variablethrustingPower < thrustingPower)
                             {
@@ -124,9 +136,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                                     thrust = false;
                                 }
                             }
-                            if(npc.Center.X > topRight.X)
+                            if(numberOfPushes == 4)
                             {
                                 npc.ai[1] = 2;
+                                npc.ai[0] = 0;
                                 isRightOrLeft = false;
                             }
                         }
@@ -161,15 +174,33 @@ namespace EEMod.NPCs.Bosses.Kraken
                 case 2:
                     {
                         npc.velocity *= 0.95f;
-                        npc.ai[0]++;
-                            SpawnProjectileNearPlayerOnTile(30);
-                        for (int i = 0; i<10; i++)
+                        if(npc.ai[0] < 180)
+                        EEPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true);
+                        else if(npc.ai[0] == 181)
                         {
-                                
+                            Projectile.NewProjectile(geyserPositions[0].X, geyserPositions[0].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, .3f, 140);
+                            Projectile.NewProjectile(geyserPositions[1].X, geyserPositions[1].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, .3f, 140);
+                        }
+                        else if(npc.ai[0] == 220)
+                        {
+                            EEPlayer.TurnCameraFixationsOff();
+                            npc.ai[1] = 1;
+                            npc.ai[0] = 0;
                         }
                         break;
                     }
                 case 3:
+                    {
+                        float gradient = (arenaPosition - npc.Center).ToRotation();
+
+                        break;
+                    }
+                case 4:
+                    {
+                        npc.ai[1] = Main.rand.Next(1, 4);
+                        break;
+                    }
+                case 5:
                     {
                         npc.ai[1] = Main.rand.Next(1, 4);
                         break;
@@ -214,7 +245,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.KrakenTentacles;
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(-20, 40), seperateFrame, drawColor, npc.rotation, seperateFrame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(texture.Width / 32 + 20,  - texture.Height / 32), seperateFrame, drawColor, tentaclerotation, seperateFrame.Size() / 2 + new Vector2(texture.Width / 28, -texture.Height/ 50), npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return true;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

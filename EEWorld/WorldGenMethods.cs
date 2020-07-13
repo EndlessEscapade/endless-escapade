@@ -2490,6 +2490,7 @@ namespace EEMod.EEWorld
             }
             float displacement = 220;
             float startingHeightOfUpperClass = sizeY + yPos + 30;
+            KillWall((int)(size.X), (int)(size.Y), startingPoint);
             for (int j = 0; j < islandPositions.Count; j++)
             {
                 // MakeOvalFlatTop(40, 13, new Vector2(islandPositions[j].X - 15, islandPositions[j].Y), ModContent.TileType<HardenedGemsandTile>());
@@ -2692,7 +2693,6 @@ namespace EEMod.EEWorld
             }
             fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, distanceFromEdge + 120));
             fillers.Add(new Vector2(60, 60));
-             KillWall((int)(size.X), (int)(size.Y), startingPoint);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
