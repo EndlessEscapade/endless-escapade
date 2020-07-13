@@ -60,18 +60,25 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.knockBackResist = 0f;
             musicPriority = MusicPriority.BossMedium;
         }
-        Vector2 topLeft = new Vector2(5500, 18300);
-        Vector2 topRight = new Vector2(10000, 18300);
+
         bool firstFrame = true;
         float thrustingPower = 9;
         float variablethrustingPower = 5;
         bool thrust = false;
         bool isRightOrLeft = true;
         bool resetAnim = false;
+        Vector2 arenaPosition = new Vector2(8000, 19500);
         Rectangle seperateFrame = new Rectangle(0,0, 568, 472);
-
+        
         public override void AI()
         {
+            Vector2 topLeft = arenaPosition - new Vector2(2500, 1200);
+            Vector2 topRight = arenaPosition - new Vector2(-2500, 1200);
+            Vector2[] holePositions = { new Vector2((int)topLeft.X, (int)topLeft.Y - 100), new Vector2((int)topRight.X, (int)topRight.Y - 100), new Vector2((int)topLeft.X, (int)topLeft.Y + 1200), new Vector2((int)topRight.X, (int)topRight.Y + 1200) };
+            Vector2[] geyserPositions = { arenaPosition + new Vector2(-100, 1000), arenaPosition + new Vector2(100, 1000) };
+            npc.TargetClosest(true);
+            Player player = Main.player[npc.target];
+            Main.NewText(player.Center);
             npc.rotation = npc.velocity.X / 128f;
             if(firstFrame)
             {
