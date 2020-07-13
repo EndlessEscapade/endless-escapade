@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using EEMod.Projectiles;
+using EEMod.Projectiles.Melee;
 using EEMod.Items.Materials;
 
 namespace EEMod.Items.Weapons.Melee
