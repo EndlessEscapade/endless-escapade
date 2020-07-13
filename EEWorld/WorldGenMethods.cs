@@ -342,6 +342,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
+                                Main.tile[x, y].inActive(true);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -753,6 +754,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 4:
                                 tile.type = TileID.PalladiumColumn;
+                                Main.tile[x, y].inActive(true);
                                 tile.active(true);
                                 break;
                             case 5:
@@ -820,6 +822,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.PalladiumColumn;
+                                Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
@@ -902,6 +905,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.PalladiumColumn;
+                                Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
@@ -1070,6 +1074,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
+                                Main.tile[x, y].inActive(true);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -1316,6 +1321,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
+                                Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
@@ -1398,6 +1404,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
+                                Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
@@ -1416,6 +1423,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 7:
                                 tile.type = TileID.PalladiumColumn;
+                                Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
@@ -1860,6 +1868,7 @@ namespace EEMod.EEWorld
                             break;
                         case 6:
                             tile.type = TileID.PalladiumColumn;
+                            Main.tile[x, y].inActive(true);
                             tile.active(true);
                             tile.inActive(true);
                             tile.color(28);
