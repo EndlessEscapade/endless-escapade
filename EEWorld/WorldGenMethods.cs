@@ -1478,7 +1478,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 1:
                                 tile.wall = WallID.SandstoneBrick;
-                                tile.wallColor(PaintID.DeepBlue);
+                                tile.wallColor(21);
                                 break;
                             case 2:
                                 tile.wall = WallID.SapphireGemspark;
@@ -1488,7 +1488,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 4:
                                 tile.wall = WallID.ShroomitePlating;
-                                tile.wallColor(PaintID.DeepGreen);
+                                tile.wallColor(17);
                                 break;
                             case 5:
                                 tile.wall = WallID.BlueDungeonTile;
@@ -1496,18 +1496,18 @@ namespace EEMod.EEWorld
                                 break;
                             case 6:
                                 tile.wall = WallID.StoneSlab;
-                                tile.wallColor(PaintID.DeepBlue);
+                                tile.wallColor(21);
                                 break;
                             case 7:
                                 tile.wall = (ushort)ModContent.TileType<GemsandTile>();
                                 break;
                             case 8:
                                 tile.wall = WallID.Stone;
-                                tile.wallColor(PaintID.DeepBlue);
+                                tile.wallColor(21);
                                 break;
                             case 9:
                                 tile.wall = WallID.BlueDungeon;
-                                tile.wallColor(PaintID.DeepBlue);
+                                tile.wallColor(21);
                                 break;
                             case 10:
                                 tile.wall = WallID.Grass;
@@ -1523,7 +1523,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 14:
                                 tile.wall = WallID.BlueDungeonTile;
-                                tile.wallColor(PaintID.Gray);
+                                tile.wallColor(27);
                                 break;
                             case 15:
                                 tile.wall = WallID.Waterfall;
@@ -1536,11 +1536,11 @@ namespace EEMod.EEWorld
                                 break;
                             case 18:
                                 tile.wall = WallID.Grass;
-                                tile.wallColor(PaintID.Red);
+                                tile.wallColor(1);
                                 break;
                             case 19:
                                 tile.wall = WallID.Grass;
-                                tile.wallColor(PaintID.Purple);
+                                tile.wallColor(10);
                                 break;
                             case 20:
                                 tile.wall = (ushort)ModContent.TileType<GemsandTile>();
@@ -1559,11 +1559,11 @@ namespace EEMod.EEWorld
                                 break;
                             case 25:
                                 tile.wall = WallID.DiscWall;
-                                tile.wallColor(PaintID.Purple);
+                                tile.wallColor(10);
                                 break;
                             case 26:
                                 tile.wall = WallID.RichMahoganyFence;
-                                tile.wallColor(PaintID.DeepBlue);
+                                tile.wallColor(21);
                                 break;
                             case 27:
                                 tile.wall = WallID.Waterfall;
