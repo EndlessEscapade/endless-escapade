@@ -36,6 +36,8 @@ namespace EEMod
         public static Texture2D Terraria_SunTexture;
         public static Texture2D Terraria_Sun2Texture;
         public static Texture2D Terraria_Sun3Texture;
+        public static Texture2D KrakenTentacles;
+        public static Texture2D KrakenGlowMask;
 
         public static Texture2D CoralReefsSurfaceClose;
 
@@ -68,12 +70,13 @@ namespace EEMod
             CoralLanternTileGlow = mod.GetTexture("Tiles/Furniture/CoralLanternTileGlow");
             AkumoFeather = mod.GetTexture("NPCs/Bosses/Akumo/AkumoFeather");
             Akumo = mod.GetTexture("NPCs/Bosses/Akumo/Akumo");
+            KrakenTentacles = mod.GetTexture("NPCs/Bosses/Kraken/KrakenTentacles");
             Terraria_LogoTexture = ModContent.GetTexture("Terraria/Logo");
             Terraria_Logo2Texture = ModContent.GetTexture("Terraria/Logo2");
             Terraria_SunTexture = ModContent.GetTexture("Terraria/Sun");
             Terraria_Sun2Texture = ModContent.GetTexture("Terraria/Sun2");
             Terraria_Sun3Texture = ModContent.GetTexture("Terraria/Sun3");
-
+            KrakenGlowMask = mod.GetTexture("NPCs/Bosses/Kraken/KrakenHeadGlowMask");
             CoralReefsSurfaceClose = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
         }
 
@@ -110,8 +113,9 @@ namespace EEMod
             Terraria_SunTexture = null;
             Terraria_Sun2Texture = null;
             Terraria_Sun3Texture = null;
-
+            KrakenTentacles = null;
             CoralReefsSurfaceClose = null;
+            KrakenGlowMask = null;
         }
     }
 }

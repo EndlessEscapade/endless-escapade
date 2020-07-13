@@ -11,7 +11,7 @@ namespace EEMod.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble");
+            DisplayName.SetDefault("ParticleHandler");
         }
 
         public override void SetDefaults()
