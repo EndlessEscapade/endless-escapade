@@ -38,12 +38,12 @@ namespace EEMod.NPCs.Bosses.Kraken
             }
             else
             {
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 9; i++)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale*2);
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-4, -10), 6, Color.Blue, projectile.scale*2);
                     Main.dust[num].noGravity = false;
-                    Main.dust[num].velocity *= 7f;
-                    Main.dust[num].velocity.X = Main.rand.NextFloat(-2.5f,2.5f);
+                    Main.dust[num].velocity *= 11f;
+                    Main.dust[num].velocity.X = Main.rand.NextFloat(-3,3);
                     Main.dust[num].noLight = false;
                 }
             }

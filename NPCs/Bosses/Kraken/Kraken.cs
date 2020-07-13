@@ -74,7 +74,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         public override void AI()
         {
             npc.ai[2]++;
-            tentaclerotation += 0.1f;
+            tentaclerotation = 0;
             if (npc.ai[2] < 180)
             {
                 EEPlayer.FixateCameraOn(npc.Center, 32f, false);
@@ -140,7 +140,6 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 npc.ai[1] = 2;
                                 npc.ai[0] = 0;
-                                isRightOrLeft = false;
                             }
                         }
                         else
@@ -174,14 +173,14 @@ namespace EEMod.NPCs.Bosses.Kraken
                 case 2:
                     {
                         npc.velocity *= 0.95f;
-                        if(npc.ai[0] < 180)
+                        if(npc.ai[0] < 80)
                         EEPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true);
-                        else if(npc.ai[0] == 181)
+                        else if(npc.ai[0] == 80)
                         {
                             Projectile.NewProjectile(geyserPositions[0].X, geyserPositions[0].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, .3f, 140);
                             Projectile.NewProjectile(geyserPositions[1].X, geyserPositions[1].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, .3f, 140);
                         }
-                        else if(npc.ai[0] == 220)
+                        else if(npc.ai[0] == 120)
                         {
                             EEPlayer.TurnCameraFixationsOff();
                             npc.ai[1] = 1;
@@ -245,7 +244,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.KrakenTentacles;
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(texture.Width / 32 + 20,  - texture.Height / 32), seperateFrame, drawColor, tentaclerotation, seperateFrame.Size() / 2 + new Vector2(texture.Width / 28, -texture.Height/ 50), npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(texture, npc.spriteDirection == -1 ? npc.Center - Main.screenPosition + new Vector2(texture.Width / 16,- texture.Height / 96) : npc.Center - Main.screenPosition + new Vector2(texture.Width / 16,- texture.Height / 96), seperateFrame, drawColor, tentaclerotation, seperateFrame.Size() / 2 + new Vector2(texture.Width / 16, -texture.Height/ 96), npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return true;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
