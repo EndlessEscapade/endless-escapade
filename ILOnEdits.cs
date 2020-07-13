@@ -69,7 +69,7 @@ namespace EEMod
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null) SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
                 if (loadingFlag)
                 {
-                    loadingChoose = Main.rand.Next(62);
+                    loadingChoose = Main.rand.Next(63);
                     loadingChooseImage = Main.rand.Next(5);
                     loadingFlag = false;
                 }
@@ -79,7 +79,7 @@ namespace EEMod
                         Main.statusText = "Watch Out! Dune Shamblers Pop from the ground from time to time!";
                         break;
                     case 1:
-                        Main.statusText = "Gallagar is Satan!";
+                        Main.statusText = "All good sprites made by Nomis";
                         break;
                     case 2:
                         Main.statusText = "Tip of the Day! Loading screens are useless";
@@ -121,7 +121,7 @@ namespace EEMod
                         Main.statusText = "im angy";
                         break;
                     case 15:
-                        Main.statusText = "Send help, please this is not a joke im actually being held hostage";
+                        Main.statusText = "All good music made by A44";
                         break;
                     case 16:
                         Main.statusText = "Mod is not edgy I swear!";
@@ -187,7 +187,7 @@ namespace EEMod
                         Main.statusText = "All good sprites made by daimgamer!";
                         break;
                     case 37:
-                        Main.statusText = "All (good) music made by Universe";
+                        Main.statusText = "All good music made by Universe";
                         break;
                     case 38:
                         Main.statusText = "All good sprites made by Vadim";
@@ -208,7 +208,7 @@ namespace EEMod
                         Main.statusText = "The man behind the laughter";
                         break;
                     case 44:
-                        Main.statusText = "We all eventually die!";
+                        Main.statusText = "Paint ruins the experience of building - Franswal 2020";
                         break;
                     case 45:
                         Main.statusText = "An apple a day keeps the errors away!";
@@ -260,6 +260,9 @@ namespace EEMod
                         break;
                     case 61:
                         Main.statusText = "You know I think the ocean needs more con- Haha the literal ocean goes brr";
+                        break;
+                    case 62:
+                        Main.statusText = "EA Jorts, it's in the seams.";
                         break;
                 }
             }
