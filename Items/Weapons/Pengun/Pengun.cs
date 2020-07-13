@@ -16,7 +16,7 @@ namespace EEMod.Items.Weapons.Pengun
 
         public override void SetDefaults()
         {
-            item.damage = 48;
+            item.damage = 250;
             item.ranged = true;
             item.width = 40;
             item.height = 20;
