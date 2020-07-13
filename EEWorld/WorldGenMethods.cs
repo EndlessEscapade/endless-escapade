@@ -419,10 +419,12 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.Sand;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 3:
                                 tile.type = TileID.Stone;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -431,6 +433,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 5:
                                 tile.type = TileID.LivingFire;
+                                tile.color(4);
                                 tile.active(true);
                                 break;
                             case 6:
@@ -439,6 +442,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 7:
                                 tile.type = TileID.LeafBlock;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             default:
@@ -476,6 +480,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.LeafBlock;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -488,6 +493,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 6:
                                 tile.type = TileID.VineRope;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             default:
@@ -525,6 +531,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.MetalBars;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -655,6 +662,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 5:
                                 tile.type = TileID.LeafBlock;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 6:
@@ -749,6 +757,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 5:
                                 tile.type = TileID.MeteoriteBrick;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 6:
@@ -769,6 +778,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 10:
                                 tile.type = TileID.LeafBlock;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 11:
@@ -810,6 +820,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.PalladiumColumn;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 3:
@@ -891,6 +902,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.PalladiumColumn;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             default:
@@ -923,6 +935,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.StoneSlab;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             default:
@@ -1012,6 +1025,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.StoneSlab;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 3:
@@ -1096,6 +1110,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 tile.type = TileID.LeafBlock;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 3:
@@ -1181,6 +1196,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.LeafBlock;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -1258,10 +1274,12 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.Marble;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 4:
                                 tile.type = TileID.MarbleBlock;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             default:
@@ -1298,6 +1316,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             default:
@@ -1379,6 +1398,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 4:
@@ -1387,6 +1407,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 5:
                                 tile.type = TileID.DynastyWood;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 6:
@@ -1395,6 +1416,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 7:
                                 tile.type = TileID.PalladiumColumn;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 8:
@@ -1407,6 +1429,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 10:
                                 tile.type = TileID.AdamantiteBeam;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             default:
@@ -1447,10 +1470,12 @@ namespace EEMod.EEWorld
                                 break;
                             case 4:
                                 tile.type = TileID.Glass;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             case 5:
                                 tile.type = TileID.Marble;
+                                tile.color(8);
                                 tile.active(true);
                                 break;
                             default:

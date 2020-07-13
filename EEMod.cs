@@ -296,9 +296,30 @@ namespace EEMod
                 color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
             }
             if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
+            {
                 text = "The Pyramids";
+                color = Color.Yellow * alpha;
+            }
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+            {
                 text = "The Coral Reefs";
+                color = Color.Blue * alpha;
+            }
+            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
+            {
+                text = "The Volcano";
+                color = Color.OrangeRed * alpha;
+            }
+            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
+            {
+                text = "The Volcano's Core";
+                color = Color.Red * alpha;
+            }
+            if (Main.ActiveWorldFileData.Name == KeyID.Island)
+            {
+                text = "Tropical Island";
+                color = Color.GreenYellow * alpha;
+            }
             Texture2D Outline = TextureCache.Outline;
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;

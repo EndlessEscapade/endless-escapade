@@ -1023,7 +1023,8 @@ namespace EEMod
                 ["hasGottenRuneBefore"] = hasGottenRuneBefore,
                 ["moral"] = moralScore,
                 ["baseworldname"] = baseWorldName,
-                ["importantCutscene"] = importantCutscene
+                ["importantCutscene"] = importantCutscene,
+                ["swiftSail"] = boatSpeed
             };
         }
 
@@ -1044,6 +1045,10 @@ namespace EEMod
             if (tag.ContainsKey("importantCutscene"))
             {
                 importantCutscene = tag.GetBool("importantCutscene");
+            }
+            if (tag.ContainsKey("swiftSail"))
+            {
+                boatSpeed = tag.GetInt("swiftSail");
             }
         }
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
