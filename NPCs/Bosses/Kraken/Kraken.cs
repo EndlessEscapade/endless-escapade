@@ -18,18 +18,28 @@ namespace EEMod.NPCs.Bosses.Kraken
         }
         int tentaclesPer = 7;
         private int frameUpdate;
+        private int frameUpdate2;
         public override void FindFrame(int frameHeight)
         {
             frameUpdate++;
-            if (frameUpdate >= tentaclesPer && npc.frame.Y < frameHeight * 5)
+            if (frameUpdate >= tentaclesPer)
             {
                 npc.frame.Y += frameHeight;
                 frameUpdate = 0;
             }
-            if (npc.frame.Y == frameHeight * 5 && resetAnim && thrust)
+            if (npc.frame.Y == frameHeight * 5)
             {
                 npc.frame.Y = 0;
-                return;
+            }
+            frameUpdate2++;
+            if (frameUpdate2 >= tentaclesPer && seperateFrame.Y < frameHeight * 5)
+            {
+                seperateFrame.Y += frameHeight;
+                frameUpdate2 = 0;
+            }
+            if (seperateFrame.Y == frameHeight * 5 && resetAnim && thrust)
+            {
+                seperateFrame.Y = 0;
             }
         }
         public override void SetDefaults()
@@ -44,12 +54,10 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.damage = 95;
             npc.value = Item.buyPrice(0, 8, 0, 0);
             npc.noTileCollide = true;
-            npc.width = 562;
+            npc.width = 568;
             npc.height = 472;
-
             npc.npcSlots = 24f;
             npc.knockBackResist = 0f;
-
             musicPriority = MusicPriority.BossMedium;
         }
         Vector2 topLeft = new Vector2(5500, 18300);
@@ -60,6 +68,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         bool thrust = false;
         bool isRightOrLeft = true;
         bool resetAnim = false;
+        Rectangle seperateFrame = new Rectangle(0,0, 568, 472);
 
         public override void AI()
         {
@@ -198,7 +207,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.KrakenTentacles;
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(-20, 40), npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(-20, 40), seperateFrame, drawColor, npc.rotation, seperateFrame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return true;
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
