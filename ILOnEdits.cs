@@ -196,7 +196,7 @@ namespace EEMod
                         Main.statusText = "All good sprites made by Zarn";
                         break;
                     case 40:
-                        Main.statusText = "ni-UNIVERSE";
+                        Main.statusText = "All good sprites made by Franswal";
                         break;
                     case 41:
                         Main.statusText = "Totally not copying Starlight River";
