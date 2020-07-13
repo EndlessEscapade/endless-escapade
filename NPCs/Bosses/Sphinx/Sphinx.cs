@@ -5,7 +5,7 @@ using EEMod.Items.Materials;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace EEMod.NPCs
+namespace EEMod.NPCs.Bosses.Sphinx
 {
     public class Sphinx : ModNPC
     {

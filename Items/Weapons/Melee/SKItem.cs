@@ -1,9 +1,9 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Materials;
-using EEMod.Projectiles;
+using EEMod.Projectiles.Melee;
 
-namespace EEMod.Items.Weapons.Ranger
+namespace EEMod.Items.Weapons.Melee
 {
     public class SKItem : ModItem
     {
@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.shootSpeed = 8f;
             item.damage = 50;
             item.knockBack = 5f;
-            item.ranged = true;
+            item.melee = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item1;
             item.useAnimation = 60;

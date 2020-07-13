@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.Projectiles
+namespace EEMod.Projectiles.Ranged
 {
     public class DesertArrowProjectile : VisualProjectile
     {

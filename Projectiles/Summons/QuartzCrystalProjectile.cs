@@ -5,7 +5,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using EEMod.Buffs.Buffs;
 
-namespace EEMod.Projectiles
+namespace EEMod.Projectiles.Summons
 {
     public class QuartzCrystalProjectile : ModProjectile
     {

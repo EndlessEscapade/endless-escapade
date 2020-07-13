@@ -3,11 +3,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using EEMod.Projectiles;
+using EEMod.Projectiles.Mage;
+using EEMod.Projectiles.Summons;
 using EEMod.Items.Materials;
 using EEMod.Buffs.Buffs;
 
-namespace EEMod.Items.Weapons.Mage
+namespace EEMod.Items.Weapons.Summon
 {
     public class QuartzStaff : ModItem
     {

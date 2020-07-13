@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.Projectiles
+namespace EEMod.Projectiles.Melee
 {
     public class QuartzDaggerProj : ModProjectile
     {

@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace EEMod.Projectiles
+namespace EEMod.Projectiles.Melee
 {
     public class QuartzProjSwords : ModProjectile
     {

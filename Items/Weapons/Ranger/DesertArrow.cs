@@ -1,7 +1,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Materials;
-using EEMod.Projectiles;
+using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -18,7 +18,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.width = 22;
             item.height = 22;
             item.damage = 16;
-            item.thrown = true;
+            item.ranged = true;
             item.noMelee = true;
             item.consumable = false;
             item.noUseGraphic = true;

@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Items.Materials;
-using EEMod.Projectiles;
+using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Ranger
 {

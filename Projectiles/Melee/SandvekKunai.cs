@@ -2,7 +2,7 @@ using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.Projectiles
+namespace EEMod.Projectiles.Melee
 {
     public class SandvekKunai : Javelin
     {
@@ -12,7 +12,7 @@ namespace EEMod.Projectiles
             projectile.height = 15;
             projectile.aiStyle = -1;
             projectile.friendly = true;
-            projectile.ranged = true;
+            projectile.melee = true;
             projectile.penetrate = 1;
             maxStickingJavelins = 3;
             //projectile.GetGlobalProjectile<ImplaingProjectile>().CanImpale = true;
