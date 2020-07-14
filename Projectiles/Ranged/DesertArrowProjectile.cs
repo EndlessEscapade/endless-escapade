@@ -31,7 +31,7 @@ namespace EEMod.Projectiles.Ranged
             projectile.rotation = projectile.velocity.ToRotation() + 0.8f + MathHelper.PiOver4;
             //if (Main.rand.NextBool(2))
             //{
-                //int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 123, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 217, 184, 255), projectile.scale * 0.5f);
+            //int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 123, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 217, 184, 255), projectile.scale * 0.5f);
             //}
             if (projectile.spriteDirection == -1)
             {

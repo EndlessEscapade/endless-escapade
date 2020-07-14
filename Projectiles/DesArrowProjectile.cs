@@ -32,7 +32,7 @@ namespace EEMod.Projectiles
         {
             projectile.ai[0] += 0.1f;
             Player ownerplayer = Main.player[projectile.owner];
-            projectile.position.X = ownerplayer.position.X; 
+            projectile.position.X = ownerplayer.position.X;
             projectile.position.Y = ownerplayer.Center.Y - 100 + (float)Math.Sin(projectile.ai[0]) * 10;
             if (!visible)
                 projectile.alpha += 5;

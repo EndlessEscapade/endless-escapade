@@ -56,7 +56,7 @@ namespace EEMod.Items.Weapons.Mage
                 heading.Normalize();
                 heading *= new Vector2(speedX, speedY).Length();
                 speedX = heading.X;
-                speedY = heading.Y + Main.rand.NextFloat(-40/50f, 41/50f);
+                speedY = heading.Y + Main.rand.NextFloat(-40 / 50f, 41 / 50f);
                 Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage * 2, knockBack, player.whoAmI, 0f, ceilingLimit);
             }
             return false;

@@ -53,7 +53,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             }
         }
 
-      
+
 
         /*public override bool CheckDead()
         {

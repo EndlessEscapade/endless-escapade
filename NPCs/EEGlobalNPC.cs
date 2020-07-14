@@ -31,7 +31,7 @@ namespace EEMod.NPCs
                 }
             }
 
-            if(npc.type == NPCID.MoonLordCore && !NPC.downedMoonlord)
+            if (npc.type == NPCID.MoonLordCore && !NPC.downedMoonlord)
             {
                 EEWorld.EEWorld.GenerateLuminite();
             }

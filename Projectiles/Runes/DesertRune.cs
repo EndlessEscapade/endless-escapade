@@ -77,7 +77,7 @@ namespace EEMod.Projectiles.Runes
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             flash += 0.01f;
-            if(flash == 2)
+            if (flash == 2)
             {
                 flash = 10;
             }
@@ -92,7 +92,7 @@ namespace EEMod.Projectiles.Runes
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, projectile.rotation + flash, new Rectangle(0, 0, 174, 174).Size() / 2, projectile.ai[0], SpriteEffects.None, 0);
             }
 
-                Main.spriteBatch.End();
+            Main.spriteBatch.End();
             Main.spriteBatch.Begin();
 
             return true;
@@ -123,7 +123,7 @@ namespace EEMod.Projectiles.Runes
             EEMod.isAscending = false;
             EEMod.AscentionHandler = 0;
             if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
-              {
+            {
                 Filters.Scene["EEMod:Shockwave"].Deactivate();
             }
             if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:WhiteFlash"].IsActive())

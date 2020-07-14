@@ -68,7 +68,7 @@ namespace EEMod.Projectiles.Melee
                     movementFactor += 2.1f;
                 }
                 timer--;
-                if(timer <= 0)
+                if (timer <= 0)
                 {
                     Projectile.NewProjectile(projectile.position, projectile.velocity * 3, ModContent.ProjectileType<TridentOfTheDepthsWhirlpool>(), projectile.damage, projectile.knockBack);
                     timer = 5;

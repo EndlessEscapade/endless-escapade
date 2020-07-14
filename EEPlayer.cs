@@ -82,7 +82,7 @@ namespace EEMod
             {
                 player.accDivingHelm = true;
             }
-            if(dragonScale && player.wet && PlayerInput.Triggers.JustPressed.Jump)
+            if (dragonScale && player.wet && PlayerInput.Triggers.JustPressed.Jump)
             {
                 if (dur <= 0)
                 {
@@ -251,10 +251,10 @@ namespace EEMod
         public static bool isCameraShaking;
         public static Vector2 fixatingPoint;
         public static float fixatingSpeedInv;
-        public static void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings)
+        public static void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove)
         {
             fixatingPoint = fixatingPointCamera;
-            isCameraFixating = true;
+            isCameraFixating = CameraMove;
             fixatingSpeedInv = fixatingSpeed;
             isCameraShaking = isCameraShakings;
         }
@@ -274,10 +274,10 @@ namespace EEMod
             {
                 if (markerPlacer < 120 * 8)
                 {
-                  displacmentX -= (displacmentX - (200 * 16)) / 32f;
-                  displacmentY -= (displacmentY - (110 * 16)) / 32f;
-                  Main.screenPosition += new Vector2(displacmentX - player.Center.X, displacmentY - player.Center.Y);
-                  player.position = player.oldPosition;
+                    displacmentX -= (displacmentX - (200 * 16)) / 32f;
+                    displacmentY -= (displacmentY - (110 * 16)) / 32f;
+                    Main.screenPosition += new Vector2(displacmentX - player.Center.X, displacmentY - player.Center.Y);
+                    player.position = player.oldPosition;
                 }
                 else
                 {
@@ -305,11 +305,11 @@ namespace EEMod
                         }
 
                         Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                        Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f,(markerPlacer - ((120 * 8) + 1400))/10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f, (markerPlacer - ((120 * 8) + 1400)) / 10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
                         Main.spriteBatch.End();
                         Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                     }
-                    if (markerPlacer >= (120*8) + 1800)
+                    if (markerPlacer >= (120 * 8) + 1800)
                     {
                         startingText = false;
                         if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:WhiteFlash"].IsActive())
@@ -338,11 +338,11 @@ namespace EEMod
                 }
                 if (player.velocity.Y > 1)
                 {
-                    displacmentY += disSpeed/2;
+                    displacmentY += disSpeed / 2;
                 }
                 else if (player.velocity.Y < -1)
                 {
-                    displacmentY -= disSpeed/2;
+                    displacmentY -= disSpeed / 2;
                 }
                 else
                 {
@@ -357,8 +357,8 @@ namespace EEMod
 
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
-                if(markerPlacer > 1)
-                Main.screenPosition += new Vector2(0, offSea);
+                if (markerPlacer > 1)
+                    Main.screenPosition += new Vector2(0, offSea);
             }
 
             if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
@@ -375,8 +375,6 @@ namespace EEMod
                 displacmentX += ((fixatingPoint.X - player.Center.X) - displacmentX) / fixatingSpeedInv;
                 displacmentY += ((fixatingPoint.Y - player.Center.Y) - displacmentY) / fixatingSpeedInv;
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
-                if(isCameraShaking)
-                Main.screenPosition += new Vector2(Main.rand.Next(-10,10), Main.rand.Next(-10,10));
             }
             else if (Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && Math.Abs(displacmentX + displacmentY) > 0.01f && NPC.AnyNPCs(NPCType<KrakenHead>()))
             {
@@ -388,6 +386,8 @@ namespace EEMod
             {
 
             }
+            if (isCameraShaking)
+                Main.screenPosition += new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10));
         }
         readonly SubworldManager SM = new SubworldManager();
         public int rippleCount = 3;
@@ -457,7 +457,7 @@ namespace EEMod
                     player.Center.Y / 16 >= Main.spawnTileY - 5 &&
                     player.Center.Y / 16 <= Main.spawnTileY + 5)
                 {
-                    if(player.controlUp)
+                    if (player.controlUp)
                     {
                         ReturnHome();
                     }
@@ -474,7 +474,7 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
-                
+
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)
@@ -575,7 +575,7 @@ namespace EEMod
 
                 if (isNearMainIsland)
                 {
-                    if(player.controlUp)
+                    if (player.controlUp)
                     {
                         ReturnHome();
                     }
@@ -825,9 +825,9 @@ namespace EEMod
                     EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos = new Vector2(198, 198);
                 }
                 VolcanoArrowProj voclanoarrow = Main.projectile[Arrow2].modProjectile as VolcanoArrowProj;
-                if (player.Center.X / 16 >= EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X -4 &&
+                if (player.Center.X / 16 >= EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X - 4 &&
                     player.Center.X / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.X + 4) &&
-                    player.Center.Y / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y -4) &&
+                    player.Center.Y / 16 >= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y - 4) &&
                     player.Center.Y / 16 <= (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos.Y + 4))
                 {
                     if (player.controlUp)
@@ -858,10 +858,10 @@ namespace EEMod
                 if (markerPlacer == 5)
                 {
                     player.AddBuff(BuffID.Cursed, 100000);
-                    NPC.NewNPC(193 * 16, (120-30) * 16, NPCType<SansSlime>());
+                    NPC.NewNPC(193 * 16, (120 - 30) * 16, NPCType<SansSlime>());
                     NPC.NewNPC(207 * 16, (120 - 30) * 16, NPCType<GreenSlimeGoBurr>());
                 }
-                if(markerPlacer > 120*8)
+                if (markerPlacer > 120 * 8)
                 {
                     if (markerPlacer == 5)
                     {

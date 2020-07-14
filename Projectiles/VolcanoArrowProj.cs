@@ -31,8 +31,8 @@ namespace EEMod.Projectiles
         public override void AI()
         {
             projectile.ai[0] += 0.1f;
-            projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width/2 ;
-            projectile.position.Y = Main.player[projectile.owner].Center.Y + (float)Math.Sin(projectile.ai[0])*10 - 100;
+            projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width / 2;
+            projectile.position.Y = Main.player[projectile.owner].Center.Y + (float)Math.Sin(projectile.ai[0]) * 10 - 100;
             if (!visible)
                 projectile.alpha += 5;
             else
@@ -46,7 +46,7 @@ namespace EEMod.Projectiles
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)  //this make the projectile sprite rotate perfectaly around the player
         {
             Texture2D texture = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.Red * (float)((double)(255- projectile.alpha)/(double)255), projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.Red * (float)((double)(255 - projectile.alpha) / (double)255), projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
         }
     }

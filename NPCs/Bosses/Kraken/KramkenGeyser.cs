@@ -21,30 +21,30 @@ namespace EEMod.NPCs.Bosses.Kraken
             projectile.aiStyle = -1;
             projectile.timeLeft = 180;
             projectile.tileCollide = false;
-            
+
         }
 
         public override void AI()
         {
             projectile.ai[0]++;
-            if (projectile.ai[0] < 40)
+            if (projectile.ai[0] < 100)
             {
-              for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 1; i++)
                 {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Dirt, 0, 0, 6, default, projectile.scale * 1);
-                        Main.dust[num].noGravity = false;
-                        Main.dust[num].velocity *= 1.5f;
-                        Main.dust[num].noLight = false;
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Dirt, 0, 0, 6, default, projectile.scale * 1.3f);
+                    Main.dust[num].noGravity = false;
+                    Main.dust[num].velocity *= 1.5f;
+                    Main.dust[num].noLight = false;
                 }
             }
             else
             {
-                for (int i = 0; i < 9; i++)
+                for (int i = 0; i < 2; i++)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale*2);
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale * 1.5f);
                     Main.dust[num].noGravity = false;
                     Main.dust[num].velocity *= 7f;
-                    Main.dust[num].velocity.X = Main.rand.NextFloat(-5,5);
+                    Main.dust[num].velocity.X = Main.rand.NextFloat(-2, 2);
                     Main.dust[num].noLight = false;
                 }
                 projectile.netUpdate = true;

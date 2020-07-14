@@ -24,7 +24,7 @@ namespace EEMod.Items.Tools
             item.rare = ItemRarityID.Pink;
             item.value = Item.sellPrice(silver: 20);
             item.useStyle = 4;
-            
+
             item.noMelee = true;
             item.noUseGraphic = true;
 

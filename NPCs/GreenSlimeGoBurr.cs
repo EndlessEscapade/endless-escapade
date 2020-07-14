@@ -37,13 +37,13 @@ namespace EEMod.NPCs
         public override void AI()
         {
             yes++;
-            if(yes == interval)
-            CombatText.NewText(npc.getRect(), Colors.RarityYellow, "Haha Sans Go Burr");
-            if (yes == interval*3)
+            if (yes == interval)
+                CombatText.NewText(npc.getRect(), Colors.RarityYellow, "Haha Sans Go Burr");
+            if (yes == interval * 3)
                 CombatText.NewText(npc.getRect(), Colors.RarityYellow, "Mlem");
-            if (yes == interval*5)
+            if (yes == interval * 5)
                 CombatText.NewText(npc.getRect(), Colors.RarityYellow, "Haha Funny Content");
-            if (yes == interval*7)
+            if (yes == interval * 7)
                 CombatText.NewText(npc.getRect(), Colors.RarityYellow, "mmmyes lets do that");
         }
 

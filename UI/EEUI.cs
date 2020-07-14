@@ -36,7 +36,7 @@ namespace EEMod.UI
             StringOfTextures[4] = "EEMod/Projectiles/Runes/IgnisRune";
             StringOfTextures[5] = "EEMod/Projectiles/Runes/RunePlacement";
             StringOfTextures[6] = "EEMod/Projectiles/Runes/RunePlacement";
-            for(int i = 0; i<7; i++)
+            for (int i = 0; i < 7; i++)
             {
                 panels[i] = new DragableUIPanelBackgroundTexture(StringOfTextures[i]);
                 if (i < 5)
@@ -137,15 +137,15 @@ namespace EEMod.UI
         private void ChooseFirstRune(UIMouseEvent evt, UIElement listeningElement)
         {
             Texture2D textBeforeChange = panels[5]._backgroundTexture;
-            for (int i = 0; i<5; i++)
+            for (int i = 0; i < 5; i++)
             {
-                if(isPulsating[i])
+                if (isPulsating[i])
                 {
                     panels[5]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
-                    panels[5].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width,0);
+                    panels[5].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
                     panels[5].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
-                    panels[5].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width/2 - 100, 0);
-                    panels[5].Top.Set(500-ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
+                    panels[5].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width / 2 - 100, 0);
+                    panels[5].Top.Set(500 - ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
                     break;
                 }
             }
@@ -179,13 +179,13 @@ namespace EEMod.UI
         public override void Update(GameTime gameTime)
         {
             pivot = 0.05f;
-            for(int i = 0; i<5; i++)
+            for (int i = 0; i < 5; i++)
             {
-               panels[i].Left.Set((Main.screenWidth / 2) - ModContent.GetTexture(StringOfTextures[i]).Width/2 + (float)(Math.Sin((pivot / 10) + (Math.PI * (i*2)) / 5)) * 200, 0);
-               panels[i].Top.Set((Main.screenHeight / 2) - ModContent.GetTexture(StringOfTextures[i]).Height/2 + (float)(Math.Cos((pivot / 10) + (Math.PI * (i * 2)) / 5)) * 200, 0);
+                panels[i].Left.Set((Main.screenWidth / 2) - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + (float)(Math.Sin((pivot / 10) + (Math.PI * (i * 2)) / 5)) * 200, 0);
+                panels[i].Top.Set((Main.screenHeight / 2) - ModContent.GetTexture(StringOfTextures[i]).Height / 2 + (float)(Math.Cos((pivot / 10) + (Math.PI * (i * 2)) / 5)) * 200, 0);
             }
             pulsatingControl += 0.2f;
-            for(int i = 0; i<5; i++)
+            for (int i = 0; i < 5; i++)
             {
                 if (isPulsating[i])
                 {
