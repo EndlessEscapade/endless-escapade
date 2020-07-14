@@ -34,7 +34,7 @@ namespace EEMod.UI
         int frameSpeed;
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            texture2 = TextureCache.BleckScren;
+            texture2 = TextureCache.NotBleckScren;
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
