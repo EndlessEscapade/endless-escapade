@@ -43,6 +43,7 @@ namespace EEMod
         public static Texture2D CoralReefsSurfaceClose;
         public static Texture2D NotBleckScren;
         public static Texture2D Tentacle;
+        public static Texture2D TentacleChain;
 
         [LoadingMethod(Loadmode = LoadingMode.Client)]
         public static void Load()
@@ -85,11 +86,13 @@ namespace EEMod
             Terraria_Sun3Texture = ModContent.GetTexture("Terraria/Sun3");
             KrakenGlowMask = mod.GetTexture("NPCs/Bosses/Kraken/KrakenHeadGlowMask");
             CoralReefsSurfaceClose = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
+            TentacleChain = mod.GetTexture("NPCs/Bosses/Kraken/TentacleChain");
         }
 
         [UnloadingMethod]
         public static void Unload()
         {
+            TentacleChain = null;
             Tentacle = null;
             CoralLanternLampGlow = null;
             Chain = null;

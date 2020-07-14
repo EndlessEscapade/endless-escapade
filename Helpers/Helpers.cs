@@ -58,6 +58,22 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
+        public static Rectangle[] ReturnPoints(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, int chogsizeX, int chogsizeY, int accuracy)
+        {
+            Rectangle[] collision = new Rectangle[(int)(1/ (chainsPerUse* accuracy)) + 1];
+            int keeper = 0;
+            for (float i = 0; i <= 1; i += chainsPerUse)
+            {
+                keeper++;
+                if (i != 0 && keeper % accuracy == 0)
+                {
+                    collision[keeper/ accuracy] = new Rectangle((int)X(i, startingPos.X, c1.X, c2.X, endPoints.X) - chogsizeX/2, (int)Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - chogsizeY / 2, chogsizeX, chogsizeY);
+                }
+            }
+            return collision;
+            //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+        }
         static int misckeep;
         public static void DrawBezierProj(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, int projType, bool isBridge)
         {

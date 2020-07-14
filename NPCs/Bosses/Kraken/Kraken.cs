@@ -132,7 +132,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             }
             Vector2 topLeft = arenaPosition - new Vector2(2500, 1200);
             Vector2 topRight = arenaPosition - new Vector2(-2500, 1200);
-            Vector2[] holePositions = { new Vector2((int)topLeft.X + 400, (int)topLeft.Y - 100), new Vector2((int)topRight.X, (int)topRight.Y - 100), new Vector2((int)topLeft.X + 400, (int)topLeft.Y + 1200), new Vector2((int)topRight.X + 200, (int)topRight.Y + 1200) };
+            Vector2[] holePositions = { new Vector2((int)topLeft.X + 400, (int)topLeft.Y - 100), new Vector2((int)topRight.X- 300, (int)topRight.Y - 100), new Vector2((int)topLeft.X + 400, (int)topLeft.Y + 1200), new Vector2((int)topRight.X - 300, (int)topRight.Y + 1200) };
             Vector2[] geyserPositions = { arenaPosition + new Vector2(-100, 1000), arenaPosition + new Vector2(100, 1000) };
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
@@ -142,10 +142,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                 npc.ai[1] = 1;
                 npc.Center = topLeft;
                 firstFrame = false;
-                NPC.NewNPC((int)holePositions[0].X, (int)holePositions[0].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[0].X, (int)holePositions[0].Y,1);
-                NPC.NewNPC((int)holePositions[1].X, (int)holePositions[1].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[1].X, (int)holePositions[1].Y);
-                NPC.NewNPC((int)holePositions[2].X, (int)holePositions[2].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[2].X, (int)holePositions[2].Y,1);
-                NPC.NewNPC((int)holePositions[3].X, (int)holePositions[3].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[3].X, (int)holePositions[3].Y);
+                NPC.NewNPC((int)holePositions[0].X, (int)holePositions[0].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[0].X, (int)holePositions[0].Y);
+                NPC.NewNPC((int)holePositions[1].X, (int)holePositions[1].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[1].X, (int)holePositions[1].Y,1);
+                NPC.NewNPC((int)holePositions[2].X, (int)holePositions[2].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[2].X, (int)holePositions[2].Y);
+                NPC.NewNPC((int)holePositions[3].X, (int)holePositions[3].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[3].X, (int)holePositions[3].Y,1);
             }
             if (npc.velocity.X > 0)
                 npc.spriteDirection = -1;
@@ -187,6 +187,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 Reset(1);
                             }
+                            if(npc.Center.X > topRight.X && variablethrustingPower <= 1f)
+                            {
+                                isRightOrLeft = false;
+                            }
                         }
                         else
                         {
@@ -209,7 +213,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                                     thrust = false;
                                 }
                             }
-                            if (npc.Center.X > topRight.X && variablethrustingPower <= 1f)
+                            if (npc.Center.X < topLeft.X && variablethrustingPower <= 1f)
                             {
                                 isRightOrLeft = false;
                             }
@@ -223,7 +227,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         if(npc.ai[0] == 20)
                         {
                             for(int i = 0; i<10; i++)
-                            SpawnProjectileNearPlayerOnTile(30);
+                            SpawnProjectileNearPlayerOnTile(100);
                         }
                         if (npc.ai[0] < 80)
                         {
@@ -276,7 +280,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 for (int i = 0; i < holePositions.Length; i++)
                                 {
-                                    NPC.NewNPC((int)holePositions[i].X + 80, (int)holePositions[i].Y + 180, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
+                                    NPC.NewNPC((int)holePositions[i].X + 10, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI,1);
                                 }
                             }
                             if (npc.ai[0] >= 400)
@@ -330,14 +334,11 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 if (npc.ai[0] > 140)
                                 {
                                     EEPlayer.FixateCameraOn(npc.Center, 64f, true, true);
-                                    for (int i = 0; i < 9; i++)
-                                    {
-                                        int num = Dust.NewDust(npc.Center - new Vector2(110 * npc.spriteDirection, 10), 5, 5, DustID.SolarFlare, Main.rand.NextFloat(-2, -5) * npc.spriteDirection, 0, 6, default, 2);
-                                        Main.dust[num].noGravity = true;
-                                        Main.dust[num].velocity *= 15f;
-                                        Main.dust[num].velocity.Y = Main.rand.NextFloat(-3, 3);
-                                        Main.dust[num].noLight = false;
-                                    }
+                                    float projectilespeedX = 10 * -npc.spriteDirection;
+                                    float projectilespeedY = Main.rand.NextFloat(-2,2);
+                                    float projectileknockBack = 4f;
+                                    int projectiledamage = 20;
+                                    Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, mod.ProjectileType("WaterSpew"), projectiledamage,projectileknockBack, npc.target, 0f, 0f);
                                     if (npc.ai[0] == 280)
                                     {
                                         Reset(3);
@@ -359,7 +360,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         {
                             npc.alpha = 255;
                         }
-                        if (npc.ai[0] <= (dashPositions.Length - 1) * speed)
+                        if (npc.ai[0] < (dashPositions.Length) * speed)
                         {
                             if (npc.ai[0] % speed == 0)
                             {
@@ -434,24 +435,46 @@ namespace EEMod.NPCs.Bosses.Kraken
         Vector2[] endingPoint = new Vector2[5];
         Vector2[] midPoint = new Vector2[5];
         float daFlop;
+        float daFlopX;
+        int coolDownForCollision;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-                daFlop = ((float)Math.Sin(npc.ai[2]/20f) * 60) + 200;
+            coolDownForCollision--;
+            if(coolDownForCollision < 0)
+            {
+                coolDownForCollision = 0;
+            }
+                daFlop = ((float)Math.Sin(npc.ai[2]/20f) * 100) + 100;
+                daFlopX = ((float)Math.Cos(npc.ai[2] / 30f) * 60);
             if (hasChains)
             {
                 for (int i = 0; i < npcFromPositions.Length; i++)
                 {
                     if (npc.ai[1] != 4 || (npc.ai[0] > (dashPositions.Length - 1) * 50 && npc.ai[1] == 4))
                     {
-                        startingPoint[i] -= (startingPoint[i] - (npcFromPositions[i] - (dashPositions[i] - npcFromPositions[i])/10)) / 16f;
-                        endingPoint[i] = (npcFromPositions[i] - (dashPositions[i] - npcFromPositions[i])/10) + (Vector2.Normalize(dashPositions[i] - npcFromPositions[i]) * 9000);
-                        midPoint[i] = (startingPoint[i] + endingPoint[i]) * 0.5f + new Vector2(0, daFlop);
+                        startingPoint[i] -= (startingPoint[i] - npcFromPositions[i]) / 32f;
+                        endingPoint[i] = npcFromPositions[i] + (Vector2.Normalize(dashPositions[i] - npcFromPositions[i]) * 5500);
+                        midPoint[i] = startingPoint[i] + (endingPoint[i] - startingPoint[i]) * 0.1f + new Vector2(daFlopX, daFlop);
                     }
                     else
                     {
+                        midPoint[i] = startingPoint[i] + (endingPoint[i] - startingPoint[i]) * 0.5f;
                         startingPoint[i] += (endingPoint[i] - startingPoint[i]) / 64f;
                     }
-                    Helpers.DrawBezier(spriteBatch, TextureCache.Tentacle, "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], 0.01f,(float)Math.PI/2);
+                    Helpers.DrawBezier(spriteBatch, TextureCache.TentacleChain, "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], 0.01f, (float)Math.PI/2);
+                    Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height);
+                        for (int j = 0; j < Helpers.ReturnPoints(startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], 0.01f, 80,140,5).Length; j++)
+                        {
+                            if (playerHitBox.Intersects(Helpers.ReturnPoints(startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], 0.01f, 80,140, 3)[j]))
+                            {
+                            if (coolDownForCollision == 0)
+                            {
+                                Main.player[npc.target].AddBuff(BuffID.Confused, 60);
+                                Main.player[npc.target].velocity *= -2;
+                                coolDownForCollision = 60;
+                            }
+                            }
+                        }
                 }
             }
             
