@@ -62,13 +62,15 @@ namespace EEMod
 
         public static int GetNearestAlivePlayer(NPC npc)
         {
-            float NearestPlayerDist = 4815162342f;
+            float NearestPlayerDistSQ = 4815162342f;
             int NearestPlayer = -1;
-            foreach (Player player in Main.player)
+            for(int i = 0; i < Main.player.Length; i++)
             {
-                if (player.Distance(npc.Center) < NearestPlayerDist && player.active)
+                Player player = Main.player[i];
+                float distSQ = player.DistanceSQ(npc.Center);
+                if(!(!player.active || player.dead || player.ghost) && distSQ < NearestPlayerDistSQ)
                 {
-                    NearestPlayerDist = player.Distance(npc.Center);
+                    NearestPlayerDistSQ = distSQ;
                     NearestPlayer = player.whoAmI;
                 }
             }
@@ -79,7 +81,7 @@ namespace EEMod
         {
             Vector2 move = pos2 - pos1;
             //speed2 = speed * 0.5;
-            return move * (speed / (float)Math.Sqrt(move.X * move.X + move.Y * move.Y));
+            return move * (speed / move.Length());
         }
 
         /// <summary>
@@ -91,28 +93,19 @@ namespace EEMod
         /// <returns>Возвращяет ID ближайшего NPC к точке с задаными параметрами</returns>
         public static int GetNearestNPC(Vector2 Point, bool Friendly = false, bool NoBoss = false)
         {
-            float NearestNPCDist = -1;
+            float NearestNPCDistSQ = -1;
             int NearestNPC = -1;
-            foreach (NPC npc in Main.npc)
+            int npcs = Main.npc.Length - 1;
+            for(int i = 0; i < npcs; i++)
             {
-                if (!npc.active)
-                {
+                NPC npc = Main.npc[i];
+                if (!npc.active || (NoBoss && npc.boss) || (!Friendly && (npc.friendly || npc.lifeMax <= 5)))
                     continue;
-                }
 
-                if (NoBoss && npc.boss)
+                float distSQ = npc.DistanceSQ(Point);
+                if(NearestNPCDistSQ == -1 || distSQ < NearestNPCDistSQ)
                 {
-                    continue;
-                }
-
-                if (!Friendly && (npc.friendly || npc.lifeMax <= 5))
-                {
-                    continue;
-                }
-
-                if (NearestNPCDist == -1 || npc.Distance(Point) < NearestNPCDist)
-                {
-                    NearestNPCDist = npc.Distance(Point);
+                    NearestNPCDistSQ = distSQ;
                     NearestNPC = npc.whoAmI;
                 }
             }
@@ -127,18 +120,20 @@ namespace EEMod
         /// <returns>Возвращяет ID ближайшего игрока к точке с задаными параметрами</returns>
         public static int GetNearestPlayer(Vector2 Point, bool Alive = false)
         {
-            float NearestPlayerDist = -1;
+            float NearestPlayerDistSQ = -1;
             int NearestPlayer = -1;
-            foreach (Player player in Main.player)
+            for (int i = 0; i < Main.player.Length; i++)
             {
+                Player player = Main.player[i];
                 if (Alive && (!player.active || player.dead))
                 {
                     continue;
                 }
 
-                if (NearestPlayerDist == -1 || player.Distance(Point) < NearestPlayerDist)
+                float distSQ = player.DistanceSQ(Point);
+                if (NearestPlayerDistSQ == -1 || distSQ < NearestPlayerDistSQ)
                 {
-                    NearestPlayerDist = player.Distance(Point);
+                    NearestPlayerDistSQ = distSQ;
                     NearestPlayer = player.whoAmI;
                 }
             }
@@ -147,13 +142,15 @@ namespace EEMod
 
         public static int GetNearestPlayer(this NPC npc)
         {
-            float NearestPlayerDist = 4815162342f;
+            float NearestPlayerDistSQ = 4815162342f;
             int NearestPlayer = -1;
-            foreach (Player player in Main.player)
+            for (int i = 0; i < Main.player.Length; i++)
             {
-                if (player.Distance(npc.Center) < NearestPlayerDist)
+                Player player = Main.player[i];
+                float distSQ = player.DistanceSQ(npc.Center);
+                if (distSQ < NearestPlayerDistSQ)
                 {
-                    NearestPlayerDist = player.Distance(npc.Center);
+                    NearestPlayerDistSQ = distSQ;
                     NearestPlayer = player.whoAmI;
                 }
             }
@@ -170,7 +167,7 @@ namespace EEMod
         public static Vector2 VelocityToPoint(Vector2 A, Vector2 B, float Speed)
         {
             Vector2 Move = B - A;
-            return Move * (Speed / (float)Math.Sqrt(Move.X * Move.X + Move.Y * Move.Y));
+            return Move * (Speed / Move.Length());
         }
 
         /// <summary>

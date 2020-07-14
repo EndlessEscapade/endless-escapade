@@ -2929,7 +2929,7 @@ namespace EEMod.EEWorld
                 // Tile tile = Framing.GetTileSafely(x, y);
                 if (layer == 1)
                 {
-                    if (Vector2.Distance(new Vector2(x, y), new Vector2(X, midY)) < size)
+                    if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < size * size)
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
                 }
                 if (layer == 2)
@@ -2947,7 +2947,7 @@ namespace EEMod.EEWorld
                 if (layer == 1)
                 {
                     int sizeSQ = size + thickness;
-                    if (Vector2.Distance(new Vector2(x, y), new Vector2(X, midY)) < (sizeSQ))
+                    if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < sizeSQ * sizeSQ)
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, false, false);
                 }
                 if (layer == 2)

@@ -287,8 +287,8 @@ namespace EEMod.NPCs.Bosses.Kraken
                         if (GETHIMBOIS)
                         {
                             EEPlayer.FixateCameraOn(npc.Center, 64f, false, true);
-                            gradient = Vector2.Normalize((player.Center + new Vector2(300, 0)) - npc.Center);
-                            if (Vector2.Distance(player.Center + new Vector2(300, 0), npc.Center) > 100)
+                            gradient = Vector2.Normalize(player.Center + new Vector2(300, 0) - npc.Center);
+                            if (Vector2.DistanceSquared(player.Center + new Vector2(300, 0), npc.Center) > (100*100))
                             {
                                 if (!thrust)
                                 {

@@ -56,21 +56,21 @@ namespace EEMod.NPCs
             Vector2 moveTo = player.Center;
             float speed = 1f;
             Vector2 move = moveTo - npc.Center;
-            float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
+            float magnitude = move.Length();
             if (magnitude > speed)
             {
                 move *= speed / magnitude;
             }
             float turnResistance = 10f;
             move = (npc.velocity * turnResistance + move) / (turnResistance + 1f);
-            magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
+            magnitude = move.Length();
             if (magnitude > speed)
             {
                 move *= speed / magnitude;
             }
             npc.velocity = move;
             Vector2 moveFor = moveTo - npc.Center;
-            dist = (float)Math.Sqrt(moveFor.X * moveFor.X + moveFor.Y * moveFor.Y);
+            dist = moveFor.Length();
             if (dist < 200 && npc.ai[2] == 100)
             {
                 flaginOut = true;

@@ -77,6 +77,19 @@ namespace EEMod.Projectiles.OceanMap
             projectile.alpha += 8;
             sinkTimer--;
             if(sinkTimer <= 0)
+                projectile.spriteDirection = -1;
+            }
+            float speed = .3f;
+            Vector2 move = moveTo - projectile.Center;
+            float magnitude = move.Length();
+            if (magnitude > speed)
+            {
+                move *= speed / magnitude;
+            }
+            float turnResistance = 10f;
+            move = (projectile.velocity * turnResistance + move) / (turnResistance + 1f);
+            magnitude = move.Length();
+            if (magnitude > speed)
             {
                 projectile.Kill();
             }
