@@ -52,9 +52,9 @@ namespace EEMod.Projectiles.Summons
                 for (int i = 0; i < 200; i++)
                 {
                     NPC target = Main.npc[i];
-                    float shootToX = target.Center.X + (float)target.width * 0.5f - projectile.Center.X;
+                    float shootToX = target.BottomRight.X - projectile.Center.X;
                     float shootToY = target.Center.Y - projectile.Center.Y;
-                    float distance = (float)System.Math.Sqrt((double)(shootToX * shootToX + shootToY * shootToY));
+                    float distance = (float)Math.Sqrt(shootToX * shootToX + shootToY * shootToY);
                     if (distance < 1080f && !target.friendly && target.active)
                     {
                         distance = 3f / distance;
