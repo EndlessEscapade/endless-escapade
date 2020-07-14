@@ -84,14 +84,14 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            //Not the island
+
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 180, new Vector2(0, 0));
-            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 200, new Vector2(0, 100), ModContent.TileType<CoralSand>(), 15, 15);
-            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 200, new Vector2(0, 255), ModContent.TileType<CoralSand>());
 
-            //The island
-            EEWorld.EEWorld.Island(400, 175);
+            EEWorld.EEWorld.Island(400, 225);
+
+            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 200), ModContent.TileType<CoralSand>(), 15, 15);
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 200, new Vector2(0, 225), ModContent.TileType<CoralSand>());
 
             for (int i = 42; i < Main.maxTilesX-42; i++)
             {

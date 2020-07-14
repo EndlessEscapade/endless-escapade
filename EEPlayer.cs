@@ -66,7 +66,7 @@ namespace EEMod
             }
         }
 
-        private int bubbleTimer = 4;
+        private int bubbleTimer = 6;
         private int bubbleLen = 0;
         private int dur = 0;
         private int bubbleColumn;
@@ -86,7 +86,7 @@ namespace EEMod
                 if (dur <= 0)
                 {
                     bubbleColumn = 0;
-                    dur = 60;
+                    dur = 36;
                 }
             }
         }
@@ -403,8 +403,8 @@ namespace EEMod
                 bubbleTimer--;
                 if (bubbleTimer <= 0)
                 {
-                    bubbleTimer = 4;
-                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), Vector2.Zero, ModContent.ProjectileType<InkCloud>(), 0, 0);
+                    bubbleTimer = 6;
+                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 0, 0);
                     bubbleLen = Main.rand.Next(-16, 17);
                     bubbleColumn += 2;
                 }

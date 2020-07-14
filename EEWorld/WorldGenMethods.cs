@@ -3087,7 +3087,7 @@ namespace EEMod.EEWorld
         }
         public static void Island(int islandWidth, int islandHeight)
         {
-            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
+            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 200), ModContent.TileType<CoralSand>());
             MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) * 0.66), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSand>()) - 5), TileID.Dirt);
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
