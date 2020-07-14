@@ -66,7 +66,7 @@ namespace EEMod
             GBeam_End = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_End");
             Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");
             Outline = mod.GetTexture("Outline");
-            ShipHelth = mod.GetTexture("ShipHelth");
+            ShipHelth = mod.GetTexture("ShipHelthSheet");
             ShipMount = mod.GetTexture("ShipMount");
             DuneShamblerDig = mod.GetTexture("NPCs/DuneShamblerDig");
             DruidsVin_Beam = mod.GetTexture("Projectiles/Mage/DruidsVin_Beam");

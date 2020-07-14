@@ -22,6 +22,8 @@ using EEMod.UI;
 using System.Reflection.Emit;
 using Mono.Cecil.Cil;
 using OpCodes = Mono.Cecil.Cil.OpCodes;
+using EEMod.Projectiles.Mage;
+using EEMod.Projectiles.OceanMap;
 
 namespace EEMod
 {
@@ -334,8 +336,8 @@ namespace EEMod
         int Countur;
         int frames;
         int frameSpeed;
-        public static float ShipHelthMax = 100;
-        public static float ShipHelth = 100;
+        public static float ShipHelthMax = 7;
+        public static float ShipHelth = 7;
         public Vector2 position;
         public Vector2 velocity;
         public static readonly Vector2 start = new Vector2(1700, 900);
@@ -373,6 +375,7 @@ namespace EEMod
             return false;
         }
 
+        private int cannonDelay = 60;
         private void DrawShip()
         {
             markerPlacer++;
@@ -397,6 +400,15 @@ namespace EEMod
                 {
                     velocity.X -= 0.1f * eePlayer.boatSpeed;
                 }
+                if (player.controlUseItem && cannonDelay <= 0)
+                {
+                    Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y)) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
+                    Main.NewText(new Vector2(Main.mouseX, Main.mouseY));
+                    Main.NewText(position);
+                    Main.PlaySound(SoundID.Item61);
+                    cannonDelay = 60;
+                }
+                cannonDelay--;
             }
             velocity.X = Helpers.Clamp(velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             velocity.Y = Helpers.Clamp(velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
@@ -422,12 +434,21 @@ namespace EEMod
                     Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
                 if (i == 1)
                     Lighting.AddLight(eePlayer.objectPos[i], .15f, .15f, .15f);
+                if (i == 2)
+                    Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
+                if (i == 4)
+                    Lighting.AddLight(eePlayer.objectPos[i], .15f, .15f, .15f);
+                if (i == 7)
+                    Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
+                if (i == 0)
+                    Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
             }
+            //Lighting.AddLight(eePlayer.objectPos[1], 0.9f, 0.9f, 0.9f);
 
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;
-            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, 0, (int)(texture3.Width * quotient), texture3.Height), Color.White, 0, new Rectangle(0, 0, texture3.Width, texture3.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             flash += 0.01f;
             if (flash == 2)

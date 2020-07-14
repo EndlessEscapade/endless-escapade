@@ -613,11 +613,11 @@ namespace EEMod
 
                 for (int j = 0; j < 450; j++)
                 {
-                    if (Main.projectile[j].type == ProjectileType<PirateShip>())
+                    if (Main.projectile[j].type == ProjectileType<PirateShip>() || Main.projectile[j].type == ProjectileType<RedDutchman>())
                     {
                         if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40)
                         {
-                            EEMod.ShipHelth -= 20;
+                            EEMod.ShipHelth -= 1;
                             EEMod.instance.velocity += Main.projectile[j].velocity * 20;
                         }
                     }
@@ -713,11 +713,12 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
                 }
-                if (markerPlacer % 400 == 0)
-                {
+                if (markerPlacer % 2400 == 0)
                     NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth + 1000, (int)Main.screenPosition.Y + Main.rand.Next(1000), ModContent.NPCType<MerchantBoat>());
-                    NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth - 1000, (int)Main.screenPosition.Y + Main.rand.Next(1000), ModContent.NPCType<MerchantBoat>());
-                }
+
+                if (markerPlacer % 7200 == 0)
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
+
                 if (markerPlacer % 20 == 0)
                 {
                     int CloudChoose = Main.rand.Next(5);

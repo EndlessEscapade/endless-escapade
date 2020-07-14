@@ -23,6 +23,7 @@ namespace EEMod.Projectiles.OceanMap
         {
             projectile.scale = projectile.ai[0];
             projectile.alpha = (int)projectile.ai[1];
+            projectile.timeLeft = 1000;
         }
     }
 }
