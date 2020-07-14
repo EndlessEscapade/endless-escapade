@@ -120,7 +120,7 @@ namespace EEMod
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null) SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
                 if (loadingFlag)
                 {
-                    loadingChoose = Main.rand.Next(64);
+                    loadingChoose = Main.rand.Next(65); // numbers from n to n-1
                     loadingChooseImage = Main.rand.Next(5);
                     loadingFlag = false;
                 }

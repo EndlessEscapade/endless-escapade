@@ -131,7 +131,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             int teleportCheckCount = 0;
             bool hasTeleportPoint = false;
             //player is too far away, don't teleport.
-            if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) > 2000f)
+            if (Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center) > (2000f* 2000f))
             {
                 teleportCheckCount = 100;
                 hasTeleportPoint = true;
