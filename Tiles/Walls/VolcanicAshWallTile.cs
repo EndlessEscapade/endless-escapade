@@ -9,7 +9,7 @@ namespace EEMod.Tiles.Walls
     {
         public override void SetDefaults()
         {
-            AddMapEntry(new Color(67, 47, 155));
+            AddMapEntry(new Color(75, 19, 0));
 
             Main.wallHouse[Type] = true;
             dustType = 154;

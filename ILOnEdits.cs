@@ -69,7 +69,7 @@ namespace EEMod
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null) SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
                 if (loadingFlag)
                 {
-                    loadingChoose = Main.rand.Next(63);
+                    loadingChoose = Main.rand.Next(64);
                     loadingChooseImage = Main.rand.Next(5);
                     loadingFlag = false;
                 }
@@ -264,13 +264,16 @@ namespace EEMod
                     case 62:
                         Main.statusText = "EA Jorts, it's in the seams.";
                         break;
+                    case 63:
+                        Main.statusText = "Forged in Fury";
+                        break;
                 }
             }
             else
             {
                 if (!Main.dedServ)
                 {
-                    loadingChoose = 47;//Main.rand.Next(62);
+                    loadingChoose = 47;//Main.rand.Next(64);
                     loadingChooseImage = Main.rand.Next(5);
                     Main.numClouds = 10;
                     if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);

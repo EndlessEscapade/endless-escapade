@@ -281,7 +281,9 @@ namespace EEMod.EEWorld
                         switch (shape[y, x])
                         {
                             case 0:
-                                //WorldGen.KillTile(k, l, false, false, true);
+                                Main.tile[k, l].ClearEverything();
+                                if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                                    NetMessage.sendWater(k, l);
                                 break;
                             case 1:
                                 tile.type = TileID.WoodBlock;
@@ -1868,7 +1870,6 @@ namespace EEMod.EEWorld
                             break;
                         case 6:
                             tile.type = TileID.PalladiumColumn;
-                            Main.tile[x, y].inActive(true);
                             tile.active(true);
                             tile.inActive(true);
                             tile.color(28);
@@ -2524,7 +2525,6 @@ namespace EEMod.EEWorld
             }
             float displacement = 220;
             float startingHeightOfUpperClass = sizeY + yPos + 30;
-            KillWall((int)(size.X), (int)(size.Y), startingPoint);
             for (int j = 0; j < islandPositions.Count; j++)
             {
                 // MakeOvalFlatTop(40, 13, new Vector2(islandPositions[j].X - 15, islandPositions[j].Y), ModContent.TileType<HardenedGemsandTile>());
@@ -2727,6 +2727,7 @@ namespace EEMod.EEWorld
             }
             fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, distanceFromEdge + 120));
             fillers.Add(new Vector2(60, 60));
+             KillWall((int)(size.X), (int)(size.Y), startingPoint);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
@@ -2801,72 +2802,6 @@ namespace EEMod.EEWorld
              FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
              FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
              FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
-        }
-        public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
-        {
-            Main.maxTilesX = 400;
-            Main.maxTilesY = 405;
-            //Main.worldSurface = Main.maxTilesY;
-            //Main.rockLayer = Main.maxTilesY;
-            SubworldManager.Reset(seed);
-            SubworldManager.PostReset(customProgressObject);
-
-            int islandWidth = 300;
-            int islandHeight = 90;
-
-             FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-             RemoveWaterFromRegion(Main.maxTilesX, 210, Vector2.Zero);
-             MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
-
-
-             RemoveWaterFromRegion(40, 40, new Vector2(180, 170));
-             MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2(50, 210), ModContent.TileType<VolcanicAshTile>());
-             MakeTriangle(new Vector2(100, 230), 200, 160, 2, ModContent.TileType<VolcanicAshTile>(), true, true, ModContent.WallType<VolcanicAshWallTile>());
-             FillRegionWithLava(40, 50, new Vector2(180, 190));
-             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-             MakeVolcanoEntrance(198, 192,  VolcanoEntrance);
-
-            SubworldManager.SettleLiquids();
-            EEMod.isSaving = false;
-            Main.spawnTileX = 200;
-            Main.spawnTileY = 100;
-        }
-        public static void VolcanoInside(int seed, GenerationProgress customProgressObject = null)
-        {
-            Main.maxTilesX = 400;
-            Main.maxTilesY = 405;
-            //Main.worldSurface = Main.maxTilesY;
-            //Main.rockLayer = Main.maxTilesY;
-            SubworldManager.Reset(seed);
-            SubworldManager.PostReset(customProgressObject);
-
-             FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<MagmastoneTile>());
-            for (int i = 0; i < Main.maxTilesX; i++)
-            {
-                for (int j = 0; j < Main.maxTilesY; j++)
-                {
-                    if (Main.rand.NextBool(3000))
-                         MakeLavaPit(Main.rand.Next(20, 30), Main.rand.Next(7, 20), new Vector2(i, j), Main.rand.NextFloat(0.1f, 0.5f));
-                }
-            }
-             MakeChasm(200, 10, 100, TileID.StoneSlab, 0, 10, 20);
-            for (int i = 0; i < 5; i++)
-            {
-                WorldGen.TileRunner(200, 190, 200, 1, TileID.StoneSlab);
-            }
-            for (int k = 0; k < Main.maxTilesX; k++)
-            {
-                for (int l = 0; l < Main.maxTilesY; l++)
-                {
-                    if (Framing.GetTileSafely(k, l).type == TileID.StoneSlab)
-                    {
-                        WorldGen.KillTile(k, l);
-                    }
-                }
-            }
-             MakeOvalJaggedTop(80, 60, new Vector2(160, 170), ModContent.TileType<MagmastoneTile>());
-             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-             FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());
         }
         public static void MakeLayer(int X, int midY, int size, int layer, int type)
         {
@@ -3152,7 +3087,7 @@ namespace EEMod.EEWorld
         }
         public static void Island(int islandWidth, int islandHeight)
         {
-            /*MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
+            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
             MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) * 0.66), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSand>()) - 5), TileID.Dirt);
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
@@ -3167,8 +3102,7 @@ namespace EEMod.EEWorld
             {
                 if ((Main.rand.NextBool(5)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Dirt)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Grass)))
                     WorldGen.PlaceTile(j, TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
-            }*/
-            MakeAtlantisCastle(75, 100);
+            }
         }
         public static void PlaceAtlantisCastleRoom(int i, int j, int[,] shape)
         {
