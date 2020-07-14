@@ -37,8 +37,8 @@ namespace EEMod.NPCs.CoralReefs
         public override void AI()
         {
             bool isBig = false;
-            foreach(Player player in Main.player)
-                if(Vector2.Distance(npc.position, player.position) <= 160)
+            foreach (Player player in Main.player)
+                if (Vector2.Distance(npc.position, player.position) <= 160)
                     isBig = true;
 
             if (isBig == false)

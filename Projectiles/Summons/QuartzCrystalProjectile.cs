@@ -111,7 +111,7 @@ namespace EEMod.Projectiles.Summons
                 minDisFromPlayer = 2000;
             }
             float disFromPlayerSQ = Vector2.DistanceSquared(player.Center, projectile.Center);
-            if (disFromPlayerSQ > minDisFromPlayer*minDisFromPlayer)
+            if (disFromPlayerSQ > minDisFromPlayer * minDisFromPlayer)
             {
                 projectile.ai[0] = 1f;
                 projectile.netUpdate = true;

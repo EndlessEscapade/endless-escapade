@@ -29,17 +29,17 @@ namespace EEMod.NPCs.Bosses.Hydros
             if (projectile.ai[0] < 90)
             {
                 {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Dirt, 0, 0, 6, default, projectile.scale * 1);
-                        Main.dust[num].noGravity = false;
-                        Main.dust[num].velocity *= 1.5f;
-                        Main.dust[num].noLight = false;
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Dirt, 0, 0, 6, default, projectile.scale * 1);
+                    Main.dust[num].noGravity = false;
+                    Main.dust[num].velocity *= 1.5f;
+                    Main.dust[num].noLight = false;
                 }
             }
             else
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale*1.1f);
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale * 1.1f);
                     Main.dust[num].noGravity = false;
                     Main.dust[num].velocity *= 1f;
                     Main.dust[num].noLight = false;

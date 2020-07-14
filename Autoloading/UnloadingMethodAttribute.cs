@@ -12,6 +12,6 @@ namespace EEMod.Autoloading
         public UnloadingMethodAttribute() => Loadmode = LoadingMode.Both;
         public UnloadingMethodAttribute(LoadingMode mode) => Loadmode = mode;
         public LoadingMode Loadmode { get; set; }
-        public override bool IsValidMethod(MethodInfo method) => LoadH.ValidCurrent(Loadmode) && base.IsValidMethod(method) && (method.GetParameters()?.Length ?? 0) == 0;      
+        public override bool IsValidMethod(MethodInfo method) => LoadH.ValidCurrent(Loadmode) && base.IsValidMethod(method) && (method.GetParameters()?.Length ?? 0) == 0;
     }
 }

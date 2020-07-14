@@ -40,18 +40,18 @@ namespace EEMod.Backgrounds
         }
         public override int ChooseMiddleTexture()
         {
-            return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceMid");      
+            return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceMid");
         }
         public override int ChooseFarTexture()
         {
             return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceFar");
         }
 
-       /* public override bool PreDrawCloseBackground(SpriteBatch spriteBatch)
-        {
-            Texture2D texture = ModContent.GetTexture("EEMod/Backgrounds/CoralReefsSurfaceClose");
-            spriteBatch.Draw(texture, Vector2.Zero, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0, new Rectangle(0, 0, texture.Width, texture.Height).Size() / 2, 1, SpriteEffects.None, 0);
-            return true;
-        } */
+        /* public override bool PreDrawCloseBackground(SpriteBatch spriteBatch)
+         {
+             Texture2D texture = ModContent.GetTexture("EEMod/Backgrounds/CoralReefsSurfaceClose");
+             spriteBatch.Draw(texture, Vector2.Zero, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0, new Rectangle(0, 0, texture.Width, texture.Height).Size() / 2, 1, SpriteEffects.None, 0);
+             return true;
+         } */
     }
 }

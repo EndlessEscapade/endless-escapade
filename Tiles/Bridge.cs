@@ -35,9 +35,9 @@ namespace EEMod.Tiles
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if(isSupport)
+            if (isSupport)
             {
-                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/BridgeSupport"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, projectile.rotation, new Rectangle(0, 0, 16, 16).Size() / 2,1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/BridgeSupport"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, projectile.rotation, new Rectangle(0, 0, 16, 16).Size() / 2, 1, SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -76,12 +76,12 @@ namespace EEMod.Tiles
         float firstPosY = (Main.LocalPlayer.Center).Y;
         float secondPosY = (Main.LocalPlayer.Center - new Vector2(200, 200)).Y;
         public static float checkForLowest;
-        public static float trueControlPoint = ((Main.LocalPlayer.Center).X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X)/2;
+        public static float trueControlPoint = ((Main.LocalPlayer.Center).X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X) / 2;
         public float chainsPerUse;
         public float rotDis;
         public bool isSupport;
         public override void AI()
-        {   
+        {
             Rectangle upperPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + 13, projectile.width, 3);
             Rectangle upperPortionWholeEntityCheck = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - 10 + 13, projectile.width, 13);
             Rectangle lowerPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + projectile.height - 2, projectile.width, 2);
@@ -209,7 +209,7 @@ namespace EEMod.Tiles
             projectile.rotation = projTrueRotation;
             projectile.ai[0] += 0.1f;
             projectile.velocity.Y += (float)Math.Sin(projectile.ai[0]) * 0.1f;
-            
+
         }
 
     }

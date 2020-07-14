@@ -30,12 +30,16 @@ namespace EEMod.NPCs.Bosses.Kraken
         bool isGrabbing;
         bool isRetrating = false;
         bool yeet;
+        public override bool CheckActive()
+        {
+            return false;
+        }
         public override void AI()
         {
             npc.TargetClosest(true);
             Rectangle npcHitBox = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
             Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height);
-            if (isGrabbing && !isRetrating && npcHitBox.Intersects(playerHitBox))
+            if (isGrabbing && !isRetrating)
             {
                 (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).GETHIMBOIS = true;
                 if (!yeet)
@@ -44,7 +48,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                     yeet = true;
                 }
                 Main.player[npc.target].Center = npc.Center;
-                npc.velocity *= 0.98f;
+                npc.velocity *= 0.94f;
             }
             else
             {
@@ -68,19 +72,19 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }
                 }
             }
-            if(npc.life < 1000)
+            if (npc.life < 1000)
             {
                 isRetrating = true;
             }
-            if(Main.npc[(int)npc.ai[2]].ai[0] > 280)
+            if (Main.npc[(int)npc.ai[2]].ai[0] >= 278)
             {
                 isRetrating = true;
             }
-            if(isRetrating)
+            if (isRetrating)
             {
                 npc.velocity.X = -5;
             }
-            
+
             distance = (npc.Center - startingPosition);
         }
 
@@ -89,11 +93,15 @@ namespace EEMod.NPCs.Bosses.Kraken
             isGrabbing = true;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.Tentacle;
-            Main.spriteBatch.Draw(texture, npc.Center + new Vector2(npc.width / 2,0) - Main.screenPosition - distance/2, new Rectangle(texture.Width - (int)distance.X,0,(int)distance.X,texture.Height), Color.White, npc.rotation, new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(texture, npc.Center + new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2, new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height), Color.White, npc.rotation, new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
             return false;
         }
-    }
+     }
 }

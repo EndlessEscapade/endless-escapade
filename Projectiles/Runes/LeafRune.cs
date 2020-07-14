@@ -50,7 +50,7 @@ namespace EEMod.Projectiles.Runes
                     projectile.ai[0] = 1;
                 }
             }
-            float progress = (180 - projectile.ai[1])/720f;
+            float progress = (180 - projectile.ai[1]) / 720f;
             progress *= .3f;
             distortStrength = (projectile.ai[1] * 2);
             Filters.Scene["EEMod:Shockwave"].GetShader().UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
@@ -74,7 +74,7 @@ namespace EEMod.Projectiles.Runes
         public override void Kill(int timeleft)
         {
             if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
-              {
+            {
                 Filters.Scene["EEMod:Shockwave"].Deactivate();
             }
             //Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 50);

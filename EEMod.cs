@@ -53,7 +53,7 @@ namespace EEMod
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
         }
-      
+
         public override void Unload()
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
@@ -351,7 +351,7 @@ namespace EEMod
             }
             Vector2 textSize = Main.fontMouseText.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
-            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 0, SpriteEffects.None, 0f);
         }
         float flash = 0;
         float markerPlacer = 0;
@@ -372,7 +372,7 @@ namespace EEMod
             }
             return false;
         }
-        
+
         private void DrawShip()
         {
             markerPlacer++;
@@ -423,7 +423,7 @@ namespace EEMod
                 if (i == 1)
                     Lighting.AddLight(eePlayer.objectPos[i], .15f, .15f, .15f);
             }
-            
+
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;

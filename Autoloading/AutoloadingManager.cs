@@ -29,19 +29,19 @@ namespace EEMod.Autoloading
         }
 
         private static IEnumerable<MemberInfo> MembersAll(Type type) => type.GetMembers(FLAGS_ANY);
-        public static void DoMagik<T>(Mod formod, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler => 
+        public static void DoMagik<T>(Mod formod, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler =>
             DoMagik<T>(formod.Code ?? formod.GetType().Assembly, out members, o); // vv
 
-        public static void DoMagik<T>(Assembly forAssembly, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler => 
+        public static void DoMagik<T>(Assembly forAssembly, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler =>
             DoMagik<T>(forAssembly.GetTypesSafe(), out members, o); // vv
 
-        public static void DoMagik<T>(IEnumerable<Type> fromtypes, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler => 
+        public static void DoMagik<T>(IEnumerable<Type> fromtypes, out IEnumerable<MemberInfo> members, object o = null) where T : Attribute, IMemberHandler =>
             DoMagik<T>(members = fromtypes.SelectMany(MembersAll), o); // --
 
         //public static void DoMagik(Mod forMod, params Type[] HandlerAttributesTypes) => DoMagik(forMod.Code ?? forMod.GetType().Assembly, HandlerAttributesTypes); // vv
         //public static void DoMagik(Assembly assembly, params Type[] HandlerAttributesTypes) => DoMagik(assembly.GetTypesSafe(), HandlerAttributesTypes); // vv
         //public static void DoMagik(IEnumerable<Type> types, params Type[] HandlerAttributesTypes) => DoMagik(types.SelectMany(MembersAll), HandlerAttributesTypes); // --
-        
+
         //public static void DoMagik(IEnumerable<MemberInfo> members, IEnumerable<Type> handlerAttributesTypes)
         //{
         //    foreach (var member in members)
@@ -84,7 +84,7 @@ namespace EEMod.Autoloading
         {
             var targetMembers = handler.HandlingMembers;
 
-            if(targetMembers == MemberTypes.All || targetMembers.HasFlag(member.MemberType)) // if it can handle what it specifies
+            if (targetMembers == MemberTypes.All || targetMembers.HasFlag(member.MemberType)) // if it can handle what it specifies
                 if (handler.IsValid(member)) // if it allows it
                     handler.HandleMember(member, o); // handle it
         }

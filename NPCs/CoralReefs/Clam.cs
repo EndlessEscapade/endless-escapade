@@ -101,7 +101,7 @@ namespace EEMod.NPCs.CoralReefs
                 if (npc.ai[0] % 200 == 0 && npc.ai[1] == 0 && npc.ai[0] != 0)
                 {
                     npc.velocity.X += 10 * npc.spriteDirection;
-                    npc.velocity.Y -= 10 * (1+yChange/500);
+                    npc.velocity.Y -= 10 * (1 + yChange / 500);
                     npc.ai[1] = 1;
                 }
                 if (CheckIfEntityOnGround(npc))
@@ -120,7 +120,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void FindFrame(int frameHeight)
         {
-            if(npc.ai[2] == 1)
+            if (npc.ai[2] == 1)
             {
                 npc.frame.Y = frameHeight;
             }

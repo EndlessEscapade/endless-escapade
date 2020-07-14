@@ -5,14 +5,14 @@ using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.Armor.DevSets.Exitium
 {
-	[AutoloadEquip(EquipType.Back)]
-	public class CaTail : ModItem
+    [AutoloadEquip(EquipType.Back)]
+    public class CaTail : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Exitium's Tail");
-			Tooltip.SetDefault("'Great for impersonating mod devs!'");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Exitium's Tail");
+            Tooltip.SetDefault("'Great for impersonating mod devs!'");
+        }
         public override void SetDefaults()
         {
             item.width = 16;

@@ -6,7 +6,7 @@ namespace EEMod.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.width = 16;  
+            projectile.width = 16;
             projectile.height = 16;
             projectile.hostile = false;
             projectile.friendly = true;  //Tells the game whether it is friendly to players/friendly npcs or not

@@ -24,7 +24,7 @@ namespace EEMod.NPCs
 
         public override void AI()
         {
-            float magVel = projectile.velocity.Length(); 
+            float magVel = projectile.velocity.Length();
             float num166 = projectile.localAI[0];
             if (num166 == 0f)
             {
@@ -46,8 +46,8 @@ namespace EEMod.NPCs
                         continue;
                     }
 
-                    float checkerCenterX = npcChecker.Center.X; 
-                    float checkerCenterY = npcChecker.Center.Y; 
+                    float checkerCenterX = npcChecker.Center.X;
+                    float checkerCenterY = npcChecker.Center.Y;
                     float num174 = Math.Abs(projectile.Center.X - checkerCenterX) + Math.Abs(projectile.Center.Y - checkerCenterY);
                     if (!(num174 < distFromNpc) || !Collision.CanHit(projectile.Center, 1, 1,
                             npcChecker.position, npcChecker.width, npcChecker.height))
@@ -76,14 +76,14 @@ namespace EEMod.NPCs
                 NPC newNPC = Main.npc[indexOfNewNpc];
                 if (newNPC.active && newNPC.CanBeChasedBy(projectile, true) && !newNPC.dontTakeDamage)
                 {
-                    float npcPosHomeX = newNPC.Center.X; 
-                    float npcPosHomeY = newNPC.Center.Y; 
+                    float npcPosHomeX = newNPC.Center.X;
+                    float npcPosHomeY = newNPC.Center.Y;
                     float npcDistHome = Math.Abs(projectile.Center.X - npcPosHomeX) + Math.Abs(projectile.Center.Y - npcPosHomeY);
                     if (npcDistHome < 1000f)
                     {
                         canHome = true;
-                        projPosX = newNPC.Center.X; 
-                        projPosY = newNPC.Center.Y; 
+                        projPosX = newNPC.Center.X;
+                        projPosY = newNPC.Center.Y;
                     }
                 }
                 else
@@ -100,7 +100,7 @@ namespace EEMod.NPCs
             if (canHome)
             {
                 float num179 = num166;
-                Vector2 projCenter = projectile.Center; 
+                Vector2 projCenter = projectile.Center;
                 float num180 = projPosX - projCenter.X;
                 float num181 = projPosY - projCenter.Y;
                 float num182 = (float)Math.Sqrt(num180 * num180 + num181 * num181);

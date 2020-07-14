@@ -24,7 +24,7 @@ namespace EEMod.EEWorld
         //public static bool downedStagrel;
         public static bool downedKraken;
 
-       // private static List<Point> BiomeCenters;
+        // private static List<Point> BiomeCenters;
         public static int CoralReefsTiles = 0;
         public static Vector2 yes;
         public static Vector2 ree;
@@ -78,15 +78,15 @@ namespace EEMod.EEWorld
         public override void PostUpdate()
         {
 
-                if (NPC.downedBoss1)
+            if (NPC.downedBoss1)
+            {
+                if (!eocFlag)
                 {
-                    if (!eocFlag)
-                    {
-                        eocFlag = true;
-                        Main.NewText("You hear a strong wind erupting from the desert...", 228, 171, 72);
-                        StartSandstorm();
-                    }
+                    eocFlag = true;
+                    Main.NewText("You hear a strong wind erupting from the desert...", 228, 171, 72);
+                    StartSandstorm();
                 }
+            }
 
         }
 
@@ -200,16 +200,16 @@ namespace EEMod.EEWorld
         {
 
             missingShipTiles.Clear();
-            int ShipTilePosX =(int)(ree.X);
+            int ShipTilePosX = (int)(ree.X);
             int ShipTilePosY = (int)(ree.Y);
 
-            for (int i = ShipTilePosX; i< ShipTilePosX + ShipTiles.GetLength(1); i++)
+            for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
             {
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
                 {
-                    Tile tile = Framing.GetTileSafely(i-3, j-6);
+                    Tile tile = Framing.GetTileSafely(i - 3, j - 6);
                     int expectedType;
-                    switch (ShipTiles[j - ShipTilePosY,i-ShipTilePosX])
+                    switch (ShipTiles[j - ShipTilePosY, i - ShipTilePosX])
                     {
                         case 1:
                             expectedType = TileID.WoodBlock;

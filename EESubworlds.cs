@@ -142,7 +142,7 @@ namespace EEMod
             SubworldManager.PostReset(customProgressObject);
             EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<VolcanicAshTile>());
             EEWorld.EEWorld.MakeLayer(200, 100, 90, 1, ModContent.TileType<VolcanicAshTile>());
-            EEWorld.EEWorld.MakeOvalFlatTop(40,10,new Vector2(200-20,100), ModContent.TileType<VolcanicAshTile>());
+            EEWorld.EEWorld.MakeOvalFlatTop(40, 10, new Vector2(200 - 20, 100), ModContent.TileType<VolcanicAshTile>());
             EEWorld.EEWorld.MakeChasm(200, 140, 110, ModContent.TileType<GemsandTile>(), 0, 5, 0);
             for (int i = 0; i < 400; i++)
             {
@@ -154,7 +154,7 @@ namespace EEMod
                 }
             }
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            EEWorld.EEWorld.FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero,ModContent.WallType<VolcanoBG>());
+            EEWorld.EEWorld.FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<VolcanoBG>());
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;

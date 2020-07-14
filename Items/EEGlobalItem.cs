@@ -28,6 +28,6 @@ namespace EEMod.Items
             }
         }
 
-       
+
     }
 }

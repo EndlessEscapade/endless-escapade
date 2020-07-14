@@ -18,7 +18,7 @@ namespace EEMod.Autoloading
         /// <param name="method">The method</param>
         /// <returns></returns>
         public virtual bool IsValidMethod(MethodInfo method) => method.IsStatic && !(method.IsAbstract || method.IsGenericMethod || method.IsGenericMethodDefinition || method.GetMethodBody()?.GetILAsByteArray() is null);
-        
+
         /// <summary>
         /// How the method that has the attribute is invoked
         /// </summary>

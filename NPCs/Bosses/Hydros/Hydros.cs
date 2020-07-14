@@ -147,7 +147,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                     {
                         if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
                         {
-                            Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f,Main.myPlayer,.3f,140);
+                            Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f, Main.myPlayer, .3f, 140);
                             hasTeleportPoint = true;
                             npc.netUpdate = true;
                             break;
@@ -167,144 +167,144 @@ namespace EEMod.NPCs.Bosses.Hydros
             int speed = 6;
             int TR = 40;
             npc.ai[0]++;
-            
-            if (Main.netMode != NetmodeID.MultiplayerClient) // 1
-            if (Main.netMode != NetmodeID.MultiplayerClient) // 1
-            {
-                //Idle
-                npc.TargetClosest();
-                Player target = Main.player[npc.target];
-                if (npc.ai[1] != 2)
-                {
-                    npc.rotation = npc.velocity.X / 32f;
-                    if (target.Center.X > npc.Center.X)
-                    {
-                        npc.spriteDirection = 1;
-                    }
-                    else
-                    {
-                        npc.spriteDirection = -1;
-                    }
-                }
 
-                if (npc.ai[1] == 0)
-                Move(target, speed, TR, Vector2.Zero);
-               
-                if (npc.ai[0] % 400 == 0)
+            if (Main.netMode != NetmodeID.MultiplayerClient) // 1
+                if (Main.netMode != NetmodeID.MultiplayerClient) // 1
                 {
-                    for(int i = 0; i<5; i++)
-                    npc.ai[1] = Main.rand.Next(0,4);
-                    prepare = 0;
-                    npc.rotation = 0;
-                    flaginOut = true;
-                    npc.ai[2] = 0;
-                    dist1 = 200;
-                    for(int i = 0; i<3;i++)
+                    //Idle
+                    npc.TargetClosest();
+                    Player target = Main.player[npc.target];
+                    if (npc.ai[1] != 2)
                     {
-                        potentialMinionArray[i] = npc.Center + new Vector2(Main.rand.Next(-500,500), Main.rand.Next(-500, 500)); 
-                    }
-                        npc.netUpdate = true;
-                }
-                switch(npc.ai[1])
-                {
-                    case 0:
-                        break;
-                    case 1:
+                        npc.rotation = npc.velocity.X / 32f;
+                        if (target.Center.X > npc.Center.X)
                         {
-                            Move(target, speed, TR, Vector2.Zero);
-                            for (int i = 0; i < 10; i++)
-                            {
-                                if (npc.ai[0] % 200 == 0)
-                                SpawnProjectileNearPlayerOnTile(30);
-                            }
-                            npc.velocity *= 0.98f;
-                            break;
+                            npc.spriteDirection = 1;
                         }
-                    case 2:
+                        else
                         {
-                            float timeToDash = 320;
-                            if (npc.ai[0] % 400 <= timeToDash - 50)
+                            npc.spriteDirection = -1;
+                        }
+                    }
+
+                    if (npc.ai[1] == 0)
+                        Move(target, speed, TR, Vector2.Zero);
+
+                    if (npc.ai[0] % 400 == 0)
+                    {
+                        for (int i = 0; i < 5; i++)
+                            npc.ai[1] = Main.rand.Next(0, 4);
+                        prepare = 0;
+                        npc.rotation = 0;
+                        flaginOut = true;
+                        npc.ai[2] = 0;
+                        dist1 = 200;
+                        for (int i = 0; i < 3; i++)
+                        {
+                            potentialMinionArray[i] = npc.Center + new Vector2(Main.rand.Next(-500, 500), Main.rand.Next(-500, 500));
+                        }
+                        npc.netUpdate = true;
+                    }
+                    switch (npc.ai[1])
+                    {
+                        case 0:
+                            break;
+                        case 1:
                             {
-                                npc.rotation = npc.velocity.X / 32f;
-                                if (target.Center.X > npc.Center.X)
+                                Move(target, speed, TR, Vector2.Zero);
+                                for (int i = 0; i < 10; i++)
                                 {
-                                    npc.spriteDirection = 1;
+                                    if (npc.ai[0] % 200 == 0)
+                                        SpawnProjectileNearPlayerOnTile(30);
+                                }
+                                npc.velocity *= 0.98f;
+                                break;
+                            }
+                        case 2:
+                            {
+                                float timeToDash = 320;
+                                if (npc.ai[0] % 400 <= timeToDash - 50)
+                                {
+                                    npc.rotation = npc.velocity.X / 32f;
+                                    if (target.Center.X > npc.Center.X)
+                                    {
+                                        npc.spriteDirection = 1;
+                                    }
+                                    else
+                                    {
+                                        npc.spriteDirection = -1;
+                                    }
+                                    Move(target, speed, 9, new Vector2(400, 0));
+                                }
+                                else if (npc.ai[0] % 400 >= timeToDash && npc.ai[0] % 400 < phaseChange - 20)
+                                {
+                                    npc.rotation = (target.position.X - npc.position.X) / 500f;
+                                    if (npc.rotation > 1.6f) { npc.rotation = 1.6f; }
+                                    //npc.rotation = npc.velocity.X / 16f;
+                                    npc.velocity.Y = ((float)Math.Sin((6 * ((npc.ai[0] % phaseChange) - timeToDash) / (phaseChange - timeToDash)) + 1.57f)) * 10;
+                                    int speedOfDash = 25;
+                                    npc.velocity.X = -(speedOfDash - ((npc.ai[0] % phaseChange) - timeToDash) / (float)((phaseChange - timeToDash) / speedOfDash));
+                                }
+                                else if (npc.ai[0] % 400 < phaseChange - 60)
+                                {
+                                    npc.rotation = -(prepare / 190f);
+                                    prepare += 4;
+                                    Move(target, 19, 9, new Vector2(400 + prepare, -prepare / 2));
+                                    npc.velocity *= 0.99f;
                                 }
                                 else
                                 {
-                                    npc.spriteDirection = -1;
+                                    npc.rotation -= npc.rotation / 16f;
                                 }
-                                Move(target, speed, 9, new Vector2(400, 0));
+                                break;
                             }
-                            else if (npc.ai[0] % 400 >= timeToDash && npc.ai[0] % 400 < phaseChange - 20)
+                        case 3:
                             {
-                                npc.rotation = (target.position.X - npc.position.X) / 500f;
-                                if(npc.rotation > 1.6f) { npc.rotation = 1.6f; }
-                                //npc.rotation = npc.velocity.X / 16f;
-                                npc.velocity.Y = ((float)Math.Sin((6 * ((npc.ai[0] % phaseChange) - timeToDash) / (phaseChange - timeToDash)) + 1.57f)) * 10;
-                                int speedOfDash = 25;
-                                npc.velocity.X = -(speedOfDash - ((npc.ai[0] % phaseChange) - timeToDash) / (float)((phaseChange - timeToDash) / speedOfDash));
-                            }
-                            else if(npc.ai[0] % 400 < phaseChange - 60)
-                            {
-                                npc.rotation = -(prepare / 190f);
-                                prepare += 4;
-                                Move(target, 19, 9, new Vector2(400 + prepare, -prepare/2));
-                                npc.velocity *= 0.99f;
-                            }
-                            else
-                            {
-                               npc.rotation -= npc.rotation/16f;
-                            }
-                            break;
-                        }
-                    case 3:
-                        {
-                            npc.velocity *= .99f;
-                            Move(target, speed, TR, Vector2.Zero);
+                                npc.velocity *= .99f;
+                                Move(target, speed, TR, Vector2.Zero);
                                 dist1 -= 1;
-                            
-                            if (npc.ai[0] % 400 < 200)
-                            {
-                                for (int j = 0; j < 3; j++)
-                                {
-                                    for (int i = 0; i < 10; i++)
-                                    {
-                                        double deg = (double)npc.ai[2] + (i * 36); //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
-                                        double rad = deg * (Math.PI / 180) * 0.7f; //Convert degrees to radians
-                                        if (dist1 - (i * 10) > 0)
-                                        {
-                                            int num7 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 113, 0f, 0f, 0, Color.AliceBlue, .7f);
-                                            Main.dust[num7].position.X = potentialMinionArray[j].X - (int)(Math.Cos(rad) * (dist1 - (i * 10)));
-                                            Main.dust[num7].position.Y = potentialMinionArray[j].Y - (int)(Math.Sin(rad) * (dist1 - (i * 10)));
-                                            Main.dust[num7].noGravity = true;
-                                        }
-                                        npc.ai[2] += 1;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (npc.ai[0] % 400 == 200)
+
+                                if (npc.ai[0] % 400 < 200)
                                 {
                                     for (int j = 0; j < 3; j++)
                                     {
-                                        for (var a = 0; a < 50; a++)
+                                        for (int i = 0; i < 10; i++)
                                         {
-                                            Vector2 vector = new Vector2(0, 20).RotatedBy(((Math.PI * 0.04) * a), default);
-                                            int index = Dust.NewDust(potentialMinionArray[j], 22, 22, 113, vector.X, vector.Y, 0, Color.AliceBlue, .7f);
-                                            Main.dust[index].velocity *= .5f;
-                                            Main.dust[index].noGravity = true;
+                                            double deg = (double)npc.ai[2] + (i * 36); //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
+                                            double rad = deg * (Math.PI / 180) * 0.7f; //Convert degrees to radians
+                                            if (dist1 - (i * 10) > 0)
+                                            {
+                                                int num7 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 113, 0f, 0f, 0, Color.AliceBlue, .7f);
+                                                Main.dust[num7].position.X = potentialMinionArray[j].X - (int)(Math.Cos(rad) * (dist1 - (i * 10)));
+                                                Main.dust[num7].position.Y = potentialMinionArray[j].Y - (int)(Math.Sin(rad) * (dist1 - (i * 10)));
+                                                Main.dust[num7].noGravity = true;
+                                            }
+                                            npc.ai[2] += 1;
                                         }
-                                        NPC.NewNPC((int)potentialMinionArray[j].X, (int)potentialMinionArray[j].Y, NPCType<HydrosMinion>());
-                                        npc.netUpdate = true;
                                     }
                                 }
+                                else
+                                {
+                                    if (npc.ai[0] % 400 == 200)
+                                    {
+                                        for (int j = 0; j < 3; j++)
+                                        {
+                                            for (var a = 0; a < 50; a++)
+                                            {
+                                                Vector2 vector = new Vector2(0, 20).RotatedBy(((Math.PI * 0.04) * a), default);
+                                                int index = Dust.NewDust(potentialMinionArray[j], 22, 22, 113, vector.X, vector.Y, 0, Color.AliceBlue, .7f);
+                                                Main.dust[index].velocity *= .5f;
+                                                Main.dust[index].noGravity = true;
+                                            }
+                                            NPC.NewNPC((int)potentialMinionArray[j].X, (int)potentialMinionArray[j].Y, NPCType<HydrosMinion>());
+                                            npc.netUpdate = true;
+                                        }
+                                    }
+                                }
+                                break;
                             }
-                            break;
-                        }
+                    }
                 }
-            }
         }
         /*public override bool CheckDead()
         {

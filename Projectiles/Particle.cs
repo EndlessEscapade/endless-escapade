@@ -42,7 +42,7 @@ namespace EEMod.Projectiles
                 particle.Position = particlesPos;
                 Particles.Add(particle);
             }
-            if(!EEModConfigClient.Instance.ParticleEffects)
+            if (!EEModConfigClient.Instance.ParticleEffects)
             {
                 projectile.Kill();
             }
@@ -59,11 +59,11 @@ namespace EEMod.Projectiles
                 Particles[i].Position += new Vector2((float)Math.Sin(Particles[i].flash / (Particles[i].alpha / 13)) / (Particles[i].alpha / 2), -2f * Particles[i].scale);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Particles[i].Position - Main.screenPosition, null, Color.White * Math.Abs((float)(Math.Sin(Particles[i].flash / (Particles[i].alpha/3f)))), Particles[i].flash / 10f, new Vector2(0), Particles[i].scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Particles[i].Position - Main.screenPosition, null, Color.White * Math.Abs((float)(Math.Sin(Particles[i].flash / (Particles[i].alpha / 3f)))), Particles[i].flash / 10f, new Vector2(0), Particles[i].scale, SpriteEffects.None, 0);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin();
             }
-            
+
             return false;
         }
     }

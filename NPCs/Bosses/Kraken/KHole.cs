@@ -28,18 +28,27 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.damage = 0;
             npc.value = Item.buyPrice(0, 8, 0, 0);
             npc.noTileCollide = true;
-            npc.width = 562;
-            npc.height = 472;
+            npc.width = 126;
+            npc.height = 274;
             npc.dontTakeDamage = true;
             npc.npcSlots = 24f;
             npc.knockBackResist = 0f;
 
             musicPriority = MusicPriority.BossMedium;
         }
-
+        public override bool CheckActive()
+        {
+            return false;
+        }
         public override void AI()
         {
-          npc.position = new Vector2(npc.ai[0],npc.ai[1]);
+            npc.timeLeft = 1000;
+            npc.active = true;
+            npc.position = new Vector2(npc.ai[0], npc.ai[1]);
+            if(npc.ai[2] == 1)
+            {
+                npc.spriteDirection = -1;
+            }
         }
 
     }

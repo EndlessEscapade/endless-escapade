@@ -29,24 +29,24 @@ namespace EEMod.Projectiles.CoralReefs
         public override void AI()
         {
             projectile.alpha++;
-            if(projectile.alpha > 255)
+            if (projectile.alpha > 255)
             {
                 projectile.alpha = 255;
             }
             projectile.velocity *= .97f;
             projectile.scale = projectile.ai[0];
             projectile.alpha = (int)projectile.ai[1];
-            if(sinControl == 0)
+            if (sinControl == 0)
             {
                 projectile.velocity.Y -= 8;
             }
             sinControl++;
-            if(projectile.ai[1] < 140)
-            projectile.velocity.X += (float)Math.Sin(sinControl/(projectile.ai[1]/13))/ (projectile.ai[1] / 10);
-            else if(projectile.ai[1] < 160)
-            projectile.position.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 4);
+            if (projectile.ai[1] < 140)
+                projectile.velocity.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 10);
+            else if (projectile.ai[1] < 160)
+                projectile.position.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 4);
             else
-            projectile.velocity.X -= (float)Math.Sin(sinControl /(projectile.ai[1] / 13)) / (projectile.ai[1] / 10);
+                projectile.velocity.X -= (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 10);
         }
         public override void Kill(int timeLeft)
         {

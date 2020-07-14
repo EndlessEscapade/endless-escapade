@@ -5,15 +5,15 @@ using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.Armor.DevSets.Exitium
 {
-	[AutoloadEquip(EquipType.Head)]
+    [AutoloadEquip(EquipType.Head)]
 
     public class Cat : ModItem
     {
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Exitium's Head");
-			Tooltip.SetDefault("'Great for impersonating mod devs!'");
-		}
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Exitium's Head");
+            Tooltip.SetDefault("'Great for impersonating mod devs!'");
+        }
         public override void SetDefaults()
         {
             item.width = 18;

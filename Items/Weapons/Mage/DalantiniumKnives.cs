@@ -39,19 +39,19 @@ namespace EEMod.Items.Weapons.Mage
             return new Vector2(0, -2);
         }
 
-         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-		{
-			float numProj = 3;
-			float rotation = MathHelper.ToRadians(15);
-			position += Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
-			for (int i = 0; i < numProj; i++)
-			{
-				Vector2 pertSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1))); // * .7f
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            float numProj = 3;
+            float rotation = MathHelper.ToRadians(15);
+            position += Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
+            for (int i = 0; i < numProj; i++)
+            {
+                Vector2 pertSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1))); // * .7f
                 Projectile.NewProjectile(position.X, position.Y, pertSpeed.X, pertSpeed.Y, type, damage, knockBack, player.whoAmI);
-			}
+            }
 
-			return false;
-		} 
+            return false;
+        }
 
         public override void AddRecipes()
         {

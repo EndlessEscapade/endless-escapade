@@ -27,12 +27,12 @@ namespace EEMod.Autoloading
             {
                 field.SetValue(null, null);
             }
-            else if(o is true || field.GetValue(null) is null) // if the field's value is null
+            else if (o is true || field.GetValue(null) is null) // if the field's value is null
             {
                 var constructor = field.FieldType.GetConstructor(AutoloadingManager.FLAGS_INSTANCE, null, Type.EmptyTypes, null);
                 if (constructor != null)
                     field.SetValue(null, constructor.Invoke(null));
-            }            
+            }
         }
     }
 }

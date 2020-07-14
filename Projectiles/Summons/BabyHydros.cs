@@ -47,7 +47,7 @@ namespace EEMod.Projectiles.Summons
             projectile.spriteDirection = -Main.LocalPlayer.direction;
 
             attackTimer--;
-            if(attackTimer <= 0)
+            if (attackTimer <= 0)
             {
                 for (int i = 0; i < 200; i++)
                 {
