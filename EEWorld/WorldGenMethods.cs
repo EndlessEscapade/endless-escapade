@@ -281,7 +281,9 @@ namespace EEMod.EEWorld
                         switch (shape[y, x])
                         {
                             case 0:
-                                //WorldGen.KillTile(k, l, false, false, true);
+                                Main.tile[k, l].ClearEverything();
+                                if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                                    NetMessage.sendWater(k, l);
                                 break;
                             case 1:
                                 tile.type = TileID.WoodBlock;
@@ -1868,7 +1870,6 @@ namespace EEMod.EEWorld
                             break;
                         case 6:
                             tile.type = TileID.PalladiumColumn;
-                            Main.tile[x, y].inActive(true);
                             tile.active(true);
                             tile.inActive(true);
                             tile.color(28);
@@ -2169,7 +2170,7 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(k, l, TileID.Ash);
                                 break;
                             case 2:
-                                WorldGen.PlaceWall(k, l, WallID.Cloud);
+                                WorldGen.PlaceWall(k, l, WallID.DiamondGemspark);
                                 tile.wallColor(29);
                                 break;
                         }
@@ -2524,7 +2525,6 @@ namespace EEMod.EEWorld
             }
             float displacement = 220;
             float startingHeightOfUpperClass = sizeY + yPos + 30;
-            KillWall((int)(size.X), (int)(size.Y), startingPoint);
             for (int j = 0; j < islandPositions.Count; j++)
             {
                 // MakeOvalFlatTop(40, 13, new Vector2(islandPositions[j].X - 15, islandPositions[j].Y), ModContent.TileType<HardenedGemsandTile>());
@@ -2727,6 +2727,7 @@ namespace EEMod.EEWorld
             }
             fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, distanceFromEdge + 120));
             fillers.Add(new Vector2(60, 60));
+             KillWall((int)(size.X), (int)(size.Y), startingPoint);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
@@ -3152,7 +3153,7 @@ namespace EEMod.EEWorld
         }
         public static void Island(int islandWidth, int islandHeight)
         {
-            /*MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 164), ModContent.TileType<CoralSand>());
+            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 200), ModContent.TileType<CoralSand>());
             MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) * 0.66), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSand>()) - 5), TileID.Dirt);
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
@@ -3167,8 +3168,7 @@ namespace EEMod.EEWorld
             {
                 if ((Main.rand.NextBool(5)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Dirt)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Grass)))
                     WorldGen.PlaceTile(j, TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
-            }*/
-            MakeAtlantisCastle(75, 100);
+            }
         }
         public static void PlaceAtlantisCastleRoom(int i, int j, int[,] shape)
         {

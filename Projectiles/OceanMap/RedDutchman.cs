@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace EEMod.Projectiles.OceanMap
 {
-    public class PirateShip : ModProjectile
+    public class RedDutchman : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -20,10 +20,12 @@ namespace EEMod.Projectiles.OceanMap
             projectile.hostile = false;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.scale = 1f;
+            projectile.scale = 1.2f;
         }
 
         private bool sinking;
+        private int hp = 5;
+        private int invincTime = 60;
         public override void AI()
         {
             if (!sinking)
@@ -52,18 +54,24 @@ namespace EEMod.Projectiles.OceanMap
 
                 projectile.rotation = projectile.velocity.X / 2;
 
-                for (int j = 0; j < 450; j++)
-                {
-                    if (Main.projectile[j].type == ModContent.ProjectileType<FriendlyCannonball>())
+                invincTime--;
+
+                invincTime = (int)MathHelper.Clamp(invincTime, 0, 61);
+                    for (int j = 0; j < 450; j++)
                     {
-                        if (Vector2.Distance(Main.projectile[j].Center, projectile.Center) < 60)
+                        if (Main.projectile[j].type == ModContent.ProjectileType<FriendlyCannonball>())
                         {
-                            sinking = true;
-                            Main.projectile[j].Kill();
-                            Main.PlaySound(SoundID.NPCHit4);
+                            if (Vector2.Distance(Main.projectile[j].Center, projectile.Center) < 50 && invincTime == 0)
+                            {
+                                invincTime = 60;
+                                Main.projectile[j].Kill();
+                                Main.PlaySound(SoundID.NPCHit4);
+                                hp--;
+                            }
                         }
                     }
-                }
+                if (hp <= 0)
+                    sinking = true;
             }
             else
                 Sink();

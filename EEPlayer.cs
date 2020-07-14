@@ -23,6 +23,7 @@ using EEMod.Tiles;
 using EEMod.NPCs.Bosses.Akumo;
 using EEMod.NPCs.CoralReefs;
 using EEMod.NPCs.Bosses.Kraken;
+using EEMod.NPCs.Friendly;
 
 namespace EEMod
 {
@@ -66,7 +67,7 @@ namespace EEMod
             }
         }
 
-        private int bubbleTimer = 4;
+        private int bubbleTimer = 6;
         private int bubbleLen = 0;
         private int dur = 0;
         private int bubbleColumn;
@@ -86,7 +87,7 @@ namespace EEMod
                 if (dur <= 0)
                 {
                     bubbleColumn = 0;
-                    dur = 60;
+                    dur = 36;
                 }
             }
         }
@@ -403,8 +404,8 @@ namespace EEMod
                 bubbleTimer--;
                 if (bubbleTimer <= 0)
                 {
-                    bubbleTimer = 4;
-                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), Vector2.Zero, ModContent.ProjectileType<InkCloud>(), 0, 0);
+                    bubbleTimer = 6;
+                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 0, 0);
                     bubbleLen = Main.rand.Next(-16, 17);
                     bubbleColumn += 2;
                 }
@@ -612,11 +613,11 @@ namespace EEMod
 
                 for (int j = 0; j < 450; j++)
                 {
-                    if (Main.projectile[j].type == ProjectileType<PirateShip>())
+                    if (Main.projectile[j].type == ProjectileType<PirateShip>() || Main.projectile[j].type == ProjectileType<RedDutchman>())
                     {
                         if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40)
                         {
-                            EEMod.ShipHelth -= 20;
+                            EEMod.ShipHelth -= 1;
                             EEMod.instance.velocity += Main.projectile[j].velocity * 20;
                         }
                     }
@@ -712,6 +713,12 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
                 }
+                if (markerPlacer % 2400 == 0)
+                    NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth + 1000, (int)Main.screenPosition.Y + Main.rand.Next(1000), ModContent.NPCType<MerchantBoat>());
+
+                if (markerPlacer % 7200 == 0)
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
+
                 if (markerPlacer % 20 == 0)
                 {
                     int CloudChoose = Main.rand.Next(5);

@@ -79,19 +79,19 @@ namespace EEMod
         }
         public static void Island(int seed, GenerationProgress customProgressObject = null)
         {
-            Main.maxTilesX = 900;
+            Main.maxTilesX = 600;
             Main.maxTilesY = 500;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            EEWorld.EEWorld.MakeAtlantis(Vector2.Zero, new Vector2(900, 500));
-            /*
-            //Not the island
+
+
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 180, new Vector2(0, 0));
-            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
 
-            //The island
-            EEWorld.EEWorld.Island(274, 120);
+            EEWorld.EEWorld.Island(400, 225);
+
+            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 200), ModContent.TileType<CoralSand>(), 15, 15);
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 200, new Vector2(0, 225), ModContent.TileType<CoralSand>());
 
             for (int i = 42; i < Main.maxTilesX-42; i++)
             {
@@ -126,7 +126,6 @@ namespace EEMod
             EEWorld.EEWorld.PlaceShipWalls(50, 158, EEWorld.EEWorld.ShipWalls);
 
             WorldGen.AddTrees();
-            */
 
 
             SubworldManager.SettleLiquids();
@@ -154,11 +153,74 @@ namespace EEMod
                 }
             }
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            EEWorld.EEWorld.FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<VolcanoBG>());
+            EEWorld.EEWorld.FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;
             Main.spawnTileY = 140;
+        }
+        public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 800;
+            Main.maxTilesY = 500;
+            //Main.worldSurface = Main.maxTilesY;
+            //Main.rockLayer = Main.maxTilesY;
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
+
+            int islandWidth = 300;
+            int islandHeight = 90;
+
+            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 260, Vector2.Zero);
+            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
+
+
+            EEWorld.EEWorld.RemoveWaterFromRegion(40, 40, new Vector2(180, 170));
+            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2(50, 210), ModContent.TileType<VolcanicAshTile>());
+            EEWorld.EEWorld.MakeTriangle(new Vector2(100, 230), 200, 160, 2, ModContent.TileType<VolcanicAshTile>(), true, true, ModContent.WallType<VolcanicAshWallTile>());
+            EEWorld.EEWorld.FillRegionWithLava(40, 50, new Vector2(180, 190));
+            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            EEWorld.EEWorld.MakeVolcanoEntrance(198, 192, EEWorld.EEWorld.VolcanoEntrance);
+
+            SubworldManager.SettleLiquids();
+            EEMod.isSaving = false;
+            Main.spawnTileX = 200;
+            Main.spawnTileY = 100;
+        }
+        public static void VolcanoInside(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 400;
+            Main.maxTilesY = 600;
+            //Main.worldSurface = Main.maxTilesY;
+            //Main.rockLayer = Main.maxTilesY;
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
+
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<MagmastoneTile>());
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    if (Main.rand.NextBool(3000))
+                        EEWorld.EEWorld.MakeLavaPit(Main.rand.Next(20, 30), Main.rand.Next(7, 20), new Vector2(i, j), Main.rand.NextFloat(0.1f, 0.5f));
+                }
+            }
+            EEWorld.EEWorld.MakeChasm(200, 10, 100, TileID.StoneSlab, 0, 10, 20);
+            WorldGen.TileRunner(200, 190, 200, 100, TileID.StoneSlab);
+            for (int k = 0; k < Main.maxTilesX; k++)
+            {
+                for (int l = 0; l < Main.maxTilesY; l++)
+                {
+                    if (Framing.GetTileSafely(k, l).type == TileID.StoneSlab)
+                    {
+                        WorldGen.KillTile(k, l);
+                    }
+                }
+            }
+            EEWorld.EEWorld.MakeOvalJaggedTop(80, 60, new Vector2(160, 170), ModContent.TileType<MagmastoneTile>());
+            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            EEWorld.EEWorld.FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());
         }
     }
 }

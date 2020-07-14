@@ -19,6 +19,7 @@ namespace EEMod.NPCs.Friendly
             npc.lifeMax = 2000;
             npc.aiStyle = 0;
             npc.noGravity = true;
+            npc.spriteDirection = 1;
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
@@ -334,7 +335,7 @@ namespace EEMod.NPCs.Friendly
             }
             else
             {
-                npc.position.X += 2;
+                npc.position.X += 0.3f;
             }
         }
     }
