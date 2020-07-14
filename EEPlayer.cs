@@ -922,49 +922,53 @@ namespace EEMod
                 }
                 if (EEWorld.EEWorld.EntracesPosses.Count > 0)
                 {
-                    DesArrowProjectile arrow = Main.projectile[Arrow].modProjectile as DesArrowProjectile;
-                    if (player.Center.X / 16 >= (EEWorld.EEWorld.EntracesPosses[0].X + 10) &&
-                        player.Center.X / 16 <= (EEWorld.EEWorld.EntracesPosses[0].X + 14) &&
-                        player.Center.Y / 16 >= (EEWorld.EEWorld.EntracesPosses[0].Y + 5) &&
-                        player.Center.Y / 16 <= (EEWorld.EEWorld.EntracesPosses[0].Y + 9) &&
-                            EEWorld.EEWorld.EntracesPosses.Count > 0)
+                    if (Main.projectile[Arrow].modProjectile is DesArrowProjectile arrow)
                     {
+                        if (player.Center.X / 16 >= (EEWorld.EEWorld.EntracesPosses[0].X + 10) &&
+                            player.Center.X / 16 <= (EEWorld.EEWorld.EntracesPosses[0].X + 14) &&
+                            player.Center.Y / 16 >= (EEWorld.EEWorld.EntracesPosses[0].Y + 5) &&
+                            player.Center.Y / 16 <= (EEWorld.EEWorld.EntracesPosses[0].Y + 9) &&
+                                EEWorld.EEWorld.EntracesPosses.Count > 0)
+                        {
+                            if (player.controlUp)
+                            {
+                                godMode = true;
+                            }
+                            arrow.visible = true;
+                        }
+                        else
+                        {
+                            arrow.visible = false;
+                        }
+                    }
+                }
+                if (Main.projectile[Arrow2].modProjectile is OceanArrowProjectile oceanarrow)
+                {
+                    if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X) &&
+                        player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 4) &&
+                        player.Center.Y / 16 >= (EEWorld.EEWorld.ree.Y + 12) &&
+                        player.Center.Y / 16 <= (EEWorld.EEWorld.ree.Y + 16) &&
+                        EEWorld.EEWorld.shipComplete == true)
+                    {
+
                         if (player.controlUp)
                         {
-                            godMode = true;
+                            triggerSeaCutscene = true;
+                            if (Main.netMode == NetmodeID.Server)
+                            {
+                                var netMessage = mod.GetPacket();
+                                netMessage.Write(triggerSeaCutscene);
+                                netMessage.Send();
+                            }
                         }
-                        arrow.visible = true;
+                        oceanarrow.visible = true;
+
                     }
                     else
                     {
-                        arrow.visible = false;
-                    }
-                }
-                OceanArrowProjectile oceanarrow = Main.projectile[Arrow2].modProjectile as OceanArrowProjectile;
-                if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X)  &&
-                    player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 4) &&
-                    player.Center.Y / 16 >= (EEWorld.EEWorld.ree.Y + 12) &&
-                    player.Center.Y / 16 <= (EEWorld.EEWorld.ree.Y + 16) &&
-                    EEWorld.EEWorld.shipComplete == true)
-                {
-                    
-                    if (player.controlUp)
-                    {
-                        triggerSeaCutscene = true;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            var netMessage = mod.GetPacket();
-                            netMessage.Write(triggerSeaCutscene);
-                            netMessage.Send();
-                        }
-                    }
-                        oceanarrow.visible = true;
-
-                }
-                else
-                {
                         oceanarrow.visible = false;
 
+                    }
                 }
             }
             Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
