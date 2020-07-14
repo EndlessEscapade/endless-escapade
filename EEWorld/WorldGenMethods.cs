@@ -2170,7 +2170,7 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(k, l, TileID.Ash);
                                 break;
                             case 2:
-                                WorldGen.PlaceWall(k, l, WallID.Cloud);
+                                WorldGen.PlaceWall(k, l, WallID.DiamondGemspark);
                                 tile.wallColor(29);
                                 break;
                         }
