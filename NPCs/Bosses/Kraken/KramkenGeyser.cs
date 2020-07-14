@@ -19,8 +19,9 @@ namespace EEMod.NPCs.Bosses.Kraken
             projectile.height = 1;
             projectile.damage = 20;
             projectile.aiStyle = -1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 180;
             projectile.tileCollide = false;
+            
         }
 
         public override void AI()
@@ -28,7 +29,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             projectile.ai[0]++;
             if (projectile.ai[0] < 40)
             {
-              for (int i = 0; i < 8; i++)
+              for (int i = 0; i < 1; i++)
                 {
                         int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Dirt, 0, 0, 6, default, projectile.scale * 1);
                         Main.dust[num].noGravity = false;
@@ -40,12 +41,13 @@ namespace EEMod.NPCs.Bosses.Kraken
             {
                 for (int i = 0; i < 9; i++)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-4, -10), 6, Color.Blue, projectile.scale*2);
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale*2);
                     Main.dust[num].noGravity = false;
-                    Main.dust[num].velocity *= 11f;
-                    Main.dust[num].velocity.X = Main.rand.NextFloat(-3,3);
+                    Main.dust[num].velocity *= 7f;
+                    Main.dust[num].velocity.X = Main.rand.NextFloat(-5,5);
                     Main.dust[num].noLight = false;
                 }
+                projectile.netUpdate = true;
             }
         }
 

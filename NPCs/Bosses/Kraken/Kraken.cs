@@ -19,17 +19,34 @@ namespace EEMod.NPCs.Bosses.Kraken
         int tentaclesPer = 7;
         private int frameUpdate;
         private int frameUpdate2;
+        private bool mouthOpenConsume;
         public override void FindFrame(int frameHeight)
         {
             frameUpdate++;
-            if (frameUpdate >= tentaclesPer)
+            
+            if(mouthOpenConsume)
             {
-                npc.frame.Y += frameHeight;
-                frameUpdate = 0;
+                if (frameUpdate >= tentaclesPer && npc.frame.Y < frameHeight * 2)
+                {
+                    npc.frame.Y += frameHeight;
+                    frameUpdate = 0;
+                }
+                if (npc.frame.Y == frameHeight * 5)
+                {
+                    npc.frame.Y = 0;
+                }
             }
-            if (npc.frame.Y == frameHeight * 5)
+            else
             {
-                npc.frame.Y = 0;
+                if (frameUpdate >= tentaclesPer)
+                {
+                    npc.frame.Y += frameHeight;
+                    frameUpdate = 0;
+                }
+                if (npc.frame.Y == frameHeight * 5)
+                {
+                    npc.frame.Y = 0;
+                }
             }
             frameUpdate2++;
             if (frameUpdate2 >= tentaclesPer && seperateFrame.Y < frameHeight * 5)
@@ -41,6 +58,18 @@ namespace EEMod.NPCs.Bosses.Kraken
             {
                 seperateFrame.Y = 0;
             }
+        }
+
+        public void Reset(int from)
+        {
+            npc.ai[0] = 0;
+            numberOfPushes = 0;
+            EEPlayer.TurnCameraFixationsOff();
+            while(npc.ai[1] == from)
+            {
+              npc.ai[1] = Main.rand.Next(1, 4);
+            }
+            npc.netUpdate = true;
         }
         public override void SetDefaults()
         {
@@ -71,10 +100,13 @@ namespace EEMod.NPCs.Bosses.Kraken
         Rectangle seperateFrame = new Rectangle(0,0, 568, 472);
         float numberOfPushes;
         float tentaclerotation;
+        public bool GETHIMBOIS;
         public override void AI()
         {
+            
             npc.ai[2]++;
             tentaclerotation = 0;
+            mouthOpenConsume = false;
             if (npc.ai[2] < 180)
             {
                 EEPlayer.FixateCameraOn(npc.Center, 32f, false);
@@ -83,22 +115,22 @@ namespace EEMod.NPCs.Bosses.Kraken
             {
                 EEPlayer.TurnCameraFixationsOff();
             }
-            npc.ai[0]++;
             Vector2 topLeft = arenaPosition - new Vector2(2500, 1200);
             Vector2 topRight = arenaPosition - new Vector2(-2500, 1200);
-            Vector2[] holePositions = { new Vector2((int)topLeft.X, (int)topLeft.Y - 100), new Vector2((int)topRight.X, (int)topRight.Y - 100), new Vector2((int)topLeft.X, (int)topLeft.Y + 1200), new Vector2((int)topRight.X, (int)topRight.Y + 1200) };
+            Vector2[] holePositions = { new Vector2((int)topLeft.X + 200, (int)topLeft.Y - 100), new Vector2((int)topRight.X, (int)topRight.Y - 100), new Vector2((int)topLeft.X, (int)topLeft.Y + 1200), new Vector2((int)topRight.X + 200, (int)topRight.Y + 1200) };
             Vector2[] geyserPositions = { arenaPosition + new Vector2(-100, 1000), arenaPosition + new Vector2(100, 1000) };
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
             npc.rotation = npc.velocity.X / 80f;
             if(firstFrame)
             {
+                npc.ai[1] = 1;
                 npc.Center = topLeft;
                 firstFrame = false;
-                NPC.NewNPC((int)topLeft.X, (int)topLeft.Y- 100, ModContent.NPCType<KHole>(),0, topLeft.X, topLeft.Y - 100);
-                NPC.NewNPC((int)topRight.X, (int)topRight.Y - 100, ModContent.NPCType<KHole>(), 0, topRight.X, topRight.Y - 100);
-                NPC.NewNPC((int)topRight.X, (int)topRight.Y + 1200, ModContent.NPCType<KHole>(), 0, topRight.X, topRight.Y + 1200);
-                NPC.NewNPC((int)topLeft.X, (int)topLeft.Y + 1200, ModContent.NPCType<KHole>(), 0, topLeft.X, topLeft.Y + 1200);
+                NPC.NewNPC((int)holePositions[0].X, (int)holePositions[0].Y, ModContent.NPCType<KHole>(),0, (int)holePositions[0].X, (int)holePositions[0].Y);
+                NPC.NewNPC((int)holePositions[1].X, (int)holePositions[1].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[1].X, (int)holePositions[1].Y);
+                NPC.NewNPC((int)holePositions[2].X, (int)holePositions[2].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[2].X, (int)holePositions[2].Y);
+                NPC.NewNPC((int)holePositions[3].X, (int)holePositions[3].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[3].X, (int)holePositions[3].Y);
             }
             if (npc.velocity.X > 0)
                 npc.spriteDirection = -1;
@@ -109,12 +141,12 @@ namespace EEMod.NPCs.Bosses.Kraken
             {
                 case 0:
                     {
-                        npc.ai[1] = 1;
                         break;
                     }
                 case 1:
                     {
-                        if(isRightOrLeft)
+                        npc.ai[0]++;
+                        if (isRightOrLeft)
                         {
                             if (!thrust)
                             {
@@ -138,8 +170,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             }
                             if(numberOfPushes == 4)
                             {
-                                npc.ai[1] = 2;
-                                npc.ai[0] = 0;
+                                Reset(1);
                             }
                         }
                         else
@@ -172,26 +203,116 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }
                 case 2:
                     {
+                        npc.ai[0]++;
                         npc.velocity *= 0.95f;
-                        if(npc.ai[0] < 80)
-                        EEPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true);
-                        else if(npc.ai[0] == 80)
+                        if (npc.ai[0] < 80)
                         {
-                            Projectile.NewProjectile(geyserPositions[0].X, geyserPositions[0].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, .3f, 140);
-                            Projectile.NewProjectile(geyserPositions[1].X, geyserPositions[1].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, .3f, 140);
+                            EEPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true);
                         }
-                        else if(npc.ai[0] == 120)
+                        else if (npc.ai[0] == 80)
                         {
-                            EEPlayer.TurnCameraFixationsOff();
-                            npc.ai[1] = 1;
-                            npc.ai[0] = 0;
+                            Projectile.NewProjectile(geyserPositions[0].X, geyserPositions[0].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 0);
+                            Projectile.NewProjectile(geyserPositions[1].X, geyserPositions[1].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 0);
+                        }
+                        else if (npc.ai[0] == 100)
+                        {
+                            Reset(2);
                         }
                         break;
                     }
                 case 3:
                     {
-                        float gradient = (arenaPosition - npc.Center).ToRotation();
-
+                        Vector2 gradient = Vector2.Normalize(arenaPosition - npc.Center);
+                        if (Vector2.Distance(arenaPosition,npc.Center) > 200 && !GETHIMBOIS)
+                        {
+                            if (!thrust)
+                            {
+                                variablethrustingPower *= 0.97f;
+                            }
+                            resetAnim = false;
+                            npc.velocity.X = variablethrustingPower * gradient.X;
+                            npc.velocity.Y = variablethrustingPower * gradient.Y;
+                            if (variablethrustingPower <= 1f && !thrust)
+                            {
+                                thrust = true;
+                                resetAnim = true;
+                                numberOfPushes++;
+                            }
+                            if (thrust && variablethrustingPower < thrustingPower)
+                            {
+                                variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
+                                if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
+                                {
+                                    thrust = false;
+                                }
+                            }
+                        }
+                        else if(!GETHIMBOIS)
+                        {
+                                npc.ai[0]++;
+                                resetAnim = true;
+                                npc.velocity *= 0.98f;
+                            if(npc.ai[0] == 100)
+                            {
+                                for(int i = 0; i<holePositions.Length; i++)
+                                {
+                                    NPC.NewNPC((int)holePositions[i].X + 200, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(),0,0,0,npc.whoAmI);
+                                }
+                            }
+                            if(npc.ai[0] >= 400)
+                            {
+                                Reset(3);
+                            }
+                        }
+                        if (GETHIMBOIS)
+                        {
+                            EEPlayer.FixateCameraOn(npc.Center, 64f, false);
+                            gradient = Vector2.Normalize((player.Center + new Vector2(300, 0)) - npc.Center);
+                            if (Vector2.Distance(player.Center + new Vector2(300, 0), npc.Center) > 200)
+                            { 
+                            if (!thrust)
+                            {
+                                variablethrustingPower *= 0.97f;
+                            }
+                            resetAnim = false;
+                            npc.velocity.X = variablethrustingPower * gradient.X;
+                            npc.velocity.Y = variablethrustingPower * gradient.Y;
+                            if (variablethrustingPower <= 1f && !thrust)
+                            {
+                                thrust = true;
+                                resetAnim = true;
+                                numberOfPushes++;
+                            }
+                            if (thrust && variablethrustingPower < thrustingPower)
+                            {
+                                variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
+                                if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
+                                {
+                                    thrust = false;
+                                }
+                            }
+                            }
+                            else
+                            {
+                                npc.ai[0]++;
+                                npc.velocity = (player.Center + new Vector2(300, 0) - npc.Center)/64f;
+                                npc.velocity *= .98f;
+                                resetAnim = true;
+                                mouthOpenConsume = true;
+                                for (int i = 0; i < 9; i++)
+                                {
+                                    int num = Dust.NewDust(npc.Center - new Vector2(110 * npc.spriteDirection, 10), 5, 5, DustID.SolarFlare, Main.rand.NextFloat(-2, -5) * npc.spriteDirection, 0, 6, default, 2);
+                                    Main.dust[num].noGravity = true;
+                                    Main.dust[num].velocity *= 15f;
+                                    Main.dust[num].velocity.Y = Main.rand.NextFloat(-2, 2);
+                                    Main.dust[num].noLight = false;
+                                }
+                                if(npc.ai[0] == 280)
+                                {
+                                    Reset(3);
+                                }
+                            }
+                        }
                         break;
                     }
                 case 4:

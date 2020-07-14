@@ -41,6 +41,8 @@ namespace EEMod
         public static Texture2D PufferBig;
         public static Texture2D PufferSmall;
         public static Texture2D CoralReefsSurfaceClose;
+        public static Texture2D NotBleckScren;
+        public static Texture2D Tentacle;
 
         [LoadingMethod(Loadmode = LoadingMode.Client)]
         public static void Load()
@@ -52,6 +54,7 @@ namespace EEMod
             EyeTileGlow = mod.GetTexture("Tiles/Furniture/EyeTileGlow");
             Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");
             BleckScren = mod.GetTexture("BleckScren");
+            NotBleckScren = mod.GetTexture("NotBleckScren");
             DuneShambler = mod.GetTexture("NPCs/DuneShambler");
             GiantSquid = mod.GetTexture("LoadingScreenImages/GiantSquid");
             Clam = mod.GetTexture("LoadingScreenImages/Clam");
@@ -72,6 +75,7 @@ namespace EEMod
             AkumoFeather = mod.GetTexture("NPCs/Bosses/Akumo/AkumoFeather");
             Akumo = mod.GetTexture("NPCs/Bosses/Akumo/Akumo");
             KrakenTentacles = mod.GetTexture("NPCs/Bosses/Kraken/KrakenTentacles");
+            Tentacle = mod.GetTexture("NPCs/Bosses/Kraken/Tentacle");
             PufferBig = mod.GetTexture("NPCs/CoralReefs/ToxicPuffer");
             PufferSmall = mod.GetTexture("NPCs/CoralReefs/ToxicPufferSmall");
             Terraria_LogoTexture = ModContent.GetTexture("Terraria/Logo");
@@ -86,6 +90,7 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            Tentacle = null;
             CoralLanternLampGlow = null;
             Chain = null;
             Empty = null;
@@ -119,6 +124,7 @@ namespace EEMod
             KrakenTentacles = null;
             CoralReefsSurfaceClose = null;
             KrakenGlowMask = null;
+            NotBleckScren = null;
         }
     }
 }
