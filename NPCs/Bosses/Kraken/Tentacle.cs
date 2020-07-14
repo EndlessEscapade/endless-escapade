@@ -42,6 +42,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height);
             if (npc.ai[3] == 0)
             {
+                npc.spriteDirection = -1;
                 if (isGrabbing && !isRetrating)
                 {
                     (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).GETHIMBOIS = true;
@@ -87,6 +88,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 {
                     npc.velocity.X = -5;
                 }
+                distance = (npc.Center - startingPosition);
             }
             if (npc.ai[3] == 1)
             {
@@ -99,7 +101,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         Main.npc[(int)npc.ai[2]].ai[0] = 0;
                         yeet = true;
                     }
-                    Main.player[npc.target].Center = npc.Center + new Vector2(-30, 0);
+                    Main.player[npc.target].Center = npc.Center + new Vector2(160, 0);
                     npc.velocity *= 0.94f;
                 }
                 else
@@ -109,20 +111,21 @@ namespace EEMod.NPCs.Bosses.Kraken
                         startingPosition = npc.Center;
                     }
                     npc.ai[0]++;
-                    if (distance.X > -2000)
+                    if (distance.X < -2000)
                     {
                         npc.ai[1] = 1;
                     }
                     if (npc.ai[1] == 0)
-                        npc.velocity.X = -npc.ai[0] / 5;
+                        npc.velocity.X = -(npc.ai[0] / 5);
                     else
                     {
                         npc.velocity.X = 5;
-                        if (distance.X < 0)
+                        if (distance.X > 0)
                         {
                             npc.life = 0;
                         }
                     }
+                    distance = (npc.Center - startingPosition);
                 }
                 if (npc.life < 1000)
                 {
@@ -134,22 +137,25 @@ namespace EEMod.NPCs.Bosses.Kraken
                 }
                 if (isRetrating)
                 {
-                    npc.velocity.X = -5;
+                    npc.velocity.X = 5;
                 }
+                distance = (npc.Center - startingPosition);
             }
-            distance = (npc.Center - startingPosition);
+            
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             isGrabbing = true;
         }
-
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.Tentacle;
-            Main.spriteBatch.Draw(texture, npc.Center - new Vector2(npc.width / 2, 0) - Main.screenPosition + distance / 2 - new Vector2(70,0), new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-            
+            if(npc.ai[3] == 0)
+            Main.spriteBatch.Draw(texture, npc.Center + new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2 + new Vector2(70,0), new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            if (npc.ai[3] == 1)
+                Main.spriteBatch.Draw(texture, npc.Center - new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2 + new Vector2(70, 0), new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {

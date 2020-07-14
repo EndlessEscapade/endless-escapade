@@ -94,6 +94,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.knockBackResist = 0f;
             musicPriority = MusicPriority.BossMedium;
             npc.alpha = 255;
+            tentacleAlpha = 0;
         }
 
         bool firstFrame = true;
@@ -123,6 +124,8 @@ namespace EEMod.NPCs.Bosses.Kraken
             mouthOpenConsume = false;
             if (npc.ai[2] < 180)
             {
+                tentacleAlpha += 0.01f;
+                tentacleAlpha = Helpers.Clamp(tentacleAlpha, 0, 1);
                 npc.alpha -= 2;
                 EEPlayer.FixateCameraOn(npc.Center, 32f, false, true);
             }
@@ -280,6 +283,9 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 for (int i = 0; i < holePositions.Length; i++)
                                 {
+                                    if(i == 0 || i == 2)
+                                    NPC.NewNPC((int)holePositions[i].X + 10, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
+                                    if (i == 1 || i == 3)
                                     NPC.NewNPC((int)holePositions[i].X + 10, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI,1);
                                 }
                             }
@@ -291,8 +297,8 @@ namespace EEMod.NPCs.Bosses.Kraken
                         if (GETHIMBOIS)
                         {
                             EEPlayer.FixateCameraOn(npc.Center, 64f, false, true);
-                            gradient = Vector2.Normalize(player.Center + new Vector2(300, 0) - npc.Center);
-                            if (Vector2.DistanceSquared(player.Center + new Vector2(300, 0), npc.Center) > (100*100))
+                            gradient = Vector2.Normalize(player.Center + new Vector2(300 * (npc.Center.X - player.Center.X) /Math.Abs(npc.Center.X - player.Center.X), 0) - npc.Center);
+                            if (Vector2.Distance(player.Center + new Vector2(300 * (npc.Center.X - player.Center.X)/ Math.Abs(npc.Center.X - player.Center.X), 0), npc.Center) > 180)
                             {
                                 if (!thrust)
                                 {
@@ -319,7 +325,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             else
                             {
                                 npc.ai[0]++;
-                                npc.velocity = (player.Center + new Vector2(300, 0) - npc.Center) / 64f;
+                                npc.velocity = (player.Center + new Vector2(300 * (npc.Center.X - player.Center.X) / Math.Abs(npc.Center.X - player.Center.X), 0) - npc.Center) / 64f;
                                 npc.velocity *= .98f;
                                 resetAnim = true;
                                 mouthOpenConsume = true;
