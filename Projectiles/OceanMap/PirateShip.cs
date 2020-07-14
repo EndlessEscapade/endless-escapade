@@ -32,14 +32,14 @@ namespace EEMod.Projectiles.OceanMap
             }
             float speed = .3f;
             Vector2 move = moveTo - projectile.Center;
-            float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
+            float magnitude = move.Length();
             if (magnitude > speed)
             {
                 move *= speed / magnitude;
             }
             float turnResistance = 10f;
             move = (projectile.velocity * turnResistance + move) / (turnResistance + 1f);
-            magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
+            magnitude = move.Length();
             if (magnitude > speed)
             {
                 move *= speed / magnitude;

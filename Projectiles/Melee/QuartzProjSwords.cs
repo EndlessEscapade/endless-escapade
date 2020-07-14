@@ -47,15 +47,12 @@ namespace EEMod.Projectiles.Melee
             }
             for (int j = 0; j < 200; j++)
             {
-
-                if (Main.projectile[j].type == ModContent.ProjectileType<QuartzProjSwords>() && Main.projectile[j].type != projectile.whoAmI && projectile.velocity.Length() < 5)
+                Projectile proj = Main.projectile[j];
+                if (proj.type == ModContent.ProjectileType<QuartzProjSwords>() && proj.type != projectile.whoAmI && projectile.velocity.LengthSquared() < 25)
                 {
-                    float oldVel = (float)Math.Sqrt(Main.projectile[j].velocity.X * Main.projectile[j].velocity.X + Main.projectile[j].velocity.Y * Main.projectile[j].velocity.Y);
-                    float vel = (float)projectile.velocity.Length();
-                    float distX = Main.projectile[j].position.X - projectile.position.X;
-                    float distY = Main.projectile[j].position.Y - projectile.position.Y;
-                    float dist = (float)Math.Sqrt(distX * distX + distY * distY);
-                    if (dist < projectile.width && j != projectile.whoAmI && oldVel > vel)
+                    float oldVelSQ = proj.velocity.LengthSquared();
+                    float velSQ = projectile.velocity.LengthSquared();
+                    if (Vector2.DistanceSquared(proj.position, projectile.position) < (projectile.width * projectile.width) && j != projectile.whoAmI && oldVelSQ > velSQ)
                     {
                         for (var i = 0; i < 10; i++)
                         {
@@ -65,8 +62,8 @@ namespace EEMod.Projectiles.Melee
                             Main.dust[num].noLight = false;
                         }
                         projectile.timeLeft = 20;
-                        projectile.velocity += Main.projectile[j].velocity / 3;
-                        Main.projectile[j].velocity *= -1f;
+                        projectile.velocity += proj.velocity / 3;
+                        proj.velocity *= -1f;
                     }
                 }
 
