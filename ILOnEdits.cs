@@ -19,10 +19,12 @@ namespace EEMod
         {
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
             IL.Terraria.Main.DrawBackground += Main_DrawBackground;
+            IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
             On.Terraria.Main.DoUpdate += OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawMenu += OnDrawMenu;
         }
+
         private void UnloadIL()
         {
             On.Terraria.Main.DoUpdate -= OnUpdate;
@@ -31,6 +33,54 @@ namespace EEMod
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
             IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
         }
+
+        private void Main_OldDrawBackground(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            Type spritebatchType = typeof(SpriteBatch);
+            MethodInfo drawcall = spritebatchType.GetMethod(nameof(SpriteBatch.Draw), new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color) });
+            MethodInfo drawcall2 = spritebatchType.GetMethod(nameof(SpriteBatch.Draw), new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) });
+            MethodInfo get_noretro = typeof(Lighting).GetProperty(nameof(Lighting.NotRetro)).GetGetMethod();
+
+            if (!c.TryGotoNext(i => i.MatchLdloc(19)))
+                throw new Exception("Couldn't find local variable 19 loading");
+
+            if (!c.TryGotoNext(i => i.MatchCallvirt(drawcall)))
+                throw new Exception("Couldn't find call (post variable 19)");
+
+            //int p = c.Index;
+            //c.Index++; // move past
+            //var label = c.DefineLabel(); // define label
+            //c.Goto(p); // return
+            //c.Emit(OpCodes.Br, label); // skip
+            //c.MarkLabel(label); // define label target
+            //c.Index--;
+            c.Remove();
+            c.Emit(OpCodes.Ldloc, 15); // array
+            c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, int[]>>((sb, texture, pos, rectangle, color, array) =>
+            {
+                if (array[4] != 135 && array[4] != 131)
+                    sb.Draw(texture, pos, rectangle, color);
+            });
+
+            if (!c.TryGotoNext(i => i.MatchCall(get_noretro)))
+                throw new Exception("Couldn't find Lighting.NoRetro get call");
+
+            for (int k = 0; k < 4; k++)
+            {
+                if (!c.TryGotoNext(i => i.MatchCallvirt(drawcall2)))
+                    throw new Exception($"Couldn't find call {k}");
+                c.Remove();
+                c.Emit(OpCodes.Ldloc, 15);
+                c.EmitDelegate<Action<SpriteBatch, Texture2D, Vector2, Rectangle?, Color, float, Vector2, float, SpriteEffects, float, int[]>>((sb, texture, position, sourcerectangle, color, rotation, origin, scale, effects, layerdepth, array) =>
+                {
+                    if (array[5] != 126 && array[5] != 125)
+                        sb.Draw(texture, position, sourcerectangle, color, rotation, origin, scale, effects, layerdepth);
+                });
+            }
+        }
+
         public void OnSave(On.Terraria.WorldGen.orig_SaveAndQuitCallBack orig, object threadcontext)
         {
             isSaving = true;
@@ -38,6 +88,7 @@ namespace EEMod
             isSaving = false;
             //saveInterface?.SetState(null);
         }
+
         public void OnUpdate(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
         {
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
