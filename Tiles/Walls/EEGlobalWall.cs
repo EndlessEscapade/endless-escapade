@@ -38,9 +38,9 @@ namespace EEMod.Tiles.Walls
                     g = 0;
                     b = 0;
                 }
-                r = MathHelper.Clamp(r, 0, 1);
-                g = MathHelper.Clamp(g, 0, 1);
-                b = MathHelper.Clamp(b, 0, 1);
+                //r = MathHelper.Clamp(r, 0, 1);
+                //g = MathHelper.Clamp(g, 0, 1);
+                //b = MathHelper.Clamp(b, 0, 1);
             }
         }
     }

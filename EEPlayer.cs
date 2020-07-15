@@ -714,7 +714,7 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
                 }
                 if (markerPlacer % 2400 == 0)
-                    NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth + 1000, (int)Main.screenPosition.Y + Main.rand.Next(1000), ModContent.NPCType<MerchantBoat>());
+                    NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth - 200, (int)Main.screenPosition.Y + Main.rand.Next(1000), ModContent.NPCType<MerchantBoat>());
 
                 if (markerPlacer % 7200 == 0)
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
