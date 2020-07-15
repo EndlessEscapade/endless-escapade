@@ -443,9 +443,11 @@ namespace EEMod.NPCs.Bosses.Kraken
         float daFlop;
         float daFlopX;
         int coolDownForCollision;
+        
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             coolDownForCollision--;
+            float chainsPer = 0.025f;
             if(coolDownForCollision < 0)
             {
                 coolDownForCollision = 0;
@@ -467,11 +469,11 @@ namespace EEMod.NPCs.Bosses.Kraken
                         midPoint[i] = startingPoint[i] + (endingPoint[i] - startingPoint[i]) * 0.5f;
                         startingPoint[i] += (endingPoint[i] - startingPoint[i]) / 64f;
                     }
-                    Helpers.DrawBezier(spriteBatch, TextureCache.TentacleChain, "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], 0.01f, (float)Math.PI/2);
+                    Helpers.DrawBezier(spriteBatch, TextureCache.TentacleChain, "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, (float)Math.PI/2);
                     Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height);
-                        for (int j = 0; j < Helpers.ReturnPoints(startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], 0.01f, 80,140,5).Length; j++)
+                        for (int j = 0; j < Helpers.ReturnPoints(startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, 80,200,3).Length; j++)
                         {
-                            if (playerHitBox.Intersects(Helpers.ReturnPoints(startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], 0.01f, 80,140, 3)[j]))
+                            if (playerHitBox.Intersects(Helpers.ReturnPoints(startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, 80,200, 3)[j]))
                             {
                             if (coolDownForCollision == 0)
                             {
