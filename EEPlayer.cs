@@ -522,12 +522,14 @@ namespace EEMod
 
                 if (EEMod.ShipHelth <= 0)
                 {
-                    Initialize();
-                    if (prevKey == "Main")
+                    if (prevKey == baseWorldName || prevKey == "Main")
+                    { 
                         ReturnHome();
+                    }
                     else
                     {
                         Initialize();
+                        arrowFlag = false;
                         SM.SaveAndQuit(prevKey);
                     }
                 }
@@ -596,7 +598,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                         ReturnHome();
-                        prevKey = "Main";
+                        prevKey = baseWorldName;
                     }
                     subTextAlpha += 0.02f;
                     if (subTextAlpha >= 1)
@@ -779,7 +781,6 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
-                player.ClearBuff(BuffID.Cursed);
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)
@@ -797,6 +798,7 @@ namespace EEMod
                 if (!arrowFlag)
                 {
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
+                    player.ClearBuff(BuffID.Cursed);
                     arrowFlag = true;
                 }
                 if (EEWorld.EEWorld.SubWorldSpecificCoralBoatPos == Vector2.Zero)
