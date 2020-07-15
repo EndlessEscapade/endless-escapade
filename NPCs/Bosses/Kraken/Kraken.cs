@@ -64,9 +64,10 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public void Reset(int from)
         {
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>(); 
             npc.ai[0] = 0;
             numberOfPushes = 0;
-            EEPlayer.TurnCameraFixationsOff();
+            modPlayer.TurnCameraFixationsOff();
             while (npc.ai[1] == from)
             {
                 npc.ai[1] = Main.rand.Next(1, 5);
@@ -118,7 +119,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         }
         public override void AI()
         {
-
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             npc.ai[2]++;
             tentaclerotation = 0;
             mouthOpenConsume = false;
@@ -127,11 +128,11 @@ namespace EEMod.NPCs.Bosses.Kraken
                 tentacleAlpha += 0.01f;
                 tentacleAlpha = Helpers.Clamp(tentacleAlpha, 0, 1);
                 npc.alpha -= 2;
-                EEPlayer.FixateCameraOn(npc.Center, 32f, false, true);
+                modPlayer.FixateCameraOn(npc.Center, 32f, false, true);
             }
             else if (npc.ai[2] == 181)
             {
-                EEPlayer.TurnCameraFixationsOff();
+                modPlayer.TurnCameraFixationsOff();
             }
             Vector2 topLeft = arenaPosition - new Vector2(2500, 1200);
             Vector2 topRight = arenaPosition - new Vector2(-2500, 1200);
@@ -234,7 +235,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         }
                         if (npc.ai[0] < 80)
                         {
-                            EEPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true, false);
+                            modPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true, false);
                         }
                         else if (npc.ai[0] == 80)
                         {
@@ -296,7 +297,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         }
                         if (GETHIMBOIS)
                         {
-                            EEPlayer.FixateCameraOn(npc.Center, 64f, false, true);
+                            modPlayer.FixateCameraOn(npc.Center, 64f, false, true);
                             gradient = Vector2.Normalize(player.Center + new Vector2(300 * (npc.Center.X - player.Center.X) /Math.Abs(npc.Center.X - player.Center.X), 0) - npc.Center);
                             if (Vector2.DistanceSquared(player.Center + new Vector2(300 * (npc.Center.X - player.Center.X)/ Math.Abs(npc.Center.X - player.Center.X), 0), npc.Center) > (180* 180))
                             {
@@ -339,7 +340,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 }
                                 if (npc.ai[0] > 140)
                                 {
-                                    EEPlayer.FixateCameraOn(npc.Center, 64f, true, true);
+                                    modPlayer.FixateCameraOn(npc.Center, 64f, true, true);
                                     float projectilespeedX = 10 * -npc.spriteDirection;
                                     float projectilespeedY = Main.rand.NextFloat(-2,2);
                                     float projectileknockBack = 4f;

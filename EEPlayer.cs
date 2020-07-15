@@ -215,6 +215,7 @@ namespace EEMod
                 displacmentY = 0;
                 startingText = false;
                 Particles.Clear();
+                isCameraFixating = false;
             }
         }
 
@@ -247,18 +248,18 @@ namespace EEMod
         }
         float displacmentX = 0;
         float displacmentY = 0;
-        public static bool isCameraFixating;
-        public static bool isCameraShaking;
-        public static Vector2 fixatingPoint;
-        public static float fixatingSpeedInv;
-        public static void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove)
+        public bool isCameraFixating;
+        public bool isCameraShaking;
+        public Vector2 fixatingPoint;
+        public float fixatingSpeedInv;
+        public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove)
         {
             fixatingPoint = fixatingPointCamera;
             isCameraFixating = CameraMove;
             fixatingSpeedInv = fixatingSpeed;
             isCameraShaking = isCameraShakings;
         }
-        public static void TurnCameraFixationsOff()
+        public void TurnCameraFixationsOff()
         {
             isCameraFixating = false;
             isCameraShaking = false;
@@ -1057,9 +1058,9 @@ namespace EEMod
                 ["swiftSail"] = boatSpeed
             };
         }
-
         public override void Load(TagCompound tag)
         {
+            instance = this;
             if (tag.ContainsKey("hasGottenRuneBefore"))
             {
                 hasGottenRuneBefore = tag.GetByteArray("hasGottenRuneBefore");
