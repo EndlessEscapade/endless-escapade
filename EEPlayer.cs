@@ -215,6 +215,7 @@ namespace EEMod
                 displacmentY = 0;
                 startingText = false;
                 Particles.Clear();
+                isCameraFixating = false;
             }
         }
 

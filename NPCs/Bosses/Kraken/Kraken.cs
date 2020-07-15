@@ -64,7 +64,7 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public void Reset(int from)
         {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>(); 
             npc.ai[0] = 0;
             numberOfPushes = 0;
             modPlayer.TurnCameraFixationsOff();
