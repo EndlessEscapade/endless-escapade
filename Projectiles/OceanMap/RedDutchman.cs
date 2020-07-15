@@ -36,7 +36,7 @@ namespace EEMod.Projectiles.OceanMap
                 {
                     projectile.spriteDirection = -1;
                 }
-                float speed = .5f;
+                float speed = .5f; //a
                 Vector2 move = moveTo - projectile.Center;
                 float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                 if (magnitude > speed)
