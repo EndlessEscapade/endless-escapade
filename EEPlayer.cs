@@ -396,6 +396,7 @@ namespace EEMod
         public int distortStrength = 100;
         public List<ParticlesClass> Particles = new List<ParticlesClass>();
         public List<Vector2> Velocity;
+        private static string prevKey = "Main";
 
         public override void UpdateBiomeVisuals()
         {
@@ -516,6 +517,20 @@ namespace EEMod
                 isNearVolcano = false;
                 isNearMainIsland = false;
                 isNearCoralReefs = false;
+
+
+                if (EEMod.ShipHelth <= 0)
+                {
+                    Initialize();
+                    if (prevKey == "Main")
+                        ReturnHome();
+                    else
+                    {
+                        Initialize();
+                        SM.SaveAndQuit(prevKey);
+                    }
+                }
+
                 if (rectangle1.Intersects(ShipHitBox))
                 {
                     isNearIsland = true;
@@ -550,6 +565,7 @@ namespace EEMod
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.Island);
+                        prevKey = KeyID.Island;
                     }
                 }
                 else
@@ -566,6 +582,7 @@ namespace EEMod
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.VolcanoIsland);
+                        prevKey = KeyID.VolcanoIsland;
                     }
                 }
                 else
@@ -578,6 +595,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                         ReturnHome();
+                        prevKey = "Main";
                     }
                     subTextAlpha += 0.02f;
                     if (subTextAlpha >= 1)
@@ -598,6 +616,7 @@ namespace EEMod
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
+                        prevKey = KeyID.CoralReefs;
                     }
                 }
                 else
