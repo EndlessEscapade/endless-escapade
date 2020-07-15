@@ -3151,10 +3151,10 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void Island(int islandWidth, int islandHeight)
+        public static void Island(int islandWidth, int islandHeight, int posY)
         {
-            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, 200), ModContent.TileType<CoralSand>());
-            MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) * 0.66), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSand>()) - 5), TileID.Dirt);
+            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, posY), ModContent.TileType<CoralSand>());
+            MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) - (Main.maxTilesX / 4)), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSand>()) - 10), TileID.Dirt);
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
             for (int i = 0; i < Main.maxTilesX; i++)
@@ -3163,11 +3163,6 @@ namespace EEMod.EEWorld
                 {
                     WorldGen.SpreadGrass(i, j);
                 }
-            }
-            for (int j = 0; j < Main.maxTilesX; j++)
-            {
-                if ((Main.rand.NextBool(5)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Dirt)) && (TileCheck(j, ModContent.TileType<CoralSand>()) < TileCheck(j, TileID.Grass)))
-                    WorldGen.PlaceTile(j, TileCheck(j, ModContent.TileType<CoralSand>()) - 1, 324);
             }
         }
         public static void PlaceAtlantisCastleRoom(int i, int j, int[,] shape)

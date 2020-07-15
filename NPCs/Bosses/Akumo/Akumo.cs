@@ -19,7 +19,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Akumo");
-            Main.npcFrameCount[npc.type] = 9;
+            Main.npcFrameCount[npc.type] = 8;
         }
 
         public override void SetDefaults()
@@ -66,7 +66,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             {
                 Main.PlaySound(SoundID.Item32);
             }
-            if (npc.frame.Y >= frameHeight * 9)
+            if (npc.frame.Y >= frameHeight * 8)
             {
 
                 npc.frame.Y = 0;
