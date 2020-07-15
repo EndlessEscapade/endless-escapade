@@ -61,7 +61,7 @@ namespace EEMod.Projectiles.OceanMap
                     {
                         if (Main.projectile[j].type == ModContent.ProjectileType<FriendlyCannonball>())
                         {
-                            if (Vector2.Distance(Main.projectile[j].Center, projectile.Center) < 50 && invincTime == 0)
+                            if (Vector2.DistanceSquared(Main.projectile[j].Center, projectile.Center) < (50*50) && invincTime == 0)
                             {
                                 invincTime = 60;
                                 Main.projectile[j].Kill();

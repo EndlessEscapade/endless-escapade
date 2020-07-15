@@ -402,7 +402,7 @@ namespace EEMod
                 }
                 if (player.controlUseItem && cannonDelay <= 0)
                 {
-                    Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - new Vector2(Main.mouseX + Main.screenPosition.X, Main.mouseY + Main.screenPosition.Y)) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
+                    Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
                     Main.NewText(new Vector2(Main.mouseX, Main.mouseY));
                     Main.NewText(position);
                     Main.PlaySound(SoundID.Item61);

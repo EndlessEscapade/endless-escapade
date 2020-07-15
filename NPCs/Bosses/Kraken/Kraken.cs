@@ -250,7 +250,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 case 3:
                     {
                         Vector2 gradient = Vector2.Normalize(arenaPosition - npc.Center);
-                        if (Vector2.Distance(arenaPosition, npc.Center) > 200 && !GETHIMBOIS)
+                        if (Vector2.DistanceSquared(arenaPosition, npc.Center) > (200*200) && !GETHIMBOIS)
                         {
                             if (!thrust)
                             {
@@ -298,7 +298,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         {
                             EEPlayer.FixateCameraOn(npc.Center, 64f, false, true);
                             gradient = Vector2.Normalize(player.Center + new Vector2(300 * (npc.Center.X - player.Center.X) /Math.Abs(npc.Center.X - player.Center.X), 0) - npc.Center);
-                            if (Vector2.Distance(player.Center + new Vector2(300 * (npc.Center.X - player.Center.X)/ Math.Abs(npc.Center.X - player.Center.X), 0), npc.Center) > 180)
+                            if (Vector2.DistanceSquared(player.Center + new Vector2(300 * (npc.Center.X - player.Center.X)/ Math.Abs(npc.Center.X - player.Center.X), 0), npc.Center) > (180* 180))
                             {
                                 if (!thrust)
                                 {
@@ -412,7 +412,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             int teleportCheckCount = 0;
             bool hasTeleportPoint = false;
             //player is too far away, don't teleport.
-            if (Vector2.Distance(npc.Center, Main.player[npc.target].Center) > 2000f)
+            if (Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center) > (2000f* 2000f))
             {
                 teleportCheckCount = 100;
                 hasTeleportPoint = true;
