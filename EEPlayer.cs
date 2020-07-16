@@ -397,6 +397,7 @@ namespace EEMod
         public int distortStrength = 100;
         public List<ParticlesClass> Particles = new List<ParticlesClass>();
         public List<Vector2> Velocity;
+        private static string prevKey = "Main";
 
         public override void UpdateBiomeVisuals()
         {
@@ -517,6 +518,22 @@ namespace EEMod
                 isNearVolcano = false;
                 isNearMainIsland = false;
                 isNearCoralReefs = false;
+
+
+                if (EEMod.ShipHelth <= 0)
+                {
+                    if (prevKey == baseWorldName || prevKey == "Main")
+                    { 
+                        ReturnHome();
+                    }
+                    else
+                    {
+                        Initialize();
+                        arrowFlag = false;
+                        SM.SaveAndQuit(prevKey);
+                    }
+                }
+
                 if (rectangle1.Intersects(ShipHitBox))
                 {
                     isNearIsland = true;
@@ -551,6 +568,7 @@ namespace EEMod
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.Island);
+                        prevKey = KeyID.Island;
                     }
                 }
                 else
@@ -567,6 +585,7 @@ namespace EEMod
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.VolcanoIsland);
+                        prevKey = KeyID.VolcanoIsland;
                     }
                 }
                 else
@@ -579,6 +598,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                         ReturnHome();
+                        prevKey = baseWorldName;
                     }
                     subTextAlpha += 0.02f;
                     if (subTextAlpha >= 1)
@@ -599,6 +619,7 @@ namespace EEMod
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
+                        prevKey = KeyID.CoralReefs;
                     }
                 }
                 else
@@ -760,7 +781,6 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
-                player.ClearBuff(BuffID.Cursed);
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)
@@ -778,6 +798,7 @@ namespace EEMod
                 if (!arrowFlag)
                 {
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
+                    player.ClearBuff(BuffID.Cursed);
                     arrowFlag = true;
                 }
                 if (EEWorld.EEWorld.SubWorldSpecificCoralBoatPos == Vector2.Zero)

@@ -448,7 +448,7 @@ namespace EEMod
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;
-            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 100, 100), new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             flash += 0.01f;
             if (flash == 2)

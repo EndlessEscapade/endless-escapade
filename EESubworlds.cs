@@ -86,12 +86,14 @@ namespace EEMod
 
 
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
-            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 180, new Vector2(0, 0));
+            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 170, new Vector2(0, 0));
 
-            EEWorld.EEWorld.Island(400, 225);
+            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSand>(), 15, 15);
 
-            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 200), ModContent.TileType<CoralSand>(), 15, 15);
-            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 200, new Vector2(0, 225), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.Island(400, 250, 140);
+
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSand>());
+
 
             for (int i = 42; i < Main.maxTilesX-42; i++)
             {
@@ -122,8 +124,9 @@ namespace EEMod
                     }
                 }
             }
-            EEWorld.EEWorld.PlaceShip(50, 158, EEWorld.EEWorld.ShipTiles);
-            EEWorld.EEWorld.PlaceShipWalls(50, 158, EEWorld.EEWorld.ShipWalls);
+
+            EEWorld.EEWorld.PlaceShip(50, 150, EEWorld.EEWorld.ShipTiles);
+            EEWorld.EEWorld.PlaceShipWalls(50, 150, EEWorld.EEWorld.ShipWalls);
 
             WorldGen.AddTrees();
 
@@ -131,7 +134,7 @@ namespace EEMod
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;
-            Main.spawnTileY = 20;
+            Main.spawnTileY = 100;
         }
         public static void Cutscene1(int seed, GenerationProgress customProgressObject = null)
         {
