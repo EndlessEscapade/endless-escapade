@@ -1,4 +1,4 @@
-using Terraria.ID;
+/*using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Materials;
 using EEMod.Projectiles.Ranged;
@@ -47,4 +47,4 @@ namespace EEMod.Items.Weapons.Ranger
             recipe.AddRecipe();
         }
     }
-}
+}*/

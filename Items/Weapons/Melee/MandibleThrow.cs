@@ -1,4 +1,4 @@
-using Terraria.ID;
+/*using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Projectiles.Melee;
 
@@ -32,4 +32,4 @@ namespace EEMod.Items.Weapons.Melee
             item.shoot = ModContent.ProjectileType<MandibleThrowProjectile>();
         }
     }
-}
+}*/
