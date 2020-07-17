@@ -164,27 +164,28 @@ namespace EEMod
         }
         public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
         {
-            Main.maxTilesX = 800;
-            Main.maxTilesY = 500;
+            Main.maxTilesX = 1200;
+            Main.maxTilesY = 800;
             //Main.worldSurface = Main.maxTilesY;
             //Main.rockLayer = Main.maxTilesY;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            int islandWidth = 300;
-            int islandHeight = 90;
 
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 260, Vector2.Zero);
-            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, Main.maxTilesY - 300, new Vector2(0, 300), ModContent.TileType<GemsandTile>(), 15, 15);
+            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 360, Vector2.Zero);
 
+            EEWorld.EEWorld.RemoveWaterFromRegion(50, 630, new Vector2(575, 170));
+            EEWorld.EEWorld.MakeTriangle(new Vector2(300, 895), 600, 1000, 3, ModContent.TileType<VolcanicAshTile>(), true, true, ModContent.WallType<VolcanicAshWallTile>());
+            EEWorld.EEWorld.Island(800, 400, 290);
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 400), ModContent.TileType<CoralSand>());
 
-            EEWorld.EEWorld.RemoveWaterFromRegion(40, 40, new Vector2(180, 170));
-            EEWorld.EEWorld.MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2(50, 210), ModContent.TileType<VolcanicAshTile>());
-            EEWorld.EEWorld.MakeTriangle(new Vector2(100, 230), 200, 160, 2, ModContent.TileType<VolcanicAshTile>(), true, true, ModContent.WallType<VolcanicAshWallTile>());
-            EEWorld.EEWorld.FillRegionWithLava(40, 50, new Vector2(180, 190));
+            EEWorld.EEWorld.ClearRegionSafely(50, 630, new Vector2(575, 170), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.ClearRegionSafely(50, 630, new Vector2(575, 170), TileID.Dirt);
+            EEWorld.EEWorld.ClearRegionSafely(50, 630, new Vector2(575, 170), TileID.Grass);
+            EEWorld.EEWorld.FillRegionWithLava(40, 200, new Vector2(580, 600));
             EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            EEWorld.EEWorld.MakeVolcanoEntrance(198, 192, EEWorld.EEWorld.VolcanoEntrance);
+            EEWorld.EEWorld.MakeVolcanoEntrance(598, 602, EEWorld.EEWorld.VolcanoEntrance);
 
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;

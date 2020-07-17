@@ -3,6 +3,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Projectiles.Mage;
+using EEMod.Projectiles.CoralReefs;
+using EEMod.Projectiles.OceanMap;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -30,7 +32,8 @@ namespace EEMod.Items.Weapons.Mage
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item11;
             item.mana = 7;
-            item.shoot = ModContent.ProjectileType<FeatheredDreamcatcherProjectile>();
+            //item.shoot = ModContent.ProjectileType<FeatheredDreamcatcherProjectile>();
+            item.shoot = ModContent.ProjectileType<Crate>();
         }
     }
 }

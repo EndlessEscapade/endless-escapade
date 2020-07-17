@@ -643,6 +643,16 @@ namespace EEMod
                             EEMod.instance.velocity += Main.projectile[j].velocity * 20;
                         }
                     }
+                    if (Main.projectile[j].type == ProjectileType<Crate>())
+                    {
+                        Crate a = Main.projectile[j].modProjectile as Crate;
+                        if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40 && !a.sinking)
+                        {
+                            player.QuickSpawnItem(ItemID.Keybrand);
+                            a.sinking = true;
+                            a.Sink();
+                        }
+                    }
                 }
 
                 if (markerPlacer == 1)
@@ -740,6 +750,9 @@ namespace EEMod
 
                 if (markerPlacer % 7200 == 0)
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
+
+                if (markerPlacer % 200 == 0)
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth - 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
 
                 if (markerPlacer % 20 == 0)
                 {

@@ -34,7 +34,7 @@ namespace EEMod.Projectiles.Mage
                 Vector2 closestNPCPos = new Vector2(0, 0);
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
-                    if (Vector2.Distance(Main.LocalPlayer.Center, Main.npc[i].Center) <= Vector2.Distance(Main.LocalPlayer.Center, closestNPCPos))
+                    if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Main.npc[i].Center) <= Vector2.DistanceSquared(Main.LocalPlayer.Center, closestNPCPos))
                     {
                         closestNPCPos = Main.npc[i].Center;
                     }

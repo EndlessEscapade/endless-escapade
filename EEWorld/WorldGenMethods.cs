@@ -278,6 +278,7 @@ namespace EEMod.EEWorld
                     {
                         Tile tile = Framing.GetTileSafely(k, l);
                         //tile.ClearTile();
+                        tile.ClearEverything();
                         switch (shape[y, x])
                         {
                             case 0:
@@ -2117,7 +2118,27 @@ namespace EEMod.EEWorld
                     WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y + 1060, WallID.CorruptionUnsafe1);
                 }
             }
-
+        }
+        public static void ClearRegionSafely(int width, int height, Vector2 startingPoint, int type)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).type == type)
+                    {
+                        WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                        WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    }
+                }
+            }
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y + 1060, WallID.CorruptionUnsafe1);
+                }
+            }
         }
         public static void FillRegionWithWater(int width, int height, Vector2 startingPoint)
         {
