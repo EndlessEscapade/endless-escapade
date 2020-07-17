@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
@@ -27,4 +27,4 @@ namespace EEMod.Projectiles.Mage
             }
         }
     }
-}
+}*/

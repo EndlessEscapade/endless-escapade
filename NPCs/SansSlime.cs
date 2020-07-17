@@ -44,11 +44,5 @@ namespace EEMod.NPCs
             if (yes == interval * 6)
                 CombatText.NewText(npc.getRect(), Colors.RarityBlue, "Destroy the world now?", false, false);
         }
-
-        public override void NPCLoot()
-        {
-            // this is still pretty useless to do
-            Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(1, 3));
-        }
     }
 }

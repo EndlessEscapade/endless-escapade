@@ -401,8 +401,6 @@ namespace EEMod
                 if (player.controlUseItem && cannonDelay <= 0)
                 {
                     Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
-                    Main.NewText(new Vector2(Main.mouseX, Main.mouseY));
-                    Main.NewText(position);
                     Main.PlaySound(SoundID.Item61);
                     cannonDelay = 60;
                 }
@@ -509,7 +507,7 @@ namespace EEMod
             RecipeGroup.RegisterGroup("EEMod:Gemstones", group0);
         }
 
-        public override void AddRecipes()
+        /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(this);
             recipe.AddIngredient(ModContent.ItemType<SaharaSceptoid>(), 1);
@@ -526,6 +524,6 @@ namespace EEMod
             recipe.AddTile(TileID.Solidifier);
             recipe.SetResult(ItemID.SlimeStaff, 1);
             recipe.AddRecipe();
-        }
+        }*/
     }
 }

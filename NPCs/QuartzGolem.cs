@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -200,4 +200,4 @@ namespace EEMod.NPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<QuartzGem>(), Main.rand.Next(2, 4));
         }
     }
-}
+}*/

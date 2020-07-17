@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -33,4 +33,4 @@ namespace EEMod.Projectiles.Melee
             projectile.scale = 1f;
         }
     }
-}
+}*/

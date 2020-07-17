@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -65,4 +65,4 @@ namespace EEMod.Projectiles.Mage
             DisplayName.SetDefault("Quartz");
         }
     }
-}
+}*/
