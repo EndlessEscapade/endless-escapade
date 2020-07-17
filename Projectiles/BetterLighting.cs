@@ -37,27 +37,30 @@ namespace EEMod.Projectiles
                 Filters.Scene.Activate("EEMod:WhiteFlash", projectile.Center).GetShader().UseDirection(new Vector2(1,0)).UseOpacity(projectile.ai[0]);
             }
             if(EEModConfigClient.Instance.BetterLighting)
-            Filters.Scene["EEMod:WhiteFlash"].GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(7);
+            Filters.Scene["EEMod:WhiteFlash"].GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(1);
             projectile.timeLeft = 100;
             projectile.Center = Main.player[(int)projectile.ai[1]].Center;
             yes++;
             projectile.ai[0] += 0.1f;
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public void drawIt()
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             if (projectile.ai[0] > 1)
             {
-                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), Main.player[(int)projectile.ai[1]].Center - Main.screenPosition - new Vector2(-Main.screenWidth/2, Main.screenHeight / 2), new Rectangle(0, 0, 174, 174), Color.White * .4f, projectile.rotation + (float)Math.Sin(projectile.ai[0]/40f), new Rectangle(0, 0, 174, 174).Size() / 2, 10, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), Main.player[(int)projectile.ai[1]].Center - Main.screenPosition - new Vector2(-Main.screenWidth / 2, Main.screenHeight / 2), new Rectangle(0, 0, 174, 174), Color.White * .4f, projectile.rotation + (float)Math.Sin(projectile.ai[0] / 40f), new Rectangle(0, 0, 174, 174).Size() / 2, 10, SpriteEffects.None, 0);
             }
-            if(!EEModConfigClient.Instance.BetterLighting)
+            if (!EEModConfigClient.Instance.BetterLighting)
             {
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), Main.player[(int)projectile.ai[1]].Center - Main.screenPosition - new Vector2(-Main.screenWidth / 2, Main.screenHeight / 2), new Rectangle(0, 0, 174, 174), Color.White * 0, projectile.rotation + (float)Math.Sin(projectile.ai[0] / 40f), new Rectangle(0, 0, 174, 174).Size() / 2, 10, SpriteEffects.None, 0);
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
-
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+           // drawIt();
             return true;
         }
     }

@@ -41,11 +41,11 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         {
             if(yes)
             {
-                projectile.timeLeft = 1;
+                projectile.timeLeft = 100;
                 Timer++;
                 if (Timer > 120)
                 {
-                    projectile.velocity = ((krakenHead.smolBloons[0] + krakenHead.smolBloons[1]) / 2 - projectile.Center) / 32f;
+                    projectile.velocity = ((yeet[0] + yeet[1]) / 2 - projectile.Center) / 32f;
                     projectile.alpha++;
                     projectile.alpha = Helpers.Clamp(projectile.alpha, 0, 255);
                     if (projectile.alpha >= 255)

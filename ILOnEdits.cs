@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using EEMod.Projectiles;
+using EEMod.NPCs.Bosses.Kraken;
 
 namespace EEMod
 {
@@ -23,8 +25,8 @@ namespace EEMod
             On.Terraria.Main.DoUpdate += OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawMenu += OnDrawMenu;
+            On.Terraria.Main.DrawWoF += DrawBehindTiles;
         }
-
         private void UnloadIL()
         {
             On.Terraria.Main.DoUpdate -= OnUpdate;
@@ -32,6 +34,7 @@ namespace EEMod
             On.Terraria.Main.DrawMenu -= OnDrawMenu;
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
             IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
+            On.Terraria.Main.DrawWoF -= DrawBehindTiles;
         }
 
         private void Main_OldDrawBackground(ILContext il)
@@ -80,7 +83,27 @@ namespace EEMod
                 });
             }
         }
-
+        public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig,Main self)
+        {
+            /* for (int i = 0; i < 400; i++)
+             {
+                 if (Main.projectile[i].type == ModContent.ProjectileType<BetterLighting>())
+                 {
+                     (Main.projectile[i].modProjectile as BetterLighting).drawIt();
+                 }
+             }*/
+            if (NPC.AnyNPCs(ModContent.NPCType<TentacleEdgeHandler>()))
+            {
+                for (int i = 0; i < 200; i++)
+                {
+                    if (Main.npc[i].type == ModContent.NPCType<TentacleEdgeHandler>())
+                    {
+                        (Main.npc[i].modNPC as TentacleEdgeHandler).DrawTentacleBeziers();
+                    }
+                }
+            }
+            orig(self);
+        }
         public void OnSave(On.Terraria.WorldGen.orig_SaveAndQuitCallBack orig, object threadcontext)
         {
             isSaving = true;

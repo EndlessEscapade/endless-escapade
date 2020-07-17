@@ -76,9 +76,9 @@ namespace EEMod.NPCs.Bosses.Kraken
                  y3 * Math.Pow(t, 3)
              );
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public void DrawTentacleBeziers()
         {
-
+            Color drawColor = npc.GetAlpha(Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f)));
             int cooldown = 20;
             coolDownForCollision--;
             float chainsPer = 0.03f;
@@ -97,11 +97,11 @@ namespace EEMod.NPCs.Bosses.Kraken
                 {
                     if (npcBase.ai[1] != 4 || (npcBase.ai[0] > (krakenHead.dashPositions.Length) * 50 && npcBase.ai[1] == 4))
                     {
-                        if(npc.ai[2] == 0)
+                        if (npc.ai[2] == 0)
                         {
                             startingPoint[i] = krakenHead.npcFromPositions[i] + (Vector2.Normalize(krakenHead.dashPositions[i] - krakenHead.npcFromPositions[i]) * 5000);
-                            if(i == krakenHead.npcFromPositions.Length - 1)
-                            npc.ai[2] = 1;
+                            if (i == krakenHead.npcFromPositions.Length - 1)
+                                npc.ai[2] = 1;
                         }
                         endingPoint[i] = krakenHead.npcFromPositions[i] + (Vector2.Normalize(krakenHead.dashPositions[i] - krakenHead.npcFromPositions[i]) * 5000);
                         startingPoint[i] -= (startingPoint[i] - krakenHead.npcFromPositions[i]) / 32f;
@@ -113,13 +113,13 @@ namespace EEMod.NPCs.Bosses.Kraken
                         midPoint[i] = startingPoint[i] + (endingPoint[i] - startingPoint[i]) * 0.5f;
                         startingPoint[i] += (endingPoint[i] - startingPoint[i]) / 32f;
                     }
-                    float gradient = (endingPoint[i].Y - startingPoint[i].Y)/ (endingPoint[i].X - startingPoint[i].X);
+                    float gradient = (endingPoint[i].Y - startingPoint[i].Y) / (endingPoint[i].X - startingPoint[i].X);
                     if (player.Center.Y >= gradient * (player.Center.X - startingPoint[i].X) + startingPoint[i].Y - 60 && player.Center.Y <= gradient * (player.Center.X - startingPoint[i].X) + startingPoint[i].Y + 60 && coolDownForCollision == 0 && npcBase.ai[1] != 4)
                     {
                         Main.player[npc.target].velocity *= -1.6f;
                         coolDownForCollision = cooldown;
                     }
-                    Helpers.DrawBezier(spriteBatch, TextureCache.TentacleChain, "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, (float)Math.PI / 2);
+                    Helpers.DrawBezier(Main.spriteBatch, TextureCache.TentacleChain, "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, (float)Math.PI / 2);
                     /*if (npc.ai[1] % 8 == 0)
                     {
                         Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].Center.X, (int)Main.player[npc.target].Center.Y, Main.player[npc.target].width, Main.player[npc.target].height);
@@ -138,6 +138,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }*/
                 }
             }
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            //DrawTentacleBeziers(spriteBatch, drawColor);
             return false;
         }
     }
