@@ -18,6 +18,10 @@ namespace EEMod
         [Tooltip("Enable Particle Effects, May have to restart world!")]
         public bool ParticleEffects;
         [DefaultValue(false)]
+        [Label("Better Lighting")]
+        [Tooltip("EXTEREMLY WIP AND EXPERIMENTAL. I Recommend just using it for screen shots")]
+        public bool BetterLighting;
+        [DefaultValue(false)]
         [Label("Dynamic Camera Movement")]
         [Tooltip("Enable Camera Movement that moves as the player moves")]
         public bool CamMoveBool;

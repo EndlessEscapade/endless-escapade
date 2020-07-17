@@ -116,6 +116,46 @@ namespace EEMod.NPCs.Bosses.Kraken
         public bool hasChains;
         Vector2[] geyserPositionsVar;
         public int howMany = 5;
+        public Vector2[] smolBloons = new Vector2[2];
+        public Vector2[] bigBloons = new Vector2[2];
+
+        public void UpdateInkBlobs(int chance)
+        {
+            if (Main.rand.Next(chance) == 0)
+            {
+                if (smolBloons[0] == Vector2.Zero || smolBloons[1] == Vector2.Zero)
+                {
+                    int pieCut = Main.rand.Next(3, 4);
+                    for (int m = 0; m < pieCut; m++)
+                    {
+                        int projID = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<InkBlob>(), 50, 0, Main.myPlayer, 0, npc.whoAmI);
+                        Main.projectile[projID].velocity = new Vector2(3f, 0f).RotatedBy(m / (float)pieCut * Math.PI * 2);
+                        Main.projectile[projID].netUpdate = true;
+                    }
+                }
+                if ((smolBloons[1] == Vector2.Zero) && (smolBloons[0] != Vector2.Zero))
+                {
+                    smolBloons[1] = npc.Center;
+                }
+                if (smolBloons[0] == Vector2.Zero)
+                {
+                    smolBloons[0] = npc.Center;
+                }
+            }
+            if (smolBloons[0] != Vector2.Zero && smolBloons[1] != Vector2.Zero)
+            {
+                if ((bigBloons[1] == Vector2.Zero) && (bigBloons[0] != Vector2.Zero) && bigBloons[0] != (smolBloons[0] + smolBloons[1]) / 2)
+                {
+                    bigBloons[1] = (smolBloons[0] + smolBloons[1]) / 2;
+                }
+                if (bigBloons[0] == Vector2.Zero)
+                {
+                    bigBloons[0] = (smolBloons[0] + smolBloons[1]) / 2;
+                }
+                Main.NewText(bigBloons[0]);
+                Main.NewText(bigBloons[1]);
+            }
+        }
         public override bool CheckActive()
         {
             return false;
@@ -187,8 +227,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 thrust = true;
                                 resetAnim = true;
+                                UpdateInkBlobs(2);
                                 numberOfPushes++;
                             }
+                            
                             if (thrust && variablethrustingPower < thrustingPower)
                             {
                                 variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
@@ -218,6 +260,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 thrust = true;
                                 resetAnim = true;
+                                UpdateInkBlobs(2);
                                 numberOfPushes++;
                             }
                             if (thrust && variablethrustingPower < thrustingPower)
@@ -287,6 +330,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 thrust = true;
                                 resetAnim = true;
+                                UpdateInkBlobs(2);
                                 numberOfPushes++;
                             }
                             if (thrust && variablethrustingPower < thrustingPower)
@@ -308,9 +352,9 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 for (int i = 0; i < holePositions.Length; i++)
                                 {
                                     if(i == 0 || i == 2)
-                                    NPC.NewNPC((int)holePositions[i].X + 10, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
+                                    NPC.NewNPC((int)holePositions[i].X + 120, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
                                     if (i == 1 || i == 3)
-                                    NPC.NewNPC((int)holePositions[i].X + 10, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI,1);
+                                    NPC.NewNPC((int)holePositions[i].X + 100, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI,1);
                                 }
                             }
                             if (npc.ai[0] >= 400)
@@ -385,7 +429,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                                     float projectilespeedY = Main.rand.NextFloat(-2,2);
                                     float projectileknockBack = 4f;
                                     int projectiledamage = 20;
-                                    Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, mod.ProjectileType("WaterSpew"), projectiledamage,projectileknockBack, npc.target, 0f, 0f);
+                                    Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, mod.ProjectileType("WaterSpew"), projectiledamage,projectileknockBack, npc.target, 0f, 1);
                                     if (npc.ai[0] == 280)
                                     {
                                         Reset(3);
@@ -427,12 +471,6 @@ namespace EEMod.NPCs.Bosses.Kraken
                         else
                         {
                             Reset(4);
-                            int magikalFormula = (int)(npc.ai[0] - (dashPositions.Length - 1) * speed) / 100;
-                            if (npc.ai[0] % speed == 0)
-                            {
-                               // npc.Center = npcFromPositions[magikalFormula];
-                            }
-                           // npc.velocity = Vector2.Normalize(dashPositions[magikalFormula] - npcFromPositions[magikalFormula]) * 80;
                         }
                         break;
                     }

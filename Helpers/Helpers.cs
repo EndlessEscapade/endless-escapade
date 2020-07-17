@@ -58,6 +58,31 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
+        public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, Texture2D endingTexture)
+        {
+            for (float i = 0; i <= 1; i += chainsPerUse)
+            {
+                Vector2 distBetween;
+                float projTrueRotation;
+                if (i != 0)
+                {
+                    if(i >= 1-chainsPerUse)
+                    {
+                        headTexture = endingTexture;
+                    }
+                    distBetween = new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) -
+                    X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
+                    Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
+                    Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
+                    projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
+                    spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
+                    new Rectangle(0, 0, headTexture.Width, headTexture.Height), drawColor, projTrueRotation,
+                    new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), 0.8f + (1-i)*.6f, SpriteEffects.None, 0);
+                }
+            }
+            //spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+        }
         public static Rectangle[] ReturnPoints(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, int chogsizeX, int chogsizeY, int accuracy)
         {
             Rectangle[] collision = new Rectangle[(int)(1/ (chainsPerUse* accuracy)) + 1]; //41

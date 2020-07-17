@@ -32,25 +32,25 @@ namespace EEMod.Projectiles.CoralReefs
         public override void AI()
         {
             List<Projectile> closeProjectiles = new List<Projectile>();
-            for(int i = 0; i < Main.projectile.Length; i++)
+            for(int i = 0; i < Main.projectile.Length - 1; i++)
             {
-                if (Vector2.Distance(projectile.position, Main.projectile[i].position) <= detectDist && projectile.type == ModContent.ProjectileType<Fish>() && projectile != Main.projectile[i])
+                if (Vector2.DistanceSquared(projectile.position, Main.projectile[i].position) <= detectDist*detectDist && projectile.type == ModContent.ProjectileType<Fish>() && projectile != Main.projectile[i])
                 {
                     Projectile closeProj = Main.projectile[i];
                     //Flock distancing
-                    if (Vector2.Distance(projectile.position, closeProj.position) <= closeDist)
+                    if (Vector2.DistanceSquared(projectile.position, closeProj.position) <= closeDist*closeDist)
                     {
                         projectile.velocity -= projectile.velocity * 2;
                     }
                     //Flock rotation
                     if (projectile.rotation <= closeProj.rotation)
                         projectile.rotation += rotSpeed;
-                    if (projectile.rotation > closeProj.rotation)
+                    else //if (projectile.rotation > closeProj.rotation)
                         projectile.rotation -= rotSpeed;
                     closeProjectiles.Add(closeProj);
                 }
             }
-            if (closeProjectiles.Count > 0 && closeProjectiles.Count != null)
+            if (closeProjectiles?.Count > 0)
             {
                 //Flock movement
                 Vector2 averageLocation = Vector2.Zero;
@@ -58,7 +58,7 @@ namespace EEMod.Projectiles.CoralReefs
                 {
                     averageLocation += Main.projectile[i].position;
                 }
-                projectile.velocity = -Vector2.Normalize((averageLocation / closeProjectiles.Count) - projectile.position) * moveSpeed;
+                projectile.velocity = Vector2.Normalize(projectile.position - (averageLocation / closeProjectiles.Count)) * moveSpeed;
             }
             if(projectile.velocity.X >= 0)
                 projectile.spriteDirection = 1;

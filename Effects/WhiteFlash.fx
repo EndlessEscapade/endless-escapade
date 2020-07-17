@@ -23,8 +23,28 @@ float2 uZoom;
 float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 colour = tex2D(uImage0, coords);
-    double distance = sqrt(pow(coords.x - 0.5, 2) + pow(coords.y - 0.5, 2));
-    colour *= 1 + ((1 - (uOpacity / 1000)) + (3 / distance))*(uOpacity / 100);
+    float4 colour2 = tex2D(uImage0, coords + float2(1/ uScreenResolution.x,0));
+    float4 colour3 = tex2D(uImage0, coords - float2(0, 1 / uScreenResolution.y));
+    float4 currentColour;
+    float distance = sqrt(pow(coords.x - uDirection.x, 2) + pow(coords.y - uDirection.y, 2));
+    float4 originColour = tex2D(uImage0, uDirection);
+    float difference = abs(originColour.r - colour.r) + abs(originColour.b - colour.b);
+    float difference2 = abs(colour2.r - colour.r) + abs(colour2.b - colour.b) + abs(colour2.g - colour.g);
+        if(difference2 < .3f)
+        {
+            //colour *= 1 + ((1 - (uOpacity / 1000)) + (30 / distance)) * (uOpacity / 100);
+        }
+        else
+        {
+            colour *= 2f;
+            currentColour = colour;
+            //colour *= 0.5;
+        }
+        if (currentColour.g + currentColour.r + currentColour.b > 0.02f)
+        {
+            //colour.g += 1;
+            colour *= 1 + ((1 - (uOpacity / 1000)) + (30 / distance)) * (uOpacity / 100);
+        }
     return colour;
 }
 

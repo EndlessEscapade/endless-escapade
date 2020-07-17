@@ -44,6 +44,8 @@ namespace EEMod
         public static Texture2D NotBleckScren;
         public static Texture2D Tentacle;
         public static Texture2D TentacleChain;
+        public static Texture2D TentacleChainSmol;
+        public static Texture2D TentacleEnd;
 
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
@@ -87,10 +89,14 @@ namespace EEMod
             KrakenGlowMask = mod.GetTexture("NPCs/Bosses/Kraken/KrakenHeadGlowMask");
             CoralReefsSurfaceClose = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
             TentacleChain = mod.GetTexture("NPCs/Bosses/Kraken/TentacleChain");
+            TentacleChainSmol = mod.GetTexture("NPCs/Bosses/Kraken/ChainSmol");
+            TentacleEnd = mod.GetTexture("NPCs/Bosses/Kraken/EndOfSmol");
         }
         [UnloadingMethod]
         public static void Unload()
         {
+            TentacleEnd = null;
+            TentacleChainSmol = null;
             TentacleChain = null;
             Tentacle = null;
             CoralLanternLampGlow = null;
