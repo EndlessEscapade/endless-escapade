@@ -27,7 +27,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         public override void AI()
         {
             projectile.ai[0]++;
-            if (projectile.ai[0] < 100)
+            if (projectile.ai[0] < 40)
             {
                 for (int i = 0; i < 1; i++)
                 {
@@ -39,7 +39,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             }
             else
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale * 1.5f);
                     Main.dust[num].noGravity = false;

@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace EEMod.Autoloading
 {
     /// <summary>
-    /// Appliable to methods for calling them during <see cref="EEMod.Unload"/><br />
-    /// Apply only to static methods without parameters
+    /// Methods with this attribute will be called during <see cref="EEMod.Unload"/>
     /// </summary>
-    public class UnloadingMethodAttribute : MethodConditional
+    [AttributeUsage(AttributeTargets.Method)]
+    internal class UnloadingMethodAttribute : Attribute
     {
-        public UnloadingMethodAttribute() => Loadmode = LoadingMode.Both;
-        public UnloadingMethodAttribute(LoadingMode mode) => Loadmode = mode;
-        public LoadingMode Loadmode { get; set; }
-        public override bool IsValidMethod(MethodInfo method) => LoadH.ValidCurrent(Loadmode) && base.IsValidMethod(method) && (method.GetParameters()?.Length ?? 0) == 0;
     }
 }

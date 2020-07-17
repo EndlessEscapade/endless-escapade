@@ -9,7 +9,7 @@ namespace EEMod
 {
     public partial class EEMod
     {
-        [LoadingMethod(LoadingMode.Client)]
+        [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
             // instance is a static field and this method is still inside the mod class

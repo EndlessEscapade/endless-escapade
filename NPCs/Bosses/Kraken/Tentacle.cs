@@ -20,14 +20,15 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.height = 200;
             npc.damage = 20;
             npc.aiStyle = -1;
-            npc.lifeMax = 1000;
+            npc.lifeMax = 2000;
             npc.noTileCollide = true;
             npc.noGravity = true;
             npc.knockBackResist = 0f;
         }
         Vector2 startingPosition;
         Vector2 distance;
-        bool isGrabbing;
+        bool isGrabbing0;
+        bool isGrabbing1;
         bool isRetrating = false;
         bool yeet;
         public override bool CheckActive()
@@ -42,8 +43,9 @@ namespace EEMod.NPCs.Bosses.Kraken
             Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height);
             if (npc.ai[3] == 0)
             {
+                
                 npc.spriteDirection = -1;
-                if (isGrabbing && !isRetrating)
+                if (isGrabbing0 && !isRetrating)
                 {
                     (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).GETHIMBOIS = true;
                     if (!yeet)
@@ -76,9 +78,12 @@ namespace EEMod.NPCs.Bosses.Kraken
                         }
                     }
                 }
-                if (npc.life < 1000)
+                if (npc.life < npc.lifeMax/2)
                 {
-                    isRetrating = true;
+                    if (!isRetrating)
+                    {
+                        isRetrating = true;
+                    }
                 }
                 if (Main.npc[(int)npc.ai[2]].ai[0] >= 278)
                 {
@@ -93,7 +98,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             if (npc.ai[3] == 1)
             {
                 npc.spriteDirection = 1;
-                if (isGrabbing && !isRetrating)
+                if (isGrabbing1 && !isRetrating)
                 {
                     (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).GETHIMBOIS = true;
                     if (!yeet)
@@ -127,9 +132,12 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }
                     distance = (npc.Center - startingPosition);
                 }
-                if (npc.life < 1000)
+                if (npc.life < npc.lifeMax / 2)
                 {
-                    isRetrating = true;
+                    if (!isRetrating)
+                    {
+                        isRetrating = true;
+                    }
                 }
                 if (Main.npc[(int)npc.ai[2]].ai[0] >= 278)
                 {
@@ -146,7 +154,16 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            isGrabbing = true;
+            if(npc.ai[3] == 0)
+            {
+                isGrabbing0 = true;
+                (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).isRightOrLeft = true;
+            }
+            if(npc.ai[3] == 1)
+            {
+                isGrabbing1 = true;
+                (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).isRightOrLeft = false;
+            }
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
