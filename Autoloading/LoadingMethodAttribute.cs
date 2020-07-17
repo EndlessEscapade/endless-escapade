@@ -1,17 +1,19 @@
 ﻿using System;
-using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace EEMod.Autoloading
 {
     /// <summary>
-    /// Appliable to methods for calling them during <see cref="EEMod.Load"/><br />
-    /// Apply only to static methods without parameters
+    /// Methods with this attribute will be called during <see cref="EEMod.Load"/>
     /// </summary>
-    public class LoadingMethodAttribute : MethodConditional
+    [AttributeUsage(AttributeTargets.Method)]
+    internal class LoadingMethodAttribute : Attribute
     {
-        public LoadingMethodAttribute() => Loadmode = LoadingMode.Both;
-        public LoadingMethodAttribute(LoadingMode mode) => Loadmode = mode;
-        public LoadingMode Loadmode { get; set; }
-        public override bool IsValidMethod(MethodInfo method) => LoadH.ValidCurrent(Loadmode) && base.IsValidMethod(method) && (method.GetParameters()?.Length ?? 0) == 0;
+        internal LoadMode mode;
+        public LoadingMethodAttribute() { }
+        public LoadingMethodAttribute(LoadMode loadmode) => mode = loadmode;
     }
 }

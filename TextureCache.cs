@@ -45,7 +45,7 @@ namespace EEMod
         public static Texture2D Tentacle;
         public static Texture2D TentacleChain;
 
-        [LoadingMethod(Loadmode = LoadingMode.Client)]
+        [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
             Mod mod = EEMod.instance;
@@ -89,45 +89,45 @@ namespace EEMod
             TentacleChain = mod.GetTexture("NPCs/Bosses/Kraken/TentacleChain");
         }
 
-        [UnloadingMethod]
-        public static void Unload()
-        {
-            TentacleChain = null;
-            Tentacle = null;
-            CoralLanternLampGlow = null;
-            Chain = null;
-            Empty = null;
-            EyeTileGlow = null;
-            Stagrel_Glow = null;
-            BleckScren = null;
-            DuneShambler = null;
-            GiantSquid = null;
-            Clam = null;
-            Hydros = null;
-            Seahorse = null;
-            HydroBeam_Beam = null;
-            HydroBeam_End = null;
-            GBeam_Beam = null;
-            GBeam_End = null;
-            Gallagar = null;
-            Outline = null;
-            ShipHelth = null;
-            ShipMount = null;
-            DuneShamblerDig = null;
-            DruidsVin_Beam = null;
-            DruidsVin_End = null;
-            CoralLanternTileGlow = null;
-            AkumoFeather = null;
-            Akumo = null;
-            Terraria_LogoTexture = null;
-            Terraria_Logo2Texture = null;
-            Terraria_SunTexture = null;
-            Terraria_Sun2Texture = null;
-            Terraria_Sun3Texture = null;
-            KrakenTentacles = null;
-            CoralReefsSurfaceClose = null;
-            KrakenGlowMask = null;
-            NotBleckScren = null;
-        }
+        //[UnloadingMethod]
+        //public static void Unload() // they're claimed by the unloader
+        //{
+        //    TentacleChain = null;
+        //    Tentacle = null;
+        //    CoralLanternLampGlow = null;
+        //    Chain = null;
+        //    Empty = null;
+        //    EyeTileGlow = null;
+        //    Stagrel_Glow = null;
+        //    BleckScren = null;
+        //    DuneShambler = null;
+        //    GiantSquid = null;
+        //    Clam = null;
+        //    Hydros = null;
+        //    Seahorse = null;
+        //    HydroBeam_Beam = null;
+        //    HydroBeam_End = null;
+        //    GBeam_Beam = null;
+        //    GBeam_End = null;
+        //    Gallagar = null;
+        //    Outline = null;
+        //    ShipHelth = null;
+        //    ShipMount = null;
+        //    DuneShamblerDig = null;
+        //    DruidsVin_Beam = null;
+        //    DruidsVin_End = null;
+        //    CoralLanternTileGlow = null;
+        //    AkumoFeather = null;
+        //    Akumo = null;
+        //    Terraria_LogoTexture = null;
+        //    Terraria_Logo2Texture = null;
+        //    Terraria_SunTexture = null;
+        //    Terraria_Sun2Texture = null;
+        //    Terraria_Sun3Texture = null;
+        //    KrakenTentacles = null;
+        //    CoralReefsSurfaceClose = null;
+        //    KrakenGlowMask = null;
+        //    NotBleckScren = null;
+        //}
     }
 }
