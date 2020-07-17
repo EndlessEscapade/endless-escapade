@@ -401,6 +401,7 @@ namespace EEMod
 
         public override void UpdateBiomeVisuals()
         {
+            Main.NewText(player.position);
             if (dur > 0)
             {
                 bubbleTimer--;
@@ -854,6 +855,7 @@ namespace EEMod
                 if (!arrowFlag)
                 {
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
+                    NPC.NewNPC(600 * 16, 594 * 16, ModContent.NPCType<VolcanoSmoke>());
                     arrowFlag = true;
                 }
                 if (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos == Vector2.Zero)

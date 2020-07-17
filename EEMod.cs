@@ -333,9 +333,7 @@ namespace EEMod
         }
         Texture2D texture;
         Rectangle frame;
-        int Countur;
         int frames;
-        int frameSpeed;
         public static float ShipHelthMax = 7;
         public static float ShipHelth = 7;
         public Vector2 position;
@@ -413,17 +411,53 @@ namespace EEMod
             velocity.X = Helpers.Clamp(velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             velocity.Y = Helpers.Clamp(velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             texture = TextureCache.ShipMount;
-            frames = 1;
-            frameSpeed = 15;
-            if (Countur++ > frameSpeed)
+
+            frames = 12;
+            int frameNum = 0;
+            if (Main.netMode == NetmodeID.SinglePlayer || ((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 0))
             {
-                Countur = 0;
-                frame.Y += texture.Height / frames;
+                if(eePlayer.boatSpeed == 0.3f)
+                    frameNum = 1;
+                if (eePlayer.boatSpeed == 0.1f)
+                    frameNum = 0;
             }
-            if (frame.Y >= (texture.Height / frames) * (frames - 1))
+            if(((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 1))
             {
-                frame.Y = 0;
+                if (eePlayer.boatSpeed == 0.3f)
+                    frameNum = 3;
+                if (eePlayer.boatSpeed == 0.1f)
+                    frameNum = 2;
             }
+            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 2))
+            {
+                if (eePlayer.boatSpeed == 0.3f)
+                    frameNum = 9;
+                if (eePlayer.boatSpeed == 0.1f)
+                    frameNum = 8;
+            }
+            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 3))
+            {
+                if (eePlayer.boatSpeed == 0.3f)
+                    frameNum = 5;
+                if (eePlayer.boatSpeed == 0.1f)
+                    frameNum = 4;
+            }
+            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 4))
+            {
+                if (eePlayer.boatSpeed == 0.3f)
+                    frameNum = 7;
+                if (eePlayer.boatSpeed == 0.1f)
+                    frameNum = 6;
+            }
+            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 5))
+            {
+                if (eePlayer.boatSpeed == 0.3f)
+                    frameNum = 11;
+                if (eePlayer.boatSpeed == 0.1f)
+                    frameNum = 10;
+            }
+
+
             if (!Main.gamePaused)
             {
                 velocity *= 0.98f;
@@ -449,7 +483,8 @@ namespace EEMod
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+
             flash += 0.01f;
             if (flash == 2)
             {
