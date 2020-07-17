@@ -1,0 +1,107 @@
+using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
+{
+    public class InkBlob : ModProjectile
+    {
+
+        public static short customGlowMask = 0;
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Ink Blob");
+        }
+
+        public override void SetDefaults()
+        {
+            projectile.width = 22;
+            projectile.height = 22;
+            projectile.hostile = true;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 2000;
+            projectile.friendly = false;
+            projectile.tileCollide = false;
+            projectile.extraUpdates = 1;
+            projectile.damage = 60;
+            projectile.light = 1f;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
+        Vector2 start;
+        Vector2[] yeet = new Vector2[2];
+        KrakenHead krakenHead => Main.npc[(int)projectile.ai[1]].modNPC as KrakenHead;
+        bool yes = false;
+        int Timer; //I will sync it I swear
+        public override void AI()
+        {
+            if(yes)
+            {
+                projectile.timeLeft = 1;
+                Timer++;
+                if (Timer > 120)
+                {
+                    projectile.velocity = ((krakenHead.smolBloons[0] + krakenHead.smolBloons[1]) / 2 - projectile.Center) / 32f;
+                    projectile.alpha++;
+                    projectile.alpha = Helpers.Clamp(projectile.alpha, 0, 255);
+                    if (projectile.alpha >= 255)
+                    {
+                        if (krakenHead.smolBloons[0] != Vector2.Zero)
+                            krakenHead.smolBloons[0] = Vector2.Zero;
+                        if (krakenHead.smolBloons[1] != Vector2.Zero)
+                            krakenHead.smolBloons[1] = Vector2.Zero;
+                        projectile.Kill();
+                    }
+                }
+            }
+            if (krakenHead.smolBloons[0] != Vector2.Zero && krakenHead.smolBloons[1] != Vector2.Zero)
+            {
+                yes = true;
+                yeet = krakenHead.smolBloons;
+            }
+            else
+            {
+                if (Main.rand.Next(4) == 0)
+                    Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
+            }
+            if(projectile.ai[0] == 0)
+            {
+                if (Main.rand.Next(4) == 0)
+                    Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
+                start = projectile.Center;
+            }
+            if(Timer < 120)
+            {
+                projectile.velocity = projectile.velocity.RotatedBy(Math.PI / 180) * 0.98f;
+            }
+            projectile.ai[0]++;
+            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            return true;
+        }
+        public override void Kill(int timeLeft)
+        {
+            
+            for(int i = 0; i<krakenHead.smolBloons.Length; i++)
+            {
+                if(Vector2.Distance(krakenHead.smolBloons[i],start) < 20)
+                {
+                    krakenHead.smolBloons[i] = Vector2.Zero;
+                }
+            }
+            Main.PlaySound(SoundID.Item27, projectile.position);
+            for (var i = 0; i < 5; i++)
+            {
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-4f, 4f), 6, Color.Black, 2);
+            }
+        }
+    }
+}
+   

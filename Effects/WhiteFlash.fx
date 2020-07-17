@@ -23,7 +23,7 @@ float2 uZoom;
 float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 colour = tex2D(uImage0, coords);
-    double distance = sqrt(pow(coords.x - 0.5, 2) + pow(coords.y - 0.5, 2));
+    double distance = sqrt(pow(coords.x - uDirection.x, 2) + pow(coords.y - uDirection.y, 2));
     colour *= 1 + ((1 - (uOpacity / 1000)) + (3 / distance))*(uOpacity / 100);
     return colour;
 }
