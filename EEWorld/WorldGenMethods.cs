@@ -251,7 +251,7 @@ namespace EEMod.EEWorld
                         switch (shape[y, x])
                         {
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
 
@@ -418,7 +418,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -475,7 +475,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -526,7 +526,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -572,7 +572,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -612,7 +612,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -649,7 +649,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -699,7 +699,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -744,7 +744,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1068,7 +1068,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1113,7 +1113,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1158,7 +1158,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1195,7 +1195,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1240,7 +1240,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1273,7 +1273,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1315,7 +1315,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1354,7 +1354,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1398,7 +1398,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -1468,7 +1468,7 @@ namespace EEMod.EEWorld
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
                             case 1:
-                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
                             case 2:
@@ -2378,7 +2378,7 @@ namespace EEMod.EEWorld
                         if (tile.type == TileID.StoneSlab)
                         {
                             WorldGen.KillTile(i, j);
-                            if(wallType != 0)
+                            if (wallType != 0)
                                 tile.wall = (ushort)wallType;
                         }
                     }
@@ -2593,7 +2593,7 @@ namespace EEMod.EEWorld
             fillers.Add(new Vector2(midpoint.X + (int)displacement - 90 + 30, (int)startingHeightOfUpperClass + 20 - 40));
             fillers.Add(new Vector2(midpoint.X + (int)displacement - 30, (int)startingHeightOfUpperClass + 50 + 130));
             fillers.Add(new Vector2(midpoint.X - (int)displacement + 30, (int)startingHeightOfUpperClass + 50 + 130));
-            MakeLayerWithOutline((int)midpoint.X, 70, 20, 1, ModContent.TileType<HardenedGemsandTile>(), 10);
+            MakeLayerWithOutline((int)midpoint.X, 70, 20, 1, ModContent.TileType<LightGemsandTile>(), 10);
             for (int j = 0; j < 3; j++)
             {
                 switch (listNumbersHighClass[j])
@@ -2709,9 +2709,9 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-            MakeChasm(distanceFromEdge - 20, distanceFromEdge + 60, 170, ModContent.TileType<GemsandstoneTile>(), 0, 10, 10);
-            MakeChasm(distanceFromEdge + 70, distanceFromEdge + 60, 170, ModContent.TileType<GemsandstoneTile>(), 0, 10, 10);
-            MakeOvalJaggedTop(25, 40, new Vector2(distanceFromEdge + 12, distanceFromEdge + 120), ModContent.TileType<GemsandstoneTile>());
+            MakeChasm(distanceFromEdge - 20, distanceFromEdge + 60, 170, ModContent.TileType<DarkGemsandTile>(), 0, 10, 10);
+            MakeChasm(distanceFromEdge + 70, distanceFromEdge + 60, 170, ModContent.TileType<DarkGemsandTile>(), 0, 10, 10);
+            MakeOvalJaggedTop(25, 40, new Vector2(distanceFromEdge + 12, distanceFromEdge + 120), ModContent.TileType<DarkGemsandTile>());
             for (int j = 0; j < 2; j++)
             {
                 for (int i = 2; i > 0; i--)
@@ -2746,12 +2746,12 @@ namespace EEMod.EEWorld
             }
             fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, distanceFromEdge + 120));
             fillers.Add(new Vector2(60, 60));
-             KillWall((int)(size.X), (int)(size.Y), startingPoint);
+            KillWall((int)(size.X), (int)(size.Y), startingPoint);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
-            MakeOval(350, 190, new Vector2(midpoint.X - 160, (int)startingHeightOfUpperClass + 25), ModContent.TileType<GemsandstoneTile>(), false);
+            MakeOval(350, 190, new Vector2(midpoint.X - 160, (int)startingHeightOfUpperClass + 25), ModContent.TileType<DarkGemsandTile>(), false);
             MakeOval(335, 160, new Vector2(midpoint.X - 165, (int)startingHeightOfUpperClass + 40), TileID.StoneSlab, true);
             for (int i = 0; i < Main.maxTilesX; i++)
             {
@@ -2764,7 +2764,7 @@ namespace EEMod.EEWorld
             }
             // MakeChasm(Main.maxTilesX / 2 - 120, (int)startingHeightOfUpperClass + 75, 70, ModContent.TileType<GemsandstoneTile>(), 0, 1,1);
             MakeAtlantisCastle((int)midpoint.X - 146, (int)startingHeightOfUpperClass + 65);
-            //imagine coding...
+
             for (int j = 0; j < fillers.Count; j++)
             {
                 switch (listNumbersFillers[j])
@@ -2816,8 +2816,8 @@ namespace EEMod.EEWorld
                         }
                 }
             }
-            WorldGen.TileRunner(80, 80, 30, 10, ModContent.TileType<GemsandstoneTile>());
-            WorldGen.TileRunner(100, 60, 30, 10, ModContent.TileType<GemsandstoneTile>());
+            WorldGen.TileRunner(80, 80, 30, 10, ModContent.TileType<DarkGemsandTile>());
+            WorldGen.TileRunner(100, 60, 30, 10, ModContent.TileType<DarkGemsandTile>());
             FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
             FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
             FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
@@ -2901,12 +2901,12 @@ namespace EEMod.EEWorld
                 {
                     int sizeSQ = size + thickness;
                     if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < sizeSQ * sizeSQ)
-                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, false, false);
+                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<GemsandTile>(), true, 0f, 0f, false, false);
                 }
                 if (layer == 2)
                 {
                     if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.active())
-                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<GemsandstoneTile>(), true, 1, 1, true, true);
+                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<DarkGemsandTile>(), true, 1, 1, true, true);
                 }
             }
             for (int i = 0; i < 800; i++)
@@ -2930,8 +2930,8 @@ namespace EEMod.EEWorld
             int chasmX = 100;
             int chasmY = 100;
             MakeWavyChasm(chasmX, chasmY, 1000, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60));
-            MakeWavyChasm2(chasmX - 50, chasmY, 1000, ModContent.TileType<HardenedGemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20), true);
-            MakeWavyChasm2(chasmX + 50, chasmY, 1000, ModContent.TileType<HardenedGemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20), true);
+            MakeWavyChasm2(chasmX - 50, chasmY, 1000, ModContent.TileType<GemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20), true);
+            MakeWavyChasm2(chasmX + 50, chasmY, 1000, ModContent.TileType<GemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20), true);
             for (int i = 0; i < 5; i++)
             {
                 MakeChasm(chasmX + Main.rand.Next(-50, 50) + i * 20, chasmY + (i * 200) + Main.rand.Next(-50, 50), Main.rand.Next(5, 30), TileID.StoneSlab, Main.rand.Next(5, 10), WorldGen.genRand.Next(20, 60), Main.rand.Next(10, 20));
@@ -2939,14 +2939,14 @@ namespace EEMod.EEWorld
             }
             for (int i = 0; i < 20; i++)
             {
-                MakeOvalFlatTop(Main.rand.Next(10, 20), Main.rand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + (i * 50) + Main.rand.Next(-20, 20)), ModContent.TileType<HardenedGemsandTile>());
+                MakeOvalFlatTop(Main.rand.Next(10, 20), Main.rand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + (i * 50) + Main.rand.Next(-20, 20)), ModContent.TileType<GemsandTile>());
                 if (i % 5 == 0)
                 {
-                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + Main.rand.Next(-20, 20) + (i * 50), 25, 2, ModContent.TileType<HardenedGemsandTile>());
-                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50), 20, 1, ModContent.TileType<HardenedGemsandTile>());
+                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + Main.rand.Next(-20, 20) + (i * 50), 25, 2, ModContent.TileType<GemsandTile>());
+                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50), 20, 1, ModContent.TileType<GemsandTile>());
                     MakeCoral(new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50)), TileID.Coralstone, Main.rand.Next(4, 8));
                     for (int j = 0; j < 7; j++)
-                        MakeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<GemsandstoneTile>());
+                        MakeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<DarkGemsandTile>());
                 }
             }
             for (int k = 0; k < maxTiles * 9; k++)
@@ -3038,7 +3038,7 @@ namespace EEMod.EEWorld
                 for (int i = 0; i < Main.maxTilesX; i++)
                 {
                     Tile tile = Main.tile[i, j];
-                    if (tile.type == ModContent.TileType<HardenedGemsandTile>() || tile.type == ModContent.TileType<GemsandstoneTile>() || tile.type == ModContent.TileType<GemsandTile>())
+                    if (tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
                     {
                         if (Main.rand.NextBool(2000))
                         {
@@ -3048,25 +3048,21 @@ namespace EEMod.EEWorld
                 }
             }
             for (int j = 0; j < 2; j++)
-                MakeOvalJaggedTop(WorldGen.genRand.Next(50, 60), WorldGen.genRand.Next(25, 30), new Vector2(375 + (j * 250) - 25, 1225), ModContent.TileType<GemsandstoneTile>());
+                MakeOvalJaggedTop(WorldGen.genRand.Next(50, 60), WorldGen.genRand.Next(25, 30), new Vector2(375 + (j * 250) - 25, 1225), ModContent.TileType<DarkGemsandTile>());
             for (int j = 0; j < 2; j++)
-                MakeOvalJaggedTop(WorldGen.genRand.Next(50, 60), WorldGen.genRand.Next(25, 30), new Vector2(375 + (j * 250) - 25, 1150), ModContent.TileType<GemsandstoneTile>());
+                MakeOvalJaggedTop(WorldGen.genRand.Next(50, 60), WorldGen.genRand.Next(25, 30), new Vector2(375 + (j * 250) - 25, 1150), ModContent.TileType<DarkGemsandTile>());
 
             for (int j = 0; j < 2; j++)
-                MakeOvalJaggedTop(WorldGen.genRand.Next(40, 50), WorldGen.genRand.Next(25, 30), new Vector2(450 + (j * 100) - 22, 1180), ModContent.TileType<GemsandstoneTile>());
+                MakeOvalJaggedTop(WorldGen.genRand.Next(40, 50), WorldGen.genRand.Next(25, 30), new Vector2(450 + (j * 100) - 22, 1180), ModContent.TileType<DarkGemsandTile>());
 
             for (int j = barrier; j < Main.maxTilesY; j++)
             {
                 for (int i = 0; i < Main.maxTilesX; i++)
                 {
                     Tile tile = Main.tile[i, j];
-                    if (tile.type == ModContent.TileType<HardenedGemsandTile>() || tile.type == ModContent.TileType<GemsandstoneTile>() || tile.type == ModContent.TileType<GemsandTile>())
-                    {
+                    if (tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
                         if (Main.rand.NextBool(2000))
-                        {
                             WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydriteOreTile>());
-                        }
-                    }
                 }
             }
         }

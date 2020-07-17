@@ -99,7 +99,7 @@ namespace EEMod
         {
             _generator.GenerateWorld(customProgressObject);
             Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
-            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<HardenedGemsandTile>());
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<GemsandTile>());
             EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
         }
         internal static void PreSaveAndQuit()
