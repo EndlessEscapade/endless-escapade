@@ -32,10 +32,11 @@ namespace EEMod.Projectiles
         public int yes;
         public override void AI()           //this make that the projectile will face the corect way
         {
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive())
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive() && EEModConfigClient.Instance.BetterLighting)
             {
                 Filters.Scene.Activate("EEMod:WhiteFlash", projectile.Center).GetShader().UseDirection(new Vector2(1,0)).UseOpacity(projectile.ai[0]);
             }
+            if(EEModConfigClient.Instance.BetterLighting)
             Filters.Scene["EEMod:WhiteFlash"].GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(7);
             projectile.timeLeft = 100;
             projectile.Center = Main.player[(int)projectile.ai[1]].Center;
@@ -50,7 +51,10 @@ namespace EEMod.Projectiles
             {
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), Main.player[(int)projectile.ai[1]].Center - Main.screenPosition - new Vector2(-Main.screenWidth/2, Main.screenHeight / 2), new Rectangle(0, 0, 174, 174), Color.White * .4f, projectile.rotation + (float)Math.Sin(projectile.ai[0]/40f), new Rectangle(0, 0, 174, 174).Size() / 2, 10, SpriteEffects.None, 0);
             }
-
+            if(!EEModConfigClient.Instance.BetterLighting)
+            {
+                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), Main.player[(int)projectile.ai[1]].Center - Main.screenPosition - new Vector2(-Main.screenWidth / 2, Main.screenHeight / 2), new Rectangle(0, 0, 174, 174), Color.White * 0, projectile.rotation + (float)Math.Sin(projectile.ai[0] / 40f), new Rectangle(0, 0, 174, 174).Size() / 2, 10, SpriteEffects.None, 0);
+            }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
 
