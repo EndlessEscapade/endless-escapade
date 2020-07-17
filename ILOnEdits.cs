@@ -178,7 +178,7 @@ namespace EEMod
                         Main.statusText = "Mod is not edgy I swear!";
                         break;
                     case 17:
-                        Main.statusText = "All programmers are cyniks";
+                        Main.statusText = "All good art made by cynik";
                         break;
                     case 18:
                         Main.statusText = "Im gonna have to mute you for that";
@@ -220,7 +220,7 @@ namespace EEMod
                         Main.statusText = "mario in real life";
                         break;
                     case 31:
-                        Main.statusText = "the phantam of the opera";
+                        Main.statusText = "All good concept art made by phanta";
                         break;
                     case 32:
                         Main.statusText = "EEMod Foretold? More like doesn't exist";

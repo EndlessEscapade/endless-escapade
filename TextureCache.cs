@@ -11,7 +11,7 @@ namespace EEMod
         public static Texture2D Chain;
         public static Texture2D Empty;
         public static Texture2D EyeTileGlow;
-        public static Texture2D Stagrel_Glow;
+        //public static Texture2D Stagrel_Glow;
         public static Texture2D BleckScren;
         public static Texture2D DuneShambler;
         public static Texture2D GiantSquid;
@@ -20,9 +20,9 @@ namespace EEMod
         public static Texture2D Seahorse;
         public static Texture2D HydroBeam_Beam;
         public static Texture2D HydroBeam_End;
-        public static Texture2D GBeam_Beam;
+        /*public static Texture2D GBeam_Beam;
         public static Texture2D GBeam_End;
-        public static Texture2D Gallagar;
+        public static Texture2D Gallagar;*/
         public static Texture2D Outline;
         public static Texture2D ShipHelth;
         public static Texture2D ShipMount;
@@ -53,7 +53,7 @@ namespace EEMod
             Chain = mod.GetTexture("NPCs/CoralReefs/Chain");
             Empty = mod.GetTexture("Empty");
             EyeTileGlow = mod.GetTexture("Tiles/Furniture/EyeTileGlow");
-            Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");
+            //Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");
             BleckScren = mod.GetTexture("BleckScren");
             NotBleckScren = mod.GetTexture("NotBleckScren");
             DuneShambler = mod.GetTexture("NPCs/DuneShambler");
@@ -63,9 +63,9 @@ namespace EEMod
             Seahorse = mod.GetTexture("LoadingScreenImages/Seahorse");
             HydroBeam_Beam = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
             HydroBeam_End = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
-            GBeam_Beam = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_Beam");
+            /*GBeam_Beam = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_Beam");
             GBeam_End = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_End");
-            Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");
+            Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");*/
             Outline = mod.GetTexture("Outline");
             ShipHelth = mod.GetTexture("ShipHelthSheet");
             ShipMount = mod.GetTexture("ShipMount");
@@ -98,7 +98,7 @@ namespace EEMod
             Chain = null;
             Empty = null;
             EyeTileGlow = null;
-            Stagrel_Glow = null;
+            //Stagrel_Glow = null;
             BleckScren = null;
             DuneShambler = null;
             GiantSquid = null;
@@ -107,9 +107,9 @@ namespace EEMod
             Seahorse = null;
             HydroBeam_Beam = null;
             HydroBeam_End = null;
-            GBeam_Beam = null;
+            /*GBeam_Beam = null;
             GBeam_End = null;
-            Gallagar = null;
+            Gallagar = null;*/
             Outline = null;
             ShipHelth = null;
             ShipMount = null;
