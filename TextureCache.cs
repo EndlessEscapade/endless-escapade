@@ -88,8 +88,6 @@ namespace EEMod
             CoralReefsSurfaceClose = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
             TentacleChain = mod.GetTexture("NPCs/Bosses/Kraken/TentacleChain");
         }
-
-<<<<<<< HEAD
         [UnloadingMethod]
         public static void Unload()
         {
@@ -130,7 +128,6 @@ namespace EEMod
             KrakenGlowMask = null;
             NotBleckScren = null;
         }
-=======
         //[UnloadingMethod]
         //public static void Unload() // they're claimed by the unloader
         //{
@@ -171,6 +168,5 @@ namespace EEMod
         //    KrakenGlowMask = null;
         //    NotBleckScren = null;
         //}
->>>>>>> 1a3cc5c586fbe654563171d48ad7a861d451d513
     }
 }
