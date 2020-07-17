@@ -99,11 +99,11 @@ namespace EEMod.NPCs.Bosses.Kraken
                     {
                         if (npc.ai[2] == 0)
                         {
-                            startingPoint[i] = krakenHead.npcFromPositions[i] + (Vector2.Normalize(krakenHead.dashPositions[i] - krakenHead.npcFromPositions[i]) * 5000);
+                            startingPoint[i] = krakenHead.npcFromPositions[i] + (Vector2.Normalize(krakenHead.dashPositions[i] - krakenHead.npcFromPositions[i]) * 5400);
                             if (i == krakenHead.npcFromPositions.Length - 1)
                                 npc.ai[2] = 1;
                         }
-                        endingPoint[i] = krakenHead.npcFromPositions[i] + (Vector2.Normalize(krakenHead.dashPositions[i] - krakenHead.npcFromPositions[i]) * 5000);
+                        endingPoint[i] = krakenHead.npcFromPositions[i] + (Vector2.Normalize(krakenHead.dashPositions[i] - krakenHead.npcFromPositions[i]) * 5400);
                         startingPoint[i] -= (startingPoint[i] - krakenHead.npcFromPositions[i]) / 32f;
                         midPoint[i] = startingPoint[i] + (endingPoint[i] - startingPoint[i]) * 0.2f + new Vector2(daFlopX, daFlop);
                     }

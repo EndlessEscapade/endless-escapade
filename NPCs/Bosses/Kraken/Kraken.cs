@@ -147,13 +147,13 @@ namespace EEMod.NPCs.Bosses.Kraken
                 if ((bigBloons[1] == Vector2.Zero) && (bigBloons[0] != Vector2.Zero) && bigBloons[0] != (smolBloons[0] + smolBloons[1]) / 2)
                 {
                     bigBloons[1] = (smolBloons[0] + smolBloons[1]) / 2;
+                    Projectile.NewProjectile(bigBloons[0], Vector2.Zero, ModContent.ProjectileType<SecondPhaseInkBlob>(), 50, 0, Main.myPlayer, 0, npc.whoAmI);
                 }
                 if (bigBloons[0] == Vector2.Zero)
                 {
                     bigBloons[0] = (smolBloons[0] + smolBloons[1]) / 2;
+                    Projectile.NewProjectile(bigBloons[0], Vector2.Zero, ModContent.ProjectileType<SecondPhaseInkBlob>(), 50, 0, Main.myPlayer, 0, npc.whoAmI);
                 }
-                Main.NewText(bigBloons[0]);
-                Main.NewText(bigBloons[1]);
             }
         }
         public override bool CheckActive()
@@ -196,9 +196,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 modPlayer.TurnCameraFixationsOff();
             }
 
-           
             Vector2[] geyserPositions = { arenaPosition + new Vector2(-100, 1000), arenaPosition + new Vector2(100, 1000) };
-            
             npc.rotation = npc.velocity.X / 80f;
             
             if (npc.velocity.X > 0)
@@ -464,7 +462,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 for (int i = 0; i <= (int)(npc.ai[0] / speed); i++)
                                 {
-                                    Lighting.AddLight((npcFromPositions[i] - (dashPositions[i] - npcFromPositions[i])) + (Vector2.Normalize(dashPositions[i] - npcFromPositions[i]) * 30) * j, new Vector3(0, .5f, 0));
+                                    Lighting.AddLight((npcFromPositions[i]) + (Vector2.Normalize(dashPositions[i] - npcFromPositions[i]) * 30) * j, new Vector3(0, .5f, 0));
                                 }
                             }
                         }

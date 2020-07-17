@@ -275,9 +275,7 @@ namespace EEMod.NPCs
                                 }
                             }
                         }
-
                     }
-
                 }
                 if (npc.ai[1] == timeInDig * 2)
                 {

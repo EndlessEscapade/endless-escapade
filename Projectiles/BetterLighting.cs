@@ -38,6 +38,10 @@ namespace EEMod.Projectiles
             }
             if(EEModConfigClient.Instance.BetterLighting)
             Filters.Scene["EEMod:WhiteFlash"].GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(1);
+            else
+            {
+                if (SkyManager.Instance["EEMod:WhiteFlash"].IsActive()) SkyManager.Instance.Deactivate("EEMod:WhiteFlash", new object[0]);
+            }
             projectile.timeLeft = 100;
             projectile.Center = Main.player[(int)projectile.ai[1]].Center;
             yes++;
