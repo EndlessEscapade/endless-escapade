@@ -25,6 +25,7 @@ namespace EEMod.Items.Placeables.Paintings
             //item.createTile = 285 + type - 2174;
             //item.width = 12;
             //item.height = 12;
+            item.rare = ItemRarityID.Cyan;
 
             item.CloneDefaults(ItemID.WoodenCrate);
             item.createTile = ModContent.TileType<MysteriousJarTile>();

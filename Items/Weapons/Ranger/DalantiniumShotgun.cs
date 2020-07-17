@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.useAmmo = AmmoID.Bullet;
             item.shoot = 10;
             item.shootSpeed = 36f;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
             item.noMelee = true;

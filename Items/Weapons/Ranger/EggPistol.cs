@@ -23,7 +23,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.width = 20;
             item.height = 20;
             item.shoot = 10;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Yellow;
             item.knockBack = 4f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.shootSpeed = 17f;

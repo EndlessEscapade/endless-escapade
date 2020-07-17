@@ -10,7 +10,7 @@ namespace EEMod.Items.Weapons.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Pharaoh's Throw");
-            Tooltip.SetDefault("Inflicts Shadowflame on enemies" + "\nHas a 20% chance to charge on near enemies");
+            Tooltip.SetDefault("Inflicts a curse upon your enemies");
 
             // These are all related to gamepad controls and don't seem to affect anything else
             ItemID.Sets.Yoyo[item.type] = true;

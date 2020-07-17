@@ -19,7 +19,7 @@ namespace EEMod.Items.Armor.Hydrofluoric
             item.width = 18;
             item.height = 18;
             item.value = Item.sellPrice(0, 0, 30);
-            item.rare = ItemRarityID.LightPurple;
+            item.rare = ItemRarityID.Lime;
             item.defense = 12;
         }
 

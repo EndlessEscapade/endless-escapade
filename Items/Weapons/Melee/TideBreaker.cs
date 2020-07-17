@@ -13,7 +13,7 @@ namespace EEMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.LightRed;
+            item.rare = ItemRarityID.Pink;
             item.melee = true;
             item.autoReuse = true;
             item.useStyle = ItemUseStyleID.Stabbing;

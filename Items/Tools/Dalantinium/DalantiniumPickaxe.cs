@@ -19,7 +19,7 @@ namespace EEMod.Items.Tools.Dalantinium
             item.useTime = 19;
             item.useAnimation = 19;
             item.damage = 7;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Orange;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.width = 16;
             item.height = 16;

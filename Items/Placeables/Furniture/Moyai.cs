@@ -23,6 +23,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.consumable = true;
             item.width = 12;
             item.height = 12;
+            item.rare = ItemRarityID.White;
 
             item.createTile = ModContent.TileType<MoyaiTile>();
         }

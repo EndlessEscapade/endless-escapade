@@ -19,7 +19,7 @@ namespace EEMod.Items.Armor.Hydrite
             item.width = 18;
             item.height = 18;
             item.value = Item.sellPrice(0, 0, 30);
-            item.rare = ItemRarityID.LightRed;
+            item.rare = ItemRarityID.Pink;
             item.defense = 11;
         }
 

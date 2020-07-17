@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Melee
             item.width = 32;
             item.height = 32;
             item.scale = 1f;
-            item.rare = ItemRarityID.Pink;
+            item.rare = ItemRarityID.Purple;
             item.value = Item.sellPrice(silver: 10);
 
             item.melee = true;

@@ -18,7 +18,7 @@ namespace EEMod.Items.Accessories
             item.accessory = true;
             item.width = 20;
             item.height = 20;
-            item.rare = ItemRarityID.Orange;
+            item.rare = ItemRarityID.Pink;
             item.value = Item.sellPrice(0, 0, 32);
             item.scale = 0.2f;
         }

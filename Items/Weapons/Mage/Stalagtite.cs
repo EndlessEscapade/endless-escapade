@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -62,4 +62,4 @@ namespace EEMod.Items.Weapons.Mage
             return false;
         }
     }
-}
+}*/
