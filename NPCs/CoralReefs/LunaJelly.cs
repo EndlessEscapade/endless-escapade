@@ -11,6 +11,7 @@ namespace EEMod.NPCs.CoralReefs
             DisplayName.SetDefault("Luna Jelly");
             Main.npcCatchable[npc.type] = true;
             Main.npcFrameCount[npc.type] = 3;
+            bannerItem = ModContent.ItemType<Items.Banners.LunaJellyBanner>();
         }
 
         public override void SetDefaults()

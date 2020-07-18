@@ -89,7 +89,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.aiStyle = -1;
             npc.lifeMax = 50000;
             npc.defense = 40;
-            npc.damage = 95;
+            npc.damage = 0;
             npc.value = Item.buyPrice(0, 8, 0, 0);
             npc.noTileCollide = true;
             npc.width = 568;
@@ -177,7 +177,6 @@ namespace EEMod.NPCs.Bosses.Kraken
             Player player = Main.player[npc.target];
             if (firstFrame)
             {
-                npc.damage = 0;
                 geyserPositionsVarUp = new Vector2[howMany];
                 geyserPositionsVarDown = new Vector2[howMany];
                 geyserPositionsVarRight = new Vector2[howMany];
@@ -190,10 +189,6 @@ namespace EEMod.NPCs.Bosses.Kraken
                 NPC.NewNPC((int)holePositions[1].X, (int)holePositions[1].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[1].X, (int)holePositions[1].Y, 1);
                 NPC.NewNPC((int)holePositions[2].X, (int)holePositions[2].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[2].X, (int)holePositions[2].Y);
                 NPC.NewNPC((int)holePositions[3].X, (int)holePositions[3].Y, ModContent.NPCType<KHole>(), 0, (int)holePositions[3].X, (int)holePositions[3].Y, 1);
-            }
-            else
-            {
-                npc.damage = 95;
             }
             npc.ai[2]++;
             tentaclerotation = 0;
@@ -208,6 +203,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             else if (npc.ai[2] == 181)
             {
                 modPlayer.TurnCameraFixationsOff();
+                npc.damage = 150;
             }
 
             Vector2[] geyserPositions = { arenaPosition + new Vector2(-100, 1000), arenaPosition + new Vector2(100, 1000) };
@@ -369,7 +365,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         else if (!GETHIMBOIS)
                         {
                             npc.ai[0]++;
-                            
+
                             npc.velocity *= 0.98f;
                             if (npc.ai[0] == 100)
                             {
@@ -543,8 +539,8 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
                             }
-                            if(npc.ai[0] % frequency*8 <= (frequency*8)/2)
-                            modPlayer.FixateCameraOn(player.Center, 64f, true, false);
+                            if (npc.ai[0] % frequency * 8 <= (frequency * 8) / 2)
+                                modPlayer.FixateCameraOn(player.Center, 64f, true, false);
                             else
                             {
                                 modPlayer.TurnCameraFixationsOff();

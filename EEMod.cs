@@ -351,7 +351,7 @@ namespace EEMod
             }
             Vector2 textSize = Main.fontMouseText.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
-            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 0, SpriteEffects.None, 0f);
+            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
         float flash = 0;
         float markerPlacer = 0;
@@ -415,11 +415,12 @@ namespace EEMod
             if (Main.netMode == NetmodeID.SinglePlayer || ((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 0))
             {
                 if (eePlayer.boatSpeed == 3)
+                if (eePlayer.boatSpeed == 0.3f)
                     frameNum = 1;
                 if (eePlayer.boatSpeed == 1)
                     frameNum = 0;
             }
-            if(((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 1))
+            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 1))
             {
                 if (eePlayer.boatSpeed == 3)
                     frameNum = 3;

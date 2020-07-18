@@ -40,14 +40,14 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void AI()
         {
-            Lighting.AddLight(npc.Center, new Vector3(0.2f,0.2f,0.2f));
+            Lighting.AddLight(npc.Center, new Vector3(0.2f, 0.2f, 0.2f));
             npc.ai[0]++;
             npc.TargetClosest(true);
             Rectangle npcHitBox = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
             Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height);
             if (npc.ai[3] == 0)
             {
-               
+
                 npc.spriteDirection = -1;
                 if (isGrabbing0 && !isRetrating)
                 {

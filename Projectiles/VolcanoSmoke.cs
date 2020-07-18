@@ -31,7 +31,7 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            for (int i=0; i<2; i++)
+            for (int i = 0; i < 2; i++)
             {
                 int dust = Dust.NewDust(new Vector2(npc.position.X + Main.rand.Next(-250, 251), npc.position.Y), 50, 50, DustID.Smoke, Scale: 1);
                 Main.dust[dust].velocity = new Vector2(0, -1);
