@@ -44,10 +44,10 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 start = projectile.Center;
             }
             projectile.ai[0]++;
-            if (projectile.alpha > 0 && projectile.ai[0] > 100)
+            if (projectile.alpha > 0 && projectile.ai[0] > 50)
                 projectile.alpha--;
-            if (projectile.ai[0] > 200)
-                projectile.scale += (2 - projectile.scale) / 64f;
+            if (projectile.ai[0] > 100)
+                projectile.scale += (1 - projectile.scale) / 64f;
 
             if (projectile.ai[0] > 300)
             {

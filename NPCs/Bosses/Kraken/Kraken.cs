@@ -538,14 +538,15 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
                             }
-                            if (npc.ai[0] == 400)
-                            {
-                                Reset(5);
-                            }
-                            if(npc.ai[0] % frequency <= frequency/2)
+                            if(npc.ai[0] % frequency*4 <= frequency*4/2)
                             modPlayer.FixateCameraOn(player.Center, 64f, true, false);
                             else
                             {
+                                modPlayer.TurnCameraFixationsOff();
+                            }
+                            if (npc.ai[0] == 400)
+                            {
+                                Reset(5);
                                 modPlayer.TurnCameraFixationsOff();
                             }
                         }
