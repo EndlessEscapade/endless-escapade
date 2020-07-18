@@ -32,6 +32,61 @@ namespace EEMod.UI
         int Countur;
         int frames;
         int frameSpeed;
+        public void DrawSky()
+        {
+            texture2 = TextureCache.NotBleckScren;
+            switch (EEMod.loadingChooseImage)
+            {
+                case 0:
+                    {
+                        texture = TextureCache.DuneShambler;
+                        frames = 6;
+                        frameSpeed = 15;
+                        break;
+                    }
+
+                case 1:
+                    {
+                        texture = TextureCache.GiantSquid;
+                        frames = 3;
+                        frameSpeed = 30;
+                        break;
+                    }
+                case 2:
+                    {
+                        texture = TextureCache.Clam;
+                        frames = 3;
+                        frameSpeed = 30;
+                        break;
+                    }
+                case 3:
+                    {
+                        texture = TextureCache.Hydros;
+                        frames = 8;
+                        frameSpeed = 25;
+                        break;
+                    }
+                case 4:
+                    {
+                        texture = TextureCache.Seahorse;
+                        frames = 5;
+                        frameSpeed = 20;
+                        break;
+                    }
+            }
+            if (Countur++ > frameSpeed)
+            {
+                Countur = 0;
+                frame.Y += texture.Height / frames;
+            }
+            if (frame.Y >= (texture.Height / frames) * (frames - 1))
+            {
+                frame.Y = 0;
+            }
+            Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
+            Main.spriteBatch.Draw(texture2, new Vector2(0, 0), new Color(204, 204, 204));
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
+        }
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
             texture2 = TextureCache.NotBleckScren;

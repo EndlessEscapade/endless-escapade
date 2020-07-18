@@ -12,6 +12,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using EEMod.Projectiles;
 using EEMod.NPCs.Bosses.Kraken;
+using ReLogic.Graphics;
 
 namespace EEMod
 {
@@ -25,7 +26,7 @@ namespace EEMod
             On.Terraria.Main.DoUpdate += OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawWoF += DrawBehindTiles;
-            On.Terraria.Main.DrawBackground += OnDrawMenu;
+            On.Terraria.Main.Draw += OnDrawMenu;
         }
         private void UnloadIL()
         {
@@ -34,7 +35,7 @@ namespace EEMod
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
             IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
             On.Terraria.Main.DrawWoF -= DrawBehindTiles;
-            On.Terraria.Main.DrawBackground -= OnDrawMenu;
+            On.Terraria.Main.Draw -= OnDrawMenu;
         }
 
         private void Main_OldDrawBackground(ILContext il)
@@ -116,6 +117,7 @@ namespace EEMod
         {
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
             {
+                alpha = 0;
                 loadingChoose = Main.rand.Next(62);
                 loadingChooseImage = Main.rand.Next(5);
                 Main.numClouds = 10;
@@ -128,13 +130,81 @@ namespace EEMod
             }
             orig(self, gameTime);
         }
-
-        private void OnDrawMenu(On.Terraria.Main.orig_DrawBackground orig, Main self)
+        Texture2D Screentexture;
+        Texture2D texture2;
+        Rectangle Screenframe;
+        int Countur;
+        int Screenframes;
+        int ScreenframeSpeed;
+        public void DrawSky()
         {
-            orig(self);
-            velocity = Vector2.Zero;
+            texture2 = TextureCache.NotBleckScren;
+            switch (loadingChooseImage)
+            {
+                case 0:
+                    {
+                        Screentexture = TextureCache.DuneShambler;
+                        Screenframes = 6;
+                        ScreenframeSpeed = 5;
+                        break;
+                    }
+
+                case 1:
+                    {
+                        Screentexture = TextureCache.GiantSquid;
+                        Screenframes = 3;
+                        ScreenframeSpeed = 10;
+                        break;
+                    }
+                case 2:
+                    {
+                        Screentexture = TextureCache.Clam;
+                        Screenframes = 3;
+                        ScreenframeSpeed = 10;
+                        break;
+                    }
+                case 3:
+                    {
+                        Screentexture = TextureCache.Hydros;
+                        Screenframes = 8;
+                        ScreenframeSpeed = 7;
+                        break;
+                    }
+                case 4:
+                    {
+                        Screentexture = TextureCache.Seahorse;
+                        Screenframes = 5;
+                        ScreenframeSpeed = 6;
+                        break;
+                    }
+            }
+            if (Countur++ > ScreenframeSpeed)
+            {
+                Countur = 0;
+                frame.Y += Screentexture.Height / Screenframes;
+            }
+            if (frame.Y >= (Screentexture.Height / Screenframes) * (Screenframes - 1))
+            {
+                frame.Y = 0;
+            }
+            Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
+            Main.spriteBatch.Draw(texture2, new Vector2(0, 0), new Color(204, 204, 204));
+            Main.spriteBatch.Draw(Screentexture, position, new Rectangle(0, frame.Y, Screentexture.Width, Screentexture.Height / Screenframes), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, Screentexture.Width, Screentexture.Height / Screenframes).Size() / 2, 1, SpriteEffects.None, 0);
+        }
+        float alpha;
+        string screenMessageText;
+        private void OnDrawMenu(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
+        {
+            orig(self, gameTime);
+            
             if (isSaving && Main.gameMenu)
             {
+                alpha += 0.01f;
+                if(alpha > 1)
+                {
+                    alpha = 1;
+                }
+                velocity = Vector2.Zero;
                 Main.numClouds = 0;
                 Main.logo2Texture = TextureCache.Empty;
                 Main.logoTexture = TextureCache.Empty;
@@ -151,198 +221,206 @@ namespace EEMod
                 switch (loadingChoose)
                 {
                     case 0:
-                        Main.statusText = "Watch Out! Dune Shamblers Pop from the ground from time to time!";
+                        screenMessageText = "Watch Out! Dune Shamblers Pop from the ground from time to time!";
                         break;
                     case 1:
-                        Main.statusText = "All good sprites made by Nomis";
+                        screenMessageText = "All good sprites made by Nomis";
                         break;
                     case 2:
-                        Main.statusText = "Tip of the Day! Loading screens are useless";
+                        screenMessageText = "Tip of the Day! Loading screens are useless";
                         break;
                     case 3:
-                        Main.statusText = "Fear the MS Paint cat";
+                        screenMessageText = "Fear the MS Paint cat";
                         break;
                     case 4:
-                        Main.statusText = "Terraria sprites need outlines... except when I make them";
+                        screenMessageText = "Terraria sprites need outlines... except when I make them";
                         break;
                     case 5:
-                        Main.statusText = "Remove the Banding";
+                        screenMessageText = "Remove the Banding";
                         break;
                     case 6:
-                        Main.statusText = Main.LocalPlayer.name + " ....huh...what a cruddy name";
+                        screenMessageText = Main.LocalPlayer.name + " ....huh...what a cruddy name";
                         break;
                     case 7:
-                        Main.statusText = "Dont ping everyone you big dumb stupid";
+                        screenMessageText = "Dont ping everyone you big dumb stupid";
                         break;
                     case 8:
-                        Main.statusText = "I'm nothing without attention";
+                        screenMessageText = "I'm nothing without attention";
                         break;
                     case 9:
-                        Main.statusText = "Why are you even reading this?";
+                        screenMessageText = "Why are you even reading this?";
                         break;
                     case 10:
-                        Main.statusText = "We actually think we are funny";
+                        screenMessageText = "We actually think we are funny";
                         break;
                     case 11:
-                        Main.statusText = "Interitos...whats that?";
+                        screenMessageText = "Interitos...whats that?";
                         break;
                     case 12:
-                        Main.statusText = "its my style";
+                        screenMessageText = "its my style";
                         break;
                     case 13:
-                        Main.statusText = "Now featuring 50% more monkey per chimp!";
+                        screenMessageText = "Now featuring 50% more monkey per chimp!";
                         break;
                     case 14:
-                        Main.statusText = "im angy";
+                        screenMessageText = "im angy";
                         break;
                     case 15:
-                        Main.statusText = "All good music made by A44";
+                        screenMessageText = "All good music made by A44";
                         break;
                     case 16:
-                        Main.statusText = "Mod is not edgy I swear!";
+                        screenMessageText = "Mod is not edgy I swear!";
                         break;
                     case 17:
-                        Main.statusText = "All good art made by cynik";
+                        screenMessageText = "All good art made by cynik";
                         break;
                     case 18:
-                        Main.statusText = "Im gonna have to mute you for that";
+                        screenMessageText = "Im gonna have to mute you for that";
                         break;
                     case 19:
-                        Main.statusText = "Gamers rise up!";
+                        screenMessageText = "Gamers rise up!";
                         break;
                     case 20:
-                        Main.statusText = "THATS NOT THE CONCEPT";
+                        screenMessageText = "THATS NOT THE CONCEPT";
                         break;
                     case 21:
-                        Main.statusText = "caramel popcorn and celeste";
+                        screenMessageText = "caramel popcorn and celeste";
                         break;
                     case 22:
-                        Main.statusText = "D D D A G# G F D F G";
+                        screenMessageText = "D D D A G# G F D F G";
                         break;
                     case 23:
-                        Main.statusText = "We live in a society";
+                        screenMessageText = "We live in a society";
                         break;
                     case 24:
-                        Main.statusText = "Dont mine at night!";
+                        screenMessageText = "Dont mine at night!";
                         break;
                     case 25:
-                        Main.statusText = "deleting system32...";
+                        screenMessageText = "deleting system32...";
                         break;
                     case 26:
-                        Main.statusText = "Sans in real!";
+                        screenMessageText = "Sans in real!";
                         break;
                     case 27:
-                        Main.statusText = "I sure hope I didnt break the codeghsduighshsy";
+                        screenMessageText = "I sure hope I didnt break the codeghsduighshsy";
                         break;
                     case 28:
-                        Main.statusText = "If you liked endless escapade you will love endless escapade premium!";
+                        screenMessageText = "If you liked endless escapade you will love endless escapade premium!";
                         break;
                     case 29:
-                        Main.statusText = "When\nBottomText";
+                        screenMessageText = "When\nBottomText";
                         break;
                     case 30:
-                        Main.statusText = "mario in real life";
+                        screenMessageText = "mario in real life";
                         break;
                     case 31:
-                        Main.statusText = "All good concept art made by phanta";
+                        screenMessageText = "All good concept art made by phanta";
                         break;
                     case 32:
-                        Main.statusText = "EEMod Foretold? More like doesn't exist";
+                        screenMessageText = "EEMod Foretold? More like doesn't exist";
                         break;
                     case 33:
-                        Main.statusText = "You think this is a game? Look behind you 0_0";
+                        screenMessageText = "You think this is a game? Look behind you 0_0";
                         break;
                     case 34:
-                        Main.statusText = "Respect the drip Karen";
+                        screenMessageText = "Respect the drip Karen";
                         break;
                     case 35:
-                        Main.statusText = "trust me there is a lot phesh down in here, the longer the player is in the reefs the more amphibious he will become";
+                        screenMessageText = "trust me there is a lot phesh down in here, the longer the player is in the reefs the more amphibious he will become";
                         break;
                     case 36:
-                        Main.statusText = "All good sprites made by daimgamer!";
+                        screenMessageText = "All good sprites made by daimgamer!";
                         break;
                     case 37:
-                        Main.statusText = "All good music made by Universe";
+                        screenMessageText = "All good music made by Universe";
                         break;
                     case 38:
-                        Main.statusText = "All good sprites made by Vadim";
+                        screenMessageText = "All good sprites made by Vadim";
                         break;
                     case 39:
-                        Main.statusText = "All good sprites made by Zarn";
+                        screenMessageText = "All good sprites made by Zarn";
                         break;
                     case 40:
-                        Main.statusText = "All good sprites made by Franswal";
+                        screenMessageText = "All good sprites made by Franswal";
                         break;
                     case 41:
-                        Main.statusText = "Totally not copying Starlight River";
+                        screenMessageText = "Totally not copying Starlight River";
                         break;
                     case 42:
-                        Main.statusText = "Do a Barrel Roll";
+                        screenMessageText = "Do a Barrel Roll";
                         break;
                     case 43:
-                        Main.statusText = "The man behind the laughter";
+                        screenMessageText = "The man behind the laughter";
                         break;
                     case 44:
-                        Main.statusText = "Paint ruins the experience of building - Franswal 2020";
+                        screenMessageText = "Paint ruins the experience of building - Franswal 2020";
                         break;
                     case 45:
-                        Main.statusText = "An apple a day keeps the errors away!";
+                        screenMessageText = "An apple a day keeps the errors away!";
                         break;
                     case 46:
-                        Main.statusText = "Poggers? Poggers.";
+                        screenMessageText = "Poggers? Poggers.";
                         break;
                     case 47:
-                        Main.statusText = $"Totally not sentient AI. By the way, {Environment.UserName} is a dumb computer name";
+                        screenMessageText = $"Totally not sentient AI. By the way, {Environment.UserName} is a dumb computer name";
                         break;
                     case 48:
-                        Main.statusText = "It all ends eventually!";
+                        screenMessageText = "It all ends eventually!";
                         break;
                     case 49:
-                        Main.statusText = "Illegal in 5 countries!";
+                        screenMessageText = "Illegal in 5 countries!";
                         break;
                     case 50:
-                        Main.statusText = "Inside jokes you wont understand!";
+                        screenMessageText = "Inside jokes you wont understand!";
                         break;
                     case 51:
-                        Main.statusText = "Big content mod bad!";
+                        screenMessageText = "Big content mod bad!";
                         break;
                     case 52:
-                        Main.statusText = "Loading the random chimp event...";
+                        screenMessageText = "Loading the random chimp event...";
                         break;
                     case 53:
-                        Main.statusText = "Sending you to the Aether...";
+                        screenMessageText = "Sending you to the Aether...";
                         break;
                     case 54:
-                        Main.statusText = "When";
+                        screenMessageText = "When";
                         break;
                     case 55:
-                        Main.statusText = "[Insert non funny joke here]";
+                        screenMessageText = "[Insert non funny joke here]";
                         break;
                     case 56:
-                        Main.statusText = "The dev server is indeed an asylum";
+                        screenMessageText = "The dev server is indeed an asylum";
                         break;
                     case 57:
-                        Main.statusText = "owo";
+                        screenMessageText = "owo";
                         break;
                     case 58:
-                        Main.statusText = "That's how the mafia works";
+                        screenMessageText = "That's how the mafia works";
                         break;
                     case 59:
-                        Main.statusText = "Hacking the mainframe...";
+                        screenMessageText = "Hacking the mainframe...";
                         break;
                     case 60:
-                        Main.statusText = "Not Proud";
+                        screenMessageText = "Not Proud";
                         break;
                     case 61:
-                        Main.statusText = "You know I think the ocean needs more con- Haha the literal ocean goes brr";
+                        screenMessageText = "You know I think the ocean needs more con- Haha the literal ocean goes brr";
                         break;
                     case 62:
-                        Main.statusText = "EA Jorts, it's in the seams.";
+                        screenMessageText = "EA Jorts, it's in the seams.";
                         break;
                     case 63:
-                        Main.statusText = "Forged in Fury";
+                        screenMessageText = "Forged in Fury";
                         break;
                 }
+                Main.spriteBatch.Begin();
+                DrawSky();
+                Vector2 textSize = Main.fontDeathText.MeasureString(screenMessageText);
+                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
+                float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
+
+                Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White* alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                Main.spriteBatch.End();
             }
             else
             {
