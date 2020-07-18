@@ -796,6 +796,11 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
+                if (EEWorld.EEWorld.HydrosCheck())
+                {
+                    NPC.NewNPC((int)position.X, (int)position.Y, ModContent.NPCType<Hydros>());
+                    EEWorld.EEWorld.instance.minionsKilled = 0;
+                }
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)

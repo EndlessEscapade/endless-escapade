@@ -18,6 +18,8 @@ namespace EEMod.EEWorld
     {
         //public static bool GenkaiMode;
 
+        public int minionsKilled;
+        public static EEWorld instance;
         //public static bool downedGallagar;
         public static bool downedAkumo;
         public static bool downedHydros;
@@ -94,6 +96,7 @@ namespace EEMod.EEWorld
         public static Vector2 SubWorldSpecificVolcanoInsidePos = new Vector2(198, 189);
         public override void Load(TagCompound tag)
         {
+            instance = this;
             if (tag.ContainsKey("EntracesPosses"))
             {
                 EntracesPosses = tag.GetList<Vector2>("EntracesPosses");
@@ -250,5 +253,13 @@ namespace EEMod.EEWorld
             else
                 shipComplete = false;
         }
+
+        public static bool HydrosCheck()
+        {
+            if(instance.minionsKilled >= 5)
+                return true;
+            else
+                return false;
+        } 
     }
 }
