@@ -7,7 +7,7 @@ using EEMod.Items.Placeables.Furniture;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class TrophiesTile : ModTile
+    public class Trophies : ModTile
     {
         public override void SetDefaults()
         {
