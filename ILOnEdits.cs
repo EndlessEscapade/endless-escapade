@@ -25,7 +25,7 @@ namespace EEMod
             On.Terraria.Main.DoUpdate += OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawWoF += DrawBehindTiles;
-            On.Terraria.Main.DrawBackground += OnDrawMenu;
+            On.Terraria.Main.DoDraw += OnDrawMenu;
         }
         private void UnloadIL()
         {
@@ -34,7 +34,7 @@ namespace EEMod
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
             IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
             On.Terraria.Main.DrawWoF -= DrawBehindTiles;
-            On.Terraria.Main.DrawBackground -= OnDrawMenu;
+            On.Terraria.Main.DoDraw -= OnDrawMenu;
         }
 
         private void Main_OldDrawBackground(ILContext il)
@@ -129,9 +129,9 @@ namespace EEMod
             orig(self, gameTime);
         }
 
-        private void OnDrawMenu(On.Terraria.Main.orig_DrawBackground orig, Main self)
+        private void OnDrawMenu(On.Terraria.Main.orig_DoDraw orig, Main self, GameTime gameTime)
         {
-            orig(self);
+            orig(self, gameTime);
             velocity = Vector2.Zero;
             if (isSaving && Main.gameMenu)
             {
