@@ -16,8 +16,8 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void SetDefaults()
         {
-            npc.width = 80;
-            npc.height = 40;
+            npc.width = 184;
+            npc.height = 80;
             npc.damage = 0;
             npc.aiStyle = -1;
             npc.lifeMax = 5000;

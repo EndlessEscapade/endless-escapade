@@ -401,7 +401,6 @@ namespace EEMod
 
         public override void UpdateBiomeVisuals()
         {
-            Main.NewText(player.position);
             if (dur > 0)
             {
                 bubbleTimer--;

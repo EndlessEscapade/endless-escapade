@@ -33,7 +33,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         KrakenHead krakenHead => Main.npc[(int)projectile.ai[1]].modNPC as KrakenHead;
         public override void AI()
         {
-            projectile.velocity.Y += 0.1f;
+            projectile.velocity.Y += 0.05f;
             projectile.rotation = projectile.velocity.Y / 8f;
         }
 

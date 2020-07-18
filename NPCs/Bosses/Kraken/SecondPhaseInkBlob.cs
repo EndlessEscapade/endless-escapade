@@ -19,8 +19,8 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
+            projectile.width = 120;
+            projectile.height = 120;
             projectile.hostile = true;
             projectile.penetrate = 1;
             projectile.timeLeft = 2000;

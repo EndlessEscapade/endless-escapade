@@ -532,7 +532,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         }
                         else
                         {
-                            int frequency = 40;
+                            int frequency = 10;
                             npc.ai[0]++;
                             if (npc.ai[0] % frequency == 0)
                             {
