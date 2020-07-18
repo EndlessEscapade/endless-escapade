@@ -49,9 +49,17 @@ namespace EEMod.Projectiles
         //    }
         //    projectile.rotation = angle;
         //}
+        private int x = 1;
         public override void AI()
         {
             projectile.rotation = new Vector2(projectile.ai[0], projectile.ai[1]).ToRotation();
+
+            x--;
+            if (x <= 0)
+            {
+                x = 1;
+                projectile.alpha++;
+            }
         }
     }
 }
