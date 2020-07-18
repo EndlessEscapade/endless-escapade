@@ -21,6 +21,7 @@ namespace EEMod.NPCs
                 pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
             }
         }
+
         public override void NPCLoot(NPC npc)
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().Cheese1 == false)

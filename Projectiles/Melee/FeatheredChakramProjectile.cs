@@ -25,5 +25,16 @@ namespace EEMod.Projectiles.Melee
             projectile.extraUpdates = 2;
             projectile.tileCollide = false;
         }
+
+        public override void AI()
+        {
+            int dust = Dust.NewDust(projectile.Center, 0, 0, 127);
+            //Main.dust[dust].velocity = -projectile.velocity;
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            target.AddBuff(BuffID.OnFire, 180);
+        }
     }
 }

@@ -55,6 +55,7 @@ namespace EEMod.Projectiles.Mage
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            target.AddBuff(BuffID.OnFire, 180);
             KillVisible();
         }
 

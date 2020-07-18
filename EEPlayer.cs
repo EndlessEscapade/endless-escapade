@@ -170,6 +170,9 @@ namespace EEMod
                 case "CrackJackery":
                 case "Exitium":
                 case "Franswal":
+                case "Chakylis":
+                case "LolXD87":
+                case "naka":
                     initialMoralScore += 1000;
                     break;
             }
