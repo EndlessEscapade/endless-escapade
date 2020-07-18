@@ -124,7 +124,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         public Vector2[] smolBloons = new Vector2[2];
         public Vector2[] bigBloons = new Vector2[2];
         public float waterLevel;
-        float speedOfIncline = 0.2f;
+        float speedOfIncline = 0.1f;
         public void UpdateInkBlobs(int chance)
         {
             if (Main.rand.Next(chance) == 0)

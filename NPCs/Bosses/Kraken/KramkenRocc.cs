@@ -23,10 +23,10 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             projectile.penetrate = 1;
             projectile.timeLeft = 600;
             projectile.friendly = false;
-            projectile.tileCollide = false;
+            projectile.tileCollide = true;
             projectile.extraUpdates = 1;
             projectile.damage = 50;
-            projectile.light = 0f;
+            projectile.light = .5f;
             projectile.scale = Main.rand.NextFloat(0.5f, 1.5f);
         }
         Vector2 start;

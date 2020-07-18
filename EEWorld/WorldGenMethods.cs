@@ -3048,9 +3048,9 @@ namespace EEMod.EEWorld
                 }
             }
             for (int j = 0; j < 2; j++)
-                MakeOvalJaggedTop(WorldGen.genRand.Next(50, 60), WorldGen.genRand.Next(25, 30), new Vector2(375 + (j * 250) - 25, 1225), ModContent.TileType<DarkGemsandTile>());
+                MakeOvalJaggedTop(55, 27, new Vector2(375 + (j * 250) - 25, 1225), ModContent.TileType<DarkGemsandTile>());
             for (int j = 0; j < 2; j++)
-                MakeOvalJaggedTop(WorldGen.genRand.Next(50, 60), WorldGen.genRand.Next(25, 30), new Vector2(375 + (j * 250) - 25, 1150), ModContent.TileType<DarkGemsandTile>());
+                MakeOvalJaggedTop(55, 27, new Vector2(375 + (j * 250) - 25, 1150), ModContent.TileType<DarkGemsandTile>());
 
             for (int j = 0; j < 2; j++)
                 MakeOvalJaggedTop(WorldGen.genRand.Next(40, 50), WorldGen.genRand.Next(25, 30), new Vector2(450 + (j * 100) - 22, 1180), ModContent.TileType<DarkGemsandTile>());
