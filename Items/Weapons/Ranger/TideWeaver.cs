@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Ranger
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.Tsunami);
+            //item.CloneDefaults(ItemID.Tsunami);
             item.damage = 40;
             item.useAnimation = 18;
             item.useTime = 18;
