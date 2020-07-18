@@ -271,8 +271,8 @@ namespace EEMod
             projectile.position.Y = projectile.Center.Y;
             projectile.width = sizeX;
             projectile.height = sizeY;
-            projectile.position.X = projectile.position.X - projectile.width / 2;
-            projectile.position.Y = projectile.position.Y - projectile.height / 2;
+            projectile.position.X -= projectile.width / 2;
+            projectile.position.Y -= projectile.height / 2;
             projectile.Damage();
             Main.projectileIdentity[projectile.owner, projectile.identity] = -1;
             projectile.position.X = projectile.Center.X;

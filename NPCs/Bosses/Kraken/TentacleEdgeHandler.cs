@@ -82,9 +82,6 @@ namespace EEMod.NPCs.Bosses.Kraken
             int cooldown = 20;
             coolDownForCollision--;
             float chainsPer = 0.03f;
-            int accuracy = 1;
-            int width = 60;
-            int height = 190;
             if (coolDownForCollision < 0)
             {
                 coolDownForCollision = 0;
