@@ -24,17 +24,17 @@ namespace EEMod
             IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
             On.Terraria.Main.DoUpdate += OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
-            On.Terraria.Main.DrawMenu += OnDrawMenu;
             On.Terraria.Main.DrawWoF += DrawBehindTiles;
+            On.Terraria.Main.DrawBackground += OnDrawMenu;
         }
         private void UnloadIL()
         {
             On.Terraria.Main.DoUpdate -= OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
-            On.Terraria.Main.DrawMenu -= OnDrawMenu;
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
             IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
             On.Terraria.Main.DrawWoF -= DrawBehindTiles;
+            On.Terraria.Main.DrawBackground -= OnDrawMenu;
         }
 
         private void Main_OldDrawBackground(ILContext il)
@@ -129,10 +129,11 @@ namespace EEMod
             orig(self, gameTime);
         }
 
-        private void OnDrawMenu(On.Terraria.Main.orig_DrawMenu orig, Main self, GameTime gameTime)
+        private void OnDrawMenu(On.Terraria.Main.orig_DrawBackground orig, Main self)
         {
+            orig(self);
             velocity = Vector2.Zero;
-            if (isSaving)
+            if (isSaving && Main.gameMenu)
             {
                 Main.numClouds = 0;
                 Main.logo2Texture = TextureCache.Empty;
@@ -359,7 +360,6 @@ namespace EEMod
                 }
 
             }
-            orig(self, gameTime);
         }
 
         private void Main_DrawBackground(ILContext il)

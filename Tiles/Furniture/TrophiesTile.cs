@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using EEMod.Items.Placeables.Furniture.Trophies;
+using EEMod.Items.Placeables.Furniture;
 
 namespace EEMod.Tiles.Furniture
 {
