@@ -95,7 +95,7 @@ namespace EEMod
             EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSand>());
 
 
-            for (int i = 42; i < Main.maxTilesX-42; i++)
+            for (int i = 42; i < Main.maxTilesX - 42; i++)
             {
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {

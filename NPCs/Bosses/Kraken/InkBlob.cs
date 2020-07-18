@@ -39,7 +39,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         int Timer; //I will sync it I swear
         public override void AI()
         {
-            if(yes)
+            if (yes)
             {
                 projectile.timeLeft = 100;
                 Timer++;
@@ -68,13 +68,13 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 if (Main.rand.Next(4) == 0)
                     Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
             }
-            if(projectile.ai[0] == 0)
+            if (projectile.ai[0] == 0)
             {
                 if (Main.rand.Next(4) == 0)
                     Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
                 start = projectile.Center;
             }
-            if(Timer < 120)
+            if (Timer < 120)
             {
                 projectile.velocity = projectile.velocity.RotatedBy(Math.PI / 180) * 0.98f;
             }
@@ -88,10 +88,10 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         }
         public override void Kill(int timeLeft)
         {
-            
-            for(int i = 0; i<krakenHead.smolBloons.Length; i++)
+
+            for (int i = 0; i < krakenHead.smolBloons.Length; i++)
             {
-                if(Vector2.Distance(krakenHead.smolBloons[i],start) < 20)
+                if (Vector2.Distance(krakenHead.smolBloons[i], start) < 20)
                 {
                     krakenHead.smolBloons[i] = Vector2.Zero;
                 }
@@ -104,4 +104,3 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         }
     }
 }
-   

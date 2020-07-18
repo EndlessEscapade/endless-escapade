@@ -45,7 +45,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.timeLeft = 1000;
             npc.active = true;
             npc.position = new Vector2(npc.ai[0], npc.ai[1]);
-            if(npc.ai[2] == 1)
+            if (npc.ai[2] == 1)
             {
                 npc.spriteDirection = 1;
             }

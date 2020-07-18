@@ -64,11 +64,11 @@ namespace EEMod
         {
             float NearestPlayerDistSQ = 4815162342f;
             int NearestPlayer = -1;
-            for(int i = 0; i < Main.player.Length; i++)
+            for (int i = 0; i < Main.player.Length; i++)
             {
                 Player player = Main.player[i];
                 float distSQ = player.DistanceSQ(npc.Center);
-                if(!(!player.active || player.dead || player.ghost) && distSQ < NearestPlayerDistSQ)
+                if (!(!player.active || player.dead || player.ghost) && distSQ < NearestPlayerDistSQ)
                 {
                     NearestPlayerDistSQ = distSQ;
                     NearestPlayer = player.whoAmI;
@@ -96,14 +96,14 @@ namespace EEMod
             float NearestNPCDistSQ = -1;
             int NearestNPC = -1;
             int npcs = Main.npc.Length - 1;
-            for(int i = 0; i < npcs; i++)
+            for (int i = 0; i < npcs; i++)
             {
                 NPC npc = Main.npc[i];
                 if (!npc.active || (NoBoss && npc.boss) || (!Friendly && (npc.friendly || npc.lifeMax <= 5)))
                     continue;
 
                 float distSQ = npc.DistanceSQ(Point);
-                if(NearestNPCDistSQ == -1 || distSQ < NearestNPCDistSQ)
+                if (NearestNPCDistSQ == -1 || distSQ < NearestNPCDistSQ)
                 {
                     NearestNPCDistSQ = distSQ;
                     NearestNPC = npc.whoAmI;

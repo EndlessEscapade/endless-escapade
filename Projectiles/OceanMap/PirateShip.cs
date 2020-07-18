@@ -56,7 +56,7 @@ namespace EEMod.Projectiles.OceanMap
                 {
                     if (Main.projectile[j].type == ModContent.ProjectileType<FriendlyCannonball>())
                     {
-                        if (Vector2.DistanceSquared(Main.projectile[j].Center, projectile.Center) < (60* 60))
+                        if (Vector2.DistanceSquared(Main.projectile[j].Center, projectile.Center) < (60 * 60))
                         {
                             sinking = true;
                             Main.projectile[j].Kill();
@@ -76,7 +76,7 @@ namespace EEMod.Projectiles.OceanMap
             projectile.velocity.Y = 0.5f;
             projectile.alpha += 8;
             sinkTimer--;
-            if(sinkTimer <= 0)
+            if (sinkTimer <= 0)
             {
                 projectile.Kill();
             }

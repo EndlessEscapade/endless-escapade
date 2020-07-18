@@ -32,13 +32,13 @@ namespace EEMod.Projectiles.CoralReefs
         public override void AI()
         {
             List<Projectile> closeProjectiles = new List<Projectile>();
-            for(int i = 0; i < Main.projectile.Length - 1; i++)
+            for (int i = 0; i < Main.projectile.Length - 1; i++)
             {
-                if (Vector2.DistanceSquared(projectile.position, Main.projectile[i].position) <= detectDist*detectDist && projectile.type == ModContent.ProjectileType<Fish>() && projectile != Main.projectile[i])
+                if (Vector2.DistanceSquared(projectile.position, Main.projectile[i].position) <= detectDist * detectDist && projectile.type == ModContent.ProjectileType<Fish>() && projectile != Main.projectile[i])
                 {
                     Projectile closeProj = Main.projectile[i];
                     //Flock distancing
-                    if (Vector2.DistanceSquared(projectile.position, closeProj.position) <= closeDist*closeDist)
+                    if (Vector2.DistanceSquared(projectile.position, closeProj.position) <= closeDist * closeDist)
                     {
                         projectile.velocity -= projectile.velocity * 2;
                     }
@@ -60,7 +60,7 @@ namespace EEMod.Projectiles.CoralReefs
                 }
                 projectile.velocity = Vector2.Normalize(projectile.position - (averageLocation / closeProjectiles.Count)) * moveSpeed;
             }
-            if(projectile.velocity.X >= 0)
+            if (projectile.velocity.X >= 0)
                 projectile.spriteDirection = 1;
             else
                 projectile.spriteDirection = -1;

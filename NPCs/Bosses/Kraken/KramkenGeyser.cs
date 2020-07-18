@@ -39,13 +39,49 @@ namespace EEMod.NPCs.Bosses.Kraken
             }
             else
             {
-                for (int i = 0; i < 4; i++)
+                if (projectile.ai[1] == 0)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale * 1.5f);
-                    Main.dust[num].noGravity = false;
-                    Main.dust[num].velocity *= 7f;
-                    Main.dust[num].velocity.X = Main.rand.NextFloat(-2, 2);
-                    Main.dust[num].noLight = false;
+                    for (int i = 0; i < 2; i++)
+                    {
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-5, -2), 6, Color.Blue, projectile.scale * 1.5f);
+                        Main.dust[num].noGravity = false;
+                        Main.dust[num].velocity *= 7f;
+                        Main.dust[num].velocity.X = Main.rand.NextFloat(-2, 2);
+                        Main.dust[num].noLight = false;
+                    }
+                }
+                if (projectile.ai[1] == 1)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(2, 5), 6, Color.Blue, projectile.scale * 1.5f);
+                        Main.dust[num].noGravity = false;
+                        Main.dust[num].velocity *= 7f;
+                        Main.dust[num].velocity.X = Main.rand.NextFloat(-2, 2);
+                        Main.dust[num].noLight = false;
+                    }
+                }
+                if (projectile.ai[1] == 2)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, Main.rand.NextFloat(2, 5), 0, 6, Color.Blue, projectile.scale * 1.5f);
+                        Main.dust[num].noGravity = false;
+                        Main.dust[num].velocity *= 7f;
+                        Main.dust[num].velocity.Y = Main.rand.NextFloat(-2, 2);
+                        Main.dust[num].noLight = false;
+                    }
+                }
+                if (projectile.ai[1] == 3)
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, Main.rand.NextFloat(-5, -2), 0, 6, Color.Blue, projectile.scale * 1.5f);
+                        Main.dust[num].noGravity = false;
+                        Main.dust[num].velocity *= 7f;
+                        Main.dust[num].velocity.Y = Main.rand.NextFloat(-2, 2);
+                        Main.dust[num].noLight = false;
+                    }
                 }
                 projectile.netUpdate = true;
             }

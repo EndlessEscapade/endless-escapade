@@ -39,7 +39,7 @@ namespace EEMod.Projectiles.Mage
                         closestNPCPos = Main.npc[i].Center;
                     }
                 }
-                if(closestNPCPos == new Vector2(0, 0) || Main.npc.Length == 0)
+                if (closestNPCPos == new Vector2(0, 0) || Main.npc.Length == 0)
                 {
                     projectile.Kill();
                 }

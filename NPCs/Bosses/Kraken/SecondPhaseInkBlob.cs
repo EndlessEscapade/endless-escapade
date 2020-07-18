@@ -44,18 +44,18 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 start = projectile.Center;
             }
             projectile.ai[0]++;
-            if(projectile.alpha > 0 && projectile.ai[0] > 100)
-            projectile.alpha--;
-            if(projectile.ai[0] > 200)
-            projectile.scale += (2 - projectile.scale) / 64f;
+            if (projectile.alpha > 0 && projectile.ai[0] > 100)
+                projectile.alpha--;
+            if (projectile.ai[0] > 200)
+                projectile.scale += (2 - projectile.scale) / 64f;
 
-            if(projectile.ai[0] > 300)
+            if (projectile.ai[0] > 300)
             {
-                Vector2 speed = new Vector2(0, -10).RotatedBy(projectile.ai[0] / 40f);
+                Vector2 speed = new Vector2(0, -15).RotatedBy(projectile.ai[0] / 30f);
                 float projectileknockBack = 4f;
-                int projectiledamage = 20;
-                if(Main.rand.Next(4) == 0)
-                Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, mod.ProjectileType("InkSpew"), projectiledamage, projectileknockBack, Main.npc[(int)projectile.ai[1]].target, 0f, 1);
+                int projectiledamage = 40;
+                if (Main.rand.Next(4) == 0)
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, mod.ProjectileType("InkSpew"), projectiledamage, projectileknockBack, Main.npc[(int)projectile.ai[1]].target, 0f, 1);
             }
         }
 
@@ -76,4 +76,3 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         }
     }
 }
-   

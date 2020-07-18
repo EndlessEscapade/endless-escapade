@@ -65,18 +65,20 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public void Reset(int from)
         {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>(); 
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             npc.ai[0] = 0;
             numberOfPushes = 0;
             modPlayer.TurnCameraFixationsOff();
             while (npc.ai[1] == from)
             {
-                npc.ai[1] = Main.rand.Next(1, 5);
+                npc.ai[1] = Main.rand.Next(1, 6);
             }
             npc.netUpdate = true;
             npc.alpha = 0;
             tentacleAlpha = 1;
             GETHIMBOIS = false;
+            thrust = false;
+            resetAnim = false;
         }
         public override void SetDefaults()
         {
@@ -105,7 +107,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         bool thrust = false;
         public bool isRightOrLeft = true;
         bool resetAnim = false;
-        Vector2 arenaPosition = new Vector2(8000, 19500);
+        public Vector2 arenaPosition = new Vector2(8000, 19500);
         public Vector2[] dashPositions = new Vector2[5];
         public Vector2[] npcFromPositions = new Vector2[5];
         Rectangle seperateFrame = new Rectangle(0, 0, 568, 472);
@@ -114,11 +116,15 @@ namespace EEMod.NPCs.Bosses.Kraken
         public bool GETHIMBOIS;
         public float tentacleAlpha = 1;
         public bool hasChains;
-        Vector2[] geyserPositionsVar;
+        Vector2[] geyserPositionsVarUp;
+        Vector2[] geyserPositionsVarDown;
+        Vector2[] geyserPositionsVarRight;
+        Vector2[] geyserPositionsVarLeft;
         public int howMany = 5;
         public Vector2[] smolBloons = new Vector2[2];
         public Vector2[] bigBloons = new Vector2[2];
-
+        public float waterLevel;
+        float speedOfIncline = 0.2f;
         public void UpdateInkBlobs(int chance)
         {
             if (Main.rand.Next(chance) == 0)
@@ -147,7 +153,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 if ((bigBloons[1] == Vector2.Zero) && (bigBloons[0] != Vector2.Zero) && bigBloons[0] != (smolBloons[0] + smolBloons[1]) / 2)
                 {
                     bigBloons[1] = (smolBloons[0] + smolBloons[1]) / 2;
-                    Projectile.NewProjectile(bigBloons[0], Vector2.Zero, ModContent.ProjectileType<SecondPhaseInkBlob>(), 50, 0, Main.myPlayer, 0, npc.whoAmI);
+                    Projectile.NewProjectile(bigBloons[1], Vector2.Zero, ModContent.ProjectileType<SecondPhaseInkBlob>(), 50, 0, Main.myPlayer, 0, npc.whoAmI);
                 }
                 if (bigBloons[0] == Vector2.Zero)
                 {
@@ -162,7 +168,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         }
         public override void AI()
         {
-            
+            waterLevel += speedOfIncline;
             Vector2 topLeft = arenaPosition - new Vector2(2500, 1200);
             Vector2 topRight = arenaPosition - new Vector2(-2500, 1200);
             Vector2[] holePositions = { new Vector2((int)topLeft.X + 400, (int)topLeft.Y - 100), new Vector2((int)topRight.X - 300, (int)topRight.Y - 100), new Vector2((int)topLeft.X + 400, (int)topLeft.Y + 1200), new Vector2((int)topRight.X - 300, (int)topRight.Y + 1200) };
@@ -171,7 +177,10 @@ namespace EEMod.NPCs.Bosses.Kraken
             Player player = Main.player[npc.target];
             if (firstFrame)
             {
-                geyserPositionsVar = new Vector2[howMany];
+                geyserPositionsVarUp = new Vector2[howMany];
+                geyserPositionsVarDown = new Vector2[howMany];
+                geyserPositionsVarRight = new Vector2[howMany];
+                geyserPositionsVarLeft = new Vector2[howMany];
                 NPC.NewNPC((int)player.Center.X, (int)player.Center.Y, ModContent.NPCType<TentacleEdgeHandler>(), 0, npc.whoAmI);
                 npc.ai[1] = 1;
                 npc.Center = topLeft;
@@ -198,7 +207,7 @@ namespace EEMod.NPCs.Bosses.Kraken
 
             Vector2[] geyserPositions = { arenaPosition + new Vector2(-100, 1000), arenaPosition + new Vector2(100, 1000) };
             npc.rotation = npc.velocity.X / 80f;
-            
+
             if (npc.velocity.X > 0)
                 npc.spriteDirection = -1;
             else
@@ -225,10 +234,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 thrust = true;
                                 resetAnim = true;
-                                UpdateInkBlobs(2);
+                                UpdateInkBlobs(3);
                                 numberOfPushes++;
                             }
-                            
+
                             if (thrust && variablethrustingPower < thrustingPower)
                             {
                                 variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
@@ -241,7 +250,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 Reset(1);
                             }
-                            if(npc.Center.X > topRight.X && variablethrustingPower <= 1f)
+                            if (npc.Center.X > topRight.X && variablethrustingPower <= 1f)
                             {
                                 isRightOrLeft = false;
                             }
@@ -258,7 +267,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 thrust = true;
                                 resetAnim = true;
-                                UpdateInkBlobs(2);
+                                UpdateInkBlobs(3);
                                 numberOfPushes++;
                             }
                             if (thrust && variablethrustingPower < thrustingPower)
@@ -286,20 +295,32 @@ namespace EEMod.NPCs.Bosses.Kraken
                         npc.velocity *= 0.95f;
                         if (npc.ai[0] == 10)
                         {
-                            geyserPositionsVar = SpawnProjectileNearPlayerOnTile(40, howMany);
+                            geyserPositionsVarUp = SpawnProjectileNearPlayerOnTile(40, howMany, true);
+                            geyserPositionsVarDown = SpawnProjectileNearPlayerOnTile(40, howMany, false);
+                            geyserPositionsVarRight = SpawnProjectileNearPlayerOnTileSide(40, howMany, true);
+                            geyserPositionsVarLeft = SpawnProjectileNearPlayerOnTileSide(40, howMany, false);
                         }
-                        if(npc.ai[0] == 30)
+                        if (npc.ai[0] == 30)
                         {
-                            for (int i = 0; i < geyserPositionsVar.Length; i++)
+                            for (int i = 0; i < geyserPositionsVarUp.Length; i++)
                             {
-                                Projectile.NewProjectile(geyserPositionsVar[i].X, geyserPositionsVar[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 0);
+                                Projectile.NewProjectile(geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 0);
+                                Projectile.NewProjectile(geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 1);
+                                Projectile.NewProjectile(geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 2);
+                                Projectile.NewProjectile(geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 3);
                             }
                         }
-                        for (int i = 0; i < geyserPositionsVar.Length; i++)
+                        for (int i = 0; i < geyserPositionsVarUp.Length; i++)
                         {
-                            if(npc.ai[0]>100)
+                            if (npc.ai[0] > 100)
                             {
-                                    Projectile.NewProjectile(geyserPositionsVar[i].X, geyserPositionsVar[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(-10, -15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                if (npc.ai[0] % 4 == 0)
+                                {
+                                    Projectile.NewProjectile(geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(-10, -15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(10, 15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, Main.rand.NextFloat(10f, 15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                    Projectile.NewProjectile(geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, Main.rand.NextFloat(-10f, -15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                }
                             }
                         }
                         if (npc.ai[0] < 80)
@@ -315,7 +336,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 case 3:
                     {
                         Vector2 gradient = Vector2.Normalize(arenaPosition - npc.Center);
-                        if (Vector2.DistanceSquared(arenaPosition, npc.Center) > (200*200) && !GETHIMBOIS)
+                        if (Vector2.DistanceSquared(arenaPosition, npc.Center) > (280 * 280) && !GETHIMBOIS)
                         {
                             if (!thrust)
                             {
@@ -328,7 +349,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 thrust = true;
                                 resetAnim = true;
-                                UpdateInkBlobs(2);
+                                UpdateInkBlobs(3);
                                 numberOfPushes++;
                             }
                             if (thrust && variablethrustingPower < thrustingPower)
@@ -343,21 +364,28 @@ namespace EEMod.NPCs.Bosses.Kraken
                         else if (!GETHIMBOIS)
                         {
                             npc.ai[0]++;
-                            resetAnim = true;
+                            
                             npc.velocity *= 0.98f;
                             if (npc.ai[0] == 100)
                             {
                                 for (int i = 0; i < holePositions.Length; i++)
                                 {
-                                    if(i == 0 || i == 2)
-                                    NPC.NewNPC((int)holePositions[i].X + 120, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
+                                    if (i == 0 || i == 2)
+                                        NPC.NewNPC((int)holePositions[i].X + 120, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
                                     if (i == 1 || i == 3)
-                                    NPC.NewNPC((int)holePositions[i].X + 100, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI,1);
+                                        NPC.NewNPC((int)holePositions[i].X + 100, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI, 1);
                                 }
                             }
                             if (npc.ai[0] >= 400)
                             {
                                 Reset(3);
+                            }
+                            if (npc.ai[0] > 10)
+                            {
+                                resetAnim = true;
+                                thrust = true;
+                                npc.velocity.X = (float)Math.Sin(npc.ai[0] / 20) * 2;
+                                npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 20) * 2;
                             }
                         }
                         if (GETHIMBOIS)
@@ -365,15 +393,15 @@ namespace EEMod.NPCs.Bosses.Kraken
                             Vector2 yeet;
                             if (isRightOrLeft)
                             {
-                                yeet = player.Center + new Vector2(300,0);
+                                yeet = player.Center + new Vector2(400, 0);
                             }
                             else
                             {
-                                yeet = player.Center + new Vector2(-300, 0);
+                                yeet = player.Center + new Vector2(-400, 0);
                             }
                             modPlayer.FixateCameraOn(npc.Center, 64f, false, true);
                             gradient = Vector2.Normalize(yeet - npc.Center);
-                            if (Vector2.DistanceSquared(yeet, npc.Center) > (180* 180))
+                            if (Vector2.DistanceSquared(yeet, npc.Center) > (180 * 180))
                             {
                                 if (!thrust)
                                 {
@@ -424,10 +452,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 {
                                     modPlayer.FixateCameraOn(npc.Center, 64f, true, true);
                                     float projectilespeedX = 10 * -npc.spriteDirection;
-                                    float projectilespeedY = Main.rand.NextFloat(-2,2);
+                                    float projectilespeedY = Main.rand.NextFloat(-2, 2);
                                     float projectileknockBack = 4f;
                                     int projectiledamage = 20;
-                                    Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, mod.ProjectileType("WaterSpew"), projectiledamage,projectileknockBack, npc.target, 0f, 1);
+                                    Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, mod.ProjectileType("WaterSpew"), projectiledamage, projectileknockBack, npc.target, 0f, 1);
                                     if (npc.ai[0] == 280)
                                     {
                                         Reset(3);
@@ -439,6 +467,8 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }
                 case 4:
                     {
+                        resetAnim = true;
+                        thrust = true;
                         npc.ai[0]++;
                         npc.alpha++;
                         tentacleAlpha -= 0.025f;
@@ -474,12 +504,56 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }
                 case 5:
                     {
-                        npc.ai[1] = Main.rand.Next(1, 4);
+                        Vector2 gradient = Vector2.Normalize(topRight - npc.Center);
+                        if (Vector2.DistanceSquared(topRight, npc.Center) > (200 * 200) && !GETHIMBOIS)
+                        {
+                            if (!thrust)
+                            {
+                                variablethrustingPower *= 0.97f;
+                            }
+                            resetAnim = false;
+                            npc.velocity.X = variablethrustingPower * gradient.X;
+                            npc.velocity.Y = variablethrustingPower * gradient.Y;
+                            if (variablethrustingPower <= 1f && !thrust)
+                            {
+                                thrust = true;
+                                resetAnim = true;
+                                UpdateInkBlobs(3);
+                                numberOfPushes++;
+                            }
+                            if (thrust && variablethrustingPower < thrustingPower)
+                            {
+                                variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
+                                if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
+                                {
+                                    thrust = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            int frequency = 40;
+                            npc.ai[0]++;
+                            if (npc.ai[0] % frequency == 0)
+                            {
+                                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
+                            }
+                            if (npc.ai[0] == 400)
+                            {
+                                Reset(5);
+                            }
+                            if(npc.ai[0] % frequency <= frequency/2)
+                            modPlayer.FixateCameraOn(player.Center, 64f, true, false);
+                            else
+                            {
+                                modPlayer.TurnCameraFixationsOff();
+                            }
+                        }
                         break;
                     }
             }
         }
-        public void SpawnProjectileNearPlayerOnTile(int dist)
+        public void SpawnProjectileNearPlayerOnTile(int dist, bool above)
         {
             int distFromPlayer = dist;
             int playerTileX = (int)Main.player[npc.target].position.X / 16;
@@ -489,32 +563,40 @@ namespace EEMod.NPCs.Bosses.Kraken
             int teleportCheckCount = 0;
             bool hasTeleportPoint = false;
             //player is too far away, don't teleport.
-            if (Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center) > (2000f* 2000f))
+            if (Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center) > (2000f * 2000f))
             {
                 teleportCheckCount = 100;
                 hasTeleportPoint = true;
             }
-                while (!hasTeleportPoint && teleportCheckCount < 100)
+            while (!hasTeleportPoint && teleportCheckCount < 100)
+            {
+                teleportCheckCount++;
+                int tpTileX = Main.rand.Next(playerTileX - distFromPlayer, playerTileX + distFromPlayer);
+                int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
+                for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
                 {
-                    teleportCheckCount++;
-                    int tpTileX = Main.rand.Next(playerTileX - distFromPlayer, playerTileX + distFromPlayer);
-                    int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
-                    for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
+                    if (Main.tile[tpTileX, tpY].nactive())
                     {
-                        if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && (Main.tile[tpTileX, tpY].nactive()))
+                        if (Main.tileSolid[Main.tile[tpTileX, tpY].type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
                         {
-                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
-                            {
-                                Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, -5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
-                                hasTeleportPoint = true;
-                                npc.netUpdate = true;
-                                break;
-                            }
+                            Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, -5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
+                            hasTeleportPoint = true;
+                            npc.netUpdate = true;
+                            break;
                         }
+                        if (Main.tileSolid[Main.tile[tpTileX, tpY].type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 4, tpY + 1) && !above)
+                        {
+                            Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
+                            hasTeleportPoint = true;
+                            npc.netUpdate = true;
+                            break;
+                        }
+                    }
                 }
+
             }
         }
-        public Vector2[] SpawnProjectileNearPlayerOnTile(int dist, int howMany)
+        public Vector2[] SpawnProjectileNearPlayerOnTile(int dist, int howMany, bool above)
         {
             Vector2[] geyserPoses = new Vector2[howMany];
             int distFromPlayer = dist;
@@ -540,9 +622,16 @@ namespace EEMod.NPCs.Bosses.Kraken
                     int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
                     for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
                     {
-                        if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (Main.tile[tpTileX, tpY].nactive()))
+                        if (Main.tile[tpTileX, tpY].nactive())
                         {
-                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
+                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
+                            {
+                                hasTeleportPoint = true;
+                                geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
+                                npc.netUpdate = true;
+                                break;
+                            }
+                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 1, tpY + 4) && !above)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
@@ -555,6 +644,55 @@ namespace EEMod.NPCs.Bosses.Kraken
             }
             return geyserPoses;
         }
+        public Vector2[] SpawnProjectileNearPlayerOnTileSide(int dist, int howMany, bool right)
+        {
+            Vector2[] geyserPoses = new Vector2[howMany];
+            int distFromPlayer = dist;
+            int playerTileX = (int)Main.player[npc.target].position.X / 16;
+            int playerTileY = (int)Main.player[npc.target].position.Y / 16;
+            int tileX = (int)npc.position.X / 16;
+            int tileY = (int)npc.position.Y / 16;
+            int teleportCheckCount = 0;
+            bool hasTeleportPoint = false;
+            //player is too far away, don't teleport.
+            for (int i = 0; i < howMany; i++)
+            {
+                hasTeleportPoint = false;
+                if (Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center) > (2000f * 2000f))
+                {
+                    teleportCheckCount = 100;
+                    hasTeleportPoint = true;
+                }
+                while (!hasTeleportPoint && teleportCheckCount < 100)
+                {
+                    teleportCheckCount++;
+                    int tpTileX = Main.rand.Next(playerTileX - distFromPlayer, playerTileX + distFromPlayer);
+                    int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
+                    for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
+                    {
+                        if (Main.tile[tpTileX, tpY].nactive())
+                        {
+                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX + 1, tpTileX + 4, tpY - 1, tpY + 1) && right)
+                            {
+                                hasTeleportPoint = true;
+                                geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
+                                npc.netUpdate = true;
+                                break;
+                            }
+                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 4, tpTileX - 1, tpY - 1, tpY + 1) && !right)
+                            {
+                                hasTeleportPoint = true;
+                                geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
+                                npc.netUpdate = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            return geyserPoses;
+        }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.KrakenTentacles;
