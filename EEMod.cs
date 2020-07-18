@@ -415,7 +415,6 @@ namespace EEMod
             if (Main.netMode == NetmodeID.SinglePlayer || ((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 0))
             {
                 if (eePlayer.boatSpeed == 3)
-                if (eePlayer.boatSpeed == 0.3f)
                     frameNum = 1;
                 if (eePlayer.boatSpeed == 1)
                     frameNum = 0;
