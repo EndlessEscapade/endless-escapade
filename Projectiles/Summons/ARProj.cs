@@ -11,7 +11,7 @@ namespace EEMod.Projectiles.Summons
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Quartz Minion");
+            DisplayName.SetDefault("Aqut");
             //  Main.projFrames[projectile.type] = 2;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = true;
             ProjectileID.Sets.Homing[projectile.type] = true;
@@ -42,10 +42,9 @@ namespace EEMod.Projectiles.Summons
             bool areYouHere = projectile.type == ModContent.ProjectileType<ARProj>();
             Player player = Main.player[projectile.owner];
             player.AddBuff(ModContent.BuffType<ARBuff>(), 3600);
-            projectile.rotation += projectile.velocity.X / 32f;
-            float extra = 0.1f;
+            float extra = 1;
             float projWidth = projectile.width;
-            float variation = 0.5f;
+            float variation = 0.01f;
             projectile.velocity += new Vector2(Main.rand.NextFloat(-variation, variation), Main.rand.NextFloat(-variation, variation));
             projWidth *= 2f;
 
@@ -57,19 +56,19 @@ namespace EEMod.Projectiles.Summons
                 {
                     if (projectile.position.X < p.position.X)
                     {
-                        projectile.velocity.X = projectile.velocity.X - extra;
+                        projectile.velocity.X += projectile.velocity.X - extra;
                     }
                     else
                     {
-                        projectile.velocity.X = projectile.velocity.X + extra;
+                        projectile.velocity.X += projectile.velocity.X + extra;
                     }
                     if (projectile.position.Y < p.position.Y)
                     {
-                        projectile.velocity.Y = projectile.velocity.Y - extra;
+                        projectile.velocity.Y += projectile.velocity.Y - extra;
                     }
                     else
                     {
-                        projectile.velocity.Y = projectile.velocity.Y + extra;
+                        projectile.velocity.Y += projectile.velocity.Y + extra;
                     }
                 }
             }
@@ -139,7 +138,7 @@ namespace EEMod.Projectiles.Summons
                     delay++;
                     if (delay < 14)
                     {
-                        projectile.velocity = Helpers.MoveTowardsNPC(128f, projectile.velocity.X, projectile.velocity.Y, Main.npc[a], projectile.Center, projectile.direction);
+                        projectile.velocity = Helpers.MoveTowardsNPC(65f, projectile.velocity.X, projectile.velocity.Y, Main.npc[a], projectile.Center, projectile.direction);
                     }
                     else
                     {
@@ -258,10 +257,16 @@ namespace EEMod.Projectiles.Summons
                     }
                 }
             }
+            somethingIDontNeedToSync += 0.05f;
+            projectile.velocity.X += (float)Math.Sin(somethingIDontNeedToSync) / 20f;
+            projectile.velocity.Y += (float)Math.Cos(somethingIDontNeedToSync) / 20f;
 
-
+            if (projectile.velocity.X > 0)
+                projectile.spriteDirection = -1;
+            else
+                projectile.spriteDirection = 1;
         }
-
+        float somethingIDontNeedToSync;
         public override bool PreAI()
         {
             bool areYouHere = projectile.type == ModContent.ProjectileType<ARProj>();
@@ -277,13 +282,6 @@ namespace EEMod.Projectiles.Summons
                 projectile.timeLeft = 2;
             }
 
-            if (Main.rand.NextBool(6))
-            {
-                int num25 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 123, 0f, 0f, 100, default, 1f);
-                Main.dust[num25].velocity *= 0.3f;
-                Main.dust[num25].noGravity = true;
-                Main.dust[num25].noLight = true;
-            }
             return true;
         }
     }

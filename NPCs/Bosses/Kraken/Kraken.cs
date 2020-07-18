@@ -365,7 +365,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         else if (!GETHIMBOIS)
                         {
                             npc.ai[0]++;
-                            
+
                             npc.velocity *= 0.98f;
                             if (npc.ai[0] == 100)
                             {
@@ -539,8 +539,8 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
                             }
-                            if(npc.ai[0] % frequency*8 <= (frequency*8)/2)
-                            modPlayer.FixateCameraOn(player.Center, 64f, true, false);
+                            if (npc.ai[0] % frequency * 8 <= (frequency * 8) / 2)
+                                modPlayer.FixateCameraOn(player.Center, 64f, true, false);
                             else
                             {
                                 modPlayer.TurnCameraFixationsOff();

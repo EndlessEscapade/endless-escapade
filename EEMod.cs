@@ -414,12 +414,12 @@ namespace EEMod
             int frameNum = 0;
             if (Main.netMode == NetmodeID.SinglePlayer || ((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 0))
             {
-                if(eePlayer.boatSpeed == 0.3f)
+                if (eePlayer.boatSpeed == 0.3f)
                     frameNum = 1;
                 if (eePlayer.boatSpeed == 0.1f)
                     frameNum = 0;
             }
-            if(((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 1))
+            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 1))
             {
                 if (eePlayer.boatSpeed == 0.3f)
                     frameNum = 3;

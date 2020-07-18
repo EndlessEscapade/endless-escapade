@@ -49,6 +49,7 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.lavaImmune = false;
             npc.noTileCollide = false;
+            bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
     }
 }
