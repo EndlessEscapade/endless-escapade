@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -40,4 +40,4 @@ namespace EEMod.Projectiles.Melee
             return false;
         }
     }
-}
+}*/

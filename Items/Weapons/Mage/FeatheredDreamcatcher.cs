@@ -21,9 +21,9 @@ namespace EEMod.Items.Weapons.Mage
             item.noMelee = true;
             item.autoReuse = true;
             item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 50;
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.damage = 110;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.width = 20;
             item.height = 20;
             item.shootSpeed = 0;

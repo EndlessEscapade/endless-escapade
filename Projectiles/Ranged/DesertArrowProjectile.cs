@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -70,4 +70,4 @@ namespace EEMod.Projectiles.Ranged
             projectile.velocity.Y += Main.rand.NextFloat(-1, -1.5f);
         }
     }
-}
+}*/

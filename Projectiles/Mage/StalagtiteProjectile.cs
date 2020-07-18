@@ -1,4 +1,4 @@
-using Terraria.ModLoader;
+/*using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -18,4 +18,4 @@ namespace EEMod.Projectiles.Mage
             projectile.tileCollide = true;
         }
     }
-}
+}*/

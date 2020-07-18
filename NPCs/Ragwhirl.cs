@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -129,4 +129,4 @@ namespace EEMod.NPCs
             Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ModContent.ItemType<MummifiedRag>(), Main.rand.Next(2));
         }
     }
-}
+}*/
