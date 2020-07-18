@@ -351,7 +351,7 @@ namespace EEMod
             }
             Vector2 textSize = Main.fontMouseText.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
-            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 0, SpriteEffects.None, 0f);
+            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
         float flash = 0;
         float markerPlacer = 0;

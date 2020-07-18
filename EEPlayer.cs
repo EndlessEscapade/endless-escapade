@@ -536,7 +536,6 @@ namespace EEMod
                         SM.SaveAndQuit(prevKey);
                     }
                 }
-
                 if (rectangle1.Intersects(ShipHitBox))
                 {
                     isNearIsland = true;
