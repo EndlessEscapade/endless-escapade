@@ -23,6 +23,7 @@ namespace EEMod.Items.Placeables.Paintings
             item.consumable = true;
             item.width = 12;
             item.height = 12;
+            item.rare = ItemRarityID.Cyan;
 
             item.createTile = ModContent.TileType<OSPaintingTile>();
         }

@@ -19,7 +19,7 @@ namespace EEMod.Items.Armor.Dalantinium
             item.width = 18;
             item.height = 18;
             item.value = Item.sellPrice(0, 0, 30);
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Orange;
             item.defense = 7;
         }
 

@@ -5,7 +5,7 @@ using EEMod.Tiles;
 
 namespace EEMod.Items.Placeables
 {
-    public class Gemsandstone : ModItem
+    public class DarkGemsand : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.autoReuse = true;
             item.maxStack = 999;
             item.placeStyle = 10;
-            item.createTile = ModContent.TileType<GemsandstoneTile>();
+            item.createTile = ModContent.TileType<DarkGemsandTile>();
         }
     }
 }

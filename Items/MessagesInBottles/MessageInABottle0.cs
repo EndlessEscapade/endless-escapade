@@ -19,7 +19,7 @@ namespace EEMod.Items.MessagesInBottles
             item.height = 20;
             item.maxStack = 1;
             item.value = Item.buyPrice(0, 0, 18, 0);
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.White;
         }
     }
 }

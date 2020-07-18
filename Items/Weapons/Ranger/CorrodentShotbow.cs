@@ -22,7 +22,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;
-            item.rare = ItemRarityID.Pink;
+            item.rare = ItemRarityID.Lime;
             item.value = Item.sellPrice(silver: 10);
             item.useAmmo = AmmoID.Arrow;
             item.shoot = 10;

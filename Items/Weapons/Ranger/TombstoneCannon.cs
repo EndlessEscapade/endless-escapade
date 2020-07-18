@@ -25,7 +25,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.width = 20;
             item.height = 20;
             item.shoot = ModContent.ProjectileType<Tombstone>();
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Orange;
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.shootSpeed = 17f;

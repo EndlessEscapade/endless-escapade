@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Mage
             item.shootSpeed = 7f;
             item.useTime = 22;
             item.useAnimation = 22;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
             item.autoReuse = true;

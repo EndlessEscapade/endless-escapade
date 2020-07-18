@@ -18,7 +18,7 @@ namespace EEMod.Items.Materials
             item.height = 20;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 18, 0);
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.LightRed;
             item.useAnimation = 15;
             item.material = true;
         }

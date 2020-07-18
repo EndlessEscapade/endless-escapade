@@ -27,13 +27,12 @@ namespace EEMod.Items.Weapons.Mage
             item.width = 20;
             item.height = 20;
             item.shootSpeed = 0;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Yellow;
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item11;
             item.mana = 7;
-            //item.shoot = ModContent.ProjectileType<FeatheredDreamcatcherProjectile>();
-            item.shoot = ModContent.ProjectileType<Crate>();
+            item.shoot = ModContent.ProjectileType<FeatheredDreamcatcherProjectile>();
         }
     }
 }

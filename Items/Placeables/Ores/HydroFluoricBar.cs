@@ -21,7 +21,7 @@ namespace EEMod.Items.Placeables.Ores
             item.value = Item.buyPrice(0, 0, 32, 0);
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Lime;
             item.useAnimation = 15;
             item.useTime = 10;
             item.autoReuse = true;

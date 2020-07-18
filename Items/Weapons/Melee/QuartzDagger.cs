@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using EEMod.Projectiles.Melee;
@@ -46,4 +46,4 @@ namespace EEMod.Items.Weapons.Melee
             recipe.AddRecipe();
         }
     }
-}
+}*/

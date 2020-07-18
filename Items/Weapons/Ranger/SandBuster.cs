@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -38,4 +38,4 @@ namespace EEMod.Items.Weapons.Ranger
             return new Vector2(-4, 0);
         }
     }
-}
+}*/

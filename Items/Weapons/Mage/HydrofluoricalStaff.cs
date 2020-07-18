@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Mage
             item.useTime = 20;
             item.useAnimation = 20;
             item.value = Item.sellPrice(0, 0, 30);
-            item.rare = ItemRarityID.Yellow;
+            item.rare = ItemRarityID.Lime;
             item.shoot = ProjectileID.RuneBlast;
             item.UseSound = SoundID.DD2_MonkStaffSwing;
             item.shootSpeed = 15f;

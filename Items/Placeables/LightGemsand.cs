@@ -5,11 +5,11 @@ using EEMod.Tiles;
 
 namespace EEMod.Items.Placeables
 {
-    public class HardenedGemsand : ModItem
+    public class LightGemsand : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gemsand");
+            DisplayName.SetDefault("Light Gemsand");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.autoReuse = true;
             item.maxStack = 999;
             item.placeStyle = 10;
-            item.createTile = ModContent.TileType<HardenedGemsandTile>();
+            item.createTile = ModContent.TileType<LightGemsandTile>();
         }
     }
 }

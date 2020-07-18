@@ -5,11 +5,11 @@ using EEMod.Tiles.Walls;
 
 namespace EEMod.Items.Placeables
 {
-    public class HardenedGemsandWall : ModItem
+    public class DarkGemsandWall : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gemsand Wall");
+            DisplayName.SetDefault("Dark Gemsand Wall");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.useTurn = true;
             item.autoReuse = true;
             item.maxStack = 999;
-            item.createWall = ModContent.WallType<HardenedGemsandWallTile>();
+            item.createWall = ModContent.WallType<DarkGemsandWallTile>();
         }
     }
 }

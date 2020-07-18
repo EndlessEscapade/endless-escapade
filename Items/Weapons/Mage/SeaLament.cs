@@ -23,7 +23,7 @@ namespace EEMod.Items.Weapons.Mage
             item.useTime = 9;
             item.useAnimation = 9;
             item.knockBack = 1;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Purple;
             item.autoReuse = true;
             item.noMelee = true;
             item.magic = true;

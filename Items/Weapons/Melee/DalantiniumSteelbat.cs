@@ -15,7 +15,7 @@ namespace EEMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.melee = true;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Orange;
             item.autoReuse = false;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 10f;

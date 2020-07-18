@@ -1,4 +1,4 @@
-﻿using Terraria.ID;
+﻿/*using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Items.Materials
@@ -21,3 +21,4 @@ namespace EEMod.Items.Materials
         }
     }
 }
+*/

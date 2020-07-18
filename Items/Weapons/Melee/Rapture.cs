@@ -1,4 +1,4 @@
-using Terraria.ID;
+/*using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 
@@ -25,4 +25,4 @@ namespace EEMod.Items.Weapons.Melee
             item.damage = 68;
         }
     }
-}
+}*/

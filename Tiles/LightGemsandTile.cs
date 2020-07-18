@@ -5,7 +5,7 @@ using EEMod.Items.Placeables;
 
 namespace EEMod.Tiles
 {
-    public class GemsandstoneTile : ModTile
+    public class LightGemsandTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -13,10 +13,10 @@ namespace EEMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
 
-            AddMapEntry(new Color(67, 47, 155));
+            AddMapEntry(new Color(88, 179, 179));
 
             dustType = 154;
-            drop = ModContent.ItemType<Gemsandstone>();
+            drop = ModContent.ItemType<LightGemsand>();
             soundStyle = 1;
             mineResist = 1f;
             minPick = 0;

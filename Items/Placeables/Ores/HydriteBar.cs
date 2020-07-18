@@ -22,7 +22,7 @@ namespace EEMod.Items.Placeables.Ores
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.material = true;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Pink;
             item.useAnimation = 15;
             item.useTime = 10;
             item.autoReuse = true;

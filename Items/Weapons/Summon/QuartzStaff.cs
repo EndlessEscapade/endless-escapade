@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -15,7 +15,7 @@ namespace EEMod.Items.Weapons.Summon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Quartz Staff");
-            Tooltip.SetDefault(@"Summons a quartz crystal to slice through your foes");
+            Tooltip.SetDefault("Summons a quartz crystal to slice through your foes");
         }
 
         public override void SetDefaults()
@@ -90,4 +90,4 @@ namespace EEMod.Items.Weapons.Summon
             recipe.AddRecipe();
         }
     }
-}
+}*/

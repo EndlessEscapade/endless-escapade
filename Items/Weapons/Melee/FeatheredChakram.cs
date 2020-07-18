@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 8;
             item.value = Item.buyPrice(0, 5, 0, 0);
-            item.rare = 2;
+            item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<FeatheredChakramProjectile>();

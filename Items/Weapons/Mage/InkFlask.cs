@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Projectiles.Mage;
+using EEMod.Projectiles;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -24,7 +25,7 @@ namespace EEMod.Items.Weapons.Mage
             item.useTime = 30;
             item.useAnimation = 30;
             item.value = Item.sellPrice(0, 20, 0);
-            item.rare = ItemRarityID.Purple;
+            item.rare = ItemRarityID.Cyan;
             item.shoot = ModContent.ProjectileType<InkFlaskProjectile>();
             item.shootSpeed = 15f;
             item.damage = 160;

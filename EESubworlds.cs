@@ -47,17 +47,17 @@ namespace EEMod
             Main.maxTilesY = 2000;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<HardenedGemsandTile>());
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<GemsandTile>());
             EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY / 20, Vector2.Zero);
             for (int i = 0; i < 10; i++)
             {
                 for (int j = -5; j < 5; j++)
-                    WorldGen.TileRunner(300 + (i * 170) + (j * 10), Main.maxTilesY / 20, 10, 10, ModContent.TileType<HardenedGemsandTile>(), true, 0, 0, true, true);
+                    WorldGen.TileRunner(300 + (i * 170) + (j * 10), Main.maxTilesY / 20, 10, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
             }
             for (int i = 0; i < 100; i++)
             {
                 for (int j = -5; j < 5; j++)
-                    WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<HardenedGemsandTile>(), true, 0, 0, true, true);
+                    WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
             }
             EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 40), ModContent.TileType<CoralSand>());
             EEWorld.EEWorld.CoralReef();
@@ -175,17 +175,17 @@ namespace EEMod
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 360, Vector2.Zero);
 
-            EEWorld.EEWorld.RemoveWaterFromRegion(50, 630, new Vector2(575, 170));
+            EEWorld.EEWorld.RemoveWaterFromRegion(60, 630, new Vector2(570, 170));
+            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             EEWorld.EEWorld.MakeTriangle(new Vector2(300, 895), 600, 1000, 3, ModContent.TileType<VolcanicAshTile>(), true, true, ModContent.WallType<VolcanicAshWallTile>());
             EEWorld.EEWorld.Island(800, 400, 290);
             EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 400), ModContent.TileType<CoralSand>());
 
-            EEWorld.EEWorld.ClearRegionSafely(50, 630, new Vector2(575, 170), ModContent.TileType<CoralSand>());
-            EEWorld.EEWorld.ClearRegionSafely(50, 630, new Vector2(575, 170), TileID.Dirt);
-            EEWorld.EEWorld.ClearRegionSafely(50, 630, new Vector2(575, 170), TileID.Grass);
-            EEWorld.EEWorld.FillRegionWithLava(40, 200, new Vector2(580, 600));
-            EEWorld.EEWorld.KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            EEWorld.EEWorld.MakeVolcanoEntrance(598, 602, EEWorld.EEWorld.VolcanoEntrance);
+            EEWorld.EEWorld.ClearRegionSafely(60, 630, new Vector2(570, 170), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.ClearRegionSafely(60, 630, new Vector2(570, 170), TileID.Dirt);
+            EEWorld.EEWorld.ClearRegionSafely(60, 630, new Vector2(570, 170), TileID.Grass);
+            EEWorld.EEWorld.FillRegionWithLava(40, 206, new Vector2(580, 594));
+            EEWorld.EEWorld.MakeVolcanoEntrance(598, 596, EEWorld.EEWorld.VolcanoEntrance);
 
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;

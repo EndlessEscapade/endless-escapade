@@ -10,7 +10,6 @@ namespace EEMod.Items.Tools.Dalantinium
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dalantinium Hamaxe");
-            Tooltip.SetDefault("STOP! Hammer time");
         }
 
         public override void SetDefaults()
@@ -21,7 +20,7 @@ namespace EEMod.Items.Tools.Dalantinium
             item.useAnimation = 38;
             item.width = 20;
             item.height = 20;
-            item.rare = ItemRarityID.Green;
+            item.rare = ItemRarityID.Orange;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.value = Item.sellPrice(0, 0, 48);
             item.damage = 12;

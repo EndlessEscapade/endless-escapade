@@ -5,7 +5,7 @@ using EEMod.Items.Placeables;
 
 namespace EEMod.Tiles.Walls
 {
-    public class HardenedGemsandWallTile : ModWall
+    public class LightGemsandWallTile : ModWall
     {
         public override void SetDefaults()
         {
@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Walls
 
             Main.wallHouse[Type] = true;
             dustType = 154;
-            drop = ModContent.ItemType<HardenedGemsandWall>();
+            drop = ModContent.ItemType<LightGemsandWall>();
             soundStyle = 1;
         }
     }
