@@ -19,7 +19,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.width = 12;
             item.height = 12;
             item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<Trophies>();
+            item.createTile = ModContent.TileType<TrophiesTile>();
             item.placeStyle = 0;
         }
     }
@@ -37,7 +37,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.width = 12;
             item.height = 12;
             item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<Trophies>();
+            item.createTile = ModContent.TileType<TrophiesTile>();
             item.placeStyle = 1;
         }
     }
@@ -55,7 +55,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.width = 12;
             item.height = 12;
             item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<Trophies>();
+            item.createTile = ModContent.TileType<TrophiesTile>();
             item.placeStyle = 2;
         }
     }
@@ -73,7 +73,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.width = 12;
             item.height = 12;
             item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<Trophies>();
+            item.createTile = ModContent.TileType<TrophiesTile>();
             item.placeStyle = 3;
         }
     }
@@ -91,7 +91,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.width = 12;
             item.height = 12;
             item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<Trophies>();
+            item.createTile = ModContent.TileType<TrophiesTile>();
             item.placeStyle = 4;
         }
     }
@@ -109,7 +109,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.width = 12;
             item.height = 12;
             item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<Trophies>();
+            item.createTile = ModContent.TileType<TrophiesTile>();
             item.placeStyle = 5;
         }
     }
