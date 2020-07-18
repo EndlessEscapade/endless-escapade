@@ -73,6 +73,27 @@ namespace EEMod
             EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
             CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
+            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
+            for (int k = 0; k < maxTiles * 60; k++)
+            {
+                int xPos = 400;
+                int yPos = 1600;
+                int size = 190;
+                int x = WorldGen.genRand.Next(xPos - (size * 2), xPos + (size * 2));
+                int y = WorldGen.genRand.Next(yPos - (size * 2), yPos + (size * 2));
+                if (EEWorld.EEWorld.OvalCheck(xPos, yPos, x, y, size * 2, size))
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+            }
+            for (int i = 0; i < 1000; i++)
+            {
+                for (int j = 0; j < 2000; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.type == TileID.StoneSlab)
+                        WorldGen.KillTile(i, j);
+                }
+            }
+            //EEWorld.EEWorld.MakeAtlantis(new Vector2(100,20000), new Vector2(900, 500));
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
             Main.spawnTileY = EEWorld.EEWorld.TileCheckWater(boatPos) - 22;
