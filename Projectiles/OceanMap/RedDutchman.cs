@@ -57,19 +57,19 @@ namespace EEMod.Projectiles.OceanMap
                 invincTime--;
 
                 invincTime = (int)MathHelper.Clamp(invincTime, 0, 61);
-                    for (int j = 0; j < 450; j++)
+                for (int j = 0; j < 450; j++)
+                {
+                    if (Main.projectile[j].type == ModContent.ProjectileType<FriendlyCannonball>())
                     {
-                        if (Main.projectile[j].type == ModContent.ProjectileType<FriendlyCannonball>())
+                        if (Vector2.DistanceSquared(Main.projectile[j].Center, projectile.Center) < (50 * 50) && invincTime == 0)
                         {
-                            if (Vector2.DistanceSquared(Main.projectile[j].Center, projectile.Center) < (50*50) && invincTime == 0)
-                            {
-                                invincTime = 60;
-                                Main.projectile[j].Kill();
-                                Main.PlaySound(SoundID.NPCHit4);
-                                hp--;
-                            }
+                            invincTime = 60;
+                            Main.projectile[j].Kill();
+                            Main.PlaySound(SoundID.NPCHit4);
+                            hp--;
                         }
                     }
+                }
                 if (hp <= 0)
                     sinking = true;
             }
@@ -84,7 +84,7 @@ namespace EEMod.Projectiles.OceanMap
             projectile.velocity.Y = 0.5f;
             projectile.alpha += 8;
             sinkTimer--;
-            if(sinkTimer <= 0)
+            if (sinkTimer <= 0)
             {
                 projectile.Kill();
             }

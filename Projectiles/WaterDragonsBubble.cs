@@ -21,7 +21,7 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            if(projectile.velocity.Y <= 2)
+            if (projectile.velocity.Y <= 2)
                 projectile.velocity.Y *= 1.02f;
         }
     }

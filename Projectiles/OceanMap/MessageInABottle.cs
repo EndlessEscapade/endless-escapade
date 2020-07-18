@@ -39,7 +39,7 @@ namespace EEMod.Projectiles.OceanMap
             projectile.velocity.Y = 0.5f;
             projectile.alpha += 8;
             sinkTimer--;
-            if(sinkTimer <= 0)
+            if (sinkTimer <= 0)
             {
                 projectile.Kill();
             }

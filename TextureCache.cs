@@ -46,6 +46,7 @@ namespace EEMod
         public static Texture2D TentacleChain;
         public static Texture2D TentacleChainSmol;
         public static Texture2D TentacleEnd;
+        public static Texture2D Oil;
 
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
@@ -91,10 +92,12 @@ namespace EEMod
             TentacleChain = mod.GetTexture("NPCs/Bosses/Kraken/TentacleChain");
             TentacleChainSmol = mod.GetTexture("NPCs/Bosses/Kraken/ChainSmol");
             TentacleEnd = mod.GetTexture("NPCs/Bosses/Kraken/EndOfSmol");
+            Oil = mod.GetTexture("NPCs/Bosses/Kraken/Oil");
         }
         [UnloadingMethod]
         public static void Unload()
         {
+            Oil = null;
             TentacleEnd = null;
             TentacleChainSmol = null;
             TentacleChain = null;

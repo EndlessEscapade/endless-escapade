@@ -46,7 +46,7 @@ namespace EEMod.NPCs.Bosses.Kraken
 
             npc.TargetClosest(true);
             player = Main.player[npc.target];
-            npc.Center = player.Center - new Vector2(-200,0);
+            npc.Center = player.Center - new Vector2(-200, 0);
             krakenHead = Main.npc[(int)npc.ai[0]].modNPC as KrakenHead;
             npcBase = Main.npc[(int)npc.ai[0]];
             npc.ai[1]++;
@@ -116,8 +116,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                     float gradient = (endingPoint[i].Y - startingPoint[i].Y) / (endingPoint[i].X - startingPoint[i].X);
                     if (player.Center.Y >= gradient * (player.Center.X - startingPoint[i].X) + startingPoint[i].Y - 60 && player.Center.Y <= gradient * (player.Center.X - startingPoint[i].X) + startingPoint[i].Y + 60 && coolDownForCollision == 0 && npcBase.ai[1] != 4)
                     {
+                        Main.player[npc.target].velocity += new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6));
                         Main.player[npc.target].velocity *= -1.6f;
                         coolDownForCollision = cooldown;
+                        npc.netUpdate = true;
                     }
                     Helpers.DrawBezier(Main.spriteBatch, TextureCache.TentacleChain, "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, (float)Math.PI / 2);
                     /*if (npc.ai[1] % 8 == 0)
@@ -137,6 +139,17 @@ namespace EEMod.NPCs.Bosses.Kraken
                         }
                     }*/
                 }
+            }
+            Texture2D oil = TextureCache.Oil;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            for (int i = -10; i < 10; i++)
+                Main.spriteBatch.Draw(oil, new Vector2(krakenHead.arenaPosition.X + (i * oil.Width), 1000 - krakenHead.waterLevel + krakenHead.arenaPosition.Y + oil.Height / 2 + (float)Math.Sin(npc.ai[1] / 30) * 20) - Main.screenPosition, new Rectangle(0, 0, oil.Width, oil.Height), drawColor * 0.8f, 0, new Rectangle(0, 0, oil.Width, oil.Height).Size() / 2, 1, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin();
+            if (player.Center.Y > 1000 - krakenHead.waterLevel + krakenHead.arenaPosition.Y + (float)Math.Sin(npc.ai[1] / 30) * 20)
+            {
+                player.velocity *= .8f;
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

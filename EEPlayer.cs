@@ -523,7 +523,7 @@ namespace EEMod
                 if (EEMod.ShipHelth <= 0)
                 {
                     if (prevKey == baseWorldName || prevKey == "Main")
-                    { 
+                    {
                         ReturnHome();
                     }
                     else
@@ -805,7 +805,7 @@ namespace EEMod
                 markerPlacer++;
                 if (markerPlacer % 40 == 0)
                 {
-                   // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
+                    // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                 }
 
                 if (!arrowFlag)
@@ -957,7 +957,7 @@ namespace EEMod
                 titleText2 = 0;
                 if (!arrowFlag)
                 {
-                    if(EEModConfigClient.Instance.BetterLighting)
+                    if (EEModConfigClient.Instance.BetterLighting)
                         Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BetterLighting>(), 0, 0f, Main.myPlayer, 0, player.whoAmI);
                     player.ClearBuff(BuffID.Cursed);
                     Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);

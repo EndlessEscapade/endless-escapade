@@ -40,7 +40,7 @@ namespace EEMod.NPCs.CoralReefs
             for (int i = 0; i < Main.player.Length; i++)
             {
                 Player player = Main.player[i];
-                if (Vector2.DistanceSquared(npc.position, player.position) <= (160*160))
+                if (Vector2.DistanceSquared(npc.position, player.position) <= (160 * 160))
                     isBig = true;
             }
 

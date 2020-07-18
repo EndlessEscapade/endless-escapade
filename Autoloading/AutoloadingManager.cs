@@ -53,13 +53,13 @@ namespace EEMod.Autoloading
                     field.SetValue(null, constructor.Invoke(null));
             }
 
-            foreach(var method in types.SelectMany(i => i.GetMethods(FLAGS_STATIC)))
+            foreach (var method in types.SelectMany(i => i.GetMethods(FLAGS_STATIC)))
             {
                 LoadingMethodAttribute attribute = method.GetCustomAttribute<LoadingMethodAttribute>();
                 if (attribute is null || method.IsAbstract || method.IsGenericMethod || method.IsGenericMethodDefinition || method.GetMethodBody()?.GetILAsByteArray() is null || method.GetParameters().Length > 0)
                     continue;
 
-                if(attribute.mode == LoadMode.Both || attribute.mode == LoadMode.Server == Main.dedServ)
+                if (attribute.mode == LoadMode.Both || attribute.mode == LoadMode.Server == Main.dedServ)
                     method.Invoke(null, null);
             }
         }

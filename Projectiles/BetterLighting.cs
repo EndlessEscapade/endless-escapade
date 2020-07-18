@@ -34,10 +34,10 @@ namespace EEMod.Projectiles
         {
             if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive() && EEModConfigClient.Instance.BetterLighting)
             {
-                Filters.Scene.Activate("EEMod:WhiteFlash", projectile.Center).GetShader().UseDirection(new Vector2(1,0)).UseOpacity(projectile.ai[0]);
+                Filters.Scene.Activate("EEMod:WhiteFlash", projectile.Center).GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(projectile.ai[0]);
             }
-            if(EEModConfigClient.Instance.BetterLighting)
-            Filters.Scene["EEMod:WhiteFlash"].GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(1);
+            if (EEModConfigClient.Instance.BetterLighting)
+                Filters.Scene["EEMod:WhiteFlash"].GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(1);
             else
             {
                 if (SkyManager.Instance["EEMod:WhiteFlash"].IsActive()) SkyManager.Instance.Deactivate("EEMod:WhiteFlash", new object[0]);
@@ -64,7 +64,7 @@ namespace EEMod.Projectiles
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-           // drawIt();
+            // drawIt();
             return true;
         }
     }

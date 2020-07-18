@@ -25,7 +25,7 @@ namespace EEMod.Tiles.Walls
                         g -= 0.0005f;
                         b -= 0.0005f;
                     }
-                    if(Main.time > 1000 && Main.time < 53000)
+                    if (Main.time > 1000 && Main.time < 53000)
                     {
                         r = 0.5f;
                         g = 0.5f;

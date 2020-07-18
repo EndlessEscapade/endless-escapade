@@ -83,7 +83,7 @@ namespace EEMod
                 });
             }
         }
-        public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig,Main self)
+        public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             /* for (int i = 0; i < 400; i++)
              {

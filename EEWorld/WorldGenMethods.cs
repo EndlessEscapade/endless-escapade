@@ -2748,7 +2748,7 @@ namespace EEMod.EEWorld
             }
             fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, distanceFromEdge + 120));
             fillers.Add(new Vector2(60, 60));
-             KillWall((int)(size.X), (int)(size.Y), startingPoint);
+            KillWall((int)(size.X), (int)(size.Y), startingPoint);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
