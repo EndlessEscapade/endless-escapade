@@ -2593,7 +2593,7 @@ namespace EEMod.EEWorld
             fillers.Add(new Vector2(midpoint.X + (int)displacement - 90 + 30, (int)startingHeightOfUpperClass + 20 - 40));
             fillers.Add(new Vector2(midpoint.X + (int)displacement - 30, (int)startingHeightOfUpperClass + 50 + 130));
             fillers.Add(new Vector2(midpoint.X - (int)displacement + 30, (int)startingHeightOfUpperClass + 50 + 130));
-            MakeLayerWithOutline((int)midpoint.X, 70, 20, 1, ModContent.TileType<LightGemsandTile>(), 10);
+            MakeLayerWithOutline((int)midpoint.X, 70 + (int)startingPoint.Y, 20, 1, ModContent.TileType<LightGemsandTile>(), 10);
             for (int j = 0; j < 3; j++)
             {
                 switch (listNumbersHighClass[j])
@@ -2709,9 +2709,9 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-            MakeChasm(distanceFromEdge - 20, distanceFromEdge + 60, 170, ModContent.TileType<DarkGemsandTile>(), 0, 10, 10);
-            MakeChasm(distanceFromEdge + 70, distanceFromEdge + 60, 170, ModContent.TileType<DarkGemsandTile>(), 0, 10, 10);
-            MakeOvalJaggedTop(25, 40, new Vector2(distanceFromEdge + 12, distanceFromEdge + 120), ModContent.TileType<DarkGemsandTile>());
+            MakeChasm(distanceFromEdge - 20, (int)startingPoint.Y + 100 + 60, 170, ModContent.TileType<DarkGemsandTile>(), 0, 10, 10);
+            MakeChasm(distanceFromEdge + 70, (int)startingPoint.Y + 100 + 60, 170, ModContent.TileType<DarkGemsandTile>(), 0, 10, 10);
+            MakeOvalJaggedTop(25, 40, new Vector2(distanceFromEdge + 12, 100 + (int)startingPoint.Y + 120), ModContent.TileType<DarkGemsandTile>());
             for (int j = 0; j < 2; j++)
             {
                 for (int i = 2; i > 0; i--)
@@ -2722,30 +2722,30 @@ namespace EEMod.EEWorld
                         {
                             case 0:
                                 {
-                                    PlaceMisc1((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 - Misc1.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - Misc1.GetLength(1) / 2, Misc1);
+                                    PlaceMisc1((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 - Misc1.GetLength(0) / 2, 100 + (int)startingPoint.Y + (i * 40) - 50 - Misc1.GetLength(1) / 2, Misc1);
                                     break;
                                 }
                             case 1:
                                 {
-                                    PlaceMisc2((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 - Misc2.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - Misc2.GetLength(1) / 2, Misc2);
+                                    PlaceMisc2((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 - Misc2.GetLength(0) / 2, 100 + (int)startingPoint.Y + (i * 40) - 50 - Misc2.GetLength(1) / 2, Misc2);
                                     break;
                                 }
                             case 2:
                                 {
-                                    PlaceMisc3((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 - Misc3.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - Misc3.GetLength(1) / 2, Misc3);
+                                    PlaceMisc3((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 - Misc3.GetLength(0) / 2, 100 + (int)startingPoint.Y + (i * 40) - 50 - Misc3.GetLength(1) / 2, Misc3);
                                     break;
                                 }
                             case 3:
                                 {
-                                    PlaceMisc4((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 - Misc4.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - Misc4.GetLength(1) / 2, Misc4);
+                                    PlaceMisc4((int)(startingPoint.X + size.X) - distanceFromEdge - (j * 50) - 44 - Misc4.GetLength(0) / 2, 100 + (int)startingPoint.Y + (i * 40) - 50 - Misc4.GetLength(1) / 2, Misc4);
                                     break;
                                 }
                         }
                     }
                 }
             }
-            fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, distanceFromEdge + 120));
-            fillers.Add(new Vector2(60, 60));
+            fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, startingPoint.Y + distanceFromEdge + 120));
+            fillers.Add(new Vector2(startingPoint.X + 60, startingPoint.Y + 60));
             KillWall((int)(size.X), (int)(size.Y), startingPoint);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
