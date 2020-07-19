@@ -28,6 +28,7 @@ namespace EEMod.Projectiles
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.scale *= 1;
+            projectile.light = 0;
         }
         public int yes;
         public override void AI()           //this make that the projectile will face the corect way

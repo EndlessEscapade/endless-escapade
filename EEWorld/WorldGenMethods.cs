@@ -2687,22 +2687,22 @@ namespace EEMod.EEWorld
                         {
                             case 0:
                                 {
-                                    PlaceMisc1(distanceFromEdge + (j * 50) - Misc1.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - Misc1.GetLength(1) / 2, Misc1);
+                                    PlaceMisc1(distanceFromEdge + (j * 50) - Misc1.GetLength(0) / 2, 100 + (int)startingPoint.Y + (i * 40) - 50 - Misc1.GetLength(1) / 2, Misc1);
                                     break;
                                 }
                             case 1:
                                 {
-                                    PlaceMisc2(distanceFromEdge + (j * 50) - Misc2.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - Misc2.GetLength(1) / 2, Misc2);
+                                    PlaceMisc2(distanceFromEdge + (j * 50) - Misc2.GetLength(0) / 2, 100 + (int)startingPoint.Y + (i * 40) - 50 - Misc2.GetLength(1) / 2, Misc2);
                                     break;
                                 }
                             case 2:
                                 {
-                                    PlaceMisc3(distanceFromEdge + (j * 50) - Misc3.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - Misc3.GetLength(1) / 2, Misc3);
+                                    PlaceMisc3(distanceFromEdge + (j * 50) - Misc3.GetLength(0) / 2, 100 + (int)startingPoint.Y + (i * 40) - 50 - Misc3.GetLength(1) / 2, Misc3);
                                     break;
                                 }
                             case 3:
                                 {
-                                    PlaceMisc4(distanceFromEdge + (j * 50) - Misc4.GetLength(0) / 2, distanceFromEdge + (i * 40) - 50 - Misc4.GetLength(1) / 2, Misc4);
+                                    PlaceMisc4(distanceFromEdge + (j * 50) - Misc4.GetLength(0) / 2, 100 + (int)startingPoint.Y + (i * 40) - 50 - Misc4.GetLength(1) / 2, Misc4);
                                     break;
                                 }
                         }
