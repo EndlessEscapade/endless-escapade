@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.NPCs.CoralReefs;
-using EEMod.Items;
+using EEMod.Items.Food;
 
 namespace EEMod.NPCs
 {
