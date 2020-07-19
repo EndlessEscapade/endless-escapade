@@ -93,7 +93,7 @@ namespace EEMod
                         WorldGen.KillTile(i, j);
                 }
             }
-            EEWorld.EEWorld.MakeAtlantis(new Vector2(50,1300), new Vector2(900, 500));
+            EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1400), new Vector2(900, 500));
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
             Main.spawnTileY = EEWorld.EEWorld.TileCheckWater(boatPos) - 22;

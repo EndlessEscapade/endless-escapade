@@ -21,7 +21,7 @@ namespace EEMod.Projectiles
             projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
             projectile.penetrate = -1;      //how many npc will penetrate
             projectile.alpha = 255;                               //how many time this projectile has before disepire
-            projectile.light = 0.3f;    // projectile light
+            projectile.light = 0;    // projectile light
             projectile.ignoreWater = true;
             projectile.aiStyle = 0;
             projectile.timeLeft = 1000000000;

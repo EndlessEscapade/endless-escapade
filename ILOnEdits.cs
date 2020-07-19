@@ -86,13 +86,13 @@ namespace EEMod
         }
         public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
-            /* for (int i = 0; i < 400; i++)
+             for (int i = 0; i < 400; i++)
              {
-                 if (Main.projectile[i].type == ModContent.ProjectileType<BetterLighting>())
+                 if (Main.projectile[i].type == ModContent.ProjectileType<Gradient>())
                  {
-                     (Main.projectile[i].modProjectile as BetterLighting).drawIt();
+                     (Main.projectile[i].modProjectile as Gradient).pixelPlacmentHours();
                  }
-             }*/
+             }
             if (NPC.AnyNPCs(ModContent.NPCType<TentacleEdgeHandler>()))
             {
                 for (int i = 0; i < 200; i++)

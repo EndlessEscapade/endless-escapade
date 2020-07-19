@@ -27,7 +27,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         public override void AI()
         {
             projectile.ai[0]++;
-            if (projectile.ai[0] < 40)
+            if (projectile.ai[0] < 70)
             {
                 for (int i = 0; i < 1; i++)
                 {
