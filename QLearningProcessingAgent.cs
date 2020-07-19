@@ -1,14 +1,8 @@
-﻿using EEMod.Autoloading;
+﻿/*using EEMod.Autoloading;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Compatibility;
-using EEMod.NPCs.Bosses.Hydros;
 using System.Collections.Generic;
 using System.Linq;
 namespace EEMod
@@ -336,4 +330,4 @@ namespace EEMod
         }
     }
 
-
+    */
