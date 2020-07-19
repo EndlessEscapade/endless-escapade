@@ -9,7 +9,11 @@ namespace EEMod.Projectiles
     {
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.BeachBall);
+            projectile.width = 24;
+            projectile.height = 24;
+            projectile.friendly = true;
+            projectile.timeLeft = 30 * 600;
+            projectile.hostile = false;
         }
     }
 }
