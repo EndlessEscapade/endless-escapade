@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -9,7 +10,7 @@ namespace EEMod.Projectiles.Mage
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("InkFlaskProjectile");
+            DisplayName.SetDefault("Ink Flask");
         }
 
         public override void SetDefaults()
@@ -19,7 +20,7 @@ namespace EEMod.Projectiles.Mage
             projectile.friendly = true;
             projectile.magic = true;
             projectile.penetrate = 1;
-            projectile.timeLeft = 300;
+            projectile.timeLeft = 600;
         }
 
         public override void AI()
@@ -29,6 +30,7 @@ namespace EEMod.Projectiles.Mage
             {
                 projectile.velocity.Y = 16f;
             }
+            projectile.rotation = projectile.velocity.ToRotation();
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -43,6 +45,7 @@ namespace EEMod.Projectiles.Mage
             {
                 Projectile.NewProjectile(projectile.position, new Vector2(Main.rand.Next(-1, 2), Main.rand.Next(-1, 2)), ModContent.ProjectileType<InkCloud>(), 1, 280);
             }
+            Main.PlaySound(SoundID.Item30);
         }
     }
 }

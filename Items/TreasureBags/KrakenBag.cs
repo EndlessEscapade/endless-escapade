@@ -49,7 +49,7 @@ namespace EEMod.Items.TreasureBags
             }
             else if (randVal == 2)
             {
-                //Main.LocalPlayer.QuickSpawnItem(ItemType<EggPistol>(), 1);
+                Main.LocalPlayer.QuickSpawnItem(ItemType<InkFlask>(), 1);
             }
             else if (randVal == 3)
             {

@@ -54,7 +54,10 @@ namespace EEMod.Tiles.Banners
 				case 5:
 					item = "GiantSquidBanner";
 					break;
-				default:
+                case 6:
+                    item = "SmallClamBanner";
+                    break;
+                default:
 					return;
 			}
 			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType(item));

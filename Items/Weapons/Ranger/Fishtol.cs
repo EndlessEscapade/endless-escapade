@@ -1,6 +1,8 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -31,6 +33,11 @@ namespace EEMod.Items.Weapons.Ranger
             item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
             item.UseSound = SoundID.Item11;
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(-3, 0);
         }
     }
 }
