@@ -13,9 +13,6 @@ using System.Collections.Generic;
 using System.Linq;
 namespace EEMod
 {
-    namespace EEMod.NPCs.Bosses.Kraken
-    {
-        [AutoloadBossHead]
         public class QLearningAgent : ModNPC
         {
             int rows = 20;
@@ -23,7 +20,7 @@ namespace EEMod
             float sizeOfSquares = 50;
             float[,] qValues => new float[columns,rows];
             float[,] rewards => new float[columns,rows];
-            public String direction;
+            public string direction;
             float probability = 1;
             bool flag = false;
             int time = 0;
@@ -338,6 +335,5 @@ namespace EEMod
             }
         }
     }
-}
 
 
