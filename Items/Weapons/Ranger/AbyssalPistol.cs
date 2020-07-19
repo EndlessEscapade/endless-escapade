@@ -31,10 +31,5 @@ namespace EEMod.Items.Weapons.Ranger
             item.UseSound = SoundID.Item11;
             item.useAmmo = AmmoID.Bullet;
         }
-
-        public override Vector2? HoldoutOffset()
-        {
-            return new Vector2(-3, 0);
-        }
     }
 }
