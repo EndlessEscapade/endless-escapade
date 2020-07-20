@@ -401,9 +401,22 @@ namespace EEMod
         public List<ParticlesClass> Particles = new List<ParticlesClass>();
         public List<Vector2> Velocity;
         private static string prevKey = "Main";
-
+        public float powerLevel = 0;
+        public int maxPowerLevel = 11;
         public override void UpdateBiomeVisuals()
         {
+            if(player.controlUseItem)
+            {
+                powerLevel += 0.2f;
+                if(powerLevel > maxPowerLevel)
+                {
+                    powerLevel = maxPowerLevel;
+                }
+            }
+            else
+            {
+                powerLevel = 0;
+            }
             if (dur > 0)
             {
                 bubbleTimer--;

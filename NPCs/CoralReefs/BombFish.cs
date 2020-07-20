@@ -11,7 +11,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             // Calamity be like
             DisplayName.SetDefault("Bomb Fish");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[npc.type] = 16;
         }
 
         public override void SetDefaults()
@@ -22,11 +22,11 @@ namespace EEMod.NPCs.CoralReefs
             npc.damage = 13;
             npc.defense = 3;
 
-            npc.width = 84;
-            npc.height = 53;
-            npc.noGravity = false;
+            npc.width = 40;
+            npc.height = 30;
+            npc.noGravity = true;
             npc.knockBackResist = 0f;
-
+            npc.noTileCollide = true;
             npc.npcSlots = 1f;
             npc.buffImmune[BuffID.Confused] = true;
             npc.lavaImmune = false;
@@ -85,46 +85,55 @@ namespace EEMod.NPCs.CoralReefs
             }
             return false;
         }
-
+        Vector2 playerPosition;
+        Vector2 speed;
         public override void AI()
         {
-            Player player = Main.player[npc.target];
-            float yChange = npc.Center.Y - player.Center.Y;
-            if (npc.WithinRange(player.Center, 200))
-                npc.ai[2] = 1;
+            npc.rotation = npc.velocity.ToRotation() + (float)Math.PI;
             npc.TargetClosest(true);
-            if (npc.ai[2] == 1)
+            Player player = Main.player[npc.target];
+            npc.ai[1]++;
+            
+            if(npc.ai[2] == 0)
             {
-                if (player.Center.X - npc.Center.X > 0)
-                    npc.spriteDirection = 1;
-                else
-                    npc.spriteDirection = -1;
-                if (npc.ai[0] % 200 == 0 && npc.ai[1] == 0 && npc.ai[0] != 0)
+                if (npc.ai[1] % 180 == 1 && Main.rand.Next(2) == 0)
                 {
-                    npc.velocity.X += 10 * npc.spriteDirection;
-                    npc.velocity.Y -= 10 * (1 + yChange / 500);
-                    npc.ai[1] = 1;
+                    speed = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
                 }
-                if (CheckIfEntityOnGround(npc))
+                npc.velocity.X += (speed.X - npc.velocity.X) / 16f;
+                npc.velocity.Y += (speed.Y - npc.velocity.Y) / 16f;
+                if (npc.WithinRange(player.Center, 300))
                 {
-                    if (npc.velocity.Y == 0)
-                    {
-                        npc.velocity.X = 0;
-                        npc.ai[1] = 0;
-                    }
-                    npc.ai[0]++;
+                    npc.ai[2] = 1;
+                    npc.ai[0] = 0;
                 }
-
-                npc.velocity *= .98f;
+            }
+            if(npc.ai[2] == 1)
+            {
+                npc.ai[0]++;
+                if (npc.ai[0] < 120)
+                {
+                    npc.velocity += new Vector2((float)Math.Sin(npc.ai[0] / 10f) * 0.5f, -(float)Math.Cos(npc.ai[0] / 10f) * 0.5f);
+                    playerPosition = player.Center;
+                }
+                else if(npc.ai[0] < 128)
+                {
+                    npc.velocity += (playerPosition - npc.Center) / 500f;
+                }
+                if(npc.ai[0] > 128)
+                {
+                    npc.velocity *= 0.98f;
+                }
+                if(npc.ai[0] >= 200)
+                {
+                    npc.ai[2] = 0;
+                    npc.ai[0] = 0;
+                }
             }
         }
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[2] == 1)
-            {
-                npc.frame.Y = frameHeight;
-            }
         }
     }
 }
