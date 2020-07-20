@@ -159,7 +159,7 @@ namespace EEMod.Projectiles
                     projectile.netUpdate = true;
                 }
                 projectile.Center = Main.player[getPlayer].Center + new Vector2((Main.player[getPlayer].direction * 10) - 10, -30);
-                
+
             }
             projectile.rotation += projectile.velocity.X/16f;
         }
