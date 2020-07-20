@@ -7,6 +7,8 @@ using EEMod.Tiles;
 using EEMod.Tiles.Walls;
 using System.Collections.Generic;
 using System;
+using EEMod.Tiles.Furniture;
+using EEMod.Tiles.Ores;
 
 namespace EEMod
 {
@@ -41,14 +43,18 @@ namespace EEMod
 
         public static void CoralReefs(int seed, GenerationProgress customProgressObject = null)
         {
+            //Variables and Initialization stuff
             int depth = 70;
             int boatPos = Main.maxTilesX / 2;
             Main.maxTilesX = 1000;
             Main.maxTilesY = 2000;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
+
+
+            //Rough shape for the reefs
             EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<GemsandTile>());
-            EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY / 20, Vector2.Zero);
+            EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY / 30, Vector2.Zero);
             for (int i = 0; i < 10; i++)
             {
                 for (int j = -5; j < 5; j++)
@@ -60,20 +66,160 @@ namespace EEMod
                     WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
             }
             EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 40), ModContent.TileType<CoralSand>());
-            EEWorld.EEWorld.CoralReef();
+            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
+
+
+            /*int chasmX = 100;
+            int chasmY = 100;
+            EEWorld.EEWorld.MakeWavyChasm(chasmX, chasmY, 1000, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60));
+            EEWorld.EEWorld.MakeWavyChasm2(chasmX - 50, chasmY, 1000, ModContent.TileType<GemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20), true);
+            EEWorld.EEWorld.MakeWavyChasm2(chasmX + 50, chasmY, 1000, ModContent.TileType<GemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20), true);
+            for (int i = 0; i < 5; i++)
+            {
+                EEWorld.EEWorld.MakeChasm(chasmX + Main.rand.Next(-50, 50) + i * 20, chasmY + (i * 200) + Main.rand.Next(-50, 50), Main.rand.Next(5, 30), TileID.StoneSlab, Main.rand.Next(5, 10), WorldGen.genRand.Next(20, 60), Main.rand.Next(10, 20));
+
+            }
+            for (int i = 0; i < 20; i++)
+            {
+                EEWorld.EEWorld.MakeOvalFlatTop(Main.rand.Next(10, 20), Main.rand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + (i * 50) + Main.rand.Next(-20, 20)), ModContent.TileType<GemsandTile>());
+                if (i % 5 == 0)
+                {
+                    EEWorld.EEWorld.MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + Main.rand.Next(-20, 20) + (i * 50), 25, 2, ModContent.TileType<GemsandTile>());
+                    EEWorld.EEWorld.MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50), 20, 1, ModContent.TileType<GemsandTile>());
+                    EEWorld.EEWorld.MakeCoral(new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50)), TileID.Coralstone, Main.rand.Next(4, 8));
+                    for (int j = 0; j < 7; j++)
+                        EEWorld.EEWorld.MakeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<DarkGemsandTile>());
+                }
+            }
+            for (int k = 0; k < maxTiles * 9; k++)
+            {
+                int xPos = 500;
+                int yPos = 1200;
+                int size = 80;
+                int x = WorldGen.genRand.Next(xPos - (size * 3), xPos + (size * 3));
+                int y = WorldGen.genRand.Next(yPos - (size * 3), yPos + (size * 3));
+                if (EEWorld.EEWorld.OvalCheck(xPos, yPos, x, y, size * 3, size))
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+            }
+
+            for (int i = 0; i < 800; i++)
+            {
+                for (int j = 0; j < 2000; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.type == TileID.StoneSlab)
+                        WorldGen.KillTile(i, j);
+                }
+            }
+            for (int i = 0; i < 500; i++)
+            {
+                for (int j = 0; j < 1500; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, chasmY + j);
+                    int yes = WorldGen.genRand.Next(5, 10);
+                    if (EEWorld.EEWorld.TileCheck2(i, chasmY + j) == 1 && j % yes == 0)
+                    {
+                        int selection = WorldGen.genRand.Next(2);
+                        switch (selection)
+                        {
+                            case 0:
+                                WorldGen.PlaceTile(i, chasmY + j + 1, ModContent.TileType<CoralLanternTile>());
+                                break;
+                            case 1:
+                                WorldGen.PlaceTile(i, chasmY + j + 1, ModContent.TileType<HangingCoralTile>());
+                                break;
+                        }
+                    }
+                    if (EEWorld.EEWorld.TileCheck2(i, chasmY + j) == 2 && j % yes <= 4)
+                    {
+                        int selection = WorldGen.genRand.Next(10);
+                        switch (selection)
+                        {
+                            case 0:
+                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<Coral1Tile>());
+                                break;
+                            case 1:
+                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<Coral2Tile>());
+                                break;
+                            case 2:
+                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<Coral3Tile>());
+                                break;
+                            case 3:
+                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<EyeTile>());
+                                break;
+                            case 4:
+                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<CoralLanternLamp>());
+                                break;
+                            case 5:
+                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<BrainTile>());
+                                break;
+                            case 6:
+                                WorldGen.PlaceTile(i, chasmY + j - 7, ModContent.TileType<BigCoral>());
+                                break;
+                            case 7:
+                                WorldGen.PlaceTile(i, chasmY + j - 7, ModContent.TileType<WavyBigCoral>());
+                                break;
+                            case 8:
+                                WorldGen.PlaceTile(i, chasmY + j - 3, ModContent.TileType<Brain1BigCoral>());
+                                break;
+                            case 9:
+                                WorldGen.PlaceTile(i, chasmY + j - 3, ModContent.TileType<Brain2BigCoral>());
+                                break;
+                        }
+                        if (selection == 5 && j < 300 && Main.rand.NextBool(4))
+                            EEWorld.EEWorld.MakeCoral(new Vector2(i, chasmY + j), TileID.Coralstone, Main.rand.Next(4, 8));
+                    }
+                }
+            }
+
+
+            int barrier = 1000;
+
+            for (int j = 0; j < barrier; j++)
+            {
+                for (int i = 0; i < Main.maxTilesX; i++)
+                {
+                    Tile tile = Main.tile[i, j];
+                    if (tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
+                    {
+                        if (Main.rand.NextBool(2000))
+                        {
+                            WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<LythenOreTile>());
+                        }
+                    }
+                }
+            }
+            for (int j = 0; j < 2; j++)
+                EEWorld.EEWorld.MakeOvalJaggedTop(55, 27, new Vector2(375 + (j * 250) - 25, 1225), ModContent.TileType<DarkGemsandTile>());
+            for (int j = 0; j < 2; j++)
+                EEWorld.EEWorld.MakeOvalJaggedTop(55, 27, new Vector2(375 + (j * 250) - 25, 1150), ModContent.TileType<DarkGemsandTile>());
+
+            for (int j = 0; j < 2; j++)
+                EEWorld.EEWorld.MakeOvalJaggedTop(WorldGen.genRand.Next(40, 50), WorldGen.genRand.Next(25, 30), new Vector2(450 + (j * 100) - 22, 1180), ModContent.TileType<DarkGemsandTile>());
+
+            for (int j = barrier; j < Main.maxTilesY; j++)
+            {
+                for (int i = 0; i < Main.maxTilesX; i++)
+                {
+                    Tile tile = Main.tile[i, j];
+                    if (tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
+                        if (Main.rand.NextBool(2000))
+                            WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydriteOreTile>());
+                }
+            }
             for (int i = 2; i < Main.maxTilesX - 2; i++)
             {
                 for (int j = 2; j < Main.maxTilesY - 2; j++)
                 {
                     Tile.SmoothSlope(i, j);
                 }
-            }
+            }*/
             EEWorld.EEWorld.KillWall(1000, 1000, Vector2.Zero);
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
             EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
             CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
-            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
+            /*maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
             for (int k = 0; k < maxTiles * 60; k++)
             {
                 int xPos = 400;
@@ -93,7 +239,7 @@ namespace EEMod
                         WorldGen.KillTile(i, j);
                 }
             }
-            EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1400), new Vector2(900, 500));
+            EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1400), new Vector2(900, 500));*/
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
             Main.spawnTileY = EEWorld.EEWorld.TileCheckWater(boatPos) - 22;

@@ -2400,7 +2400,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        private static void MakeCoral(Vector2 startingPoint, int type, int strength)
+        public static void MakeCoral(Vector2 startingPoint, int type, int strength)
         {
             for (int j = 0; j < 5; j++)
             {
