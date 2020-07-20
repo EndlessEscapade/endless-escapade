@@ -362,7 +362,7 @@ namespace EEMod
                         screenMessageText = "Poggers? Poggers.";
                         break;
                     case 47:
-                        screenMessageText = $"Totally not sentient AI. By the way, {Environment.UserName} is a dumb computer name";
+                        screenMessageText = $"Totally not sentient AI. By the way, {Main.LocalPlayer.name} is a dumb name";
                         break;
                     case 48:
                         screenMessageText = "It all ends eventually!";

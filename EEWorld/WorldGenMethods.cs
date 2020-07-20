@@ -1513,7 +1513,7 @@ namespace EEMod.EEWorld
                             case 0:
                                 break;
                             case 1:
-                                tile.wall = WallID.SandstoneBrick;
+                                WorldGen.PlaceWall(k, l, WallID.SandstoneBrick);
                                 tile.wallColor(21);
                                 break;
                             case 2:
@@ -1568,7 +1568,7 @@ namespace EEMod.EEWorld
                                 tile.wall = WallID.CobaltBrick;
                                 break;
                             case 17:
-                                tile.wall = WallID.Dirt;
+                                WorldGen.PlaceWall(k, l, WallID.Dirt);
                                 break;
                             case 18:
                                 tile.wall = WallID.Grass;
