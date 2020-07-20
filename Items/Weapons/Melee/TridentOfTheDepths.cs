@@ -5,6 +5,7 @@ using EEMod.Items.Placeables.Ores;
 using EEMod.Projectiles.Melee;
 using EEMod.Projectiles.Runes;
 using EEMod.Tiles;
+using EEMod.Projectiles;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -21,7 +22,7 @@ namespace EEMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 18;
             item.useTime = 24;
-            item.shootSpeed = 0;
+            item.shootSpeed = 4;
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;
@@ -35,13 +36,13 @@ namespace EEMod.Items.Weapons.Melee
             item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<TridentOfTheDepthsProjectile>();
+            item.shoot = ModContent.ProjectileType<Volleyball>();
         }
 
         public override bool CanUseItem(Player player)
         {
             // Ensures no more than one spear can be thrown out, use this when using autoReuse
-            return player.ownedProjectileCounts[item.shoot] < 1;
+            return player.ownedProjectileCounts[item.shoot] < 10;
         }
     }
 }
