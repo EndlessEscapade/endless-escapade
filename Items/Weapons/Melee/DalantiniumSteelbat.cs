@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Melee;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -14,19 +15,25 @@ namespace EEMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
+            item.damage = 20;
+            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useAnimation = 70;
+            item.useTime = 24;
+            item.shootSpeed = 4;
+            item.knockBack = 6.5f;
+            item.width = 32;
+            item.height = 32;
+            item.scale = 1f;
+            item.rare = ItemRarityID.Purple;
+            item.value = Item.sellPrice(silver: 10);
+
             item.melee = true;
-            item.rare = ItemRarityID.Orange;
-            item.autoReuse = false;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 10f;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.damage = 17;
-            item.width = 20;
-            item.height = 20;
-            item.crit = 2;
+            item.noMelee = true;
+            item.noUseGraphic = true;
+            item.autoReuse = true; 
+
             item.UseSound = SoundID.Item1;
+            item.shoot = ModContent.ProjectileType<DalantiniumSteelbatProj>();
         }
 
         public override void AddRecipes()

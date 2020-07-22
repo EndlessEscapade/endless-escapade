@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,14 +25,14 @@ namespace EEMod.Projectiles
             projectile.friendly = true;
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
-            projectile.scale *= 0.7f;
+            projectile.scale *= 1f;
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Bounce(projectile.modProjectile, oldVelocity, .7f);
             return false;
         }
-        Vector2 SavedVel;
+        static Vector2 SavedVel;
         public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
         {
             Projectile projectile = modProj.projectile;
@@ -72,9 +72,9 @@ namespace EEMod.Projectiles
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
-                writer.WriteVector2(SavedVel);
-                writer.WriteVector2(mouseHitBoxVec);
-                writer.Write(frame);
+           writer.WriteVector2(SavedVel);
+           writer.WriteVector2(mouseHitBoxVec);
+           writer.Write(frame);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -89,79 +89,67 @@ namespace EEMod.Projectiles
             Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, (volleyArrow.Height / frames) * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.Pi/2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
             return true;
         }
-        public static Vector2 mouseHitBoxVec;
+        static Vector2 mouseHitBoxVec;
         public override void AI()
         {
-            Player chosenPlayer = Main.player[GetPlayer(projectile.Center)];
-            EEPlayer modPlayer = chosenPlayer.GetModPlayer<EEPlayer>();
+            Player Yoda = Main.player[GetPlayer(projectile.Center)];
+            EEPlayer modPlayer = Yoda.GetModPlayer<EEPlayer>();
             if (Main.myPlayer == GetPlayer(projectile.Center))
             {
-                mouseHitBoxVec = new Vector2(Main.mouseX + (int)Main.screenPosition.X, Main.mouseY + (int)Main.screenPosition.Y);
-                projectile.netUpdate = true;
+                mouseHitBoxVec = new Vector2(Main.MouseWorld.X, Main.MouseWorld.Y);
+                frame = (int)(Yoda.GetModPlayer<EEPlayer>().powerLevel * (11f / modPlayer.maxPowerLevel));
             }
+            projectile.owner = GetPlayer(projectile.Center);
+            projectile.timeLeft = 100;
             Rectangle mouseHitBox = new Rectangle((int)mouseHitBoxVec.X - 6, (int)mouseHitBoxVec.Y - 6, 12, 12);
             Rectangle projectileHitBox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
-            Rectangle playerHitBox = new Rectangle((int)chosenPlayer.position.X - 30, (int)chosenPlayer.position.Y - 30, chosenPlayer.width + 30, chosenPlayer.height + 30);
-            frame = (int)(modPlayer.powerLevel * (11f/ modPlayer.maxPowerLevel));
-            projectile.timeLeft = 100;
-            projectile.velocity.Y += 0.2f;
-            if(projectile.velocity.Y > 10)
+            Rectangle playerHitBox = new Rectangle((int)Yoda.position.X - 30, (int)Yoda.position.Y - 30, Yoda.width + 30, Yoda.height + 30);
+            if (playerHitBox.Intersects(projectileHitBox))
             {
-                projectile.velocity.Y = 10;
-            }
-            projectile.velocity.X *= 0.98f;
-            
-            if(playerHitBox.Intersects(projectileHitBox))
-            {
-                if (projectile.ai[0] == 1 && chosenPlayer.controlUseItem)
+                if (projectile.ai[0] == 1 && Yoda.controlUseItem)
                 {
-                    SavedVel = projectile.velocity = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y)) * 10;
+                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y)) * 10;
                     projectile.ai[0] = 0;
                     projectile.netUpdate = true;
                 }
             }
-           /* if (chosenPlayer.controlUseItem && mouseHitBox.Intersects(projectileHitBox) && projectile.ai[0] != 2)
-            {
-                projectile.ai[0] = 0;
-                projectile.velocity.Y = 0;
-                Vector2 lastPosX = projectile.Center;
-                projectile.Center = new Vector2(mouseHitBoxVec.X, mouseHitBoxVec.Y);
-                Vector2 newPosX = projectile.Center;
-                SavedVel = newPosX - lastPosX;
-            }*/
-            else if(projectile.ai[0] == 0)
+            if (projectile.ai[0] == 0)
             {
                 ree = 0;
                 projectile.velocity = SavedVel;
                 projectile.ai[0] = 1;
                 projectile.ai[1] = 0;
-                projectile.netUpdate = true;
             }
-            if (chosenPlayer.controlUp && mouseHitBox.Intersects(projectileHitBox))
+            if (Yoda.controlUp && mouseHitBox.Intersects(projectileHitBox))
             {
                 projectile.ai[0] = 2;
-                projectile.netUpdate = true;
             }
             if (projectile.ai[0] == 2)
             {
-                if (chosenPlayer.controlUseItem)
+                if (Yoda.controlUseItem)
                 {
                     ree += 0.01f;
-                    if(ree > 1)
+                    if (ree > 1)
                     {
                         ree = 1;
                     }
-                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y)) * modPlayer.powerLevel;
+                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y)) * modPlayer.powerLevel;
                     projectile.ai[1] = 1;
+                    projectile.netUpdate = true;
                 }
-                if(projectile.ai[1] == 1 && !chosenPlayer.controlUseItem)
+                if (projectile.ai[1] == 1 && !Yoda.controlUseItem)
                 {
                     projectile.ai[0] = 0;
                 }
-                projectile.Center = chosenPlayer.Center + new Vector2((chosenPlayer.direction * 10) - 10, -30);
-                projectile.netUpdate = true;
+                projectile.Center = Yoda.Center + new Vector2((Yoda.direction * 10) - 10, -30);
             }
-            projectile.rotation += projectile.velocity.X/16f;
+            projectile.velocity.Y += 0.2f;
+            if (projectile.velocity.Y > 10)
+            {
+                projectile.velocity.Y = 10;
+            }
+            projectile.velocity.X *= 0.98f;
+            projectile.rotation += projectile.velocity.X / 16f;
         }
     }
 }

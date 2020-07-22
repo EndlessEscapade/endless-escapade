@@ -255,12 +255,14 @@ namespace EEMod
         public bool isCameraShaking;
         public Vector2 fixatingPoint;
         public float fixatingSpeedInv;
-        public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove)
+        public int intensity;
+        public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove,int intensity)
         {
             fixatingPoint = fixatingPointCamera;
             isCameraFixating = CameraMove;
             fixatingSpeedInv = fixatingSpeed;
             isCameraShaking = isCameraShakings;
+            this.intensity = intensity;
         }
         public void TurnCameraFixationsOff()
         {
@@ -391,7 +393,7 @@ namespace EEMod
 
             }
             if (isCameraShaking)
-                Main.screenPosition += new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10));
+                Main.screenPosition += new Vector2(Main.rand.Next(-intensity, intensity), Main.rand.Next(-intensity, intensity));
         }
         readonly SubworldManager SM = new SubworldManager();
         public int rippleCount = 3;
