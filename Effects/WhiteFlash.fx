@@ -28,30 +28,47 @@ float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
     float4 currentColour;
     float distance = sqrt(pow(coords.x - uDirection.x, 2) + pow(coords.y - uDirection.y, 2));
     float4 originColour = tex2D(uImage0, uDirection);
-    float difference = abs(originColour.r - colour.r) + abs(originColour.b - colour.b);
+    float difference = abs(colour3.r - colour.r) + abs(colour3.b - colour.b) + abs(colour3.g - colour.g);
     float difference2 = abs(colour2.r - colour.r) + abs(colour2.b - colour.b) + abs(colour2.g - colour.g);
-        if(difference2 < .3f)
+        if (difference2 > .3f || difference > .3f)
         {
-            //colour *= 1 + ((1 - (uOpacity / 1000)) + (30 / distance)) * (uOpacity / 100);
+            colour *= 0;
         }
-        else
+        for (float i = 0; i < 6; i++)
         {
-            colour *= 2f;
-            currentColour = colour;
-            //colour *= 0.5;
-        }
-        if (currentColour.g + currentColour.r + currentColour.b > 0.02f)
-        {
-            //colour.g += 1;
-            colour *= 1 + ((1 - (uOpacity / 1000)) + (30 / distance)) * (uOpacity / 100);
+           // colour = tex2D(uImage0, coords - float2(-1/ uScreenResolution.x, 1 / uScreenResolution.y));
+            if (tex2D(uImage0, coords - float2((-1 / uScreenResolution.x) * i, (1 / uScreenResolution.y) * i)).g <= .01)
+            {
+                 colour *= i * 0.16;
+            }
         }
     return colour;
 }
-
+float4 SecondPass(float2 coords : TEXCOORD0) : COLOR0
+{
+    float4 colour = tex2D(uImage0, coords);
+    float4 colour2 = tex2D(uImage0, coords + float2(1 / uScreenResolution.x, 0));
+    for (float i = 0; i < 6; i++)
+    {
+        colour = tex2D(uImage0, coords - float2((-1 / uScreenResolution.x) * i, (1 / uScreenResolution.y) * i));
+        if (tex2D(uImage0, coords - float2((-1/ uScreenResolution.x) * i, (1 / uScreenResolution.y) * i)).g <= .01)
+        {
+            colour *= i * 0.16;
+        }
+    }
+    return colour;
+}
 technique Technique1
 {
     pass WhiteFlash
     {
         PixelShader = compile ps_2_0 FilterMyShader();
+        FillMode = Solid;
     }
+    pass SecondPass
+    {
+        PixelShader = compile ps_2_0 SecondPass();
+        FillMode = Solid;
+    }
+
 }

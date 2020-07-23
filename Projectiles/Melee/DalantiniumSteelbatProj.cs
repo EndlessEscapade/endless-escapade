@@ -35,5 +35,8 @@ namespace EEMod.Projectiles.Melee
         public override float dirtSmashIntensity => 12;
         public override int shakeLength => 20;
         public override int AoE => base.AoE;
+        public override bool canCrash => true;
+        public override float damageIncreaseOverTime => 0.05f;
+        public override float weight => 2;
     }
 }

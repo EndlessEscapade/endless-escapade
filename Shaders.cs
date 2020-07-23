@@ -26,6 +26,8 @@ namespace EEMod
             Filters.Scene["EEMod:Pause"].Load();
             Filters.Scene["EEMod:WhiteFlash"] = new Filter(new ScreenShaderData(screenRef4, "WhiteFlash"), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:WhiteFlash"].Load();
+            Filters.Scene["EEMod:SecondPass"] = new Filter(new ScreenShaderData(screenRef4, "SecondPass"), EffectPriority.VeryHigh);
+            Filters.Scene["EEMod:SecondPass"].Load();
             SkyManager.Instance["EEMod:Akumo"] = new AkumoSky();
         }
     }
