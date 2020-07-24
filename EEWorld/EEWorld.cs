@@ -39,6 +39,7 @@ namespace EEMod.EEWorld
             if (EntracesPosses.Count > 0)
                 yes = EntracesPosses[0];
         }
+
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
         {
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
@@ -135,18 +136,20 @@ namespace EEMod.EEWorld
             {
                 return new TagCompound
                 {
-                {"CoralBoatPos",EESubWorlds.CoralBoatPos}
+                ["CoralBoatPos"]=EESubWorlds.CoralBoatPos
                 };
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {
                 return new TagCompound
                 {
-                {"SubWorldSpecificVolcanoInsidePos", SubWorldSpecificVolcanoInsidePos}
+                ["SubWorldSpecificVolcanoInsidePos"] = SubWorldSpecificVolcanoInsidePos
                 };
             }
             return new TagCompound {
-            {"EntracesPosses",EntracesPosses},{"yes", yes },{"ree", ree }
+            ["EntracesPosses"]=EntracesPosses,
+                ["yes"]= yes ,
+                ["ree"]= ree 
         };
             /*List<string> boolflags = new List<string>();
 
@@ -256,10 +259,10 @@ namespace EEMod.EEWorld
 
         public static bool HydrosCheck()
         {
-            if(instance.minionsKilled >= 5)
+            if (instance.minionsKilled >= 5)
                 return true;
             else
                 return false;
-        } 
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             projectile.tileCollide = false;
             projectile.timeLeft = 800;
         }
+
         public override bool PreAI()
         {
             if (Main.rand.NextBool(6))
@@ -36,6 +37,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             }
             return true;
         }
+
         private float speed = 8;
         private float xAddon = Main.rand.NextFloat(-.1f, .1f);
         public override void AI()
@@ -54,12 +56,14 @@ namespace EEMod.NPCs.Bosses.Akumo
         {
 
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = TextureCache.AkumoFeather;
             AfterImage.DrawAfterimage(spriteBatch, texture, 0, projectile, 1.5f, 1f, 2, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
             return true;
         }
+
         public override void Kill(int timeLeft)
         {
             Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, projectile.position);

@@ -22,7 +22,7 @@ namespace EEMod.Items.Materials
             item.rare = ItemRarityID.White;
             item.createTile = ModContent.TileType<KelpTile>();
             item.consumable = true;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;
             item.useAnimation = 15;
             item.autoReuse = true;

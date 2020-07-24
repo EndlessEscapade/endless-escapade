@@ -265,6 +265,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             if (npc.ai[0] % 5 == 0)
                 Projectile.NewProjectile(vector8.X + DisX, vector8.Y - 1200, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, 0);
         }
+
         private void Vortex()
         {
             npc.velocity *= 0.98f;
@@ -308,6 +309,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                 }
             }
         }
+
         private void Move(Player player, float sped, float TR)
         {
             Vector2 moveTo = player.Center + addOn;
@@ -328,6 +330,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             }
             npc.velocity = move;
         }
+
         private void Scree()
         {
             if (alpha <= 0)
@@ -399,6 +402,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                 Move(player, 80, 60);
             }
         }
+
         private void DespawnHandler()
         {
             Player player = Main.player[npc.target];
@@ -418,6 +422,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                 return;
             }
         }
+
         private float alpha, scale;
         bool scree => npc.ai[0] < 60 && npc.ai[0] > 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

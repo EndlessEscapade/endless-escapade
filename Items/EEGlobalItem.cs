@@ -1,19 +1,13 @@
-using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles;
-using Terraria.ID;
 
 namespace EEMod.Items
 {
     public class EEGlobalItem : GlobalItem
     {
-        //private bool randomAssVanillaAdaptedFlag = false;
-        //private int debug = 0;
-        public override bool InstancePerEntity => true;
+        //public override bool InstancePerEntity => true; // unneeded atm
 
-        public override bool CloneNewInstances => true;
+        //public override bool CloneNewInstances => true;
 
         public override void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult)
         {
@@ -27,7 +21,5 @@ namespace EEMod.Items
                 reduce -= 0.1f;
             }
         }
-
-
     }
 }

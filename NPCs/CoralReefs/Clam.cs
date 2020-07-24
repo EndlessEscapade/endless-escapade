@@ -1,8 +1,9 @@
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System;
+
 namespace EEMod.NPCs.CoralReefs
 {
     public class Clam : ModNPC
@@ -47,25 +48,10 @@ namespace EEMod.NPCs.CoralReefs
             int maxTilePosX = (int)((npc.position.X + npc.width) / 16.0) + 5;
             int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
             int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
-            if (minTilePosX < 0)
-            {
-                minTilePosX = 0;
-            }
 
-            if (maxTilePosX > Main.maxTilesX)
-            {
-                maxTilePosX = Main.maxTilesX;
-            }
+            Helpers.Clamp(ref maxTilePosX, 0, Main.maxTilesX);
+            Helpers.Clamp(ref maxTilePosY, 0, Main.maxTilesY);
 
-            if (minTilePosY < 0)
-            {
-                minTilePosY = 0;
-            }
-
-            if (maxTilePosY > Main.maxTilesY)
-            {
-                maxTilePosY = Main.maxTilesY;
-            }
             for (int i = minTilePosX; i < maxTilePosX; ++i)
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)

@@ -36,10 +36,10 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 {
                     if (Main.rand.Next(4) == 0)
                     {
-                        int dust = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, DustID.Blood, projectile.velocity.X * 1.2f, projectile.velocity.Y, 0, Color.Black, 3.5f);
+                        int dust = Dust.NewDust(projectile.position, 1, 1, DustID.Blood, projectile.velocity.X * 1.2f, projectile.velocity.Y, 0, Color.Black, 3.5f);
                         Main.dust[dust].noGravity = true;
-                        int dust2 = Dust.NewDust(new Vector2(projectile.position.X, projectile.position.Y), 1, 1, DustID.Blood, projectile.velocity.X * 1.2f, projectile.velocity.Y, 9, Color.Black, 3f);
-                        Main.dust[dust].noGravity = true;
+                        int dust2 = Dust.NewDust(projectile.position, 1, 1, DustID.Blood, projectile.velocity.X * 1.2f, projectile.velocity.Y, 9, Color.Black, 3f);
+                        Main.dust[dust2].noGravity = true;
                     }
                 }
                 else

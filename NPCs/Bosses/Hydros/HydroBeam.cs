@@ -109,6 +109,7 @@ namespace EEMod.NPCs.Bosses.Hydros
         {
             return DelegateMethods.CutTiles(x, y);
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.velocity == Vector2.Zero)
