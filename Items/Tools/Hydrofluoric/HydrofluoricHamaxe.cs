@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 
-namespace EEMod.Items.Tools.Dalantinium
+namespace EEMod.Items.Tools.Hydrofluoric
 {
     public class HydrofluoricHamaxe : ModItem
     {
