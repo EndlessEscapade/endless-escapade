@@ -73,8 +73,8 @@ namespace EEMod
             EEWorld.EEWorld.MakeWavyChasm2(100, 100, 500, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60), true);
             EEWorld.EEWorld.MakeWavyChasm2(Main.maxTilesX - 100, 100, 500, TileID.StoneSlab, -0.3f, WorldGen.genRand.Next(50, 60), true);
 
-            EEWorld.EEWorld.MakeWavyChasm(700, 100, 200, TileID.StoneSlab, 0.5f, WorldGen.genRand.Next(50, 60));
-            EEWorld.EEWorld.ClearOval(100, 100, new Vector2(850, 250));
+            EEWorld.EEWorld.MakeWavyChasm(450, 100, 200, TileID.StoneSlab, 0.5f, WorldGen.genRand.Next(50, 60));
+            EEWorld.EEWorld.ClearOval(100, 100, new Vector2(650, 250));
 
             EEWorld.EEWorld.ClearOval(300, 150, new Vector2(250, 500));
             EEWorld.EEWorld.ClearOval(300, 150, new Vector2(1100, 550));
