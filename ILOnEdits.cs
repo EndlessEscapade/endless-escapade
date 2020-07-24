@@ -341,7 +341,7 @@ namespace EEMod
                         screenMessageText = "All good sprites made by Zarn";
                         break;
                     case 40:
-                        screenMessageText = "All good sprites made by Franswal";
+                        screenMessageText = "All good builds made by Cherry";
                         break;
                     case 41:
                         screenMessageText = "Totally not copying Starlight River";
@@ -353,7 +353,7 @@ namespace EEMod
                         screenMessageText = "The man behind the laughter";
                         break;
                     case 44:
-                        screenMessageText = "Paint ruins the experience of building - Franswal 2020";
+                        screenMessageText = "All good sprites made by Darkpuppey";
                         break;
                     case 45:
                         screenMessageText = "An apple a day keeps the errors away!";
