@@ -13,6 +13,7 @@ namespace EEMod.Items
         {
             DisplayName.SetDefault("Torch");
         }
+
         public override void SetDefaults()
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -32,6 +33,7 @@ namespace EEMod.Items
             item.UseSound = SoundID.Item11;
             item.crit = 1;
         }
+
         int yeet;
         float alpha;
         int proj;

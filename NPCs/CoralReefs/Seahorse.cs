@@ -30,7 +30,6 @@ namespace EEMod.NPCs.CoralReefs
             }
         }
 
-
         public override void SetDefaults()
         {
             npc.lifeMax = 50;

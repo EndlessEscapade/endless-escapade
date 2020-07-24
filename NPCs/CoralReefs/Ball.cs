@@ -62,7 +62,7 @@ float x0, float x1, float x2, float x3)
             if (head != null && head.active && head.modNPC != null && head.modNPC is Ball)
             {
                 Texture2D neckTex2D = TextureCache.Chain;
-                Vector2 neckOrigin = new Vector2(npc.Center.X, npc.Center.Y);
+                Vector2 neckOrigin = npc.Center;
                 Vector2 connector = ifYouReallyWantToo;
                 float chainsPerUse = 0.05f;
                 float POINT1X = (connector.X - neckOrigin.X) * 1 + neckOrigin.X;

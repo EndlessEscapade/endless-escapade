@@ -55,7 +55,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 float projectileknockBack = 4f;
                 int projectiledamage = 40;
                 if (Main.rand.Next(4) == 0)
-                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, mod.ProjectileType("InkSpew"), projectiledamage, projectileknockBack, Main.npc[(int)projectile.ai[1]].target, 0f, 1);
+                    Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<InkSpew>(), projectiledamage, projectileknockBack, Main.npc[(int)projectile.ai[1]].target, 0f, 1);
             }
         }
 
@@ -63,7 +63,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         {
             for (int i = 0; i < krakenHead.smolBloons.Length; i++)
             {
-                if (Vector2.Distance(krakenHead.bigBloons[i], start) < 20)
+                if (Vector2.DistanceSquared(krakenHead.bigBloons[i], start) < 20 * 20)
                 {
                     krakenHead.bigBloons[i] = Vector2.Zero;
                 }

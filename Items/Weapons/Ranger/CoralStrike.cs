@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 using EEMod.Projectiles.Melee;
 using EEMod.Projectiles.Runes;
+
 namespace EEMod.Items.Weapons.Ranger
 {
     public class CoralStrike : ModItem

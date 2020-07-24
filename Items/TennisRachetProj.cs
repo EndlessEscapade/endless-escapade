@@ -30,6 +30,7 @@ namespace EEMod.Items
             projectile.scale *= 1;
             projectile.alpha = 255;
         }
+
         int frame;
         int numOfFrames = 8;
         public override void SendExtraAI(BinaryWriter writer)
@@ -66,7 +67,7 @@ namespace EEMod.Items
             float inverseSpeed = 100;
             float dampeningEffect = 0.07f;
             projectile.timeLeft = 100;
-            
+
             if (player.direction == 1)
                 {
                     frame = (int)((projectile.Center.X - player.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
@@ -97,9 +98,33 @@ namespace EEMod.Items
                projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect);
             if (Main.myPlayer == projectile.owner)
             {
-                goTo = Main.MouseWorld;
+                frame = (int)((projectile.Center.X - player.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
+                projectile.rotation = 0;
             }
-            projectile.netUpdate = true;
+            else
+            {
+                frame = (int)((player.Center.X - projectile.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
+                projectile.rotation = (float)MathHelper.Pi;
+            }
+            frame = (int)MathHelper.Clamp(frame, 0, numOfFrames - 1);
+            if (goTo.X < player.Center.X - radial)
+            {
+                goTo.X = player.Center.X - radial;
+            }
+            if (goTo.X > player.Center.X + radial)
+            {
+                goTo.X = player.Center.X + radial;
+            }
+            if (goTo.Y < player.Center.Y - radial)
+            {
+                goTo.Y = player.Center.Y - radial;
+            }
+            if (goTo.Y > player.Center.Y + radial)
+            {
+                goTo.Y = player.Center.Y + radial;
+            }
+            projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect);
+
         }
     }
 }

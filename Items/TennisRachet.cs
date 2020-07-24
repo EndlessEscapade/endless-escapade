@@ -13,6 +13,7 @@ namespace EEMod.Items
         {
             DisplayName.SetDefault("Tennis Rachet");
         }
+
         public override void SetDefaults()
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -32,9 +33,11 @@ namespace EEMod.Items
             item.crit = 1;
             item.noUseGraphic = true;
         }
+
         int yeet;
         float alpha;
         int proj;
+
         public override void HoldItem(Player player)
         {
             if (player.controlUseItem && yeet == 0)

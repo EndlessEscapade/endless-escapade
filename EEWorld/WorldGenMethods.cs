@@ -1701,7 +1701,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-            if (wallShape != default && walls != default)
+            if (wallShape != null && walls != null)
             {
                 for (int y = 0; y < wallShape.GetLength(0); y++)
                 {
@@ -2346,6 +2346,89 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void MakeKramkenArena(int xPos, int yPos, int size)
+        {
+            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
+            for (int k = 0; k < maxTiles * 60; k++)
+            {
+                int x = WorldGen.genRand.Next(xPos - (size * 2), xPos + (size * 2));
+                int y = WorldGen.genRand.Next(yPos - (size * 2), yPos + (size * 2));
+                if (OvalCheck(xPos, yPos, x, y, size * 2, size))
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+            }
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.type == TileID.StoneSlab)
+                        WorldGen.KillTile(i, j);
+                }
+            }
+        }
+        public static void MakeCoral()
+        {
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < (int) (Main.maxTilesY * (2/3)); j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    int yes = WorldGen.genRand.Next(5, 10);
+                        if (TileCheck2(i, j) == 1 && j % yes == 0)
+                        {
+                            int selection = WorldGen.genRand.Next(2);
+                            switch (selection)
+                            {
+                                case 0:
+                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<CoralLanternTile>());
+                                    break;
+                                case 1:
+                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoralTile>());
+                                    break;
+                            }
+                        }
+                        if (TileCheck2(i, j) == 2 && j % yes <= 4)
+                        {
+                            int selection = WorldGen.genRand.Next(10);
+                            switch (selection)
+                            {
+                                case 0:
+                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral1Tile>());
+                                    break;
+                                case 1:
+                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral2Tile>());
+                                    break;
+                                case 2:
+                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral3Tile>());
+                                    break;
+                                case 3:
+                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<EyeTile>());
+                                    break;
+                                case 4:
+                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CoralLanternLamp>());
+                                    break;
+                                case 5:
+                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<BrainTile>());
+                                    break;
+                                case 6:
+                                    WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral>());
+                                    break;
+                                case 7:
+                                    WorldGen.PlaceTile(i, j - 7, ModContent.TileType<WavyBigCoral>());
+                                    break;
+                                case 8:
+                                    WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain1BigCoral>());
+                                    break;
+                                case 9:
+                                    WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
+                                    break;
+                            }
+                            if (selection == 5 && j < 300 && Main.rand.NextBool(4))
+                                MakeCoral(new Vector2(i, j), TileID.Coralstone, Main.rand.Next(4, 8));
+                        }
+                }
+            }
+        }
         public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false, int wallType = 0)
         {
             int initialStartingPosX = (int)startingPoint.X;
@@ -2746,7 +2829,7 @@ namespace EEMod.EEWorld
             }
             fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, startingPoint.Y + distanceFromEdge + 120));
             fillers.Add(new Vector2(startingPoint.X + 60, startingPoint.Y + 60));
-            KillWall((int)(size.X), (int)(size.Y), startingPoint);
+            KillWall((int)size.X, (int)size.Y, startingPoint);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
@@ -2818,9 +2901,9 @@ namespace EEMod.EEWorld
             }
             WorldGen.TileRunner(80, 80, 30, 10, ModContent.TileType<DarkGemsandTile>());
             WorldGen.TileRunner(100, 60, 30, 10, ModContent.TileType<DarkGemsandTile>());
-            FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
-            FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
-            FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
+            FillRegionWithWater((int)size.X, (int)size.Y, startingPoint);
+            FillRegionWithWater((int)size.X, (int)size.Y, startingPoint);
+            FillRegionWithWater((int)size.X, (int)size.Y, startingPoint);
         }
         public static void MakeLayer(int X, int midY, int size, int layer, int type)
         {
@@ -2921,149 +3004,6 @@ namespace EEMod.EEWorld
             if (layer == 1)
             {
                 //MakeOvalJaggedTop(20, 10, new Vector2(X - 12, midY), ModContent.TileType<GemsandstoneTile>());
-            }
-        }
-
-        public static void CoralReef()
-        {
-            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
-            int chasmX = 100;
-            int chasmY = 100;
-            MakeWavyChasm(chasmX, chasmY, 1000, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60));
-            MakeWavyChasm2(chasmX - 50, chasmY, 1000, ModContent.TileType<GemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20), true);
-            MakeWavyChasm2(chasmX + 50, chasmY, 1000, ModContent.TileType<GemsandTile>(), 0.3f, WorldGen.genRand.Next(10, 20), true);
-            for (int i = 0; i < 5; i++)
-            {
-                MakeChasm(chasmX + Main.rand.Next(-50, 50) + i * 20, chasmY + (i * 200) + Main.rand.Next(-50, 50), Main.rand.Next(5, 30), TileID.StoneSlab, Main.rand.Next(5, 10), WorldGen.genRand.Next(20, 60), Main.rand.Next(10, 20));
-
-            }
-            for (int i = 0; i < 20; i++)
-            {
-                MakeOvalFlatTop(Main.rand.Next(10, 20), Main.rand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + (i * 50) + Main.rand.Next(-20, 20)), ModContent.TileType<GemsandTile>());
-                if (i % 5 == 0)
-                {
-                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + Main.rand.Next(-20, 20) + (i * 50), 25, 2, ModContent.TileType<GemsandTile>());
-                    MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50), 20, 1, ModContent.TileType<GemsandTile>());
-                    MakeCoral(new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50)), TileID.Coralstone, Main.rand.Next(4, 8));
-                    for (int j = 0; j < 7; j++)
-                        MakeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<DarkGemsandTile>());
-                }
-            }
-            for (int k = 0; k < maxTiles * 9; k++)
-            {
-                int xPos = 500;
-                int yPos = 1200;
-                int size = 80;
-                int x = WorldGen.genRand.Next(xPos - (size * 3), xPos + (size * 3));
-                int y = WorldGen.genRand.Next(yPos - (size * 3), yPos + (size * 3));
-                if (OvalCheck(xPos, yPos, x, y, size * 3, size))
-                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
-            }
-
-            for (int i = 0; i < 800; i++)
-            {
-                for (int j = 0; j < 2000; j++)
-                {
-                    Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile.type == TileID.StoneSlab)
-                        WorldGen.KillTile(i, j);
-                }
-            }
-            for (int i = 0; i < 500; i++)
-            {
-                for (int j = 0; j < 1500; j++)
-                {
-                    Tile tile = Framing.GetTileSafely(i, chasmY + j);
-                    int yes = WorldGen.genRand.Next(5, 10);
-                    if (TileCheck2(i, chasmY + j) == 1 && j % yes == 0)
-                    {
-                        int selection = WorldGen.genRand.Next(2);
-                        switch (selection)
-                        {
-                            case 0:
-                                WorldGen.PlaceTile(i, chasmY + j + 1, ModContent.TileType<CoralLanternTile>());
-                                break;
-                            case 1:
-                                WorldGen.PlaceTile(i, chasmY + j + 1, ModContent.TileType<HangingCoralTile>());
-                                break;
-                        }
-                    }
-                    if (TileCheck2(i, chasmY + j) == 2 && j % yes <= 4)
-                    {
-                        int selection = WorldGen.genRand.Next(10);
-                        switch (selection)
-                        {
-                            case 0:
-                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<Coral1Tile>());
-                                break;
-                            case 1:
-                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<Coral2Tile>());
-                                break;
-                            case 2:
-                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<Coral3Tile>());
-                                break;
-                            case 3:
-                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<EyeTile>());
-                                break;
-                            case 4:
-                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<CoralLanternLamp>());
-                                break;
-                            case 5:
-                                WorldGen.PlaceTile(i, chasmY + j - 1, ModContent.TileType<BrainTile>());
-                                break;
-                            case 6:
-                                WorldGen.PlaceTile(i, chasmY + j - 7, ModContent.TileType<BigCoral>());
-                                break;
-                            case 7:
-                                WorldGen.PlaceTile(i, chasmY + j - 7, ModContent.TileType<WavyBigCoral>());
-                                break;
-                            case 8:
-                                WorldGen.PlaceTile(i, chasmY + j - 3, ModContent.TileType<Brain1BigCoral>());
-                                break;
-                            case 9:
-                                WorldGen.PlaceTile(i, chasmY + j - 3, ModContent.TileType<Brain2BigCoral>());
-                                break;
-                        }
-                        if (selection == 5 && j < 300 && Main.rand.NextBool(4))
-                            MakeCoral(new Vector2(i, chasmY + j), TileID.Coralstone, Main.rand.Next(4, 8));
-                    }
-                }
-            }
-
-
-            int barrier = 1000;
-
-            for (int j = 0; j < barrier; j++)
-            {
-                for (int i = 0; i < Main.maxTilesX; i++)
-                {
-                    Tile tile = Main.tile[i, j];
-                    if (tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
-                    {
-                        if (Main.rand.NextBool(2000))
-                        {
-                            WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<LythenOreTile>());
-                        }
-                    }
-                }
-            }
-            for (int j = 0; j < 2; j++)
-                MakeOvalJaggedTop(55, 27, new Vector2(375 + (j * 250) - 25, 1225), ModContent.TileType<DarkGemsandTile>());
-            for (int j = 0; j < 2; j++)
-                MakeOvalJaggedTop(55, 27, new Vector2(375 + (j * 250) - 25, 1150), ModContent.TileType<DarkGemsandTile>());
-
-            for (int j = 0; j < 2; j++)
-                MakeOvalJaggedTop(WorldGen.genRand.Next(40, 50), WorldGen.genRand.Next(25, 30), new Vector2(450 + (j * 100) - 22, 1180), ModContent.TileType<DarkGemsandTile>());
-
-            for (int j = barrier; j < Main.maxTilesY; j++)
-            {
-                for (int i = 0; i < Main.maxTilesX; i++)
-                {
-                    Tile tile = Main.tile[i, j];
-                    if (tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
-                        if (Main.rand.NextBool(2000))
-                            WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydriteOreTile>());
-                }
             }
         }
 

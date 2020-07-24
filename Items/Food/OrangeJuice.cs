@@ -18,14 +18,15 @@ namespace EEMod.Items.Food
             item.width = 50;
             item.height = 34;
             item.maxStack = 999;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
             item.useAnimation = 12;
             item.useTime = 12;
-            item.useStyle = ItemUseStyleID.EatingUsing;
             item.consumable = true;
+            item.value = Item.buyPrice(0, 1, 0, 0);
+            item.rare = ItemRarityID.Blue;
+            item.useStyle = ItemUseStyleID.EatingUsing;
             item.UseSound = SoundID.Item2;
         }
+
         public override bool UseItem(Player player)
         {
             player.AddBuff(BuffID.WellFed, 60 * 300);
@@ -33,6 +34,7 @@ namespace EEMod.Items.Food
             player.AddBuff(BuffID.Regeneration, 60 * 30);
             return true;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

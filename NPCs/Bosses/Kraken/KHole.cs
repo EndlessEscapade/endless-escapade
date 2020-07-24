@@ -36,10 +36,12 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.behindTiles = true;
             musicPriority = MusicPriority.BossMedium;
         }
+
         public override bool CheckActive()
         {
             return false;
         }
+
         public override void AI()
         {
             npc.timeLeft = 1000;

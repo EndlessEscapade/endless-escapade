@@ -1,8 +1,10 @@
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System;
+using EEMod.Items.Banners;
+
 namespace EEMod.NPCs.CoralReefs
 {
     public class BombFish : ModNPC
@@ -31,7 +33,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.buffImmune[BuffID.Confused] = true;
             npc.lavaImmune = false;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
+            bannerItem = ModContent.ItemType<ClamBanner>();
             npc.value = Item.sellPrice(0, 0, 0, 75);
         }
 
@@ -47,25 +49,10 @@ namespace EEMod.NPCs.CoralReefs
             int maxTilePosX = (int)((npc.position.X + npc.width) / 16.0) + 5;
             int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
             int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
-            if (minTilePosX < 0)
-            {
-                minTilePosX = 0;
-            }
 
-            if (maxTilePosX > Main.maxTilesX)
-            {
-                maxTilePosX = Main.maxTilesX;
-            }
+            Helpers.Clamp(ref minTilePosX, 0, Main.maxTilesX);
+            Helpers.Clamp(ref minTilePosY, 0, Main.maxTilesY);
 
-            if (minTilePosY < 0)
-            {
-                minTilePosY = 0;
-            }
-
-            if (maxTilePosY > Main.maxTilesY)
-            {
-                maxTilePosY = Main.maxTilesY;
-            }
             for (int i = minTilePosX; i < maxTilePosX; ++i)
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
@@ -85,6 +72,7 @@ namespace EEMod.NPCs.CoralReefs
             }
             return false;
         }
+
         Vector2 playerPosition;
         Vector2 speed;
         public override void AI()

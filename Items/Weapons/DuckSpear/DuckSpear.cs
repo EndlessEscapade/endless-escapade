@@ -16,7 +16,7 @@ namespace EEMod.Items.Weapons.DuckSpear
         public override void SetDefaults()
         {
             item.damage = 10000;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 2;
             item.useTime = 2;
             item.shootSpeed = 3.7f;

@@ -91,7 +91,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
 
             for (int i = 0; i < krakenHead.smolBloons.Length; i++)
             {
-                if (Vector2.Distance(krakenHead.smolBloons[i], start) < 20)
+                if (Vector2.DistanceSquared(krakenHead.smolBloons[i], start) < 20 * 20)
                 {
                     krakenHead.smolBloons[i] = Vector2.Zero;
                 }

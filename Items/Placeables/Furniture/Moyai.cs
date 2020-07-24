@@ -14,7 +14,7 @@ namespace EEMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;
             item.useAnimation = 15;
             item.useTime = 10;
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<MoyaiTile>();
+            item.createTile = ModContent.TileType<ThermalVent>();
         }
     }
 }

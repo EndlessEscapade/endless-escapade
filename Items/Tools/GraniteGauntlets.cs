@@ -23,7 +23,7 @@ namespace EEMod.Items.Tools
             item.scale = 1f;
             item.rare = ItemRarityID.LightRed;
             item.value = Item.sellPrice(silver: 20);
-            item.useStyle = 4;
+            item.useStyle = ItemUseStyleID.HoldingUp;
 
             item.noMelee = true;
             item.noUseGraphic = true;

@@ -92,7 +92,7 @@ namespace EEMod
                 keeper++;
                 if (i != 0 && keeper % accuracy == 0)
                 {
-                    collision[(keeper / accuracy)] = new Rectangle((int)X(i, startingPos.X, c1.X, c2.X, endPoints.X) - chogsizeX / 2, (int)Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - chogsizeY / 2, chogsizeX, chogsizeY);
+                    collision[keeper / accuracy] = new Rectangle((int)X(i, startingPos.X, c1.X, c2.X, endPoints.X) - chogsizeX / 2, (int)Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - chogsizeY / 2, chogsizeX, chogsizeY);
                 }
             }
             return collision;
@@ -122,9 +122,10 @@ namespace EEMod
                         misc = false;
                     if (isBridge)
                     {
-                        (Main.projectile[proj].modProjectile as Bridge).isSupport = misc;
-                        (Main.projectile[proj].modProjectile as Bridge).chainsPerUse = chainsPerUse;
-                        (Main.projectile[proj].modProjectile as Bridge).rotDis = rotDis;
+                        Bridge bridge = (Bridge)Main.projectile[proj].modProjectile;
+                        bridge.isSupport = misc;
+                        bridge.chainsPerUse = chainsPerUse;
+                        bridge.rotDis = rotDis;
                     }
                 }
             }

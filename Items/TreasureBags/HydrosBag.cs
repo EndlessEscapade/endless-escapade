@@ -1,19 +1,13 @@
-using Terraria;
-using Terraria.Audio;
-using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+using EEMod.Items.Accessories;
 using EEMod.Items.Materials;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Weapons.Melee;
 using EEMod.Items.Weapons.Ranger;
-using System;
-using EEMod.NPCs.Bosses.Hydros;
-using EEMod.Projectiles.CoralReefs;
 using EEMod.Items.Weapons.Summon;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using EEMod.Items.TreasureBags;
-using EEMod.Items.Accessories;
 
 namespace EEMod.Items.TreasureBags
 {
@@ -38,26 +32,23 @@ namespace EEMod.Items.TreasureBags
 
         public override void RightClick(Player player)
         {
-            int randVal = Main.rand.Next(5);
-            if (randVal == 0)
+            switch (Main.rand.Next(5))
             {
-                Main.LocalPlayer.QuickSpawnItem(ItemType<HydrosEye>(), 1);
-            }
-            else if (randVal == 1)
-            {
-                Main.LocalPlayer.QuickSpawnItem(ItemType<CyanoburstTome>(), 1);
-            }
-            else if (randVal == 2)
-            {
-                Main.LocalPlayer.QuickSpawnItem(ItemType<Fishtol>(), 1);
-            }
-            else if (randVal == 3)
-            {
-                Main.LocalPlayer.QuickSpawnItem(ItemType<Hydroshot>(), 1);
-            }
-            else if (randVal == 4)
-            {
-                Main.LocalPlayer.QuickSpawnItem(ItemType<EnchantedCoral>(), 1);
+                case 0:
+                    Main.LocalPlayer.QuickSpawnItem(ItemType<HydrosEye>(), 1);
+                    break;
+                case 1:
+                    Main.LocalPlayer.QuickSpawnItem(ItemType<CyanoburstTome>(), 1);
+                    break;
+                case 2:
+                    Main.LocalPlayer.QuickSpawnItem(ItemType<Fishtol>(), 1);
+                    break;
+                case 3:
+                    Main.LocalPlayer.QuickSpawnItem(ItemType<Hydroshot>(), 1);
+                    break;
+                case 4:
+                    Main.LocalPlayer.QuickSpawnItem(ItemType<EnchantedCoral>(), 1);
+                    break;
             }
             Main.LocalPlayer.QuickSpawnItem(ItemType<HydrosScales>(), Main.rand.Next(42, 68));
             Main.LocalPlayer.QuickSpawnItem(ItemType<WaterDragonsScale>(), 1);

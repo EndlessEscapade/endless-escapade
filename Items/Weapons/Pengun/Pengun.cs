@@ -22,16 +22,16 @@ namespace EEMod.Items.Weapons.Pengun
             item.height = 20;
             item.useTime = 2;
             item.useAnimation = 2;
-            item.useStyle = 5;
+            item.useStyle = ItemUseStyleID.HoldingOut;
             item.noMelee = true; //so the item's animation doesn't do damage
             item.knockBack = 16;
             item.value = 1;
-            item.rare = 11;
+            item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
             item.shootSpeed = 16f;
-            item.shoot = mod.ProjectileType("PengunProjectile");
+            item.shoot = ModContent.ProjectileType<PengunProjectile>();
         }
     }
 }

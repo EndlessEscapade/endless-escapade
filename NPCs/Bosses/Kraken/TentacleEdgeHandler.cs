@@ -28,10 +28,12 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.dontTakeDamage = true;
             npc.damage = 0;
         }
+
         public override bool CheckActive()
         {
             return false;
         }
+
         Vector2[] startingPoint = new Vector2[5];
         Vector2[] endingPoint = new Vector2[5];
         Vector2[] midPoint = new Vector2[5];
@@ -51,6 +53,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             npcBase = Main.npc[(int)npc.ai[0]];
             npc.ai[1]++;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
 
@@ -149,6 +152,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 player.velocity *= .8f;
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //DrawTentacleBeziers(spriteBatch, drawColor);
