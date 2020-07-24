@@ -28,7 +28,7 @@ namespace EEMod.Projectiles
             projectile.direction = projOwner.direction;
             projOwner.heldProj = projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            projectile.position.X = projOwner.Center.X - projectile.width/2;
+            projectile.position.X = projOwner.Center.X - projectile.width / 2;
             projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
             if (damageMultiplier == 1)
             {
@@ -56,10 +56,10 @@ namespace EEMod.Projectiles
                     projOwner.velocity.Y += weight;
                     damageMultiplier += damageIncreaseOverTime;
                     isFlying = true;
-                    if(projOwner.direction == 1)
-                    projectile.rotation = (float)(Math.PI*.75f);
+                    if (projOwner.direction == 1)
+                        projectile.rotation = (float)(Math.PI * .75f);
                     else
-                    projectile.rotation = (float)(Math.PI * 1.25f);
+                        projectile.rotation = (float)(Math.PI * 1.25f);
                 }
                 else
                 {
@@ -67,9 +67,9 @@ namespace EEMod.Projectiles
                 }
                 if (!isFlying && damageMultiplier != 1 && projectile.ai[0] == 0)
                 {
-                        projectile.ai[0]++;
+                    projectile.ai[0]++;
                 }
-                if (damageMultiplier != 1 && projectile.ai[0] >= 1 )
+                if (damageMultiplier != 1 && projectile.ai[0] >= 1)
                 {
                     if (projectile.ai[0] == 2)
                     {
@@ -104,8 +104,8 @@ namespace EEMod.Projectiles
                 if (Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3].active() &&
                     (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
                     Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4].active() &&
-                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) && 
-                    tile.type != TileID.Trees && 
+                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) &&
+                    tile.type != TileID.Trees &&
                     tile2.type != TileID.Trees)
                 {
                     projectile.ai[0]++;

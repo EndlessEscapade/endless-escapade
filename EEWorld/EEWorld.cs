@@ -256,10 +256,10 @@ namespace EEMod.EEWorld
 
         public static bool HydrosCheck()
         {
-            if(instance.minionsKilled >= 5)
+            if (instance.minionsKilled >= 5)
                 return true;
             else
                 return false;
-        } 
+        }
     }
 }

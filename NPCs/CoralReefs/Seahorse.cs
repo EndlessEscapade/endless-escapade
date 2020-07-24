@@ -56,7 +56,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void NPCLoot()
         {
-            if(Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
                 EEWorld.EEWorld.instance.minionsKilled++;
             }

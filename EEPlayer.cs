@@ -256,7 +256,7 @@ namespace EEMod
         public Vector2 fixatingPoint;
         public float fixatingSpeedInv;
         public int intensity;
-        public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove,int intensity)
+        public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {
             fixatingPoint = fixatingPointCamera;
             isCameraFixating = CameraMove;
@@ -307,20 +307,20 @@ namespace EEMod
                         }
                         if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive())
                         {
-                            Filters.Scene.Activate("EEMod:WhiteFlash", player.Center).GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
+                          //  Filters.Scene.Activate("EEMod:WhiteFlash", player.Center).GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                         }
 
                         Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
                         Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f, (markerPlacer - ((120 * 8) + 1400)) / 10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
                         Main.spriteBatch.End();
-                        Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
+                      //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                     }
                     if (markerPlacer >= (120 * 8) + 1800)
                     {
                         startingText = false;
                         if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:WhiteFlash"].IsActive())
                         {
-                            Filters.Scene["EEMod:WhiteFlash"].Deactivate();
+                        //    Filters.Scene["EEMod:WhiteFlash"].Deactivate();
                         }
 
                         Initialize();
@@ -407,10 +407,10 @@ namespace EEMod
         public int maxPowerLevel = 11;
         public override void UpdateBiomeVisuals()
         {
-            if(player.controlUseItem)
+            if (player.controlUseItem)
             {
                 powerLevel += 0.2f;
-                if(powerLevel > maxPowerLevel)
+                if (powerLevel > maxPowerLevel)
                 {
                     powerLevel = maxPowerLevel;
                 }

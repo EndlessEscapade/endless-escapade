@@ -72,9 +72,9 @@ namespace EEMod.Projectiles
         }
         public override void SendExtraAI(BinaryWriter writer)
         {
-           writer.WriteVector2(SavedVel);
-           writer.WriteVector2(mouseHitBoxVec);
-           writer.Write(frame);
+            writer.WriteVector2(SavedVel);
+            writer.WriteVector2(mouseHitBoxVec);
+            writer.Write(frame);
         }
         public override void ReceiveExtraAI(BinaryReader reader)
         {
@@ -86,7 +86,7 @@ namespace EEMod.Projectiles
         {
             Player chosenPlayer = Main.player[GetPlayer(projectile.Center)];
             Texture2D volleyArrow = TextureCache.VArrow;
-            Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, (volleyArrow.Height / frames) * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.Pi/2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, (volleyArrow.Height / frames) * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.Pi / 2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
             return true;
         }
         static Vector2 mouseHitBoxVec;

@@ -28,7 +28,7 @@ namespace EEMod.Tiles
 
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            if(Framing.GetTileSafely(i, j-1).type == ModContent.TileType<KelpTile>())
+            if (Framing.GetTileSafely(i, j - 1).type == ModContent.TileType<KelpTile>())
             {
                 WorldGen.KillTile(i, j - 1);
             }

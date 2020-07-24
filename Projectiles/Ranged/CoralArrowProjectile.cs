@@ -32,7 +32,7 @@ namespace EEMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.ai[0]--;
-            if(projectile.ai[0] <= 0)
+            if (projectile.ai[0] <= 0)
             {
                 Projectile.NewProjectile(projectile.position, new Vector2(0, -5), ModContent.ProjectileType<WaterDragonsBubble>(), 12, 0);
                 projectile.ai[0] = 20;

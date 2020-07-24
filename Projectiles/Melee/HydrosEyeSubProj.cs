@@ -40,7 +40,7 @@ namespace EEMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), projectile.Center - Main.screenPosition, new Rectangle(0,0,16,16), new Color(4,2,18f, 0), projectile.rotation, new Vector2(8), 0.5f, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), new Color(4, 2, 18f, 0), projectile.rotation, new Vector2(8), 0.5f, SpriteEffects.None, 0);
             return false;
         }
         public override void Kill(int timeLeft)

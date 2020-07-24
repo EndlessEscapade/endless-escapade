@@ -33,23 +33,20 @@ namespace EEMod.Projectiles
         public int yes;
         public override void AI()           //this make that the projectile will face the corect way
         {
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive() && EEModConfigClient.Instance.BetterLighting)
+            for (int i = EEMod.startingTermination; i <= EEMod.noOfPasses; i++)
             {
-                Filters.Scene.Activate("EEMod:WhiteFlash", projectile.Center).GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(projectile.ai[0]);
-            }
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SecondPass"].IsActive() && EEModConfigClient.Instance.BetterLighting)
-            {
-                Filters.Scene.Activate("EEMod:SecondPass", projectile.Center).GetShader();
-            }
-            if (EEModConfigClient.Instance.BetterLighting)
-            {
-                Filters.Scene["EEMod:WhiteFlash"].GetShader().UseDirection(new Vector2(1, 0)).UseOpacity(1);
-                Filters.Scene["EEMod:SecondPass"].GetShader();
-            }
-            else
-            {
-                if (SkyManager.Instance["EEMod:WhiteFlash"].IsActive()) SkyManager.Instance.Deactivate("EEMod:WhiteFlash", new object[0]);
-                if (SkyManager.Instance["EEMod:SecondPass"].IsActive()) SkyManager.Instance.Deactivate("EEMod:SecondPass", new object[0]);
+                    if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:Filter{i}"].IsActive() && EEModConfigClient.Instance.BetterLighting)
+                    {
+                        Filters.Scene.Activate($"EEMod:Filter{i}", projectile.Center).GetShader().UseIntensity(0.8f).UseOpacity(EEMod.noOfPasses);
+                    }
+                    if (EEModConfigClient.Instance.BetterLighting)
+                    {
+                        Filters.Scene[$"EEMod:Filter{i}"].GetShader().UseIntensity(100).UseOpacity(EEMod.noOfPasses);
+                    }
+                    else
+                    {
+                        if (SkyManager.Instance[$"EEMod:Filter{i}"].IsActive()) SkyManager.Instance.Deactivate($"EEMod:Filter{i}", new object[0]);
+                    }
             }
             projectile.timeLeft = 100;
             projectile.Center = Main.player[(int)projectile.ai[1]].Center;

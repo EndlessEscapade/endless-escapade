@@ -86,13 +86,13 @@ namespace EEMod
         }
         public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
-             for (int i = 0; i < 400; i++)
-             {
-                 if (Main.projectile[i].type == ModContent.ProjectileType<Gradient>())
-                 {
-                     (Main.projectile[i].modProjectile as Gradient).pixelPlacmentHours();
-                 }
-             }
+            for (int i = 0; i < 400; i++)
+            {
+                if (Main.projectile[i].type == ModContent.ProjectileType<Gradient>())
+                {
+                    (Main.projectile[i].modProjectile as Gradient).pixelPlacmentHours();
+                }
+            }
             if (NPC.AnyNPCs(ModContent.NPCType<TentacleEdgeHandler>()))
             {
                 for (int i = 0; i < 200; i++)
@@ -196,11 +196,11 @@ namespace EEMod
         private void OnDrawMenu(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
-            
+
             if (isSaving && Main.gameMenu)
             {
                 alpha += 0.01f;
-                if(alpha > 1)
+                if (alpha > 1)
                 {
                     alpha = 1;
                 }
@@ -419,7 +419,7 @@ namespace EEMod
                 float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
                 float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
 
-                Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White* alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                 Main.spriteBatch.End();
             }
             else

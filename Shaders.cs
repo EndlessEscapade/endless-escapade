@@ -9,6 +9,8 @@ namespace EEMod
 {
     public partial class EEMod
     {
+        public static int noOfPasses = 499;
+        public static int startingTermination = 1;
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
@@ -24,10 +26,11 @@ namespace EEMod
             Filters.Scene["EEMod:Shockwave"].Load();
             Filters.Scene["EEMod:Pause"] = new Filter(new ScreenShaderData(screenRef3, "Pauses"), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:Pause"].Load();
-            Filters.Scene["EEMod:WhiteFlash"] = new Filter(new ScreenShaderData(screenRef4, "WhiteFlash"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:WhiteFlash"].Load();
-            Filters.Scene["EEMod:SecondPass"] = new Filter(new ScreenShaderData(screenRef4, "SecondPass"), EffectPriority.VeryHigh);
-            Filters.Scene["EEMod:SecondPass"].Load();
+            for (int i = startingTermination; i <= noOfPasses; i++)
+            {
+                Filters.Scene[$"EEMod:Filter{i}"] = new Filter(new ScreenShaderData(screenRef4, $"Filter{i}"), EffectPriority.VeryHigh);
+                Filters.Scene[$"EEMod:Filter{i}"].Load();
+            }
             SkyManager.Instance["EEMod:Akumo"] = new AkumoSky();
         }
     }

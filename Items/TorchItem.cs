@@ -38,12 +38,12 @@ namespace EEMod.Items
         public override void HoldItem(Player player)
         {
             Main.projectile[proj].ai[0] = alpha;
-            if(player.controlUseItem && yeet == 0)
+            if (player.controlUseItem && yeet == 0)
             {
                 proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Gradient>(), 0, 0f, player.whoAmI);
                 yeet = 1;
             }
-            if(player.controlUseItem)
+            if (player.controlUseItem)
             {
                 alpha += 0.05f;
                 if (alpha > 1)
