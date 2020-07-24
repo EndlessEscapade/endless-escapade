@@ -24,6 +24,7 @@ using EEMod.NPCs.Bosses.Akumo;
 using EEMod.NPCs.CoralReefs;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.NPCs.Friendly;
+using EEMod.Items;
 
 namespace EEMod
 {
