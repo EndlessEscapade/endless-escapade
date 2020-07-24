@@ -357,7 +357,7 @@ namespace EEMod
         float markerPlacer = 0;
         public static bool IsPlayerLocalServerOwner(int whoAmI)
         {
-            if (Main.netMode == 1)
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 return Netplay.Connection.Socket.GetRemoteAddress().IsLocalHost();
             }

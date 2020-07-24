@@ -4,9 +4,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using EEMod.Compatibility;
-using EEMod.NPCs.Bosses.Hydros;
-using System.Collections.Generic;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
@@ -80,6 +77,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             thrust = false;
             resetAnim = false;
         }
+
         public override void SetDefaults()
         {
             npc.boss = true;
@@ -162,10 +160,12 @@ namespace EEMod.NPCs.Bosses.Kraken
                 }
             }
         }
+
         public override bool CheckActive()
         {
             return false;
         }
+
         public override void AI()
         {
             waterLevel += speedOfIncline;
@@ -198,7 +198,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 tentacleAlpha += 0.01f;
                 tentacleAlpha = Helpers.Clamp(tentacleAlpha, 0, 1);
                 npc.alpha -= 2;
-                modPlayer.FixateCameraOn(npc.Center, 32f, false, true,10);
+                modPlayer.FixateCameraOn(npc.Center, 32f, false, true, 10);
             }
             else if (npc.ai[2] == 181)
             {
@@ -326,7 +326,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         }
                         if (npc.ai[0] < 80)
                         {
-                            modPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true, false,10);
+                            modPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true, false, 10);
                         }
                         else if (npc.ai[0] == 200)
                         {
@@ -400,7 +400,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 yeet = player.Center + new Vector2(-400, 0);
                             }
-                            modPlayer.FixateCameraOn(npc.Center, 64f, false, true,10);
+                            modPlayer.FixateCameraOn(npc.Center, 64f, false, true, 10);
                             gradient = Vector2.Normalize(yeet - npc.Center);
                             if (Vector2.DistanceSquared(yeet, npc.Center) > (180 * 180))
                             {
@@ -451,12 +451,12 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 }
                                 if (npc.ai[0] > 140)
                                 {
-                                    modPlayer.FixateCameraOn(npc.Center, 64f, true, true,10);
+                                    modPlayer.FixateCameraOn(npc.Center, 64f, true, true, 10);
                                     float projectilespeedX = 10 * -npc.spriteDirection;
                                     float projectilespeedY = Main.rand.NextFloat(-2, 2);
                                     float projectileknockBack = 4f;
                                     int projectiledamage = 20;
-                                    Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, mod.ProjectileType("WaterSpew"), projectiledamage, projectileknockBack, npc.target, 0f, 1);
+                                    Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, ModContent.ProjectileType<WaterSpew>(), projectiledamage, projectileknockBack, npc.target, 0f, 1);
                                     if (npc.ai[0] == 280)
                                     {
                                         Reset(3);
@@ -540,7 +540,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
                             }
                             if (npc.ai[0] % frequency * 8 <= (frequency * 8) / 2)
-                                modPlayer.FixateCameraOn(player.Center, 64f, true, false,10);
+                                modPlayer.FixateCameraOn(player.Center, 64f, true, false, 10);
                             else
                             {
                                 modPlayer.TurnCameraFixationsOff();
@@ -555,6 +555,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }
             }
         }
+
         public void SpawnProjectileNearPlayerOnTile(int dist, bool above)
         {
             int distFromPlayer = dist;
@@ -598,6 +599,7 @@ namespace EEMod.NPCs.Bosses.Kraken
 
             }
         }
+
         public Vector2[] SpawnProjectileNearPlayerOnTile(int dist, int howMany, bool above)
         {
             Vector2[] geyserPoses = new Vector2[howMany];
@@ -646,6 +648,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             }
             return geyserPoses;
         }
+
         public Vector2[] SpawnProjectileNearPlayerOnTileSide(int dist, int howMany, bool right)
         {
             Vector2[] geyserPoses = new Vector2[howMany];
@@ -701,11 +704,13 @@ namespace EEMod.NPCs.Bosses.Kraken
             Main.spriteBatch.Draw(texture, npc.spriteDirection == -1 ? npc.Center - Main.screenPosition + new Vector2(texture.Width / 16, -texture.Height / 96) : npc.Center - Main.screenPosition + new Vector2(texture.Width / 16, -texture.Height / 96), seperateFrame, drawColor * tentacleAlpha, tentaclerotation, seperateFrame.Size() / 2 + new Vector2(texture.Width / 16, -texture.Height / 96), npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return true;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.KrakenGlowMask;
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, 0), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition, npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
+
         public override void NPCLoot()
         {
             EEWorld.EEWorld.downedKraken = true;

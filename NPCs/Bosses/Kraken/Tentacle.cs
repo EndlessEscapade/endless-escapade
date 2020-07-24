@@ -25,6 +25,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.noGravity = true;
             npc.knockBackResist = 0f;
         }
+
         Vector2 startingPosition;
         Vector2 distance;
         bool isGrabbing0;
@@ -211,6 +212,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).isRightOrLeft = false;
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.TentacleChainSmol;
@@ -222,6 +224,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                   Main.spriteBatch.Draw(texture, npc.Center - new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2 + new Vector2(70, 0), new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);*/
 
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             return false;

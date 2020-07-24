@@ -30,7 +30,7 @@ namespace EEMod.Items.Weapons.Melee
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.autoReuse = true; 
+            item.autoReuse = true;
 
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();

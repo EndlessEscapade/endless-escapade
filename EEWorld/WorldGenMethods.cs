@@ -1701,7 +1701,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-            if (wallShape != default && walls != default)
+            if (wallShape != null && walls != null)
             {
                 for (int y = 0; y < wallShape.GetLength(0); y++)
                 {
@@ -2829,7 +2829,7 @@ namespace EEMod.EEWorld
             }
             fillers.Add(new Vector2((int)(startingPoint.X + size.X) - distanceFromEdge - 44, startingPoint.Y + distanceFromEdge + 120));
             fillers.Add(new Vector2(startingPoint.X + 60, startingPoint.Y + 60));
-            KillWall((int)(size.X), (int)(size.Y), startingPoint);
+            KillWall((int)size.X, (int)size.Y, startingPoint);
             Main.spawnTileX = 500;
             Main.spawnTileY = 300;
             SubworldManager.SettleLiquids();
@@ -2901,9 +2901,9 @@ namespace EEMod.EEWorld
             }
             WorldGen.TileRunner(80, 80, 30, 10, ModContent.TileType<DarkGemsandTile>());
             WorldGen.TileRunner(100, 60, 30, 10, ModContent.TileType<DarkGemsandTile>());
-            FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
-            FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
-            FillRegionWithWater((int)(size.X), (int)(size.Y), startingPoint);
+            FillRegionWithWater((int)size.X, (int)size.Y, startingPoint);
+            FillRegionWithWater((int)size.X, (int)size.Y, startingPoint);
+            FillRegionWithWater((int)size.X, (int)size.Y, startingPoint);
         }
         public static void MakeLayer(int X, int midY, int size, int layer, int type)
         {

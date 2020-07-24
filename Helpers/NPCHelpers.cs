@@ -18,7 +18,7 @@ namespace EEMod
                 for (int i = 0; i < Main.player.Length; i++)
                 {
                     p = Main.player[i];
-                    if (p.active && !p.dead)
+                    if (p.active && !(p.dead || p.ghost))
                         return true;
                 }
                 return false;

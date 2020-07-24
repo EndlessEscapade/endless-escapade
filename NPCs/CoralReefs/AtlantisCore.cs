@@ -18,6 +18,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             DisplayName.SetDefault("Atlantis Core");
         }
+
         public int rippleCount = 2;
         public int rippleSize = 13;
         public int rippleSpeed = 200;
@@ -39,10 +40,12 @@ namespace EEMod.NPCs.CoralReefs
             npc.damage = 0;
             npc.boss = true;
         }
+
         public override bool CheckActive()
         {
             return false;
         }
+
         public override void AI()
         {
             npc.ai[0] += 0.05f;
@@ -55,6 +58,7 @@ namespace EEMod.NPCs.CoralReefs
                 }
             }
         }
+
         public int size = 300;
         public int sizeGrowth;
         public float num88 = 1;

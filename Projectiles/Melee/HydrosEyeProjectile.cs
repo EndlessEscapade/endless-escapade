@@ -49,7 +49,7 @@ namespace EEMod.Projectiles.Melee
             float step = 1 / distance;
             for (float w = 0; w < distance; w += 4)
             {
-                Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 16, Vector2.Zero,0,default(Color),scale).noGravity = true;
+                Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 16, Vector2.Zero, 0, default(Color), scale).noGravity = true;
             }
         }
         Vector2 center;
@@ -64,7 +64,7 @@ namespace EEMod.Projectiles.Melee
                     closestNPCPos = Main.npc[i].Center;
                 }
             }
-            if (Vector2.Distance(projectile.Center, closestNPCPos) < 200)
+            if (Vector2.DistanceSquared(projectile.Center, closestNPCPos) < 200 * 200)
             {
                 projectile.ai[1] = 1 - Vector2.Distance(projectile.Center, closestNPCPos) / 200f;
                 if (Main.myPlayer == projectile.owner)
@@ -96,10 +96,8 @@ namespace EEMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(4 * sineAdd), (int)(2 * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), (projectile.Center - Main.screenPosition), null, new Color((int)(4 * sineAdd), (int)(2 * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
             return base.PreDraw(spriteBatch, lightColor);
         }
-       
-      
     }
 }

@@ -1,8 +1,10 @@
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System;
+using EEMod.Items.Banners;
+
 namespace EEMod.NPCs.CoralReefs
 {
     public class BombFish : ModNPC
@@ -31,7 +33,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.buffImmune[BuffID.Confused] = true;
             npc.lavaImmune = false;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
+            bannerItem = ModContent.ItemType<ClamBanner>();
             npc.value = Item.sellPrice(0, 0, 0, 75);
         }
 
@@ -47,25 +49,10 @@ namespace EEMod.NPCs.CoralReefs
             int maxTilePosX = (int)((npc.position.X + npc.width) / 16.0) + 5;
             int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
             int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
-            if (minTilePosX < 0)
-            {
-                minTilePosX = 0;
-            }
 
-            if (maxTilePosX > Main.maxTilesX)
-            {
-                maxTilePosX = Main.maxTilesX;
-            }
+            Helpers.Clamp(ref minTilePosX, 0, Main.maxTilesX);
+            Helpers.Clamp(ref minTilePosY, 0, Main.maxTilesY);
 
-            if (minTilePosY < 0)
-            {
-                minTilePosY = 0;
-            }
-
-            if (maxTilePosY > Main.maxTilesY)
-            {
-                maxTilePosY = Main.maxTilesY;
-            }
             for (int i = minTilePosX; i < maxTilePosX; ++i)
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
@@ -85,6 +72,7 @@ namespace EEMod.NPCs.CoralReefs
             }
             return false;
         }
+
         Vector2 playerPosition;
         Vector2 speed;
         public override void AI()
@@ -93,8 +81,8 @@ namespace EEMod.NPCs.CoralReefs
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
             npc.ai[1]++;
-            
-            if(npc.ai[2] == 0)
+
+            if (npc.ai[2] == 0)
             {
                 if (npc.ai[1] % 180 == 1 && Main.rand.Next(2) == 0)
                 {
@@ -108,7 +96,7 @@ namespace EEMod.NPCs.CoralReefs
                     npc.ai[0] = 0;
                 }
             }
-            if(npc.ai[2] == 1)
+            if (npc.ai[2] == 1)
             {
                 npc.ai[0]++;
                 if (npc.ai[0] < 120)
@@ -116,15 +104,15 @@ namespace EEMod.NPCs.CoralReefs
                     npc.velocity += new Vector2((float)Math.Sin(npc.ai[0] / 10f) * 0.5f, -(float)Math.Cos(npc.ai[0] / 10f) * 0.5f);
                     playerPosition = player.Center;
                 }
-                else if(npc.ai[0] < 128)
+                else if (npc.ai[0] < 128)
                 {
                     npc.velocity += (playerPosition - npc.Center) / 500f;
                 }
-                if(npc.ai[0] > 128)
+                if (npc.ai[0] > 128)
                 {
                     npc.velocity *= 0.98f;
                 }
-                if(npc.ai[0] >= 200)
+                if (npc.ai[0] >= 200)
                 {
                     npc.ai[2] = 0;
                     npc.ai[0] = 0;

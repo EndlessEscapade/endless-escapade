@@ -1,3 +1,5 @@
+using EEMod.Items.Banners;
+using EEMod.NPCs.CoralReefs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -5,11 +7,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Tiles.Banners
 {
-	public class BannerTile : ModTile
+    public class BannerTile : ModTile
 	{
 		public override void SetDefaults()
 		{
@@ -33,34 +34,20 @@ namespace EEMod.Tiles.Banners
 		public override void KillMultiTile(int i, int j, int frameX, int frameY)
 		{
 			int style = frameX / 18;
-			string item;
-			switch (style)
-			{
-				case 0:
-					item = "ClamBanner";
-					break;
-				case 1:
-					item = "LunaJellyBanner";
-					break;
-				case 2:
-					item = "ManoWarBanner";
-					break;
-				case 3:
-					item = "SeaSlugBanner";
-					break;
-				case 4:
-					item = "ToxicPufferBanner";
-					break;
-				case 5:
-					item = "GiantSquidBanner";
-					break;
-                case 6:
-                    item = "SmallClamBanner";
-                    break;
+			int itemtype;
+            switch (style)
+            {
+				case 0: itemtype = ModContent.ItemType<ClamBanner>(); break;
+				case 1: itemtype = ModContent.ItemType<LunaJellyBanner>(); break;
+				case 2: itemtype = ModContent.ItemType<ManoWarBanner>(); break;
+				case 3: itemtype = ModContent.ItemType<SeaSlugBanner>(); break;
+				case 4: itemtype = ModContent.ItemType<ToxicPufferBanner>(); break;
+				case 5: itemtype = ModContent.ItemType<GiantSquidBanner>(); break;
+				case 6: itemtype = ModContent.ItemType<SmallClamBanner>(); break;
                 default:
 					return;
-			}
-			Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType(item));
+            }
+			Item.NewItem(i * 16, j * 16, 16, 48, itemtype);
 		}
 
 		public override void NearbyEffects(int i, int j, bool closer)
@@ -69,31 +56,19 @@ namespace EEMod.Tiles.Banners
 			{
 				Player player = Main.LocalPlayer;
 				int style = Main.tile[i, j].frameX / 18;
-				string type;
-				switch (style)
-				{
-					case 0:
-						type = "Clam";
-						break;
-					case 1:
-						type = "LunaJelly";
-						break;
-					case 2:
-						type = "ManoWar";
-						break;
-					case 3:
-						type = "SeaSlug";
-						break;
-					case 4:
-						type = "ToxicPuffer";
-						break;
-					case 5:
-						type = "GiantSquid";
-						break;
+				int type;
+                switch (style)
+                {
+					case 0: type = ModContent.NPCType<Clam>(); break;
+					case 1: type = ModContent.NPCType<LunaJelly>(); break;
+					case 2: type = ModContent.NPCType<ManoWar>(); break;
+					case 3: type = ModContent.NPCType<SeaSlug>(); break;
+					case 4: type = ModContent.NPCType<ToxicPuffer>(); break;
+					case 5: type = ModContent.NPCType<GiantSquid>(); break;
 					default:
 						return;
-				}
-				player.NPCBannerBuff[mod.NPCType(type)] = true;
+                }
+				player.NPCBannerBuff[type] = true;
 				player.hasBanner = true;
 			}
 		}

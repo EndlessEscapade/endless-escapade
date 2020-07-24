@@ -1,8 +1,5 @@
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using EEMod.Backgrounds;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Backgrounds
 {
@@ -12,6 +9,7 @@ namespace EEMod.Backgrounds
         {
             return !Main.gameMenu && Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs;
         }
+
         public override void ModifyFarFades(float[] fades, float transitionSpeed)
         {
             for (int i = 0; i < fades.Length; i++)
@@ -34,14 +32,17 @@ namespace EEMod.Backgrounds
                 }
             }
         }
+
         public override int ChooseCloseTexture(ref float scale, ref double parallax, ref float a, ref float b)
         {
             return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceClose");
         }
+
         public override int ChooseMiddleTexture()
         {
             return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceMid");
         }
+
         public override int ChooseFarTexture()
         {
             return mod.GetBackgroundSlot("Backgrounds/CoralReefsSurfaceFar");
