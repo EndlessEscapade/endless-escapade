@@ -58,7 +58,7 @@ namespace EEMod
             Empty = mod.GetTexture("Empty");
             EyeTileGlow = mod.GetTexture("Tiles/Furniture/EyeTileGlow");
             //Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");
-            BleckScren = mod.GetTexture("BleckScren");
+            BleckScren = mod.GetTexture("BleckScreen");
             NotBleckScren = mod.GetTexture("NotBleckScren");
             DuneShambler = mod.GetTexture("NPCs/DuneShambler");
             GiantSquid = mod.GetTexture("LoadingScreenImages/GiantSquid");
