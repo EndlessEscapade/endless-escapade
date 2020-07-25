@@ -548,7 +548,4 @@ technique Technique1
     pass Filter497 { PixelShader = compile ps_2_0 A(496); }
     pass Filter498 { PixelShader = compile ps_2_0 A(497); }
     pass Filter499 { PixelShader = compile ps_2_0 A(498); }
-
-
-
 }

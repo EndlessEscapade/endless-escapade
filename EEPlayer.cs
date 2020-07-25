@@ -831,7 +831,7 @@ namespace EEMod
                     // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                 }
 
-                if (!arrowFlag)
+                if (!arrowFlag && Main.myPlayer == player.whoAmI)
                 {
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     player.ClearBuff(BuffID.Cursed);

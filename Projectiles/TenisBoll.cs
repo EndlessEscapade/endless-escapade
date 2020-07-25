@@ -103,7 +103,7 @@ namespace EEMod.Projectiles
                 {
                     Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
                     Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
-                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), new Color(255, 255, 255, 10), projectile.rotation, drawOrigin, projectile.scale * (1 - (k / (float)projectile.oldPos.Length)) * (projectile.velocity.Length() * 0.1f), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), new Color(255, 255, 255, 10), projectile.rotation, drawOrigin, projectile.scale * (1 - (k / (float)projectile.oldPos.Length)) * (projectile.velocity.Length() * 0.06f), SpriteEffects.None, 0f);
                 }
             }
             return true;
@@ -147,14 +147,15 @@ namespace EEMod.Projectiles
                     {
                         chosenRacket.ai[1] = 40;
                         projectile.velocity = new Vector2(chosenRacket.velocity.X * 1.5f, chosenRacket.velocity.Y);
-                        for (int i = 0; i < 360; i += 20)
+                        for (int i = 0; i < 360; i += 10)
                         {
                             float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 15);
                             float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 15);
                             Vector2 offset = new Vector2(xdist, ydist);
                             Dust dust = Dust.NewDustPerfect(projectile.Center + offset, DustID.Smoke, offset * 0.5f);
                             dust.noGravity = true;
-                            dust.velocity *= 0.98f;
+                            dust.velocity *= 0.96f;
+                            dust.noLight = false;
                         }
                     }
                     projectile.netUpdate = true;
@@ -162,7 +163,11 @@ namespace EEMod.Projectiles
                 }
                 if (projectile.ai[0] == 2)
                 {
-                    (chosenRacket.modProjectile as TennisRachetProj).goTo = Yoda.Center + new Vector2(0, 50);
+                    chosenRacket.ai[0] = 1;
+                }
+                else
+                {
+                    chosenRacket.ai[0] = 0;
                 }
             }
             if (projectile.ai[0] == 0)
@@ -178,7 +183,7 @@ namespace EEMod.Projectiles
                 projectile.ai[0] = 2;
                 projectile.netUpdate = true;
             }
-            if (projectile.ai[0] == 2 && Main.myPlayer == GetPlayer(projectile.Center))
+            if (projectile.ai[0] == 2)
             {
                 if (Yoda.controlUseItem)
                 {
@@ -195,8 +200,7 @@ namespace EEMod.Projectiles
                 {
                     projectile.ai[0] = 0;
                 }
-                projectile.Center = Yoda.Center + new Vector2((Yoda.direction * 10) - 10, -30);
-                projectile.netUpdate = true;
+                projectile.Center = Yoda.Center + new Vector2((Yoda.direction * 10) - 10, -20);
             }
             projectile.velocity.Y += 0.2f;
             if (projectile.velocity.Y > 10)

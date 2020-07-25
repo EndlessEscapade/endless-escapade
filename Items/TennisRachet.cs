@@ -40,7 +40,7 @@ namespace EEMod.Items
 
         public override void HoldItem(Player player)
         {
-            if (player.controlUseItem && yeet == 0)
+            if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI)
             {
                 proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TennisRachetProj>(), 0, 0f, player.whoAmI);
                 yeet = 1;

@@ -29,6 +29,7 @@ namespace EEMod.Items
             projectile.ignoreWater = true;
             projectile.scale *= 1;
             projectile.alpha = 255;
+            projectile.damage = 30;
         }
 
         int frame;
@@ -67,8 +68,9 @@ namespace EEMod.Items
             float inverseSpeed = 100;
             float dampeningEffect = 0.07f;
             projectile.timeLeft = 100;
-
-            if (player.direction == 1)
+            if (Main.myPlayer == projectile.owner)
+            {
+                if (player.direction == 1)
                 {
                     frame = (int)((projectile.Center.X - player.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
                     projectile.rotation = 0;
@@ -76,37 +78,11 @@ namespace EEMod.Items
                 else
                 {
                     frame = (int)((player.Center.X - projectile.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
-                    projectile.rotation = (float)Math.PI;
+                    projectile.rotation = (float)MathHelper.Pi;
                 }
-                frame = (int)MathHelper.Clamp(frame, 0, numOfFrames - 1);
-                if (goTo.X < player.Center.X - radial)
-                {
-                    goTo.X = player.Center.X - radial;
-                }
-                if (goTo.X > player.Center.X + radial)
-                {
-                    goTo.X = player.Center.X + radial;
-                }
-                if (goTo.Y < player.Center.Y - radial)
-                {
-                    goTo.Y = player.Center.Y - radial;
-                }
-                if (goTo.Y > player.Center.Y + radial)
-                {
-                    goTo.Y = player.Center.Y + radial;
-                }
-               projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect);
-            if (Main.myPlayer == projectile.owner)
-            {
-                frame = (int)((projectile.Center.X - player.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
-                projectile.rotation = 0;
-            }
-            else
-            {
-                frame = (int)((player.Center.X - projectile.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
-                projectile.rotation = (float)MathHelper.Pi;
             }
             frame = (int)MathHelper.Clamp(frame, 0, numOfFrames - 1);
+            goTo = Main.MouseWorld;
             if (goTo.X < player.Center.X - radial)
             {
                 goTo.X = player.Center.X - radial;
@@ -123,8 +99,15 @@ namespace EEMod.Items
             {
                 goTo.Y = player.Center.Y + radial;
             }
-            projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect);
-
+            if(projectile.ai[0] == 1)
+            {
+                goTo = player.Center + new Vector2(0, 50);
+            }
+            if (Main.myPlayer == projectile.owner)
+            {
+                projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect);
+                projectile.netUpdate = true;
+            }
         }
     }
 }
