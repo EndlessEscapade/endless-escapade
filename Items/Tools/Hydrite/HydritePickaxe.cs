@@ -3,36 +3,36 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 
-namespace EEMod.Items.Tools.Lythen
+namespace EEMod.Items.Tools.Hydrite
 {
-    public class LythenAxe : ModItem
+    public class HydritePickaxe : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lythen Axe");
+            DisplayName.SetDefault("Hydrite Pickaxe");
         }
 
         public override void SetDefaults()
         {
-            item.axe = 11;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Green;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 8;
             item.melee = true;
+            item.pick = 70;
+            item.useTime = 19;
+            item.useAnimation = 19;
+            item.damage = 7;
+            item.rare = ItemRarityID.Orange;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.width = 16;
+            item.height = 16;
+            item.value = Item.sellPrice(0, 0, 21);
+            item.knockBack = 2f;
             item.autoReuse = true;
             item.UseSound = SoundID.Item1;
-            item.knockBack = 2f;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

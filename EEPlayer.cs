@@ -666,7 +666,22 @@ namespace EEMod
                         Crate a = Main.projectile[j].modProjectile as Crate;
                         if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40 && !a.sinking)
                         {
-                            player.QuickSpawnItem(ItemID.Keybrand);
+                            //Crate loot tables go here
+                            if(Main.rand.NextBool())
+                                player.QuickSpawnItem(ItemID.GoldBar, 8);
+                            else
+                                player.QuickSpawnItem(ItemID.PlatinumBar, 8);
+
+                            if (Main.rand.NextBool())
+                                player.QuickSpawnItem(ItemID.ApprenticeBait, Main.rand.Next(3, 6));
+                            else
+                                player.QuickSpawnItem(ItemID.JourneymanBait, Main.rand.Next(1, 3));
+
+                            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(0, 3));
+                            player.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(0, 100));
+                            player.QuickSpawnItem(ItemID.CopperCoin, Main.rand.Next(0, 100));
+
+
                             a.sinking = true;
                             a.Sink();
                         }

@@ -3,13 +3,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 
-namespace EEMod.Items.Tools.Lythen
+namespace EEMod.Items.Tools.TropicalWood
 {
-    public class LythenAxe : ModItem
+    public class TropicalWoodAxe : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lythen Axe");
+            DisplayName.SetDefault("Tropical Wood Axe");
         }
 
         public override void SetDefaults()

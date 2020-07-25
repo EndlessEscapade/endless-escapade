@@ -3,18 +3,18 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 
-namespace EEMod.Items.Tools.Lythen
+namespace EEMod.Items.Tools.TropicalWood
 {
-    public class LythenAxe : ModItem
+    public class TropicalWoodPickaxe : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lythen Axe");
+            DisplayName.SetDefault("Tropical Wood Pickaxe");
         }
 
         public override void SetDefaults()
         {
-            item.axe = 11;
+            item.pick = 42;
             item.useTime = 20;
             item.useAnimation = 20;
             item.width = 20;
