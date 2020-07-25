@@ -153,17 +153,11 @@ namespace EEMod
             EEWorld.EEWorld.KillWall(1000, 1000, Vector2.Zero);
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
-            //Placing boat
-            EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
-            EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
-            CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
-
             //Lower reefs stuffs
             EEWorld.EEWorld.MakeKramkenArena(670, 1600, 190);
             EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));
 
             //Final polishing
-            EEWorld.EEWorld.MakeCoral();
             for (int i = 2; i < Main.maxTilesX - 2; i++)
             {
                 for (int j = 2; j < Main.maxTilesY - 2; j++)
@@ -171,6 +165,12 @@ namespace EEMod
                     Tile.SmoothSlope(i, j);
                 }
             }
+            EEWorld.EEWorld.PlaceCoral();
+
+            //Placing boat
+            EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipTiles);
+            EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
+            CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
 
             //Finishing initialization stuff
             EEMod.isSaving = false;
@@ -180,7 +180,7 @@ namespace EEMod
 
         public static void Island(int seed, GenerationProgress customProgressObject = null)
         {
-            Main.maxTilesX = 600;
+            Main.maxTilesX = 1000;
             Main.maxTilesY = 500;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
@@ -191,7 +191,7 @@ namespace EEMod
 
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSand>(), 15, 15);
 
-            EEWorld.EEWorld.Island(400, 250, 140);
+            EEWorld.EEWorld.Island(600, 250, 140);
 
             EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSand>());
 
@@ -223,6 +223,14 @@ namespace EEMod
                     {
                         WorldGen.GrowTree(i, j - 1);
                     }
+                }
+            }
+
+            for (int i = 2; i < Main.maxTilesX - 2; i++)
+            {
+                for (int j = 2; j < Main.maxTilesY - 2; j++)
+                {
+                    Tile.SmoothSlope(i, j);
                 }
             }
 

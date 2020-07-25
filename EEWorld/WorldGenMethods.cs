@@ -2366,66 +2366,66 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void MakeCoral()
+        public static void PlaceCoral()
         {
             for (int i = 0; i < Main.maxTilesX; i++)
             {
-                for (int j = 0; j < (int) (Main.maxTilesY * (2/3)); j++)
+                for (int j = 0; j < (int)Main.maxTilesY * (2/3); j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     int yes = WorldGen.genRand.Next(5, 10);
-                        if (TileCheck2(i, j) == 1 && j % yes == 0)
+                    if (TileCheck2(i, j) == 1/* && j % yes == 0*/)
+                    {
+                        int selection = WorldGen.genRand.Next(2);
+                        switch (selection)
                         {
-                            int selection = WorldGen.genRand.Next(2);
-                            switch (selection)
-                            {
-                                case 0:
-                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<CoralLanternTile>());
-                                    break;
-                                case 1:
-                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoralTile>());
-                                    break;
-                            }
+                            case 0:
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<CoralLanternTile>());
+                                break;
+                            case 1:
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoralTile>());
+                                break;
                         }
-                        if (TileCheck2(i, j) == 2 && j % yes <= 4)
+                    }
+                    if (TileCheck2(i, j) == 2/* && j % yes <= 4*/)
+                    {
+                        int selection = WorldGen.genRand.Next(10);
+                        switch (selection)
                         {
-                            int selection = WorldGen.genRand.Next(10);
-                            switch (selection)
-                            {
-                                case 0:
-                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral1Tile>());
-                                    break;
-                                case 1:
-                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral2Tile>());
-                                    break;
-                                case 2:
-                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral3Tile>());
-                                    break;
-                                case 3:
-                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<EyeTile>());
-                                    break;
-                                case 4:
-                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CoralLanternLamp>());
-                                    break;
-                                case 5:
-                                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<BrainTile>());
-                                    break;
-                                case 6:
-                                    WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral>());
-                                    break;
-                                case 7:
-                                    WorldGen.PlaceTile(i, j - 7, ModContent.TileType<WavyBigCoral>());
-                                    break;
-                                case 8:
-                                    WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain1BigCoral>());
-                                    break;
-                                case 9:
-                                    WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
-                                    break;
-                            }
-                            if (selection == 5 && j < 300 && Main.rand.NextBool(4))
-                                MakeCoral(new Vector2(i, j), TileID.Coralstone, Main.rand.Next(4, 8));
+                            case 0:
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral1Tile>());
+                                break;
+                            case 1:
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral2Tile>());
+                                break;
+                            case 2:
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral3Tile>());
+                                break;
+                            case 3:
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<EyeTile>());
+                                break;
+                            case 4:
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CoralLanternLamp>());
+                                break;
+                            case 5:
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<BrainTile>());
+                                break;
+                            case 6:
+                                WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral>());
+                                break;
+                            case 7:
+                                WorldGen.PlaceTile(i, j - 7, ModContent.TileType<WavyBigCoral>());
+                                break;
+                            case 8:
+                                WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain1BigCoral>());
+                                break;
+                            case 9:
+                                WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
+                                break;
                         }
+                        if (selection == 5 && j < 300 && Main.rand.NextBool(4))
+                            MakeCoral(new Vector2(i, j), TileID.Coralstone, Main.rand.Next(4, 8));
+                    }
                 }
             }
         }
