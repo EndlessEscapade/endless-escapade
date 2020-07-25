@@ -13,7 +13,7 @@ namespace EEMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coconut Spider");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[npc.type] = 5;
         }
 
         public override void SetDefaults()
