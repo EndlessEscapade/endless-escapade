@@ -35,18 +35,18 @@ namespace EEMod.Projectiles
         {
             for (int i = EEMod.startingTermination; i <= EEMod.noOfPasses; i++)
             {
-                    if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:Filter{i}"].IsActive() && EEModConfigClient.Instance.BetterLighting)
-                    {
-                        Filters.Scene.Activate($"EEMod:Filter{i}", projectile.Center).GetShader().UseIntensity(0.8f).UseOpacity(EEMod.noOfPasses);
-                    }
-                    if (EEModConfigClient.Instance.BetterLighting)
-                    {
-                        Filters.Scene[$"EEMod:Filter{i}"].GetShader().UseIntensity(100).UseOpacity(EEMod.noOfPasses);
-                    }
-                    else
-                    {
-                        if (SkyManager.Instance[$"EEMod:Filter{i}"].IsActive()) SkyManager.Instance.Deactivate($"EEMod:Filter{i}", new object[0]);
-                    }
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:Filter{i}"].IsActive() && EEModConfigClient.Instance.BetterLighting)
+                {
+                    Filters.Scene.Activate($"EEMod:Filter{i}", projectile.Center).GetShader().UseIntensity(0.8f).UseOpacity(EEMod.noOfPasses);
+                }
+                if (EEModConfigClient.Instance.BetterLighting)
+                {
+                    Filters.Scene[$"EEMod:Filter{i}"].GetShader().UseIntensity(100).UseOpacity(EEMod.noOfPasses);
+                }
+                else
+                {
+                    if (SkyManager.Instance[$"EEMod:Filter{i}"].IsActive()) SkyManager.Instance.Deactivate($"EEMod:Filter{i}", new object[0]);
+                }
             }
             projectile.timeLeft = 100;
             projectile.Center = Main.player[(int)projectile.ai[1]].Center;

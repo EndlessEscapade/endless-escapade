@@ -155,7 +155,7 @@ namespace EEMod
 
             //Lower reefs stuffs
             EEWorld.EEWorld.MakeKramkenArena(670, 1600, 190);
-            EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));
+            EEWorld.EEWorld.MakeAtlantis(new Vector2(0, 1900), new Vector2(900, 500));
 
             //Final polishing
             for (int i = 2; i < Main.maxTilesX - 2; i++)

@@ -99,7 +99,7 @@ namespace EEMod.Items
             {
                 goTo.Y = player.Center.Y + radial;
             }
-            if(projectile.ai[0] == 1)
+            if (projectile.ai[0] == 1)
             {
                 goTo = player.Center + new Vector2(0, 50);
             }

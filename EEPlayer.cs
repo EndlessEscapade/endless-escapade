@@ -308,20 +308,20 @@ namespace EEMod
                         }
                         if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive())
                         {
-                          //  Filters.Scene.Activate("EEMod:WhiteFlash", player.Center).GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
+                            //  Filters.Scene.Activate("EEMod:WhiteFlash", player.Center).GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                         }
 
                         Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
                         Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f, (markerPlacer - ((120 * 8) + 1400)) / 10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
                         Main.spriteBatch.End();
-                      //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
+                        //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                     }
                     if (markerPlacer >= (120 * 8) + 1800)
                     {
                         startingText = false;
                         if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:WhiteFlash"].IsActive())
                         {
-                        //    Filters.Scene["EEMod:WhiteFlash"].Deactivate();
+                            //    Filters.Scene["EEMod:WhiteFlash"].Deactivate();
                         }
 
                         Initialize();
@@ -667,7 +667,7 @@ namespace EEMod
                         if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40 && !a.sinking)
                         {
                             //Crate loot tables go here
-                            if(Main.rand.NextBool())
+                            if (Main.rand.NextBool())
                                 player.QuickSpawnItem(ItemID.GoldBar, 8);
                             else
                                 player.QuickSpawnItem(ItemID.PlatinumBar, 8);
@@ -971,7 +971,7 @@ namespace EEMod
                 }
                 if (!importantCutscene)
                 {
-                    SM.SaveAndQuit(KeyID.Cutscene1);
+                    //SM.SaveAndQuit(KeyID.Cutscene1);
                     importantCutscene = true;
                 }
                 if (EEModConfigClient.Instance.ParticleEffects)

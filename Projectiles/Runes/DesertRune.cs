@@ -64,8 +64,8 @@ namespace EEMod.Projectiles.Runes
                 float progress = (180 - projectile.ai[1]) / 720f;
                 progress *= .3f;
                 distortStrength = (projectile.ai[1] * 2);
-              //  Filters.Scene["EEMod:Shockwave"].GetShader().UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
-              //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(projectile.ai[0]);
+                //  Filters.Scene["EEMod:Shockwave"].GetShader().UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
+                //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(projectile.ai[0]);
 
                 if (projectile.ai[1] == 160)
                 {

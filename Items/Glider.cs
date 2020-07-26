@@ -20,9 +20,20 @@ namespace EEMod.Items
         {
             item.width = 20;
             item.height = 20;
-            item.maxStack = 1;
-            item.value = Item.buyPrice(0, 0, 18, 0);
-            item.rare = ItemRarityID.Green;
+            item.value = 50;
+
+            item.maxStack = 99;
+
+            item.holdStyle = 2;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useTime = 10;
+            item.useAnimation = 15;
+
+            //item.flame = true; needs a flame texture.
+            item.noWet = true;
+            item.useTurn = true;
+            item.autoReuse = true;
+            item.consumable = true;
         }
 
         public override void HoldStyle(Player player)
@@ -34,14 +45,11 @@ namespace EEMod.Items
             player.headFrameCounter = 5;
             player.legFrame.Y = 5 * 56;
             player.legFrameCounter = 5;*/
-            Main.spriteBatch.Begin();
-            Main.spriteBatch.Draw(Main.itemTexture[item.type], new Vector2(player.position.X, player.position.Y - 32) - Main.screenPosition, Color.White);
-            Main.spriteBatch.End();
+
             player.velocity.Y = 1;
             if (Math.Abs(player.velocity.X) < 3)
                 player.velocity.X *= 1.05f;
 
-            Main.NewText("a");
         }
     }
 }

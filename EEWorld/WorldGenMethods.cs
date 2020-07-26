@@ -2370,7 +2370,7 @@ namespace EEMod.EEWorld
         {
             for (int i = 0; i < Main.maxTilesX; i++)
             {
-                for (int j = 0; j < (int)Main.maxTilesY * (2/3); j++)
+                for (int j = 0; j < (int)Main.maxTilesY * (2 / 3); j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     int yes = WorldGen.genRand.Next(5, 10);
