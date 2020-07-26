@@ -136,21 +136,22 @@ namespace EEMod.EEWorld
             {
                 return new TagCompound
                 {
-                ["CoralBoatPos"]=EESubWorlds.CoralBoatPos
+                    ["CoralBoatPos"] = EESubWorlds.CoralBoatPos
                 };
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {
                 return new TagCompound
                 {
-                ["SubWorldSpecificVolcanoInsidePos"] = SubWorldSpecificVolcanoInsidePos
+                    ["SubWorldSpecificVolcanoInsidePos"] = SubWorldSpecificVolcanoInsidePos
                 };
             }
-            return new TagCompound {
-            ["EntracesPosses"]=EntracesPosses,
-                ["yes"]= yes ,
-                ["ree"]= ree 
-        };
+            return new TagCompound
+            {
+                ["EntracesPosses"] = EntracesPosses,
+                ["yes"] = yes,
+                ["ree"] = ree
+            };
             /*List<string> boolflags = new List<string>();
 
             // Game modes

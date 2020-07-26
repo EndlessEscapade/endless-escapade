@@ -199,6 +199,7 @@ namespace EEMod
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
             //Lower reefs stuffs
+
             /*EEWorld.EEWorld.MakeKramkenArena(670, 1600, 190);
             EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));*/
 

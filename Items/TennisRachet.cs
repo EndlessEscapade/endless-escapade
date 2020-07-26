@@ -21,8 +21,7 @@ namespace EEMod.Items
             item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
-            item.noMelee = true;
-            item.ranged = true;
+            item.noMelee = false;
             item.damage = 20;
             item.useTime = 10;
             item.useAnimation = 10;

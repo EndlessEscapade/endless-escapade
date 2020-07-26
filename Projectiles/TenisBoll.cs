@@ -121,18 +121,18 @@ namespace EEMod.Projectiles
                 projectile.netUpdate = true;
             }
             Vector2 pos = Vector2.Zero;
-                for (int i = 0; i < Main.projectile.Length; i++)
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].type == ModContent.ProjectileType<TennisRachetProj>() && Main.projectile[i].active)
                 {
-                    if (Main.projectile[i].type == ModContent.ProjectileType<TennisRachetProj>() && Main.projectile[i].active)
+                    if ((Main.projectile[i].Center - projectile.Center).Length() < (pos - projectile.Center).Length())
                     {
-                        if ((Main.projectile[i].Center - projectile.Center).Length() < (pos - projectile.Center).Length())
-                        {
-                            pos = Main.projectile[i].Center;
-                            indexOfProjectile = i;
-                            projectile.netUpdate = true;
-                        }
+                        pos = Main.projectile[i].Center;
+                        indexOfProjectile = i;
+                        projectile.netUpdate = true;
                     }
                 }
+            }
             chosenRacket = Main.projectile[indexOfProjectile];
             projectile.timeLeft = 100;
             Rectangle mouseHitBox = new Rectangle((int)mouseHitBoxVec.X - 6, (int)mouseHitBoxVec.Y - 6, 12, 12);
