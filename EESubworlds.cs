@@ -65,12 +65,13 @@ namespace EEMod
                 for (int j = -5; j < 5; j++)
                     WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
 
-            EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 40), ModContent.TileType<CoralSand>());
+            EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSand>());
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
 
 
+            EEWorld.EEWorld.MakeCoralRoom(500, 500, 200, 0, 0);
             //Making chasms and hollowed-out areas
-            EEWorld.EEWorld.MakeWavyChasm2(100, 100, 500, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60), true);
+            /*EEWorld.EEWorld.MakeWavyChasm2(100, 100, 500, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60), true);
             EEWorld.EEWorld.MakeWavyChasm2(Main.maxTilesX - 100, 100, 500, TileID.StoneSlab, -0.3f, WorldGen.genRand.Next(50, 60), true);
 
             EEWorld.EEWorld.MakeWavyChasm(450, 100, 200, TileID.StoneSlab, 0.5f, WorldGen.genRand.Next(50, 60));
@@ -82,7 +83,11 @@ namespace EEMod
             EEWorld.EEWorld.MakeWavyChasm2(700, 550, 550, TileID.StoneSlab, 0.5f, WorldGen.genRand.Next(50, 60), true);
             EEWorld.EEWorld.MakeWavyChasm2(1300, 600, 500, TileID.StoneSlab, -0.5f, WorldGen.genRand.Next(50, 60), true);
 
-            EEWorld.EEWorld.ClearOval(800, 400, new Vector2(350, 950));
+            EEWorld.EEWorld.ClearOval(800, 400, new Vector2(350, 950));*/
+
+
+
+
 
             /*for (int i = 0; i < 5; i++)
             {
@@ -122,6 +127,8 @@ namespace EEMod
             }*/
 
 
+
+
             //Generating ores
             int barrier = 800;
             for (int j = 0; j < barrier; j++)
@@ -154,8 +161,8 @@ namespace EEMod
             EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
             //Lower reefs stuffs
-            EEWorld.EEWorld.MakeKramkenArena(670, 1600, 190);
-            EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));
+            /*EEWorld.EEWorld.MakeKramkenArena(670, 1600, 190);
+            EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));*/
 
             //Final polishing
             for (int i = 2; i < Main.maxTilesX - 2; i++)

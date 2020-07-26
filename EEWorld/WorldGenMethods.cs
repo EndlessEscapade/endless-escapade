@@ -2366,11 +2366,54 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void RemoveStoneSlabs()
+        {
+            for (int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.type == TileID.StoneSlab)
+                        WorldGen.KillTile(i, j);
+                }
+            }
+        }
+        public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int foliage)
+        {
+            int sizeX = size;
+            int sizeY = size / 2;
+            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
+            /*for (int k = 0; k < maxTiles * 60; k++)
+            {
+                int x = WorldGen.genRand.Next(xPos - (size * 2), xPos + (size * 2));
+                int y = WorldGen.genRand.Next(yPos - (size * 2), yPos + (size * 2));
+                if (OvalCheck(xPos, yPos, x, y, size * 2, size))
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+            }*/
+            MakeOval(sizeX, sizeY, new Vector2(xPos, yPos), TileID.StoneSlab, true);
+            RemoveStoneSlabs();
+
+            switch (type)
+            {
+                case 0:
+                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX / 4) + xPos - (sizeX/20), (sizeY/4) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX * 3 / 4) + xPos - (sizeX / 20), (sizeY / 4) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX / 3) + xPos - (sizeX / 20), (sizeY / 2) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX * 2 / 3) + xPos - (sizeX / 20), (sizeY / 2) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX / 4) + xPos - (sizeX / 20), (sizeY*3 / 4) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX * 3 / 4) + xPos - (sizeX / 20), (sizeY*3 / 4) + yPos), ModContent.TileType<GemsandTile>());
+                    break;
+                case 1:
+                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX / 3) + xPos - (sizeX / 20), (sizeY / 2) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX * 2 / 3) + xPos - (sizeX / 20), (sizeY / 2) + yPos), ModContent.TileType<GemsandTile>());
+                    break;
+            }
+        }
         public static void PlaceCoral()
         {
             for (int i = 0; i < Main.maxTilesX; i++)
             {
-                for (int j = 0; j < (int)Main.maxTilesY * (2/3); j++)
+                for (int j = 0; j < Main.maxTilesY; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     int yes = WorldGen.genRand.Next(5, 10);
