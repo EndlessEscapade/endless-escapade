@@ -208,11 +208,12 @@ namespace EEMod
             {
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
+                   
                     int yes = WorldGen.genRand.Next(0, 5);
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSand>())
                     {
-                        int selection = WorldGen.genRand.Next(3);
+                        int selection = WorldGen.genRand.Next(4);
                         switch (selection)
                         {
                             case 0:
@@ -224,7 +225,11 @@ namespace EEMod
                             case 2:
                                 WorldGen.PlaceTile(i, j - 1, TileID.Coral);
                                 break;
+                            case 3:
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<KelpTile>());
+                                break;
                         }
+                       
                     }
                     yes = WorldGen.genRand.Next(0, 10);
                     if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes == 0 && tile.type == TileID.Grass)
