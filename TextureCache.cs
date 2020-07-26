@@ -53,10 +53,10 @@ namespace EEMod
         public static void Load()
         {
             Mod mod = EEMod.instance;
-            CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/CoralLanternLampGlow");
+            CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
             Chain = mod.GetTexture("NPCs/CoralReefs/Chain");
             Empty = mod.GetTexture("Empty");
-            EyeTileGlow = mod.GetTexture("Tiles/Furniture/EyeTileGlow");
+            EyeTileGlow = mod.GetTexture("Tiles/Furniture/Coral/EyeTileGlow");
             //Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");
             BleckScren = mod.GetTexture("BleckScreen");
             NotBleckScren = mod.GetTexture("NotBleckScren");
@@ -76,7 +76,7 @@ namespace EEMod
             DuneShamblerDig = mod.GetTexture("NPCs/DuneShamblerDig");
             DruidsVin_Beam = mod.GetTexture("Projectiles/Mage/DruidsVin_Beam");
             DruidsVin_End = mod.GetTexture("Projectiles/Mage/DruidsVin_End");
-            CoralLanternTileGlow = mod.GetTexture("Tiles/Furniture/CoralLanternTileGlow");
+            CoralLanternTileGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternTileGlow");
             AkumoFeather = mod.GetTexture("NPCs/Bosses/Akumo/AkumoFeather");
             Akumo = mod.GetTexture("NPCs/Bosses/Akumo/Akumo");
             KrakenTentacles = mod.GetTexture("NPCs/Bosses/Kraken/KrakenTentacles");

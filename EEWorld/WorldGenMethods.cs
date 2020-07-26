@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
+using EEMod.Tiles.Furniture.Coral;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
 using System.Collections.Generic;
