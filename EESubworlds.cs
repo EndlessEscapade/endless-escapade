@@ -46,6 +46,8 @@ namespace EEMod
             //Variables and Initialization stuff
             int depth = 70;
             int boatPos = Main.maxTilesX / 2;
+            int roomCount = 6;
+            Vector2[] rooms = new Vector2[roomCount];
             Main.maxTilesX = 1500;
             Main.maxTilesY = 2400;
             SubworldManager.Reset(seed);
@@ -69,7 +71,43 @@ namespace EEMod
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
 
 
-            EEWorld.EEWorld.MakeCoralRoom(500, 500, 200, 0, 0);
+            //Making chasms
+            int ree = Main.rand.Next(100, 750);
+            EEWorld.EEWorld.MakeWavyChasm2(ree, 100, 300, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60), true);
+            rooms[0] = new Vector2(ree + 125 - 100, 400);
+
+            ree = Main.rand.Next(-400, 401);
+            int legoYoda = Main.rand.Next(-400, 401);
+            while(legoYoda <= 250 && legoYoda >= -250 && legoYoda + rooms[0].Y < 500 && legoYoda + rooms[0].Y > 100)
+                legoYoda = Main.rand.Next(-400, 401);
+            while (ree <= 250 && ree >= -250 && ree - 100 + rooms[0].X > 200 && ree - 100 + rooms[0].X < 1299)
+                ree = Main.rand.Next(-400, 401);
+
+            rooms[1] = new Vector2(ree - 100 + rooms[0].X, legoYoda + rooms[0].Y);
+
+            ree = Main.rand.Next(-400, 401);
+            legoYoda = Main.rand.Next(-400, 401);
+            while (legoYoda <= 250 && legoYoda >= -250 && legoYoda + rooms[1].Y < 500 && legoYoda + rooms[1].Y > 100)
+                legoYoda = Main.rand.Next(-400, 401);
+            while (ree <= 250 && ree >= -250 && ree - 100 + rooms[1].X > 200 && ree - 100 + rooms[1].X < 1299)
+                ree = Main.rand.Next(-400, 401);
+
+            rooms[2] = new Vector2(ree - 100 + rooms[1].X, legoYoda + rooms[1].Y);
+
+
+
+
+            EEWorld.EEWorld.MakeCoralRoom((int)rooms[0].X, (int)rooms[0].Y, 200, 0, 0);
+            EEWorld.EEWorld.MakeWavyChasm2((int)rooms[0].X, (int)rooms[0].Y, Math.Abs((int)rooms[0].Y - (int)rooms[1].Y), TileID.StoneSlab, ((int)rooms[1].Y - (int)rooms[0].Y)/((int)rooms[1].X - (int)rooms[0].X), WorldGen.genRand.Next(50, 60), true);
+            EEWorld.EEWorld.MakeCoralRoom((int)rooms[1].X, (int)rooms[1].Y, 200, 0, 0);
+            EEWorld.EEWorld.MakeWavyChasm2((int)rooms[1].X, (int)rooms[1].Y, Math.Abs((int)rooms[1].Y - (int)rooms[2].Y), TileID.StoneSlab, ((int)rooms[2].Y - (int)rooms[1].Y) / ((int)rooms[2].X - (int)rooms[1].X), WorldGen.genRand.Next(50, 60), true);
+            EEWorld.EEWorld.MakeCoralRoom((int)rooms[2].X, (int)rooms[2].Y, 200, 0, 0);
+
+
+
+
+
+
             //Making chasms and hollowed-out areas
             /*EEWorld.EEWorld.MakeWavyChasm2(100, 100, 500, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60), true);
             EEWorld.EEWorld.MakeWavyChasm2(Main.maxTilesX - 100, 100, 500, TileID.StoneSlab, -0.3f, WorldGen.genRand.Next(50, 60), true);
@@ -165,6 +203,7 @@ namespace EEMod
             EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));*/
 
             //Final polishing
+            EEWorld.EEWorld.PlaceCoral();
             for (int i = 2; i < Main.maxTilesX - 2; i++)
             {
                 for (int j = 2; j < Main.maxTilesY - 2; j++)
@@ -172,7 +211,6 @@ namespace EEMod
                     Tile.SmoothSlope(i, j);
                 }
             }
-            EEWorld.EEWorld.PlaceCoral();
 
             //Placing boat
             EEWorld.EEWorld.PlaceShip(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22, EEWorld.EEWorld.ShipTiles);

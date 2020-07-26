@@ -2411,13 +2411,12 @@ namespace EEMod.EEWorld
         }
         public static void PlaceCoral()
         {
-            for (int i = 0; i < Main.maxTilesX; i++)
+            for (int i = 3; i < Main.maxTilesX - 3; i++)
             {
-                for (int j = 0; j < Main.maxTilesY; j++)
+                for (int j = 3; j < Main.maxTilesY - 3; j++)
                 {
-                    Tile tile = Framing.GetTileSafely(i, j);
                     int yes = WorldGen.genRand.Next(5, 10);
-                    if (TileCheck2(i, j) == 1/* && j % yes == 0*/)
+                    if (TileCheck2(i, j) == 1 && j % yes == 0)
                     {
                         int selection = WorldGen.genRand.Next(2);
                         switch (selection)
@@ -2430,7 +2429,7 @@ namespace EEMod.EEWorld
                                 break;
                         }
                     }
-                    if (TileCheck2(i, j) == 2/* && j % yes <= 4*/)
+                    if (TileCheck2(i, j) == 2 && j % yes <= 4)
                     {
                         int selection = WorldGen.genRand.Next(10);
                         switch (selection)
