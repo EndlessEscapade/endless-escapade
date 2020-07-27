@@ -51,7 +51,6 @@ namespace EEMod
 
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
-
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = EEWorld.EEWorld.CoralReefsTiles > 200;

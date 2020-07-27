@@ -43,7 +43,6 @@ namespace EEMod.Tiles.Furniture
             }
             return true;
         }
-
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
             if(Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd != default &&

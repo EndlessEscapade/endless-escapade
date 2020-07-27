@@ -15,27 +15,55 @@ namespace EEMod.Projectiles.Ranged
 
         public override void SetDefaults()
         {
-            projectile.width = 10;
-            projectile.height = 10;
-            projectile.aiStyle = 1;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.ranged = true;
+            projectile.width = 18;
+            projectile.height = 18;
+            projectile.alpha = 0;
+            projectile.timeLeft = 600;
             projectile.penetrate = 1;
-            projectile.ignoreWater = false;
+            projectile.hostile = false;
+            projectile.friendly = true;
             projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
-            projectile.aiStyle = 1;
-            projectile.arrow = true;
+            projectile.ignoreWater = true;
+            projectile.scale *= 1f;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override void AI()
         {
-            projectile.ai[0]--;
-            if (projectile.ai[0] <= 0)
+            projectile.velocity.Y += projectile.ai[0];
+            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI/2;
+            if(projectile.ai[1] == 1)
             {
-                Projectile.NewProjectile(projectile.position, new Vector2(0, -5), ModContent.ProjectileType<WaterDragonsBubble>(), 12, 0);
-                projectile.ai[0] = 20;
+                for (int i = 0; i < 360; i += 10)
+                {
+                    float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 5);
+                    float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 5);
+                    Vector2 offset = new Vector2(xdist, ydist).RotatedBy(projectile.rotation);
+                    Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 113, offset * 0.5f);
+                    dust.noGravity = true;
+                    dust.velocity *= 0.94f;
+                    dust.noLight = false;
+                    dust.fadeIn = 1f;
+                }
+                projectile.damage = 1000;
+            }
+            
+        }
+        public override void Kill(int timeLeft)
+        {
+            if (projectile.ai[1] == 1)
+            {
+                for (int i = 0; i < 360; i += 5)
+                {
+                    float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 15);
+                    float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 15);
+                    Vector2 offset = new Vector2(xdist, ydist);
+                    Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 113, offset * 0.5f);
+                    dust.noGravity = true;
+                    dust.velocity *= 0.97f;
+                    dust.noLight = false;
+                }
             }
         }
     }
