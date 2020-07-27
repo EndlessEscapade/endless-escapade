@@ -15,18 +15,12 @@ namespace EEMod.Tiles.Furniture
 {
     public class ZipPylon : ModTile
     {
-        public Vector2 link = new Vector2();
         public override void SetDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.newSubTile.CopyFrom(TileObjectData.newTile);
-            TileObjectData.newSubTile.LavaDeath = false;
-            TileObjectData.newSubTile.LavaPlacement = LiquidPlacement.Allowed;
-            TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Zip-Pylon");
             AddMapEntry(new Color(20, 60, 20), name);
@@ -38,17 +32,13 @@ namespace EEMod.Tiles.Furniture
         {
             if (Main.LocalPlayer.HeldItem.type == ModContent.ItemType<ZipWire>())
             {
-                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().currentZipPylon != default)
+                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == default)
                 {
-                    Main.NewText(Main.LocalPlayer.GetModPlayer<EEPlayer>().currentZipPylon);
-                    link = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentZipPylon;
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().currentZipPylon = default;
-                    Main.NewText(link);
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = new Vector2(i + 12, j + 13) * 16 + new Vector2(8,-8);
                 }
                 else
                 {
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().currentZipPylon = new Vector2(i, j);
-                    Main.NewText(link);
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = new Vector2(i + 12, j + 13) * 16 + new Vector2(8, -8);
                 }
             }
             return true;
@@ -56,10 +46,15 @@ namespace EEMod.Tiles.Furniture
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
-            if(link != default)
+            if(Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd != default &&
+                Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin != default)
             {
-                Vector2 pos = new Vector2(i + 7, j + 7);
-                Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), pos - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, MathHelper.ToDegrees((float)Math.Acos((pos.X * link.X + pos.Y * link.Y) / (pos.Length() * link.Length()))), new Rectangle(0, 0, 2, 2).Size() / 2, new Vector2(Vector2.Distance(pos, link), 1), SpriteEffects.None, 0);
+                Vector2 begin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
+                Vector2 end = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
+                for (float k = 0; k < 1; k += 0.01f)
+                {
+                    Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), begin + (end - begin) *k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0);
+                }
             }
         }
     }

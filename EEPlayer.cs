@@ -49,7 +49,8 @@ namespace EEMod
         string shad3 = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
 
-        public Vector2 currentZipPylon;
+        public Vector2 PylonBegin;
+        public Vector2 PylonEnd;
 
         public override void UpdateBiomes()
         {
