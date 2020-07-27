@@ -35,7 +35,10 @@ namespace EEMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<TideBreakerProj>();
         }
-
+        public override bool CanUseItem(Player player)
+        {
+            return player.ownedProjectileCounts[item.shoot] < 1;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
