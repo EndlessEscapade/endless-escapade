@@ -5,7 +5,7 @@ using EEMod.Items.Placeables;
 
 namespace EEMod.Tiles.Walls
 {
-    public class AtlanteanBrickWallTile : ModWall
+    public class AtlanteanSlabWallTile : ModWall
     {
         public override void SetDefaults()
         {
@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Walls
 
             Main.wallHouse[Type] = true;
             dustType = 154;
-            drop = ModContent.ItemType<AtlanteanBrickWall>();
+            drop = ModContent.ItemType<AtlanteanSlabWall>();
             soundStyle = 1;
         }
     }
