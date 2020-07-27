@@ -51,7 +51,7 @@ namespace EEMod.Tiles.Furniture
             {
                 Vector2 begin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
                 Vector2 end = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
-                for (float k = 0; k < 1; k += 0.01f)
+                for (float k = 0; k < 1; k += 1/ (end - begin).Length())
                 {
                     Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), begin + (end - begin) *k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0);
                 }
