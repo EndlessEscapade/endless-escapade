@@ -1,4 +1,6 @@
 using Terraria.ModLoader;
+using Terraria;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -18,6 +20,11 @@ namespace EEMod.Projectiles.Mage
             projectile.hostile = false;
             projectile.friendly = true;
             projectile.penetrate = -1;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            Projectile.NewProjectile(projectile.position, Vector2.Zero, );
         }
     }
 }

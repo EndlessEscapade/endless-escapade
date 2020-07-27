@@ -58,8 +58,9 @@ namespace EEMod.Tiles.Furniture
         {
             if(link != default)
             {
-                Vector2 pos = new Vector2(i + 7, j + 7);
-                Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), pos - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, MathHelper.ToDegrees((float)Math.Acos((pos.X * link.X + pos.Y * link.Y) / (pos.Length() * link.Length()))), new Rectangle(0, 0, 2, 2).Size() / 2, new Vector2(Vector2.Distance(pos, link), 1), SpriteEffects.None, 0);
+                Vector2 pos = new Vector2(i , j) * 16;
+                Vector2 newLink = link * 16;
+                Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), pos - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, MathHelper.ToDegrees((float)Math.Acos((pos.X * newLink.X + pos.Y * newLink.Y) / (pos.Length() * newLink.Length()))), new Rectangle(0, 0, 2, 2).Size() / 2, new Vector2(Vector2.Distance(pos, newLink), 1), SpriteEffects.None, 0);
             }
         }
     }
