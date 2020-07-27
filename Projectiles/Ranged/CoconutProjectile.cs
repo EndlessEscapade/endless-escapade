@@ -23,6 +23,11 @@ namespace EEMod.Projectiles.Ranged
 
         public override void AI()
         {
+            projectile.velocity.Y = projectile.velocity.Y + 0.25f;
+            if (projectile.velocity.Y > 16f)
+            {
+                projectile.velocity.Y = 16f;
+            }
             projectile.rotation = projectile.velocity.ToRotation();
         }
     }
