@@ -49,6 +49,8 @@ namespace EEMod
         string shad3 = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
 
+        public Vector2 currentZipPylon;
+
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = EEWorld.EEWorld.CoralReefsTiles > 200;

@@ -1,15 +1,16 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Placeables.Ores;
 using EEMod.Projectiles.Melee;
 
 namespace EEMod.Items.Weapons.Melee
 {
-    public class AbyssalScimitar : ModItem
+    public class AtlanteanWarhammer : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Abyssal Scimitar");
+            DisplayName.SetDefault("Atlantean Warhammer");
         }
 
         public override void SetDefaults()
@@ -32,7 +33,7 @@ namespace EEMod.Items.Weapons.Melee
             item.autoReuse = true;
 
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<AbyssalScimitarProj>();
+            item.shoot = ModContent.ProjectileType<AtlanteanWarhammerProj>();
         }
     }
 }

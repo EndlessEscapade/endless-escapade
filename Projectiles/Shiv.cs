@@ -43,11 +43,11 @@ namespace EEMod.Projectiles
             projectile.position.X = projOwner.Center.X - projectile.width / 2;
             projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
             }
-            if (projectile.ai[0] == 0)
+            if (projectile.ai[0] == 0) //schpeen
             {
                 projectile.rotation += 0.2f;
             }
-            if (projectile.ai[0] == 1)
+            if (projectile.ai[0] == 1) //schtab
             {
                 projectile.rotation = (float)Math.PI/4 + Main.rand.NextFloat(-0.2f,0.2f) + (Main.MouseWorld - projOwner.Center).ToRotation();
                 float percentageX = (float)Math.Sin(projectile.rotation);
@@ -55,7 +55,7 @@ namespace EEMod.Projectiles
                 projectile.position.X += projOwner.itemAnimation % (projOwner.itemAnimationMax / 5) * percentageX;
                 projectile.position.Y += projOwner.itemAnimation % (projOwner.itemAnimationMax / 5) * percentageY;
             }
-            if (projectile.ai[0] == 2)
+            if (projectile.ai[0] == 2) //dasche
             {
                 if (projOwner.direction == 1)
                 {
@@ -89,7 +89,7 @@ namespace EEMod.Projectiles
                 }
                 
             }
-            if (projectile.ai[0] == 3)
+            if (projectile.ai[0] == 3) //crasche
             {
                 
                 projectile.rotation = -(float)Math.PI / 4;
@@ -137,7 +137,7 @@ namespace EEMod.Projectiles
                     }
                 }
             }
-            if (projectile.ai[0] == 4)
+            if (projectile.ai[0] == 4) //throe
             {
                 float radial = 75;
                 float inverseSpeed = 100;
@@ -166,13 +166,13 @@ namespace EEMod.Projectiles
                 projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect);projectile.rotation += projectile.velocity.X / 16f;
                 projectile.rotation += projectile.velocity.X / 128f;
             }
-            if (projectile.ai[0] == 5)
+            if (projectile.ai[0] == 5) //across da skrene
             {
                 xDis += (6000 - xDis) / 64f;
                 projectile.position.X += -2000 + xDis;
                 projectile.rotation = (float)Math.PI / 4;
             }
-            if (projectile.ai[0] == 6)
+            if (projectile.ai[0] == 6) //jump and smasche
             {
                 if (perc > 0.9f)
                 {

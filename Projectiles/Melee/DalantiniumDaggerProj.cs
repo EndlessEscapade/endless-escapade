@@ -8,11 +8,11 @@ using System.Collections.Generic;
 
 namespace EEMod.Projectiles.Melee
 {
-    public class TideBreakerProj : Shiv
+    public class DalantiniumDaggerProj : Shiv
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tide Breaker");
+            DisplayName.SetDefault("Dalantinium Dagger");
         }
 
         public override void SetDefaults()
@@ -42,7 +42,7 @@ namespace EEMod.Projectiles.Melee
                 // Main.dust[num].noGravity = false;
             }
         }
-        public override List<int> exclude => new List<int> {0,1,3,6,4,5};
+        public override List<int> exclude => new List<int> {0,1,3,6,2,5};
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
