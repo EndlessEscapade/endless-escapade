@@ -18,8 +18,7 @@ namespace EEMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
             Main.tileSolidTop[Type] = true;
-            Main.tileNoAttach[Type] = true;
-            Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = false;
             AddMapEntry(new Color(68, 89, 195));
             Main.tileCut[Type] = true;
             dustType = 154;

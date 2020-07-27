@@ -2346,6 +2346,22 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void MakeJaggedOval(int width, int height, Vector2 startingPoint, int type, bool forced)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+
+                    if (i == width / 2 && j == height / 2)
+                    {
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), type, true, 0f, 0f, true, true);
+                    }
+                }
+            }
+        }
         public static void MakeKramkenArena(int xPos, int yPos, int size)
         {
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
@@ -2390,22 +2406,22 @@ namespace EEMod.EEWorld
                 if (OvalCheck(xPos, yPos, x, y, size * 2, size))
                     WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
             }*/
-            MakeOval(sizeX, sizeY, new Vector2(xPos, yPos), TileID.StoneSlab, true);
+            MakeJaggedOval(sizeX, sizeY, new Vector2(xPos - size/2f, yPos - size / 4f), TileID.StoneSlab, true);
             RemoveStoneSlabs();
 
             switch (type)
             {
                 case 0:
-                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX / 4) + xPos - (sizeX/20), (sizeY/4) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX * 3 / 4) + xPos - (sizeX / 20), (sizeY / 4) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX / 3) + xPos - (sizeX / 20), (sizeY / 2) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX * 2 / 3) + xPos - (sizeX / 20), (sizeY / 2) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX / 4) + xPos - (sizeX / 20), (sizeY*3 / 4) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX * 3 / 4) + xPos - (sizeX / 20), (sizeY*3 / 4) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.25f) + xPos - (sizeX/20f), (sizeY*0.25f) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY * 0.25f) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX *0.33f) + xPos - (sizeX / 20f), (sizeY *0.5f) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.66f) + xPos - (sizeX / 20f), (sizeY*0.5f) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX *0.25f) + xPos - (sizeX / 20f), (sizeY*0.75f) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY*0.75f) + yPos), ModContent.TileType<GemsandTile>());
                     break;
                 case 1:
-                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX / 3) + xPos - (sizeX / 20), (sizeY / 2) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop((int)sizeX / 10, (int)sizeY / 10, new Vector2((sizeX * 2 / 3) + xPos - (sizeX / 20), (sizeY / 2) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX *0.5f), (sizeY *0.5f) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX *0.5f), (sizeY * 0.5f) + yPos), ModContent.TileType<GemsandTile>());
                     break;
             }
         }
@@ -2578,7 +2594,26 @@ namespace EEMod.EEWorld
             for (int i = 0; i < height; i++)
             {
                 // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
-                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(20, 40), type, true, 0f, 0f, true, Override);
+                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(10, 12), type, true, 0f, 0f, true, Override);
+            }
+        }
+        public static void MakeWavyChasm3(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override)
+        {
+            for (int i = 0; i < accuracy; i++)
+            {
+                // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
+                float perc = i / (float)accuracy;
+                WorldGen.TileRunner((int)(position1.X + (perc * (position2.X - position1.X))), 
+                    (int)(position1.Y + (perc * (position2.Y - position1.Y))),
+                    WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), 
+                    WorldGen.genRand.Next(20, 40),
+                    type,
+                    true,
+                    0f,
+                    0f,
+                    true,
+                    Override)
+                    ;
             }
         }
         public static int TileCheck(int positionX, int type)
@@ -2953,8 +2988,8 @@ namespace EEMod.EEWorld
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
             for (int k = 0; k < maxTiles * (size / 8); k++)
             {
-                int x = WorldGen.genRand.Next(X - 80, X + 80);
-                int y = WorldGen.genRand.Next(midY - 80, midY + 80);
+                int x = WorldGen.genRand.Next(X - 160, X + 160);
+                int y = WorldGen.genRand.Next(midY - 160, midY + 160);
                 // Tile tile = Framing.GetTileSafely(x, y);
                 if (layer == 1)
                 {
@@ -2967,15 +3002,7 @@ namespace EEMod.EEWorld
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
                 }
             }
-            for (int i = 0; i < 800; i++)
-            {
-                for (int j = 0; j < 2000; j++)
-                {
-                    Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile.type == TileID.StoneSlab)
-                        WorldGen.KillTile(i, j);
-                }
-            }
+            RemoveStoneSlabs();
             /*  for (int k = 0; k < density; k++)
               {
                   int x = WorldGen.genRand.Next(X - 80, X + 80);
@@ -2994,7 +3021,7 @@ namespace EEMod.EEWorld
                   }
               }*/
             if (layer == 1)
-                WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(5, 10), WorldGen.genRand.Next(5, 10), type, true, 1f, 1f, false, true);
+                WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(size/3- 10, size/3 + 10), WorldGen.genRand.Next(5, 10), type, true, 1f, 1f, false, true);
         }
         public static void MakeLayerWithOutline(int X, int midY, int size, int layer, int type, int thickness)
         {
