@@ -24,7 +24,7 @@ namespace EEMod.Projectiles.Mage
 
         public override void Kill(int timeLeft)
         {
-            Projectile.NewProjectile(projectile.position, Vector2.Zero, );
+            //Projectile.NewProjectile(projectile.position, Vector2.Zero, );
         }
     }
 }
