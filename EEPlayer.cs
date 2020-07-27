@@ -51,6 +51,9 @@ namespace EEMod
 
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
+        public bool ridingZipline;
+        public int zipTimer;
+
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = EEWorld.EEWorld.CoralReefsTiles > 200;
@@ -408,8 +411,26 @@ namespace EEMod
         private static string prevKey = "Main";
         public float powerLevel = 0;
         public int maxPowerLevel = 11;
+        public float zipMultiplier = 1;
         public override void UpdateBiomeVisuals()
         {
+            Vector2 begin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
+            Vector2 end = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            {
+                Main.LocalPlayer.position = (begin + (end - begin) * Main.LocalPlayer.GetModPlayer<EEPlayer>().zipTimer / (500f / zipMultiplier)) + new Vector2(-12 * 16, -13 * 16 + 32);
+                Main.LocalPlayer.gravity = 0;
+                Main.LocalPlayer.GetModPlayer<EEPlayer>().zipTimer++;
+                if (zipMultiplier <= 4)
+                    zipMultiplier *= 1.02f;
+            }
+            if (Vector2.Distance(Main.LocalPlayer.position, end) <= 256 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            {
+                Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = false;
+                zipMultiplier = 1;
+            }
+
+
             if (player.controlUseItem)
             {
                 powerLevel += 0.2f;

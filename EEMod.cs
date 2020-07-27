@@ -24,6 +24,21 @@ using Mono.Cecil.Cil;
 using OpCodes = Mono.Cecil.Cil.OpCodes;
 using EEMod.Projectiles.Mage;
 using EEMod.Projectiles.OceanMap;
+using System.IO;
+using System.Threading;
+using Terraria.IO;
+using EEMod.Projectiles;
+using EEMod.Projectiles.CoralReefs;
+using Terraria.ModLoader.IO;
+using Terraria.GameInput;
+using EEMod.NPCs.Bosses.Hydros;
+using static Terraria.ModLoader.ModContent;
+using EEMod.NPCs;
+using EEMod.NPCs.Bosses.Akumo;
+using EEMod.NPCs.CoralReefs;
+using EEMod.NPCs.Bosses.Kraken;
+using EEMod.NPCs.Friendly;
+using EEMod.Items;
 
 namespace EEMod
 {
@@ -54,6 +69,16 @@ namespace EEMod
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
+        }
+
+        public void DrawZipline()
+        {
+            Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
+            Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
+            Main.spriteBatch.Begin();
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.Center - Main.screenPosition + new Vector2(0, -26), new Rectangle(0, 0, 2, 16), Color.White, 0, new Rectangle(0, 0, 2, 16).Size() / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.Center - Main.screenPosition + new Vector2(0, -32), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Rectangle(0, 0, 18, 8).Size() / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.End();
         }
 
         public override void Unload()
@@ -175,6 +200,9 @@ namespace EEMod
                 }, InterfaceScaleType.UI);
                 layers.Insert(mouseTextIndex, EEInterfaceLayer);
             }
+
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+                DrawZipline();
 
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
             {
