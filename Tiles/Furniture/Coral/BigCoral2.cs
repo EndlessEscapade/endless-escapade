@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
-    public class WavyBigCoral : ModTile
+    public class BigCoral2 : ModTile
     {
         public override void SetDefaults()
         {

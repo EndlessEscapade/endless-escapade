@@ -7,7 +7,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 namespace EEMod.Tiles.Furniture.Coral
 {
-    public class Coral3Tile : ModTile
+    public class ShortCoral2 : ModTile
     {
         public override void SetDefaults()
         {

@@ -5,22 +5,20 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using Terraria.Enums;
-
 namespace EEMod.Tiles.Furniture.Coral
 {
-    public class Coral1Tile : ModTile
+    public class SingleCoral1 : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
-            TileObjectData.newTile.Height = 2;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            TileObjectData.newTile.Height = 1;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.CoordinateHeights = new int[]
             {
-                16,
                 16
             };
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);

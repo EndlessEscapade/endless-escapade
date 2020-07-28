@@ -8,7 +8,7 @@ using EEMod.Projectiles.CoralReefs;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
-    public class BigCoral : ModTile
+    public class BigCoral1 : ModTile
     {
         private bool isIntersecting;
         private int cooldown = 180;
