@@ -25,6 +25,17 @@ namespace EEMod.Projectiles.Melee
         public override void AI()
         {
             projectile.velocity *= 1.002f;
+            projectile.frameCounter++;
+            if (projectile.frameCounter > 8)
+            {
+                projectile.frame++;
+                projectile.frameCounter = 0;
+            }
+            if (projectile.frame >= 6)
+            {
+                projectile.frame = 0;
+                projectile.frameCounter = 0;
+            }
         }
     }
 }

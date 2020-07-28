@@ -23,9 +23,26 @@ namespace EEMod.Projectiles.Mage
             projectile.friendly = true;
             projectile.penetrate = -1;
         }
+        Vector2 firstVel;
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
+            if(firstVel == default)
+            {
+                firstVel = Vector2.Normalize(projectile.velocity) * 2;
+            }
+            projectile.rotation = projectile.velocity.ToRotation() - (float)Math.PI/2;
+            projectile.ai[0] += 11;
+            double deg = projectile.ai[0];
+            double rad = deg * (Math.PI / 180);
+            projectile.velocity.X -= (float)Math.Cos(rad) * (firstVel.X);
+            projectile.velocity.Y += (float)Math.Cos(rad) * (firstVel.Y);
+            for (var i = 0; i < 3; i++)
+            {
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GreenBlood, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(0, 255, 0, 255), 1);
+                Main.dust[num].noGravity = true;
+                Main.dust[num].velocity *= 1.2f;
+                Main.dust[num].noLight = false;
+            }
         }
         public override void Kill(int timeLeft)
         {   for (int i = 0; i < 360; i += 5)
