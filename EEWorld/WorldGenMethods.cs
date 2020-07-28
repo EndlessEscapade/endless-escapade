@@ -2428,7 +2428,7 @@ namespace EEMod.EEWorld
         }
         public static void PlaceCoral()
         {
-            for (int i = 3; i < Main.maxTilesX - 3; i++)
+            /*for (int i = 3; i < Main.maxTilesX - 3; i++)
             {
                 for (int j = 3; j < Main.maxTilesY - 3; j++)
                 {
@@ -2486,7 +2486,7 @@ namespace EEMod.EEWorld
                             MakeCoral(new Vector2(i, j), TileID.Coralstone, Main.rand.Next(4, 8));
                     }
                 }
-            }
+            }*/
         }
         public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false, int wallType = 0)
         {

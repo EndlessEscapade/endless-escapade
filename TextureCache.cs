@@ -6,8 +6,8 @@ namespace EEMod
 {
     internal static class TextureCache
     {
-        public static Texture2D CoralLanternLampGlow;
-        public static Texture2D CoralLanternTileGlow;
+        //public static Texture2D CoralLanternLampGlow;
+        //public static Texture2D CoralLanternTileGlow;
         public static Texture2D Chain;
         public static Texture2D Empty;
         public static Texture2D EyeTileGlow;
@@ -53,10 +53,10 @@ namespace EEMod
         public static void Load()
         {
             Mod mod = EEMod.instance;
-            CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
+            //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
             Chain = mod.GetTexture("NPCs/CoralReefs/Chain");
             Empty = mod.GetTexture("Empty");
-            EyeTileGlow = mod.GetTexture("Tiles/Furniture/Coral/EyeTileGlow");
+            //EyeTileGlow = mod.GetTexture("Tiles/Furniture/Coral/EyeTileGlow");
             //Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");
             BleckScren = mod.GetTexture("BleckScreen");
             NotBleckScren = mod.GetTexture("NotBleckScren");
@@ -76,7 +76,7 @@ namespace EEMod
             DuneShamblerDig = mod.GetTexture("NPCs/DuneShamblerDig");
             DruidsVin_Beam = mod.GetTexture("Projectiles/Mage/DruidsVin_Beam");
             DruidsVin_End = mod.GetTexture("Projectiles/Mage/DruidsVin_End");
-            CoralLanternTileGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternTileGlow");
+            //CoralLanternTileGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternTileGlow");
             AkumoFeather = mod.GetTexture("NPCs/Bosses/Akumo/AkumoFeather");
             Akumo = mod.GetTexture("NPCs/Bosses/Akumo/Akumo");
             KrakenTentacles = mod.GetTexture("NPCs/Bosses/Kraken/KrakenTentacles");
@@ -105,7 +105,7 @@ namespace EEMod
             TentacleChainSmol = null;
             TentacleChain = null;
             Tentacle = null;
-            CoralLanternLampGlow = null;
+            //CoralLanternLampGlow = null;
             Chain = null;
             Empty = null;
             EyeTileGlow = null;
@@ -127,7 +127,7 @@ namespace EEMod
             DuneShamblerDig = null;
             DruidsVin_Beam = null;
             DruidsVin_End = null;
-            CoralLanternTileGlow = null;
+            //CoralLanternTileGlow = null;
             AkumoFeather = null;
             Akumo = null;
             Terraria_LogoTexture = null;
