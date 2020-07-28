@@ -676,12 +676,17 @@ namespace EEMod
 
                 for (int j = 0; j < 450; j++)
                 {
-                    if (Main.projectile[j].type == ProjectileType<PirateShip>() || Main.projectile[j].type == ProjectileType<RedDutchman>())
+                    if (Main.projectile[j].type == ProjectileType<PirateShip>() || Main.projectile[j].type == ProjectileType<RedDutchman>() || Main.projectile[j].type == ProjectileType<EnemyCannonball>())
                     {
-                        if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40)
+                        if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40 && Main.projectile[j].type != ProjectileType<EnemyCannonball>())
                         {
                             EEMod.ShipHelth -= 1;
                             EEMod.instance.velocity += Main.projectile[j].velocity * 20;
+                        }
+                        if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 30 && Main.projectile[j].type == ProjectileType<EnemyCannonball>())
+                        {
+                            EEMod.ShipHelth -= 1;
+                            EEMod.instance.velocity += Main.projectile[j].velocity;
                         }
                     }
                     if (Main.projectile[j].type == ProjectileType<Crate>())

@@ -13,6 +13,7 @@ using MonoMod.Cil;
 using EEMod.Projectiles;
 using EEMod.NPCs.Bosses.Kraken;
 using ReLogic.Graphics;
+using EEMod.Projectiles.Mage;
 
 namespace EEMod
 {
@@ -88,9 +89,16 @@ namespace EEMod
         {
             for (int i = 0; i < 400; i++)
             {
-                if (Main.projectile[i].type == ModContent.ProjectileType<Gradient>())
+                if (Main.projectile[i].active)
                 {
-                    (Main.projectile[i].modProjectile as Gradient).pixelPlacmentHours();
+                    if (Main.projectile[i].type == ModContent.ProjectileType<Gradient>())
+                    {
+                        (Main.projectile[i].modProjectile as Gradient).pixelPlacmentHours();
+                    }
+                    if (Main.projectile[i].type == ModContent.ProjectileType<CyanoburstTomeKelp>())
+                    {
+                        (Main.projectile[i].modProjectile as CyanoburstTomeKelp).DrawBehind();
+                    }
                 }
             }
             if (NPC.AnyNPCs(ModContent.NPCType<TentacleEdgeHandler>()))
