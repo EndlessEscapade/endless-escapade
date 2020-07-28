@@ -1,4 +1,4 @@
-﻿/*using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
@@ -6,11 +6,11 @@ using EEMod.Projectiles.Melee;
 
 namespace EEMod.Items.Weapons.Melee
 {
-    public class HydrofluoricWarhammer : ModItem
+    public class FlareSmasher : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hydrofluoric Warhammer");
+            DisplayName.SetDefault("Flare Smasher");
         }
 
         public override void SetDefaults()
@@ -33,16 +33,7 @@ namespace EEMod.Items.Weapons.Melee
             item.autoReuse = true;
 
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 10);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            item.shoot = ModContent.ProjectileType<FlareSmasherProj>();
         }
     }
-}*/
+}
