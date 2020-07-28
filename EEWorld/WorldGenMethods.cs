@@ -2428,14 +2428,14 @@ namespace EEMod.EEWorld
         }
         public static void PlaceCoral()
         {
-            /*for (int i = 3; i < Main.maxTilesX - 3; i++)
+            for (int i = 3; i < Main.maxTilesX - 3; i++)
             {
                 for (int j = 3; j < Main.maxTilesY - 3; j++)
                 {
                     int yes = WorldGen.genRand.Next(5, 10);
                     if (TileCheck2(i, j) == 1 && j % yes == 0)
                     {
-                        int selection = WorldGen.genRand.Next(2);
+                        /*int selection = WorldGen.genRand.Next(2);
                         switch (selection)
                         {
                             case 0:
@@ -2444,7 +2444,7 @@ namespace EEMod.EEWorld
                             case 1:
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoralTile>());
                                 break;
-                        }
+                        }*/
                     }
                     if (TileCheck2(i, j) == 2 && j % yes <= 4)
                     {
@@ -2452,33 +2452,36 @@ namespace EEMod.EEWorld
                         switch (selection)
                         {
                             case 0:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral1Tile>());
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CoralStack1>());
                                 break;
                             case 1:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral2Tile>());
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CoralStack2>());
                                 break;
                             case 2:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Coral3Tile>());
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<MediumCoral>());
                                 break;
                             case 3:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<EyeTile>());
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<ShortCoral>());
                                 break;
                             case 4:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CoralLanternLamp>());
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>());
                                 break;
                             case 5:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<BrainTile>());
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SquareCoral>());
                                 break;
                             case 6:
-                                WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral>());
+                                WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral1>());
                                 break;
                             case 7:
-                                WorldGen.PlaceTile(i, j - 7, ModContent.TileType<WavyBigCoral>());
+                                WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral2>());
                                 break;
                             case 8:
-                                WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain1BigCoral>());
+                                WorldGen.PlaceTile(i, j - 7, ModContent.TileType<TallCoral>());
                                 break;
                             case 9:
+                                WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain1BigCoral>());
+                                break;
+                            case 10:
                                 WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
                                 break;
                         }
@@ -2486,7 +2489,7 @@ namespace EEMod.EEWorld
                             MakeCoral(new Vector2(i, j), TileID.Coralstone, Main.rand.Next(4, 8));
                     }
                 }
-            }*/
+            }
         }
         public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false, int wallType = 0)
         {
