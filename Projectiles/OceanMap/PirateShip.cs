@@ -28,6 +28,7 @@ namespace EEMod.Projectiles.OceanMap
         {
             if (!sinking)
             {
+                projectile.ai[0]++;
                 Vector2 moveTo = Main.screenPosition + EEMod.instance.position;
                 projectile.spriteDirection = 1;
                 if (projectile.velocity.X > 0)
@@ -36,6 +37,10 @@ namespace EEMod.Projectiles.OceanMap
                 }
                 float speed = .3f;
                 Vector2 move = moveTo - projectile.Center;
+                if (projectile.ai[0] % 180 == 0 && move.Length() < 500)
+                {
+                    Projectile.NewProjectile(projectile.Center, Vector2.Normalize(move) * 3, ModContent.ProjectileType<EnemyCannonball>(), 10, 10f);
+                }
                 float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                 if (magnitude > speed)
                 {
