@@ -53,15 +53,24 @@ namespace EEMod.Projectiles
             }
         }
         float gravAccel = 4;
+        int yeet;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+            yeet++;
+            if(yeet > 100)
+            {
+                yeet = -100;
+            }
             float grav = 0;
             gravAccel += (minGrav - gravAccel) / ropeThickness;
-            for (int i = 0; i< Max; i++)
+            for (int i = 0; i < Max; i++)
             {
+                float diff = 1 - (Math.Abs(i - yeet)/50f);
+                if (diff < 0)
+                    diff = 0;
                 grav += gravAccel;
                 Vector2 intendedPath = projOwner.Center + (Main.MouseWorld - projOwner.Center + new Vector2(0, grav)) * (i / Max);
-                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)),0f, new Rectangle(0, 0, 2, 2).Size() / 2,1, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * (diff),0f, new Rectangle(0, 0, 2, 2).Size() / 2,1, SpriteEffects.None, 0f);
             }
             return true;
         }
