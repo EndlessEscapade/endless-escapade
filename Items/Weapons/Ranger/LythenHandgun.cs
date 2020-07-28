@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -24,15 +25,21 @@ namespace EEMod.Items.Weapons.Ranger
             item.useAnimation = 26;
             item.width = 20;
             item.height = 20;
-            item.shoot = 10;
             item.rare = ItemRarityID.Green;
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.shootSpeed = 17f;
             item.UseSound = SoundID.Item11;
             item.useAmmo = AmmoID.Bullet;
+            item.shoot = 10;
             item.ranged = true;
             item.crit = 3;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            type = ModContent.ProjectileType<LythenHandgunProjectile>();
+            return true;
         }
 
         public override Vector2? HoldoutOffset()

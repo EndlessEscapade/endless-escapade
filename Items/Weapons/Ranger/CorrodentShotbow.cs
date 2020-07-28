@@ -33,7 +33,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.autoReuse = true;
 
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<TideWeaverProj>();
+            item.shoot = ModContent.ProjectileType<CorrodentShotbowProj>();
         }
 
 

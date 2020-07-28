@@ -2413,16 +2413,19 @@ namespace EEMod.EEWorld
             switch (type)
             {
                 case 0:
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.25f) + xPos - (sizeX/20f), (sizeY*0.25f) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY * 0.25f) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX *0.33f) + xPos - (sizeX / 20f), (sizeY *0.5f) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.66f) + xPos - (sizeX / 20f), (sizeY*0.5f) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX *0.25f) + xPos - (sizeX / 20f), (sizeY*0.75f) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY*0.75f) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.25f) + xPos - (sizeX/20f), (sizeY*0.25f) + yPos) - new Vector2(sizeX/2, sizeY/2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY * 0.25f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX *0.33f) + xPos - (sizeX / 20f), (sizeY *0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.66f) + xPos - (sizeX / 20f), (sizeY*0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX *0.25f) + xPos - (sizeX / 20f), (sizeY*0.75f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY*0.75f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
                     break;
                 case 1:
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX *0.5f), (sizeY *0.5f) + yPos), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX *0.5f), (sizeY * 0.5f) + yPos), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX *0.5f), (sizeY *0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX *0.5f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    break;
+                case 2:
+                    MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX/2 - sizeX/10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
                     break;
             }
         }
@@ -2452,22 +2455,22 @@ namespace EEMod.EEWorld
                         switch (selection)
                         {
                             case 0:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CoralStack1>());
+                                WorldGen.PlaceTile(i, j - 8, ModContent.TileType<CoralStack1>());
                                 break;
                             case 1:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<CoralStack2>());
+                                WorldGen.PlaceTile(i, j - 8, ModContent.TileType<CoralStack2>());
                                 break;
                             case 2:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<MediumCoral>());
+                                WorldGen.PlaceTile(i, j - 3, ModContent.TileType<MediumCoral>(), style: Main.rand.Next(0, 2));
                                 break;
                             case 3:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<ShortCoral>());
+                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ShortCoral>(), style: Main.rand.Next(0, 3));
                                 break;
                             case 4:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>());
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>(), style: Main.rand.Next(0, 3));
                                 break;
                             case 5:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SquareCoral>());
+                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<SquareCoral>(), style: Main.rand.Next(0, 5));
                                 break;
                             case 6:
                                 WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral1>());
@@ -2476,7 +2479,7 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral2>());
                                 break;
                             case 8:
-                                WorldGen.PlaceTile(i, j - 7, ModContent.TileType<TallCoral>());
+                                WorldGen.PlaceTile(i, j - 6, ModContent.TileType<TallCoral>());
                                 break;
                             case 9:
                                 WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain1BigCoral>());

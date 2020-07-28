@@ -12,6 +12,7 @@ namespace EEMod.Projectiles
     public abstract class Longbow : ModProjectile
     {
         public virtual float speedOfArrow => 2;
+        public virtual int newProj => ModContent.ProjectileType<CoralArrowProjectile>();
         public virtual float minGrav => 2;
         public virtual float ropeThickness => 32f;
         protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);
@@ -34,7 +35,7 @@ namespace EEMod.Projectiles
             if (!projOwner.controlUseItem)
             {
                 projectile.Kill();
-                Projectile.NewProjectile(projOwner.Center, ((Main.MouseWorld - projOwner.Center) / Max) * speed, ModContent.ProjectileType<CoralArrowProjectile>(), 10, 10f, Main.myPlayer, (gravAccel / Max) * 2 * speed * speed, projectile.ai[1]);
+                Projectile.NewProjectile(projOwner.Center, ((Main.MouseWorld - projOwner.Center) / Max) * speed, newProj, 10, 10f, Main.myPlayer, (gravAccel / Max) * 2 * speed * speed, projectile.ai[1]);
             }
             if(Math.Abs(gravAccel - minGrav) < 0.3f && !vanillaFlag)
             {

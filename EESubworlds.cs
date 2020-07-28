@@ -106,7 +106,7 @@ namespace EEMod
                     } while (score != i || randPosX < sizeOfChasm*3 || randPosY < sizeOfChasm*3 || randPosX > Main.maxTilesX/2 - 200 || randPosY > Main.maxTilesY * 0.76f);
                     roomsLeft[i] = new Vector2(randPosX, randPosY);
                 }
-                EEWorld.EEWorld.MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, 2, 1);
+                EEWorld.EEWorld.MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, Main.rand.Next(0, 3), 1);
                 if(i != 0)
                 {
                     EEWorld.EEWorld.MakeWavyChasm3(roomsLeft[i], roomsLeft[i - 1], TileID.StoneSlab, 100, 10, true);
@@ -147,13 +147,13 @@ namespace EEMod
                     } while (score != i || randPosX > Main.maxTilesX  - (sizeOfChasm*3) || randPosY < (sizeOfChasm * 3) || randPosX < Main.maxTilesX / 2 + 200 || randPosY > Main.maxTilesY * 0.76f);
                     roomsRight[i] = new Vector2(randPosX, randPosY);
                 }
-                EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, 2, 1);
+                EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, Main.rand.Next(0, 3), 1);
                 if (i != 0)
                 {
                     EEWorld.EEWorld.MakeWavyChasm3(roomsRight[i], roomsRight[i - 1], TileID.StoneSlab, 100, 10, true);
                 }
             }
-            EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX/2, Main.maxTilesY / 2, 400, 2, 1);
+            EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX/2, Main.maxTilesY / 2, 400, Main.rand.Next(0, 3), 1);
             Vector2[] chosen = { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero };
             for (int i = 0; i < roomsLeft.Length; i++)
             {
@@ -185,20 +185,6 @@ namespace EEMod
             EEWorld.EEWorld.RemoveStoneSlabs();
 
             EEWorld.EEWorld.MakeLayer(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400, 100, 1, ModContent.TileType<GemsandTile>());
-            //Making chasms and hollowed-out areas
-            /*EEWorld.EEWorld.MakeWavyChasm2(100, 100, 500, TileID.StoneSlab, 0.3f, WorldGen.genRand.Next(50, 60), true);
-            EEWorld.EEWorld.MakeWavyChasm2(Main.maxTilesX - 100, 100, 500, TileID.StoneSlab, -0.3f, WorldGen.genRand.Next(50, 60), true);
-
-            EEWorld.EEWorld.MakeWavyChasm(450, 100, 200, TileID.StoneSlab, 0.5f, WorldGen.genRand.Next(50, 60));
-            EEWorld.EEWorld.ClearOval(100, 100, new Vector2(650, 250));
-
-            EEWorld.EEWorld.ClearOval(300, 150, new Vector2(250, 500));
-            EEWorld.EEWorld.ClearOval(300, 150, new Vector2(1100, 550));
-
-            EEWorld.EEWorld.MakeWavyChasm2(700, 550, 550, TileID.StoneSlab, 0.5f, WorldGen.genRand.Next(50, 60), true);
-            EEWorld.EEWorld.MakeWavyChasm2(1300, 600, 500, TileID.StoneSlab, -0.5f, WorldGen.genRand.Next(50, 60), true);
-
-            EEWorld.EEWorld.ClearOval(800, 400, new Vector2(350, 950));*/
 
 
 
