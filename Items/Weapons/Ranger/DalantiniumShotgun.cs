@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Mage;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -46,9 +47,9 @@ namespace EEMod.Items.Weapons.Ranger
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(22));
 
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DalantiniumFang>(), damage, knockBack, player.whoAmI);
             }
-            return false;
+            return true;
         }
 
         public override void AddRecipes()
