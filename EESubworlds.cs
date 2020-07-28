@@ -85,7 +85,7 @@ namespace EEMod
                     int breakLoop = 0;
                     float randPosX;
                     float randPosY;
-                    int distance = 340;
+                    int distance = 430;
                     do
                     {
                         breakLoop++;
@@ -103,7 +103,7 @@ namespace EEMod
                         {
                             break;
                         }
-                    } while (score != i || randPosX < sizeOfChasm || randPosY < sizeOfChasm || randPosX > Main.maxTilesX/2 - 200 || randPosY > Main.maxTilesY * 0.76f);
+                    } while (score != i || randPosX < sizeOfChasm*3 || randPosY < sizeOfChasm*3 || randPosX > Main.maxTilesX/2 - 200 || randPosY > Main.maxTilesY * 0.76f);
                     roomsLeft[i] = new Vector2(randPosX, randPosY);
                 }
                 EEWorld.EEWorld.MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, 2, 1);
@@ -126,7 +126,7 @@ namespace EEMod
                     int breakLoop = 0;
                     float randPosX;
                     float randPosY;
-                    int distance = 340;
+                    int distance = 430;
                     do
                     {
                         breakLoop++;
@@ -144,7 +144,7 @@ namespace EEMod
                         {
                             break;
                         }
-                    } while (score != i || randPosX > Main.maxTilesX  - sizeOfChasm || randPosY < sizeOfChasm || randPosX < Main.maxTilesX / 2 + 200 || randPosY > Main.maxTilesY * 0.76f);
+                    } while (score != i || randPosX > Main.maxTilesX  - (sizeOfChasm*3) || randPosY < (sizeOfChasm * 3) || randPosX < Main.maxTilesX / 2 + 200 || randPosY > Main.maxTilesY * 0.76f);
                     roomsRight[i] = new Vector2(randPosX, randPosY);
                 }
                 EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, 2, 1);
