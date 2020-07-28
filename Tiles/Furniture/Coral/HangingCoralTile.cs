@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.Enums;
 using Terraria.ID;
 using Terraria.ObjectData;
@@ -45,3 +45,4 @@ namespace EEMod.Tiles.Furniture.Coral
         }
     }
 }
+*/

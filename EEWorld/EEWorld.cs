@@ -11,6 +11,7 @@ using Terraria.GameContent.Generation;
 using Terraria.ModLoader.IO;
 using EEMod.Tiles;
 using EEMod.Projectiles;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.EEWorld
 {
@@ -202,6 +203,7 @@ namespace EEMod.EEWorld
         public static bool shipComplete;
 
         public static List<Vector2> missingShipTiles = new List<Vector2>();
+        public static List<Texture2D> missingShipTilesItems = new List<Texture2D>();
 
         public static void ShipComplete()
         {
@@ -220,30 +222,36 @@ namespace EEMod.EEWorld
                     {
                         case 1:
                             expectedType = TileID.WoodBlock;
+                            missingShipTilesItems.Add(Main.itemTexture[ItemID.Wood]);
                             break;
                         case 2:
                             expectedType = TileID.RichMahogany;
+                            missingShipTilesItems.Add(Main.itemTexture[ItemID.RichMahogany]);
                             break;
                         case 3:
                             expectedType = TileID.GoldCoinPile;
+                            missingShipTilesItems.Add(Main.itemTexture[ItemID.GoldCoin]);
                             break;
                         case 4:
                             expectedType = TileID.Platforms;
+                            missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodPlatform]);
                             break;
                         case 5:
                             expectedType = TileID.WoodenBeam;
+                            missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodenBeam]);
                             break;
                         case 6:
                             expectedType = TileID.SilkRope;
+                            missingShipTilesItems.Add(Main.itemTexture[ItemID.SilkRope]);
                             break;
                         default:
                             expectedType = -1;
+                            missingShipTilesItems.Add(ModContent.GetTexture("EEMod/Empty"));
                             break;
                     }
                     if (tile.type != expectedType && expectedType != -1)
                     {
                         missingShipTiles.Add(new Vector2(i, j));
-
                     }
                     if (expectedType == -1 && tile.active())
                     {

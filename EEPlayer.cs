@@ -25,6 +25,7 @@ using EEMod.NPCs.CoralReefs;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.NPCs.Friendly;
 using EEMod.Items;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod
 {
@@ -986,10 +987,15 @@ namespace EEMod
                         }
                     }
 
+                    int k = 0;
                     foreach (Vector2 tile in EEWorld.EEWorld.missingShipTiles)
                     {
-                        Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);
+                        int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);  // here
+                        WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
+                        newProj.itemTexture = EEWorld.EEWorld.missingShipTilesItems[k];
+                        k++;
                     }
+                    Main.NewText(EEWorld.EEWorld.missingShipTiles);
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
