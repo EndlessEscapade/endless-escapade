@@ -6,6 +6,7 @@ using EEMod.Projectiles.Melee;
 using EEMod.Projectiles.Runes;
 using EEMod.Tiles;
 using EEMod.Projectiles;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -42,6 +43,13 @@ namespace EEMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             // Ensures no more than one spear can be thrown out, use this when using autoReuse
+            item.shoot = ModContent.ProjectileType<TridentOfTheDepthsProjectile>();
+            return player.ownedProjectileCounts[item.shoot] < 1;
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TridentOfTheDepthsAltProjectile>(), 0, 0);
             return player.ownedProjectileCounts[item.shoot] < 1;
         }
     }
