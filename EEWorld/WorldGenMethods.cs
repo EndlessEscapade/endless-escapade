@@ -2440,13 +2440,13 @@ namespace EEMod.EEWorld
                 case 0:
                     break;
                 case 1:
-                    for (int i = xPos; i < sizeX; i++)
+                    for (int i = 0; i < sizeX; i++)
                     {
-                        for (int j = yPos; j < sizeY; j++)
+                        for (int j = 0; j < sizeY; j++)
                         {
-                            if (TileCheck2(i, j) == 2 && Main.rand.NextBool())
+                            if (TileCheck2(i + xPos, j + yPos) == 2 && Main.rand.NextBool())
                             {
-                                PlaceKelp(Main.rand.Next(3, 9), new Vector2(i, j - 1));
+                                PlaceKelp(Main.rand.Next(3, 9), new Vector2(i + xPos, j + yPos - 1));
                             }
                         }
                     }
@@ -2497,7 +2497,7 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>(), style: Main.rand.Next(0, 3));
                                 break;
                             case 5:
-                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<SquareCoral>(), style: Main.rand.Next(0, 5));
+                                //WorldGen.PlaceTile(i, j - 2, ModContent.TileType<SquareCoral>(), style: Main.rand.Next(0, 5));
                                 break;
                             case 6:
                                 WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral1>());
@@ -2515,7 +2515,7 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
                                 break;
                             case 11:
-                                PlaceKelp(Main.rand.Next(3, 9), new Vector2(i, j - 1));
+                                //PlaceKelp(Main.rand.Next(3, 9), new Vector2(i, j - 1));
                                 break;
                         }
                         if (selection == 5 && j < 300 && Main.rand.NextBool(4))
