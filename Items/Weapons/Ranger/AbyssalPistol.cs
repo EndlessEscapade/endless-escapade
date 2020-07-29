@@ -31,5 +31,10 @@ namespace EEMod.Items.Weapons.Ranger
             item.UseSound = SoundID.Item11;
             item.useAmmo = AmmoID.Bullet;
         }
+
+        public override void HoldItem(Player player)
+        {
+            player.invis = true;
+        }
     }
 }

@@ -149,6 +149,7 @@ namespace EEMod
         public Vector2 velocity;
         public List<Vector2> objectPos = new List<Vector2>();
         public bool isNearIsland;
+        public bool isNearIsland2;
         public bool isNearVolcano;
         public bool isNearMainIsland;
         public bool isNearCoralReefs;
@@ -662,12 +663,16 @@ namespace EEMod
                 float pos9Y = Main.screenPosition.Y + Main.screenHeight - 40 + 1000;
                 float pos10X = Main.screenPosition.X + Main.screenWidth - 300;
                 float pos10Y = Main.screenPosition.Y + Main.screenHeight - 600 + 1000;
+                float pos11X = Main.screenPosition.X + Main.screenWidth - 600;
+                float pos11Y = Main.screenPosition.Y + Main.screenHeight - 300 + 500;
                 Rectangle rectangle1 = new Rectangle((int)pos3X - 56, (int)pos3Y - 32, 118, 64);
+                Rectangle rectangle5 = new Rectangle((int)pos11X - 56, (int)pos11Y - 32, 118, 64);
                 Rectangle rectangle2 = new Rectangle((int)pos2X - 56, (int)pos2Y - 32, 118, 64);
                 Rectangle rectangle3 = new Rectangle((int)pos9X - 115, (int)pos9Y - 49, 330, 98);
                 Rectangle rectangle4 = new Rectangle((int)pos10X - 110, (int)pos10Y - 58, 220, 116);
                 Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
                 isNearIsland = false;
+                isNearIsland2 = false;
                 isNearVolcano = false;
                 isNearMainIsland = false;
                 isNearCoralReefs = false;
@@ -702,6 +707,10 @@ namespace EEMod
                 {
                     isNearCoralReefs = true;
                 }
+                if (rectangle5.Intersects(ShipHitBox))
+                {
+                    isNearIsland2 = true;
+                }
                 if (!arrowFlag)
                 {
                     Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos3X, pos3Y);
@@ -720,6 +729,23 @@ namespace EEMod
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.Island);
+                        prevKey = KeyID.Island;
+                    }
+                }
+                else
+                {
+                    (Main.projectile[Anchors].modProjectile as Anchor).visible = false;
+                }
+                if (isNearIsland2)
+                {
+                    subTextAlpha += 0.02f;
+                    if (subTextAlpha >= 1)
+                        subTextAlpha = 1;
+                    (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
+                    if (player.controlUp)
+                    {
+                        Initialize();
+                        SM.SaveAndQuit(KeyID.Island2);
                         prevKey = KeyID.Island;
                     }
                 }

@@ -12,7 +12,15 @@ namespace EEMod.NPCs
     {
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneCoralReefs && spawnInfo.player.height <= 12800)
+            if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneCoralReefs)
+            {
+                pool.Remove(NPCID.Harpy);
+                pool.Remove(NPCID.Piranha);
+                pool.Remove(NPCID.Goldfish);
+                pool.Remove(NPCID.Skeleton);
+                pool.Remove(NPCID.BlueJellyfish);
+            }
+            if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneCoralReefs && spawnInfo.player.height <= 12800 && spawnInfo.player.height >= 1200)
             {
                 pool.Add(ModContent.NPCType<Clam>(), 0.5f);
                 pool.Add(ModContent.NPCType<LunaJelly>(), 0.5f);
@@ -27,12 +35,12 @@ namespace EEMod.NPCs
                 pool.Add(ModContent.NPCType<SeaSlug>(), 0.5f);
                 pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
             }
-            if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneTropicalIsland)
+            if (Main.ActiveWorldFileData.Name == KeyID.Island || Main.ActiveWorldFileData.Name == KeyID.Island2)
             {
                 pool.Add(ModContent.NPCType<CoconutCrab>(), 0.5f);
                 pool.Add(ModContent.NPCType<Cococritter>(), 0.5f);
             }
-            if(spawnInfo.player.GetModPlayer<EEPlayer>().ZoneTropicalIsland && !Main.dayTime)
+            if(Main.ActiveWorldFileData.Name == KeyID.Island || Main.ActiveWorldFileData.Name == KeyID.Island2 && !Main.dayTime)
             {
                 pool.Add(ModContent.NPCType<CoconutSpider>(), 0.5f);
             }
