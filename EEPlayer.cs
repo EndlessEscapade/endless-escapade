@@ -42,8 +42,8 @@ namespace EEMod
         public bool hydroGear;
         public bool dragonScale;
         private int opac;
-        public bool Cheese1;
-        public bool Cheese2;
+        //public bool Cheese1;
+        //public bool Cheese2;
         public int boatSpeed = 1;
         string shad1 = "EEMod:Ripple";
         string shad2 = "EEMod:SunThroughWalls";
@@ -858,7 +858,7 @@ namespace EEMod
             {
                 if (EEWorld.EEWorld.HydrosCheck())
                 {
-                    NPC.NewNPC((int)position.X, (int)position.Y, ModContent.NPCType<Hydros>());
+                    NPC.NewNPC((int)position.X * 16, (int)position.Y * 16 - 400, ModContent.NPCType<Hydros>());
                     EEWorld.EEWorld.instance.minionsKilled = 0;
                 }
                 if (!noU)
@@ -1172,7 +1172,7 @@ namespace EEMod
                 boatSpeed = tag.GetInt("swiftSail");
             }
         }
-        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        /*public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             if (NPC.AnyNPCs(NPCID.KingSlime))
             {
@@ -1182,7 +1182,7 @@ namespace EEMod
             {
                 Cheese1 = false;
             }
-        }
+        }*/
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
 

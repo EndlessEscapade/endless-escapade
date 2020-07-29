@@ -29,9 +29,16 @@ namespace EEMod.Items.Weapons.Melee
             item.rare = ItemRarityID.Yellow;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FeatheredChakramProjectile>();
+            item.shoot = ModContent.ProjectileType<FeatheredChakramProjectileAlt>();
             item.shootSpeed = 16f;
             item.noUseGraphic = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FeatheredChakramProjectileAlt>(), item.damage, item.knockBack, ai0: MathHelper.Pi);
+            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FeatheredChakramProjectileAlt>(), item.damage, item.knockBack, ai0: 0);
+            return true;
         }
     }
 }

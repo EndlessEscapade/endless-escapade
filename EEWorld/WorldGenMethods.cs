@@ -2395,6 +2395,13 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static void PlaceKelp(int height, Vector2 startingPoint)
+        {
+            for(int i = 0; i < height; i++)
+            {
+                WorldGen.PlaceTile((int)startingPoint.X, (int)startingPoint.Y - i, ModContent.TileType<KelpTile>());
+            }
+        }
         public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int foliage)
         {
             int sizeX = size;
@@ -2407,36 +2414,56 @@ namespace EEMod.EEWorld
                 if (OvalCheck(xPos, yPos, x, y, size * 2, size))
                     WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
             }*/
-            MakeJaggedOval(sizeX, sizeY, new Vector2(xPos - size/2f, yPos - size / 4f), TileID.StoneSlab, true);
+            MakeJaggedOval(sizeX, sizeY, new Vector2(xPos - size / 2f, yPos - size / 4f), TileID.StoneSlab, true);
             RemoveStoneSlabs();
 
             switch (type)
             {
                 case 0:
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.25f) + xPos - (sizeX/20f), (sizeY*0.25f) + yPos) - new Vector2(sizeX/2, sizeY/2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.25f) + xPos - (sizeX / 20f), (sizeY * 0.25f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
                     MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY * 0.25f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX *0.33f) + xPos - (sizeX / 20f), (sizeY *0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.66f) + xPos - (sizeX / 20f), (sizeY*0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX *0.25f) + xPos - (sizeX / 20f), (sizeY*0.75f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY*0.75f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.33f) + xPos - (sizeX / 20f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.66f) + xPos - (sizeX / 20f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.25f) + xPos - (sizeX / 20f), (sizeY * 0.75f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY * 0.75f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
                     break;
                 case 1:
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX *0.5f), (sizeY *0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
-                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX *0.5f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX * 0.5f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX * 0.5f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
                     break;
                 case 2:
-                    MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX/2 - sizeX/10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
+                    MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX / 2 - sizeX / 10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
+                    break;
+            }
+            switch (foliage)
+            {
+                case 0:
+                    break;
+                case 1:
+                    for (int i = xPos; i < sizeX; i++)
+                    {
+                        for (int j = yPos; j < sizeY; j++)
+                        {
+                            if (TileCheck2(i, j) == 2 && Main.rand.NextBool())
+                            {
+                                PlaceKelp(Main.rand.Next(3, 9), new Vector2(i, j - 1));
+                            }
+                        }
+                    }
+                    break;
+                case 2:
+                    MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX / 2 - sizeX / 10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
                     break;
             }
         }
-        public static void PlaceCoral()
+        public static void PlaceCoral(int style)
         {
             for (int i = 3; i < Main.maxTilesX - 3; i++)
             {
                 for (int j = 3; j < Main.maxTilesY - 3; j++)
                 {
                     int yes = WorldGen.genRand.Next(5, 10);
-                    if (TileCheck2(i, j) == 1 && j % yes == 0)
+                    if (TileCheck2(i, j) == 1 && yes == 0)
                     {
                         /*int selection = WorldGen.genRand.Next(2);
                         switch (selection)
@@ -2449,9 +2476,9 @@ namespace EEMod.EEWorld
                                 break;
                         }*/
                     }
-                    if (TileCheck2(i, j) == 2 && j % yes <= 4)
+                    if (TileCheck2(i, j) == 2 && yes <= 4)
                     {
-                        int selection = WorldGen.genRand.Next(10);
+                        int selection = WorldGen.genRand.Next(12);
                         switch (selection)
                         {
                             case 0:
@@ -2486,6 +2513,9 @@ namespace EEMod.EEWorld
                                 break;
                             case 10:
                                 WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
+                                break;
+                            case 11:
+                                PlaceKelp(Main.rand.Next(3, 9), new Vector2(i, j - 1));
                                 break;
                         }
                         if (selection == 5 && j < 300 && Main.rand.NextBool(4))

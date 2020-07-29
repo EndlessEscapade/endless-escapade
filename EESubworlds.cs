@@ -267,7 +267,7 @@ namespace EEMod
             EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));*/
 
             //Final polishing
-            EEWorld.EEWorld.PlaceCoral();
+            //EEWorld.EEWorld.PlaceCoral(0);
             for (int i = 2; i < Main.maxTilesX - 2; i++)
             {
                 for (int j = 2; j < Main.maxTilesY - 2; j++)
