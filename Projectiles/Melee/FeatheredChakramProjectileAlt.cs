@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
@@ -26,14 +27,17 @@ namespace EEMod.Projectiles.Melee
             projectile.tileCollide = false;
         }
 
-        float radius = 16;
         public override void AI()
         {
+            if (projectile.ai[1] == 0)
+            {
+
+            }
             int dust = Dust.NewDust(projectile.Center, 0, 0, 127);
-            projectile.Center = Main.LocalPlayer.Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * radius;
-            projectile.rotation+=5;
-            radius++;
-            projectile.ai[0]+=0.1f;
+            projectile.Center = Main.player[projectile.owner].Center;
+            projectile.rotation += 5;
+            projectile.ai[1]++;
+            projectile.ai[0]+=0.02f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

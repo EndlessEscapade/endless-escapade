@@ -144,6 +144,7 @@ namespace EEMod
         int Countur;
         int Screenframes;
         int ScreenframeSpeed;
+        public static string progressMessage;
         public void DrawSky()
         {
             texture2 = TextureCache.NotBleckScren;
@@ -424,10 +425,15 @@ namespace EEMod
                 Main.spriteBatch.Begin();
                 DrawSky();
                 Vector2 textSize = Main.fontDeathText.MeasureString(screenMessageText);
+                if (progressMessage != null)
+                {
+                    Vector2 textSize2 = Main.fontMouseText.MeasureString(progressMessage);
+                    float textPosition2Left = Main.screenWidth / 2 - textSize2.X / 2;
+                    Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage.ToString(), new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                }
                 float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-                float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-
                 Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                
                 Main.spriteBatch.End();
             }
             else

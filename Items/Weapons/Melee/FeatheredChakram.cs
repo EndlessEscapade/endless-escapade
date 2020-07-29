@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Projectiles.Melee;
+using System;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -36,8 +37,8 @@ namespace EEMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FeatheredChakramProjectileAlt>(), item.damage, item.knockBack, ai0: MathHelper.Pi);
-            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FeatheredChakramProjectileAlt>(), item.damage, item.knockBack, ai0: 0);
+            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FeatheredChakramProjectileAlt>(), item.damage, item.knockBack, Main.myPlayer,(float)Math.PI);
+            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FeatheredChakramProjectileAlt>(), item.damage, item.knockBack, Main.myPlayer, (float)Math.PI);
             return true;
         }
     }

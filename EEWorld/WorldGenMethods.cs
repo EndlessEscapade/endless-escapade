@@ -65,27 +65,38 @@ namespace EEMod.EEWorld
 
         public static void FillRegionNoEdit(int width, int height, Vector2 startingPoint, int type)
         {
+            string messageBefore = EEMod.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, 30, 20, type, false, 0, 0, false, true);
+                    WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                    EEMod.progressMessage = messageBefore;
+                    EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
+            EEMod.progressMessage = messageBefore;
         }
 
         public static void FillWall(int width, int height, Vector2 startingPoint, int type)
         {
+            string messageBefore = EEMod.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
                     WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                    if (EEMod.isSaving)
+                    {
+                        EEMod.progressMessage = messageBefore;
+                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    }
                 }
             }
         }
         private static void FillRegionDiag(int width, int height, Vector2 startingPoint, int type, int leftOrRight)
         {
+            string messageBefore = EEMod.progressMessage;
             if (leftOrRight == 0)
             {
                 for (int i = 0; i < width; i++)
@@ -93,6 +104,8 @@ namespace EEMod.EEWorld
                     for (int j = 0; j < height - i; j++)
                     {
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                        EEMod.progressMessage = messageBefore;
+                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
@@ -103,9 +116,12 @@ namespace EEMod.EEWorld
                     for (int j = 0; j < i; j++)
                     {
                         WorldGen.PlaceTile(i + (int)startingPoint.X - width, j + (int)startingPoint.Y, type);
+                        EEMod.progressMessage = messageBefore;
+                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
+            EEMod.progressMessage = messageBefore;
         }
 
 
@@ -2104,24 +2120,21 @@ namespace EEMod.EEWorld
 
         public static void ClearRegion(int width, int height, Vector2 startingPoint)
         {
+            string messageBefore = EEMod.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
                     WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                }
-            }
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y + 1060, WallID.CorruptionUnsafe1);
+                    EEMod.progressMessage = messageBefore;
+                    EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
         }
         public static void ClearRegionSafely(int width, int height, Vector2 startingPoint, int type)
         {
+            string messageBefore = EEMod.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -2130,14 +2143,9 @@ namespace EEMod.EEWorld
                     {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                         //WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                        EEMod.progressMessage = messageBefore;
+                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
-                }
-            }
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y + 1060, WallID.CorruptionUnsafe1);
                 }
             }
         }
@@ -2570,13 +2578,17 @@ namespace EEMod.EEWorld
         }
         public static void FillRegion(int width, int height, Vector2 startingPoint, int type)
         {
+            string messageBefore = EEMod.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
                     WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                    EEMod.progressMessage = messageBefore;
+                    EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
             }
+            EEMod.progressMessage = messageBefore;
         }
         public static void MakeCoral(Vector2 startingPoint, int type, int strength)
         {
