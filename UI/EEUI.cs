@@ -141,12 +141,17 @@ namespace EEMod.UI
             {
                 if (isPulsating[i])
                 {
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().inPossesion[i] = 1;
                     panels[5]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
                     panels[5].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
                     panels[5].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
                     panels[5].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width / 2 - 100, 0);
                     panels[5].Top.Set(500 - ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
                     break;
+                }
+                else
+                {
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().inPossesion[i] = 0;
                 }
             }
             if (panels[5]._backgroundTexture == panels[6]._backgroundTexture)
@@ -161,12 +166,17 @@ namespace EEMod.UI
             {
                 if (isPulsating[i])
                 {
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().inPossesion[i] = 1;
                     panels[6]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
                     panels[6].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
                     panels[6].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
                     panels[6].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + 100, 0);
                     panels[6].Top.Set(500 - +ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
                     break;
+                }
+                else
+                {
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().inPossesion[i] = 0;
                 }
             }
             if (panels[5]._backgroundTexture == panels[6]._backgroundTexture)

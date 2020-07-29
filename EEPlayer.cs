@@ -152,6 +152,7 @@ namespace EEMod
         public bool isNearCoralReefs;
         public string baseWorldName;
         public byte[] hasGottenRuneBefore = new byte[5];
+        public byte[] inPossesion = new byte[5];
         public static int moralScore;
         public int initialMoralScore;
 
@@ -263,6 +264,15 @@ namespace EEMod
         public Vector2 fixatingPoint;
         public float fixatingSpeedInv;
         public int intensity;
+        int runeCooldown = 0;
+        Dictionary<int, bool[]> RuneData = new Dictionary<int, bool[]>()
+                                            {
+                                                {0,new []{false,false }},
+                                                {1,new []{false,false }},
+                                                {2,new []{false,false }},
+                                                {3,new []{false,false }},
+                                                {4,new []{false,false }},
+                                            };
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {
             fixatingPoint = fixatingPointCamera;
@@ -415,6 +425,104 @@ namespace EEMod
         public float zipMultiplier = 1;
         public override void UpdateBiomeVisuals()
         {
+            bool[][] states = new bool[][] { new bool[] { false, false }, new bool[] { true, false }, new bool[] { true, true } };
+            for (int i = 0; i < hasGottenRuneBefore.Length; i++)
+            {
+                if (hasGottenRuneBefore[i] == 1)
+                {
+                    RuneData.TryGetValue(i, out states[StateID.RetrievedButNotEquiped]);
+                    if (inPossesion[i] == 1)
+                    {
+                        RuneData.TryGetValue(i, out states[StateID.Equiped]);
+                    }
+                }
+                else
+                {
+                    RuneData.TryGetValue(i, out states[StateID.Nothing]);
+                }
+                if (RuneData[i] == states[StateID.Equiped])
+                {
+                    switch (i)
+                    {
+                        case RuneID.SandRune:
+                            {
+                                if(EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                {
+                                    runeCooldown = 180;
+                                }
+                                else
+                                {
+                                    player.moveSpeed *= 1.15f;
+                                    player.jumpSpeedBoost *= 1.6f;
+                                    player.noFallDmg = true;
+                                    if(player.wet)
+                                    {
+                                        player.meleeSpeed *= 1.07f;
+                                        player.noKnockback = false;
+                                    }
+                                }
+                                break;
+                            }
+                        case RuneID.ShroomRune:
+                            {
+                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                {
+                                    runeCooldown = 600;
+                                }
+                                else
+                                {
+                                    player.statDefense = (int)(player.statDefense * 1.1f);
+                                    player.statDefense += 5;
+                                }
+                                break;
+                            }
+                        case RuneID.WaterRune:
+                            {
+                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                {
+                                    runeCooldown = 600;
+                                }
+                                else
+                                {
+                                   
+                                }
+                                break;
+                            }
+                        case RuneID.LeafRune:
+                            {
+                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                {
+                                    runeCooldown = 180;
+                                }
+                                else
+                                {
+                                    player.meleeSpeed *= 1.08f;
+                                }
+                                player.moveSpeed *= 1.06f;
+                                break;
+                            }
+                        case RuneID.FireRune:
+                            {
+                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                {
+                                    runeCooldown = 180;
+                                }
+                                else
+                                {
+                                    player.dash = 3;
+                                }
+                                player.moveSpeed *= 1.06f;
+                                player.statDefense = (int)(player.statDefense * 0.93f);
+                                break;
+                            }
+                    }
+                }
+            }
+            //synergies
+            if(RuneData[RuneID.SandRune] == states[StateID.Equiped])
+            {
+
+            }
             Vector2 begin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
             Vector2 end = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)

@@ -85,6 +85,7 @@ namespace EEMod
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             RuneActivator = null;
+            RuneSpecial = null;
             UnloadIL();
             AutoloadingManager.UnloadManager(this);
             instance = null;
@@ -148,6 +149,7 @@ namespace EEMod
         public override void Load()
         {
             RuneActivator = RegisterHotKey("Rune UI", "Z");
+            RuneSpecial = RegisterHotKey("Activate Runes", "V");
             instance = this;
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
@@ -177,6 +179,7 @@ namespace EEMod
         public static bool loadingFlag = true;
 
         public static ModHotKey RuneActivator;
+        public static ModHotKey RuneSpecial;
 
         internal bool EEUIVisible
         {

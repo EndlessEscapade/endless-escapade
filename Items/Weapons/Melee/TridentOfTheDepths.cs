@@ -43,7 +43,7 @@ namespace EEMod.Items.Weapons.Melee
         public override bool CanUseItem(Player player)
         {
             // Ensures no more than one spear can be thrown out, use this when using autoReuse
-            item.shoot = ModContent.ProjectileType<TridentOfTheDepthsProjectile>();
+            item.shoot = ModContent.ProjectileType<DesertRune>();
             return player.ownedProjectileCounts[item.shoot] < 1;
         }
 

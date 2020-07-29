@@ -23,8 +23,8 @@ namespace EEMod.Items.Weapons.Ranger
             item.damage = 15;
             item.useTime = 26;
             item.useAnimation = 26;
-            item.width = 20;
-            item.height = 20;
+            item.width = 56;
+            item.height = 22;
             item.rare = ItemRarityID.Green;
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -44,7 +44,7 @@ namespace EEMod.Items.Weapons.Ranger
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(-3, 0);
+            return new Vector2(0, 0);
         }
 
         public override void AddRecipes()
