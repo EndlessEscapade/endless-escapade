@@ -44,7 +44,7 @@ namespace EEMod.Tiles.Furniture
             {
                 NPC.NewNPC(i, j, ModContent.NPCType<Cococritter>());
             }
-            Item.NewItem();
+            //Item.NewItem();
         }
     }
 }
