@@ -6,6 +6,8 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using EEMod.Projectiles.CoralReefs;
 using Terraria.ID;
+using EEMod.Items.Materials.Fruit;
+using EEMod.NPCs;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -33,7 +35,16 @@ namespace EEMod.Tiles.Furniture
             //drop = ModContent.ItemType<Moyai>();
             AddMapEntry(new Color(20, 60, 20), name);
             disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            dustType = DustID.Dirt; //12-24
+        }
+
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            if (Main.rand.Next(5) == 0)
+            {
+                NPC.NewNPC(i, j, ModContent.NPCType<Cococritter>());
+            }
+            Item.NewItem();
         }
     }
 }

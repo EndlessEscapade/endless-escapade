@@ -2476,7 +2476,7 @@ namespace EEMod.EEWorld
                                 break;
                         }*/
                     }
-                    if (TileCheck2(i, j) == 2 && yes <= 4)
+                    if (TileCheck2(i, j) == 2 && yes >= 6)
                     {
                         int selection = WorldGen.genRand.Next(12);
                         switch (selection)

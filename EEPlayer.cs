@@ -39,6 +39,7 @@ namespace EEMod
         public bool dalantiniumHood;
         public bool hydriteVisage;
         public bool ZoneCoralReefs;
+        public bool ZoneTropicalIsland;
         public bool hydroGear;
         public bool dragonScale;
         private int opac;
@@ -72,6 +73,7 @@ namespace EEMod
                     opac = 0;
                 //	Filters.Scene.Deactivate("EEMod:CR");
             }
+            ZoneTropicalIsland = EEWorld.EEWorld.TropicalIslandTiles > 200;
         }
 
         private int bubbleTimer = 6;

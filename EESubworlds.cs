@@ -314,7 +314,7 @@ namespace EEMod
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSand>())
                     {
-                        int selection = WorldGen.genRand.Next(4);
+                        int selection = WorldGen.genRand.Next(3);
                         switch (selection)
                         {
                             case 0:
@@ -325,9 +325,6 @@ namespace EEMod
                                 break;
                             case 2:
                                 WorldGen.PlaceTile(i, j - 1, TileID.Coral);
-                                break;
-                            case 3:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<KelpTile>());
                                 break;
                         }
                        

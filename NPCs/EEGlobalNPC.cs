@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.NPCs.CoralReefs;
+using EEMod.NPCs;
 using EEMod.Items.Food;
 
 namespace EEMod.NPCs
@@ -25,6 +26,15 @@ namespace EEMod.NPCs
                 pool.Add(ModContent.NPCType<GiantSquid>(), 0.5f);
                 pool.Add(ModContent.NPCType<SeaSlug>(), 0.5f);
                 pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
+            }
+            if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneTropicalIsland)
+            {
+                pool.Add(ModContent.NPCType<CoconutCrab>(), 0.5f);
+                pool.Add(ModContent.NPCType<Cococritter>(), 0.5f);
+            }
+            if(spawnInfo.player.GetModPlayer<EEPlayer>().ZoneTropicalIsland && !Main.dayTime)
+            {
+                pool.Add(ModContent.NPCType<CoconutSpider>(), 0.5f);
             }
         }
 
