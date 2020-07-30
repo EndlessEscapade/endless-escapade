@@ -367,6 +367,75 @@ namespace EEMod
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;
         }
+        public static void Island2(int seed, GenerationProgress customProgressObject = null)
+        {
+            Main.maxTilesX = 1000;
+            Main.maxTilesY = 500;
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
+
+
+            EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
+            EEWorld.EEWorld.RemoveWaterFromRegion(Main.maxTilesX, 170, new Vector2(0, 0));
+
+            EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSand>(), 15, 15);
+
+            EEWorld.EEWorld.Island(600, 250, 140);
+
+            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSand>());
+
+
+            for (int i = 42; i < Main.maxTilesX - 42; i++)
+            {
+                for (int j = 42; j < Main.maxTilesY - 42; j++)
+                {
+
+                    int yes = WorldGen.genRand.Next(0, 5);
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSand>())
+                    {
+                        int selection = WorldGen.genRand.Next(3);
+                        switch (selection)
+                        {
+                            case 0:
+                                WorldGen.PlaceTile(i, j - 1, 324);
+                                break;
+                            case 1:
+                                WorldGen.PlaceTile(i, j - 1, 324, style: 2);
+                                break;
+                            case 2:
+                                WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                break;
+                        }
+
+                    }
+                    yes = WorldGen.genRand.Next(0, 10);
+                    if (EEWorld.EEWorld.TileCheck2(i, j) == 2 && yes == 0 && tile.type == TileID.Grass)
+                    {
+                        WorldGen.GrowTree(i, j - 1);
+                    }
+                }
+            }
+
+            for (int i = 2; i < Main.maxTilesX - 2; i++)
+            {
+                for (int j = 2; j < Main.maxTilesY - 2; j++)
+                {
+                    Tile.SmoothSlope(i, j);
+                }
+            }
+
+            EEWorld.EEWorld.PlaceShip(50, 150, EEWorld.EEWorld.ShipTiles);
+            EEWorld.EEWorld.PlaceShipWalls(50, 150, EEWorld.EEWorld.ShipWalls);
+
+            WorldGen.AddTrees();
+
+
+            SubworldManager.SettleLiquids();
+            EEMod.isSaving = false;
+            Main.spawnTileX = 200;
+            Main.spawnTileY = 100;
+        }
         public static void Cutscene1(int seed, GenerationProgress customProgressObject = null)
         {
             Main.maxTilesX = 400;

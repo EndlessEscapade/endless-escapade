@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 using Microsoft.Xna.Framework;
+using EEMod.Projectiles.Mage;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -25,8 +26,8 @@ namespace EEMod.Items.Weapons.Ranger
             item.height = 32;
             item.rare = ItemRarityID.Green;
             item.value = Item.sellPrice(silver: 10);
-            item.useAmmo = AmmoID.Bullet;
-            item.shoot = 10;
+            //item.useAmmo = AmmoID.Bullet;
+            item.shoot = ModContent.ProjectileType<CyanoburstTomeProjectile>();
 
             item.ranged = true;
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
