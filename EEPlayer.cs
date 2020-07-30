@@ -73,7 +73,6 @@ namespace EEMod
                     opac = 0;
                 //	Filters.Scene.Deactivate("EEMod:CR");
             }
-            ZoneTropicalIsland = EEWorld.EEWorld.TropicalIslandTiles > 200;
         }
 
         private int bubbleTimer = 6;

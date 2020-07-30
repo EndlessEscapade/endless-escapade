@@ -2460,7 +2460,6 @@ namespace EEMod.EEWorld
                     }
                     break;
                 case 2:
-                    MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX / 2 - sizeX / 10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
                     break;
             }
         }
