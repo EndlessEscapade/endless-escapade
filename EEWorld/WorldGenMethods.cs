@@ -2452,9 +2452,9 @@ namespace EEMod.EEWorld
                     {
                         for (int j = 0; j < sizeY; j++)
                         {
-                            if (TileCheck2(i + xPos, j + yPos) == 2 && Main.rand.NextBool())
+                            if (TileCheck2(i + xPos - sizeX/2, j + yPos - sizeY/4) == 2 && Main.rand.NextBool())
                             {
-                                PlaceKelp(Main.rand.Next(3, 9), new Vector2(i + xPos, j + yPos - 1));
+                                PlaceKelp(Main.rand.Next(3, 9), new Vector2(i + xPos - sizeX / 2, j + yPos - 1 - sizeY / 4));
                             }
                         }
                     }

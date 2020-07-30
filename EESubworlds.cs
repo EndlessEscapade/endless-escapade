@@ -98,7 +98,7 @@ namespace EEMod
                             randPosY = Main.rand.Next((int)roomsLeft[i - 1].Y - distance, (int)roomsLeft[i - 1].Y + distance);
                             for (int k = 0; k < i; k++)
                             {
-                                if (Vector2.Distance(new Vector2(randPosX, randPosY), roomsLeft[k]) > sizeOfChasm * 1.4f)
+                                if (Vector2.Distance(new Vector2(randPosX, randPosY), roomsLeft[k]) > sizeOfChasm * 1.2f)
                                 {
                                     score++;
                                 }
@@ -107,7 +107,7 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != i || randPosX < sizeOfChasm * 3 || randPosY < sizeOfChasm * 3 || randPosX > Main.maxTilesX / 2 - 200 || randPosY > Main.maxTilesY * 0.76f);
+                        } while (score != i || randPosX < sizeOfChasm * 1 || randPosY < sizeOfChasm * 1 || randPosX > Main.maxTilesX / 2 - 100 || randPosY > Main.maxTilesY * 0.66f);
                         roomsLeft[i] = new Vector2(randPosX, randPosY);
                     }
                     EEWorld.EEWorld.MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, Main.rand.Next(0, 3), 1);
@@ -139,16 +139,16 @@ namespace EEMod
                             randPosY = Main.rand.Next((int)roomsRight[i - 1].Y - distance, (int)roomsRight[i - 1].Y + distance);
                             for (int k = 0; k < i; k++)
                             {
-                                if (Vector2.Distance(new Vector2(randPosX, randPosY), roomsRight[k]) > sizeOfChasm * 1.4f)
+                                if (Vector2.Distance(new Vector2(randPosX, randPosY), roomsRight[k]) > sizeOfChasm * 1.2f)
                                 {
                                     score++;
                                 }
                             }
-                            if (breakLoop > 10000)
+                            if (breakLoop > 7000)
                             {
                                 break;
                             }
-                        } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 3) || randPosY < (sizeOfChasm * 3) || randPosX < Main.maxTilesX / 2 + 200 || randPosY > Main.maxTilesY * 0.76f);
+                        } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1) || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 100 || randPosY > Main.maxTilesY * 0.66f);
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
                     EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, Main.rand.Next(0, 3), 1);
