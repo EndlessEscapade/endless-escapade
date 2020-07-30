@@ -15,9 +15,9 @@ namespace EEMod.Tiles
         public override void SetDefaults()
         {
             Main.tileMergeDirt[Type] = false;
-            Main.tileSolid[Type] = true;
+            Main.tileSolid[Type] = false;
             Main.tileBlendAll[Type] = true;
-            Main.tileSolidTop[Type] = true;
+            Main.tileSolidTop[Type] = false;
             Main.tileNoAttach[Type] = false;
             AddMapEntry(new Color(68, 89, 195));
             Main.tileCut[Type] = true;
@@ -28,6 +28,7 @@ namespace EEMod.Tiles
             minPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorValidTiles = new int[] {ModContent.TileType<GemsandTile>(), ModContent.TileType<KelpTile>(), ModContent.TileType<LightGemsandTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
         }
