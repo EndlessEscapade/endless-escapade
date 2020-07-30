@@ -25,16 +25,19 @@ namespace EEMod.Projectiles.Ranged
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
             projectile.scale *= 1f;
+            projectile.arrow = true;
+            projectile.aiStyle = 1;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
+        int bubol = 0;
         public override void AI()
         {
-            projectile.velocity.Y += projectile.ai[0];
             projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI/2;
             if(projectile.ai[1] == 1)
             {
+                projectile.velocity.Y += projectile.ai[0];
                 for (int i = 0; i < 360; i += 10)
                 {
                     float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 5);
@@ -47,6 +50,13 @@ namespace EEMod.Projectiles.Ranged
                     dust.fadeIn = 1f;
                 }
                 projectile.damage = 1000;
+            }
+
+            bubol++;
+            if(bubol >= 10)
+            {
+                Projectile.NewProjectile(projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: projectile.owner);
+                bubol = 0;
             }
             
         }

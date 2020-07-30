@@ -25,7 +25,7 @@ using EEMod.NPCs.CoralReefs;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.NPCs.Friendly;
 using EEMod.Items;
-using Microsoft.Xna.Framework.Graphics;
+using EEMod.Buffs.Debuffs;
 
 namespace EEMod
 {
@@ -427,6 +427,10 @@ namespace EEMod
         public float zipMultiplier = 1;
         public override void UpdateBiomeVisuals()
         {
+            if (player.HasBuff(BuffType<WaterPressure>()))
+            {
+                player.statLife-=2;
+            }
             bool[][] states = new bool[][] { new bool[] { false, false }, new bool[] { true, false }, new bool[] { true, true } };
             for (int i = 0; i < hasGottenRuneBefore.Length; i++)
             {
@@ -560,7 +564,7 @@ namespace EEMod
                 if (bubbleTimer <= 0)
                 {
                     bubbleTimer = 6;
-                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 0, 0);
+                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
                     bubbleLen = Main.rand.Next(-16, 17);
                     bubbleColumn += 2;
                 }
@@ -745,7 +749,7 @@ namespace EEMod
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.Island2);
-                        prevKey = KeyID.Island;
+                        prevKey = KeyID.Island2;
                     }
                 }
                 else
@@ -885,6 +889,7 @@ namespace EEMod
                     //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, ModContent.ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos11X, pos11Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ModContent.ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ModContent.ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ModContent.ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
@@ -991,6 +996,10 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
+                if(player.position.Y >= 800 * 16 && !player.accDivingHelm)
+                {
+                    player.AddBuff(BuffType<WaterPressure>(), 60);
+                }
                 if (EEWorld.EEWorld.HydrosCheck())
                 {
                     NPC.NewNPC((int)position.X * 16, (int)position.Y * 16 - 400, ModContent.NPCType<Hydros>());
