@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -23,15 +24,27 @@ namespace EEMod.Projectiles.Mage
         }
 
         bool firstFrame = true;
+        int[] linkedProj = new int[6];
         public override void AI()
         {
             if (firstFrame)
             {
                 for (int i = 0; i < 6; i++)
-                    Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<SpiritPistolProjectileSecondary>(), projectile.damage, projectile.knockBack, Owner: projectile.owner, ai0: i * (MathHelper.TwoPi/6), ai1: projectile.whoAmI);
+                {
+                    int proj = Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<SpiritPistolProjectileSecondary>(), projectile.damage, projectile.knockBack, Owner: projectile.owner, ai0: i * (MathHelper.TwoPi / 6), ai1: projectile.whoAmI);
+                    linkedProj[i] = proj;
+                }
                 firstFrame = false;
             }
             projectile.rotation = projectile.velocity.ToRotation();
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            foreach (int proj in linkedProj)
+            {
+                Main.projectile[proj].Kill();
+            }
         }
     }
 }
