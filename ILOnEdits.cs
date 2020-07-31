@@ -162,28 +162,28 @@ namespace EEMod
                     {
                         Screentexture = TextureCache.GiantSquid;
                         Screenframes = 3;
-                        ScreenframeSpeed = 10;
+                        ScreenframeSpeed = 5;
                         break;
                     }
                 case 2:
                     {
                         Screentexture = TextureCache.Clam;
                         Screenframes = 3;
-                        ScreenframeSpeed = 10;
+                        ScreenframeSpeed = 5;
                         break;
                     }
                 case 3:
                     {
                         Screentexture = TextureCache.Hydros;
                         Screenframes = 8;
-                        ScreenframeSpeed = 7;
+                        ScreenframeSpeed = 3;
                         break;
                     }
                 case 4:
                     {
                         Screentexture = TextureCache.Seahorse;
                         Screenframes = 5;
-                        ScreenframeSpeed = 6;
+                        ScreenframeSpeed = 3;
                         break;
                     }
             }

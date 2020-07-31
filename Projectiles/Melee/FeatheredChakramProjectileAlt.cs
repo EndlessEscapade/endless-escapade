@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -26,9 +27,24 @@ namespace EEMod.Projectiles.Melee
             projectile.extraUpdates = 2;
             projectile.tileCollide = false;
         }
+        public void Draw(GraphicsDevice device)
+        {
+            VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[4];
 
+            //method to make it look less horrible
+            int currentIndex = 0;
+            void AddVertex(Vector2 position, Color color, Vector2 uv)
+            {
+                vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position - Main.screenPosition, 0f), color, uv);
+            }
+            AddVertex(projectile.Center - new Vector2(-200,0), Color.White, Vector2.Zero);
+            AddVertex(projectile.Center - new Vector2(200, 0), Color.White, new Vector2(1,0));
+            AddVertex(projectile.Center - new Vector2(200, 200), Color.White, new Vector2(1, 1));
+            device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 1);
+        }
         public override void AI()
         {
+            Draw(Main.spriteBatch.GraphicsDevice);
             if (projectile.ai[1] == 0)
             {
 

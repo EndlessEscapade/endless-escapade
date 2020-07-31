@@ -13,7 +13,7 @@ namespace EEMod.UI
     {
         public override void OnActivate()
         {
-
+            
         }
 
         public override void OnDeactivate()
