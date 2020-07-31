@@ -21,11 +21,13 @@ namespace EEMod.EEWorld
 
         public int minionsKilled;
         public static EEWorld instance;
-        //public static bool downedGallagar;
+        public static bool downedTalos;
+        public static bool downedCoralGolem;
         public static bool downedAkumo;
         public static bool downedHydros;
-        //public static bool downedStagrel;
+        public static bool downedOmen;
         public static bool downedKraken;
+        public static bool omenPath;
 
         // private static List<Point> BiomeCenters;
         public static int CoralReefsTiles = 0;

@@ -12,14 +12,6 @@ namespace EEMod.NPCs
     {
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
-            if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneCoralReefs)
-            {
-                pool.Remove(NPCID.Harpy);
-                pool.Remove(NPCID.Piranha);
-                pool.Remove(NPCID.Goldfish);
-                pool.Remove(NPCID.Skeleton);
-                pool.Remove(NPCID.BlueJellyfish);
-            }
             if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneCoralReefs && spawnInfo.player.height <= 12800 && spawnInfo.player.height >= 1200)
             {
                 pool.Add(ModContent.NPCType<Clam>(), 0.5f);
