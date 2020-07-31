@@ -64,7 +64,7 @@ namespace EEMod
                 EEMod.progressMessage = "Generating Lower layer base";
                 EEWorld.EEWorld.FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), new Vector2(0, (Main.maxTilesY / 3) * 2), ModContent.TileType<DarkGemsandTile>());
                 EEMod.progressMessage = "Clearing Upper Region";
-                EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY / 30, Vector2.Zero);
+                EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
                 for (int i = 0; i < 10; i++)
                     for (int j = -5; j < 5; j++)
                         WorldGen.TileRunner(300 + (i * 170) + (j * 10), Main.maxTilesY / 20, 10, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
@@ -110,7 +110,7 @@ namespace EEMod
                         } while (score != i || randPosX < sizeOfChasm * 1 || randPosY < sizeOfChasm * 1 || randPosX > Main.maxTilesX / 2 - 100 || randPosY > Main.maxTilesY * 0.66f);
                         roomsLeft[i] = new Vector2(randPosX, randPosY);
                     }
-                    EEWorld.EEWorld.MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, Main.rand.Next(0, 3), 1);
+                    EEWorld.EEWorld.MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, Main.rand.Next(0, 3), Main.rand.Next(0, 3));
                     if (i != 0)
                     {
                         EEWorld.EEWorld.MakeWavyChasm3(roomsLeft[i], roomsLeft[i - 1], TileID.StoneSlab, 100, 10, true);
@@ -151,14 +151,14 @@ namespace EEMod
                         } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1) || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 100 || randPosY > Main.maxTilesY * 0.66f);
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
-                    EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, Main.rand.Next(0, 3), 1);
+                    EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, Main.rand.Next(0, 3), Main.rand.Next(0, 3));
                     if (i != 0)
                     {
                         EEWorld.EEWorld.MakeWavyChasm3(roomsRight[i], roomsRight[i - 1], TileID.StoneSlab, 100, 10, true);
                     }
                 }
                 EEMod.progressMessage = "Genning Rooms";
-                EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, Main.rand.Next(0, 3), 1);
+                EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, Main.rand.Next(0, 3), Main.rand.Next(0, 3));
                 Vector2[] chosen = { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero };
                 for (int i = 0; i < roomsLeft.Length; i++)
                 {
@@ -188,50 +188,28 @@ namespace EEMod
                     EEWorld.EEWorld.MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2), TileID.StoneSlab, 100, 10, true);
                 for (int i = 2; i < 4; i++)
                     EEWorld.EEWorld.MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400), TileID.StoneSlab, 100, 10, true);
+
+                if (Main.rand.NextBool())
+                {
+                    Vector2 highestRoom = new Vector2(0, 3000);
+                    foreach(Vector2 legoYoda in roomsLeft)
+                        if(legoYoda.Y < highestRoom.Y)
+                            highestRoom = legoYoda;
+                    EEWorld.EEWorld.MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + Main.rand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true);
+                }
+                else
+                {
+                    Vector2 highestRoom = new Vector2(0, 3000);
+                    foreach (Vector2 legoYoda in roomsRight)
+                        if (legoYoda.Y < highestRoom.Y)
+                            highestRoom = legoYoda;
+                    EEWorld.EEWorld.MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + Main.rand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true);
+                }
+
+
                 EEWorld.EEWorld.RemoveStoneSlabs();
 
                 EEWorld.EEWorld.MakeLayer(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400, 100, 1, ModContent.TileType<GemsandTile>());
-
-
-
-
-
-                /*for (int i = 0; i < 5; i++)
-                {
-                    EEWorld.EEWorld.MakeChasm(chasmX + Main.rand.Next(-50, 50) + i * 20, chasmY + (i * 200) + Main.rand.Next(-50, 50), Main.rand.Next(5, 30), TileID.StoneSlab, Main.rand.Next(5, 10), WorldGen.genRand.Next(20, 60), Main.rand.Next(10, 20));
-                }
-                for (int i = 0; i < 20; i++)
-                {
-                    EEWorld.EEWorld.MakeOvalFlatTop(Main.rand.Next(10, 20), Main.rand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + (i * 50) + Main.rand.Next(-20, 20)), ModContent.TileType<GemsandTile>());
-                    if (i % 5 == 0)
-                    {
-                        EEWorld.EEWorld.MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 15, chasmY + Main.rand.Next(-20, 20) + (i * 50), 25, 2, ModContent.TileType<GemsandTile>());
-                        EEWorld.EEWorld.MakeLayer(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50), 20, 1, ModContent.TileType<GemsandTile>());
-                        EEWorld.EEWorld.MakeCoral(new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 5, chasmY + Main.rand.Next(-20, 20) + (i * 50)), TileID.Coralstone, Main.rand.Next(4, 8));
-                        for (int j = 0; j < 7; j++)
-                            EEWorld.EEWorld.MakeOvalFlatTop(WorldGen.genRand.Next(20, 30), WorldGen.genRand.Next(5, 10), new Vector2(chasmX + Main.rand.Next(-10, 10) + i * 15 + (j * 35) - 50, chasmY + Main.rand.Next(-20, 20) + (i * 50)), ModContent.TileType<DarkGemsandTile>());
-                    }
-                }*/
-                /*for (int k = 0; k < maxTiles * 9; k++)
-                {
-                    int xPos = 500;
-                    int yPos = 1200;
-                    int size = 80;
-                    int x = WorldGen.genRand.Next(xPos - (size * 3), xPos + (size * 3));
-                    int y = WorldGen.genRand.Next(yPos - (size * 3), yPos + (size * 3));
-                    if (EEWorld.EEWorld.OvalCheck(xPos, yPos, x, y, size * 3, size))
-                        WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
-                }
-
-                for (int i = 0; i < 800; i++)
-                {
-                    for (int j = 0; j < 2000; j++)
-                    {
-                        Tile tile = Framing.GetTileSafely(i, j);
-                        if (tile.type == TileID.StoneSlab)
-                            WorldGen.KillTile(i, j);
-                    }
-                }*/
 
 
 
@@ -273,7 +251,7 @@ namespace EEMod
                 EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));*/
 
                 //Final polishing
-                EEWorld.EEWorld.PlaceCoral(0);
+                //EEWorld.EEWorld.PlaceCoral(0);
                 for (int i = 2; i < Main.maxTilesX - 2; i++)
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
@@ -311,7 +289,7 @@ namespace EEMod
 
             EEWorld.EEWorld.MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSand>(), 15, 15);
 
-            EEWorld.EEWorld.Island(600, 250, 140);
+            EEWorld.EEWorld.Island(800, 250, 140);
 
             EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSand>());
 

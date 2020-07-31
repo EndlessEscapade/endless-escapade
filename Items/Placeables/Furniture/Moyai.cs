@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Furniture.Coral;
+using EEMod.Tiles.Furniture;
 
 namespace EEMod.Items.Placeables.Furniture
 {
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<SquareCoral>();
+            item.createTile = ModContent.TileType<MoyaiTile>();
         }
     }
 }

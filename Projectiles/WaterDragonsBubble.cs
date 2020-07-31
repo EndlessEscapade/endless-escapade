@@ -16,7 +16,10 @@ namespace EEMod.Projectiles
             projectile.height = 24;
             projectile.friendly = true;
             projectile.timeLeft = 120;
-            projectile.hostile = false;
+            projectile.penetrate = 3;
+            projectile.ranged = true;
+            projectile.damage = 5;
+            projectile.knockBack = 0;
         }
 
         public override void AI()

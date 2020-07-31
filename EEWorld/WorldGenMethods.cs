@@ -2443,25 +2443,129 @@ namespace EEMod.EEWorld
                     MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX / 2 - sizeX / 10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
                     break;
             }
-            switch (foliage)
+            for (int i = 3; i < sizeX - 3; i++)
             {
-                case 0:
-                    break;
-                case 1:
-                    for (int i = 0; i < sizeX; i++)
+                for (int j = 3; j < sizeY - 3; j++)
+                {
+                    switch (foliage)
                     {
-                        for (int j = 0; j < sizeY; j++)
-                        {
-                            if (TileCheck2(i + xPos - sizeX/2, j + yPos - sizeY/4) == 2 && Main.rand.NextBool())
+                        case 0:
+                            /*int yes = WorldGen.genRand.Next(5, 10);
+                            if (TileCheck2(i, j) == 1 && yes == 0)
                             {
-                                PlaceKelp(Main.rand.Next(3, 9), new Vector2(i + xPos - sizeX / 2, j + yPos - 1 - sizeY / 4));
+                                int selection = WorldGen.genRand.Next(2);
+                                switch (selection)
+                                {
+                                    case 0:
+                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<CoralLanternTile>());
+                                        break;
+                                    case 1:
+                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoralTile>());
+                                        break;
+                                }
                             }
-                        }
+                            if (TileCheck2(i, j) == 2 && yes >= 6)
+                            {
+                                int selection = WorldGen.genRand.Next(12);
+                                switch (selection)
+                                {
+                                    case 0:
+                                        WorldGen.PlaceTile(i, j - 8, ModContent.TileType<CoralStack1>());
+                                        break;
+                                    case 1:
+                                        WorldGen.PlaceTile(i, j - 8, ModContent.TileType<CoralStack2>());
+                                        break;
+                                    case 2:
+                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<MediumCoral>(), style: Main.rand.Next(0, 2));
+                                        break;
+                                    case 3:
+                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ShortCoral>(), style: Main.rand.Next(0, 3));
+                                        break;
+                                    case 4:
+                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>(), style: Main.rand.Next(0, 3));
+                                        break;
+                                    case 5:
+                                        //WorldGen.PlaceTile(i, j - 2, ModContent.TileType<SquareCoral>(), style: Main.rand.Next(0, 5));
+                                        break;
+                                    case 6:
+                                        WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral1>());
+                                        break;
+                                    case 7:
+                                        WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral2>());
+                                        break;
+                                    case 8:
+                                        WorldGen.PlaceTile(i, j - 6, ModContent.TileType<TallCoral>());
+                                        break;
+                                    case 9:
+                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain1BigCoral>());
+                                        break;
+                                    case 10:
+                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
+                                        break;
+                                    case 11:
+                                        //PlaceKelp(Main.rand.Next(3, 9), new Vector2(i, j - 1));
+                                        break;
+                                }
+                            }*/
+                            break;
+                        case 1:
+                            if (TileCheck2(i + xPos - sizeX / 2, j + yPos - sizeY / 4) == 2 && Main.rand.NextBool())
+                            {
+                                if (Main.rand.NextBool())
+                                {
+                                    PlaceKelp(Main.rand.Next(3, 9), new Vector2(i + xPos - sizeX / 2, j + yPos - 1 - sizeY / 4));
+                                }
+                                else
+                                {
+                                    if (Main.rand.Next(2) == 0)
+                                    {
+                                        int selection = WorldGen.genRand.Next(2);
+                                        switch (selection)
+                                        {
+                                            case 0:
+                                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ShortCoral>(), style: Main.rand.Next(0, 3));
+                                                break;
+                                            case 1:
+                                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>(), style: Main.rand.Next(0, 3));
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case 2:
+                            if (TileCheck2(i + xPos - sizeX / 2, j + yPos - sizeY / 4) == 2 && Main.rand.NextBool())
+                            {
+                                if (Main.rand.NextBool())
+                                {
+                                    WorldGen.PlaceTile(i, j - 3, ModContent.TileType<ThermalVent>());
+                                }
+                                else
+                                {
+                                    if (Main.rand.Next(2) == 0)
+                                    {
+                                        int selection = WorldGen.genRand.Next(2);
+                                        switch (selection)
+                                        {
+                                            case 0:
+                                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<SquareCoral>(), style: 3);
+                                                break;
+                                            case 1:
+                                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>(), style: 0);
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        case 3:
+                            //Currents
+                            break;
+                        case 4:
+                            //Nothing
+                            break;
                     }
-                    break;
-                case 2:
-                    MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX / 2 - sizeX / 10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
-                    break;
+                }
             }
         }
         public static void PlaceCoral(int style)

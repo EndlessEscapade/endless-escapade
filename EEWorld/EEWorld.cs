@@ -21,15 +21,16 @@ namespace EEMod.EEWorld
 
         public int minionsKilled;
         public static EEWorld instance;
-        //public static bool downedGallagar;
+        public static bool downedTalos;
+        public static bool downedCoralGolem;
         public static bool downedAkumo;
         public static bool downedHydros;
-        //public static bool downedStagrel;
+        public static bool downedOmen;
         public static bool downedKraken;
+        public static bool omenPath;
 
         // private static List<Point> BiomeCenters;
         public static int CoralReefsTiles = 0;
-        public static int TropicalIslandTiles = 0;
         public static Vector2 yes;
         public static Vector2 ree;
         public static IList<Vector2> EntracesPosses = new List<Vector2>();
@@ -190,13 +191,11 @@ namespace EEMod.EEWorld
         public override void ResetNearbyTileEffects()
         {
             CoralReefsTiles = 0;
-            TropicalIslandTiles = 0;
         }
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
             CoralReefsTiles = tileCounts[ModContent.TileType<DarkGemsandTile>()] + tileCounts[ModContent.TileType<GemsandTile>()];
-            TropicalIslandTiles = tileCounts[ModContent.TileType<CoralSand>()];
         }
 
         public static int customBiome = 0;

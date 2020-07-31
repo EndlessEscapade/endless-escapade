@@ -8,6 +8,7 @@ using EEMod.Projectiles.CoralReefs;
 using Terraria.ID;
 using EEMod.Items.Materials.Fruit;
 using EEMod.NPCs;
+using EEMod.Items.Materials;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -40,11 +41,7 @@ namespace EEMod.Tiles.Furniture
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            if (Main.rand.Next(5) == 0)
-            {
-                NPC.NewNPC(i, j, ModContent.NPCType<Cococritter>());
-            }
-            //Item.NewItem();
+            Item.NewItem(new Vector2(i, j), ModContent.ItemType<TropicalWood>(), Main.rand.Next(12, 24));
         }
     }
 }

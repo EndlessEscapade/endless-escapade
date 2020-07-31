@@ -20,7 +20,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 24;
             item.useTime = 24;
-            item.shootSpeed = 5f;
+            item.shootSpeed = 20f;
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;
