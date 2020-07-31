@@ -11,7 +11,7 @@ using EEMod.Tiles.Furniture.Coral;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
 using System.Collections.Generic;
-
+using EEMod.Arrays;
 namespace EEMod.EEWorld
 {
     public partial class EEWorld
@@ -2424,7 +2424,7 @@ namespace EEMod.EEWorld
             }*/
             MakeJaggedOval(sizeX, sizeY, new Vector2(xPos - size / 2f, yPos - size / 4f), TileID.StoneSlab, true);
             RemoveStoneSlabs();
-
+            PlaceAnyBuilding(1000, 1000, Castle);
             switch (type)
             {
                 case 0:
@@ -3283,6 +3283,30 @@ namespace EEMod.EEWorld
                             default:
                                 break;
                         }
+                    }
+                }
+            }
+        }
+        public static void PlaceAnyBuilding(int i, int j, int[,,] shape)
+        {
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
+                        tile.ClearTile();
+                        if (shape[y, x, 0] != 0)
+                        {
+                            tile.type = (ushort)shape[y, x, 0];
+                            tile.active(true);
+                        }
+                        tile.wall = (ushort)shape[y, x, 1];
+                        tile.color((byte)shape[y, x, 2]);
+                        tile.slope((byte)shape[y, x, 3]);
                     }
                 }
             }
