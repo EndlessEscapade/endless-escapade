@@ -27,7 +27,7 @@ namespace EEMod.Projectiles.Melee
             projectile.extraUpdates = 2;
             projectile.tileCollide = false;
         }
-        public void Draw(GraphicsDevice device)
+        /*public void Draw(GraphicsDevice device)
         {
             VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[4];
 
@@ -54,6 +54,16 @@ namespace EEMod.Projectiles.Melee
             projectile.rotation += 5;
             projectile.ai[1]++;
             projectile.ai[0]+=0.02f;
+        }*/
+
+        float radius = 16;
+        public override void AI()
+        {
+            int dust = Dust.NewDust(projectile.Center, 0, 0, 127);
+            projectile.Center = Main.LocalPlayer.Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * radius;
+            projectile.rotation += 5;
+            radius++;
+            projectile.ai[0] += 0.1f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
