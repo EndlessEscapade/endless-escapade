@@ -2452,7 +2452,7 @@ namespace EEMod.EEWorld
                         switch (foliage)
                         {
                             case 0:
-                                if (TileCheck2(i, j) == 1 && Main.rand.Next(5) == 0)
+                                if (TileCheck2(i + xPos, j + yPos) == 1 && Main.rand.Next(5) == 0)
                                 {
                                     int selection = Main.rand.Next(6);
                                     switch (selection)
@@ -2477,7 +2477,7 @@ namespace EEMod.EEWorld
                                             break;
                                     }
                                 }
-                                if (TileCheck2(i, j) == 2 && Main.rand.Next(5) == 0)
+                                if (TileCheck2(i + xPos, j + yPos) == 2 && Main.rand.Next(5) == 0)
                                 {
                                     int selection = WorldGen.genRand.Next(13);
                                     switch (selection)
@@ -2516,7 +2516,7 @@ namespace EEMod.EEWorld
                                             WorldGen.PlaceTile(i + xPos, j - 3 + yPos, ModContent.TileType<Brain2BigCoral>());
                                             break;
                                         case 11:
-                                            PlaceKelp(Main.rand.Next(3, 9), new Vector2(i, j - 1));
+                                            PlaceKelp(Main.rand.Next(3, 9), new Vector2(i + xPos, j - 1 + yPos));
                                             break;
                                         case 12:
                                             switch (Main.rand.Next(3))
