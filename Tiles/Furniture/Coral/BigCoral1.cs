@@ -60,7 +60,6 @@ namespace EEMod.Tiles.Furniture.Coral
                     cooldown = 180;
                 }
             }
-
         }
 
         public override void AnimateTile(ref int frame, ref int frameCounter)

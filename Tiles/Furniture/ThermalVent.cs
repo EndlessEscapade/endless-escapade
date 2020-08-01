@@ -7,6 +7,7 @@ using Terraria.Enums;
 using Terraria.ID;
 using EEMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework.Graphics;
+using EEMod.Buffs.Buffs;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -38,10 +39,19 @@ namespace EEMod.Tiles.Furniture
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.tile[i, j].frameY == 0 && Main.rand.Next(10) == 0)
+            if (Main.tile[i, j].frameY == 0 && Main.rand.Next(3) == 0)
             {
                 int num = Dust.NewDust(new Vector2(i * 16 + 4, j * 16), 1, 1, DustID.Smoke, 0, 1);
-                Main.dust[num].velocity = new Vector2(0, -0.75f);
+                Main.dust[num].velocity = new Vector2(Main.rand.NextFloat(-0.3f, 0.3f), -1f);
+                Main.dust[num].scale = 2;
+            }
+        }
+
+        public override void NearbyEffects(int i, int j, bool closer)
+        {
+            if (closer)
+            {
+                Main.LocalPlayer.AddBuff(ModContent.BuffType<ThermalHealing>(), 130);
             }
         }
     }

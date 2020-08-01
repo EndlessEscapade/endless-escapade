@@ -7,11 +7,11 @@ using EEMod.Projectiles.Mage;
 
 namespace EEMod.Items.Weapons.Ranger
 {
-    public class Fishtol : ModItem
+    public class Triggerfish : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Fishtol");
+            Tooltip.SetDefault("Triggerfish");
         }
 
         public override void SetDefaults()

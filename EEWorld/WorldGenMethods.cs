@@ -2407,10 +2407,11 @@ namespace EEMod.EEWorld
         }
         public static void PlaceKelp(int height, Vector2 startingPoint)
         {
-            for(int i = 0; i < height; i++)
+            for (int i = 0; i < height; i++)
             {
                 Tile tile = Framing.GetTileSafely((int)startingPoint.X, (int)startingPoint.Y - i);
-                tile.type = (ushort)ModContent.TileType<KelpTile>();
+                if (!tile.active())
+                    tile.type = (ushort)ModContent.TileType<KelpTile>();
                 tile.active(true);
             }
         }
@@ -2428,7 +2429,6 @@ namespace EEMod.EEWorld
             }*/
             MakeJaggedOval(sizeX, sizeY, new Vector2(xPos - size / 2f, yPos - size / 4f), TileID.StoneSlab, true);
             RemoveStoneSlabs();
-            PlaceAnyBuilding(1000, 1000, Castle);
             switch (type)
             {
                 case 0:
@@ -2457,7 +2457,7 @@ namespace EEMod.EEWorld
                         switch (foliage)
                         {
                             case 0:
-                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 1 && WorldGen.genRand.NextBool(2))
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 1 && !WorldGen.genRand.NextBool(5))
                                 {
                                     int selection = WorldGen.genRand.Next(6);
                                     switch (selection)
@@ -2482,7 +2482,7 @@ namespace EEMod.EEWorld
                                             break;
                                     }
                                 }
-                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && WorldGen.genRand.NextBool(2))
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && !WorldGen.genRand.NextBool(6))
                                 {
                                     int selection = WorldGen.genRand.Next(13);
                                     switch (selection)
@@ -2521,7 +2521,7 @@ namespace EEMod.EEWorld
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 3, ModContent.TileType<Brain2BigCoral>());
                                             break;
                                         case 11:
-                                            PlaceKelp(WorldGen.genRand.Next(3, 9), new Vector2((int)basePos.X, (int)basePos.Y - 1));
+                                            PlaceKelp(WorldGen.genRand.Next(sizeY/30, sizeY/20), new Vector2((int)basePos.X, (int)basePos.Y - 1));
                                             break;
                                         case 12:
                                             switch (WorldGen.genRand.Next(3))
@@ -2541,11 +2541,11 @@ namespace EEMod.EEWorld
                                 }
                                 break;
                             case 1:
-                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && Main.rand.NextBool())
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && !WorldGen.genRand.NextBool(6))
                                 {
                                     if (WorldGen.genRand.NextBool())
                                     {
-                                        PlaceKelp(WorldGen.genRand.Next(3, 9), new Vector2((int)basePos.X, (int)basePos.Y - 1));
+                                        PlaceKelp(WorldGen.genRand.Next(sizeY/10, sizeY / 3), new Vector2((int)basePos.X, (int)basePos.Y - 1));
                                     }
                                     else
                                     {
@@ -2563,7 +2563,7 @@ namespace EEMod.EEWorld
                                 }
                                 break;
                             case 2:
-                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && WorldGen.genRand.NextBool() && WorldGen.genRand.NextBool(2))
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && WorldGen.genRand.NextBool() && !WorldGen.genRand.NextBool(6))
                                 {
                                     if (WorldGen.genRand.NextBool())
                                     {
@@ -2571,16 +2571,28 @@ namespace EEMod.EEWorld
                                     }
                                     else
                                     {
-                                            int selection = WorldGen.genRand.Next(2);
+                                            int selection = WorldGen.genRand.Next(6);
                                             switch (selection)
                                             {
                                                 case 0:
                                                     WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<SquareCoral>(), style: 3);
                                                     break;
                                                 case 1:
+                                                    WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral1>());
+                                                    break;
+                                                case 2:
+                                                    WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral2>());
+                                                    break;
+                                                case 3:
                                                     WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<SingleCoral>(), style: 0);
                                                     break;
-                                            }
+                                                case 4:
+                                                    WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<Brain1BigCoral>(), style: 0);
+                                                    break;
+                                                case 5:
+                                                    WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<Brain2BigCoral>(), style: 0);
+                                                    break;
+                                        }
                                     }
                                 }
                                 break;
