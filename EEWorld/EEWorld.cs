@@ -195,7 +195,7 @@ namespace EEMod.EEWorld
 
         public override void TileCountsAvailable(int[] tileCounts)
         {
-            CoralReefsTiles = tileCounts[ModContent.TileType<DarkGemsandTile>()] + tileCounts[ModContent.TileType<GemsandTile>()];
+            CoralReefsTiles = tileCounts[ModContent.TileType<DarkGemsandTile>()] + tileCounts[ModContent.TileType<GemsandTile>()] + tileCounts[ModContent.TileType<LightGemsandTile>()];
         }
 
         public static int customBiome = 0;

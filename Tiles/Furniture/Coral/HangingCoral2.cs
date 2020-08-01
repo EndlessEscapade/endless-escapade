@@ -16,7 +16,10 @@ namespace EEMod.Tiles.Furniture.Coral
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
+            TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 1, 1);
+            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.Width = 2;
             TileObjectData.newTile.UsesCustomCanPlace = true;

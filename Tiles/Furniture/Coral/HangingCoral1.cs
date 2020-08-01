@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Furniture.Coral
     {
         public override void SetDefaults()
         {
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2Top);
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.LavaDeath = true;
@@ -22,7 +22,7 @@ namespace EEMod.Tiles.Furniture.Coral
                 16,
                 16
             };
-
+            TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Lamp");
