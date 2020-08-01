@@ -26,6 +26,7 @@ using EEMod.NPCs.Bosses.Kraken;
 using EEMod.NPCs.Friendly;
 using EEMod.Items;
 using EEMod.Buffs.Debuffs;
+using EEMod.Buffs.Buffs;
 
 namespace EEMod
 {
@@ -425,11 +426,18 @@ namespace EEMod
         public float powerLevel = 0;
         public int maxPowerLevel = 11;
         public float zipMultiplier = 1;
+        public int thermalHealingTimer = 30;
         public override void UpdateBiomeVisuals()
         {
             if (player.HasBuff(BuffType<WaterPressure>()))
             {
                 player.statLife-=2;
+            }
+            thermalHealingTimer--;
+            if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)
+            {
+                player.statLife += 1;
+                thermalHealingTimer = 30;
             }
             bool[][] states = new bool[][] { new bool[] { false, false }, new bool[] { true, false }, new bool[] { true, true } };
             for (int i = 0; i < hasGottenRuneBefore.Length; i++)

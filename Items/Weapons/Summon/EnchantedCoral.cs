@@ -28,7 +28,7 @@ namespace EEMod.Items.Weapons.Summon
             item.height = 20;
             item.rare = ItemRarityID.Green;
             item.knockBack = 5f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.UseSound = SoundID.Item8;
             item.shoot = ModContent.ProjectileType<BabyHydros>();
         }

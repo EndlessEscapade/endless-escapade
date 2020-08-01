@@ -76,7 +76,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
                         break;
                     case 2:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Fishtol>(), 1);
+                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Triggerfish>(), 1);
                         break;
                     case 3:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);

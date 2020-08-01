@@ -41,7 +41,7 @@ namespace EEMod.Items.TreasureBags
                     Main.LocalPlayer.QuickSpawnItem(ItemType<CyanoburstTome>(), 1);
                     break;
                 case 2:
-                    Main.LocalPlayer.QuickSpawnItem(ItemType<Fishtol>(), 1);
+                    Main.LocalPlayer.QuickSpawnItem(ItemType<Triggerfish>(), 1);
                     break;
                 case 3:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<Hydroshot>(), 1);
