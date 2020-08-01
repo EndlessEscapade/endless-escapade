@@ -3311,6 +3311,22 @@ namespace EEMod.EEWorld
                         tile.wall = (ushort)shape[y, x, 1];
                         tile.color((byte)shape[y, x, 2]);
                         tile.slope((byte)shape[y, x, 3]);
+                        tile.wallColor((byte)shape[y, x, 4]);
+                        if ((byte)shape[y, x, 5] == 1)
+                        {
+                            tile.inActive(true);
+                        }
+                        else
+                        {
+                            tile.inActive(false);
+                        }
+                        if ((byte)shape[y, x, 6] > 0)
+                        {
+                            tile.liquid = ((byte)shape[y, x, 6]);
+                            tile.liquidType((byte)shape[y, x, 7]);
+                        }
+                        tile.frameX = ((byte)shape[y, x, 8]);
+                        tile.frameY = ((byte)shape[y, x, 9]);
                     }
                 }
             }

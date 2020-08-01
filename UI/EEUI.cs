@@ -21,7 +21,15 @@ namespace EEMod.UI
             for (int i = 0; i < 5; i++)
                 isPulsating[i] = false;
         }
-        public static string[] StringOfTextures = new string[7];
+        public static string[] StringOfTextures = {
+            "EEMod/Projectiles/Runes/DesertRune",
+            "EEMod/Projectiles/Runes/DepocaditaRune",
+            "EEMod/Projectiles/Runes/LeafRune",
+            "EEMod/Projectiles/Runes/BubblingWatersRune",
+            "EEMod/Projectiles/Runes/IgnisRune",
+            "EEMod/Projectiles/Runes/RunePlacement",
+            "EEMod/Projectiles/Runes/RunePlacement"
+            };
         bool[] isPulsating = new bool[5];
         Vector2[] sizes = new Vector2[5];
         DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[7];
@@ -29,13 +37,6 @@ namespace EEMod.UI
         public int pauseTimer;
         public override void OnInitialize()
         {
-            StringOfTextures[0] = "EEMod/Projectiles/Runes/DesertRune";
-            StringOfTextures[1] = "EEMod/Projectiles/Runes/DepocaditaRune";
-            StringOfTextures[2] = "EEMod/Projectiles/Runes/LeafRune";
-            StringOfTextures[3] = "EEMod/Projectiles/Runes/BubblingWatersRune";
-            StringOfTextures[4] = "EEMod/Projectiles/Runes/IgnisRune";
-            StringOfTextures[5] = "EEMod/Projectiles/Runes/RunePlacement";
-            StringOfTextures[6] = "EEMod/Projectiles/Runes/RunePlacement";
             for (int i = 0; i < 7; i++)
             {
                 panels[i] = new DragableUIPanelBackgroundTexture(StringOfTextures[i]);

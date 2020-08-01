@@ -271,6 +271,7 @@ namespace EEMod
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
             CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
             EEMod.progressMessage = "Successful!";
+            
             //Finishing initialization stuff
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
@@ -341,7 +342,11 @@ namespace EEMod
 
             WorldGen.AddTrees();
 
-
+            EEWorld.EEWorld.PlaceAnyBuilding(100, 100, EEWorld.EEWorld.IceShrine);
+            EEWorld.EEWorld.PlaceAnyBuilding(200, 100, EEWorld.EEWorld.FireShrine);
+            EEWorld.EEWorld.PlaceAnyBuilding(300, 100, EEWorld.EEWorld.DesertShrine);
+            EEWorld.EEWorld.PlaceAnyBuilding(400, 100, EEWorld.EEWorld.WaterShrine);
+            EEWorld.EEWorld.PlaceAnyBuilding(500, 100, EEWorld.EEWorld.LeafShrine);
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;

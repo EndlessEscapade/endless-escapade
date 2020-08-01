@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles;
+using EEMod.Tiles.Furniture.Coral;
 
 namespace EEMod.Items.Placeables
 {
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.autoReuse = true;
             item.maxStack = 999;
             item.placeStyle = 10;
-            item.createTile = ModContent.TileType<AtlanteanBrickTile>();
+            item.createTile = ModContent.TileType<WideBulbousCoral>();
         }
     }
 }

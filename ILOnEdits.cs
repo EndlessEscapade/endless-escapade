@@ -14,11 +14,13 @@ using EEMod.Projectiles;
 using EEMod.NPCs.Bosses.Kraken;
 using ReLogic.Graphics;
 using EEMod.Projectiles.Mage;
+using EEMod.Effects;
 
 namespace EEMod
 {
     public partial class EEMod : Mod
     {
+        public static TrailManager TrailManager;
         private void LoadIL()
         {
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
@@ -28,7 +30,11 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawWoF += DrawBehindTiles;
             On.Terraria.Main.Draw += OnDrawMenu;
+            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
+            On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
+            TrailManager = new TrailManager(this);
         }
+
         private void UnloadIL()
         {
             On.Terraria.Main.DoUpdate -= OnUpdate;
@@ -37,8 +43,31 @@ namespace EEMod
             IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
             On.Terraria.Main.DrawWoF -= DrawBehindTiles;
             On.Terraria.Main.Draw -= OnDrawMenu;
+            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
+            On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
+            TrailManager = null;
         }
+        private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
+        {
+            TrailManager.DrawTrails(Main.spriteBatch);
+            orig(self);
+        }
+        public override void MidUpdateProjectileItem()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                TrailManager.UpdateTrails();
+            }
+        }
+        private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
+        {
+            int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
+            Projectile projectile = Main.projectile[index];
 
+            if (Main.netMode != NetmodeID.Server) TrailManager.DoTrailCreation(projectile);
+
+            return index;
+        }
         private void Main_OldDrawBackground(ILContext il)
         {
             ILCursor c = new ILCursor(il);
