@@ -75,6 +75,7 @@ namespace EEMod
                 EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSand>());
                 int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
                 EEMod.progressMessage = "Finding Suitable Chasm Positions";
+                
                 //Making chasms
                 for (int i = 0; i < roomsLeft.Length; i++)
                 {
@@ -151,14 +152,14 @@ namespace EEMod
                         } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1) || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 100 || randPosY > Main.maxTilesY * 0.66f);
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
-                    EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, Main.rand.Next(0, 3), Main.rand.Next(0, 3));
+                    EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, WorldGen.genRand.Next(0, 3), WorldGen.genRand.Next(0, 3));
                     if (i != 0)
                     {
                         EEWorld.EEWorld.MakeWavyChasm3(roomsRight[i], roomsRight[i - 1], TileID.StoneSlab, 100, 10, true);
                     }
                 }
                 EEMod.progressMessage = "Genning Rooms";
-                EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, Main.rand.Next(0, 3), Main.rand.Next(0, 3));
+                EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, WorldGen.genRand.Next(0, 3), WorldGen.genRand.Next(0, 3));
                 Vector2[] chosen = { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero };
                 for (int i = 0; i < roomsLeft.Length; i++)
                 {
@@ -210,9 +211,7 @@ namespace EEMod
                 EEWorld.EEWorld.RemoveStoneSlabs();
 
                 EEWorld.EEWorld.MakeLayer(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400, 100, 1, ModContent.TileType<GemsandTile>());
-
-
-
+                
                 EEMod.progressMessage = "Generating Ores";
                 //Generating ores
                 int barrier = 800;
@@ -256,7 +255,10 @@ namespace EEMod
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
                     {
-                        Tile.SmoothSlope(i, j);
+                        if (WorldGen.genRand.NextBool(2))
+                        {
+                            Tile.SmoothSlope(i, j);
+                        }
                     }
                 }
             }

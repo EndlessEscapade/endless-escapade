@@ -7,6 +7,7 @@ using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles
 {
@@ -27,15 +28,23 @@ namespace EEMod.Tiles
             mineResist = 0f;
             minPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide | AnchorType.EmptyTile | AnchorType.AlternateTile, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);
             TileObjectData.newTile.AnchorValidTiles = new int[] {ModContent.TileType<GemsandTile>(), ModContent.TileType<KelpTile>(), ModContent.TileType<LightGemsandTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
         }
-
-        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            Tile tile = Framing.GetTileSafely(i, j + 1);
+            if (!tile.active() 
+                && tile.type != ModContent.TileType<KelpTile>() 
+                && tile.type != ModContent.TileType<GemsandTile>()
+                && tile.type != ModContent.TileType<LightGemsandTile>()
+                && tile.type != ModContent.TileType<DarkGemsandTile>())
+                WorldGen.KillTile(i, j);
 
+            return true;
         }
+            
     }
 }

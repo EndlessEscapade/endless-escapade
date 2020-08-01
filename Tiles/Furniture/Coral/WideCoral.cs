@@ -21,6 +21,7 @@ namespace EEMod.Tiles.Furniture.Coral
             TileObjectData.newTile.StyleHorizontal = false;
             TileObjectData.newTile.CoordinateHeights = new int[]
             { 16 };
+            TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.newTile.RandomStyleRange = 3;

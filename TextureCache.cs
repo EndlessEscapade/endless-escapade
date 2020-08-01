@@ -48,7 +48,7 @@ namespace EEMod
         public static Texture2D TentacleEnd;
         public static Texture2D Oil;
         public static Texture2D VArrow;
-
+        public static Texture2D CB1;
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
@@ -95,10 +95,12 @@ namespace EEMod
             TentacleEnd = mod.GetTexture("NPCs/Bosses/Kraken/EndOfSmol");
             Oil = mod.GetTexture("NPCs/Bosses/Kraken/Oil");
             VArrow = mod.GetTexture("Projectiles/VolleyballArrow");
+            CB1 = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
         }
         [UnloadingMethod]
         public static void Unload()
         {
+            CB1 = null;
             VArrow = null;
             Oil = null;
             TentacleEnd = null;
