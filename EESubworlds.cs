@@ -14,7 +14,7 @@ namespace EEMod
 {
     public class EESubWorlds
     {
-
+        static NoiseFunction noise;
         public static Vector2 CoralBoatPos;
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
         {
@@ -239,7 +239,7 @@ namespace EEMod
                                 WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydriteOreTile>());
                     }
                 }
-
+                
                 //Placing water and etc
                 EEWorld.EEWorld.KillWall(1000, 1000, Vector2.Zero);
                 EEWorld.EEWorld.FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
@@ -271,7 +271,19 @@ namespace EEMod
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
             CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
             EEMod.progressMessage = "Successful!";
-            
+            noise = new NoiseFunction(new Vector2(400,400),3,0.6f);
+            int[,] noiseFunction = noise.ArrayOfSamples();
+            for (int i = 0; i < noiseFunction.GetLength(0); i++)
+            {
+                for (int j = 0; j < noiseFunction.GetLength(1); j++)
+                {
+                    if(noiseFunction[i, j] == 1)
+                    {
+                        Tile tile = Framing.GetTileSafely(i+42, j+42);
+                        tile.type = TileID.Dirt;
+                    }
+                }
+            }
             //Finishing initialization stuff
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
