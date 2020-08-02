@@ -2607,29 +2607,40 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        /*public static void PlaceCoral(int style)
+        public static void PlaceCoral(int style)
         {
             for (int i = 3; i < Main.maxTilesX - 3; i++)
             {
                 for (int j = 3; j < Main.maxTilesY - 3; j++)
                 {
-                    int yes = WorldGen.genRand.Next(5, 10);
-                    if (TileCheck2(i, j) == 1 && yes == 0)
+                    if (TileCheck2((int)i, (int)j) == 1 && !WorldGen.genRand.NextBool(5))
                     {
-                        int selection = WorldGen.genRand.Next(2);
+                        int selection = WorldGen.genRand.Next(6);
                         switch (selection)
                         {
                             case 0:
-                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<CoralLanternTile>());
+                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral1>());
                                 break;
                             case 1:
-                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoralTile>());
+                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral2>());
+                                break;
+                            case 2:
+                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral3>());
+                                break;
+                            case 3:
+                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral4>());
+                                break;
+                            case 4:
+                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral5>());
+                                break;
+                            case 5:
+                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral6>());
                                 break;
                         }
                     }
-                    if (TileCheck2(i, j) == 2 && yes >= 6)
+                    if (TileCheck2((int)i, (int)j) == 2 && !WorldGen.genRand.NextBool(6))
                     {
-                        int selection = WorldGen.genRand.Next(12);
+                        int selection = WorldGen.genRand.Next(13);
                         switch (selection)
                         {
                             case 0:
@@ -2639,16 +2650,16 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j - 8, ModContent.TileType<CoralStack2>());
                                 break;
                             case 2:
-                                WorldGen.PlaceTile(i, j - 3, ModContent.TileType<MediumCoral>(), style: Main.rand.Next(0, 2));
+                                WorldGen.PlaceTile(i, j - 3, ModContent.TileType<MediumCoral>(), style: WorldGen.genRand.Next(0, 2));
                                 break;
                             case 3:
-                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ShortCoral>(), style: Main.rand.Next(0, 3));
+                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ShortCoral>(), style: WorldGen.genRand.Next(0, 3));
                                 break;
                             case 4:
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>(), style: Main.rand.Next(0, 3));
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>(), style: WorldGen.genRand.Next(0, 3));
                                 break;
                             case 5:
-                                //WorldGen.PlaceTile(i, j - 2, ModContent.TileType<SquareCoral>(), style: Main.rand.Next(0, 5));
+                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<SquareCoral>(), style: WorldGen.genRand.Next(0, 5));
                                 break;
                             case 6:
                                 WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral1>());
@@ -2666,15 +2677,27 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
                                 break;
                             case 11:
-                                //PlaceKelp(Main.rand.Next(3, 9), new Vector2(i, j - 1));
+                                PlaceKelp(WorldGen.genRand.Next(3, 9), new Vector2(i, j - 1));
+                                break;
+                            case 12:
+                                switch (WorldGen.genRand.Next(3))
+                                {
+                                    case 0:
+                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral1>());
+                                        break;
+                                    case 1:
+                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral2>());
+                                        break;
+                                    case 2:
+                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral3>());
+                                        break;
+                                }
                                 break;
                         }
-                        if (selection == 5 && j < 300 && Main.rand.NextBool(4))
-                            MakeCoral(new Vector2(i, j), TileID.Coralstone, Main.rand.Next(4, 8));
                     }
                 }
             }
-        }*/
+        }
         public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false, int wallType = 0)
         {
             int initialStartingPosX = (int)startingPoint.X;

@@ -15,7 +15,7 @@ namespace EEMod.Projectiles.Mage
             projectile.friendly = true;      //make that the projectile will not damage you
             projectile.magic = true;     //
             projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
-            projectile.penetrate = 1;      //how many npc will penetrate
+            projectile.penetrate = -1;      //how many npc will penetrate
                                            //how many time this projectile has before disepire
             projectile.light = 0.3f;    // projectile light
             projectile.ignoreWater = true;
@@ -25,6 +25,7 @@ namespace EEMod.Projectiles.Mage
 
         bool firstFrame = true;
         int[] linkedProj = new int[6];
+        bool a = false;
         public override void AI()
         {
             if (firstFrame)
@@ -45,6 +46,11 @@ namespace EEMod.Projectiles.Mage
             {
                 Main.projectile[proj].Kill();
             }
+        }
+
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            projectile.velocity = Vector2.Zero;
         }
     }
 }
