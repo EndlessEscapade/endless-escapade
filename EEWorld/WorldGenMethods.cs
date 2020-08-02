@@ -2127,7 +2127,8 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    tile.ClearTile();
                     WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     EEMod.progressMessage = messageBefore;
                     EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
@@ -2249,6 +2250,10 @@ namespace EEMod.EEWorld
             Tile tile3 = Framing.GetTileSafely(i, j - 2);
             Tile tile4 = Framing.GetTileSafely(i, j + 1);
             Tile tile5 = Framing.GetTileSafely(i, j + 2);
+            Tile tile6 = Framing.GetTileSafely(i - 1, j);
+            Tile tile7 = Framing.GetTileSafely(i - 2, j);
+            Tile tile8 = Framing.GetTileSafely(i + 1, j);
+            Tile tile9 = Framing.GetTileSafely(i + 2, j);
             if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active())
             {
                 return 1;
@@ -2256,6 +2261,14 @@ namespace EEMod.EEWorld
             if (tile1.active() && !tile2.active() && !tile3.active() && tile4.active() && tile5.active())
             {
                 return 2;
+            }
+            if (tile1.active() && tile6.active() && tile7.active() && !tile8.active() && !tile9.active())
+            {
+                return 3;
+            }
+            if (tile1.active() && !tile6.active() && !tile7.active() && tile8.active() && tile9.active())
+            {
+                return 4;
             }
             else
             {
@@ -3337,9 +3350,10 @@ namespace EEMod.EEWorld
                     if (WorldGen.InWorld(k, l, 30))
                     {
                         Tile tile = Framing.GetTileSafely(k, l);
-                        tile.ClearTile();
+                        
                         if (shape[y, x, 0] != 0)
                         {
+                            tile.ClearTile();
                             tile.type = (ushort)shape[y, x, 0];
                             tile.active(true);
                         }

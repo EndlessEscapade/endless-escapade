@@ -21,7 +21,7 @@ namespace EEMod.UI
             for (int i = 0; i < 5; i++)
                 isPulsating[i] = false;
         }
-        public static string[] StringOfTextures = {
+        public string[] StringOfTextures = {
             "EEMod/Projectiles/Runes/DesertRune",
             "EEMod/Projectiles/Runes/DepocaditaRune",
             "EEMod/Projectiles/Runes/LeafRune",

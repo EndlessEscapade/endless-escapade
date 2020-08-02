@@ -17,11 +17,20 @@ namespace EEMod.UI
         {
             _backgroundTexture = ModContent.GetTexture(Texture);
         }
+        public string[] StringOfTextures = {
+            "EEMod/Projectiles/Runes/DesertRune",
+            "EEMod/Projectiles/Runes/DepocaditaRune",
+            "EEMod/Projectiles/Runes/LeafRune",
+            "EEMod/Projectiles/Runes/BubblingWatersRune",
+            "EEMod/Projectiles/Runes/IgnisRune",
+            "EEMod/Projectiles/Runes/RunePlacement",
+            "EEMod/Projectiles/Runes/RunePlacement"
+            };
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] == 1)
             {
-                if (_backgroundTexture == ModContent.GetTexture(EEUI.StringOfTextures[0]))
+                if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[0]))
                 {
                     if (color.R < 255)
                         color.R++;
