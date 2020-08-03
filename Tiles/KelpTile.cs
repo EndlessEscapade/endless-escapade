@@ -33,18 +33,20 @@ namespace EEMod.Tiles
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
         }
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
             Tile tile = Framing.GetTileSafely(i, j + 1);
-            if (!tile.active() 
-                && tile.type != ModContent.TileType<KelpTile>() 
+            if (!tile.active()
+                || tile.type != ModContent.TileType<KelpTile>()
                 && tile.type != ModContent.TileType<GemsandTile>()
                 && tile.type != ModContent.TileType<LightGemsandTile>()
                 && tile.type != ModContent.TileType<DarkGemsandTile>())
                 WorldGen.KillTile(i, j);
 
+        }
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        {
             return true;
         }
-            
     }
 }

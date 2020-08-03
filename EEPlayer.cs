@@ -898,13 +898,13 @@ namespace EEMod
                     Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos11X, pos11Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ModContent.ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ModContent.ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ModContent.ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ModContent.ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ModContent.ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos9X, pos9Y), Vector2.Zero, ModContent.ProjectileType<MainIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos10X, pos10Y), Vector2.Zero, ModContent.ProjectileType<CoralReefsEntrance>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos9X, pos9Y), Vector2.Zero, ProjectileType<MainIsland>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos10X, pos10Y), Vector2.Zero, ProjectileType<CoralReefsEntrance>(), 0, 0f, Main.myPlayer, 0, 0);
                     objectPos.Add(new Vector2(pos1X, pos1Y));
                     objectPos.Add(new Vector2(pos2X, pos2Y));
                     objectPos.Add(new Vector2(pos3X, pos3Y));
@@ -952,17 +952,17 @@ namespace EEMod
                 player.AddBuff(BuffID.Cursed, 100000);
                 if (markerPlacer % 600 == 0)
                 {
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
                 }
                 if (markerPlacer % 2400 == 0)
-                    NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth - 200, (int)Main.screenPosition.Y + Main.rand.Next(1000), ModContent.NPCType<MerchantBoat>());
+                    NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth - 200, (int)Main.screenPosition.Y + Main.rand.Next(1000), NPCType<MerchantBoat>());
 
                 if (markerPlacer % 7200 == 0)
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
 
                 if (markerPlacer % 200 == 0)
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth - 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth - 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
 
                 if (markerPlacer % 20 == 0)
                 {
@@ -1029,6 +1029,7 @@ namespace EEMod
 
                 if (!arrowFlag && Main.myPlayer == player.whoAmI)
                 {
+                    WorldGen.UpdateWorld();
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     player.ClearBuff(BuffID.Cursed);
                     arrowFlag = true;

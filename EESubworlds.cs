@@ -272,7 +272,7 @@ namespace EEMod
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
             CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
             EEMod.progressMessage = "Successful!";
-            
+            WorldGen.UpdateWorld();
             //Finishing initialization stuff
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
