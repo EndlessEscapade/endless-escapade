@@ -14,8 +14,8 @@ namespace EEMod.Projectiles.Mage
             projectile.height = 8;  //projectile height
             projectile.friendly = true;      //make that the projectile will not damage you
             projectile.magic = true;     //
-            projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
-            projectile.penetrate = 1;      //how many npc will penetrate
+            projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
+            projectile.penetrate = -1;      //how many npc will penetrate
                                            //how many time this projectile has before disepire
             projectile.light = 0.3f;    // projectile light
             projectile.ignoreWater = true;
@@ -26,7 +26,10 @@ namespace EEMod.Projectiles.Mage
         float radius = 0;
         public override void AI()
         {
-            projectile.Center = Main.projectile[(int)projectile.ai[1]].Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * radius;
+            if (projectile.ai[1] != -1)
+            {
+                projectile.Center = Main.projectile[(int)projectile.ai[1]].Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * radius;
+            }
             if(radius < 48)
                 radius++;
             projectile.ai[0] += 0.1f;

@@ -64,7 +64,7 @@ namespace EEMod
                 EEMod.progressMessage = "Generating Lower layer base";
                 EEWorld.EEWorld.FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), new Vector2(0, (Main.maxTilesY / 3) * 2), ModContent.TileType<DarkGemsandTile>());
                 EEMod.progressMessage = "Clearing Upper Region";
-                EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
+                EEWorld.EEWorld.ClearRegion(Main.maxTilesX, (Main.maxTilesY / 10), Vector2.Zero);
                 for (int i = 0; i < 10; i++)
                     for (int j = -5; j < 5; j++)
                         WorldGen.TileRunner(300 + (i * 170) + (j * 10), Main.maxTilesY / 20, 10, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
@@ -72,7 +72,7 @@ namespace EEMod
                     for (int j = -5; j < 5; j++)
                         WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
                 EEMod.progressMessage = "Generating Coral Sand";
-                EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSand>());
+                EEWorld.EEWorld.FillRegionNoEdit(Main.maxTilesX, (Main.maxTilesY / 20), new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSand>());
                 int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
                 EEMod.progressMessage = "Finding Suitable Chasm Positions";
                 
@@ -251,7 +251,7 @@ namespace EEMod
                 EEWorld.EEWorld.MakeAtlantis(new Vector2(0,1900), new Vector2(900, 500));*/
 
                 //Final polishing
-                //EEWorld.EEWorld.PlaceCoral(0);
+                EEWorld.EEWorld.PlaceCoral();
                 for (int i = 2; i < Main.maxTilesX - 2; i++)
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
