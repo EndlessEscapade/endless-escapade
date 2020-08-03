@@ -19,7 +19,7 @@ namespace EEMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coconut Crab");
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[npc.type] = 4;
         }
 
         public override void SetDefaults()

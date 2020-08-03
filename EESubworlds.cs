@@ -90,7 +90,7 @@ namespace EEMod
                         int breakLoop = 0;
                         float randPosX;
                         float randPosY;
-                        int distance = 430;
+                        int distance = 360;
                         do
                         {
                             breakLoop++;
@@ -108,7 +108,7 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != i || randPosX < sizeOfChasm * 1 || randPosY < sizeOfChasm * 1 || randPosX > Main.maxTilesX / 2 - 100 || randPosY > Main.maxTilesY * 0.66f);
+                        } while (score != i || randPosX < sizeOfChasm * 1.2f || randPosY < sizeOfChasm * 1 || randPosX > Main.maxTilesX / 2 - 50 || randPosY > Main.maxTilesY * 0.66f);
                         roomsLeft[i] = new Vector2(randPosX, randPosY);
                     }
                     EEWorld.EEWorld.MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, Main.rand.Next(0, 3), Main.rand.Next(0, 3));
@@ -131,7 +131,7 @@ namespace EEMod
                         int breakLoop = 0;
                         float randPosX;
                         float randPosY;
-                        int distance = 430;
+                        int distance = 310;
                         do
                         {
                             breakLoop++;
@@ -149,7 +149,7 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1) || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 100 || randPosY > Main.maxTilesY * 0.66f);
+                        } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f) || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 50 || randPosY > Main.maxTilesY * 0.66f);
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
                     EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, WorldGen.genRand.Next(0, 3), WorldGen.genRand.Next(0, 3));
@@ -272,7 +272,6 @@ namespace EEMod
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
             CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
             EEMod.progressMessage = "Successful!";
-            WorldGen.UpdateWorld();
             //Finishing initialization stuff
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;

@@ -2482,7 +2482,7 @@ namespace EEMod.EEWorld
                     MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX / 2 - sizeX / 10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
                     break;
                 case 3:
-                    
+                    //MakeWavyChasm3()
                     break;
             }
             for (int i = -20; i < sizeX + 20; i++)

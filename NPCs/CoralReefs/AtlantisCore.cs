@@ -38,7 +38,6 @@ namespace EEMod.NPCs.CoralReefs
             npc.noTileCollide = true;
             npc.dontTakeDamage = true;
             npc.damage = 0;
-            npc.boss = true;
         }
 
         public override bool CheckActive()

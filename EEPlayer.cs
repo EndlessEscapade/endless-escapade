@@ -1029,7 +1029,6 @@ namespace EEMod
 
                 if (!arrowFlag && Main.myPlayer == player.whoAmI)
                 {
-                    WorldGen.UpdateWorld();
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     player.ClearBuff(BuffID.Cursed);
                     arrowFlag = true;
