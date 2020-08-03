@@ -2620,7 +2620,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void PlaceCoral(int style)
+        public static void PlaceCoral()
         {
             for (int i = 3; i < Main.maxTilesX - 3; i++)
             {
