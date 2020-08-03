@@ -2335,22 +2335,15 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
-
+                    if (j > height / 2)
+                    {
+                        if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                            WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                    }
                     if (i == width / 2 && j == height / 2)
                     {
                         WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y + 2, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(10, 20), type, true, 0f, 0f, true, true);
                     }
-                }
-            }
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = -6; j < height / 2 - 2; j++)
-                {
-                    Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    if (tile.type == type)
-                        WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                 }
             }
         }
@@ -2418,6 +2411,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        static PerlinNoiseFunction perlinNoise;
         public static void PlaceKelp(int height, Vector2 startingPoint)
         {
             for (int i = 0; i < height; i++)
@@ -2428,7 +2422,7 @@ namespace EEMod.EEWorld
                 tile.active(true);
             }
         }
-        public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int foliage)
+        public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int foliage, bool ensureNoise = false)
         {
             int sizeX = size;
             int sizeY = size / 2;
@@ -2440,7 +2434,35 @@ namespace EEMod.EEWorld
                 if (OvalCheck(xPos, yPos, x, y, size * 2, size))
                     WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
             }*/
-            MakeJaggedOval(sizeX, sizeY, new Vector2(xPos - size / 2f, yPos - size / 4f), TileID.StoneSlab, true);
+            MakeJaggedOval(sizeX, sizeY, new Vector2(xPos - sizeX / 2f, yPos - sizeY / 2f), TileID.StoneSlab, true);
+            perlinNoise = new PerlinNoiseFunction(1000, 1000, 50, 20,0.5f);
+            int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
+            Vector2 startingPoint = new Vector2(xPos - sizeX, yPos - sizeY);
+            if (ensureNoise)
+            {
+                for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                {
+                    for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                    {
+                        if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY))
+                        {
+                            Tile tile = Framing.GetTileSafely(i, j);
+                            if (j < Main.maxTilesY * 0.33f)
+                            {
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
+                            }
+                            else if (j < Main.maxTilesY * 0.66f)
+                            {
+                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                            }
+                            else
+                            {
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
+                            }
+                        }
+                    }
+                }
+            }
             RemoveStoneSlabs();
             switch (type)
             {
@@ -2458,6 +2480,9 @@ namespace EEMod.EEWorld
                     break;
                 case 2:
                     MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX / 2 - sizeX / 10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
+                    break;
+                case 3:
+                    
                     break;
             }
             for (int i = -20; i < sizeX + 20; i++)
@@ -2619,6 +2644,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+            
         }
         /*public static void PlaceCoral(int style)
         {
@@ -2846,10 +2872,10 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static bool OvalCheck(int h, int k, int x, int y, int a, int b)
+        public static bool OvalCheck(int midX, int midY, int x, int y, int sizeX, int sizeY)
         {
-            double p = Math.Pow(x - h, 2) / Math.Pow(a, 2)
-                    + Math.Pow(y - k, 2) / Math.Pow(b, 2);
+            double p = Math.Pow(x - midX, 2) / Math.Pow(sizeX, 2)
+                    + Math.Pow(y - midY, 2) / Math.Pow(sizeY, 2);
 
             return p < 1 ? true : false;
         }

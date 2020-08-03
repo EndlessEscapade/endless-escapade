@@ -14,7 +14,7 @@ namespace EEMod
 {
     public class EESubWorlds
     {
-        static NoiseFunction noise;
+        
         public static Vector2 CoralBoatPos;
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
         {
@@ -104,7 +104,7 @@ namespace EEMod
                                     score++;
                                 }
                             }
-                            if (breakLoop > 10000)
+                            if (breakLoop > 5000)
                             {
                                 break;
                             }
@@ -145,7 +145,7 @@ namespace EEMod
                                     score++;
                                 }
                             }
-                            if (breakLoop > 7000)
+                            if (breakLoop > 5000)
                             {
                                 break;
                             }
@@ -153,13 +153,14 @@ namespace EEMod
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
                     EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, WorldGen.genRand.Next(0, 3), WorldGen.genRand.Next(0, 3));
+                    EEWorld.EEWorld.MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, WorldGen.genRand.Next(0, 3), WorldGen.genRand.Next(0, 3));
                     if (i != 0)
                     {
                         EEWorld.EEWorld.MakeWavyChasm3(roomsRight[i], roomsRight[i - 1], TileID.StoneSlab, 100, 10, true);
                     }
                 }
                 EEMod.progressMessage = "Genning Rooms";
-                EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, WorldGen.genRand.Next(0, 3), WorldGen.genRand.Next(0, 3));
+                EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, WorldGen.genRand.Next(0, 3), WorldGen.genRand.Next(0, 3), true);
                 Vector2[] chosen = { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero };
                 for (int i = 0; i < roomsLeft.Length; i++)
                 {
@@ -271,19 +272,7 @@ namespace EEMod
             EEWorld.EEWorld.PlaceShipWalls(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 27, EEWorld.EEWorld.ShipWalls);
             CoralBoatPos = new Vector2(boatPos, EEWorld.EEWorld.TileCheckWater(boatPos) - 22);
             EEMod.progressMessage = "Successful!";
-            noise = new NoiseFunction(new Vector2(400,400),3,0.6f);
-            int[,] noiseFunction = noise.ArrayOfSamples();
-            for (int i = 0; i < noiseFunction.GetLength(0); i++)
-            {
-                for (int j = 0; j < noiseFunction.GetLength(1); j++)
-                {
-                    if(noiseFunction[i, j] == 1)
-                    {
-                        Tile tile = Framing.GetTileSafely(i+42, j+42);
-                        tile.type = TileID.Dirt;
-                    }
-                }
-            }
+            
             //Finishing initialization stuff
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;
