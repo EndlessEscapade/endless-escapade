@@ -33,10 +33,12 @@ namespace EEMod.Items
             item.noUseGraphic = true;
         }
 
-        int yeet;
-        float alpha;
+        public int yeet;
         int proj;
-
+        public override void UpdateInventory(Player player)
+        {
+            yeet = 0;
+        }
         public override void HoldItem(Player player)
         {
             if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI)
@@ -44,6 +46,10 @@ namespace EEMod.Items
                 proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TennisRachetProj>(), 0, 0f, player.whoAmI);
                 yeet = 1;
                 Main.projectile[proj].netUpdate = true;
+            }
+            if(yeet == 1)
+            {
+                yeet = 1;
             }
         }
     }

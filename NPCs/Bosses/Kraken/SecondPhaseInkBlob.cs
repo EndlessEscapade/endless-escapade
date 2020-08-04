@@ -38,6 +38,10 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         int Timer; //I will sync it I swear
         public override void AI()
         {
+            if (Main.npc[(int)projectile.ai[1]].life <= 0)
+            {
+                projectile.Kill();
+            }
             if (projectile.ai[0] == 0)
             {
                 projectile.scale = 0;

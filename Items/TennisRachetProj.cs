@@ -52,6 +52,7 @@ namespace EEMod.Items
         }
         int indexOfProjectile;
         public Vector2 goTo = Main.MouseWorld;
+        public int owner;
         public override void AI()
         {
             if (projectile.ai[1] > 0)
@@ -60,6 +61,11 @@ namespace EEMod.Items
             }
 
             Player player = Main.player[projectile.owner];
+            if(player.inventory[player.selectedItem].type != ModContent.ItemType<TennisRachet>())
+            {
+                projectile.Kill();
+            }
+            
             if (projectile.alpha > 0)
             {
                 projectile.alpha--;

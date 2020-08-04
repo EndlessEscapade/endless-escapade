@@ -80,6 +80,10 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             }
             projectile.ai[0]++;
             projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+            if (Main.npc[(int)projectile.ai[1]].life <= 0)
+            {
+                projectile.Kill();
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -96,6 +100,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                     krakenHead.smolBloons[i] = Vector2.Zero;
                 }
             }
+
             Main.PlaySound(SoundID.Item27, projectile.position);
             for (var i = 0; i < 5; i++)
             {
