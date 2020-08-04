@@ -21,30 +21,16 @@ namespace EEMod.Projectiles.Mage
             projectile.ignoreWater = true;
             projectile.aiStyle = 0;
             projectile.timeLeft = 300;
+            projectile.alpha = 255;
         }
 
         float radius = 0;
         public override void AI()
         {
-            if (projectile.ai[1] != -1)
-            {
-                projectile.Center = Main.projectile[(int)projectile.ai[1]].Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * radius;
-            }
+            projectile.Center = Main.projectile[(int)projectile.ai[1]].Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * radius;
             if(radius < 48)
                 radius++;
             projectile.ai[0] += 0.1f;
-
-            for (int i = 0; i < 180; i += 10)
-            {
-                float xdist = (int)(Math.Sin(Math.Sin(i * (Math.PI / 180))) * 5);
-                float ydist = (int)(Math.Cos(Math.Cos(i * (Math.PI / 180))) * 5);
-                Vector2 offset = new Vector2(xdist, ydist).RotatedBy(projectile.rotation);
-                Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 111, offset * 0.5f);
-                dust.noGravity = true;
-                dust.velocity *= 0.94f;
-                dust.noLight = false;
-                dust.fadeIn = 1f;
-            }
         }
     }
 }

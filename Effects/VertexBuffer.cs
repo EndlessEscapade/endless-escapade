@@ -6,6 +6,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using EEMod.Projectiles.Melee;
+using EEMod.Projectiles.Mage;
 using Terraria.ModLoader;
 
 namespace EEMod.Effects
@@ -27,8 +28,8 @@ namespace EEMod.Effects
 		public void DoTrailCreation(Projectile projectile)
 		{
 			Mod mod = EEMod.instance;
-			if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>()) {
-				CreateTrail(projectile, new StandardColorTrail(new Color(120, 217, 255)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
+			if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>()) {
+				CreateTrail(projectile, new StandardColorTrail(new Color(57, 98, 170)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
 			}
 
 		}

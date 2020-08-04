@@ -12,5 +12,10 @@ namespace EEMod.Buffs.Debuffs
             Description.SetDefault("The water pressure is crushing in");
             Main.buffNoSave[Type] = true;
         }
+
+        public override void Update(Player player, ref int buffIndex)
+        {
+            player.statLife -= 2;
+        }
     }
 }

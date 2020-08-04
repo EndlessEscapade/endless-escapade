@@ -21,6 +21,7 @@ namespace EEMod.Projectiles.Mage
             projectile.ignoreWater = true;
             projectile.aiStyle = 0;
             projectile.timeLeft = 300;
+            projectile.alpha = 255;
         }
 
         bool firstFrame = true;
@@ -51,6 +52,11 @@ namespace EEMod.Projectiles.Mage
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             projectile.velocity = Vector2.Zero;
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            projectile.velocity = Vector2.Zero;
+            return false;
         }
     }
 }
