@@ -30,13 +30,16 @@ namespace EEMod.Items
             item.value = Item.buyPrice(0, 0, 30, 0);
             item.autoReuse = true;
             item.knockBack = 6f;
-            item.UseSound = SoundID.Item11;
             item.crit = 1;
         }
 
         int yeet;
         float alpha;
         int proj;
+        public override void UpdateInventory(Player player)
+        {
+            base.UpdateInventory(player);
+        }
         public override void HoldItem(Player player)
         {
             Main.projectile[proj].ai[0] = alpha;
@@ -45,20 +48,25 @@ namespace EEMod.Items
                 proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Gradient>(), 0, 0f, player.whoAmI);
                 yeet = 1;
             }
-            if (player.controlUseItem)
+            if (yeet == 1)
             {
-                alpha += 0.05f;
-                if (alpha > 1)
+                if (player.controlUseItem)
                 {
-                    alpha = 1;
+                    alpha += 0.05f;
+                    if (alpha > 1)
+                    {
+                        alpha = 1;
+                    }
                 }
-            }
-            else
-            {
-                alpha -= 0.25f;
-                if (alpha < 0)
+                else
                 {
-                    alpha = 0;
+                    alpha -= 0.25f;
+                    if (alpha < 0)
+                    {
+                        alpha = 0;
+                        yeet = 0;
+                        Main.projectile[proj].Kill();
+                    }
                 }
             }
         }

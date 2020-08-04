@@ -102,9 +102,9 @@ namespace EEMod.Projectiles
                 Tile tile = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3];
                 Tile tile2 = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4];
                 if (Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3].active() &&
-                    (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
+                    (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]) ||
                     Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4].active() &&
-                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) &&
+                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type]) &&
                     tile.type != TileID.Trees &&
                     tile2.type != TileID.Trees)
                 {

@@ -45,7 +45,10 @@ namespace EEMod.NPCs.Bosses.Kraken
         Player player;
         public override void AI()
         {
-
+            if(Main.npc[(int)npc.ai[0]].life <= 0)
+            {
+                npc.life = 0;
+            }
             npc.TargetClosest(true);
             player = Main.player[npc.target];
             npc.Center = player.Center - new Vector2(-200, 0);

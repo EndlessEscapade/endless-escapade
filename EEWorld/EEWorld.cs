@@ -206,13 +206,16 @@ namespace EEMod.EEWorld
 
         public static List<Vector2> missingShipTiles = new List<Vector2>();
         public static List<Texture2D> missingShipTilesItems = new List<Texture2D>();
-
+        public static List<Vector2> missingShipTilesRespectedPos = new List<Vector2>();
         public static void ShipComplete()
         {
-
             missingShipTiles.Clear();
-            int ShipTilePosX = (int)(ree.X);
-            int ShipTilePosY = (int)(ree.Y);
+            missingShipTilesItems.Clear();
+            missingShipTilesRespectedPos.Clear();
+            int? nullableReeX = (int)ree.X;
+            int? nullableReeY = (int)ree.Y;
+            int ShipTilePosX = nullableReeX ?? 100;
+            int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 22;
 
             for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
             {
@@ -224,31 +227,54 @@ namespace EEMod.EEWorld
                     {
                         case 1:
                             expectedType = TileID.WoodBlock;
-                            missingShipTilesItems.Add(Main.itemTexture[ItemID.Wood]);
+                            if (tile.type != expectedType && expectedType != -1)
+                            {
+                                missingShipTilesItems.Add(Main.itemTexture[ItemID.Wood]);
+                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                            }
                             break;
                         case 2:
                             expectedType = TileID.RichMahogany;
-                            missingShipTilesItems.Add(Main.itemTexture[ItemID.RichMahogany]);
+                            if (tile.type != expectedType && expectedType != -1)
+                            {
+                                missingShipTilesItems.Add(Main.itemTexture[ItemID.RichMahogany]);
+                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                            }
                             break;
                         case 3:
                             expectedType = TileID.GoldCoinPile;
-                            missingShipTilesItems.Add(Main.itemTexture[ItemID.GoldCoin]);
+                            if (tile.type != expectedType && expectedType != -1)
+                            {
+                                missingShipTilesItems.Add(Main.itemTexture[ItemID.GoldCoin]);
+                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                            }
                             break;
                         case 4:
                             expectedType = TileID.Platforms;
-                            missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodPlatform]);
+                            if (tile.type != expectedType && expectedType != -1)
+                            {
+                                missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodPlatform]);
+                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                            }
                             break;
                         case 5:
                             expectedType = TileID.WoodenBeam;
-                            missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodenBeam]);
+                            if (tile.type != expectedType && expectedType != -1)
+                            {
+                                missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodenBeam]);
+                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                            }
                             break;
                         case 6:
                             expectedType = TileID.SilkRope;
-                            missingShipTilesItems.Add(Main.itemTexture[ItemID.SilkRope]);
+                            if (tile.type != expectedType && expectedType != -1)
+                            {
+                                missingShipTilesItems.Add(Main.itemTexture[ItemID.SilkRope]);
+                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                            }
                             break;
                         default:
                             expectedType = -1;
-                            missingShipTilesItems.Add(ModContent.GetTexture("EEMod/Empty"));
                             break;
                     }
                     if (tile.type != expectedType && expectedType != -1)

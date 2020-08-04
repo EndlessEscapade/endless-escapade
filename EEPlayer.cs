@@ -1129,25 +1129,22 @@ namespace EEMod
             {
                 int lastNoOfShipTiles = EEWorld.EEWorld.missingShipTiles.Count;
                 EEWorld.EEWorld.ShipComplete();
-                if (EEWorld.EEWorld.missingShipTiles.Count != lastNoOfShipTiles)
+                if (EEWorld.EEWorld.missingShipTiles.Count != lastNoOfShipTiles && EEWorld.EEWorld.missingShipTiles.Count > 0)
                 {
                     for (int i = 0; i < 200; i++)
                     {
-                        if (Main.projectile[i].type == ModContent.ProjectileType<WhiteBlock>())
+                        if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
                         {
                             Main.projectile[i].Kill();
                         }
                     }
 
-                    int k = 0;
                     foreach (Vector2 tile in EEWorld.EEWorld.missingShipTiles)
                     {
-                        int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ModContent.ProjectileType<WhiteBlock>(), 0, 0);  // here
+                        int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
                         WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
-                        newProj.itemTexture = EEWorld.EEWorld.missingShipTilesItems[k];
-                        k++;
+                        newProj.itemTexture = EEWorld.EEWorld.missingShipTilesItems[EEWorld.EEWorld.missingShipTilesRespectedPos.IndexOf(tile)];
                     }
-                    Main.NewText(EEWorld.EEWorld.missingShipTiles);
                 }
                 if (Main.netMode == NetmodeID.Server)
                 {
@@ -1188,6 +1185,20 @@ namespace EEMod
                     Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
+                    for (int i = 0; i < 200; i++)
+                    {
+                        if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
+                        {
+                            Main.projectile[i].Kill();
+                        }
+                    }
+
+                    foreach (Vector2 tile in EEWorld.EEWorld.missingShipTiles)
+                    {
+                        int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
+                        WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
+                        newProj.itemTexture = EEWorld.EEWorld.missingShipTilesItems[EEWorld.EEWorld.missingShipTilesRespectedPos.IndexOf(tile)];
+                    }
                 }
                 if (EEWorld.EEWorld.EntracesPosses.Count > 0)
                 {
