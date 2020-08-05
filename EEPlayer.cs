@@ -427,6 +427,7 @@ namespace EEMod
         public int maxPowerLevel = 11;
         public float zipMultiplier = 1;
         public int thermalHealingTimer = 30;
+        public int cannonballType = 0;
         public override void UpdateBiomeVisuals()
         {
             thermalHealingTimer--;
