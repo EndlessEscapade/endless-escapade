@@ -30,7 +30,7 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            float brightness = 0.18f;
+            float brightness = 1;
             projectile.timeLeft = 100;
             projectile.Center = Main.player[projectile.owner].Center + new Vector2(36, 0).RotatedBy(projectile.rotation);
             projectile.rotation = (Main.player[projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + (float)Math.PI;

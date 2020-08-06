@@ -105,7 +105,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         bool thrust = false;
         public bool isRightOrLeft = true;
         bool resetAnim = false;
-        public Vector2 arenaPosition = new Vector2(8000, 19500);
+        public Vector2 arenaPosition = new Vector2((Main.maxTilesX / 2)*16, (Main.maxTilesY / 2 + 400)*16);
         public Vector2[] dashPositions = new Vector2[5];
         public Vector2[] npcFromPositions = new Vector2[5];
         Rectangle seperateFrame = new Rectangle(0, 0, 568, 472);

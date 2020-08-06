@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
+using System;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
@@ -39,9 +40,13 @@ namespace EEMod.Tiles.Furniture.Coral
                 b = 0.05f;
             }
         }
-
+        float kaylerp = 0;
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            Tile tile = Main.tile[i, j];
+            if (tile != null && tile.active() && tile.type == Type)
+            {
+            kaylerp += 0.001f;
             Color color = Color.White;
             Main.tile[i, j].frameX = 17;
             int frameX = Main.tile[i, j].frameX;
@@ -55,9 +60,10 @@ namespace EEMod.Tiles.Furniture.Coral
             {
                 zero = Vector2.Zero;
             }
-            for (int k = 0; k < 7; k++)
-            {
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Coral/GlowHangCoral1Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero, new Rectangle(frameX, frameY, width, height), color, 0f, default, 1f, SpriteEffects.None, 0f);
+                for (int k = 0; k < 7; k++)
+                {
+                    Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Coral/GlowHangCoral1Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero, new Rectangle(frameX, frameY, width, height), color * ((float)Math.Sin(kaylerp) * 0.5f + 0.5f), 0f, default, 1f, SpriteEffects.None, 0f);
+                }
             }
         }
     }

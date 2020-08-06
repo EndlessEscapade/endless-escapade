@@ -160,7 +160,8 @@ namespace EEMod
                 }
                 EEMod.progressMessage = "Genning Rooms";
                 EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, WorldGen.genRand.Next(0, 3), WorldGen.genRand.Next(0, 3), true);
-                Vector2[] chosen = { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero };
+                EEWorld.EEWorld.MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400, 400, -1, WorldGen.genRand.Next(0, 3), false);
+                Vector2[] chosen = { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero };
                 for (int i = 0; i < roomsLeft.Length; i++)
                 {
                     if (chosen[0] == Vector2.Zero || Vector2.Distance(roomsLeft[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) <
@@ -183,12 +184,24 @@ namespace EEMod
                     {
                         chosen[3] = roomsRight[i];
                     }
+                    if (chosen[4] == Vector2.Zero || Vector2.Distance(roomsLeft[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) <
+                       Vector2.Distance(chosen[4], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)))
+                    {
+                        chosen[4] = roomsLeft[i];
+                    }
+                    if (chosen[5] == Vector2.Zero || Vector2.Distance(roomsRight[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) <
+                        Vector2.Distance(chosen[5], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)))
+                    {
+                        chosen[5] = roomsRight[i];
+                    }
                 }
                 EEMod.progressMessage = "Making Wavy Chasms";
                 for (int i = 0; i < 2; i++)
                     EEWorld.EEWorld.MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2), TileID.StoneSlab, 100, 10, true,new Vector2(20,40));
                 for (int i = 2; i < 4; i++)
                     EEWorld.EEWorld.MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
+                for (int i = 4; i < 6; i++)
+                    EEWorld.EEWorld.MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
 
                 if (Main.rand.NextBool())
                 {
