@@ -36,7 +36,7 @@ namespace EEMod.Items
         //NOTE: This will allow the fishing rod to summon multiple Duke Fishrons with multiple Truffle Worms in the inventory
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int bobberAmount = 1;
+            int bobberAmount = 3;
             float spreadAmount = 75f;
             for (int index = 0; index < bobberAmount; ++index)
             {

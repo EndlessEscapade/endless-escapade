@@ -47,8 +47,9 @@ namespace EEMod.Items.Weapons.Ranger
             {
                 Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(22));
 
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, ModContent.ProjectileType<DalantiniumFang>(), damage, knockBack, player.whoAmI);
+                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
             }
+            player.velocity += -Vector2.Normalize(Main.MouseWorld - player.Center) * 8;
             return true;
         }
 
