@@ -1,4 +1,4 @@
-using System;
+/*using System;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -111,3 +111,4 @@ namespace EEMod.Items
         }
     }
 }
+*/

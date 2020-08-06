@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Projectiles.Ranged;
@@ -35,4 +35,4 @@ namespace EEMod.Items
             Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<HockeyStick>(), 0, 0);
         }
     }
-}
+}*/

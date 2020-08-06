@@ -46,7 +46,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
-            Player target = Main.player[npc.target];
+            npc.TargetClosest();
             if (target.WithinRange(npc.Center, 6400))
             {
                 if (npc.ai[1] < 4) { npc.ai[1] *= 1.05f; }

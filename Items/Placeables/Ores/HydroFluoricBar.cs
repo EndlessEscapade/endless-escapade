@@ -5,7 +5,7 @@ using EEMod.Tiles.Ores;
 
 namespace EEMod.Items.Placeables.Ores
 {
-    public class HydroFluoricBar : ModItem
+    public class HydrofluoricBar : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,13 +28,13 @@ namespace EEMod.Items.Placeables.Ores
             item.consumable = true;
             item.material = true;
             item.placeStyle = 0;
-            item.createTile = ModContent.TileType<HydroFluorideBarTile>();
+            item.createTile = ModContent.TileType<HydrofluoricBarTile>();
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydroFluoride>(), 4);
+            recipe.AddIngredient(ModContent.ItemType<HydrofluoricOre>(), 4);
             recipe.AddTile(TileID.AdamantiteForge);
             recipe.SetResult(this);
             recipe.AddRecipe();
