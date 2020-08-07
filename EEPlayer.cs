@@ -27,6 +27,8 @@ using EEMod.NPCs.Friendly;
 using EEMod.Items;
 using EEMod.Buffs.Debuffs;
 using EEMod.Buffs.Buffs;
+using System.Windows.Forms;
+using System.Drawing.Imaging;
 
 namespace EEMod
 {
@@ -428,8 +430,69 @@ namespace EEMod
         public float zipMultiplier = 1;
         public int thermalHealingTimer = 30;
         public int cannonballType = 0;
+        
+     /*   public System.Drawing.Bitmap CaptureFromScreen(System.Drawing.Rectangle rect)
+        {
+            System.Drawing.Bitmap bmpScreenCapture = null;
+
+            if (rect == System.Drawing.Rectangle.Empty)//capture the whole screen
+            {
+                rect = Screen.PrimaryScreen.Bounds;
+            }
+
+            bmpScreenCapture = new System.Drawing.Bitmap(rect.Width, rect.Height);
+
+            System.Drawing.Graphics p = System.Drawing.Graphics.FromImage(bmpScreenCapture);
+
+
+            p.CopyFromScreen(rect.X,
+                     rect.Y,
+                     0, 0,
+                     rect.Size,
+                    System.Drawing.CopyPixelOperation.SourceCopy);
+
+
+            p.Dispose();
+
+            return bmpScreenCapture;
+        }
+        private Texture2D GetTextureSc(GraphicsDevice dev, System.Drawing.Bitmap bmp)
+        {
+            int[] imgData = new int[bmp.Width * bmp.Height];
+            Texture2D texture = new Texture2D(dev, bmp.Width, bmp.Height);
+
+            unsafe
+            {
+                // lock bitmap
+                BitmapData origdata =
+                    bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
+
+                uint* byteData = (uint*)origdata.Scan0;
+
+                // Switch bgra -> rgba
+                for (int i = 0; i < imgData.Length; i++)
+                {
+                    byteData[i] = (byteData[i] & 0x000000ff) << 16 | (byteData[i] & 0x0000FF00) | (byteData[i] & 0x00FF0000) >> 16 | (byteData[i] & 0xFF000000);
+                }
+
+                // copy data
+                System.Runtime.InteropServices.Marshal.Copy(origdata.Scan0, imgData, 0, bmp.Width * bmp.Height);
+
+                byteData = null;
+
+                // unlock bitmap
+                bmp.UnlockBits(origdata);
+            }
+
+            texture.SetData(imgData);
+
+            return texture;
+        }*/
+        public static Texture2D ScTex;
         public override void UpdateBiomeVisuals()
         {
+            //System.Drawing.Bitmap ScreenTexture = CaptureFromScreen(new System.Drawing.Rectangle(0, 0, 1980, 1080));
+           // ScTex = GetTextureSc(Main.graphics.GraphicsDevice, ScreenTexture);
             thermalHealingTimer--;
             if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)
             {

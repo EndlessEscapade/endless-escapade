@@ -281,10 +281,6 @@ namespace EEMod.EEWorld
                     {
                         missingShipTiles.Add(new Vector2(i, j));
                     }
-                    if (expectedType == -1 && tile.active())
-                    {
-                        missingShipTiles.Add(new Vector2(i, j));
-                    }
                 }
             }
 

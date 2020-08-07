@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.EEWorld;
 using System;
-
+using Terraria.ID;
 namespace EEMod.NPCs.CoralReefs
 {
     internal class Nautilus : ModNPC
@@ -52,8 +52,6 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.lavaImmune = false;
             npc.noTileCollide = false;
-            //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
-            npc.spriteDirection = -1;
         }
         private void Move(Player player, float sped, float TR, Vector2 addOn)
         {
@@ -123,11 +121,11 @@ namespace EEMod.NPCs.CoralReefs
             {
                 float rotation = Main.rand.NextFloat((float)Math.PI * 2);
                 for(int i = 0; i<3; i++)
-                Dust.NewDustPerfect(npc.Center + new Vector2(-(float)Math.Sin(npc.ai[0]/30)*100, 0).RotatedBy(rotation), 113, new Vector2((float)Math.Sin(rotation) * 0.4f, (float)Math.Cos(rotation) * 0.4f));
+                Dust.NewDustPerfect(npc.Center + new Vector2(-(float)Math.Sin(npc.ai[0]/30)*100, 0).RotatedBy(rotation), 113, new Vector2((float)Math.Sin(rotation) * 0.4f, (float)Math.Cos(rotation) * 0.4f),255*(int)(npc.velocity.X/10f));
                 if (npc.ai[0] % 10 == 0)
                 {
-                    npc.life += 2; // Добавляем в хп моба урон который должны нанести
-                    npc.HealEffect(2); // Показываем эффект лечения на то хп, которое восстановил моб
+                    npc.life += 2;
+                    npc.HealEffect(2); 
                 }
                 if(npc.lifeMax - npc.life < 20)
                 {
