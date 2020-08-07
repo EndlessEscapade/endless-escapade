@@ -19,7 +19,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
 
-            npc.alpha = 20;
+            npc.alpha = 0;
 
             npc.lifeMax = 550;
             npc.defense = 10;
