@@ -67,4 +67,18 @@ namespace EEMod.Tiles.Furniture.Coral
             }
         }
     }
+
+    public class GlowHangCoral1TE : ModTileEntity
+    {
+        public override bool ValidTile(int i, int j)
+        {
+            Tile tile = Main.tile[i, j];
+            return tile.active() && tile.type == ModContent.TileType<GlowHangCoral1>() && tile.frameX == 0 && tile.frameY == 0;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+        }
+    }
 }
