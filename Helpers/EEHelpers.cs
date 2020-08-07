@@ -70,7 +70,33 @@ namespace EEMod
         {
             return (float)Math.Atan2(v4, v5);
         }
+        public static void Move(NPC npc, Player player, float sped, float TR, Vector2 addOn,bool flip = true,int direction = 1)
+        {
+            Vector2 moveTo = player.Center + addOn;
+            float speed = sped;
+            Vector2 move = moveTo - npc.Center;
+            float magnitude = move.Length(); // (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
+            if (magnitude > speed)
+            {
+                move *= speed / magnitude;
+            }
+            float turnResistance = TR;
 
+            move = (npc.velocity * turnResistance + move) / (turnResistance + 1f);
+            magnitude = move.Length();
+            if (magnitude > speed)
+            {
+                move *= speed / magnitude;
+            }
+            npc.velocity = move;
+            if (flip)
+            {
+                if (npc.velocity.X > 0)
+                    npc.spriteDirection = 1* direction;
+                else
+                    npc.spriteDirection = -1* direction;
+            }
+        }
         public static int ShiftChance(bool boss, bool flag, bool flag2)
         {
             if (boss)

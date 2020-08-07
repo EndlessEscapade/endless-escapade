@@ -44,6 +44,15 @@ namespace EEMod.Tiles
                 WorldGen.KillTile(i, j);
 
         }
+        public override void RandomUpdate(int i, int j)
+        {
+            Tile tile = Framing.GetTileSafely(i, j - 1);
+            if(!tile.active() && Main.rand.Next(4) == 0)
+            {
+                WorldGen.PlaceObject(i, j - 1, ModContent.TileType<KelpTile>());
+                NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<KelpTile>(), 0, 0, -1, -1);
+            }
+        }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             return true;
