@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.EEWorld;
 using System;
+using Terraria.ID;
 
 namespace EEMod.NPCs.CoralReefs
 {

@@ -46,20 +46,20 @@ namespace EEMod.Tiles.Furniture.Coral
             Tile tile = Main.tile[i, j];
             if (tile != null && tile.active() && tile.type == Type)
             {
-            kaylerp += 0.001f;
-            Color color = Color.White;
-            Main.tile[i, j].frameX = 17;
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
-            int width = 20;
-            int offsetY = 2;
-            int height = 20;
-            int offsetX = 2;
-            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-            if (Main.drawToScreen)
-            {
-                zero = Vector2.Zero;
-            }
+                kaylerp += 0.001f;
+                Color color = Color.White;
+                Main.tile[i, j].frameX = 17;
+                int frameX = Main.tile[i, j].frameX;
+                int frameY = Main.tile[i, j].frameY;
+                int width = 20;
+                int offsetY = 2;
+                int height = 20;
+                int offsetX = 2;
+                Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+                if (Main.drawToScreen)
+                {
+                    zero = Vector2.Zero;
+                }
                 for (int k = 0; k < 7; k++)
                 {
                     Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Coral/GlowHangCoral1Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero, new Rectangle(frameX, frameY, width, height), color * ((float)Math.Sin(kaylerp) * 0.5f + 0.5f), 0f, default, 1f, SpriteEffects.None, 0f);
