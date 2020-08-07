@@ -125,7 +125,7 @@ namespace EEMod.NPCs.CoralReefs
                 if (npc.ai[0] % 10 == 0)
                 {
                     npc.life += 2;
-                    npc.HealEffect(2); 
+                    npc.HealEffect(2);
                 }
                 if(npc.lifeMax - npc.life < 20)
                 {
