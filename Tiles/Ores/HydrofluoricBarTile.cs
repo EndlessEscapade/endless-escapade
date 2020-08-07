@@ -7,7 +7,7 @@ using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Tiles.Ores
 {
-    public class NauticBarTile : ModTile
+    public class HydrofluoricBarTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -30,8 +30,7 @@ namespace EEMod.Tiles.Ores
             int style = t.frameX / 18;
             if (style == 0) // It can be useful to share a single tile with multiple styles. This code will let you drop the appropriate bar if you had multiple.
             {
-                Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<HydriteBar>());
-                //Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<NauticBar>());
+                Item.NewItem(i * 16, j * 16, 16, 16, ModContent.ItemType<HydrofluoricBar>());
             }
             return base.Drop(i, j);
         }

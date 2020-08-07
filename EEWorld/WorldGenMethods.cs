@@ -54,7 +54,7 @@ namespace EEMod.EEWorld
             {
                 int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
-                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydroFluorideOreTile>());
+                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydrofluoricOreTile>());
 
                 x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
@@ -2363,17 +2363,6 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void MakeCircle(int size, Vector2 startingPoint, int type, bool forced)
-        {
-            for (int i = 0; i < size; i++)
-            {
-                for (int j = 0; j < size; j++)
-                {
-                    if (Vector2.Distance(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < size*0.5f) 
-                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
-                }
-            }
-        }
         public static void MakeJaggedOval(int width, int height, Vector2 startingPoint, int type, bool forced)
         {
             for (int i = 0; i < width; i++)
@@ -2381,7 +2370,7 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
-                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
 
                     if (i == width / 2 && j == height / 2)
                     {
@@ -2437,58 +2426,38 @@ namespace EEMod.EEWorld
         {
             int sizeX = size;
             int sizeY = size / 2;
-            Vector2 TL = new Vector2(xPos - sizeX / 2f, yPos - sizeY / 2f);
-            Vector2 BR = new Vector2(xPos + sizeX / 2f, yPos + sizeY / 2f);
-            
+            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
+            /*for (int k = 0; k < maxTiles * 60; k++)
+            {
+                int x = WorldGen.genRand.Next(xPos - (size * 2), xPos + (size * 2));
+                int y = WorldGen.genRand.Next(yPos - (size * 2), yPos + (size * 2));
+                if (OvalCheck(xPos, yPos, x, y, size * 2, size))
+                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+            }*/
+            MakeJaggedOval(sizeX, sizeY, new Vector2(xPos - sizeX / 2f, yPos - sizeY / 2f), TileID.StoneSlab, true);
+            perlinNoise = new PerlinNoiseFunction(1000, 1000, 50, 20,0.5f);
+            int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
             Vector2 startingPoint = new Vector2(xPos - sizeX, yPos - sizeY);
-            int tile2;
-            if (TL.Y < Main.maxTilesY * 0.33f)
+            if (ensureNoise)
             {
-                tile2 = (ushort)ModContent.TileType<LightGemsandTile>();
-            }
-            else if (TL.Y < Main.maxTilesY * 0.66f)
-            {
-                tile2 = (ushort)ModContent.TileType<GemsandTile>();
-            }
-            else
-            {
-                tile2 = (ushort)ModContent.TileType<DarkGemsandTile>();
-            }
-            if (TL.Y < Main.maxTilesY/10)
-            {
-                tile2 = (ushort)ModContent.TileType<CoralSand>();
-            }
-            void CreateNoise(bool ensureN, int width,int height,float thresh)
-            {
-                perlinNoise = new PerlinNoiseFunction(1000, 1000, width, height, thresh);
-                int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
-                if (ensureN)
+                for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                 {
-                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                    for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                     {
-                        for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                        if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY))
                         {
-                            if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY))
+                            Tile tile = Framing.GetTileSafely(i, j);
+                            if (j < Main.maxTilesY * 0.33f)
                             {
-                                Tile tile = Framing.GetTileSafely(i, j);
-                                if (j < Main.maxTilesY * 0.33f)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
-                                }
-                                else if (j < Main.maxTilesY * 0.66f)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<GemsandTile>();
-                                }
-                                else if(j > Main.maxTilesY * 0.66f)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
-                                }
-                                
-                                if(j < Main.maxTilesY/10)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<CoralSand>();
-                                }
-
+                                tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
+                            }
+                            else if (j < Main.maxTilesY * 0.66f)
+                            {
+                                tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                            }
+                            else
+                            {
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                             }
                         }
                     }
@@ -2497,62 +2466,25 @@ namespace EEMod.EEWorld
             RemoveStoneSlabs();
             switch (type)
             {
-                case -1:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(0, 0), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5 - sizeX / 6, -sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5 - sizeX / 6, -sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5 - sizeX / 6, sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5 - sizeX / 6, sizeY / 5 - sizeY / 6), tile2);
-                    break;
                 case 0:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(0,0), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX/5, -sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5, -sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5, sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5, sizeY / 5), tile2);
-                    CreateNoise(!ensureNoise, 100, 10, 0.45f);
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.25f) + xPos - (sizeX / 20f), (sizeY * 0.25f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY * 0.25f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.33f) + xPos - (sizeX / 20f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.66f) + xPos - (sizeX / 20f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.25f) + xPos - (sizeX / 20f), (sizeY * 0.75f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2((sizeX * 0.75f) + xPos - (sizeX / 20f), (sizeY * 0.75f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
                     break;
                 case 1:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    CreateNoise(!ensureNoise, 20, 200, 0.5f);
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX * 0.5f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
+                    MakeOvalFlatTop(sizeX / 10, sizeY / 10, new Vector2(xPos - (sizeX * 0.5f), (sizeY * 0.5f) + yPos) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>());
                     break;
                 case 2:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    CreateNoise(!ensureNoise, 200, 20, 0.5f);
+                    MakeOval(sizeX / 10, sizeY / 10, new Vector2(sizeX / 2 - sizeX / 10, sizeY / 2 - sizeY / 10) - new Vector2(sizeX / 2, sizeY / 2), ModContent.TileType<GemsandTile>(), true);
                     break;
                 case 3:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeWavyChasm3(new Vector2(TL.X - 50 + Main.rand.Next(-30,30), TL.Y - 10), new Vector2(BR.X - 50 + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10,13),50,20);
-                    MakeWavyChasm3(new Vector2(TL.X + 50 + Main.rand.Next(-30, 30),yPos + 10) , new Vector2(BR.X + 50 + Main.rand.Next(-30, 30), yPos + 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + Main.rand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + Main.rand.Next(-100, 100), TL.Y - 10), new Vector2(BR.X + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + Main.rand.Next(-100, 100), yPos - 10), new Vector2(BR.X + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    break;
-                case 4:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    for(int i = 0; i<20; i++)
-                    MakeCircle(WorldGen.genRand.Next(5,20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX),TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
-                    break;
-                case 5:
-                    MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true);
-                    MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX*0.4f, yPos - sizeY*0.8f), tile2, true);
-                    MakeJaggedOval(sizeX/10, sizeY/5, new Vector2(xPos - sizeX/20, yPos - sizeY/10), TileID.StoneSlab, true);
-                    for (int i = 0; i < 30; i++)
-                        MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY*2)), TileID.StoneSlab, true);
-                    break;
-                case 6:
-                    MakeJaggedOval((int)(sizeX*1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeWavyChasm3(new Vector2(TL.X - 50 + Main.rand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X - 50 + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + 50 + Main.rand.Next(-30, 30), yPos + 10), new Vector2(BR.X + 50 + Main.rand.Next(-30, 30), yPos + 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + Main.rand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + Main.rand.Next(-100, 100), TL.Y - 10), new Vector2(BR.X + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + Main.rand.Next(-100, 100), yPos - 10), new Vector2(BR.X + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    CreateNoise(true, 100, 20, 0.2f);
+                    //MakeWavyChasm3()
                     break;
             }
-            CreateNoise(ensureNoise,50,20,0.5f);
             for (int i = -20; i < sizeX + 20; i++)
             {
                 for (int j = -20; j < sizeY + 20; j++)
@@ -2722,7 +2654,7 @@ namespace EEMod.EEWorld
                 {
                     if (TileCheck2((int)i, (int)j) == 1 && !WorldGen.genRand.NextBool(5))
                     {
-                        int selection = WorldGen.genRand.Next(7);
+                        int selection = WorldGen.genRand.Next(6);
                         switch (selection)
                         {
                             case 0:
@@ -2742,9 +2674,6 @@ namespace EEMod.EEWorld
                                 break;
                             case 5:
                                 WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral6>());
-                                break;
-                            case 6:
-                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<GlowHangCoral1>());
                                 break;
                         }
                     }
@@ -2924,17 +2853,16 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(10, 12), type, true, 0f, 0f, true, Override);
             }
         }
-        public static void MakeWavyChasm3(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override,Vector2 stepBounds,int waveInvolvment = 0,float frequency = 5, bool withBranches = false, int branchFrequency = 0, int lengthOfBranches = 0)
+        public static void MakeWavyChasm3(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override)
         {
             for (int i = 0; i < accuracy; i++)
             {
                 // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
                 float perc = i / (float)accuracy;
-                Vector2 currentPos = new Vector2(position1.X + (perc * (position2.X - position1.X)), position1.Y + (perc * (position2.Y - position1.Y)));
-                WorldGen.TileRunner((int)currentPos.X + (int)(Math.Sin(i / frequency) * waveInvolvment), 
-                    (int)currentPos.Y,
+                WorldGen.TileRunner((int)(position1.X + (perc * (position2.X - position1.X))), 
+                    (int)(position1.Y + (perc * (position2.Y - position1.Y))),
                     WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), 
-                    WorldGen.genRand.Next((int)stepBounds.X, (int)stepBounds.Y),
+                    WorldGen.genRand.Next(20, 40),
                     type,
                     true,
                     0f,
@@ -2942,26 +2870,6 @@ namespace EEMod.EEWorld
                     true,
                     Override)
                     ;
-                if (withBranches)
-                {
-                    if (i % branchFrequency == 0 && WorldGen.genRand.Next(2) == 0)
-                    {
-                        
-                        int Side = Main.rand.Next(0, 2);
-                        if (Side == 0)
-                        {
-                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy((float)Math.PI / 2 + Main.rand.NextFloat(-0.3f,0.3f));
-                            //int ChanceForRecursion = Main.rand.Next(0, 4);
-                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 10, true, new Vector2(0, 5), 2, 5, true, 50, (int)(lengthOfBranches*0.5f));
-                        }
-                        if (Side == 1)
-                        {
-                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(-(float)Math.PI / 2);
-                            //int ChanceForRecursion = Main.rand.Next(0, 4);
-                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 10, true, new Vector2(0, 5), 7, 5, true, 50, (int)(lengthOfBranches * 0.5f));
-                        }
-                    }
-                }
             }
         }
         public static int TileCheck(int positionX, int type)

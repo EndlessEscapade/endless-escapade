@@ -46,8 +46,15 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
-            npc.TargetClosest();
-            if (target.WithinRange(npc.Center, 6400))
+            Vector2 closestPlayer = new Vector2();
+            for (int i = 0; i < Main.player.Length; i++)
+            {
+                if (Vector2.Distance(Main.player[i].Center, npc.Center) <= Vector2.Distance(closestPlayer, npc.Center))
+                {
+                    closestPlayer = Main.player[i].Center;
+                }
+            }
+            if (Vector2.Distance(closestPlayer, npc.Center) <= 640)
             {
                 if (npc.ai[1] < 4) { npc.ai[1] *= 1.05f; }
             }
@@ -55,7 +62,7 @@ namespace EEMod.NPCs.CoralReefs
             {
                 npc.ai[1] *= 0.95f;
             }
-            npc.velocity = Vector2.Normalize(target.Center - npc.Center) * npc.ai[1];
+            npc.velocity = Vector2.Normalize(closestPlayer - npc.Center) * npc.ai[1];
             npc.rotation = npc.velocity.ToRotation();
         }
     }

@@ -1,13 +1,12 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Dusts;
 using EEMod.Items.Placeables.Ores;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Tiles.Ores
 {
-    public class NauticOreTile : ModTile
+    public class HydrofluoricOreTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -21,17 +20,15 @@ namespace EEMod.Tiles.Ores
             Main.tileBlockLight[Type] = true;
 
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Nautic");
-            AddMapEntry(new Color(152, 171, 198), name);
+            name.SetDefault("Hydrofluoride");
+            AddMapEntry(new Color(78, 207, 96), name);
 
-            dustType = ModContent.DustType<HydriteOreDust>();
-            drop = ModContent.ItemType<HydriteOre>();
-            //dustType = ModContent.DustType<NauticOreDust>();
-            //  drop = ModContent.ItemType<NauticOre>();
+            dustType = 84;
+            drop = ModContent.ItemType<HydrofluoricOre>();
             soundType = SoundID.Tink;
             soundStyle = 1;
             mineResist = 1f;
-            minPick = 100;
+            minPick = 120;
         }
 
         public override bool CanExplode(int i, int j)

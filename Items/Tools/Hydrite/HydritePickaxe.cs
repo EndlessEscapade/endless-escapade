@@ -32,7 +32,7 @@ namespace EEMod.Items.Tools.Hydrite
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<HydriteBar>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

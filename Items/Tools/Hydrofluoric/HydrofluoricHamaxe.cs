@@ -33,7 +33,7 @@ namespace EEMod.Items.Tools.Hydrofluoric
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 12);
+            recipe.AddIngredient(ModContent.ItemType<HydrofluoricBar>(), 12);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
