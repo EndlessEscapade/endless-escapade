@@ -25,6 +25,7 @@ namespace EEMod
         {
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
             IL.Terraria.Main.DrawBackground += Main_DrawBackground;
+            IL.Terraria.NPC.AI_001_Slimes += Practice;
             IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
             On.Terraria.Main.DoUpdate += OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
@@ -33,6 +34,24 @@ namespace EEMod
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
             TrailManager = new TrailManager(this);
+        }
+
+        private void Practice(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(i => i.MatchLdloc(12),
+                i => i.MatchLdcR4(200),
+                i => i.MatchBneUn(out _),
+                i => i.MatchBneUn(out _),
+                i => i.MatchStfld(typeof(Vector2).GetField("X"))))
+                return;
+
+            c.Emit(OpCodes.Ldarg_0);
+            c.EmitDelegate<Action<NPC>>(npc =>
+            {
+                npc.velocity.Y = -10;
+            });
+            throw new Exception("Couldn't find local variable 19 loading");
         }
 
         private void UnloadIL()
@@ -45,6 +64,7 @@ namespace EEMod
             On.Terraria.Main.Draw -= OnDrawMenu;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
+            IL.Terraria.NPC.AI_001_Slimes -= Practice;
             TrailManager = null;
         }
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
