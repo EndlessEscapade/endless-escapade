@@ -350,7 +350,7 @@ namespace EEMod
             }
 
             EEWorld.EEWorld.PlaceShip(50, 150, EEWorld.EEWorld.ShipTiles);
-            EEWorld.EEWorld.PlaceShipWalls(50, 143, EEWorld.EEWorld.ShipWalls);
+            EEWorld.EEWorld.PlaceShipWalls(50, 145, EEWorld.EEWorld.ShipWalls);
 
             WorldGen.AddTrees();
 
@@ -423,7 +423,7 @@ namespace EEMod
             }
 
             EEWorld.EEWorld.PlaceShip(50, 150, EEWorld.EEWorld.ShipTiles);
-            EEWorld.EEWorld.PlaceShipWalls(50, 143, EEWorld.EEWorld.ShipWalls);
+            EEWorld.EEWorld.PlaceShipWalls(50, 145, EEWorld.EEWorld.ShipWalls);
 
             WorldGen.AddTrees();
 

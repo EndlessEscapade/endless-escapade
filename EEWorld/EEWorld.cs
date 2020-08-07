@@ -38,7 +38,7 @@ namespace EEMod.EEWorld
         public override void Initialize()
         {
             eocFlag = NPC.downedBoss1;
-            ree = new Vector2(100, TileCheckWater(100) - 22);
+            //ree = new Vector2(100, TileCheckWater(100) - 23);
             if (EntracesPosses.Count > 0)
                 yes = EntracesPosses[0];
         }
@@ -215,7 +215,7 @@ namespace EEMod.EEWorld
             int? nullableReeX = (int)ree.X;
             int? nullableReeY = (int)ree.Y;
             int ShipTilePosX = nullableReeX ?? 100;
-            int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 22;
+            int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 23;
 
             for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
             {

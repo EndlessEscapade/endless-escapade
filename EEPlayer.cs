@@ -1190,7 +1190,7 @@ namespace EEMod
             {
                 int lastNoOfShipTiles = EEWorld.EEWorld.missingShipTiles.Count;
                 EEWorld.EEWorld.ShipComplete();
-                if (EEWorld.EEWorld.missingShipTiles.Count != lastNoOfShipTiles && EEWorld.EEWorld.missingShipTiles.Count > 0)
+                if (EEWorld.EEWorld.missingShipTiles.Count != lastNoOfShipTiles)
                 {
                     for (int i = 0; i < 200; i++)
                     {
@@ -1443,7 +1443,6 @@ namespace EEMod
 
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
-
             if (isQuartzRangedOn && proj.ranged)
             {
                 if (crit)

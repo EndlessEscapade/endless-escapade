@@ -1958,9 +1958,7 @@ namespace EEMod.EEWorld
         public static void DoAndAssignShipValues()
         {
             PlaceShip(100, TileCheckWater(100) - 22, ShipTiles);
-            PlaceShipWalls(100, TileCheckWater(100) - 22, ShipWalls);
-            //GenerateStructure(100, TileCheck(100) - 22, ShipTiles, new int[]{ TileID.WoodBlock, TileID.RichMahogany, TileID.GoldCoinPile, TileID.Platforms, TileID.WoodenBeam, TileID.SilkRope}, new int[] { 0, 28, 0, 0, 0, 26 }, ShipWalls, new int[] { WallID.Cloud, WallID.RichMahoganyFence, WallID.Cloud, WallID.Wood }, new int[] { 0, 28, 29, 0 });
-            ree = new Vector2(100, TileCheckWater(100) - 22);
+            PlaceShipWalls(100, TileCheckWater(100) - 27, ShipWalls);
         }
         public static int TileCheckWater(int positionX)
         {
