@@ -101,8 +101,8 @@ namespace EEMod.NPCs.CoralReefs
             {
                 if (npc.ai[0] <= 200)
                 {
-                    npc.velocity.X = (float)Math.Sin(npc.ai[0] / 10) * 2;
-                    npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 10) * 2;
+                    npc.velocity.X = (float)Math.Sin(npc.ai[0] / 10) * 16;
+                    npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 10) * 16;
                     Dust.NewDustPerfect(npc.Center, 113, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat((float)Math.PI*2)));
                 }
                 else
@@ -127,8 +127,8 @@ namespace EEMod.NPCs.CoralReefs
                 Dust.NewDustPerfect(npc.Center + new Vector2(-(float)Math.Sin(npc.ai[0]/30)*100, 0).RotatedBy(rotation), 113, new Vector2((float)Math.Sin(rotation) * 0.4f, (float)Math.Cos(rotation) * 0.4f));
                 if (npc.ai[0] % 10 == 0)
                 {
-                    npc.life += 2; // Добавляем в хп моба урон который должны нанести
-                    npc.HealEffect(2); // Показываем эффект лечения на то хп, которое восстановил моб
+                    npc.life += 2;
+                    npc.HealEffect(2);
                 }
                 if(npc.lifeMax - npc.life < 20)
                 {

@@ -41,11 +41,11 @@ namespace EEMod.Projectiles.Mage
 
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 15; i++)
             {
-                Projectile.NewProjectile(projectile.position, new Vector2(Main.rand.Next(-1, 2), Main.rand.Next(-1, 2)), ModContent.ProjectileType<InkCloud>(), 1, 280);
+                Projectile.NewProjectile(projectile.position, new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5)), ModContent.ProjectileType<InkCloud>(), 1, 280);
             }
-            Main.PlaySound(SoundID.Item30);
+            Main.PlaySound(SoundID.Item1);
         }
     }
 }
