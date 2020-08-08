@@ -8,10 +8,11 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using EEMod.Items.Placeables.Furniture.Atlantis;
 
-namespace EEMod.Items.Placeables.Furniture
+namespace EEMod.Tiles.Furniture.Atlantis
 {
-    public class AtlanteanChest : ModTile
+    public class AtlanteanChestTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -39,7 +40,7 @@ namespace EEMod.Items.Placeables.Furniture
             dustType = 0;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
-            chestDrop = ModContent.ItemType<AtlanteanChestTile>();
+            chestDrop = ModContent.ItemType<AtlanteanChest>();
             chest = "Briar Chest";
         }
 
@@ -176,7 +177,7 @@ namespace EEMod.Items.Placeables.Furniture
                 player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Atlantean Chest";
                 if (player.showItemIconText == "Atlantean Chest")
                 {
-                    player.showItemIcon2 = ModContent.ItemType<AtlanteanChestTile>();
+                    player.showItemIcon2 = ModContent.ItemType<AtlanteanChest>();
                     player.showItemIconText = "";
                 }
             }
