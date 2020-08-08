@@ -123,10 +123,10 @@ namespace EEMod.NPCs
             if (npc.ai[0] == 0)
                 npc.ai[1] = 1;
             npc.ai[0]++;
-            if(npc.ai[0] % 180 == 0 && OnGround())
+            if (npc.ai[0] % 180 == 0 && OnGround())
             {
                 npc.velocity.Y -= 5;
-                if(isColliding())
+                if (isColliding())
                 {
                     if (npc.ai[1] == -1)
                     {
@@ -188,7 +188,7 @@ namespace EEMod.NPCs
                 npc.frameCounter = 0;
                 npc.frame.Y = npc.frame.Y + (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]);
             }
-            if (npc.frame.Y >= (Main.npcTexture[npc.type].Height/ Main.npcFrameCount[npc.type]) * (Main.npcFrameCount[npc.type] - 1))
+            if (npc.frame.Y >= (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]) * (Main.npcFrameCount[npc.type] - 1))
             {
                 npc.frame.Y = 0;
                 return;
@@ -196,8 +196,8 @@ namespace EEMod.NPCs
         }
         public override void FindFrame(int frameHeight)
         {
-            
-            
+
+
         }
     }
 }

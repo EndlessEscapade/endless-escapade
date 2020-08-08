@@ -216,70 +216,77 @@ namespace EEMod.EEWorld
             int? nullableReeY = (int)ree.Y;
             int ShipTilePosX = nullableReeX ?? 100;
             int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 23;
-
+            if(ree == Vector2.Zero)
+            {
+                ShipTilePosX = 100;
+                ShipTilePosY = TileCheckWater(100) - 23;
+            }
             for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
             {
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
                 {
-                    Tile tile = Framing.GetTileSafely(i - 3, j - 6);
-                    int expectedType;
-                    switch (ShipTiles[j - ShipTilePosY, i - ShipTilePosX])
+                    if (WorldGen.InWorld(i - 3, i - 6))
                     {
-                        case 1:
-                            expectedType = TileID.WoodBlock;
-                            if (tile.type != expectedType && expectedType != -1)
-                            {
-                                missingShipTilesItems.Add(Main.itemTexture[ItemID.Wood]);
-                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
-                            }
-                            break;
-                        case 2:
-                            expectedType = TileID.RichMahogany;
-                            if (tile.type != expectedType && expectedType != -1)
-                            {
-                                missingShipTilesItems.Add(Main.itemTexture[ItemID.RichMahogany]);
-                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
-                            }
-                            break;
-                        case 3:
-                            expectedType = TileID.GoldCoinPile;
-                            if (tile.type != expectedType && expectedType != -1)
-                            {
-                                missingShipTilesItems.Add(Main.itemTexture[ItemID.GoldCoin]);
-                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
-                            }
-                            break;
-                        case 4:
-                            expectedType = TileID.Platforms;
-                            if (tile.type != expectedType && expectedType != -1)
-                            {
-                                missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodPlatform]);
-                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
-                            }
-                            break;
-                        case 5:
-                            expectedType = TileID.WoodenBeam;
-                            if (tile.type != expectedType && expectedType != -1)
-                            {
-                                missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodenBeam]);
-                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
-                            }
-                            break;
-                        case 6:
-                            expectedType = TileID.SilkRope;
-                            if (tile.type != expectedType && expectedType != -1)
-                            {
-                                missingShipTilesItems.Add(Main.itemTexture[ItemID.SilkRope]);
-                                missingShipTilesRespectedPos.Add(new Vector2(i, j));
-                            }
-                            break;
-                        default:
-                            expectedType = -1;
-                            break;
-                    }
-                    if (tile.type != expectedType && expectedType != -1)
-                    {
-                        missingShipTiles.Add(new Vector2(i, j));
+                        Tile tile = Framing.GetTileSafely(i - 3, j - 6);
+                        int expectedType;
+                        switch (ShipTiles[j - ShipTilePosY, i - ShipTilePosX])
+                        {
+                            case 1:
+                                expectedType = TileID.WoodBlock;
+                                if (tile.type != expectedType && expectedType != -1)
+                                {
+                                    missingShipTilesItems.Add(Main.itemTexture[ItemID.Wood]);
+                                    missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                                }
+                                break;
+                            case 2:
+                                expectedType = TileID.RichMahogany;
+                                if (tile.type != expectedType && expectedType != -1)
+                                {
+                                    missingShipTilesItems.Add(Main.itemTexture[ItemID.RichMahogany]);
+                                    missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                                }
+                                break;
+                            case 3:
+                                expectedType = TileID.GoldCoinPile;
+                                if (tile.type != expectedType && expectedType != -1)
+                                {
+                                    missingShipTilesItems.Add(Main.itemTexture[ItemID.GoldCoin]);
+                                    missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                                }
+                                break;
+                            case 4:
+                                expectedType = TileID.Platforms;
+                                if (tile.type != expectedType && expectedType != -1)
+                                {
+                                    missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodPlatform]);
+                                    missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                                }
+                                break;
+                            case 5:
+                                expectedType = TileID.WoodenBeam;
+                                if (tile.type != expectedType && expectedType != -1)
+                                {
+                                    missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodenBeam]);
+                                    missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                                }
+                                break;
+                            case 6:
+                                expectedType = TileID.SilkRope;
+                                if (tile.type != expectedType && expectedType != -1)
+                                {
+                                    missingShipTilesItems.Add(Main.itemTexture[ItemID.SilkRope]);
+                                    missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                                }
+                                break;
+                            default:
+                                expectedType = -1;
+                                break;
+                        }
+                        if (tile.type != expectedType && expectedType != -1)
+                        {
+                            missingShipTiles.Add(new Vector2(i, j));
+                        }
                     }
                 }
             }

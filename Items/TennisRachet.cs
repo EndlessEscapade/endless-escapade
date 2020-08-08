@@ -47,7 +47,7 @@ namespace EEMod.Items
                 yeet = 1;
                 Main.projectile[proj].netUpdate = true;
             }
-            if(yeet == 1)
+            if (yeet == 1)
             {
                 yeet = 1;
             }

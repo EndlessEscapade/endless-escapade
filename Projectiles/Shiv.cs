@@ -23,7 +23,7 @@ namespace EEMod.Projectiles
 
         public float damageMultiplier = 1;
 
-        public virtual List<int> exclude => new List<int> {};
+        public virtual List<int> exclude => new List<int> { };
         public float xDis;
         public override void AI()
         {
@@ -38,10 +38,10 @@ namespace EEMod.Projectiles
             projectile.direction = projOwner.direction;
             projOwner.heldProj = projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            if(projectile.ai[0] != 4)
-            { 
-            projectile.position.X = projOwner.Center.X - projectile.width / 2;
-            projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
+            if (projectile.ai[0] != 4)
+            {
+                projectile.position.X = projOwner.Center.X - projectile.width / 2;
+                projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
             }
             if (projectile.ai[0] == 0) //schpeen
             {
@@ -49,7 +49,7 @@ namespace EEMod.Projectiles
             }
             if (projectile.ai[0] == 1) //schtab
             {
-                projectile.rotation = (float)Math.PI/4 + Main.rand.NextFloat(-0.2f,0.2f) + (Main.MouseWorld - projOwner.Center).ToRotation();
+                projectile.rotation = (float)Math.PI / 4 + Main.rand.NextFloat(-0.2f, 0.2f) + (Main.MouseWorld - projOwner.Center).ToRotation();
                 float percentageX = (float)Math.Sin(projectile.rotation);
                 float percentageY = (float)Math.Cos(projectile.rotation);
                 projectile.position.X += projOwner.itemAnimation % (projOwner.itemAnimationMax / 5) * percentageX;
@@ -87,13 +87,13 @@ namespace EEMod.Projectiles
                         projectile.position.X += xDis;
                     }
                 }
-                
+
             }
             if (projectile.ai[0] == 3) //crasche
             {
-                
+
                 projectile.rotation = -(float)Math.PI / 4;
-                if(perc > 0.9f)
+                if (perc > 0.9f)
                 {
                     projectile.alpha = 255;
                 }
@@ -101,9 +101,9 @@ namespace EEMod.Projectiles
                 {
                     projectile.alpha -= 3;
                 }
-                if(perc > 0.5f)
+                if (perc > 0.5f)
                 {
-                    xDis += (200 - xDis)/16f;
+                    xDis += (200 - xDis) / 16f;
                     projectile.position.Y -= xDis;
                 }
                 else
@@ -163,7 +163,7 @@ namespace EEMod.Projectiles
                 {
                     goTo = projOwner.Center + new Vector2(0, 50);
                 }
-                projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect);projectile.rotation += projectile.velocity.X / 16f;
+                projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect); projectile.rotation += projectile.velocity.X / 16f;
                 projectile.rotation += projectile.velocity.X / 128f;
             }
             if (projectile.ai[0] == 5) //across da skrene
@@ -178,13 +178,13 @@ namespace EEMod.Projectiles
                 {
                     projOwner.velocity.Y -= 2f;
                 }
-                else if(perc < 0.5f)
+                else if (perc < 0.5f)
                 {
                     Vector2 tilePos = projOwner.position / 16f;
                     Tile tile = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3];
                     Tile tile2 = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4];
                     projOwner.velocity.Y += 2f;
-                    projectile.rotation += (-(float)Math.PI/4 - projectile.rotation) / 4f;
+                    projectile.rotation += (-(float)Math.PI / 4 - projectile.rotation) / 4f;
                     if (Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3].active() &&
                     (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
                     Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4].active() &&
@@ -197,18 +197,18 @@ namespace EEMod.Projectiles
                             projectile.width = 1000;
                             projectile.height = 1000;
                             projectile.alpha = 255;
-                       
-                        Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 16f, true, false, (int)(shakeIntensity * damageMultiplier));
-                        for (var i = 0; i < 10; i++)
-                        {
-                            int num = Dust.NewDust(projOwner.Center + new Vector2((i * 10) - 50, projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, -Math.Abs(i - 10) * 0.5f, 6, default, 0.7f);
-                            Main.dust[num].noGravity = false;
-                            Main.dust[num].velocity.X *= 0.7f;
-                            Main.dust[num].noLight = false;
-                        }
+
+                            Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 16f, true, false, (int)(shakeIntensity * damageMultiplier));
+                            for (var i = 0; i < 10; i++)
+                            {
+                                int num = Dust.NewDust(projOwner.Center + new Vector2((i * 10) - 50, projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, -Math.Abs(i - 10) * 0.5f, 6, default, 0.7f);
+                                Main.dust[num].noGravity = false;
+                                Main.dust[num].velocity.X *= 0.7f;
+                                Main.dust[num].noLight = false;
+                            }
                         }
                     }
-               }
+                }
             }
             if (projOwner.itemAnimation <= 1)
             {

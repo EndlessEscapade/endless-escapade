@@ -19,7 +19,7 @@ namespace EEMod.Tiles.Furniture.Coral
             TileObjectData.newTile.CopyFrom(TileObjectData.Style4x2);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.Origin = new Point16(0,0);
+            TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Wide Bulbous Coral");

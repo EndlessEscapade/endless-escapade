@@ -61,11 +61,11 @@ namespace EEMod.Items
             }
 
             Player player = Main.player[projectile.owner];
-            if(player.inventory[player.selectedItem].type != ModContent.ItemType<TennisRachet>())
+            if (player.inventory[player.selectedItem].type != ModContent.ItemType<TennisRachet>())
             {
                 projectile.Kill();
             }
-            
+
             if (projectile.alpha > 0)
             {
                 projectile.alpha--;

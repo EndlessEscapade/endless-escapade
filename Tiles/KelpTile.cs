@@ -29,7 +29,7 @@ namespace EEMod.Tiles
             minPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] {ModContent.TileType<GemsandTile>(), ModContent.TileType<KelpTile>(), ModContent.TileType<LightGemsandTile>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<KelpTile>(), ModContent.TileType<LightGemsandTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
         }
@@ -47,7 +47,7 @@ namespace EEMod.Tiles
         public override void RandomUpdate(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j - 1);
-            if(!tile.active() && Main.rand.Next(4) == 0)
+            if (!tile.active() && Main.rand.Next(4) == 0)
             {
                 WorldGen.PlaceObject(i, j - 1, ModContent.TileType<KelpTile>());
                 NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<KelpTile>(), 0, 0, -1, -1);

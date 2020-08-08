@@ -34,7 +34,7 @@ namespace EEMod.Projectiles.Ranged
         int bubol = 0;
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI/2;
+            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
             projectile.velocity.Y += projectile.ai[0];
             if (projectile.ai[1] == 1)
             {
@@ -53,12 +53,12 @@ namespace EEMod.Projectiles.Ranged
             }
 
             bubol++;
-            if(bubol >= 10)
+            if (bubol >= 10)
             {
                 Projectile.NewProjectile(projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: projectile.owner);
                 bubol = 0;
             }
-            
+
         }
         public override void Kill(int timeLeft)
         {

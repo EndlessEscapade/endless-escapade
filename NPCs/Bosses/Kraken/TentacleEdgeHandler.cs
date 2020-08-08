@@ -45,7 +45,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         Player player;
         public override void AI()
         {
-            if(Main.npc[(int)npc.ai[0]].life <= 0)
+            if (Main.npc[(int)npc.ai[0]].life <= 0)
             {
                 npc.life = 0;
             }

@@ -35,8 +35,8 @@ namespace EEMod.Projectiles.Ranged
         {
             for (int i = 0; i < 360; i += 10)
             {
-                float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * Math.Cos(i/10)*20);
-                float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * Math.Sin(i/10)*20);
+                float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * Math.Cos(i / 10) * 20);
+                float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * Math.Sin(i / 10) * 20);
                 Vector2 offset = new Vector2(xdist, ydist).RotatedBy(projectile.rotation);
                 Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 111, offset * 0.5f);
                 dust.noGravity = true;

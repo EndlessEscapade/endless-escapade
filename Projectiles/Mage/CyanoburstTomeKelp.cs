@@ -30,7 +30,7 @@ namespace EEMod.Projectiles.Mage
         NPC chosenTarget;
         public void DrawBehind()
         {
-            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, new Rectangle(0, projectile.height*projectile.frame,projectile.width,projectile.height), Color.White, projectile.rotation, new Rectangle(0, projectile.height * projectile.frame, projectile.width, projectile.height).Size()/2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, new Rectangle(0, projectile.height * projectile.frame, projectile.width, projectile.height), Color.White, projectile.rotation, new Rectangle(0, projectile.height * projectile.frame, projectile.width, projectile.height).Size() / 2, 1, SpriteEffects.None, 0);
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
@@ -43,9 +43,9 @@ namespace EEMod.Projectiles.Mage
         {
             if (chosenTarget != null)
             {
-                chosenTarget.Center = projectile.Center + new Vector2(0,-16);
+                chosenTarget.Center = projectile.Center + new Vector2(0, -16);
             }
-            Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 100)),DustID.GreenBlood);
+            Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 100)), DustID.GreenBlood);
             projectile.frameCounter++;
             if (projectile.frameCounter > 8 && projectile.frame < 7)
             {

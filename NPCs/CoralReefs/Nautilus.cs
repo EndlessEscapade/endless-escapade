@@ -81,11 +81,11 @@ namespace EEMod.NPCs.CoralReefs
             npc.ai[0]++;
             npc.velocity *= 0.98f;
             npc.rotation = npc.velocity.X / 32f;
-            if(npc.ai[0] % 100 > 60 && npc.ai[1] == 0)
+            if (npc.ai[0] % 100 > 60 && npc.ai[1] == 0)
             {
-                Helpers.Move(npc,player, 13, 30, Vector2.Zero,true,-1);
+                Helpers.Move(npc, player, 13, 30, Vector2.Zero, true, -1);
             }
-            if(npc.ai[0] % 450 == 0)
+            if (npc.ai[0] % 450 == 0)
             {
                 if (npc.life < npc.lifeMax * 0.5f)
                     npc.ai[1] = Main.rand.Next(1, 3);
@@ -94,13 +94,13 @@ namespace EEMod.NPCs.CoralReefs
                 npc.ai[0] = 0;
                 npc.netUpdate = true;
             }
-            if(npc.ai[1] == 1)
+            if (npc.ai[1] == 1)
             {
                 if (npc.ai[0] <= 200)
                 {
                     npc.velocity.X = (float)Math.Sin(npc.ai[0] / 10) * 16;
                     npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 10) * 16;
-                    Dust.NewDustPerfect(npc.Center, 113, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat((float)Math.PI*2)));
+                    Dust.NewDustPerfect(npc.Center, 113, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat((float)Math.PI * 2)));
                 }
                 else
                 {
@@ -108,26 +108,26 @@ namespace EEMod.NPCs.CoralReefs
                     {
                         Dust.NewDustPerfect(npc.Center, 113, Vector2.Zero + new Vector2((float)Math.Sin(npc.ai[0] / 10), (float)Math.Cos(npc.ai[0] / 10)));
                         if (npc.ai[0] < 215)
-                            Helpers.Move(npc, player, 60, 50, Vector2.Zero,true,-1);
+                            Helpers.Move(npc, player, 60, 50, Vector2.Zero, true, -1);
                     }
                 }
-                if(npc.ai[0] >= 400)
+                if (npc.ai[0] >= 400)
                 {
                     npc.ai[0] = 0;
                     npc.ai[1] = 0;
                 }
             }
-            if(npc.ai[1] == 2)
+            if (npc.ai[1] == 2)
             {
                 float rotation = Main.rand.NextFloat((float)Math.PI * 2);
-                for(int i = 0; i<3; i++)
-                Dust.NewDustPerfect(npc.Center + new Vector2(-(float)Math.Sin(npc.ai[0]/30)*100, 0).RotatedBy(rotation), 113, new Vector2((float)Math.Sin(rotation) * 0.4f, (float)Math.Cos(rotation) * 0.4f),255*(int)(npc.velocity.X/10f));
+                for (int i = 0; i < 3; i++)
+                    Dust.NewDustPerfect(npc.Center + new Vector2(-(float)Math.Sin(npc.ai[0] / 30) * 100, 0).RotatedBy(rotation), 113, new Vector2((float)Math.Sin(rotation) * 0.4f, (float)Math.Cos(rotation) * 0.4f), 255 * (int)(npc.velocity.X / 10f));
                 if (npc.ai[0] % 10 == 0)
                 {
                     npc.life += 2;
                     npc.HealEffect(2);
                 }
-                if(npc.lifeMax - npc.life < 20)
+                if (npc.lifeMax - npc.life < 20)
                 {
                     npc.ai[0] = 0;
                     npc.ai[1] = 0;
@@ -137,8 +137,8 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if(npc.ai[0] % 100 > 60 || npc.ai[1] == 1)
-            AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[npc.type], 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+            if (npc.ai[0] % 100 > 60 || npc.ai[1] == 1)
+                AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[npc.type], 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
             return true;
         }
     }

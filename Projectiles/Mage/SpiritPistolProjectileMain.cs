@@ -16,7 +16,7 @@ namespace EEMod.Projectiles.Mage
             projectile.magic = true;     //
             projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
             projectile.penetrate = -1;      //how many npc will penetrate
-                                           //how many time this projectile has before disepire
+                                            //how many time this projectile has before disepire
             projectile.light = 0.3f;    // projectile light
             projectile.ignoreWater = true;
             projectile.aiStyle = 0;

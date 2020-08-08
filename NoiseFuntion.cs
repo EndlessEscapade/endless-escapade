@@ -17,10 +17,10 @@ namespace EEMod
             this.division = division;
             middle = sampleSize * 0.5f;
         }
-        
+
         public int[,] ArrayOfSamples()
         {
-            int [,] Array = new int[(int)sampleSize.X, (int)sampleSize.Y];
+            int[,] Array = new int[(int)sampleSize.X, (int)sampleSize.Y];
             for (int i = 0; i < sampleSize.X; i++)
             {
                 for (int j = 0; j < sampleSize.Y; j++)

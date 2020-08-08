@@ -140,8 +140,8 @@ namespace EEMod
             int maxLoops = 5;
             Color drawColor = Lighting.GetColor((int)(Main.LocalPlayer.Center.X / 16f), (int)(Main.LocalPlayer.Center.Y / 16f)) * alphaBG;
             float scale = 1.5f;
-            Vector2 traverseFunction = new Vector2(4000,1000);
-            Vector2 traverse = new Vector2(-Main.LocalPlayer.Center.X / (Main.maxTilesX * 16)* traverseFunction.X, -Main.LocalPlayer.Center.Y / (Main.maxTilesY * 16) * traverseFunction.Y);
+            Vector2 traverseFunction = new Vector2(4000, 1000);
+            Vector2 traverse = new Vector2(-Main.LocalPlayer.Center.X / (Main.maxTilesX * 16) * traverseFunction.X, -Main.LocalPlayer.Center.Y / (Main.maxTilesY * 16) * traverseFunction.Y);
             Texture2D CB1 = instance.GetTexture("Backgrounds/CoralReefsSurfaceFar");
             Texture2D CB2 = instance.GetTexture("Backgrounds/CoralReefsSurfaceMid");
             Texture2D CB3 = TextureCache.CB1;
@@ -149,7 +149,7 @@ namespace EEMod
             Rectangle GlobalRectUnscaled = new Rectangle(0, 0, CB1.Width, CB1.Height);
             for (int i = 0; i < maxLoops; i++)
             {
-                Vector2 Positions = new Vector2((i - ((maxLoops - 1) * 0.5f)) * CB1.Width * scale, traverseFunction.Y/3f);
+                Vector2 Positions = new Vector2((i - ((maxLoops - 1) * 0.5f)) * CB1.Width * scale, traverseFunction.Y / 3f);
                 //Main.spriteBatch.Draw(CB1, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
                 //Main.spriteBatch.Draw(CB2, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
                 //Main.spriteBatch.Draw(CB3, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
@@ -157,7 +157,7 @@ namespace EEMod
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
             {
                 alphaBG += (1 - alphaBG) / 64f;
-                
+
             }
             else
             {
@@ -509,7 +509,7 @@ namespace EEMod
                 }
                 float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
                 Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-                
+
                 Main.spriteBatch.End();
             }
             else

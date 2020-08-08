@@ -26,11 +26,11 @@ namespace EEMod.Projectiles.Mage
         Vector2 firstVel;
         public override void AI()
         {
-            if(firstVel == default)
+            if (firstVel == default)
             {
                 firstVel = Vector2.Normalize(projectile.velocity) * 2;
             }
-            projectile.rotation = projectile.velocity.ToRotation() - (float)Math.PI/2;
+            projectile.rotation = projectile.velocity.ToRotation() - (float)Math.PI / 2;
             projectile.ai[0] += 11;
             double deg = projectile.ai[0];
             double rad = deg * (Math.PI / 180);
@@ -45,16 +45,17 @@ namespace EEMod.Projectiles.Mage
             }
         }
         public override void Kill(int timeLeft)
-        {   for (int i = 0; i < 360; i += 5)
-                {
-                    float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 15);
-                    float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 15);
-                    Vector2 offset = new Vector2(xdist, ydist);
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + offset, DustID.GreenBlood, offset * 0.5f);
-                    dust.noGravity = true;
-                    dust.noLight = false;
-                }
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero,ModContent.ProjectileType<CyanoburstTomeKelp>(),10,10f,Main.myPlayer);
+        {
+            for (int i = 0; i < 360; i += 5)
+            {
+                float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 15);
+                float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 15);
+                Vector2 offset = new Vector2(xdist, ydist);
+                Dust dust = Dust.NewDustPerfect(projectile.Center + offset, DustID.GreenBlood, offset * 0.5f);
+                dust.noGravity = true;
+                dust.noLight = false;
+            }
+            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CyanoburstTomeKelp>(), 10, 10f, Main.myPlayer);
         }
     }
 }

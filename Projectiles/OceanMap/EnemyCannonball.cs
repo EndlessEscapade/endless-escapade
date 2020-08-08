@@ -30,11 +30,11 @@ namespace EEMod.Projectiles.OceanMap
                 projectile.rotation = projectile.velocity.ToRotation();
                 killTimer--;
                 if (Vector2.DistanceSquared(EEMod.instance.position + Main.screenPosition, projectile.Center) < (20 * 20))
-                  {
-                     sinking = true;
-                     projectile.Kill();
-                     Main.PlaySound(SoundID.NPCHit4);
-                  }
+                {
+                    sinking = true;
+                    projectile.Kill();
+                    Main.PlaySound(SoundID.NPCHit4);
+                }
             }
             if (killTimer <= 0)
             {

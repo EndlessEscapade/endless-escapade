@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Furniture
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == default)
                 {
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = new Vector2(i + 12, j + 13) * 16 + new Vector2(8,-8);
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = new Vector2(i + 12, j + 13) * 16 + new Vector2(8, -8);
                 }
                 else
                 {
@@ -56,9 +56,9 @@ namespace EEMod.Tiles.Furniture
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd != default &&
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin != default)
             {
-                for (float k = 0; k < 1; k += 1/ (end - begin).Length())
+                for (float k = 0; k < 1; k += 1 / (end - begin).Length())
                 {
-                    Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), begin + (end - begin) *k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), begin + (end - begin) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0);
                 }
             }
         }

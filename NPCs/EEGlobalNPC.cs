@@ -35,7 +35,7 @@ namespace EEMod.NPCs
                 pool.Add(ModContent.NPCType<CoconutCrab>(), 0.5f);
                 pool.Add(ModContent.NPCType<Cococritter>(), 0.5f);
             }
-            if(Main.ActiveWorldFileData.Name == KeyID.Island || Main.ActiveWorldFileData.Name == KeyID.Island2 && !Main.dayTime)
+            if (Main.ActiveWorldFileData.Name == KeyID.Island || Main.ActiveWorldFileData.Name == KeyID.Island2 && !Main.dayTime)
             {
                 pool.Add(ModContent.NPCType<CoconutSpider>(), 0.5f);
             }
@@ -56,7 +56,8 @@ namespace EEMod.NPCs
             }
             if ((npc.type == ModContent.NPCType<Seahorse>() || npc.type == ModContent.NPCType<SmallClam>()) && Main.rand.Next(200) == 0)
             {
-                switch (Main.rand.Next(3)) {
+                switch (Main.rand.Next(3))
+                {
                     case 0:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<AbyssalScimitar>(), 1);
                         break;

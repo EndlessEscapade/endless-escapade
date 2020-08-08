@@ -430,69 +430,69 @@ namespace EEMod
         public float zipMultiplier = 1;
         public int thermalHealingTimer = 30;
         public int cannonballType = 0;
-        
-     /*   public System.Drawing.Bitmap CaptureFromScreen(System.Drawing.Rectangle rect)
-        {
-            System.Drawing.Bitmap bmpScreenCapture = null;
 
-            if (rect == System.Drawing.Rectangle.Empty)//capture the whole screen
-            {
-                rect = Screen.PrimaryScreen.Bounds;
-            }
+        /*   public System.Drawing.Bitmap CaptureFromScreen(System.Drawing.Rectangle rect)
+           {
+               System.Drawing.Bitmap bmpScreenCapture = null;
 
-            bmpScreenCapture = new System.Drawing.Bitmap(rect.Width, rect.Height);
+               if (rect == System.Drawing.Rectangle.Empty)//capture the whole screen
+               {
+                   rect = Screen.PrimaryScreen.Bounds;
+               }
 
-            System.Drawing.Graphics p = System.Drawing.Graphics.FromImage(bmpScreenCapture);
+               bmpScreenCapture = new System.Drawing.Bitmap(rect.Width, rect.Height);
 
-
-            p.CopyFromScreen(rect.X,
-                     rect.Y,
-                     0, 0,
-                     rect.Size,
-                    System.Drawing.CopyPixelOperation.SourceCopy);
+               System.Drawing.Graphics p = System.Drawing.Graphics.FromImage(bmpScreenCapture);
 
 
-            p.Dispose();
+               p.CopyFromScreen(rect.X,
+                        rect.Y,
+                        0, 0,
+                        rect.Size,
+                       System.Drawing.CopyPixelOperation.SourceCopy);
 
-            return bmpScreenCapture;
-        }
-        private Texture2D GetTextureSc(GraphicsDevice dev, System.Drawing.Bitmap bmp)
-        {
-            int[] imgData = new int[bmp.Width * bmp.Height];
-            Texture2D texture = new Texture2D(dev, bmp.Width, bmp.Height);
 
-            unsafe
-            {
-                // lock bitmap
-                BitmapData origdata =
-                    bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
+               p.Dispose();
 
-                uint* byteData = (uint*)origdata.Scan0;
+               return bmpScreenCapture;
+           }
+           private Texture2D GetTextureSc(GraphicsDevice dev, System.Drawing.Bitmap bmp)
+           {
+               int[] imgData = new int[bmp.Width * bmp.Height];
+               Texture2D texture = new Texture2D(dev, bmp.Width, bmp.Height);
 
-                // Switch bgra -> rgba
-                for (int i = 0; i < imgData.Length; i++)
-                {
-                    byteData[i] = (byteData[i] & 0x000000ff) << 16 | (byteData[i] & 0x0000FF00) | (byteData[i] & 0x00FF0000) >> 16 | (byteData[i] & 0xFF000000);
-                }
+               unsafe
+               {
+                   // lock bitmap
+                   BitmapData origdata =
+                       bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
 
-                // copy data
-                System.Runtime.InteropServices.Marshal.Copy(origdata.Scan0, imgData, 0, bmp.Width * bmp.Height);
+                   uint* byteData = (uint*)origdata.Scan0;
 
-                byteData = null;
+                   // Switch bgra -> rgba
+                   for (int i = 0; i < imgData.Length; i++)
+                   {
+                       byteData[i] = (byteData[i] & 0x000000ff) << 16 | (byteData[i] & 0x0000FF00) | (byteData[i] & 0x00FF0000) >> 16 | (byteData[i] & 0xFF000000);
+                   }
 
-                // unlock bitmap
-                bmp.UnlockBits(origdata);
-            }
+                   // copy data
+                   System.Runtime.InteropServices.Marshal.Copy(origdata.Scan0, imgData, 0, bmp.Width * bmp.Height);
 
-            texture.SetData(imgData);
+                   byteData = null;
 
-            return texture;
-        }*/
+                   // unlock bitmap
+                   bmp.UnlockBits(origdata);
+               }
+
+               texture.SetData(imgData);
+
+               return texture;
+           }*/
         public static Texture2D ScTex;
         public override void UpdateBiomeVisuals()
         {
             //System.Drawing.Bitmap ScreenTexture = CaptureFromScreen(new System.Drawing.Rectangle(0, 0, 1980, 1080));
-           // ScTex = GetTextureSc(Main.graphics.GraphicsDevice, ScreenTexture);
+            // ScTex = GetTextureSc(Main.graphics.GraphicsDevice, ScreenTexture);
             thermalHealingTimer--;
             if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)
             {
@@ -521,7 +521,7 @@ namespace EEMod
                     {
                         case RuneID.SandRune:
                             {
-                                if(EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                                 {
                                     runeCooldown = 180;
                                 }
@@ -530,7 +530,7 @@ namespace EEMod
                                     player.moveSpeed *= 1.15f;
                                     player.jumpSpeedBoost *= 1.6f;
                                     player.noFallDmg = true;
-                                    if(player.wet)
+                                    if (player.wet)
                                     {
                                         player.meleeSpeed *= 1.07f;
                                         player.noKnockback = false;
@@ -559,7 +559,7 @@ namespace EEMod
                                 }
                                 else
                                 {
-                                   
+
                                 }
                                 break;
                             }
@@ -594,7 +594,7 @@ namespace EEMod
                 }
             }
             //synergies
-            if(RuneData[RuneID.SandRune] == states[StateID.Equiped])
+            if (RuneData[RuneID.SandRune] == states[StateID.Equiped])
             {
 
             }
@@ -1065,7 +1065,7 @@ namespace EEMod
             }
             else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
-                if(player.position.Y >= 800 * 16 && !player.accDivingHelm)
+                if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
                 {
                     player.AddBuff(BuffType<WaterPressure>(), 60);
                 }

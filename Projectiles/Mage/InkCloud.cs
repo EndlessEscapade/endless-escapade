@@ -28,8 +28,8 @@ namespace EEMod.Projectiles.Mage
         {
             projectile.velocity *= 0.98f;
             projectile.ai[0]++;
-            if(projectile.ai[0] >= 120)
-                projectile.alpha+=2;
+            if (projectile.ai[0] >= 120)
+                projectile.alpha += 2;
         }
     }
 }

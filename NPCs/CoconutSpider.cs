@@ -148,7 +148,7 @@ namespace EEMod.NPCs
                 if (onGround && Main.netMode != 1)
                 {
                     npc.velocity.Y -= Main.rand.NextFloat(-8f, -5f);
-                    npc.ai[1] = Main.rand.Next(80,180);
+                    npc.ai[1] = Main.rand.Next(80, 180);
                     npc.netUpdate = true;
                 }
             }

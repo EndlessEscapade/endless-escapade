@@ -28,7 +28,8 @@ namespace EEMod.Effects
 		public void DoTrailCreation(Projectile projectile)
 		{
 			Mod mod = EEMod.instance;
-			if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>()) {
+			if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>())
+			{
 				CreateTrail(projectile, new StandardColorTrail(new Color(57, 98, 170)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
 			}
 
@@ -47,11 +48,13 @@ namespace EEMod.Effects
 
 		public void UpdateTrails()
 		{
-			for (int i = 0; i < _trails.Count; i++) {
+			for (int i = 0; i < _trails.Count; i++)
+			{
 				Trail trail = _trails[i];
 
 				trail.Update();
-				if (trail.Dead) {
+				if (trail.Dead)
+				{
 					_trails.RemoveAt(i);
 					i--;
 				}
@@ -60,17 +63,20 @@ namespace EEMod.Effects
 
 		public void DrawTrails(SpriteBatch spriteBatch)
 		{
-			foreach (Trail trail in _trails) {
+			foreach (Trail trail in _trails)
+			{
 				trail.Draw(_effect, _basicEffect, spriteBatch.GraphicsDevice);
 			}
 		}
 
 		public void TryEndTrail(Projectile projectile, float dissolveSpeed)
 		{
-			for (int i = 0; i < _trails.Count; i++) {
+			for (int i = 0; i < _trails.Count; i++)
+			{
 				Trail trail = _trails[i];
 
-				if (trail.MyProjectile.whoAmI == projectile.whoAmI) {
+				if (trail.MyProjectile.whoAmI == projectile.whoAmI)
+				{
 					trail.StartDissolve(dissolveSpeed);
 					return;
 				}
@@ -127,10 +133,12 @@ namespace EEMod.Effects
 
 		public void Update()
 		{
-			if (_dissolving) {
+			if (_dissolving)
+			{
 				_maxLength -= _dissolveSpeed;
 				_widthStart = (_maxLength / _originalMaxLength) * _originalWidth;
-				if (_maxLength <= 0f) {
+				if (_maxLength <= 0f)
+				{
 					Dead = true;
 					return;
 				}
@@ -139,13 +147,15 @@ namespace EEMod.Effects
 				return;
 			}
 
-			if (!MyProjectile.active || MyProjectile.type != _originalProjectileType) {
+			if (!MyProjectile.active || MyProjectile.type != _originalProjectileType)
+			{
 				StartDissolve(_maxLength / 10f);
 			}
 
 			Vector2 thisPoint = _trailPosition.GetNextTrailPosition(MyProjectile);
 
-			if (_points.Count == 0) {
+			if (_points.Count == 0)
+			{
 				_points.Add(thisPoint);
 				return;
 			}
@@ -154,10 +164,12 @@ namespace EEMod.Effects
 			_points.Insert(0, thisPoint);
 
 			//If adding the next point is too much
-			if (_currentLength + distance > _maxLength) {
+			if (_currentLength + distance > _maxLength)
+			{
 				TrimToLength(_maxLength);
 			}
-			else {
+			else
+			{
 				_currentLength += distance;
 			}
 		}
@@ -171,9 +183,11 @@ namespace EEMod.Effects
 			int firstPointOver = -1;
 			float newLength = 0;
 
-			for (int i = 1; i < _points.Count; i++) {
+			for (int i = 1; i < _points.Count; i++)
+			{
 				newLength += Vector2.Distance(_points[i], _points[i - 1]);
-				if (newLength > length) {
+				if (newLength > length)
+				{
 					firstPointOver = i;
 					break;
 				}
@@ -200,7 +214,8 @@ namespace EEMod.Effects
 
 			//calculate trail's length
 			float trailLength = 0f;
-			for (int i = 1; i < _points.Count; i++) {
+			for (int i = 1; i < _points.Count; i++)
+			{
 				trailLength += Vector2.Distance(_points[i - 1], _points[i]);
 			}
 
@@ -225,7 +240,8 @@ namespace EEMod.Effects
 
 			_trailCap.AddCap(vertices, ref currentIndex, previousColor, _points[0], startNormal, _widthStart);
 
-			for (int i = 1; i < _points.Count; i++) {
+			for (int i = 1; i < _points.Count; i++)
+			{
 				currentDistance += Vector2.Distance(_points[i - 1], _points[i]);
 
 				float thisPointsWidth = halfWidth * (1f - (i / (float)(_points.Count - 1)));
@@ -267,10 +283,12 @@ namespace EEMod.Effects
 		{
 			if (points.Count == 1) return points[0];
 
-			if (index == 0) {
+			if (index == 0)
+			{
 				return Clockwise90(Vector2.Normalize(points[1] - points[0]));
 			}
-			if (index == points.Count - 1) {
+			if (index == points.Count - 1)
+			{
 				return Clockwise90(Vector2.Normalize(points[index] - points[index - 1]));
 			}
 			return Clockwise90(Vector2.Normalize(points[index + 1] - points[index - 1]));
@@ -403,10 +421,12 @@ namespace EEMod.Effects
 			h /= MathHelper.TwoPi;
 
 			float r = 0, g = 0, b = 0;
-			if (l != 0) {
+			if (l != 0)
+			{
 				if (s == 0)
 					r = g = b = l;
-				else {
+				else
+				{
 					float temp2;
 					if (l < 0.5f)
 						temp2 = l * (1f + s);
@@ -489,7 +509,8 @@ namespace EEMod.Effects
 			VertexPositionColorTexture center = new VertexPositionColorTexture(new Vector3(position.X, position.Y, 0f), colour, Vector2.One * 0.5f);
 			VertexPositionColorTexture prev = new VertexPositionColorTexture(new Vector3(position.X + x, position.Y + y, 0f), colour, Vector2.One);
 
-			for (int i = 0; i < segments; i++) {
+			for (int i = 0; i < segments; i++)
+			{
 				//apply matrix transformation
 				t = x;
 				x = cos * x - sin * y;

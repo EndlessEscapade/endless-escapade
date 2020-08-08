@@ -19,7 +19,7 @@ namespace EEMod.Projectiles
         protected Player projOwner => Main.player[projectile.owner];
 
 
-        public virtual List<int> exclude => new List<int> {};
+        public virtual List<int> exclude => new List<int> { };
         public float xDis;
         float Max = 100;
         bool vanillaFlag;
@@ -31,13 +31,13 @@ namespace EEMod.Projectiles
             projectile.position.X = projOwner.Center.X - projectile.width / 2;
             projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
             float speed = speedOfArrow;
-            projOwner.bodyFrame.Y = 56*(6 + (int)(gravAccel - minGrav));
+            projOwner.bodyFrame.Y = 56 * (6 + (int)(gravAccel - minGrav));
             if (!projOwner.controlUseItem)
             {
                 projectile.Kill();
                 Projectile.NewProjectile(projOwner.Center, ((Main.MouseWorld - projOwner.Center) / Max) * speed, newProj, 10, 10f, Main.myPlayer, (gravAccel / Max) * 2 * speed * speed, projectile.ai[1]);
             }
-            if(Math.Abs(gravAccel - minGrav) < 0.3f && !vanillaFlag)
+            if (Math.Abs(gravAccel - minGrav) < 0.3f && !vanillaFlag)
             {
                 for (int i = 0; i < 360; i += 10)
                 {
@@ -58,7 +58,7 @@ namespace EEMod.Projectiles
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             yeet++;
-            if(yeet > 100)
+            if (yeet > 100)
             {
                 yeet = -100;
             }
@@ -66,12 +66,12 @@ namespace EEMod.Projectiles
             gravAccel += (minGrav - gravAccel) / ropeThickness;
             for (int i = 0; i < Max; i++)
             {
-                float diff = 1 - (Math.Abs(i - yeet)/50f);
+                float diff = 1 - (Math.Abs(i - yeet) / 50f);
                 if (diff < 0)
                     diff = 0;
                 grav += gravAccel;
                 Vector2 intendedPath = projOwner.Center + (Main.MouseWorld - projOwner.Center + new Vector2(0, grav)) * (i / Max);
-                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * (diff),0f, new Rectangle(0, 0, 2, 2).Size() / 2,1, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * (diff), 0f, new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0f);
             }
             return true;
         }

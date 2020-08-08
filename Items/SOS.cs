@@ -26,8 +26,8 @@ namespace EEMod.Items
         }
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-                player.noKnockback = true;
-                player.dash = 3;
+            player.noKnockback = true;
+            player.dash = 3;
         }
     }
 }

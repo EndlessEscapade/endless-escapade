@@ -9,9 +9,9 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Melee
 {
-	public class FeatheredChakramProjectileAlt : ModProjectile
+    public class FeatheredChakramProjectileAlt : ModProjectile
     {
-		public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feathered Chakram");
         }
@@ -28,17 +28,17 @@ namespace EEMod.Projectiles.Melee
             projectile.extraUpdates = 2;
             projectile.tileCollide = false;
         }
-        
+
         public override void AI()
         {
-			if (projectile.ai[1] == 0)
+            if (projectile.ai[1] == 0)
             {
 
             }
             projectile.Center = Main.player[projectile.owner].Center;
             projectile.rotation += 5;
             projectile.ai[1]++;
-            projectile.ai[0]+=0.02f;
+            projectile.ai[0] += 0.02f;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
