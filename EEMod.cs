@@ -305,7 +305,7 @@ namespace EEMod
                 }
                 else if (AscentionHandler < seperation * 4)
                 {
-                    text = "Once you collect them all, you will be able to make aynergies"; //"Collect runes for synergies" This is technically wrong since you can only get synergies after collecting them all
+                    text = "Once you collect them all, you will be able to make synergies"; //"Collect runes for synergies" This is technically wrong since you can only get synergies after collecting them all
                 }
                 else
                 {

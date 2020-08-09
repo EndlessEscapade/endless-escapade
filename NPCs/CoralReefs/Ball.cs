@@ -127,7 +127,7 @@ float x0, float x1, float x2, float x3)
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
             DrawColor = npc.GetAlpha(DrawColor);
-            DrawHead(spriteBatch, "NPCs/CoralReefs/Chain", "NPCs/CoralReefs/Chain", npc, DrawColor, new Vector2(npc.ai[2], npc.ai[3]));
+            DrawHead(spriteBatch, "NPCs/CoralReefs/DreadmineChain", "NPCs/CoralReefs/DreadmineChain", npc, DrawColor, new Vector2(npc.ai[2], npc.ai[3]));
             Texture2D texture = Main.npcTexture[npc.type];
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, 8), null, DrawColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);

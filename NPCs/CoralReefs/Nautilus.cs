@@ -98,8 +98,8 @@ namespace EEMod.NPCs.CoralReefs
             {
                 if (npc.ai[0] <= 200)
                 {
-                    npc.velocity.X = (float)Math.Sin(npc.ai[0] / 10) * 16;
-                    npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 10) * 16;
+                    npc.velocity.X = (float)Math.Sin(npc.ai[0] / 10) * 10;
+                    npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 10) * 10;
                     Dust.NewDustPerfect(npc.Center, 113, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat((float)Math.PI * 2)));
                 }
                 else
@@ -108,7 +108,7 @@ namespace EEMod.NPCs.CoralReefs
                     {
                         Dust.NewDustPerfect(npc.Center, 113, Vector2.Zero + new Vector2((float)Math.Sin(npc.ai[0] / 10), (float)Math.Cos(npc.ai[0] / 10)));
                         if (npc.ai[0] < 215)
-                            Helpers.Move(npc, player, 60, 50, Vector2.Zero, true, -1);
+                            Helpers.Move(npc, player, 60, 200, Vector2.Zero, true, -1);
                     }
                 }
                 if (npc.ai[0] >= 400)

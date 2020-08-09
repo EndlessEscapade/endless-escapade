@@ -54,7 +54,7 @@ namespace EEMod
         {
             Mod mod = EEMod.instance;
             //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
-            Chain = mod.GetTexture("NPCs/CoralReefs/Chain");
+            Chain = mod.GetTexture("NPCs/CoralReefs/DreadmineChain");
             Empty = mod.GetTexture("Empty");
             //EyeTileGlow = mod.GetTexture("Tiles/Furniture/Coral/EyeTileGlow");
             //Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");

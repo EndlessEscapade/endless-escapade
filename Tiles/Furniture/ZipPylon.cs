@@ -40,7 +40,6 @@ namespace EEMod.Tiles.Furniture
                         {
                             EEWorld.EEWorld.PylonBegin[k] = new Vector2(i + 12, j + 13) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = true;
-                            Main.NewText("ae");
                             break;
                         }
                     }
@@ -53,7 +52,6 @@ namespace EEMod.Tiles.Furniture
                         {
                             EEWorld.EEWorld.PylonEnd[k] = new Vector2(i + 12, j + 13) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = false;
-                            Main.NewText("ea");
                             break;
                         }
                     }

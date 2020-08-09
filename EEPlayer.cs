@@ -608,7 +608,6 @@ namespace EEMod
                 if (zipMultiplier <= 4)
                     zipMultiplier *= 1.02f;
             }
-            Main.NewText(Vector2.Distance(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd));
             if (Vector2.Distance(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 252 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {
                 int i;
@@ -626,7 +625,6 @@ namespace EEMod
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = default;
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = false;
                     zipMultiplier = 1;
-                    Main.NewText("A");
                 }
                 else
                 {
@@ -635,7 +633,6 @@ namespace EEMod
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = EEWorld.EEWorld.PylonEnd[i + 1];
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = true;
                     zipMultiplier = 1;
-                    Main.NewText("B");
                 }
             }
 
