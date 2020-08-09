@@ -35,6 +35,9 @@ namespace EEMod.EEWorld
         public static Vector2 ree;
         public static IList<Vector2> EntracesPosses = new List<Vector2>();
 
+        public static Vector2[] PylonBegin = new Vector2[100];
+        public static Vector2[] PylonEnd = new Vector2[100];
+
         public override void Initialize()
         {
             eocFlag = NPC.downedBoss1;
