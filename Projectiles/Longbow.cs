@@ -12,7 +12,7 @@ namespace EEMod.Projectiles
     public abstract class Longbow : ModProjectile
     {
         public virtual float speedOfArrow => 2;
-        public virtual int newProj => ModContent.ProjectileType<CoralArrowProjectile>();
+        public virtual int newProj => ModContent.ProjectileType<CoralArrowProjectileLongbow>();
         public virtual float minGrav => 2;
         public virtual float ropeThickness => 32f;
         protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);

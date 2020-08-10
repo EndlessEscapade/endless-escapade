@@ -12,7 +12,7 @@ using System.IO;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
-    public class GlowHangCoral1TE : ModTileEntity
+    /*public class GlowHangCoral1TE : ModTileEntity
     {
         public float kayLerp;
         public override bool ValidTile(int i, int j)
@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Furniture.Coral
 
         public override void NetReceive(BinaryReader reader, bool lightReceive)
         {
-            kayLerp = reader.ReadInt32();
+            kayLerp = reader.ReadSingle();
         }
 
         public override TagCompound Save()
@@ -52,12 +52,11 @@ namespace EEMod.Tiles.Furniture.Coral
                 [nameof(kayLerp)] = kayLerp
             };
         }
-
         public override void Load(TagCompound tag)
         {
-            kayLerp = tag.GetInt(nameof(kayLerp));
+            kayLerp = tag.GetFloat(nameof(kayLerp));
         }
-    }
+    }*/
     public class GlowHangCoral1 : ModTile
     {
         public override void SetDefaults()
@@ -66,13 +65,14 @@ namespace EEMod.Tiles.Furniture.Coral
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
             Main.tileLighted[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1xX);
-            TileObjectData.newTile.Height = 11;
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 1, 1);
+            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.Height = 11;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 };
-            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 0);
-            TileObjectData.newTile.AnchorBottom = default;
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<GlowHangCoral1TE>().Hook_AfterPlacement, 1, 0, true);
+            //TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<GlowHangCoral1TE>().Hook_AfterPlacement, 1, 0, true);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Lamp");
@@ -92,25 +92,19 @@ namespace EEMod.Tiles.Furniture.Coral
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
+            Main.tile[i, j].frameX = 17;
             if (tile != null && tile.active() && tile.type == Type)
             {
                 Color color = Color.White;
-                Main.tile[i, j].frameX = 17;
-                int index = ModContent.GetInstance<GlowHangCoral1TE>().Find(i, j);
-                Main.NewText(TileEntity.ByID.Count);
-                if (index == -1)
-                {
-                    return;
-                }
-                GlowHangCoral1TE TE = (GlowHangCoral1TE)TileEntity.ByID[index];
+                
+                //int index = ModContent.GetInstance<GlowHangCoral1TE>().Find(i, j);
+                //GlowHangCoral1TE TE = (GlowHangCoral1TE)TileEntity.ByID[index];
                 int frameX = Main.tile[i, j].frameX;
                 int frameY = Main.tile[i, j].frameY;
                 int width = 20;
                 int offsetY = 2;
                 int height = 20;
                 int offsetX = 2;
-
-                Main.NewText(TE.kayLerp);
                 Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
                 if (Main.drawToScreen)
                 {
@@ -118,7 +112,7 @@ namespace EEMod.Tiles.Furniture.Coral
                 }
                 for (int k = 0; k < 7; k++)
                 {
-                    Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Coral/GlowHangCoral1Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero, new Rectangle(frameX, frameY, width, height), color * ((float)Math.Sin(TE.kayLerp) * 0.5f + Main.rand.NextFloat(0, 0.5f)), 0f, default, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Coral/GlowHangCoral1Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero, new Rectangle(frameX, frameY, width, height), color * ((float)Math.Sin(1) * 0.5f + Main.rand.NextFloat(0, 0.5f)), 0f, default, 1f, SpriteEffects.None, 0f);
                 }
             }
         }
