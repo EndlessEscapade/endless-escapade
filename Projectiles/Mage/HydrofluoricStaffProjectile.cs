@@ -9,7 +9,7 @@ namespace EEMod.Projectiles.Mage
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("HydrofluoricStaffProjectile");
+            DisplayName.SetDefault("Hydrofluoric Staff Bolt");
         }
 
         public override void SetDefaults()

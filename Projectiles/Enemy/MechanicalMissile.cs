@@ -55,9 +55,10 @@ namespace EEMod.Projectiles.Enemy
 
         public override void Kill(int timeLeft)
         {
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 20; i++)
             {
-                Dust.NewDustPerfect(projectile.position, DustID.SomethingRed, projectile.velocity / 2);
+                int dust = Dust.NewDust(projectile.position, 0, 0, 6);
+                Main.dust[dust].velocity = (projectile.velocity) + new Vector2(Main.rand.NextFloat(-1, 2), Main.rand.NextFloat(-1, 2));
             }
         }
 

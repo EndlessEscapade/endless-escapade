@@ -11,12 +11,15 @@ namespace EEMod.Tiles.Furniture.Atlantis
     {
         public override void SetDefaults()
         {
+            Main.tileSolidTop[Type] = true;
             Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileTable[Type] = true;
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
-            TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.StyleWrapLimit = 36;
+            TileObjectData.newTile.CoordinateHeights = new[] { 18 };
             TileObjectData.addTile(Type);
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             dustType = 7;
             disableSmartCursor = true;
             ModTranslation name = CreateMapEntryName();
@@ -26,7 +29,7 @@ namespace EEMod.Tiles.Furniture.Atlantis
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 48, 48, ModContent.ItemType<AtlanteanWorkbench>());
+            Item.NewItem(i * 16, j * 16, 32, 16, ModContent.ItemType<AtlanteanWorkbench>());
         }
     }
 }

@@ -83,7 +83,12 @@ namespace EEMod.NPCs.CoralReefs
                 npc.velocity = oldPlayerPos;
             }
 
-            npc.rotation = npc.velocity.ToRotation();
+            float k = 0;
+            if(Main.player[npc.target].position.X <= npc.position.X)
+            {
+                k = MathHelper.Pi;
+            }
+            npc.rotation = npc.velocity.ToRotation() + k;
             npc.spriteDirection = npc.direction;
 
             npc.ai[1]++;

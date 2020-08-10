@@ -11,11 +11,15 @@ namespace EEMod.Tiles.Furniture.Atlantis
     {
         public override void SetDefaults()
         {
+            Main.tileSolidTop[Type] = true;
             Main.tileFrameImportant[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileTable[Type] = true;
             Main.tileLavaDeath[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.StyleWrapLimit = 36;
+            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTable);
             TileObjectData.addTile(Type);
             dustType = 7;
             disableSmartCursor = true;

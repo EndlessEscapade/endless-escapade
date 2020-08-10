@@ -1,10 +1,11 @@
 using EEMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles.Furniture.Atlantis;
 
-namespace EEMod.Items.Placeables.Furniture
+namespace EEMod.Items.Placeables.Furniture.Atlantis
 {
-    public class AtlanteanChestTile : ModItem
+    public class AtlanteanChest : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -28,7 +29,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.autoReuse = true;
             item.consumable = true;
 
-            item.createTile = ModContent.TileType<AtlanteanChest>();
+            item.createTile = ModContent.TileType<AtlanteanChestTile>();
         }
     }
 }
