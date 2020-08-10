@@ -2,9 +2,6 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Melee;
-using EEMod.Projectiles.Runes;
-using Microsoft.Xna.Framework;
 using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Ranger
