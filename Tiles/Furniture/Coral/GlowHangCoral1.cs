@@ -7,6 +7,8 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
 using System;
+using Terraria.ModLoader.IO;
+using System.IO;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
@@ -16,12 +18,44 @@ namespace EEMod.Tiles.Furniture.Coral
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
-            return tile.active() && tile.type == ModContent.TileType<GlowHangCoral1>() && tile.frameX == 0 && tile.frameY == 0;
+            return tile.active();
         }
         public override void Update()
         {
-            kayLerp += Main.rand.NextFloat(0, 0.1f);
-            base.Update();
+            kayLerp += Main.rand.NextFloat(0, 0.001f);
+        }
+        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                NetMessage.SendTileSquare(Main.myPlayer, i - 1, j - 1, 3);
+                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+                return -1;
+            }
+
+            return Place(i, j);
+        }
+        public override void NetSend(BinaryWriter writer, bool lightSend)
+        {
+            writer.Write(kayLerp);
+        }
+
+        public override void NetReceive(BinaryReader reader, bool lightReceive)
+        {
+            kayLerp = reader.ReadInt32();
+        }
+
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                [nameof(kayLerp)] = kayLerp
+            };
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            kayLerp = tag.GetInt(nameof(kayLerp));
         }
     }
     public class GlowHangCoral1 : ModTile
@@ -38,6 +72,7 @@ namespace EEMod.Tiles.Furniture.Coral
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 };
             TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile, 1, 0);
             TileObjectData.newTile.AnchorBottom = default;
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<GlowHangCoral1TE>().Hook_AfterPlacement, 1, 0, true);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Lamp");
@@ -59,12 +94,10 @@ namespace EEMod.Tiles.Furniture.Coral
             Tile tile = Main.tile[i, j];
             if (tile != null && tile.active() && tile.type == Type)
             {
-                int left = i;
-                int top = j;
                 Color color = Color.White;
                 Main.tile[i, j].frameX = 17;
-
-                int index = ModContent.GetInstance<GlowHangCoral1TE>().Find(left, top);
+                int index = ModContent.GetInstance<GlowHangCoral1TE>().Find(i, j);
+                Main.NewText(TileEntity.ByID.Count);
                 if (index == -1)
                 {
                     return;
@@ -76,7 +109,7 @@ namespace EEMod.Tiles.Furniture.Coral
                 int offsetY = 2;
                 int height = 20;
                 int offsetX = 2;
-               
+
                 Main.NewText(TE.kayLerp);
                 Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
                 if (Main.drawToScreen)
@@ -90,6 +123,6 @@ namespace EEMod.Tiles.Furniture.Coral
             }
         }
 
-        
+
     }
 }

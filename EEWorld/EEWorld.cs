@@ -38,7 +38,6 @@ namespace EEMod.EEWorld
         public override void Initialize()
         {
             eocFlag = NPC.downedBoss1;
-            //ree = new Vector2(100, TileCheckWater(100) - 23);
             if (EntracesPosses.Count > 0)
                 yes = EntracesPosses[0];
         }
@@ -83,7 +82,6 @@ namespace EEMod.EEWorld
         }
         public override void PostUpdate()
         {
-
             if (NPC.downedBoss1)
             {
                 if (!eocFlag)
@@ -98,101 +96,11 @@ namespace EEMod.EEWorld
 
         public static Vector2 SubWorldSpecificCoralBoatPos;
         public static Vector2 SubWorldSpecificVolcanoInsidePos = new Vector2(198, 189);
-        public override void Load(TagCompound tag)
-        {
-            instance = this;
-            if (tag.ContainsKey("EntracesPosses"))
-            {
-                EntracesPosses = tag.GetList<Vector2>("EntracesPosses");
-            }
-            if (tag.ContainsKey("CoralBoatPos"))
-            {
-                SubWorldSpecificCoralBoatPos = tag.Get<Vector2>("CoralBoatPos");
-            }
-            if (tag.ContainsKey("SubWorldSpecificVolcanoInsidePos"))
-            {
-                SubWorldSpecificVolcanoInsidePos = tag.Get<Vector2>("SubWorldSpecificVolcanoInsidePos");
-            }
-            if (tag.ContainsKey("yes") && tag.ContainsKey("yes").GetType().Name == "Vector2")
-            {
-                yes = tag.Get<Vector2>("yes");
-            }
-            if (tag.ContainsKey("ree") && tag.ContainsKey("ree").GetType().Name == "Vector2")
-            {
-                ree = tag.Get<Vector2>("ree");
-            }
-            var downed = new List<string>();
-            if (eocFlag) downed.Add("eocFlag");
-
-            IList<string> flags = tag.GetList<string>("boolFlags");
-
-            // Game modes
-
-            // Downed bosses
-            downedAkumo = flags.Contains("downedAkumo");
-            downedHydros = flags.Contains("downedHydros");
-            downedKraken = flags.Contains("downedKraken");
-        }
-        public override TagCompound Save()
-        {
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs && EESubWorlds.CoralBoatPos != Vector2.Zero)
-            {
-                return new TagCompound
-                {
-                    ["CoralBoatPos"] = EESubWorlds.CoralBoatPos
-                };
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
-            {
-                return new TagCompound
-                {
-                    ["SubWorldSpecificVolcanoInsidePos"] = SubWorldSpecificVolcanoInsidePos
-                };
-            }
-            return new TagCompound
-            {
-                ["EntracesPosses"] = EntracesPosses,
-                ["yes"] = yes,
-                ["ree"] = ree
-            };
-            /*List<string> boolflags = new List<string>();
-
-            // Game modes
-            if (GenkaiMode)
-                boolflags.Add("GenkaiMode");
-
-            // Downed bosses
-            if (downedGallagar)
-                boolflags.Add("downedGallagar");
-            if (downedForerunner)
-                boolflags.Add("downedForerunner");
-            if (downedSoS)
-                boolflags.Add("downedSoS");
-            if (downedFlare)
-                boolflags.Add("downedFlare");
-            if (downedAssimilator)
-                boolflags.Add("downedAssimilator");
-            if (downedAkumo)
-                boolflags.Add("downedAkumo");
-            if (downedHydros)
-                boolflags.Add("downedHydros");
-            if (downedStagrel)
-                boolflags.Add("downedStagrel");
-            if (downedBeheader)
-                boolflags.Add("downedBeheader");
-
-
-            return new TagCompound
-            {
-                ["SaveVersion"] = new Version(0, 3, 0, 0).ToString(),
-                ["boolFlags"] = boolflags
-            };*/
-        }
+       
         public override void ResetNearbyTileEffects()
         {
             CoralReefsTiles = 0;
         }
-
         public override void TileCountsAvailable(int[] tileCounts)
         {
             CoralReefsTiles = tileCounts[ModContent.TileType<DarkGemsandTile>()] + tileCounts[ModContent.TileType<GemsandTile>()] + tileCounts[ModContent.TileType<LightGemsandTile>()];
@@ -215,11 +123,11 @@ namespace EEMod.EEWorld
             int? nullableReeX = (int)ree.X;
             int? nullableReeY = (int)ree.Y;
             int ShipTilePosX = nullableReeX ?? 100;
-            int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 23;
-            if(ree == Vector2.Zero)
+            int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 22;
+            if (ree == Vector2.Zero)
             {
                 ShipTilePosX = 100;
-                ShipTilePosY = TileCheckWater(100) - 23;
+                ShipTilePosY = TileCheckWater(100) - 22;
             }
             for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
             {

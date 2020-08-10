@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.autoReuse = true;
             item.maxStack = 999;
             item.placeStyle = 10;
-            item.createTile = ModContent.TileType<WideBulbousCoral>();
+            item.createTile = ModContent.TileType<GlowHangCoral1>();
         }
     }
 }

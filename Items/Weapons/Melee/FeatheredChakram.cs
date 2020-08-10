@@ -37,8 +37,17 @@ namespace EEMod.Items.Weapons.Melee
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FeatheredChakramProjectileAlt>(), item.damage, item.knockBack, Main.myPlayer, (float)Math.PI);
-            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FeatheredChakramProjectileAlt>(), item.damage, item.knockBack, Main.myPlayer, (float)Math.PI);
+            return player.ownedProjectileCounts[item.shoot] < 4;
+            int no = 0;
+            for (int i = 0; i < Main.projectile.Length; i++)
+            {
+                if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<FCHandler>())
+                {
+                    no++;
+                }
+            }
+            if(no == 0)
+            Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FCHandler>(), item.damage, item.knockBack, Main.myPlayer, (float)Math.PI);
             return true;
         }
     }

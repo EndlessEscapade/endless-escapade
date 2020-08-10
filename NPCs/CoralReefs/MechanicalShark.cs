@@ -63,19 +63,19 @@ namespace EEMod.NPCs.CoralReefs
             {
                 npc.velocity = Vector2.Normalize(Main.player[npc.target].position - npc.Center) * 6;
             }
-            if(npc.ai[0] == 1)
+            if (npc.ai[0] == 1)
             {
                 npc.ai[2]++;
-                if(npc.ai[2] >= 60)
+                if (npc.ai[2] >= 60)
                 {
                     Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalMissile>(), 120, 5f);
                     npc.ai[2] = 0;
                 }
                 npc.velocity = Vector2.Normalize(Main.player[npc.target].position - npc.Center) * 2;
             }
-            if(npc.ai[0] == 2)
+            if (npc.ai[0] == 2)
             {
-                if(npc.ai[1] % 120 == 0)
+                if (npc.ai[1] % 120 == 0)
                 {
                     oldPlayerPos = Main.player[npc.target].position;
                     oldPlayerPos = Vector2.Normalize(oldPlayerPos - npc.Center) * 12f;
@@ -87,7 +87,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.spriteDirection = npc.direction;
 
             npc.ai[1]++;
-            if(npc.ai[1] >= 360)
+            if (npc.ai[1] >= 360)
             {
                 npc.ai[0] = Main.rand.Next(0, 3);
                 npc.ai[1] = 0;

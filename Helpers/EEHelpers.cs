@@ -185,7 +185,20 @@ namespace EEMod
             currentY = (currentY * 58f + num3) / 58.8f;
             return new Vector2(currentX, currentY);
         }
-
+        public static int[] FillPseudoRandomUniform(int size)
+        {
+            int number;
+            List<int> listNumbers = new List<int>();
+            for (int i = 0; i < size; i++)
+            {
+                do
+                {
+                    number = Main.rand.Next(0, size);
+                } while (listNumbers.Contains(number));
+                listNumbers.Add(number);
+            }
+            return listNumbers.ToArray();
+        }
         public static Vector2 MoveTowardsProjectile(float speed, float currentX, float currentY, Projectile projectile, Vector2 issue, int direction)
         {
             Vector2 vector3 = new Vector2(issue.X + (direction * 20), issue.Y + 6f);

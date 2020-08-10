@@ -1285,13 +1285,13 @@ namespace EEMod
                 }
                 if (Main.projectile[Arrow2].modProjectile is OceanArrowProjectile oceanarrow)
                 {
+                    Main.NewText(EEWorld.EEWorld.ree);
                     if (player.Center.X / 16 >= (EEWorld.EEWorld.ree.X) &&
                         player.Center.X / 16 <= (EEWorld.EEWorld.ree.X + 4) &&
                         player.Center.Y / 16 >= (EEWorld.EEWorld.ree.Y + 12) &&
                         player.Center.Y / 16 <= (EEWorld.EEWorld.ree.Y + 16) &&
                         EEWorld.EEWorld.shipComplete == true)
                     {
-
                         if (player.controlUp)
                         {
                             triggerSeaCutscene = true;

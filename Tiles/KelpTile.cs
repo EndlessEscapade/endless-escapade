@@ -42,7 +42,6 @@ namespace EEMod.Tiles
                 && tile.type != ModContent.TileType<LightGemsandTile>()
                 && tile.type != ModContent.TileType<DarkGemsandTile>())
                 WorldGen.KillTile(i, j);
-
         }
         public override void RandomUpdate(int i, int j)
         {
@@ -55,6 +54,7 @@ namespace EEMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            
             return true;
         }
     }

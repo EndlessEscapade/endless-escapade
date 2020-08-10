@@ -49,6 +49,8 @@ namespace EEMod
         public static Texture2D Oil;
         public static Texture2D VArrow;
         public static Texture2D CB1;
+        public static Texture2D GradientEffect;
+        public static Texture2D Mask1;
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
@@ -56,6 +58,7 @@ namespace EEMod
             //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
             Chain = mod.GetTexture("NPCs/CoralReefs/Chain");
             Empty = mod.GetTexture("Empty");
+            Mask1 = mod.GetTexture("Masks/Extra_49");
             //EyeTileGlow = mod.GetTexture("Tiles/Furniture/Coral/EyeTileGlow");
             //Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");
             BleckScren = mod.GetTexture("BleckScreen");
@@ -96,10 +99,13 @@ namespace EEMod
             Oil = mod.GetTexture("NPCs/Bosses/Kraken/Oil");
             VArrow = mod.GetTexture("Projectiles/VolleyballArrow");
             CB1 = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
+            GradientEffect = mod.GetTexture("Masks/GradientEffect");
         }
         [UnloadingMethod]
         public static void Unload()
         {
+            Mask1 = null;
+            GradientEffect = null;
             CB1 = null;
             VArrow = null;
             Oil = null;
