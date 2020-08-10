@@ -60,9 +60,9 @@ namespace EEMod.Items
                 }
                 else
                 {
-                        alpha = 0;
-                        yeet = 0;
-                        Main.projectile[proj].Kill();
+                    alpha = 0;
+                    yeet = 0;
+                    Main.projectile[proj].Kill();
                 }
             }
         }

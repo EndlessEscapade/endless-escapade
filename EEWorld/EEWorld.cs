@@ -144,7 +144,7 @@ namespace EEMod.EEWorld
                         {
                             case 1:
                                 expectedType = TileID.WoodBlock;
-                                if (tile.type != expectedType && expectedType != -1)
+                                if (tile.type != expectedType)
                                 {
                                     missingShipTilesItems.Add(Main.itemTexture[ItemID.Wood]);
                                     missingShipTilesRespectedPos.Add(new Vector2(i, j));
@@ -152,7 +152,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 2:
                                 expectedType = TileID.RichMahogany;
-                                if (tile.type != expectedType && expectedType != -1)
+                                if (tile.type != expectedType)
                                 {
                                     missingShipTilesItems.Add(Main.itemTexture[ItemID.RichMahogany]);
                                     missingShipTilesRespectedPos.Add(new Vector2(i, j));
@@ -160,7 +160,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 3:
                                 expectedType = TileID.GoldCoinPile;
-                                if (tile.type != expectedType && expectedType != -1)
+                                if (tile.type != expectedType)
                                 {
                                     missingShipTilesItems.Add(Main.itemTexture[ItemID.GoldCoin]);
                                     missingShipTilesRespectedPos.Add(new Vector2(i, j));
@@ -168,7 +168,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 4:
                                 expectedType = TileID.Platforms;
-                                if (tile.type != expectedType && expectedType != -1)
+                                if (tile.type != expectedType)
                                 {
                                     missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodPlatform]);
                                     missingShipTilesRespectedPos.Add(new Vector2(i, j));
@@ -176,7 +176,7 @@ namespace EEMod.EEWorld
                                 break;
                             case 5:
                                 expectedType = TileID.WoodenBeam;
-                                if (tile.type != expectedType && expectedType != -1)
+                                if (tile.type != expectedType)
                                 {
                                     missingShipTilesItems.Add(Main.itemTexture[ItemID.WoodenBeam]);
                                     missingShipTilesRespectedPos.Add(new Vector2(i, j));
@@ -184,17 +184,22 @@ namespace EEMod.EEWorld
                                 break;
                             case 6:
                                 expectedType = TileID.SilkRope;
-                                if (tile.type != expectedType && expectedType != -1)
+                                if (tile.type != expectedType)
                                 {
                                     missingShipTilesItems.Add(Main.itemTexture[ItemID.SilkRope]);
                                     missingShipTilesRespectedPos.Add(new Vector2(i, j));
                                 }
                                 break;
                             default:
-                                expectedType = -1;
+                                expectedType = 0;
+                                if (tile.type != expectedType)
+                                {
+                                    missingShipTilesItems.Add(TextureCache.Empty);
+                                    missingShipTilesRespectedPos.Add(new Vector2(i, j));
+                                }
                                 break;
                         }
-                        if (tile.type != expectedType && expectedType != -1)
+                        if (tile.type != expectedType)
                         {
                             missingShipTiles.Add(new Vector2(i, j));
                         }

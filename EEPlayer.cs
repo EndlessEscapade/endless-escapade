@@ -1214,7 +1214,7 @@ namespace EEMod
                 EEWorld.EEWorld.ShipComplete();
                 if (EEWorld.EEWorld.missingShipTiles.Count != lastNoOfShipTiles)
                 {
-                    for (int i = 0; i < 200; i++)
+                    for (int i = 0; i < Main.projectile.Length; i++)
                     {
                         if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
                         {
