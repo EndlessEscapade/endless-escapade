@@ -9,7 +9,7 @@ namespace EEMod.NPCs.CoralReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechanical Angler Fish");
-            Main.npcFrameCount[npc.type] = 3;
+            //Main.npcFrameCount[npc.type] = 3;
         }
 
         public override void SetDefaults()

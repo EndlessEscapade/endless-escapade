@@ -25,6 +25,7 @@ namespace EEMod.Items
             item.shoot = ModContent.ProjectileType<TenisBoll>();
             item.useTime = 15;
             item.useAnimation = 15;
+            item.useStyle = 1;
         }
     }
 }
