@@ -35,7 +35,7 @@ namespace EEMod.Projectiles
             projectile.magic = true;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
-            projectile.scale *= 1;
+            projectile.scale *= 0.75f;
         }
 
         //private void LookToPlayer() // unused
@@ -70,7 +70,7 @@ namespace EEMod.Projectiles
                 projectile.ai[0] = 0;
             }
             projectile.alpha = (int)projectile.ai[0];
-            projectile.scale = 1 + projectile.ai[0] / (float)255;
+            projectile.scale = 0.75f + projectile.ai[0] / 255;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
