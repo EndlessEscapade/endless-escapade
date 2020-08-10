@@ -124,12 +124,18 @@ namespace EEMod.EEWorld
             {
                 ree = tag.Get<Vector2>("ree");
             }
+            /*if (tag.ContainsKey("PylonBegin"))
+            {
+                PylonBegin = tag.Get<Vector2[]>("PylonBegin");
+            }
+            if (tag.ContainsKey("PylonEnd"))
+            {
+                PylonEnd = tag.Get<Vector2[]>("PylonEnd");
+            }*/
             var downed = new List<string>();
             if (eocFlag) downed.Add("eocFlag");
 
             IList<string> flags = tag.GetList<string>("boolFlags");
-
-            // Game modes
 
             // Downed bosses
             downedAkumo = flags.Contains("downedAkumo");
@@ -157,6 +163,8 @@ namespace EEMod.EEWorld
                 ["EntracesPosses"] = EntracesPosses,
                 ["yes"] = yes,
                 ["ree"] = ree
+                //["PylonBegin"] = PylonBegin,
+                //["PylonEnd"] = PylonEnd
             };
             /*List<string> boolflags = new List<string>();
 

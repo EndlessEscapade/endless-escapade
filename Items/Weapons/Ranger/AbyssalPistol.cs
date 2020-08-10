@@ -10,6 +10,7 @@ namespace EEMod.Items.Weapons.Ranger
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Abyssal Pistol");
+            Tooltip.SetDefault("When submerged, your damage is tripled");
         }
 
         public override void SetDefaults()
@@ -35,6 +36,13 @@ namespace EEMod.Items.Weapons.Ranger
         public override void HoldItem(Player player)
         {
             player.invis = true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.wet)
+                damage = item.damage * 3;
+            return true;
         }
     }
 }
