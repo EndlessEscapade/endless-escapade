@@ -11,7 +11,6 @@ namespace EEMod.NPCs.CoralReefs
     {
         public override void SetStaticDefaults()
         {
-            // Calamity be like
             DisplayName.SetDefault("Ball");
         }
 
