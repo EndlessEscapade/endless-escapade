@@ -55,11 +55,11 @@ namespace EEMod.Mounts
             //Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Vroom").WithVolume(.7f).WithPitchVariance(0));
             Rectangle rect = player.getRect();
             Dust.NewDust(new Vector2(rect.X, rect.Y), rect.Width, rect.Height, DustID.Smoke);
-            if (Math.Abs(player.velocity.Y) > 0.0001f && player.velocity.X > 1f)
+            if (Math.Abs(player.velocity.Y) > 0.0001f && player.direction == 1)
             {
                 player.fullRotation = MathHelper.Pi / -6;
             }
-            else if (Math.Abs(player.velocity.Y) > 0.0001f && player.velocity.X < -1f)
+            else if (Math.Abs(player.velocity.Y) > 0.0001f && player.direction == -1)
             {
                 player.fullRotation = MathHelper.Pi / 6;
             }
