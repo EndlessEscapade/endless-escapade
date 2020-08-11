@@ -29,6 +29,7 @@ using EEMod.Buffs.Debuffs;
 using EEMod.Buffs.Buffs;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using EEMod.Items.Fish;
 
 namespace EEMod
 {
@@ -102,6 +103,31 @@ namespace EEMod
                     bubbleColumn = 0;
                     dur = 36;
                 }
+            }
+        }
+
+        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
+        {
+            if (junk)
+                return;
+            if (ZoneCoralReefs)
+            {
+                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<BlueTang>())
+                    caughtType = ItemType<BlueTang>();
+                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<Spiritfish>() && Main.hardMode)
+                    caughtType = ItemType<Spiritfish>();
+                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<GlitteringPearlfish>() && EEWorld.EEWorld.downedCoralGolem)
+                    caughtType = ItemType<GlitteringPearlfish>();
+                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<Ironfin>() && EEWorld.EEWorld.downedTalos)
+                    caughtType = ItemType<Ironfin>();
+                if (Main.rand.NextFloat() < 0.01f)
+                    caughtType = ItemType<LunaJellyItem>();
+                if (Main.rand.NextFloat() < 0.1f)
+                    caughtType = ItemType<Barracuda>();
+                if (Main.rand.NextFloat() < 0.4f)
+                    caughtType = ItemType<ReeftailMinnow>();
+                if (Main.rand.NextFloat() < 0.4f)
+                    caughtType = ItemType<Coralfin>();
             }
         }
 
@@ -655,7 +681,7 @@ namespace EEMod
                 if (bubbleTimer <= 0)
                 {
                     bubbleTimer = 6;
-                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
+                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
                     bubbleLen = Main.rand.Next(-16, 17);
                     bubbleColumn += 2;
                 }
@@ -698,7 +724,7 @@ namespace EEMod
                 titleText2 = 1;
                 if (!arrowFlag)
                 {
-                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
+                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
                     arrowFlag = true;
                 }
                 DesArrowProjectile desArrowProj = Main.projectile[Arrow].modProjectile as DesArrowProjectile;
@@ -807,10 +833,10 @@ namespace EEMod
                 }
                 if (!arrowFlag)
                 {
-                    Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos3X, pos3Y);
-                    AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos2X, pos2Y - 50);
-                    AnchorsMain = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos9X, pos9Y - 50);
-                    AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos10X, pos10Y - 50);
+                    Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos3X, pos3Y);
+                    AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos2X, pos2Y - 50);
+                    AnchorsMain = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos9X, pos9Y - 50);
+                    AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos10X, pos10Y - 50);
                     arrowFlag = true;
                 }
                 if (isNearIsland)
@@ -966,18 +992,18 @@ namespace EEMod
                                     }
                                 case 1:
                                     {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ModContent.ProjectileType<DarkCloud2>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud2>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                         break;
                                     }
                                 case 2:
                                     {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ModContent.ProjectileType<DarkCloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                         break;
                                     }
                             }
                         }
                     }
-                    //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, ModContent.ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                    //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
                     Projectile.NewProjectile(new Vector2(pos11X, pos11Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
@@ -1013,17 +1039,17 @@ namespace EEMod
                             {
                                 case 0:
                                     {
-                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ModContent.ProjectileType<Glacier>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
+                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                                         break;
                                     }
                                 case 1:
                                     {
-                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ModContent.ProjectileType<Glacier2>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
+                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier2>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                                         break;
                                     }
                                 case 2:
                                     {
-                                        //  Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ModContent.ProjectileType<Glacier3>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
+                                        //  Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier3>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
                                         break;
                                     }
                             }
@@ -1054,27 +1080,27 @@ namespace EEMod
                     {
                         case 0:
                             {
-                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                         case 1:
                             {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                         case 2:
                             {
-                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                         case 3:
                             {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                         case 4:
                             {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ModContent.ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                                 break;
                             }
                     }
@@ -1093,7 +1119,7 @@ namespace EEMod
                 }
                 if (EEWorld.EEWorld.HydrosCheck())
                 {
-                    NPC.NewNPC((int)position.X * 16, (int)position.Y * 16 - 400, ModContent.NPCType<Hydros>());
+                    NPC.NewNPC((int)position.X * 16, (int)position.Y * 16 - 400, NPCType<Hydros>());
                     EEWorld.EEWorld.instance.minionsKilled = 0;
                 }
                 if (!noU)
@@ -1107,12 +1133,12 @@ namespace EEMod
                 markerPlacer++;
                 if (markerPlacer % 40 == 0)
                 {
-                    // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ModContent.ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
+                    // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                 }
 
                 if (!arrowFlag && Main.myPlayer == player.whoAmI)
                 {
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     player.ClearBuff(BuffID.Cursed);
                     arrowFlag = true;
                 }
@@ -1155,8 +1181,8 @@ namespace EEMod
 
                 if (!arrowFlag)
                 {
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
-                    NPC.NewNPC(600 * 16, 594 * 16, ModContent.NPCType<VolcanoSmoke>());
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
+                    NPC.NewNPC(600 * 16, 594 * 16, NPCType<VolcanoSmoke>());
                     arrowFlag = true;
                 }
                 if (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos == Vector2.Zero)
@@ -1186,7 +1212,7 @@ namespace EEMod
                 player.ClearBuff(BuffID.Cursed);
                 if (firstFrameVolcano)
                 {
-                    NPC.NewNPC(200, EEWorld.EEWorld.TileCheck(200, ModContent.TileType<MagmastoneTile>()), ModContent.NPCType<Akumo>());
+                    NPC.NewNPC(200, EEWorld.EEWorld.TileCheck(200, TileType<MagmastoneTile>()), NPCType<Akumo>());
                     firstFrameVolcano = false;
                 }
             }
