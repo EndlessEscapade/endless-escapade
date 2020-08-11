@@ -1156,7 +1156,7 @@ namespace EEMod
                 if (!arrowFlag)
                 {
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
-                    NPC.NewNPC(600 * 16, 594 * 16, ModContent.NPCType<VolcanoSmoke>());
+                    NPC.NewNPC(600 * 16, 594 * 16, NPCType<VolcanoSmoke>());
                     arrowFlag = true;
                 }
                 if (EEWorld.EEWorld.SubWorldSpecificVolcanoInsidePos == Vector2.Zero)

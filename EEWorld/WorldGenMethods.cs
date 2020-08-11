@@ -2802,39 +2802,40 @@ namespace EEMod.EEWorld
         }
         public static void PlaceCoral()
         {
-            for (int i = 3; i < Main.maxTilesX - 3; i++)
+            for (int i = 42; i < Main.maxTilesX -42; i++)
             {
-                for (int j = 3; j < Main.maxTilesY - 3; j++)
+                for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
-                    if (TileCheck2((int)i, (int)j) == 1 && !WorldGen.genRand.NextBool(5))
+                    if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(5))
                     {
                         int selection = WorldGen.genRand.Next(7);
                         switch (selection)
                         {
                             case 0:
-                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral1>());
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral1>());
                                 break;
                             case 1:
-                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral2>());
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral2>());
                                 break;
                             case 2:
-                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral3>());
+                                WorldGen.PlaceTile(i,j + 1, ModContent.TileType<HangingCoral3>());
                                 break;
                             case 3:
-                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral4>());
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral4>());
                                 break;
                             case 4:
-                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral5>());
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral5>());
                                 break;
                             case 5:
-                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<HangingCoral6>());
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral6>());
                                 break;
                             case 6:
-                                WorldGen.PlaceTile((int)i, (int)j + 1, ModContent.TileType<GlowHangCoral1>());
+                                ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j+1);
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                 break;
                         }
                     }
-                    if (TileCheck2((int)i, (int)j) == 2 && !WorldGen.genRand.NextBool(6))
+                    if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(6))
                     {
                         int selection = WorldGen.genRand.Next(13);
                         switch (selection)

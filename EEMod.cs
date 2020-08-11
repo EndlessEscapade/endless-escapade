@@ -403,7 +403,12 @@ namespace EEMod
             }
             return false;
         }
-
+        public override void UpdateMusic(ref int music, ref MusicPriority priority)
+        {
+                priority = MusicPriority.BossHigh;
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/TransitionMusoc");
+                return;
+        }
         private int cannonDelay = 60;
         private void DrawShip()
         {

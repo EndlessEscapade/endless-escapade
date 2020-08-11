@@ -35,13 +35,16 @@ namespace EEMod.Tiles
         }
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
-            Tile tile = Framing.GetTileSafely(i, j + 1);
-            if (!tile.active()
-                || tile.type != ModContent.TileType<KelpTile>()
-                && tile.type != ModContent.TileType<GemsandTile>()
-                && tile.type != ModContent.TileType<LightGemsandTile>()
-                && tile.type != ModContent.TileType<DarkGemsandTile>())
-                WorldGen.KillTile(i, j);
+            if (WorldGen.InWorld(i, j))
+            {
+                Tile tile = Framing.GetTileSafely(i, j + 1);
+                if (!tile.active()
+                    || tile.type != ModContent.TileType<KelpTile>()
+                    && tile.type != ModContent.TileType<GemsandTile>()
+                    && tile.type != ModContent.TileType<LightGemsandTile>()
+                    && tile.type != ModContent.TileType<DarkGemsandTile>())
+                    WorldGen.KillTile(i, j);
+            }
         }
         public override void RandomUpdate(int i, int j)
         {
