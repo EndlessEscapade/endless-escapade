@@ -28,9 +28,13 @@ namespace EEMod.Effects
         public void DoTrailCreation(Projectile projectile)
         {
             Mod mod = EEMod.instance;
-            if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>())
+            if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(200, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
+            }
+            if (projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>())
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(57, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
 
         }

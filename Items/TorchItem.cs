@@ -60,13 +60,9 @@ namespace EEMod.Items
                 }
                 else
                 {
-                    alpha -= 0.25f;
-                    if (alpha < 0)
-                    {
                         alpha = 0;
                         yeet = 0;
                         Main.projectile[proj].Kill();
-                    }
                 }
             }
         }

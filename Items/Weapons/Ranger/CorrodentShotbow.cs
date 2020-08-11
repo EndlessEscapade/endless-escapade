@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Ranger
         {
             item.damage = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 70;
+            item.useAnimation = 2;
             item.useTime = 24;
             item.shootSpeed = 4;
             item.knockBack = 6.5f;
@@ -30,13 +30,17 @@ namespace EEMod.Items.Weapons.Ranger
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.autoReuse = true;
+            item.autoReuse = false;
 
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<CorrodentShotbowProj>();
         }
 
-
+        public override bool CanUseItem(Player player)
+        {
+            // Ensures no more than one spear can be thrown out, use this when using autoReuse
+            return player.ownedProjectileCounts[item.shoot] < 1;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
