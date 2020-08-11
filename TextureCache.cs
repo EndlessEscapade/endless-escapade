@@ -20,6 +20,7 @@ namespace EEMod
         public static Texture2D Seahorse;
         public static Texture2D HydroBeam_Beam;
         public static Texture2D HydroBeam_End;
+        public static Texture2D Vine;
         /*public static Texture2D GBeam_Beam;
         public static Texture2D GBeam_End;
         public static Texture2D Gallagar;*/
@@ -55,6 +56,7 @@ namespace EEMod
         public static void Load()
         {
             Mod mod = EEMod.instance;
+            Vine = mod.GetTexture("Projectiles/Vine");
             //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
             Chain = mod.GetTexture("NPCs/CoralReefs/DreadmineChain");
             Empty = mod.GetTexture("Empty");
@@ -104,6 +106,7 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            Vine = null;
             Mask1 = null;
             GradientEffect = null;
             CB1 = null;

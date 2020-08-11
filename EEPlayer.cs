@@ -1182,6 +1182,7 @@ namespace EEMod
                 if (!arrowFlag)
                 {
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
+                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
                     NPC.NewNPC(600 * 16, 594 * 16, NPCType<VolcanoSmoke>());
                     arrowFlag = true;
                 }
@@ -1240,7 +1241,7 @@ namespace EEMod
                 EEWorld.EEWorld.ShipComplete();
                 if (EEWorld.EEWorld.missingShipTiles.Count != lastNoOfShipTiles)
                 {
-                    for (int i = 0; i < 200; i++)
+                    for (int i = 0; i < Main.projectile.Length; i++)
                     {
                         if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
                         {
