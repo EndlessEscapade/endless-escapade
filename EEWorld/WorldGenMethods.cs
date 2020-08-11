@@ -2554,7 +2554,7 @@ namespace EEMod.EEWorld
                     {
                         for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                         {
-                            if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY))
+                            if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i,j))
                             {
                                 Tile tile = Framing.GetTileSafely(i, j);
                                 if (j < Main.maxTilesY * 0.33f)
@@ -2644,7 +2644,7 @@ namespace EEMod.EEWorld
                 for (int j = -20; j < sizeY + 20; j++)
                 {
                     Vector2 basePos = new Vector2(i + xPos - size / 2f, j + yPos - size / 4f);
-                    if (WorldGen.InWorld((int)basePos.X, (int)basePos.Y + 8))
+                    if (WorldGen.InWorld((int)basePos.X, (int)basePos.Y))
                     {
                         switch (foliage)
                         {
@@ -2806,7 +2806,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
-                    if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(5))
+                    if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(5) && WorldGen.InWorld(i,j))
                     {
                         int selection = WorldGen.genRand.Next(7);
                         switch (selection)
@@ -2835,7 +2835,7 @@ namespace EEMod.EEWorld
                                 break;
                         }
                     }
-                    if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(6))
+                    if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(6) && WorldGen.InWorld(i, j))
                     {
                         int selection = WorldGen.genRand.Next(13);
                         switch (selection)
