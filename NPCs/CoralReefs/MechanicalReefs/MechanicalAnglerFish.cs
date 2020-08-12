@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using EEMod.Projectiles.Enemy;
 
-namespace EEMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
     public class MechanicalAnglerFish : ModNPC
     {

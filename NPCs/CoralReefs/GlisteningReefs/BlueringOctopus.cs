@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using EEMod.Projectiles.Enemy;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 {
     public class BlueringOctopus : ModNPC
     {

@@ -58,7 +58,7 @@ namespace EEMod
             Mod mod = EEMod.instance;
             Vine = mod.GetTexture("Projectiles/Vine");
             //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
-            Chain = mod.GetTexture("NPCs/CoralReefs/DreadmineChain");
+            Chain = mod.GetTexture("NPCs/CoralReefs/MechanicalReefs/DreadmineChain");
             Empty = mod.GetTexture("Empty");
             Mask1 = mod.GetTexture("Masks/Extra_49");
             //EyeTileGlow = mod.GetTexture("Tiles/Furniture/Coral/EyeTileGlow");
