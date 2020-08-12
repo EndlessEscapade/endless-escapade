@@ -60,7 +60,6 @@ namespace EEMod
         public bool holdingPylon;
 
         public bool ridingZipline;
-        public int zipTimer;
 
         public override void UpdateBiomes()
         {
@@ -628,13 +627,15 @@ namespace EEMod
             }
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {
-                Main.LocalPlayer.position = (Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin + (Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd - Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin) * Main.LocalPlayer.GetModPlayer<EEPlayer>().zipTimer / (500f / zipMultiplier)) + new Vector2(-12 * 16, -13 * 16 + 32);
+                Vector2 begin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
+                Vector2 end = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
+                Main.LocalPlayer.velocity = Vector2.Normalize(end - begin) * zipMultiplier;
                 Main.LocalPlayer.gravity = 0;
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().zipTimer++;
-                if (zipMultiplier <= 4)
+                Main.LocalPlayer.AddBuff(BuffID.Cursed, 2, true);
+                if (zipMultiplier <= 10)
                     zipMultiplier *= 1.02f;
             }
-            if (Vector2.Distance(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 252 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            if (Vector2.Distance(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 32 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {
                 int i;
                 for (i = 0; i <= 100; i++)
@@ -658,7 +659,6 @@ namespace EEMod
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = EEWorld.EEWorld.PylonEnd[i];
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = EEWorld.EEWorld.PylonEnd[i + 1];
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = true;
-                    zipMultiplier = 1;
                 }
             }
 

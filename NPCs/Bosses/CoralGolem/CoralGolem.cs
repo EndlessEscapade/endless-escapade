@@ -16,6 +16,21 @@ namespace EEMod.NPCs.Bosses.CoralGolem
             Main.npcFrameCount[npc.type] = 8;
         }
 
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter == 7)
+            {
+                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frameCounter = 0;
+            }
+            if (npc.frame.Y >= frameHeight * 8)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
+        }
+
         public override void SetDefaults()
         {
             npc.boss = true;
@@ -42,7 +57,7 @@ namespace EEMod.NPCs.Bosses.CoralGolem
                 npc.buffImmune[k] = true;
             }
 
-            music = Compatibilities.EEMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Precursors") ?? MusicID.Boss3;
+            //music = Compatibilities.EEMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Precursors") ?? MusicID.Boss3;
         }
     }
 }
