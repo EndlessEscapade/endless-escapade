@@ -17,6 +17,7 @@ using EEMod.Projectiles.Mage;
 using EEMod.Effects;
 using EEMod.EEWorld;
 using static EEMod.EEWorld.EEWorld;
+using EEMod.ID;
 
 namespace EEMod
 {

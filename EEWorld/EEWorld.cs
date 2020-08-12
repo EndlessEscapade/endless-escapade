@@ -110,7 +110,7 @@ namespace EEMod.EEWorld
                     Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                     Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2 + new Vector2(0, 50 + (float)(Math.Sin(sinDis[i].Y) * 30));
                     if (MidNorm.Y > 100*16 && Vector2.Distance(ChainConneccPos, LastChainConneccPos) < 40 * 16 && Vector2.Distance(Main.LocalPlayer.Center, MidNorm) < 2000)
-                    Helpers.DrawBezier(Main.spriteBatch, TextureCache.Vine, "", Color.White, ChainConneccPos, LastChainConneccPos, Mid, Mid, 0.02f, MathHelper.Pi / 2);
+                    Helpers.DrawBezier(Main.spriteBatch, TextureCache.Vine, "", Color.White, ChainConneccPos, LastChainConneccPos, Mid, Mid, 0.02f, MathHelper.Pi / 2,true);
                 }
             }
         }

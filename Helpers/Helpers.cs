@@ -37,7 +37,7 @@ namespace EEMod
                  y3 * Math.Pow(t, 3)
              );
         }
-        public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis)
+        public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, bool alphaBlend = false)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
             {
@@ -45,13 +45,15 @@ namespace EEMod
                 float projTrueRotation;
                 if (i != 0)
                 {
-                    distBetween = new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) -
+                    float x = X(i, startingPos.X, c1.X, c2.X, endPoints.X);
+                    float y = Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
+                    distBetween = new Vector2(x -
                     X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
-                    Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
+                    y -
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
-                    spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
-                    new Rectangle(0, 0, headTexture.Width, headTexture.Height), drawColor, projTrueRotation,
+                    spriteBatch.Draw(headTexture, new Vector2(x - Main.screenPosition.X, y - Main.screenPosition.Y),
+                    new Rectangle(0, 0, headTexture.Width, headTexture.Height),alphaBlend ? Lighting.GetColor((int)(x/16),(int)(y/16)) : drawColor, projTrueRotation,
                     new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), 1, SpriteEffects.None, 0);
                 }
             }
