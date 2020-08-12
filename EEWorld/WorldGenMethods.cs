@@ -17,6 +17,7 @@ namespace EEMod.EEWorld
 {
     public partial class EEWorld
     {
+        public static IList<Vector2> Vines = new List<Vector2>();
         public override void Load(TagCompound tag)
         {
             instance = this;
@@ -40,6 +41,10 @@ namespace EEMod.EEWorld
             {
                 ree = tag.Get<Vector2>("ree");
             }
+            if (tag.ContainsKey("ChainConnections"))
+            {
+                EESubWorlds.ChainConnections = tag.GetList<Vector2>("ChainConnections");
+            }
             var downed = new List<string>();
             if (eocFlag) downed.Add("eocFlag");
 
@@ -58,7 +63,8 @@ namespace EEMod.EEWorld
             {
                 return new TagCompound
                 {
-                    ["CoralBoatPos"] = EESubWorlds.CoralBoatPos
+                    ["CoralBoatPos"] = EESubWorlds.CoralBoatPos,
+                    ["ChainConnections"] = EESubWorlds.ChainConnections
                 };
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
@@ -2330,6 +2336,38 @@ namespace EEMod.EEWorld
             }
         }
         public static int TileCheck2(int i, int j)
+        {
+            Tile tile1 = Framing.GetTileSafely(i, j);
+            Tile tile2 = Framing.GetTileSafely(i, j - 1);
+            Tile tile3 = Framing.GetTileSafely(i, j - 2);
+            Tile tile4 = Framing.GetTileSafely(i, j + 1);
+            Tile tile5 = Framing.GetTileSafely(i, j + 2);
+            Tile tile6 = Framing.GetTileSafely(i - 1, j);
+            Tile tile7 = Framing.GetTileSafely(i - 2, j);
+            Tile tile8 = Framing.GetTileSafely(i + 1, j);
+            Tile tile9 = Framing.GetTileSafely(i + 2, j);
+            if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active())
+            {
+                return 1;
+            }
+            if (tile1.active() && !tile2.active() && !tile3.active() && tile4.active() && tile5.active())
+            {
+                return 2;
+            }
+            if (tile1.active() && tile6.active() && tile7.active() && !tile8.active() && !tile9.active())
+            {
+                return 3;
+            }
+            if (tile1.active() && !tile6.active() && !tile7.active() && tile8.active() && tile9.active())
+            {
+                return 4;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        public static int WaterCheck(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);
             Tile tile2 = Framing.GetTileSafely(i, j - 1);
