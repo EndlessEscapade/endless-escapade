@@ -97,13 +97,14 @@ namespace EEMod.Projectiles
             Texture2D volleyArrow = TextureCache.VArrow;
             Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, (volleyArrow.Height / frames) * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.Pi / 2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
+            float velocitylength = projectile.velocity.Length();
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
                 if (k != 0)
                 {
                     Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                    Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
-                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), new Color(255, 255, 255, 10), projectile.rotation, drawOrigin, projectile.scale * (1 - (k / (float)projectile.oldPos.Length)) * (projectile.velocity.Length() * 0.06f), SpriteEffects.None, 0f);
+                    //Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
+                    spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), new Color(255, 255, 255, 10), projectile.rotation, drawOrigin, projectile.scale * (1 - (k / (float)projectile.oldPos.Length)) * (velocitylength * 0.06f), SpriteEffects.None, 0f);
                 }
             }
             return true;
@@ -125,7 +126,7 @@ namespace EEMod.Projectiles
             {
                 if (Main.projectile[i].type == ModContent.ProjectileType<TennisRachetProj>() && Main.projectile[i].active)
                 {
-                    if ((Main.projectile[i].Center - projectile.Center).Length() < (pos - projectile.Center).Length())
+                    if ((Main.projectile[i].Center - projectile.Center).LengthSquared() < (pos - projectile.Center).LengthSquared())
                     {
                         pos = Main.projectile[i].Center;
                         indexOfProjectile = i;

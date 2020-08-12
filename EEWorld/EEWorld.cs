@@ -12,6 +12,7 @@ using Terraria.ModLoader.IO;
 using EEMod.Tiles;
 using EEMod.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
+using EEMod.ID;
 
 namespace EEMod.EEWorld
 {
@@ -20,7 +21,7 @@ namespace EEMod.EEWorld
         //public static bool GenkaiMode;
 
         public int minionsKilled;
-        public static EEWorld instance;
+        public static EEWorld instance => ModContent.GetInstance<EEWorld>();
         public static bool downedTalos;
         public static bool downedCoralGolem;
         public static bool downedAkumo;

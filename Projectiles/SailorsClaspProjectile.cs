@@ -78,14 +78,14 @@ namespace EEMod.Projectiles
             Vector2 center = projectile.Center;
             Vector2 distToProj = playerCenter - projectile.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;
-            float distance = distToProj.Length();
-            while (distance > 30f && !float.IsNaN(distance))
+            float distanceSQ = distToProj.LengthSquared();
+            while (distanceSQ > 30f && !float.IsNaN(distanceSQ))
             {
                 distToProj.Normalize();                 //get unit vector
                 distToProj *= 24f;                      //speed = 24
                 center += distToProj;                   //update draw position
                 distToProj = playerCenter - center;    //update distance
-                distance = distToProj.Length();
+                //distance = distToProj.Length();
                 Color drawColor = lightColor;
 
                 //Draw chain

@@ -37,7 +37,7 @@ namespace EEMod.Projectiles.OceanMap
                 }
                 float speed = .3f;
                 Vector2 move = moveTo - projectile.Center;
-                if (projectile.ai[0] % 180 == 0 && move.Length() < 500)
+                if (projectile.ai[0] % 180 == 0 && move.LengthSquared() < 500*500)
                 {
                     Projectile.NewProjectile(projectile.Center, Vector2.Normalize(move) * 3, ModContent.ProjectileType<EnemyCannonball>(), 10, 10f);
                 }

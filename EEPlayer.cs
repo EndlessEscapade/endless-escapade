@@ -30,6 +30,7 @@ using EEMod.Buffs.Buffs;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using EEMod.Items.Fish;
+using EEMod.ID;
 
 namespace EEMod
 {

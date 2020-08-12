@@ -1,22 +1,26 @@
 
 using Terraria.ID;
+using static EEMod.Arrays.EEWorld.CastleArrayVals;
 
 namespace EEMod.Arrays
 {
     public partial class EEWorld
     {
-        const ushort A = TileID.BlueDungeonBrick;
-        const ushort B = WallID.BlueDungeonUnsafe;
-        const ushort C = WallID.BlueDungeonTileUnsafe;
-        const ushort D = TileID.Banners;
-        const ushort E = TileID.HangingLanterns;
-        const ushort F = TileID.Trees;
-        const ushort G = TileID.Books;
-        const ushort H = TileID.Platforms;
-        const ushort I = TileID.Grass;
-        const ushort J = TileID.Switches;
-        const ushort K = WallID.DirtUnsafe;
-        const ushort L = TileID.OpenDoor;
+        internal static class CastleArrayVals
+        {
+            internal const ushort A = TileID.BlueDungeonBrick;
+            internal const ushort B = WallID.BlueDungeonUnsafe;
+            internal const ushort C = WallID.BlueDungeonTileUnsafe;
+            internal const ushort D = TileID.Banners;
+            internal const ushort E = TileID.HangingLanterns;
+            internal const ushort F = TileID.Trees;
+            internal const ushort G = TileID.Books;
+            internal const ushort H = TileID.Platforms;
+            internal const ushort I = TileID.Grass;
+            internal const ushort J = TileID.Switches;
+            internal const ushort K = WallID.DirtUnsafe;
+            internal const ushort L = TileID.OpenDoor;
+        }
         public static int[,,] Castle = new int[,,]
         {
 {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},

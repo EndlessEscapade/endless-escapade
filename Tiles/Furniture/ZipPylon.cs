@@ -81,9 +81,13 @@ namespace EEMod.Tiles.Furniture
                 {
                     Vector2 begin = EEWorld.EEWorld.PylonBegin[l];
                     Vector2 end = EEWorld.EEWorld.PylonEnd[l];
-                    for (float k = 0; k < 1; k += 1 / (end - begin).Length())
+                    Vector2 endbegindistance = end - begin;
+                    float n = 1 / endbegindistance.Length();
+                    float ebdistrot = endbegindistance.ToRotation();
+                    Texture2D texture = mod.GetTexture("Items/Zipline");
+                    for (float k = 0; k < 1; k += n)
                     {
-                        Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), begin + (end - begin) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(texture, begin + endbegindistance * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, ebdistrot, Vector2.One, 1, SpriteEffects.None, 0);
                     }
                 }
             }

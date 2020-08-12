@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Utilities;
 using Microsoft.Xna.Framework;
 
 namespace EEMod
@@ -199,6 +200,24 @@ namespace EEMod
             }
             return listNumbers.ToArray();
         }
+        public static int[] FillPseudoRandomUniform2(this UnifiedRandom rand, int size)
+        {
+            int[] numbers = new int[size];
+            if (size < 1)
+                return numbers;
+            numbers[0] = rand.Next(size);
+            for (int i = 1; i < size; i++)
+            {
+                int num;
+                do
+                    num = rand.Next(size);
+                while (Array.IndexOf(numbers, num, 0, i) >= 0);
+
+                numbers[i] = num;
+            }
+            return numbers;
+        }
+        public static int[] FillPseudoRandomUniform2(int size) => FillPseudoRandomUniform2(Main.rand, size);
         public static Vector2 MoveTowardsProjectile(float speed, float currentX, float currentY, Projectile projectile, Vector2 issue, int direction)
         {
             Vector2 vector3 = new Vector2(issue.X + (direction * 20), issue.Y + 6f);

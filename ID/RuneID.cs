@@ -1,6 +1,4 @@
-
-
-namespace EEMod
+namespace EEMod.ID
 {
     public class RuneID
     {
