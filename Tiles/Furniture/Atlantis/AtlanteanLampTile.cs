@@ -1,4 +1,4 @@
-/*using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,13 +14,13 @@ namespace EEMod.Tiles.Furniture.Atlantis
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.StyleWrapLimit = 36;
-            TileObjectData.addTile(Type);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.Height = 3;
             TileObjectData.newTile.Width = 1;
+            TileObjectData.addTile(Type);
             dustType = 7;
             disableSmartCursor = true;
             ModTranslation name = CreateMapEntryName();
@@ -67,4 +67,4 @@ namespace EEMod.Tiles.Furniture.Atlantis
             }
         }
     }
-}*/
+}

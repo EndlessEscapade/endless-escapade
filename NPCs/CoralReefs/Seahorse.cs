@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.EEWorld;
+using EEMod.ID;
 
 namespace EEMod.NPCs.CoralReefs
 {

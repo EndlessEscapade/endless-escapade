@@ -13,16 +13,17 @@ using EEMod.Tiles;
 using EEMod.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using EEMod.ID;
 
 namespace EEMod.EEWorld
 {
     public partial class EEWorld : ModWorld
     {
         //public static bool GenkaiMode;
-       
+
 
         public int minionsKilled;
-        public static EEWorld instance;
+        public static EEWorld instance => ModContent.GetInstance<EEWorld>();
         public static bool downedTalos;
         public static bool downedCoralGolem;
         public static bool downedAkumo;
@@ -96,7 +97,7 @@ namespace EEMod.EEWorld
                 sinDis[i].X = Main.rand.NextFloat(0, 0.03f);
             }
         }
-        
+
         public void DrawVines()
         {
             if (EESubWorlds.ChainConnections.Count > 0)

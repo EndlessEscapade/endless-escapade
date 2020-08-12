@@ -2,15 +2,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Projectiles.Ranged;
-using EEMod.Projectiles;
 
-namespace EEMod.Items
+namespace EEMod.Items.Fish
 {
-    public class TennisBall : ModItem
+    public class LunaJellyItem : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Tennis Ball");
+            DisplayName.SetDefault("Luna Jelly");
             ItemID.Sets.SortingPriorityMaterials[item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
         }
 
@@ -21,11 +20,6 @@ namespace EEMod.Items
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 18, 0);
             item.rare = ItemRarityID.Green;
-            item.consumable = false;
-            item.shoot = ModContent.ProjectileType<TenisBoll>();
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
         }
     }
 }

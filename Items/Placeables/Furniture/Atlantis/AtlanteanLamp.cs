@@ -1,4 +1,4 @@
-/*using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.Furniture.Atlantis;
@@ -28,4 +28,4 @@ namespace EEMod.Items.Placeables.Furniture.Atlantis
             item.createTile = ModContent.TileType<AtlanteanLampTile>();
         }
     }
-}*/
+}

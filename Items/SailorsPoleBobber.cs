@@ -93,7 +93,7 @@ namespace EEMod.Items
             {
                 float height = 12f;
                 float positionMagnitude = lineOrigin.Length();
-                if (float.IsNaN(positionMagnitude) || float.IsNaN(positionMagnitude))
+                if (float.IsNaN(positionMagnitude))
                     break;
 
                 if (positionMagnitude < 20f)

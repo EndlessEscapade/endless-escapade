@@ -24,7 +24,6 @@ namespace EEMod.NPCs
 
         public override void SetDefaults()
         {
-
             npc.width = 32;
             npc.height = 58;
             npc.damage = 12;
@@ -89,25 +88,18 @@ namespace EEMod.NPCs
             int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;
             int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
             int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
-            if (minTilePosX < 0)
-            {
+            if (minTilePosX < 0)           
                 minTilePosX = 0;
-            }
 
             if (maxTilePosX > Main.maxTilesX)
-            {
                 maxTilePosX = Main.maxTilesX;
-            }
-
+            
             if (minTilePosY < 0)
-            {
                 minTilePosY = 0;
-            }
 
             if (maxTilePosY > Main.maxTilesY)
-            {
                 maxTilePosY = Main.maxTilesY;
-            }
+
             for (int i = minTilePosX; i < maxTilePosX; ++i)
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
@@ -145,7 +137,7 @@ namespace EEMod.NPCs
             }
             if (Math.Abs(npc.velocity.X) <= accel * 2.5f && npc.ai[1] == 0)
             {
-                if (onGround && Main.netMode != 1)
+                if (onGround && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.velocity.Y -= Main.rand.NextFloat(-8f, -5f);
                     npc.ai[1] = Main.rand.Next(80, 180);

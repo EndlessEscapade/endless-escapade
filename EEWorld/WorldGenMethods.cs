@@ -13,6 +13,8 @@ using EEMod.Tiles.Walls;
 using System.Collections.Generic;
 using EEMod.Arrays;
 using Terraria.ModLoader.IO;
+using EEMod.ID;
+
 namespace EEMod.EEWorld
 {
     public partial class EEWorld
@@ -20,7 +22,6 @@ namespace EEMod.EEWorld
         public static IList<Vector2> Vines = new List<Vector2>();
         public override void Load(TagCompound tag)
         {
-            instance = this;
             if (tag.ContainsKey("EntracesPosses"))
             {
                 EntracesPosses = tag.GetList<Vector2>("EntracesPosses");

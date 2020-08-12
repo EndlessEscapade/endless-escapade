@@ -1,15 +1,16 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Materials.Fruit;
+using EEMod.Items.Fish;
+using EEMod.Buffs.Buffs;
 
-namespace EEMod.Items.Food
+namespace EEMod.Items.Consumables
 {
-    public class OrangeJuice : ModItem
+    public class VexingPotion : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Orange Juice");
+            DisplayName.SetDefault("Vexing Potion");
             ItemID.Sets.SortingPriorityMaterials[item.type] = 100;
         }
 
@@ -29,17 +30,18 @@ namespace EEMod.Items.Food
 
         public override bool UseItem(Player player)
         {
-            player.AddBuff(BuffID.WellFed, 60 * 300);
-            player.AddBuff(BuffID.Swiftness, 60 * 60);
-            player.AddBuff(BuffID.Regeneration, 60 * 30);
+            player.AddBuff(ModContent.BuffType<Vex>(), 60 * 60 * 7);
             return true;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Orange>(), 10);
-            recipe.AddTile(TileID.Kegs);
+            recipe.AddIngredient(ModContent.ItemType<Barracuda>(), 1);
+            recipe.AddIngredient(ItemID.BottledWater, 1);
+            recipe.AddIngredient(ItemID.Deathweed, 1);
+            recipe.AddIngredient(ItemID.Fireblossom, 1);
+            recipe.AddTile(TileID.Bottles);
             recipe.SetResult(this);
             recipe.AddRecipe();
         }

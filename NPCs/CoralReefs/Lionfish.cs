@@ -42,12 +42,12 @@ namespace EEMod.NPCs.CoralReefs
             Vector2 closestPlayer = new Vector2();
             for (int i = 0; i < Main.player.Length; i++)
             {
-                if (Vector2.Distance(Main.player[i].Center, npc.Center) <= Vector2.Distance(closestPlayer, npc.Center))
+                if (Vector2.DistanceSquared(Main.player[i].Center, npc.Center) <= Vector2.DistanceSquared(closestPlayer, npc.Center))
                 {
                     closestPlayer = Main.player[i].Center;
                 }
             }
-            if (Vector2.Distance(closestPlayer, npc.Center) <= 640)
+            if (Vector2.DistanceSquared(closestPlayer, npc.Center) <= 640 * 640)
             {
                 npc.velocity = Vector2.Normalize(closestPlayer - npc.Center) * speed;
             }

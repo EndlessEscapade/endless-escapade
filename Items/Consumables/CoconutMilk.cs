@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Materials.Fruit;
 
-namespace EEMod.Items.Food
+namespace EEMod.Items.Consumables
 {
     public class CoconutMilk : ModItem
     {
