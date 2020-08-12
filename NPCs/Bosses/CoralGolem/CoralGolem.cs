@@ -16,6 +16,21 @@ namespace EEMod.NPCs.Bosses.CoralGolem
             Main.npcFrameCount[npc.type] = 8;
         }
 
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter == 7)
+            {
+                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frameCounter = 0;
+            }
+            if (npc.frame.Y >= frameHeight * 8)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
+        }
+
         public override void SetDefaults()
         {
             npc.boss = true;
@@ -42,7 +57,12 @@ namespace EEMod.NPCs.Bosses.CoralGolem
                 npc.buffImmune[k] = true;
             }
 
-            music = Compatibilities.EEMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Precursors") ?? MusicID.Boss3;
+            //music = Compatibilities.EEMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Precursors") ?? MusicID.Boss3;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/Bosses/CoralGolem/CoralGolemGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }
