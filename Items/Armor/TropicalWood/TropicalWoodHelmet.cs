@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
+using EEMod.Items.Materials;
 
 namespace EEMod.Items.Armor.TropicalWood
 {
@@ -11,7 +11,7 @@ namespace EEMod.Items.Armor.TropicalWood
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Tropical Wood Helmet");
-            Tooltip.SetDefault("5% increased melee speed");
+            Tooltip.SetDefault("2% increased summon damage");
         }
 
         public override void SetDefaults()
@@ -30,22 +30,19 @@ namespace EEMod.Items.Armor.TropicalWood
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeSpeed += 0.05f;
+            player.minionDamage += 0.02f;
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "When below 40% life, you gain 8 defense";
-            if (player.statLife <= player.statLifeMax * 0.40f)
-            {
-                player.statDefense += 8;
-            }
+            player.setBonus = "+1 max minions";
+            player.maxMinions++;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 11);
+            recipe.AddIngredient(ModContent.ItemType<Materials.TropicalWood>(), 20);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

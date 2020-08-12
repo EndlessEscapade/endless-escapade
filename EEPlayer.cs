@@ -1022,16 +1022,16 @@ namespace EEMod
                         {
                             //Crate loot tables go here
                             if (Main.rand.NextBool())
-                                player.QuickSpawnItem(ItemID.GoldBar, 8);
+                                player.QuickSpawnItem(ItemID.GoldBar, Main.rand.Next(4, 9));
                             else
-                                player.QuickSpawnItem(ItemID.PlatinumBar, 8);
+                                player.QuickSpawnItem(ItemID.PlatinumBar, Main.rand.Next(4, 9));
 
                             if (Main.rand.NextBool())
-                                player.QuickSpawnItem(ItemID.ApprenticeBait, Main.rand.Next(3, 6));
+                                player.QuickSpawnItem(ItemID.ApprenticeBait, Main.rand.Next(2, 4));
                             else
-                                player.QuickSpawnItem(ItemID.JourneymanBait, Main.rand.Next(1, 3));
+                                player.QuickSpawnItem(ItemID.JourneymanBait, 1);
 
-                            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(0, 3));
+                            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(0, 2));
                             player.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(0, 100));
                             player.QuickSpawnItem(ItemID.CopperCoin, Main.rand.Next(0, 100));
 
@@ -1140,7 +1140,7 @@ namespace EEMod
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
 
                 if (markerPlacer % 200 == 0)
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth - 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
 
                 if (markerPlacer % 20 == 0)
                 {

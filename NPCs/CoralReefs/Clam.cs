@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -10,7 +11,6 @@ namespace EEMod.NPCs.CoralReefs
     {
         public override void SetStaticDefaults()
         {
-            // Calamity be like
             DisplayName.SetDefault("Clam");
             Main.npcFrameCount[npc.type] = 2;
         }
@@ -111,6 +111,11 @@ namespace EEMod.NPCs.CoralReefs
             {
                 npc.frame.Y = frameHeight;
             }
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/CoralReefs/ClamGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }
