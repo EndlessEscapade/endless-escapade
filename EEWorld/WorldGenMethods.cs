@@ -60,27 +60,22 @@ namespace EEMod.EEWorld
         }
         public override TagCompound Save()
         {
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs && EESubWorlds.CoralBoatPos != Vector2.Zero)
+            TagCompound tag = new TagCompound();
+            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
-                return new TagCompound
-                {
-                    ["CoralBoatPos"] = EESubWorlds.CoralBoatPos,
-                    ["ChainConnections"] = EESubWorlds.ChainConnections
-                };
+                if (EESubWorlds.CoralBoatPos != Vector2.Zero)
+                tag["CoralBoatPos"] = EESubWorlds.CoralBoatPos;
+                tag["ChainConnections"] = EESubWorlds.ChainConnections;
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {
-                return new TagCompound
-                {
-                    ["SubWorldSpecificVolcanoInsidePos"] = SubWorldSpecificVolcanoInsidePos
-                };
+                tag["SubWorldSpecificVolcanoInsidePos"] = SubWorldSpecificVolcanoInsidePos;
             }
-            return new TagCompound
-            {
-                ["EntracesPosses"] = EntracesPosses,
-                ["yes"] = yes,
-                ["ree"] = ree
-            };
+            tag["EntracesPosses"] = EntracesPosses;
+            tag["yes"] = yes;
+            tag["ree"] = ree;
+            return tag;
+        }
             /*List<string> boolflags = new List<string>();
 
             // Game modes
@@ -113,7 +108,6 @@ namespace EEMod.EEWorld
                 ["SaveVersion"] = new Version(0, 3, 0, 0).ToString(),
                 ["boolFlags"] = boolflags
             };*/
-        }
         private static void StartSandstorm()
         {
             Sandstorm.Happening = true;

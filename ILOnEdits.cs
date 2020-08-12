@@ -36,7 +36,10 @@ namespace EEMod
             On.Terraria.Main.Draw += OnDrawMenu;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
-            TrailManager = new TrailManager(this);
+            if (Main.netMode != NetmodeID.Server)
+            {
+                TrailManager = new TrailManager(this);
+            }
         }
 
         private void Practice(ILContext il)
