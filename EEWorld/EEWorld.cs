@@ -105,12 +105,16 @@ namespace EEMod.EEWorld
                 for (int i = 1; i < EESubWorlds.ChainConnections.Count - 2; i++)
                 {
                     sinDis[i].Y += sinDis[i].X;
+                    Vector2 addOn = new Vector2(0, 8);
                     Vector2 ChainConneccPos = EESubWorlds.ChainConnections[i] * 16;
                     Vector2 LastChainConneccPos = EESubWorlds.ChainConnections[i - 1] * 16;
                     Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                     Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2 + new Vector2(0, 50 + (float)(Math.Sin(sinDis[i].Y) * 30));
-                    if (MidNorm.Y > 100*16 && Vector2.Distance(ChainConneccPos, LastChainConneccPos) < 40 * 16 && Vector2.Distance(Main.LocalPlayer.Center, MidNorm) < 2000)
-                    Helpers.DrawBezier(Main.spriteBatch, TextureCache.Vine, "", Color.White, ChainConneccPos, LastChainConneccPos, Mid, Mid, 0.02f, MathHelper.Pi / 2,true);
+                    if (MidNorm.Y > 100 * 16 && Vector2.Distance(ChainConneccPos, LastChainConneccPos) < 40 * 16 && Vector2.Distance(Main.LocalPlayer.Center, MidNorm) < 2000)
+                    {
+                        Helpers.DrawBezier(Main.spriteBatch, TextureCache.Vine, "", Color.White, ChainConneccPos, LastChainConneccPos, Mid, Mid, 0.02f, MathHelper.Pi / 2, true);
+                        Helpers.DrawBezier(Main.spriteBatch, TextureCache.LightVine, "", Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, Mid + addOn, 0.1f, MathHelper.Pi / 2, false);
+                    }
                 }
             }
         }
@@ -161,11 +165,12 @@ namespace EEMod.EEWorld
                 ShipTilePosX = 100;
                 ShipTilePosY = TileCheckWater(100) - 22;
             }
+            Main.NewText(ShipTilePosX);
             for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
             {
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
                 {
-                    if (WorldGen.InWorld(i - 3, i - 6))
+                    if (WorldGen.InWorld(i - 3, i - 6,32))
                     {
                         Tile tile = Framing.GetTileSafely(i - 3, j - 6);
                         int expectedType;

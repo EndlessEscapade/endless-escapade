@@ -1307,7 +1307,14 @@ namespace EEMod
             else
             {
                 int lastNoOfShipTiles = EEWorld.EEWorld.missingShipTiles.Count;
-                EEWorld.EEWorld.ShipComplete();
+                try
+                {
+                    EEWorld.EEWorld.ShipComplete();
+                }
+                catch
+                {
+
+                }
                 if (EEWorld.EEWorld.missingShipTiles.Count != lastNoOfShipTiles)
                 {
                     for (int i = 0; i < Main.projectile.Length; i++)

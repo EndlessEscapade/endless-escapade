@@ -52,10 +52,12 @@ namespace EEMod
         public static Texture2D CB1;
         public static Texture2D GradientEffect;
         public static Texture2D Mask1;
+        public static Texture2D LightVine;
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
             Mod mod = EEMod.instance;
+            LightVine = mod.GetTexture("Projectiles/Light");
             Vine = mod.GetTexture("Projectiles/Vine");
             //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
             Chain = mod.GetTexture("NPCs/CoralReefs/MechanicalReefs/DreadmineChain");
@@ -106,6 +108,7 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            LightVine = null;
             Vine = null;
             Mask1 = null;
             GradientEffect = null;
