@@ -151,26 +151,22 @@ namespace EEMod.NPCs.Bosses.Akumo
             npc.rotation = npc.velocity.X / 40f;
             DespawnHandler();
             npc.ai[0]++;
-            if (npc.ai[2] == 0)
-            {
-                if (npc.ai[0] >= nextAttackTime && npc.ai[0] <= nextAttackTime + lengthOfAttack + 1)
-                    Dash();
-            }
-            if (npc.ai[2] == 1)
-            {
-                if (npc.ai[0] >= nextAttackTime && npc.ai[0] <= nextAttackTime + lengthOfAttack + 1)
-                    Vortex();
-            }
-            if (npc.ai[2] == 2)
-            {
-                if (npc.ai[0] >= nextAttackTime && npc.ai[0] <= nextAttackTime + lengthOfAttack + 1)
-                    Feathers();
-            }
-            if (npc.ai[2] == 3)
-            {
-                if (npc.ai[0] >= nextAttackTime && npc.ai[0] <= nextAttackTime + lengthOfAttack + 1)
-                    Ascend();
-            }
+            if (npc.ai[0] >= nextAttackTime && npc.ai[0] <= nextAttackTime + lengthOfAttack + 1)
+                switch (npc.ai[2])
+                {
+                    case 0:
+                        Dash();
+                        break;
+                    case 1:
+                        Vortex();
+                        break;
+                    case 2:
+                        Feathers();
+                        break;
+                    case 3:
+                        Ascend();
+                        break;
+                }
             if (!isDashing && !isVortexing && npc.ai[2] != -1 && !isCircling)
             {
                 switchPos(1);
@@ -281,7 +277,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             int speedReduce = (480 - (int)npc.ai[0]) + 800;
             dist /= speedReduce;
             int maxDistance = 1000;
-            Rectangle rectangle1 = new Rectangle((int)player.position.X, (int)player.position.Y, player.width, player.height);
+            Rectangle rectangle1 = player.Hitbox; 
             Rectangle rectangle2 = new Rectangle((int)npc.position.X - maxDistance, (int)npc.position.Y - maxDistance, maxDistance * 2, maxDistance * 2);
 
             if (rectangle1.Intersects(rectangle2))

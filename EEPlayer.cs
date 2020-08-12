@@ -30,6 +30,7 @@ using EEMod.Buffs.Buffs;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using EEMod.Items.Fish;
+using EEMod.ID;
 
 namespace EEMod
 {
@@ -60,6 +61,74 @@ namespace EEMod
         public bool holdingPylon;
 
         public bool ridingZipline;
+
+        public int PlayerX;
+        public int PlayerY;
+
+        public override void PostUpdate()
+        {
+            //When you walk
+            int PlayerX = (int)(player.position.X / 16);
+            int PlayerY = (int)(player.position.Y / 16);
+
+            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Sand)
+            {
+                if (player.velocity.X >= 3 || player.velocity.X <= -3)
+                {
+                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.White);
+                }
+            }
+            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Ebonsand)
+            {
+                if (player.velocity.X >= 3 || player.velocity.X <= -3)
+                {
+                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.MediumPurple);
+                }
+            }
+            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Crimsand)
+            {
+                if (player.velocity.X >= 3 || player.velocity.X <= -3)
+                {
+                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.Gray);
+                }
+            }
+            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Pearlsand)
+            {
+                if (player.velocity.X >= 3 || player.velocity.X <= -3)
+                {
+                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.White);
+                }
+            }
+            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Ash)
+            {
+                if (player.velocity.X >= 3 || player.velocity.X <= -3)
+                {
+                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.Gray);
+                }
+            }
+            if (Main.tile[PlayerX, PlayerY + 3].type == ModContent.TileType<GemsandTile>())
+            {
+                if (player.velocity.X >= 3 || player.velocity.X <= -3)
+                {
+                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.Cyan);
+                }
+            }
+            if (Main.tile[PlayerX, PlayerY + 3].type == ModContent.TileType<LightGemsandTile>())
+            {
+                if (player.velocity.X >= 3 || player.velocity.X <= -3)
+                {
+                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.LightSkyBlue);
+                }
+            }
+            if (Main.tile[PlayerX, PlayerY + 3].type == ModContent.TileType<DarkGemsandTile>())
+            {
+                if (player.velocity.X >= 3 || player.velocity.X <= -3)
+                {
+                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.Blue);
+                }
+            }
+            //When you no longer walk
+        }
 
         public override void UpdateBiomes()
         {

@@ -145,7 +145,7 @@ namespace EEMod.NPCs
             }
             if (Math.Abs(npc.velocity.X) <= accel * 2.5f && npc.ai[1] == 0)
             {
-                if (onGround && Main.netMode != 1)
+                if (onGround && Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     npc.velocity.Y -= Main.rand.NextFloat(-8f, -5f);
                     npc.ai[1] = Main.rand.Next(80, 180);

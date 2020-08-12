@@ -8,6 +8,7 @@ using EEMod.Items.Weapons.Ranger;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Weapons.Summon;
 using EEMod.Items.Materials;
+using EEMod.ID;
 
 namespace EEMod.NPCs
 {

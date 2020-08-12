@@ -15,6 +15,9 @@ using EEMod.NPCs.Bosses.Kraken;
 using ReLogic.Graphics;
 using EEMod.Projectiles.Mage;
 using EEMod.Effects;
+using EEMod.EEWorld;
+using static EEMod.EEWorld.EEWorld;
+using EEMod.ID;
 
 namespace EEMod
 {
@@ -137,6 +140,7 @@ namespace EEMod
         float alphaBG;
         public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
+            
             int maxLoops = 5;
             Color drawColor = Lighting.GetColor((int)(Main.LocalPlayer.Center.X / 16f), (int)(Main.LocalPlayer.Center.Y / 16f)) * alphaBG;
             float scale = 1.5f;
@@ -147,6 +151,10 @@ namespace EEMod
             Texture2D CB3 = TextureCache.CB1;
             Rectangle GlobalRect = new Rectangle(0, 0, (int)(CB1.Width * scale), (int)(CB1.Height * scale));
             Rectangle GlobalRectUnscaled = new Rectangle(0, 0, CB1.Width, CB1.Height);
+            if(Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+            {
+                EEWorld.EEWorld.instance.DrawVines();
+            }
             for (int i = 0; i < maxLoops; i++)
             {
                 Vector2 Positions = new Vector2((i - ((maxLoops - 1) * 0.5f)) * CB1.Width * scale, traverseFunction.Y / 3f);
@@ -157,7 +165,6 @@ namespace EEMod
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
             {
                 alphaBG += (1 - alphaBG) / 64f;
-
             }
             else
             {

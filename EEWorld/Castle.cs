@@ -1,24 +1,29 @@
 using Terraria.ID;
 
+using static EEMod.EEWorld.EEWorld.CastleArrayValues;
+
 namespace EEMod.EEWorld
 {
     public partial class EEWorld
     {
-        const ushort A = TileID.BlueDungeonBrick;
-        const byte B = WallID.BlueDungeonUnsafe;
-        const byte C = WallID.BlueDungeonTileUnsafe;
-        const ushort D = TileID.Banners;
-        const ushort E = TileID.HangingLanterns;
-        const ushort F = TileID.Trees;
-        const ushort G = TileID.Plants;
-        const ushort H = TileID.DyePlants;
-        const ushort I = TileID.Grass;
-        const byte J = WallID.DirtUnsafe;
-        const ushort K = TileID.Books;
-        const ushort L = TileID.Platforms;
-        const ushort M = TileID.ClayBlock;
-        const ushort N = TileID.OpenDoor;
-        const ushort O = TileID.Switches;
+        internal static class CastleArrayValues
+        {
+            internal const ushort A = TileID.BlueDungeonBrick;
+            internal const byte B = WallID.BlueDungeonUnsafe;
+            internal const byte C = WallID.BlueDungeonTileUnsafe;
+            internal const ushort D = TileID.Banners;
+            internal const ushort E = TileID.HangingLanterns;
+            internal const ushort F = TileID.Trees;
+            internal const ushort G = TileID.Plants;
+            internal const ushort H = TileID.DyePlants;
+            internal const ushort I = TileID.Grass;
+            internal const byte J = WallID.DirtUnsafe;
+            internal const ushort K = TileID.Books;
+            internal const ushort L = TileID.Platforms;
+            internal const ushort M = TileID.ClayBlock;
+            internal const ushort N = TileID.OpenDoor;
+            internal const ushort O = TileID.Switches;
+        }
         public static int[,,] Castle = new int[,,]
         {
 {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}},

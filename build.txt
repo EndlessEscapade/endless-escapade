@@ -1,3 +1,4 @@
 displayName = Endless Escapade
 author = The Endless Escapade dev team
 version = 0.1
+buildIgnore = build.txt, .gitattributes, .gitignore, .git/, .vs/, .idea/, bin/, obj/, Thumbs.db, .csproj, .cs, .sln, .zip, .editorconfig

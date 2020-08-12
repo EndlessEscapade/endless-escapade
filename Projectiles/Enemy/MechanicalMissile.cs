@@ -37,7 +37,7 @@ namespace EEMod.Projectiles.Enemy
             Vector2 closestPlayer = new Vector2();
             for (int i = 0; i < Main.player.Length; i++)
             {
-                if (Vector2.Distance(Main.player[i].Center, projectile.Center) <= Vector2.Distance(closestPlayer, projectile.Center))
+                if (Vector2.DistanceSquared(Main.player[i].Center, projectile.Center) <= Vector2.DistanceSquared(closestPlayer, projectile.Center))
                 {
                     closestPlayer = Main.player[i].Center;
                 }

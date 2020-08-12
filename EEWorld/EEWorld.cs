@@ -12,6 +12,8 @@ using Terraria.ModLoader.IO;
 using EEMod.Tiles;
 using EEMod.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using EEMod.ID;
 
 namespace EEMod.EEWorld
 {
@@ -19,8 +21,9 @@ namespace EEMod.EEWorld
     {
         //public static bool GenkaiMode;
 
+
         public int minionsKilled;
-        public static EEWorld instance;
+        public static EEWorld instance => ModContent.GetInstance<EEWorld>();
         public static bool downedTalos;
         public static bool downedCoralGolem;
         public static bool downedAkumo;
@@ -37,37 +40,19 @@ namespace EEMod.EEWorld
 
         public static Vector2[] PylonBegin = new Vector2[100];
         public static Vector2[] PylonEnd = new Vector2[100];
-        public static List<Vector2> ChainConnections = new List<Vector2>();
+        public static Vector2[] sinDis = new Vector2[1000];
         public override void Initialize()
         {
+            if (sinDis != null)
+            {
+                for (int i = 0; i < sinDis.Length; i++)
+                {
+                    sinDis[i].X = Main.rand.NextFloat(0, 0.03f);
+                }
+            }
             eocFlag = NPC.downedBoss1;
             if (EntracesPosses.Count > 0)
                 yes = EntracesPosses[0];
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
-            {
-                for (int i = 42; i < Main.maxTilesX-42; i++)
-                {
-                    for (int j = 42; j < Main.maxTilesY-42; j++)
-                    {
-                        if (TileCheck2(i,j) != 0 && WorldGen.genRand.NextBool(2))
-                        {
-                            if (ChainConnections.Count == 0)
-                            {
-                                ChainConnections.Add(new Vector2(i, j));
-                            }
-                            else
-                            {
-                                Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
-                                if(Vector2.Distance(lastPos,new Vector2(i,j)) > 20 && Vector2.Distance(lastPos, new Vector2(i, j)) < 50)
-                                {
-                                    ChainConnections.Add(new Vector2(i, j));
-                                }
-                            }
-                        }
-                    }
-                }
-                
-            }
         }
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
@@ -107,17 +92,30 @@ namespace EEMod.EEWorld
         {
             DoAndAssignShrineValues();
             DoAndAssignShipValues();
+            for (int i = 0; i < sinDis.Length; i++)
+            {
+                sinDis[i].X = Main.rand.NextFloat(0, 0.03f);
+            }
+        }
+
+        public void DrawVines()
+        {
+            if (EESubWorlds.ChainConnections.Count > 0)
+            {
+                for (int i = 1; i < EESubWorlds.ChainConnections.Count - 2; i++)
+                {
+                    sinDis[i].Y += sinDis[i].X;
+                    Vector2 ChainConneccPos = EESubWorlds.ChainConnections[i] * 16;
+                    Vector2 LastChainConneccPos = EESubWorlds.ChainConnections[i - 1] * 16;
+                    Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
+                    Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2 + new Vector2(0, 50 + (float)(Math.Sin(sinDis[i].Y) * 30));
+                    if (MidNorm.Y > 100*16 && Vector2.Distance(ChainConneccPos, LastChainConneccPos) < 40 * 16 && Vector2.Distance(Main.LocalPlayer.Center, MidNorm) < 2000)
+                    Helpers.DrawBezier(Main.spriteBatch, TextureCache.Vine, "", Color.White, ChainConneccPos, LastChainConneccPos, Mid, Mid, 0.02f, MathHelper.Pi / 2);
+                }
+            }
         }
         public override void PostUpdate()
         {
-            Main.spriteBatch.Begin();
-            for(int i = 1; i< ChainConnections.Count - 2; i++)
-            {
-                Vector2 ChainConneccPos = ChainConnections[i] * 16;
-                Vector2 LastChainConneccPos = ChainConnections[i-1] * 16;
-                Helpers.DrawBezier(Main.spriteBatch,TextureCache.Vine, "", Color.White, ChainConneccPos, LastChainConneccPos, LastChainConneccPos, LastChainConneccPos, 0.01f, 0);
-            }
-            Main.spriteBatch.End();
             if (NPC.downedBoss1)
             {
                 if (!eocFlag)
@@ -127,12 +125,10 @@ namespace EEMod.EEWorld
                     StartSandstorm();
                 }
             }
-
         }
 
         public static Vector2 SubWorldSpecificCoralBoatPos;
         public static Vector2 SubWorldSpecificVolcanoInsidePos = new Vector2(198, 189);
-
         public override void ResetNearbyTileEffects()
         {
             CoralReefsTiles = 0;

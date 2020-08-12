@@ -39,6 +39,7 @@ using EEMod.NPCs.CoralReefs;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.NPCs.Friendly;
 using EEMod.Items;
+using EEMod.ID;
 
 namespace EEMod
 {
@@ -148,9 +149,9 @@ namespace EEMod
 
         public override void Load()
         {
+            instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
-            instance = this;
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
             if (!Main.dedServ)
