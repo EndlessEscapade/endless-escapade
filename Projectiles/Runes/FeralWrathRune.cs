@@ -7,11 +7,11 @@ using Terraria.Graphics.Effects;
 
 namespace EEMod.Projectiles.Runes
 {
-    public class LeafRune : ModProjectile
+    public class FeralWrathRune : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Leaf Rune");
+            DisplayName.SetDefault("Feral Wrath Rune");
             Main.projFrames[projectile.type] = 1;
         }
 

@@ -20,7 +20,7 @@ namespace EEMod.UI
         public string[] StringOfTextures = {
             "EEMod/Projectiles/Runes/DesertRune",
             "EEMod/Projectiles/Runes/DepocaditaRune",
-            "EEMod/Projectiles/Runes/LeafRune",
+            "EEMod/Projectiles/Runes/FeralWrathRune",
             "EEMod/Projectiles/Runes/BubblingWatersRune",
             "EEMod/Projectiles/Runes/IgnisRune",
             "EEMod/Projectiles/Runes/RunePlacement",

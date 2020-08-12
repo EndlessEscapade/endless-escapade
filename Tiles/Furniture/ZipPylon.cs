@@ -87,9 +87,13 @@ namespace EEMod.Tiles.Furniture
                     for (float k = 0; k < 1; k += n)
                     {
                         Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), begin + (end - begin) * k - Main.screenPosition + (new Vector2(11.5f, 13.5f) * 16) + new Vector2(8, -8), new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0);
-                        Main.spriteBatch.Draw(texture, begin + endbegindistance * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, ebdistrot, Vector2.One, 1, SpriteEffects.None, 0);
+                        //Main.spriteBatch.Draw(texture, begin + endbegindistance * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, ebdistrot, Vector2.One, 1, SpriteEffects.None, 0);
                     }
                 }
+            }
+            if(Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == new Vector2(i, j) * 16 + new Vector2(8, -8))
+            {
+                Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), Main.LocalPlayer.position + Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (Main.LocalPlayer.position - Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin).ToRotation(), new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0);
             }
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
