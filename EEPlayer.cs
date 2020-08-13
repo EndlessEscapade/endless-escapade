@@ -1078,16 +1078,19 @@ namespace EEMod
                         }
                     }
                     //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos11X, pos11Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos9X, pos9Y), Vector2.Zero, ProjectileType<MainIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos10X, pos10Y), Vector2.Zero, ProjectileType<CoralReefsEntrance>(), 0, 0f, Main.myPlayer, 0, 0);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                    {
+                        Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos11X, pos11Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos9X, pos9Y), Vector2.Zero, ProjectileType<MainIsland>(), 0, 0f, Main.myPlayer, 0, 0);
+                        Projectile.NewProjectile(new Vector2(pos10X, pos10Y), Vector2.Zero, ProjectileType<CoralReefsEntrance>(), 0, 0f, Main.myPlayer, 0, 0);
+                    }
                     objectPos.Add(new Vector2(pos1X, pos1Y));
                     objectPos.Add(new Vector2(pos2X, pos2Y));
                     objectPos.Add(new Vector2(pos3X, pos3Y));
@@ -1212,6 +1215,7 @@ namespace EEMod
 
                 if (!arrowFlag && Main.myPlayer == player.whoAmI)
                 {
+                    if(Main.netMode != NetmodeID.MultiplayerClient)
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
                     player.ClearBuff(BuffID.Cursed);
                     arrowFlag = true;
