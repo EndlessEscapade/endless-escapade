@@ -66,6 +66,20 @@ namespace EEMod
 
         public static bool VectorInRange(Vector2 from, Vector2 to, float MaxRange) => Vector2.DistanceSquared(from, to) <= MaxRange * MaxRange;
 
+        public static bool PointInRectangle(Vector2 point, Vector4 rectangle) => PointInRectangle(point.X, point.Y, rectangle.X, rectangle.Y, rectangle.W, rectangle.Z);
+        public static bool PointInRectangle(float pointX, float pointY, Vector4 rectangle) => PointInRectangle(pointX, pointY, rectangle.X, rectangle.Y, rectangle.W, rectangle.Z);
+        public static bool PointInRectangle(Vector2 point, Vector2 pos, Vector2 size) => PointInRectangle(point.X, point.Y, pos.X, pos.Y, size.X, size.Y);
+        public static bool PointInRectangle(Vector2 point, float x, float y, Vector2 size) => PointInRectangle(point.X, point.Y, x, y, size.X, size.Y);
+        public static bool PointInRectangle(Vector2 point, Vector2 pos, float width, float height) => PointInRectangle(point.X, point.Y, pos.X, pos.Y, width, height);
+        public static bool PointInRectangle(Vector2 point, float x, float y, float width, float height) => PointInRectangle(point.X, point.Y, x, y, width, height);
+        public static bool PointInRectangle(float pointX, float pointY, Vector2 pos, Vector2 size) => PointInRectangle(pointX, pointY, pos.X, pos.Y, size.X, size.Y);
+        public static bool PointInRectangle(float pointX, float pointY, float rectangleX, float rectangleY, Vector2 size) => PointInRectangle(pointX, pointY, rectangleX, rectangleY, size.X, size.Y);
+        public static bool PointInRectangle(float pointX, float pointY, Vector2 rectanglepos, float width, float height) => PointInRectangle(pointX, pointY, rectanglepos.X, rectanglepos.Y, width, height);
+        public static bool PointInRectangle(float pointX, float pointY, float rectangleX, float rectangleY, float width, float height) =>
+            pointY >= rectangleY &&
+            pointX >= rectangleX && pointX <= rectangleX + width &&
+            pointY <= rectangleY + height;
+
         // ROTATION - Used for pointing towards things. Simple.
         public static float RotateTowards(float v4, float v5)
         {

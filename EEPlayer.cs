@@ -72,68 +72,68 @@ namespace EEMod
             int PlayerY = (int)(player.position.Y / 16);
 
             if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Sand)
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.White);
-                
-            
+
+
             if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Ebonsand)
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.MediumPurple);
-                
-            
+
+
             if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Crimsand)
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.Gray);
-                
-            
+
+
             if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Pearlsand)
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.White);
-                
-            
+
+
             if (Main.tile[PlayerX, PlayerY + 3].type == TileID.SnowBlock)
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.White);
-                
-            
+
+
             if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Ash)
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.Gray);
-                
-            
+
+
             if (Main.tile[PlayerX, PlayerY + 3].type == TileType<GemsandTile>())
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.Cyan);
-                
-            
+
+
             if (Main.tile[PlayerX, PlayerY + 3].type == TileType<LightGemsandTile>())
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.LightSkyBlue);
-                
-            
+
+
             if (Main.tile[PlayerX, PlayerY + 3].type == TileType<DarkGemsandTile>())
-            
+
                 if (player.velocity.X >= 3 || player.velocity.X <= -3)
-                
+
                     Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.Blue);
-                
-            
+
+
         }
 
         public override void UpdateBiomes()
@@ -348,7 +348,7 @@ namespace EEMod
             dragonScale = false;
             hydroGear = false;
         }
-        public static EEPlayer instance;
+        public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
         int Arrow;
         int Arrow2;
         int Anchors;
@@ -710,7 +710,7 @@ namespace EEMod
                 if (zipMultiplier <= 30)
                     zipMultiplier *= 1.02f;
             }
-            if (Vector2.Distance(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 32 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            if (Vector2.DistanceSquared(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 32*32 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {
                 int i;
                 for (i = 0; i <= 100; i++)
@@ -1079,16 +1079,16 @@ namespace EEMod
                         }
                     }
                     //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos11X, pos11Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos9X, pos9Y), Vector2.Zero, ProjectileType<MainIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                        Projectile.NewProjectile(new Vector2(pos10X, pos10Y), Vector2.Zero, ProjectileType<CoralReefsEntrance>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos11X, pos11Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos9X, pos9Y), Vector2.Zero, ProjectileType<MainIsland>(), 0, 0f, Main.myPlayer, 0, 0);
+                    Projectile.NewProjectile(new Vector2(pos10X, pos10Y), Vector2.Zero, ProjectileType<CoralReefsEntrance>(), 0, 0f, Main.myPlayer, 0, 0);
                     objectPos.Add(new Vector2(pos1X, pos1Y));
                     objectPos.Add(new Vector2(pos2X, pos2Y));
                     objectPos.Add(new Vector2(pos3X, pos3Y));
@@ -1213,8 +1213,8 @@ namespace EEMod
 
                 if (!arrowFlag)
                 {
-                    if(Main.netMode != NetmodeID.MultiplayerClient)
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
+                    if (Main.netMode != NetmodeID.MultiplayerClient)
+                        Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
                     player.ClearBuff(BuffID.Cursed);
                     arrowFlag = true;
                 }
@@ -1225,10 +1225,7 @@ namespace EEMod
                 try
                 {
                     Projectile oceanarrow = Main.projectile[Arrow2];
-                    if (player.Center.X / 16 >= (EESubWorlds.CoralBoatPos.X + 2) - 2 &&
-                        player.Center.X / 16 <= (EESubWorlds.CoralBoatPos.X + 2) + 2 &&
-                        player.Center.Y / 16 >= (EESubWorlds.CoralBoatPos.Y + 14) - 2 &&
-                        player.Center.Y / 16 <= (EESubWorlds.CoralBoatPos.Y + 14) + 2)
+                    if (Helpers.PointInRectangle(player.Center / 16, EESubWorlds.CoralBoatPos.X, EESubWorlds.CoralBoatPos.Y + 12, 4, 4))
                     {
                         if (player.controlUp)
                         {
@@ -1274,10 +1271,7 @@ namespace EEMod
                     SubWorldSpecificVolcanoInsidePos = new Vector2(198, 198);
                 }
                 VolcanoArrowProj voclanoarrow = Main.projectile[Arrow2].modProjectile as VolcanoArrowProj;
-                if (player.Center.X / 16 >= SubWorldSpecificVolcanoInsidePos.X - 4 &&
-                    player.Center.X / 16 <= (SubWorldSpecificVolcanoInsidePos.X + 4) &&
-                    player.Center.Y / 16 >= (SubWorldSpecificVolcanoInsidePos.Y - 4) &&
-                    player.Center.Y / 16 <= (SubWorldSpecificVolcanoInsidePos.Y + 4))
+                if (Helpers.PointInRectangle(player.Center / 16, SubWorldSpecificVolcanoInsidePos.X - 4, SubWorldSpecificVolcanoInsidePos.Y - 4, 8, 8))
                 {
                     if (player.controlUp)
                     {
@@ -1404,11 +1398,8 @@ namespace EEMod
                 {
                     if (Main.projectile[Arrow].modProjectile is DesArrowProjectile arrow)
                     {
-                        if (player.Center.X / 16 >= (EntracesPosses[0].X + 10) &&
-                            player.Center.X / 16 <= (EntracesPosses[0].X + 14) &&
-                            player.Center.Y / 16 >= (EntracesPosses[0].Y + 5) &&
-                            player.Center.Y / 16 <= (EntracesPosses[0].Y + 9) &&
-                                EntracesPosses.Count > 0)
+                        Vector2 entrace = EntracesPosses[0];
+                        if (Helpers.PointInRectangle(player.Center / 16, entrace.X + 10, entrace.Y + 5, 4, 4))
                         {
                             if (player.controlUp)
                             {
@@ -1424,27 +1415,23 @@ namespace EEMod
                 }
                 Vector2 revisedRee = new Vector2(ree.X == 0 ? 100 : ree.X,
                                                  ree.Y == 0 ? TileCheckWater(100) - 22 : ree.Y);
-                    if (player.Center.X / 16 >= (revisedRee.X) &&
-                        player.Center.X / 16 <= (revisedRee.X + 4) &&
-                        player.Center.Y / 16 >= (revisedRee.Y + 12) &&
-                        player.Center.Y / 16 <= (revisedRee.Y + 16) &&
-                        shipComplete == true)
+                if (Helpers.PointInRectangle(player.Center / 16, revisedRee.X, revisedRee.Y + 12, 4, 4) && shipComplete)
+                {
+                    if (player.controlUp)
                     {
-                        if (player.controlUp)
+                        triggerSeaCutscene = true;
+                        if (Main.netMode == NetmodeID.Server)
                         {
-                            triggerSeaCutscene = true;
-                            if (Main.netMode == NetmodeID.Server)
-                            {
-                                var netMessage = mod.GetPacket();
-                                netMessage.Write(triggerSeaCutscene);
-                                netMessage.Send();
-                            }
+                            var netMessage = mod.GetPacket();
+                            netMessage.Write(triggerSeaCutscene);
+                            netMessage.Send();
                         }
+                    }
                     Main.projectile[Arrow2].ai[1] = 1;
 
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     Main.projectile[Arrow2].ai[1] = 0;
 
                 }
@@ -1511,7 +1498,6 @@ namespace EEMod
         }
         public override void Load(TagCompound tag)
         {
-            instance = this;
             if (tag.ContainsKey("hasGottenRuneBefore"))
             {
                 hasGottenRuneBefore = tag.GetByteArray("hasGottenRuneBefore");

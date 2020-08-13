@@ -97,9 +97,11 @@ namespace EEMod
                             score = 0;
                             randPosX = Main.rand.Next((int)roomsLeft[i - 1].X - distance, (int)roomsLeft[i - 1].X + distance);
                             randPosY = Main.rand.Next((int)roomsLeft[i - 1].Y - distance, (int)roomsLeft[i - 1].Y + distance);
+                            float f = sizeOfChasm * 1.5f;
+                            float ff = f * f;
                             for (int k = 0; k < i; k++)
                             {
-                                if (Vector2.Distance(new Vector2(randPosX, randPosY), roomsLeft[k]) > sizeOfChasm * 1.5f)
+                                if (Vector2.DistanceSquared(new Vector2(randPosX, randPosY), roomsLeft[k]) > ff)
                                 {
                                     score++;
                                 }
@@ -108,8 +110,8 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != i || randPosX < sizeOfChasm * 1.2f || randPosY < sizeOfChasm * 1 || randPosX > Main.maxTilesX / 2 - 50 || randPosY > Main.maxTilesY * 0.66f || Vector2.Distance(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40
-                         || Vector2.Distance(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40);
+                        } while (score != i || randPosX < sizeOfChasm * 1.2f || randPosY < sizeOfChasm || randPosX > Main.maxTilesX / 2 - 50 || randPosY > Main.maxTilesY * 0.66f || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40*40
+                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40*40);
                         roomsLeft[i] = new Vector2(randPosX, randPosY);
                     }
                     MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, Main.rand.Next(0, 7), Main.rand.Next(0, 3));
@@ -139,9 +141,11 @@ namespace EEMod
                             score = 0;
                             randPosX = Main.rand.Next((int)roomsRight[i - 1].X - distance, (int)roomsRight[i - 1].X + distance);
                             randPosY = Main.rand.Next((int)roomsRight[i - 1].Y - distance, (int)roomsRight[i - 1].Y + distance);
+                            float f = sizeOfChasm * 1.5f;
+                            float ff = f * f;
                             for (int k = 0; k < i; k++)
                             {
-                                if (Vector2.Distance(new Vector2(randPosX, randPosY), roomsRight[k]) > sizeOfChasm * 1.5f)
+                                if (Vector2.DistanceSquared(new Vector2(randPosX, randPosY), roomsRight[k]) > ff)
                                 {
                                     score++;
                                 }
@@ -153,8 +157,8 @@ namespace EEMod
                         } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f) 
                         || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 50 
                         || randPosY > Main.maxTilesY * 0.66f 
-                        || Vector2.Distance(new Vector2(randPosX,randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40
-                         || Vector2.Distance(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40);
+                        || Vector2.DistanceSquared(new Vector2(randPosX,randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40*40
+                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40*40);
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
                     MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, WorldGen.genRand.Next(0, 7), WorldGen.genRand.Next(0, 3));
@@ -169,33 +173,33 @@ namespace EEMod
                 Vector2[] chosen = { Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero, Vector2.Zero };
                 for (int i = 0; i < roomsLeft.Length; i++)
                 {
-                    if (chosen[0] == Vector2.Zero || Vector2.Distance(roomsLeft[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) <
-                        Vector2.Distance(chosen[0], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)))
+                    if (chosen[0] == Vector2.Zero || Vector2.DistanceSquared(roomsLeft[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) <
+                        Vector2.DistanceSquared(chosen[0], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)))
                     {
                         chosen[0] = roomsLeft[i];
                     }
-                    if (chosen[1] == Vector2.Zero || Vector2.Distance(roomsRight[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) <
-                        Vector2.Distance(chosen[1], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)))
+                    if (chosen[1] == Vector2.Zero || Vector2.DistanceSquared(roomsRight[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) <
+                        Vector2.DistanceSquared(chosen[1], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)))
                     {
                         chosen[1] = roomsRight[i];
                     }
-                    if (chosen[2] == Vector2.Zero || Vector2.Distance(roomsLeft[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) <
-                        Vector2.Distance(chosen[2], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)))
+                    if (chosen[2] == Vector2.Zero || Vector2.DistanceSquared(roomsLeft[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) <
+                        Vector2.DistanceSquared(chosen[2], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)))
                     {
                         chosen[2] = roomsLeft[i];
                     }
-                    if (chosen[3] == Vector2.Zero || Vector2.Distance(roomsRight[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) <
-                        Vector2.Distance(chosen[3], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)))
+                    if (chosen[3] == Vector2.Zero || Vector2.DistanceSquared(roomsRight[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) <
+                        Vector2.DistanceSquared(chosen[3], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)))
                     {
                         chosen[3] = roomsRight[i];
                     }
-                    if (chosen[4] == Vector2.Zero || Vector2.Distance(roomsLeft[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) <
-                       Vector2.Distance(chosen[4], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)))
+                    if (chosen[4] == Vector2.Zero || Vector2.DistanceSquared(roomsLeft[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) <
+                       Vector2.DistanceSquared(chosen[4], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)))
                     {
                         chosen[4] = roomsLeft[i];
                     }
-                    if (chosen[5] == Vector2.Zero || Vector2.Distance(roomsRight[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) <
-                        Vector2.Distance(chosen[5], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)))
+                    if (chosen[5] == Vector2.Zero || Vector2.DistanceSquared(roomsRight[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) <
+                        Vector2.DistanceSquared(chosen[5], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)))
                     {
                         chosen[5] = roomsRight[i];
                     }
@@ -302,7 +306,7 @@ namespace EEMod
                             else
                             {
                               Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
-                            if (Vector2.Distance(lastPos, new Vector2(i, j)) > 5 && Vector2.Distance(lastPos, new Vector2(i, j)) < 35 || Vector2.Distance(lastPos, new Vector2(i, j)) > 500 && Math.Abs(lastPos.X - i) > 3)
+                            if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5*5 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 35*35 || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 500*500 && Math.Abs(lastPos.X - i) > 3)
                             {
                                 ChainConnections.Add(new Vector2(i, j));
                             }
