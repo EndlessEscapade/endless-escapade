@@ -3,7 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace EEMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
     public class Dreadmine : ModProjectile
     {

@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 
-namespace EEMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 {
     public class GiantClam : ModNPC
     {

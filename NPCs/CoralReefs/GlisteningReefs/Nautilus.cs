@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using EEMod.EEWorld;
 using System;
 using Terraria.ID;
-namespace EEMod.NPCs.CoralReefs
+namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 {
     internal class Nautilus : ModNPC
     {
