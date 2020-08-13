@@ -28,7 +28,7 @@ namespace EEMod.EEWorld
             }
             if (tag.ContainsKey("CoralBoatPos"))
             {
-                SubWorldSpecificCoralBoatPos = tag.Get<Vector2>("CoralBoatPos");
+                EESubWorlds.CoralBoatPos = tag.Get<Vector2>("CoralBoatPos");
             }
             if (tag.ContainsKey("SubWorldSpecificVolcanoInsidePos"))
             {
@@ -63,7 +63,6 @@ namespace EEMod.EEWorld
             TagCompound tag = new TagCompound();
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
-                if (EESubWorlds.CoralBoatPos != Vector2.Zero)
                 tag["CoralBoatPos"] = EESubWorlds.CoralBoatPos;
                 tag["ChainConnections"] = EESubWorlds.ChainConnections;
             }

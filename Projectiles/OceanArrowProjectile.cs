@@ -27,13 +27,12 @@ namespace EEMod.Projectiles
             projectile.timeLeft = 1000000000;
         }
 
-        public bool visible = true;
         public override void AI()
         {
             projectile.ai[0] += 0.1f;
             projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width / 2 + (float)Math.Sin(projectile.ai[0]) * 10 - 100;
             projectile.position.Y = Main.player[projectile.owner].Center.Y;
-            if (!visible)
+            if (projectile.ai[1] == 0)
                 projectile.alpha += 5;
             else
                 projectile.alpha -= 5;

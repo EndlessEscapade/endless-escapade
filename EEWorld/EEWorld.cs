@@ -165,7 +165,6 @@ namespace EEMod.EEWorld
                 ShipTilePosX = 100;
                 ShipTilePosY = TileCheckWater(100) - 22;
             }
-            Main.NewText(ShipTilePosX);
             for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
             {
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
