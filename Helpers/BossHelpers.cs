@@ -352,6 +352,98 @@ namespace EEMod
                 }
             }
         }
+
+        public static bool OnGround(NPC npc)
+        {
+            Vector2 tilePos;
+            int minTilePosX = (int)(npc.Center.X / 16.0) - 1;
+            int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;
+            int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
+            int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
+            if (minTilePosX < 0)
+            {
+                minTilePosX = 0;
+            }
+
+            if (maxTilePosX > Main.maxTilesX)
+            {
+                maxTilePosX = Main.maxTilesX;
+            }
+
+            if (minTilePosY < 0)
+            {
+                minTilePosY = 0;
+            }
+
+            if (maxTilePosY > Main.maxTilesY)
+            {
+                maxTilePosY = Main.maxTilesY;
+            }
+            for (int i = minTilePosX; i < maxTilePosX; ++i)
+            {
+                for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
+                {
+                    Tile tile = Main.tile[i, j];
+                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    {
+                        tilePos.X = i * 16;
+                        tilePos.Y = j * 16;
+
+                        if (Math.Abs(npc.Center.Y - tilePos.Y) <= 16 + (npc.height / 2))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        public static bool isCollidingWithWall(NPC npc)
+        {
+            int minTilePosX = (int)(npc.Center.X / 16.0) - 1;
+            int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;
+            int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
+            int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
+            if (minTilePosX < 0)
+            {
+                minTilePosX = 0;
+            }
+
+            if (maxTilePosX > Main.maxTilesX)
+            {
+                maxTilePosX = Main.maxTilesX;
+            }
+
+            if (minTilePosY < 0)
+            {
+                minTilePosY = 0;
+            }
+
+            if (maxTilePosY > Main.maxTilesY)
+            {
+                maxTilePosY = Main.maxTilesY;
+            }
+            for (int i = minTilePosX; i < maxTilePosX; ++i)
+            {
+                for (int j = minTilePosY; j < maxTilePosY; ++j)
+                {
+                    Tile tile = Main.tile[i, j];
+                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    {
+                        Vector2 vector2;
+                        vector2.X = i * 16;
+                        vector2.Y = j * 16;
+
+                        if (Math.Abs(npc.Center.X - vector2.X) <= 16 + (npc.width / 2))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
     }
 
     public struct Drop

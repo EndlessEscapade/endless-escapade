@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod;
 
 namespace EEMod.NPCs
 {
@@ -14,96 +15,7 @@ namespace EEMod.NPCs
             Main.npcCatchable[npc.type] = true;
             Main.npcFrameCount[npc.type] = 5;
         }
-        public bool isColliding()
-        {
-            int minTilePosX = (int)(npc.Center.X / 16.0) - 1;
-            int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;
-            int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
-            int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
-            if (minTilePosX < 0)
-            {
-                minTilePosX = 0;
-            }
 
-            if (maxTilePosX > Main.maxTilesX)
-            {
-                maxTilePosX = Main.maxTilesX;
-            }
-
-            if (minTilePosY < 0)
-            {
-                minTilePosY = 0;
-            }
-
-            if (maxTilePosY > Main.maxTilesY)
-            {
-                maxTilePosY = Main.maxTilesY;
-            }
-            for (int i = minTilePosX; i < maxTilePosX; ++i)
-            {
-                for (int j = minTilePosY; j < maxTilePosY; ++j)
-                {
-                    Tile tile = Main.tile[i, j];
-                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
-                    {
-                        Vector2 vector2;
-                        vector2.X = i * 16;
-                        vector2.Y = j * 16;
-
-                        if (Math.Abs(npc.Center.X - vector2.X) <= 16 + (npc.width / 2))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-        public bool OnGround()
-        {
-            Vector2 tilePos;
-            int minTilePosX = (int)(npc.Center.X / 16.0) - 1;
-            int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;
-            int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
-            int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
-            if (minTilePosX < 0)
-            {
-                minTilePosX = 0;
-            }
-
-            if (maxTilePosX > Main.maxTilesX)
-            {
-                maxTilePosX = Main.maxTilesX;
-            }
-
-            if (minTilePosY < 0)
-            {
-                minTilePosY = 0;
-            }
-
-            if (maxTilePosY > Main.maxTilesY)
-            {
-                maxTilePosY = Main.maxTilesY;
-            }
-            for (int i = minTilePosX; i < maxTilePosX; ++i)
-            {
-                for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
-                {
-                    Tile tile = Main.tile[i, j];
-                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
-                    {
-                        tilePos.X = i * 16;
-                        tilePos.Y = j * 16;
-
-                        if (Math.Abs(npc.Center.Y - tilePos.Y) <= 16 + (npc.height / 2))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-            return false;
-        }
         public override void SetDefaults()
         {
             npc.friendly = true;
@@ -123,10 +35,10 @@ namespace EEMod.NPCs
             if (npc.ai[0] == 0)
                 npc.ai[1] = 1;
             npc.ai[0]++;
-            if (npc.ai[0] % 180 == 0 && OnGround())
+            if (npc.ai[0] % 180 == 0 && Helpers.OnGround(npc))
             {
                 npc.velocity.Y -= 5;
-                if (isColliding())
+                if (Helpers.isCollidingWithWall(npc))
                 {
                     if (npc.ai[1] == -1)
                     {
