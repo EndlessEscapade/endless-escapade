@@ -110,20 +110,16 @@ namespace EEMod
             switch (id)
             {
                 case EEMessageType.MouseCheck:
-                    int mouseX = reader.ReadInt32();
-                    int mouseY = reader.ReadInt32();
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        ModPacket packet = GetPacket(EEMessageType.MouseCheck, 2);
-                        packet.Write(mouseX);
-                        packet.Write(mouseY);
-                        packet.Send(-1, whoAmI);
-                    }
+                        int player = reader.ReadByte();
+                        int mouseX = reader.ReadInt32();
+                        int mouseY = reader.ReadInt32();
+                        Main.player[player].GetModPlayer<EEPlayer>().secondPlayerMouse = new Vector2(mouseX, mouseY);
                     break;
             }
        }
         public void UpdateGame()
         {
+            simpleGame = simpleGame ?? new IceHockey();
             simpleGame.Update();
             for (int i = 0; i < Main.player.Length; i++)
             {
@@ -132,6 +128,7 @@ namespace EEMod
                     Player player = Main.player[i];
                     if (player.controlUp)
                     {
+                        simpleGame = new IceHockey();
                         simpleGame.StartGame();
                     }
                     if (player.controlHook)
@@ -218,7 +215,7 @@ namespace EEMod
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
             }
             LoadIL();
-            simpleGame = new IceHockey();
+           
         }
 
         public static bool isSaving = false;

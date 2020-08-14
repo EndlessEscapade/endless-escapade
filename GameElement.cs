@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using Terraria.ID;
 
 namespace EEMod
 {
@@ -64,19 +65,31 @@ namespace EEMod
         public int bounceBuffer;
         int BBTimer;
         int playerWhoAmI;
-        Vector2 mousePosition;
+        public Vector2 mousePosition;
         public Texture2D tex = Main.magicPixel;
-
+         int yeet;
         public virtual void Update()
         {
-            if (Main.myPlayer == playerWhoAmI)
-            {
-                mousePosition = Main.MouseWorld;
-                EENet.WriteToPacket(EEMod.instance.GetPacket(), (byte)EEMessageType.MouseCheck, Main.MouseWorld.X, Main.MouseWorld.Y).Send(-1);
-            }
+           
             if (isBoundToMouse)
             {
-                velocity = (mousePosition - UIPosRunTime) / SpeedOfMouseBinding;
+                    
+                    
+                    for(int i = 0; i<255; i++)
+                    {
+                        if(Main.player[i].active && i != Main.myPlayer)
+                        {
+                            yeet = i;
+                            break;
+                        }
+                    }
+                    Main.NewText(yeet);
+                if (Main.netMode == NetmodeID.Server && playerWhoAmI != 0)
+                {
+                    EENet.WriteToPacket(EEMod.instance.GetPacket(), (byte)EEMessageType.MouseCheck, (byte)yeet, Main.MouseWorld.X, Main.MouseWorld.Y).Send(-1);
+                }
+                Vector2 chosen = (playerWhoAmI != 0 ? Main.LocalPlayer.GetModPlayer<EEPlayer>().secondPlayerMouse : Main.MouseWorld);
+                velocity = (chosen - UIPosRunTime) / SpeedOfMouseBinding;
             }
             if (BBTimer > 0)
             {
