@@ -31,6 +31,7 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using EEMod.Items.Fish;
 using EEMod.ID;
+using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
 
 namespace EEMod
@@ -48,6 +49,13 @@ namespace EEMod
         public bool ZoneTropicalIsland;
         public bool hydroGear;
         public bool dragonScale;
+        public bool lythenSet;
+        public int lythenSetTimer;
+        public bool dalantiniumSet;
+        public bool hydriteSet;
+        public bool hydrofluoricSet;
+        public int hydrofluoricSetTimer;
+
         private int opac;
         //public bool Cheese1;
         //public bool Cheese2;
@@ -347,6 +355,10 @@ namespace EEMod
             isSaving = false;
             dragonScale = false;
             hydroGear = false;
+            lythenSet = false;
+            dalantiniumSet = false;
+            hydriteSet = false;
+            hydrofluoricSet = false;
         }
         public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
         int Arrow;
@@ -593,6 +605,43 @@ namespace EEMod
         public static Texture2D ScTex;
         public override void UpdateBiomeVisuals()
         {
+            if (hydrofluoricSet)
+            {
+                hydrofluoricSetTimer++;
+                if (hydrofluoricSetTimer >= 30 && player.velocity != Vector2.Zero)
+                {
+                    Projectile.NewProjectile(player.Center, player.velocity / 2, ModContent.ProjectileType<CorrosiveBubble>(), 20, 0f);
+                    hydrofluoricSetTimer = 0;
+                }
+            }
+
+            if (lythenSet)
+            {
+                lythenSetTimer++;
+                if (lythenSetTimer >= 480)
+                {
+                    NPC closest = null;
+                    float closestDistance = 9999999;
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        NPC npc = Main.npc[i];
+                        if (npc.active && npc.Distance(position) < closestDistance)
+                        {
+                            closest = npc;
+                            closestDistance = npc.Distance(position);
+                        }
+                    }
+                    if(closest != null)
+                        Projectile.NewProjectile(closest.Center, Vector2.Zero, ProjectileType<CyanoburstTomeKelp>(), 10, 0f, Owner: player.whoAmI);
+                    lythenSetTimer = 0;
+                }
+            }
+
+            if (hydriteSet)
+            {
+                player.gills = true;
+            }
+
             //System.Drawing.Bitmap ScreenTexture = CaptureFromScreen(new System.Drawing.Rectangle(0, 0, 1980, 1080));
             // ScTex = GetTextureSc(Main.graphics.GraphicsDevice, ScreenTexture);
             thermalHealingTimer--;
@@ -1519,17 +1568,20 @@ namespace EEMod
                 boatSpeed = tag.GetInt("swiftSail");
             }
         }
-        /*public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
+        public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
-            if (NPC.AnyNPCs(NPCID.KingSlime))
+            /*if (NPC.AnyNPCs(NPCID.KingSlime))
             {
                 Cheese1 = true;
             }
             else
             {
                 Cheese1 = false;
-            }
-        }*/
+            }*/
+            if (dalantiniumSet)
+                for(int i = 0; i < 3; i++)
+                    Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
+        }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
 

@@ -36,6 +36,7 @@ namespace EEMod.Items.Armor.Hydrofluoric
         public override void UpdateArmorSet(Player player)
         {
             player.rangedDamage += 0.10f;
+            player.GetModPlayer<EEPlayer>().hydrofluoricSet = true;
         }
 
         public override void AddRecipes()

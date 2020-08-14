@@ -37,6 +37,7 @@ namespace EEMod.Items.Armor.Hydrofluoric
         {
             player.meleeDamage += 0.10f;
             player.meleeSpeed += 0.06f;
+            player.GetModPlayer<EEPlayer>().hydrofluoricSet = true;
         }
 
         public override void AddRecipes()

@@ -38,6 +38,7 @@ namespace EEMod.Items.Armor.Hydrofluoric
         public override void UpdateArmorSet(Player player)
         {
             player.magicDamage += 0.06f;
+            player.GetModPlayer<EEPlayer>().hydrofluoricSet = true;
         }
 
         public override void AddRecipes()

@@ -39,7 +39,18 @@ namespace EEMod.Items.Armor.Hydrite
 
         public override void UpdateArmorSet(Player player)
         {
-            player.magicDamage += 0.10f;
+            player.setBonus = "All stats increased when underwater";
+            if (player.wet)
+            {
+                player.allDamage += 0.05f;
+                player.moveSpeed += 0.07f;
+                player.maxRunSpeed += 0.07f;
+                player.magicCrit += 2;
+                player.thrownCrit += 2;
+                player.rangedCrit += 2;
+                player.meleeCrit += 2;
+            }
+            player.GetModPlayer<EEPlayer>().hydriteSet = true;
         }
 
         public override void AddRecipes()

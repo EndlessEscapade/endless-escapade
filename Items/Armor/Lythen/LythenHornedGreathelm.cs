@@ -36,17 +36,8 @@ namespace EEMod.Items.Armor.Lythen
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "All stats increased while submerged on water";
-            if (player.wet)
-            {
-                player.allDamage += 0.05f;
-                player.moveSpeed += 0.07f;
-                player.maxRunSpeed += 0.07f;
-                player.magicCrit += 2;
-                player.thrownCrit += 2;
-                player.rangedCrit += 2;
-                player.meleeCrit += 2;
-            }
+            player.setBonus = "Kelp erupts from the ground when enemies come near";
+            player.GetModPlayer<EEPlayer>().lythenSet = true;
         }
 
         public override void AddRecipes()
