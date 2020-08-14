@@ -71,7 +71,9 @@ namespace EEMod
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             IL.Terraria.NPC.AI_001_Slimes -= Practice;
+            screenMessageText = null;
             TrailManager = null;
+            progressMessage = null;
         }
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
@@ -287,7 +289,7 @@ namespace EEMod
             Main.spriteBatch.Draw(Screentexture, position, new Rectangle(0, frame.Y, Screentexture.Width, Screentexture.Height / Screenframes), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, Screentexture.Width, Screentexture.Height / Screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
         float alpha;
-        string screenMessageText;
+        public static string screenMessageText;
         private void OnDrawMenu(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
