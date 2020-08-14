@@ -20,7 +20,6 @@ namespace EEMod
             int ball = AddUIElement(new Vector2(20, 20), Color.Red, centerOfMainCanvas);
             elementArray[puck].AttatchToMouse(16f);
             elementArray[puck].BindElementToGame(this);
-            elementArray[puck].BindElementToTexture(TextureCache.Akumo);
             elementArray[puck].AttachCollisionComponents(true,false,false);
             elementArray[ball].BindElementToGame(this);
             elementArray[ball].AttachCollisionComponents(false, true,true,0.97f,2f);

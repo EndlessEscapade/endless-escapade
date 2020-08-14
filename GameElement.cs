@@ -102,7 +102,7 @@ namespace EEMod
                 }
             }
             velocity *= friction;
-            UIPosRunTime += velocity;
+            UIPosRunTime += velocity + Main.LocalPlayer.velocity;
             Main.spriteBatch.Draw(tex, UIPosRunTime - Main.screenPosition, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
         }
     }
