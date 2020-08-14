@@ -277,7 +277,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             int speedReduce = (480 - (int)npc.ai[0]) + 800;
             dist /= speedReduce;
             int maxDistance = 1000;
-            Rectangle rectangle1 = player.Hitbox; 
+            Rectangle rectangle1 = player.Hitbox;
             Rectangle rectangle2 = new Rectangle((int)npc.position.X - maxDistance, (int)npc.position.Y - maxDistance, maxDistance * 2, maxDistance * 2);
 
             if (rectangle1.Intersects(rectangle2))

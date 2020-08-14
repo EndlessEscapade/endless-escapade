@@ -88,12 +88,12 @@ namespace EEMod.NPCs
             int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;
             int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
             int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
-            if (minTilePosX < 0)           
+            if (minTilePosX < 0)
                 minTilePosX = 0;
 
             if (maxTilePosX > Main.maxTilesX)
                 maxTilePosX = Main.maxTilesX;
-            
+
             if (minTilePosY < 0)
                 minTilePosY = 0;
 

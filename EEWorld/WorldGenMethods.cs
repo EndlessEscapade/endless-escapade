@@ -75,38 +75,38 @@ namespace EEMod.EEWorld
             tag["ree"] = ree;
             return tag;
         }
-            /*List<string> boolflags = new List<string>();
+        /*List<string> boolflags = new List<string>();
 
-            // Game modes
-            if (GenkaiMode)
-                boolflags.Add("GenkaiMode");
+        // Game modes
+        if (GenkaiMode)
+            boolflags.Add("GenkaiMode");
 
-            // Downed bosses
-            if (downedGallagar)
-                boolflags.Add("downedGallagar");
-            if (downedForerunner)
-                boolflags.Add("downedForerunner");
-            if (downedSoS)
-                boolflags.Add("downedSoS");
-            if (downedFlare)
-                boolflags.Add("downedFlare");
-            if (downedAssimilator)
-                boolflags.Add("downedAssimilator");
-            if (downedAkumo)
-                boolflags.Add("downedAkumo");
-            if (downedHydros)
-                boolflags.Add("downedHydros");
-            if (downedStagrel)
-                boolflags.Add("downedStagrel");
-            if (downedBeheader)
-                boolflags.Add("downedBeheader");
+        // Downed bosses
+        if (downedGallagar)
+            boolflags.Add("downedGallagar");
+        if (downedForerunner)
+            boolflags.Add("downedForerunner");
+        if (downedSoS)
+            boolflags.Add("downedSoS");
+        if (downedFlare)
+            boolflags.Add("downedFlare");
+        if (downedAssimilator)
+            boolflags.Add("downedAssimilator");
+        if (downedAkumo)
+            boolflags.Add("downedAkumo");
+        if (downedHydros)
+            boolflags.Add("downedHydros");
+        if (downedStagrel)
+            boolflags.Add("downedStagrel");
+        if (downedBeheader)
+            boolflags.Add("downedBeheader");
 
 
-            return new TagCompound
-            {
-                ["SaveVersion"] = new Version(0, 3, 0, 0).ToString(),
-                ["boolFlags"] = boolflags
-            };*/
+        return new TagCompound
+        {
+            ["SaveVersion"] = new Version(0, 3, 0, 0).ToString(),
+            ["boolFlags"] = boolflags
+        };*/
         private static void StartSandstorm()
         {
             Sandstorm.Happening = true;
@@ -2488,7 +2488,7 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < size; j++)
                 {
                     float f = size * 1.5f;
-                    if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f*f)
+                    if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
                 }
             }
@@ -2587,7 +2587,7 @@ namespace EEMod.EEWorld
                     {
                         for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                         {
-                            if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i,j))
+                            if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
                             {
                                 Tile tile = Framing.GetTileSafely(i, j);
                                 if (j < Main.maxTilesY * 0.33f)
@@ -2835,11 +2835,11 @@ namespace EEMod.EEWorld
         }
         public static void PlaceCoral()
         {
-            for (int i = 42; i < Main.maxTilesX -42; i++)
+            for (int i = 42; i < Main.maxTilesX - 42; i++)
             {
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
-                    if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(5) && WorldGen.InWorld(i,j))
+                    if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(5) && WorldGen.InWorld(i, j))
                     {
                         int selection = WorldGen.genRand.Next(7);
                         switch (selection)
@@ -2851,7 +2851,7 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral2>());
                                 break;
                             case 2:
-                                WorldGen.PlaceTile(i,j + 1, ModContent.TileType<HangingCoral3>());
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral3>());
                                 break;
                             case 3:
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral4>());
@@ -2863,7 +2863,7 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral6>());
                                 break;
                             case 6:
-                                ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j+1);
+                                ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                 break;
                         }

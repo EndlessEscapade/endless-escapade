@@ -9,21 +9,28 @@ namespace EEMod
 {
     public class IceHockey : EEGame
     {
-        public override Vector2 sizeOfMainCanvas => new Vector2(500,500);
+        public override Vector2 sizeOfMainCanvas => new Vector2(500, 500);
         public override Vector2 centerOfMainCanvas => Main.LocalPlayer.Center;
         public override Color colourOfMainCanvas => Color.White;
         public override float speedOfStartUp => 16f;
         float pauseShaderTImer;
         public override void Initialize()
         {
-            int puck = AddUIElement(new Vector2(50,50),Color.Black, centerOfMainCanvas);
-            int ball = AddUIElement(new Vector2(20,20), Color.Red, centerOfMainCanvas);
-            elementArray[puck].AttatchToMouse(16f);
-            elementArray[puck].BindElementToGame(this);
-            elementArray[puck].AttachCollisionComponents(true,false,false);
+            for (int i = 0; i < Main.player.Length; i++)
+            {
+                if (Main.player[i].active && !Main.player[i].dead)
+                {
+                    int puck = AddUIElement(new Vector2(50, 50), Color.Black, centerOfMainCanvas);
+                    elementArray[puck].AttatchToMouse(16f, i);
+                    elementArray[puck].BindElementToGame(this);
+                    elementArray[puck].AttachCollisionComponents(true, false, false);
+                }
+            }
+            int ball = AddUIElement(new Vector2(20, 20), Color.Red, centerOfMainCanvas);
+
             elementArray[ball].BindElementToGame(this);
-            elementArray[ball].AttachCollisionComponents(false, true,true,0.97f,2f);
-           
+            elementArray[ball].AttachCollisionComponents(false, true, true, 0.97f, 2f);
+
         }
         public override void OnDeactivate()
         {

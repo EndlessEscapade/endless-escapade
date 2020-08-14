@@ -84,7 +84,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             }
 
             float k = 0;
-            if(Main.player[npc.target].position.X <= npc.position.X)
+            if (Main.player[npc.target].position.X <= npc.position.X)
             {
                 k = MathHelper.Pi;
             }

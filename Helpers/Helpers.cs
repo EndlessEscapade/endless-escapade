@@ -53,7 +53,7 @@ namespace EEMod
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
                     spriteBatch.Draw(headTexture, new Vector2(x - Main.screenPosition.X, y - Main.screenPosition.Y),
-                    new Rectangle(0, 0, headTexture.Width, headTexture.Height),alphaBlend ? Lighting.GetColor((int)(x/16),(int)(y/16)) : drawColor, projTrueRotation,
+                    new Rectangle(0, 0, headTexture.Width, headTexture.Height), alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor, projTrueRotation,
                     new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), 1, SpriteEffects.None, 0);
                 }
             }

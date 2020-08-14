@@ -2,16 +2,18 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+
 namespace EEMod
 {
     public class GameElement
-    { 
+    {
         public Vector2 sizeOfMainCanvas;
         public Vector2 centerOfElement;
         public Color colourOfMainCanvas;
         public EEGame parent;
         public Vector2 velocity;
-        public Rectangle elementRect => new Rectangle((int)(UIPosRunTime.X - sizeOfMainCanvas.X/2),
+        public Rectangle elementRect => new Rectangle((int)(UIPosRunTime.X - sizeOfMainCanvas.X / 2),
                                                       (int)(UIPosRunTime.Y - sizeOfMainCanvas.Y / 2),
                                                       (int)sizeOfMainCanvas.X,
                                                       (int)sizeOfMainCanvas.Y);
@@ -45,7 +47,12 @@ namespace EEMod
             this.bounce = bounce;
             this.bounceBuffer = bounceBuffer;
         }
-        public virtual void AttatchToMouse(float speed) { isBoundToMouse = true; SpeedOfMouseBinding = speed; }
+        public virtual void AttatchToMouse(float speed, int playerWhoAmI)
+        {
+            isBoundToMouse = true;
+            SpeedOfMouseBinding = speed;
+            this.playerWhoAmI = playerWhoAmI;
+        }
 
         public Vector2 UIPosRunTime;
         public float SpeedOfMouseBinding = 20;
@@ -56,14 +63,22 @@ namespace EEMod
         public float bounce;
         public int bounceBuffer;
         int BBTimer;
+        int playerWhoAmI;
+        Vector2 mousePosition;
         public Texture2D tex = Main.magicPixel;
+
         public virtual void Update()
         {
+            if (Main.myPlayer == playerWhoAmI)
+            {
+                mousePosition = Main.MouseWorld;
+                EENet.WriteToPacket(EEMod.instance.GetPacket(), (byte)EEMessageType.MouseCheck, Main.MouseWorld.X, Main.MouseWorld.Y).Send(-1);
+            }
             if (isBoundToMouse)
             {
-                velocity = (Main.MouseWorld - UIPosRunTime) / SpeedOfMouseBinding;
+                velocity = (mousePosition - UIPosRunTime) / SpeedOfMouseBinding;
             }
-            if(BBTimer > 0)
+            if (BBTimer > 0)
             {
                 BBTimer--;
             }
@@ -75,13 +90,13 @@ namespace EEMod
             {
                 if (collides)
                 {
-                    foreach(GameElement GE in parent.elementArray)
+                    foreach (GameElement GE in parent.elementArray)
                     {
-                        if(GE != null && GE.isSolid)
+                        if (GE != null && GE.isSolid)
                         {
-                            if(GE.elementRect.Intersects(elementRect) && BBTimer == 0)
+                            if (GE.elementRect.Intersects(elementRect) && BBTimer == 0)
                             {
-                                velocity = GE.velocity* bounce;
+                                velocity = GE.velocity * bounce;
                                 BBTimer = bounceBuffer;
                             }
                         }

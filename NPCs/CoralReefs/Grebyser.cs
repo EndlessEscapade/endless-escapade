@@ -37,7 +37,7 @@ namespace EEMod.NPCs.CoralReefs
         public override void AI()
         {
             npc.ai[0]++;
-            if(npc.ai[0] >= 600)
+            if (npc.ai[0] >= 600)
             {
                 Projectile.NewProjectile(npc.Center + new Vector2(0, -16), Vector2.One, ProjectileID.GeyserTrap, npc.damage, 2f);
                 npc.ai[0] = 0;

@@ -15,7 +15,7 @@ namespace EEMod
         public virtual Color colourOfMainCanvas => Color.White;
         public virtual float speedOfStartUp => 16f;
 
-        public Vector2 TopLeft => centerOfMainCanvas + new Vector2(-sizeOfMainCanvas.X/2, -sizeOfMainCanvas.Y / 2);
+        public Vector2 TopLeft => centerOfMainCanvas + new Vector2(-sizeOfMainCanvas.X / 2, -sizeOfMainCanvas.Y / 2);
         public Vector2 TopRight => centerOfMainCanvas + new Vector2(sizeOfMainCanvas.X / 2, -sizeOfMainCanvas.Y / 2);
         public Vector2 BottomLeft => centerOfMainCanvas + new Vector2(-sizeOfMainCanvas.X / 2, sizeOfMainCanvas.Y / 2);
         public Vector2 BottomRight => centerOfMainCanvas + new Vector2(sizeOfMainCanvas.X / 2, sizeOfMainCanvas.Y / 2);
@@ -40,9 +40,9 @@ namespace EEMod
         {
             for (int i = 0; i < elementArray.Length; i++)
             {
-                if(elementArray[i] == null)
+                if (elementArray[i] == null)
                 {
-                    elementArray[i] = new GameElement(size, color,Center);
+                    elementArray[i] = new GameElement(size, color, Center);
                     return i;
                     break;
                 }
@@ -53,7 +53,7 @@ namespace EEMod
         {
             if (gameActive)
             {
-                    Main.spriteBatch.Draw(Main.magicPixel, centerOfMainCanvas - Main.screenPosition, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas* colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Main.magicPixel, centerOfMainCanvas - Main.screenPosition, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
                 colourOfStartUp += (1 - colourOfStartUp) / speedOfStartUp;
                 foreach (GameElement GE in elementArray)
                 {

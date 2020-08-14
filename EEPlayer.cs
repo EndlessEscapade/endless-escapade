@@ -60,12 +60,12 @@ namespace EEMod
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
         public bool holdingPylon;
-
         public bool ridingZipline;
 
         public int PlayerX;
         public int PlayerY;
 
+   
         public override void PostUpdate()
         {
             int PlayerX = (int)(player.position.X / 16);
@@ -710,7 +710,7 @@ namespace EEMod
                 if (zipMultiplier <= 30)
                     zipMultiplier *= 1.02f;
             }
-            if (Vector2.DistanceSquared(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 32*32 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            if (Vector2.DistanceSquared(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 32 * 32 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {
                 int i;
                 for (i = 0; i <= 100; i++)

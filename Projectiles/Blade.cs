@@ -35,7 +35,7 @@ namespace EEMod.Projectiles
         Vector2 offsetHoldout;
         public override void AI()
         {
-            
+
             projectile.direction = projOwner.direction;
             projOwner.heldProj = projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
@@ -48,8 +48,8 @@ namespace EEMod.Projectiles
                 offsetHoldout = Vector2.Normalize(Main.MouseWorld - projOwner.Center) * 50;
             }
             if (projOwner.itemAnimation <= 1)
-                {
-                    projectile.Kill();
+            {
+                projectile.Kill();
             }
             Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
             if (Main.rand.NextBool(3))
@@ -64,8 +64,8 @@ namespace EEMod.Projectiles
         {
             int currentFrame = (int)(progression * frames);
             Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
-            if(Direction == 0)
-            Main.spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * currentFrame, width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
+            if (Direction == 0)
+                Main.spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * currentFrame, width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
             if (Direction == 1)
                 Main.spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * (frames - currentFrame), width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
             return false;
