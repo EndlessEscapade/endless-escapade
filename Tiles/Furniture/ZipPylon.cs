@@ -34,9 +34,9 @@ namespace EEMod.Tiles.Furniture
             {
                 if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon)
                 {
-                    for(int k = 0; k < 100; k++)
+                    for (int k = 0; k < 100; k++)
                     {
-                        if(EEWorld.EEWorld.PylonBegin[k] == default)
+                        if (EEWorld.EEWorld.PylonBegin[k] == default)
                         {
                             EEWorld.EEWorld.PylonBegin[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = true;
@@ -62,9 +62,9 @@ namespace EEMod.Tiles.Furniture
                 Main.LocalPlayer.position = new Vector2(i, j) * 16;
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = true;
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = new Vector2(i, j) * 16 + new Vector2(8, -8);
-                for(int k = 0; k < 100; k++)
+                for (int k = 0; k < 100; k++)
                 {
-                    if(EEWorld.EEWorld.PylonBegin[k] == new Vector2(i, j) * 16 + new Vector2(8, -8))
+                    if (EEWorld.EEWorld.PylonBegin[k] == new Vector2(i, j) * 16 + new Vector2(8, -8))
                     {
                         Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = EEWorld.EEWorld.PylonEnd[k];
                     }
@@ -91,16 +91,16 @@ namespace EEMod.Tiles.Furniture
                     }
                 }
             }
-            if(Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == new Vector2(i, j) * 16 + new Vector2(8, -8))
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == new Vector2(i, j) * 16 + new Vector2(8, -8))
             {
                 Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), Main.LocalPlayer.position + Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (Main.LocalPlayer.position - Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin).ToRotation(), new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0);
             }
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            for(int k = 0; k < 100; k++)
+            for (int k = 0; k < 100; k++)
             {
-                if(EEWorld.EEWorld.PylonBegin[k] == new Vector2(i, j) * 16 + new Vector2(8, -8))
+                if (EEWorld.EEWorld.PylonBegin[k] == new Vector2(i, j) * 16 + new Vector2(8, -8))
                 {
 
                 }

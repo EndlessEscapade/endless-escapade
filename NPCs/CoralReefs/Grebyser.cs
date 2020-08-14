@@ -41,6 +41,7 @@ namespace EEMod.NPCs.CoralReefs
                 npc.ai[1] = 1;
             npc.ai[0]++;
             if (npc.ai[0] % 180 == 0 && Helpers.OnGround(npc))
+            if (npc.ai[0] >= 600)
             {
                 npc.velocity.Y -= 5;
                 if (Helpers.isCollidingWithWall(npc))

@@ -42,7 +42,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
         public override void AI()
         {
-            if(npc.ai[3] == 0)
+            if (npc.ai[3] == 0)
             {
                 npc.ai[3] = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), npc.damage, 0f);
             }
@@ -56,7 +56,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             float distance = Vector2.Distance(npc.Center, Main.projectile[(int)npc.ai[3]].position) / LureChain.Height;
             for (int i = 0; i < distance; i++)
             {
-                Main.spriteBatch.Draw(LureChain, npc.Center - Main.screenPosition + new Vector2((npc.width/2) - (LureChain.Width/2), (npc.height/2) + (i * LureChain.Height)), Color.White);
+                Main.spriteBatch.Draw(LureChain, npc.Center - Main.screenPosition + new Vector2((npc.width / 2) - (LureChain.Width / 2), (npc.height / 2) + (i * LureChain.Height)), Color.White);
             }
             Texture2D texture = Main.npcTexture[npc.type];
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);

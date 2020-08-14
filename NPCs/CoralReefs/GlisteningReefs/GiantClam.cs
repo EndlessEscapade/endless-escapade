@@ -10,8 +10,8 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Clam");
-            Main.npcFrameCount[npc.type] = 2;
+            DisplayName.SetDefault("Giant Clam");
+            //Main.npcFrameCount[npc.type] = 2;
         }
 
         public override void SetDefaults()
@@ -104,12 +104,12 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             }
         }
 
-        public override void FindFrame(int frameHeight)
+        /*public override void FindFrame(int frameHeight)
         {
             if (npc.ai[2] == 1)
             {
                 npc.frame.Y = frameHeight;
             }
-        }
+        }*/
     }
 }

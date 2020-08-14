@@ -43,7 +43,7 @@ namespace EEMod.Projectiles.Enemy
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            
+
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

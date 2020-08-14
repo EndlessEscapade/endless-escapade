@@ -110,8 +110,8 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != i || randPosX < sizeOfChasm * 1.2f || randPosY < sizeOfChasm || randPosX > Main.maxTilesX / 2 - 50 || randPosY > Main.maxTilesY * 0.66f || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40*40
-                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40*40);
+                        } while (score != i || randPosX < sizeOfChasm * 1.2f || randPosY < sizeOfChasm || randPosX > Main.maxTilesX / 2 - 50 || randPosY > Main.maxTilesY * 0.66f || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40 * 40
+                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40 * 40);
                         roomsLeft[i] = new Vector2(randPosX, randPosY);
                     }
                     MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, Main.rand.Next(0, 7), Main.rand.Next(0, 3));
@@ -154,11 +154,11 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f) 
-                        || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 50 
-                        || randPosY > Main.maxTilesY * 0.66f 
-                        || Vector2.DistanceSquared(new Vector2(randPosX,randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40*40
-                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40*40);
+                        } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
+                        || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 50
+                        || randPosY > Main.maxTilesY * 0.66f
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40 * 40
+                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40 * 40);
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
                     MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, WorldGen.genRand.Next(0, 7), WorldGen.genRand.Next(0, 3));
@@ -293,27 +293,27 @@ namespace EEMod
             PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
             CoralBoatPos = new Vector2(boatPos, TileCheckWater(boatPos) - 22);
             EEMod.progressMessage = "Successful!";
-                for (int j = 42; j < Main.maxTilesY - 42; j++)
+            for (int j = 42; j < Main.maxTilesY - 42; j++)
+            {
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    for (int i = 42; i < Main.maxTilesX - 42; i++)
+                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(5))
                     {
-                        if ((TileCheck2(i,j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(5))
+                        if (ChainConnections.Count == 0)
                         {
-                            if (ChainConnections.Count == 0)
-                            {
                             ChainConnections.Add(new Vector2(i, j));
-                            }
-                            else
-                            {
-                              Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
-                            if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5*5 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 35*35 || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 500*500 && Math.Abs(lastPos.X - i) > 3)
+                        }
+                        else
+                        {
+                            Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
+                            if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 35 * 35 || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 500 * 500 && Math.Abs(lastPos.X - i) > 3)
                             {
                                 ChainConnections.Add(new Vector2(i, j));
-                            }
                             }
                         }
                     }
                 }
+            }
             //Finishing initialization stuff
             EEMod.isSaving = false;
             Main.spawnTileX = boatPos;

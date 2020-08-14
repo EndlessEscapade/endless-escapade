@@ -98,21 +98,52 @@ namespace EEMod
         int delay;
         float pauseShaderTImer;
         public IceHockey simpleGame;
+        public ModPacket GetPacket(EEMessageType type, int capacity)
+        {
+            ModPacket packet = GetPacket(capacity + 1);
+            packet.Write((byte)type);
+            return packet;
+        }
+        public override void HandlePacket(BinaryReader reader, int whoAmI)
+        {
+            EEMessageType id = (EEMessageType)reader.ReadByte();
+            switch (id)
+            {
+                case EEMessageType.MouseCheck:
+                    int mouseX = reader.ReadInt32();
+                    int mouseY = reader.ReadInt32();
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket packet = GetPacket(EEMessageType.MouseCheck, 2);
+                        packet.Write(mouseX);
+                        packet.Write(mouseY);
+                        packet.Send(-1, whoAmI);
+                    }
+                    break;
+            }
+       }
         public void UpdateGame()
         {
             simpleGame.Update();
-            if (Main.LocalPlayer.controlUp)
+            for (int i = 0; i < Main.player.Length; i++)
             {
-                simpleGame.StartGame();
-            }
-            if (Main.LocalPlayer.controlHook)
-            {
-                simpleGame.EndGame();
+                if (Main.player[i].active && !Main.player[i].dead)
+                {
+                    Player player = Main.player[i];
+                    if (player.controlUp)
+                    {
+                        simpleGame.StartGame();
+                    }
+                    if (player.controlHook)
+                    {
+                        simpleGame.EndGame();
+                    }
+                }
             }
         }
         public override void UpdateUI(GameTime gameTime)
         {
-            
+
             lastGameTime = gameTime;
             if (EEInterface?.CurrentState != null)
             {
@@ -423,9 +454,9 @@ namespace EEMod
         }
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
-                priority = MusicPriority.BossHigh;
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/TransitionMusoc");
-                return;
+            priority = MusicPriority.BossHigh;
+            music = GetSoundSlot(SoundType.Music, "Sounds/Music/TransitionMusoc");
+            return;
         }
         private int cannonDelay = 60;
         private void DrawShip()

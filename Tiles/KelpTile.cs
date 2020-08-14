@@ -21,10 +21,10 @@ namespace EEMod.Tiles
             Main.tileSolidTop[Type] = false;
             Main.tileNoAttach[Type] = false;
             AddMapEntry(new Color(68, 89, 195));
-            Main.tileCut[Type] = true;
+            //Main.tileCut[Type] = true;
             dustType = 154;
             drop = ModContent.ItemType<Kelp>();
-            soundStyle = 1;
+            soundStyle = SoundID.Grass;
             mineResist = 0f;
             minPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
@@ -57,7 +57,7 @@ namespace EEMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            
+
             return true;
         }
     }

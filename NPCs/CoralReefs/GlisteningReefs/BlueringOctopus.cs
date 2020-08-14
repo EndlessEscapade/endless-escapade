@@ -16,7 +16,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             //.npcFrameCount[npc.type] = 6;
         }
 
-        public override void FindFrame(int frameHeight)
+        /*public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
             if (npc.frameCounter == 6)
@@ -29,7 +29,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                 npc.frame.Y = 0;
                 return;
             }
-        }
+        }*/
 
         public override void SetDefaults()
         {
@@ -57,19 +57,25 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
         public override void AI()
         {
-
+            npc.ai[1]++;
+            if(npc.ai[1] >= 300)
+            {
+                Projectile.NewProjectile(npc.Center, Vector2.Normalize(), ModContent.ProjectileType<BlueRing>(), npc.damage, 0f);
+            }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/CoralReefs/MechanicalSharkGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow"), npc.Center - Main.screenPosition + new Vector2(0, -6), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+
+        /*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[0] == 2)
             {
                 AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[npc.type], 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
             }
             return true;
-        }
+        }*/
     }
 }

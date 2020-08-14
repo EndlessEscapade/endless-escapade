@@ -92,7 +92,7 @@ namespace EEMod.Tiles.Furniture.Coral
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
-            
+
             if (tile != null && tile.active() && tile.type == Type)
             {
                 int frameX = Main.tile[i, j].frameX;
@@ -108,8 +108,8 @@ namespace EEMod.Tiles.Furniture.Coral
                 }
                 tile.frameX = 17;
                 Color color = Color.White;
-                int index = ModContent.GetInstance<GlowHangCoral1TE>().Find(i, j - tile.frameY/16);
-                if(index == -1)
+                int index = ModContent.GetInstance<GlowHangCoral1TE>().Find(i, j - tile.frameY / 16);
+                if (index == -1)
                 {
                     return;
                 }
