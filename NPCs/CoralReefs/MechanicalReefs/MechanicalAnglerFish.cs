@@ -13,7 +13,13 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechanical Angler Fish");
-            //Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[npc.type] = 3;
+        }
+
+        private int frameNumber = 0;
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frame.Y = frameNumber * 48;
         }
 
         public override void SetDefaults()
@@ -45,6 +51,10 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             if (npc.ai[3] == 0)
             {
                 npc.ai[3] = Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), npc.damage, 0f);
+            }
+            else
+            {
+                npc.velocity = Vector2.Zero;
             }
         }
 

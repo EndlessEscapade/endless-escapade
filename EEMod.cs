@@ -480,12 +480,10 @@ namespace EEMod
                 {
                     velocity.X -= 0.1f * eePlayer.boatSpeed;
                 }
-                if (player.controlUseItem && cannonDelay <= 0)
+                if (player.controlUseItem && cannonDelay <= 0 && eePlayer.cannonballType != 0)
                 {
                     switch (eePlayer.cannonballType)
                     {
-                        case 0:
-                            break;
                         case 1:
                             Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
                             break;

@@ -21,7 +21,7 @@ namespace EEMod.Projectiles.Enemy
             projectile.height = 8;
             projectile.alpha = 0;
             projectile.timeLeft = 1200;
-            projectile.penetrate = 1;
+            projectile.penetrate = -1;
             projectile.hostile = true;
             projectile.friendly = false;
             projectile.tileCollide = true;
@@ -49,6 +49,7 @@ namespace EEMod.Projectiles.Enemy
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.Kill();
+            Main.npc[projectile.owner].ai[3] = 0;
             return true;
         }
     }

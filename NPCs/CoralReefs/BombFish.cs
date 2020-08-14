@@ -12,7 +12,6 @@ namespace EEMod.NPCs.CoralReefs
     {
         public override void SetStaticDefaults()
         {
-            // Calamity be like
             DisplayName.SetDefault("Bomb Fish");
             Main.npcFrameCount[npc.type] = 16;
         }
