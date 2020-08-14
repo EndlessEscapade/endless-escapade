@@ -23,8 +23,8 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.buffImmune[BuffID.Confused] = true;
 
-            npc.width = 62;
-            npc.height = 48;
+            npc.width = 26;
+            npc.height = 26;
 
             npc.noGravity = true;
 
@@ -41,22 +41,30 @@ namespace EEMod.NPCs.CoralReefs
             for (int i = 0; i < Main.player.Length; i++)
             {
                 Player player = Main.player[i];
-                if (Vector2.DistanceSquared(npc.position, player.position) <= (160 * 160))
+                if (Vector2.Distance(npc.Center, player.Center) <= 320)
                     isBig = true;
             }
 
-            if (isBig == false)
+
+            npc.TargetClosest();
+            Player target = Main.player[npc.target];
+
+            if (!isBig)
             {
                 big = false;
                 npc.width = 26;
                 npc.height = 26;
+                npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 2;
             }
-            if (isBig == true)
+            if (isBig)
             {
                 big = true;
                 npc.width = 62;
                 npc.height = 48;
+                npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 1;
             }
+
+            npc.rotation = npc.velocity.X / 5;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -64,10 +72,15 @@ namespace EEMod.NPCs.CoralReefs
             Texture2D texture = TextureCache.PufferSmall;
             Vector2 offset = new Vector2(0, 0);
             if (big)
+            {
                 texture = TextureCache.PufferBig;
+                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + offset, new Rectangle(0, 0, 62, 48), drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            }
             if (!big)
+            {
                 offset = new Vector2(8, 16);
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + offset, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + offset, new Rectangle(0, 0, 26, 26), drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            }
             return false;
         }
     }
