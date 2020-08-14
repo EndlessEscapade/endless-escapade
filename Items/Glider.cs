@@ -32,19 +32,15 @@ namespace EEMod.Items
 
         public override void HoldStyle(Player player)
         {
-            if (player.velocity.Y != 0)
+            if (player.velocity.Y > 0)
             {
                 player.gravity = 0.133f;
                 player.bodyFrame.Y = 4 * 56;
-                //player.bodyFrameCounter = 5;
-                /*player.headFrame.Y = 5 * 56;
-                player.headFrameCounter = 5;
-                player.legFrame.Y = 5 * 56;
-                player.legFrameCounter = 5;*/
 
                 player.velocity.Y = 1;
-                if (Math.Abs(player.velocity.X) < 3)
-                    player.velocity.X *= 1.05f;
+                if (Math.Abs(player.velocity.X) < 18)
+                    if((player.controlRight && player.velocity.X > 0) || (player.controlLeft && player.velocity.X < 0))
+                        player.velocity.X *= 1.02f;
             }
         }
     }

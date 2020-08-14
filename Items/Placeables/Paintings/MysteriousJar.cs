@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Furniture.DevPaintings;
+using EEMod.Tiles.Furniture.Paintings;
 
 namespace EEMod.Items.Placeables.Paintings
 {

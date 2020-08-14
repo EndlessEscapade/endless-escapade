@@ -5,11 +5,11 @@ using EEMod.Tiles.Furniture.Paintings;
 
 namespace EEMod.Items.Placeables.Paintings
 {
-    public class Moon : ModItem
+    public class CrownedKing : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Moon");
+            DisplayName.SetDefault("Crowned King");
         }
 
         public override void SetDefaults()
@@ -24,7 +24,7 @@ namespace EEMod.Items.Placeables.Paintings
             item.width = 12;
             item.height = 12;
 
-            item.createTile = ModContent.TileType<MoonTile>();
+            item.createTile = ModContent.TileType<CrownedKingTile>();
         }
     }
 }

@@ -14,7 +14,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 3;
+            npc.aiStyle = -1;
 
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
@@ -36,11 +36,31 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
+            npc.velocity.X = npc.ai[1];
+            if (npc.ai[0] == 0)
+                npc.ai[1] = 1;
             npc.ai[0]++;
-            if(npc.ai[0] >= 600)
+            if (npc.ai[0] % 180 == 0 && Helpers.OnGround(npc))
             {
-                Projectile.NewProjectile(npc.Center + new Vector2(0, -16), Vector2.One, ProjectileID.GeyserTrap, npc.damage, 2f);
-                npc.ai[0] = 0;
+                npc.velocity.Y -= 5;
+                if (Helpers.isCollidingWithWall(npc))
+                {
+                    if (npc.ai[1] == -1)
+                    {
+                        npc.ai[1] = 1;
+                    }
+                    else
+                    {
+                        npc.ai[1] = -1;
+                    }
+                }
+            }
+            npc.ai[2]++;
+            if(npc.ai[2] >= 300)
+            {
+                Main.NewText("ae");
+                //Projectile.NewProjectile(npc.Center + new Vector2(0, -16), new Vector2(0, -5), ModContent.ProjectileType<GrebyserGeyser>(), 20, 2f);
+                npc.ai[2] = 0;
             }
         }
     }

@@ -39,17 +39,10 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
         float speed = 0.5f;
         public override void AI()
         {
-            Vector2 closestPlayer = new Vector2();
-            for (int i = 0; i < Main.player.Length; i++)
+            npc.TargetClosest();
+            if (Vector2.DistanceSquared(Main.player[npc.target].position, npc.Center) <= 640 * 640)
             {
-                if (Vector2.DistanceSquared(Main.player[i].Center, npc.Center) <= Vector2.DistanceSquared(closestPlayer, npc.Center))
-                {
-                    closestPlayer = Main.player[i].Center;
-                }
-            }
-            if (Vector2.DistanceSquared(closestPlayer, npc.Center) <= 640 * 640)
-            {
-                npc.velocity = Vector2.Normalize(closestPlayer - npc.Center) * speed;
+                npc.velocity = Vector2.Normalize(Main.player[npc.target].position - npc.Center) * speed;
             }
             else
             {
@@ -60,7 +53,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                     npc.ai[0] = 0;
                 }
             }
-            if (closestPlayer.X < npc.Center.X)
+            if (Main.player[npc.target].position.X < npc.Center.X)
             {
                 npc.spriteDirection = 1;
             }

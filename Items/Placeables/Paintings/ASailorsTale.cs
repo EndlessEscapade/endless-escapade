@@ -5,11 +5,11 @@ using EEMod.Tiles.Furniture.Paintings;
 
 namespace EEMod.Items.Placeables.Paintings
 {
-    public class Moon : ModItem
+    public class ASailorsTale : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Moon");
+            DisplayName.SetDefault("A Sailor's Tale");
         }
 
         public override void SetDefaults()
