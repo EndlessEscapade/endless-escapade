@@ -87,6 +87,7 @@ namespace EEMod
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             RuneActivator = null;
             RuneSpecial = null;
+            simpleGame = null;
             UnloadIL();
             AutoloadingManager.UnloadManager(this);
             instance = null;
@@ -96,8 +97,22 @@ namespace EEMod
         private GameTime lastGameTime;
         int delay;
         float pauseShaderTImer;
+        public IceHockey simpleGame;
+        public void UpdateGame()
+        {
+            simpleGame.Update();
+            if (Main.LocalPlayer.controlUp)
+            {
+                simpleGame.StartGame();
+            }
+            if (Main.LocalPlayer.controlHook)
+            {
+                simpleGame.EndGame();
+            }
+        }
         public override void UpdateUI(GameTime gameTime)
         {
+            
             lastGameTime = gameTime;
             if (EEInterface?.CurrentState != null)
             {
@@ -172,6 +187,7 @@ namespace EEMod
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
             }
             LoadIL();
+            simpleGame = new IceHockey();
         }
 
         public static bool isSaving = false;
@@ -200,6 +216,7 @@ namespace EEMod
                     {
                         EEInterface.Draw(Main.spriteBatch, lastGameTime);
                     }
+                    UpdateGame();
                     return true;
                 }, InterfaceScaleType.UI);
                 layers.Insert(mouseTextIndex, EEInterfaceLayer);
