@@ -57,11 +57,30 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
         public override void AI()
         {
+            npc.TargetClosest();
+            Player target = Main.player[npc.target];
             npc.ai[1]++;
-            if(npc.ai[1] >= 300)
+            if(npc.ai[1] >= 60)
             {
-                Projectile.NewProjectile(npc.Center, Vector2.Normalize(), ModContent.ProjectileType<BlueRing>(), npc.damage, 0f);
+                npc.ai[2]++;
+                if (npc.ai[2] >= 2)
+                {
+                    Projectile.NewProjectile(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 6, ModContent.ProjectileType<BlueRing>(), npc.damage, 0f);
+                    npc.ai[2] = 0;
+                }
+
+                if(target.position.Y <= npc.position.Y)
+                {
+                    npc.velocity.Y -= 16;
+                    npc.velocity.X += Helpers.Clamp((target.Center.X - npc.Center.X) / 10, -8, 8);
+                }
+
+                npc.ai[1] = 0;
             }
+            npc.velocity *= 0.98f;
+            npc.velocity.Y += 0.1f;
+
+            npc.rotation = npc.velocity.X / 18;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

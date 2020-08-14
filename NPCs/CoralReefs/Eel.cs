@@ -13,7 +13,7 @@ namespace EEMod.NPCs.CoralReefs
         }
 
         // private int frameNumber = 0;
-        public override void FindFrame(int frameHeight)
+        /*public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
             if (npc.frameCounter == 6)
@@ -26,7 +26,7 @@ namespace EEMod.NPCs.CoralReefs
                 npc.frame.Y = 0;
                 return;
             }
-        }
+        }*/
 
         public override void SetDefaults()
         {
