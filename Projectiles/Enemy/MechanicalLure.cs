@@ -17,8 +17,8 @@ namespace EEMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 8;
+            projectile.width = 18;
+            projectile.height = 16;
             projectile.alpha = 0;
             projectile.timeLeft = 1200;
             projectile.penetrate = -1;
@@ -33,24 +33,26 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
-            projectile.velocity = new Vector2(0, 1);
+            if(projectile.ai[0] == 0)
+                projectile.velocity = new Vector2(0, 2);
+            if (projectile.ai[0] == 1)
+            {
+                projectile.velocity = new Vector2(0, -4);
+                Main.player[(int)projectile.ai[1]].Center = projectile.Center;
+            }
+            if (projectile.Center.Y < Main.npc[projectile.owner].Center.Y)
+                projectile.Kill();
         }
 
         public override void Kill(int timeLeft)
         {
-
+            Main.npc[projectile.owner].ai[3] = 0;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
-            projectile.Kill();
-            Main.npc[projectile.owner].ai[3] = 0;
-            return true;
+            projectile.ai[1] = target.whoAmI;
+            projectile.ai[0] = 1;
         }
     }
 }
