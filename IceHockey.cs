@@ -17,7 +17,7 @@ namespace EEMod
         public override void Initialize()
         {
             int puck = AddUIElement(new Vector2(50,50),Color.Black, centerOfMainCanvas);
-            int ball = AddUIElement(new Vector2(20, 20), Color.Red, centerOfMainCanvas);
+            int ball = AddUIElement(new Vector2(20,20), Color.Red, centerOfMainCanvas);
             elementArray[puck].AttatchToMouse(16f);
             elementArray[puck].BindElementToGame(this);
             elementArray[puck].AttachCollisionComponents(true,false,false);

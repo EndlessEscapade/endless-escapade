@@ -20,8 +20,8 @@ namespace EEMod
         public Vector2 BottomLeft => centerOfMainCanvas + new Vector2(-sizeOfMainCanvas.X / 2, sizeOfMainCanvas.Y / 2);
         public Vector2 BottomRight => centerOfMainCanvas + new Vector2(sizeOfMainCanvas.X / 2, sizeOfMainCanvas.Y / 2);
 
-        float colourOfStartUp = 0;
-        bool gameActive;
+        public float colourOfStartUp = 0;
+        public bool gameActive;
         public EEGame()
         {
             Initialize();

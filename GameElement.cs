@@ -73,8 +73,6 @@ namespace EEMod
                 colourOfStartUp += (-colourOfStartUp) / speedOfStartUp;
             if (parent != null)
             {
-                Helpers.Clamp(ref UIPosRunTime.X, parent.TopLeft.X + sizeOfMainCanvas.X/2, parent.TopRight.X - sizeOfMainCanvas.X / 2);
-                Helpers.Clamp(ref UIPosRunTime.Y, parent.TopLeft.Y + sizeOfMainCanvas.Y / 2, parent.BottomLeft.Y - sizeOfMainCanvas.Y / 2);
                 if (collides)
                 {
                     foreach(GameElement GE in parent.elementArray)
@@ -100,9 +98,12 @@ namespace EEMod
                         velocity.X *= -1;
                     }
                 }
+                velocity *= friction;
+                UIPosRunTime += velocity + Main.LocalPlayer.velocity;
+                Helpers.Clamp(ref UIPosRunTime.X, parent.TopLeft.X + sizeOfMainCanvas.X / 2, parent.TopRight.X - sizeOfMainCanvas.X / 2);
+                Helpers.Clamp(ref UIPosRunTime.Y, parent.TopLeft.Y + sizeOfMainCanvas.Y / 2, parent.BottomLeft.Y - sizeOfMainCanvas.Y / 2);
             }
-            velocity *= friction;
-            UIPosRunTime += velocity + Main.LocalPlayer.velocity;
+
             Main.spriteBatch.Draw(tex, UIPosRunTime - Main.screenPosition, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
         }
     }
