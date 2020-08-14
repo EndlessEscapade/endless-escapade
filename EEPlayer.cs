@@ -61,7 +61,7 @@ namespace EEMod
         public Vector2 PylonEnd;
         public bool holdingPylon;
         public bool ridingZipline;
-
+        public Vector2 secondPlayerMouse;
         public int PlayerX;
         public int PlayerY;
 

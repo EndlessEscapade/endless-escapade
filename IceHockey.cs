@@ -16,15 +16,12 @@ namespace EEMod
         float pauseShaderTImer;
         public override void Initialize()
         {
-            for (int i = 0; i < Main.player.Length; i++)
+            for (int i = 0; i < Main.ActivePlayersCount; i++)
             {
-                if (Main.player[i].active && !Main.player[i].dead)
-                {
                     int puck = AddUIElement(new Vector2(50, 50), Color.Black, centerOfMainCanvas);
                     elementArray[puck].AttatchToMouse(16f, i);
                     elementArray[puck].BindElementToGame(this);
                     elementArray[puck].AttachCollisionComponents(true, false, false);
-                }
             }
             int ball = AddUIElement(new Vector2(20, 20), Color.Red, centerOfMainCanvas);
 
