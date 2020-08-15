@@ -9,7 +9,7 @@ namespace EEMod.NPCs.CoralReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Eel");
-            Main.npcFrameCount[npc.type] = 3;
+            //Main.npcFrameCount[npc.type] = 3;
         }
 
         // private int frameNumber = 0;

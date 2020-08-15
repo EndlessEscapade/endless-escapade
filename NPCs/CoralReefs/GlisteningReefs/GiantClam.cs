@@ -11,7 +11,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Giant Clam");
-            //Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[npc.type] = 11;
         }
 
         public override void SetDefaults()

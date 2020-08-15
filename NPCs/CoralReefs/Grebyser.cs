@@ -60,7 +60,7 @@ namespace EEMod.NPCs.CoralReefs
             if(npc.ai[2] >= 300)
             {
                 Main.NewText("ae");
-                //Projectile.NewProjectile(npc.Center + new Vector2(0, -16), new Vector2(0, -5), ModContent.ProjectileType<GrebyserGeyser>(), 20, 2f);
+                Projectile.NewProjectile(npc.Center + new Vector2(0, -16), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
                 npc.ai[2] = 0;
             }
         }
