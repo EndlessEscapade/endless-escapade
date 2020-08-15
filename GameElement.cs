@@ -73,8 +73,6 @@ namespace EEMod
            
             if (isBoundToMouse)
             {
-                    
-                    
                     for(int i = 0; i<255; i++)
                     {
                         if(Main.player[i].active && i != Main.myPlayer)
@@ -83,10 +81,9 @@ namespace EEMod
                             break;
                         }
                     }
-                    Main.NewText(yeet);
-                if (Main.netMode == NetmodeID.Server && playerWhoAmI != 0)
+                if (Main.netMode == NetmodeID.MultiplayerClient && playerWhoAmI != 0)
                 {
-                    EENet.WriteToPacket(EEMod.instance.GetPacket(), (byte)EEMessageType.MouseCheck, (byte)yeet, Main.MouseWorld.X, Main.MouseWorld.Y).Send(-1);
+                    EENet.WriteToPacket(EEMod.instance.GetPacket(), (byte)EEMessageType.MouseCheck, (byte)yeet, (int)Main.MouseWorld.X, (int)Main.MouseWorld.Y).Send(-1);
                 }
                 Vector2 chosen = (playerWhoAmI != 0 ? Main.LocalPlayer.GetModPlayer<EEPlayer>().secondPlayerMouse : Main.MouseWorld);
                 velocity = (chosen - UIPosRunTime) / SpeedOfMouseBinding;
