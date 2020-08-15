@@ -67,23 +67,23 @@ namespace EEMod
         int playerWhoAmI;
         public Vector2 mousePosition;
         public Texture2D tex = Main.magicPixel;
-         int yeet;
+        int yeet;
         public virtual void Update()
         {
-           
+
             if (isBoundToMouse)
             {
-                    for(int i = 0; i<255; i++)
+                for (int i = 0; i < 255; i++)
+                {
+                    if (Main.player[i].active && i != Main.myPlayer)
                     {
-                        if(Main.player[i].active && i != Main.myPlayer)
-                        {
-                            yeet = i;
-                            break;
-                        }
+                        yeet = i;
+                        break;
                     }
+                }
                 if (Main.netMode == NetmodeID.MultiplayerClient && playerWhoAmI != 0)
                 {
-                    EENet.WriteToPacket(EEMod.instance.GetPacket(), (byte)EEMessageType.MouseCheck, (byte)yeet, (int)Main.MouseWorld.X, (int)Main.MouseWorld.Y).Send(-1);
+                    MultiplayerMouseTracker.UpdateMyMouse();
                 }
                 Vector2 chosen = (playerWhoAmI != 0 ? Main.LocalPlayer.GetModPlayer<EEPlayer>().secondPlayerMouse : Main.MouseWorld);
                 velocity = (chosen - UIPosRunTime) / SpeedOfMouseBinding;

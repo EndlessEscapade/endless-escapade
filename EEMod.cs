@@ -104,30 +104,16 @@ namespace EEMod
             packet.Write((byte)type);
             return packet;
         }
+
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            EEMessageType id = (EEMessageType)reader.ReadByte();
-            switch (id)
-            {
-                case EEMessageType.MouseCheck:
-                    byte player = reader.ReadByte();
-                    int mouseX = reader.ReadInt32();
-                    int mouseY = reader.ReadInt32();
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        ModPacket packet = GetPacket(EEMessageType.MouseCheck, 3);
-                        packet.Write(player);
-                        packet.Write(mouseX);
-                        packet.Write(mouseY);
-                        packet.Send(-1, whoAmI);
-                    }
-                    if (player == Main.myPlayer)
-                        break;
-                    NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(player.ToString()), new Color(175, 75, 255), -1);
-                    Main.player[player].GetModPlayer<EEPlayer>().secondPlayerMouse = new Vector2(mouseX, mouseY);
-                    break;
-            }
-       }
+            if (Main.dedServ)
+                Console.WriteLine($"from {whoAmI} - {reader.PeekChar()}");
+            else
+                Main.NewText($"from {whoAmI} - {reader.PeekChar()}");
+            EENet.ReceievePacket(reader, whoAmI);
+        }
+
         public void UpdateGame()
         {
             simpleGame = simpleGame ?? new IceHockey();
@@ -226,7 +212,7 @@ namespace EEMod
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
             }
             LoadIL();
-           
+
         }
 
         public static bool isSaving = false;
