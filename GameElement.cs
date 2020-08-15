@@ -85,7 +85,7 @@ namespace EEMod
                 {
                     MultiplayerMouseTracker.UpdateMyMouse();
                 }
-                Vector2 chosen = (playerWhoAmI != 0 ? Main.LocalPlayer.GetModPlayer<EEPlayer>().secondPlayerMouse : Main.MouseWorld);
+                Vector2 chosen = (playerWhoAmI != 0 ? MultiplayerMouseTracker.GetMousePos(yeet) : Main.MouseWorld);
                 velocity = (chosen - UIPosRunTime) / SpeedOfMouseBinding;
             }
             if (BBTimer > 0)
