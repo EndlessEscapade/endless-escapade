@@ -110,10 +110,21 @@ namespace EEMod
             switch (id)
             {
                 case EEMessageType.MouseCheck:
-                        int player = reader.ReadByte();
-                        int mouseX = reader.ReadInt32();
-                        int mouseY = reader.ReadInt32();
-                        Main.player[player].GetModPlayer<EEPlayer>().secondPlayerMouse = new Vector2(mouseX, mouseY);
+                    byte player = reader.ReadByte();
+                    int mouseX = reader.ReadInt32();
+                    int mouseY = reader.ReadInt32();
+                    if (Main.netMode == NetmodeID.Server)
+                    {
+                        ModPacket packet = GetPacket(EEMessageType.MouseCheck, 3);
+                        packet.Write(player);
+                        packet.Write(mouseX);
+                        packet.Write(mouseY);
+                        packet.Send(-1, whoAmI);
+                    }
+                    if (player == Main.myPlayer)
+                        break;
+                    NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(player.ToString()), new Color(175, 75, 255), -1);
+                    Main.player[player].GetModPlayer<EEPlayer>().secondPlayerMouse = new Vector2(mouseX, mouseY);
                     break;
             }
        }
