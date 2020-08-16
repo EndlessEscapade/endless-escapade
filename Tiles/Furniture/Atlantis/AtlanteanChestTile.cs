@@ -41,7 +41,7 @@ namespace EEMod.Tiles.Furniture.Atlantis
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chestDrop = ModContent.ItemType<AtlanteanChest>();
-            chest = "Briar Chest";
+            chest = "Atlantean Chest";
         }
 
         public string MapChestName(string name, int i, int j)

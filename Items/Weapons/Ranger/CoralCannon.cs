@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.useAnimation = 60;
             item.width = 20;
             item.height = 20;
-            item.shoot = ModContent.ProjectileType<CoconutProjectile>();
+            item.shoot = ModContent.ProjectileType<CoralCannonProjectile>();
             item.rare = ItemRarityID.Orange;
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;

@@ -262,6 +262,22 @@ namespace EEMod
                     }
                 }
 
+                EEMod.progressMessage = "Generating Ruins";
+                int mlem = 0;
+                while(mlem < 5)
+                {
+                    int tileX = Main.rand.Next(100, 1400);
+                    int tileY = Main.rand.Next(200, 700);
+                    if (!Main.tile[tileX, tileY].active())
+                    {
+                        if(Main.rand.NextBool())
+                            PlaceAnyBuilding(tileX, tileY, ReefRuins1);
+                        else
+                            PlaceAnyBuilding(tileX, tileY, ReefRuins2);
+                        mlem++;
+                    }
+                }
+
                 //Placing water and etc
                 KillWall(1000, 1000, Vector2.Zero);
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));

@@ -40,7 +40,7 @@ namespace EEMod.Tiles.Furniture
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chestDrop = ModContent.ItemType<GemsandChest>();
-            chest = "Briar Chest";
+            chest = "Gemsand Chest";
         }
 
         public string MapChestName(string name, int i, int j)

@@ -3592,7 +3592,12 @@ namespace EEMod.EEWorld
                         if (shape[y, x, 0] != 0)
                         {
                             tile.ClearTile();
-                            tile.type = (ushort)shape[y, x, 0];
+                            if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>())
+                            {
+                                WorldGen.PlaceChest(k, l, 21);
+                            }
+                            else
+                                tile.type = (ushort)shape[y, x, 0];
                             tile.active(true);
                         }
                         tile.wall = (ushort)shape[y, x, 1];
