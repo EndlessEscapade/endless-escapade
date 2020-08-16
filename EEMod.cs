@@ -40,6 +40,7 @@ using EEMod.NPCs.Bosses.Kraken;
 using EEMod.NPCs.Friendly;
 using EEMod.Items;
 using EEMod.ID;
+using EEMod.Net;
 
 namespace EEMod
 {
