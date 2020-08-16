@@ -41,6 +41,7 @@ using EEMod.NPCs.Friendly;
 using EEMod.Items;
 using EEMod.ID;
 using EEMod.Net;
+using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -78,8 +79,8 @@ namespace EEMod
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
             Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
             Main.spriteBatch.Begin();
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position - Main.screenPosition + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Rectangle(0, 0, 2, 16).Size() / 2, Vector2.One, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position - Main.screenPosition, new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Rectangle(0, 0, 18, 8).Size() / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Rectangle(0, 0, 2, 16).Size() / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Rectangle(0, 0, 18, 8).Size() / 2, Vector2.One, SpriteEffects.None, 0);
             Main.spriteBatch.End();
         }
 

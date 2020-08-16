@@ -4,6 +4,7 @@ using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using Terraria.Graphics.Effects;
+using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -55,7 +56,7 @@ namespace EEMod
         {
             if (gameActive)
             {
-                Main.spriteBatch.Draw(Main.magicPixel, centerOfMainCanvas - Main.screenPosition, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Main.magicPixel, centerOfMainCanvas.ForDraw(), new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
                 colourOfStartUp += (1 - colourOfStartUp) / speedOfStartUp;
                 foreach (GameElement GE in elementArray)
                 {
@@ -68,7 +69,7 @@ namespace EEMod
             else
             {
                 OnDeactivate();
-                Main.spriteBatch.Draw(Main.magicPixel, centerOfMainCanvas - Main.screenPosition, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Main.magicPixel, centerOfMainCanvas.ForDraw(), new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
                 colourOfStartUp += (-colourOfStartUp) / speedOfStartUp;
             }
         }

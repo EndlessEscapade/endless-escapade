@@ -4,6 +4,7 @@ using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria.ID;
+using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -129,7 +130,7 @@ namespace EEMod
                 Helpers.Clamp(ref UIPosRunTime.Y, parent.TopLeft.Y + sizeOfMainCanvas.Y / 2, parent.BottomLeft.Y - sizeOfMainCanvas.Y / 2);
             }
 
-            Main.spriteBatch.Draw(tex, UIPosRunTime - Main.screenPosition, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, UIPosRunTime.ForDraw(), new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
         }
     }
 }
