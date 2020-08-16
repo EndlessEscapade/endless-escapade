@@ -106,13 +106,7 @@ namespace EEMod
                         {
                             if (GE.elementRect.Intersects(elementRect) && BBTimer == 0)
                             {
-                                velocity = GE.velocity * bounce;
-                                if (Main.netMode == NetmodeID.MultiplayerClient && playerWhoAmI != 0)
-                                {
-                                    EENet.SendPacket(EEMessageType.MouseCheck, velocity, GE.velocity, bounce);
-                                    Main.NewText(MultiplayerMouseTracker.velHolder);
-                                }
-                               
+                                velocity = GE.velocity * bounce;                            
                                 BBTimer = bounceBuffer;
                             }
                         }

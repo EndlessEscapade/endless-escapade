@@ -34,7 +34,7 @@ namespace EEMod
             }
         }
 
-        internal static void HandlePacket(BinaryReader reader, int fromwho, EEMessageType msg)
+        internal static void HandlePacket(BinaryReader reader, int fromwho)
         {
             if (Main.netMode == NetmodeID.Server)
                 EENet.SendPacketTo(EEMessageType.MouseCheck, -1, fromwho, reader.Read<Vector2>(), (ushort)fromwho);
