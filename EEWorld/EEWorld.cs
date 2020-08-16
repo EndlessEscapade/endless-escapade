@@ -40,17 +40,19 @@ namespace EEMod.EEWorld
 
         public static Vector2[] PylonBegin = new Vector2[100];
         public static Vector2[] PylonEnd = new Vector2[100];
-        public static Vector2[] sinDis = new Vector2[10000];
+        public Vector2[] sinDis = new Vector2[10000];
         public override void Initialize()
         {
             if (sinDis != null)
             {
                 for (int i = 0; i < sinDis.Length; i++)
                 {
+                    if(sinDis[i] != null)
                     sinDis[i].X = WorldGen.genRand.NextFloat(0, 0.03f);
                 }
             }
             eocFlag = NPC.downedBoss1;
+            if(EntracesPosses != null)
             if (EntracesPosses.Count > 0)
                 yes = EntracesPosses[0];
         }

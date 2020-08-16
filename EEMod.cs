@@ -107,10 +107,6 @@ namespace EEMod
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
-            if (Main.dedServ)
-                Console.WriteLine($"from {whoAmI} - {reader.PeekChar()}");
-            else
-                Main.NewText($"from {whoAmI} - {reader.PeekChar()}");
             EENet.ReceievePacket(reader, whoAmI);
         }
 

@@ -16,6 +16,7 @@ namespace EEMod
     {
         public static Vector2[] Mouses = new Vector2[300];
 
+        public static Vector2 velHolder;
         public static Vector2 GetMousePos(int playerWhoAmI) => Mouses[playerWhoAmI];
 
         public static void UpdateMyMouse()
@@ -31,14 +32,34 @@ namespace EEMod
             }
         }
 
-        internal static void HandlePacket(BinaryReader reader, int fromwho)
+        internal static void HandlePacket(BinaryReader reader, int fromwho, EEMessageType msg)
         {
-            if (Main.netMode == NetmodeID.Server)
-                EENet.SendPacketTo(EEMessageType.MouseCheck, -1, fromwho, reader.ReadVector2(), (ushort)fromwho);
-            else if (Main.netMode == NetmodeID.MultiplayerClient)
+            if (msg == EEMessageType.MouseCheck)
             {
-                Vector2 v = reader.ReadVector2();
-                Mouses[reader.ReadUInt16()] = v;
+                if (Main.netMode == NetmodeID.Server)
+                    EENet.SendPacketTo(EEMessageType.MouseCheck, -1, fromwho, reader.ReadVector2(), (ushort)fromwho);
+                else if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    Vector2 v = reader.ReadVector2();
+                    Mouses[reader.ReadUInt16()] = v;
+                }
+            }
+            if (msg == EEMessageType.VelCheck)
+            {
+                if (Main.netMode == NetmodeID.Server)
+                {
+                    EENet.SendPacketTo(EEMessageType.VelCheck, -1, fromwho, reader.ReadVector2(), reader.ReadSingle());
+                }
+                else if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    Vector2 v = reader.ReadVector2();
+                    float vel = reader.ReadSingle();
+                    Main.NewText(v * vel);
+                    if (Main.dedServ)
+                        Console.WriteLine($"{v * vel}");
+                    velHolder = v * vel;
+                }
+                
             }
         }
     }

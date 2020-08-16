@@ -35,6 +35,8 @@ namespace EEMod
 
         }
         public virtual void StartGame() => gameActive = true;
+
+        public int host;
         public virtual void EndGame() => gameActive = false;
         public virtual int AddUIElement(Vector2 size, Color color, Vector2 Center)
         {
