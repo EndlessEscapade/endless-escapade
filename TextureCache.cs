@@ -53,12 +53,19 @@ namespace EEMod
         public static Texture2D GradientEffect;
         public static Texture2D Mask1;
         public static Texture2D LightVine;
+        public static Texture2D AHT;
+        public static Texture2D BluePuck;
+        public static Texture2D RedPuck;
+        public static Texture2D Puck;
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
             Mod mod = EEMod.instance;
             LightVine = mod.GetTexture("Projectiles/Light");
             Vine = mod.GetTexture("Projectiles/Vine");
+            BluePuck = mod.GetTexture("BlueAirHockeyThing");
+            RedPuck = mod.GetTexture("RedAirHockeyThing");
+            Puck = mod.GetTexture("AirHockeyPuck");
             //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
             Chain = mod.GetTexture("NPCs/CoralReefs/MechanicalReefs/DreadmineChain");
             Empty = mod.GetTexture("Empty");
@@ -74,6 +81,7 @@ namespace EEMod
             Seahorse = mod.GetTexture("LoadingScreenImages/Seahorse");
             HydroBeam_Beam = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
             HydroBeam_End = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
+            AHT = mod.GetTexture("AirHockeyTable");
             /*GBeam_Beam = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_Beam");
             GBeam_End = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_End");
             Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");*/
@@ -108,6 +116,10 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            Puck = null;
+            BluePuck = null;
+            RedPuck = null;
+            AHT = null;
             LightVine = null;
             Vine = null;
             Mask1 = null;

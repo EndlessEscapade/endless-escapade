@@ -29,6 +29,7 @@ using EEMod.Buffs.Debuffs;
 using EEMod.Buffs.Buffs;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using EEMod.Extensions;
 using EEMod.Items.Fish;
 using EEMod.ID;
 using EEMod.Projectiles.Armor;
@@ -73,7 +74,7 @@ namespace EEMod
         public Vector2 secondPlayerMouse;
         public int PlayerX;
         public int PlayerY;
-
+        public Vector2 velHolder;
    
         public override void PostUpdate()
         {
@@ -448,7 +449,7 @@ namespace EEMod
                         }
 
                         Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                        Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f, (markerPlacer - ((120 * 8) + 1400)) / 10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center.ForDraw(), new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f, (markerPlacer - ((120 * 8) + 1400)) / 10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
                         Main.spriteBatch.End();
                         //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                     }
@@ -1060,12 +1061,12 @@ namespace EEMod
                 {
                     if (Main.projectile[j].type == ProjectileType<PirateShip>() || Main.projectile[j].type == ProjectileType<RedDutchman>() || Main.projectile[j].type == ProjectileType<EnemyCannonball>())
                     {
-                        if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40 && Main.projectile[j].type != ProjectileType<EnemyCannonball>())
+                        if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 40 && Main.projectile[j].type != ProjectileType<EnemyCannonball>())
                         {
                             EEMod.ShipHelth -= 1;
                             EEMod.instance.velocity += Main.projectile[j].velocity * 20;
                         }
-                        if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 30 && Main.projectile[j].type == ProjectileType<EnemyCannonball>())
+                        if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 30 && Main.projectile[j].type == ProjectileType<EnemyCannonball>())
                         {
                             EEMod.ShipHelth -= 1;
                             EEMod.instance.velocity += Main.projectile[j].velocity;
@@ -1074,7 +1075,7 @@ namespace EEMod
                     if (Main.projectile[j].type == ProjectileType<Crate>())
                     {
                         Crate a = Main.projectile[j].modProjectile as Crate;
-                        if ((Main.projectile[j].Center - EEMod.instance.position - Main.screenPosition).Length() < 40 && !a.sinking)
+                        if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 40 && !a.sinking)
                         {
                             //Crate loot tables go here
                             if (Main.rand.NextBool())
