@@ -23,6 +23,9 @@ namespace EEMod.Items
             item.value = 50;
 
             item.maxStack = 1;
+            item.useTime = 120;
+            item.useAnimation = 120;
+            item.useStyle = ItemUseStyleID.HoldingOut;
 
             item.holdStyle = 2;
 
@@ -30,9 +33,20 @@ namespace EEMod.Items
             item.noWet = true;
         }
 
-        public override void HoldStyle(Player player)
+        public override bool UseItem(Player player)
         {
-            player.fullRotation++;
+            player.velocity += new Vector2(16 * player.direction, -16);
+            return true;
+        }
+        public override void HoldItem(Player player)
+        {
+            if (player.itemAnimation > 0)
+            {
+                if (Math.Abs(player.velocity.Y) >= 0.0001)
+                    player.fullRotation += MathHelper.PiOver4;
+                else
+                    player.fullRotation = 0;
+            }
         }
     }
 }
