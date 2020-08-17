@@ -33,6 +33,7 @@ using EEMod.Items.Fish;
 using EEMod.ID;
 using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
+using EEMod.Tiles.Walls;
 
 namespace EEMod
 {
@@ -1194,7 +1195,7 @@ namespace EEMod
                 if (markerPlacer % 7200 == 0)
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
 
-                if (markerPlacer % 200 == 0)
+                if (markerPlacer % 800 == 0)
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
 
                 if (markerPlacer % 20 == 0)

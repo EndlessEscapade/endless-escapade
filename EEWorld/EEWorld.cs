@@ -32,6 +32,8 @@ namespace EEMod.EEWorld
         public static bool downedKraken;
         public static bool omenPath;
 
+        public static float brightness;
+
         // private static List<Point> BiomeCenters;
         public static int CoralReefsTiles = 0;
         public static Vector2 yes;
@@ -41,6 +43,7 @@ namespace EEMod.EEWorld
         public static Vector2[] PylonBegin = new Vector2[100];
         public static Vector2[] PylonEnd = new Vector2[100];
         public static Vector2[] sinDis = new Vector2[10000];
+
         public override void Initialize()
         {
             if (sinDis != null)
@@ -129,6 +132,17 @@ namespace EEMod.EEWorld
                     StartSandstorm();
                 }
             }
+            if (Main.dayTime)
+            {
+                if (Main.time <= 200)
+                    brightness += 0.00025f;
+                if (Main.time >= 52000)
+                    brightness -= 0.00025f;
+                if (Main.time > 2000 && Main.time < 52000)
+                    brightness = 0.5f;
+            }
+            else
+                brightness = 0;
         }
 
         public static Vector2 SubWorldSpecificCoralBoatPos;
