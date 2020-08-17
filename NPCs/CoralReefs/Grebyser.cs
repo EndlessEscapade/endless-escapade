@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -63,6 +64,11 @@ namespace EEMod.NPCs.CoralReefs
                 Projectile.NewProjectile(npc.Center + new Vector2(0, -16), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
                 npc.ai[2] = 0;
             }
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/CoralReefs/GrebyserGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }
