@@ -19,7 +19,10 @@ namespace EEMod.Net
         {
             WriteToPacket(msg, data).Send(toclient, ignoreclient);
         }
-
+        public static void SendMessageMultiPlayer(string yes,int exclude)
+        {
+            NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(yes), new Color(0, 0, 0), exclude);
+        }
         public static ModPacket WriteToPacket(EEMessageType msg, params object[] param)
         {
             ModPacket packet = EEMod.instance.GetPacket();
@@ -39,7 +42,13 @@ namespace EEMod.Net
             {
                 case EEMessageType.None: break;
                 case EEMessageType.MouseCheck:
-                    MultiplayerMouseTracker.HandlePacket(reader, fromwho);
+                    MultiplayerMouseTracker.HandlePacket(reader, fromwho, EEMessageType.MouseCheck);
+                    break;
+                case EEMessageType.SyncVector:
+                    EEServerVariableCache.HandlePacket(reader, fromwho, EEMessageType.SyncVector);
+                    break;
+                case EEMessageType.SyncPosition:
+                    EEServerVariableCache.HandlePacket(reader, fromwho, EEMessageType.SyncPosition);
                     break;
             }
         }

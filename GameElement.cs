@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria.ID;
 using EEMod.Extensions;
+using EEMod.Net;
 
 namespace EEMod
 {
@@ -15,6 +16,7 @@ namespace EEMod
         public Color colourOfMainCanvas;
         public EEGame parent;
         public Vector2 velocity;
+        public string tag;
         public Rectangle elementRect => new Rectangle((int)(UIPosRunTime.X - sizeOfMainCanvas.X / 2),
                                                       (int)(UIPosRunTime.Y - sizeOfMainCanvas.Y / 2),
                                                       (int)sizeOfMainCanvas.X,
@@ -24,6 +26,7 @@ namespace EEMod
         bool elementActive;
         bool isBoundToMouse = false;
         public virtual void StartElement() => elementActive = true;
+        public void AttachTag(string key) => tag = key;
         public virtual void EndElement() => elementActive = false;
 
         public virtual void Initialize()
@@ -36,7 +39,7 @@ namespace EEMod
         {
             sizeOfMainCanvas = size;
             colourOfMainCanvas = colour;
-            centerOfElement = Center;
+            UIPosRunTime = Center;
             StartElement();
         }
 
@@ -69,9 +72,42 @@ namespace EEMod
         public Vector2 mousePosition;
         public Texture2D tex = Main.magicPixel;
         int yeet;
-        public virtual void Update()
+        Vector2 lastSyncPos;
+        Vector2 lastSyncPos2;
+        public void SyncVelocityCache()
         {
-
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                EEServerVariableCache.SyncVelocity(velocity);
+            }
+        }
+        public void SyncPositionCache()
+        {
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    EEServerVariableCache.SyncPosition(UIPosRunTime);
+                }
+        }
+        public void Sync(string tagName)
+        {
+            if (tagName == tag)
+            {
+                if (lastSyncPos != EEServerVariableCache.VectorStorage)
+                {
+                    velocity = EEServerVariableCache.VectorStorage;
+                }
+                if (lastSyncPos2 != EEServerVariableCache.PositionStorage)
+                {
+                    UIPosRunTime = EEServerVariableCache.PositionStorage;
+                    Main.NewText(UIPosRunTime);
+                }
+            }
+            lastSyncPos = EEServerVariableCache.VectorStorage;
+            lastSyncPos2 = EEServerVariableCache.PositionStorage;
+        }
+        public virtual void Update(GameTime gameTime)
+        {
+            
             if (isBoundToMouse)
             {
                 for (int i = 0; i < 255; i++)
@@ -97,6 +133,7 @@ namespace EEMod
                 colourOfStartUp += (1 - colourOfStartUp) / speedOfStartUp;
             else
                 colourOfStartUp += (-colourOfStartUp) / speedOfStartUp;
+            Sync("ball");
             if (parent != null)
             {
                 if (collides)
@@ -107,7 +144,9 @@ namespace EEMod
                         {
                             if (GE.elementRect.Intersects(elementRect) && BBTimer == 0)
                             {
-                                velocity = GE.velocity * bounce;                            
+                                velocity = GE.velocity * bounce;
+                                SyncVelocityCache();
+                                SyncPositionCache();
                                 BBTimer = bounceBuffer;
                             }
                         }
@@ -124,8 +163,9 @@ namespace EEMod
                         velocity.X *= -1;
                     }
                 }
+               
                 velocity *= friction;
-                UIPosRunTime += velocity + Main.LocalPlayer.velocity;
+                UIPosRunTime += velocity /**(float)gameTime.ElapsedGameTime.TotalSeconds*60*/ + Main.LocalPlayer.velocity;
                 Helpers.Clamp(ref UIPosRunTime.X, parent.TopLeft.X + sizeOfMainCanvas.X / 2, parent.TopRight.X - sizeOfMainCanvas.X / 2);
                 Helpers.Clamp(ref UIPosRunTime.Y, parent.TopLeft.Y + sizeOfMainCanvas.Y / 2, parent.BottomLeft.Y - sizeOfMainCanvas.Y / 2);
             }

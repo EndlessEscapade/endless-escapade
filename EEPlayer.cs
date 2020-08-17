@@ -73,7 +73,7 @@ namespace EEMod
         public Vector2 secondPlayerMouse;
         public int PlayerX;
         public int PlayerY;
-
+        public Vector2 velHolder;
    
         public override void PostUpdate()
         {

@@ -8,6 +8,7 @@ using Terraria.ID;
 using EEMod.Projectiles.Melee;
 using EEMod.Projectiles.Mage;
 using Terraria.ModLoader;
+using EEMod.Extensions;
 
 namespace EEMod.Effects
 {
@@ -230,7 +231,7 @@ namespace EEMod.Effects
             //method to make it look less horrible
             void AddVertex(Vector2 position, Color color, Vector2 uv)
             {
-                vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position - Main.screenPosition, 0f), color, uv);
+                vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
             }
 
             float currentDistance = 0f;

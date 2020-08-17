@@ -112,10 +112,10 @@ namespace EEMod
             EENet.ReceievePacket(reader, whoAmI);
         }
 
-        public void UpdateGame()
+        public void UpdateGame(GameTime gameTime)
         {
             simpleGame = simpleGame ?? new IceHockey();
-            simpleGame.Update();
+            simpleGame.Update(gameTime);
             for (int i = 0; i < Main.player.Length; i++)
             {
                 if (Main.player[i].active && !Main.player[i].dead)
@@ -124,7 +124,7 @@ namespace EEMod
                     if (player.controlUp)
                     {
                         simpleGame = new IceHockey();
-                        simpleGame.StartGame();
+                        simpleGame.StartGame(i);
                     }
                     if (player.controlHook)
                     {
@@ -235,11 +235,15 @@ namespace EEMod
                 LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface",
                 delegate
                 {
-                    if (lastGameTime != null && EEInterface?.CurrentState != null)
+                    if (lastGameTime != null)
                     {
-                        EEInterface.Draw(Main.spriteBatch, lastGameTime);
+                        if (EEInterface?.CurrentState != null)
+                        {
+                            EEInterface.Draw(Main.spriteBatch, lastGameTime);
+                        }
+                        UpdateGame(lastGameTime);
                     }
-                    UpdateGame();
+                    
                     return true;
                 }, InterfaceScaleType.UI);
                 layers.Insert(mouseTextIndex, EEInterfaceLayer);
