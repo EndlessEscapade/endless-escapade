@@ -13,18 +13,22 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             Main.npcFrameCount[npc.type] = 8;
         }
 
+        //int frameHeight = 130;
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter == 6)
+            if (npc.ai[2] == 1)
             {
-                npc.frame.Y = npc.frame.Y + frameHeight;
-                npc.frameCounter = 0;
-            }
-            if (npc.frame.Y >= frameHeight * 6)
-            {
-                npc.frame.Y = 0;
-                return;
+                npc.frameCounter++;
+                if (npc.frameCounter == 3)
+                {
+                    npc.frame.Y = npc.frame.Y + frameHeight;
+                    npc.frameCounter = 0;
+                }
+                if (npc.frame.Y >= frameHeight * 8)
+                {
+                    npc.frame.Y = 0;
+                    return;
+                }
             }
         }
 
@@ -52,31 +56,23 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
-        float speed = 0.5f;
         public override void AI()
         {
             npc.TargetClosest();
-            if (Vector2.DistanceSquared(Main.player[npc.target].position, npc.Center) <= 640 * 640)
+            npc.ai[0]++;
+            if (npc.ai[0] % 120 == 0)
             {
-                npc.velocity = Vector2.Normalize(Main.player[npc.target].position - npc.Center) * speed;
+                npc.ai[2] = 1;
+                npc.velocity = Vector2.Normalize(Main.player[npc.target].position - npc.Center) * 4;
             }
-            else
-            {
-                npc.ai[0]++;
-                if (npc.ai[0] >= 180)
-                {
-                    npc.velocity = new Vector2(Main.rand.NextFloat(-1, 1), Main.rand.NextFloat(-1, 1)) * speed;
-                    npc.ai[0] = 0;
-                }
-            }
+            if ((npc.ai[0] + 96) % 120 == 0)
+                npc.ai[2] = 0;
             if (Main.player[npc.target].position.X < npc.Center.X)
-            {
                 npc.spriteDirection = 1;
-            }
             else
-            {
                 npc.spriteDirection = -1;
-            }
+            npc.velocity *= 0.99f;
+            npc.rotation = npc.velocity.X / 16;
         }
     }
 }
