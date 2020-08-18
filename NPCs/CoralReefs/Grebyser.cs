@@ -11,6 +11,23 @@ namespace EEMod.NPCs.CoralReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grebyser");
+            Main.npcFrameCount[npc.type] = 3;
+        }
+
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter == 5)
+            {
+                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frameCounter = 0;
+            }
+            if (npc.frame.Y >= frameHeight * 3)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
         }
 
         public override void SetDefaults()
@@ -60,7 +77,6 @@ namespace EEMod.NPCs.CoralReefs
             npc.ai[2]++;
             if(npc.ai[2] >= 300)
             {
-                Main.NewText("ae");
                 Projectile.NewProjectile(npc.Center + new Vector2(0, -16), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
                 npc.ai[2] = 0;
             }
