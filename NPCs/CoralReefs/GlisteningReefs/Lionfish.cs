@@ -10,6 +10,22 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lionfish");
+            Main.npcFrameCount[npc.type] = 8;
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter == 6)
+            {
+                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frameCounter = 0;
+            }
+            if (npc.frame.Y >= frameHeight * 6)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
         }
 
         public override void SetDefaults()
