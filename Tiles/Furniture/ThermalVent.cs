@@ -8,6 +8,7 @@ using Terraria.ID;
 using EEMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Buffs.Buffs;
+using System;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -37,6 +38,7 @@ namespace EEMod.Tiles.Furniture
             dustType = DustID.Dirt;
         }
 
+        int lmnop = 0;
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameY == 0 && Main.rand.Next(3) == 0)
@@ -44,6 +46,12 @@ namespace EEMod.Tiles.Furniture
                 int num = Dust.NewDust(new Vector2(i * 16 + 4, j * 16), 1, 1, DustID.Smoke, 0, 1);
                 Main.dust[num].velocity = new Vector2(Main.rand.NextFloat(-0.3f, 0.3f), -1f);
                 Main.dust[num].scale = 2;
+            }
+            lmnop++;
+            if(Math.Abs(Main.LocalPlayer.Center.X - (i * 16)) <= 16 && lmnop >= 60 && Main.LocalPlayer.Center.Y - (j * 16) <= -640)
+            {
+                Projectile.NewProjectile(new Vector2(i * 16, j * 16) + new Vector2(8, 0), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
+                lmnop = 0;
             }
         }
 

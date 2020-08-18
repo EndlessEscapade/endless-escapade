@@ -11,7 +11,22 @@ namespace EEMod.NPCs.CoralReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clam");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[npc.type] = 3;
+        }
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter == 7)
+            {
+                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frameCounter = 0;
+            }
+            if (npc.frame.Y >= frameHeight * 3)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
         }
 
         public override void SetDefaults()
@@ -101,14 +116,6 @@ namespace EEMod.NPCs.CoralReefs
                 }
 
                 npc.velocity *= .98f;
-            }
-        }
-
-        public override void FindFrame(int frameHeight)
-        {
-            if (npc.ai[2] == 1)
-            {
-                npc.frame.Y = frameHeight;
             }
         }
     }

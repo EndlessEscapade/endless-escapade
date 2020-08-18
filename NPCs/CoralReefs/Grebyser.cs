@@ -65,13 +65,9 @@ namespace EEMod.NPCs.CoralReefs
                 if (Helpers.isCollidingWithWall(npc))
                 {
                     if (npc.ai[1] == -1)
-                    {
                         npc.ai[1] = 1;
-                    }
                     else
-                    {
                         npc.ai[1] = -1;
-                    }
                 }
             }
             npc.ai[2]++;
