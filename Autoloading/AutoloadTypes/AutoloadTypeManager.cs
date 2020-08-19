@@ -28,10 +28,10 @@ namespace EEMod.Autoloading.AutoloadTypes
     /// Manages instances of <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class AutoloadTypeManager<T> : AutoloadTypeManager where T : AutoloadType
+    public abstract class AutoloadTypeManager<T> : AutoloadTypeManager where T : IAutoloadType
     {
         /// <summary>
-        /// Use this for creating instances other stuff, like subscribing methods to events, adding intances to lists, etc.
+        /// Use this for creating instances and other stuff, like subscribing methods to events, adding intances to lists, etc.
         /// </summary>
         /// <param name="type">The type of the class</param>
         public virtual void CreateInstance(Type type)

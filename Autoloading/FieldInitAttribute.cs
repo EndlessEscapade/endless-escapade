@@ -2,7 +2,11 @@
 
 namespace EEMod.Autoloading
 {
-    [AttributeUsage(AttributeTargets.Field)]
+    /// <summary>
+    /// Apply this to fields for instantiating them during <see cref="EEMod.Load"/><br />
+    /// Can also be applied to methods (it will call them during field initializing)
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method)]
     internal class FieldInitAttribute : Attribute
     {
         internal bool hasGivenValue;
@@ -15,5 +19,6 @@ namespace EEMod.Autoloading
             hasGivenValue = true;
             value = val;
         }
+        internal LoadMode loadMode; // fields instantiating and method calling
     }
 }

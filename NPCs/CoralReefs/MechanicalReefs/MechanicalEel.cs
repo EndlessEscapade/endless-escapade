@@ -61,6 +61,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             npc.TargetClosest();
 
             npc.ai[0]++;
+            npc.ai[1]++;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)

@@ -148,7 +148,7 @@ namespace EEMod
 
         public override void UpdateBiomes()
         {
-            ZoneCoralReefs = CoralReefsTiles > 200;
+            ZoneCoralReefs = Main.ActiveWorldFileData.Name == KeyID.CoralReefs;
             if (ZoneCoralReefs)
             {
                 opac++;
@@ -173,13 +173,9 @@ namespace EEMod
         public override void UpdateVanityAccessories()
         {
             if (hydroGear || dragonScale)
-            {
                 player.accFlipper = true;
-            }
             if (hydroGear)
-            {
                 player.accDivingHelm = true;
-            }
             if (dragonScale && player.wet && PlayerInput.Triggers.JustPressed.Jump)
             {
                 if (dur <= 0)

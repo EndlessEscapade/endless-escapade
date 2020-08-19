@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -10,6 +11,23 @@ namespace EEMod.NPCs.CoralReefs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grebyser");
+            Main.npcFrameCount[npc.type] = 3;
+        }
+
+
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter == 5)
+            {
+                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frameCounter = 0;
+            }
+            if (npc.frame.Y >= frameHeight * 3)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
         }
 
         public override void SetDefaults()
@@ -47,22 +65,22 @@ namespace EEMod.NPCs.CoralReefs
                 if (Helpers.isCollidingWithWall(npc))
                 {
                     if (npc.ai[1] == -1)
-                    {
                         npc.ai[1] = 1;
-                    }
                     else
-                    {
                         npc.ai[1] = -1;
-                    }
                 }
             }
             npc.ai[2]++;
             if(npc.ai[2] >= 300)
             {
-                Main.NewText("ae");
                 Projectile.NewProjectile(npc.Center + new Vector2(0, -16), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
                 npc.ai[2] = 0;
             }
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Main.spriteBatch.Draw(mod.GetTexture("NPCs/CoralReefs/GrebyserGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }

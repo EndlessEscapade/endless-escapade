@@ -2846,7 +2846,7 @@ namespace EEMod.EEWorld
                 {
                     if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(5) && WorldGen.InWorld(i, j))
                     {
-                        int selection = WorldGen.genRand.Next(7);
+                        int selection = WorldGen.genRand.Next(8);
                         switch (selection)
                         {
                             case 0:
@@ -2870,6 +2870,10 @@ namespace EEMod.EEWorld
                             case 6:
                                 ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
+                                break;
+                            case 7:
+                                ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
                                 break;
                         }
                     }
@@ -3596,11 +3600,10 @@ namespace EEMod.EEWorld
 
                         if (shape[y, x, 0] != 0)
                         {
-                            tile.ClearTile();
+                            if(tile.type != ModContent.TileType<GemsandChestTile>())
+                                tile.ClearTile();
                             if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>())
-                            {
-                                WorldGen.PlaceChest(k, l, 21);
-                            }
+                                WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GemsandChestTile>());
                             else
                                 tile.type = (ushort)shape[y, x, 0];
                             tile.active(true);
