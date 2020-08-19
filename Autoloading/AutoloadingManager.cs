@@ -23,38 +23,54 @@ namespace EEMod.Autoloading
 
             Type[] types = assembly.GetTypesSafe();
             //LinkedList<MethodInfo> methods = new LinkedList<MethodInfo>();
-
-            // InitializingFields
-            foreach (var field in types.SelectMany(type => type.GetFields(FLAGS_STATIC))) //types.SelectMany(i => i.GetFields(FLAGS_STATIC)))
+            List<MethodInfo> methods = new List<MethodInfo>();
+            foreach (var type in types)
             {
-                if (!(field.IsInitOnly || field.IsLiteral) && field.TryGetCustomAttribute(out FieldInitAttribute attribute))
+                // InitializingFields
+                foreach (var field in type.GetFields(FLAGS_STATIC)) //types.SelectMany(i => i.GetFields(FLAGS_STATIC)))
                 {
-                    Type fieldtype = field.FieldType;
-
-                    if (attribute.hasGivenValue)
+                    if (!(field.IsInitOnly || field.IsLiteral) && field.TryGetCustomAttribute(out FieldInitAttribute attribute))
                     {
-                        object val = attribute.value;
-                        if (val is null || fieldtype.IsAssignableFrom(val.GetType()))
-                            field.SetValue(null, val);
-                        continue;
-                    }
+                        if (!ValidCurrent(attribute.loadMode))
+                            continue;
 
-                    else if (fieldtype.IsValueType)
-                    {
-                        Type underlyingNullType = Nullable.GetUnderlyingType(fieldtype);
-                        if (underlyingNullType != null) // if it's a nullable struct initialize it with the struct's value
+                        Type fieldtype = field.FieldType;
+
+                        if (attribute.hasGivenValue)
                         {
-                            field.SetValue(null, System.Activator.CreateInstance(underlyingNullType));
+                            object val = attribute.value;
+                            if (val is null || fieldtype.IsAssignableFrom(val.GetType()))
+                                field.SetValue(null, val);
+                            continue;
                         }
-                    }
 
-                    else if (fieldtype.TryCreateInstance(out object obj))
-                        field.SetValue(null, obj);
+                        else if (fieldtype.IsValueType)
+                        {
+                            Type underlyingNullType = Nullable.GetUnderlyingType(fieldtype);
+                            if (underlyingNullType != null) // if it's a nullable struct initialize it with the struct's value
+                            {
+                                field.SetValue(null, System.Activator.CreateInstance(underlyingNullType));
+                            }
+                        }
+
+                        else if (fieldtype.TryCreateInstance(out object obj))
+                            field.SetValue(null, obj);
+                    }
+                }
+                // Initializing methods
+                foreach(var method in type.GetMethods(FLAGS_STATIC))
+                {
+                    methods.Add(method);
+                    if(method.TryGetCustomAttribute(out FieldInitAttribute attribute))
+                    {
+                        if (ValidCurrent(attribute.loadMode) && CouldBeCalled(method) && method.GetParameters().Length <= 0)
+                            method.Invoke(null, null);
+                    }
                 }
             }
 
             // Call loading methods
-            foreach (var method in types.SelectMany(type => type.GetMethods(FLAGS_STATIC)))
+            foreach (var method in methods)
             {
                 if (method.TryGetCustomAttribute(out LoadingMethodAttribute attribute) && !(method.GetParameters().Length > 0))
                 {

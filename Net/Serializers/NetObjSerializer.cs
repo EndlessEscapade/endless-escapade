@@ -11,7 +11,7 @@ using EEMod.Extensions;
 
 namespace EEMod.Net.Serializers
 {
-    public abstract class NetObjSerializer : AutoloadType
+    public abstract class NetObjSerializer : IAutoloadType
     {
         public abstract void WriteObj(BinaryWriter writer, object obj);
         public abstract object ReadObj(BinaryReader reader);
@@ -23,7 +23,7 @@ namespace EEMod.Net.Serializers
     {
         public abstract void Write(BinaryWriter writer, T value);
         public abstract T Read(BinaryReader reader);
-        public sealed override void WriteObj(BinaryWriter writer, object obj) => Write(writer, obj is T v ? v : throw new ArgumentException($"The given object type does not match this serializer's target", nameof(obj)));
+        public sealed override void WriteObj(BinaryWriter writer, object obj) => Write(writer, obj is T v ? v : throw new ArgumentException($"The given object type does not match this serializer's target type", nameof(obj)));
         public sealed override object ReadObj(BinaryReader reader) => Read(reader);
     }
 
@@ -53,7 +53,7 @@ namespace EEMod.Net.Serializers
         }
 
         [FieldInit]
-        private static ConcurrentDictionary<Type, SerializerInfo> serializers;
+        private static ConcurrentDictionary<Type, SerializerInfo> serializers = new ConcurrentDictionary<Type, SerializerInfo>();
 
         public override void CreateInstance(Type type)
         {

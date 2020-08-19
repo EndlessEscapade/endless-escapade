@@ -21,7 +21,7 @@ namespace EEMod.Autoloading.AutoloadTypes
 
         internal static void ManagersCheck(Type type)
         {
-            if(type.IsSubclassOf(typeof(AutoloadType)))
+            if(typeof(IAutoloadType).IsAssignableFrom(type))
             foreach (var manager in managers)
                 AutoloadTypeManager.Evaluate(manager, type);
         }
