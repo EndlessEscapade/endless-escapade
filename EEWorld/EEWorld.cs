@@ -21,7 +21,7 @@ namespace EEMod.EEWorld
     {
         //public static bool GenkaiMode;
 
-
+        
         public int minionsKilled;
         public static EEWorld instance => ModContent.GetInstance<EEWorld>();
         public static bool downedTalos;
@@ -39,7 +39,7 @@ namespace EEMod.EEWorld
         public static Vector2 yes;
         public static Vector2 ree;
         public static IList<Vector2> EntracesPosses = new List<Vector2>();
-
+        public static byte[] LightStates = new byte[6];
         public static Vector2[] PylonBegin = new Vector2[100];
         public static Vector2[] PylonEnd = new Vector2[100];
         public static Vector2[] sinDis = new Vector2[10000];
@@ -88,11 +88,19 @@ namespace EEMod.EEWorld
         {
             writer.WriteVector2(ree);
             writer.WriteVector2(yes);
+            for(int i = 0; i<LightStates.Length; i++)
+            {
+                writer.Write(LightStates[i]);
+            }
         }
         public override void NetReceive(BinaryReader reader)
         {
             ree = reader.ReadVector2();
             yes = reader.ReadVector2();
+            for (int i = 0; i < LightStates.Length; i++)
+            {
+                LightStates[i] = reader.ReadByte();
+            }
         }
         public override void PostWorldGen()
         {

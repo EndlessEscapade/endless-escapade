@@ -23,16 +23,24 @@ namespace EEMod
                     elementArray[puck].AttatchToMouse(16f, i);
                     elementArray[puck].BindElementToGame(this);
                     elementArray[puck].AttachCollisionComponents(true, false, false);
-                if(i == 0)
-                elementArray[puck].BindElementToTexture(TextureCache.BluePuck);
-                if(i == 1)
-                elementArray[puck].BindElementToTexture(TextureCache.RedPuck);
+                if (i == 0)
+                {
+                    elementArray[puck].BindElementToTexture(TextureCache.BluePuck);
+                  //  if(Main.myPlayer == 1)
+                   // elementArray[puck].AttachCollisionComponents(false, false, false);
+                }
+                if (i == 1)
+                {
+                    elementArray[puck].BindElementToTexture(TextureCache.RedPuck);
+                   // if (Main.myPlayer == 0)
+                   // elementArray[puck].AttachCollisionComponents(false, false, false);
+                }
             }
             int ball = AddUIElement(new Vector2(30, 30), Color.White, centerOfMainCanvas);
 
             elementArray[ball].BindElementToGame(this);
             elementArray[ball].BindElementToTexture(TextureCache.Puck);
-            elementArray[ball].AttachCollisionComponents(false, true, true, 0.97f, 2f);
+            elementArray[ball].AttachCollisionComponents(false, true, true, 0.97f, 1.5f);
             elementArray[ball].AttachTag("ball");
         }
         public override void OnDeactivate()

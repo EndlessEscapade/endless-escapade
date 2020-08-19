@@ -36,18 +36,25 @@ namespace EEMod.Projectiles
             if (sinControl % 40 == 0 && EEModConfigClient.Instance.ParticleEffects)
             {
                 Vector2 particlesPos = new Vector2(Main.rand.Next(2000), Main.screenHeight + 200) + Main.screenPosition;
-                ParticlesClass particle = new ParticlesClass();
-                particle.scale = Main.rand.NextFloat(0.2f, 0.5f);
-                particle.alpha = Main.rand.NextFloat(100, 180);
-                particle.Position = particlesPos;
+                ParticlesClass particle = new ParticlesClass
+                {
+                    scale = Main.rand.NextFloat(0.2f, 0.5f),
+                    alpha = Main.rand.NextFloat(100, 180),
+                    Position = particlesPos
+                };
+                if(Particles.Count<255)
                 Particles.Add(particle);
+                else
+                {
+                    Particles.RemoveAt(0);
+                }
             }
             if (!EEModConfigClient.Instance.ParticleEffects)
             {
                 projectile.Kill();
             }
         }
-
+             
         public float flash;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

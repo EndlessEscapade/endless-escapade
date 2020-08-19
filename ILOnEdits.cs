@@ -18,12 +18,14 @@ using EEMod.Effects;
 using EEMod.EEWorld;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.ID;
+using System.Collections.Generic;
 
 namespace EEMod
 {
     public partial class EEMod : Mod
     {
         public static TrailManager TrailManager;
+        public static Prims Prims;
         private void LoadIL()
         {
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
@@ -39,6 +41,7 @@ namespace EEMod
             if (Main.netMode != NetmodeID.Server)
             {
                 TrailManager = new TrailManager(this);
+                Prims = new Prims(this);
             }
         }
 
@@ -74,10 +77,12 @@ namespace EEMod
             screenMessageText = null;
             TrailManager = null;
             progressMessage = null;
+            Prims = null;
         }
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
             TrailManager.DrawTrails(Main.spriteBatch);
+            Prims.DrawTrails(Main.spriteBatch);
             orig(self);
         }
         public override void MidUpdateProjectileItem()
@@ -85,13 +90,24 @@ namespace EEMod
             if (Main.netMode != NetmodeID.Server)
             {
                 TrailManager.UpdateTrails();
+                Prims.UpdateTrails();
             }
         }
         private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
         {
             int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
             Projectile projectile = Main.projectile[index];
-
+            if (projectile.type == ModContent.ProjectileType<LythenStaffProjectile>())
+            {
+                List<Vector2> Mojang = new List<Vector2>
+                {
+                    projectile.Center,
+                    Main.LocalPlayer.Center,
+                    projectile.Center - new Vector2(100,100)
+                };
+                if (Main.netMode != NetmodeID.Server)
+                    Prims.CreateTrail(Mojang, new Prims.DefaultShader(),projectile);
+            }
             if (Main.netMode != NetmodeID.Server) TrailManager.DoTrailCreation(projectile);
 
             return index;
@@ -512,16 +528,18 @@ namespace EEMod
                 }
                 Main.spriteBatch.Begin();
                 DrawSky();
-                Vector2 textSize = Main.fontDeathText.MeasureString(screenMessageText);
-                if (progressMessage != null)
+                if (Main.fontDeathText != null)
                 {
-                    Vector2 textSize2 = Main.fontMouseText.MeasureString(progressMessage);
-                    float textPosition2Left = Main.screenWidth / 2 - textSize2.X / 2;
-                    Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage.ToString(), new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                    Vector2 textSize = Main.fontDeathText.MeasureString(screenMessageText);
+                    if (progressMessage != null)
+                    {
+                        Vector2 textSize2 = Main.fontMouseText.MeasureString(progressMessage);
+                        float textPosition2Left = Main.screenWidth / 2 - textSize2.X / 2;
+                        Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage.ToString(), new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                    }
+                    float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
+                    Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                 }
-                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-
                 Main.spriteBatch.End();
             }
             else

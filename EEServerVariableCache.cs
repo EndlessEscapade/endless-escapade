@@ -19,21 +19,30 @@ namespace EEMod
 
         public static Vector2 VectorStorage;
         public static Vector2 PositionStorage;
+        public static int Cool;
 
         public static void SyncVelocity(Vector2 v)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                EENet.SendPacket(EEMessageType.SyncVector, v);
-                VectorStorage = v;
+               EENet.SendPacket(EEMessageType.SyncVector, v);
+               VectorStorage = v;
             }
         }
         public static void SyncPosition(Vector2 v)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
-                EENet.SendPacket(EEMessageType.SyncPosition, v);
-                PositionStorage = v;
+                    EENet.SendPacket(EEMessageType.SyncPosition, v);
+                    PositionStorage = v;
+            }
+        }
+        public static void SyncCoolDown(int v)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                    EENet.SendPacket(EEMessageType.SyncCool, v);
+                    Cool = v;
             }
         }
         internal static void HandlePacket(BinaryReader reader, int fromwho, EEMessageType msg)
@@ -56,6 +65,16 @@ namespace EEMod
                 {
                     Vector2 v = reader.Read<Vector2>();
                     PositionStorage = v;
+                }
+            }
+            if (msg == EEMessageType.SyncCool)
+            {
+                if (Main.netMode == NetmodeID.Server)
+                    EENet.SendPacketTo(EEMessageType.SyncCool, -1, fromwho, reader.Read<int>());
+                else if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    int v = reader.Read<int>();
+                    Cool = v;
                 }
             }
         }

@@ -38,6 +38,12 @@ namespace EEMod.Projectiles.Ranged
             projectile.velocity.Y += projectile.ai[0];
             if (projectile.ai[1] == 1)
             {
+                bubol++;
+                if (bubol >= 10)
+                {
+                    Projectile.NewProjectile(projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: projectile.owner);
+                    bubol = 0;
+                }
                 for (int i = 0; i < 360; i += 10)
                 {
                     float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 5);
@@ -52,12 +58,7 @@ namespace EEMod.Projectiles.Ranged
                 projectile.damage = 1000;
             }
 
-            bubol++;
-            if (bubol >= 10)
-            {
-                Projectile.NewProjectile(projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: projectile.owner);
-                bubol = 0;
-            }
+            
 
         }
         public override void Kill(int timeLeft)

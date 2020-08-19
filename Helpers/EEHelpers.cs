@@ -186,7 +186,26 @@ namespace EEMod
             // The final result
             return new Vector2(currentX, currentY);
         }
+        static double area(Vector2 p1, Vector2 p2, Vector2 p3)
+        {
+            return Math.Abs((p1.X * (p2.Y - p3.Y) +
+                             p2.X * (p3.Y - p1.Y) +
+                             p3.X * (p1.Y - p2.Y)) / 2.0);
+        }
 
+        public static bool IsInside(Vector2 p1, Vector2 p2, Vector2 p3,
+                             Vector2 p)
+        {
+            double A = area(p1, p2, p3);
+
+            double A1 = area(p, p2, p3);
+
+            double A2 = area(p1, p, p3);
+
+            double A3 = area(p1, p2, p);
+
+            return (A == A1 + A2 + A3);
+        }
         public static Vector2 MoveTowardsNPC(float speed, float currentX, float currentY, NPC npc, Vector2 issue, int direction)
         {
             Vector2 vector3 = new Vector2(issue.X + (direction * 20), issue.Y + 6f);

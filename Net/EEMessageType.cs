@@ -5,6 +5,7 @@ namespace EEMod.Net
         None = 0,
         MouseCheck,
         SyncVector,
-        SyncPosition
+        SyncPosition,
+        SyncCool
     }
 }

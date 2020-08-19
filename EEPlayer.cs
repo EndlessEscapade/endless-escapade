@@ -319,6 +319,7 @@ namespace EEMod
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
+                isPickingUp = false;
                 EEMod.AscentionHandler = 0;
                 EEMod.startingTextHandler = 0;
                 EEMod.isAscending = false;
@@ -406,8 +407,8 @@ namespace EEMod
         {
             isCameraFixating = false;
             isCameraShaking = false;
-            fixatingPoint.X = 0;
-            fixatingPoint.Y = 0;
+            fixatingPoint.X = player.Center.X;
+            fixatingPoint.Y = player.Center.Y;
         }
         public override void ModifyScreenPosition()
         {
@@ -520,7 +521,7 @@ namespace EEMod
                 displacmentY += ((fixatingPoint.Y - player.Center.Y) - displacmentY) / fixatingSpeedInv;
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
-            else if (Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && Math.Abs(displacmentX + displacmentY) > 0.01f && NPC.AnyNPCs(NPCType<KrakenHead>()))
+            else if (Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && Math.Abs(displacmentX + displacmentY) > 0.01f)
             {
                 displacmentX *= 0.95f;
                 displacmentY *= 0.95f;
@@ -528,7 +529,9 @@ namespace EEMod
             }
             else
             {
-
+                displacmentX = 0;
+                displacmentY = 0;
+                Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
             if (isCameraShaking)
                 Main.screenPosition += new Vector2(Main.rand.Next(-intensity, intensity), Main.rand.Next(-intensity, intensity));
@@ -546,6 +549,7 @@ namespace EEMod
         public float zipMultiplier = 1;
         public int thermalHealingTimer = 30;
         public int cannonballType = 0;
+        public bool isPickingUp;
 
         /*   public System.Drawing.Bitmap CaptureFromScreen(System.Drawing.Rectangle rect)
            {
@@ -607,6 +611,7 @@ namespace EEMod
         public static Texture2D ScTex;
         public override void UpdateBiomeVisuals()
         {
+            
             if (hydrofluoricSet)
             {
                 hydrofluoricSetTimer++;
@@ -1357,7 +1362,7 @@ namespace EEMod
                 }
                 if (markerPlacer > 120 * 8)
                 {
-                    if (markerPlacer == 5)
+                    if (markerPlacer == 5 && EEModConfigClient.Instance.ParticleEffects)
                     {
                         Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                     }

@@ -88,6 +88,7 @@ namespace EEMod
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             RuneActivator = null;
+            ActivateGame = null;
             RuneSpecial = null;
             simpleGame = null;
             UnloadIL();
@@ -111,9 +112,67 @@ namespace EEMod
         {
             EENet.ReceievePacket(reader, whoAmI);
         }
-
+        int lerps;
+        float alphas;
+        int delays;
         public void UpdateGame(GameTime gameTime)
         {
+            lerps++;
+            if(delays > 0)
+            {
+                delays--;
+            }
+            float lerpLol = Math.Abs((float)Math.Sin(lerps/50f));
+            for (int i = 0; i < Main.npc.Length; i++)
+            {
+                if (Main.npc[i].type == ModContent.NPCType<OrbCollection>() && Main.npc[i].active)
+                {
+                    float Dist = Vector2.Distance(Main.npc[i].Center, Main.LocalPlayer.Center);
+                    if (Dist < 1000)
+                    {
+                        Vector2 p1 = Main.npc[i].Center;
+                        Vector2 p2 = Main.LocalPlayer.Center;
+                        if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp)
+                        {
+                            for (float j = 0; j < 1; j += 1 / Dist)
+                            {
+                                Vector2 Lerped = p1 + j * (p2 - p1);
+                                Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.AliceBlue * Math.Abs(lerpLol - j), 0f, new Rectangle(0, 0, 1, 1).Size(), 1f, SpriteEffects.None, 0f);
+                            }
+                            UIText("Pick Up?", Color.White * alphas, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 - 50), 1);
+                        }
+                        if(Dist < 100)
+                        {
+                            if(alphas < 1)
+                                alphas += 0.01f;
+                            if (Main.LocalPlayer.controlUp && delays == 0)
+                            {
+                                switch (Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp)
+                                {
+                                    case true:
+                                        {
+                                            Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp = false;
+                                            break;
+                                        }
+                                    case false:
+                                        {
+                                            Main.npc[i].ai[1] = Main.myPlayer;
+                                            Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp = true;
+                                            break;
+                                        }
+                                }
+                                delays = 120;
+                            }
+                        }
+                        else
+                        {
+                            if (alphas > 0)
+                                alphas -= 0.01f;
+                        }
+                       
+                    }
+                }
+            }
             simpleGame = simpleGame ?? new IceHockey();
             simpleGame.Update(gameTime);
             for (int i = 0; i < Main.player.Length; i++)
@@ -121,7 +180,7 @@ namespace EEMod
                 if (Main.player[i].active && !Main.player[i].dead)
                 {
                     Player player = Main.player[i];
-                    if (player.controlUp)
+                    if (ActivateGame.JustPressed)
                     {
                         simpleGame = new IceHockey();
                         simpleGame.StartGame(i);
@@ -132,10 +191,11 @@ namespace EEMod
                     }
                 }
             }
+            
         }
         public override void UpdateUI(GameTime gameTime)
         {
-
+            
             lastGameTime = gameTime;
             if (EEInterface?.CurrentState != null)
             {
@@ -190,6 +250,7 @@ namespace EEMod
             instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
+            ActivateGame = RegisterHotKey("Activate Games", "[");
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
             if (!Main.dedServ)
@@ -210,7 +271,6 @@ namespace EEMod
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
             }
             LoadIL();
-
         }
 
         public static bool isSaving = false;
@@ -220,6 +280,7 @@ namespace EEMod
 
         public static ModHotKey RuneActivator;
         public static ModHotKey RuneSpecial;
+        public static ModHotKey ActivateGame;
 
         internal bool EEUIVisible
         {
@@ -287,6 +348,14 @@ namespace EEMod
         public static int AscentionHandler;
         public static int startingTextHandler;
         public static bool isAscending;
+        void UIText(string text, Color colour, Vector2 position, int style)
+        {
+            DynamicSpriteFont font = style == 0 ? Main.fontDeathText : Main.fontMouseText;
+            Vector2 textSize = font.MeasureString(text);
+            float textPositionLeft = position.X - textSize.X / 2;
+            float textPositionRight = position.X + textSize.X / 2;
+            Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        }
         private void Ascension()
         {
             float seperation = 400;

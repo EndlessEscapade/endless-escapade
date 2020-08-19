@@ -6,6 +6,7 @@ using System.IO;
 using Terraria.ID;
 using EEMod.Extensions;
 using EEMod.Net;
+using System;
 
 namespace EEMod
 {
@@ -43,7 +44,7 @@ namespace EEMod
             StartElement();
         }
 
-        public void AttachCollisionComponents(bool isSolid, bool collides, bool collidesWithEdges = false, float friction = 1, float bounce = 1f, int bounceBuffer = 30)
+        public void AttachCollisionComponents(bool isSolid, bool collides, bool collidesWithEdges = false, float friction = 0.97f, float bounce = 1f, int bounceBuffer = 30)
         {
             this.isSolid = isSolid;
             this.collides = collides;
@@ -74,6 +75,7 @@ namespace EEMod
         int yeet;
         Vector2 lastSyncPos;
         Vector2 lastSyncPos2;
+        int lastCool;
         public void SyncVelocityCache()
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -88,8 +90,29 @@ namespace EEMod
                     EEServerVariableCache.SyncPosition(UIPosRunTime);
                 }
         }
+        public void SyncCoolCache()
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                EEServerVariableCache.SyncCoolDown(BBTimer);
+            }
+        }
+        public void SyncAllCache()
+        {
+            SyncPositionCache();
+            SyncVelocityCache();
+        }
         public void Sync(string tagName)
         {
+            for (int i = 0; i < 255; i++)
+            {
+                if (Main.player[i].active && i != Main.myPlayer)
+                {
+                    yeet = i;
+                    break;
+                }
+            }
+            Vector2 dis = Main.LocalPlayer.Center - Main.player[yeet].Center;
             if (tagName == tag)
             {
                 if (lastSyncPos != EEServerVariableCache.VectorStorage)
@@ -99,15 +122,19 @@ namespace EEMod
                 if (lastSyncPos2 != EEServerVariableCache.PositionStorage)
                 {
                     UIPosRunTime = EEServerVariableCache.PositionStorage;
-                    Main.NewText(UIPosRunTime);
+                }
+                if (lastCool != EEServerVariableCache.Cool)
+                {
+                    BBTimer = EEServerVariableCache.Cool;
                 }
             }
+            lastCool = EEServerVariableCache.Cool;
             lastSyncPos = EEServerVariableCache.VectorStorage;
             lastSyncPos2 = EEServerVariableCache.PositionStorage;
         }
         public virtual void Update(GameTime gameTime)
         {
-            
+
             if (isBoundToMouse)
             {
                 for (int i = 0; i < 255; i++)
@@ -122,7 +149,8 @@ namespace EEMod
                 {
                     MultiplayerMouseTracker.UpdateMyMouse();
                 }
-                Vector2 chosen = (playerWhoAmI != 0 ? MultiplayerMouseTracker.GetMousePos(yeet) : Main.MouseWorld);
+                Vector2 dis = Main.LocalPlayer.Center - Main.player[yeet].Center;
+                Vector2 chosen = (playerWhoAmI != 0 ? MultiplayerMouseTracker.GetMousePos(yeet) + dis : Main.MouseWorld);
                 velocity = (chosen - UIPosRunTime) / SpeedOfMouseBinding;
             }
             if (BBTimer > 0)
@@ -133,9 +161,9 @@ namespace EEMod
                 colourOfStartUp += (1 - colourOfStartUp) / speedOfStartUp;
             else
                 colourOfStartUp += (-colourOfStartUp) / speedOfStartUp;
-            Sync("ball");
             if (parent != null)
             {
+                float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * 60;
                 if (collides)
                 {
                     foreach (GameElement GE in parent.elementArray)
@@ -145,9 +173,11 @@ namespace EEMod
                             if (GE.elementRect.Intersects(elementRect) && BBTimer == 0)
                             {
                                 velocity = GE.velocity * bounce;
-                                SyncVelocityCache();
-                                SyncPositionCache();
                                 BBTimer = bounceBuffer;
+                                if (tag == "ball")
+                                {
+                                    SyncAllCache();
+                                }
                             }
                         }
                     }
@@ -163,13 +193,13 @@ namespace EEMod
                         velocity.X *= -1;
                     }
                 }
-               
-                velocity *= friction;
-                UIPosRunTime += velocity /**(float)gameTime.ElapsedGameTime.TotalSeconds*60*/ + Main.LocalPlayer.velocity;
+                    UIPosRunTime += velocity + Main.LocalPlayer.velocity;
+                    velocity *= friction;
+                
                 Helpers.Clamp(ref UIPosRunTime.X, parent.TopLeft.X + sizeOfMainCanvas.X / 2, parent.TopRight.X - sizeOfMainCanvas.X / 2);
                 Helpers.Clamp(ref UIPosRunTime.Y, parent.TopLeft.Y + sizeOfMainCanvas.Y / 2, parent.BottomLeft.Y - sizeOfMainCanvas.Y / 2);
             }
-
+            Sync("ball");
             Main.spriteBatch.Draw(tex, UIPosRunTime.ForDraw(), new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
         }
     }
