@@ -66,7 +66,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             npc.ai[0] += 0.05f;
             if(!otherPhase)
-            npc.position.Y += (float)Math.Sin(npc.ai[0]) * 2;
+            npc.position.Y += (float)Math.Sin(npc.ai[0]);
             if (npc.life == 0)
             {
                 if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
@@ -94,10 +94,10 @@ namespace EEMod.NPCs.CoralReefs
                 if (t <= 1)
                 {
                     Vector2 mid = (Holder[0] + Holder[1]) / 2;
-                    npc.Center = Helpers.TraverseBezier(Holder[1], Holder[0], mid - new Vector2(0, 200), mid - new Vector2(0, 200), t);
+                    npc.Center = Helpers.TraverseBezier(Holder[1], Holder[0], mid - new Vector2(0, 300), mid - new Vector2(0, 300), t);
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, false, true, 0);
                 }
-                else if (t <= 2)
+                else if (t <= 1.3f)
                 {
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, true, false, 10);
                 }
