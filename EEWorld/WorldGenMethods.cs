@@ -2841,7 +2841,7 @@ namespace EEMod.EEWorld
                 {
                     if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(5) && WorldGen.InWorld(i, j))
                     {
-                        int selection = WorldGen.genRand.Next(7);
+                        int selection = WorldGen.genRand.Next(8);
                         switch (selection)
                         {
                             case 0:
@@ -2865,6 +2865,10 @@ namespace EEMod.EEWorld
                             case 6:
                                 ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
+                                break;
+                            case 7:
+                                ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
+                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
                                 break;
                         }
                     }
