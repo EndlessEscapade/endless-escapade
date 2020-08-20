@@ -48,5 +48,10 @@ namespace EEMod.Items.Weapons.Mage
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
+
+        public override bool CanUseItem(Player player)
+        {
+            return player.ownedProjectileCounts[item.shoot] < 3;
+        }
     }
 }
