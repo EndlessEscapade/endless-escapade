@@ -69,6 +69,11 @@ namespace EEMod
 
         public UserInterface customResources;
 
+        /*
+		public UserInterface SpeedrunnTimer;
+		internal RunninUI RunUI;
+        */
+
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
@@ -213,7 +218,7 @@ namespace EEMod
         }
         public override void UpdateUI(GameTime gameTime)
         {
-            
+
             lastGameTime = gameTime;
             if (EEInterface?.CurrentState != null)
             {
@@ -260,10 +265,30 @@ namespace EEMod
                 if (delay == 60)
                     delay = 0;
             }
-        }
+
+            /*
+            _lastUpdateUiGameTime = gameTime;
+			if (SpeedrunnTimer?.CurrentState != null)
+			{
+				RunUI.Update(gameTime);
+			}
+            */
+    }
+
+    /*
+    internal void ShowMyUI()
+    {
+        SpeedrunnTimer?.SetState(RunUI);
+    }
+
+    internal void HideMyUI()
+    {
+        SpeedrunnTimer?.SetState(null);
+    }
+    */
 
 
-        public override void Load()
+    public override void Load()
         {
             instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
@@ -287,6 +312,12 @@ namespace EEMod
                 Filters.Scene["EEMod:SunThroughWalls"].Load();
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
+                /*
+				SpeedrunnTimer = new UserInterface();
+				//RunUI.Activate();
+				RunUI = new RunninUI();
+				SpeedrunnTimer.SetState(RunUI);
+                */
             }
             LoadIL();
         }
@@ -363,8 +394,25 @@ namespace EEMod
             },
             InterfaceScaleType.UI);
             layers.Insert(textLayer, computerState);
-        }
-        public string text;
+            /*
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+			if (mouseTextIndex != -1)
+			{
+				layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+					"SpeedrunTimer: SpeedrunnTimer",
+					delegate
+					{
+						if (_lastUpdateUiGameTime != null && SpeedrunnTimer?.CurrentState != null)
+						{
+							SpeedrunnTimer.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+						}
+						return true;
+					},
+					   InterfaceScaleType.UI));
+			}
+            */
+            }
+    public string text;
         public static int AscentionHandler;
         public static int startingTextHandler;
         public static bool isAscending;
@@ -712,5 +760,5 @@ namespace EEMod
             recipe.SetResult(ItemID.SlimeStaff, 1);
             recipe.AddRecipe();
         }*/
+        }
     }
-}
