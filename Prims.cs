@@ -19,7 +19,7 @@ namespace EEMod
         public interface ITrailShader
         {
             string ShaderPass { get; }
-            void ApplyShader(Effect effect, Trail trail, List<Vector2> positions);
+            void ApplyShader<T>(BasicEffect effect, T trail, List<Vector2> positions);
         }
         public void DrawTrails(SpriteBatch spriteBatch)
         {
@@ -27,24 +27,36 @@ namespace EEMod
             {
                 trail.Draw(_effect, _basicEffect, Main.graphics.GraphicsDevice);
             }
+            foreach (VerletBuffer verlet in _Verlets)
+            {
+                verlet.DrawCape(_effect, _basicEffect, Main.graphics.GraphicsDevice);
+            }
         }
         public class DefaultShader : ITrailShader
         {
             public string ShaderPass => "DefaultPass";
-            public void ApplyShader(Effect effect, Trail trail, List<Vector2> positions)
+            public void ApplyShader<T>(BasicEffect effect, T trail, List<Vector2> positions)
             {
-                effect.CurrentTechnique.Passes[ShaderPass].Apply();
+                foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                }
             }
         }
         private List<Trail> _trails = new List<Trail>();
+        private List<VerletBuffer> _Verlets = new List<VerletBuffer>();
         private Effect _effect;
-        private BasicEffect _basicEffect;
+        private static BasicEffect _basicEffect;
         public void UpdateTrails()
         {
             for (int i = 0; i < _trails.Count; i++)
             {
                 Trail trail = _trails[i];
-
+                trail.Update();
+            }
+            for (int i = 0; i < _Verlets.Count; i++)
+            {
+                VerletBuffer trail = _Verlets[i];
                 trail.Update();
             }
         }
@@ -55,10 +67,169 @@ namespace EEMod
             _basicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
             _basicEffect.VertexColorEnabled = true;
         }
-        public void CreateTrail(List<Vector2> gaming, ITrailShader shader = null, Projectile projectile = null)
+        public void CreateTrail(List<Vector2> gaming = null, ITrailShader shader = null, Projectile projectile = null)
         {
             Trail newTrail = new Trail(gaming, new RoundCap(), new DefaultShader(), projectile);
             _trails.Add(newTrail);
+        }
+        public void CreateVerlet(ITrailShader shader = null, Projectile projectile = null)
+        {
+            VerletBuffer newTrail = new VerletBuffer(new RoundCap(), new DefaultShader(), projectile);
+            _Verlets.Add(newTrail);
+        }
+        public class VerletBuffer
+        {
+            private ITrailShader _trailShader;
+            private ITrailCap _trailCap;
+            private List<Vector2> _points;
+            private bool active;
+            public VerletBuffer(ITrailCap cap, ITrailShader shader, Projectile projectile)
+            {
+                _trailCap = cap;
+                _trailShader = shader;
+                active = true;
+            }
+            public void Update()
+            {
+                if (lerpage >= 1)
+                {
+                    lerpage = 0;
+                }
+                lerpage += 0.01f;
+            }
+            float lerpage;
+            public void DrawCape(Effect effect, BasicEffect effect2, GraphicsDevice device)
+            {
+               
+                Vector2[] pointsArray = Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints;
+                if (pointsArray.Length <= 1) return;
+                int currentIndex = 0;
+                VertexPositionColor[] vertices = new VertexPositionColor[pointsArray.Length*6 - 9];
+                void AddVertex(Vector2 position, Color color)
+                {
+                    vertices[currentIndex++] = new VertexPositionColor(new Vector3(position.ForDraw(), 0f), color);
+                }
+                for (int i = 0; i < pointsArray.Length; i++)
+                {
+                    float j = (pointsArray.Length - i)/ (float)pointsArray.Length;
+                    float increment = i / (float)pointsArray.Length;
+                    if (i == 0)
+                    {
+                        AddVertex(pointsArray[i], Color.Red);
+                        AddVertex(pointsArray[i + 1] + CurveNormal(pointsArray.ToList(), i + 1) * -5 * (j - increment), Color.DarkRed);
+                        AddVertex(pointsArray[i + 1] + CurveNormal(pointsArray.ToList(), i + 1) * 5 * (j - increment), Color.DarkRed);
+                    }
+                    if(i > 0 && i < pointsArray.Length - 1)
+                    {
+                     Vector2 normal = CurveNormal(pointsArray.ToList(), i);
+                     Vector2 normalAhead = CurveNormal(pointsArray.ToList(), i+1);
+
+                     Vector2 firstUp = pointsArray[i] - normal * 5 * j;
+                     Vector2 firstDown = pointsArray[i] + normal * 5 * j;
+                     Vector2 secondUp = pointsArray[i + 1] - (normalAhead * 5 * ((pointsArray.Length) - (i + 1)) / pointsArray.Length);
+                     Vector2 secondDown = pointsArray[i + 1] + (normalAhead * 5 * ((pointsArray.Length) - (i+1)) / pointsArray.Length);
+                        float varLerp = Math.Abs(lerpage - increment);
+
+                        float varLerpAhead = Math.Abs(lerpage - ((i + 1) / (float)pointsArray.Length));
+                        float addon = 0f;
+                        Color Base = Color.Red;
+                        Color Base2 = Color.DarkRed;
+                        Color varColor = new Color(Base.R + (Base2.R - Base.R) * varLerp,
+                                                   Base.G + (Base2.G - Base.G) * varLerp,
+                                                   Base.B + (Base2.B - Base.B) * varLerp);
+                        Color varColorAhead = new Color(Base.R + (Base2.R - Base.R) * varLerpAhead,
+                                                        Base.G + (Base2.G - Base.G) * varLerpAhead,
+                                                        Base.B + (Base2.B - Base.B) * varLerpAhead);
+                        if (pointsArray[i].Y - pointsArray[i - 1].Y > 3)
+                        {
+                            if (pointsArray[i].Y > pointsArray[i - 1].Y && pointsArray[i].Y > pointsArray[i + 1].Y)
+                            {
+                                AddVertex(firstUp, varColorAhead);
+                                AddVertex(secondUp, varColorAhead);
+                                AddVertex(firstDown, varColorAhead);
+
+                                AddVertex(secondUp, varColorAhead);
+                                AddVertex(secondDown, varColorAhead);
+                                AddVertex(firstDown, varColorAhead);
+                                continue;
+                            }
+                            if (pointsArray[i].Y > pointsArray[i - 1].Y)
+                            {
+                                AddVertex(firstUp, Color.DarkRed);
+                                AddVertex(secondUp, Color.DarkRed);
+                                AddVertex(firstDown, Color.DarkRed);
+
+                                AddVertex(secondUp, Color.DarkRed);
+                                AddVertex(secondDown, Color.DarkRed);
+                                AddVertex(firstDown, Color.DarkRed);
+                            }
+                            if (pointsArray[i].Y < pointsArray[i - 1].Y & pointsArray[i].Y < pointsArray[i + 1].Y)
+                            {
+                                AddVertex(firstUp, varColorAhead);
+                                AddVertex(secondUp, varColorAhead);
+                                AddVertex(firstDown, varColor);
+
+                                AddVertex(secondUp, varColorAhead);
+                                AddVertex(secondDown, varColorAhead);
+                                AddVertex(firstDown, varColor);
+                                continue;
+                            }
+                            if (pointsArray[i].Y <= pointsArray[i - 1].Y)
+                            {
+                                AddVertex(firstUp, Color.DarkRed);
+                                AddVertex(secondUp, Color.DarkRed);
+                                AddVertex(firstDown, Color.DarkRed);
+
+                                AddVertex(secondUp, Color.DarkRed);
+                                AddVertex(secondDown, Color.DarkRed);
+                                AddVertex(firstDown, Color.DarkRed);
+                            }
+                        }
+                        else
+                        {
+                            AddVertex(firstUp, Color.DarkRed);
+                            AddVertex(secondUp, Color.DarkRed);
+                            AddVertex(firstDown, Color.DarkRed);
+
+                            AddVertex(secondUp, Color.DarkRed);
+                            AddVertex(secondDown, Color.DarkRed);
+                            AddVertex(firstDown, Color.DarkRed);
+                        }
+                    }
+                }
+                int width = device.Viewport.Width;
+                int height = device.Viewport.Height;
+                Vector2 zoom = Main.GameViewMatrix.Zoom;
+                Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+                Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+                effect2.View = view;
+                effect2.Projection = projection;
+                foreach (EffectPass pass in effect2.CurrentTechnique.Passes)
+                {
+                    pass.Apply();
+                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, pointsArray.Length*2 - 3);
+                }
+            }
+            //Helper methods
+            private Vector2 CurveNormal(List<Vector2> points, int index)
+            {
+                if (points.Count == 1) return points[0];
+
+                if (index == 0)
+                {
+                    return Clockwise90(Vector2.Normalize(points[1] - points[0]));
+                }
+                if (index == points.Count - 1)
+                {
+                    return Clockwise90(Vector2.Normalize(points[index] - points[index - 1]));
+                }
+                return Clockwise90(Vector2.Normalize(points[index] - points[index - 1]));
+            }
+
+            private Vector2 Clockwise90(Vector2 vector)
+            {
+                return new Vector2(-vector.Y, vector.X);
+            }
         }
         public class Trail
         {
@@ -126,10 +297,9 @@ namespace EEMod
                 Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
                 Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
                 effect.Parameters["WorldViewProjection"].SetValue(view * projection);
-                _trailShader.ApplyShader(effect, this,_points);
+                _trailShader.ApplyShader(effect2, this,_points);
                 device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0,1);
             }
-
             //Helper methods
             private Vector2 CurveNormal(List<Vector2> points, int index)
             {

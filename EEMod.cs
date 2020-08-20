@@ -115,6 +115,24 @@ namespace EEMod
         int lerps;
         float alphas;
         int delays;
+        public void UpdateVerlet()
+        {
+            for (int i = 0; i < Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints.Length; i++)
+            {
+               // Main.spriteBatch.Draw(Main.magicPixel, Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints[i] - Main.screenPosition, new Rectangle(0, 0, 5, 5), Color.AliceBlue, 0f, new Rectangle(0, 0, 5, 5).Size(), 1f, SpriteEffects.None, 0f);
+              //  Main.NewText(Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints[i]);
+                //Main.NewText(Main.LocalPlayer.Center);
+            }
+        }
+        public void UpdateIslands()
+        {
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            for (int i = 0; i < modPlayer.Islands.Count; i++)
+            {
+                Color drawColour = Lighting.GetColor((int)(modPlayer.Islands[i].posToScreen.X / 16f), (int)(modPlayer.Islands[i].posToScreen.Y / 16f));
+                Main.spriteBatch.Draw(modPlayer.Islands[i].texture, modPlayer.Islands[i].posToScreen.ForDraw(), drawColour);
+            }
+        }
         public void UpdateGame(GameTime gameTime)
         {
             lerps++;
@@ -303,6 +321,7 @@ namespace EEMod
                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         UpdateGame(lastGameTime);
+                        UpdateVerlet();
                     }
                     
                     return true;
@@ -335,6 +354,7 @@ namespace EEMod
                 if (Main.ActiveWorldFileData.Name == KeyID.Sea)
                 {
                     DrawSubText();
+                    UpdateIslands();
                     DrawShip();
                 }
                 if (Main.ActiveWorldFileData.Name == KeyID.Pyramids || Main.ActiveWorldFileData.Name == KeyID.Sea || Main.ActiveWorldFileData.Name == KeyID.CoralReefs)

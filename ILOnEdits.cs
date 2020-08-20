@@ -43,6 +43,7 @@ namespace EEMod
                 TrailManager = new TrailManager(this);
                 Prims = new Prims(this);
             }
+            Prims.CreateVerlet();
         }
 
         private void Practice(ILContext il)
@@ -174,15 +175,16 @@ namespace EEMod
             Rectangle GlobalRectUnscaled = new Rectangle(0, 0, CB1.Width, CB1.Height);
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
+                for (int i = 0; i < maxLoops; i++)
+                {
+                    Vector2 Positions = new Vector2((i - ((maxLoops - 1) * 0.5f)) * CB1.Width * scale, traverseFunction.Y / 3f);
+                 //   Main.spriteBatch.Draw(CB1, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
+                 //   Main.spriteBatch.Draw(CB2, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
+                 //   Main.spriteBatch.Draw(CB3, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
+                }
                 EEWorld.EEWorld.instance.DrawVines();
             }
-            for (int i = 0; i < maxLoops; i++)
-            {
-                Vector2 Positions = new Vector2((i - ((maxLoops - 1) * 0.5f)) * CB1.Width * scale, traverseFunction.Y / 3f);
-                //Main.spriteBatch.Draw(CB1, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
-                //Main.spriteBatch.Draw(CB2, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
-                //Main.spriteBatch.Draw(CB3, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
-            }
+
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
             {
                 alphaBG += (1 - alphaBG) / 64f;
@@ -528,7 +530,7 @@ namespace EEMod
                 }
                 Main.spriteBatch.Begin();
                 DrawSky();
-                if (Main.fontDeathText != null)
+                if (Main.fontDeathText != null && screenMessageText != null)
                 {
                     Vector2 textSize = Main.fontDeathText.MeasureString(screenMessageText);
                     if (progressMessage != null)

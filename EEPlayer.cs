@@ -258,6 +258,7 @@ namespace EEMod
         public Vector2 position;
         public Vector2 velocity;
         public List<Vector2> objectPos = new List<Vector2>();
+        public List<Island> Islands = new List<Island>();
         public bool isNearIsland;
         public bool isNearIsland2;
         public bool isNearVolcano;
@@ -315,6 +316,10 @@ namespace EEMod
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
+                for (int i = 0; i < arrayPoints.Length; i++)
+                {
+                    arrayPoints[i] = new Vector2(mainPoint.X + (i * displaceX), mainPoint.Y + (i * displaceY));
+                }
                 isPickingUp = false;
                 EEMod.AscentionHandler = 0;
                 EEMod.startingTextHandler = 0;
@@ -334,6 +339,7 @@ namespace EEMod
                 subTextAlpha = 0;
                 EEMod.instance.position = new Vector2(1700, 900);
                 objectPos.Clear();
+                Islands.Clear();
                 EEMod.ShipHelth = EEMod.ShipHelthMax;
                 MoralFirstFrame();
                 displacmentX = 0;
@@ -605,15 +611,85 @@ namespace EEMod
                return texture;
            }*/
         public static Texture2D ScTex;
+        public Vector2[] arrayPoints = new Vector2[24];
+        Vector2 mainPoint => new Vector2(player.Center.X, player.position.Y);
+        public struct Island
+        {
+            public Island(Vector2 pos,Texture2D tex, bool canCollide = false)
+            {
+                posX = (int)pos.X;
+                posY = (int)pos.Y;
+                texture = tex;
+                this.canCollide = canCollide;
+            }
+            int posX;
+            int posY;
+            public bool canCollide;
+            public int posXToScreen
+            {
+                get => posX + (int)Main.screenPosition.X + Main.screenWidth;
+            }
+            public int posYToScreen
+            {
+                get => posY + (int)Main.screenPosition.Y + Main.screenHeight;
+            }
+            public Texture2D texture;
+            public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
+            public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width/2, (int)posToScreen.Y -texture.Height / 2 + 1000, texture.Width, texture.Height);
+        }
+        float propagation;
+        int displaceX = 2;
+        int displaceY = 4;
+        float[] dis = new float[51];
         public override void UpdateBiomeVisuals()
         {
-            
+            float acc = arrayPoints.Length;
+            float upwardDrag = 0.2f;
+            propagation += (Math.Abs(player.velocity.X/2f) * 0.015f) + 0.1f;
+            for (int i = 0; i < acc; i++)
+            {
+                float prop = (float)Math.Sin(propagation + (i*10/acc));
+                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f)*i), mainPoint.Y + (i * displaceY) + 20);
+                float dist = (player.position.Y + 15) - basePos.Y + (prop/acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
+                float amp = Math.Abs(player.velocity.X * 3) * ((i*3) / acc) + 1f;
+                float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / 4f * i);
+                float disClamp = (goTo - dis[i]) / 8f;
+                disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
+                dis[i] += disClamp;
+                if (i == 0)
+                    arrayPoints[i] = basePos;
+                else
+                    arrayPoints[i] = new Vector2(basePos.X, basePos.Y + (prop/acc) * amp - dis[i] + i * 2);
+                if (player.direction == 1)
+                {
+                    float distX = arrayPoints[i].X - player.Center.X;
+                    arrayPoints[i].X = player.Center.X - distX;
+                }
+                Tile tile0 = Main.tile[(int)arrayPoints[0].X / 16, ((int)arrayPoints[0].Y / 16)];
+                Tile tile = Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)];
+                int tracker = 0;
+                if (i != 0)
+                {
+                        while ((Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].active() &&
+                                Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].type])
+                               || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
+                        {
+                            arrayPoints[i].Y--;
+                            tracker++;
+                            if (tracker >= displaceY * acc)
+                                break;
+                            if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
+                                break;
+                    }
+                }
+            }
+
             if (hydrofluoricSet)
             {
                 hydrofluoricSetTimer++;
                 if (hydrofluoricSetTimer >= 30 && player.velocity != Vector2.Zero)
                 {
-                    Projectile.NewProjectile(player.Center, player.velocity / 2, ModContent.ProjectileType<CorrosiveBubble>(), 20, 0f);
+                    Projectile.NewProjectile(player.Center, player.velocity / 2, ProjectileType<CorrosiveBubble>(), 20, 0f);
                     hydrofluoricSetTimer = 0;
                 }
             }
@@ -890,33 +966,35 @@ namespace EEMod
                     Filters.Scene.Activate(shad2, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
                 }
                 markerPlacer++;
-                float pos1X = Main.screenPosition.X + Main.screenWidth - 900;
-                float pos1Y = Main.screenPosition.Y + Main.screenHeight - 100 + 1000;
+                Islands.Clear();
+                Islands.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Projectiles/OceanMap/Land")));
+                Islands.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Projectiles/OceanMap/VolcanoIsland"),true));
+                Islands.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
+                Islands.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse")));
+                Islands.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse2")));
+                Islands.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Projectiles/OceanMap/Rock1")));
+                Islands.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Projectiles/OceanMap/Rock2")));
+                Islands.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Projectiles/OceanMap/Rock3")));
+                Islands.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Projectiles/OceanMap/MainIsland"), true));
+                Islands.Add(new Island(new Vector2(-300, -600), GetTexture("EEMod/Projectiles/OceanMap/CoralReefsEntrance"), true));
+                Islands.Add(new Island(new Vector2(-600, -800), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
+
                 float pos2X = Main.screenPosition.X + Main.screenWidth - 400;
                 float pos2Y = Main.screenPosition.Y + Main.screenHeight - 400 + 1000;
                 float pos3X = Main.screenPosition.X + Main.screenWidth - 700;
                 float pos3Y = Main.screenPosition.Y + Main.screenHeight - 300 + 1000;
-                float pos4X = Main.screenPosition.X + Main.screenWidth - 500;
-                float pos4Y = Main.screenPosition.Y + Main.screenHeight - 200 + 1000;
-                float pos5X = Main.screenPosition.X + Main.screenWidth - 1000;
-                float pos5Y = Main.screenPosition.Y + Main.screenHeight - 400 + 1000;
-                float pos6X = Main.screenPosition.X + Main.screenWidth - 300;
-                float pos6Y = Main.screenPosition.Y + Main.screenHeight - 100 + 1000;
-                float pos7X = Main.screenPosition.X + Main.screenWidth - 800;
-                float pos7Y = Main.screenPosition.Y + Main.screenHeight - 150 + 1000;
-                float pos8X = Main.screenPosition.X + Main.screenWidth - 200;
-                float pos8Y = Main.screenPosition.Y + Main.screenHeight - 300 + 1000;
                 float pos9X = Main.screenPosition.X + Main.screenWidth - 100;
                 float pos9Y = Main.screenPosition.Y + Main.screenHeight - 40 + 1000;
                 float pos10X = Main.screenPosition.X + Main.screenWidth - 300;
                 float pos10Y = Main.screenPosition.Y + Main.screenHeight - 600 + 1000;
                 float pos11X = Main.screenPosition.X + Main.screenWidth - 600;
                 float pos11Y = Main.screenPosition.Y + Main.screenHeight - 300 + 500;
-                Rectangle rectangle1 = new Rectangle((int)pos3X - 56, (int)pos3Y - 32, 118, 64);
-                Rectangle rectangle5 = new Rectangle((int)pos11X - 56, (int)pos11Y - 32, 118, 64);
-                Rectangle rectangle2 = new Rectangle((int)pos2X - 56, (int)pos2Y - 32, 118, 64);
-                Rectangle rectangle3 = new Rectangle((int)pos9X - 115, (int)pos9Y - 49, 330, 98);
-                Rectangle rectangle4 = new Rectangle((int)pos10X - 110, (int)pos10Y - 58, 220, 116);
+                Rectangle rectangle1 = Islands[1].hitBox;
+                Rectangle rectangle2 = Islands[2].hitBox;
+                Rectangle rectangle3 = Islands[8].hitBox;
+                Rectangle rectangle4 = Islands[9].hitBox;
+                Rectangle rectangle5 = Islands[10].hitBox;
+
                 Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
                 isNearIsland = false;
                 isNearIsland2 = false;
@@ -940,11 +1018,11 @@ namespace EEMod
                 }
                 if (rectangle1.Intersects(ShipHitBox))
                 {
-                    isNearIsland = true;
+                    isNearVolcano = true;
                 }
                 if (rectangle2.Intersects(ShipHitBox))
                 {
-                    isNearVolcano = true;
+                    isNearIsland = true;
                 }
                 if (rectangle3.Intersects(ShipHitBox))
                 {
@@ -1130,27 +1208,10 @@ namespace EEMod
                             }
                         }
                     }
-                    //Projectile.NewProjectile(new Vector2(pos3X, pos3X), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos2X, pos2Y), Vector2.Zero, ProjectileType<VolcanoIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos3X, pos3Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos11X, pos11Y), Vector2.Zero, ProjectileType<Land>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos4X, pos4Y), Vector2.Zero, ProjectileType<Lighthouse>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos5X, pos5Y), Vector2.Zero, ProjectileType<Lighthouse2>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos6X, pos6Y), Vector2.Zero, ProjectileType<Rock1>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos7X, pos7Y), Vector2.Zero, ProjectileType<Rock2>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos8X, pos8Y), Vector2.Zero, ProjectileType<Rock3>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos9X, pos9Y), Vector2.Zero, ProjectileType<MainIsland>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(new Vector2(pos10X, pos10Y), Vector2.Zero, ProjectileType<CoralReefsEntrance>(), 0, 0f, Main.myPlayer, 0, 0);
-                    objectPos.Add(new Vector2(pos1X, pos1Y));
-                    objectPos.Add(new Vector2(pos2X, pos2Y));
-                    objectPos.Add(new Vector2(pos3X, pos3Y));
-                    objectPos.Add(new Vector2(pos4X, pos4Y));
-                    objectPos.Add(new Vector2(pos5X, pos5Y));
-                    objectPos.Add(new Vector2(pos6X, pos6Y));
-                    objectPos.Add(new Vector2(pos7X, pos7Y));
-                    objectPos.Add(new Vector2(pos8X, pos8Y));
-                    objectPos.Add(new Vector2(pos9X, pos9Y));
-                    objectPos.Add(new Vector2(pos10X, pos10Y));
+
+                    for(int i = 0; i< Islands.Count; i++)
+                    objectPos.Add(Islands[i].posToScreen);
+
                     //upgrade, pirates, radial
                     for (int i = 0; i < 2; i++)
                     {
@@ -1581,7 +1642,7 @@ namespace EEMod
             {
                 Cheese1 = false;
             }*/
-            if (dalantiniumSet)
+                if (dalantiniumSet)
                 for(int i = 0; i < 3; i++)
                     Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
         }

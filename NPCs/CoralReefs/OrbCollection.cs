@@ -66,7 +66,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             npc.ai[0] += 0.05f;
             if(!otherPhase)
-            npc.position.Y += (float)Math.Sin(npc.ai[0]);
+            npc.position.Y += (float)Math.Sin(npc.ai[0])/2f;
             if (npc.life == 0)
             {
                 if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
