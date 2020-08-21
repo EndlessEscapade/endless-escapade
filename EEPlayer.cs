@@ -75,7 +75,7 @@ namespace EEMod
         public int PlayerX;
         public int PlayerY;
         public Vector2 velHolder;
-   
+
         public override void PostUpdate()
         {
             int PlayerX = (int)(player.position.X / 16);
@@ -615,7 +615,7 @@ namespace EEMod
         Vector2 mainPoint => new Vector2(player.Center.X, player.position.Y);
         public struct Island
         {
-            public Island(Vector2 pos,Texture2D tex, bool canCollide = false)
+            public Island(Vector2 pos, Texture2D tex, bool canCollide = false)
             {
                 posX = (int)pos.X;
                 posY = (int)pos.Y;
@@ -635,7 +635,7 @@ namespace EEMod
             }
             public Texture2D texture;
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
-            public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width/2, (int)posToScreen.Y -texture.Height / 2 + 1000, texture.Width, texture.Height);
+            public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / 2 + 1000, texture.Width, texture.Height);
         }
         float propagation;
         int displaceX = 2;
@@ -645,13 +645,13 @@ namespace EEMod
         {
             float acc = arrayPoints.Length;
             float upwardDrag = 0.2f;
-            propagation += (Math.Abs(player.velocity.X/2f) * 0.015f) + 0.1f;
+            propagation += (Math.Abs(player.velocity.X / 2f) * 0.015f) + 0.1f;
             for (int i = 0; i < acc; i++)
             {
-                float prop = (float)Math.Sin(propagation + (i*10/acc));
-                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f)*i), mainPoint.Y + (i * displaceY) + 20);
-                float dist = (player.position.Y + 15) - basePos.Y + (prop/acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
-                float amp = Math.Abs(player.velocity.X * 3) * ((i*3) / acc) + 1f;
+                float prop = (float)Math.Sin(propagation + (i * 10 / acc));
+                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f) * i), mainPoint.Y + (i * displaceY) + 20);
+                float dist = (player.position.Y + 15) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
+                float amp = Math.Abs(player.velocity.X * 3) * ((i * 3) / acc) + 1f;
                 float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / 4f * i);
                 float disClamp = (goTo - dis[i]) / 8f;
                 disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
@@ -659,7 +659,7 @@ namespace EEMod
                 if (i == 0)
                     arrayPoints[i] = basePos;
                 else
-                    arrayPoints[i] = new Vector2(basePos.X, basePos.Y + (prop/acc) * amp - dis[i] + i * 2);
+                    arrayPoints[i] = new Vector2(basePos.X, basePos.Y + (prop / acc) * amp - dis[i] + i * 2);
                 if (player.direction == 1)
                 {
                     float distX = arrayPoints[i].X - player.Center.X;
@@ -670,16 +670,16 @@ namespace EEMod
                 int tracker = 0;
                 if (i != 0)
                 {
-                        while ((Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].active() &&
-                                Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].type])
-                               || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
-                        {
-                            arrayPoints[i].Y--;
-                            tracker++;
-                            if (tracker >= displaceY * acc)
-                                break;
-                            if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
-                                break;
+                    while ((Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].active() &&
+                            Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].type])
+                           || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
+                    {
+                        arrayPoints[i].Y--;
+                        tracker++;
+                        if (tracker >= displaceY * acc)
+                            break;
+                        if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
+                            break;
                     }
                 }
             }
@@ -710,7 +710,7 @@ namespace EEMod
                             closestDistance = npc.Distance(position);
                         }
                     }
-                    if(closest != null)
+                    if (closest != null)
                         Projectile.NewProjectile(closest.Center, Vector2.Zero, ProjectileType<CyanoburstTomeKelp>(), 10, 0f, Owner: player.whoAmI);
                     lythenSetTimer = 0;
                 }
@@ -968,7 +968,7 @@ namespace EEMod
                 markerPlacer++;
                 Islands.Clear();
                 Islands.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Projectiles/OceanMap/Land")));
-                Islands.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Projectiles/OceanMap/VolcanoIsland"),true));
+                Islands.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Projectiles/OceanMap/VolcanoIsland"), true));
                 Islands.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
                 Islands.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse")));
                 Islands.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse2")));
@@ -1209,8 +1209,8 @@ namespace EEMod
                         }
                     }
 
-                    for(int i = 0; i< Islands.Count; i++)
-                    objectPos.Add(Islands[i].posToScreen);
+                    for (int i = 0; i < Islands.Count; i++)
+                        objectPos.Add(Islands[i].posToScreen);
 
                     //upgrade, pirates, radial
                     for (int i = 0; i < 2; i++)
@@ -1607,6 +1607,12 @@ namespace EEMod
                 ["baseworldname"] = baseWorldName,
                 ["importantCutscene"] = importantCutscene,
                 ["swiftSail"] = boatSpeed
+                /*
+             {"Hours", Hours},
+		     {"Minutes", Minutes},
+		     {"Seconds", Seconds},
+		     {"Milliseconds", Milliseconds},
+             */
             };
         }
         public override void Load(TagCompound tag)
@@ -1631,7 +1637,17 @@ namespace EEMod
             {
                 boatSpeed = tag.GetInt("swiftSail");
             }
-        }
+            /*
+                if (tag.ContainsKey("Hours"))
+		           Hours = tag.GetInt("Hours");
+		       if (tag.ContainsKey("Minutes"))
+		            Minutes = tag.GetInt("Minutes");
+		       if (tag.ContainsKey("Seconds"))
+		           Seconds = tag.GetInt("Seconds");
+		      if (tag.ContainsKey("Milliseconds"))
+		          Milliseconds = tag.GetInt("Milliseconds");
+                  */
+            }
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             /*if (NPC.AnyNPCs(NPCID.KingSlime))
@@ -1642,8 +1658,8 @@ namespace EEMod
             {
                 Cheese1 = false;
             }*/
-                if (dalantiniumSet)
-                for(int i = 0; i < 3; i++)
+            if (dalantiniumSet)
+                for (int i = 0; i < 3; i++)
                     Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
         }
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
@@ -1724,6 +1740,30 @@ namespace EEMod
         private void ResetMinionEffect()
         {
             quartzCrystal = false;
+        }
+
+        public int hours;
+        public int minutes;
+        public int seconds;
+        public int milliseconds;
+        public override void PreUpdate()
+        {
+            milliseconds += Main.frameRate/1000;
+            if (milliseconds >= 1000)
+            {
+                milliseconds = 0;
+                seconds++;
+            }
+            if (seconds >= 60)
+            {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes >= 60)
+            {
+                minutes = 0;
+                hours++;
+            }
         }
     }
 }

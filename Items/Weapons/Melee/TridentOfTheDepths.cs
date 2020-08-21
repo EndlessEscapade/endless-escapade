@@ -23,7 +23,7 @@ namespace EEMod.Items.Weapons.Melee
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 18;
             item.useTime = 24;
-            item.shootSpeed = 4;
+            item.shootSpeed = 0f;
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;
@@ -42,14 +42,20 @@ namespace EEMod.Items.Weapons.Melee
 
         public override bool CanUseItem(Player player)
         {
-            // Ensures no more than one spear can be thrown out, use this when using autoReuse
-            item.shoot = ModContent.ProjectileType<DesertRune>();
+            return player.ownedProjectileCounts[item.shoot] < 1;
+        }
+
+        public override bool UseItem(Player player)
+        {
+            item.shootSpeed = 4f;
+            item.shoot = ModContent.ProjectileType<TridentOfTheDepthsProjectile>();
             return player.ownedProjectileCounts[item.shoot] < 1;
         }
 
         public override bool AltFunctionUse(Player player)
         {
-            Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TridentOfTheDepthsAltProjectile>(), 0, 0);
+            item.shootSpeed = 0f;
+            item.shoot = ModContent.ProjectileType<TridentOfTheDepthsAltProjectile>();
             return player.ownedProjectileCounts[item.shoot] < 1;
         }
     }

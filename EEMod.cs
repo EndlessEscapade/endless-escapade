@@ -69,6 +69,9 @@ namespace EEMod
 
         public UserInterface customResources;
 
+		public UserInterface SpeedrunnTimer;
+		internal RunninUI RunUI;
+
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
@@ -213,7 +216,7 @@ namespace EEMod
         }
         public override void UpdateUI(GameTime gameTime)
         {
-            
+
             lastGameTime = gameTime;
             if (EEInterface?.CurrentState != null)
             {
@@ -260,7 +263,23 @@ namespace EEMod
                 if (delay == 60)
                     delay = 0;
             }
+
+            //_lastUpdateUiGameTime = gameTime;
+			if (SpeedrunnTimer?.CurrentState != null)
+			{
+				RunUI.Update(gameTime);
+			}
         }
+
+        //internal void ShowMyUI()
+        //{
+        //    SpeedrunnTimer?.SetState(RunUI);
+        //}
+
+        //internal void HideMyUI()
+        //{
+        //    SpeedrunnTimer?.SetState(null);
+        //}
 
 
         public override void Load()
@@ -287,6 +306,12 @@ namespace EEMod
                 Filters.Scene["EEMod:SunThroughWalls"].Load();
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
+                /*
+		  SpeedrunnTimer = new UserInterface();
+		  //RunUI.Activate();
+		  RunUI = new RunninUI();
+		  SpeedrunnTimer.SetState(RunUI);
+                */
             }
             LoadIL();
         }
@@ -323,7 +348,7 @@ namespace EEMod
                         UpdateGame(lastGameTime);
                         UpdateVerlet();
                     }
-                    
+                
                     return true;
                 }, InterfaceScaleType.UI);
                 layers.Insert(mouseTextIndex, EEInterfaceLayer);
@@ -363,6 +388,20 @@ namespace EEMod
             },
             InterfaceScaleType.UI);
             layers.Insert(textLayer, computerState);
+		    /*if (mouseTextIndex != -1)
+		    {
+		        layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+		        "SpeedrunTimer: SpeedrunnTimer",
+		        delegate
+		        {
+		            if (_lastUpdateUiGameTime != null && SpeedrunnTimer?.CurrentState != null)
+		            {
+			            SpeedrunnTimer.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+		            }
+		            return true;
+		        },
+		        InterfaceScaleType.UI));
+		    }*/
         }
         public string text;
         public static int AscentionHandler;
@@ -606,40 +645,41 @@ namespace EEMod
                 if (eePlayer.boatSpeed == 1)
                     frameNum = 0;
             }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 1))
+            if (Main.netMode != NetmodeID.SinglePlayer)
             {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 3;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 2;
-            }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 2))
-            {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 9;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 8;
-            }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 3))
-            {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 5;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 4;
-            }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 4))
-            {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 7;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 6;
-            }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 5))
-            {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 11;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 10;
+                switch (player.team)
+                {
+                    case 1:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 3;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 2;
+                        break;
+                    case 2:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 9;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 8;
+                        break;
+                    case 3:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 5;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 4;
+                        break;
+                    case 4:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 7;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 6;
+                        break;
+                    case 5:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 11;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 10;
+                        break;
+                }
             }
 
 
@@ -712,5 +752,5 @@ namespace EEMod
             recipe.SetResult(ItemID.SlimeStaff, 1);
             recipe.AddRecipe();
         }*/
+        }
     }
-}
