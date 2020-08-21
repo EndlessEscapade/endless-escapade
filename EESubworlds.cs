@@ -54,6 +54,7 @@ namespace EEMod
             Main.maxTilesY = 2400;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
+
             try
             {
                 //Placing initial blocks
@@ -72,9 +73,11 @@ namespace EEMod
                     for (int j = -5; j < 5; j++)
                         WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
                 EEMod.progressMessage = "Generating Coral Sand";
-                FillRegionNoEdit(Main.maxTilesX, (Main.maxTilesY / 20), new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSand>());
+                FillRegionNoEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 20), new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSand>());
                 int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
                 EEMod.progressMessage = "Finding Suitable Chasm Positions";
+               
+
 
                 //Making chasms
                 for (int i = 0; i < roomsLeft.Length; i++)
@@ -97,7 +100,7 @@ namespace EEMod
                             score = 0;
                             randPosX = Main.rand.Next((int)roomsLeft[i - 1].X - distance, (int)roomsLeft[i - 1].X + distance);
                             randPosY = Main.rand.Next((int)roomsLeft[i - 1].Y - distance, (int)roomsLeft[i - 1].Y + distance);
-                            float f = sizeOfChasm * 1.5f;
+                            float f = sizeOfChasm * 1.6f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
                             {
@@ -110,8 +113,8 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != i || randPosX < sizeOfChasm * 1.2f || randPosY < sizeOfChasm || randPosX > Main.maxTilesX / 2 - 50 || randPosY > Main.maxTilesY * 0.66f || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40 * 40
-                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40 * 40);
+                        } while (score != i || randPosX < sizeOfChasm * 1.2f || randPosY < sizeOfChasm || randPosX > Main.maxTilesX / 2 - 50 || randPosY > Main.maxTilesY * 0.66f || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 220 * 220
+                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 220 * 220);
                         roomsLeft[i] = new Vector2(randPosX, randPosY);
                     }
                     MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, Main.rand.Next(0, 7), Main.rand.Next(0, 3));
@@ -141,7 +144,7 @@ namespace EEMod
                             score = 0;
                             randPosX = Main.rand.Next((int)roomsRight[i - 1].X - distance, (int)roomsRight[i - 1].X + distance);
                             randPosY = Main.rand.Next((int)roomsRight[i - 1].Y - distance, (int)roomsRight[i - 1].Y + distance);
-                            float f = sizeOfChasm * 1.5f;
+                            float f = sizeOfChasm * 1.6f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
                             {
@@ -157,8 +160,8 @@ namespace EEMod
                         } while (score != i || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
                         || randPosY < (sizeOfChasm * 1) || randPosX < Main.maxTilesX / 2 + 50
                         || randPosY > Main.maxTilesY * 0.66f
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 40 * 40
-                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 40 * 40);
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 220 * 220
+                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 220 * 220);
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
                     MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, WorldGen.genRand.Next(0, 7), WorldGen.genRand.Next(0, 3));
@@ -304,6 +307,7 @@ namespace EEMod
             {
                 EEMod.progressMessage = e.ToString();
             }
+            NoiseGen(new Vector2(100, 10), new Vector2(Main.maxTilesX - 100, Main.maxTilesY / 20), new Vector2(10, 20), 0.5f);
             //Placing boat
             PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
             PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
@@ -397,7 +401,6 @@ namespace EEMod
 
             PlaceShip(50, 150, ShipTiles);
             PlaceShipWalls(50, 145, ShipWalls);
-
             WorldGen.AddTrees();
 
             PlaceAnyBuilding(100, 100, IceShrine);

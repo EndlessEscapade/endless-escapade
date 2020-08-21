@@ -9,6 +9,7 @@ namespace EEMod
     public class PerlinNoiseFunction
     {
         public float[,] Perlin;
+        public float[,] Perlin2;
         public int[,] PerlinBinary;
         float DotProduct(Vector2 a, Vector2 b)
         {
@@ -22,6 +23,7 @@ namespace EEMod
         {
             PerlinBinary = new int[sizeX, sizeY];
             Perlin = new float[sizeX, sizeY];
+            Perlin2 = new float[sizeX, sizeY];
             Vector2[] VectorTables = { new Vector2(1, 1), new Vector2(1, -1), new Vector2(-1, -1), new Vector2(-1, 1) };
             int numberOfIterationsX = sizeX / widthOfCell;
             int numberOfIterationsY = sizeY / heightOfCell;
@@ -51,6 +53,7 @@ namespace EEMod
                             float LerpTwo = LerpOne[0] + (LerpOne[1] - LerpOne[0]) * jNew;
                             Vector2 index = new Vector2(i + (k * widthOfCell), j + (l * heightOfCell));
                             Perlin[(int)index.X, (int)index.Y] = (LerpTwo + 1) * 0.5f;
+                            Perlin2[(int)index.X, (int)index.Y] = LerpTwo;
                             if (Perlin[(int)index.X, (int)index.Y] < Threshold)
                             {
                                 PerlinBinary[(int)index.X, (int)index.Y] = 1;

@@ -175,7 +175,46 @@ namespace EEMod.EEWorld
             }
             EEMod.progressMessage = messageBefore;
         }
-
+        static PerlinNoiseFunction PNF;
+        public static float[] PerlinArray(int width, int seedVar, float amplitude, Vector2 res)
+        {
+            PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f);
+            int rand = Main.rand.Next(0, seedVar);
+            float[] PerlinStrip = new float[width];
+            for(int i = 0; i<width; i++)
+            {
+                PerlinStrip[i] = PNF.Perlin2[i, rand] * amplitude;
+            }
+            return PerlinStrip;
+        }
+        public static float[] PerlinArrayNoZero(int width, int seedVar, float amplitude, Vector2 res)
+        {
+            PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f);
+            int rand = Main.rand.Next(0, seedVar);
+            float[] PerlinStrip = new float[width];
+            for (int i = 0; i < width; i++)
+            {
+                PerlinStrip[i] = PNF.Perlin[i, rand] * amplitude;
+            }
+            return PerlinStrip;
+        }
+        public static void FillRegionNoEditWithNoise(int width, int height, Vector2 startingPoint, int type)
+        {
+            string messageBefore = EEMod.progressMessage;
+            float[] PerlinStrip = PerlinArray(width,1000,15, new Vector2(60,200));
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = (int)PerlinStrip[i]; j < height; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    tile.type = (ushort)type;
+                    tile.active(true);
+                    EEMod.progressMessage = messageBefore;
+                    EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                }
+            }
+            EEMod.progressMessage = messageBefore;
+        }
         public static void FillWall(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;
@@ -2546,7 +2585,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        static PerlinNoiseFunction perlinNoise;
+        public static PerlinNoiseFunction perlinNoise;
         public static void PlaceKelp(int height, Vector2 startingPoint)
         {
             for (int i = 0; i < height; i++)
@@ -2555,6 +2594,71 @@ namespace EEMod.EEWorld
                 if (!tile.active())
                     tile.type = (ushort)ModContent.TileType<KelpTile>();
                 tile.active(true);
+            }
+        }
+        public delegate bool NoiseConditions(Vector2 point);
+        public static void NoiseGen(Vector2 topLeft, Vector2 size, Vector2 dimensions, float thresh, NoiseConditions noiseFilter = null)
+        {
+               perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
+               int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
+               for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
+               {
+                 for (int j = (int)topLeft.Y; j < (int)topLeft.Y + (int)size.Y; j++)
+                 {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
+                    {
+                        WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<CoralSand>());
+                       if (j < Main.maxTilesY * 0.33f)
+                       {
+                         WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<LightGemsandTile>());
+                       }
+                       else if (j < Main.maxTilesY * 0.66f)
+                       {
+                         WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<GemsandTile>());
+                       }
+                       else if (j > Main.maxTilesY * 0.66f)
+                       {
+                         WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<DarkGemsandTile>());
+                       }
+                       if (j < Main.maxTilesY / 10)
+                       {
+                         WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<CoralSand>());
+                       }
+                    }
+                 }
+            }
+        }
+        public static void NoiseGenWave(Vector2 topLeft, Vector2 size, Vector2 dimensions, float thresh, NoiseConditions noiseFilter = null)
+        {
+            perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
+            int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
+            for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
+            {
+                for (int j = (int)topLeft.Y; j < (int)topLeft.Y + (int)size.Y; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
+                    {
+                        WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<CoralSand>());
+                        if (j < Main.maxTilesY * 0.33f)
+                        {
+                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<LightGemsandTile>());
+                        }
+                        else if (j < Main.maxTilesY * 0.66f)
+                        {
+                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<GemsandTile>());
+                        }
+                        else if (j > Main.maxTilesY * 0.66f)
+                        {
+                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<DarkGemsandTile>());
+                        }
+                        if (j < Main.maxTilesY / 10)
+                        {
+                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<CoralSand>());
+                        }
+                    }
+                }
             }
         }
         public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int foliage, bool ensureNoise = false)
@@ -2612,7 +2716,6 @@ namespace EEMod.EEWorld
                                 {
                                     tile.type = (ushort)ModContent.TileType<CoralSand>();
                                 }
-
                             }
                         }
                     }
@@ -2682,7 +2785,7 @@ namespace EEMod.EEWorld
                 for (int j = -20; j < sizeY + 20; j++)
                 {
                     Vector2 basePos = new Vector2(i + xPos - size / 2f, j + yPos - size / 4f);
-                    if (WorldGen.InWorld((int)basePos.X, (int)basePos.Y))
+                    if (WorldGen.InWorld((int)basePos.X, (int)basePos.Y,20))
                     {
                         switch (foliage)
                         {

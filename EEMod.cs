@@ -353,8 +353,8 @@ namespace EEMod
                 Ascension();
                 if (Main.ActiveWorldFileData.Name == KeyID.Sea)
                 {
-                    DrawSubText();
                     UpdateIslands();
+                    DrawSubText();
                     DrawShip();
                 }
                 if (Main.ActiveWorldFileData.Name == KeyID.Pyramids || Main.ActiveWorldFileData.Name == KeyID.Sea || Main.ActiveWorldFileData.Name == KeyID.CoralReefs)

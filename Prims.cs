@@ -29,7 +29,7 @@ namespace EEMod
             }
             foreach (VerletBuffer verlet in _Verlets)
             {
-                verlet.DrawCape(_effect, _basicEffect, Main.graphics.GraphicsDevice);
+                verlet.DrawCape(_basicEffect, Main.graphics.GraphicsDevice);
             }
         }
         public class DefaultShader : ITrailShader
@@ -43,9 +43,9 @@ namespace EEMod
                 }
             }
         }
+        private Effect _effect;
         private List<Trail> _trails = new List<Trail>();
         private List<VerletBuffer> _Verlets = new List<VerletBuffer>();
-        private Effect _effect;
         private static BasicEffect _basicEffect;
         public void UpdateTrails()
         {
@@ -72,23 +72,13 @@ namespace EEMod
             Trail newTrail = new Trail(gaming, new RoundCap(), new DefaultShader(), projectile);
             _trails.Add(newTrail);
         }
-        public void CreateVerlet(ITrailShader shader = null, Projectile projectile = null)
+        public void CreateVerlet()
         {
-            VerletBuffer newTrail = new VerletBuffer(new RoundCap(), new DefaultShader(), projectile);
+            VerletBuffer newTrail = new VerletBuffer();
             _Verlets.Add(newTrail);
         }
         public class VerletBuffer
         {
-            private ITrailShader _trailShader;
-            private ITrailCap _trailCap;
-            private List<Vector2> _points;
-            private bool active;
-            public VerletBuffer(ITrailCap cap, ITrailShader shader, Projectile projectile)
-            {
-                _trailCap = cap;
-                _trailShader = shader;
-                active = true;
-            }
             public void Update()
             {
                 if (lerpage >= 1)
@@ -98,7 +88,7 @@ namespace EEMod
                 lerpage += 0.01f;
             }
             float lerpage;
-            public void DrawCape(Effect effect, BasicEffect effect2, GraphicsDevice device)
+            public void DrawCape(BasicEffect effect2, GraphicsDevice device)
             {
                
                 Vector2[] pointsArray = Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints;
@@ -218,10 +208,6 @@ namespace EEMod
                 if (index == 0)
                 {
                     return Clockwise90(Vector2.Normalize(points[1] - points[0]));
-                }
-                if (index == points.Count - 1)
-                {
-                    return Clockwise90(Vector2.Normalize(points[index] - points[index - 1]));
                 }
                 return Clockwise90(Vector2.Normalize(points[index] - points[index - 1]));
             }
