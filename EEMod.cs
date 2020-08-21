@@ -271,15 +271,15 @@ namespace EEMod
 			}
         }
 
-        internal void ShowMyUI()
-        {
-            SpeedrunnTimer?.SetState(RunUI);
-        }
+        //internal void ShowMyUI()
+        //{
+        //    SpeedrunnTimer?.SetState(RunUI);
+        //}
 
-        internal void HideMyUI()
-        {
-            SpeedrunnTimer?.SetState(null);
-        }
+        //internal void HideMyUI()
+        //{
+        //    SpeedrunnTimer?.SetState(null);
+        //}
 
 
         public override void Load()
@@ -645,40 +645,41 @@ namespace EEMod
                 if (eePlayer.boatSpeed == 1)
                     frameNum = 0;
             }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 1))
+            if (Main.netMode != NetmodeID.SinglePlayer)
             {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 3;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 2;
-            }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 2))
-            {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 9;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 8;
-            }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 3))
-            {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 5;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 4;
-            }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 4))
-            {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 7;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 6;
-            }
-            if (((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 5))
-            {
-                if (eePlayer.boatSpeed == 3)
-                    frameNum = 11;
-                if (eePlayer.boatSpeed == 1)
-                    frameNum = 10;
+                switch (player.team)
+                {
+                    case 1:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 3;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 2;
+                        break;
+                    case 2:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 9;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 8;
+                        break;
+                    case 3:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 5;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 4;
+                        break;
+                    case 4:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 7;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 6;
+                        break;
+                    case 5:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 11;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 10;
+                        break;
+                }
             }
 
 
