@@ -8,7 +8,6 @@ namespace EEMod
 {
 	internal class RunninUI : UIState
 	{
-		/*
 		public new float HAlign;
 		public new float VAlign;
 		UIText text = new UIText("");
@@ -32,13 +31,8 @@ namespace EEMod
 		}
 		public override void Update(GameTime gameTime)
 		{
-			EEPlayer playerr = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-			var other = playerr.Hours;
-			var other1 = playerr.Minutes;
-			var other2 = playerr.Seconds;
-			var other3 = playerr.Milliseconds;
-			text.SetText(playerr.Hours + ":" + playerr.Minutes + ":" + playerr.Seconds + "." + playerr.Milliseconds) ;
+			EEPlayer player = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+			text.SetText(player.hours + ":" + player.minutes + ":" + player.seconds + "." + player.milliseconds);
 		}
-		*/
 	}
 }

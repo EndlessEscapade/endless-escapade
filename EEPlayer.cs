@@ -1742,117 +1742,28 @@ namespace EEMod
             quartzCrystal = false;
         }
 
-        /*
-        public int Hours;
-        public int Minutes;
-        public int Seconds;
-        public int Milliseconds;
-        public int Timer;
+        public int hours;
+        public int minutes;
+        public int seconds;
+        public int milliseconds;
         public override void PreUpdate()
         {
-            Timer++;
-
-            if (Timer == 1)
+            milliseconds += Main.frameRate/1000;
+            if (milliseconds >= 1000)
             {
-                Milliseconds += 17;
-                Timer = 0;
+                milliseconds = 0;
+                seconds++;
             }
-            if (Milliseconds == 1000)
+            if (seconds >= 60)
             {
-                Milliseconds = 0;
-                Seconds += 1;
+                seconds = 0;
+                minutes++;
             }
-            if (Seconds == 60)
+            if (minutes >= 60)
             {
-                Seconds = 0;
-                Minutes += 1;
-            }
-            if (Minutes == 60)
-            {
-                Minutes = 0;
-                Hours += 1;
-            }
-            if (Milliseconds == 17)
-            {
-                Milliseconds -= 1; //1º
-            }
-            if (Milliseconds == 33)
-            {
-                Milliseconds -= 1; //2º
-            }
-            if (Milliseconds == 49)
-            {
-                Milliseconds -= 1; //3°
-            }
-            if (Milliseconds == 65)
-            {
-                Milliseconds -= 1; //4º
-            }
-            if (Milliseconds == 81)
-            {
-                Milliseconds -= 1; //5º
-            }
-            if (Milliseconds == 97)
-            {
-                Milliseconds -= 1; //6°
-            }
-            if (Milliseconds == 113)
-            {
-                Milliseconds -= 1; //7º
-            }
-            if (Milliseconds == 129)
-            {
-                Milliseconds -= 1; //8º
-            }
-            if (Milliseconds == 145)
-            {
-                Milliseconds -= 1; //9°
-            }
-            if (Milliseconds == 161)
-            {
-                Milliseconds -= 1; //10º
-            }
-            if (Milliseconds == 177)
-            {
-                Milliseconds -= 1; //11º
-            }
-            if (Milliseconds == 193)
-            {
-                Milliseconds -= 1; //12º
-            }
-            if (Milliseconds == 209)
-            {
-                Milliseconds -= 1; //13°
-            }
-            if (Milliseconds == 225)
-            {
-                Milliseconds -= 1; //14º
-            }
-            if (Milliseconds == 241)
-            {
-                Milliseconds -= 1; //15º
-            }
-            if (Milliseconds == 257)
-            {
-                Milliseconds -= 1; //16°
-            }
-            if (Milliseconds == 273)
-            {
-                Milliseconds -= 1; //17º
-            }
-            if (Milliseconds == 289)
-            {
-                Milliseconds -= 1; //18º
-            }
-            if (Milliseconds == 305)
-            {
-                Milliseconds -= 1; //19°
-            }
-            if (Milliseconds == 321)
-            {
-                Milliseconds -= 1; //20º
+                minutes = 0;
+                hours++;
             }
         }
-        */
     }
 }
