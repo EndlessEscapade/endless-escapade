@@ -94,6 +94,7 @@ namespace EEMod
             ActivateGame = null;
             RuneSpecial = null;
             simpleGame = null;
+            ActivateVerletEngine = null;
             UnloadIL();
             AutoloadingManager.UnloadManager(this);
             instance = null;
@@ -118,13 +119,71 @@ namespace EEMod
         int lerps;
         float alphas;
         int delays;
+        Verlet verlet = new Verlet();
+        bool mode;
         public void UpdateVerlet()
         {
-            for (int i = 0; i < Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints.Length; i++)
+            if(ActivateVerletEngine.JustPressed)
             {
-               // Main.spriteBatch.Draw(Main.magicPixel, Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints[i] - Main.screenPosition, new Rectangle(0, 0, 5, 5), Color.AliceBlue, 0f, new Rectangle(0, 0, 5, 5).Size(), 1f, SpriteEffects.None, 0f);
-              //  Main.NewText(Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints[i]);
-                //Main.NewText(Main.LocalPlayer.Center);
+                mode = !mode;
+            }
+            if(mode)
+            verlet.Update();
+
+            verlet.GlobalRenderPoints();
+            if (Main.LocalPlayer.controlUp && delays == 0)
+            {
+                /* int a = verlet.CreateVerletPoint(Main.MouseWorld);
+                 int b = verlet.CreateVerletPoint(Main.MouseWorld + new Vector2(0,60));
+                 int c = verlet.CreateVerletPoint(Main.MouseWorld + new Vector2(100, 100));
+                 int d = verlet.CreateVerletPoint(Main.MouseWorld + new Vector2(60, 0));
+                 int e = verlet.CreateVerletPoint(Main.MouseWorld + new Vector2(-100, -100), true);
+                 int e1 = verlet.CreateVerletPoint(Main.MouseWorld + new Vector2(-100, -80));
+                 int e2 = verlet.CreateVerletPoint(Main.MouseWorld + new Vector2(-100, -60));
+                 int e3 = verlet.CreateVerletPoint(Main.MouseWorld + new Vector2(-100, -40));
+                 int e4 = verlet.CreateVerletPoint(Main.MouseWorld + new Vector2(-100, -20));
+                 verlet.BindPoints(a, b);
+                 verlet.BindPoints(b, c);
+                 verlet.BindPoints(c, d);
+                 verlet.BindPoints(d, a);
+                 verlet.BindPoints(a, c);
+                 verlet.BindPoints(e, e1);
+                 verlet.BindPoints(e1, e2);
+                 verlet.BindPoints(e2,e3);
+                 verlet.BindPoints(e3,e4);
+                 verlet.BindPoints(e4, a);
+                 verlet.BindPoints(e4, a);
+                 int[] square = verlet.CreateVerletSquare(Main.MouseWorld, 100);
+                verlet.BindPoints(c, square[0]);*/
+                if (Verlet.points.Count == 0)
+                {
+                   // verlet.CreateVerletPoint(Main.MouseWorld);
+                }
+                else
+                {
+                  //  int a = verlet.CreateVerletPoint(Main.MouseWorld);
+                   // verlet.BindPoints(a - 1, a);
+                }
+                verlet.CreateStickMan(Main.MouseWorld);
+                delays = 20;
+            }
+            if (Main.LocalPlayer.controlUseItem && delays == 0)
+            {
+                if (Verlet.points.Count == 0)
+                {
+                    verlet.CreateVerletPoint(Main.MouseWorld,true);
+                }
+                else
+                {
+                    int a = verlet.CreateVerletPoint(Main.MouseWorld, true);
+                    verlet.BindPoints(a - 1, a);
+                }
+                delays = 20;
+            }
+            if (Main.LocalPlayer.controlHook && delays == 0)
+            {
+                verlet.ClearPoints();
+                delays = 20;
             }
         }
         public void UpdateIslands()
@@ -288,6 +347,7 @@ namespace EEMod
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
             ActivateGame = RegisterHotKey("Activate Games", "[");
+            ActivateVerletEngine = RegisterHotKey("Activate VerletEngine", "N");
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
             if (!Main.dedServ)
@@ -324,7 +384,7 @@ namespace EEMod
         public static ModHotKey RuneActivator;
         public static ModHotKey RuneSpecial;
         public static ModHotKey ActivateGame;
-
+        public static ModHotKey ActivateVerletEngine;
         internal bool EEUIVisible
         {
             get => EEInterface?.CurrentState != null;
@@ -346,7 +406,7 @@ namespace EEMod
                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         UpdateGame(lastGameTime);
-                        UpdateVerlet();
+                       // UpdateVerlet();
                     }
                 
                     return true;

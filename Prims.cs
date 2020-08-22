@@ -79,6 +79,7 @@ namespace EEMod
         }
         public class VerletBuffer
         {
+            bool active = false;
             public void Update()
             {
                 if (lerpage >= 1)
@@ -93,6 +94,7 @@ namespace EEMod
                
                 Vector2[] pointsArray = Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints;
                 if (pointsArray.Length <= 1) return;
+                if (!active) return;
                 int currentIndex = 0;
                 VertexPositionColor[] vertices = new VertexPositionColor[pointsArray.Length*6 - 9];
                 void AddVertex(Vector2 position, Color color)
