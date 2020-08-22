@@ -1606,7 +1606,8 @@ namespace EEMod
                 ["moral"] = moralScore,
                 ["baseworldname"] = baseWorldName,
                 ["importantCutscene"] = importantCutscene,
-                ["swiftSail"] = boatSpeed
+                ["swiftSail"] = boatSpeed,
+                ["cannonball"] = cannonballType
                 /*
              {"Hours", Hours},
 		     {"Minutes", Minutes},
@@ -1637,6 +1638,10 @@ namespace EEMod
             {
                 boatSpeed = tag.GetInt("swiftSail");
             }
+            if (tag.ContainsKey("cannonball"))
+            {
+                cannonballType = tag.GetInt("cannonball");
+            }
             /*
                 if (tag.ContainsKey("Hours"))
 		           Hours = tag.GetInt("Hours");
@@ -1647,7 +1652,7 @@ namespace EEMod
 		      if (tag.ContainsKey("Milliseconds"))
 		          Milliseconds = tag.GetInt("Milliseconds");
                   */
-            }
+        }
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             /*if (NPC.AnyNPCs(NPCID.KingSlime))
