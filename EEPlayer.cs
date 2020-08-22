@@ -1748,7 +1748,7 @@ namespace EEMod
         public int milliseconds;
         public override void PreUpdate()
         {
-            milliseconds += Main.frameRate/1000;
+            milliseconds += 1000/Main.frameRate;
             if (milliseconds >= 1000)
             {
                 milliseconds = 0;
