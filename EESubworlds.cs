@@ -66,17 +66,12 @@ namespace EEMod
                 FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), new Vector2(0, (Main.maxTilesY / 3) * 2), ModContent.TileType<DarkGemsandTile>());
                 EEMod.progressMessage = "Clearing Upper Region";
                 ClearRegion(Main.maxTilesX, (Main.maxTilesY / 10), Vector2.Zero);
-                for (int i = 0; i < 10; i++)
-                    for (int j = -5; j < 5; j++)
-                        WorldGen.TileRunner(300 + (i * 170) + (j * 10), Main.maxTilesY / 20, 10, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
-                for (int i = 0; i < 100; i++)
-                    for (int j = -5; j < 5; j++)
-                        WorldGen.TileRunner(300 + (i * 17) + (j * 10), Main.maxTilesY / 20, 4, 10, ModContent.TileType<GemsandTile>(), true, 0, 0, true, true);
                 EEMod.progressMessage = "Generating Coral Sand";
                 FillRegionNoEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 20), new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSand>());
                 int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
                 EEMod.progressMessage = "Finding Suitable Chasm Positions";
-               
+                NoiseGenWave(new Vector2(300, 80), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralSand>(), 0.5f);
+                NoiseGenWave(new Vector2(300, 60), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(50, 50), TileID.StoneSlab, 0.6f);
 
 
                 //Making chasms
@@ -109,7 +104,7 @@ namespace EEMod
                                     score++;
                                 }
                             }
-                            if (breakLoop > 5000)
+                            if (breakLoop > 2000)
                             {
                                 break;
                             }
@@ -153,7 +148,7 @@ namespace EEMod
                                     score++;
                                 }
                             }
-                            if (breakLoop > 5000)
+                            if (breakLoop > 2000)
                             {
                                 break;
                             }
@@ -306,8 +301,9 @@ namespace EEMod
             catch (Exception e)
             {
                 EEMod.progressMessage = e.ToString();
+                SubworldManager.PreSaveAndQuit();
             }
-            NoiseGen(new Vector2(100, 10), new Vector2(Main.maxTilesX - 100, Main.maxTilesY / 20), new Vector2(10, 20), 0.5f);
+            
             //Placing boat
             PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
             PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);

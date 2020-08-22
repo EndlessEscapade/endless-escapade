@@ -139,7 +139,7 @@ namespace EEMod.Projectiles.Mage
                 {
                     if(Helpers.IsInside(projectile.Center, positionOfOthers[0], positionOfOthers[1], npc.Center))
                     {
-                        npc.AddBuff(BuffID.Electrified, 10);
+                        npc.AddBuff(BuffID.Frostburn, 10);
                     }
                 }
             }

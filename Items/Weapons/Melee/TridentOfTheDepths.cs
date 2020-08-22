@@ -54,7 +54,7 @@ namespace EEMod.Items.Weapons.Melee
 
         public override bool AltFunctionUse(Player player)
         {
-            item.shootSpeed = 0f;
+            item.shootSpeed = 1f;
             item.shoot = ModContent.ProjectileType<TridentOfTheDepthsAltProjectile>();
             return player.ownedProjectileCounts[item.shoot] < 1;
         }

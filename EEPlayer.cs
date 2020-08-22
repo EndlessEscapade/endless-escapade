@@ -412,6 +412,7 @@ namespace EEMod
             fixatingPoint.X = player.Center.X;
             fixatingPoint.Y = player.Center.Y;
         }
+
         public override void ModifyScreenPosition()
         {
             int clamp = 80;
@@ -641,49 +642,52 @@ namespace EEMod
         int displaceX = 2;
         int displaceY = 4;
         float[] dis = new float[51];
+        public bool isWearingCape = false;
+
         public override void UpdateBiomeVisuals()
         {
-            float acc = arrayPoints.Length;
-            float upwardDrag = 0.2f;
-            propagation += (Math.Abs(player.velocity.X / 2f) * 0.015f) + 0.1f;
-            for (int i = 0; i < acc; i++)
+            
+            if (isWearingCape)
             {
-                float prop = (float)Math.Sin(propagation + (i * 10 / acc));
-                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f) * i), mainPoint.Y + (i * displaceY) + 20);
-                float dist = (player.position.Y + 15) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
-                float amp = Math.Abs(player.velocity.X * 3) * ((i * 3) / acc) + 1f;
-                float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / 4f * i);
-                float disClamp = (goTo - dis[i]) / 8f;
-                disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
-                dis[i] += disClamp;
-                if (i == 0)
-                    arrayPoints[i] = basePos;
-                else
-                    arrayPoints[i] = new Vector2(basePos.X, basePos.Y + (prop / acc) * amp - dis[i] + i * 2);
-                if (player.direction == 1)
+                float acc = arrayPoints.Length;
+                float upwardDrag = 0.2f;
+                propagation += (Math.Abs(player.velocity.X / 2f) * 0.015f) + 0.1f;
+                for (int i = 0; i < acc; i++)
                 {
-                    float distX = arrayPoints[i].X - player.Center.X;
-                    arrayPoints[i].X = player.Center.X - distX;
-                }
-                Tile tile0 = Main.tile[(int)arrayPoints[0].X / 16, ((int)arrayPoints[0].Y / 16)];
-                Tile tile = Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)];
-                int tracker = 0;
-                if (i != 0)
-                {
-                    while ((Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].active() &&
-                            Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].type])
-                           || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
+                    float prop = (float)Math.Sin(propagation + (i * 10 / acc));
+                    Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f) * i), mainPoint.Y + (i * displaceY) + 20);
+                    float dist = (player.position.Y + 15) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
+                    float amp = Math.Abs(player.velocity.X * 3) * ((i * 3) / acc) + 1f;
+                    float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / 4f * i);
+                    float disClamp = (goTo - dis[i]) / 8f;
+                    disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
+                    dis[i] += disClamp;
+                    if (i == 0)
+                        arrayPoints[i] = basePos;
+                    else
+                        arrayPoints[i] = new Vector2(basePos.X, basePos.Y + (prop / acc) * amp - dis[i] + i * 2);
+                    if (player.direction == 1)
                     {
-                        arrayPoints[i].Y--;
-                        tracker++;
-                        if (tracker >= displaceY * acc)
-                            break;
-                        if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
-                            break;
+                        float distX = arrayPoints[i].X - player.Center.X;
+                        arrayPoints[i].X = player.Center.X - distX;
+                    }
+                    int tracker = 0;
+                    if (i != 0)
+                    {
+                        while ((Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].active() &&
+                                Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].type])
+                               || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
+                        {
+                            arrayPoints[i].Y--;
+                            tracker++;
+                            if (tracker >= displaceY * acc)
+                                break;
+                            if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
+                                break;
+                        }
                     }
                 }
             }
-
             if (hydrofluoricSet)
             {
                 hydrofluoricSetTimer++;
@@ -720,7 +724,6 @@ namespace EEMod
             {
                 player.gills = true;
             }
-
             //System.Drawing.Bitmap ScreenTexture = CaptureFromScreen(new System.Drawing.Rectangle(0, 0, 1980, 1080));
             // ScTex = GetTextureSc(Main.graphics.GraphicsDevice, ScreenTexture);
             thermalHealingTimer--;
