@@ -169,6 +169,7 @@ namespace EEMod
         private int bubbleLen = 0;
         private int dur = 0;
         private int bubbleColumn;
+        public Vector2 currentAltarPos;
 
         public override void UpdateVanityAccessories()
         {

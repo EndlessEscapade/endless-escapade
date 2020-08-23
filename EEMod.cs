@@ -76,7 +76,7 @@ namespace EEMod
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
         }
-
+        public static Effect NoiseSurfacing;
         public void DrawZipline()
         {
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
@@ -95,6 +95,7 @@ namespace EEMod
             RuneSpecial = null;
             simpleGame = null;
             ActivateVerletEngine = null;
+            NoiseSurfacing = null;
             UnloadIL();
             AutoloadingManager.UnloadManager(this);
             instance = null;
@@ -366,6 +367,7 @@ namespace EEMod
                 Filters.Scene["EEMod:SunThroughWalls"].Load();
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
+                NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
                 /*
 		  SpeedrunnTimer = new UserInterface();
 		  //RunUI.Activate();

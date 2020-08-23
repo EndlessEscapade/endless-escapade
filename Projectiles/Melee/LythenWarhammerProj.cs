@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria.ID;
+//using SharpDX.D3DCompiler;
 
 namespace EEMod.Projectiles.Melee
 {
