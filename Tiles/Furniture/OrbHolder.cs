@@ -34,6 +34,27 @@ namespace EEMod.Tiles.Furniture
             AddMapEntry(new Color(20, 60, 20), name);
             disableSmartCursor = true;
             dustType = DustID.Dirt;
+            animationFrameHeight = 180;
+        }
+
+        bool hasOrb = false;
+        public override void AnimateTile(ref int frame, ref int frameCounter)
+        {
+            if (hasOrb)
+            {
+                frameCounter++;
+                if (frameCounter == 3)
+                {
+                    frame++;
+                    frameCounter = 0;
+                }
+                if (frame > 7)
+                    frame = 0;
+            }
+            else
+            {
+                frame = 8;
+            }
         }
     }
 }
