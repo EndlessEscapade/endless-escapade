@@ -43,8 +43,6 @@ namespace EEMod
         public bool importantCutscene;
         public static bool startingText;
         public bool FlameSpirit;
-        public bool magmaRune;
-        public bool duneRune;
         public bool dalantiniumHood;
         public bool hydriteVisage;
         public bool ZoneCoralReefs;
@@ -57,16 +55,76 @@ namespace EEMod
         public bool hydriteSet;
         public bool hydrofluoricSet;
         public int hydrofluoricSetTimer;
-
+        public bool godMode = false;
+        public bool quartzCrystal = false;
+        public bool isQuartzRangedOn = false;
+        public bool isQuartzSummonOn = false;
+        public bool isQuartzMeleeOn = false;
+        public bool isQuartzChestOn = false;
+        public int timerForCutscene;
+        public bool arrowFlag = false;
+        public static bool isSaving;
+        public float titleText;
+        public float titleText2;
+        public float subTextAlpha;
+        public bool noU;
+        public bool triggerSeaCutscene;
+        public int cutSceneTriggerTimer;
+        public int cutSceneTriggerTimer2;
+        public float cutSceneTriggerTimer3;
+        public int coralReefTrans;
+        public int markerPlacer;
+        public Vector2 position;
+        public Vector2 velocity;
+        public List<Vector2> objectPos = new List<Vector2>();
+        public List<Island> SeaObject = new List<Island>();
+        public Dictionary<string, Island> Islands = new Dictionary<string, Island>();
+        public bool isNearIsland;
+        public bool isNearIsland2;
+        public bool isNearVolcano;
+        public bool isNearMainIsland;
+        public bool isNearCoralReefs;
+        public string baseWorldName;
+        public byte[] hasGottenRuneBefore = new byte[5];
+        public byte[] inPossesion = new byte[5];
+        public static int moralScore;
+        public int initialMoralScore;
+        readonly SubworldManager SM = new SubworldManager();
+        public int rippleCount = 3;
+        public int rippleSize = 5;
+        public int rippleSpeed = 15;
+        public int distortStrength = 100;
+        public List<ParticlesClass> Particles = new List<ParticlesClass>();
+        public List<Vector2> Velocity;
+        private static string prevKey = "Main";
+        public float powerLevel = 0;
+        public int maxPowerLevel = 11;
+        public float zipMultiplier = 1;
+        public int thermalHealingTimer = 30;
+        public int cannonballType = 0;
+        public bool isPickingUp;
+        float propagation;
+        int displaceX = 2;
+        int displaceY = 4;
+        float[] dis = new float[51];
+        public bool isWearingCape = false;
+        public string NameForJoiningClients = "";
+        public Vector2[] arrayPoints = new Vector2[24];
+        public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
+        int Arrow;
+        int Arrow2;
+        int Anchors;
+        float speedOfPan = 1;
+        int AnchorsVolc;
+        int AnchorsMain;
+        int AnchorsCoral;
+        public int offSea = 1000;
         private int opac;
-        //public bool Cheese1;
-        //public bool Cheese2;
         public int boatSpeed = 1;
         string shad1 = "EEMod:Ripple";
         string shad2 = "EEMod:SunThroughWalls";
         string shad3 = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
-
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
         public bool holdingPylon;
@@ -78,71 +136,6 @@ namespace EEMod
 
         public override void PostUpdate()
         {
-            int PlayerX = (int)(player.position.X / 16);
-            int PlayerY = (int)(player.position.Y / 16);
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Sand)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.White);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Ebonsand)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.MediumPurple);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Crimsand)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.Gray);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Pearlsand)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.White);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.SnowBlock)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.White);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Ash)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.Gray);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileType<GemsandTile>())
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.Cyan);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileType<LightGemsandTile>())
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.LightSkyBlue);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileType<DarkGemsandTile>())
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.Blue);
-
 
         }
 
@@ -237,40 +230,6 @@ namespace EEMod
             ZoneCoralReefs = flags[0];
         }
 
-        public bool godMode = false;
-        public bool quartzCrystal = false;
-        public bool isQuartzRangedOn = false;
-        public bool isQuartzSummonOn = false;
-        public bool isQuartzMeleeOn = false;
-        public bool isQuartzChestOn = false;
-        public int timerForCutscene;
-        public bool arrowFlag = false;
-        public static bool isSaving;
-        public float titleText;
-        public float titleText2;
-        public float subTextAlpha;
-        public bool noU;
-        public bool triggerSeaCutscene;
-        public int cutSceneTriggerTimer;
-        public int cutSceneTriggerTimer2;
-        public float cutSceneTriggerTimer3;
-        public int coralReefTrans;
-        public int markerPlacer;
-        public Vector2 position;
-        public Vector2 velocity;
-        public List<Vector2> objectPos = new List<Vector2>();
-        public List<Island> SeaObject = new List<Island>();
-        public Dictionary<string,Island> Islands = new Dictionary<string, Island>();
-        public bool isNearIsland; 
-        public bool isNearIsland2;
-        public bool isNearVolcano;
-        public bool isNearMainIsland;
-        public bool isNearCoralReefs;
-        public string baseWorldName;
-        public byte[] hasGottenRuneBefore = new byte[5];
-        public byte[] inPossesion = new byte[5];
-        public static int moralScore;
-        public int initialMoralScore;
 
         private void UpdateRuneCollection()
         {
@@ -367,17 +326,7 @@ namespace EEMod
             hydriteSet = false;
             hydrofluoricSet = false;
         }
-        public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
-        int Arrow;
-        int Arrow2;
-        int Anchors;
-        float positionOfGlacX;
-        float positionOfGlacY;
-        float speedOfPan = 1;
-        int AnchorsVolc;
-        int AnchorsMain;
-        int AnchorsCoral;
-        public int offSea = 1000;
+
         public void ReturnHome()
         {
             Initialize();
@@ -541,24 +490,7 @@ namespace EEMod
             if (isCameraShaking)
                 Main.screenPosition += new Vector2(Main.rand.Next(-intensity, intensity), Main.rand.Next(-intensity, intensity));
         }
-        readonly SubworldManager SM = new SubworldManager();
-        public int rippleCount = 3;
-        public int rippleSize = 5;
-        public int rippleSpeed = 15;
-        public int distortStrength = 100;
-        public List<ParticlesClass> Particles = new List<ParticlesClass>();
-        public List<Vector2> Velocity;
-        private static string prevKey = "Main";
-        public float powerLevel = 0;
-        public int maxPowerLevel = 11;
-        public float zipMultiplier = 1;
-        public int thermalHealingTimer = 30;
-        public int cannonballType = 0;
-        public bool isPickingUp;
 
-          
-        
-        public Vector2[] arrayPoints = new Vector2[24];
         Vector2 mainPoint => new Vector2(player.Center.X, player.position.Y);
         public struct Island
         {
@@ -584,12 +516,7 @@ namespace EEMod
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
             public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / 2 + 1000, texture.Width, texture.Height);
         }
-        float propagation;
-        int displaceX = 2;
-        int displaceY = 4;
-        float[] dis = new float[51];
-        public bool isWearingCape = false;
-        public string NameForJoiningClients = "";
+
         public void UpdateArrayPoints()
         {
             float acc = arrayPoints.Length;
@@ -1026,14 +953,6 @@ namespace EEMod
         }
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
-            /*if (NPC.AnyNPCs(NPCID.KingSlime))
-            {
-                Cheese1 = true;
-            }
-            else
-            {
-                Cheese1 = false;
-            }*/
             if (dalantiniumSet)
                 for (int i = 0; i < 3; i++)
                     Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
