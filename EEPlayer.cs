@@ -914,39 +914,48 @@ namespace EEMod
             {
                 timerForCutscene += 20;
             }
-
-            if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
+            switch(Main.worldName)
             {
-                UpdatePyramids();
-            }
-            else if (Main.worldName == KeyID.Sea)
-            {
-                UpdateSea();
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
-            {
-                UpdateCR();
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.Island)
-            {
-                UpdateIsland();
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
-            {
-                UpdateVolcano();
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
-            {
-                UpdateInnerVolcano();
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
-            {
-
-                UpdateCutscene();
-            }
-            else
-            {
-                UpdateWorld();
+                case KeyID.Pyramids:
+                    {
+                        UpdatePyramids();
+                        break;
+                    }
+                case KeyID.Sea:
+                    {
+                        UpdateSea();
+                        break;
+                    }
+                case KeyID.CoralReefs:
+                    {
+                        UpdateCR();
+                        break;
+                    }
+                case KeyID.Island:
+                    {
+                        UpdateIsland();
+                        break;
+                    }
+                case KeyID.VolcanoIsland:
+                    {
+                        UpdateVolcano();
+                        break;
+                    }
+                case KeyID.VolcanoInside:
+                    {
+                        UpdateInnerVolcano();
+                        break;
+                    }
+                case KeyID.Cutscene1:
+                    {
+                        UpdateCutscene();
+                        break;
+                    }
+                default:
+                    {
+                        UpdateWorld();
+                        break;
+                    }
             }
             UpdateCutscenesAndTempShaders();
         }
