@@ -419,7 +419,7 @@ namespace EEMod
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
                 DrawZipline();
 
-            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea)
             {
                 for (int i = 0; i < layers.Count; i++)
                 {
@@ -438,13 +438,13 @@ namespace EEMod
             delegate
             {
                 Ascension();
-                if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+                if (Main.worldName == KeyID.Sea)
                 {
                     UpdateIslands();
                     DrawSubText();
                     DrawShip();
                 }
-                if (Main.ActiveWorldFileData.Name == KeyID.Pyramids || Main.ActiveWorldFileData.Name == KeyID.Sea || Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+                if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
                     DrawText();
                 return true;
             },
@@ -558,7 +558,7 @@ namespace EEMod
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
-            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea)
             {
                 text = "The Ocean";
                 color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
@@ -610,14 +610,17 @@ namespace EEMod
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.subTextAlpha;
             Color color = Color.White;
-            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea)
             {
                 text = "Disembark?";
                 color *= alpha;
             }
-            Vector2 textSize = Main.fontMouseText.MeasureString(text);
-            float textPositionLeft = position.X - textSize.X / 2;
-            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            if (text != null)
+            {
+                Vector2 textSize = Main.fontMouseText.MeasureString(text);
+                float textPositionLeft = position.X - textSize.X / 2;
+                Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            }
         }
         float flash = 0;
         float markerPlacer = 0;
@@ -645,6 +648,7 @@ namespace EEMod
             return;
         }
         private int cannonDelay = 60;
+        public Vector2 otherBoatPos;
         private void DrawShip()
         {
             markerPlacer++;
@@ -770,8 +774,28 @@ namespace EEMod
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-
+            for (int i = 0; i < Main.ActivePlayersCount; i++)
+            {
+                if (i == 0)
+                {
+                    Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                }
+                else
+                {
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        EEServerVariableCache.SyncBoatPos(position, velocity.X / 10);
+                    }
+                    for (int j = 0; j < 255; j++)
+                    {
+                        if (Main.player[j].active && j != Main.myPlayer)
+                        {
+                            Main.spriteBatch.Draw(texture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, EEServerVariableCache.OtherRot[j], new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                        }
+                    }
+                    
+                }
+            }
             flash += 0.01f;
             if (flash == 2)
             {

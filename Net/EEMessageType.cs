@@ -6,6 +6,7 @@ namespace EEMod.Net
         MouseCheck,
         SyncVector,
         SyncPosition,
-        SyncCool
+        SyncCool,
+        SyncBoatPos
     }
 }

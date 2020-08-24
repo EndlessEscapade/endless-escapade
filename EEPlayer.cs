@@ -472,7 +472,7 @@ namespace EEMod
                     }
                 }
             }
-            if (Main.ActiveWorldFileData.Name != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
+            if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
             {
                 if (player.velocity.X > 1)
                 {
@@ -505,7 +505,7 @@ namespace EEMod
 
 
 
-            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea)
             {
                 if (markerPlacer > 1)
                     Main.screenPosition += new Vector2(0, offSea);
@@ -645,10 +645,10 @@ namespace EEMod
         int displaceY = 4;
         float[] dis = new float[51];
         public bool isWearingCape = false;
+        public string NameForJoiningClients = "";
 
         public override void UpdateBiomeVisuals()
         {
-            
             if (isWearingCape)
             {
                 float acc = arrayPoints.Length;
@@ -956,9 +956,8 @@ namespace EEMod
                     Filters.Scene.Deactivate(shad2);
                 }
             }
-            else if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            else if (Main.worldName == KeyID.Sea)
             {
-
                 if (!noU)
                     titleText += 0.005f;
                 if (titleText >= 1)
@@ -1079,7 +1078,7 @@ namespace EEMod
                     Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["Island"].posXToScreen, Islands["Island"].posYToScreen + 1000);
                     AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI,Islands["VolcanoIsland"].posXToScreen, Islands["VolcanoIsland"].posYToScreen - 50 + 1000);
                     AnchorsMain = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["MainIsland"].posXToScreen, Islands["MainIsland"].posYToScreen - 50 + 1000);
-                    AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["MainIsland"].posXToScreen, Islands["MainIsland"].posYToScreen - 50 + 1000);
+                    AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["CoralReefsEntrance"].posXToScreen, Islands["CoralReefsEntrance"].posYToScreen - 50 + 1000);
                     arrowFlag = true;
                 }
                 if (isNearIsland)
@@ -1215,8 +1214,6 @@ namespace EEMod
                         }
                     }
                 }
-
-               
                 player.position = player.oldPosition;
                 player.invis = true;
                 player.AddBuff(BuffID.Cursed, 100000);
