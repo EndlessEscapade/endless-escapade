@@ -96,7 +96,9 @@ namespace EEMod
                 {
                     Vector2 v = reader.Read<Vector2>();
                     float f = reader.Read<float>();
-                    OtherBoatPos[reader.Read<ushort>()] = v;
+                    ushort from = reader.Read<ushort>();
+                    OtherBoatPos[from] = v;
+                    OtherRot[from] = f;
                 }
             }
         }

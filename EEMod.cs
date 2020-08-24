@@ -784,13 +784,13 @@ namespace EEMod
                 {
                     if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
-                        EEServerVariableCache.SyncBoatPos(position, velocity.X / 10);
+                        EEServerVariableCache.SyncBoatPos(position, velocity.X);
                     }
                     for (int j = 0; j < 255; j++)
                     {
                         if (Main.player[j].active && j != Main.myPlayer)
                         {
-                            Main.spriteBatch.Draw(texture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, EEServerVariableCache.OtherRot[j], new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                            Main.spriteBatch.Draw(texture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, EEServerVariableCache.OtherRot[j]/10f, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, EEServerVariableCache.OtherRot[j] < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                         }
                     }
                     
