@@ -42,6 +42,8 @@ using EEMod.Items;
 using EEMod.ID;
 using EEMod.Net;
 using EEMod.Extensions;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace EEMod
 {
@@ -53,6 +55,64 @@ namespace EEMod
         {
 
         }
+        public static Texture2D ScTex;
+     /*   public System.Drawing.Bitmap CaptureFromScreen(System.Drawing.Rectangle rect)
+        {
+            System.Drawing.Bitmap bmpScreenCapture = null;
+
+            if (rect == System.Drawing.Rectangle.Empty)//capture the whole screen
+            {
+                rect = Screen.PrimaryScreen.Bounds;
+            }
+
+            bmpScreenCapture = new System.Drawing.Bitmap(rect.Width, rect.Height);
+
+            System.Drawing.Graphics p = System.Drawing.Graphics.FromImage(bmpScreenCapture);
+
+
+            p.CopyFromScreen(rect.X,
+                     rect.Y,
+                     0, 0,
+                     rect.Size,
+                    System.Drawing.CopyPixelOperation.SourceCopy);
+
+
+            p.Dispose();
+
+            return bmpScreenCapture;
+        }
+        private Texture2D GetTextureSc(GraphicsDevice dev, System.Drawing.Bitmap bmp)
+        {
+            int[] imgData = new int[bmp.Width * bmp.Height];
+            Texture2D texture = new Texture2D(dev, bmp.Width, bmp.Height);
+
+            unsafe
+            {
+                // lock bitmap
+                BitmapData origdata =
+                    bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
+
+                uint* byteData = (uint*)origdata.Scan0;
+
+                // Switch bgra -> rgba
+                for (int i = 0; i < imgData.Length; i++)
+                {
+                    byteData[i] = (byteData[i] & 0x000000ff) << 16 | (byteData[i] & 0x0000FF00) | (byteData[i] & 0x00FF0000) >> 16 | (byteData[i] & 0xFF000000);
+                }
+
+                // copy data
+                System.Runtime.InteropServices.Marshal.Copy(origdata.Scan0, imgData, 0, bmp.Width * bmp.Height);
+
+                byteData = null;
+
+                // unlock bitmap
+                bmp.UnlockBits(origdata);
+            }
+
+            texture.SetData(imgData);
+
+            return texture;
+        }*/
         public static double worldSurface;
 
         public static double worldSurfaceLow;
@@ -124,7 +184,10 @@ namespace EEMod
         bool mode;
         public void UpdateVerlet()
         {
-            if(ActivateVerletEngine.JustPressed)
+          //  System.Drawing.Bitmap ScreenTexture = CaptureFromScreen(new System.Drawing.Rectangle(0, 0, 1980, 1080));
+           // ScTex = GetTextureSc(Main.graphics.GraphicsDevice, ScreenTexture);
+           // Main.spriteBatch.Draw(ScTex, Main.LocalPlayer.position, Color.White);
+            if (ActivateVerletEngine.JustPressed)
             {
                 mode = !mode;
             }
