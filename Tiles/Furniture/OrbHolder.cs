@@ -68,9 +68,9 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 0;
+            TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<OrbHolderTE>().Hook_AfterPlacement, 1, 0, true);
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<OrbHolderTE>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
@@ -80,41 +80,35 @@ namespace EEMod.Tiles.Furniture
             dustType = DustID.Dirt;
             animationFrameHeight = 180;
         }
-        bool hasOrb;
-        public override void PostDraw(int x, int y, SpriteBatch sb)
+        int frameCounter;
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            
-        }
 
+                Tile tile = Main.tile[i, j];
+
+                int x = i - tile.frameX / 18 % 9;
+                int y = j - tile.frameY / 18 % 10;
+
+                 int targetTe = ModContent.GetInstance<OrbHolderTE>().Find(x, y);
+              if (targetTe > -1 && TileEntity.ByID[targetTe] is OrbHolderTE TE)
+                {
+                    if (TE.hasOrb)
+                    {
+                        frameYOffset = ((Main.tileFrameCounter[Type]/3) % 7) * animationFrameHeight;
+                    }
+                    else
+                    {
+                     frameYOffset = 8 * animationFrameHeight;
+                    }
+                }
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            ModContent.GetInstance<OrbHolderTE>().Kill(i, j);
+        }
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-            EEPlayer cringe = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            Tile tile = Main.tile[(int)cringe.currentAltarPos.X/16, (int)cringe.currentAltarPos.Y / 16];
-
-            int i = (int)cringe.currentAltarPos.X / 16 - tile.frameX / 18 % 2;
-            int j = (int)cringe.currentAltarPos.Y / 16 - tile.frameY / 18 % 3;
-
-            int targetTe = ModContent.GetInstance<OrbHolderTE>().Find(i, j);
-
-            if (targetTe > -1 && TileEntity.ByID[targetTe] is OrbHolderTE TE)
-            {
-                hasOrb = TE.hasOrb;
-            }
-            if (hasOrb)
-            {
-                frameCounter++;
-                if (frameCounter == 3)
-                {
-                    frame++;
-                    frameCounter = 0;
-                }
-                if (frame > 7)
-                    frame = 0;
-            }
-            else
-            {
-                frame = 8;
-            }
+            frameCounter++;
         }
     }
 }

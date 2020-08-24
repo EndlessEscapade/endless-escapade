@@ -189,11 +189,11 @@ namespace EEMod
         }
         private static void OnWorldNamed(string text)
         {
-            string EEpath = $@"{Main.SavePath}\EEWorlds";
+          /*  string EEpath = $@"{Main.SavePath}\EEWorlds";
             if (!Directory.Exists(EEpath))
             {
                 DirectoryInfo di = Directory.CreateDirectory(EEpath);
-            }
+            }*/
 
             string path = $@"{Main.SavePath}\Worlds\{text}.wld";
             if (!File.Exists(path))

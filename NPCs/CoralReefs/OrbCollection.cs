@@ -55,7 +55,6 @@ namespace EEMod.NPCs.CoralReefs
             }
         }
 
-
         public override bool CheckActive()
         {
             return false;
@@ -97,7 +96,7 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     otherPhase2 = true;
                     Holder[0] = npc.Center;
-                    Holder[1] = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos;
+                    Holder[1] = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos + new Vector2(70,60);
                 }
             }
             if(otherPhase)
@@ -143,6 +142,18 @@ namespace EEMod.NPCs.CoralReefs
                     }
                     t = 0;
                     otherPhase2 = false;
+                    for (int i = 0; i < 50; i++)
+                    {
+                        Vector2 position = npc.Center + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / 50 * i)) * 30;
+                        //'position' will be a point on a circle around 'origin'.  If you're using this to spawn dust, use Dust.NewDustPerfect
+                        Dust dust = Dust.NewDustPerfect(position, DustID.PurpleCrystalShard);
+                        dust.noGravity = true;
+                        dust.velocity = Vector2.Normalize(dust.position - npc.Center) * 4;
+                        dust.noLight = false;
+                        dust.fadeIn = 1f;
+                    }
+                    npc.life = 0;
+                    npc.timeLeft = 0;
                 }
             }
             else

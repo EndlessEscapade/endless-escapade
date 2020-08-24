@@ -44,8 +44,8 @@ namespace EEMod
             {
                 TrailManager = new TrailManager(this);
                 Prims = new Prims(this);
+                Prims.CreateVerlet();
             }
-            Prims.CreateVerlet();
         }
 
         private void Practice(ILContext il)
