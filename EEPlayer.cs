@@ -259,8 +259,9 @@ namespace EEMod
         public Vector2 position;
         public Vector2 velocity;
         public List<Vector2> objectPos = new List<Vector2>();
-        public List<Island> Islands = new List<Island>();
-        public bool isNearIsland;
+        public List<Island> SeaObject = new List<Island>();
+        public Dictionary<string,Island> Islands = new Dictionary<string, Island>();
+        public bool isNearIsland; 
         public bool isNearIsland2;
         public bool isNearVolcano;
         public bool isNearMainIsland;
@@ -340,7 +341,7 @@ namespace EEMod
                 subTextAlpha = 0;
                 EEMod.instance.position = new Vector2(1700, 900);
                 objectPos.Clear();
-                Islands.Clear();
+                SeaObject.Clear();
                 EEMod.ShipHelth = EEMod.ShipHelthMax;
                 MoralFirstFrame();
                 displacmentX = 0;
@@ -970,34 +971,68 @@ namespace EEMod
                     Filters.Scene.Activate(shad2, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
                 }
                 markerPlacer++;
-                Islands.Clear();
-                Islands.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Projectiles/OceanMap/Land")));
-                Islands.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Projectiles/OceanMap/VolcanoIsland"), true));
-                Islands.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
-                Islands.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse")));
-                Islands.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse2")));
-                Islands.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Projectiles/OceanMap/Rock1")));
-                Islands.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Projectiles/OceanMap/Rock2")));
-                Islands.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Projectiles/OceanMap/Rock3")));
-                Islands.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Projectiles/OceanMap/MainIsland"), true));
-                Islands.Add(new Island(new Vector2(-300, -600), GetTexture("EEMod/Projectiles/OceanMap/CoralReefsEntrance"), true));
-                Islands.Add(new Island(new Vector2(-600, -800), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
+                if (markerPlacer == 1)
+                {
+                    SeaObject.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Projectiles/OceanMap/Land")));
+                    SeaObject.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Projectiles/OceanMap/VolcanoIsland"), true));
+                    SeaObject.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
+                    SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse")));
+                    SeaObject.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse2")));
+                    SeaObject.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Projectiles/OceanMap/Rock1")));
+                    SeaObject.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Projectiles/OceanMap/Rock2")));
+                    SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Projectiles/OceanMap/Rock3")));
+                    SeaObject.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Projectiles/OceanMap/MainIsland"), true));
+                    SeaObject.Add(new Island(new Vector2(-300, -600), GetTexture("EEMod/Projectiles/OceanMap/CoralReefsEntrance"), true));
+                    SeaObject.Add(new Island(new Vector2(-600, -800), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
+                    if(!Islands.ContainsKey("VolcanoIsland"))
+                    Islands.Add("VolcanoIsland", SeaObject[1]);
+                    if (!Islands.ContainsKey("Island"))
+                    Islands.Add("Island", SeaObject[2]);
+                    if (!Islands.ContainsKey("Lighthouse"))
+                    Islands.Add("Lighthouse", SeaObject[3]);
+                    if (!Islands.ContainsKey("Lighthouse2"))
+                    Islands.Add("Lighthouse2", SeaObject[4]);
+                    if (!Islands.ContainsKey("MainIsland"))
+                    Islands.Add("MainIsland", SeaObject[8]);
+                    if (!Islands.ContainsKey("CoralReefsEntrance"))
+                    Islands.Add("CoralReefsEntrance", SeaObject[9]);
+                    if (!Islands.ContainsKey("UpperLand"))
+                    Islands.Add("UpperLand", SeaObject[10]);
+                    for (int i = 0; i < 400; i++)
+                    {
+                        int CloudChoose = Main.rand.Next(3);
+                        Vector2 CloudPos = new Vector2(Main.rand.NextFloat(Main.screenPosition.X - 200, Main.screenPosition.X + Main.screenWidth), Main.rand.NextFloat(Main.screenPosition.Y + 800, Main.screenPosition.Y + Main.screenHeight + 1000));
+                        Vector2 dist = (Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight + 1000)) - CloudPos;
+                        if (dist.Length() > 1140)
+                        {
+                            switch (CloudChoose)
+                            {
+                                case 0:
+                                    {
+                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud2>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                                        break;
+                                    }
+                            }
+                        }
+                    }
 
-                float pos2X = Main.screenPosition.X + Main.screenWidth - 400;
-                float pos2Y = Main.screenPosition.Y + Main.screenHeight - 400 + 1000;
-                float pos3X = Main.screenPosition.X + Main.screenWidth - 700;
-                float pos3Y = Main.screenPosition.Y + Main.screenHeight - 300 + 1000;
-                float pos9X = Main.screenPosition.X + Main.screenWidth - 100;
-                float pos9Y = Main.screenPosition.Y + Main.screenHeight - 40 + 1000;
-                float pos10X = Main.screenPosition.X + Main.screenWidth - 300;
-                float pos10Y = Main.screenPosition.Y + Main.screenHeight - 600 + 1000;
-                float pos11X = Main.screenPosition.X + Main.screenWidth - 600;
-                float pos11Y = Main.screenPosition.Y + Main.screenHeight - 300 + 500;
-                Rectangle rectangle1 = Islands[1].hitBox;
-                Rectangle rectangle2 = Islands[2].hitBox;
-                Rectangle rectangle3 = Islands[8].hitBox;
-                Rectangle rectangle4 = Islands[9].hitBox;
-                Rectangle rectangle5 = Islands[10].hitBox;
+                    for (int i = 0; i < SeaObject.Count; i++)
+                        objectPos.Add(SeaObject[i].posToScreen);
+
+                    //upgrade, pirates, radial
+
+                }
 
                 Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
                 isNearIsland = false;
@@ -1005,7 +1040,6 @@ namespace EEMod
                 isNearVolcano = false;
                 isNearMainIsland = false;
                 isNearCoralReefs = false;
-
 
                 if (EEMod.ShipHelth <= 0)
                 {
@@ -1020,32 +1054,32 @@ namespace EEMod
                         SM.SaveAndQuit(prevKey);
                     }
                 }
-                if (rectangle1.Intersects(ShipHitBox))
+                if (Islands["VolcanoIsland"].hitBox.Intersects(ShipHitBox))
                 {
                     isNearVolcano = true;
                 }
-                if (rectangle2.Intersects(ShipHitBox))
+                if (Islands["Island"].hitBox.Intersects(ShipHitBox))
                 {
                     isNearIsland = true;
                 }
-                if (rectangle3.Intersects(ShipHitBox))
+                if (Islands["MainIsland"].hitBox.Intersects(ShipHitBox))
                 {
                     isNearMainIsland = true;
                 }
-                if (rectangle4.Intersects(ShipHitBox))
+                if (Islands["CoralReefsEntrance"].hitBox.Intersects(ShipHitBox))
                 {
                     isNearCoralReefs = true;
                 }
-                if (rectangle5.Intersects(ShipHitBox))
+                if (Islands["UpperLand"].hitBox.Intersects(ShipHitBox))
                 {
                     isNearIsland2 = true;
                 }
                 if (!arrowFlag)
                 {
-                    Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos3X, pos3Y);
-                    AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos2X, pos2Y - 50);
-                    AnchorsMain = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos9X, pos9Y - 50);
-                    AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos10X, pos10Y - 50);
+                    Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["Island"].posXToScreen, Islands["Island"].posYToScreen + 1000);
+                    AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI,Islands["VolcanoIsland"].posXToScreen, Islands["VolcanoIsland"].posYToScreen - 50 + 1000);
+                    AnchorsMain = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["MainIsland"].posXToScreen, Islands["MainIsland"].posYToScreen - 50 + 1000);
+                    AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["MainIsland"].posXToScreen, Islands["MainIsland"].posYToScreen - 50 + 1000);
                     arrowFlag = true;
                 }
                 if (isNearIsland)
@@ -1080,7 +1114,7 @@ namespace EEMod
                 }
                 else
                 {
-                    (Main.projectile[Anchors].modProjectile as Anchor).visible = false;
+                  //  (Main.projectile[Anchors].modProjectile as Anchor).visible = false;
                 }
                 if (isNearVolcano)
                 {
@@ -1182,72 +1216,7 @@ namespace EEMod
                     }
                 }
 
-                if (markerPlacer == 1)
-                {
-                    for (int i = 0; i < 400; i++)
-                    {
-                        int CloudChoose = Main.rand.Next(3);
-                        Vector2 CloudPos = new Vector2(Main.rand.NextFloat(Main.screenPosition.X - 200, Main.screenPosition.X + Main.screenWidth), Main.rand.NextFloat(Main.screenPosition.Y + 800, Main.screenPosition.Y + Main.screenHeight + 1000));
-                        Vector2 dist = (Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight + 1000)) - CloudPos;
-                        if (dist.Length() > 1140)
-                        {
-                            switch (CloudChoose)
-                            {
-                                case 0:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                                case 1:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud2>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                            }
-                        }
-                    }
-
-                    for (int i = 0; i < Islands.Count; i++)
-                        objectPos.Add(Islands[i].posToScreen);
-
-                    //upgrade, pirates, radial
-                    for (int i = 0; i < 2; i++)
-                    {
-                        int GlacierChoose = Main.rand.Next(3);
-                        float positionOfGlacXLast = positionOfGlacX;
-                        float positionOfGlacYLast = positionOfGlacY;
-                        positionOfGlacX = Main.rand.NextFloat(Main.screenPosition.X, Main.screenPosition.X + Main.screenWidth);
-                        positionOfGlacY = Main.rand.NextFloat(Main.screenPosition.Y + 1000, Main.screenPosition.Y + Main.screenHeight + 1000);
-                        Vector2 dist = new Vector2(positionOfGlacY - positionOfGlacYLast, positionOfGlacXLast - positionOfGlacX);
-                        if (dist.Length() > 300)
-                        {
-                            switch (GlacierChoose)
-                            {
-                                case 0:
-                                    {
-                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
-                                        break;
-                                    }
-                                case 1:
-                                    {
-                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier2>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        //  Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier3>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
-                                        break;
-                                    }
-                            }
-                        }
-                    }
-                }
+               
                 player.position = player.oldPosition;
                 player.invis = true;
                 player.AddBuff(BuffID.Cursed, 100000);
@@ -1757,6 +1726,7 @@ namespace EEMod
         public int milliseconds;
         public override void PreUpdate()
         {
+            if(Main.frameRate != 0)
             milliseconds += 1000/Main.frameRate;
             if (milliseconds >= 1000)
             {

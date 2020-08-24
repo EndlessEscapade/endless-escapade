@@ -190,10 +190,10 @@ namespace EEMod
         public void UpdateIslands()
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            for (int i = 0; i < modPlayer.Islands.Count; i++)
+            for (int i = 0; i < modPlayer.SeaObject.Count; i++)
             {
-                Color drawColour = Lighting.GetColor((int)(modPlayer.Islands[i].posToScreen.X / 16f), (int)(modPlayer.Islands[i].posToScreen.Y / 16f));
-                Main.spriteBatch.Draw(modPlayer.Islands[i].texture, modPlayer.Islands[i].posToScreen.ForDraw(), drawColour);
+                Color drawColour = Lighting.GetColor((int)(modPlayer.SeaObject[i].posToScreen.X / 16f), (int)(modPlayer.SeaObject[i].posToScreen.Y / 16f));
+                Main.spriteBatch.Draw(modPlayer.SeaObject[i].texture, modPlayer.SeaObject[i].posToScreen.ForDraw(), drawColour);
             }
         }
         public void UpdateGame(GameTime gameTime)
