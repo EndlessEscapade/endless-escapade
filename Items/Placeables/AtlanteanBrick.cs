@@ -2,6 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.Furniture.Coral;
+using EEMod.Tiles.Furniture;
 
 namespace EEMod.Items.Placeables
 {
@@ -20,12 +21,13 @@ namespace EEMod.Items.Placeables
             item.value = Item.sellPrice(0, 0, 0, 0);
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 15;
+            item.useTurn = true;
             item.useTime = 7;
             item.consumable = true;
             item.autoReuse = true;
             item.maxStack = 999;
-            item.placeStyle = 10;
-            item.createTile = ModContent.TileType<GlowHangCoral1>();
+
+            item.createTile = ModContent.TileType<OrbHolder>();
         }
     }
 }

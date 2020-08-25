@@ -38,13 +38,11 @@ using EEMod.Tiles.Walls;
 
 namespace EEMod
 {
-    public class EEPlayer : ModPlayer
+    public partial class EEPlayer : ModPlayer
     {
         public bool importantCutscene;
         public static bool startingText;
         public bool FlameSpirit;
-        public bool magmaRune;
-        public bool duneRune;
         public bool dalantiniumHood;
         public bool hydriteVisage;
         public bool ZoneCoralReefs;
@@ -57,16 +55,76 @@ namespace EEMod
         public bool hydriteSet;
         public bool hydrofluoricSet;
         public int hydrofluoricSetTimer;
-
+        public bool godMode = false;
+        public bool quartzCrystal = false;
+        public bool isQuartzRangedOn = false;
+        public bool isQuartzSummonOn = false;
+        public bool isQuartzMeleeOn = false;
+        public bool isQuartzChestOn = false;
+        public int timerForCutscene;
+        public bool arrowFlag = false;
+        public static bool isSaving;
+        public float titleText;
+        public float titleText2;
+        public float subTextAlpha;
+        public bool noU;
+        public bool triggerSeaCutscene;
+        public int cutSceneTriggerTimer;
+        public int cutSceneTriggerTimer2;
+        public float cutSceneTriggerTimer3;
+        public int coralReefTrans;
+        public int markerPlacer;
+        public Vector2 position;
+        public Vector2 velocity;
+        public List<Vector2> objectPos = new List<Vector2>();
+        public List<Island> SeaObject = new List<Island>();
+        public Dictionary<string, Island> Islands = new Dictionary<string, Island>();
+        public bool isNearIsland;
+        public bool isNearIsland2;
+        public bool isNearVolcano;
+        public bool isNearMainIsland;
+        public bool isNearCoralReefs;
+        public string baseWorldName;
+        public byte[] hasGottenRuneBefore = new byte[5];
+        public byte[] inPossesion = new byte[5];
+        public static int moralScore;
+        public int initialMoralScore;
+        readonly SubworldManager SM = new SubworldManager();
+        public int rippleCount = 3;
+        public int rippleSize = 5;
+        public int rippleSpeed = 15;
+        public int distortStrength = 100;
+        public List<ParticlesClass> Particles = new List<ParticlesClass>();
+        public List<Vector2> Velocity;
+        private static string prevKey = "Main";
+        public float powerLevel = 0;
+        public int maxPowerLevel = 11;
+        public float zipMultiplier = 1;
+        public int thermalHealingTimer = 30;
+        public int cannonballType = 0;
+        public bool isPickingUp;
+        float propagation;
+        int displaceX = 2;
+        int displaceY = 4;
+        float[] dis = new float[51];
+        public bool isWearingCape = false;
+        public string NameForJoiningClients = "";
+        public Vector2[] arrayPoints = new Vector2[24];
+        public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
+        int Arrow;
+        int Arrow2;
+        int Anchors;
+        float speedOfPan = 1;
+        int AnchorsVolc;
+        int AnchorsMain;
+        int AnchorsCoral;
+        public int offSea = 1000;
         private int opac;
-        //public bool Cheese1;
-        //public bool Cheese2;
         public int boatSpeed = 1;
         string shad1 = "EEMod:Ripple";
         string shad2 = "EEMod:SunThroughWalls";
         string shad3 = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
-
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
         public bool holdingPylon;
@@ -78,71 +136,6 @@ namespace EEMod
 
         public override void PostUpdate()
         {
-            int PlayerX = (int)(player.position.X / 16);
-            int PlayerY = (int)(player.position.Y / 16);
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Sand)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.White);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Ebonsand)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.MediumPurple);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Crimsand)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.Gray);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Pearlsand)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.White);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.SnowBlock)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.White);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileID.Ash)
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.Gray);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileType<GemsandTile>())
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.Cyan);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileType<LightGemsandTile>())
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 1, 0f, 0f, default, Color.LightSkyBlue);
-
-
-            if (Main.tile[PlayerX, PlayerY + 3].type == TileType<DarkGemsandTile>())
-
-                if (player.velocity.X >= 3 || player.velocity.X <= -3)
-
-                    Dust.NewDust(player.position + new Vector2(0, 35), 1, 1, 32, 0f, 0f, default, Color.Blue);
-
 
         }
 
@@ -169,6 +162,7 @@ namespace EEMod
         private int bubbleLen = 0;
         private int dur = 0;
         private int bubbleColumn;
+        public Vector2 currentAltarPos;
 
         public override void UpdateVanityAccessories()
         {
@@ -236,39 +230,6 @@ namespace EEMod
             ZoneCoralReefs = flags[0];
         }
 
-        public bool godMode = false;
-        public bool quartzCrystal = false;
-        public bool isQuartzRangedOn = false;
-        public bool isQuartzSummonOn = false;
-        public bool isQuartzMeleeOn = false;
-        public bool isQuartzChestOn = false;
-        public int timerForCutscene;
-        public bool arrowFlag = false;
-        public static bool isSaving;
-        public float titleText;
-        public float titleText2;
-        public float subTextAlpha;
-        public bool noU;
-        public bool triggerSeaCutscene;
-        public int cutSceneTriggerTimer;
-        public int cutSceneTriggerTimer2;
-        public float cutSceneTriggerTimer3;
-        public int coralReefTrans;
-        public int markerPlacer;
-        public Vector2 position;
-        public Vector2 velocity;
-        public List<Vector2> objectPos = new List<Vector2>();
-        public List<Island> Islands = new List<Island>();
-        public bool isNearIsland;
-        public bool isNearIsland2;
-        public bool isNearVolcano;
-        public bool isNearMainIsland;
-        public bool isNearCoralReefs;
-        public string baseWorldName;
-        public byte[] hasGottenRuneBefore = new byte[5];
-        public byte[] inPossesion = new byte[5];
-        public static int moralScore;
-        public int initialMoralScore;
 
         private void UpdateRuneCollection()
         {
@@ -339,7 +300,7 @@ namespace EEMod
                 subTextAlpha = 0;
                 EEMod.instance.position = new Vector2(1700, 900);
                 objectPos.Clear();
-                Islands.Clear();
+                SeaObject.Clear();
                 EEMod.ShipHelth = EEMod.ShipHelthMax;
                 MoralFirstFrame();
                 displacmentX = 0;
@@ -365,17 +326,7 @@ namespace EEMod
             hydriteSet = false;
             hydrofluoricSet = false;
         }
-        public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
-        int Arrow;
-        int Arrow2;
-        int Anchors;
-        float positionOfGlacX;
-        float positionOfGlacY;
-        float speedOfPan = 1;
-        int AnchorsVolc;
-        int AnchorsMain;
-        int AnchorsCoral;
-        public int offSea = 1000;
+
         public void ReturnHome()
         {
             Initialize();
@@ -470,7 +421,7 @@ namespace EEMod
                     }
                 }
             }
-            if (Main.ActiveWorldFileData.Name != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
+            if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
             {
                 if (player.velocity.X > 1)
                 {
@@ -503,7 +454,7 @@ namespace EEMod
 
 
 
-            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea)
             {
                 if (markerPlacer > 1)
                     Main.screenPosition += new Vector2(0, offSea);
@@ -539,80 +490,7 @@ namespace EEMod
             if (isCameraShaking)
                 Main.screenPosition += new Vector2(Main.rand.Next(-intensity, intensity), Main.rand.Next(-intensity, intensity));
         }
-        readonly SubworldManager SM = new SubworldManager();
-        public int rippleCount = 3;
-        public int rippleSize = 5;
-        public int rippleSpeed = 15;
-        public int distortStrength = 100;
-        public List<ParticlesClass> Particles = new List<ParticlesClass>();
-        public List<Vector2> Velocity;
-        private static string prevKey = "Main";
-        public float powerLevel = 0;
-        public int maxPowerLevel = 11;
-        public float zipMultiplier = 1;
-        public int thermalHealingTimer = 30;
-        public int cannonballType = 0;
-        public bool isPickingUp;
 
-        /*   public System.Drawing.Bitmap CaptureFromScreen(System.Drawing.Rectangle rect)
-           {
-               System.Drawing.Bitmap bmpScreenCapture = null;
-
-               if (rect == System.Drawing.Rectangle.Empty)//capture the whole screen
-               {
-                   rect = Screen.PrimaryScreen.Bounds;
-               }
-
-               bmpScreenCapture = new System.Drawing.Bitmap(rect.Width, rect.Height);
-
-               System.Drawing.Graphics p = System.Drawing.Graphics.FromImage(bmpScreenCapture);
-
-
-               p.CopyFromScreen(rect.X,
-                        rect.Y,
-                        0, 0,
-                        rect.Size,
-                       System.Drawing.CopyPixelOperation.SourceCopy);
-
-
-               p.Dispose();
-
-               return bmpScreenCapture;
-           }
-           private Texture2D GetTextureSc(GraphicsDevice dev, System.Drawing.Bitmap bmp)
-           {
-               int[] imgData = new int[bmp.Width * bmp.Height];
-               Texture2D texture = new Texture2D(dev, bmp.Width, bmp.Height);
-
-               unsafe
-               {
-                   // lock bitmap
-                   BitmapData origdata =
-                       bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
-
-                   uint* byteData = (uint*)origdata.Scan0;
-
-                   // Switch bgra -> rgba
-                   for (int i = 0; i < imgData.Length; i++)
-                   {
-                       byteData[i] = (byteData[i] & 0x000000ff) << 16 | (byteData[i] & 0x0000FF00) | (byteData[i] & 0x00FF0000) >> 16 | (byteData[i] & 0xFF000000);
-                   }
-
-                   // copy data
-                   System.Runtime.InteropServices.Marshal.Copy(origdata.Scan0, imgData, 0, bmp.Width * bmp.Height);
-
-                   byteData = null;
-
-                   // unlock bitmap
-                   bmp.UnlockBits(origdata);
-               }
-
-               texture.SetData(imgData);
-
-               return texture;
-           }*/
-        public static Texture2D ScTex;
-        public Vector2[] arrayPoints = new Vector2[24];
         Vector2 mainPoint => new Vector2(player.Center.X, player.position.Y);
         public struct Island
         {
@@ -638,11 +516,6 @@ namespace EEMod
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
             public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / 2 + 1000, texture.Width, texture.Height);
         }
-        float propagation;
-        int displaceX = 2;
-        int displaceY = 4;
-        float[] dis = new float[51];
-        public bool isWearingCape = false;
 
         float inspectTimer = 0;
         public void InspectObject()
@@ -655,90 +528,138 @@ namespace EEMod
         {
             if (isWearingCape)
             {
-                float acc = arrayPoints.Length;
-                float upwardDrag = 0.2f;
-                propagation += (Math.Abs(player.velocity.X / 2f) * 0.015f) + 0.1f;
-                for (int i = 0; i < acc; i++)
-                {
-                    float prop = (float)Math.Sin(propagation + (i * 10 / acc));
-                    Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f) * i), mainPoint.Y + (i * displaceY) + 20);
-                    float dist = (player.position.Y + 15) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
-                    float amp = Math.Abs(player.velocity.X * 3) * ((i * 3) / acc) + 1f;
-                    float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / 4f * i);
-                    float disClamp = (goTo - dis[i]) / 8f;
-                    disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
-                    dis[i] += disClamp;
-                    if (i == 0)
-                        arrayPoints[i] = basePos;
-                    else
-                        arrayPoints[i] = new Vector2(basePos.X, basePos.Y + (prop / acc) * amp - dis[i] + i * 2);
-                    if (player.direction == 1)
-                    {
-                        float distX = arrayPoints[i].X - player.Center.X;
-                        arrayPoints[i].X = player.Center.X - distX;
-                    }
-                    int tracker = 0;
-                    if (i != 0)
-                    {
-                        while ((Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].active() &&
-                                Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].type])
-                               || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
-                        {
-                            arrayPoints[i].Y--;
-                            tracker++;
-                            if (tracker >= displaceY * acc)
-                                break;
-                            if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
-                                break;
-                        }
-                    }
-                }
+                UpdateArrayPoints();
             }
-            if (hydrofluoricSet)
-            {
-                hydrofluoricSetTimer++;
-                if (hydrofluoricSetTimer >= 30 && player.velocity != Vector2.Zero)
-                {
-                    Projectile.NewProjectile(player.Center, player.velocity / 2, ProjectileType<CorrosiveBubble>(), 20, 0f);
-                    hydrofluoricSetTimer = 0;
-                }
-            }
-
-            if (lythenSet)
-            {
-                lythenSetTimer++;
-                if (lythenSetTimer >= 480)
-                {
-                    NPC closest = null;
-                    float closestDistance = 9999999;
-                    for (int i = 0; i < Main.maxNPCs; i++)
-                    {
-                        NPC npc = Main.npc[i];
-                        if (npc.active && npc.Distance(position) < closestDistance)
-                        {
-                            closest = npc;
-                            closestDistance = npc.Distance(position);
-                        }
-                    }
-                    if (closest != null)
-                        Projectile.NewProjectile(closest.Center, Vector2.Zero, ProjectileType<CyanoburstTomeKelp>(), 10, 0f, Owner: player.whoAmI);
-                    lythenSetTimer = 0;
-                }
-            }
-
-            if (hydriteSet)
-            {
-                player.gills = true;
-            }
-            //System.Drawing.Bitmap ScreenTexture = CaptureFromScreen(new System.Drawing.Rectangle(0, 0, 1980, 1080));
-            // ScTex = GetTextureSc(Main.graphics.GraphicsDevice, ScreenTexture);
             thermalHealingTimer--;
             if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)
             {
                 player.statLife += 1;
                 thermalHealingTimer = 30;
             }
+            UpdateRunes();
+            UpdateSets();
+            UpdatePowerLevel();
 
+            if (dur > 0)
+            {
+                bubbleTimer--;
+                if (bubbleTimer <= 0)
+                {
+                    bubbleTimer = 6;
+                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
+                    bubbleLen = Main.rand.Next(-16, 17);
+                    bubbleColumn += 2;
+                }
+                dur--;
+            }
+            Moral();
+            if (player.controlHook)
+            {
+                for (int i = 0; i < hasGottenRuneBefore.Length; i++)
+                    hasGottenRuneBefore[i] = 0;
+            }
+            EEMod.isSaving = false;
+            if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
+            {
+                cutSceneTriggerTimer += 6;
+                player.position = player.oldPosition;
+            }
+            if (cutSceneTriggerTimer >= 1000)
+            {
+                cutSceneTriggerTimer += 2;
+            }
+            if (godMode)
+            {
+                timerForCutscene += 20;
+            }
+            switch (Main.worldName)
+            {
+                case KeyID.Pyramids:
+                    {
+                        UpdatePyramids();
+                        break;
+                    }
+                case KeyID.Sea:
+                    {
+                        UpdateSea();
+                        break;
+                    }
+                case KeyID.CoralReefs:
+                    {
+                        UpdateCR();
+                        break;
+                    }
+                case KeyID.Island:
+                    {
+                        UpdateIsland();
+                        break;
+                    }
+                case KeyID.VolcanoIsland:
+                    {
+                        UpdateVolcano();
+                        break;
+                    }
+                case KeyID.VolcanoInside:
+                    {
+                        UpdateInnerVolcano();
+                        break;
+                    }
+                case KeyID.Cutscene1:
+                    {
+                        UpdateCutscene();
+                        break;
+                    }
+                default:
+                    {
+                        UpdateWorld();
+                        break;
+                    }
+            }
+            UpdateCutscenesAndTempShaders();
+        }
+        public void UpdateArrayPoints()
+        {
+            float acc = arrayPoints.Length;
+            float upwardDrag = 0.2f;
+            propagation += (Math.Abs(player.velocity.X / 2f) * 0.015f) + 0.1f;
+            for (int i = 0; i < acc; i++)
+            {
+                float prop = (float)Math.Sin(propagation + (i * 10 / acc));
+                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f) * i), mainPoint.Y + (i * displaceY) + 20);
+                float dist = (player.position.Y + 15) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
+                float amp = Math.Abs(player.velocity.X * 3) * ((i * 3) / acc) + 1f;
+                float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / 4f * i);
+                float disClamp = (goTo - dis[i]) / 8f;
+                disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
+                dis[i] += disClamp;
+                if (i == 0)
+                    arrayPoints[i] = basePos;
+                else
+                    arrayPoints[i] = new Vector2(basePos.X, basePos.Y + (prop / acc) * amp - dis[i] + i * 2);
+                if (player.direction == 1)
+                {
+                    float distX = arrayPoints[i].X - player.Center.X;
+                    arrayPoints[i].X = player.Center.X - distX;
+                }
+                int tracker = 0;
+                if (i != 0)
+                {
+                    while ((Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].active() &&
+                            Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].type])
+                           || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
+                    {
+                        arrayPoints[i].Y--;
+                        tracker++;
+                        if (tracker >= displaceY * acc)
+                            break;
+                        if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
+                            break;
+                    }
+                }
+            }
+        }
+        public void UpdateRunes()
+        {
             bool[][] states = new bool[][] { new bool[] { false, false }, new bool[] { true, false }, new bool[] { true, true } };
             for (int i = 0; i < hasGottenRuneBefore.Length; i++)
             {
@@ -837,6 +758,48 @@ namespace EEMod
             {
 
             }
+        }
+        public void UpdateSets()
+        {
+            if (hydrofluoricSet)
+            {
+                hydrofluoricSetTimer++;
+                if (hydrofluoricSetTimer >= 30 && player.velocity != Vector2.Zero)
+                {
+                    Projectile.NewProjectile(player.Center, player.velocity / 2, ProjectileType<CorrosiveBubble>(), 20, 0f);
+                    hydrofluoricSetTimer = 0;
+                }
+            }
+
+            if (lythenSet)
+            {
+                lythenSetTimer++;
+                if (lythenSetTimer >= 480)
+                {
+                    NPC closest = null;
+                    float closestDistance = 9999999;
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        NPC npc = Main.npc[i];
+                        if (npc.active && npc.Distance(position) < closestDistance)
+                        {
+                            closest = npc;
+                            closestDistance = npc.Distance(position);
+                        }
+                    }
+                    if (closest != null)
+                        Projectile.NewProjectile(closest.Center, Vector2.Zero, ProjectileType<CyanoburstTomeKelp>(), 10, 0f, Owner: player.whoAmI);
+                    lythenSetTimer = 0;
+                }
+            }
+
+            if (hydriteSet)
+            {
+                player.gills = true;
+            }
+        }
+        public void UpdateZipLines()
+        {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {
                 Vector2 begin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
@@ -851,12 +814,8 @@ namespace EEMod
             {
                 int i;
                 for (i = 0; i <= 100; i++)
-                {
                     if (i < 99 && EEWorld.EEWorld.PylonEnd[i] == EEWorld.EEWorld.PylonBegin[i + 1] && EEWorld.EEWorld.PylonEnd[i + 1] != default && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == EEWorld.EEWorld.PylonBegin[i] && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd == EEWorld.EEWorld.PylonEnd[i])
-                    {
                         break;
-                    }
-                }
                 if (i >= 99)
                 {
                     //Leaving zipline
@@ -873,8 +832,9 @@ namespace EEMod
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = true;
                 }
             }
-
-
+        }
+        public void UpdatePowerLevel()
+        {
             if (player.controlUseItem)
             {
                 powerLevel += 0.2f;
@@ -887,677 +847,9 @@ namespace EEMod
             {
                 powerLevel = 0;
             }
-            if (dur > 0)
-            {
-                bubbleTimer--;
-                if (bubbleTimer <= 0)
-                {
-                    bubbleTimer = 6;
-                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
-                    bubbleLen = Main.rand.Next(-16, 17);
-                    bubbleColumn += 2;
-                }
-                dur--;
-            }
-            Moral();
-            if (player.controlHook)
-            {
-                for (int i = 0; i < hasGottenRuneBefore.Length; i++)
-                    hasGottenRuneBefore[i] = 0;
-            }
-            EEMod.isSaving = false;
-            if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
-            {
-                cutSceneTriggerTimer += 6;
-                player.position = player.oldPosition;
-            }
-            if (cutSceneTriggerTimer >= 1000)
-            {
-                cutSceneTriggerTimer += 2;
-            }
-            if (godMode)
-            {
-                timerForCutscene += 20;
-            }
-
-            if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
-            {
-
-                if (!noU)
-                    titleText += 0.005f;
-                if (titleText >= 1)
-                    noU = true;
-                if (noU)
-                    titleText -= 0.005f;
-
-                if (titleText <= 0)
-                    titleText = 0;
-
-                titleText2 = 1;
-                if (!arrowFlag)
-                {
-                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
-                    arrowFlag = true;
-                }
-                DesArrowProjectile desArrowProj = Main.projectile[Arrow].modProjectile as DesArrowProjectile;
-                if (player.Center.X / 16 >= Main.spawnTileX - 5 &&
-                    player.Center.X / 16 <= Main.spawnTileX + 5 &&
-                    player.Center.Y / 16 >= Main.spawnTileY - 5 &&
-                    player.Center.Y / 16 <= Main.spawnTileY + 5)
-                {
-                    if (player.controlUp)
-                    {
-                        ReturnHome();
-                    }
-                    desArrowProj.visible = true;
-                }
-                else
-                {
-                    desArrowProj.visible = false;
-                }
-                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
-                {
-                    Filters.Scene.Deactivate(shad2);
-                }
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.Sea)
-            {
-
-                if (!noU)
-                    titleText += 0.005f;
-                if (titleText >= 1)
-                    noU = true;
-                if (noU)
-                    titleText -= 0.005f;
-                Filters.Scene[shad2].GetShader().UseOpacity(EEMod.instance.position.X);
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad2].IsActive())
-                {
-                    Filters.Scene.Activate(shad2, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
-                }
-                markerPlacer++;
-                Islands.Clear();
-                Islands.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Projectiles/OceanMap/Land")));
-                Islands.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Projectiles/OceanMap/VolcanoIsland"), true));
-                Islands.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
-                Islands.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse")));
-                Islands.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse2")));
-                Islands.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Projectiles/OceanMap/Rock1")));
-                Islands.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Projectiles/OceanMap/Rock2")));
-                Islands.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Projectiles/OceanMap/Rock3")));
-                Islands.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Projectiles/OceanMap/MainIsland"), true));
-                Islands.Add(new Island(new Vector2(-300, -600), GetTexture("EEMod/Projectiles/OceanMap/CoralReefsEntrance"), true));
-                Islands.Add(new Island(new Vector2(-600, -800), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
-
-                float pos2X = Main.screenPosition.X + Main.screenWidth - 400;
-                float pos2Y = Main.screenPosition.Y + Main.screenHeight - 400 + 1000;
-                float pos3X = Main.screenPosition.X + Main.screenWidth - 700;
-                float pos3Y = Main.screenPosition.Y + Main.screenHeight - 300 + 1000;
-                float pos9X = Main.screenPosition.X + Main.screenWidth - 100;
-                float pos9Y = Main.screenPosition.Y + Main.screenHeight - 40 + 1000;
-                float pos10X = Main.screenPosition.X + Main.screenWidth - 300;
-                float pos10Y = Main.screenPosition.Y + Main.screenHeight - 600 + 1000;
-                float pos11X = Main.screenPosition.X + Main.screenWidth - 600;
-                float pos11Y = Main.screenPosition.Y + Main.screenHeight - 300 + 500;
-                Rectangle rectangle1 = Islands[1].hitBox;
-                Rectangle rectangle2 = Islands[2].hitBox;
-                Rectangle rectangle3 = Islands[8].hitBox;
-                Rectangle rectangle4 = Islands[9].hitBox;
-                Rectangle rectangle5 = Islands[10].hitBox;
-
-                Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
-                isNearIsland = false;
-                isNearIsland2 = false;
-                isNearVolcano = false;
-                isNearMainIsland = false;
-                isNearCoralReefs = false;
-
-
-                if (EEMod.ShipHelth <= 0)
-                {
-                    if (prevKey == baseWorldName || prevKey == "Main")
-                    {
-                        ReturnHome();
-                    }
-                    else
-                    {
-                        Initialize();
-                        arrowFlag = false;
-                        SM.SaveAndQuit(prevKey);
-                    }
-                }
-                if (rectangle1.Intersects(ShipHitBox))
-                {
-                    isNearVolcano = true;
-                }
-                if (rectangle2.Intersects(ShipHitBox))
-                {
-                    isNearIsland = true;
-                }
-                if (rectangle3.Intersects(ShipHitBox))
-                {
-                    isNearMainIsland = true;
-                }
-                if (rectangle4.Intersects(ShipHitBox))
-                {
-                    isNearCoralReefs = true;
-                }
-                if (rectangle5.Intersects(ShipHitBox))
-                {
-                    isNearIsland2 = true;
-                }
-                if (!arrowFlag)
-                {
-                    Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos3X, pos3Y);
-                    AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos2X, pos2Y - 50);
-                    AnchorsMain = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos9X, pos9Y - 50);
-                    AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, pos10X, pos10Y - 50);
-                    arrowFlag = true;
-                }
-                if (isNearIsland)
-                {
-                    subTextAlpha += 0.02f;
-                    if (subTextAlpha >= 1)
-                        subTextAlpha = 1;
-                    (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
-                    if (player.controlUp)
-                    {
-                        Initialize();
-                        SM.SaveAndQuit(KeyID.Island);
-                        prevKey = KeyID.Island;
-                    }
-                }
-                else
-                {
-                    (Main.projectile[Anchors].modProjectile as Anchor).visible = false;
-                }
-                if (isNearIsland2)
-                {
-                    subTextAlpha += 0.02f;
-                    if (subTextAlpha >= 1)
-                        subTextAlpha = 1;
-                    (Main.projectile[Anchors].modProjectile as Anchor).visible = true;
-                    if (player.controlUp)
-                    {
-                        Initialize();
-                        SM.SaveAndQuit(KeyID.Island2);
-                        prevKey = KeyID.Island2;
-                    }
-                }
-                else
-                {
-                    (Main.projectile[Anchors].modProjectile as Anchor).visible = false;
-                }
-                if (isNearVolcano)
-                {
-                    subTextAlpha += 0.02f;
-                    if (subTextAlpha >= 1)
-                        subTextAlpha = 1;
-                    (Main.projectile[AnchorsVolc].modProjectile as Anchor).visible = true;
-                    if (player.controlUp)
-                    {
-                        Initialize();
-                        SM.SaveAndQuit(KeyID.VolcanoIsland);
-                        prevKey = KeyID.VolcanoIsland;
-                    }
-                }
-                else
-                {
-                    (Main.projectile[AnchorsVolc].modProjectile as Anchor).visible = false;
-                }
-
-                if (isNearMainIsland)
-                {
-                    if (player.controlUp)
-                    {
-                        ReturnHome();
-                        prevKey = baseWorldName;
-                    }
-                    subTextAlpha += 0.02f;
-                    if (subTextAlpha >= 1)
-                        subTextAlpha = 1;
-                    (Main.projectile[AnchorsMain].modProjectile as Anchor).visible = true;
-                }
-                else
-                {
-                    (Main.projectile[AnchorsMain].modProjectile as Anchor).visible = false;
-                }
-                if (isNearCoralReefs && markerPlacer > 1)
-                {
-                    subTextAlpha += 0.02f;
-                    if (subTextAlpha >= 1)
-                        subTextAlpha = 1;
-                    (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = true;
-                    if (player.controlUp)
-                    {
-                        Initialize();
-                        SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
-                        prevKey = KeyID.CoralReefs;
-                    }
-                }
-                else
-                {
-                    (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = false;
-                }
-                if (!isNearVolcano && !isNearIsland && !isNearCoralReefs && !isNearMainIsland)
-                {
-                    subTextAlpha -= 0.02f;
-                    if (subTextAlpha <= 0)
-                        subTextAlpha = 0;
-                }
-
-                for (int j = 0; j < 450; j++)
-                {
-                    if (Main.projectile[j].type == ProjectileType<PirateShip>() || Main.projectile[j].type == ProjectileType<RedDutchman>() || Main.projectile[j].type == ProjectileType<EnemyCannonball>())
-                    {
-                        if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 40 && Main.projectile[j].type != ProjectileType<EnemyCannonball>())
-                        {
-                            EEMod.ShipHelth -= 1;
-                            EEMod.instance.velocity += Main.projectile[j].velocity * 20;
-                        }
-                        if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 30 && Main.projectile[j].type == ProjectileType<EnemyCannonball>())
-                        {
-                            EEMod.ShipHelth -= 1;
-                            EEMod.instance.velocity += Main.projectile[j].velocity;
-                        }
-                    }
-                    if (Main.projectile[j].type == ProjectileType<Crate>())
-                    {
-                        Crate a = Main.projectile[j].modProjectile as Crate;
-                        if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 40 && !a.sinking)
-                        {
-                            //Crate loot tables go here
-                            if (Main.rand.NextBool())
-                                player.QuickSpawnItem(ItemID.GoldBar, Main.rand.Next(4, 9));
-                            else
-                                player.QuickSpawnItem(ItemID.PlatinumBar, Main.rand.Next(4, 9));
-
-                            if (Main.rand.NextBool())
-                                player.QuickSpawnItem(ItemID.ApprenticeBait, Main.rand.Next(2, 4));
-                            else
-                                player.QuickSpawnItem(ItemID.JourneymanBait, 1);
-
-                            player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(0, 2));
-                            player.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(0, 100));
-                            player.QuickSpawnItem(ItemID.CopperCoin, Main.rand.Next(0, 100));
-
-
-                            a.sinking = true;
-                            a.Sink();
-                        }
-                    }
-                }
-
-                if (markerPlacer == 1)
-                {
-                    for (int i = 0; i < 400; i++)
-                    {
-                        int CloudChoose = Main.rand.Next(3);
-                        Vector2 CloudPos = new Vector2(Main.rand.NextFloat(Main.screenPosition.X - 200, Main.screenPosition.X + Main.screenWidth), Main.rand.NextFloat(Main.screenPosition.Y + 800, Main.screenPosition.Y + Main.screenHeight + 1000));
-                        Vector2 dist = (Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight + 1000)) - CloudPos;
-                        if (dist.Length() > 1140)
-                        {
-                            switch (CloudChoose)
-                            {
-                                case 0:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                                case 1:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud2>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                        break;
-                                    }
-                            }
-                        }
-                    }
-
-                    for (int i = 0; i < Islands.Count; i++)
-                        objectPos.Add(Islands[i].posToScreen);
-
-                    //upgrade, pirates, radial
-                    for (int i = 0; i < 2; i++)
-                    {
-                        int GlacierChoose = Main.rand.Next(3);
-                        float positionOfGlacXLast = positionOfGlacX;
-                        float positionOfGlacYLast = positionOfGlacY;
-                        positionOfGlacX = Main.rand.NextFloat(Main.screenPosition.X, Main.screenPosition.X + Main.screenWidth);
-                        positionOfGlacY = Main.rand.NextFloat(Main.screenPosition.Y + 1000, Main.screenPosition.Y + Main.screenHeight + 1000);
-                        Vector2 dist = new Vector2(positionOfGlacY - positionOfGlacYLast, positionOfGlacXLast - positionOfGlacX);
-                        if (dist.Length() > 300)
-                        {
-                            switch (GlacierChoose)
-                            {
-                                case 0:
-                                    {
-                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
-                                        break;
-                                    }
-                                case 1:
-                                    {
-                                        // Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier2>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
-                                        break;
-                                    }
-                                case 2:
-                                    {
-                                        //  Projectile.NewProjectile(new Vector2(positionOfGlacX, positionOfGlacY), Vector2.Zero, ProjectileType<Glacier3>(), 0, 0f, Main.myPlayer, EEMod.velocity.X, EEMod.velocity.Y);
-                                        break;
-                                    }
-                            }
-                        }
-                    }
-                }
-                player.position = player.oldPosition;
-                player.invis = true;
-                player.AddBuff(BuffID.Cursed, 100000);
-                if (markerPlacer % 600 == 0)
-                {
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
-                }
-                if (markerPlacer % 2400 == 0)
-                    NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth - 200, (int)Main.screenPosition.Y + Main.rand.Next(1000), NPCType<MerchantBoat>());
-
-                if (markerPlacer % 7200 == 0)
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
-
-                if (markerPlacer % 800 == 0)
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
-
-                if (markerPlacer % 20 == 0)
-                {
-                    int CloudChoose = Main.rand.Next(5);
-                    switch (CloudChoose)
-                    {
-                        case 0:
-                            {
-                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                break;
-                            }
-                        case 1:
-                            {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                break;
-                            }
-                        case 2:
-                            {
-                                // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                break;
-                            }
-                        case 3:
-                            {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                break;
-                            }
-                        case 4:
-                            {
-                                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                break;
-                            }
-                    }
-                }
-
-                if (markerPlacer % 40 == 0)
-                {
-                    Projectile.NewProjectile(Main.screenPosition + EEMod.instance.position, Vector2.Zero, ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.instance.velocity.X, EEMod.instance.velocity.Y);
-                }
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
-            {
-                if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
-                {
-                    player.AddBuff(BuffType<WaterPressure>(), 60);
-                }
-                if (HydrosCheck())
-                {
-                    NPC.NewNPC((int)position.X * 16, (int)position.Y * 16 - 400, NPCType<Hydros>());
-                    EEWorld.EEWorld.instance.minionsKilled = 0;
-                }
-                if (!noU)
-                    titleText += 0.005f;
-                if (titleText >= 1)
-                    noU = true;
-                if (noU)
-                    titleText -= 0.005f;
-                if (titleText <= 0)
-                    titleText = 0;
-                markerPlacer++;
-                if (markerPlacer % 40 == 0)
-                {
-                    // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
-                }
-
-                if (!arrowFlag)
-                {
-                    if (Main.netMode != NetmodeID.MultiplayerClient)
-                        Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
-                    player.ClearBuff(BuffID.Cursed);
-                    arrowFlag = true;
-                }
-                if (EESubWorlds.CoralBoatPos == Vector2.Zero)
-                {
-                    EESubWorlds.CoralBoatPos = new Vector2(200, 48);
-                }
-                try
-                {
-                    Projectile oceanarrow = Main.projectile[Arrow2];
-                    if (Helpers.PointInRectangle(player.Center / 16, EESubWorlds.CoralBoatPos.X, EESubWorlds.CoralBoatPos.Y + 12, 4, 4))
-                    {
-                        if (player.controlUp)
-                        {
-                            Initialize();
-                            EEMod.instance.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
-                            SM.SaveAndQuit(KeyID.Sea);
-                        }
-                        oceanarrow.ai[1] = 1;
-                    }
-                    else
-                    {
-                        oceanarrow.ai[1] = 0;
-                    }
-                }
-                catch
-                {
-
-                }
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.Island)
-            {
-                player.ClearBuff(BuffID.Cursed);
-                if (!arrowFlag)
-                {
-                    NPC.NewNPC((Main.maxTilesX / 2) * 16, 75 * 16, NPCType<AtlantisCore>());
-                    arrowFlag = true;
-                }
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
-            {
-                firstFrameVolcano = true;
-                player.ClearBuff(BuffID.Cursed);
-
-                if (!arrowFlag)
-                {
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
-                    NPC.NewNPC(600 * 16, 594 * 16, NPCType<VolcanoSmoke>());
-                    arrowFlag = true;
-                }
-                if (SubWorldSpecificVolcanoInsidePos == Vector2.Zero)
-                {
-                    SubWorldSpecificVolcanoInsidePos = new Vector2(198, 198);
-                }
-                VolcanoArrowProj voclanoarrow = Main.projectile[Arrow2].modProjectile as VolcanoArrowProj;
-                if (Helpers.PointInRectangle(player.Center / 16, SubWorldSpecificVolcanoInsidePos.X - 4, SubWorldSpecificVolcanoInsidePos.Y - 4, 8, 8))
-                {
-                    if (player.controlUp)
-                    {
-                        Initialize();
-                        SM.SaveAndQuit(KeyID.VolcanoInside);
-                    }
-                    voclanoarrow.visible = true;
-                }
-                else
-                {
-                    voclanoarrow.visible = false;
-                }
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
-            {
-                player.ClearBuff(BuffID.Cursed);
-                if (firstFrameVolcano)
-                {
-                    NPC.NewNPC(200, TileCheck(200, TileType<MagmastoneTile>()), NPCType<Akumo>());
-                    firstFrameVolcano = false;
-                }
-            }
-            else if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
-            {
-
-                markerPlacer++;
-                if (markerPlacer == 5)
-                {
-                    player.AddBuff(BuffID.Cursed, 100000);
-                    NPC.NewNPC(193 * 16, (120 - 30) * 16, NPCType<SansSlime>());
-                    NPC.NewNPC(207 * 16, (120 - 30) * 16, NPCType<GreenSlimeGoBurr>());
-                }
-                if (markerPlacer > 120 * 8)
-                {
-                    if (markerPlacer == 5 && EEModConfigClient.Instance.ParticleEffects)
-                    {
-                        Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
-                    }
-                }
-            }
-            else
-            {
-                int lastNoOfShipTiles = missingShipTiles.Count;
-                try
-                {
-                    ShipComplete();
-                }
-                catch
-                {
-
-                }
-                if (missingShipTiles.Count != lastNoOfShipTiles)
-                {
-                    for (int i = 0; i < Main.projectile.Length; i++)
-                    {
-                        if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
-                        {
-                            Main.projectile[i].Kill();
-                        }
-                    }
-
-                    foreach (Vector2 tile in missingShipTiles)
-                    {
-                        int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
-                        WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
-                        newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
-                    }
-                }
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = mod.GetPacket();
-                    netMessage.Write(shipComplete);
-                    netMessage.Send();
-                }
-                if (!importantCutscene)
-                {
-                    //SM.SaveAndQuit(KeyID.Cutscene1);
-                    importantCutscene = true;
-                }
-                if (EEModConfigClient.Instance.ParticleEffects)
-                {
-                    markerPlacer++;
-                }
-                else
-                {
-                    markerPlacer = 0;
-                }
-                if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
-                {
-                    Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), player.whoAmI);
-                }
-                baseWorldName = Main.ActiveWorldFileData.Name;
-                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
-                {
-                    Filters.Scene.Deactivate(shad2);
-                }
-                EEMod.instance.position = EEMod.start;
-                EEMod.instance.velocity = Vector2.Zero;
-                titleText2 = 0;
-                if (!arrowFlag)
-                {
-                    if (EEModConfigClient.Instance.BetterLighting)
-                        Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BetterLighting>(), 0, 0f, Main.myPlayer, 0, player.whoAmI);
-                    player.ClearBuff(BuffID.Cursed);
-                    Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
-                    arrowFlag = true;
-                    for (int i = 0; i < 200; i++)
-                    {
-                        if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
-                        {
-                            Main.projectile[i].Kill();
-                        }
-                    }
-
-                    foreach (Vector2 tile in missingShipTiles)
-                    {
-                        int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
-                        WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
-                        newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
-                    }
-                }
-                if (EntracesPosses.Count > 0)
-                {
-                    if (Main.projectile[Arrow].modProjectile is DesArrowProjectile arrow)
-                    {
-                        Vector2 entrace = EntracesPosses[0];
-                        if (Helpers.PointInRectangle(player.Center / 16, entrace.X + 10, entrace.Y + 5, 4, 4))
-                        {
-                            if (player.controlUp)
-                            {
-                                godMode = true;
-                            }
-                            arrow.visible = true;
-                        }
-                        else
-                        {
-                            arrow.visible = false;
-                        }
-                    }
-                }
-                Vector2 revisedRee = new Vector2(ree.X == 0 ? 100 : ree.X,
-                                                 ree.Y == 0 ? TileCheckWater(100) - 22 : ree.Y);
-                if (Helpers.PointInRectangle(player.Center / 16, revisedRee.X, revisedRee.Y + 12, 4, 4) && shipComplete)
-                {
-                    if (player.controlUp)
-                    {
-                        triggerSeaCutscene = true;
-                        if (Main.netMode == NetmodeID.Server)
-                        {
-                            var netMessage = mod.GetPacket();
-                            netMessage.Write(triggerSeaCutscene);
-                            netMessage.Send();
-                        }
-                    }
-                    Main.projectile[Arrow2].ai[1] = 1;
-
-                }
-                else
-                {
-                    Main.projectile[Arrow2].ai[1] = 0;
-
-                }
-            }
+        }
+        public void UpdateCutscenesAndTempShaders()
+        {
             Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad1].IsActive())
             {
@@ -1664,14 +956,6 @@ namespace EEMod
         }
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
-            /*if (NPC.AnyNPCs(NPCID.KingSlime))
-            {
-                Cheese1 = true;
-            }
-            else
-            {
-                Cheese1 = false;
-            }*/
             if (dalantiniumSet)
                 for (int i = 0; i < 3; i++)
                     Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
@@ -1762,6 +1046,7 @@ namespace EEMod
         public int milliseconds;
         public override void PreUpdate()
         {
+            if(Main.frameRate != 0)
             milliseconds += 1000/Main.frameRate;
             if (milliseconds >= 1000)
             {

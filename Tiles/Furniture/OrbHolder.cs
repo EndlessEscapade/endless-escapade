@@ -7,11 +7,54 @@ using Terraria.Enums;
 using Terraria.ID;
 using EEMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
+using Terraria.ModLoader.IO;
 
 namespace EEMod.Tiles.Furniture
 {
     public class OrbHolder : ModTile
     {
+        public class OrbHolderTE : ModTileEntity
+        {
+            public bool hasOrb = false;
+            public override bool ValidTile(int i, int j)
+            {
+                Tile tile = Main.tile[i, j];
+                return tile.active();
+            }
+            public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+            {
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    NetMessage.SendTileSquare(Main.myPlayer, i - 1, j - 1, 3);
+                    NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
+                    return -1;
+                }
+
+                return Place(i, j);
+            }
+            public override void NetSend(BinaryWriter writer, bool lightSend)
+            {
+                writer.Write(hasOrb);
+            }
+
+            public override void NetReceive(BinaryReader reader, bool lightReceive)
+            {
+                hasOrb = reader.ReadBoolean();
+            }
+
+            public override TagCompound Save()
+            {
+                return new TagCompound
+                {
+                    [nameof(hasOrb)] = hasOrb
+                };
+            }
+            public override void Load(TagCompound tag)
+            {
+                hasOrb = tag.GetBool(nameof(hasOrb));
+            }
+        }
         public override void SetDefaults()
         {
             Main.tileSolidTop[Type] = false;
@@ -22,11 +65,12 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.Width = 9;
             TileObjectData.newTile.Height = 10;
             TileObjectData.newTile.Origin = new Point16(0, 0);
-            //TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
+            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<OrbHolderTE>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
@@ -36,25 +80,35 @@ namespace EEMod.Tiles.Furniture
             dustType = DustID.Dirt;
             animationFrameHeight = 180;
         }
+        int frameCounter;
+        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        {
 
-        bool hasOrb = false;
+                Tile tile = Main.tile[i, j];
+
+                int x = i - tile.frameX / 18 % 9;
+                int y = j - tile.frameY / 18 % 10;
+
+                 int targetTe = ModContent.GetInstance<OrbHolderTE>().Find(x, y);
+              if (targetTe > -1 && TileEntity.ByID[targetTe] is OrbHolderTE TE)
+                {
+                    if (TE.hasOrb)
+                    {
+                        frameYOffset = ((Main.tileFrameCounter[Type]/3) % 7) * animationFrameHeight;
+                    }
+                    else
+                    {
+                     frameYOffset = 8 * animationFrameHeight;
+                    }
+                }
+        }
+        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        {
+            ModContent.GetInstance<OrbHolderTE>().Kill(i, j);
+        }
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
-            if (hasOrb)
-            {
-                frameCounter++;
-                if (frameCounter == 3)
-                {
-                    frame++;
-                    frameCounter = 0;
-                }
-                if (frame > 7)
-                    frame = 0;
-            }
-            else
-            {
-                frame = 8;
-            }
+            frameCounter++;
         }
     }
 }

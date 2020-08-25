@@ -19,7 +19,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             npc.aiStyle = -1;
 
             npc.lifeMax = 50;
-            npc.damage = 13;
+            npc.damage = 0;
             npc.defense = 3;
 
             npc.width = 64;
@@ -32,6 +32,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             npc.lavaImmune = false;
             npc.behindTiles = true;
             npc.dontTakeDamage = true;
+            npc.friendly = true;
             npc.value = Item.sellPrice(0, 0, 0, 75);
         }
 

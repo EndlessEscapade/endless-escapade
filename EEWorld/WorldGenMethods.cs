@@ -3674,8 +3674,10 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public static Vector2 ChestPos = Vector2.Zero;
         public static void PlaceAnyBuilding(int i, int j, int[,,] shape)
         {
+            ChestPos = Vector2.Zero;
             for (int y = 0; y < shape.GetLength(0); y++)
             {
                 for (int x = 0; x < shape.GetLength(1); x++)
@@ -3688,13 +3690,17 @@ namespace EEMod.EEWorld
 
                         if (shape[y, x, 0] != 0)
                         {
-                            if(tile.type != ModContent.TileType<GemsandChestTile>())
+                            if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
+                            {
                                 tile.ClearTile();
-                            if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>())
-                                WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GemsandChestTile>());
-                            else
+                            }
+                                if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
+                                ChestPos = new Vector2(y,x);
+                            if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
+                            {
                                 tile.type = (ushort)shape[y, x, 0];
-                            tile.active(true);
+                                tile.active(true);
+                            }
                         }
                         tile.wall = (ushort)shape[y, x, 1];
                         tile.color((byte)shape[y, x, 2]);
@@ -3717,6 +3723,10 @@ namespace EEMod.EEWorld
                         tile.frameY = ((byte)shape[y, x, 9]);
                     }
                 }
+            }
+            if (ChestPos != Vector2.Zero)
+            {
+                WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y+1,21);
             }
         }
         public static void Island(int islandWidth, int islandHeight, int posY)

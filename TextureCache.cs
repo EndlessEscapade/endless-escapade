@@ -57,15 +57,19 @@ namespace EEMod
         public static Texture2D BluePuck;
         public static Texture2D RedPuck;
         public static Texture2D Puck;
+        public static Texture2D Noise;
+        public static Texture2D BlackTex;
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
             Mod mod = EEMod.instance;
+            Noise = mod.GetTexture("noise");
             LightVine = mod.GetTexture("Projectiles/Light");
             Vine = mod.GetTexture("Projectiles/Vine");
             BluePuck = mod.GetTexture("BlueAirHockeyThing");
             RedPuck = mod.GetTexture("RedAirHockeyThing");
             Puck = mod.GetTexture("AirHockeyPuck");
+            BlackTex = mod.GetTexture("NoiseSurfacingTest");
             //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
             Chain = mod.GetTexture("NPCs/CoralReefs/MechanicalReefs/DreadmineChain");
             Empty = mod.GetTexture("Empty");
@@ -116,6 +120,8 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            BlackTex = null;
+            Noise = null;
             Puck = null;
             BluePuck = null;
             RedPuck = null;

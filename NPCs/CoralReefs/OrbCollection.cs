@@ -8,7 +8,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-
+using static EEMod.Tiles.Furniture.OrbHolder;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -45,7 +45,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.frameCounter++;
             if (npc.frameCounter == 6)
             {
-                npc.frame.Y = npc.frame.Y + frameHeight;
+              //  npc.frame.Y = npc.frame.Y + frameHeight;
                 npc.frameCounter = 0;
             }
             if (npc.frame.Y >= frameHeight * 3)
@@ -54,12 +54,14 @@ namespace EEMod.NPCs.CoralReefs
                 return;
             }
         }
+
         public override bool CheckActive()
         {
             return false;
         }
         bool isPicking;
         bool otherPhase;
+        bool otherPhase2;
         float t;
         Vector2[] Holder = new Vector2[2];
         public override void AI()
@@ -84,9 +86,18 @@ namespace EEMod.NPCs.CoralReefs
             }
             if(isPicking && !Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
             {
-                otherPhase = true;
-                Holder[0] = npc.Center;
-                Holder[1] = Main.MouseWorld;
+                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos == Vector2.Zero)
+                {
+                    otherPhase = true;
+                    Holder[0] = npc.Center;
+                    Holder[1] = Main.MouseWorld;
+                }
+                else
+                {
+                    otherPhase2 = true;
+                    Holder[0] = npc.Center;
+                    Holder[1] = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos + new Vector2(70,60);
+                }
             }
             if(otherPhase)
             {
@@ -105,6 +116,44 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     t = 0;
                     otherPhase = false;
+                }
+            }
+            else if (otherPhase2)
+            {
+                t += 0.01f;
+                if (t <= 1)
+                {
+                    Vector2 mid = (Holder[0] + Holder[1]) / 2;
+                    npc.Center = Helpers.TraverseBezier(Holder[1], Holder[0], mid - new Vector2(0, 300), mid - new Vector2(0, 300), t);
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, false, true, 0);
+                }
+                else if (t <= 1.3f)
+                {
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, true, false, 10);
+                }
+                else
+                {
+                    Tile tile = Main.tile[(int)(Holder[1].X / 16), (int)(Holder[1].Y / 16)];
+                    int index = ModContent.GetInstance<OrbHolderTE>().Find((int)(Holder[1].X / 16 - tile.frameX / 16), (int)(Holder[1].Y / 16 - tile.frameY / 16));
+                    if (index != -1)
+                    {
+                        OrbHolderTE TE = (OrbHolderTE)TileEntity.ByID[index];
+                        TE.hasOrb = true;
+                    }
+                    t = 0;
+                    otherPhase2 = false;
+                    for (int i = 0; i < 50; i++)
+                    {
+                        Vector2 position = npc.Center + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / 50 * i)) * 30;
+                        //'position' will be a point on a circle around 'origin'.  If you're using this to spawn dust, use Dust.NewDustPerfect
+                        Dust dust = Dust.NewDustPerfect(position, DustID.PurpleCrystalShard);
+                        dust.noGravity = true;
+                        dust.velocity = Vector2.Normalize(dust.position - npc.Center) * 4;
+                        dust.noLight = false;
+                        dust.fadeIn = 1f;
+                    }
+                    npc.life = 0;
+                    npc.timeLeft = 0;
                 }
             }
             else

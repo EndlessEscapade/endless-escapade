@@ -42,6 +42,8 @@ using EEMod.Items;
 using EEMod.ID;
 using EEMod.Net;
 using EEMod.Extensions;
+using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 namespace EEMod
 {
@@ -53,6 +55,64 @@ namespace EEMod
         {
 
         }
+        public static Texture2D ScTex;
+     /*   public System.Drawing.Bitmap CaptureFromScreen(System.Drawing.Rectangle rect)
+        {
+            System.Drawing.Bitmap bmpScreenCapture = null;
+
+            if (rect == System.Drawing.Rectangle.Empty)//capture the whole screen
+            {
+                rect = Screen.PrimaryScreen.Bounds;
+            }
+
+            bmpScreenCapture = new System.Drawing.Bitmap(rect.Width, rect.Height);
+
+            System.Drawing.Graphics p = System.Drawing.Graphics.FromImage(bmpScreenCapture);
+
+
+            p.CopyFromScreen(rect.X,
+                     rect.Y,
+                     0, 0,
+                     rect.Size,
+                    System.Drawing.CopyPixelOperation.SourceCopy);
+
+
+            p.Dispose();
+
+            return bmpScreenCapture;
+        }
+        private Texture2D GetTextureSc(GraphicsDevice dev, System.Drawing.Bitmap bmp)
+        {
+            int[] imgData = new int[bmp.Width * bmp.Height];
+            Texture2D texture = new Texture2D(dev, bmp.Width, bmp.Height);
+
+            unsafe
+            {
+                // lock bitmap
+                BitmapData origdata =
+                    bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, bmp.PixelFormat);
+
+                uint* byteData = (uint*)origdata.Scan0;
+
+                // Switch bgra -> rgba
+                for (int i = 0; i < imgData.Length; i++)
+                {
+                    byteData[i] = (byteData[i] & 0x000000ff) << 16 | (byteData[i] & 0x0000FF00) | (byteData[i] & 0x00FF0000) >> 16 | (byteData[i] & 0xFF000000);
+                }
+
+                // copy data
+                System.Runtime.InteropServices.Marshal.Copy(origdata.Scan0, imgData, 0, bmp.Width * bmp.Height);
+
+                byteData = null;
+
+                // unlock bitmap
+                bmp.UnlockBits(origdata);
+            }
+
+            texture.SetData(imgData);
+
+            return texture;
+        }*/
         public static double worldSurface;
 
         public static double worldSurfaceLow;
@@ -76,7 +136,7 @@ namespace EEMod
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
         }
-
+        public static Effect NoiseSurfacing;
         public void DrawZipline()
         {
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
@@ -95,6 +155,7 @@ namespace EEMod
             RuneSpecial = null;
             simpleGame = null;
             ActivateVerletEngine = null;
+            NoiseSurfacing = null;
             UnloadIL();
             AutoloadingManager.UnloadManager(this);
             instance = null;
@@ -123,7 +184,10 @@ namespace EEMod
         bool mode;
         public void UpdateVerlet()
         {
-            if(ActivateVerletEngine.JustPressed)
+          //  System.Drawing.Bitmap ScreenTexture = CaptureFromScreen(new System.Drawing.Rectangle(0, 0, 1980, 1080));
+           // ScTex = GetTextureSc(Main.graphics.GraphicsDevice, ScreenTexture);
+           // Main.spriteBatch.Draw(ScTex, Main.LocalPlayer.position, Color.White);
+            if (ActivateVerletEngine.JustPressed)
             {
                 mode = !mode;
             }
@@ -189,10 +253,10 @@ namespace EEMod
         public void UpdateIslands()
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            for (int i = 0; i < modPlayer.Islands.Count; i++)
+            for (int i = 0; i < modPlayer.SeaObject.Count; i++)
             {
-                Color drawColour = Lighting.GetColor((int)(modPlayer.Islands[i].posToScreen.X / 16f), (int)(modPlayer.Islands[i].posToScreen.Y / 16f));
-                Main.spriteBatch.Draw(modPlayer.Islands[i].texture, modPlayer.Islands[i].posToScreen.ForDraw(), drawColour);
+                Color drawColour = Lighting.GetColor((int)(modPlayer.SeaObject[i].posToScreen.X / 16f), (int)(modPlayer.SeaObject[i].posToScreen.Y / 16f));
+                Main.spriteBatch.Draw(modPlayer.SeaObject[i].texture, modPlayer.SeaObject[i].posToScreen.ForDraw(), drawColour);
             }
         }
         public void UpdateGame(GameTime gameTime)
@@ -366,6 +430,7 @@ namespace EEMod
                 Filters.Scene["EEMod:SunThroughWalls"].Load();
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
+                NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
                 /*
 		  SpeedrunnTimer = new UserInterface();
 		  //RunUI.Activate();
@@ -417,7 +482,7 @@ namespace EEMod
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
                 DrawZipline();
 
-            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea)
             {
                 for (int i = 0; i < layers.Count; i++)
                 {
@@ -436,13 +501,13 @@ namespace EEMod
             delegate
             {
                 Ascension();
-                if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+                if (Main.worldName == KeyID.Sea)
                 {
                     UpdateIslands();
                     DrawSubText();
                     DrawShip();
                 }
-                if (Main.ActiveWorldFileData.Name == KeyID.Pyramids || Main.ActiveWorldFileData.Name == KeyID.Sea || Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+                if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
                     DrawText();
                 return true;
             },
@@ -556,7 +621,7 @@ namespace EEMod
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
-            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea)
             {
                 text = "The Ocean";
                 color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
@@ -608,14 +673,17 @@ namespace EEMod
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.subTextAlpha;
             Color color = Color.White;
-            if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea)
             {
                 text = "Disembark?";
                 color *= alpha;
             }
-            Vector2 textSize = Main.fontMouseText.MeasureString(text);
-            float textPositionLeft = position.X - textSize.X / 2;
-            Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            if (text != null)
+            {
+                Vector2 textSize = Main.fontMouseText.MeasureString(text);
+                float textPositionLeft = position.X - textSize.X / 2;
+                Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            }
         }
         float flash = 0;
         float markerPlacer = 0;
@@ -643,6 +711,7 @@ namespace EEMod
             return;
         }
         private int cannonDelay = 60;
+        public Vector2 otherBoatPos;
         private void DrawShip()
         {
             markerPlacer++;
@@ -768,8 +837,28 @@ namespace EEMod
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-
+            for (int i = 0; i < Main.ActivePlayersCount; i++)
+            {
+                if (i == 0)
+                {
+                    Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                }
+                else
+                {
+                    if (Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        EEServerVariableCache.SyncBoatPos(position, velocity.X);
+                    }
+                    for (int j = 0; j < 255; j++)
+                    {
+                        if (Main.player[j].active && j != Main.myPlayer)
+                        {
+                            Main.spriteBatch.Draw(texture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), Color.White, EEServerVariableCache.OtherRot[j]/10f, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, EEServerVariableCache.OtherRot[j] < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                        }
+                    }
+                    
+                }
+            }
             flash += 0.01f;
             if (flash == 2)
             {

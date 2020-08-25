@@ -50,6 +50,9 @@ namespace EEMod.Net
                 case EEMessageType.SyncPosition:
                     EEServerVariableCache.HandlePacket(reader, fromwho, EEMessageType.SyncPosition);
                     break;
+                case EEMessageType.SyncBoatPos:
+                    EEServerVariableCache.HandlePacket(reader, fromwho, EEMessageType.SyncBoatPos);
+                    break;
             }
         }
 

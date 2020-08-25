@@ -48,18 +48,16 @@ namespace EEMod.NPCs.CoralReefs
         public override void AI()
         {
             Player target = Main.player[npc.target];
-            if (target.WithinRange(npc.Center, 6400))
-            {
-                npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 4;
-            }
+            if(npc.wet)
+                if (target.WithinRange(npc.Center, 6400))
+                    npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 4;
+            npc.rotation = npc.velocity.X / 6;
         }
 
         public override void NPCLoot()
         {
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
-            {
                 EEWorld.EEWorld.instance.minionsKilled++;
-            }
         }
     }
 }

@@ -19,6 +19,8 @@ namespace EEMod
 
         public static Vector2 VectorStorage;
         public static Vector2 PositionStorage;
+        public static Vector2[] OtherBoatPos = new Vector2[300];
+        public static float[] OtherRot = new float[300];
         public static int Cool;
 
         public static void SyncVelocity(Vector2 v)
@@ -43,6 +45,15 @@ namespace EEMod
             {
                     EENet.SendPacket(EEMessageType.SyncCool, v);
                     Cool = v;
+            }
+        }
+        public static void SyncBoatPos(Vector2 v,float f)
+        {
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                EENet.SendPacket(EEMessageType.SyncBoatPos, v,f);
+                OtherBoatPos[Main.myPlayer] = v;
+                OtherRot[Main.myPlayer] = f;
             }
         }
         internal static void HandlePacket(BinaryReader reader, int fromwho, EEMessageType msg)
@@ -75,6 +86,19 @@ namespace EEMod
                 {
                     int v = reader.Read<int>();
                     Cool = v;
+                }
+            }
+            if (msg == EEMessageType.SyncBoatPos)
+            {
+                if (Main.netMode == NetmodeID.Server)
+                    EENet.SendPacketTo(EEMessageType.SyncBoatPos, -1, fromwho, reader.Read<Vector2>(), reader.Read<float>(),(ushort)fromwho);
+                else if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    Vector2 v = reader.Read<Vector2>();
+                    float f = reader.Read<float>();
+                    ushort from = reader.Read<ushort>();
+                    OtherBoatPos[from] = v;
+                    OtherRot[from] = f;
                 }
             }
         }
