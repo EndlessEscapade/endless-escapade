@@ -11,7 +11,6 @@ namespace EEMod.Tiles.Walls
     {
         public override void ModifyLight(int i, int j, int type, ref float r, ref float g, ref float b)
         {
-            Main.NewText(EEWorld.EEWorld.instance.brightness);
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
                 r = g = b = EEWorld.EEWorld.instance.brightness;
         }
