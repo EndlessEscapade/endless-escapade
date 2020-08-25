@@ -53,6 +53,15 @@ namespace EEMod.Net
                 case EEMessageType.SyncBoatPos:
                     EEServerVariableCache.HandlePacket(reader, fromwho, EEMessageType.SyncBoatPos);
                     break;
+                case EEMessageType.SyncBrightness:
+                    if (Main.netMode == NetmodeID.Server)
+                        SendPacketTo(EEMessageType.SyncBrightness, -1, fromwho, reader.Read<float>());
+                    else if (Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        float v = reader.Read<float>();
+                        EEWorld.EEWorld.instance.brightness = v;
+                    }
+                    break;
             }
         }
 

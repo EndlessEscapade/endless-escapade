@@ -7,6 +7,7 @@ namespace EEMod.Net
         SyncVector,
         SyncPosition,
         SyncCool,
-        SyncBoatPos
+        SyncBoatPos,
+        SyncBrightness
     }
 }

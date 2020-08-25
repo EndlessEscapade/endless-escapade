@@ -25,5 +25,9 @@ namespace EEMod
         [Label("Dynamic Camera Movement")]
         [Tooltip("Enable Camera Movement that moves as the player moves")]
         public bool CamMoveBool;
+        [DefaultValue(false)]
+        [Label("Debug Options")]
+        [Tooltip("DEVELOPER ONLY")]
+        public bool EEDebug;
     }
 }

@@ -14,6 +14,7 @@ using EEMod.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using EEMod.ID;
+using EEMod.Net;
 
 namespace EEMod.EEWorld
 {
@@ -32,7 +33,7 @@ namespace EEMod.EEWorld
         public static bool downedKraken;
         public static bool omenPath;
 
-        public static float brightness;
+        public float brightness;
 
         // private static List<Point> BiomeCenters;
         public static Vector2 yes;
@@ -152,7 +153,9 @@ namespace EEMod.EEWorld
                     brightness = 0.5f;
             }
             else
-                brightness = 0;
+                brightness = 0.1f;
+
+            EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
         }
 
         public static Vector2 SubWorldSpecificCoralBoatPos;
