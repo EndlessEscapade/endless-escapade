@@ -9,29 +9,6 @@ namespace EEMod.Net.Serializers
 {
     public class SerializersManager : AutoloadTypeManager<NetObjSerializer>
     {
-        class SerializerInfo
-        {
-            LinkedList<Tuple<SerializerPriority, NetObjSerializer>> serializers;
-            NetObjSerializer cachedHighest;
-            public NetObjSerializer GetHighestPrioritySerializer() => cachedHighest;
-            public void AddSerializer(SerializerPriority priority, NetObjSerializer serializer)
-            {
-                Tuple<SerializerPriority, NetObjSerializer> m = Tuple.Create(priority, serializer);
-                serializers.AddLast(m);
-                foreach (var s in serializers)
-                {
-                    if (s.Item1 > m.Item1)
-                        m = s;
-                }
-                cachedHighest = m.Item2;
-            }
-            public SerializerInfo(NetObjSerializer defaultSerializer, SerializerPriority priority = SerializerPriority.Medium)
-            {
-                serializers = new LinkedList<Tuple<SerializerPriority, NetObjSerializer>>();
-                serializers.AddFirst(Tuple.Create(priority, cachedHighest = defaultSerializer));
-            }
-        }
-
         [FieldInit]
         private static ConcurrentDictionary<Type, SerializerInfo> serializers = new ConcurrentDictionary<Type, SerializerInfo>();
 
@@ -39,11 +16,10 @@ namespace EEMod.Net.Serializers
         {
             if (type.CouldBeInstantiated() && type.IsSubclassOfGeneric(typeof(NetObjSerializer<>), out Type typ))
             {
-                Type serializingTargetType = typ.GenericTypeArguments[0];
+                Type serializingTargetType = typ.GenericTypeArguments[0]; // NetObjSerializer<thetype>
                 if (type.TryCreateInstance(out NetObjSerializer serializer))
                     AddSerializer(serializingTargetType, serializer, serializer.Priority);
             }
-
         }
 
         public static void AddSerializer(Type fortype, NetObjSerializer serializer, SerializerPriority priority = SerializerPriority.Medium)
@@ -58,5 +34,31 @@ namespace EEMod.Net.Serializers
 
         public static NetObjSerializer GetTypeSerializer(Type fortype) => serializers.TryGetValue(fortype, out var serializer) ? serializer.GetHighestPrioritySerializer() : null;
         public static NetObjSerializer<T> GetTypeSerializer<T>() => (NetObjSerializer<T>)GetTypeSerializer(typeof(T));
+
+        class SerializerInfo
+        {
+            Dictionary<SerializerPriority, NetObjSerializer> serializers;
+            private NetObjSerializer _cachedHighest;
+            public NetObjSerializer GetHighestPrioritySerializer() => _cachedHighest;
+            public void AddSerializer(SerializerPriority priority, NetObjSerializer serializer)
+            {
+                serializers.Add(priority, serializer);
+                foreach(var s in serializers)
+                {
+                    if(s.Key > priority)
+                    {
+                        priority = s.Key;
+                        serializer = s.Value;
+                    }
+                }
+                _cachedHighest = serializer;
+            }
+            public SerializerInfo(NetObjSerializer defaultSerializer, SerializerPriority priority = SerializerPriority.Medium)
+            {
+                serializers = new Dictionary<SerializerPriority, NetObjSerializer>();
+                serializers.Add(priority, defaultSerializer);
+                _cachedHighest = defaultSerializer;
+            }
+        }
     }
 }
