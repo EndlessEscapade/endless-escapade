@@ -12,13 +12,22 @@ using Terraria.World.Generation;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Tiles;
-
+using System.Diagnostics;
+using System;
+using System.Net;
 namespace EEMod
 {
     public class SubworldManager
     {
         public static int _lastSeed;
+        internal enum EEServerState : byte
+        {
+            None,
+            SinglePlayer,
+            MultiPlayer
+        }
 
+        internal static EEServerState serverState = EEServerState.None;
         private static WorldGenerator _generator;
 
         private static void AddGenerationPass(string name, WorldGenLegacyMethod method)
@@ -120,7 +129,6 @@ namespace EEMod
         }
         public static void SaveAndQuitCallBack(object threadContext)
         {
-            EEMod.isSaving = true;
             try
             {
                 Main.PlaySound(SoundID.Waterfall, -1, -1, 0);
@@ -132,11 +140,17 @@ namespace EEMod
             if (Main.netMode == NetmodeID.SinglePlayer)
             {
                 WorldFile.CacheSaveTime();
+                Main.menuMode = 10;
+                EEMod.isSaving = true;
+            }
+            else
+            {
+                Main.menuMode = 889;
             }
             Main.invasionProgress = 0;
             Main.invasionProgressDisplayLeft = 0;
             Main.invasionProgressAlpha = 0f;
-            Main.menuMode = 10;
+            
             Main.gameMenu = true;
             Main.StopTrackedSounds();
             Terraria.Graphics.Capture.CaptureInterface.ResetFocus();
@@ -146,15 +160,20 @@ namespace EEMod
             {
                 WorldFile.saveWorld();
                 Main.PlaySound(SoundID.MenuOpen);
+                Main.fastForwardTime = false;
+                Main.UpdateSundial();
+                Main.menuMode = 0;
+                serverState = EEServerState.SinglePlayer;
             }
             else
             {
                 Netplay.disconnect = true;
                 Main.netMode = NetmodeID.SinglePlayer;
+                Main.fastForwardTime = false;
+                Main.UpdateSundial();
+                Main.menuMode = 889;
+                serverState = EEServerState.MultiPlayer;
             }
-            Main.fastForwardTime = false;
-            Main.UpdateSundial();
-            Main.menuMode = 0;
             if (threadContext != null)
             {
                 EnterSub(threadContext as string);
@@ -187,15 +206,23 @@ namespace EEMod
             Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
             ThreadPool.QueueUserWorkItem(WorldGenCallBack, text);
         }
+        public static string ConvertToSafeArgument(string arg)
+        {
+            return Uri.EscapeDataString(arg);
+        }
+        public static Process EEServer = new Process();
         private static void OnWorldNamed(string text)
         {
-          /*  string EEpath = $@"{Main.SavePath}\EEWorlds";
+          /*string EEpath = $@"{Main.SavePath}\EEWorlds";
             if (!Directory.Exists(EEpath))
             {
                 DirectoryInfo di = Directory.CreateDirectory(EEpath);
             }*/
 
             string path = $@"{Main.SavePath}\Worlds\{text}.wld";
+
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata(path, false);
+            Main.ActivePlayerFileData.SetAsActive();
             if (!File.Exists(path))
             {
                 Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
@@ -203,9 +230,47 @@ namespace EEMod
                 CreateNewWorld(text);
                 return;
             }
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata(path, false);
-            WorldGen.playWorld();
+            if (serverState == EEServerState.SinglePlayer)
+            {
+                WorldGen.playWorld();
+            }
+            else
+            {
+
+                /*   EEServer.StartInfo.FileName = "tModLoaderServer.exe";
+                      if (Main.libPath != "")
+                      {
+                          ProcessStartInfo startInfo = EEServer.StartInfo;
+                          startInfo.Arguments = startInfo.Arguments + " -loadlib " + Main.libPath;
+                      }
+                      EEServer.StartInfo.UseShellExecute = false;
+                      EEServer.StartInfo.CreateNoWindow = !Main.showServerConsole;
+                      if (SocialAPI.Network != null)
+                      {
+                          SocialAPI.Network.LaunchLocalServer(EEServer, Main.MenuServerMode);
+                      }
+                      else
+                      {
+                          EEServer.Start();
+                      }*/
+
+                //  Netplay.SetRemoteIP("127.0.0.1");
+                //Main.autoPass = true;
+                //Netplay.StartTcpClient();
+                Main.clrInput();
+                Netplay.ServerPassword = "";
+                Main.GetInputText("");
+                Main.autoPass = false;
+                Main.menuMode = 30;
+                Main.PlaySound(10);
+            }
         }
+        public static void StartClientGameplay()
+        {
+            Main.menuMode = 10;
+            Netplay.StartTcpClient();
+        }
+
         private void ReturnOnName(string text)
         {
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);

@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Terraria.Graphics.Effects;
 using Microsoft.Xna.Framework.Graphics;
+using EEMod.Extensions;
 
 namespace EEMod.Projectiles
 {
@@ -64,15 +65,20 @@ namespace EEMod.Projectiles
             if (!EEModConfigClient.Instance.BetterLighting)
             {
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), Main.player[(int)projectile.ai[1]].Center - Main.screenPosition - new Vector2(-Main.screenWidth / 2, Main.screenHeight / 2), new Rectangle(0, 0, 174, 174), Color.White * 0, projectile.rotation + (float)Math.Sin(projectile.ai[0] / 40f), new Vector2(87), 10, SpriteEffects.None, 0);
-               // Main.spriteBatch.Draw(EEPlayer.ScTex, Main.player[(int)projectile.ai[1]].Center - Main.screenPosition, new Rectangle(0, 0, 1980, 1080), Color.White * 0.5f, 0f, new Rectangle(0, 0, 1980, 1080).Size() / 2, 10, SpriteEffects.None, 0);
+                
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+           
             // drawIt();
             return true;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+
         }
     }
 }

@@ -1,3 +1,4 @@
+using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -56,10 +57,12 @@ namespace EEMod.Projectiles
         }
              
         public float flash;
+  
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            flash += 0.01f;
 
+
+            flash += 0.01f;
             for (int i = 0; i < Particles.Count; i++)
             {
                 Particles[i].flash++;
@@ -72,6 +75,23 @@ namespace EEMod.Projectiles
             }
 
             return false;
+        }
+        public Texture2D GetScreenTex()
+        {
+            RenderTarget2D buffer = new RenderTarget2D(Main.instance.GraphicsDevice, 1980, 1017, false, Main.instance.GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
+            Main.graphics.GraphicsDevice.SetRenderTarget(Main.screenTarget);
+            Color[] texdata = new Color[buffer.Width * buffer.Height];
+            buffer.GetData(texdata);
+            Texture2D screenTex = new Texture2D(Main.graphics.GraphicsDevice, buffer.Width, buffer.Height);
+            screenTex.SetData(texdata);
+            Main.spriteBatch.Draw(screenTex, Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.instance.GraphicsDevice.SetRenderTarget(null);
+
+            return buffer;
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            //Main.spriteBatch.Draw(GetScreenTex(), Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
         }
     }
 }

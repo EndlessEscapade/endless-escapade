@@ -47,7 +47,17 @@ namespace EEMod
                 Prims.CreateVerlet();
             }
         }
-
+        public void DrawRef()
+        {
+            RenderTarget2D buffer = Main.screenTarget;
+            Main.graphics.GraphicsDevice.SetRenderTarget(null);
+            Color[] texdata = new Color[buffer.Width * buffer.Height];
+            buffer.GetData(texdata);
+            Texture2D screenTex = new Texture2D(Main.graphics.GraphicsDevice, buffer.Width, buffer.Height);
+            screenTex.SetData(texdata);
+            Main.spriteBatch.Draw(screenTex, Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White * 0.3f, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
+            Main.graphics.GraphicsDevice.SetRenderTarget(Main.screenTarget);
+        }
         private void Practice(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -341,7 +351,11 @@ namespace EEMod
         private void OnDrawMenu(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
-
+            Main.spriteBatch.Begin();
+            Vector2 textSize3 = Main.fontDeathText.MeasureString(Main.menuMode.ToString());
+                float textPosition2Left2 = Main.screenWidth / 2 - textSize3.X / 2;
+                Main.spriteBatch.DrawString(Main.fontMouseText, "EEModDebug MenuMode: " + Main.menuMode.ToString(), new Vector2(50, 50), Color.AliceBlue, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+            Main.spriteBatch.End();
             if (isSaving && Main.gameMenu)
             {
                 alpha += 0.01f;
