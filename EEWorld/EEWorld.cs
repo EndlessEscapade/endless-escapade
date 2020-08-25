@@ -154,7 +154,7 @@ namespace EEMod.EEWorld
             }
             else
                 brightness = 0.1f;
-
+            if(Main.netMode == NetmodeID.MultiplayerClient)
             EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
         }
 
