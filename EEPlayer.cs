@@ -644,9 +644,15 @@ namespace EEMod
         float[] dis = new float[51];
         public bool isWearingCape = false;
 
+        float inspectTimer = 0;
+        public void InspectObject()
+        {
+            Main.spriteBatch.Draw(mod.GetTexture("InspectIcon"), (player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
+            inspectTimer+=0.5f;
+        }
+
         public override void UpdateBiomeVisuals()
         {
-            
             if (isWearingCape)
             {
                 float acc = arrayPoints.Length;
