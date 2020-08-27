@@ -325,6 +325,7 @@ namespace EEMod
             dalantiniumSet = false;
             hydriteSet = false;
             hydrofluoricSet = false;
+            isWearingCape = false;
         }
 
         public void ReturnHome()
@@ -529,6 +530,7 @@ namespace EEMod
             if (isWearingCape)
             {
                 UpdateArrayPoints();
+                Main.NewText("EA SPORT");
             }
             thermalHealingTimer--;
             if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)
