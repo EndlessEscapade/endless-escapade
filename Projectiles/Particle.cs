@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 namespace EEMod.Projectiles
@@ -29,12 +30,30 @@ namespace EEMod.Projectiles
         }
         int sinControl;
         public List<ParticlesClass> Particles = new List<ParticlesClass>();
+        public List<LeafClass> Leaves = new List<LeafClass>();
+
         public override void AI()
         {
             projectile.timeLeft = 900;
             projectile.Center = Main.player[(int)projectile.ai[1]].Center;
             sinControl++;
-            if (sinControl % 40 == 0 && EEModConfigClient.Instance.ParticleEffects)
+            if (sinControl % 20 == 0 && EEModConfigClient.Instance.ParticleEffects)
+            {
+                Vector2 LeafPos = new Vector2(0, Main.rand.Next(2000)) + Main.screenPosition;
+                LeafClass leaf = new LeafClass
+                {
+                    scale = Main.rand.NextFloat(0.5f, 1f),
+                    alpha = Main.rand.NextFloat(20, 100),
+                    Position = LeafPos
+                };
+                if (Leaves.Count < 255)
+                    Leaves.Add(leaf);
+                else
+                {
+                    Leaves.RemoveAt(0);
+                }
+            }
+                if (sinControl % 40 == 0 && EEModConfigClient.Instance.ParticleEffects)
             {
                 Vector2 particlesPos = new Vector2(Main.rand.Next(2000), Main.screenHeight + 200) + Main.screenPosition;
                 ParticlesClass particle = new ParticlesClass
@@ -49,32 +68,36 @@ namespace EEMod.Projectiles
                 {
                     Particles.RemoveAt(0);
                 }
+
             }
             if (!EEModConfigClient.Instance.ParticleEffects)
             {
                 projectile.Kill();
             }
         }
-             
-        public float flash;
   
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-
-
-            flash += 0.01f;
             for (int i = 0; i < Particles.Count; i++)
             {
                 Particles[i].flash++;
                 Particles[i].Position += new Vector2((float)Math.Sin(Particles[i].flash / (Particles[i].alpha / 13)) / (Particles[i].alpha / 2), -2f * Particles[i].scale);
+               
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Particles[i].Position - Main.screenPosition, null, Color.White * Math.Abs((float)(Math.Sin(Particles[i].flash / (Particles[i].alpha / 3f)))), Particles[i].flash / 10f, new Vector2(0), Particles[i].scale, SpriteEffects.None, 0);
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin();
             }
-
-            return false;
+            for (int i = 0; i < Particles.Count; i++)
+            {
+                Leaves[i].flash++;
+                Leaves[i].velocity = new Vector2(3f * Leaves[i].scale, (float)Math.Sin((Leaves[i].flash * 0.5f) / Leaves[i].alpha));
+                Leaves[i].rotation += Leaves[i].velocity.X / 50f;
+                Leaves[i].Position += Leaves[i].velocity;
+                Main.spriteBatch.Draw(TextureCache.Leaf, Leaves[i].Position - Main.screenPosition, null, Color.White, Leaves[i].velocity.ToRotation() + Leaves[i].rotation, new Vector2(0), Leaves[i].scale, SpriteEffects.None, 0);
+            }
+                return false;
         }
         public Texture2D GetScreenTex()
         {

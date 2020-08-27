@@ -621,15 +621,21 @@ namespace EEMod
         {
             float acc = arrayPoints.Length;
             float upwardDrag = 0.2f;
+            float smoothStepSpeed = 8;
+            float yDis = 15;
+            float propagtionSpeedWTRdisX = 15;
+            float propagtionSpeedWTRvelY = 4;
+            float basePosFluncStatic = 5f;
+            float basePosFlunc = 3f;
             propagation += (Math.Abs(player.velocity.X / 2f) * 0.015f) + 0.1f;
             for (int i = 0; i < acc; i++)
             {
-                float prop = (float)Math.Sin(propagation + (i * 10 / acc));
-                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f) * i), mainPoint.Y + (i * displaceY) + 20);
-                float dist = (player.position.Y + 15) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
-                float amp = Math.Abs(player.velocity.X * 3) * ((i * 3) / acc) + 1f;
-                float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / 4f * i);
-                float disClamp = (goTo - dis[i]) / 8f;
+                float prop = (float)Math.Sin(propagation + (i * propagtionSpeedWTRdisX / acc));
+                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / basePosFluncStatic) * i), mainPoint.Y + (i * displaceY) + 20);
+                float dist = (player.position.Y + yDis) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
+                float amp = Math.Abs(player.velocity.X * basePosFlunc) * ((i * basePosFlunc) / acc) + 1f;
+                float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / propagtionSpeedWTRvelY * i);
+                float disClamp = (goTo - dis[i]) / smoothStepSpeed;
                 disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
                 dis[i] += disClamp;
                 if (i == 0)
