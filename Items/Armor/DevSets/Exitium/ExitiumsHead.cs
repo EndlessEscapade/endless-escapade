@@ -7,17 +7,17 @@ namespace EEMod.Items.Armor.DevSets.Exitium
 {
     [AutoloadEquip(EquipType.Head)]
 
-    public class Cat : ModItem
+    public class ExitiumsHead : ModItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exitium's Head");
-            Tooltip.SetDefault("'Great for impersonating mod devs!'");
+            Tooltip.SetDefault("'Move swift as the Wind and closely-formed as the Wood. Attack like the Fire and be still as the Mountain'");
         }
         public override void SetDefaults()
         {
             item.width = 18;
-            item.height = 18;
+            item.height = 20;
             item.rare = ItemRarityID.Cyan;
             item.vanity = true;
         }

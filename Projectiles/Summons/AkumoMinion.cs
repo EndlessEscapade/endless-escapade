@@ -36,9 +36,9 @@ namespace EEMod.Projectiles.Summons
 
         public override void AI()
         {
-            bool areYouHere = projectile.type == ModContent.ProjectileType<AkumoMinion>();
+            bool areYouHere = projectile.type == ProjectileType<AkumoMinion>();
             Player player = Main.player[projectile.owner];
-            player.AddBuff(ModContent.BuffType<AkumoBuff>(), 3600);
+            player.AddBuff(BuffType<AkumoBuff>(), 3600);
         }
     }
 }
