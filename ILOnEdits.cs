@@ -45,6 +45,7 @@ namespace EEMod
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
             On.Terraria.Lighting.AddLight_int_int_float_float_float += NewLighting;
+            On.Terraria.Main.RenderBlack += d;
             if (Main.netMode != NetmodeID.Server)
             {
                 TrailManager = new TrailManager(this);
@@ -57,18 +58,13 @@ namespace EEMod
             ILCursor c = new ILCursor(il);
             Type liqRend = typeof(LiquidRenderer);
             MethodInfo drawcall = liqRend.GetMethod(nameof(LiquidRenderer.Draw), new Type[] { typeof(SpriteBatch), typeof(Vector2), typeof(int), typeof(float), typeof(bool) });
-            if (!c.TryGotoNext(i => i.MatchLdloc(1)))
-                throw new Exception("Couldn't find local variable 1 loading");
-
-            if (!c.TryGotoNext(i => i.MatchLdarg(1)))
+            if (!c.TryGotoNext(i => i.MatchCallvirt(drawcall)))
                 throw new Exception("Couldn't find argument 1 post lc1");
-            //c.Remove();
-            //c.Remove();
-            //  c.Index++;
-            //  c.EmitDelegate<Action<SpriteBatch,Vector2,int,float,bool>>((spritebatch, drawOffset, Style, Alpha, bg) =>
-            // {
-            //    LiquidRenderer.Instance.Draw(spritebatch, drawOffset, Style, Alpha/2, bg);
-            //  });
+            c.Remove();
+              c.EmitDelegate<Action<LiquidRenderer,SpriteBatch, Vector2,int,float,bool>>((t,spritebatch, drawOffset, Style, Alpha, bg) =>
+             {
+                 t.Draw(spritebatch, drawOffset, Style, Alpha/2, bg);
+              });
         }
         public void DrawRef()
         {
@@ -102,6 +98,7 @@ namespace EEMod
 
         private void UnloadIL()
         {
+            On.Terraria.Main.RenderBlack -= d;
             IL.Terraria.Main.DrawWater -= TransparentWater;
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= NewLighting;
             On.Terraria.Main.DoUpdate -= OnUpdate;
@@ -125,12 +122,23 @@ namespace EEMod
             Prims.DrawTrails(Main.spriteBatch);
             orig(self);
         }
+        private void d(On.Terraria.Main.orig_RenderBlack orig, Main self)
+        {
+            //Main.spriteBatch.Begin();
+          //  DrawCoralReefsBg();
+           // Main.spriteBatch.End();
+            orig(self);
+        }
         private void BetterLightingDraw(On.Terraria.Main.orig_DrawBG orig, Main self)
         {
-            if (EEModConfigClient.Instance.BetterLighting)
+            if (EEModConfigClient.Instance.BetterLighting && !Main.gameMenu)
             {
                 BetterLightingHandler();
                 DrawGlobalShaderTextures();
+            }
+            else
+            {
+                UnloadShaderAssets();
             }
             orig(self);
         }
@@ -167,6 +175,13 @@ namespace EEMod
             if (Main.netMode != NetmodeID.Server) TrailManager.DoTrailCreation(projectile);
 
             return index;
+        }
+        public void UnloadShaderAssets()
+        {
+            if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Saturation"].IsActive())
+            {
+                Filters.Scene["EEMod:Saturation"].Deactivate();
+            }
         }
         private void Main_OldDrawBackground(ILContext il)
         {
@@ -224,7 +239,6 @@ namespace EEMod
         Color BaseColor;
         public void DrawGlobalShaderTextures()
         {
-            int num4;
             double num10;
             if (Main.time < 27000.0)
             {
@@ -243,10 +257,20 @@ namespace EEMod
             if (EEModConfigClient.Instance.BetterLighting)
             {
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), sunPos - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * .5f * globalAlpha * (intensityFunction * 0.36f), (float)Math.Sin(Main.time / 540f), new Vector2(87), 10f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(TextureCache.LensFlare, sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * 3f * globalAlpha * (intensityFunction), (float)Math.Sin(Main.time / 540f), rects[1].Size() / 2, 1.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(TextureCache.LensFlare, sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * globalAlpha * intensityFunction, (float)Math.Sin(Main.time / 540f), rects[1].Size() / 2, 1.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(TextureCache.SunRing, sunPos - Main.screenPosition + new Vector2(0, 37 + (float)num10 * 250), rects[0], Color.White * .7f * globalAlpha * (intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), rects[0].Size() / 2, 1f, SpriteEffects.None, 0);
+            }
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin();
+        }
+        public void DrawLensFlares()
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            if (EEModConfigClient.Instance.BetterLighting)
+            {
                 Main.spriteBatch.Draw(TextureCache.LensFlare2, sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * globalAlpha * (intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
                 Main.spriteBatch.Draw(TextureCache.LensFlare2, sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * globalAlpha * (intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(TextureCache.SunRing, sunPos - Main.screenPosition + new Vector2(0,37 + (float)num10 * 250), rects[0], Color.White * .7f * globalAlpha * (intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), rects[0].Size()/2, 1f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
@@ -254,7 +278,6 @@ namespace EEMod
         
         public void BetterLightingHandler()
         {
-            object states = typeof(Lighting).GetField("states", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
             Color DayColour = new Color(2.5f, 1.4f, 1);
             Color NightColour = new Color(1.2f, 1.4f, 2f);
             float shiftSpeed = 32f;
@@ -266,8 +289,6 @@ namespace EEMod
             float nightTransitionSpeed = 0.005f;
             float globalAlphaTransitionSpeed = 0.001f;
             float maxNightDarkness = 0.5f;
-            const float traverseFactor = 0.557f;
-
             if (Main.dayTime)
             {
                 BaseColor.R += (byte)((DayColour.R - BaseColor.R) / shiftSpeed);
@@ -298,12 +319,10 @@ namespace EEMod
             {
                 Filters.Scene.Activate("EEMod:Saturation", Vector2.Zero).GetShader();
             }
-            Filters.Scene["EEMod:Saturation"].GetShader().UseImageOffset(sunShaderPos).UseIntensity(intensityFunction).UseOpacity(3.2f).UseProgress(Main.dayTime ? 0 : 1).UseColor(Base, nightHarshness, 0).UseSecondaryColor(BaseColor);
+            Filters.Scene["EEMod:Saturation"].GetShader().UseImageOffset(sunShaderPos).UseIntensity(intensityFunction).UseOpacity(4f).UseProgress(Main.dayTime ? 0 : 1).UseColor(Base, nightHarshness, 0).UseSecondaryColor(BaseColor);
         }
-        public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig, Main self)
+        public void DrawCoralReefsBg()
         {
-            DrawNoiseSurfacing();
-            //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);
             int maxLoops = 5;
             Color drawColor = Lighting.GetColor((int)(Main.LocalPlayer.Center.X / 16f), (int)(Main.LocalPlayer.Center.Y / 16f)) * alphaBG;
             float scale = 1.5f;
@@ -319,12 +338,20 @@ namespace EEMod
                 for (int i = 0; i < maxLoops; i++)
                 {
                     Vector2 Positions = new Vector2((i - ((maxLoops - 1) * 0.5f)) * CB1.Width * scale, traverseFunction.Y / 3f);
-                 //   Main.spriteBatch.Draw(CB1, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
-                 //   Main.spriteBatch.Draw(CB2, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
-                 //   Main.spriteBatch.Draw(CB3, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
+                     //  Main.spriteBatch.Draw(CB1, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
+                    //   Main.spriteBatch.Draw(CB2, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
+                    //  Main.spriteBatch.Draw(CB3, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
                 }
-                EEWorld.EEWorld.instance.DrawVines();
             }
+        }
+        public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig, Main self)
+        {
+            DrawNoiseSurfacing();
+            DrawLensFlares();
+            if(Main.worldName == KeyID.Sea)
+            EEWorld.EEWorld.instance.DrawVines();
+            //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);
+
 
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
             {

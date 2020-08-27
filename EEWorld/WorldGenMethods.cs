@@ -2531,7 +2531,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < size; j++)
                 {
-                    float f = size * 1.5f;
+                    float f = size*0.5f;
                     if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
                 }

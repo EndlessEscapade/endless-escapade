@@ -272,7 +272,6 @@ namespace EEMod
             //Main.NewText(moralScore);
         }
 
-
         public override void Initialize()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -367,6 +366,7 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
+            Main.NewText(baseWorldName);
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
