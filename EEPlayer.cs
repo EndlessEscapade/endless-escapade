@@ -366,7 +366,6 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
-            Main.NewText(baseWorldName);
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
