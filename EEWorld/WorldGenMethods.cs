@@ -2711,19 +2711,19 @@ namespace EEMod.EEWorld
             {
                 case -1:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(0, 0), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5 - sizeX / 6, -sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5 - sizeX / 6, -sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5 - sizeX / 6, sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5 - sizeX / 6, sizeY / 5 - sizeY / 6), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), ( yPos) + ( 0)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), ( yPos) + ( -sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), ( yPos) + ( -sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), ( yPos) + ( sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), ( yPos) + ( sizeY / 5 - sizeY / 6)), tile2);
                     break;
                 case 0:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(0, 0), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5, -sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5, -sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5, sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5, sizeY / 5), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), ( yPos) + ( 0)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), ( yPos) + ( -sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), ( yPos) + ( -sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), ( yPos) + ( sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), ( yPos) + ( sizeY / 5)), tile2);
                     CreateNoise(!ensureNoise, 100, 10, 0.45f);
                     break;
                 case 1:

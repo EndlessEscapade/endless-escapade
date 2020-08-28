@@ -21,14 +21,14 @@ namespace EEMod.Autoloading.AutoloadTypes
 
         internal static void ManagersCheck(Type type)
         {
-            if(typeof(IAutoloadType).IsAssignableFrom(type))
-            foreach (var manager in managers)
-                AutoloadTypeManager.Evaluate(manager, type);
+            if (typeof(IAutoloadType).IsAssignableFrom(type))
+                foreach (var manager in managers)
+                    AutoloadTypeManager.Evaluate(manager, type);
         }
 
         internal static bool TryAddManager(Type managertype)
         {
-            if(managertype.IsSubclassOfGeneric(typeof(AutoloadTypeManager<>)))
+            if (managertype.IsSubclassOfGeneric(typeof(AutoloadTypeManager<>)))
             {
                 if (managertype.TryCreateInstance(out AutoloadTypeManager manager))
                 {

@@ -38,20 +38,17 @@ namespace EEMod.Net
 
         public static void ReceievePacket(BinaryReader reader, int fromwho)
         {
-            switch ((EEMessageType)reader.ReadByte())
+            EEMessageType msgtype = (EEMessageType)reader.ReadByte();
+            switch (msgtype)
             {
                 case EEMessageType.None: break;
                 case EEMessageType.MouseCheck:
                     MultiplayerMouseTracker.HandlePacket(reader, fromwho, EEMessageType.MouseCheck);
                     break;
                 case EEMessageType.SyncVector:
-                    EEServerVariableCache.HandlePacket(reader, fromwho, EEMessageType.SyncVector);
-                    break;
                 case EEMessageType.SyncPosition:
-                    EEServerVariableCache.HandlePacket(reader, fromwho, EEMessageType.SyncPosition);
-                    break;
                 case EEMessageType.SyncBoatPos:
-                    EEServerVariableCache.HandlePacket(reader, fromwho, EEMessageType.SyncBoatPos);
+                    EEServerVariableCache.HandlePacket(reader, fromwho, msgtype);
                     break;
                 case EEMessageType.SyncBrightness:
                     if (Main.netMode == NetmodeID.Server)

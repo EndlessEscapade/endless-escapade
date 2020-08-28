@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Summon
             item.height = 20;
             item.rare = ItemRarityID.Green;
             item.knockBack = 5f;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item8;
             item.shoot = ModContent.ProjectileType<AkumoMinion>();
         }

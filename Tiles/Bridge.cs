@@ -37,7 +37,7 @@ namespace EEMod.Tiles
         {
             if (isSupport)
             {
-                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/BridgeSupport"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, projectile.rotation, new Rectangle(0, 0, 16, 16).Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/BridgeSupport"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
                 return false;
             }
             return true;

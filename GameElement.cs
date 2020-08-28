@@ -85,10 +85,10 @@ namespace EEMod
         }
         public void SyncPositionCache()
         {
-                if (Main.netMode == NetmodeID.MultiplayerClient)
-                {
-                    EEServerVariableCache.SyncPosition(UIPosRunTime);
-                }
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                EEServerVariableCache.SyncPosition(UIPosRunTime);
+            }
         }
         public void SyncCoolCache()
         {
@@ -193,9 +193,9 @@ namespace EEMod
                         velocity.X *= -1;
                     }
                 }
-                    UIPosRunTime += velocity + Main.LocalPlayer.velocity;
-                    velocity *= friction;
-                
+                UIPosRunTime += velocity + Main.LocalPlayer.velocity;
+                velocity *= friction;
+
                 Helpers.Clamp(ref UIPosRunTime.X, parent.TopLeft.X + sizeOfMainCanvas.X / 2, parent.TopRight.X - sizeOfMainCanvas.X / 2);
                 Helpers.Clamp(ref UIPosRunTime.Y, parent.TopLeft.Y + sizeOfMainCanvas.Y / 2, parent.BottomLeft.Y - sizeOfMainCanvas.Y / 2);
             }

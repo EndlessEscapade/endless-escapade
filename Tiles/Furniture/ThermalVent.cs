@@ -50,7 +50,7 @@ namespace EEMod.Tiles.Furniture
             lmnop++;
             if(Math.Abs(Main.LocalPlayer.Center.X - (i * 16)) <= 16 && lmnop >= 60 && Main.LocalPlayer.Center.Y - (j * 16) <= -640)
             {
-                Projectile.NewProjectile(new Vector2(i * 16, j * 16) + new Vector2(8, 0), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
+                Projectile.NewProjectile(new Vector2((i * 16) + (8), ( j * 16) + ( 0)), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
                 lmnop = 0;
             }
         }

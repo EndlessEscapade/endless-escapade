@@ -13,7 +13,6 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Tiles;
 using System.Diagnostics;
-using System;
 using System.Net;
 namespace EEMod
 {
@@ -150,7 +149,7 @@ namespace EEMod
             Main.invasionProgress = 0;
             Main.invasionProgressDisplayLeft = 0;
             Main.invasionProgressAlpha = 0f;
-            
+
             Main.gameMenu = true;
             Main.StopTrackedSounds();
             Terraria.Graphics.Capture.CaptureInterface.ResetFocus();
@@ -231,7 +230,7 @@ namespace EEMod
         }
         public static Process EEServer = new Process();
         static string EEPath;
-        
+
         private static void OnWorldNamed(string text)
         {
             EEPath = $@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds";
@@ -250,15 +249,15 @@ namespace EEMod
 
                 return;
             }
-           /* string path = $@"{Main.SavePath}\Worlds\{text}.wld";
+            /* string path = $@"{Main.SavePath}\Worlds\{text}.wld";
 
-            if (!File.Exists(path))
-            {
-                Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
-                Main.worldName = text.Trim();
-                CreateNewWorld(text);
-                return;
-            }*/
+             if (!File.Exists(path))
+             {
+                 Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
+                 Main.worldName = text.Trim();
+                 CreateNewWorld(text);
+                 return;
+             }*/
             if (serverState == EEServerState.SinglePlayer)
             {
                 WorldGen.playWorld();
@@ -291,7 +290,7 @@ namespace EEMod
                 Main.GetInputText("");
                 Main.autoPass = false;
                 Main.menuMode = 30;
-                Main.PlaySound(10);
+                Main.PlaySound(SoundID.MenuOpen);
             }
         }
         public static void StartClientGameplay()

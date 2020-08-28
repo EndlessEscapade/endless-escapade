@@ -77,7 +77,7 @@ namespace EEMod.Mounts
             // count tracks how many balloons are still left. See ExamplePerson.Hurt to see how count decreases whenever damage is taken.
             internal int count;
             internal float[] rotations;
-            [FieldInit(new float[] { 0, 14, -14})]
+            [FieldInit(FieldInitType.CustomValue, new float[] { 0, 14, -14})]
             internal static float[] offsets = new float[] { 0, 14, -14 };
             public LobsterbikeSpecificData()
             {
