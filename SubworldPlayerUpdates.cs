@@ -40,8 +40,8 @@ namespace EEMod
 {
     public partial class EEPlayer : ModPlayer
     {
-      public void UpdatePyramids()
-      {
+        public void UpdatePyramids()
+        {
             if (!noU)
                 titleText += 0.005f;
             if (titleText >= 1)
@@ -78,7 +78,7 @@ namespace EEMod
             {
                 Filters.Scene.Deactivate(shad2);
             }
-      }
+        }
         public void UpdateSea()
         {
             if (!noU)
@@ -127,25 +127,19 @@ namespace EEMod
                     Vector2 dist = (Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight + 1000)) - CloudPos;
                     if (dist.Length() > 1140)
                     {
+                        Texture2D cloudTexture;
                         switch (CloudChoose)
                         {
                             case 0:
-                                {
-                                    Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                    Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                    break;
-                                }
                             case 1:
-                                {
-                                    Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud2>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                    break;
-                                }
+                                cloudTexture = GetTexture("EEMod/Projectiles/OceanMap/DarkCloud" + (CloudChoose+1));
+                                break;
+
+                            default:
+                                cloudTexture = GetTexture("EEMod/Projectiles/OceanMap/DarkCloud3");
+                                break;
                         }
+                        OceanMapElements.Add(new DarkCloud(CloudPos, cloudTexture, Main.rand.NextFloat(.6f, 1), Main.rand.NextFloat(60, 180)));
                     }
                 }
 
@@ -280,14 +274,30 @@ namespace EEMod
                 (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = true;
                 if (player.controlUp)
                 {
-                    Initialize();
-                    SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
-                    prevKey = KeyID.CoralReefs;
+                    importantCutscene = true;
+                    cutSceneTriggerTimer = 0;
                 }
             }
             else
             {
                 (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = false;
+            }
+            if(importantCutscene)
+            {
+                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
+                Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
+                {
+                    Filters.Scene.Activate("EEMod:Noise2D", player.Center).GetShader().UseOpacity(0);
+                }
+                cutSceneTriggerTimer++;
+                if (cutSceneTriggerTimer > 180)
+                {
+                    Initialize();
+                    Filters.Scene.Deactivate("EEMod:Noise2D");
+                    SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
+                    prevKey = KeyID.CoralReefs;
+                }
             }
             if (!isNearVolcano && !isNearIsland && !isNearCoralReefs && !isNearMainIsland)
             {
@@ -468,7 +478,7 @@ namespace EEMod
             if (!arrowFlag)
             {
                 Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
-                Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
+                Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
                 NPC.NewNPC(600 * 16, 594 * 16, NPCType<VolcanoSmoke>());
                 arrowFlag = true;
             }
@@ -541,7 +551,7 @@ namespace EEMod
 
                 foreach (Vector2 tile in missingShipTiles)
                 {
-                    int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
+                    int proj = Projectile.NewProjectile(tile * 16 + new Vector2((8) + (-3 * 16), (8) + (-6 * 16)), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
                     WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
                     newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
                 }
@@ -551,11 +561,6 @@ namespace EEMod
                 var netMessage = mod.GetPacket();
                 netMessage.Write(shipComplete);
                 netMessage.Send();
-            }
-            if (!importantCutscene)
-            {
-                //SM.SaveAndQuit(KeyID.Cutscene1);
-                importantCutscene = true;
             }
             if (EEModConfigClient.Instance.ParticleEffects)
             {
@@ -595,7 +600,7 @@ namespace EEMod
 
                 foreach (Vector2 tile in missingShipTiles)
                 {
-                    int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8, 8) + new Vector2(-3 * 16, -6 * 16), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
+                    int proj = Projectile.NewProjectile(tile * 16 + new Vector2((8) + (-3 * 16), (8) + (-6 * 16)), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
                     WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
                     newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
                 }

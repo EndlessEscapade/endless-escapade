@@ -35,6 +35,7 @@ using EEMod.ID;
 using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.Walls;
+using EEMod.Autoloading;
 
 namespace EEMod
 {
@@ -133,6 +134,8 @@ namespace EEMod
         public int PlayerX;
         public int PlayerY;
         public Vector2 velHolder;
+        [FieldInit]
+        internal static List<IOceanMapElement> OceanMapElements = new List<IOceanMapElement>();
 
         public override void PostUpdate()
         {
@@ -229,13 +232,6 @@ namespace EEMod
             BitsByte flags = reader.ReadByte();
             ZoneCoralReefs = flags[0];
         }
-
-
-        private void UpdateRuneCollection()
-        {
-
-        }
-
         private void MoralFirstFrame()
         {
             switch (player.name)
@@ -272,7 +268,6 @@ namespace EEMod
             //Main.NewText(moralScore);
         }
 
-
         public override void Initialize()
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -296,6 +291,7 @@ namespace EEMod
                 cutSceneTriggerTimer = 0;
                 cutSceneTriggerTimer2 = 500;
                 position = player.Center;
+                importantCutscene = false;
                 speedOfPan = 0;
                 subTextAlpha = 0;
                 EEMod.instance.position = new Vector2(1700, 900);
@@ -307,6 +303,7 @@ namespace EEMod
                 displacmentY = 0;
                 startingText = false;
                 Particles.Clear();
+                OceanMapElements.Clear();
                 isCameraFixating = false;
             }
         }
@@ -367,6 +364,7 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
+ 
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
@@ -517,6 +515,37 @@ namespace EEMod
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
             public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / 2 + 1000, texture.Width, texture.Height);
         }
+        public class DarkCloud : IOceanMapElement
+        {
+            public Vector2 pos;
+            public Texture2D texture;
+            public float scale, alpha;
+            public DarkCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
+            {
+                this.pos = pos;
+                texture = tex;
+                this.scale = scale;
+                this.alpha = alpha;
+            }
+
+            public void Draw(SpriteBatch spriteBatch)
+            {
+                Vector2 p = pos - Main.screenPosition;
+                Color drawcolor = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));//((int)(p.X/16), (int)(p.X/16f));
+                drawcolor.A = (byte)alpha;
+                spriteBatch.Draw(texture, p, null, drawcolor, 0f, default, scale, SpriteEffects.None, 0f);
+            }
+
+            public void Update()
+            {
+
+            }
+        }
+        internal interface IOceanMapElement
+        {
+            void Update();
+            void Draw(SpriteBatch spriteBatch);
+        }
 
         float inspectTimer = 0;
         public void InspectObject()
@@ -560,18 +589,21 @@ namespace EEMod
                     hasGottenRuneBefore[i] = 0;
             }
             EEMod.isSaving = false;
-            if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
+            if (Main.worldName != KeyID.Sea)
             {
-                cutSceneTriggerTimer += 6;
-                player.position = player.oldPosition;
-            }
-            if (cutSceneTriggerTimer >= 1000)
-            {
-                cutSceneTriggerTimer += 2;
-            }
-            if (godMode)
-            {
-                timerForCutscene += 20;
+                if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
+                {
+                    cutSceneTriggerTimer += 6;
+                    player.position = player.oldPosition;
+                }
+                if (cutSceneTriggerTimer >= 1000)
+                {
+                    cutSceneTriggerTimer += 2;
+                }
+                if (godMode)
+                {
+                    timerForCutscene += 20;
+                }
             }
             switch (Main.worldName)
             {
@@ -622,15 +654,21 @@ namespace EEMod
         {
             float acc = arrayPoints.Length;
             float upwardDrag = 0.2f;
+            float smoothStepSpeed = 8;
+            float yDis = 15;
+            float propagtionSpeedWTRdisX = 15;
+            float propagtionSpeedWTRvelY = 4;
+            float basePosFluncStatic = 5f;
+            float basePosFlunc = 3f;
             propagation += (Math.Abs(player.velocity.X / 2f) * 0.015f) + 0.1f;
             for (int i = 0; i < acc; i++)
             {
-                float prop = (float)Math.Sin(propagation + (i * 10 / acc));
-                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / 5f) * i), mainPoint.Y + (i * displaceY) + 20);
-                float dist = (player.position.Y + 15) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
-                float amp = Math.Abs(player.velocity.X * 3) * ((i * 3) / acc) + 1f;
-                float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / 4f * i);
-                float disClamp = (goTo - dis[i]) / 8f;
+                float prop = (float)Math.Sin(propagation + (i * propagtionSpeedWTRdisX / acc));
+                Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / basePosFluncStatic) * i), mainPoint.Y + (i * displaceY) + 20);
+                float dist = (player.position.Y + yDis) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
+                float amp = Math.Abs(player.velocity.X * basePosFlunc) * ((i * basePosFlunc) / acc) + 1f;
+                float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / propagtionSpeedWTRvelY * i);
+                float disClamp = (goTo - dis[i]) / smoothStepSpeed;
                 disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
                 dis[i] += disClamp;
                 if (i == 0)

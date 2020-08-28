@@ -52,12 +52,6 @@ namespace EEMod.Projectiles
                 projectile.Kill();
             }
             Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
-            if (Main.rand.NextBool(3))
-            {
-                int index = Dust.NewDust(projectile.Center + Norm * 100, 10, 10, 139, 0, 0, 0, default, 1f);
-                Main.dust[index].velocity *= 1.1f;
-                Main.dust[index].noGravity = true;
-            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

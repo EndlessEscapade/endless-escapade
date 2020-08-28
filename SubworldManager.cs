@@ -13,7 +13,6 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Tiles;
 using System.Diagnostics;
-using System;
 using System.Net;
 namespace EEMod
 {
@@ -150,7 +149,7 @@ namespace EEMod
             Main.invasionProgress = 0;
             Main.invasionProgressDisplayLeft = 0;
             Main.invasionProgressAlpha = 0f;
-            
+
             Main.gameMenu = true;
             Main.StopTrackedSounds();
             Terraria.Graphics.Capture.CaptureInterface.ResetFocus();
@@ -186,8 +185,7 @@ namespace EEMod
             WorldGen.clearWorld();
             EEMod.GenerateWorld(threadContext as string, Main.ActiveWorldFileData.Seed, null);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
-            FileUtilities.Copy($@"{Main.SavePath}\Worlds\{threadContext as string}.wld", $@"{Main.SavePath}\EEWorlds" + ".wld", false);
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{threadContext as string}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{EEPath}\{threadContext as string}.wld", false);
             WorldGen.playWorld();
         }
         public static void WorldGenCallBack(object threadContext)
@@ -210,26 +208,56 @@ namespace EEMod
         {
             return Uri.EscapeDataString(arg);
         }
+        public static WorldFileData CreateSubworldMetaData(string name, bool cloudSave, string path)
+        {
+            WorldFileData existing = new WorldFileData(path, cloudSave);
+            existing.Name = name;
+            //existing.GameMode = GameMode;
+            existing.CreationTime = DateTime.Now;
+            existing.Metadata = FileMetadata.FromCurrentSettings(FileType.World);
+            existing.SetFavorite(favorite: false);
+            existing.WorldGeneratorVersion = 987842478081uL;
+            existing.UniqueId = Guid.NewGuid();
+            if (Main.DefaultSeed == "")
+            {
+                existing.SetSeedToRandom();
+            }
+            else
+            {
+                existing.SetSeed(Main.DefaultSeed);
+            }
+            return existing;
+        }
         public static Process EEServer = new Process();
+        static string EEPath;
+
         private static void OnWorldNamed(string text)
         {
-          /*string EEpath = $@"{Main.SavePath}\EEWorlds";
-            if (!Directory.Exists(EEpath))
+            EEPath = $@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds";
+            if (!Directory.Exists(EEPath))
             {
-                DirectoryInfo di = Directory.CreateDirectory(EEpath);
-            }*/
-
-            string path = $@"{Main.SavePath}\Worlds\{text}.wld";
-
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata(path, false);
+                Directory.CreateDirectory(EEPath);
+            }
+            string EESubworldPath = $@"{EEPath}\{text}.wld";
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata(EESubworldPath, false);
             Main.ActivePlayerFileData.SetAsActive();
-            if (!File.Exists(path))
+            if (!File.Exists(EESubworldPath))
             {
-                Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
-                Main.worldName = text.Trim();
                 CreateNewWorld(text);
+                Main.ActiveWorldFileData = CreateSubworldMetaData(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, EESubworldPath);
+                Main.worldName = text.Trim();
+
                 return;
             }
+            /* string path = $@"{Main.SavePath}\Worlds\{text}.wld";
+
+             if (!File.Exists(path))
+             {
+                 Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
+                 Main.worldName = text.Trim();
+                 CreateNewWorld(text);
+                 return;
+             }*/
             if (serverState == EEServerState.SinglePlayer)
             {
                 WorldGen.playWorld();
@@ -262,7 +290,7 @@ namespace EEMod
                 Main.GetInputText("");
                 Main.autoPass = false;
                 Main.menuMode = 30;
-                Main.PlaySound(10);
+                Main.PlaySound(SoundID.MenuOpen);
             }
         }
         public static void StartClientGameplay()

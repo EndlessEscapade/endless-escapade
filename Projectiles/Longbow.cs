@@ -71,7 +71,7 @@ namespace EEMod.Projectiles
                     diff = 0;
                 grav += gravAccel;
                 Vector2 intendedPath = projOwner.Center + (Main.MouseWorld - projOwner.Center + new Vector2(0, grav)) * (i / Max);
-                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * (diff), 0f, new Rectangle(0, 0, 2, 2).Size() / 2, 1, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * (diff), 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
             }
             return true;
         }

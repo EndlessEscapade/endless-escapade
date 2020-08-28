@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.Utilities;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.Graphics.Effects;
 
 namespace EEMod
 {
@@ -192,7 +194,13 @@ namespace EEMod
                              p2.X * (p3.Y - p1.Y) +
                              p3.X * (p1.Y - p2.Y)) / 2.0);
         }
-
+        public static void ActivateShader(string Name, Entity entity)
+        {
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene[Name].IsActive())
+            {
+                Filters.Scene.Activate(Name, entity.Center).GetShader();
+            }
+        }
         public static bool IsInside(Vector2 p1, Vector2 p2, Vector2 p3,
                              Vector2 p)
         {

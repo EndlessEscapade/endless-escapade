@@ -1,19 +1,14 @@
-using System.IO;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using Terraria;
+using Terraria.GameContent.Generation;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using Microsoft.Xna.Framework;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using EEMod.Tiles;
-using EEMod.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using EEMod.ID;
+using EEMod.Autoloading;
 using EEMod.Net;
 
 namespace EEMod.EEWorld
@@ -22,7 +17,7 @@ namespace EEMod.EEWorld
     {
         //public static bool GenkaiMode;
 
-        
+
         public int minionsKilled;
         public static EEWorld instance => ModContent.GetInstance<EEWorld>();
         public static bool downedTalos;
@@ -38,10 +33,19 @@ namespace EEMod.EEWorld
         // private static List<Point> BiomeCenters;
         public static Vector2 yes;
         public static Vector2 ree;
+        [FieldInit]
         public static IList<Vector2> EntracesPosses = new List<Vector2>();
+
+        [FieldInit(FieldInitType.ArrayIntialization, 6)]
         public static byte[] LightStates = new byte[6];
+
+        [FieldInit(FieldInitType.ArrayIntialization, 100)]
         public static Vector2[] PylonBegin = new Vector2[100];
+
+        [FieldInit(FieldInitType.ArrayIntialization, 100)]
         public static Vector2[] PylonEnd = new Vector2[100];
+
+        [FieldInit(FieldInitType.ArrayIntialization, 10000)]
         public static Vector2[] sinDis = new Vector2[10000];
 
         //public Vector2[] sinDis = new Vector2[10000];
@@ -51,14 +55,14 @@ namespace EEMod.EEWorld
             {
                 for (int i = 0; i < sinDis.Length; i++)
                 {
-                    if(sinDis[i] != null)
-                    sinDis[i].X = WorldGen.genRand.NextFloat(0, 0.03f);
+                    // When an array is created all elements get initialized to the default value, and the default value of structs isn't null
+                        sinDis[i].X = WorldGen.genRand.NextFloat(0, 0.03f);
                 }
             }
             eocFlag = NPC.downedBoss1;
-            if(EntracesPosses != null)
-            if (EntracesPosses.Count > 0)
-                yes = EntracesPosses[0];
+            if (EntracesPosses != null)
+                if (EntracesPosses.Count > 0)
+                    yes = EntracesPosses[0];
         }
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
@@ -88,7 +92,7 @@ namespace EEMod.EEWorld
         {
             writer.WriteVector2(ree);
             writer.WriteVector2(yes);
-            for(int i = 0; i<LightStates.Length; i++)
+            for (int i = 0; i < LightStates.Length; i++)
             {
                 writer.Write(LightStates[i]);
             }
@@ -127,7 +131,7 @@ namespace EEMod.EEWorld
                     if (MidNorm.Y > 100 * 16 && Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 40 * 16 * 40 * 16 && Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000)
                     {
                         Helpers.DrawBezier(Main.spriteBatch, TextureCache.Vine, "", Color.White, ChainConneccPos, LastChainConneccPos, Mid, Mid, 0.02f, MathHelper.Pi / 2, true);
-                        Helpers.DrawBezier(Main.spriteBatch, TextureCache.LightVine, "", Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, Mid + addOn, 0.1f, MathHelper.Pi / 2, false);
+                        Helpers.DrawBezier(Main.spriteBatch, TextureCache.LightVine, "", Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, Mid + addOn, 0.1f, MathHelper.Pi / 2, false,true);
                     }
                 }
             }
@@ -154,8 +158,8 @@ namespace EEMod.EEWorld
             }
             else
                 brightness = 0.1f;
-            if(Main.netMode == NetmodeID.MultiplayerClient)
-            EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
         }
 
         public static Vector2 SubWorldSpecificCoralBoatPos;

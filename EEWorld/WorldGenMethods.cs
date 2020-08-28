@@ -2531,7 +2531,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < size; j++)
                 {
-                    float f = size * 1.5f;
+                    float f = size*0.5f;
                     if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
                 }
@@ -2711,19 +2711,19 @@ namespace EEMod.EEWorld
             {
                 case -1:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(0, 0), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5 - sizeX / 6, -sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5 - sizeX / 6, -sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5 - sizeX / 6, sizeY / 5 - sizeY / 6), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5 - sizeX / 6, sizeY / 5 - sizeY / 6), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), ( yPos) + ( 0)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), ( yPos) + ( -sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), ( yPos) + ( -sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), ( yPos) + ( sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), ( yPos) + ( sizeY / 5 - sizeY / 6)), tile2);
                     break;
                 case 0:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(0, 0), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5, -sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5, -sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(sizeX / 5, sizeY / 5), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos, yPos) + new Vector2(-sizeX / 5, sizeY / 5), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), ( yPos) + ( 0)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), ( yPos) + ( -sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), ( yPos) + ( -sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), ( yPos) + ( sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), ( yPos) + ( sizeY / 5)), tile2);
                     CreateNoise(!ensureNoise, 100, 10, 0.45f);
                     break;
                 case 1:
@@ -2960,8 +2960,8 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                 break;
                             case 7:
-                                ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
-                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
+                               // ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
+                               // WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
                                 break;
                         }
                     }
@@ -3690,17 +3690,14 @@ namespace EEMod.EEWorld
 
                         if (shape[y, x, 0] != 0)
                         {
-                            if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
-                            {
-                                tile.ClearTile();
-                            }
-                                if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
-                                ChestPos = new Vector2(y,x);
+                            if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
+                            ChestPos = new Vector2(y,x);
                             if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
                             {
                                 tile.type = (ushort)shape[y, x, 0];
                                 tile.active(true);
                             }
+                            WorldGen.PlaceChest(y - 1, x-2, (ushort)ModContent.TileType<GemsandChestTile>());
                         }
                         tile.wall = (ushort)shape[y, x, 1];
                         tile.color((byte)shape[y, x, 2]);

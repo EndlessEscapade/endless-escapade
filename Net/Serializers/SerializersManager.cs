@@ -43,9 +43,9 @@ namespace EEMod.Net.Serializers
             public void AddSerializer(SerializerPriority priority, NetObjSerializer serializer)
             {
                 serializers.Add(priority, serializer);
-                foreach(var s in serializers)
+                foreach (var s in serializers)
                 {
-                    if(s.Key > priority)
+                    if (s.Key > priority)
                     {
                         priority = s.Key;
                         serializer = s.Value;

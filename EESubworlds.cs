@@ -313,7 +313,7 @@ namespace EEMod
             {
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(5))
+                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(5) && Main.tileSolid[Main.tile[i, j].type])
                     {
                         if (ChainConnections.Count == 0)
                         {

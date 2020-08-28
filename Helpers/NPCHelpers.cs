@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
+using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -13,12 +14,12 @@ namespace EEMod
                 if (Main.netMode == NetmodeID.SinglePlayer)
                 {
                     p = Main.LocalPlayer;
-                    return p.active && !(p.dead || p.ghost);
+                    return p.IsAlive();
                 }
                 for (int i = 0; i < Main.player.Length; i++)
                 {
                     p = Main.player[i];
-                    if (p.active && !(p.dead || p.ghost))
+                    if (p.IsAlive())
                         return true;
                 }
                 return false;

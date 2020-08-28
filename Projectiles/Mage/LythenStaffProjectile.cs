@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.Mage
 {
+
     public class LythenStaffProjectile : ModProjectile
     {
         public override void SetStaticDefaults()

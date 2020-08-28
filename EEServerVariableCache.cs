@@ -68,7 +68,7 @@ namespace EEMod
                     VectorStorage = v;
                 }
             }
-            if (msg == EEMessageType.SyncPosition)
+            else if (msg == EEMessageType.SyncPosition)
             {
                 if (Main.netMode == NetmodeID.Server)
                     EENet.SendPacketTo(EEMessageType.SyncPosition, -1, fromwho, reader.Read<Vector2>());
@@ -78,7 +78,7 @@ namespace EEMod
                     PositionStorage = v;
                 }
             }
-            if (msg == EEMessageType.SyncCool)
+            else if (msg == EEMessageType.SyncCool)
             {
                 if (Main.netMode == NetmodeID.Server)
                     EENet.SendPacketTo(EEMessageType.SyncCool, -1, fromwho, reader.Read<int>());
@@ -88,7 +88,7 @@ namespace EEMod
                     Cool = v;
                 }
             }
-            if (msg == EEMessageType.SyncBoatPos)
+            else if (msg == EEMessageType.SyncBoatPos)
             {
                 if (Main.netMode == NetmodeID.Server)
                     EENet.SendPacketTo(EEMessageType.SyncBoatPos, -1, fromwho, reader.Read<Vector2>(), reader.Read<float>(),(ushort)fromwho);

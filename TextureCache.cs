@@ -59,11 +59,19 @@ namespace EEMod
         public static Texture2D Puck;
         public static Texture2D Noise;
         public static Texture2D BlackTex;
+        public static Texture2D LensFlare;
+        public static Texture2D LensFlare2;
+        public static Texture2D SunRing;
+        public static Texture2D Leaf;
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
             Mod mod = EEMod.instance;
+            Leaf = mod.GetTexture("Leaf");
             Noise = mod.GetTexture("noise");
+            LensFlare = mod.GetTexture("ShaderAssets/LensFlare");
+            LensFlare2 = mod.GetTexture("ShaderAssets/LensFlare2");
+            SunRing = mod.GetTexture("ShaderAssets/SunRing");
             LightVine = mod.GetTexture("Projectiles/Light");
             Vine = mod.GetTexture("Projectiles/Vine");
             BluePuck = mod.GetTexture("BlueAirHockeyThing");
@@ -120,6 +128,10 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            LensFlare2 = null;
+            Leaf = null;
+            SunRing = null;
+            LensFlare = null;
             BlackTex = null;
             Noise = null;
             Puck = null;

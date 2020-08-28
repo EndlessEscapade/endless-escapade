@@ -22,7 +22,7 @@ namespace EEMod
         public static List<Point> points = new List<Point>();
         public int CreateVerletPoint(Vector2 pos, bool isStatic = false)
         {
-            points.Add(new Point(pos, pos - new Vector2(Main.rand.Next(-10,10), Main.rand.Next(-10, 10)), isStatic));
+            points.Add(new Point(pos, pos - new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), isStatic));
             return points.Count - 1;
         }
         public void ClearPoints()
@@ -32,8 +32,8 @@ namespace EEMod
         }
         public int[] CreateVerletSquare(Vector2 pos, int size)
         {
-            int a = CreateVerletPoint(pos + new Vector2(-size/2, -size / 2));
-            int b = CreateVerletPoint(pos + new Vector2(size / 2,-size / 2));
+            int a = CreateVerletPoint(pos + new Vector2(-size / 2, -size / 2));
+            int b = CreateVerletPoint(pos + new Vector2(size / 2, -size / 2));
             int c = CreateVerletPoint(pos + new Vector2(size / 2, size / 2));
             int d = CreateVerletPoint(pos + new Vector2(-size / 2, size / 2));
             BindPoints(a, b);
@@ -41,7 +41,7 @@ namespace EEMod
             BindPoints(c, d);
             BindPoints(d, a);
             BindPoints(a, c);
-            return new int[]{a,b,c,d};
+            return new int[] { a, b, c, d };
         }
         public int[] CreateStickMan(Vector2 pos)
         {
@@ -70,18 +70,18 @@ namespace EEMod
             BindPoints(a, j);
             BindPoints(j, k);
 
-            BindPoints(first, c,true,Color.Yellow);
+            BindPoints(first, c, true, Color.Yellow);
             BindPoints(a, i, true, Color.Yellow);
             BindPoints(a, k, true, Color.Yellow);
             BindPoints(j, h, true, Color.Yellow);
             BindPoints(f, d, true, Color.Yellow);
-            return new int[] { first,a,b,c,d,e,f,g,h,i,j,k};
+            return new int[] { first, a, b, c, d, e, f, g, h, i, j, k };
         }
         public void BindPoints(int a, int b, bool isVisible = true, Color color = default)
         {
             try
             {
-                stickPoints.Add(new Stick(a, b, isVisible,color));
+                stickPoints.Add(new Stick(a, b, isVisible, color));
             }
             catch
             {
@@ -105,42 +105,42 @@ namespace EEMod
             RenderSticks();
         }
 
-       public class Point
-       {
-        public Vector2 point;
-        public Vector2 oldPoint;
-        public Vector2 vel;
-        public bool isStatic;
- 
-        public Point(Vector2 point,Vector2 oldPoint,Vector2 vel)
+        public class Point
         {
-          this.point = point;
-          this.oldPoint = oldPoint;
-          this.vel = vel;
-          isStatic = false;
+            public Vector2 point;
+            public Vector2 oldPoint;
+            public Vector2 vel;
+            public bool isStatic;
+
+            public Point(Vector2 point, Vector2 oldPoint, Vector2 vel)
+            {
+                this.point = point;
+                this.oldPoint = oldPoint;
+                this.vel = vel;
+                isStatic = false;
+            }
+            public Point(Vector2 point)
+            {
+                this.point = point;
+                oldPoint = point;
+                vel = new Vector2(0, 0);
+                isStatic = false;
+            }
+            public Point(Vector2 point, Vector2 oldPoint, bool isStatic)
+            {
+                this.point = point;
+                this.oldPoint = oldPoint;
+                this.vel = new Vector2(0, 0);
+                this.isStatic = isStatic;
+            }
+            public Point(Vector2 point, Vector2 oldPoint)
+            {
+                this.point = point;
+                this.oldPoint = oldPoint;
+                vel = new Vector2(0, 0);
+                isStatic = false;
+            }
         }
-        public Point(Vector2 point)
-        {
-          this.point = point;
-          oldPoint = point;
-          vel = new Vector2(0,0);
-          isStatic = false;
-        }
-        public Point(Vector2 point,Vector2 oldPoint, bool isStatic)
-        {
-          this.point = point;
-          this.oldPoint = oldPoint;
-          this.vel = new Vector2(0,0);
-          this.isStatic = isStatic;
-        }
-        public Point(Vector2 point,Vector2 oldPoint)
-        {
-          this.point = point;
-          this.oldPoint = oldPoint;
-          vel = new Vector2(0,0);
-          isStatic = false;
-        }
-      }
         public class Stick
         {
             public Vector2 p1;
@@ -171,7 +171,7 @@ namespace EEMod
                 Length = (float)Math.Sqrt(disX * disX + disY * disY);
                 isStatic[0] = points[a].isStatic;
                 isStatic[1] = points[b].isStatic;
-                if(color == default)
+                if (color == default)
                 {
                     this.color = Color.DarkRed;
                 }
@@ -207,23 +207,23 @@ namespace EEMod
                     points[stick.b].point.Y -= offsetY;
                 }
             }
-        } 
+        }
         void UpdateStickCollision()
         {
             for (int i = 0; i < stickPoints.Count; i++)
             {
                 Stick stick = stickPoints[i];
                 int max = 0;
-                    while (!Collision.CanHit(points[stick.a].point, 1, 1, points[stick.b].point, 1, 1))
-                    {
+                while (!Collision.CanHit(points[stick.a].point, 1, 1, points[stick.b].point, 1, 1))
+                {
                     max++;
-                        Vector2 grad = Vector2.Normalize(points[stick.a].point - points[stick.b].point);
-                        Vector2 normal = grad.RotatedBy(Math.PI/2f);
-                        points[stick.a].point -= normal;
-                        points[stick.b].point -= normal;
+                    Vector2 grad = Vector2.Normalize(points[stick.a].point - points[stick.b].point);
+                    Vector2 normal = grad.RotatedBy(Math.PI / 2f);
+                    points[stick.a].point -= normal;
+                    points[stick.b].point -= normal;
                     if (max > 20)
                         break;
-                    }
+                }
             }
         }
         void UpdatePoints()
@@ -249,7 +249,7 @@ namespace EEMod
             {
                 if (i == 0)
                 {
-                    Main.spriteBatch.Draw(Main.magicPixel, points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Rectangle(0, 0, 20, 20).Size(), 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Main.magicPixel, points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
                 }
                 else
                 {
@@ -269,7 +269,7 @@ namespace EEMod
                     for (float j = 0; j < 1; j += 1 / Dist)
                     {
                         Vector2 Lerped = p1 + j * (p2 - p1);
-                        Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), stickPoints[i].color, 0f, new Rectangle(0, 0, 1, 1).Size(), 1f, SpriteEffects.None, 0f);
+                        Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), stickPoints[i].color, 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
                     }
                 }
             }
@@ -285,7 +285,7 @@ namespace EEMod
             while (!Framing.GetTileSafely(points[0], (int)tileP.Y).active())
             {
                 points[0]++;
-                if(points[0] - (int)tileP.X > 10)
+                if (points[0] - (int)tileP.X > 10)
                 {
                     points[0] = -1;
                     break;
@@ -318,7 +318,7 @@ namespace EEMod
                     break;
                 }
             }
-            for(int i = 0; i < points.Length; i++)
+            for (int i = 0; i < points.Length; i++)
             {
                 if (points[i] != -1)
                 {
@@ -337,8 +337,8 @@ namespace EEMod
                         }
                     }
                 }
-                if(points[i] != -1)
-                points[i] *= 16;
+                if (points[i] != -1)
+                    points[i] *= 16;
             }
             return points;
         }
@@ -363,20 +363,20 @@ namespace EEMod
                 }
                 ContactPoints = GetContactPoints(points[i].point);
                 if (points[i].point.X > ContactPoints[0] - fluff && ContactPoints[0] != -1)
-                    {
-                        points[i].oldPoint.X = ContactPoints[0] - fluff + points[i].vel.X * bounce;
-                        points[i].point.X = ContactPoints[0] - fluff;
-                        
-                    }
+                {
+                    points[i].oldPoint.X = ContactPoints[0] - fluff + points[i].vel.X * bounce;
+                    points[i].point.X = ContactPoints[0] - fluff;
+
+                }
                 ContactPoints = GetContactPoints(points[i].point);
                 if (points[i].point.X < ContactPoints[1] + fluff && ContactPoints[1] != -1)
-                    {
-                        points[i].oldPoint.X = ContactPoints[1] + fluff + points[i].vel.X * bounce;
-                        points[i].point.X = ContactPoints[1] + fluff;
-                    }
- 
- 
- 
+                {
+                    points[i].oldPoint.X = ContactPoints[1] + fluff + points[i].vel.X * bounce;
+                    points[i].point.X = ContactPoints[1] + fluff;
+                }
+
+
+
             }
         }
         void ConstrainToWorld()
@@ -386,7 +386,7 @@ namespace EEMod
                 points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * AR;
                 points[i].vel.Y = (points[i].point.Y - points[i].oldPoint.Y) * AR;
 
-                if (points[i].point.Y > Main.maxTilesY*16)
+                if (points[i].point.Y > Main.maxTilesY * 16)
                 {
                     points[i].oldPoint.Y = Main.maxTilesY * 16 + points[i].vel.Y * bounce;
                     points[i].point.Y = Main.maxTilesY * 16;

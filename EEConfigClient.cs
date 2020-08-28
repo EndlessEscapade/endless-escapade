@@ -18,7 +18,7 @@ namespace EEMod
         [Tooltip("Enable Particle Effects, May have to restart world!")]
         public bool ParticleEffects;
         [DefaultValue(false)]
-        [Label("Better Lighting")]
+        [Label("Burning Simulator")]
         [Tooltip("EXTEREMLY WIP AND EXPERIMENTAL. I Recommend just using it for screen shots")]
         public bool BetterLighting;
         [DefaultValue(false)]
