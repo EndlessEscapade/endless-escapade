@@ -280,14 +280,30 @@ namespace EEMod
                 (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = true;
                 if (player.controlUp)
                 {
-                    Initialize();
-                    SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
-                    prevKey = KeyID.CoralReefs;
+                    importantCutscene = true;
+                    cutSceneTriggerTimer = 0;
                 }
             }
             else
             {
                 (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = false;
+            }
+            if(importantCutscene)
+            {
+                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
+                Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
+                {
+                    Filters.Scene.Activate("EEMod:Noise2D", player.Center).GetShader().UseOpacity(0);
+                }
+                cutSceneTriggerTimer++;
+                if (cutSceneTriggerTimer > 180)
+                {
+                    Initialize();
+                    Filters.Scene.Deactivate("EEMod:Noise2D");
+                    SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
+                    prevKey = KeyID.CoralReefs;
+                }
             }
             if (!isNearVolcano && !isNearIsland && !isNearCoralReefs && !isNearMainIsland)
             {
@@ -551,11 +567,6 @@ namespace EEMod
                 var netMessage = mod.GetPacket();
                 netMessage.Write(shipComplete);
                 netMessage.Send();
-            }
-            if (!importantCutscene)
-            {
-                //SM.SaveAndQuit(KeyID.Cutscene1);
-                importantCutscene = true;
             }
             if (EEModConfigClient.Instance.ParticleEffects)
             {

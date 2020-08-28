@@ -376,7 +376,7 @@ namespace EEMod
         {
             DrawNoiseSurfacing();
             DrawLensFlares();
-            if (Main.worldName == KeyID.Sea)
+            if (Main.worldName == KeyID.CoralReefs)
                 EEWorld.EEWorld.instance.DrawVines();
             //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);
 
@@ -537,7 +537,7 @@ namespace EEMod
 
         private void OnDrawMenu(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
-           // orig(self, gameTime);
+            orig(self, gameTime);
 
             if (EEModConfigClient.Instance.EEDebug)
             {

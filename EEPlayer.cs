@@ -229,13 +229,6 @@ namespace EEMod
             BitsByte flags = reader.ReadByte();
             ZoneCoralReefs = flags[0];
         }
-
-
-        private void UpdateRuneCollection()
-        {
-
-        }
-
         private void MoralFirstFrame()
         {
             switch (player.name)
@@ -295,6 +288,7 @@ namespace EEMod
                 cutSceneTriggerTimer = 0;
                 cutSceneTriggerTimer2 = 500;
                 position = player.Center;
+                importantCutscene = false;
                 speedOfPan = 0;
                 subTextAlpha = 0;
                 EEMod.instance.position = new Vector2(1700, 900);
@@ -366,6 +360,7 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
+ 
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
@@ -560,18 +555,21 @@ namespace EEMod
                     hasGottenRuneBefore[i] = 0;
             }
             EEMod.isSaving = false;
-            if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
+            if (Main.worldName != KeyID.Sea)
             {
-                cutSceneTriggerTimer += 6;
-                player.position = player.oldPosition;
-            }
-            if (cutSceneTriggerTimer >= 1000)
-            {
-                cutSceneTriggerTimer += 2;
-            }
-            if (godMode)
-            {
-                timerForCutscene += 20;
+                if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
+                {
+                    cutSceneTriggerTimer += 6;
+                    player.position = player.oldPosition;
+                }
+                if (cutSceneTriggerTimer >= 1000)
+                {
+                    cutSceneTriggerTimer += 2;
+                }
+                if (godMode)
+                {
+                    timerForCutscene += 20;
+                }
             }
             switch (Main.worldName)
             {
