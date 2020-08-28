@@ -21,10 +21,9 @@ namespace EEMod.Items.Armor
             item.accessory = true;
         }
 
-        public override void UpdateEquip(Player player)
+        public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.GetModPlayer<EEPlayer>().isWearingCape = true;
-            Main.NewText("ae");
         }
     }
 }

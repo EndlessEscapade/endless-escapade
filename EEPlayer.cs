@@ -530,7 +530,6 @@ namespace EEMod
             if (isWearingCape)
             {
                 UpdateArrayPoints();
-                Main.NewText("EA SPORT");
             }
             thermalHealingTimer--;
             if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)

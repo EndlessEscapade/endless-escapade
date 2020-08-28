@@ -17,7 +17,6 @@ namespace EEMod.Items.Weapons.Summon
 
         public override void SetDefaults()
         {
-            item.melee = false;
             item.summon = true;
             item.noMelee = true;
             item.autoReuse = true;
@@ -29,14 +28,16 @@ namespace EEMod.Items.Weapons.Summon
             item.height = 20;
             item.rare = ItemRarityID.Green;
             item.knockBack = 5f;
-            item.useStyle = 1;
+            item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item8;
             item.shoot = ModContent.ProjectileType<AkumoMinion>();
         }
 
-        /*public override bool CanUseItem(Player player)
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            return !Main.LocalPlayer.HasBuff(ModContent.BuffType<AkumoBuff>());
-        }*/
+            player.AddBuff(ModContent.BuffType<AkumoBuff>(), 2, true);
+            position = Main.MouseWorld;
+            return true;
+        }
     }
 }
