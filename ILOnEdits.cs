@@ -63,7 +63,7 @@ namespace EEMod
             c.Remove();
               c.EmitDelegate<Action<LiquidRenderer,SpriteBatch, Vector2,int,float,bool>>((t,spritebatch, drawOffset, Style, Alpha, bg) =>
              {
-                 t.Draw(spritebatch, drawOffset, Style, Alpha/2, bg);
+                 t.Draw(spritebatch, drawOffset, Style, Alpha, bg);
               });
         }
         public void DrawRef()
@@ -509,7 +509,8 @@ namespace EEMod
 
         private void OnDrawMenu(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
-            orig(self, gameTime);
+           // orig(self, gameTime);
+
             if (EEModConfigClient.Instance.EEDebug)
             {
                 Main.spriteBatch.Begin();
