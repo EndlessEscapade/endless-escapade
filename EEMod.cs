@@ -179,6 +179,12 @@ namespace EEMod
                 Color drawColour = Lighting.GetColor((int)(modPlayer.SeaObject[i].posToScreen.X / 16f), (int)(modPlayer.SeaObject[i].posToScreen.Y / 16f));
                 Main.spriteBatch.Draw(modPlayer.SeaObject[i].texture, modPlayer.SeaObject[i].posToScreen.ForDraw(), drawColour * (1 - (modPlayer.cutSceneTriggerTimer/180f)));
             }
+            var OceanElements = EEPlayer.OceanMapElements;
+            for(int i = 0; i < OceanElements.Count; i++)
+            {
+                var element = OceanElements[i];
+                element.Draw(Main.spriteBatch);
+            }
         }
         public void UpdateGame(GameTime gameTime)
         {
