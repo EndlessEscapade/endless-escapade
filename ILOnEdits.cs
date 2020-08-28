@@ -3,6 +3,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -37,6 +38,7 @@ namespace EEMod
             IL.Terraria.NPC.AI_001_Slimes += Practice;
             IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
             IL.Terraria.Main.DrawWater += TransparentWater;
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
             On.Terraria.Main.DoUpdate += OnUpdate;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawWoF += DrawBehindTiles;
@@ -53,6 +55,30 @@ namespace EEMod
                 Prims.CreateVerlet();
             }
         }
+
+        //private void Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb(ILContext il)
+        //{
+        //    ILCursor c = new ILCursor(il);
+        //    MethodInfo call = typeof(Lighting).GetMethod(nameof(Lighting.GetColor4Slice_New), new Type[]
+        //    {
+        //        typeof(int), typeof(int), typeof(VertexColors).MakeByRefType(), typeof(float)
+        //    });
+        //    if (!c.TryGotoNext(i => i.MatchCall(call)))
+        //        throw new Exception("fapsdimajpxfasafasfdddddddddddddddddddddddddddddddddddfvcxfgresdgsedf");
+        //    c.Index++;
+        //    c.Emit(OpCodes.Ldloca, 9);
+        //    c.Emit(OpCodes.Call, new D(ModifyWaterColor).GetMethodInfo());
+        //}
+        //private delegate void D(ref VertexColors colors);
+        //private static void ModifyWaterColor(ref VertexColors colors)
+        //{
+        //    Color c = Color.White;
+        //    colors.TopLeftColor =c;
+        //    colors.TopRightColor = c;
+        //    colors.BottomLeftColor = c;
+        //    colors.BottomRightColor = c;
+        //}
+
         private void TransparentWater(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -61,10 +87,10 @@ namespace EEMod
             if (!c.TryGotoNext(i => i.MatchCallvirt(drawcall)))
                 throw new Exception("Couldn't find argument 1 post lc1");
             c.Remove();
-              c.EmitDelegate<Action<LiquidRenderer,SpriteBatch, Vector2,int,float,bool>>((t,spritebatch, drawOffset, Style, Alpha, bg) =>
-             {
-                 t.Draw(spritebatch, drawOffset, Style, Alpha, bg);
-              });
+            c.EmitDelegate<Action<LiquidRenderer, SpriteBatch, Vector2, int, float, bool>>((t, spritebatch, drawOffset, Style, Alpha, bg) =>
+               {
+                   t.Draw(spritebatch, drawOffset, Style, Alpha / 2, bg);
+               });
         }
         public void DrawRef()
         {
@@ -98,19 +124,21 @@ namespace EEMod
 
         private void UnloadIL()
         {
-            On.Terraria.Main.RenderBlack -= d;
-            IL.Terraria.Main.DrawWater -= TransparentWater;
-            On.Terraria.Lighting.AddLight_int_int_float_float_float -= NewLighting;
-            On.Terraria.Main.DoUpdate -= OnUpdate;
-            On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
             IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
+            IL.Terraria.NPC.AI_001_Slimes -= Practice;
+            IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
+            IL.Terraria.Main.DrawWater -= TransparentWater;
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
+            On.Terraria.Main.DoUpdate -= OnUpdate;
+            On.Terraria.WorldGen.SaveAndQuitCallBack -= OnSave;
             On.Terraria.Main.DrawWoF -= DrawBehindTiles;
             On.Terraria.Main.Draw -= OnDrawMenu;
             On.Terraria.Main.DrawBG -= BetterLightingDraw;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
-            IL.Terraria.NPC.AI_001_Slimes -= Practice;
+            On.Terraria.Lighting.AddLight_int_int_float_float_float -= NewLighting;
+            On.Terraria.Main.RenderBlack -= d;
             screenMessageText = null;
             TrailManager = null;
             progressMessage = null;
@@ -125,8 +153,8 @@ namespace EEMod
         private void d(On.Terraria.Main.orig_RenderBlack orig, Main self)
         {
             //Main.spriteBatch.Begin();
-          //  DrawCoralReefsBg();
-           // Main.spriteBatch.End();
+            //  DrawCoralReefsBg();
+            // Main.spriteBatch.End();
             orig(self);
         }
         private void BetterLightingDraw(On.Terraria.Main.orig_DrawBG orig, Main self)
@@ -146,7 +174,7 @@ namespace EEMod
         private void NewLighting(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int i, int j, float R, float G, float B)
         {
             ChangingPoints = new Vector2(i * 16, j * 16);
-            orig(i,j,R,G,B);
+            orig(i, j, R, G, B);
         }
         public override void MidUpdateProjectileItem()
         {
@@ -170,7 +198,7 @@ namespace EEMod
                     projectile.Center - new Vector2(100,100)
                 };
                 if (Main.netMode != NetmodeID.Server)
-                    Prims.CreateTrail(Mojang, new Prims.DefaultShader(),projectile);
+                    Prims.CreateTrail(Mojang, new Prims.DefaultShader(), projectile);
             }
             if (Main.netMode != NetmodeID.Server) TrailManager.DoTrailCreation(projectile);
 
@@ -275,7 +303,7 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
         }
-        
+
         public void BetterLightingHandler()
         {
             Color DayColour = new Color(2.5f, 1.4f, 1);
@@ -338,7 +366,7 @@ namespace EEMod
                 for (int i = 0; i < maxLoops; i++)
                 {
                     Vector2 Positions = new Vector2((i - ((maxLoops - 1) * 0.5f)) * CB1.Width * scale, traverseFunction.Y / 3f);
-                     //  Main.spriteBatch.Draw(CB1, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
+                    //  Main.spriteBatch.Draw(CB1, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
                     //   Main.spriteBatch.Draw(CB2, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
                     //  Main.spriteBatch.Draw(CB3, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
                 }
@@ -348,8 +376,8 @@ namespace EEMod
         {
             DrawNoiseSurfacing();
             DrawLensFlares();
-            if(Main.worldName == KeyID.Sea)
-            EEWorld.EEWorld.instance.DrawVines();
+            if (Main.worldName == KeyID.Sea)
+                EEWorld.EEWorld.instance.DrawVines();
             //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);
 
 
@@ -404,7 +432,7 @@ namespace EEMod
             Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = Vector2.Zero;
             if (tile.active() && tile.type == ModContent.TileType<OrbHolder>())
             {
-                
+
                 speed += 0.002f;
                 if (speed % 0.5f < 0.002f)
                 {
@@ -803,7 +831,7 @@ namespace EEMod
             MethodInfo lightningnoretroget = typeof(Lighting).GetProperty(nameof(Lighting.NotRetro)).GetGetMethod();
             if (!c.TryGotoNext(i => i.MatchCallOrCallvirt(lightningnoretroget)))
                 throw new Exception("Call for the get method of the property Lighting.NoRetro not found");
-            // finding the call       
+            // finding the call
             MethodInfo draw = spritebatchtype.GetMethod("Draw", new Type[] { typeof(Texture2D), typeof(Vector2), typeof(Rectangle?), typeof(Color), typeof(float), typeof(Vector2), typeof(float), typeof(SpriteEffects), typeof(float) });
             for (int k = 0; k < 4; k++) // 4 calls
             {
@@ -854,7 +882,7 @@ namespace EEMod
         /*
         //private static void ModifyColor(ref Color color, byte val)
         //{
-        // 
+        //
         //}
         // private delegate void colorrefdelegate(ref Color color, byte val);
         private delegate void modifyingdelegate(Main instance, ref int focusmenu, ref int selectedmenu, ref int num2, ref int num4, ref int[] array4, ref byte[] array6, ref string[] array9, ref bool[] array, ref int num5, ref bool flag);
@@ -887,9 +915,9 @@ namespace EEMod
             }
             else
             {
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
+#pragma warning disable CS0618 // El tipo o el miembro estï¿½n obsoletos
                 array9[0] = Lang.menu[32].Value;
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+#pragma warning restore CS0618 // El tipo o el miembro estï¿½n obsoletos
             }
             array[0] = true;
             array[1] = true;

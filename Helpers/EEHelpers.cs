@@ -198,7 +198,7 @@ namespace EEMod
         {
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[Name].IsActive())
             {
-               Filters.Scene.Activate(Name, entity.Center).GetShader();
+                Filters.Scene.Activate(Name, entity.Center).GetShader();
             }
         }
         public static bool IsInside(Vector2 p1, Vector2 p2, Vector2 p3,

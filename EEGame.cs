@@ -50,7 +50,7 @@ namespace EEMod
                 {
                     elementArray[i] = new GameElement(size, color, Center);
                     return i;
-                    break;
+                    //break;
                 }
             }
             return 0;

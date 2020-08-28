@@ -85,11 +85,11 @@ namespace EEMod.Projectiles.Runes
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             if (projectile.ai[0] > 1)
             {
-                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * flash * 0.5f, projectile.rotation + flash, new Rectangle(0, 0, 174, 174).Size() / 2, projectile.ai[0], SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * flash * 0.5f, projectile.rotation + flash, new Vector2(174, 174) / 2, projectile.ai[0], SpriteEffects.None, 0);
             }
             else
             {
-                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, projectile.rotation + flash, new Rectangle(0, 0, 174, 174).Size() / 2, projectile.ai[0], SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, projectile.rotation + flash, new Vector2(174, 174) / 2, projectile.ai[0], SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();

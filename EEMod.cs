@@ -86,8 +86,8 @@ namespace EEMod
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
             Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
             Main.spriteBatch.Begin();
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Rectangle(0, 0, 2, 16).Size() / 2, Vector2.One, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Rectangle(0, 0, 18, 8).Size() / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
             Main.spriteBatch.End();
         }
 
@@ -201,7 +201,7 @@ namespace EEMod
                             for (float j = 0; j < 1; j += 1 / Dist)
                             {
                                 Vector2 Lerped = p1 + j * (p2 - p1);
-                                Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.AliceBlue * Math.Abs(lerpLol - j), 0f, new Rectangle(0, 0, 1, 1).Size(), 1f, SpriteEffects.None, 0f);
+                                Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.AliceBlue * Math.Abs(lerpLol - j), 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
                             }
                             UIText("Pick Up?", Color.White * alphas, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 - 50), 1);
                         }

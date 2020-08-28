@@ -13,6 +13,7 @@ namespace EEMod.Dusts
             dust.noLight = true;
             dust.scale *= 4.0f;
         }
+
         public override bool Update(Dust dust)
         {
             dust.position += dust.velocity;

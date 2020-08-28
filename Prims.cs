@@ -91,19 +91,19 @@ namespace EEMod
             float lerpage;
             public void DrawCape(BasicEffect effect2, GraphicsDevice device)
             {
-               
+
                 Vector2[] pointsArray = Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints;
                 if (pointsArray.Length <= 1) return;
                 if (!active) return;
                 int currentIndex = 0;
-                VertexPositionColor[] vertices = new VertexPositionColor[pointsArray.Length*6 - 9];
+                VertexPositionColor[] vertices = new VertexPositionColor[pointsArray.Length * 6 - 9];
                 void AddVertex(Vector2 position, Color color)
                 {
                     vertices[currentIndex++] = new VertexPositionColor(new Vector3(position.ForDraw(), 0f), color);
                 }
                 for (int i = 0; i < pointsArray.Length; i++)
                 {
-                    float j = (pointsArray.Length - i)/ (float)pointsArray.Length;
+                    float j = (pointsArray.Length - i) / (float)pointsArray.Length;
                     float increment = i / (float)pointsArray.Length;
                     if (i == 0)
                     {
@@ -111,15 +111,15 @@ namespace EEMod
                         AddVertex(pointsArray[i + 1] + CurveNormal(pointsArray.ToList(), i + 1) * -5 * (j - increment), Color.DarkRed);
                         AddVertex(pointsArray[i + 1] + CurveNormal(pointsArray.ToList(), i + 1) * 5 * (j - increment), Color.DarkRed);
                     }
-                    if(i > 0 && i < pointsArray.Length - 1)
+                    if (i > 0 && i < pointsArray.Length - 1)
                     {
-                     Vector2 normal = CurveNormal(pointsArray.ToList(), i);
-                     Vector2 normalAhead = CurveNormal(pointsArray.ToList(), i+1);
+                        Vector2 normal = CurveNormal(pointsArray.ToList(), i);
+                        Vector2 normalAhead = CurveNormal(pointsArray.ToList(), i + 1);
 
-                     Vector2 firstUp = pointsArray[i] - normal * 5 * j;
-                     Vector2 firstDown = pointsArray[i] + normal * 5 * j;
-                     Vector2 secondUp = pointsArray[i + 1] - (normalAhead * 5 * ((pointsArray.Length) - (i + 1)) / pointsArray.Length);
-                     Vector2 secondDown = pointsArray[i + 1] + (normalAhead * 5 * ((pointsArray.Length) - (i+1)) / pointsArray.Length);
+                        Vector2 firstUp = pointsArray[i] - normal * 5 * j;
+                        Vector2 firstDown = pointsArray[i] + normal * 5 * j;
+                        Vector2 secondUp = pointsArray[i + 1] - (normalAhead * 5 * ((pointsArray.Length) - (i + 1)) / pointsArray.Length);
+                        Vector2 secondDown = pointsArray[i + 1] + (normalAhead * 5 * ((pointsArray.Length) - (i + 1)) / pointsArray.Length);
                         float varLerp = Math.Abs(lerpage - increment);
 
                         float varLerpAhead = Math.Abs(lerpage - ((i + 1) / (float)pointsArray.Length));
@@ -199,7 +199,7 @@ namespace EEMod
                 foreach (EffectPass pass in effect2.CurrentTechnique.Passes)
                 {
                     pass.Apply();
-                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, pointsArray.Length*2 - 3);
+                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, pointsArray.Length * 2 - 3);
                 }
             }
             //Helper methods
@@ -245,7 +245,7 @@ namespace EEMod
                         LythenStaffProjectile LR = (_projectile.modProjectile as LythenStaffProjectile);
                         if (LR.positionOfOthers[0] != Vector2.Zero && LR.positionOfOthers[1] != Vector2.Zero)
                         {
-                          _points = new List<Vector2>
+                            _points = new List<Vector2>
                           {
                           _projectile.Center,
                           LR.positionOfOthers[0],
@@ -265,28 +265,28 @@ namespace EEMod
                 if (!active) return;
                 int currentIndex = 0;
                 VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[_points.Count];
-                void AddVertex(Vector2 position, Color color,Vector2 uv)
+                void AddVertex(Vector2 position, Color color, Vector2 uv)
                 {
-                    vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color,uv);
+                    vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
                 }
                 if (_projectile != null)
                 {
                     if (_projectile.type == ModContent.ProjectileType<LythenStaffProjectile>())
                     {
-                       AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 10f)));
-                       AddVertex(_points[1], Color.LightBlue * (float)Math.Asin(lerper / 20f), new Vector2((float)Math.Cos(lerper / 10f), (float)Math.Cos(lerper / 20f)));
-                       AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Asin(lerper / 20f), (float)Math.Cos(lerper / 10f)));
+                        AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 10f)));
+                        AddVertex(_points[1], Color.LightBlue * (float)Math.Asin(lerper / 20f), new Vector2((float)Math.Cos(lerper / 10f), (float)Math.Cos(lerper / 20f)));
+                        AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Asin(lerper / 20f), (float)Math.Cos(lerper / 10f)));
                     }
                 }
 
-               int width = device.Viewport.Width;
+                int width = device.Viewport.Width;
                 int height = device.Viewport.Height;
                 Vector2 zoom = Main.GameViewMatrix.Zoom;
                 Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
                 Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
                 effect.Parameters["WorldViewProjection"].SetValue(view * projection);
-                _trailShader.ApplyShader(effect2, this,_points);
-                device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0,1);
+                _trailShader.ApplyShader(effect2, this, _points);
+                device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 1);
             }
             //Helper methods
             private Vector2 CurveNormal(List<Vector2> points, int index)

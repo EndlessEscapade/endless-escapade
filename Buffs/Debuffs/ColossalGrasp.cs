@@ -11,6 +11,7 @@ namespace EEMod.Buffs.Debuffs
             DisplayName.SetDefault("Colossal Grasp");
             Description.SetDefault("The Kraken takes hold of you");
             Main.buffNoSave[Type] = true;
+            Main.debuff[Type] = true;
         }
 
         public override void Update(NPC npc, ref int buffIndex)

@@ -13,10 +13,10 @@ namespace EEMod
         {
             DisplayName.SetDefault("Glow");
         }
-        
+
         public override void AI()
         {
-            
+
         }
         public override void SetDefaults()
         {
