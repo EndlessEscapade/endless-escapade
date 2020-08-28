@@ -2960,8 +2960,8 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                 break;
                             case 7:
-                                ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
-                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
+                               // ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
+                               // WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
                                 break;
                         }
                     }

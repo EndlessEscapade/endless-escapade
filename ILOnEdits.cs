@@ -295,7 +295,7 @@ namespace EEMod
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            if (EEModConfigClient.Instance.BetterLighting)
+            if (EEModConfigClient.Instance.BetterLighting && Main.worldName != KeyID.CoralReefs)
             {
                 Main.spriteBatch.Draw(TextureCache.LensFlare2, sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * globalAlpha * (intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
                 Main.spriteBatch.Draw(TextureCache.LensFlare2, sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * globalAlpha * (intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
@@ -311,8 +311,8 @@ namespace EEMod
             float shiftSpeed = 32f;
             float Base = 0.5f;
             float timeProgression = (float)Main.time / 54000f;
-            float baseIntesity = 0.2f;
-            float Intensity = 1f;
+            float baseIntesity = 0.05f;
+            float Intensity = .8f;
             float flunctuationCycle = 20000;
             float nightTransitionSpeed = 0.005f;
             float globalAlphaTransitionSpeed = 0.001f;

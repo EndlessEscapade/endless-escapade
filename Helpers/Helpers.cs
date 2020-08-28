@@ -43,7 +43,7 @@ namespace EEMod
                  y3 * Math.Pow(t, 3)
              );
         }
-        public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, bool alphaBlend = false)
+        public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, bool alphaBlend = false, bool emitsDust = false)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
             {
@@ -53,6 +53,19 @@ namespace EEMod
                 {
                     float x = X(i, startingPos.X, c1.X, c2.X, endPoints.X);
                     float y = Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
+                    if(emitsDust)
+                    {
+                        if (Main.rand.Next(70) == 0)
+                        {
+                            if (!Main.tile[(int)x / 16, (int)y / 16].active())
+                            {
+                                Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
+                                dust.fadeIn = 1f;
+                                dust.scale = 0.1f;
+                                dust.noGravity = true;
+                            }
+                        }
+                    }
                     distBetween = new Vector2(x -
                     X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
                     y -

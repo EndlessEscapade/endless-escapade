@@ -131,7 +131,7 @@ namespace EEMod.EEWorld
                     if (MidNorm.Y > 100 * 16 && Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 40 * 16 * 40 * 16 && Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000)
                     {
                         Helpers.DrawBezier(Main.spriteBatch, TextureCache.Vine, "", Color.White, ChainConneccPos, LastChainConneccPos, Mid, Mid, 0.02f, MathHelper.Pi / 2, true);
-                        Helpers.DrawBezier(Main.spriteBatch, TextureCache.LightVine, "", Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, Mid + addOn, 0.1f, MathHelper.Pi / 2, false);
+                        Helpers.DrawBezier(Main.spriteBatch, TextureCache.LightVine, "", Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, Mid + addOn, 0.1f, MathHelper.Pi / 2, false,true);
                     }
                 }
             }
