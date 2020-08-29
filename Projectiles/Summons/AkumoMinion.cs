@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using EEMod.Buffs.Buffs;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Projectiles.Mage;
+using EEMod.Extensions; 
 
 namespace EEMod.Projectiles.Summons
 {
@@ -24,7 +25,7 @@ namespace EEMod.Projectiles.Summons
         public override void SetDefaults()
         {
             projectile.width = 56;
-            projectile.height = 56;
+            projectile.height = 58;
             projectile.penetrate = -1;
             projectile.minion = true;
             projectile.tileCollide = false;
@@ -33,6 +34,7 @@ namespace EEMod.Projectiles.Summons
             projectile.friendly = true;
             projectile.damage = 50;
             projectile.knockBack = 4f;
+            projectile.hostile = false;
         }
 
         Color minionGlow;
@@ -95,22 +97,29 @@ namespace EEMod.Projectiles.Summons
             if (projectile.ai[0] == 0)
             {
                 frameSpeed = 6;
-                projectileAiCont[0] = 0;
+                if (projectileAiCont[0] > 0)
+                    projectileAiCont[0] -= 0.1f;
 
-                projectileAiCont[1]++;
-                if (projectileAiCont[1] >= 60)
+                if (Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center) >= 1600)
                 {
-                    projectile.velocity = Vector2.Normalize(projectile.Center - Main.player[projectile.owner].Center) * (Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center)/-64) + new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f));
-                    projectileAiCont[1] = 0;
+                    minionGlow = Color.White;
+                    projectileAiCont[0] = 2.5f;
+                    projectile.velocity = Vector2.Zero;
+                    projectile.Center = Main.player[projectile.owner].Center + new Vector2(Main.rand.Next(-80, 80), Main.rand.Next(-80, 80));
                 }
-                projectile.velocity *= 0.995f;
+
+                projectile.velocity -= Vector2.Normalize(projectile.Center - Main.player[projectile.owner].Center)/8;
+                if((projectile.velocity.X + projectile.velocity.Y)/2 < 4)
+                    projectile.velocity *= 1.005f;
+                else
+                    projectile.velocity *= 0.97f;
             }
             if (projectile.ai[0] == 1)
             {
                 #region Fire attack
 
 
-                projectile.velocity *= 0.98f;
+                projectile.velocity += -Vector2.Normalize(projectile.Center - Vector2.Add(Main.player[projectile.owner].Center, target.Center)/2) - projectile.velocity * 0.03f;
 
                 frameSpeed = 4;
                 if(projectileAiCont[0] < 5)
@@ -157,12 +166,16 @@ namespace EEMod.Projectiles.Summons
                     projectileAiCont[0] += 0.05f;
                 minionGlow = Color.OrangeRed;
 
+                projectile.velocity = Vector2.Normalize(projectile.Center - new Vector2(target.Center.X, target.position.Y - 120)) * -2 - projectile.velocity * 0.03f;
+                if(Vector2.Distance(projectile.Center, new Vector2(target.Center.X, target.position.Y - 120)) <= 16)
+                    projectile.spriteDirection = 1;
+                projectile.velocity *= 1.005f;
                 projectileAiCont[1]++;
                 if (projectileAiCont[1] >= 45)
                 {
                     for (int l = 0; l < 5; l++)
                     {
-                        Vector2 newPos = new Vector2(target.Center.X + Main.rand.Next(-40, 41), target.Center.Y - 40);
+                        Vector2 newPos = new Vector2(target.Center.X + Main.rand.Next(-80, 81), target.position.Y - 80);
                         Vector2 newVel = Vector2.Normalize(newPos - target.Center) * -16;
                         Projectile.NewProjectile(newPos, newVel, ModContent.ProjectileType<AkumoMinionProjectile>(), 50, 2f, player.whoAmI);
                     }
@@ -184,12 +197,16 @@ namespace EEMod.Projectiles.Summons
                 else
                 {
                     projectileAiCont[1]++;
+                    Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
+                    dust.noGravity = true;
                     if (projectileAiCont[1] >= 45)
                     {
-                        projectile.velocity = Vector2.Normalize(projectile.Center - target.Center) * -6;
+                        projectile.velocity = Vector2.Normalize(projectile.Center - target.Center) * -8;
                         projectileAiCont[1] = 0;
                         projectileAiCont[0] = 0;
                     }
+                    else
+                        projectile.velocity *= 1.02f;
                 }
                 minionGlow = Color.Red;
 
@@ -205,11 +222,12 @@ namespace EEMod.Projectiles.Summons
         {
             float funnySin = (float)Math.Sin(projectileAiCont[0]);
             Texture2D texture = mod.GetTexture("Projectiles/Summons/AkumoMinionGlow");
-            Main.spriteBatch.Draw(texture, projectile.position - Main.screenPosition + new Vector2(funnySin * 10, 0), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f);
-            Main.spriteBatch.Draw(texture, projectile.position - Main.screenPosition + new Vector2(0, funnySin * 10), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f);
-            Main.spriteBatch.Draw(texture, projectile.position - Main.screenPosition + new Vector2(funnySin * -10, 0), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f);
-            Main.spriteBatch.Draw(texture, projectile.position - Main.screenPosition + new Vector2(0, funnySin * -10), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f);
-            Main.spriteBatch.Draw(texture, projectile.position - Main.screenPosition, texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.75f);
+            Vector2 funny = projectile.Center.ForDraw();
+            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, new Vector2(projectile.width/2, projectile.height/2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, 10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * -10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, -10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)funny.X, (int)funny.Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.75f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
         }
 
         public override void Kill(int timeleft)
