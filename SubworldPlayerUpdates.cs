@@ -127,25 +127,19 @@ namespace EEMod
                     Vector2 dist = (Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight + 1000)) - CloudPos;
                     if (dist.Length() > 1140)
                     {
+                        Texture2D cloudTexture;
                         switch (CloudChoose)
                         {
                             case 0:
-                                {
-                                    Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                    Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud1>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                    break;
-                                }
                             case 1:
-                                {
-                                    Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud2>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                    break;
-                                }
-                            case 2:
-                                {
-                                    Projectile.NewProjectile(CloudPos, Vector2.Zero, ProjectileType<DarkCloud3>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                                    break;
-                                }
+                                cloudTexture = GetTexture("EEMod/Projectiles/OceanMap/DarkCloud" + (CloudChoose+1));
+                                break;
+
+                            default:
+                                cloudTexture = GetTexture("EEMod/Projectiles/OceanMap/DarkCloud3");
+                                break;
                         }
+                        OceanMapElements.Add(new DarkCloud(CloudPos, cloudTexture, Main.rand.NextFloat(.6f, 1), Main.rand.NextFloat(60, 180)));
                     }
                 }
 

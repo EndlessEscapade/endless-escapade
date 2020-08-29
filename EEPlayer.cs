@@ -35,6 +35,7 @@ using EEMod.ID;
 using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.Walls;
+using EEMod.Autoloading;
 
 namespace EEMod
 {
@@ -133,6 +134,8 @@ namespace EEMod
         public int PlayerX;
         public int PlayerY;
         public Vector2 velHolder;
+        [FieldInit]
+        internal static List<IOceanMapElement> OceanMapElements = new List<IOceanMapElement>();
 
         public override void PostUpdate()
         {
@@ -300,6 +303,7 @@ namespace EEMod
                 displacmentY = 0;
                 startingText = false;
                 Particles.Clear();
+                OceanMapElements.Clear();
                 isCameraFixating = false;
             }
         }
@@ -511,6 +515,37 @@ namespace EEMod
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
             public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / 2 + 1000, texture.Width, texture.Height);
         }
+        public class DarkCloud : IOceanMapElement
+        {
+            public Vector2 pos;
+            public Texture2D texture;
+            public float scale, alpha;
+            public DarkCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
+            {
+                this.pos = pos;
+                texture = tex;
+                this.scale = scale;
+                this.alpha = alpha;
+            }
+
+            public void Draw(SpriteBatch spriteBatch)
+            {
+                Vector2 p = pos - Main.screenPosition;
+                Color drawcolor = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));//((int)(p.X/16), (int)(p.X/16f));
+                drawcolor.A = (byte)alpha;
+                spriteBatch.Draw(texture, p, null, drawcolor, 0f, default, scale, SpriteEffects.None, 0f);
+            }
+
+            public void Update()
+            {
+
+            }
+        }
+        internal interface IOceanMapElement
+        {
+            void Update();
+            void Draw(SpriteBatch spriteBatch);
+        }
 
         float inspectTimer = 0;
         public void InspectObject()
@@ -524,7 +559,6 @@ namespace EEMod
             if (isWearingCape)
             {
                 UpdateArrayPoints();
-                Main.NewText("EA SPORT");
             }
             thermalHealingTimer--;
             if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)
