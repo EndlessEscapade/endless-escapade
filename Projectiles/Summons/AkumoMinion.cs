@@ -5,6 +5,7 @@ using Terraria.ID;
 using Microsoft.Xna.Framework;
 using EEMod.Buffs.Buffs;
 using Microsoft.Xna.Framework.Graphics;
+using EEMod.Projectiles.Mage;
 
 namespace EEMod.Projectiles.Summons
 {
@@ -14,6 +15,7 @@ namespace EEMod.Projectiles.Summons
         {
             DisplayName.SetDefault("Minikumo");
             Main.projFrames[projectile.type] = 4;
+            Main.projPet[projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[projectile.type] = false;
             ProjectileID.Sets.Homing[projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
@@ -25,7 +27,7 @@ namespace EEMod.Projectiles.Summons
             projectile.height = 56;
             projectile.penetrate = -1;
             projectile.minion = true;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.minionSlots = 1;
             projectile.friendly = true;
@@ -55,85 +57,148 @@ namespace EEMod.Projectiles.Summons
                 }
             }
 
-            //NPC target = Main.npc[Helpers.GetNearestNPC(projectile.Center)];
-
             int npcs = Main.npc.Length - 1;
-            NPC target = Main.npc[0];
+            NPC target = null;
+            int closestDist = 10000000;
             for (int i = 0; i < npcs; i++)
             {
-                if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < Vector2.Distance(target.Center, projectile.Center))
+                if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < closestDist && Main.npc[i].active)
                 {
                     target = Main.npc[i];
+                    closestDist = (int)Vector2.Distance(Main.npc[i].Center, projectile.Center);
                 }
             }
 
+
             projectile.ai[1]++;
-            if (Vector2.Distance(target.Center, projectile.Center) <= 2000)
+            if (target == null || Vector2.Distance(target.Center, projectile.Center) >= 12800)
                 projectile.ai[0] = 0;
             else
             {
-                if (projectile.ai[1] >= 300)
+                if (projectile.ai[1] >= 180)
                 {
-                    projectile.ai[0] = 1; //projectile.ai[0] = Main.rand.Next(1, 4);
+                    projectile.ai[0] = Main.rand.Next(1, 4);
                     projectile.ai[1] = 0;
-                    projectileAiCont[1] = 0;
+                    projectileAiCont[1] = projectile.ai[0] == 3 || projectile.ai[0] == 2 ? 45 : 0;
+                    projectileAiCont[0] = 0;
+                    projectileAiCont[2] = 0;
                 }
             }
 
-            if(projectile.ai[0] == 0)
+            projectile.spriteDirection = projectile.velocity.X > 0 ? -1 : 1;
+            projectile.rotation = projectile.velocity.X / 12;
+
+
+            #region Attacks
+
+
+            if (projectile.ai[0] == 0)
             {
-                frameSpeed = 5;
+                frameSpeed = 6;
                 projectileAiCont[0] = 0;
+
+                projectileAiCont[1]++;
+                if (projectileAiCont[1] >= 60)
+                {
+                    projectile.velocity = Vector2.Normalize(projectile.Center - Main.player[projectile.owner].Center) * (Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center)/-64) + new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f));
+                    projectileAiCont[1] = 0;
+                }
+                projectile.velocity *= 0.995f;
             }
             if (projectile.ai[0] == 1)
             {
                 #region Fire attack
 
 
-                frameSpeed = 3;
+                projectile.velocity *= 0.98f;
+
+                frameSpeed = 4;
                 if(projectileAiCont[0] < 5)
                     projectileAiCont[0] += 0.1f;
                 minionGlow = Color.Orange;
-                if (Vector2.Distance(target.Center, projectile.Center) <= 320)
-                    target.AddBuff(BuffID.OnFire, 600);
 
                 projectileAiCont[2] += 0.02f;
                 float radius = 40;
-                if(projectileAiCont[1] < 24)
+                if (projectileAiCont[1] < 24)
+                {
                     projectileAiCont[1]++;
+                    for (int k = 0; k < Main.npc.Length - 1; k++)
+                    {
+                        NPC npc = Main.npc[k];
+                        if (Vector2.Distance(npc.Center, projectile.Center) <= 320)
+                            target.AddBuff(BuffID.OnFire, 600);
+                    }
+                }
+
                 for (int j = 0; j < projectileAiCont[1]; j++)
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        Vector2 position = projectile.Center + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / 6 * i) + (j*2) - projectileAiCont[2]) * radius;
+                        Vector2 position = projectile.Center + new Vector2(0, 4) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / 6 * i) + (j*2) - projectileAiCont[2]) * radius;
                         Dust dust = Dust.NewDustPerfect(position, DustID.Fire);
                         dust.noGravity = true;
                     }
                     radius += 4;
                 }
-                Main.NewText(projectileAiCont[0]);
 
 
                 #endregion
             }
+
             if (projectile.ai[0] == 2)
             {
+                #region Feather attack
+
+
+                projectile.velocity *= 0.98f;
+
                 frameSpeed = 5;
-                frameSpeed = 3;
-                projectileAiCont[0] += 0.1f;
+                if (projectileAiCont[0] < 5)
+                    projectileAiCont[0] += 0.05f;
                 minionGlow = Color.OrangeRed;
-                if (Vector2.Distance(target.Center, projectile.Center) <= 320)
-                    target.AddBuff(BuffID.OnFire, 600);
+
+                projectileAiCont[1]++;
+                if (projectileAiCont[1] >= 45)
+                {
+                    for (int l = 0; l < 5; l++)
+                    {
+                        Vector2 newPos = new Vector2(target.Center.X + Main.rand.Next(-40, 41), target.Center.Y - 40);
+                        Vector2 newVel = Vector2.Normalize(newPos - target.Center) * -16;
+                        Projectile.NewProjectile(newPos, newVel, ModContent.ProjectileType<AkumoMinionProjectile>(), 50, 2f, player.whoAmI);
+                    }
+                    projectileAiCont[1] = 0;
+                }
+
+
+                #endregion
             }
+
             if (projectile.ai[0] == 3)
             {
-                frameSpeed = 5;
+                #region Dash attack
+
+
                 frameSpeed = 3;
-                projectileAiCont[0] += 0.1f;
+                if (projectileAiCont[0] < 5)
+                    projectileAiCont[0] += 0.15f;
+                else
+                {
+                    projectileAiCont[1]++;
+                    if (projectileAiCont[1] >= 45)
+                    {
+                        projectile.velocity = Vector2.Normalize(projectile.Center - target.Center) * -6;
+                        projectileAiCont[1] = 0;
+                        projectileAiCont[0] = 0;
+                    }
+                }
                 minionGlow = Color.Red;
-                if (Vector2.Distance(target.Center, projectile.Center) <= 320)
-                    target.AddBuff(BuffID.OnFire, 600);
+
+
+                #endregion
             }
+
+
+            #endregion
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

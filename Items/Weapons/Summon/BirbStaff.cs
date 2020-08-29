@@ -31,6 +31,7 @@ namespace EEMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.UseSound = SoundID.Item8;
             item.shoot = ModContent.ProjectileType<AkumoMinion>();
+            item.buffType = ModContent.BuffType<AkumoBuff>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
