@@ -424,12 +424,12 @@ namespace EEMod.NPCs.Bosses.Akumo
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.Akumo;
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            //Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);
 
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            //Main.spriteBatch.End();
+            //Main.spriteBatch.Begin();
             if (scree)
             {
                 if (npc.ai[0] == 1)
@@ -437,7 +437,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scree").WithVolume(.7f).WithPitchVariance(4));
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BadScree").WithVolume(.8f).WithPitchVariance(1.5f));
                 }
-                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition, npc.frame, drawColor * alpha, npc.rotation, npc.frame.Size() / 2, scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(texture, npc.Center - Main.screenPosition, npc.frame, drawColor * alpha, npc.rotation, npc.frame.Size() / 2, scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             }
             if (isDashing && npc.ai[0] >= nextAttackTime + 80)
             {
