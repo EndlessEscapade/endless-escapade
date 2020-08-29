@@ -15,6 +15,7 @@ namespace EEMod
     public class EESubWorlds
     {
         public static IList<Vector2> ChainConnections = new List<Vector2>();
+        public static IList<Vector2> OrbPositions = new List<Vector2>();
         public static Vector2 CoralBoatPos;
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
         {
@@ -313,7 +314,26 @@ namespace EEMod
             {
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(5) && Main.tileSolid[Main.tile[i, j].type])
+                    int noOfTiles = 0;
+                    if (j > 200)
+                    {
+                        for (int k = -10; k < 10; k++)
+                        {
+                            for (int l = -10; l < 10; l++)
+                            {
+                                if (Main.tile[i + k, j + l].active())
+                                {
+                                    noOfTiles++;
+                                }
+                            }
+                        }
+                    
+                    if(noOfTiles < 2 && WorldGen.genRand.NextBool(5))
+                    {
+                        OrbPositions.Add(new Vector2(i, j));
+                    }
+                    }
+                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(4) && Main.tileSolid[Main.tile[i, j].type])
                     {
                         if (ChainConnections.Count == 0)
                         {

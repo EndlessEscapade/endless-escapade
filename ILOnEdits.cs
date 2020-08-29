@@ -34,9 +34,9 @@ namespace EEMod
         private void LoadIL()
         {
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
-            IL.Terraria.Main.DrawBackground += Main_DrawBackground;
+            //IL.Terraria.Main.DrawBackground += Main_DrawBackground;
             IL.Terraria.NPC.AI_001_Slimes += Practice;
-            IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
+            //IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
             IL.Terraria.Main.DrawWater += TransparentWater;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
             On.Terraria.Main.DoUpdate += OnUpdate;
@@ -125,9 +125,9 @@ namespace EEMod
         private void UnloadIL()
         {
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
-            IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
+            //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
             IL.Terraria.NPC.AI_001_Slimes -= Practice;
-            IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
+            //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
             IL.Terraria.Main.DrawWater -= TransparentWater;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
             On.Terraria.Main.DoUpdate -= OnUpdate;
@@ -312,7 +312,7 @@ namespace EEMod
             float Base = 0.5f;
             float timeProgression = (float)Main.time / 54000f;
             float baseIntesity = 0.05f;
-            float Intensity = .8f;
+            float Intensity = .7f;
             float flunctuationCycle = 20000;
             float nightTransitionSpeed = 0.005f;
             float globalAlphaTransitionSpeed = 0.001f;

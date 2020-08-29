@@ -435,6 +435,11 @@ namespace EEMod
 
             if (!arrowFlag)
             {
+                for (int i = 0; i < EESubWorlds.OrbPositions.Count; i++)
+                {
+                    NPC.NewNPC((int)EESubWorlds.OrbPositions[i].X * 16, (int)EESubWorlds.OrbPositions[i].Y * 16, NPCType<OrbCollection>());
+                }
+                Main.NewText(EESubWorlds.OrbPositions.Count);
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
                 player.ClearBuff(BuffID.Cursed);

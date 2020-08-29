@@ -55,7 +55,7 @@ namespace EEMod
                     float y = Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
                     if(emitsDust)
                     {
-                        if (Main.rand.Next(70) == 0)
+                        if (Main.rand.Next(50) == 0)
                         {
                             if (!Main.tile[(int)x / 16, (int)y / 16].active())
                             {
@@ -63,6 +63,7 @@ namespace EEMod
                                 dust.fadeIn = 1f;
                                 dust.scale = 0.1f;
                                 dust.noGravity = true;
+                                dust.velocity *= 0.25f;
                             }
                         }
                     }
