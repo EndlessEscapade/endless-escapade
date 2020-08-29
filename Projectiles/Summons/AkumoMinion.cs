@@ -79,7 +79,7 @@ namespace EEMod.Projectiles.Summons
             {
                 if (projectile.ai[1] >= 180)
                 {
-                    projectile.ai[0] = Main.rand.Next(1, 4);
+                    projectile.ai[0] = 2;//Main.rand.Next(1, 4);
                     projectile.ai[1] = 0;
                     projectileAiCont[1] = projectile.ai[0] == 3 || projectile.ai[0] == 2 ? 45 : 0;
                     projectileAiCont[0] = 0;
@@ -163,7 +163,7 @@ namespace EEMod.Projectiles.Summons
 
                 frameSpeed = 5;
                 if (projectileAiCont[0] < 5)
-                    projectileAiCont[0] += 0.05f;
+                    projectileAiCont[0] += 0.15f;
                 minionGlow = Color.OrangeRed;
 
                 projectile.velocity = Vector2.Normalize(projectile.Center - new Vector2(target.Center.X, target.position.Y - 120)) * -2 - projectile.velocity * 0.03f;
@@ -179,6 +179,7 @@ namespace EEMod.Projectiles.Summons
                         Vector2 newVel = Vector2.Normalize(newPos - target.Center) * -16;
                         Projectile.NewProjectile(newPos, newVel, ModContent.ProjectileType<AkumoMinionProjectile>(), 50, 2f, player.whoAmI);
                     }
+                    projectileAiCont[0] = 0;
                     projectileAiCont[1] = 0;
                 }
 
@@ -213,8 +214,6 @@ namespace EEMod.Projectiles.Summons
 
                 #endregion
             }
-
-
             #endregion
         }
 
@@ -228,6 +227,13 @@ namespace EEMod.Projectiles.Summons
             Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * -10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
             Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, -10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
             Main.spriteBatch.Draw(texture, new Rectangle((int)funny.X, (int)funny.Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.75f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (projectile.ai[0] == 3)
+                AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[projectile.type], 0, projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B), overrideFrameCount: 4, overrideFrame: new Rectangle(0, projectile.frame * 56, 56, 58));
+            return true;
         }
 
         public override void Kill(int timeleft)

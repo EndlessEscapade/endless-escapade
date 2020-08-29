@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria;
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.Summons
 {
@@ -27,7 +28,6 @@ namespace EEMod.Projectiles.Summons
 
         public override void AI()
         {
-            Dust.NewDust(projectile.Center, 0, 0, 127);
             projectile.rotation = projectile.velocity.ToRotation();
         }
 
@@ -46,9 +46,10 @@ namespace EEMod.Projectiles.Summons
             projectile.Kill();
         }
 
-        public override void Kill(int timeLeft)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-
+            AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[projectile.type], 0, projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
+            return true;
         }
     }
 }
