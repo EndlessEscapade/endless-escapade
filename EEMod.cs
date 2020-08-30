@@ -183,7 +183,8 @@ namespace EEMod
             var OceanElements = EEPlayer.OceanMapElements;
             for(int i = 0; i < OceanElements.Count; i++)
             {
-                var element = OceanElements[i];
+                var element = OceanElements[i] as EEPlayer.DarkCloud;
+                element.flash += 0.01f;
                 element.Draw(Main.spriteBatch);
             }
         }

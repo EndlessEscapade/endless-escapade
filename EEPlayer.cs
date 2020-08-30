@@ -455,6 +455,7 @@ namespace EEMod
 
             if (Main.worldName == KeyID.Sea)
             {
+                player.position = player.oldPosition;
                 if (markerPlacer > 1)
                     Main.screenPosition += new Vector2(0, offSea);
             }
@@ -518,6 +519,15 @@ namespace EEMod
         public class DarkCloud : IOceanMapElement
         {
             public Vector2 pos;
+            public float flash;
+            public int posXToScreen
+            {
+                get => (int)(pos.X + Main.screenPosition.X);
+            }
+            public int posYToScreen
+            {
+                get => (int)(pos.Y + Main.screenPosition.Y);
+            }
             public Texture2D texture;
             public float scale, alpha;
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
@@ -527,12 +537,13 @@ namespace EEMod
                 texture = tex;
                 this.scale = scale;
                 this.alpha = alpha;
+                flash = Main.rand.NextFloat(0, 4);
             }
 
             public void Draw(SpriteBatch spriteBatch)
             {
-                Vector2 p = pos - Main.screenPosition;
-                Color drawcolor = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));//((int)(p.X/16), (int)(p.X/16f));
+                Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash)*10, posYToScreen - 1000).ForDraw();
+                Color drawcolor = Lighting.GetColor((int)posXToScreen / 16, (posYToScreen - 1000)/ 16);
                 drawcolor.A = (byte)alpha;
                 spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
             }
