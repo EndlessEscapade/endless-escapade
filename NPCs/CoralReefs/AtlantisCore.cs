@@ -82,17 +82,17 @@ namespace EEMod.NPCs.CoralReefs
             {
                 float scaleX = 1.9f;
                 float scaleY = 1.24f;
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
 
                 var center = npc.Center - Main.screenPosition;
                 float num89 = 0f;
                 DrawData drawData = new DrawData(TextureManager.Load("Images/Misc/Perlin"), center, new Rectangle(0, 0, (int)(size * scaleX), (int)(size * scaleY)), Color.White * (num88), npc.rotation, new Vector2((size / 2) * scaleX, (size / 2) * scaleY), npc.scale * (1.1f), SpriteEffects.None, 0);
                 GameShaders.Misc["ForceField"].UseColor(new Vector3(1f - num89 * 0.5f));
                 GameShaders.Misc["ForceField"].Apply(drawData);
-                drawData.Draw(Main.spriteBatch);
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin();
+                drawData.Draw(spriteBatch);
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
                 return;
             }
         }

@@ -27,8 +27,8 @@ namespace EEMod.NPCs.CoralReefs
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.End();
-            spriteBatch.Begin();
+            //spriteBatch.End();
+            //spriteBatch.Begin();
         }
         public override void AI()
         {

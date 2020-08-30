@@ -149,7 +149,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             for (int i = -10; i < 10; i++)
                 Main.spriteBatch.Draw(oil, new Vector2(krakenHead.arenaPosition.X + (i * oil.Width), 1000 - krakenHead.waterLevel + krakenHead.arenaPosition.Y + oil.Height / 2 + (float)Math.Sin(npc.ai[1] / 30) * 20) - Main.screenPosition, new Rectangle(0, 0, oil.Width, oil.Height), drawColor * 0.8f, 0, new Rectangle(0, 0, oil.Width, oil.Height).Size() / 2, 1, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             if (player.Center.Y > 1000 - krakenHead.waterLevel + krakenHead.arenaPosition.Y + (float)Math.Sin(npc.ai[1] / 30) * 20)
             {
                 player.velocity *= .8f;

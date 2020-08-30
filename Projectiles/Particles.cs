@@ -49,7 +49,7 @@ namespace EEMod.Projectiles
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), projectile.Center - Main.screenPosition, null, lightColor * Math.Abs((float)Math.Sin(flash)) * 2, projectile.rotation + flash, new Vector2(87), projectile.ai[0], SpriteEffects.None, 0);
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return false;
         }
     }

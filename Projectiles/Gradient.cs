@@ -43,7 +43,7 @@ namespace EEMod.Projectiles
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Gradient"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 200, 100), Color.White * 0.5f * projectile.ai[0], projectile.rotation, new Vector2(0, 50), 1, SpriteEffects.None, 0);
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

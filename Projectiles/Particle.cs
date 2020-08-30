@@ -83,11 +83,11 @@ namespace EEMod.Projectiles
                 Particles[i].flash++;
                 Particles[i].Position += new Vector2((float)Math.Sin(Particles[i].flash / (Particles[i].alpha / 13)) / (Particles[i].alpha / 2), -2f * Particles[i].scale);
                
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Particles[i].Position - Main.screenPosition, null, Color.White * Math.Abs((float)(Math.Sin(Particles[i].flash / (Particles[i].alpha / 3f)))), Particles[i].flash / 10f, new Vector2(0), Particles[i].scale, SpriteEffects.None, 0);
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin();
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Particles[i].Position - Main.screenPosition, null, Color.White * Math.Abs((float)(Math.Sin(Particles[i].flash / (Particles[i].alpha / 3f)))), Particles[i].flash / 10f, new Vector2(0), Particles[i].scale, SpriteEffects.None, 0);
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
             for (int i = 0; i < Particles.Count; i++)
             {
@@ -95,7 +95,7 @@ namespace EEMod.Projectiles
                 Leaves[i].velocity = new Vector2(3f * Leaves[i].scale, (float)Math.Sin((Leaves[i].flash * 0.5f) / Leaves[i].alpha));
                 Leaves[i].rotation += Leaves[i].velocity.X / 50f;
                 Leaves[i].Position += Leaves[i].velocity;
-                Main.spriteBatch.Draw(TextureCache.Leaf, Leaves[i].Position - Main.screenPosition, null, Color.White, Leaves[i].velocity.ToRotation() + Leaves[i].rotation, new Vector2(0), Leaves[i].scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(TextureCache.Leaf, Leaves[i].Position - Main.screenPosition, null, Color.White, Leaves[i].velocity.ToRotation() + Leaves[i].rotation, new Vector2(0), Leaves[i].scale, SpriteEffects.None, 0);
             }
                 return false;
         }

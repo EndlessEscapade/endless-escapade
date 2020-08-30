@@ -301,7 +301,7 @@ namespace EEMod
                 Main.spriteBatch.Draw(TextureCache.LensFlare2, sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * globalAlpha * (intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
             }
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public void BetterLightingHandler()
@@ -449,7 +449,7 @@ namespace EEMod
                 Main.spriteBatch.Draw(TextureCache.BlackTex, position.ForDraw() + new Vector2(15, -20), Color.Purple);
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = position;
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
         }
         public void OnUpdate(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
