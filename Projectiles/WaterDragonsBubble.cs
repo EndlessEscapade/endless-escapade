@@ -45,11 +45,11 @@ namespace EEMod.Projectiles
             projectile.rotation = projectile.velocity.Y / 20f;
             projectile.ai[0]++;
             projectile.velocity.X = (float)Math.Sin(projectile.ai[0] / 10f)*2;
-            Vector2 position = projectile.Center;
+            /*Vector2 position = projectile.Center;
             Dust dust = Dust.NewDustPerfect(position, 111,Vector2.Zero);
             dust.noGravity = true;
             dust.noLight = false;
-            dust.fadeIn = 1f;
+            dust.fadeIn = 1f;*/
         }
     }
 }

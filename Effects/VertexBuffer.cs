@@ -10,6 +10,7 @@ using EEMod.Projectiles.Mage;
 using Terraria.ModLoader;
 using EEMod.Extensions;
 using EEMod.Projectiles.Summons;
+using EEMod.Projectiles;
 
 namespace EEMod.Effects
 {
@@ -34,15 +35,15 @@ namespace EEMod.Effects
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(200, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
-            if (projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>())
+            if (projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>() || projectile.type == ModContent.ProjectileType<WaterDragonsBubble>())
             {
-                CreateTrail(projectile, new StandardColorTrail(new Color(57, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
+                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f, projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>() ? 250f : 128f);
             }
-
         }
 
         public void TryTrailKill(Projectile projectile)
         {
+
         }
 
         public void CreateTrail(Projectile projectile, ITrailColor trailType, ITrailCap trailCap, ITrailPosition trailPosition, float widthAtFront, float maxLength, ITrailShader shader = null)

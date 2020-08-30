@@ -65,7 +65,7 @@ namespace EEMod.Projectiles.Summons
             int closestDist = 10000000;
             for (int i = 0; i < npcs; i++)
             {
-                if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < closestDist && Main.npc[i].active)
+                if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < closestDist && Main.npc[i].active && !Main.npc[i].friendly)
                 {
                     target = Main.npc[i];
                     closestDist = (int)Vector2.Distance(Main.npc[i].Center, projectile.Center);
