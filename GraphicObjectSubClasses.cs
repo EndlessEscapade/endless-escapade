@@ -10,7 +10,10 @@ namespace EEMod
     }
     public class LeafClass : GraphicObject
     {
-        public Vector2 velocity;
+        public float rotation;
+    }
+    public class BubbleClass : GraphicObject
+    {
         public float rotation;
     }
 }

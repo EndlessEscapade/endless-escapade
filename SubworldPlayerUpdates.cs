@@ -40,6 +40,8 @@ namespace EEMod
 {
     public partial class EEPlayer : ModPlayer
     {
+        List<float> BubbleRoots = new List<float>();
+        public List<BubbleClass> Bubbles = new List<BubbleClass>();
         public void UpdatePyramids()
         {
             if (!noU)
@@ -404,6 +406,7 @@ namespace EEMod
         }
         public void UpdateCR()
         {
+            
             if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
             {
                 player.AddBuff(BuffType<WaterPressure>(), 60);
@@ -422,16 +425,43 @@ namespace EEMod
             if (titleText <= 0)
                 titleText = 0;
             markerPlacer++;
-            if (markerPlacer % 40 == 0)
+            if(markerPlacer % 80 == 0)
             {
+                BubbleRoots.Add(Main.rand.Next(Main.screenWidth) + player.Center.X - Main.screenWidth / 2);
+                
+            }
+            if (markerPlacer % 120 == 0)
+            {
+                for (int i = 0; i < BubbleRoots.Count; i++)
+                {
+                    Vector2 BubblePos = new Vector2(BubbleRoots[i], player.Center.Y + 600);
+                    BubbleClass bubble = new BubbleClass
+                    {
+                        scale = Main.rand.NextFloat(0.5f, 1f),
+                        alpha = Main.rand.NextFloat(.2f, .8f),
+                        Position = BubblePos,
+                        flash = Main.rand.NextFloat(0, 100),
+                        Velocity = new Vector2(Main.rand.NextFloat(0.5f, 1), 0)
+                    };
+                    if (Bubbles.Count < 500)
+                        Bubbles.Add(bubble);
+                    else
+                    {
+                        Bubbles.RemoveAt(0);
+                    }
+                }
                 // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
             }
-
+            foreach(BubbleClass bubble in Bubbles)
+            {
+                bubble.flash++;
+                bubble.Position -= new Vector2((float)Math.Sin(bubble.flash / (bubble.Velocity.X*30)), bubble.Velocity.X);
+            }
             if (!arrowFlag)
             {
                 for (int i = 0; i < EESubWorlds.OrbPositions.Count; i++)
                 {
-                    NPC.NewNPC((int)EESubWorlds.OrbPositions[i].X * 16, (int)EESubWorlds.OrbPositions[i].Y * 16, NPCType<OrbCollection>());
+                    NPC.NewNPC((int)EESubWorlds.OrbPositions[i].X * 16, (int)EESubWorlds.OrbPositions[i].Y * 16, NPCType<SpikyOrb>());
                 }
                 Main.NewText(EESubWorlds.OrbPositions.Count);
                 if (Main.netMode != NetmodeID.MultiplayerClient)

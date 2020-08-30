@@ -327,13 +327,19 @@ namespace EEMod
                                 }
                             }
                         }
-                    
-                    if(noOfTiles < 2 && WorldGen.genRand.NextBool(5))
+                    for(int m = 0; m< OrbPositions.Count;m++)
+                        {
+                            if(Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200*200)
+                            {
+                                noOfTiles++;
+                            }
+                        }
+                    if(noOfTiles == 0)
                     {
                         OrbPositions.Add(new Vector2(i, j));
                     }
                     }
-                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(4) && Main.tileSolid[Main.tile[i, j].type])
+                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type])
                     {
                         if (ChainConnections.Count == 0)
                         {

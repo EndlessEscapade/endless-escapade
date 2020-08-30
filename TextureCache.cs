@@ -63,10 +63,14 @@ namespace EEMod
         public static Texture2D LensFlare2;
         public static Texture2D SunRing;
         public static Texture2D Leaf;
+        public static Texture2D Bob1;
+        public static Texture2D Bob2;
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
             Mod mod = EEMod.instance;
+            Bob1 = mod.GetTexture("Bob1");
+            Bob2 = mod.GetTexture("Bob2");
             Leaf = mod.GetTexture("Leaf");
             Noise = mod.GetTexture("noise");
             LensFlare = mod.GetTexture("ShaderAssets/LensFlare");
@@ -128,6 +132,8 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            Bob1 = null;
+            Bob2 = null;
             LensFlare2 = null;
             Leaf = null;
             SunRing = null;

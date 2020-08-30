@@ -520,6 +520,7 @@ namespace EEMod
             public Vector2 pos;
             public Texture2D texture;
             public float scale, alpha;
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             public DarkCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
             {
                 this.pos = pos;
@@ -533,7 +534,7 @@ namespace EEMod
                 Vector2 p = pos - Main.screenPosition;
                 Color drawcolor = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));//((int)(p.X/16), (int)(p.X/16f));
                 drawcolor.A = (byte)alpha;
-                spriteBatch.Draw(texture, p, null, drawcolor, 0f, default, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
             }
 
             public void Update()

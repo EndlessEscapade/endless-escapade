@@ -101,6 +101,7 @@ namespace EEMod
             simpleGame = null;
             ActivateVerletEngine = null;
             NoiseSurfacing = null;
+            White = null;
             UnloadIL();
             AutoloadingManager.UnloadManager(this);
             instance = null;
@@ -332,9 +333,11 @@ namespace EEMod
         //}
 
         public static Effect Noise2D;
+        public static Effect White;
         public override void Load()
         {
             Noise2D = GetEffect("Effects/Noise2D");
+            
             instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
@@ -359,6 +362,7 @@ namespace EEMod
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
                 NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
+                White = GetEffect("Effects/WhiteOutline");
                 /*
 		  SpeedrunnTimer = new UserInterface();
 		  //RunUI.Activate();
@@ -399,8 +403,12 @@ namespace EEMod
                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         UpdateGame(lastGameTime);
-                       // UpdateVerlet();
-                    }
+                        // UpdateVerlet();
+                        if (Main.worldName == KeyID.CoralReefs)
+                        {
+                            DrawCR();
+                        }
+                }
                 
                     return true;
                 }, InterfaceScaleType.UI);
@@ -467,6 +475,16 @@ namespace EEMod
             float textPositionLeft = position.X - textSize.X / 2;
             float textPositionRight = position.X + textSize.X / 2;
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+        }
+        public void DrawCR()
+        {
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            var Bubbles = modPlayer.Bubbles;
+            for (int i = 0; i < Bubbles.Count; i++)
+            {
+                Color drawColour = Lighting.GetColor((int)Bubbles[i].Position.X/16, (int)Bubbles[i].Position.Y/16);
+                Main.spriteBatch.Draw(TextureCache.Bob1, Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, new Vector2(0), Bubbles[i].scale, SpriteEffects.None, 0);
+            }
         }
         private void Ascension()
         {
@@ -610,7 +628,7 @@ namespace EEMod
             {
                 Vector2 textSize = Main.fontMouseText.MeasureString(text);
                 float textPositionLeft = position.X - textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
             }
         }
         float flash = 0;

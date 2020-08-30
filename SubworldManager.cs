@@ -233,21 +233,29 @@ namespace EEMod
 
         private static void OnWorldNamed(string text)
         {
-            EEPath = $@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds";
-            if (!Directory.Exists(EEPath))
+            if (text != Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName)
             {
-                Directory.CreateDirectory(EEPath);
-            }
-            string EESubworldPath = $@"{EEPath}\{text}.wld";
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata(EESubworldPath, false);
-            Main.ActivePlayerFileData.SetAsActive();
-            if (!File.Exists(EESubworldPath))
-            {
-                CreateNewWorld(text);
-                Main.ActiveWorldFileData = CreateSubworldMetaData(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, EESubworldPath);
-                Main.worldName = text.Trim();
+                EEPath = $@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds";
+                if (!Directory.Exists(EEPath))
+                {
+                    Directory.CreateDirectory(EEPath);
+                }
+                string EESubworldPath = $@"{EEPath}\{text}.wld";
+                Main.ActiveWorldFileData = WorldFile.GetAllMetadata(EESubworldPath, false);
+                Main.ActivePlayerFileData.SetAsActive();
+                if (!File.Exists(EESubworldPath))
+                {
+                    CreateNewWorld(text);
+                    Main.ActiveWorldFileData = CreateSubworldMetaData(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, EESubworldPath);
+                    Main.worldName = text.Trim();
 
-                return;
+                    return;
+                }
+            }
+            else
+            {
+                Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}", false);
+                Main.ActivePlayerFileData.SetAsActive();
             }
             /* string path = $@"{Main.SavePath}\Worlds\{text}.wld";
 

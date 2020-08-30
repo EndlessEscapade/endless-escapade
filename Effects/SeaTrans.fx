@@ -25,7 +25,7 @@ float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
     float4 colour = tex2D(uImage0, coords);
     float realTime = uOpacity - 1000;
     realTime = clamp(uOpacity - 1000, 0, 100000);
-    colour *= 1 - (coords.x * realTime)/200;
+    colour *= 1 - (coords.x * realTime)/70;
     return colour;
 }
 
