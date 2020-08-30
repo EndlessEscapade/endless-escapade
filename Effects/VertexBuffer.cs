@@ -9,6 +9,7 @@ using EEMod.Projectiles.Melee;
 using EEMod.Projectiles.Mage;
 using Terraria.ModLoader;
 using EEMod.Extensions;
+using EEMod.Projectiles.Summons;
 
 namespace EEMod.Effects
 {
@@ -29,7 +30,7 @@ namespace EEMod.Effects
         public void DoTrailCreation(Projectile projectile)
         {
             Mod mod = EEMod.instance;
-            if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>())
+            if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<AkumoMinionProjectile>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(200, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
