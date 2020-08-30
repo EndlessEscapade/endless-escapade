@@ -125,8 +125,8 @@ namespace EEMod
                 for (int i = 0; i < 400; i++)
                 {
                     int CloudChoose = Main.rand.Next(3);
-                    Vector2 CloudPos = new Vector2(Main.rand.NextFloat(Main.screenPosition.X - 200, Main.screenPosition.X + Main.screenWidth), Main.rand.NextFloat(Main.screenPosition.Y + 800, Main.screenPosition.Y + Main.screenHeight + 1000));
-                    Vector2 dist = (Main.screenPosition + new Vector2(Main.screenWidth, Main.screenHeight + 1000)) - CloudPos;
+                    Vector2 CloudPos = new Vector2(Main.rand.NextFloat(- 200, Main.screenWidth), Main.rand.NextFloat(800, Main.screenHeight + 1000));
+                    Vector2 dist = new Vector2(Main.screenWidth, Main.screenHeight + 1000) - CloudPos;
                     if (dist.Length() > 1140)
                     {
                         Texture2D cloudTexture;
