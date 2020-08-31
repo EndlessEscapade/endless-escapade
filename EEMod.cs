@@ -51,11 +51,13 @@ namespace EEMod
     {
         public static EEMod instance;
 
+
         public override void PostSetupContent()
         {
 
         }
         public static Texture2D ScTex;
+
 
         public static double worldSurface;
 
