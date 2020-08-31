@@ -553,6 +553,43 @@ namespace EEMod
 
             }
         }
+        public class MovingCloud : IOceanMapElement
+        {
+            public Vector2 pos;
+            public float flash;
+            public int posXToScreen
+            {
+                get => (int)(pos.X + Main.screenPosition.X);
+            }
+            public int posYToScreen
+            {
+                get => (int)(pos.Y + Main.screenPosition.Y);
+            }
+            public Texture2D texture;
+            public float scale, alpha;
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            public MovingCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
+            {
+                this.pos = pos;
+                texture = tex;
+                this.scale = scale;
+                this.alpha = alpha;
+                flash = Main.rand.NextFloat(0, 4);
+            }
+
+            public void Draw(SpriteBatch spriteBatch)
+            {
+                Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
+                Color drawcolor = Lighting.GetColor((int)posXToScreen / 16, (posYToScreen - 1000) / 16);
+                drawcolor.A = (byte)alpha;
+                spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
+            }
+
+            public void Update()
+            {
+
+            }
+        }
         internal interface IOceanMapElement
         {
             void Update();
@@ -588,7 +625,8 @@ namespace EEMod
                 if (bubbleTimer <= 0)
                 {
                     bubbleTimer = 6;
-                    Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
+                    if (player.wet)
+                        Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
                     bubbleLen = Main.rand.Next(-16, 17);
                     bubbleColumn += 2;
                 }
