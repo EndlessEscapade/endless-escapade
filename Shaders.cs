@@ -21,6 +21,7 @@ namespace EEMod
             Ref<Effect> screenRef3 = new Ref<Effect>(instance.GetEffect("Effects/Pause"));
             Ref<Effect> screenRef4 = new Ref<Effect>(instance.GetEffect("Effects/WhiteFlash"));
             Ref<Effect> screenRef5 = new Ref<Effect>(instance.GetEffect("Effects/Saturation"));
+            Ref<Effect> screenRef7 = new Ref<Effect>(instance.GetEffect("Effects/SeaOpening"));
             instance.GetEffect("Effects/Noise2D").Parameters["noiseTexture"].SetValue(TextureCache.Noise);
             Ref<Effect> screenRef6 = new Ref<Effect>(Noise2D);
             Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
@@ -42,6 +43,8 @@ namespace EEMod
             Filters.Scene["EEMod:SmoothDown2"].Load();
             Filters.Scene["EEMod:Noise2D"] = new Filter(new ScreenShaderData(screenRef6, "Noise2D"), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:Noise2D"].Load();
+            Filters.Scene["EEMod:SeaOpening"] = new Filter(new ScreenShaderData(screenRef7, "SeaOpening"), EffectPriority.VeryHigh);
+            Filters.Scene["EEMod:SeaOpening"].Load();
             for (int i = startingTermination; i <= noOfPasses; i++)
             {
                 Filters.Scene[$"EEMod:Filter{i}"] = new Filter(new ScreenShaderData(screenRef4, $"Filter{i}"), EffectPriority.VeryHigh);

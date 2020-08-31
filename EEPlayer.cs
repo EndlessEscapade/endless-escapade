@@ -277,6 +277,7 @@ namespace EEMod
                     arrayPoints[i] = new Vector2(mainPoint.X + (i * displaceX), mainPoint.Y + (i * displaceY));
                 }
                 isPickingUp = false;
+                quickOpeningFloat = 20;
                 EEMod.AscentionHandler = 0;
                 EEMod.startingTextHandler = 0;
                 EEMod.isAscending = false;
@@ -545,6 +546,12 @@ namespace EEMod
                 Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash)*10, posYToScreen - 1000).ForDraw();
                 Color drawcolor = Lighting.GetColor((int)posXToScreen / 16, (posYToScreen - 1000)/ 16);
                 drawcolor.A = (byte)alpha;
+                if (modPlayer.quickOpeningFloat > 0.01f)
+                {
+                    float lerp = (1 - (modPlayer.quickOpeningFloat / 10f));
+                    spriteBatch.Draw(texture, p, null, drawcolor * lerp, 0f, default, scale, SpriteEffects.None, 0f);
+                    return;
+                }
                 spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
             }
 

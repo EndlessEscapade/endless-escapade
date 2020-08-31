@@ -56,7 +56,7 @@ namespace EEMod.Net
                     else if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
                         float v = reader.Read<float>();
-                        EEWorld.EEWorld.instance.brightness = v;
+                        Main.LocalPlayer.GetModPlayer<EEPlayer>().brightness = v;
                     }
                     break;
             }

@@ -24,7 +24,7 @@ namespace EEMod.Items.Weapons.Melee
             item.useTime = 15;
             item.useAnimation = 15;
             item.value = Item.buyPrice(0, 0, 30, 0);
-            item.damage = 1007;
+            item.damage = 20;
             item.width = 128;
             item.height = 128;
             item.UseSound = SoundID.Item1;
