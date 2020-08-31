@@ -28,8 +28,6 @@ namespace EEMod.EEWorld
         public static bool downedKraken;
         public static bool omenPath;
 
-        public float brightness;
-
         // private static List<Point> BiomeCenters;
         public static Vector2 yes;
         public static Vector2 ree;
@@ -150,19 +148,7 @@ namespace EEMod.EEWorld
                     StartSandstorm();
                 }
             }
-            if (Main.dayTime)
-            {
-                if (Main.time <= 200)
-                    brightness += 0.00025f;
-                if (Main.time >= 52000)
-                    brightness -= 0.00025f;
-                if (Main.time > 2000 && Main.time < 52000)
-                    brightness = 0.5f;
-            }
-            else
-                brightness = 0.1f;
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-                EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
+            
         }
 
         public static Vector2 SubWorldSpecificCoralBoatPos;

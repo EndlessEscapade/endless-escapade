@@ -35,6 +35,7 @@ using EEMod.ID;
 using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.Walls;
+using EEMod.Net;
 
 namespace EEMod
 {
@@ -42,6 +43,9 @@ namespace EEMod
     {
         List<float> BubbleRoots = new List<float>();
         public List<BubbleClass> Bubbles = new List<BubbleClass>();
+        public List<SeagullsClass> Seagulls = new List<SeagullsClass>();
+        public float brightness;
+
         public void UpdatePyramids()
         {
             if (!noU)
@@ -81,8 +85,33 @@ namespace EEMod
                 Filters.Scene.Deactivate(shad2);
             }
         }
+        public float quickOpeningFloat = 5;
         public void UpdateSea()
         {
+            if (Main.dayTime)
+            {
+                if (Main.time <= 200)
+                    brightness += 0.0025f;
+                if (Main.time >= 52000 && brightness > 0.1f)
+                    brightness -= 0.0025f;
+                if (Main.time > 2000 && Main.time < 52000)
+                    brightness = 0.5f;
+            }
+            else
+                brightness = 0.1f;
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
+            if (quickOpeningFloat > 0.01f)
+            quickOpeningFloat -= quickOpeningFloat / 20f;
+            else
+            {
+                quickOpeningFloat = 0;
+            }
+            Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(quickOpeningFloat);
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
+            {
+                Filters.Scene.Activate("EEMod:SeaOpening", player.Center).GetShader().UseIntensity(quickOpeningFloat);
+            }
             if (!noU)
                 titleText += 0.005f;
             if (titleText >= 1)
@@ -365,9 +394,18 @@ namespace EEMod
 
             if (markerPlacer % 800 == 0)
                 Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
-
+            if(markerPlacer % 150 == 0)
+            {
+                if (Seagulls.Count < 500)
+                    GraphicObject.LazyAppendInBoids(ref Seagulls, 5);
+                else
+                {
+                    Seagulls.RemoveAt(0);
+                }
+            }
             if (markerPlacer % 20 == 0)
             {
+
                 int CloudChoose = Main.rand.Next(5);
                 switch (CloudChoose)
                 {
@@ -378,7 +416,7 @@ namespace EEMod
                         }
                     case 1:
                         {
-                            Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                             break;
                         }
                     case 2:
@@ -388,12 +426,12 @@ namespace EEMod
                         }
                     case 3:
                         {
-                            Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                             break;
                         }
                     case 4:
                         {
-                            Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                             break;
                         }
                 }

@@ -65,10 +65,14 @@ namespace EEMod
         public static Texture2D Leaf;
         public static Texture2D Bob1;
         public static Texture2D Bob2;
+        public static Texture2D OceanScreen;
+        public static Texture2D Seagulls;
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
             Mod mod = EEMod.instance;
+            Seagulls = mod.GetTexture("Seagulls");
+            OceanScreen = mod.GetTexture("OceanScreen");
             Bob1 = mod.GetTexture("Bob1");
             Bob2 = mod.GetTexture("Bob2");
             Leaf = mod.GetTexture("Leaf");
@@ -132,6 +136,8 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            Seagulls = null;
+            OceanScreen = null;
             Bob1 = null;
             Bob2 = null;
             LensFlare2 = null;
