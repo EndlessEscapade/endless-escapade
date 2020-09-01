@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using EEMod.Extensions;
 using EEMod.Net;
 using EEMod.Net.Serializers;
+using EEMod.Autoloading;
 
 namespace EEMod
 {
@@ -19,7 +20,9 @@ namespace EEMod
 
         public static Vector2 VectorStorage;
         public static Vector2 PositionStorage;
+        [FieldInit(FieldInitType.ArrayIntialization, 300)]
         public static Vector2[] OtherBoatPos = new Vector2[300];
+        [FieldInit(FieldInitType.ArrayIntialization, 300)]
         public static float[] OtherRot = new float[300];
         public static int Cool;
 

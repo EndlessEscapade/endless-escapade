@@ -1,6 +1,9 @@
-﻿using EEMod.Autoloading;
+﻿using System;
+using System.Reflection;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
+using EEMod.Autoloading;
+using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -67,6 +70,7 @@ namespace EEMod
         public static Texture2D Bob2;
         public static Texture2D OceanScreen;
         public static Texture2D Seagulls;
+
         [LoadingMethod(LoadMode.Client)]
         public static void Load()
         {
@@ -132,7 +136,9 @@ namespace EEMod
             VArrow = mod.GetTexture("Projectiles/VolleyballArrow");
             CB1 = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
             GradientEffect = mod.GetTexture("Masks/GradientEffect");
+            ReflInit(mod.GetTexture);
         }
+
         [UnloadingMethod]
         public static void Unload()
         {
@@ -196,6 +202,14 @@ namespace EEMod
             KrakenGlowMask = null;
             NotBleckScren = null;
         }
+
+        private static void ReflInit(Func<string, Texture2D> textureGetter)
+        {
+            foreach (var field in typeof(TextureCache).GetFields(Helpers.FlagsStatic))
+                if (field.TryGetCustomAttribute(out TextureInitAttribute attribute))
+                    field.SetValue(null, textureGetter(attribute.TexturePath));
+        }
+
         //[UnloadingMethod]
         //public static void Unload() // they're claimed by the unloader
         //{
@@ -236,5 +250,16 @@ namespace EEMod
         //    KrakenGlowMask = null;
         //    NotBleckScren = null;
         //}
+
+        [AttributeUsage(AttributeTargets.Field)]
+        class TextureInitAttribute : Attribute
+        {
+            public string TexturePath { get; private set; }
+            /**<param name="texturepath">Folders/TextureName</param>*/
+            public TextureInitAttribute(string texturepath)
+            {
+                TexturePath = texturepath;
+            }
+        }
     }
 }
