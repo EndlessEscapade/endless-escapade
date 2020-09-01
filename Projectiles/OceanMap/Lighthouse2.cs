@@ -1,4 +1,4 @@
-using Terraria.ModLoader;
+/*using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.OceanMap
 {
@@ -24,4 +24,4 @@ namespace EEMod.Projectiles.OceanMap
             projectile.timeLeft = 1000;
         }
     }
-}
+}*/

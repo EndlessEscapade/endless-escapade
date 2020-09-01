@@ -191,13 +191,12 @@ namespace EEMod
             var OceanElements = EEPlayer.OceanMapElements;
             for(int i = 0; i < OceanElements.Count; i++)
             {
-                var element = OceanElements[i] as EEPlayer.DarkCloud;
-                element.flash += 0.01f;
+                var element = OceanElements[i];
                 element.Draw(Main.spriteBatch);
             }
             for (int i = 0; i < modPlayer.Seagulls.Count; i++)
             {
-                var element = modPlayer.Seagulls[i] as SeagullsClass;
+                var element = modPlayer.Seagulls[i];
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
                 element.Draw(TextureCache.Seagulls, 9, 5);
@@ -338,7 +337,15 @@ namespace EEMod
 				RunUI.Update(gameTime);
 			}
         }
-
+        public override void MidUpdateProjectileItem()
+        {
+            if (Main.netMode != NetmodeID.Server)
+            {
+                TrailManager.UpdateTrails();
+                Prims.UpdateTrails();
+            }
+            EEPlayer.UpdateOceanMapElements();
+        }
         //internal void ShowMyUI()
         //{
         //    SpeedrunnTimer?.SetState(RunUI);

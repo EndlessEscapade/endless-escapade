@@ -411,6 +411,7 @@ namespace EEMod
             {
 
                 int CloudChoose = Main.rand.Next(5);
+                IOceanMapElement cloud;
                 switch (CloudChoose)
                 {
                     case 0:
@@ -420,7 +421,9 @@ namespace EEMod
                         }
                     case 1:
                         {
-                            Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            cloud = new MCloud(GetTexture("EEMod/Projectiles/OceanMap/Cloud6"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 144, 42, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            OceanMapElements.Add(cloud);
+                            //Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                             break;
                         }
                     case 2:
@@ -430,12 +433,16 @@ namespace EEMod
                         }
                     case 3:
                         {
-                            Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            cloud = new MCloud(GetTexture("EEMod/Projectiles/OceanMap/Cloud4"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 100, 48, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            OceanMapElements.Add(cloud);
+                            //Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                             break;
                         }
                     case 4:
                         {
-                            Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            cloud = new MCloud(GetTexture("EEMod/Projectiles/OceanMap/Cloud5"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 96, 36, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                            OceanMapElements.Add(cloud);
+                            //Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                             break;
                         }
                 }
