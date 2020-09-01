@@ -254,7 +254,7 @@ namespace EEMod
             }
             else
             {
-                Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}", false);
+                Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);
                 Main.ActivePlayerFileData.SetAsActive();
             }
             /* string path = $@"{Main.SavePath}\Worlds\{text}.wld";

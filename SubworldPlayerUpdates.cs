@@ -637,7 +637,6 @@ namespace EEMod
                     Main.LocalPlayer.Center.Y < (DefShipPosY + ShipTiles.GetLength(0))*16)
                 {
                     ShipComplete();
-                    Main.NewText("running");
                 }
             }
             catch
@@ -704,7 +703,7 @@ namespace EEMod
                     newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
                 }
             }
-            if (EntracesPosses.Count > 0)
+           /* if (EntracesPosses.Count > 0)
             {
                 if (Main.projectile[Arrow].modProjectile is DesArrowProjectile arrow)
                 {
@@ -722,7 +721,7 @@ namespace EEMod
                         arrow.visible = false;
                     }
                 }
-            }
+            }*/
             Vector2 revisedRee = new Vector2(ree.X == 0 ? 100 : ree.X,
                                              ree.Y == 0 ? TileCheckWater(100) - 22 : ree.Y);
             if (Helpers.PointInRectangle(player.Center / 16, revisedRee.X, revisedRee.Y + 12, 4, 4) && shipComplete)
