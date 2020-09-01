@@ -36,6 +36,10 @@ using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.Walls;
 using EEMod.Net;
+using System.Reflection;
+using Terraria.DataStructures;
+using static On.Terraria.Lighting;
+using System.Linq;
 
 namespace EEMod
 {
@@ -483,11 +487,9 @@ namespace EEMod
                     };
                     if (Bubbles.Count < 500)
                         Bubbles.Add(bubble);
-                    else
-                    {
-                        Bubbles.RemoveAt(0);
-                    }
                 }
+                if (Bubbles.Count > 500)
+                    Bubbles.RemoveAt(0);
                 // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
             }
             foreach(BubbleClass bubble in Bubbles)
@@ -601,12 +603,35 @@ namespace EEMod
                 }
             }
         }
+
+
         public void UpdateWorld()
         {
+        /*    object tempLights = typeof(Lighting).GetField("tempLights", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+            try
+            {
+                Main.NewText(tempLights.get);
+                //Point16[] arrayOfAllKeys = buffer.Keys.ToArray();
+               // foreach (Point16 p in arrayOfAllKeys)
+               // {
+               //    Main.NewText(p);
+               // }
+            }
+            catch
+            {
+                Main.NewText("few");
+            }*/
             int lastNoOfShipTiles = missingShipTiles.Count;
             try
             {
-                ShipComplete();
+                int DefShipPosX = 100;
+                int DefShipPosY = TileCheckWater(100) - 22;
+                if (Main.LocalPlayer.Center.X < (DefShipPosX + ShipTiles.GetLength(1))*16 &&
+                    Main.LocalPlayer.Center.Y < (DefShipPosY + ShipTiles.GetLength(0))*16)
+                {
+                    ShipComplete();
+                    Main.NewText("running");
+                }
             }
             catch
             {
@@ -628,12 +653,6 @@ namespace EEMod
                     WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
                     newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
                 }
-            }
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = mod.GetPacket();
-                netMessage.Write(shipComplete);
-                netMessage.Send();
             }
             if (EEModConfigClient.Instance.ParticleEffects)
             {

@@ -317,9 +317,9 @@ namespace EEMod
                     int noOfTiles = 0;
                     if (j > 200)
                     {
-                        for (int k = -30; k < 30; k++)
+                        for (int k = -15; k < 15; k++)
                         {
-                            for (int l = -30; l < 30; l++)
+                            for (int l = -15; l < 15; l++)
                             {
                                 if (Main.tile[i + k, j + l].active())
                                 {

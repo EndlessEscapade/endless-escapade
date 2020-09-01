@@ -2972,7 +2972,7 @@ namespace EEMod.EEWorld
                     }
                     if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(6) && WorldGen.InWorld(i, j))
                     {
-                        int selection = WorldGen.genRand.Next(13);
+                        int selection = WorldGen.genRand.Next(16);
                         switch (selection)
                         {
                             case 0:
@@ -3024,6 +3024,18 @@ namespace EEMod.EEWorld
                                         WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral3>());
                                         break;
                                 }
+                                break;
+                            case 13:
+                                ModContent.GetInstance<GroundGlowCoralTE>().Place(i, j - 13);
+                                WorldGen.PlaceTile(i, j - 13, ModContent.TileType<GroundGlowCoral>());
+                                break;
+                            case 14:
+                                ModContent.GetInstance<GroundGlowCoral2TE>().Place(i, j - 5);
+                                WorldGen.PlaceTile(i, j - 5, ModContent.TileType<GroundGlowCoral2>());
+                                break;
+                            case 15:
+                                ModContent.GetInstance<GroundGlowCoral3TE>().Place(i, j - 4);
+                                WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
                                 break;
                         }
                     }
