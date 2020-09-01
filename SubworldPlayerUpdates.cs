@@ -285,7 +285,7 @@ namespace EEMod
                 (Main.projectile[AnchorsVolc].modProjectile as Anchor).visible = false;
             }
 
-            if (isNearMainIsland)
+            if (isNearMainIsland && markerPlacer > 10)
             {
                 if (player.controlUp)
                 {
