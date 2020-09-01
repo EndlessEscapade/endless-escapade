@@ -5,12 +5,12 @@ using EEMod.Items.Placeables;
 
 namespace EEMod.Tiles
 {
-    public class GlacialIce : ModTile
+    public class GlacialIceTile : ModTile
     {
-        public override void ChangeWaterfallStyle(ref int style)
+        /*public override void ChangeWaterfallStyle(ref int style)
         {
             style = mod.GetWaterfallStyleSlot("Surfacebg");
-        }
+        }*/
         public override void SetDefaults()
         {
             Main.tileMergeDirt[Type] = true;
@@ -20,7 +20,7 @@ namespace EEMod.Tiles
             AddMapEntry(new Color(48, 115, 135));
 
             dustType = 154;
-            drop = ModContent.ItemType<Gemsand>();
+            drop = ModContent.ItemType<GlacialIce>();
             soundStyle = 1;
             mineResist = 1f;
             minPick = 0;
