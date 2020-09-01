@@ -70,7 +70,7 @@ namespace EEMod
                 if(boidCheck == 0)
                 {
                     PosBuffer.Add(Pos);
-                    sea.Add(objects as T);
+                    sea.Add(objects);
                 }
             }
            
