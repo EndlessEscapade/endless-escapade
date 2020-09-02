@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles.Ranged;
+using EEMod.Projectiles.Runes;
 
 namespace EEMod.Items
 {

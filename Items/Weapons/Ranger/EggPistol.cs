@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Projectiles.Runes;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -22,13 +23,13 @@ namespace EEMod.Items.Weapons.Ranger
             item.useAnimation = 21;
             item.width = 20;
             item.height = 20;
-            item.shoot = 10;
+            item.shoot = ModContent.ProjectileType<BubblingWatersRune>();
             item.rare = ItemRarityID.Yellow;
             item.knockBack = 4f;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.shootSpeed = 17f;
             item.UseSound = SoundID.Item11;
-            item.useAmmo = AmmoID.Rocket;
+            //item.useAmmo = AmmoID.Rocket;
         }
     }
 }

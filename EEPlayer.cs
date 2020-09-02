@@ -36,6 +36,7 @@ using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.Walls;
 using EEMod.Autoloading;
+using EEMod.Projectiles.Runes;
 
 namespace EEMod
 {
@@ -105,6 +106,9 @@ namespace EEMod
         public int cannonballType = 0;
         public bool isPickingUp;
         float propagation;
+
+        public int bubbleRuneBubble = 0;
+
         int displaceX = 2;
         int displaceY = 4;
         float[] dis = new float[51];
@@ -702,11 +706,23 @@ namespace EEMod
                             {
                                 if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                                 {
+                                    if (bubbleRuneBubble == 0)
+                                    {
+                                        bubbleRuneBubble = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
+                                    }
                                     runeCooldown = 600;
                                 }
                                 else
                                 {
-
+                                    player.gravity = 0;
+                                    if (player.controlUp)
+                                    {
+                                        player.gravity = -0.2f;
+                                    }
+                                    if (player.controlDown)
+                                    {
+                                        player.gravity = 0.2f;
+                                    }
                                 }
                                 break;
                             }

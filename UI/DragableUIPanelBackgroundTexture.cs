@@ -28,21 +28,22 @@ namespace EEMod.UI
             };
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] == 1)
+            for(int i = 0; i<5; i++)
             {
-                if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[0]))
+                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[i] == 1)
                 {
-                    if (color.R < 255)
-                        color.R++;
-                    if (color.R < 255)
-                        color.G++;
-                    if (color.B < 255)
-                        color.B++;
+                    if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
+                    {
+                        if (color.R < 255)
+                            color.R++;
+                        if (color.R < 255)
+                            color.G++;
+                        if (color.B < 255)
+                            color.B++;
+                    }
                 }
-            }
-            else
-            {
-                color = Color.Black;
+                else
+                    color = Color.Black;
             }
             CalculatedStyle dimensions = GetDimensions();
             Point point1 = new Point((int)dimensions.X, (int)dimensions.Y);
