@@ -10,7 +10,8 @@ namespace EEMod
     public partial class EEMod
     {
         public static int noOfPasses = 1;
-        public static int startingTermination = 1; 
+        public static int startingTermination = 1;
+        public static int maxNumberOfLights = 1000;
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
@@ -22,6 +23,7 @@ namespace EEMod
             Ref<Effect> screenRef4 = new Ref<Effect>(instance.GetEffect("Effects/WhiteFlash"));
             Ref<Effect> screenRef5 = new Ref<Effect>(instance.GetEffect("Effects/Saturation"));
             Ref<Effect> screenRef7 = new Ref<Effect>(instance.GetEffect("Effects/SeaOpening"));
+            Ref<Effect> screenRef8 = new Ref<Effect>(instance.GetEffect("Effects/LightSource"));
             instance.GetEffect("Effects/Noise2D").Parameters["noiseTexture"].SetValue(TextureCache.Noise);
             Ref<Effect> screenRef6 = new Ref<Effect>(Noise2D);
             Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
@@ -45,6 +47,11 @@ namespace EEMod
             Filters.Scene["EEMod:Noise2D"].Load();
             Filters.Scene["EEMod:SeaOpening"] = new Filter(new ScreenShaderData(screenRef7, "SeaOpening"), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:SeaOpening"].Load();
+            for (int i = 0; i < maxNumberOfLights; i++)
+            {
+                Filters.Scene[$"EEMod:LightSource{i}"] = new Filter(new ScreenShaderData(screenRef8, "LightSource"), EffectPriority.VeryHigh);
+                Filters.Scene[$"EEMod:LightSource{i}"].Load();
+            }
             for (int i = startingTermination; i <= noOfPasses; i++)
             {
                 Filters.Scene[$"EEMod:Filter{i}"] = new Filter(new ScreenShaderData(screenRef4, $"Filter{i}"), EffectPriority.VeryHigh);

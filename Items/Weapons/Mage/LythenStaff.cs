@@ -41,16 +41,8 @@ namespace EEMod.Items.Weapons.Mage
         {
             Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI); //Main.projectile[index];
 
-            List<Vector2> Mojang = new List<Vector2>
-            {
-                projectile.Center,
-                Main.LocalPlayer.Center,
-                projectile.Center - new Vector2(100,100)
-            };
-
             if (Main.netMode != NetmodeID.Server)
             {
-                EEMod.Prims.CreateTrail(Mojang, new Prims.DefaultShader(), projectile);
                 EEMod.TrailManager.DoTrailCreation(projectile);
             }
             return false;
@@ -72,7 +64,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[item.shoot] < 3;
+            return true;
         }
     }
 }

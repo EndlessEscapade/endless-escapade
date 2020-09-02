@@ -35,9 +35,13 @@ namespace EEMod.Effects
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(200, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
-            if (projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>() || projectile.type == ModContent.ProjectileType<WaterDragonsBubble>())
+            if (projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>())
             {
-                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f, projectile.type == ModContent.ProjectileType<SpiritPistolProjectileSecondary>() ? 250f : 128f);
+                CreateTrail(projectile, new StandardColorTrail(new Color(50, 50, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
+            }
+            if (projectile.type == ModContent.ProjectileType<WaterDragonsBubble>())
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f,128f);
             }
         }
 

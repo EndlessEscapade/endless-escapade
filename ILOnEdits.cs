@@ -40,13 +40,13 @@ namespace EEMod
             IL.Terraria.Main.DrawWater += TransparentWater;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
             On.Terraria.Main.DoUpdate += OnUpdate;
+            On.Terraria.Lighting.AddLight_int_int_float_float_float += AddToLightArray;
             On.Terraria.WorldGen.SaveAndQuitCallBack += OnSave;
             On.Terraria.Main.DrawWoF += DrawBehindTiles;
             On.Terraria.Main.Draw += OnDrawMenu;
             On.Terraria.Main.DrawBG += BetterLightingDraw;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
-            On.Terraria.Lighting.AddLight_int_int_float_float_float += NewLighting;
             On.Terraria.Main.RenderBlack += d;
             if (Main.netMode != NetmodeID.Server)
             {
@@ -54,6 +54,14 @@ namespace EEMod
                 Prims = new Prims(this);
                 Prims.CreateVerlet();
             }
+        }
+        List<Vector2> LightPoints = new List<Vector2>();
+        List<Color> ColourPoints = new List<Color>();
+        private void AddToLightArray(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int d, int e, float a, float b, float c)
+        {
+            //LightPoints.Add(new Vector2(d + 0.5f,e + 0.5f));
+            //ColourPoints.Add(new Color(a, b, c));
+            orig(d,e, a, b, c);
         }
 
         //private void Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb(ILContext il)
@@ -125,6 +133,7 @@ namespace EEMod
         private void UnloadIL()
         {
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
+            On.Terraria.Lighting.AddLight_int_int_float_float_float -= AddToLightArray;
             //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
             IL.Terraria.NPC.AI_001_Slimes -= Practice;
             //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
@@ -137,13 +146,13 @@ namespace EEMod
             On.Terraria.Main.DrawBG -= BetterLightingDraw;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
-            On.Terraria.Lighting.AddLight_int_int_float_float_float -= NewLighting;
             On.Terraria.Main.RenderBlack -= d;
             screenMessageText = null;
             TrailManager = null;
             progressMessage = null;
             Prims = null;
         }
+        
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
             TrailManager.DrawTrails(Main.spriteBatch);
@@ -171,15 +180,21 @@ namespace EEMod
             orig(self);
         }
         Vector2 ChangingPoints;
-        private void NewLighting(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int i, int j, float R, float G, float B)
-        {
-            ChangingPoints = new Vector2(i * 16, j * 16);
-            orig(i, j, R, G, B);
-        }
-
-
         private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
         {
+            int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
+            Projectile projectile = Main.projectile[index];
+            if (projectile.type == ModContent.ProjectileType<LythenStaffProjectile>())
+            {
+                List<Vector2> Mojang = new List<Vector2>
+                {
+                    projectile.Center,
+                    Main.LocalPlayer.Center,
+                    projectile.Center - new Vector2(100,100)
+                };
+                if (Main.netMode != NetmodeID.Server)
+                    Prims.CreateTrail(Mojang, new Prims.DefaultShader(), projectile);
+            }
             return orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
         }
         public void UnloadShaderAssets()
@@ -269,6 +284,8 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
         }
+
+
         public void DrawLensFlares()
         {
             Main.spriteBatch.End();
@@ -350,8 +367,37 @@ namespace EEMod
                 }
             }
         }
+        public void UpdateLight()
+        {
+            for (int i = 0; i < maxNumberOfLights; i++)
+            {
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:LightSource{i}"].IsActive())
+                {
+                    Filters.Scene.Deactivate($"EEMod:LightSource{i}");
+                }
+            }
+            for (int i = 0; i < maxNumberOfLights; i++)
+            {
+                if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:LightSource{i}"].IsActive())
+                {
+                    Filters.Scene.Activate($"EEMod:LightSource{i}", Vector2.Zero).GetShader().UseIntensity(0f);
+                }
+            }
+            List<Vector2> listTransformable = new List<Vector2>();
+            for (int i = 0; i < LightPoints.Count; i++)
+            {
+                listTransformable.Add((LightPoints[i]*16 - Main.screenPosition) / new Vector2(Main.screenWidth, Main.screenHeight));
+                
+                if(i < maxNumberOfLights)
+                Filters.Scene[$"EEMod:LightSource{i}"].GetShader().UseImageOffset(listTransformable[i]).UseIntensity(0.0045f).UseColor(ColourPoints[i]);
+            }
+            LightPoints.Clear();
+            ColourPoints.Clear();
+            listTransformable.Clear();
+        }
         public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
+            //UpdateLight();
             DrawNoiseSurfacing();
             DrawLensFlares();
             if (Main.worldName == KeyID.CoralReefs)
@@ -432,6 +478,7 @@ namespace EEMod
         }
         public void OnUpdate(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
         {
+
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
             {
                 alpha = 0;
@@ -782,7 +829,7 @@ namespace EEMod
 
             }
         }
-
+        
         private void Main_DrawBackground(ILContext il)
         {
             ILCursor c = new ILCursor(il);

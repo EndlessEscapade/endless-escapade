@@ -71,7 +71,6 @@ namespace EEMod
         public bool noU;
         public bool triggerSeaCutscene;
         public int cutSceneTriggerTimer;
-        public int cutSceneTriggerTimer2;
         public float cutSceneTriggerTimer3;
         public int coralReefTrans;
         public int markerPlacer;
@@ -290,7 +289,6 @@ namespace EEMod
                 noU = false;
                 triggerSeaCutscene = false;
                 cutSceneTriggerTimer = 0;
-                cutSceneTriggerTimer2 = 500;
                 position = player.Center;
                 importantCutscene = false;
                 speedOfPan = 0;
@@ -460,15 +458,11 @@ namespace EEMod
                 if (markerPlacer > 1)
                     Main.screenPosition += new Vector2(0, offSea);
             }
-
-            if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
+            if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
             {
-                Main.screenPosition.X -= cutSceneTriggerTimer;
-            }
-            if (cutSceneTriggerTimer >= 500)
-            {
-                speedOfPan += 0.005f;
-                Main.screenPosition.X -= cutSceneTriggerTimer2 * speedOfPan;
+                if(!Main.gamePaused)
+                speedOfPan += 0.01f;
+                Main.screenPosition.X += cutSceneTriggerTimer * speedOfPan;
             }
             if (isCameraFixating)
             {
@@ -539,14 +533,10 @@ namespace EEMod
             EEMod.isSaving = false;
             if (Main.worldName != KeyID.Sea)
             {
-                if (triggerSeaCutscene && cutSceneTriggerTimer <= 1000)
-                {
-                    cutSceneTriggerTimer += 6;
-                    player.position = player.oldPosition;
-                }
-                if (cutSceneTriggerTimer >= 1000)
+                if (triggerSeaCutscene && cutSceneTriggerTimer <= 500)
                 {
                     cutSceneTriggerTimer += 2;
+                    player.position = player.oldPosition;
                 }
                 if (godMode)
                 {
@@ -866,10 +856,9 @@ namespace EEMod
                 Initialize();
                 SM.SaveAndQuit(KeyID.Pyramids); //pyramid
             }
-            if (cutSceneTriggerTimer >= 500)
+            if (cutSceneTriggerTimer > 0)
             {
-                cutSceneTriggerTimer2 -= 5;
-                if (cutSceneTriggerTimer >= 1520)
+                if (cutSceneTriggerTimer >= 500)
                 {
                     Initialize();
                     SM.SaveAndQuit(KeyID.Sea); //sea

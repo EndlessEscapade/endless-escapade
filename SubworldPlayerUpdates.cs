@@ -310,7 +310,6 @@ namespace EEMod
                 if (player.controlUp)
                 {
                     importantCutscene = true;
-                    cutSceneTriggerTimer = 0;
                 }
             }
             else
