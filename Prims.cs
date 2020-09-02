@@ -19,7 +19,7 @@ namespace EEMod
         public interface ITrailShader
         {
             string ShaderPass { get; }
-            void ApplyShader<T>(BasicEffect effect, T trail, List<Vector2> positions);
+            void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions);
         }
         public void DrawTrails(SpriteBatch spriteBatch)
         {
@@ -35,12 +35,13 @@ namespace EEMod
         public class DefaultShader : ITrailShader
         {
             public string ShaderPass => "DefaultPass";
-            public void ApplyShader<T>(BasicEffect effect, T trail, List<Vector2> positions)
+            public void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions)
             {
                 foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
                 {
                     pass.Apply();
                 }
+                effect.CurrentTechnique.Passes[ShaderPass].Apply();
             }
         }
         private Effect _effect;
@@ -273,19 +274,18 @@ namespace EEMod
                 {
                     if (_projectile.type == ModContent.ProjectileType<LythenStaffProjectile>())
                     {
-                        AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 10f)));
-                        AddVertex(_points[1], Color.LightBlue * (float)Math.Asin(lerper / 20f), new Vector2((float)Math.Cos(lerper / 10f), (float)Math.Cos(lerper / 20f)));
-                        AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Asin(lerper / 20f), (float)Math.Cos(lerper / 10f)));
+                        AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                        AddVertex(_points[1], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                        AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                     }
                 }
-
                 int width = device.Viewport.Width;
                 int height = device.Viewport.Height;
                 Vector2 zoom = Main.GameViewMatrix.Zoom;
                 Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
                 Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
                 effect.Parameters["WorldViewProjection"].SetValue(view * projection);
-                _trailShader.ApplyShader(effect2, this, _points);
+                _trailShader.ApplyShader(effect, this, _points);
                 device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 1);
             }
             //Helper methods
