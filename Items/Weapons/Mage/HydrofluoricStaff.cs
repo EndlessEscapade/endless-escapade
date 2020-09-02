@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Mage
             item.rare = ItemRarityID.Lime;
             item.shoot = ProjectileID.RuneBlast;
             item.UseSound = SoundID.DD2_MonkStaffSwing;
-            item.shootSpeed = 15f;
+            item.shootSpeed = 2f;
             item.damage = 48;
             item.knockBack = 3;
             item.autoReuse = true;
@@ -37,7 +37,11 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            speedX *= 0.2f;
+            speedY *= 0.2f;
             Vector2 vector = Vector2.Normalize(new Vector2(speedX, speedY));
+            position += vector * 60;
+            vector *= 3;
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, vector.Y, vector.X);
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, -vector.Y, -vector.X);
             return false;

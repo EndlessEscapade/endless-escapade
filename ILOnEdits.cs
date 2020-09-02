@@ -748,6 +748,12 @@ namespace EEMod
                     case 63:
                         screenMessageText = "Forged in Fury";
                         break;
+                     case 64:
+                        screenMessageText = "Have you guys heard of calamity?";
+                        break;
+                     case 65:
+                        screenMessageText = "Who's the ideas guy?";
+                        break;
                 }
                 Main.spriteBatch.Begin();
                 DrawSky();
