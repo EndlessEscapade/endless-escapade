@@ -182,19 +182,6 @@ namespace EEMod
         Vector2 ChangingPoints;
         private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
         {
-            int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
-            Projectile projectile = Main.projectile[index];
-            if (projectile.type == ModContent.ProjectileType<LythenStaffProjectile>())
-            {
-                List<Vector2> Mojang = new List<Vector2>
-                {
-                    projectile.Center,
-                    Main.LocalPlayer.Center,
-                    projectile.Center - new Vector2(100,100)
-                };
-                if (Main.netMode != NetmodeID.Server)
-                    Prims.CreateTrail(Mojang, new Prims.DefaultShader(), projectile);
-            }
             return orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
         }
         public void UnloadShaderAssets()
