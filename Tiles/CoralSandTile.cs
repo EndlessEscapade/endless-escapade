@@ -1,10 +1,11 @@
 using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
+using EEMod.Items.Placeables;
 
 namespace EEMod.Tiles
 {
-    public class CoralSand : ModTile
+    public class CoralSandTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -15,7 +16,7 @@ namespace EEMod.Tiles
             AddMapEntry(new Color(253, 247, 173));
 
             dustType = 154;
-            //drop = ModContent.ItemType<Gemsand>();
+            drop = ModContent.ItemType<CoralSand>();
             soundStyle = 1;
             mineResist = 1f;
             minPick = 0;

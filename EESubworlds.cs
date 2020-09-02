@@ -68,10 +68,10 @@ namespace EEMod
                 EEMod.progressMessage = "Clearing Upper Region";
                 ClearRegion(Main.maxTilesX, (Main.maxTilesY / 10), Vector2.Zero);
                 EEMod.progressMessage = "Generating Coral Sand";
-                FillRegionNoEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 20), new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSand>());
+                FillRegionNoEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 20), new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
                 int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
                 EEMod.progressMessage = "Finding Suitable Chasm Positions";
-                NoiseGenWave(new Vector2(300, 80), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralSand>(), 0.5f);
+                NoiseGenWave(new Vector2(300, 80), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
                 NoiseGenWave(new Vector2(300, 60), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(50, 50), TileID.StoneSlab, 0.6f);
 
 
@@ -374,11 +374,11 @@ namespace EEMod
             FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             RemoveWaterFromRegion(Main.maxTilesX, 170, new Vector2(0, 0));
 
-            MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSand>(), 15, 15);
+            MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSandTile>(), 15, 15);
 
             EEWorld.EEWorld.Island(800, 250, 140);
 
-            FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSand>());
+            FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSandTile>());
 
 
             for (int i = 42; i < Main.maxTilesX - 42; i++)
@@ -388,7 +388,7 @@ namespace EEMod
 
                     int yes = WorldGen.genRand.Next(0, 5);
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSand>())
+                    if (TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSandTile>())
                     {
                         int selection = WorldGen.genRand.Next(3);
                         switch (selection)
@@ -446,11 +446,11 @@ namespace EEMod
             FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             RemoveWaterFromRegion(Main.maxTilesX, 170, new Vector2(0, 0));
 
-            MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSand>(), 15, 15);
+            MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSandTile>(), 15, 15);
 
             EEWorld.EEWorld.Island(600, 250, 140);
 
-            FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSand>());
+            FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSandTile>());
 
 
             for (int i = 42; i < Main.maxTilesX - 42; i++)
@@ -460,7 +460,7 @@ namespace EEMod
 
                     int yes = WorldGen.genRand.Next(0, 5);
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSand>())
+                    if (TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSandTile>())
                     {
                         int selection = WorldGen.genRand.Next(3);
                         switch (selection)
@@ -547,9 +547,9 @@ namespace EEMod
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             MakeTriangle(new Vector2(300, 895), 600, 1000, 3, ModContent.TileType<VolcanicAshTile>(), true, true, ModContent.WallType<VolcanicAshWallTile>());
             EEWorld.EEWorld.Island(800, 400, 290);
-            FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 400), ModContent.TileType<CoralSand>());
+            FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 400), ModContent.TileType<CoralSandTile>());
 
-            ClearRegionSafely(60, 630, new Vector2(570, 170), ModContent.TileType<CoralSand>());
+            ClearRegionSafely(60, 630, new Vector2(570, 170), ModContent.TileType<CoralSandTile>());
             ClearRegionSafely(60, 630, new Vector2(570, 170), TileID.Dirt);
             ClearRegionSafely(60, 630, new Vector2(570, 170), TileID.Grass);
             FillRegionWithLava(40, 206, new Vector2(580, 594));

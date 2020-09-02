@@ -24,14 +24,15 @@ namespace EEMod.Items.Weapons.Mage
             item.value = Item.sellPrice(0, 0, 21);
             item.mana = 7;
             item.shootSpeed = 7f;
-            item.useTime = 22;
-            item.useAnimation = 22;
+            item.useTime = 360;
+            item.useAnimation = 360;
             item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
-            item.autoReuse = true;
+            item.autoReuse = false;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shoot = ModContent.ProjectileType<DalantiniumFang>();
+            item.shoot = ModContent.ProjectileType<DalantiniumFan>();
+            item.noUseGraphic = true;
         }
 
         public override Vector2? HoldoutOffset()
@@ -41,16 +42,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            float numProj = 3;
-            float rotation = MathHelper.ToRadians(15);
-            position += Vector2.Normalize(new Vector2(speedX, speedY)) * 45f;
-            for (int i = 0; i < numProj; i++)
-            {
-                Vector2 pertSpeed = new Vector2(speedX, speedY).RotatedBy(MathHelper.Lerp(-rotation, rotation, i / (numProj - 1))); // * .7f
-                Projectile.NewProjectile(position.X, position.Y, pertSpeed.X, pertSpeed.Y, type, damage, knockBack, player.whoAmI);
-            }
-
-            return false;
+            return true;
         }
 
         public override void AddRecipes()

@@ -2645,7 +2645,7 @@ namespace EEMod.EEWorld
                         }
                         if (j < Main.maxTilesY / 10)
                         {
-                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<CoralSand>());
+                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<CoralSandTile>());
                         }
                     }
                 }
@@ -2674,7 +2674,7 @@ namespace EEMod.EEWorld
             }
             if (TL.Y < Main.maxTilesY / 10)
             {
-                tile2 = (ushort)ModContent.TileType<CoralSand>();
+                tile2 = (ushort)ModContent.TileType<CoralSandTile>();
             }
             void CreateNoise(bool ensureN, int width, int height, float thresh)
             {
@@ -2704,7 +2704,7 @@ namespace EEMod.EEWorld
 
                                 if (j < Main.maxTilesY / 10)
                                 {
-                                    tile.type = (ushort)ModContent.TileType<CoralSand>();
+                                    tile.type = (ushort)ModContent.TileType<CoralSandTile>();
                                 }
                             }
                         }
@@ -3745,8 +3745,8 @@ namespace EEMod.EEWorld
         }
         public static void Island(int islandWidth, int islandHeight, int posY)
         {
-            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, posY), ModContent.TileType<CoralSand>());
-            MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) - (Main.maxTilesX / 4)), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSand>()) - 10), TileID.Dirt);
+            MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, posY), ModContent.TileType<CoralSandTile>());
+            MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) - (Main.maxTilesX / 4)), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSandTile>()) - 10), TileID.Dirt);
             //KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
             for (int i = 0; i < Main.maxTilesX; i++)
