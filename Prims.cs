@@ -274,9 +274,9 @@ namespace EEMod
                 {
                     if (_projectile.type == ModContent.ProjectileType<LythenStaffProjectile>())
                     {
-                        AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 10f)));
-                        AddVertex(_points[1], Color.LightBlue * (float)Math.Asin(lerper / 20f), new Vector2((float)Math.Cos(lerper / 10f), (float)Math.Cos(lerper / 20f)));
-                        AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Asin(lerper / 20f), (float)Math.Cos(lerper / 10f)));
+                        AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                        AddVertex(_points[1], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                        AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                     }
                 }
                 int width = device.Viewport.Width;
