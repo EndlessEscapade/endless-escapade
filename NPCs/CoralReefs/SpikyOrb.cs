@@ -35,7 +35,7 @@ namespace EEMod.NPCs.CoralReefs
             EEMod.White.Parameters["alpha"].SetValue((((float)Math.Sin(alpha) + 1) * 0.5f));
             Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw() + new Vector2(0,3), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale*1.05f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return true;
         }
         public override void SetDefaults()

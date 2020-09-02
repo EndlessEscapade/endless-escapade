@@ -1,10 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using EEMod.Projectiles.Mage;
-using EEMod.Projectiles.CoralReefs;
-using EEMod.Projectiles.OceanMap;
 
 namespace EEMod.Items.Weapons.Mage
 {
