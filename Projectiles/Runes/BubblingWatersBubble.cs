@@ -29,7 +29,6 @@ namespace EEMod.Projectiles.Runes
             projectile.extraUpdates = 1;
             projectile.aiStyle = -1;
             projectile.damage = 0;
-            projectile.scale = 0.7f;
         }
 
         public override void AI()           //this make that the projectile will face the corect way
@@ -37,6 +36,13 @@ namespace EEMod.Projectiles.Runes
             projectile.Center = Main.player[projectile.owner].Center;
             projectile.ai[0]++;
             projectile.scale += (float)Math.Sin(projectile.ai[0]/20)/120;
+
+            projectile.ai[1]++;
+            if(projectile.ai[1] >= 120)
+            {
+                Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersBubbleSmall>(), 0, 0, Owner: Main.myPlayer);
+                projectile.ai[1] = 0;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

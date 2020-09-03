@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using EEMod.Extensions;
 using EEMod.Projectiles.Summons;
 using EEMod.Projectiles;
+using EEMod.Projectiles.Runes;
 
 namespace EEMod.Effects
 {
@@ -31,7 +32,7 @@ namespace EEMod.Effects
         public void DoTrailCreation(Projectile projectile)
         {
             Mod mod = EEMod.instance;
-            if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<AkumoMinionProjectile>())
+            if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<AkumoMinionProjectile>() || projectile.type == ModContent.ProjectileType<FeatheredDreamcatcherProjectile>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(200, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
@@ -39,7 +40,7 @@ namespace EEMod.Effects
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(50, 50, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
             }
-            if (projectile.type == ModContent.ProjectileType<WaterDragonsBubble>())
+            if (projectile.type == ModContent.ProjectileType<WaterDragonsBubble>() || projectile.type == ModContent.ProjectileType<BubblingWatersBubbleSmall>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f,128f);
             }

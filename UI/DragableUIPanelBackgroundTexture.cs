@@ -52,9 +52,5 @@ namespace EEMod.UI
             spriteBatch.Draw(_backgroundTexture, new Rectangle(point1.X, point1.Y, width, height), color);
 
         }
-
-
-
-
     }
 }
