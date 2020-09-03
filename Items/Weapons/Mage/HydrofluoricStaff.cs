@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Mage
             item.rare = ItemRarityID.Lime;
             item.shoot = ProjectileID.RuneBlast;
             item.UseSound = SoundID.DD2_MonkStaffSwing;
-            item.shootSpeed = 2f;
+            item.shootSpeed = 12f;
             item.damage = 48;
             item.knockBack = 3;
             item.autoReuse = true;
