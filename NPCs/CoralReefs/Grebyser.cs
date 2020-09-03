@@ -14,22 +14,6 @@ namespace EEMod.NPCs.CoralReefs
             Main.npcFrameCount[npc.type] = 3;
         }
 
-
-        public override void FindFrame(int frameHeight)
-        {
-            npc.frameCounter++;
-            if (npc.frameCounter == 5)
-            {
-                npc.frame.Y = npc.frame.Y + frameHeight;
-                npc.frameCounter = 0;
-            }
-            if (npc.frame.Y >= frameHeight * 3)
-            {
-                npc.frame.Y = 0;
-                return;
-            }
-        }
-
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -59,28 +43,43 @@ namespace EEMod.NPCs.CoralReefs
                 npc.ai[1] = 1;
             npc.ai[0]++;
             if (npc.ai[0] % 180 == 0 && Helpers.OnGround(npc))
-            if (npc.ai[0] >= 600)
-            {
-                npc.velocity.Y -= 5;
-                if (Helpers.isCollidingWithWall(npc))
+                if (npc.ai[0] >= 600)
                 {
-                    if (npc.ai[1] == -1)
-                        npc.ai[1] = 1;
-                    else
-                        npc.ai[1] = -1;
+                    npc.velocity.Y -= 5;
+                    if (Helpers.isCollidingWithWall(npc))
+                    {
+                        if (npc.ai[1] == -1)
+                            npc.ai[1] = 1;
+                        else
+                            npc.ai[1] = -1;
+                    }
                 }
-            }
             npc.ai[2]++;
-            if(npc.ai[2] >= 300)
+            if (npc.ai[2] >= 300)
             {
                 Projectile.NewProjectile(npc.Center + new Vector2(0, -16), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
                 npc.ai[2] = 0;
             }
         }
 
+        public override void FindFrame(int frameHeight)
+        {
+            npc.frameCounter++;
+            if (npc.frameCounter == 5)
+            {
+                npc.frame.Y = npc.frame.Y + frameHeight;
+                npc.frameCounter = 0;
+            }
+            if (npc.frame.Y >= frameHeight * 3)
+            {
+                npc.frame.Y = 0;
+                return;
+            }
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/CoralReefs/GrebyserGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(TextureCache.GrebyserGlow, npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }

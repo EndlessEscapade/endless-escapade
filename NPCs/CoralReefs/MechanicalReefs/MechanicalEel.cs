@@ -77,7 +77,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                     dust.fadeIn = 1f;
                 }
                 npc.velocity *= 0.96f;
-                npc.rotation = Vector2.Normalize(target.Center - npc.Center).ToRotation();
+                npc.rotation = (target.Center - npc.Center).ToRotation(); // a vector keeps the rotation when normalized, so normalizing it is not needed
 
                 if (npc.ai[0] >= 300)
                 {
@@ -85,7 +85,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                     npc.ai[0] = 100;
                 }
 
-                if (Vector2.Distance(target.Center, npc.Center) <= 640)
+                if (Vector2.DistanceSquared(target.Center, npc.Center) <= 640*640)
                 {
                     for (int i = 0; i < 50; i++)
                     {
@@ -115,7 +115,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(mod.GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalEelGlow"), npc.Center - Main.screenPosition, npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(TextureCache.MechanicalEelGlow, npc.Center - Main.screenPosition, npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }

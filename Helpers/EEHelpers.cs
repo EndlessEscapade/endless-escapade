@@ -82,6 +82,57 @@ namespace EEMod
             pointX >= rectangleX && pointX <= rectangleX + width &&
             pointY <= rectangleY + height;
 
+        public static IEnumerable<NPC> NPCForeach
+        {
+            get
+            {
+                for (int i = 0; i < Main.npc.Length - 1; i++)
+                    yield return Main.npc[i];
+                yield break;
+            }
+        }
+        public static IEnumerable<Projectile> ProjectileForeach
+        {
+            get
+            {
+                for (int i = 0; i < Main.projectile.Length - 1; i++)
+                    yield return Main.projectile[i];
+                yield break;
+            }
+        }
+
+        /// <summary>
+        /// Gets the closest NPC to a point, for specifying which npcs count, use a predicate for <paramref name="searchPredicate"/>
+        /// </summary>
+        /// <param name="position">The point of position</param>
+        /// <param name="minDistance">Minimum distance, -1 meaning there's no minimum</param>
+        /// <param name="searchPredicate">Predicate for spcifying which NPCs count, e.g. <code>npc => npc.active </code></param>
+        /// <returns>Index of the NPC, will be -1 if not a single one is found</returns>
+        public static int ClosestNPCTo(Vector2 position, float minDistance = -1, Func<NPC, bool> searchPredicate = null)
+        {
+            float closestDistSQ = -1;
+            int npcindex = -1;
+            for(int i = 0; i < Main.npc.Length -1; i++)
+            {
+                NPC npc = Main.npc[i];
+                if (searchPredicate?.Invoke(npc) is false)
+                    continue;
+                float distSQ = npc.DistanceSQ(position);
+                /*"there's no defined smallest distance (like the first iteration) or the distance is smaller than the current smallest
+                 * and there's no minimum or the distance is smaller than the minimum"*/
+                if((closestDistSQ == -1 || distSQ < closestDistSQ) && (minDistance == -1 || distSQ < minDistance * minDistance))
+                {
+                    npcindex = i;
+                    closestDistSQ = distSQ;
+                }
+            }
+            return npcindex;
+        }
+
+        public static float RotationTo(this Vector2 from, Vector2 to) => (float)Math.Atan2(from.Y - to.Y, from.X - to.X);
+
+        public static int ResolveProjectileIdentity(int projectileindex, int? forclient = null) => Main.projectileIdentity[forclient ?? Main.myPlayer, projectileindex];
+
         // ROTATION - Used for pointing towards things. Simple.
         public static float RotateTowards(float v4, float v5)
         {

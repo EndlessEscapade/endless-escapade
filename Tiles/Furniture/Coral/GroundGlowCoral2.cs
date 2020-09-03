@@ -94,11 +94,11 @@ namespace EEMod.Tiles.Furniture.Coral
 
             if (tile != null && tile.active() && tile.type == Type)
             {
-                int frameX = Main.tile[i, j].frameX;
-                int frameY = Main.tile[i, j].frameY;
-                int width = 20;
-                int offsetY = 0;
-                int height = 16;
+                int frameX = tile.frameX;
+                int frameY = tile.frameY;
+                const int width = 20;
+                const int offsetY = 0;
+                const int height = 16;
                 Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
                 if (Main.drawToScreen)
                 {
@@ -111,9 +111,12 @@ namespace EEMod.Tiles.Furniture.Coral
                     return;
                 }
                 GroundGlowCoral2TE TE = (GroundGlowCoral2TE)TileEntity.ByID[index];
+                Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero + new Vector2(2, 0);
+                Rectangle rect = new Rectangle(frameX, frameY, width, height);
+                color *= (float)Math.Sin(TE.kayLerp) * 0.5f + 0.5f;
                 for (int k = 0; k < 7; k++)
                 {
-                    Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Coral/GroundGlowCoralGlow2"), new Vector2(i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero + new Vector2(2, 0), new Rectangle(frameX, frameY, width, height), color * ((float)Math.Sin(TE.kayLerp) * 0.5f + 0.5f), 0f, default, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(TextureCache.GroundGlowCoralGlow2, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
                 }
             }
         }

@@ -47,12 +47,9 @@ namespace EEMod.Items.Weapons.Mage
                 Main.LocalPlayer.Center,
                 projectile.Center - new Vector2(100,100)
             };
-
             if (Main.netMode != NetmodeID.Server)
-            {
                 EEMod.Prims.CreateTrail(Mojang, new Prims.DefaultShader(), projectile);
-                EEMod.TrailManager.DoTrailCreation(projectile);
-            }
+
             return false;
         }
 

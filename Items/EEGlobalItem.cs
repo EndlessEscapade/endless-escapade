@@ -52,11 +52,11 @@ namespace EEMod.Items
         public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (averageSizeFish.Contains(item.type) && item.GetGlobalItem<EEGlobalItem>().fishLength == 32)
-                Main.spriteBatch.Draw(mod.GetTexture("Star"), position, Color.White);
+                Main.spriteBatch.Draw(TextureCache.Star, position, Color.White);
             if (smallSizeFish.Contains(item.type) && item.GetGlobalItem<EEGlobalItem>().fishLength == 16)
-                Main.spriteBatch.Draw(mod.GetTexture("Star"), position, Color.White);
+                Main.spriteBatch.Draw(TextureCache.Star, position, Color.White);
             if (bigSizeFish.Contains(item.type) && item.GetGlobalItem<EEGlobalItem>().fishLength == 44)
-                Main.spriteBatch.Draw(mod.GetTexture("Star"), position, Color.White);
+                Main.spriteBatch.Draw(TextureCache.Star, position, Color.White);
         }
 
         public override bool OnPickup(Item item, Player player)

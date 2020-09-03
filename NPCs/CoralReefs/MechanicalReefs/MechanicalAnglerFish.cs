@@ -58,7 +58,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                     npc.ai[3] = Projectile.NewProjectile(npc.Center + new Vector2(-10, 0), Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), npc.damage, 0f, Owner: npc.whoAmI);
                 npc.velocity = Vector2.Zero;
 
-                if(Math.Abs(target.position.X - npc.position.X) > 320)
+                if (Math.Abs(target.position.X - npc.position.X) > 320)
                 {
                     Main.projectile[(int)npc.ai[3]].Kill();
                     frameNumber = 0;
@@ -84,7 +84,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                 }
                 npc.velocity = Vector2.Normalize(target.position - npc.position) * 4;
 
-                if(target.position.X > npc.position.X)
+                if (target.position.X > npc.position.X)
                     npc.spriteDirection = -1;
                 else
                     npc.spriteDirection = 1;
@@ -99,24 +99,18 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             {
                 npc.TargetClosest();
                 Player player = Main.player[npc.target];
-                Texture2D LureChain = mod.GetTexture("Projectiles/Enemy/MechanicalLureChain");
+                Texture2D LureChain = TextureCache.MechanicalLureChain;
                 float distance = Vector2.Distance(npc.Center, Main.projectile[(int)npc.ai[3]].position) / LureChain.Height;
+                Vector2 pos = npc.position - Main.screenPosition + new Vector2(x: (npc.width / 2) - (LureChain.Width / 2) - 10, y: (npc.height / 2));
                 for (int i = 0; i < distance; i++)
                 {
-                    Main.spriteBatch.Draw(LureChain, npc.position - Main.screenPosition + new Vector2((npc.width / 2) - (LureChain.Width / 2), (npc.height / 2) + (i * LureChain.Height)) + new Vector2(-10, 0), Color.White);
+                    Main.spriteBatch.Draw(LureChain, pos + new Vector2(x: 0, y: i * LureChain.Height), Color.White);
                 }
-                Texture2D texture = Main.npcTexture[npc.type];
-                Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, 40), npc.frame, DrawColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);
-                return false;
             }
-            else
-            {
-                Texture2D texture = Main.npcTexture[npc.type];
-                Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, 40), npc.frame, DrawColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);
-                return false;
-            }
+            Texture2D texture = Main.npcTexture[npc.type];
+            Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
+            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, 40), npc.frame, DrawColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);
+            return false;
         }
 
         public override void NPCLoot()

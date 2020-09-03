@@ -58,7 +58,7 @@ namespace EEMod.Projectiles.Enemy
             for (int i = 0; i < 20; i++)
             {
                 int dust = Dust.NewDust(projectile.position, 0, 0, 6);
-                Main.dust[dust].velocity = (projectile.velocity) + new Vector2(Main.rand.NextFloat(-1, 2), Main.rand.NextFloat(-1, 2));
+                Main.dust[dust].velocity = projectile.velocity + new Vector2(Main.rand.NextFloat(-1, 2), Main.rand.NextFloat(-1, 2));
             }
         }
 
@@ -69,7 +69,7 @@ namespace EEMod.Projectiles.Enemy
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Enemy/MechanicalMissileGlow"), projectile.Center - Main.screenPosition, projectile.getRect(), Color.White, projectile.rotation, projectile.getRect().Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(TextureCache.MechanicalMissileGlow, projectile.Center - Main.screenPosition, projectile.getRect(), Color.White, projectile.rotation, projectile.getRect().Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

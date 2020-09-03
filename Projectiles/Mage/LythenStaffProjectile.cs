@@ -58,11 +58,10 @@ namespace EEMod.Projectiles.Mage
                 NPC target = Main.npc[i];
                 if (target.active && (!target.wet || homingCanAimAtWetEnemies) && target.type != NPCID.TargetDummy)
                 {
-                    float distance = projectile.Distance(target.Center);
-                    if (distance <= homingMaximumRangeInPixels &&
-                        (
-                            selectedTarget == -1 || //there is no selected target
-                            projectile.Distance(Main.npc[selectedTarget].Center) > distance)
+                    float distanceSQ = projectile.DistanceSQ(target.Center);
+                    if (distanceSQ <= homingMaximumRangeInPixels * homingMaximumRangeInPixels && (
+                        selectedTarget == -1 || //there is no selected target
+                        projectile.DistanceSQ(Main.npc[selectedTarget].Center) > distanceSQ)
                     )
                         selectedTarget = i;
                 }
@@ -113,7 +112,7 @@ namespace EEMod.Projectiles.Mage
                         holder++;
                         for (int j = 0; j < 2; j++)
                         {
-                            if(positionOfOthers[j] == Vector2.Zero)
+                            if (positionOfOthers[j] == Vector2.Zero)
                             {
                                 positionOfOthers[j] = Main.projectile[i].Center;
                                 break;
@@ -133,12 +132,12 @@ namespace EEMod.Projectiles.Mage
                     }
                 }
             }
-            
+
             if (holder == 2)
             {
                 if (npc != null)
                 {
-                    if(Helpers.IsInside(projectile.Center, positionOfOthers[0], positionOfOthers[1], npc.Center))
+                    if (Helpers.IsInside(projectile.Center, positionOfOthers[0], positionOfOthers[1], npc.Center))
                     {
                         npc.AddBuff(BuffID.Frostburn, 10);
                     }

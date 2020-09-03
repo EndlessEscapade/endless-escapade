@@ -495,7 +495,7 @@ namespace EEMod
         float inspectTimer = 0;
         public void InspectObject()
         {
-            Main.spriteBatch.Draw(mod.GetTexture("InspectIcon"), (player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
+            Main.spriteBatch.Draw(TextureCache.InspectIcon, (player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
             inspectTimer += 0.5f;
         }
 

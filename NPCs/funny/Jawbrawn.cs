@@ -49,7 +49,7 @@ namespace EEMod.NPCs.funny
             npc.TargetClosest();
             Player target = Main.player[npc.target];
 
-            npc.rotation = Vector2.Normalize(target.Center - npc.Center).ToRotation() - MathHelper.PiOver2;
+            npc.rotation = (target.Center - npc.Center).ToRotation() - MathHelper.PiOver2;
         }
     }
 }
