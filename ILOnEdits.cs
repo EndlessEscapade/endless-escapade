@@ -596,14 +596,14 @@ namespace EEMod
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null) SkyManager.Instance.Activate("EEMod:SavingCutscene", default, new object[0]);
                 if (loadingFlag)
                 {
-                    loadingChoose = Main.rand.Next(65); // numbers from n to n-1
+                    loadingChoose = Main.rand.Next(67); // numbers from n to n-1
                     loadingChooseImage = Main.rand.Next(5);
                     loadingFlag = false;
                 }
                 switch (loadingChoose)
                 {
                     case 0:
-                        screenMessageText = "Watch Out! Dune Shamblers Pop from the ground from time to time!";
+                        screenMessageText = "Europium Phosphorus Iodine Cabon Chromium Oxygen Tungsten Nitrogen Potassium Indium Gadolinium";
                         break;
                     case 1:
                         screenMessageText = "All good sprites made by Nomis";
@@ -708,10 +708,10 @@ namespace EEMod
                         screenMessageText = "Respect the drip Karen";
                         break;
                     case 35:
-                        screenMessageText = "trust me there is a lot phesh down in here, the longer the player is in the reefs the more amphibious he will become";
+                        screenMessageText = "phosh";
                         break;
                     case 36:
-                        screenMessageText = "All good sprites made by daimgamer!";
+                        screenMessageText = "All good sprites made by daimgamer";
                         break;
                     case 37:
                         screenMessageText = "All good music made by Universe";
@@ -726,7 +726,7 @@ namespace EEMod
                         screenMessageText = "All good builds made by Cherry";
                         break;
                     case 41:
-                        screenMessageText = "Totally not copying Starlight River";
+                        screenMessageText = "Haha funny mod go brrr";
                         break;
                     case 42:
                         screenMessageText = "Do a Barrel Roll";
@@ -735,7 +735,7 @@ namespace EEMod
                         screenMessageText = "The man behind the laughter";
                         break;
                     case 44:
-                        screenMessageText = "All good sprites made by Darkpuppey";
+                        screenMessageText = "All good weapons made by Graydee";
                         break;
                     case 45:
                         screenMessageText = "An apple a day keeps the errors away!";
@@ -744,7 +744,7 @@ namespace EEMod
                         screenMessageText = "Poggers? Poggers.";
                         break;
                     case 47:
-                        screenMessageText = $"Totally not sentient AI. By the way, {Main.LocalPlayer.name} is a dumb name";
+                        screenMessageText = $"By the way, {Main.LocalPlayer.name} is a dumb name";
                         break;
                     case 48:
                         screenMessageText = "It all ends eventually!";
@@ -799,6 +799,9 @@ namespace EEMod
                         break;
                      case 65:
                         screenMessageText = "Who's the ideas guy?";
+                        break;
+                    case 66:
+                        screenMessageText = "Tomato? Tomato.";
                         break;
                 }
                 Main.spriteBatch.Begin();

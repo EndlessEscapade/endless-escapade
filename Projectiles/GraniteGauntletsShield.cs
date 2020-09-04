@@ -40,15 +40,15 @@ namespace EEMod.Projectiles
                 ownerplayer.noKnockback = true;
             }
             ownerplayer.statDefense += 12;
+
             Vector2 origin = Main.LocalPlayer.Center;
             float radius = 48;
-            //Get 30 locations in a circle around 'origin'
             int numLocations = 30;
             for (int i = 0; i < 30; i++)
             {
                 Vector2 position = origin + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / numLocations * i)) * radius;
-                //'position' will be a point on a circle around 'origin'.  If you're using this to spawn dust, use Dust.NewDustPerfect
-                Dust.NewDustPerfect(position, 13);
+                Dust dust = Dust.NewDustPerfect(position, 13);
+                dust.velocity = Vector2.Zero;
             }
 
             ownerplayer.position = ownerplayer.oldPosition;
