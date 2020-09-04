@@ -36,7 +36,7 @@ namespace EEMod.Tiles.Furniture
                 {
                     for (int k = 0; k < 100; k++)
                     {
-                        if (EEWorld.EEWorld.PylonBegin[k] == default)
+                        if (EEWorld.EEWorld.PylonBegin[k] == default(Vector2))
                         {
                             EEWorld.EEWorld.PylonBegin[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = true;
@@ -48,7 +48,7 @@ namespace EEMod.Tiles.Furniture
                 {
                     for (int k = 0; k < 100; k++)
                     {
-                        if (EEWorld.EEWorld.PylonEnd[k] == default && new Vector2(i, j) * 16 + new Vector2(8, -8) != EEWorld.EEWorld.PylonBegin[k])
+                        if (EEWorld.EEWorld.PylonEnd[k] == default(Vector2) && new Vector2(i, j) * 16 + new Vector2(8, -8) != EEWorld.EEWorld.PylonBegin[k])
                         {
                             EEWorld.EEWorld.PylonEnd[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = false;
@@ -82,29 +82,29 @@ namespace EEMod.Tiles.Furniture
                     Vector2 end = EEWorld.EEWorld.PylonEnd[l];
                     Vector2 endbegindistance = end - begin;
                     float n = 1 / endbegindistance.Length();
-                    float ebdistrot = endbegindistance.ToRotation();
-                    Texture2D texture = mod.GetTexture("Items/Zipline");
+                    // float ebdistrot = endbegindistance.ToRotation();
+                    //Texture2D texture = TextureCache.Zipline;
                     for (float k = 0; k < 1; k += n)
                     {
-                        Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), begin + (end - begin) * k - Main.screenPosition + (new Vector2(11.5f, 13.5f) * 16) + new Vector2(8, -8), new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(TextureCache.Zipline, begin + (end - begin) * k - Main.screenPosition + (new Vector2(11.5f, 13.5f) * 16) + new Vector2(8, -8), new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0);
                         //Main.spriteBatch.Draw(texture, begin + endbegindistance * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, ebdistrot, Vector2.One, 1, SpriteEffects.None, 0);
                     }
                 }
             }
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == new Vector2(i, j) * 16 + new Vector2(8, -8))
             {
-                Main.spriteBatch.Draw(mod.GetTexture("Items/Zipline"), Main.LocalPlayer.position + Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (Main.LocalPlayer.position - Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin).ToRotation(), new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(TextureCache.Zipline, Main.LocalPlayer.position + Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (Main.LocalPlayer.position - Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin).ToRotation(), new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0);
             }
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-            for (int k = 0; k < 100; k++)
-            {
-                if (EEWorld.EEWorld.PylonBegin[k] == new Vector2(i, j) * 16 + new Vector2(8, -8))
-                {
+            //for (int k = 0; k < 100; k++)
+            //{
+            //    if (EEWorld.EEWorld.PylonBegin[k] == new Vector2(i, j) * 16 + new Vector2(8, -8))
+            //    {
 
-                }
-            }
+            //    }
+            //}
         }
     }
 }

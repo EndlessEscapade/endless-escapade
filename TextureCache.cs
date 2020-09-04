@@ -70,6 +70,62 @@ namespace EEMod
         public static Texture2D Bob2;
         public static Texture2D OceanScreen;
         public static Texture2D Seagulls;
+        [TextureInit("Projectiles/Summons/AkumoMinionGlow")]
+        public static Texture2D AkumoMinionGlow;
+        [TextureInit("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow")]
+        public static Texture2D BlueringOctopusGlow;
+        [TextureInit("NPCs/CoralReefs/BombFishGlow")]
+        public static Texture2D BombFishGlow;
+        [TextureInit("NPCs/CoralReefs/ClamGlow")]
+        public static Texture2D ClamGlow;
+        [TextureInit("NPCs/Bosses/CoralGolem/CoralGolemGlow")]
+        public static Texture2D CoralGolemGlow;
+        [TextureInit("Star")]
+        public static Texture2D Star;
+        [TextureInit("Backgrounds/CoralReefsSurfaceFar")]
+        public static Texture2D CoralReefsSurfaceFar;
+        [TextureInit("Backgrounds/CoralReefsSurfaceMid")]
+        public static Texture2D CoralReefsSurfaceMid;
+        [TextureInit("InspectIcon")]
+        public static Texture2D InspectIcon;
+        [TextureInit("Tiles/Furniture/Coral/GlowCoral1Glow")]
+        public static Texture2D GlowCoral1Glow;
+        [TextureInit("Tiles/Furniture/Coral/GlowCoral2Glow")]
+        public static Texture2D GlowCoral2Glow;
+        [TextureInit("Tiles/Furniture/Coral/GlowCoral3Glow")]
+        public static Texture2D GlowCoral3Glow;
+        [TextureInit("Tiles/Furniture/Coral/GlowHangCoral1Glow")]
+        public static Texture2D GlowHangCoral1Glow;
+        [TextureInit("Tiles/Furniture/Coral/GlowHangCoral2Glow")]
+        public static Texture2D GlowHangCoral2Glow;
+        [TextureInit("NPCs/CoralReefs/GrebyserGlow")]
+        public static Texture2D GrebyserGlow;
+        [TextureInit("Tiles/Furniture/Coral/GroundGlowCoralGlow")]
+        public static Texture2D GroundGlowCoralGlow;
+        [TextureInit("Tiles/Furniture/Coral/GroundGlowCoralGlow2")]
+        public static Texture2D GroundGlowCoralGlow2;
+        [TextureInit("Tiles/Furniture/Coral/GroundGlowCoralGlow3")]
+        public static Texture2D GroundGlowCoralGlow3;
+        [TextureInit("Masks/Extra_49")]
+        public static Texture2D Extra_49;
+        [TextureInit("Projectiles/Enemy/MechanicalLureChain")]
+        public static Texture2D MechanicalLureChain;
+        [TextureInit("NPCs/CoralReefs/MechanicalReefs/MechanicalEelGlow")]
+        public static Texture2D MechanicalEelGlow;
+        [TextureInit("Projectiles/Enemy/MechanicalMissileGlow")]
+        public static Texture2D MechanicalMissileGlow;
+        [TextureInit("NPCs/CoralReefs/MechanicalReefs/MechanicalSharkGlow")]
+        public static Texture2D MechanicalSharkGlow;
+        [TextureInit("NPCs/funny/FleshChain")]
+        public static Texture2D FleshChain;
+        [TextureInit("Projectiles/SailorsClaspChain")]
+        public static Texture2D SailorsClaspChain;
+        [TextureInit("Tiles/Furniture/ThermalVentGlow")]
+        public static Texture2D ThermalVentGlow;
+        [TextureInit("Tiles/Furniture/Coral/WideBulbousCoralGlow")]
+        public static Texture2D WideBulbousCoralGlow;
+        [TextureInit("Items/Zipline")]
+        public static Texture2D Zipline;
 
         [LoadingMethod(LoadMode.Client)]
         public static void Load()

@@ -19,7 +19,7 @@ namespace EEMod.NPCs.CoralReefs
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
 
             EEMod.NoiseSurfacing.Parameters["yCoord"].SetValue(npc.ai[1]);
-            EEMod.NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (npc.ai[0] % 0.5f)))*4);
+            EEMod.NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (npc.ai[0] % 0.5f))) * 4);
             EEMod.NoiseSurfacing.Parameters["xDis"].SetValue(npc.ai[0] % 0.5f);
             EEMod.NoiseSurfacing.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
             EEMod.NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
@@ -33,7 +33,7 @@ namespace EEMod.NPCs.CoralReefs
         public override void AI()
         {
             npc.ai[0] += 0.002f;
-            if(npc.ai[0] % 0.5f < 0.002f)
+            if (npc.ai[0] % 0.5f < 0.002f)
             {
                 npc.ai[1] = Main.rand.NextFloat(0, 1);
             }

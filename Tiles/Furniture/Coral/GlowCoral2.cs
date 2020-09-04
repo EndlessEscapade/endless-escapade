@@ -51,18 +51,20 @@ namespace EEMod.Tiles.Furniture.Coral
             Color color = Color.White;
             int frameX = Main.tile[i, j].frameX;
             int frameY = Main.tile[i, j].frameY;
-            int width = 20;
-            int offsetY = 2;
-            int height = 20;
-            int offsetX = 2;
+            const int width = 20;
+            const int offsetY = 2;
+            const int height = 20;
+            const int offsetX = 2;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
                 zero = Vector2.Zero;
             }
+            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero;
+            Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Furniture/Coral/GlowCoral2Glow"), new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero, new Rectangle(frameX, frameY, width, height), color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(TextureCache.GlowCoral2Glow, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }
