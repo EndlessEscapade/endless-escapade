@@ -39,16 +39,9 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI); //Main.projectile[index];
-
-            List<Vector2> Mojang = new List<Vector2>
-            {
-                projectile.Center,
-                Main.LocalPlayer.Center,
-                projectile.Center - new Vector2(100,100)
-            };
+            Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             if (Main.netMode != NetmodeID.Server)
-                EEMod.Prims.CreateTrail(Mojang, new Prims.DefaultShader(), projectile);
+                EEMod.Prims.CreateTrail(projectile);
 
             return false;
         }

@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Mage
             item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.shoot = ModContent.ProjectileType<DalantiniumFan>();
             item.noUseGraphic = true;
@@ -42,7 +42,12 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            return true;
+            Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            if (Main.netMode != NetmodeID.Server)
+            {
+                EEMod.Prims.CreateTrail(projectile);
+            }
+            return false;
         }
 
         public override void AddRecipes()

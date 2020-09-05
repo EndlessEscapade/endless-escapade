@@ -9,13 +9,14 @@ using System.Linq;
 using System;
 using EEMod.Effects;
 using EEMod.Projectiles.Mage;
+using static Terraria.ModLoader.ModContent;
+using System.Reflection;
 
 namespace EEMod
 {
     public class Prims
     {
         //Global.graphics.GraphicsDevice for future reference
-
         public interface ITrailShader
         {
             string ShaderPass { get; }
@@ -45,7 +46,7 @@ namespace EEMod
             }
         }
         private Effect _effect;
-        private List<Trail> _trails = new List<Trail>();
+        public static List<Trail> _trails = new List<Trail>();
         private List<VerletBuffer> _Verlets = new List<VerletBuffer>();
         private static BasicEffect _basicEffect;
         public void UpdateTrails()
@@ -60,6 +61,7 @@ namespace EEMod
                 VerletBuffer trail = _Verlets[i];
                 trail.Update();
             }
+            Dispose();
         }
         public Prims(Mod mod)
         {
@@ -68,10 +70,28 @@ namespace EEMod
             _basicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
             _basicEffect.VertexColorEnabled = true;
         }
-        public void CreateTrail(List<Vector2> gaming = null, ITrailShader shader = null, Projectile projectile = null)
+        public void CreateTrail(Projectile projectile = null)
         {
-            Trail newTrail = new Trail(gaming, new RoundCap(), new DefaultShader(), projectile);
+            Trail newTrail = new Trail(new RoundCap(), new DefaultShader(), projectile);
             _trails.Add(newTrail);
+        }
+        public void Dispose()
+        {
+            for (int i = 0; i < _trails.Count; i++)
+            {
+                if (_trails[i]._projectile.type != ProjectileType<DalantiniumFan>())
+                {
+                    if (!_trails[i]._projectile.active)
+                    {
+                        _trails.RemoveAt(i);
+                    }
+                }
+                else
+                if (_trails[i].lerper > 20)
+                {
+                    _trails.RemoveAt(i);
+                }
+            }
         }
         public void CreateVerlet()
         {
@@ -92,7 +112,6 @@ namespace EEMod
             float lerpage;
             public void DrawCape(BasicEffect effect2, GraphicsDevice device)
             {
-
                 Vector2[] pointsArray = Main.LocalPlayer.GetModPlayer<EEPlayer>().arrayPoints;
                 if (pointsArray.Length <= 1) return;
                 if (!active) return;
@@ -220,73 +239,162 @@ namespace EEMod
                 return new Vector2(-vector.Y, vector.X);
             }
         }
+        public delegate void DrawPrimDelegate(int noOfPoints);
+        public delegate void UpdatePrimDelegate();
+        public static Type[] types => Assembly.GetExecutingAssembly().GetTypes();
         public class Trail
         {
+            
             private ITrailShader _trailShader;
-            private ITrailCap _trailCap;
-            private Projectile _projectile;
-            private List<Vector2> _points;
-            private bool active;
-            private int lerper;
-            public Trail(List<Vector2> gaming, ITrailCap cap, ITrailShader shader, Projectile projectile)
+            public Projectile _projectile;
+            public List<Vector2> _points = new List<Vector2>();
+            public bool active;
+            public int lerper;
+            List<UpdatePrimDelegate> UpdateMethods = new List<UpdatePrimDelegate>();
+            void LythenPrimUpdates()
             {
-                _trailCap = cap;
-                _points = gaming;
-                _trailShader = shader;
-                _projectile = projectile;
-                active = true;
-            }
-            public void Update()
-            {
-                if (_projectile != null)
+                if (_projectile.type == ProjectileType<LythenStaffProjectile>())
                 {
-                    if (_projectile.type == ModContent.ProjectileType<LythenStaffProjectile>())
+                    lerper++;
+                    LythenStaffProjectile LR = (_projectile.modProjectile as LythenStaffProjectile);
+                    if (LR.positionOfOthers[0] != Vector2.Zero && LR.positionOfOthers[1] != Vector2.Zero)
                     {
-                        lerper++;
-                        LythenStaffProjectile LR = (_projectile.modProjectile as LythenStaffProjectile);
-                        if (LR.positionOfOthers[0] != Vector2.Zero && LR.positionOfOthers[1] != Vector2.Zero)
-                        {
-                            _points = new List<Vector2>
+                        _points = new List<Vector2>
                           {
                           _projectile.Center,
                           LR.positionOfOthers[0],
                           LR.positionOfOthers[1]
                           };
-                        }
-                        else
-                        {
-                            active = false;
-                        }
                     }
+                    else
+                    {
+                        active = false;
+                    }
+                }
+            }
+            void DalantiniumPrimUpdates()
+            {
+                if (_projectile.type == ProjectileType<DalantiniumFan>())
+                {
+                    DalantiniumFan DF = (_projectile.modProjectile as DalantiniumFan);
+                    lerper++;
+                    _points.Add(DF.DrawPos);
+                    active = true;
+                    if (_points.Count > 10)
+                    {
+                        _points.RemoveAt(0);
+                    }
+                }
+            }
+            public Trail(ITrailCap cap, ITrailShader shader, Projectile projectile)
+            {
+                _trailShader = shader;
+                _projectile = projectile;
+                active = true;
+                UpdateMethods.Add(LythenPrimUpdates);
+                UpdateMethods.Add(DalantiniumPrimUpdates);
+            }
+            public void Update()
+            {
+                if (_projectile != null)
+                {
+                  foreach(UpdatePrimDelegate UPD in UpdateMethods)
+                  {
+                        UPD.Invoke();
+                  }
                 }
             }
             public void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
             {
+                //PREPARATION
                 if (_points.Count <= 1) return;
                 if (!active) return;
                 int currentIndex = 0;
-                VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[_points.Count];
+                VertexPositionColorTexture[] vertices;
                 void AddVertex(Vector2 position, Color color, Vector2 uv)
                 {
                     vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
                 }
+                void PrepareShader()
+                {
+                    int width = device.Viewport.Width;
+                    int height = device.Viewport.Height;
+                    Vector2 zoom = Main.GameViewMatrix.Zoom;
+                    Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+                    Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+                    effect.Parameters["WorldViewProjection"].SetValue(view * projection);
+                    _trailShader.ApplyShader(effect, this, _points);
+                }
+                //PRIM DELEGATES
+                DrawPrimDelegate LythenPrims = (int noOfPoints) =>
+                {
+                    vertices = new VertexPositionColorTexture[noOfPoints];
+                    AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    AddVertex(_points[1], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    PrepareShader();
+                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints/3);
+                };
+                DrawPrimDelegate DalantiniumPrims = (int noOfPoints) =>
+                {
+                    vertices = new VertexPositionColorTexture[noOfPoints];
+                    float width = 5;
+
+                        for (int i = 0; i < _points.Count; i++)
+                        {
+                        if (i == 0)
+                            {
+                                Vector2 normalAhead = CurveNormal(_points, i + 1);
+                                Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                                Vector2 secondDown = _points[i + 1] + normalAhead * width;
+                                AddVertex(_points[i], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(secondUp, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(secondDown, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            }
+                            else
+                            {
+
+                                if (i != _points.Count - 1)
+                                {
+                                    Vector2 normal = CurveNormal(_points, i);
+                                    Vector2 normalAhead = CurveNormal(_points, i + 1);
+                                    float j = (_points.Count - (i * 0.9f)) / 10f;
+                                    width *= (_points.Count - (i * 0.4f)) / 10f;
+                                    Vector2 firstUp = _points[i] - normal * width;
+                                    Vector2 firstDown = _points[i] + normal * width;
+                                    Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                                    Vector2 secondDown = _points[i + 1] + normalAhead * width;
+                                    AddVertex(firstUp, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(secondDown, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(firstDown, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    
+
+                                    AddVertex(secondUp, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                    AddVertex(secondDown, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                    AddVertex(firstUp, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                        }
+                   
+                        
+                    PrepareShader();
+                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                };
                 if (_projectile != null)
                 {
-                    if (_projectile.type == ModContent.ProjectileType<LythenStaffProjectile>())
+                    if(_projectile.type == ProjectileType<LythenStaffProjectile>())
                     {
-                        AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                        AddVertex(_points[1], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                        AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                        LythenPrims.Invoke(3);
+                    }
+                    if (_projectile.type == ProjectileType<DalantiniumFan>())
+                    {
+                        DalantiniumPrims.Invoke(51);
                     }
                 }
-                int width = device.Viewport.Width;
-                int height = device.Viewport.Height;
-                Vector2 zoom = Main.GameViewMatrix.Zoom;
-                Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
-                Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
-                effect.Parameters["WorldViewProjection"].SetValue(view * projection);
-                _trailShader.ApplyShader(effect, this, _points);
-                device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, 1);
             }
             //Helper methods
             private Vector2 CurveNormal(List<Vector2> points, int index)

@@ -626,8 +626,9 @@ namespace EEMod
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
             float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
+            if(Main.worldName == KeyID.Sea)
             Main.spriteBatch.Draw(TextureCache.OceanScreen, (Main.screenPosition + new Vector2(Main.screenWidth/2,100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
-            if (Main.worldName != KeyID.Sea)
+            else
             {
                 Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                 Main.spriteBatch.Draw(Outline, new Vector2(textPositionLeft - 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, new Rectangle(0, 0, Outline.Width, Outline.Height).Size() / 2, 1, SpriteEffects.None, 0);

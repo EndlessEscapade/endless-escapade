@@ -1,7 +1,9 @@
+using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
@@ -24,48 +26,56 @@ namespace EEMod.Projectiles.Mage
 			projectile.penetrate = 1;
 			projectile.tileCollide = false;
 			projectile.timeLeft = 999999;
-		}
-
-		int counter = 0;
-		bool firing = false;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+        }
 		Vector2 direction = Vector2.Zero;
-        int swingMomentum = 0;
         int degrees = 0;
+        public Vector2 DrawPos;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            double radians = degrees * (Math.PI / 180);
-            Color color = lightColor;
-
+            double radians = degrees.ToRadians();
             Player player = Main.player[projectile.owner];
-            Rectangle? sourceRectangle = null;
             direction.Normalize();
             Vector2 direction2 = direction * 4;
-            direction *= (float)(Math.Sin(counter * 0.2) * 3);
-            if (counter % 5 == 1)
+            direction *= (float)(Math.Sin(projectile.ai[0] * 0.2f) * 3);
+            if (projectile.ai[0] % 5 == 1)
             {
-                Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin((radians * -1) - 1.57), (float)Math.Cos((radians * -1) - 1.57)) * 6, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 6, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
-            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition + direction + new Vector2(0, -2) - direction2, sourceRectangle, color, (float)radians + 3.9f, new Vector2(0, 34), 1f, SpriteEffects.None, 0);
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                Color color2 = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), color2 * 0.5f, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            }
             return false;
         }
-
         public override bool PreAI()
 		{
-			Player player = Main.player[projectile.owner];
+            Player player = Main.player[projectile.owner];
 			player.heldProj = projectile.whoAmI;
-			if (counter == 0) {
+
+
+            if (projectile.ai[0] == 0) {
 				direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
 				direction.Normalize();
 				direction *= 7f;
-                degrees = (int)((direction.ToRotation() - 3.14) * 57);
+                degrees = (int)((direction.ToRotation() - (float)Math.PI) * 57);
+                int chooser = Main.rand.Next(0, 2);
+                if(chooser == 0)
+                projectile.ai[1] = Main.rand.Next(-11, -8);
+                if (chooser == 1)
+                projectile.ai[1] = Main.rand.Next(8, 11);
+                degrees -= (int)projectile.ai[1] * 8;
 
-                swingMomentum = Main.rand.Next(-6, 9);
-                degrees -= swingMomentum * 8;
+                projectile.netUpdate = true;
             }
-            counter++;
-            if (counter < 15)
+            projectile.ai[0]++;
+            if (projectile.ai[0] < 10)
             {
-                degrees += swingMomentum;
+                degrees += (int)projectile.ai[1];
             }
             else
             {
@@ -78,6 +88,10 @@ namespace EEMod.Projectiles.Mage
                 player.itemAnimation = 1;
                 player.itemTime = 1;
             }
+            
+            DrawPos = Main.player[projectile.owner].Center + (degrees + 180).ToRadians().ToRotationVector2()*50;
+            projectile.Center = Main.player[projectile.owner].Center + (degrees + 180).ToRadians().ToRotationVector2() * 15;
+            projectile.rotation = degrees.ToRadians() + 3.9f;
             return true;
 		}
 	}
