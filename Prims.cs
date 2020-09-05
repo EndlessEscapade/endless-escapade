@@ -339,23 +339,25 @@ namespace EEMod
                 {
                     vertices = new VertexPositionColorTexture[noOfPoints];
                     float width = 5;
-
-                        for (int i = 0; i < _points.Count; i++)
+                    float alphaValue = 0.2f;
+                    for (int i = 0; i < _points.Count; i++)
                         {
                         if (i == 0)
                             {
-                                Vector2 normalAhead = CurveNormal(_points, i + 1);
+                            Color c = Color.DarkRed;
+                            Vector2 normalAhead = CurveNormal(_points, i + 1);
                                 Vector2 secondUp = _points[i + 1] - normalAhead * width;
                                 Vector2 secondDown = _points[i + 1] + normalAhead * width;
-                                AddVertex(_points[i], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(secondUp, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(secondDown, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                             }
                             else
                             {
-
+                                
                                 if (i != _points.Count - 1)
                                 {
+                                Color c = Color.Red;
                                     Vector2 normal = CurveNormal(_points, i);
                                     Vector2 normalAhead = CurveNormal(_points, i + 1);
                                     float j = (_points.Count - (i * 0.9f)) / 10f;
@@ -364,14 +366,14 @@ namespace EEMod
                                     Vector2 firstDown = _points[i] + normal * width;
                                     Vector2 secondUp = _points[i + 1] - normalAhead * width;
                                     Vector2 secondDown = _points[i + 1] + normalAhead * width;
-                                    AddVertex(firstUp, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                    AddVertex(secondDown, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                    AddVertex(firstDown, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                                     
 
-                                    AddVertex(secondUp, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                    AddVertex(secondDown, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                    AddVertex(firstUp, new Color(j, j, j, j), new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                    AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                    AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                    AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
                                 }
                                 else
                                 {
