@@ -23,7 +23,7 @@ namespace EEMod.Items.Weapons.Mage
             item.knockBack = 1f;
             item.value = Item.sellPrice(0, 0, 21);
             item.mana = 7;
-            item.shootSpeed = 7f;
+            item.shootSpeed = 4f;
             item.useTime = 360;
             item.useAnimation = 360;
             item.rare = ItemRarityID.Orange;
@@ -33,11 +33,12 @@ namespace EEMod.Items.Weapons.Mage
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.shoot = ModContent.ProjectileType<DalantiniumFan>();
             item.noUseGraphic = true;
+            item.UseSound = SoundID.Item1;
         }
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(0, -2);
+            return new Vector2(0, 0);
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -54,7 +55,6 @@ namespace EEMod.Items.Weapons.Mage
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
-            recipe.AddIngredient(ItemID.ThrowingKnife, 20);
             recipe.SetResult(this);
             recipe.AddTile(TileID.Anvils);
             recipe.AddRecipe();

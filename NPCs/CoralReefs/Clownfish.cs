@@ -4,11 +4,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class Eel : ModNPC
+    public class Clownfish : ModNPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eel");
+            DisplayName.SetDefault("Clownfish");
             //Main.npcFrameCount[npc.type] = 3;
         }
 

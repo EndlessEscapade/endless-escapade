@@ -41,7 +41,7 @@ namespace EEMod.Projectiles.Mage
             direction *= (float)(Math.Sin(projectile.ai[0] * 0.2f) * 3);
             if (projectile.ai[0] % 5 == 1)
             {
-                Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 6, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
             for (int k = 0; k < projectile.oldPos.Length; k++)

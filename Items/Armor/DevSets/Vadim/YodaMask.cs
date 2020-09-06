@@ -11,7 +11,7 @@ namespace EEMod.Items.Armor.DevSets.Vadim
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Yoda Mask");
-            Tooltip.SetDefault("'Great for impersonating mod devs!'/nReminds you of a 2001 Honda Civic");
+            Tooltip.SetDefault("'Great for impersonating mod devs!'\nReminds you of a 2001 Honda Civic");
         }
 
         public override void SetDefaults()
