@@ -32,8 +32,10 @@ namespace EEMod.Projectiles.Mage
 		Vector2 direction = Vector2.Zero;
         int degrees = 0;
         public Vector2 DrawPos;
+        float lerp;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
+
             double radians = degrees.ToRadians();
             Player player = Main.player[projectile.owner];
             direction.Normalize();
@@ -42,6 +44,13 @@ namespace EEMod.Projectiles.Mage
             if (projectile.ai[0] % 5 == 1)
             {
                 Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
+            }
+            if (boost > 2000 && boost % 1500 <= 200)
+            {
+                lerp += 0.1f;
+                lightColor.R = (byte)(lightColor.R + ((Color.Pink.R * 10) - lightColor.R) * lerp);
+                lightColor.G = (byte)(lightColor.G + ((Color.Pink.G * 10) - lightColor.G) * lerp);
+                lightColor.B = (byte)(lightColor.B + ((Color.Pink.B * 10) - lightColor.B) * lerp);
             }
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
             for (int k = 0; k < projectile.oldPos.Length; k++)
@@ -52,12 +61,12 @@ namespace EEMod.Projectiles.Mage
             }
             return false;
         }
+        public int boost;
+        public bool chungus;
         public override bool PreAI()
 		{
             Player player = Main.player[projectile.owner];
 			player.heldProj = projectile.whoAmI;
-
-
             if (projectile.ai[0] == 0) {
 				direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
 				direction.Normalize();
@@ -73,7 +82,7 @@ namespace EEMod.Projectiles.Mage
                 projectile.netUpdate = true;
             }
             projectile.ai[0]++;
-            if (projectile.ai[0] < 10)
+            if (projectile.ai[0] < 15)
             {
                 degrees += (int)projectile.ai[1];
             }

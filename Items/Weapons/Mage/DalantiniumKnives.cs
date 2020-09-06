@@ -40,17 +40,43 @@ namespace EEMod.Items.Weapons.Mage
         {
             return new Vector2(0, 0);
         }
-
-        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        int powerUp;
+        public override void HoldItem(Player player)
         {
-            Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-            if (Main.netMode != NetmodeID.Server)
+            if(powerUp < 2000)
+            powerUp++;
+        }
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {  
+            if (player.altFunctionUse == 0)
             {
-                EEMod.Prims.CreateTrail(projectile);
+                type = ModContent.ProjectileType<DalantiniumFan>();
+                item.shoot = ModContent.ProjectileType<DalantiniumFan>();
+                Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                powerUp += 200;
+                (projectile.modProjectile as DalantiniumFan).boost = powerUp;
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    EEMod.Prims.CreateTrail(projectile);
+                }
+            }
+            if (player.altFunctionUse == 2)
+            {
+                type = ModContent.ProjectileType<DalantiniumFanAlt>();
+                item.shoot = ModContent.ProjectileType<DalantiniumFanAlt>();
+                Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                powerUp = 0;
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    EEMod.Prims.CreateTrail(projectile);
+                }
             }
             return false;
         }
-
+        public override bool AltFunctionUse(Player player)
+        {
+            return powerUp > 2000;
+        }
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

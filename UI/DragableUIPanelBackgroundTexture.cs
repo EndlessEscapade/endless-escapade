@@ -54,7 +54,6 @@ namespace EEMod.UI
                 if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
                     spriteBatch.Draw(_backgroundTexture, new Rectangle(point1.X, point1.Y, width, height), color[i]);
             }
-
         }
     }
 }

@@ -79,17 +79,27 @@ namespace EEMod
         {
             for (int i = 0; i < _trails.Count; i++)
             {
-                if (_trails[i]._projectile.type != ProjectileType<DalantiniumFan>())
+                if (!_trails[i]._projectile.active)
                 {
-                    if (!_trails[i]._projectile.active)
+                    if (_trails[i]._projectile.type != ProjectileType<DalantiniumFan>() &&
+                    _trails[i]._projectile.type != ProjectileType<DalantiniumFanAlt>())
                     {
                         _trails.RemoveAt(i);
                     }
-                }
-                else
-                if (_trails[i].lerper > 20)
-                {
-                    _trails.RemoveAt(i);
+                    if (_trails[i].lerper > 20 && _trails[i]._projectile.type == ProjectileType<DalantiniumFan>())
+                    {
+                        _trails.RemoveAt(i);
+                    }
+                    if (i >= 0 && i < _trails.Count)
+                    {
+                        if (_trails[i]._projectile.type == ProjectileType<DalantiniumFanAlt>())
+                        {
+                            if (_trails[i].lerper > 1000)
+                            {
+                                _trails.RemoveAt(i);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -250,6 +260,7 @@ namespace EEMod
             public List<Vector2> _points = new List<Vector2>();
             public bool active;
             public int lerper;
+            float DalCap;
             List<UpdatePrimDelegate> UpdateMethods = new List<UpdatePrimDelegate>();
             void LythenPrimUpdates()
             {
@@ -276,11 +287,27 @@ namespace EEMod
             {
                 if (_projectile.type == ProjectileType<DalantiniumFan>())
                 {
+                    DalCap = 10;
                     DalantiniumFan DF = (_projectile.modProjectile as DalantiniumFan);
                     lerper++;
                     _points.Add(DF.DrawPos);
                     active = true;
                     if (_points.Count > 10)
+                    {
+                        _points.RemoveAt(0);
+                    }
+                }
+            }
+            void DalantiniumAltPrimUpdates()
+            {
+                if (_projectile.type == ProjectileType<DalantiniumFanAlt>())
+                {
+                    DalCap = 10;
+                    DalantiniumFanAlt DF = (_projectile.modProjectile as DalantiniumFanAlt);
+                    lerper++;
+                    _points.Add(_projectile.Center);
+                    active = true;
+                    if (_points.Count > DalCap)
                     {
                         _points.RemoveAt(0);
                     }
@@ -293,6 +320,7 @@ namespace EEMod
                 active = true;
                 UpdateMethods.Add(LythenPrimUpdates);
                 UpdateMethods.Add(DalantiniumPrimUpdates);
+                UpdateMethods.Add(DalantiniumAltPrimUpdates);
             }
             public void Update()
             {
@@ -324,6 +352,20 @@ namespace EEMod
                     Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
                     effect.Parameters["WorldViewProjection"].SetValue(view * projection);
                     _trailShader.ApplyShader(effect, this, _points);
+                }
+                void PrepareBasicShader()
+                {
+                    int width = device.Viewport.Width;
+                    int height = device.Viewport.Height;
+                    Vector2 zoom = Main.GameViewMatrix.Zoom;
+                    Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+                    Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+                    effect2.View = view;
+                    effect2.Projection = projection;
+                    foreach (EffectPass pass in effect2.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+                    }
                 }
                 //PRIM DELEGATES
                 DrawPrimDelegate LythenPrims = (int noOfPoints) =>
@@ -382,9 +424,58 @@ namespace EEMod
                                 }
                             }
                         }
-                   
-                        
-                    PrepareShader();
+
+
+                    PrepareBasicShader();
+                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                };
+                DrawPrimDelegate DalantiniumAltPrims = (int noOfPoints) =>
+                {
+                    vertices = new VertexPositionColorTexture[noOfPoints];
+                    float width = 6;
+                    float alphaValue = 0.1f;
+                    for (int i = 0; i < _points.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            Color c = Color.DarkRed;
+                            Vector2 normalAhead = CurveNormal(_points, i + 1);
+                            Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                            Vector2 secondDown = _points[i + 1] + normalAhead * width;
+                            AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                        }
+                        else
+                        {
+                            if (i != _points.Count - 1)
+                            {
+                                Color c = Color.Red;
+                                Vector2 normal = CurveNormal(_points, i);
+                                Vector2 normalAhead = CurveNormal(_points, i + 1);
+                                float j = (DalCap + ((float)(Math.Sin(lerper/10f))*1) - i*0.05f) / DalCap;
+                                width *= j;
+                                Vector2 firstUp = _points[i] - normal * width;
+                                Vector2 firstDown = _points[i] + normal * width;
+                                Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                                Vector2 secondDown = _points[i + 1] + normalAhead * width;
+
+                                AddVertex(firstUp, c * alphaValue, new Vector2(1));
+                                AddVertex(secondDown, c * alphaValue, new Vector2(0));
+                                AddVertex(firstDown, c * alphaValue, new Vector2(0));
+
+
+                                AddVertex(secondUp, c * alphaValue, new Vector2(1));
+                                AddVertex(secondDown, c * alphaValue, new Vector2(0));
+                                AddVertex(firstUp, c * alphaValue, new Vector2(0));
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+                    PrepareBasicShader();
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
                 if (_projectile != null)
@@ -396,6 +487,10 @@ namespace EEMod
                     if (_projectile.type == ProjectileType<DalantiniumFan>())
                     {
                         DalantiniumPrims.Invoke(51);
+                    }
+                    if (_projectile.type == ProjectileType<DalantiniumFanAlt>())
+                    {
+                        DalantiniumAltPrims.Invoke((int)DalCap*6 - 9);
                     }
                 }
             }
