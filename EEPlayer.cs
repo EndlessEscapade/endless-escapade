@@ -142,7 +142,6 @@ namespace EEMod
 
         public override void PostUpdate()
         {
-
         }
 
         public override void UpdateBiomes()

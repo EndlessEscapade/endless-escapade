@@ -12,7 +12,7 @@ namespace EEMod.UI
     {
 
         public Texture2D _backgroundTexture = null;
-        Color color = new Color(0, 0, 0);
+        Color[] color = new Color[5];
         public DragableUIPanelBackgroundTexture(string Texture)
         {
             _backgroundTexture = ModContent.GetTexture(Texture);
@@ -34,22 +34,26 @@ namespace EEMod.UI
                 {
                     if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
                     {
-                        if (color.R < 255)
-                            color.R++;
-                        if (color.R < 255)
-                            color.G++;
-                        if (color.B < 255)
-                            color.B++;
+                        if (color[i].R < 255)
+                            color[i].R++;
+                        if (color[i].G < 255)
+                            color[i].G++;
+                        if (color[i].B < 255)
+                            color[i].B++;
                     }
                 }
                 else
-                    color = Color.Black;
+                color[i] = Color.Black;
             }
             CalculatedStyle dimensions = GetDimensions();
             Point point1 = new Point((int)dimensions.X, (int)dimensions.Y);
             int width = (int)Math.Ceiling(dimensions.Width);
             int height = (int)Math.Ceiling(dimensions.Height);
-            spriteBatch.Draw(_backgroundTexture, new Rectangle(point1.X, point1.Y, width, height), color);
+            for (int i = 0; i < 5; i++)
+            {
+                if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
+                    spriteBatch.Draw(_backgroundTexture, new Rectangle(point1.X, point1.Y, width, height), color[i]);
+            }
 
         }
     }
