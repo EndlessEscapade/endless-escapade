@@ -11,7 +11,6 @@ using EEMod.Tiles.Furniture.Coral;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
 using System.Collections.Generic;
-using EEMod.Arrays;
 using Terraria.ModLoader.IO;
 using EEMod.ID;
 

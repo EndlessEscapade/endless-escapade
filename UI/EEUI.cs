@@ -33,6 +33,7 @@ namespace EEMod.UI
             "EEMod/Projectiles/Runes/RunePlacement",
             "EEMod/Projectiles/Runes/RunePlacement"
             };
+
         bool[] isPulsating = new bool[7];
         Vector2[] sizes = new Vector2[7];
         DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[9];

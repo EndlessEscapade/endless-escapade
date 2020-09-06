@@ -3,6 +3,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 using EEMod.Projectiles.Melee;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -17,9 +18,9 @@ namespace EEMod.Items.Weapons.Melee
         {
             item.damage = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 70;
-            item.useTime = 24;
-            item.shootSpeed = 4;
+            item.useAnimation = 60;
+            item.useTime = 60;
+            item.shootSpeed = 16f;
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;
@@ -30,10 +31,38 @@ namespace EEMod.Items.Weapons.Melee
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.autoReuse = true;
+            item.autoReuse = false;
 
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse == 0)
+            {
+                type = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
+                speedX = 0;
+                speedY = 0;
+                item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
+            }
+            if (player.altFunctionUse == 2)
+            {
+                type = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
+                item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
+            }
+            Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            return false;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return player.ownedProjectileCounts[ModContent.ProjectileType<HydrofluoricWarhammerProj>()] <= 0 || player.ownedProjectileCounts[ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>()] <= 0;
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
         }
 
         public override void AddRecipes()
