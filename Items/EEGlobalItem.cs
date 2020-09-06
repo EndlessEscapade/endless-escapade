@@ -33,7 +33,7 @@ namespace EEMod.Items
             }
         }
 
-        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        /*public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
         {
             if (averageSizeFish.Contains(item.type) || smallSizeFish.Contains(item.type) || bigSizeFish.Contains(item.type))
             {
@@ -41,15 +41,15 @@ namespace EEMod.Items
                 newLine.overrideColor = Color.Gold;
                 tooltips.Add(newLine);
             }
-        }
+        }*/
 
-        public override void SetDefaults(Item item)
+        /*public override void SetDefaults(Item item)
         {
             if (averageSizeFish.Contains(item.type) || smallSizeFish.Contains(item.type) || bigSizeFish.Contains(item.type))
                 item.maxStack = 1;
-        }
+        }*/
 
-        public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        /*public override void PostDrawInInventory(Item item, SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
             if (averageSizeFish.Contains(item.type) && item.GetGlobalItem<EEGlobalItem>().fishLength == 32)
                 Main.spriteBatch.Draw(TextureCache.Star, position, Color.White);
@@ -57,46 +57,17 @@ namespace EEMod.Items
                 Main.spriteBatch.Draw(TextureCache.Star, position, Color.White);
             if (bigSizeFish.Contains(item.type) && item.GetGlobalItem<EEGlobalItem>().fishLength == 44)
                 Main.spriteBatch.Draw(TextureCache.Star, position, Color.White);
-        }
+        }*/
 
         public override bool OnPickup(Item item, Player player)
         {
+            EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
             if (averageSizeFish.Contains(item.type))
-            {
-                if (item.GetGlobalItem<EEGlobalItem>().fishLength == 0)
-                {
-                    item.GetGlobalItem<EEGlobalItem>().fishLength = Main.rand.Next(12, 33) * (int)(1 + Main.player[Main.myPlayer].fishingSkill/100);
-                    if (item.GetGlobalItem<EEGlobalItem>().fishLength > 32) fishLength = 32;
-                    if (fishLength == 32)
-                        item.value = item.value * 2;
-                    else
-                        item.value = item.GetGlobalItem<EEGlobalItem>().fishLength * (item.value / 100) * 5;
-                }
-            }
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(12, 33) * (int)(1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 32);
             if (smallSizeFish.Contains(item.type))
-            {
-                if (item.GetGlobalItem<EEGlobalItem>().fishLength == 0)
-                {
-                    item.GetGlobalItem<EEGlobalItem>().fishLength = Main.rand.Next(8, 17) * (int)(1 + Main.player[Main.myPlayer].fishingSkill / 100);
-                    if (item.GetGlobalItem<EEGlobalItem>().fishLength > 16) fishLength = 16;
-                    if (fishLength == 16)
-                        item.value = item.value * 2;
-                    else
-                        item.value = item.GetGlobalItem<EEGlobalItem>().fishLength * (item.value / 100) * 5;
-                }
-            }
-            if(bigSizeFish.Contains(item.type))
-            {
-                if (item.GetGlobalItem<EEGlobalItem>().fishLength == 0)
-                {
-                    item.GetGlobalItem<EEGlobalItem>().fishLength = Main.rand.Next(18, 45) * (int)(1 + Main.player[Main.myPlayer].fishingSkill / 100);
-                    if (item.GetGlobalItem<EEGlobalItem>().fishLength > 44) fishLength = 44;
-                    if (fishLength == 44)
-                        item.value = item.value * 2;
-                    else
-                        item.value = item.GetGlobalItem<EEGlobalItem>().fishLength * (item.value / 100) * 5;
-                }
-            }
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(8, 17) * (int)(1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 16);
+            if (bigSizeFish.Contains(item.type))
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(18, 45) * (int)(1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 44);
             return true;
         }
 

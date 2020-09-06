@@ -106,6 +106,8 @@ namespace EEMod
         public bool isPickingUp;
         float propagation;
 
+        public Dictionary<int, int> fishLengths = new Dictionary<int, int>();
+
         public int bubbleRuneBubble = 0;
 
         int displaceX = 2;
@@ -500,7 +502,7 @@ namespace EEMod
         }
 
         public override void UpdateBiomeVisuals()
-        {
+        { 
             if (isWearingCape)
             {
                 UpdateArrayPoints();
@@ -900,7 +902,8 @@ namespace EEMod
                 ["baseworldname"] = baseWorldName,
                 ["importantCutscene"] = importantCutscene,
                 ["swiftSail"] = boatSpeed,
-                ["cannonball"] = cannonballType
+                ["cannonball"] = cannonballType//,
+                //["fishLengths"] = fishLengths
                 /*
              {"Hours", Hours},
 		     {"Minutes", Minutes},
@@ -935,6 +938,10 @@ namespace EEMod
             {
                 cannonballType = tag.GetInt("cannonball");
             }
+            /*if (tag.ContainsKey("fishLengths"))
+            {
+                fishLengths = tag.GetList("fishLengths");
+            }*/
             /*
                 if (tag.ContainsKey("Hours"))
 		           Hours = tag.GetInt("Hours");
