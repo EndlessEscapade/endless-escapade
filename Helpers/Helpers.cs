@@ -82,15 +82,17 @@ namespace EEMod
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
 
-        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2)
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2,float rotOffset)
         {
             //USE IN PROPER HOOK PLZ THX
             float width = tex.Width;
             float length = (p1 - p2).Length();
+            float rotation = (p1 - p2).ToRotation();
+            Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
             for (float i = 0; i<1; i += width/length)
             {
                 Vector2 lerp = p1 + (p2 - p1) * i;
-                Main.spriteBatch.Draw(tex, lerp.ForDraw(), Color.White);
+                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size()/2,1f,SpriteEffects.None,0f);
             }
         }
         public static Vector2 TraverseBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float t)
