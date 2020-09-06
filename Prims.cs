@@ -96,8 +96,8 @@ namespace EEMod
                         {
                             if (_trails[i].lerper > 165)
                             {
-                                _trails.RemoveAt(i);
                                 _trails[i]._points.Clear();
+                                _trails.RemoveAt(i);
                             }
                         }
                     }
