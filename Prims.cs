@@ -357,7 +357,7 @@ namespace EEMod
                                 
                                 if (i != _points.Count - 1)
                                 {
-                                Color c = Color.Red;
+                                    Color c = Color.Red;
                                     Vector2 normal = CurveNormal(_points, i);
                                     Vector2 normalAhead = CurveNormal(_points, i + 1);
                                     float j = (_points.Count - (i * 0.9f)) / 10f;
@@ -366,6 +366,7 @@ namespace EEMod
                                     Vector2 firstDown = _points[i] + normal * width;
                                     Vector2 secondUp = _points[i + 1] - normalAhead * width;
                                     Vector2 secondDown = _points[i + 1] + normalAhead * width;
+
                                     AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                                     AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                                     AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));

@@ -106,11 +106,6 @@ namespace EEMod.Projectiles.Runes
                 projectile.ai[0]++;
                 flash = 0;
                 target.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] = 1;
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive())
-                {
-                    EEMod.isAscending = true;
-                    Filters.Scene.Activate("EEMod:WhiteFlash", projectile.Center).GetShader().UseOpacity(projectile.ai[0]);
-                }
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
