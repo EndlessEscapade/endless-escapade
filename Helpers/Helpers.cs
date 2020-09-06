@@ -82,7 +82,7 @@ namespace EEMod
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
 
-        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2,float rotOffset)
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2,float rotOffset = 0)
         {
             //USE IN PROPER HOOK PLZ THX
             float width = tex.Width;
