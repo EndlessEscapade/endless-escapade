@@ -86,8 +86,8 @@ namespace EEMod
         public bool isNearMainIsland;
         public bool isNearCoralReefs;
         public string baseWorldName;
-        public byte[] hasGottenRuneBefore = new byte[5];
-        public byte[] inPossesion = new byte[5];
+        public byte[] hasGottenRuneBefore = new byte[7];
+        public byte[] inPossesion = new byte[7];
         public static int moralScore;
         public int initialMoralScore;
         readonly SubworldManager SM = new SubworldManager();
@@ -105,6 +105,8 @@ namespace EEMod
         public int cannonballType = 0;
         public bool isPickingUp;
         float propagation;
+
+        public Dictionary<int, int> fishLengths = new Dictionary<int, int>();
 
         public int bubbleRuneBubble = 0;
 
@@ -347,6 +349,8 @@ namespace EEMod
                                                 {2,new []{false,false }},
                                                 {3,new []{false,false }},
                                                 {4,new []{false,false }},
+                                                {5,new []{false,false }},
+                                                {6,new []{false,false }},
                                             };
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {
@@ -499,7 +503,7 @@ namespace EEMod
         }
 
         public override void UpdateBiomeVisuals()
-        {
+        { 
             if (isWearingCape)
             {
                 UpdateArrayPoints();
@@ -528,11 +532,11 @@ namespace EEMod
                 dur--;
             }
             Moral();
-            if (player.controlHook)
+            /*if (player.controlHook)
             {
                 for (int i = 0; i < hasGottenRuneBefore.Length; i++)
                     hasGottenRuneBefore[i] = 0;
-            }
+            }*/
             EEMod.isSaving = false;
             if (Main.worldName != KeyID.Sea)
             {
@@ -695,28 +699,33 @@ namespace EEMod
                             {
                                 if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                                 {
+                                    Main.NewText("funny");
                                     if (bubbleRuneBubble == 0)
                                     {
                                         bubbleRuneBubble = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
+                                    }
+                                    else
+                                    {
+                                        Main.projectile[bubbleRuneBubble].Kill();
                                     }
                                     runeCooldown = 600;
                                 }
                                 else
                                 {
-                                    player.gravity = 0;
-                                    if (player.controlUp)
+                                    if (player.wet)
                                     {
-                                        player.gravity = -0.2f;
-                                    }
-                                    if (player.controlDown)
-                                    {
-                                        player.gravity = 0.2f;
+                                        player.gravity = 0;
+                                        if (player.controlUp)
+                                            player.gravity = -0.1f;
+                                        if (player.controlDown)
+                                            player.gravity = 0.1f;
                                     }
                                 }
                                 break;
                             }
                         case RuneID.LeafRune:
                             {
+                                Main.NewText("haha");
                                 if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                                 {
                                     runeCooldown = 180;
@@ -729,6 +738,34 @@ namespace EEMod
                                 break;
                             }
                         case RuneID.FireRune:
+                            {
+                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                {
+                                    runeCooldown = 180;
+                                }
+                                else
+                                {
+                                    player.dash = 3;
+                                }
+                                player.moveSpeed *= 1.06f;
+                                player.statDefense = (int)(player.statDefense * 0.93f);
+                                break;
+                            }
+                        case RuneID.IceRune:
+                            {
+                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                {
+                                    runeCooldown = 180;
+                                }
+                                else
+                                {
+                                    player.dash = 3;
+                                }
+                                player.moveSpeed *= 1.06f;
+                                player.statDefense = (int)(player.statDefense * 0.93f);
+                                break;
+                            }
+                        case RuneID.SkyRune:
                             {
                                 if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                                 {
@@ -899,7 +936,8 @@ namespace EEMod
                 ["baseworldname"] = baseWorldName,
                 ["importantCutscene"] = importantCutscene,
                 ["swiftSail"] = boatSpeed,
-                ["cannonball"] = cannonballType
+                ["cannonball"] = cannonballType//,
+                //["fishLengths"] = fishLengths
                 /*
              {"Hours", Hours},
 		     {"Minutes", Minutes},
@@ -934,6 +972,10 @@ namespace EEMod
             {
                 cannonballType = tag.GetInt("cannonball");
             }
+            /*if (tag.ContainsKey("fishLengths"))
+            {
+                fishLengths = tag.GetList("fishLengths");
+            }*/
             /*
                 if (tag.ContainsKey("Hours"))
 		           Hours = tag.GetInt("Hours");

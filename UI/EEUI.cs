@@ -18,30 +18,32 @@ namespace EEMod.UI
 
         public override void OnDeactivate()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
                 isPulsating[i] = false;
         }
 
         public string[] StringOfTextures = {
             "EEMod/Projectiles/Runes/DesertRune",
             "EEMod/Projectiles/Runes/DepocaditaRune",
-            "EEMod/Projectiles/Runes/FeralWrathRune",
             "EEMod/Projectiles/Runes/BubblingWatersRune",
+            "EEMod/Projectiles/Runes/FeralWrathRune",
             "EEMod/Projectiles/Runes/IgnisRune",
+            "EEMod/Projectiles/Runes/PermafrostRune",
+            "EEMod/Projectiles/Runes/CycloneStormRune",
             "EEMod/Projectiles/Runes/RunePlacement",
             "EEMod/Projectiles/Runes/RunePlacement"
             };
-        bool[] isPulsating = new bool[5];
-        Vector2[] sizes = new Vector2[5];
-        DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[7];
+        bool[] isPulsating = new bool[7];
+        Vector2[] sizes = new Vector2[7];
+        DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[9];
         public float pivot;
         public int pauseTimer;
         public override void OnInitialize()
         {
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 9; i++)
             {
                 panels[i] = new DragableUIPanelBackgroundTexture(StringOfTextures[i]);
-                if (i < 5)
+                if (i < 7)
                 {
                     panels[i].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
                     panels[i].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
@@ -55,19 +57,21 @@ namespace EEMod.UI
             panels[2].OnClick += OnButtonClick3;
             panels[3].OnClick += OnButtonClick4;
             panels[4].OnClick += OnButtonClick5;
+            panels[5].OnClick += OnButtonClick6;
+            panels[6].OnClick += OnButtonClick7;
 
-            panels[5].Width.Set(100, 0);
-            panels[5].Height.Set(100, 0);
-            panels[5].Left.Set(Main.screenWidth * .5f - 150, 0);
-            panels[5].Top.Set(450, 0);
-            panels[5].OnClick += ChooseFirstRune;
-            Append(panels[5]);
-            panels[6].Width.Set(100, 0);
-            panels[6].Height.Set(100, 0);
-            panels[6].Left.Set(Main.screenWidth * .5f + 50, 0);
-            panels[6].Top.Set(450, 0);
-            panels[6].OnClick += ChooseSecondRune;
-            Append(panels[6]);
+            panels[7].Width.Set(100, 0);
+            panels[7].Height.Set(100, 0);
+            panels[7].Left.Set(Main.screenWidth * .5f - 150, 0);
+            panels[7].Top.Set(450, 0);
+            panels[7].OnClick += ChooseFirstRune;
+            Append(panels[7]);
+            panels[8].Width.Set(100, 0);
+            panels[8].Height.Set(100, 0);
+            panels[8].Left.Set(Main.screenWidth * .5f + 50, 0);
+            panels[8].Top.Set(450, 0);
+            panels[8].OnClick += ChooseSecondRune;
+            Append(panels[8]);
 
         }
 
@@ -75,7 +79,7 @@ namespace EEMod.UI
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] == 1)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 7; i++)
                     isPulsating[i] = false;
                 isPulsating[0] = true;
             }
@@ -88,7 +92,7 @@ namespace EEMod.UI
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[1] == 1)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 7; i++)
                     isPulsating[i] = false;
                 isPulsating[1] = true;
             }
@@ -101,7 +105,7 @@ namespace EEMod.UI
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[2] == 1)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 7; i++)
                     isPulsating[i] = false;
                 isPulsating[2] = true;
             }
@@ -114,7 +118,7 @@ namespace EEMod.UI
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[3] == 1)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 7; i++)
                     isPulsating[i] = false;
                 isPulsating[3] = true;
             }
@@ -127,7 +131,7 @@ namespace EEMod.UI
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[4] == 1)
             {
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 7; i++)
                     isPulsating[i] = false;
                 isPulsating[4] = true;
             }
@@ -136,19 +140,45 @@ namespace EEMod.UI
                 isPulsating[4] = false;
             }
         }
+        private void OnButtonClick6(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[5] == 1)
+            {
+                for (int i = 0; i < 7; i++)
+                    isPulsating[i] = false;
+                isPulsating[5] = true;
+            }
+            else
+            {
+                isPulsating[5] = false;
+            }
+        }
+        private void OnButtonClick7(UIMouseEvent evt, UIElement listeningElement)
+        {
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[6] == 1)
+            {
+                for (int i = 0; i < 7; i++)
+                    isPulsating[i] = false;
+                isPulsating[6] = true;
+            }
+            else
+            {
+                isPulsating[6] = false;
+            }
+        }
         private void ChooseFirstRune(UIMouseEvent evt, UIElement listeningElement)
         {
-            Texture2D textBeforeChange = panels[5]._backgroundTexture;
-            for (int i = 0; i < 5; i++)
+            Texture2D textBeforeChange = panels[7]._backgroundTexture;
+            for (int i = 0; i < 7; i++)
             {
                 if (isPulsating[i])
                 {
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().inPossesion[i] = 1;
-                    panels[5]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
-                    panels[5].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
-                    panels[5].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
-                    panels[5].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width / 2 - 100, 0);
-                    panels[5].Top.Set(500 - ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
+                    panels[7]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
+                    panels[7].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
+                    panels[7].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
+                    panels[7].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width / 2 - 100, 0);
+                    panels[7].Top.Set(500 - ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
                     break;
                 }
                 else
@@ -156,24 +186,24 @@ namespace EEMod.UI
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().inPossesion[i] = 0;
                 }
             }
-            if (panels[5]._backgroundTexture == panels[6]._backgroundTexture)
+            if (panels[7]._backgroundTexture == panels[8]._backgroundTexture)
             {
-                panels[5]._backgroundTexture = textBeforeChange;
+                panels[7]._backgroundTexture = textBeforeChange;
             }
         }
         private void ChooseSecondRune(UIMouseEvent evt, UIElement listeningElement)
         {
-            Texture2D textBeforeChange = panels[6]._backgroundTexture;
-            for (int i = 0; i < 5; i++)
+            Texture2D textBeforeChange = panels[8]._backgroundTexture;
+            for (int i = 0; i < 7; i++)
             {
                 if (isPulsating[i])
                 {
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().inPossesion[i] = 1;
-                    panels[6]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
-                    panels[6].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
-                    panels[6].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
-                    panels[6].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + 100, 0);
-                    panels[6].Top.Set(500 - +ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
+                    panels[8]._backgroundTexture = ModContent.GetTexture(StringOfTextures[i]);
+                    panels[8].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
+                    panels[8].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
+                    panels[8].Left.Set(Main.screenWidth * .5f - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + 100, 0);
+                    panels[8].Top.Set(500 - +ModContent.GetTexture(StringOfTextures[i]).Height / 2, 0);
                     break;
                 }
                 else
@@ -181,9 +211,9 @@ namespace EEMod.UI
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().inPossesion[i] = 0;
                 }
             }
-            if (panels[5]._backgroundTexture == panels[6]._backgroundTexture)
+            if (panels[7]._backgroundTexture == panels[8]._backgroundTexture)
             {
-                panels[6]._backgroundTexture = textBeforeChange;
+                panels[8]._backgroundTexture = textBeforeChange;
             }
         }
 
@@ -191,13 +221,13 @@ namespace EEMod.UI
         public override void Update(GameTime gameTime)
         {
             pivot = 0.05f;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
             {
-                panels[i].Left.Set((Main.screenWidth / 2) - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + (float)(Math.Sin((pivot / 10) + (Math.PI * (i * 2)) / 5)) * 200, 0);
-                panels[i].Top.Set((Main.screenHeight / 2) - ModContent.GetTexture(StringOfTextures[i]).Height / 2 + (float)(Math.Cos((pivot / 10) + (Math.PI * (i * 2)) / 5)) * 200, 0);
+                panels[i].Left.Set((Main.screenWidth / 2) - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + (float)(Math.Sin((pivot / 10) + (Math.PI * (i * 2)) / 7)) * 200, 0);
+                panels[i].Top.Set((Main.screenHeight / 2) - ModContent.GetTexture(StringOfTextures[i]).Height / 2 + (float)(Math.Cos((pivot / 10) + (Math.PI * (i * 2)) / 7)) * 200, 0);
             }
             pulsatingControl += 0.2f;
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 7; i++)
             {
                 if (isPulsating[i])
                 {

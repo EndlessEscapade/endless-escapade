@@ -19,7 +19,7 @@ namespace EEMod.Projectiles.Runes
         {
             projectile.width = 136;
             projectile.height = 136;
-            projectile.aiStyle = 1;
+            projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.penetrate = 1;
