@@ -47,7 +47,6 @@ namespace EEMod
             On.Terraria.Main.DrawBG += BetterLightingDraw;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
-            On.Terraria.Main.RenderBlack += d;
             if (Main.netMode != NetmodeID.Server)
             {
                 TrailManager = new TrailManager(this);
@@ -146,7 +145,6 @@ namespace EEMod
             On.Terraria.Main.DrawBG -= BetterLightingDraw;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
-            On.Terraria.Main.RenderBlack -= d;
             screenMessageText = null;
             TrailManager = null;
             progressMessage = null;
@@ -157,13 +155,6 @@ namespace EEMod
         {
             TrailManager.DrawTrails(Main.spriteBatch);
             Prims.DrawTrails(Main.spriteBatch);
-            orig(self);
-        }
-        private void d(On.Terraria.Main.orig_RenderBlack orig, Main self)
-        {
-            //Main.spriteBatch.Begin();
-            //  DrawCoralReefsBg();
-            // Main.spriteBatch.End();
             orig(self);
         }
         private void BetterLightingDraw(On.Terraria.Main.orig_DrawBG orig, Main self)

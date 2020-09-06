@@ -94,9 +94,10 @@ namespace EEMod
                     {
                         if (_trails[i]._projectile.type == ProjectileType<DalantiniumFanAlt>())
                         {
-                            if (_trails[i].lerper > 1000)
+                            if (_trails[i].lerper > 165)
                             {
                                 _trails.RemoveAt(i);
+                                _trails[i]._points.Clear();
                             }
                         }
                     }
@@ -302,7 +303,7 @@ namespace EEMod
             {
                 if (_projectile.type == ProjectileType<DalantiniumFanAlt>())
                 {
-                    DalCap = 10;
+                    DalCap = 20;
                     DalantiniumFanAlt DF = (_projectile.modProjectile as DalantiniumFanAlt);
                     lerper++;
                     _points.Add(_projectile.Center);
@@ -341,6 +342,7 @@ namespace EEMod
                 VertexPositionColorTexture[] vertices;
                 void AddVertex(Vector2 position, Color color, Vector2 uv)
                 {
+                    if(currentIndex < vertices.Length)
                     vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
                 }
                 void PrepareShader()
@@ -402,8 +404,8 @@ namespace EEMod
                                     Color c = Color.Red;
                                     Vector2 normal = CurveNormal(_points, i);
                                     Vector2 normalAhead = CurveNormal(_points, i + 1);
-                                    float j = (_points.Count - (i * 0.9f)) / 10f;
-                                    width *= (_points.Count - (i * 0.4f)) / 10f;
+                                    float j = (DalCap - (i * 0.9f)) / DalCap;
+                                    width *=  (DalCap - (i * 0.4f)) / DalCap;
                                     Vector2 firstUp = _points[i] - normal * width;
                                     Vector2 firstDown = _points[i] + normal * width;
                                     Vector2 secondUp = _points[i + 1] - normalAhead * width;
@@ -486,7 +488,7 @@ namespace EEMod
                     }
                     if (_projectile.type == ProjectileType<DalantiniumFan>())
                     {
-                        DalantiniumPrims.Invoke(51);
+                        DalantiniumPrims.Invoke((int)DalCap * 6 - 9);
                     }
                     if (_projectile.type == ProjectileType<DalantiniumFanAlt>())
                     {

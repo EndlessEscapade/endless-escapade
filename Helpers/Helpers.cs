@@ -10,6 +10,7 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using EEMod.Tiles;
+using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -79,6 +80,16 @@ namespace EEMod
             }
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+        }
+
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float accuracy)
+        {
+            //USE IN PROPER HOOK PLZ THX
+           for(float i = 0; i<1; i += accuracy)
+            {
+                Vector2 lerp = p1 + (p2 - p1) * i;
+                Main.spriteBatch.Draw(tex, lerp.ForDraw(), Color.White);
+            }
         }
         public static Vector2 TraverseBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float t)
         {

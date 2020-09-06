@@ -48,9 +48,9 @@ namespace EEMod.Projectiles.Mage
             if (boost > 2000 && boost % 1500 <= 200)
             {
                 lerp += 0.1f;
-                lightColor.R = (byte)(lightColor.R + ((Color.Pink.R * 10) - lightColor.R) * lerp);
-                lightColor.G = (byte)(lightColor.G + ((Color.Pink.G * 10) - lightColor.G) * lerp);
-                lightColor.B = (byte)(lightColor.B + ((Color.Pink.B * 10) - lightColor.B) * lerp);
+                lightColor.R = (byte)(lightColor.R + ((Color.White.R * 10) - lightColor.R) * lerp);
+                lightColor.G = (byte)(lightColor.G + ((Color.White.G * 10) - lightColor.G) * lerp);
+                lightColor.B = (byte)(lightColor.B + ((Color.White.B * 10) - lightColor.B) * lerp);
             }
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
             for (int k = 0; k < projectile.oldPos.Length; k++)

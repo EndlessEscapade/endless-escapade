@@ -31,14 +31,14 @@ namespace EEMod.UI
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            for(int i = 0; i < 7; i++)
+            for(int i = 0; i < Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore.Length; i++)
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[i] == 1)
                 {
-                    if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
+                  if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
                     {
                         if (color[i].R < 255)
-                            color[i].R++;
+                           color[i].R++;
                         if (color[i].G < 255)
                             color[i].G++;
                         if (color[i].B < 255)
