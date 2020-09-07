@@ -212,6 +212,14 @@ namespace EEMod.Autoloading
             //Assembly assembly = a.Code ?? a.GetType().Assembly;
             Type[] types = assembly.GetTypesSafe();
 
+            foreach (var method in types.SelectMany(i => i.GetMethods(FLAGS_STATIC)))
+            {
+                if (method.GetCustomAttribute<UnloadingMethodAttribute>() is null || !CouldBeCalled(method) || method.GetParameters().Length > 0)
+                    continue;
+
+                method.Invoke(null, null);
+            }
+
             foreach (var field in types.SelectMany(i => i.GetFields(FLAGS_STATIC)))
             {
                 if (field.IsInitOnly || field.IsLiteral)
@@ -229,16 +237,6 @@ namespace EEMod.Autoloading
                 {
                     field.SetValue(null, null);
                 }
-            }
-
-            foreach (var method in types.SelectMany(i => i.GetMethods(FLAGS_STATIC)))
-            {
-                if (method.GetCustomAttribute<UnloadingMethodAttribute>() is null || !CouldBeCalled(method) || method.GetParameters().Length > 0)
-                {
-                    continue;
-                }
-
-                method.Invoke(null, null);
             }
         }
 
