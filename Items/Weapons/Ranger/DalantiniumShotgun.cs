@@ -17,7 +17,9 @@ namespace EEMod.Items.Weapons.Ranger
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAmmo = AmmoID.Bullet;
+#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shoot = 10;
+#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shootSpeed = 36f;
             item.rare = ItemRarityID.Orange;
             item.width = 20;

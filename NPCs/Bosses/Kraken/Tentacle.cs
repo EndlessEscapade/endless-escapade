@@ -44,8 +44,8 @@ namespace EEMod.NPCs.Bosses.Kraken
             Lighting.AddLight(npc.Center, new Vector3(0.2f, 0.2f, 0.2f));
             npc.ai[0]++;
             npc.TargetClosest(true);
-            Rectangle npcHitBox = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height);
-            Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height);
+            //Rectangle npcHitBox = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height); // unused
+            //Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height); // unused
             if (npc.ai[3] == 0)
             {
                 npc.spriteDirection = -1;
@@ -215,7 +215,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         {
             Texture2D texture = TextureCache.TentacleChainSmol;
             Texture2D texture2 = TextureCache.TentacleEnd;
-            Helpers.DrawBezier(spriteBatch, texture, "", drawColor * alpha, npc.Center, startingPosition, startingPosition + (npc.Center - startingPosition) * 0.33f + new Vector2((float)Math.Cos(npc.ai[0] / 23f) * 50, (float)Math.Sin(npc.ai[0] / 10f) * 40), startingPosition + (npc.Center - startingPosition) * 0.66f + new Vector2((float)Math.Sin(npc.ai[0] / 20f) * 50, -(float)Math.Cos(npc.ai[0] / 15f) * 55), npc.width * 0.6f / distanceCovered, (float)Math.PI / 2, texture2);
+            Helpers.DrawBezier(spriteBatch, texture, "", drawColor * alpha, npc.Center, startingPosition, startingPosition + (npc.Center - startingPosition) * 0.33f + new Vector2((float)Math.Cos(npc.ai[0] / 23f) * 50, (float)Math.Sin(npc.ai[0] / 10f) * 40), startingPosition + (npc.Center - startingPosition) * 0.66f + new Vector2((float)Math.Sin(npc.ai[0] / 20f) * 50, -(float)Math.Cos(npc.ai[0] / 15f) * 55), npc.width * 0.6f / distanceCovered, MathHelper.PiOver2, texture2);
             /*  if(npc.ai[3] == 0)
               Main.spriteBatch.Draw(texture, npc.Center + new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2 + new Vector2(70,0), new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
               if (npc.ai[3] == 1)

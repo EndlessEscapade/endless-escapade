@@ -2962,7 +2962,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = (int)topLeft.Y; j < (int)topLeft.Y + (int)size.Y; j++)
                 {
-                    Tile tile = Framing.GetTileSafely(i, j);
+                    //Tile tile = Framing.GetTileSafely(i, j);
                     if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
                     {
                         WorldGen.PlaceTile(i, j, type);
@@ -2980,7 +2980,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = (int)topLeft.Y + (int)disp[i - (int)topLeft.X]; j < (int)topLeft.Y + (int)size.Y; j++)
                 {
-                    Tile tile = Framing.GetTileSafely(i, j);
+                    //Tile tile = Framing.GetTileSafely(i, j);
                     if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
                     {
                         WorldGen.PlaceTile(i, j, type);
@@ -3595,13 +3595,13 @@ namespace EEMod.EEWorld
                         int Side = Main.rand.Next(0, 2);
                         if (Side == 0)
                         {
-                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy((float)Math.PI / 2 + Main.rand.NextFloat(-0.3f, 0.3f));
+                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(MathHelper.PiOver2 + Main.rand.NextFloat(-0.3f, 0.3f));
                             //int ChanceForRecursion = Main.rand.Next(0, 4);
                             MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 10, true, new Vector2(0, 5), 2, 5, true, 50, (int)(lengthOfBranches * 0.5f));
                         }
                         if (Side == 1)
                         {
-                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(-(float)Math.PI / 2);
+                            Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(-MathHelper.PiOver2);
                             //int ChanceForRecursion = Main.rand.Next(0, 4);
                             MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 10, true, new Vector2(0, 5), 7, 5, true, 50, (int)(lengthOfBranches * 0.5f));
                         }

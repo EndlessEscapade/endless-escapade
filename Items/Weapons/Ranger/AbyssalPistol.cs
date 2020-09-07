@@ -24,7 +24,9 @@ namespace EEMod.Items.Weapons.Ranger
             item.useAnimation = 26;
             item.width = 20;
             item.height = 20;
+#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shoot = 10;
+#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.rare = ItemRarityID.Green;
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;

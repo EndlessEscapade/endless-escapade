@@ -1,4 +1,5 @@
-﻿using EEMod.ID;
+﻿using EEMod.Config;
+using EEMod.ID;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Projectiles;
 using EEMod.Projectiles.Mage;
@@ -20,7 +21,7 @@ namespace EEMod
 {
     public partial class EEMod
     {
-        private void Detours()
+        private void LoadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float += Lighting_AddLight_int_int_float_float_float;
 
@@ -37,6 +38,20 @@ namespace EEMod
 
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
+        }
+        private void UnloadDetours()
+        {
+            On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
+            On.Terraria.Main.DoUpdate -= Main_DoUpdate;
+            On.Terraria.Main.Draw -= Main_Draw;
+            On.Terraria.Main.DrawBG -= Main_DrawBG;
+            On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
+            On.Terraria.Main.DrawWoF -= Main_DrawWoF;
+            On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
+            On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
+            On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
         }
 
         private void WorldGen_SmashAltar(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
@@ -190,7 +205,7 @@ namespace EEMod
 
         private void Main_DrawBG(On.Terraria.Main.orig_DrawBG orig, Main self)
         {
-            if (EEModConfigClient.instance.BetterLighting && !Main.gameMenu)
+            if (EEModConfigClient.Instance.BetterLighting && !Main.gameMenu)
             {
                 BetterLightingHandler();
                 DrawGlobalShaderTextures();
@@ -207,7 +222,7 @@ namespace EEMod
         {
             orig(self, gameTime);
 
-            if (EEModConfigClient.instance.EEDebug)
+            if (EEModConfigClient.Instance.EEDebug)
             {
                 Main.spriteBatch.Begin();
 

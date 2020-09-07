@@ -32,7 +32,7 @@ namespace EEMod.Projectiles.Mage
         {
             if (firstFrame)
             {
-                Vector2 closestNPCPos = new Vector2(0, 0);
+                Vector2 closestNPCPos = Vector2.Zero;
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Main.npc[i].Center) <= Vector2.DistanceSquared(Main.LocalPlayer.Center, closestNPCPos) && Main.npc[i].active)
@@ -40,7 +40,7 @@ namespace EEMod.Projectiles.Mage
                         closestNPCPos = Main.npc[i].Center;
                     }
                 }
-                if (closestNPCPos == new Vector2(0, 0) || Main.npc.Length == 0)
+                if (closestNPCPos == Vector2.Zero || Main.npc.Length == 0)
                 {
                     projectile.Kill();
                 }

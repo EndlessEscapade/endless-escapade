@@ -55,7 +55,7 @@ namespace EEMod.Projectiles.Mage
             if (projectile.ai[0] < firstPhase)
             {
                 projectile.velocity += (Main.player[projectile.owner].Center + new Vector2(60, -60) - projectile.Center) / 258f - projectile.velocity * 0.02f;
-                projectile.rotation = dist.ToRotation() + (float)Math.PI / 4f;
+                projectile.rotation = dist.ToRotation() + MathHelper.Pi  / 4f;
             }
             else if (projectile.ai[0] < secondPhase)
             {
@@ -64,7 +64,7 @@ namespace EEMod.Projectiles.Mage
                 {
                     Dist = dist;
                 }
-                projectile.rotation = dist.ToRotation() + (float)Math.PI / 4f + (lerp - 1.57f) / 2f;
+                projectile.rotation = dist.ToRotation() + MathHelper.Pi  / 4f + (lerp - 1.57f) / 2f;
                 projectile.Center = Main.player[projectile.owner].Center + Dist.RotatedBy(lerp);
                 float traverseFunction = (float)Math.Sin((projectile.ai[0] - firstPhase) / ((secondPhase - firstPhase) / 3.14f));
                 lerp += (0.1f * traverseFunction * traverseFunction) - 0.02f;
@@ -93,7 +93,7 @@ namespace EEMod.Projectiles.Mage
 
                 projectile.velocity += (Main.player[projectile.owner].Center + new Vector2(0, -100) - projectile.Center) / 200f - projectile.velocity * 0.1f;
                 projectile.velocity += new Vector2(Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(-.1f, .1f));
-                projectile.rotation += (-(float)Math.PI / 4f - projectile.rotation) / 12f;
+                projectile.rotation += (-MathHelper.Pi  / 4f - projectile.rotation) / 12f;
                 if (projectile.ai[0] == thirdPhase - 1)
                 {
                     for (int i = 0; i < 360; i += 10)

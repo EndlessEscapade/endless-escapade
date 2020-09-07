@@ -111,7 +111,7 @@ namespace EEMod.NPCs.CoralReefs
                     for (int j = 0; j < noOfSubParts; j++)
                     {
                         float per = PerlinStrip[(int)rotHandlerSquare[i]];
-                        float baseOfMovement = i * 10 * ((float)Math.PI / (accuracy * 0.5f));
+                        float baseOfMovement = i * 10 * (MathHelper.Pi / (accuracy * 0.5f));
                         float Extra = (float)(Math.Sin(j / 4f * per) * 155 * per);
                         float xdist = (int)(Math.Sin(baseOfMovement) * (150 - (per * 50) + Extra));
                         float ydist = (int)(Math.Cos(baseOfMovement) * (150 - (per * 50) + Extra));

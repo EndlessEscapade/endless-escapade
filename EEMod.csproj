@@ -6,7 +6,7 @@
     <TargetFramework>net45</TargetFramework>
     <PlatformTarget>x86</PlatformTarget>
     <LangVersion>7.3</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>false</Optimize>
@@ -16,8 +16,5 @@
   </Target>
   <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>

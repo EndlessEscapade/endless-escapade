@@ -25,7 +25,9 @@ namespace EEMod.Items.Weapons.Ranger
             item.rare = ItemRarityID.Pink;
             item.value = Item.sellPrice(silver: 10);
             item.useAmmo = AmmoID.Arrow;
+#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shoot = 10;
+#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
 
             item.ranged = true;
             item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.

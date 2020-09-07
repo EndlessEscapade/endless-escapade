@@ -7,10 +7,12 @@ using System.Collections.Generic;
 
 namespace EEMod.Net.Serializers
 {
+    #pragma warning disable IDE0044 // readonly modifier
+    #pragma warning disable IDE0028 // initialization
     public class SerializersManager : AutoloadTypeManager<NetObjSerializer>
     {
         [FieldInit]
-        private static readonly ConcurrentDictionary<Type, SerializerInfo> serializers = new ConcurrentDictionary<Type, SerializerInfo>();
+        private static ConcurrentDictionary<Type, SerializerInfo> serializers = new ConcurrentDictionary<Type, SerializerInfo>();
 
         public override void CreateInstance(Type type)
         {
@@ -44,7 +46,7 @@ namespace EEMod.Net.Serializers
 
         private class SerializerInfo
         {
-            private readonly Dictionary<SerializerPriority, NetObjSerializer> serializers;
+            private Dictionary<SerializerPriority, NetObjSerializer> serializers;
             private NetObjSerializer _cachedHighest;
 
             public NetObjSerializer GetHighestPrioritySerializer() => _cachedHighest;
@@ -65,10 +67,8 @@ namespace EEMod.Net.Serializers
 
             public SerializerInfo(NetObjSerializer defaultSerializer, SerializerPriority priority = SerializerPriority.Medium)
             {
-                serializers = new Dictionary<SerializerPriority, NetObjSerializer>
-                {
-                    { priority, defaultSerializer }
-                };
+                serializers = new Dictionary<SerializerPriority, NetObjSerializer>();
+                serializers.Add(priority, defaultSerializer);
                 _cachedHighest = defaultSerializer;
             }
         }

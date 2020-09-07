@@ -4,7 +4,8 @@ using EEMod.ID;
 using EEMod.Net;
 using EEMod.NPCs.CoralReefs;
 using EEMod.Projectiles.OceanMap;
-using EEMod.UI;
+using EEMod.Skies;
+using EEMod.UI.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
@@ -51,6 +52,11 @@ namespace EEMod
         public UserInterface SpeedrunnTimer;
         internal RunninUI RunUI;
 
+        internal delegate void UIUpdateDelegate(GameTime gameTime);
+        internal delegate void UIModifyLayersDelegate(List<GameInterfaceLayer> layers, int mouseTextIndex, GameTime lastUpdateUIGameTime);
+        internal static event UIUpdateDelegate OnUpdateUI;
+        internal static event UIModifyLayersDelegate OnModifyInterfaceLayers;
+
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
             typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
@@ -80,6 +86,7 @@ namespace EEMod
             NoiseSurfacing = null;
             White = null;
             UnloadIL();
+            UnloadDetours();
             AutoloadingManager.UnloadManager(this);
             instance = null;
         }
@@ -184,7 +191,6 @@ namespace EEMod
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
                 element.Draw(TextureCache.Seagulls, 9, 5);
-                element.DrawShadow(TextureCache.Seagulls, 9, 5);
             }
         }
 
@@ -198,12 +204,13 @@ namespace EEMod
             float lerpLol = Math.Abs((float)Math.Sin(lerps / 50f));
             for (int i = 0; i < Main.npc.Length; i++)
             {
-                if (Main.npc[i].type == ModContent.NPCType<OrbCollection>() && Main.npc[i].active)
+                NPC npc = Main.npc[i];
+                if (npc.type == ModContent.NPCType<OrbCollection>() && npc.active)
                 {
-                    float Dist = Vector2.Distance(Main.npc[i].Center, Main.LocalPlayer.Center);
+                    float Dist = Vector2.Distance(npc.Center, Main.LocalPlayer.Center);
                     if (Dist < 1000)
                     {
-                        Vector2 p1 = Main.npc[i].Center;
+                        Vector2 p1 = npc.Center;
                         Vector2 p2 = Main.LocalPlayer.Center;
                         if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp)
                         {
@@ -223,20 +230,10 @@ namespace EEMod
 
                             if (Main.LocalPlayer.controlUp && delays == 0)
                             {
-                                switch (Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp)
-                                {
-                                    case true:
-                                        {
-                                            Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp = false;
-                                            break;
-                                        }
-                                    case false:
-                                        {
-                                            Main.npc[i].ai[1] = Main.myPlayer;
-                                            Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp = true;
-                                            break;
-                                        }
-                                }
+                                var modp = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+                                if (!modp.isPickingUp)
+                                    npc.ai[1] = Main.myPlayer;
+                                modp.isPickingUp = !modp.isPickingUp;
                                 delays = 120;
                             }
                         }
@@ -254,9 +251,9 @@ namespace EEMod
             simpleGame.Update(gameTime);
             for (int i = 0; i < Main.player.Length; i++)
             {
-                if (Main.player[i].active && !Main.player[i].dead)
+                Player player = Main.player[i];
+                if (player.active && !player.dead)
                 {
-                    Player player = Main.player[i];
                     if (ActivateGame.JustPressed)
                     {
                         simpleGame = new IceHockey();
@@ -268,10 +265,11 @@ namespace EEMod
                     }
                 }
             }
-        }
 
+        }
         public override void UpdateUI(GameTime gameTime)
         {
+            OnUpdateUI?.Invoke(gameTime);
             lastGameTime = gameTime;
             if (EEInterface?.CurrentState != null)
             {
@@ -388,6 +386,7 @@ namespace EEMod
                 */
             }
             LoadIL();
+            LoadDetours();
         }
 
         public static bool isSaving = false;
@@ -409,6 +408,7 @@ namespace EEMod
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            OnModifyInterfaceLayers?.Invoke(layers, mouseTextIndex, lastGameTime);
             if (mouseTextIndex != -1)
             {
                 LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface",
@@ -498,7 +498,7 @@ namespace EEMod
             DynamicSpriteFont font = style == 0 ? Main.fontDeathText : Main.fontMouseText;
             Vector2 textSize = font.MeasureString(text);
             float textPositionLeft = position.X - textSize.X / 2;
-            float textPositionRight = position.X + textSize.X / 2;
+            //float textPositionRight = position.X + textSize.X / 2;
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
@@ -509,7 +509,7 @@ namespace EEMod
             for (int i = 0; i < Bubbles.Count; i++)
             {
                 Color drawColour = Lighting.GetColor((int)Bubbles[i].Position.X / 16, (int)Bubbles[i].Position.Y / 16);
-                Main.spriteBatch.Draw(TextureCache.Bob1, Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, new Vector2(0), Bubbles[i].scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(TextureCache.Bob1, Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
             }
         }
 
@@ -877,8 +877,9 @@ namespace EEMod
 
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
-            float quotient = ShipHelth / ShipHelthMax;
-            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
+            //float quotient = ShipHelth / ShipHelthMax; // unused
+            Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8);
+            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), rect, Color.White, 0, rect.Size() / 2, 1, SpriteEffects.None, 0);
             for (int i = 0; i < Main.ActivePlayersCount; i++)
             {
                 if (i == 0)
@@ -900,6 +901,7 @@ namespace EEMod
                             Main.spriteBatch.Draw(texture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), EEServerVariableCache.OtherRot[j] / 10f, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, EEServerVariableCache.OtherRot[j] < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                         }
                     }
+
                 }
             }
             flash += 0.01f;
@@ -908,6 +910,7 @@ namespace EEMod
                 flash = 10;
             }
         }
+
 
         public override void AddRecipeGroups()
         {

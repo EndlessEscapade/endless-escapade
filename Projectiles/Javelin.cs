@@ -168,7 +168,7 @@ namespace EEMod.Projectiles
 
                 // Make sure to set the rotation accordingly to the velocity, and add some to work around the sprite's rotation
                 projectile.rotation =
-                    projectile.velocity.ToRotation() + (float)Math.PI / 2 + rotationOffset;
+                    projectile.velocity.ToRotation() + MathHelper.PiOver2 + rotationOffset;
             }
 
             // projectile code is ran when the javelin is sticking to a target

@@ -134,7 +134,7 @@ namespace EEMod
             {
                 this.point = point;
                 oldPoint = point;
-                vel = new Vector2(0, 0);
+                vel = Vector2.Zero;
                 isStatic = false;
             }
 
@@ -143,14 +143,14 @@ namespace EEMod
                 this.point = point;
                 this.oldPoint = oldPoint;
                 this.isStatic = isStatic;
-                vel = new Vector2(0, 0);
+                vel = Vector2.Zero;
             }
 
             public Point(Vector2 point, Vector2 oldPoint)
             {
                 this.point = point;
                 this.oldPoint = oldPoint;
-                vel = new Vector2(0, 0);
+                vel = Vector2.Zero;
                 isStatic = false;
             }
         }

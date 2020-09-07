@@ -30,7 +30,7 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            projectile.rotation = (Main.player[projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + (float)Math.PI;
+            projectile.rotation = (Main.player[projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + MathHelper.Pi;
         }
     }
 }

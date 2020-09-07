@@ -23,6 +23,9 @@ namespace EEMod
         public const BindingFlags FlagsStatic = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
         public const BindingFlags FlagsALL = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static;
 
+        public const float DegreeInRadians = (float)(Math.PI / 180);
+        public const float RadianInDegrees = (float)(180 / Math.PI);
+
         private static float X(float t,
     float x0, float x1, float x2, float x3)
         {
@@ -73,7 +76,7 @@ namespace EEMod
                     X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
                     y -
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
-                    projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
+                    projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     spriteBatch.Draw(headTexture, new Vector2(x - Main.screenPosition.X, y - Main.screenPosition.Y),
                     new Rectangle(0, 0, headTexture.Width, headTexture.Height), alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor, projTrueRotation,
                     new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), 1, SpriteEffects.None, 0);
@@ -116,7 +119,7 @@ namespace EEMod
                     X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
                     Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
-                    projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
+                    projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
                     new Rectangle(0, 0, dim, dim), drawColor, projTrueRotation,
                     new Vector2(dim * 0.5f, dim * 0.5f), 1, SpriteEffects.None, 0);
@@ -142,7 +145,7 @@ namespace EEMod
                     X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
                     Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
-                    projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2 + rotDis;
+                    projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
                     new Rectangle(0, 0, headTexture.Width, headTexture.Height), drawColor, projTrueRotation,
                     new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), 0.8f + (1 - i) * .6f, SpriteEffects.None, 0);

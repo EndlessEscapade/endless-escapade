@@ -23,7 +23,9 @@ namespace EEMod.Items.Weapons.Melee
             item.useAnimation = 21;
             item.width = 20;
             item.height = 20;
+#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shoot = 10;
+#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.rare = ItemRarityID.Cyan;
             item.knockBack = 4f;
             item.useStyle = ItemUseStyleID.HoldingOut;

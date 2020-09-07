@@ -1,3 +1,4 @@
+using EEMod.UI.Elements;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -5,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace EEMod.UI
+namespace EEMod.UI.States
 {
     internal class EEUI : UIState
     {
@@ -37,7 +38,7 @@ namespace EEMod.UI
         private readonly Vector2[] sizes = new Vector2[7];
         private readonly DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[9];
         public float pivot;
-        public int pauseTimer;
+        //public int pauseTimer; // unused?
 
         public override void OnInitialize()
         {
@@ -48,8 +49,8 @@ namespace EEMod.UI
                 {
                     panels[i].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
                     panels[i].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
-                    panels[i].Left.Set((Main.screenWidth / 2) + (float)Math.Sin(pivot / 10) * 500, 0);
-                    panels[i].Top.Set((Main.screenHeight / 2) + (float)Math.Sin(pivot / 10) * 500, 0);
+                    panels[i].Left.Set(Main.screenWidth / 2 + (float)Math.Sin(pivot / 10) * 500, 0);
+                    panels[i].Top.Set(Main.screenHeight / 2 + (float)Math.Sin(pivot / 10) * 500, 0);
                     Append(panels[i]);
                 }
             }
@@ -253,8 +254,8 @@ namespace EEMod.UI
             pivot = 0.05f;
             for (int i = 0; i < 7; i++)
             {
-                panels[i].Left.Set((Main.screenWidth / 2) - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + (float)Math.Sin((pivot / 10) + Math.PI * (i * 2) / 7) * 200, 0);
-                panels[i].Top.Set((Main.screenHeight / 2) - ModContent.GetTexture(StringOfTextures[i]).Height / 2 + (float)Math.Cos((pivot / 10) + Math.PI * (i * 2) / 7) * 200, 0);
+                panels[i].Left.Set(Main.screenWidth / 2 - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + (float)Math.Sin(pivot / 10 + Math.PI * (i * 2) / 7) * 200, 0);
+                panels[i].Top.Set(Main.screenHeight / 2 - ModContent.GetTexture(StringOfTextures[i]).Height / 2 + (float)Math.Cos(pivot / 10 + Math.PI * (i * 2) / 7) * 200, 0);
             }
             pulsatingControl += 0.2f;
             for (int i = 0; i < 7; i++)

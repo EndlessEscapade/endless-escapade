@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
-namespace EEMod.UI
+namespace EEMod.UI.Elements
 {
     internal class DragableUIPanel : UIPanel
     {

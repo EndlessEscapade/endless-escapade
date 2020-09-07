@@ -17,7 +17,7 @@ namespace EEMod.Projectiles.Melee
             maxStickingJavelins = 3;
             //projectile.GetGlobalProjectile<ImplaingProjectile>().CanImpale = true;
             //projectile.GetGlobalProjectile<ImplaingProjectile>().damagePerImpaler = 5;  Didn't work, couldn't find where this was created
-            //rotationOffset = (float)Math.PI / 4;
+            //rotationOffset = MathHelper.Pi / 4;
         }
 
         public override void Kill(int timeLeft)

@@ -417,135 +417,249 @@ namespace EEMod
                             pass.Apply();
                         }
                     }
+
                     //PRIM DELEGATES
-                    DrawPrimDelegate LythenPrims = (int noOfPoints) =>
-                    {
-                        vertices = new VertexPositionColorTexture[noOfPoints];
+                    #region delegates
+                    //DrawPrimDelegate LythenPrims = (int noOfPoints) =>
+                    //{
+                    //    vertices = new VertexPositionColorTexture[noOfPoints];
 
-                        AddVertex(points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                        AddVertex(points[1], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                        AddVertex(points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                        PrepareShader();
-                        device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
-                    };
-                    DrawPrimDelegate DalantiniumPrims = (int noOfPoints) =>
-                    {
-                        vertices = new VertexPositionColorTexture[noOfPoints];
+                    //    AddVertex(points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //    AddVertex(points[1], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //    AddVertex(points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //    PrepareShader();
+                    //    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                    //};
+                    //DrawPrimDelegate DalantiniumPrims = (int noOfPoints) =>
+                    //{
+                    //    vertices = new VertexPositionColorTexture[noOfPoints];
 
-                        float width = 5;
-                        float alphaValue = 0.2f;
+                    //    float width = 5;
+                    //    float alphaValue = 0.2f;
 
-                        for (int i = 0; i < points.Count; i++)
-                        {
-                            if (i == 0)
-                            {
-                                Color c = Color.DarkRed;
-                                Vector2 normalAhead = CurveNormal(points, i + 1);
-                                Vector2 secondUp = points[i + 1] - normalAhead * width;
-                                Vector2 secondDown = points[i + 1] + normalAhead * width;
+                    //    for (int i = 0; i < points.Count; i++)
+                    //    {
+                    //        if (i == 0)
+                    //        {
+                    //            Color c = Color.DarkRed;
+                    //            Vector2 normalAhead = CurveNormal(points, i + 1);
+                    //            Vector2 secondUp = points[i + 1] - normalAhead * width;
+                    //            Vector2 secondDown = points[i + 1] + normalAhead * width;
 
-                                AddVertex(points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                            }
-                            else
-                            {
-                                if (i != points.Count - 1)
-                                {
-                                    Color c = Color.Red;
-                                    Vector2 normal = CurveNormal(points, i);
-                                    Vector2 normalAhead = CurveNormal(points, i + 1);
-                                    float j = (_dalCap - (i * 0.9f)) / _dalCap;
+                    //            AddVertex(points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //            AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //            AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //        }
+                    //        else
+                    //        {
+                    //            if (i != points.Count - 1)
+                    //            {
+                    //                Color c = Color.Red;
+                    //                Vector2 normal = CurveNormal(points, i);
+                    //                Vector2 normalAhead = CurveNormal(points, i + 1);
+                    //                float j = (_dalCap - (i * 0.9f)) / _dalCap;
 
-                                    width *= (_dalCap - (i * 0.4f)) / _dalCap;
+                    //                width *= (_dalCap - (i * 0.4f)) / _dalCap;
 
-                                    Vector2 firstUp = points[i] - normal * width;
-                                    Vector2 firstDown = points[i] + normal * width;
-                                    Vector2 secondUp = points[i + 1] - normalAhead * width;
-                                    Vector2 secondDown = points[i + 1] + normalAhead * width;
+                    //                Vector2 firstUp = points[i] - normal * width;
+                    //                Vector2 firstDown = points[i] + normal * width;
+                    //                Vector2 secondUp = points[i + 1] - normalAhead * width;
+                    //                Vector2 secondDown = points[i + 1] + normalAhead * width;
 
-                                    AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                    AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                    AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //                AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
 
-                                    AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                    AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                    AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                }
-                            }
-                        }
+                    //                AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                    //                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                    //                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                    //            }
+                    //        }
+                    //    }
 
-                        PrepareBasicShader();
-                        device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
-                    };
+                    //    PrepareBasicShader();
+                    //    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                    //};
 
-                    DrawPrimDelegate DalantiniumAltPrims = (int noOfPoints) =>
-                    {
-                        vertices = new VertexPositionColorTexture[noOfPoints];
+                    //DrawPrimDelegate DalantiniumAltPrims = (int noOfPoints) =>
+                    //{
+                    //    vertices = new VertexPositionColorTexture[noOfPoints];
 
-                        float width = 6;
-                        float alphaValue = 0.1f;
+                    //    float width = 6;
+                    //    float alphaValue = 0.1f;
 
-                        for (int i = 0; i < points.Count; i++)
-                        {
-                            if (i == 0)
-                            {
-                                Color c = Color.DarkRed;
-                                Vector2 normalAhead = CurveNormal(points, i + 1);
-                                Vector2 secondUp = points[i + 1] - normalAhead * width;
-                                Vector2 secondDown = points[i + 1] + normalAhead * width;
+                    //    for (int i = 0; i < points.Count; i++)
+                    //    {
+                    //        if (i == 0)
+                    //        {
+                    //            Color c = Color.DarkRed;
+                    //            Vector2 normalAhead = CurveNormal(points, i + 1);
+                    //            Vector2 secondUp = points[i + 1] - normalAhead * width;
+                    //            Vector2 secondDown = points[i + 1] + normalAhead * width;
 
-                                AddVertex(points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                            }
-                            else
-                            {
-                                if (i != points.Count - 1)
-                                {
-                                    Color c = Color.Red;
-                                    Vector2 normal = CurveNormal(points, i);
-                                    Vector2 normalAhead = CurveNormal(points, i + 1);
-                                    float j = (_dalCap + ((float)Math.Sin(lerper / 10f) * 1) - i * 0.05f) / _dalCap;
+                    //            AddVertex(points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //            AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //            AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    //        }
+                    //        else
+                    //        {
+                    //            if (i != points.Count - 1)
+                    //            {
+                    //                Color c = Color.Red;
+                    //                Vector2 normal = CurveNormal(points, i);
+                    //                Vector2 normalAhead = CurveNormal(points, i + 1);
+                    //                float j = (_dalCap + ((float)Math.Sin(lerper / 10f) * 1) - i * 0.05f) / _dalCap;
 
-                                    width *= j;
+                    //                width *= j;
 
-                                    Vector2 firstUp = points[i] - normal * width;
-                                    Vector2 firstDown = points[i] + normal * width;
-                                    Vector2 secondUp = points[i + 1] - normalAhead * width;
-                                    Vector2 secondDown = points[i + 1] + normalAhead * width;
+                    //                Vector2 firstUp = points[i] - normal * width;
+                    //                Vector2 firstDown = points[i] + normal * width;
+                    //                Vector2 secondUp = points[i + 1] - normalAhead * width;
+                    //                Vector2 secondDown = points[i + 1] + normalAhead * width;
 
-                                    AddVertex(firstUp, c * alphaValue, new Vector2(1));
-                                    AddVertex(secondDown, c * alphaValue, new Vector2(0));
-                                    AddVertex(firstDown, c * alphaValue, new Vector2(0));
+                    //                AddVertex(firstUp, c * alphaValue, new Vector2(1));
+                    //                AddVertex(secondDown, c * alphaValue, Vector2.Zero);
+                    //                AddVertex(firstDown, c * alphaValue, Vector2.Zero);
 
-                                    AddVertex(secondUp, c * alphaValue, new Vector2(1));
-                                    AddVertex(secondDown, c * alphaValue, new Vector2(0));
-                                    AddVertex(firstUp, c * alphaValue, new Vector2(0));
-                                }
-                            }
-                        }
+                    //                AddVertex(secondUp, c * alphaValue, new Vector2(1));
+                    //                AddVertex(secondDown, c * alphaValue, Vector2.Zero);
+                    //                AddVertex(firstUp, c * alphaValue, Vector2.Zero);
+                    //            }
+                    //        }
+                    //    }
 
-                        PrepareBasicShader();
+                    //    PrepareBasicShader();
 
-                        device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
-                    };
+                    //    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                    //};
+                    #endregion
+                    // the delegates aren't used outside here, so there's no need to create them
 
                     if (projectile != null)
                     {
                         if (projectile.type == ProjectileType<LythenStaffProjectile>())
                         {
-                            LythenPrims.Invoke(3);
+                            #region LythenPrims
+                            const int noOfPoints = 3;
+                            vertices = new VertexPositionColorTexture[noOfPoints];
+
+                            AddVertex(points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(points[1], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            PrepareShader();
+                            device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                            #endregion LythenPrims
                         }
 
-                        if (projectile.type == ProjectileType<DalantiniumFan>())
+                        else if (projectile.type == ProjectileType<DalantiniumFan>())
                         {
-                            DalantiniumPrims.Invoke((int)_dalCap * 6 - 9);
+                            #region DalantiniumPrims
+                            int noOfPoints = (int)_dalCap * 6 - 9;
+
+                            vertices = new VertexPositionColorTexture[noOfPoints];
+
+                            float width = 5;
+                            float alphaValue = 0.2f;
+
+                            for (int i = 0; i < points.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    Color c = Color.DarkRed;
+                                    Vector2 normalAhead = CurveNormal(points, i + 1);
+                                    Vector2 secondUp = points[i + 1] - normalAhead * width;
+                                    Vector2 secondDown = points[i + 1] + normalAhead * width;
+
+                                    AddVertex(points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                }
+                                else
+                                {
+                                    if (i != points.Count - 1)
+                                    {
+                                        Color c = Color.Red;
+                                        Vector2 normal = CurveNormal(points, i);
+                                        Vector2 normalAhead = CurveNormal(points, i + 1);
+                                        float j = (_dalCap - (i * 0.9f)) / _dalCap;
+
+                                        width *= (_dalCap - (i * 0.4f)) / _dalCap;
+
+                                        Vector2 firstUp = points[i] - normal * width;
+                                        Vector2 firstDown = points[i] + normal * width;
+                                        Vector2 secondUp = points[i + 1] - normalAhead * width;
+                                        Vector2 secondDown = points[i + 1] + normalAhead * width;
+
+                                        AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                        AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                        AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+
+                                        AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                        AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                        AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                    }
+                                }
+                            }
+
+                            PrepareBasicShader();
+                            device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                            #endregion DalantiniumPrims
                         }
 
-                        if (projectile.type == ProjectileType<DalantiniumFanAlt>())
+                        else if (projectile.type == ProjectileType<DalantiniumFanAlt>())
                         {
-                            DalantiniumAltPrims.Invoke((int)_dalCap * 6 - 9);
+                            #region DalantiniumAltPrims
+                            int noOfPoints = (int)_dalCap * 6 - 9;
+
+                            vertices = new VertexPositionColorTexture[noOfPoints];
+
+                            float width = 6;
+                            float alphaValue = 0.1f;
+
+                            for (int i = 0; i < points.Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    Color c = Color.DarkRed;
+                                    Vector2 normalAhead = CurveNormal(points, i + 1);
+                                    Vector2 secondUp = points[i + 1] - normalAhead * width;
+                                    Vector2 secondDown = points[i + 1] + normalAhead * width;
+
+                                    AddVertex(points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                }
+                                else
+                                {
+                                    if (i != points.Count - 1)
+                                    {
+                                        Color c = Color.Red;
+                                        Vector2 normal = CurveNormal(points, i);
+                                        Vector2 normalAhead = CurveNormal(points, i + 1);
+                                        float j = (_dalCap + ((float)Math.Sin(lerper / 10f) * 1) - i * 0.05f) / _dalCap;
+
+                                        width *= j;
+
+                                        Vector2 firstUp = points[i] - normal * width;
+                                        Vector2 firstDown = points[i] + normal * width;
+                                        Vector2 secondUp = points[i + 1] - normalAhead * width;
+                                        Vector2 secondDown = points[i + 1] + normalAhead * width;
+
+                                        AddVertex(firstUp, c * alphaValue, new Vector2(1));
+                                        AddVertex(secondDown, c * alphaValue, Vector2.Zero);
+                                        AddVertex(firstDown, c * alphaValue, Vector2.Zero);
+
+                                        AddVertex(secondUp, c * alphaValue, new Vector2(1));
+                                        AddVertex(secondDown, c * alphaValue, Vector2.Zero);
+                                        AddVertex(firstUp, c * alphaValue, Vector2.Zero);
+                                    }
+                                }
+                            }
+
+                            PrepareBasicShader();
+
+                            device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                            #endregion 
                         }
                     }
                 }

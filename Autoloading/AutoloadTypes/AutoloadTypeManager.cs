@@ -12,8 +12,14 @@ namespace EEMod.Autoloading.AutoloadTypes
 
         protected abstract void EvaluateType(Type type);
 
+        /// <summary> Loading the manager </summary>
         public virtual void Initialize()
         {
+        }
+        /// <summary> Unloading stuff from the manager, such as dictionaries, lists, etc. </summary>
+        public virtual void Unload()
+        {
+
         }
 
         // cus it's protected

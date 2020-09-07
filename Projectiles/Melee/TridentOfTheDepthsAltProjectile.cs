@@ -45,7 +45,7 @@ namespace EEMod.Projectiles.Melee
             if (Math.Abs(InitPos.X - 100 - projectile.Center.X) > 20)
             {
                 projectile.velocity = (InitPos - new Vector2(100, 0) - projectile.Center) / 32f;
-                projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI * 0.75f;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi * 0.75f;
             }
             else
             {

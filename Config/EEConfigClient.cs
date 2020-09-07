@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel;
 using Terraria.ModLoader.Config;
 
-namespace EEMod
+namespace EEMod.Config
 {
     public class EEModConfigClient : ModConfig
     {
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
-        public static EEModConfigClient instance;
+        public static EEModConfigClient Instance;
 
         [DefaultValue(true)]
         [Label("$Mods.EEMod.Common.EEModClassTips")]

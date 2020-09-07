@@ -5,13 +5,14 @@ using Terraria.ModLoader;
 
 namespace EEMod.Autoloading.AutoloadTypes
 {
+    #pragma warning disable IDE0051 // Private members
     /// <summary>
     /// A
     /// </summary>
     internal static class AutoloadTypeManagerManager // A
     {
         [FieldInit]
-        private static readonly List<AutoloadTypeManager> managers;
+        private static List<AutoloadTypeManager> managers;
 
         internal static void InitializeManagers()
         {
@@ -40,9 +41,19 @@ namespace EEMod.Autoloading.AutoloadTypes
                 {
                     managers.Add(manager);
                     ContentInstance.Register(manager);
+                    return true;
                 }
             }
             return false;
+        }
+
+        [UnloadingMethod]
+        private static void UnloadManagers()
+        {
+            foreach (var manager in managers)
+                manager.Unload();
+            managers?.Clear();
+            managers = null;
         }
     }
 }

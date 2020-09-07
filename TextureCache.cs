@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria.ModLoader;
 
+#pragma warning disable CS0649 // not assigning fields a value
 namespace EEMod
 {
     internal static class TextureCache

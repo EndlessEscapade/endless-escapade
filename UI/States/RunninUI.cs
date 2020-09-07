@@ -3,12 +3,10 @@ using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
 
-namespace EEMod.UI
+namespace EEMod.UI.States
 {
     internal class RunninUI : UIState
     {
-        public new float HAlign;
-        public new float VAlign;
         private readonly UIText text = new UIText("");
 
         public override void OnInitialize()

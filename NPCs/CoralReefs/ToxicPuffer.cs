@@ -71,7 +71,7 @@ namespace EEMod.NPCs.CoralReefs
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.PufferSmall;
-            Vector2 offset = new Vector2(0, 0);
+            Vector2 offset = Vector2.Zero;
             if (big)
             {
                 texture = TextureCache.PufferBig;

@@ -8,8 +8,8 @@ namespace EEMod.Projectiles
 {
     public abstract class WarHammer : ModProjectile
     {
-        public virtual float rotationalCoverage => (float)Math.PI;
-        public virtual float RotationalOffset => (float)Math.PI / 2f;
+        public virtual float rotationalCoverage => MathHelper.Pi ;
+        public virtual float RotationalOffset => MathHelper.PiOver2;
         protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         public virtual float dirtSmashIntensity => 12;
         public virtual int shakeLength => 20;

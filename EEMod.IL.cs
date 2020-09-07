@@ -1,3 +1,4 @@
+using EEMod.Config;
 using EEMod.Effects;
 using EEMod.Extensions;
 using EEMod.ID;
@@ -41,7 +42,7 @@ namespace EEMod
         private Color _baseColor;
         private Texture2D _screenTexture;
         private Texture2D _texture2;
-        private Rectangle _screenFrame;
+        //private Rectangle _screenFrame;//unused?
         private int _counter;
         private int _screenframes;
         private int _screenframeSpeed;
@@ -71,6 +72,22 @@ namespace EEMod
 
                 prims.CreateVerlet();
             }
+        }
+
+        private void UnloadIL()
+        {
+            //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
+            IL.Terraria.Main.DrawWater += Main_DrawWater;
+            //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
+
+            IL.Terraria.NPC.AI_001_Slimes -= Practice;
+
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
+
+            screenMessageText = null;
+            trailManager = null;
+            progressMessage = null;
+            prims = null;
         }
 
         private void Main_DrawWater(ILContext il)
@@ -161,22 +178,6 @@ namespace EEMod
             throw new Exception("Couldn't find local variable 19 loading");
         }
 
-        private void UnloadIL()
-        {
-            //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
-            IL.Terraria.Main.DrawWater += Main_DrawWater;
-            //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
-
-            IL.Terraria.NPC.AI_001_Slimes -= Practice;
-
-            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
-
-            screenMessageText = null;
-            trailManager = null;
-            progressMessage = null;
-            prims = null;
-        }
-
         public void UnloadShaderAssets()
         {
             if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Saturation"].IsActive())
@@ -264,7 +265,7 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
 
-            if (EEModConfigClient.instance.BetterLighting)
+            if (EEModConfigClient.Instance.BetterLighting)
             {
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), _sunPos - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * .5f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 540f), new Vector2(87), 10f, SpriteEffects.None, 0);
                 Main.spriteBatch.Draw(TextureCache.LensFlare, _sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * _globalAlpha * _intensityFunction, (float)Math.Sin(Main.time / 540f), rects[1].Size() / 2, 1.3f, SpriteEffects.None, 0);
@@ -280,7 +281,7 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
 
-            if (EEModConfigClient.instance.BetterLighting && Main.worldName != KeyID.CoralReefs)
+            if (EEModConfigClient.Instance.BetterLighting && Main.worldName != KeyID.CoralReefs)
             {
                 Main.spriteBatch.Draw(TextureCache.LensFlare2, _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
                 Main.spriteBatch.Draw(TextureCache.LensFlare2, _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
@@ -495,7 +496,7 @@ namespace EEMod
 
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
 
-            Main.spriteBatch.Draw(_texture2, new Vector2(0, 0), new Color(204, 204, 204));
+            Main.spriteBatch.Draw(_texture2, Vector2.Zero, new Color(204, 204, 204));
             Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
 

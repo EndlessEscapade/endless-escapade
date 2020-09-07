@@ -131,22 +131,27 @@ namespace EEMod.Autoloading
             switch (attribute.InitType)
             {
                 case FieldInitType.DefaultConstructor:
+                {
                     if (field.FieldType.TryCreateInstance(out object instance))
                     {
                         field.SetValue(null, instance);
                     }
 
                     break;
+                }
 
                 case FieldInitType.DefaultConstructorPrivate:
+                {
                     if (field.FieldType.TryCreateInstance(true, out object inst))
                     {
                         field.SetValue(null, inst);
                     }
 
                     break;
+                }
 
                 case FieldInitType.CustomValue:
+                {
                     Type fieldtype = field.FieldType;
                     object value = attribute.InitInfo1;
                     if ((value is null && fieldtype.IsNullable()) || fieldtype.IsAssignableFrom(value.GetType()))
@@ -155,16 +160,20 @@ namespace EEMod.Autoloading
                     }
 
                     break;
+                }
 
                 case FieldInitType.ArrayIntialization:
+                {
                     Type arraytype = field.FieldType;
                     if (arraytype.IsArray && attribute.InitInfo1 is int elements)
                     {
                         field.SetValue(null, Array.CreateInstance(arraytype.GetElementType(), elements));
                     }
-                    break;
+                }
+                break;
 
                 case FieldInitType.SubType:
+                {
                     Type fieldType = field.FieldType;
                     if (attribute.InitInfo1 is Type type)
                     {
@@ -188,6 +197,7 @@ namespace EEMod.Autoloading
                         //
                     }
                     break;
+                }
             }
         }
 

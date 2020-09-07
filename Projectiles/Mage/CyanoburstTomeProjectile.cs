@@ -32,7 +32,7 @@ namespace EEMod.Projectiles.Mage
             {
                 firstVel = Vector2.Normalize(projectile.velocity) * 2;
             }
-            projectile.rotation = projectile.velocity.ToRotation() - (float)Math.PI / 2;
+            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             projectile.ai[0] += 11;
             double deg = projectile.ai[0];
             double rad = deg * (Math.PI / 180);

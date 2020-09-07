@@ -53,7 +53,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
-        private Vector2 oldPlayerPos = new Vector2();
+        //private Vector2 oldPlayerPos = new Vector2(); //unused?
 
         public override void AI()
         {

@@ -35,7 +35,7 @@ namespace EEMod.Projectiles.Ranged
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
             projectile.velocity.Y += projectile.ai[0];
             if (projectile.ai[1] == 1)
             {

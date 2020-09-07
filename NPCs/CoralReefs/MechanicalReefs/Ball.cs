@@ -82,7 +82,7 @@ float x0, float x1, float x2, float x3)
                     X(i - chainsPerUse, neckOrigin.X, POINT1X, POINT2X, connector.X),
                     Y(i, neckOrigin.Y, POINT1Y, POINT2Y, connector.Y) -
                     Y(i - chainsPerUse, neckOrigin.Y, POINT1Y, POINT2Y, connector.Y));
-                    projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2;
+                    projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2;
                     spriteBatch.Draw(neckTex2D, new Vector2(X(i, neckOrigin.X, POINT1X, POINT2X, connector.X) - Main.screenPosition.X, Y(i, neckOrigin.Y, POINT1Y, POINT2Y, connector.Y) - Main.screenPosition.Y),
                     new Rectangle(0, 0, neckTex2D.Width, neckTex2D.Height), drawColor, projTrueRotation,
                     new Vector2(neckTex2D.Width * 0.5f, neckTex2D.Height * 0.5f), 1, SpriteEffects.None, 0f);
@@ -124,7 +124,7 @@ float x0, float x1, float x2, float x3)
         public override bool PreDraw(SpriteBatch spriteBatch, Color DrawColor)
         {
             npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+            //Player player = Main.player[npc.target]; // unused
             DrawColor = npc.GetAlpha(DrawColor);
             DrawHead(spriteBatch, "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", npc, DrawColor, new Vector2(npc.ai[2], npc.ai[3]));
             Texture2D texture = Main.npcTexture[npc.type];

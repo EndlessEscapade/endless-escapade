@@ -38,7 +38,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(0, 0);
+            return Vector2.Zero;
         }
 
         private int powerUp;

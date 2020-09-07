@@ -85,7 +85,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                 {
                     npc.velocity.X = (float)Math.Sin(npc.ai[0] / 10) * 10;
                     npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 10) * 10;
-                    Dust.NewDustPerfect(npc.Center, 113, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat((float)Math.PI * 2)));
+                    Dust.NewDustPerfect(npc.Center, 113, new Vector2(1, 0).RotatedBy(Main.rand.NextFloat(MathHelper.TwoPi)));
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             }
             if (npc.ai[1] == 2)
             {
-                float rotation = Main.rand.NextFloat((float)Math.PI * 2);
+                float rotation = Main.rand.NextFloat(MathHelper.TwoPi);
                 for (int i = 0; i < 3; i++)
                 {
                     Dust.NewDustPerfect(npc.Center + new Vector2(-(float)Math.Sin(npc.ai[0] / 30) * 100, 0).RotatedBy(rotation), 113, new Vector2((float)Math.Sin(rotation) * 0.4f, (float)Math.Cos(rotation) * 0.4f), 255 * (int)(npc.velocity.X / 10f));

@@ -58,7 +58,7 @@ namespace EEMod.NPCs.CoralReefs
             }
             npc.velocity *= 0.99f;
 
-            npc.rotation = npc.velocity.ToRotation() + MathHelper.Pi / 2;
+            npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
         }
     }
 }

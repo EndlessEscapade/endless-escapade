@@ -63,7 +63,7 @@ namespace EEMod
                 int boidCheck = 0;
                 for (int j = 0; j < PosBuffer.Count; j++)
                 {
-                    if (Vector2.Distance(Pos, PosBuffer[j]) < 5)
+                    if (Vector2.DistanceSquared(Pos, PosBuffer[j]) < 5 * 5)
                     {
                         boidCheck++;
                     }
@@ -76,14 +76,14 @@ namespace EEMod
             }
         }
 
-        public void Draw(Texture2D tex, int noOfFrames, int PerFrame)
+        public virtual void Draw(Texture2D tex, int noOfFrames, int PerFrame)
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             int FHeight = tex.Height / noOfFrames;
             int frameY = frameCounter / PerFrame % noOfFrames;
             Rectangle rect = new Rectangle(0, FHeight * frameY, tex.Width, FHeight);
             Color drawColour = Lighting.GetColor((int)((Position.X + Main.screenPosition.X) / 16f), (int)((Position.Y + Main.screenPosition.Y) / 16f));
-            Main.spriteBatch.Draw(tex, Position.ForDraw() + Main.screenPosition, rect, drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), (float)Math.PI, rect.Size() / 2, scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, Position.ForDraw() + Main.screenPosition, rect, drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), MathHelper.Pi, rect.Size() / 2, scale, SpriteEffects.None, 0f);
         }
     }
 }

@@ -1,5 +1,6 @@
 using EEMod.Autoloading;
 using EEMod.Buffs.Buffs;
+using EEMod.Config;
 using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Items.Fish;
@@ -454,7 +455,7 @@ namespace EEMod
                     }
                 }
             }
-            if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.instance.CamMoveBool)
+            if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
             {
                 if (player.velocity.X > 1)
                 {
@@ -588,45 +589,45 @@ namespace EEMod
             switch (Main.worldName)
             {
                 case KeyID.Pyramids:
-                    {
-                        UpdatePyramids();
-                        break;
-                    }
+                {
+                    UpdatePyramids();
+                    break;
+                }
                 case KeyID.Sea:
-                    {
-                        UpdateSea();
-                        break;
-                    }
+                {
+                    UpdateSea();
+                    break;
+                }
                 case KeyID.CoralReefs:
-                    {
-                        UpdateCR();
-                        break;
-                    }
+                {
+                    UpdateCR();
+                    break;
+                }
                 case KeyID.Island:
-                    {
-                        UpdateIsland();
-                        break;
-                    }
+                {
+                    UpdateIsland();
+                    break;
+                }
                 case KeyID.VolcanoIsland:
-                    {
-                        UpdateVolcano();
-                        break;
-                    }
+                {
+                    UpdateVolcano();
+                    break;
+                }
                 case KeyID.VolcanoInside:
-                    {
-                        UpdateInnerVolcano();
-                        break;
-                    }
+                {
+                    UpdateInnerVolcano();
+                    break;
+                }
                 case KeyID.Cutscene1:
-                    {
-                        UpdateCutscene();
-                        break;
-                    }
+                {
+                    UpdateCutscene();
+                    break;
+                }
                 default:
-                    {
-                        UpdateWorld();
-                        break;
-                    }
+                {
+                    UpdateWorld();
+                    break;
+                }
             }
             UpdateCutscenesAndTempShaders();
         }
@@ -711,126 +712,126 @@ namespace EEMod
                     switch (i)
                     {
                         case RuneID.SandRune:
+                        {
+                            if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
-                                {
-                                    runeCooldown = 180;
-                                }
-                                else
-                                {
-                                    player.moveSpeed *= 1.15f;
-                                    player.jumpSpeedBoost *= 1.6f;
-                                    player.noFallDmg = true;
-                                    if (player.wet)
-                                    {
-                                        player.meleeSpeed *= 1.07f;
-                                        player.noKnockback = false;
-                                    }
-                                }
-                                break;
+                                runeCooldown = 180;
                             }
+                            else
+                            {
+                                player.moveSpeed *= 1.15f;
+                                player.jumpSpeedBoost *= 1.6f;
+                                player.noFallDmg = true;
+                                if (player.wet)
+                                {
+                                    player.meleeSpeed *= 1.07f;
+                                    player.noKnockback = false;
+                                }
+                            }
+                            break;
+                        }
                         case RuneID.ShroomRune:
+                        {
+                            if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
-                                {
-                                    runeCooldown = 600;
-                                }
-                                else
-                                {
-                                    player.statDefense = (int)(player.statDefense * 1.1f);
-                                    player.statDefense += 5;
-                                }
-                                break;
+                                runeCooldown = 600;
                             }
+                            else
+                            {
+                                player.statDefense = (int)(player.statDefense * 1.1f);
+                                player.statDefense += 5;
+                            }
+                            break;
+                        }
                         case RuneID.WaterRune:
+                        {
+                            if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
+                                Main.NewText("funny");
+                                if (bubbleRuneBubble == 0)
                                 {
-                                    Main.NewText("funny");
-                                    if (bubbleRuneBubble == 0)
-                                    {
-                                        bubbleRuneBubble = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
-                                    }
-                                    else
-                                    {
-                                        Main.projectile[bubbleRuneBubble].Kill();
-                                    }
-                                    runeCooldown = 600;
+                                    bubbleRuneBubble = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
                                 }
                                 else
                                 {
-                                    if (player.wet)
+                                    Main.projectile[bubbleRuneBubble].Kill();
+                                }
+                                runeCooldown = 600;
+                            }
+                            else
+                            {
+                                if (player.wet)
+                                {
+                                    player.gravity = 0;
+                                    if (player.controlUp)
                                     {
-                                        player.gravity = 0;
-                                        if (player.controlUp)
-                                        {
-                                            player.gravity = -0.1f;
-                                        }
+                                        player.gravity = -0.1f;
+                                    }
 
-                                        if (player.controlDown)
-                                        {
-                                            player.gravity = 0.1f;
-                                        }
+                                    if (player.controlDown)
+                                    {
+                                        player.gravity = 0.1f;
                                     }
                                 }
-                                break;
                             }
+                            break;
+                        }
                         case RuneID.LeafRune:
+                        {
+                            Main.NewText("haha");
+                            if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                Main.NewText("haha");
-                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
-                                {
-                                    runeCooldown = 180;
-                                }
-                                else
-                                {
-                                    player.meleeSpeed *= 1.08f;
-                                }
-                                player.moveSpeed *= 1.06f;
-                                break;
+                                runeCooldown = 180;
                             }
+                            else
+                            {
+                                player.meleeSpeed *= 1.08f;
+                            }
+                            player.moveSpeed *= 1.06f;
+                            break;
+                        }
                         case RuneID.FireRune:
+                        {
+                            if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
-                                {
-                                    runeCooldown = 180;
-                                }
-                                else
-                                {
-                                    player.dash = 3;
-                                }
-                                player.moveSpeed *= 1.06f;
-                                player.statDefense = (int)(player.statDefense * 0.93f);
-                                break;
+                                runeCooldown = 180;
                             }
+                            else
+                            {
+                                player.dash = 3;
+                            }
+                            player.moveSpeed *= 1.06f;
+                            player.statDefense = (int)(player.statDefense * 0.93f);
+                            break;
+                        }
                         case RuneID.IceRune:
+                        {
+                            if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
-                                {
-                                    runeCooldown = 180;
-                                }
-                                else
-                                {
-                                    player.dash = 3;
-                                }
-                                player.moveSpeed *= 1.06f;
-                                player.statDefense = (int)(player.statDefense * 0.93f);
-                                break;
+                                runeCooldown = 180;
                             }
+                            else
+                            {
+                                player.dash = 3;
+                            }
+                            player.moveSpeed *= 1.06f;
+                            player.statDefense = (int)(player.statDefense * 0.93f);
+                            break;
+                        }
                         case RuneID.SkyRune:
+                        {
+                            if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
-                                {
-                                    runeCooldown = 180;
-                                }
-                                else
-                                {
-                                    player.dash = 3;
-                                }
-                                player.moveSpeed *= 1.06f;
-                                player.statDefense = (int)(player.statDefense * 0.93f);
-                                break;
+                                runeCooldown = 180;
                             }
+                            else
+                            {
+                                player.dash = 3;
+                            }
+                            player.moveSpeed *= 1.06f;
+                            player.statDefense = (int)(player.statDefense * 0.93f);
+                            break;
+                        }
                     }
                 }
             }
@@ -1070,15 +1071,7 @@ namespace EEMod
             if (godMode)
             {
                 int getRand = Main.rand.Next(5);
-                int healSet = damage / 9;
-                if (healSet > 5)
-                {
-                    healSet = 5;
-                }
-                if (healSet < 1)
-                {
-                    healSet = 1;
-                }
+                int healSet = Helpers.Clamp( damage / 9, 1, 5);
 
                 if (getRand == 1)
                 {

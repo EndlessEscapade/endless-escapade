@@ -4,7 +4,7 @@ namespace EEMod
 {
     public class CRBgStyleScreenShaderData : ScreenShaderData
     {
-        private int CRIndex;
+        //private int CRIndex; // unused?
 
         public CRBgStyleScreenShaderData(string passName) : base(passName)
         {
@@ -12,7 +12,7 @@ namespace EEMod
 
         private void UpdateCRIndex()
         {
-            CRIndex = 0;
+            //CRIndex = 0;
             return;
         }
 

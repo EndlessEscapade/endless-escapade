@@ -94,27 +94,27 @@ namespace EEMod.NPCs.Bosses.Akumo
             switch (mode)
             {
                 case 0:
-                    {
-                        addOn = new Vector2(-400, -400);
-                        break;
-                    }
+                {
+                    addOn = new Vector2(-400, -400);
+                    break;
+                }
                 case 1:
-                    {
-                        addOn = new Vector2(0, -400);
-                        break;
-                    }
+                {
+                    addOn = new Vector2(0, -400);
+                    break;
+                }
                 case 2:
-                    {
-                        addOn = new Vector2(400, -400);
-                        break;
-                    }
+                {
+                    addOn = new Vector2(400, -400);
+                    break;
+                }
             }
         }
 
         private bool isDashing = false;
         private bool isVortexing = false;
         private bool isCircling = false;
-        private bool isFeathering = false;
+        //private bool isFeathering = false; // unused atm
         private readonly int nextAttackTime = 240;
         private readonly int spawnOffset = 1000;
         private int lengthOfAttack = 120;
@@ -288,7 +288,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         private void Feathers()
         {
             npc.velocity *= 0.98f;
-            isFeathering = true;
+            //isFeathering = true;
             Player player = Main.player[npc.target];
             npc.velocity.X = 0;
             npc.velocity.Y = 0;

@@ -78,7 +78,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
-            npc.rotation = npc.velocity.ToRotation() + (float)Math.PI;
+            npc.rotation = npc.velocity.ToRotation() + MathHelper.Pi;
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
             npc.ai[1]++;

@@ -168,7 +168,9 @@ namespace EEMod.Tiles.Furniture
             player.showItemIcon2 = -1;
             if (chest < 0)
             {
-                player.showItemIconText = Lang.chestType[0].Value;
+#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
+                player.showItemIconText = Lang.chestType[0].Value; // TODO: Change to Language.GetText
+#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
             }
             else
             {

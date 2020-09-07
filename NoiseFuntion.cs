@@ -1,6 +1,9 @@
 using Microsoft.Xna.Framework;
 using System.Drawing;
+using System.IO;
 using Terraria;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
@@ -8,7 +11,7 @@ namespace EEMod
     {
         private Vector2 _sampleSize;
         private readonly float _division;
-        private readonly Bitmap _myBitmap = new Bitmap($@"{Main.SavePath}\Mod Sources\EEMod\noise2.png");
+        private readonly Bitmap _myBitmap; //= new Bitmap($@"{Main.SavePath}\Mod Sources\EEMod\noise2.png");
 
         public Vector2 middle;
 
@@ -17,6 +20,11 @@ namespace EEMod
             _sampleSize = sampleSize;
             _division = division;
             middle = sampleSize * 0.5f;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                ImageIO.RawToPng(EEMod.instance.GetFileStream("noise2.rawimg"), ms); // tmod stores images as .rawimg
+                _myBitmap = new Bitmap(ms);
+            }
         }
 
         public int[,] ArrayOfSamples()

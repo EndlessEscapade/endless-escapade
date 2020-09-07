@@ -9,8 +9,8 @@ namespace EEMod.Projectiles
 {
     public abstract class Blade : ModProjectile
     {
-        public virtual float rotationalCoverage => (float)Math.PI;
-        public virtual float RotationalOffset => (float)Math.PI / 2f;
+        public virtual float rotationalCoverage => MathHelper.Pi ;
+        public virtual float RotationalOffset => MathHelper.PiOver2;
         protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         public virtual float dirtSmashIntensity => 12;
         public virtual int shakeLength => 20;
@@ -50,13 +50,13 @@ namespace EEMod.Projectiles
             {
                 projectile.Kill();
             }
-            Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
+            //Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center); //unused
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             int currentFrame = (int)(progression * frames);
-            Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
+            //Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center); //unused
             if (Direction == 0)
             {
                 spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * currentFrame, width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);

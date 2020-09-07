@@ -26,7 +26,7 @@ namespace EEMod
             Main.spawnTileY = 92;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            FillRegion(400, 400, new Vector2(0, 0), TileID.SandstoneBrick);
+            FillRegion(400, 400, Vector2.Zero, TileID.SandstoneBrick);
             Pyramid(63, 42);
             EEMod.isSaving = false;
         }
@@ -39,7 +39,7 @@ namespace EEMod
             Main.spawnTileY = 92;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            FillWall(400, 400, new Vector2(0, 0), WallID.Waterfall);
+            FillWall(400, 400, Vector2.Zero, WallID.Waterfall);
             EEMod.isSaving = false;
         }
 
@@ -61,7 +61,7 @@ namespace EEMod
             {
                 //Placing initial blocks
                 EEMod.progressMessage = "Generating Upper layer base";
-                FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, 0), ModContent.TileType<LightGemsandTile>());
+                FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), Vector2.Zero, ModContent.TileType<LightGemsandTile>());
                 EEMod.progressMessage = "Generating Mid layer base";
                 FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3), ModContent.TileType<GemsandTile>());
                 EEMod.progressMessage = "Generating Lower layer base";
@@ -72,8 +72,9 @@ namespace EEMod
                 FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
                 int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
                 EEMod.progressMessage = "Finding Suitable Chasm Positions";
-                NoiseGenWave(new Vector2(300, 80), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
-                NoiseGenWave(new Vector2(300, 60), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(50, 50), TileID.StoneSlab, 0.6f);
+                Vector2 size = new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20);
+                NoiseGenWave(new Vector2(300, 80), size, new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
+                NoiseGenWave(new Vector2(300, 60), size, new Vector2(50, 50), TileID.StoneSlab, 0.6f);
 
                 //Making chasms
                 for (int i = 0; i < roomsLeft.Length; i++)
@@ -396,8 +397,8 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
-            RemoveWaterFromRegion(Main.maxTilesX, 170, new Vector2(0, 0));
+            FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            RemoveWaterFromRegion(Main.maxTilesX, 170, Vector2.Zero);
 
             MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSandTile>(), 15, 15);
 
@@ -467,8 +468,8 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
-            RemoveWaterFromRegion(Main.maxTilesX, 170, new Vector2(0, 0));
+            FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+            RemoveWaterFromRegion(Main.maxTilesX, 170, Vector2.Zero);
 
             MakeOvalJaggedTop(Main.maxTilesX, 50, new Vector2(0, 165), ModContent.TileType<CoralSandTile>(), 15, 15);
 
@@ -533,7 +534,7 @@ namespace EEMod
             Main.maxTilesY = 400;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<VolcanicAshTile>());
+            FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<VolcanicAshTile>());
             MakeLayer(200, 100, 90, 1, ModContent.TileType<VolcanicAshTile>());
             MakeOvalFlatTop(40, 10, new Vector2(200 - 20, 100), ModContent.TileType<VolcanicAshTile>());
             MakeChasm(200, 140, 110, ModContent.TileType<GemsandTile>(), 0, 5, 0);
