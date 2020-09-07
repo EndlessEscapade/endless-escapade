@@ -805,41 +805,42 @@ namespace EEMod
             {
                 Main.NewText("few");
             }*/
-
-            int lastNoOfShipTiles = missingShipTiles.Count;
-
-            try
+            if (missingShipTiles != null)
             {
-                int DefShipPosX = 100;
-                int DefShipPosY = TileCheckWater(100) - 22;
+                int lastNoOfShipTiles = missingShipTiles.Count;
 
-                if (Main.LocalPlayer.Center.X < (DefShipPosX + ShipTiles.GetLength(1)) * 16 && Main.LocalPlayer.Center.Y < (DefShipPosY + ShipTiles.GetLength(0)) * 16)
+                try
                 {
-                    ShipComplete();
-                }
-            }
-            catch
-            {
-            }
+                    int DefShipPosX = 100;
+                    int DefShipPosY = TileCheckWater(100) - 22;
 
-            if (missingShipTiles.Count != lastNoOfShipTiles)
-            {
-                for (int i = 0; i < Main.projectile.Length; i++)
-                {
-                    if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
+                    if (Main.LocalPlayer.Center.X < (DefShipPosX + ShipTiles.GetLength(1)) * 16 && Main.LocalPlayer.Center.Y < (DefShipPosY + ShipTiles.GetLength(0)) * 16)
                     {
-                        Main.projectile[i].Kill();
+                        ShipComplete();
                     }
                 }
-
-                foreach (Vector2 tile in missingShipTiles)
+                catch
                 {
-                    int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8 + (-3 * 16), 8 + (-6 * 16)), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
-                    WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
-                    newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
+                }
+
+                if (missingShipTiles.Count != lastNoOfShipTiles)
+                {
+                    for (int i = 0; i < Main.projectile.Length; i++)
+                    {
+                        if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
+                        {
+                            Main.projectile[i].Kill();
+                        }
+                    }
+
+                    foreach (Vector2 tile in missingShipTiles)
+                    {
+                        int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8 + (-3 * 16), 8 + (-6 * 16)), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
+                        WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
+                        newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
+                    }
                 }
             }
-
             if (EEModConfigClient.Instance.ParticleEffects)
             {
                 markerPlacer++;
