@@ -50,7 +50,7 @@ namespace EEMod.Items.Weapons.Mage
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<HydrofluoricBar>(), 16);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

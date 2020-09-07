@@ -77,7 +77,7 @@ namespace EEMod
         private void UnloadIL()
         {
             //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
-            IL.Terraria.Main.DrawWater += Main_DrawWater;
+            IL.Terraria.Main.DrawWater -= Main_DrawWater;
             //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
 
             IL.Terraria.NPC.AI_001_Slimes -= Practice;

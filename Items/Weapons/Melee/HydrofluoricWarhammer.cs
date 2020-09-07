@@ -68,7 +68,7 @@ namespace EEMod.Items.Weapons.Melee
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 10);
+            recipe.AddIngredient(ModContent.ItemType<HydrofluoricBar>(), 10);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

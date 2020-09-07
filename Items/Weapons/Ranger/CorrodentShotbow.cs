@@ -45,7 +45,7 @@ namespace EEMod.Items.Weapons.Ranger
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 14);
+            recipe.AddIngredient(ModContent.ItemType<HydrofluoricBar>(), 14);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
