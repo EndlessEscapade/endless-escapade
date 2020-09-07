@@ -1,11 +1,11 @@
+using EEMod.Tiles.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Ores;
 
 namespace EEMod.Items.Placeables.Ores
 {
-    public class HydrofluoricBar : ModItem
+    public class HydroFluoricBar : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EEMod.Autoloading
+﻿namespace EEMod.Autoloading
 {
     internal enum LoadMode
     {

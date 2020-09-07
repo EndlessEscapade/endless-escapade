@@ -1,15 +1,9 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Terraria.Enums;
-using Terraria.ID;
-using EEMod.Items.Placeables.Furniture;
-using Microsoft.Xna.Framework.Graphics;
 using EEMod.Items;
-using System.Windows;
-using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -36,7 +30,7 @@ namespace EEMod.Tiles.Furniture
                 {
                     for (int k = 0; k < 100; k++)
                     {
-                        if (EEWorld.EEWorld.PylonBegin[k] == default(Vector2))
+                        if (EEWorld.EEWorld.PylonBegin[k] == default)
                         {
                             EEWorld.EEWorld.PylonBegin[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = true;
@@ -48,7 +42,7 @@ namespace EEMod.Tiles.Furniture
                 {
                     for (int k = 0; k < 100; k++)
                     {
-                        if (EEWorld.EEWorld.PylonEnd[k] == default(Vector2) && new Vector2(i, j) * 16 + new Vector2(8, -8) != EEWorld.EEWorld.PylonBegin[k])
+                        if (EEWorld.EEWorld.PylonEnd[k] == default && new Vector2(i, j) * 16 + new Vector2(8, -8) != EEWorld.EEWorld.PylonBegin[k])
                         {
                             EEWorld.EEWorld.PylonEnd[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = false;
@@ -72,6 +66,7 @@ namespace EEMod.Tiles.Furniture
             }
             return true;
         }
+
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
             for (int l = 0; l < 100; l++)
@@ -96,13 +91,13 @@ namespace EEMod.Tiles.Furniture
                 Main.spriteBatch.Draw(TextureCache.Zipline, Main.LocalPlayer.position + Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (Main.LocalPlayer.position - Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin).ToRotation(), new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0);
             }
         }
+
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             //for (int k = 0; k < 100; k++)
             //{
             //    if (EEWorld.EEWorld.PylonBegin[k] == new Vector2(i, j) * 16 + new Vector2(8, -8))
             //    {
-
             //    }
             //}
         }

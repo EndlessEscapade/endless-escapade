@@ -1,11 +1,11 @@
+using EEMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using EEMod.Items.Placeables.Furniture;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -37,17 +37,25 @@ namespace EEMod.Tiles.Furniture
         }
 
         private bool isIntersecting;
+
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
             int frameX = Main.tile[i, j].frameX;
             int frameY = Main.tile[i, j].frameY;
             Player player = Main.LocalPlayer;
             if (new Rectangle((int)player.position.X / 16, (int)player.position.Y / 16, 1, 2).Intersects(new Rectangle(i, j, 1, 1)) && !isIntersecting)
+            {
                 isIntersecting = true;
+            }
             else
+            {
                 isIntersecting = false;
+            }
+
             if (isIntersecting)
+            {
                 player.GetModPlayer<EEPlayer>().InspectObject();
+            }
         }
     }
 }

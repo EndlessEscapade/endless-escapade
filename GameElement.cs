@@ -1,12 +1,8 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Graphics;
-using System.IO;
-using Terraria.ID;
 using EEMod.Extensions;
-using EEMod.Net;
-using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
 
 namespace EEMod
 {
@@ -18,24 +14,31 @@ namespace EEMod
         public EEGame parent;
         public Vector2 velocity;
         public string tag;
+
         public Rectangle elementRect => new Rectangle((int)(UIPosRunTime.X - sizeOfMainCanvas.X / 2),
                                                       (int)(UIPosRunTime.Y - sizeOfMainCanvas.Y / 2),
                                                       (int)sizeOfMainCanvas.X,
                                                       (int)sizeOfMainCanvas.Y);
+
         public virtual float speedOfStartUp => 16f;
-        float colourOfStartUp = 0;
-        bool elementActive;
-        bool isBoundToMouse = false;
+        private float colourOfStartUp = 0;
+        private bool elementActive;
+        private bool isBoundToMouse = false;
+
         public virtual void StartElement() => elementActive = true;
+
         public void AttachTag(string key) => tag = key;
+
         public virtual void EndElement() => elementActive = false;
 
         public virtual void Initialize()
         {
-
         }
+
         public void BindElementToGame(EEGame parent) => this.parent = parent;
+
         public void BindElementToTexture(Texture2D tex) => this.tex = tex;
+
         public GameElement(Vector2 size, Color colour, Vector2 Center)
         {
             sizeOfMainCanvas = size;
@@ -53,6 +56,7 @@ namespace EEMod
             this.bounce = bounce;
             this.bounceBuffer = bounceBuffer;
         }
+
         public virtual void AttatchToMouse(float speed, int playerWhoAmI)
         {
             isBoundToMouse = true;
@@ -68,14 +72,15 @@ namespace EEMod
         public float friction;
         public float bounce;
         public int bounceBuffer;
-        int BBTimer;
-        int playerWhoAmI;
+        private int BBTimer;
+        private int playerWhoAmI;
         public Vector2 mousePosition;
         public Texture2D tex = Main.magicPixel;
-        int yeet;
-        Vector2 lastSyncPos;
-        Vector2 lastSyncPos2;
-        int lastCool;
+        private int yeet;
+        private Vector2 lastSyncPos;
+        private Vector2 lastSyncPos2;
+        private int lastCool;
+
         public void SyncVelocityCache()
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -83,6 +88,7 @@ namespace EEMod
                 EEServerVariableCache.SyncVelocity(velocity);
             }
         }
+
         public void SyncPositionCache()
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -90,6 +96,7 @@ namespace EEMod
                 EEServerVariableCache.SyncPosition(UIPosRunTime);
             }
         }
+
         public void SyncCoolCache()
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -97,11 +104,13 @@ namespace EEMod
                 EEServerVariableCache.SyncCoolDown(BBTimer);
             }
         }
+
         public void SyncAllCache()
         {
             SyncPositionCache();
             SyncVelocityCache();
         }
+
         public void Sync(string tagName)
         {
             for (int i = 0; i < 255; i++)
@@ -132,9 +141,9 @@ namespace EEMod
             lastSyncPos = EEServerVariableCache.VectorStorage;
             lastSyncPos2 = EEServerVariableCache.PositionStorage;
         }
+
         public virtual void Update(GameTime gameTime)
         {
-
             if (isBoundToMouse)
             {
                 for (int i = 0; i < 255; i++)
@@ -150,7 +159,7 @@ namespace EEMod
                     MultiplayerMouseTracker.UpdateMyMouse();
                 }
                 Vector2 dis = Main.LocalPlayer.Center - Main.player[yeet].Center;
-                Vector2 chosen = (playerWhoAmI != 0 ? MultiplayerMouseTracker.GetMousePos(yeet) + dis : Main.MouseWorld);
+                Vector2 chosen = playerWhoAmI != 0 ? MultiplayerMouseTracker.GetMousePos(yeet) + dis : Main.MouseWorld;
                 velocity = (chosen - UIPosRunTime) / SpeedOfMouseBinding;
             }
             if (BBTimer > 0)
@@ -158,9 +167,14 @@ namespace EEMod
                 BBTimer--;
             }
             if (elementActive)
+            {
                 colourOfStartUp += (1 - colourOfStartUp) / speedOfStartUp;
+            }
             else
+            {
                 colourOfStartUp += (-colourOfStartUp) / speedOfStartUp;
+            }
+
             if (parent != null)
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * 60;

@@ -1,9 +1,7 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles.Mage;
-using EEMod.Projectiles;
 
 namespace EEMod.Items
 {
@@ -34,11 +32,13 @@ namespace EEMod.Items
         }
 
         public int yeet;
-        int proj;
+        private int proj;
+
         public override void UpdateInventory(Player player)
         {
             yeet = 0;
         }
+
         public override void HoldItem(Player player)
         {
             if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI)

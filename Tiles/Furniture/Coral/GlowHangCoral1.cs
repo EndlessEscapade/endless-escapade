@@ -1,29 +1,32 @@
-using Terraria;
-using Terraria.ObjectData;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.IO;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using System;
+using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using System.IO;
+using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
     public class GlowHangCoral1TE : ModTileEntity
     {
         public float kayLerp;
+
         public override bool ValidTile(int i, int j)
         {
             Tile tile = Main.tile[i, j];
             return tile.active();
         }
+
         public override void Update()
         {
             kayLerp += Main.rand.NextFloat(0, 0.04f);
         }
+
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -35,6 +38,7 @@ namespace EEMod.Tiles.Furniture.Coral
 
             return Place(i, j);
         }
+
         public override void NetSend(BinaryWriter writer, bool lightSend)
         {
             writer.Write(kayLerp);
@@ -52,11 +56,13 @@ namespace EEMod.Tiles.Furniture.Coral
                 [nameof(kayLerp)] = kayLerp
             };
         }
+
         public override void Load(TagCompound tag)
         {
             kayLerp = tag.GetFloat(nameof(kayLerp));
         }
     }
+
     public class GlowHangCoral1 : ModTile
     {
         public override void SetDefaults()
@@ -79,6 +85,7 @@ namespace EEMod.Tiles.Furniture.Coral
             AddMapEntry(new Color(0, 100, 200), name);
             dustType = DustID.Dirt;
         }
+
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Main.tile[i, j];
@@ -89,6 +96,7 @@ namespace EEMod.Tiles.Furniture.Coral
                 b = 0.05f;
             }
         }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Main.tile[i, j];
@@ -123,7 +131,5 @@ namespace EEMod.Tiles.Furniture.Coral
                 }
             }
         }
-
-
     }
 }

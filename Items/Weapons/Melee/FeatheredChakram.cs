@@ -1,10 +1,8 @@
+using EEMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles.Melee;
-using System;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -47,7 +45,7 @@ namespace EEMod.Items.Weapons.Melee
             //    }
             //}
             //if(no == 0)
-            //Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FCHandler>(), item.damage, item.knockBack, Main.myPlayer, (float)Math.PI);
+            //Projectile.NewProjectile(Main.LocalPlayer.Center, Vector2.Zero, ModContent.ProjectileType<FCHandler>(), item.damage, item.knockBack, Main.myPlayer, MathHelper.Pi);
             //return true;
         }
     }

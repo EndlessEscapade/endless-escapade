@@ -12,15 +12,10 @@ namespace EEMod
     public class WorldGenerator
     {
         internal List<GenPass> _passes = new List<GenPass>();
-
         internal float _totalLoadWeight;
-
         internal int _seed;
 
-        public WorldGenerator(int seed)
-        {
-            _seed = seed;
-        }
+        public WorldGenerator(int seed) => _seed = seed;
 
         public void Append(GenPass pass)
         {
@@ -32,32 +27,39 @@ namespace EEMod
         {
             Stopwatch stopwatch = new Stopwatch();
             float num = 0f;
+
             foreach (GenPass pass in _passes)
             {
                 num += pass.Weight;
             }
+
             if (progress == null)
             {
                 progress = new GenerationProgress();
             }
+
             progress.TotalWeight = num;
             Main.menuMode = 888;
             Main.MenuUI.SetState(new UIWorldLoad(progress));
-            foreach (GenPass pass2 in _passes)
+
+            foreach (GenPass pass in _passes)
             {
                 WorldGen._genRand = new UnifiedRandom(_seed);
                 Main.rand = new UnifiedRandom(_seed);
                 stopwatch.Start();
-                progress.Start(pass2.Weight);
+                progress.Start(pass.Weight);
+
                 try
                 {
-                    pass2.Apply(progress);
+                    pass.Apply(progress);
                 }
                 catch (Exception ex)
                 {
-                    string text = string.Join("\n", Language.GetTextValue("tModLoader.WorldGenError"), pass2.Name, ex);
+                    string text = string.Join("\n", Language.GetTextValue("tModLoader.WorldGenError"), pass.Name, ex);
+
                     throw ex;
                 }
+
                 progress.End();
                 stopwatch.Reset();
             }

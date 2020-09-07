@@ -1,9 +1,9 @@
-﻿using System;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Akumo
 {
@@ -38,8 +38,9 @@ namespace EEMod.NPCs.Bosses.Akumo
             return true;
         }
 
-        private float speed = 8;
-        private float xAddon = Main.rand.NextFloat(-.1f, .1f);
+        private readonly float speed = 8;
+        private readonly float xAddon = Main.rand.NextFloat(-.1f, .1f);
+
         public override void AI()
         {
             projectile.ai[0] += 0.1f;
@@ -54,7 +55,6 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {
-
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

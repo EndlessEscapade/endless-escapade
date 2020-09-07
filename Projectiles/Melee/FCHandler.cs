@@ -1,8 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,39 +26,9 @@ namespace EEMod.Projectiles.Melee
             projectile.damage = 0;
             projectile.alpha = 255;
             projectile.timeLeft = 1000000000;
-
         }
-        Vector2 GoTo;
 
-        private NPC HomeOnTarget()
-        {
-            const bool homingCanAimAtWetEnemies = true;
-            const float homingMaximumRangeInPixels = 2000;
-
-            int selectedTarget = -1;
-            for (int i = 0; i < Main.maxNPCs - 1; i++)
-            {
-                NPC target = Main.npc[i];
-                if (target.active && (!target.wet || homingCanAimAtWetEnemies) && target.type != NPCID.TargetDummy)
-                {
-                    float distance = projectile.Distance(target.Center);
-                    if (distance <= homingMaximumRangeInPixels &&
-                        (
-                            selectedTarget == -1 || //there is no selected target
-                            projectile.Distance(Main.npc[selectedTarget].Center) > distance)
-                    )
-                        selectedTarget = i;
-                }
-            }
-            //projectile.velocity.X *= 1.032f;
-            //projectile.velocity.Y *= 1.032f;
-            if (selectedTarget == -1)
-                return null;
-            return Main.npc[selectedTarget];
-        }
-        NPC npc;
-        int[] WTRPosition = Helpers.FillPseudoRandomUniform(4);
-        int dist = 300;
+        private readonly int[] WTRPosition = Helpers.FillPseudoRandomUniform(4);
         public int[] projectileIndex = { -1, -1, -1, -1 };
 
         public override void AI()
@@ -101,9 +67,7 @@ namespace EEMod.Projectiles.Melee
                         Main.projectile[projectileIndex[i]].velocity += (npc.Center + PositionScope[WTRPosition[i]] - Main.projectile[projectileIndex[i]].Center) / 200f - Main.projectile[projectileIndex[i]].velocity * 0.1f;
                     }
                 }
-
             }*/
         }
     }
 }
-

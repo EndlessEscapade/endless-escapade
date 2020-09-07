@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -18,7 +16,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
             projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
             projectile.penetrate = -1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
-            projectile.timeLeft = 27;  //The amount of time the projectile is alive for  
+            projectile.timeLeft = 27;  //The amount of time the projectile is alive for
             projectile.tileCollide = true;
         }
 
@@ -30,7 +28,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             }
             if (projectile.ai[1] == 1)
             {
-                Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * .6f) / 255f);   //this is the light colors
+                Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * .6f / 255f);   //this is the light colors
 
                 if (projectile.ai[0] > 1f)
                 {

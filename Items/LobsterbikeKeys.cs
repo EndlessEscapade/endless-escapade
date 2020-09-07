@@ -1,9 +1,6 @@
-using Terraria;
+using EEMod.Mounts;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles;
-using Microsoft.Xna.Framework;
-using EEMod.Mounts;
 
 namespace EEMod.Items
 {

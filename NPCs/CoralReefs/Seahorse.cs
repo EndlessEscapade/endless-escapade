@@ -1,10 +1,8 @@
-﻿using Terraria;
+﻿using EEMod.ID;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.EEWorld;
-using EEMod.ID;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -16,6 +14,7 @@ namespace EEMod.NPCs.CoralReefs
         }
 
         private int frameNumber = 0;
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -48,16 +47,23 @@ namespace EEMod.NPCs.CoralReefs
         public override void AI()
         {
             Player target = Main.player[npc.target];
-            if(npc.wet)
+            if (npc.wet)
+            {
                 if (target.WithinRange(npc.Center, 6400))
+                {
                     npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 4;
+                }
+            }
+
             npc.rotation = npc.velocity.X / 6;
         }
 
         public override void NPCLoot()
         {
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+            {
                 EEWorld.EEWorld.instance.minionsKilled++;
+            }
         }
     }
 }

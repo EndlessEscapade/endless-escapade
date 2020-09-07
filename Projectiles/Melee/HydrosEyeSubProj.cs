@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,8 +9,8 @@ namespace EEMod.Projectiles.Melee
 {
     public class HydrosEyeSubProj : ModProjectile
     {
-
         public static short customGlowMask = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydros Eye");
@@ -31,6 +30,7 @@ namespace EEMod.Projectiles.Melee
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override void AI()
         {
             projectile.velocity = projectile.velocity.RotatedBy(Math.PI / 180) * 0.99f;
@@ -43,6 +43,7 @@ namespace EEMod.Projectiles.Melee
             Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), new Color(4, 2, 18f, 0), projectile.rotation, new Vector2(8), 0.5f, SpriteEffects.None, 0);
             return false;
         }
+
         public override void Kill(int timeLeft)
         {
             for (var a = 0; a < 2; a++)

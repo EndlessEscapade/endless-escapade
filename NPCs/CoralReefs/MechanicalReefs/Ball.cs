@@ -1,9 +1,9 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
@@ -40,18 +40,19 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 float x0, float x1, float x2, float x3)
         {
             return (float)(
-                x0 * Math.Pow((1 - t), 3) +
-                x1 * 3 * t * Math.Pow((1 - t), 2) +
+                x0 * Math.Pow(1 - t, 3) +
+                x1 * 3 * t * Math.Pow(1 - t, 2) +
                 x2 * 3 * Math.Pow(t, 2) * (1 - t) +
                 x3 * Math.Pow(t, 3)
             );
         }
+
         private static float Y(float t,
             float y0, float y1, float y2, float y3)
         {
             return (float)(
-                 y0 * Math.Pow((1 - t), 3) +
-                 y1 * 3 * t * Math.Pow((1 - t), 2) +
+                 y0 * Math.Pow(1 - t, 3) +
+                 y1 * 3 * t * Math.Pow(1 - t, 2) +
                  y2 * 3 * Math.Pow(t, 2) * (1 - t) +
                  y3 * Math.Pow(t, 3)
              );
@@ -73,7 +74,6 @@ float x0, float x1, float x2, float x3)
                 {
                     if (i % chainsPerUse * 2 == 0)
                     {
-
                     }
                     Vector2 distBetween;
                     float projTrueRotation;
@@ -82,7 +82,7 @@ float x0, float x1, float x2, float x3)
                     X(i - chainsPerUse, neckOrigin.X, POINT1X, POINT2X, connector.X),
                     Y(i, neckOrigin.Y, POINT1Y, POINT2Y, connector.Y) -
                     Y(i - chainsPerUse, neckOrigin.Y, POINT1Y, POINT2Y, connector.Y));
-                    projTrueRotation = distBetween.ToRotation() - (float)Math.PI / 2;
+                    projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2;
                     spriteBatch.Draw(neckTex2D, new Vector2(X(i, neckOrigin.X, POINT1X, POINT2X, connector.X) - Main.screenPosition.X, Y(i, neckOrigin.Y, POINT1Y, POINT2Y, connector.Y) - Main.screenPosition.Y),
                     new Rectangle(0, 0, neckTex2D.Width, neckTex2D.Height), drawColor, projTrueRotation,
                     new Vector2(neckTex2D.Width * 0.5f, neckTex2D.Height * 0.5f), 1, SpriteEffects.None, 0f);
@@ -113,11 +113,10 @@ float x0, float x1, float x2, float x3)
             double rad = deg * (Math.PI / 180) + Math.PI / 2;
             double dist = 180;
 
-
             npc.ai[2] = npc.Center.X - (float)(Math.Cos(rad) * dist) - npc.width / 2;
             npc.ai[3] = npc.Center.Y - (float)(Math.Sin(rad) * dist) - npc.height / 2;
 
-            npc.ai[1] = ((float)Math.Cos(npc.ai[0] * (Math.PI / 180)) * 10);
+            npc.ai[1] = (float)Math.Cos(npc.ai[0] * (Math.PI / 180)) * 10;
 
             npc.velocity.Y = 2;
         }
@@ -125,7 +124,7 @@ float x0, float x1, float x2, float x3)
         public override bool PreDraw(SpriteBatch spriteBatch, Color DrawColor)
         {
             npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+            //Player player = Main.player[npc.target]; // unused
             DrawColor = npc.GetAlpha(DrawColor);
             DrawHead(spriteBatch, "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", npc, DrawColor, new Vector2(npc.ai[2], npc.ai[3]));
             Texture2D texture = Main.npcTexture[npc.type];

@@ -1,8 +1,7 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -38,7 +37,8 @@ namespace EEMod.NPCs.CoralReefs
             npc.noTileCollide = false;
         }
 
-        private int variation = Main.rand.Next(3);
+        private readonly int variation = Main.rand.Next(3);
+
         public override void FindFrame(int frameHeight)
         {
             npc.frame.Y = 50 * variation;
@@ -58,7 +58,7 @@ namespace EEMod.NPCs.CoralReefs
             }
             npc.velocity *= 0.99f;
 
-            npc.rotation = npc.velocity.ToRotation() + MathHelper.Pi/2;
+            npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
         }
     }
 }

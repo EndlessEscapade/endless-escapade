@@ -1,7 +1,6 @@
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -29,7 +28,9 @@ namespace EEMod.Projectiles.Mage
             projectile.velocity *= 0.98f;
             projectile.ai[0]++;
             if (projectile.ai[0] >= 120)
+            {
                 projectile.alpha += 2;
+            }
         }
     }
 }

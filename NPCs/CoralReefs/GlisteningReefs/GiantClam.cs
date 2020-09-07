@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 {
@@ -76,14 +76,22 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             Player player = Main.player[npc.target];
             float yChange = npc.Center.Y - player.Center.Y;
             if (npc.WithinRange(player.Center, 200))
+            {
                 npc.ai[2] = 1;
+            }
+
             npc.TargetClosest(true);
             if (npc.ai[2] == 1)
             {
                 if (player.Center.X - npc.Center.X > 0)
+                {
                     npc.spriteDirection = 1;
+                }
                 else
+                {
                     npc.spriteDirection = -1;
+                }
+
                 if (npc.ai[0] % 200 == 0 && npc.ai[1] == 0 && npc.ai[0] != 0)
                 {
                     npc.velocity.X += 10 * npc.spriteDirection;

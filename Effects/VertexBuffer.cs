@@ -1,37 +1,37 @@
+using EEMod.Extensions;
+using EEMod.Projectiles;
+using EEMod.Projectiles.Mage;
+using EEMod.Projectiles.Melee;
+using EEMod.Projectiles.Runes;
+using EEMod.Projectiles.Summons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
-using EEMod.Projectiles.Melee;
-using EEMod.Projectiles.Mage;
 using Terraria.ModLoader;
-using EEMod.Extensions;
-using EEMod.Projectiles.Summons;
-using EEMod.Projectiles;
-using EEMod.Projectiles.Runes;
 
 namespace EEMod.Effects
 {
     public class TrailManager
     {
-        private List<Trail> _trails = new List<Trail>();
-        private Effect _effect;
-        private BasicEffect _basicEffect;
+        private readonly List<Trail> _trails = new List<Trail>();
+        private readonly Effect _effect;
+        private readonly BasicEffect _basicEffect;
 
         public TrailManager(Mod mod)
         {
             _trails = new List<Trail>();
             _effect = mod.GetEffect("Effects/trailShaders");
-            _basicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
-            _basicEffect.VertexColorEnabled = true;
+            _basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
+            {
+                VertexColorEnabled = true
+            };
         }
 
         public void DoTrailCreation(Projectile projectile)
         {
-            Mod mod = EEMod.instance;
             if (projectile.type == ModContent.ProjectileType<FeatheredChakramProjectileAlt>() || projectile.type == ModContent.ProjectileType<AkumoMinionProjectile>() || projectile.type == ModContent.ProjectileType<FeatheredDreamcatcherProjectile>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(200, 98, 50)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
@@ -42,22 +42,21 @@ namespace EEMod.Effects
             }
             if (projectile.type == ModContent.ProjectileType<HydrofluoricStaffProjectile>())
             {
-                CreateTrail(projectile, new StandardColorTrail(new Color(111, 235, 124)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 250f);
+                CreateTrail(projectile, new StandardColorTrail(new Color(111, 235, 124)), new RoundCap(), new SleepingStarTrailPosition(), 12f, 400f);
             }
             if (projectile.type == ModContent.ProjectileType<WaterDragonsBubble>() || projectile.type == ModContent.ProjectileType<BubblingWatersBubbleSmall>())
             {
-                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f,128f);
+                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 128f);
             }
         }
 
         public void TryTrailKill(Projectile projectile)
         {
-
         }
 
         public void CreateTrail(Projectile projectile, ITrailColor trailType, ITrailCap trailCap, ITrailPosition trailPosition, float widthAtFront, float maxLength, ITrailShader shader = null)
         {
-            Trail newTrail = new Trail(projectile, trailType, trailCap, trailPosition, shader == null ? new DefaultShader() : shader, widthAtFront, maxLength);
+            Trail newTrail = new Trail(projectile, trailType, trailCap, trailPosition, shader ?? new DefaultShader(), widthAtFront, maxLength);
             newTrail.Update();
             _trails.Add(newTrail);
         }
@@ -105,18 +104,18 @@ namespace EEMod.Effects
         public Projectile MyProjectile { get; private set; }
         public bool Dead { get; private set; }
 
-        private int _originalProjectileType;
+        private readonly int _originalProjectileType;
 
-        private ITrailCap _trailCap;
-        private ITrailColor _trailColor;
-        private ITrailPosition _trailPosition;
-        private ITrailShader _trailShader;
+        private readonly ITrailCap _trailCap;
+        private readonly ITrailColor _trailColor;
+        private readonly ITrailPosition _trailPosition;
+        private readonly ITrailShader _trailShader;
         private float _widthStart;
 
         private float _currentLength;
         private float _maxLength;
 
-        private List<Vector2> _points;
+        private readonly List<Vector2> _points;
 
         private bool _dissolving;
         private float _dissolveSpeed;
@@ -152,7 +151,7 @@ namespace EEMod.Effects
             if (_dissolving)
             {
                 _maxLength -= _dissolveSpeed;
-                _widthStart = (_maxLength / _originalMaxLength) * _originalWidth;
+                _widthStart = _maxLength / _originalMaxLength * _originalWidth;
                 if (_maxLength <= 0f)
                 {
                     Dead = true;
@@ -192,7 +191,10 @@ namespace EEMod.Effects
 
         private void TrimToLength(float length)
         {
-            if (_points.Count == 0) return;
+            if (_points.Count == 0)
+            {
+                return;
+            }
 
             _currentLength = length;
 
@@ -209,7 +211,10 @@ namespace EEMod.Effects
                 }
             }
 
-            if (firstPointOver == -1) return;
+            if (firstPointOver == -1)
+            {
+                return;
+            }
 
             //get new end point based on remaining distance
             float leftOverLength = newLength - length;
@@ -225,8 +230,15 @@ namespace EEMod.Effects
 
         public void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
         {
-            if (Dead) return;
-            if (_points.Count <= 1) return;
+            if (Dead)
+            {
+                return;
+            }
+
+            if (_points.Count <= 1)
+            {
+                return;
+            }
 
             //calculate trail's length
             float trailLength = 0f;
@@ -297,7 +309,10 @@ namespace EEMod.Effects
         //Helper methods
         private Vector2 CurveNormal(List<Vector2> points, int index)
         {
-            if (points.Count == 1) return points[0];
+            if (points.Count == 1)
+            {
+                return points[0];
+            }
 
             if (index == 0)
             {
@@ -319,12 +334,14 @@ namespace EEMod.Effects
     public interface ITrailShader
     {
         string ShaderPass { get; }
+
         void ApplyShader(Effect effect, Trail trail, List<Vector2> positions);
     }
 
     public class DefaultShader : ITrailShader
     {
         public string ShaderPass => "DefaultPass";
+
         public void ApplyShader(Effect effect, Trail trail, List<Vector2> positions)
         {
             effect.CurrentTechnique.Passes[ShaderPass].Apply();
@@ -339,7 +356,7 @@ namespace EEMod.Effects
         protected float _xOffset;
         protected float _yAnimSpeed;
         protected float _strength;
-        private Texture2D _texture;
+        private readonly Texture2D _texture;
 
         public ImageShader(Texture2D image, Vector2 coordinateMultiplier, float strength = 1f, float yAnimSpeed = 0f)
         {
@@ -385,12 +402,14 @@ namespace EEMod.Effects
             return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
         }
     }
+
     public interface ITrailColor
     {
         Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points);
     }
 
     #region Different Trail Color Types
+
     public class GradientTrail : ITrailColor
     {
         private Color _startColour;
@@ -411,10 +430,10 @@ namespace EEMod.Effects
 
     public class RainbowTrail : ITrailColor
     {
-        private float _saturation;
-        private float _lightness;
-        private float _speed;
-        private float _distanceMultiplier;
+        private readonly float _saturation;
+        private readonly float _lightness;
+        private readonly float _speed;
+        private readonly float _distanceMultiplier;
 
         public RainbowTrail(float animationSpeed = 5f, float distanceMultiplier = 0.01f, float saturation = 1f, float lightness = 0.5f)
         {
@@ -440,14 +459,20 @@ namespace EEMod.Effects
             if (l != 0)
             {
                 if (s == 0)
+                {
                     r = g = b = l;
+                }
                 else
                 {
                     float temp2;
                     if (l < 0.5f)
+                    {
                         temp2 = l * (1f + s);
+                    }
                     else
+                    {
                         temp2 = l + s - (l * s);
+                    }
 
                     float temp1 = 2f * l - temp2;
 
@@ -458,21 +483,34 @@ namespace EEMod.Effects
             }
             return new Color(r, g, b);
         }
+
         private float GetColorComponent(float temp1, float temp2, float temp3)
         {
             if (temp3 < 0f)
+            {
                 temp3 += 1f;
+            }
             else if (temp3 > 1f)
+            {
                 temp3 -= 1f;
+            }
 
             if (temp3 < 0.166666667f)
+            {
                 return temp1 + (temp2 - temp1) * 6f * temp3;
+            }
             else if (temp3 < 0.5f)
+            {
                 return temp2;
+            }
             else if (temp3 < 0.66666666f)
+            {
                 return temp1 + ((temp2 - temp1) * (0.66666666f - temp3) * 6f);
+            }
             else
+            {
                 return temp1;
+            }
         }
     }
 
@@ -491,15 +529,18 @@ namespace EEMod.Effects
             return _colour * (1f - progress);
         }
     }
-    #endregion
+
+    #endregion Different Trail Color Types
 
     public interface ITrailCap
     {
         int ExtraTris { get; }
+
         void AddCap(VertexPositionColorTexture[] array, ref int currentIndex, Color colour, Vector2 position, Vector2 startNormal, float width);
     }
 
     #region Different Trail Caps
+
     public class RoundCap : ITrailCap
     {
         public int ExtraTris => 20;
@@ -543,14 +584,15 @@ namespace EEMod.Effects
             }
         }
     }
+
     public class NoCap : ITrailCap
     {
         public int ExtraTris => 0;
 
         public void AddCap(VertexPositionColorTexture[] array, ref int currentIndex, Color colour, Vector2 position, Vector2 startNormal, float width)
         {
-
         }
     }
-    #endregion
+
+    #endregion Different Trail Caps
 }

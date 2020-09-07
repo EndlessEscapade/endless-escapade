@@ -1,6 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
@@ -8,7 +8,6 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -23,6 +22,7 @@ namespace EEMod.NPCs.CoralReefs
         public int rippleSize = 13;
         public int rippleSpeed = 200;
         public float distortStrength = 5;
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -61,6 +61,7 @@ namespace EEMod.NPCs.CoralReefs
         public int size = 300;
         public int sizeGrowth;
         public float num88 = 1;
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Shockwave"].IsActive())
@@ -75,7 +76,7 @@ namespace EEMod.NPCs.CoralReefs
             }
             float progress = (90 - npc.ai[1]) / 180f;
             progress *= .3f;
-            distortStrength = (npc.ai[1] * 2);
+            distortStrength = npc.ai[1] * 2;
             Filters.Scene["EEMod:Shockwave"].GetShader().UseTargetPosition(npc.Center).UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
             //float num88 = ErosHandler.ShieldStrength / (float)NPC.ShieldStrengthTowerMax;
             if (size < 8000)
@@ -87,7 +88,7 @@ namespace EEMod.NPCs.CoralReefs
 
                 var center = npc.Center - Main.screenPosition;
                 float num89 = 0f;
-                DrawData drawData = new DrawData(TextureManager.Load("Images/Misc/Perlin"), center, new Rectangle(0, 0, (int)(size * scaleX), (int)(size * scaleY)), Color.White * (num88), npc.rotation, new Vector2((size / 2) * scaleX, (size / 2) * scaleY), npc.scale * (1.1f), SpriteEffects.None, 0);
+                DrawData drawData = new DrawData(TextureManager.Load("Images/Misc/Perlin"), center, new Rectangle(0, 0, (int)(size * scaleX), (int)(size * scaleY)), Color.White * num88, npc.rotation, new Vector2(size / 2 * scaleX, size / 2 * scaleY), npc.scale * 1.1f, SpriteEffects.None, 0);
                 GameShaders.Misc["ForceField"].UseColor(new Vector3(1f - num89 * 0.5f));
                 GameShaders.Misc["ForceField"].Apply(drawData);
                 drawData.Draw(spriteBatch);

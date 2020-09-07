@@ -1,8 +1,7 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using System;
 
 namespace EEMod.NPCs.Bosses.Hydros
 {
@@ -28,12 +27,10 @@ namespace EEMod.NPCs.Bosses.Hydros
             projectile.ai[0]++;
             if (projectile.ai[0] < 90)
             {
-
                 int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Dirt, 0, 0, 6, default, projectile.scale);
                 Main.dust[num].noGravity = false;
                 Main.dust[num].velocity *= 1.5f;
                 Main.dust[num].noLight = false;
-
             }
             else
             {
@@ -46,6 +43,5 @@ namespace EEMod.NPCs.Bosses.Hydros
                 }
             }
         }
-
     }
 }

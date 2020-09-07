@@ -1,18 +1,17 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles
 {
     public abstract class Blade : ModProjectile
     {
-        public virtual float rotationalCoverage => (float)Math.PI;
-        public virtual float RotationalOffset => (float)Math.PI / 2f;
-        protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);
+        public virtual float rotationalCoverage => MathHelper.Pi ;
+        public virtual float RotationalOffset => MathHelper.PiOver2;
+        protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         public virtual float dirtSmashIntensity => 12;
         public virtual int shakeLength => 20;
         public virtual int shakeIntensity => 3;
@@ -26,16 +25,16 @@ namespace EEMod.Projectiles
 
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
-        int width = 128;
-        int height = 128;
-        int frames = 5;
-        int SlashType;
-        int Direction = Main.rand.Next(0, 2);
-        float rotation;
-        Vector2 offsetHoldout;
+        private readonly int width = 128;
+        private readonly int height = 128;
+        private readonly int frames = 5;
+        private int SlashType;
+        private readonly int Direction = Main.rand.Next(0, 2);
+        private float rotation;
+        private Vector2 offsetHoldout;
+
         public override void AI()
         {
-
             projectile.direction = projOwner.direction;
             projOwner.heldProj = projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
@@ -51,17 +50,23 @@ namespace EEMod.Projectiles
             {
                 projectile.Kill();
             }
-            Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
+            //Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center); //unused
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             int currentFrame = (int)(progression * frames);
-            Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
+            //Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center); //unused
             if (Direction == 0)
+            {
                 spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * currentFrame, width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
+            }
+
             if (Direction == 1)
+            {
                 spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * (frames - currentFrame), width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
+            }
+
             return false;
         }
     }

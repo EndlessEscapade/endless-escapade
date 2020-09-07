@@ -1,9 +1,7 @@
+using EEMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles.Ranged;
-using EEMod.Items.Materials.Fruit;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Items.Weapons.Ranger
 {

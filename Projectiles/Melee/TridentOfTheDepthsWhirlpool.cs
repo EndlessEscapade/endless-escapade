@@ -1,5 +1,5 @@
-using Terraria.ModLoader;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Melee
 {

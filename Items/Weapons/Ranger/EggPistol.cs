@@ -1,7 +1,7 @@
+using EEMod.Projectiles.Runes;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles.Runes;
 
 namespace EEMod.Items.Weapons.Ranger
 {

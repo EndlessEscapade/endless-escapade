@@ -1,9 +1,8 @@
+using EEMod.Projectiles;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles.Mage;
-using EEMod.Projectiles;
 
 namespace EEMod.Items
 {
@@ -33,13 +32,15 @@ namespace EEMod.Items
             item.crit = 1;
         }
 
-        int yeet;
-        float alpha;
-        int proj;
+        private int yeet;
+        private float alpha;
+        private int proj;
+
         public override void UpdateInventory(Player player)
         {
             base.UpdateInventory(player);
         }
+
         public override void HoldItem(Player player)
         {
             Main.projectile[proj].ai[0] = alpha;

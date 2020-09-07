@@ -1,89 +1,113 @@
-﻿using System.IO;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace EEMod.Net.Serializers
 {
     public class ByteSerializer : NetObjSerializer<byte>
     {
         public override byte Read(BinaryReader reader) => reader.ReadByte();
+
         public override void Write(BinaryWriter writer, byte value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class SByteSerializer : NetObjSerializer<sbyte>
     {
         public override sbyte Read(BinaryReader reader) => reader.ReadSByte();
+
         public override void Write(BinaryWriter writer, sbyte value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class Int16Serializer : NetObjSerializer<short>
     {
         public override short Read(BinaryReader reader) => reader.ReadInt16();
+
         public override void Write(BinaryWriter writer, short value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class UInt16Serializer : NetObjSerializer<ushort>
     {
         public override ushort Read(BinaryReader reader) => reader.ReadUInt16();
+
         public override void Write(BinaryWriter writer, ushort value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class Int32Serializer : NetObjSerializer<int>
     {
         public override int Read(BinaryReader reader) => reader.ReadInt32();
+
         public override void Write(BinaryWriter writer, int value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class UInt32Serializer : NetObjSerializer<uint>
     {
         public override uint Read(BinaryReader reader) => reader.ReadUInt32();
+
         public override void Write(BinaryWriter writer, uint value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class Int64Serializer : NetObjSerializer<long>
     {
         public override long Read(BinaryReader reader) => reader.ReadInt64();
+
         public override void Write(BinaryWriter writer, long value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class UInt64Serializer : NetObjSerializer<ulong>
     {
         public override ulong Read(BinaryReader reader) => reader.ReadUInt64();
+
         public override void Write(BinaryWriter writer, ulong value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class SingleSerializer : NetObjSerializer<float>
     {
         public override float Read(BinaryReader reader) => reader.ReadSingle();
+
         public override void Write(BinaryWriter writer, float value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class DoubleSerializer : NetObjSerializer<double>
     {
         public override double Read(BinaryReader reader) => reader.ReadDouble();
+
         public override void Write(BinaryWriter writer, double value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class CharSerializer : NetObjSerializer<char>
     {
         public override char Read(BinaryReader reader) => reader.ReadChar();
+
         public override void Write(BinaryWriter writer, char value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 
     public class DecimalSerializer : NetObjSerializer<decimal>
     {
         public override decimal Read(BinaryReader reader) => reader.ReadDecimal();
+
         public override void Write(BinaryWriter writer, decimal value) => writer.Write(value);
+
         public override SerializerPriority Priority => SerializerPriority.Low;
     }
 

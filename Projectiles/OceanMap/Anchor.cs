@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.OceanMap
 {
@@ -29,19 +29,30 @@ namespace EEMod.Projectiles.OceanMap
 
         public bool visible = false;
         public float yes;
+
         public override void AI()
         {
             yes += 0.1f;
             projectile.position.X = projectile.ai[0] - projectile.width / 2;
             projectile.position.Y = projectile.ai[1] - 100 + (float)Math.Sin(yes) * 10;
             if (!visible)
+            {
                 projectile.alpha += 5;
+            }
             else
+            {
                 projectile.alpha -= 5;
+            }
+
             if (projectile.alpha < 0)
+            {
                 projectile.alpha = 0;
+            }
+
             if (projectile.alpha > 255)
+            {
                 projectile.alpha = 255;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)  //this make the projectile sprite rotate perfectaly around the player

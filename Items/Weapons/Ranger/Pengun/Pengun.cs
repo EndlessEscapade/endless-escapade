@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -29,7 +26,9 @@ namespace EEMod.Items.Weapons.Ranger.Pengun
             item.rare = ItemRarityID.Purple;
             item.UseSound = SoundID.Item11;
             item.autoReuse = true;
+#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shoot = 10; //idk why but all the guns in the vanilla source have this
+#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shootSpeed = 16f;
             item.shoot = ModContent.ProjectileType<PengunProjectile>();
         }

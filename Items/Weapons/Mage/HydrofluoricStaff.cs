@@ -1,9 +1,9 @@
+using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Mage;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles.Mage;
-using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -50,7 +50,7 @@ namespace EEMod.Items.Weapons.Mage
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydrofluoricBar>(), 16);
+            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 16);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

@@ -8,41 +8,43 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
-	public class DalantiniumFanAlt : ModProjectile
-	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Dalantinium Fan");
-		}
+    public class DalantiniumFanAlt : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Dalantinium Fan");
+        }
 
-		public override void SetDefaults()
-		{
-			projectile.hostile = false;
-			projectile.magic = true;
-			projectile.width = 34;
-			projectile.height = 34;
-			projectile.aiStyle = -1;
-			projectile.friendly = false;
-			projectile.penetrate = 1;
-			projectile.tileCollide = false;
-			projectile.timeLeft = 1000;
+        public override void SetDefaults()
+        {
+            projectile.hostile = false;
+            projectile.magic = true;
+            projectile.width = 34;
+            projectile.height = 34;
+            projectile.aiStyle = -1;
+            projectile.friendly = false;
+            projectile.penetrate = 1;
+            projectile.tileCollide = false;
+            projectile.timeLeft = 1000;
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-			Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
-			for (int k = 0; k < projectile.oldPos.Length; k++)
-			{
-				Vector2 drawPos = projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-				Color color2 = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
-				spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), color2 * 0.5f, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
-			}
-			return true;
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            for (int k = 0; k < projectile.oldPos.Length; k++)
+            {
+                Vector2 drawPos = projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, projectile.gfxOffY);
+                Color color2 = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
+                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), color2 * 0.5f, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            }
+            return true;
         }
-		Vector2 Dist;
-		float lerp;
+
+        private Vector2 Dist;
+        private float lerp;
+
         public override bool PreAI()
 		{
 			int firstPhase = 30;
@@ -72,7 +74,7 @@ namespace EEMod.Projectiles.Mage
 			{
 				projectile.velocity += (Main.player[projectile.owner].Center + Dist - projectile.Center)/202f - projectile.velocity*0.02f;
 				projectile.rotation = dist.ToRotation() + (float)Math.PI/4f;
-				
+
 			}
 			else if(projectile.ai[0] < secondPhase)
 			{
@@ -116,6 +118,6 @@ namespace EEMod.Projectiles.Mage
 				}
 			}
             return true;
-		}
-	}
+        }
+    }
 }

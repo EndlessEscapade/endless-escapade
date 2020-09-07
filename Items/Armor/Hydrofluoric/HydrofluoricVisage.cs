@@ -1,7 +1,7 @@
+using EEMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Items.Armor.Hydrofluoric
 {
@@ -42,7 +42,7 @@ namespace EEMod.Items.Armor.Hydrofluoric
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<HydrofluoricBar>(), 11);
+            recipe.AddIngredient(ModContent.ItemType<HydroFluoricBar>(), 11);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

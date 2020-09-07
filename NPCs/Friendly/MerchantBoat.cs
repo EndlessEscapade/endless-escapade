@@ -1,10 +1,8 @@
-﻿using System;
+﻿using EEMod.Items.Placeables.Paintings;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables.Paintings;
 using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Friendly
 {
@@ -30,7 +28,9 @@ namespace EEMod.NPCs.Friendly
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
             if (firstButton)
+            {
                 shop = true;
+            }
         }
 
         public override string GetChat()
@@ -39,18 +39,23 @@ namespace EEMod.NPCs.Friendly
             {
                 case 0:
                     return "Hey! There's my little moneymake--erm, intrepid treasure hunter!";
+
                 case 1:
                     return "Linebe... who's that?";
+
                 case 2:
                     return "Beed.. who's that?";
+
                 case 3:
                     return "I've heard rumors of a mysterious wand that can control the weather... ever seen it?";
+
                 default:
                     return "Tetra... who's that?";
             }
         }
 
         private bool onSpawn = true;
+
         public override void SetupShop(Chest shop, ref int nextSlot)
         {
             if (onSpawn)
@@ -60,6 +65,7 @@ namespace EEMod.NPCs.Friendly
                     case 0:
                         shop.item[nextSlot].SetDefaults(ModContent.ItemType<OSPainting>());
                         break;
+
                     case 1:
                         shop.item[nextSlot].SetDefaults(ModContent.ItemType<Moon>());
                         break;
@@ -72,55 +78,69 @@ namespace EEMod.NPCs.Friendly
                             case 0:
                                 shop.item[nextSlot].SetDefaults(ItemID.PaintingAcorns);
                                 break;
+
                             case 1:
                                 shop.item[nextSlot].SetDefaults(ItemID.PaintingSnowfellas);
                                 break;
+
                             case 2:
                                 shop.item[nextSlot].SetDefaults(ItemID.PaintingCursedSaint);
                                 break;
+
                             case 3:
                                 shop.item[nextSlot].SetDefaults(ItemID.PaintingColdSnap);
                                 break;
+
                             case 4:
                                 shop.item[nextSlot].SetDefaults(ItemID.PaintingTheSeason);
                                 break;
                         }
                         break;
+
                     case 1:
                         switch (Main.rand.Next(5))
                         {
                             case 0:
                                 shop.item[nextSlot].SetDefaults(ItemID.GuidePicasso);
                                 break;
+
                             case 1:
                                 shop.item[nextSlot].SetDefaults(ItemID.Discover);
                                 break;
+
                             case 2:
                                 shop.item[nextSlot].SetDefaults(ItemID.TerrarianGothic);
                                 break;
+
                             case 3:
                                 shop.item[nextSlot].SetDefaults(ItemID.Waldo);
                                 break;
+
                             case 4:
                                 shop.item[nextSlot].SetDefaults(ItemID.Land);
                                 break;
                         }
                         break;
+
                     case 2:
                         switch (Main.rand.Next(5))
                         {
                             case 0:
                                 shop.item[nextSlot].SetDefaults(ItemID.BitterHarvest);
                                 break;
+
                             case 1:
                                 shop.item[nextSlot].SetDefaults(ItemID.BloodMoonCountess);
                                 break;
+
                             case 2:
                                 shop.item[nextSlot].SetDefaults(ItemID.JackingSkeletron);
                                 break;
+
                             case 3:
                                 shop.item[nextSlot].SetDefaults(ItemID.HallowsEve);
                                 break;
+
                             case 4:
                                 shop.item[nextSlot].SetDefaults(ItemID.MorbidCuriosity);
                                 break;
@@ -137,6 +157,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 1:
                         if (NPC.downedBoss2)
                         {
@@ -144,6 +165,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 2:
                         shop.item[nextSlot].SetDefaults(ItemID.MagicLantern);
                         nextSlot++;
@@ -155,6 +177,7 @@ namespace EEMod.NPCs.Friendly
                         shop.item[nextSlot].SetDefaults(ItemID.AmberMosquito);
                         nextSlot++;
                         break;
+
                     case 1:
                         if (NPC.downedChristmasIceQueen)
                         {
@@ -162,6 +185,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 2:
                         if (NPC.downedQueenBee)
                         {
@@ -169,10 +193,12 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 3:
                         shop.item[nextSlot].SetDefaults(ItemID.Fish);
                         nextSlot++;
                         break;
+
                     case 4:
                         if (Main.hardMode)
                         {
@@ -180,6 +206,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 5:
                         if (Main.hardMode)
                         {
@@ -187,10 +214,12 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 6:
                         shop.item[nextSlot].SetDefaults(ItemID.Carrot);
                         nextSlot++;
                         break;
+
                     case 7:
                         if (NPC.downedHalloweenTree)
                         {
@@ -198,6 +227,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 8:
                         if (NPC.downedPlantBoss)
                         {
@@ -205,6 +235,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 9:
                         if (NPC.downedBoss2)
                         {
@@ -212,6 +243,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 10:
                         if (NPC.downedGolemBoss)
                         {
@@ -219,9 +251,11 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 11:
                         shop.item[nextSlot].SetDefaults(ItemID.TartarSauce);
                         break;
+
                     case 12:
                         if (Main.hardMode)
                         {
@@ -229,6 +263,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 13:
                         if (NPC.downedBoss2)
                         {
@@ -236,6 +271,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 14:
                         if (NPC.downedPlantBoss)
                         {
@@ -243,6 +279,7 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 15:
                         if (NPC.downedPlantBoss)
                         {
@@ -250,14 +287,17 @@ namespace EEMod.NPCs.Friendly
                             nextSlot++;
                         }
                         break;
+
                     case 16:
                         shop.item[nextSlot].SetDefaults(ItemID.MagicalPumpkinSeed);
                         nextSlot++;
                         break;
+
                     case 17:
                         shop.item[nextSlot].SetDefaults(ItemID.Seaweed);
                         nextSlot++;
                         break;
+
                     case 18:
                         shop.item[nextSlot].SetDefaults(ItemID.ZephyrFish);
                         nextSlot++;
@@ -285,9 +325,11 @@ namespace EEMod.NPCs.Friendly
                         case 0:
                             shop.item[nextSlot].SetDefaults(ItemID.Sextant);
                             break;
+
                         case 1:
                             shop.item[nextSlot].SetDefaults(ItemID.FishermansGuide);
                             break;
+
                         case 2:
                             shop.item[nextSlot].SetDefaults(ItemID.WeatherRadio);
                             break;
@@ -299,12 +341,15 @@ namespace EEMod.NPCs.Friendly
                     case 0:
                         shop.item[nextSlot].SetDefaults(ItemID.Pho);
                         break;
+
                     case 1:
                         shop.item[nextSlot].SetDefaults(ItemID.PadThai);
                         break;
+
                     case 2:
                         shop.item[nextSlot].SetDefaults(ItemID.CookedShrimp);
                         break;
+
                     case 3:
                         shop.item[nextSlot].SetDefaults(ItemID.Sashimi);
                         break;
@@ -315,9 +360,11 @@ namespace EEMod.NPCs.Friendly
                     case 0:
                         shop.item[nextSlot].SetDefaults(ItemID.BlueDynastyShingles);
                         break;
+
                     case 1:
                         shop.item[nextSlot].SetDefaults(ItemID.RedDynastyShingles);
                         break;
+
                     case 2:
                         shop.item[nextSlot].SetDefaults(ItemID.DynastyWood);
                         break;
@@ -331,7 +378,6 @@ namespace EEMod.NPCs.Friendly
         {
             if (Main.LocalPlayer.talkNPC != -1)
             {
-
             }
             else
             {

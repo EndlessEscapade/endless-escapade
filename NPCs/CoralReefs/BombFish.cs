@@ -1,10 +1,10 @@
+using EEMod.Items.Banners;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Banners;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -73,11 +73,12 @@ namespace EEMod.NPCs.CoralReefs
             return false;
         }
 
-        Vector2 playerPosition;
-        Vector2 speed;
+        private Vector2 playerPosition;
+        private Vector2 speed;
+
         public override void AI()
         {
-            npc.rotation = npc.velocity.ToRotation() + (float)Math.PI;
+            npc.rotation = npc.velocity.ToRotation() + MathHelper.Pi;
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
             npc.ai[1]++;

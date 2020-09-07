@@ -1,5 +1,5 @@
-using Terraria.ModLoader;
 using EEMod.Autoloading;
+using Terraria.ModLoader;
 
 namespace EEMod.Compatibility
 {

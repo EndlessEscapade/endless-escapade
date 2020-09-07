@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using EEMod.Extensions;
+using Terraria;
 using Terraria.ID;
-using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -20,11 +20,14 @@ namespace EEMod
                 {
                     p = Main.player[i];
                     if (p.IsAlive())
+                    {
                         return true;
+                    }
                 }
                 return false;
             }
         }
+
         /// <summary>
         /// Looks for the first NPC in the <seealso cref="Main.npc"/> array that's alive and it's type is the one specified <paramref name="type"/>, starting from <paramref name="start"/>. <br />
         /// If no NPC is found, -1 is returned.
@@ -39,7 +42,9 @@ namespace EEMod
             {
                 NPC npc = Main.npc[i];
                 if (npc.active && npc.type == type)
+                {
                     return i;
+                }
             }
             return -1;
         }

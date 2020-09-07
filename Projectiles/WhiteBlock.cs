@@ -1,18 +1,7 @@
-using Terraria.ModLoader;
-using Terraria;
-using System;
 using Microsoft.Xna.Framework;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.World.Generation;
-using Terraria.GameContent.Generation;
-using Terraria.ModLoader.IO;
-using EEMod.Tiles;
-using EEMod.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
@@ -46,22 +35,23 @@ namespace EEMod.Projectiles
         //}
         //private void LookInDirectionP(Vector2 look)
         //{
-        //    float angle = 0.5f * (float)Math.PI;
+        //    float angle = 0.5f * MathHelper.Pi;
         //    if (look.X != 0f)
         //    {
         //        angle = (float)Math.Atan(look.Y / look.X);
         //    }
         //    else if (look.Y < 0f)
         //    {
-        //        angle += (float)Math.PI;
+        //        angle += MathHelper.Pi;
         //    }
         //    if (look.X < 0f)
         //    {
-        //        angle += (float)Math.PI;
+        //        angle += MathHelper.Pi;
         //    }
         //    projectile.rotation = angle;
         //}
         public Texture2D itemTexture;
+
         public override void AI()
         {
             projectile.ai[0] += 5;
@@ -72,6 +62,7 @@ namespace EEMod.Projectiles
             projectile.alpha = (int)projectile.ai[0];
             projectile.scale = 0.75f + projectile.ai[0] / 255;
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Main.spriteBatch.Draw(itemTexture, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, projectile.Size / 2f, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0);

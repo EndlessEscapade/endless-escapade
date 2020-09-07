@@ -1,14 +1,8 @@
-using System;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria.ID;
-using Terraria;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using Terraria.Graphics.Effects;
 using Microsoft.Xna.Framework.Graphics;
-using static Terraria.ModLoader.ModContent;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {

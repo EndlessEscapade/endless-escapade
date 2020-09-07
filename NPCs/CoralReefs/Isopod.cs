@@ -1,9 +1,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -13,6 +13,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             DisplayName.SetDefault("Isopod");
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             spriteBatch.End();
@@ -25,11 +26,13 @@ namespace EEMod.NPCs.CoralReefs
             EEMod.NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
             return true;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             //spriteBatch.End();
             //spriteBatch.Begin();
         }
+
         public override void AI()
         {
             npc.ai[0] += 0.002f;
@@ -38,6 +41,7 @@ namespace EEMod.NPCs.CoralReefs
                 npc.ai[1] = Main.rand.NextFloat(0, 1);
             }
         }
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;

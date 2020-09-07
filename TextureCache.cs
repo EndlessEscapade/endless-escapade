@@ -1,10 +1,10 @@
-﻿using System;
-using System.Reflection;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Autoloading;
+﻿using EEMod.Autoloading;
 using EEMod.Extensions;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria.ModLoader;
 
+#pragma warning disable CS0649 // not assigning fields a value
 namespace EEMod
 {
     internal static class TextureCache
@@ -12,10 +12,13 @@ namespace EEMod
         //public static Texture2D CoralLanternLampGlow;
         //public static Texture2D CoralLanternTileGlow;
         public static Texture2D Chain;
+
         public static Texture2D Empty;
         public static Texture2D EyeTileGlow;
+
         //public static Texture2D Stagrel_Glow;
         public static Texture2D BleckScren;
+
         public static Texture2D DuneShambler;
         public static Texture2D GiantSquid;
         public static Texture2D Clam;
@@ -24,10 +27,12 @@ namespace EEMod
         public static Texture2D HydroBeam_Beam;
         public static Texture2D HydroBeam_End;
         public static Texture2D Vine;
-        /*public static Texture2D GBeam_Beam;
-        public static Texture2D GBeam_End;
-        public static Texture2D Gallagar;*/
+
+        //public static Texture2D GBeam_Beam;
+        //public static Texture2D GBeam_End;
+        //public static Texture2D Gallagar;
         public static Texture2D Outline;
+
         public static Texture2D ShipHelth;
         public static Texture2D ShipMount;
         public static Texture2D DuneShamblerDig;
@@ -70,60 +75,88 @@ namespace EEMod
         public static Texture2D Bob2;
         public static Texture2D OceanScreen;
         public static Texture2D Seagulls;
+
         [TextureInit("Projectiles/Summons/AkumoMinionGlow")]
         public static Texture2D AkumoMinionGlow;
+
         [TextureInit("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow")]
         public static Texture2D BlueringOctopusGlow;
+
         [TextureInit("NPCs/CoralReefs/BombFishGlow")]
         public static Texture2D BombFishGlow;
+
         [TextureInit("NPCs/CoralReefs/ClamGlow")]
         public static Texture2D ClamGlow;
+
         [TextureInit("NPCs/Bosses/CoralGolem/CoralGolemGlow")]
         public static Texture2D CoralGolemGlow;
+
         [TextureInit("Star")]
         public static Texture2D Star;
+
         [TextureInit("Backgrounds/CoralReefsSurfaceFar")]
         public static Texture2D CoralReefsSurfaceFar;
+
         [TextureInit("Backgrounds/CoralReefsSurfaceMid")]
         public static Texture2D CoralReefsSurfaceMid;
+
         [TextureInit("InspectIcon")]
         public static Texture2D InspectIcon;
+
         [TextureInit("Tiles/Furniture/Coral/GlowCoral1Glow")]
         public static Texture2D GlowCoral1Glow;
+
         [TextureInit("Tiles/Furniture/Coral/GlowCoral2Glow")]
         public static Texture2D GlowCoral2Glow;
+
         [TextureInit("Tiles/Furniture/Coral/GlowCoral3Glow")]
         public static Texture2D GlowCoral3Glow;
+
         [TextureInit("Tiles/Furniture/Coral/GlowHangCoral1Glow")]
         public static Texture2D GlowHangCoral1Glow;
+
         [TextureInit("Tiles/Furniture/Coral/GlowHangCoral2Glow")]
         public static Texture2D GlowHangCoral2Glow;
+
         [TextureInit("NPCs/CoralReefs/GrebyserGlow")]
         public static Texture2D GrebyserGlow;
+
         [TextureInit("Tiles/Furniture/Coral/GroundGlowCoralGlow")]
         public static Texture2D GroundGlowCoralGlow;
+
         [TextureInit("Tiles/Furniture/Coral/GroundGlowCoralGlow2")]
         public static Texture2D GroundGlowCoralGlow2;
+
         [TextureInit("Tiles/Furniture/Coral/GroundGlowCoralGlow3")]
         public static Texture2D GroundGlowCoralGlow3;
+
         [TextureInit("Masks/Extra_49")]
         public static Texture2D Extra_49;
+
         [TextureInit("Projectiles/Enemy/MechanicalLureChain")]
         public static Texture2D MechanicalLureChain;
+
         [TextureInit("NPCs/CoralReefs/MechanicalReefs/MechanicalEelGlow")]
         public static Texture2D MechanicalEelGlow;
+
         [TextureInit("Projectiles/Enemy/MechanicalMissileGlow")]
         public static Texture2D MechanicalMissileGlow;
+
         [TextureInit("NPCs/CoralReefs/MechanicalReefs/MechanicalSharkGlow")]
         public static Texture2D MechanicalSharkGlow;
+
         [TextureInit("NPCs/funny/FleshChain")]
         public static Texture2D FleshChain;
+
         [TextureInit("Projectiles/SailorsClaspChain")]
         public static Texture2D SailorsClaspChain;
+
         [TextureInit("Tiles/Furniture/ThermalVentGlow")]
         public static Texture2D ThermalVentGlow;
+
         [TextureInit("Tiles/Furniture/Coral/WideBulbousCoralGlow")]
         public static Texture2D WideBulbousCoralGlow;
+
         [TextureInit("Items/Zipline")]
         public static Texture2D Zipline;
 
@@ -131,6 +164,7 @@ namespace EEMod
         public static void Load()
         {
             Mod mod = EEMod.instance;
+
             Seagulls = mod.GetTexture("Seagulls");
             OceanScreen = mod.GetTexture("OceanScreen");
             Bob1 = mod.GetTexture("Bob1");
@@ -162,9 +196,9 @@ namespace EEMod
             HydroBeam_Beam = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
             HydroBeam_End = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
             AHT = mod.GetTexture("AirHockeyTable");
-            /*GBeam_Beam = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_Beam");
-            GBeam_End = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_End");
-            Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");*/
+            //GBeam_Beam = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_Beam");
+            //GBeam_End = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_End");
+            //Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");
             Outline = mod.GetTexture("Outline");
             ShipHelth = mod.GetTexture("ShipHelthSheet");
             ShipMount = mod.GetTexture("ShipMount");
@@ -262,60 +296,62 @@ namespace EEMod
         private static void ReflInit(Func<string, Texture2D> textureGetter)
         {
             foreach (var field in typeof(TextureCache).GetFields(Helpers.FlagsStatic))
+            {
                 if (field.TryGetCustomAttribute(out TextureInitAttribute attribute))
+                {
                     field.SetValue(null, textureGetter(attribute.TexturePath));
+                }
+            }
         }
 
-        //[UnloadingMethod]
-        //public static void Unload() // they're claimed by the unloader
-        //{
-        //    TentacleChain = null;
-        //    Tentacle = null;
-        //    CoralLanternLampGlow = null;
-        //    Chain = null;
-        //    Empty = null;
-        //    EyeTileGlow = null;
-        //    Stagrel_Glow = null;
-        //    BleckScren = null;
-        //    DuneShambler = null;
-        //    GiantSquid = null;
-        //    Clam = null;
-        //    Hydros = null;
-        //    Seahorse = null;
-        //    HydroBeam_Beam = null;
-        //    HydroBeam_End = null;
-        //    GBeam_Beam = null;
-        //    GBeam_End = null;
-        //    Gallagar = null;
-        //    Outline = null;
-        //    ShipHelth = null;
-        //    ShipMount = null;
-        //    DuneShamblerDig = null;
-        //    DruidsVin_Beam = null;
-        //    DruidsVin_End = null;
-        //    CoralLanternTileGlow = null;
-        //    AkumoFeather = null;
-        //    Akumo = null;
-        //    Terraria_LogoTexture = null;
-        //    Terraria_Logo2Texture = null;
-        //    Terraria_SunTexture = null;
-        //    Terraria_Sun2Texture = null;
-        //    Terraria_Sun3Texture = null;
-        //    KrakenTentacles = null;
-        //    CoralReefsSurfaceClose = null;
-        //    KrakenGlowMask = null;
-        //    NotBleckScren = null;
-        //}
+        /*[UnloadingMethod]
+        public static void Unload() // they're claimed by the unloader
+        {
+            TentacleChain = null;
+            Tentacle = null;
+            CoralLanternLampGlow = null;
+            Chain = null;
+            Empty = null;
+            EyeTileGlow = null;
+            Stagrel_Glow = null;
+            BleckScren = null;
+            DuneShambler = null;
+            GiantSquid = null;
+            Clam = null;
+            Hydros = null;
+            Seahorse = null;
+            HydroBeam_Beam = null;
+            HydroBeam_End = null;
+            GBeam_Beam = null;
+            GBeam_End = null;
+            Gallagar = null;
+            Outline = null;
+            ShipHelth = null;
+            ShipMount = null;
+            DuneShamblerDig = null;
+            DruidsVin_Beam = null;
+            DruidsVin_End = null;
+            CoralLanternTileGlow = null;
+            AkumoFeather = null;
+            Akumo = null;
+            Terraria_LogoTexture = null;
+            Terraria_Logo2Texture = null;
+            Terraria_SunTexture = null;
+            Terraria_Sun2Texture = null;
+            Terraria_Sun3Texture = null;
+            KrakenTentacles = null;
+            CoralReefsSurfaceClose = null;
+            KrakenGlowMask = null;
+            NotBleckScren = null;
+        }*/
 
         [AttributeUsage(AttributeTargets.Field)]
-        class TextureInitAttribute : Attribute
+        private class TextureInitAttribute : Attribute
         {
             public string TexturePath { get; private set; }
-            /**<param name="texturepath">Folders/TextureName</param>*/
-            public TextureInitAttribute(string texturepath)
-            {
-                TexturePath = texturepath;
-            }
+
+            /// <param name="texturePath">Folders/TextureName</param>
+            public TextureInitAttribute(string texturePath) => TexturePath = texturePath;
         }
     }
 }

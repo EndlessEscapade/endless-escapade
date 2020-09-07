@@ -1,9 +1,6 @@
+using EEMod.ID;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables;
-using EEMod.ID;
-using EEMod;
 
 namespace EEMod.Tiles.Walls
 {
@@ -12,7 +9,9 @@ namespace EEMod.Tiles.Walls
         public override void ModifyLight(int i, int j, int type, ref float r, ref float g, ref float b)
         {
             if (Main.ActiveWorldFileData.Name == KeyID.Sea)
+            {
                 r = g = b = Main.LocalPlayer.GetModPlayer<EEPlayer>().brightness;
+            }
         }
     }
 }

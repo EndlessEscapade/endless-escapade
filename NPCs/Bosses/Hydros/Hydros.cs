@@ -38,7 +38,6 @@ namespace EEMod.NPCs.Bosses.Hydros
             }
         }
 
-
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -72,15 +71,19 @@ namespace EEMod.NPCs.Bosses.Hydros
                     case 0:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosEye>(), 1);
                         break;
+
                     case 1:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
                         break;
+
                     case 2:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Triggerfish>(), 1);
                         break;
+
                     case 3:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
                         break;
+
                     case 4:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EnchantedCoral>(), 1);
                         break;
@@ -94,8 +97,8 @@ namespace EEMod.NPCs.Bosses.Hydros
             }
         }
 
-
         public float[] ai = new float[NPC.maxAI];
+
         private void Move(Player player, float sped, float TR, Vector2 addon)
         {
             Vector2 moveTo = player.Center + addon;
@@ -139,9 +142,9 @@ namespace EEMod.NPCs.Bosses.Hydros
                 int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
                 for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
                 {
-                    if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && (Main.tile[tpTileX, tpY].nactive()))
+                    if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && Main.tile[tpTileX, tpY].nactive())
                     {
-                        if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
+                        if (Main.tileSolid[Main.tile[tpTileX, tpY].type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
                         {
                             Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f, Main.myPlayer, .3f, 140);
                             hasTeleportPoint = true;
@@ -152,11 +155,12 @@ namespace EEMod.NPCs.Bosses.Hydros
                 }
             }
         }
-        int prepare;
-        int timeForAttack;
+
+        private int prepare;
         public bool flaginOut;
         public float dist1;
-        Vector2[] potentialMinionArray = new Vector2[3];
+        private readonly Vector2[] potentialMinionArray = new Vector2[3];
+
         public override void AI()
         {
             int phaseChange = 400;
@@ -165,6 +169,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             npc.ai[0]++;
 
             if (Main.netMode != NetmodeID.MultiplayerClient) // 1
+            {
                 if (Main.netMode != NetmodeID.MultiplayerClient) // 1
                 {
                     //Idle
@@ -184,12 +189,17 @@ namespace EEMod.NPCs.Bosses.Hydros
                     }
 
                     if (npc.ai[1] == 0)
+                    {
                         Move(target, speed, TR, Vector2.Zero);
+                    }
 
                     if (npc.ai[0] % 400 == 0)
                     {
                         for (int i = 0; i < 5; i++)
+                        {
                             npc.ai[1] = Main.rand.Next(0, 4);
+                        }
+
                         prepare = 0;
                         npc.rotation = 0;
                         flaginOut = true;
@@ -205,13 +215,16 @@ namespace EEMod.NPCs.Bosses.Hydros
                     {
                         case 0:
                             break;
+
                         case 1:
                             {
                                 Move(target, speed, TR, Vector2.Zero);
                                 for (int i = 0; i < 10; i++)
                                 {
                                     if (npc.ai[0] % 200 == 0)
+                                    {
                                         SpawnProjectileNearPlayerOnTile(30);
+                                    }
                                 }
                                 npc.velocity *= 0.98f;
                                 break;
@@ -287,7 +300,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                                         {
                                             for (var a = 0; a < 50; a++)
                                             {
-                                                Vector2 vector = new Vector2(0, 20).RotatedBy(((Math.PI * 0.04) * a), default);
+                                                Vector2 vector = new Vector2(0, 20).RotatedBy(Math.PI * 0.04 * a, default);
                                                 int index = Dust.NewDust(potentialMinionArray[j], 22, 22, 113, vector.X, vector.Y, 0, Color.AliceBlue, .7f);
                                                 Main.dust[index].velocity *= .5f;
                                                 Main.dust[index].noGravity = true;
@@ -301,7 +314,9 @@ namespace EEMod.NPCs.Bosses.Hydros
                             }
                     }
                 }
+            }
         }
+
         /*public override bool CheckDead()
         {
             int goreIndex = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default(Vector2), mod.GetGoreSlot("Gores/HydrosGore"), 1f);

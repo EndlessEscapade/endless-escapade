@@ -50,7 +50,9 @@ namespace EEMod.Projectiles.Pets.Light
                 return;
             }
             if (modPlayer.FlameSpirit)
+            {
                 projectile.timeLeft = 2;
+            }
             // projectile.ai[1]++;
             if (++projectile.ai[1] > 1000 && (int)projectile.ai[0] % 100 == 0)
             {

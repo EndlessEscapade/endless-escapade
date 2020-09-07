@@ -1,9 +1,9 @@
+using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Ranged;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -31,7 +31,9 @@ namespace EEMod.Items.Weapons.Ranger
             item.shootSpeed = 17f;
             item.UseSound = SoundID.Item11;
             item.useAmmo = AmmoID.Bullet;
+#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shoot = 10;
+#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.ranged = true;
             item.crit = 3;
         }
@@ -44,7 +46,7 @@ namespace EEMod.Items.Weapons.Ranger
 
         public override Vector2? HoldoutOffset()
         {
-            return new Vector2(0, 0);
+            return Vector2.Zero;
         }
 
         public override void AddRecipes()

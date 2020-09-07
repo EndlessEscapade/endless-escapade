@@ -30,7 +30,9 @@ namespace EEMod.Projectiles.Runes
             projectile.ai[0]++;
 
             if (projectile.ai[1] == 0)
+            {
                 projectile.Center = new Vector2((float)Math.Sin(projectile.ai[0] / 20) * 60 + owner.Center.X, (float)Math.Sin(projectile.ai[0] / 40) * 60 + owner.Center.Y);//(float)Math.Sin(projectile.ai[0] / 10f) * 2;
+            }
 
             if (projectile.ai[0] == 630)
             {
@@ -38,11 +40,13 @@ namespace EEMod.Projectiles.Runes
                 projectile.velocity.Y = -1;
             }
 
-
             if (projectile.ai[1] == 1)
             {
                 if (projectile.velocity.Y >= -8)
+                {
                     projectile.velocity.Y *= 1.03f;
+                }
+
                 projectile.velocity.X = (float)Math.Sin(projectile.ai[0] / 20);
             }
             projectile.rotation = projectile.velocity.Y / 20f;

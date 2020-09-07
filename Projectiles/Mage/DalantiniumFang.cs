@@ -1,8 +1,7 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -40,10 +39,12 @@ namespace EEMod.Projectiles.Mage
             {
                 projectile.ai[1]++;
                 if (projectile.velocity.Y <= 24)
+                {
                     projectile.velocity.Y += 1.75f;
+                }
             }
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2 + ((projectile.ai[1]/24) * projectile.velocity.Y);
+            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2 + (projectile.ai[1] / 24 * projectile.velocity.Y);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

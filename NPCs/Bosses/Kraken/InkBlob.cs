@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,8 +9,8 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
 {
     public class InkBlob : ModProjectile
     {
-
         public static short customGlowMask = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ink Blob");
@@ -32,11 +31,13 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
-        Vector2 start;
-        Vector2[] yeet = new Vector2[2];
+
+        private Vector2 start;
+        private Vector2[] yeet = new Vector2[2];
         KrakenHead krakenHead => Main.npc[(int)projectile.ai[1]].modNPC as KrakenHead;
-        bool yes = false;
-        int Timer; //I will sync it I swear
+        private bool yes = false;
+        private int Timer; //I will sync it I swear
+
         public override void AI()
         {
             if (yes)
@@ -51,9 +52,15 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                     if (projectile.alpha >= 255)
                     {
                         if (krakenHead.smolBloons[0] != Vector2.Zero)
+                        {
                             krakenHead.smolBloons[0] = Vector2.Zero;
+                        }
+
                         if (krakenHead.smolBloons[1] != Vector2.Zero)
+                        {
                             krakenHead.smolBloons[1] = Vector2.Zero;
+                        }
+
                         projectile.Kill();
                     }
                 }
@@ -66,12 +73,17 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             else
             {
                 if (Main.rand.Next(4) == 0)
+                {
                     Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
+                }
             }
             if (projectile.ai[0] == 0)
             {
                 if (Main.rand.Next(4) == 0)
+                {
                     Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
+                }
+
                 start = projectile.Center;
             }
             if (Timer < 120)
@@ -90,9 +102,9 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         {
             return true;
         }
+
         public override void Kill(int timeLeft)
         {
-
             for (int i = 0; i < krakenHead.smolBloons.Length; i++)
             {
                 if (Vector2.DistanceSquared(krakenHead.smolBloons[i], start) < 20 * 20)

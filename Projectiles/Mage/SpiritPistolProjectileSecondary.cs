@@ -1,8 +1,6 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -24,12 +22,16 @@ namespace EEMod.Projectiles.Mage
             projectile.alpha = 255;
         }
 
-        float radius = 0;
+        private float radius = 0;
+
         public override void AI()
         {
             projectile.Center = Main.projectile[(int)projectile.ai[1]].Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * radius;
             if (radius < 48)
+            {
                 radius++;
+            }
+
             projectile.ai[0] += 0.1f;
         }
     }

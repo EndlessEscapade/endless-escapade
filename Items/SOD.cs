@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -24,6 +22,7 @@ namespace EEMod.Items
             item.accessory = true;  //this make the item an accessory, so you can equip it
             item.defense = 1;   //this sets the item defense given when equipped
         }
+
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
             player.noKnockback = true;

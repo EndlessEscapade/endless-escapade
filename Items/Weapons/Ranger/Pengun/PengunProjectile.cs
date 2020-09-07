@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -13,6 +9,7 @@ namespace EEMod.Items.Weapons.Ranger.Pengun
         {
             DisplayName.SetDefault("PengunProjectile");
         }
+
         public override void SetDefaults()
         {
             projectile.width = 16;

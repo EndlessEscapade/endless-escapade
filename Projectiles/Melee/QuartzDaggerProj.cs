@@ -48,7 +48,6 @@ namespace EEMod.Projectiles.Melee
 
         public override void Kill(int timeLeft)
         {
-
             for (int i = 0; i < 3; i++)
             {
                 int projHolder = Main.rand.Next(1);
@@ -64,7 +63,6 @@ namespace EEMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-
         }
     }
 }*/

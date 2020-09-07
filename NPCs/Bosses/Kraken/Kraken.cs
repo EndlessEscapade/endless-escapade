@@ -1,9 +1,9 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
@@ -15,7 +15,8 @@ namespace EEMod.NPCs.Bosses.Kraken
             DisplayName.SetDefault("Kraken");
             Main.npcFrameCount[npc.type] = 6;
         }
-        int tentaclesPer = 7;
+
+        private readonly int tentaclesPer = 7;
         private int frameUpdate;
         private int frameUpdate2;
         private bool mouthOpenConsume;
@@ -99,30 +100,31 @@ namespace EEMod.NPCs.Bosses.Kraken
             tentacleAlpha = 0;
         }
 
-        bool firstFrame = true;
-        float thrustingPower = 9;
-        float variablethrustingPower = 5;
-        bool thrust = false;
+        private bool firstFrame = true;
+        private readonly float thrustingPower = 9;
+        private float variablethrustingPower = 5;
+        private bool thrust = false;
         public bool isRightOrLeft = true;
-        bool resetAnim = false;
-        public Vector2 arenaPosition = new Vector2((Main.maxTilesX / 2) * 16, (Main.maxTilesY / 2 + 400) * 16);
+        private bool resetAnim = false;
+        public Vector2 arenaPosition = new Vector2(Main.maxTilesX / 2 * 16, (Main.maxTilesY / 2 + 400) * 16);
         public Vector2[] dashPositions = new Vector2[5];
         public Vector2[] npcFromPositions = new Vector2[5];
-        Rectangle seperateFrame = new Rectangle(0, 0, 568, 472);
+        private Rectangle seperateFrame = new Rectangle(0, 0, 568, 472);
         public float numberOfPushes;
         public float tentaclerotation;
         public bool GETHIMBOIS;
         public float tentacleAlpha = 1;
         public bool hasChains;
-        Vector2[] geyserPositionsVarUp;
-        Vector2[] geyserPositionsVarDown;
-        Vector2[] geyserPositionsVarRight;
-        Vector2[] geyserPositionsVarLeft;
+        private Vector2[] geyserPositionsVarUp;
+        private Vector2[] geyserPositionsVarDown;
+        private Vector2[] geyserPositionsVarRight;
+        private Vector2[] geyserPositionsVarLeft;
         public int howMany = 5;
         public Vector2[] smolBloons = new Vector2[2];
         public Vector2[] bigBloons = new Vector2[2];
         public float waterLevel;
-        float speedOfIncline = 0.1f;
+        private readonly float speedOfIncline = 0.1f;
+
         public void UpdateInkBlobs(int chance)
         {
             if (Main.rand.Next(chance) == 0)
@@ -210,9 +212,13 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.rotation = npc.velocity.X / 80f;
 
             if (npc.velocity.X > 0)
+            {
                 npc.spriteDirection = -1;
+            }
             else
+            {
                 npc.spriteDirection = 1;
+            }
 
             switch (npc.ai[1])
             {
@@ -241,7 +247,7 @@ namespace EEMod.NPCs.Bosses.Kraken
 
                             if (thrust && variablethrustingPower < thrustingPower)
                             {
-                                variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
+                                variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
                                 if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
                                 {
                                     thrust = false;
@@ -273,7 +279,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             }
                             if (thrust && variablethrustingPower < thrustingPower)
                             {
-                                variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
+                                variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
                                 if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
                                 {
                                     thrust = false;
@@ -355,7 +361,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             }
                             if (thrust && variablethrustingPower < thrustingPower)
                             {
-                                variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
+                                variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
                                 if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
                                 {
                                     thrust = false;
@@ -372,9 +378,14 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 for (int i = 0; i < holePositions.Length; i++)
                                 {
                                     if (i == 0 || i == 2)
+                                    {
                                         NPC.NewNPC((int)holePositions[i].X + 120, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
+                                    }
+
                                     if (i == 1 || i == 3)
+                                    {
                                         NPC.NewNPC((int)holePositions[i].X + 100, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI, 1);
+                                    }
                                 }
                             }
                             if (npc.ai[0] >= 400)
@@ -419,7 +430,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 }
                                 if (thrust && variablethrustingPower < thrustingPower)
                                 {
-                                    variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
+                                    variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
                                     if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
                                     {
                                         thrust = false;
@@ -480,7 +491,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         {
                             npc.alpha = 255;
                         }
-                        if (npc.ai[0] < (dashPositions.Length) * speed)
+                        if (npc.ai[0] < dashPositions.Length * speed)
                         {
                             if (npc.ai[0] % speed == 0)
                             {
@@ -493,7 +504,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 for (int i = 0; i <= (int)(npc.ai[0] / speed); i++)
                                 {
-                                    Lighting.AddLight((npcFromPositions[i]) + (Vector2.Normalize(dashPositions[i] - npcFromPositions[i]) * 30) * j, new Vector3(0, .5f, 0));
+                                    Lighting.AddLight(npcFromPositions[i] + Vector2.Normalize(dashPositions[i] - npcFromPositions[i]) * 30 * j, new Vector3(0, .5f, 0));
                                 }
                             }
                         }
@@ -524,7 +535,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                             }
                             if (thrust && variablethrustingPower < thrustingPower)
                             {
-                                variablethrustingPower += ((thrustingPower - (thrustingPower - variablethrustingPower)) / 13f);
+                                variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
                                 if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
                                 {
                                     thrust = false;
@@ -539,8 +550,10 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
                             }
-                            if (npc.ai[0] % frequency * 8 <= (frequency * 8) / 2)
+                            if (npc.ai[0] % frequency * 8 <= frequency * 8 / 2)
+                            {
                                 modPlayer.FixateCameraOn(player.Center, 64f, true, false, 10);
+                            }
                             else
                             {
                                 modPlayer.TurnCameraFixationsOff();
@@ -596,7 +609,6 @@ namespace EEMod.NPCs.Bosses.Kraken
                         }
                     }
                 }
-
             }
         }
 
@@ -609,11 +621,10 @@ namespace EEMod.NPCs.Bosses.Kraken
             int tileX = (int)npc.position.X / 16;
             int tileY = (int)npc.position.Y / 16;
             int teleportCheckCount = 0;
-            bool hasTeleportPoint = false;
             //player is too far away, don't teleport.
             for (int i = 0; i < howMany; i++)
             {
-                hasTeleportPoint = false;
+                bool hasTeleportPoint = false;
                 if (Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center) > (2000f * 2000f))
                 {
                     teleportCheckCount = 100;
@@ -628,14 +639,14 @@ namespace EEMod.NPCs.Bosses.Kraken
                     {
                         if (Main.tile[tpTileX, tpY].nactive())
                         {
-                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
+                            if (Main.tileSolid[Main.tile[tpTileX, tpY].type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
                                 npc.netUpdate = true;
                                 break;
                             }
-                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 1, tpY + 4) && !above)
+                            if (Main.tileSolid[Main.tile[tpTileX, tpY].type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 1, tpY + 4) && !above)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
@@ -658,11 +669,10 @@ namespace EEMod.NPCs.Bosses.Kraken
             int tileX = (int)npc.position.X / 16;
             int tileY = (int)npc.position.Y / 16;
             int teleportCheckCount = 0;
-            bool hasTeleportPoint = false;
             //player is too far away, don't teleport.
             for (int i = 0; i < howMany; i++)
             {
-                hasTeleportPoint = false;
+                bool hasTeleportPoint = false;
                 if (Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center) > (2000f * 2000f))
                 {
                     teleportCheckCount = 100;
@@ -677,14 +687,14 @@ namespace EEMod.NPCs.Bosses.Kraken
                     {
                         if (Main.tile[tpTileX, tpY].nactive())
                         {
-                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX + 1, tpTileX + 4, tpY - 1, tpY + 1) && right)
+                            if (Main.tileSolid[Main.tile[tpTileX, tpY].type] && !Collision.SolidTiles(tpTileX + 1, tpTileX + 4, tpY - 1, tpY + 1) && right)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
                                 npc.netUpdate = true;
                                 break;
                             }
-                            if ((Main.tileSolid[Main.tile[tpTileX, tpY].type]) && !Collision.SolidTiles(tpTileX - 4, tpTileX - 1, tpY - 1, tpY + 1) && !right)
+                            if (Main.tileSolid[Main.tile[tpTileX, tpY].type] && !Collision.SolidTiles(tpTileX - 4, tpTileX - 1, tpY - 1, tpY + 1) && !right)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);

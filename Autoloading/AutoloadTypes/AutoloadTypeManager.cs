@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria;
 using Terraria.ModLoader;
 
 namespace EEMod.Autoloading.AutoloadTypes
@@ -16,8 +12,14 @@ namespace EEMod.Autoloading.AutoloadTypes
 
         protected abstract void EvaluateType(Type type);
 
+        /// <summary> Loading the manager </summary>
         public virtual void Initialize()
         {
+        }
+        /// <summary> Unloading stuff from the manager, such as dictionaries, lists, etc. </summary>
+        public virtual void Unload()
+        {
+
         }
 
         // cus it's protected
@@ -41,7 +43,9 @@ namespace EEMod.Autoloading.AutoloadTypes
         protected sealed override void EvaluateType(Type type)
         {
             if (type.IsSubclassOf(typeof(T)))
+            {
                 CreateInstance(type);
+            }
         }
     }
 }

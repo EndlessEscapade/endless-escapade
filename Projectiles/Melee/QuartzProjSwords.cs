@@ -66,7 +66,6 @@ namespace EEMod.Projectiles.Melee
                         proj.velocity *= -1f;
                     }
                 }
-
             }
         }
 

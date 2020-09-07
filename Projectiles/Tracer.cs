@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace EEMod.Projectiles
 {
     public class Tracer : ModProjectile
@@ -25,6 +26,7 @@ namespace EEMod.Projectiles
             projectile.ignoreWater = true;
             aiType = ProjectileID.ThrowingKnife;
         }
+
         public override bool PreAI()
         {
             int num = 5;
@@ -35,6 +37,5 @@ namespace EEMod.Projectiles
             Main.dust[index2].noLight = true;
             return true;
         }
-
     }
 }

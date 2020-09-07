@@ -1,9 +1,8 @@
+using EEMod.Items.Placeables.Ores;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Mage;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -18,7 +17,9 @@ namespace EEMod.Items.Weapons.Ranger
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAmmo = AmmoID.Bullet;
+#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shoot = 10;
+#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shootSpeed = 36f;
             item.rare = ItemRarityID.Orange;
             item.width = 20;

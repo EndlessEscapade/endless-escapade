@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
 {
@@ -22,25 +22,34 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
         }
 
         public int hits;
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             hits++;
             if (projectile.velocity.X != oldVelocity.X)
+            {
                 projectile.velocity.X = -oldVelocity.X;
+            }
 
             if (projectile.velocity.Y != oldVelocity.Y)
+            {
                 projectile.velocity.Y = -oldVelocity.Y;
+            }
 
-            if (hits == 5) projectile.Kill();
+            if (hits == 5)
+            {
+                projectile.Kill();
+            }
 
             return false;
         }
 
         private float scale = 1;
+
         public override void AI()
         {
             projectile.velocity.Y += 0.15f;
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.45f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);   //this is the light colors
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.45f / 255f, (255 - projectile.alpha) * 0.05f / 255f);   //this is the light colors
             if (projectile.timeLeft > 125)
             {
                 projectile.timeLeft = 125;

@@ -1,8 +1,8 @@
-using System;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
@@ -33,10 +33,13 @@ namespace EEMod.Projectiles
             float brightness = 1;
             projectile.timeLeft = 100;
             projectile.Center = Main.player[projectile.owner].Center + new Vector2(36, 0).RotatedBy(projectile.rotation);
-            projectile.rotation = (Main.player[projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + (float)Math.PI;
+            projectile.rotation = (Main.player[projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + MathHelper.Pi;
             for (int i = 0; i < 10; i++)
+            {
                 Lighting.AddLight(projectile.Center + new Vector2(180 - (i * 20), 0).RotatedBy(projectile.rotation), new Vector3(projectile.ai[0] * brightness, projectile.ai[0] * brightness, projectile.ai[0] * brightness));
+            }
         }
+
         public void pixelPlacmentHours()
         {
             Main.spriteBatch.End();
@@ -45,6 +48,7 @@ namespace EEMod.Projectiles
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             return false;

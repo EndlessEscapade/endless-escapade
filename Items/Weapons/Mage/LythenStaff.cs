@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
+using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Mage;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Mage;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -41,7 +39,9 @@ namespace EEMod.Items.Weapons.Mage
         {
             Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             if (Main.netMode != NetmodeID.Server)
-                EEMod.Prims.CreateTrail(projectile);
+            {
+                EEMod.prims.CreateTrail(projectile);
+            }
 
             return false;
         }

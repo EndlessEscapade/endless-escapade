@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles
 {
@@ -33,12 +33,14 @@ namespace EEMod.Tiles
             if (projectile.ai[0] >= 10 && !canspawn)
             {
                 canspawn = true;
-                Helpers.DrawBezierProj(Main.LocalPlayer.Center - new Vector2(200, 200), Main.LocalPlayer.Center, Main.LocalPlayer.Center - new Vector2(120, 100), Main.LocalPlayer.Center - new Vector2(120, 100), 0.015f, (float)Math.PI, ModContent.ProjectileType<Bridge>(), true);
+                Helpers.DrawBezierProj(Main.LocalPlayer.Center - new Vector2(200, 200), Main.LocalPlayer.Center, Main.LocalPlayer.Center - new Vector2(120, 100), Main.LocalPlayer.Center - new Vector2(120, 100), 0.015f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
             }
 
             return true;
         }
-        bool canspawn = false;
+
+        private bool canspawn = false;
+
         public override void AI()
         {
             projectile.ai[0] += 0.1f;
@@ -55,7 +57,5 @@ namespace EEMod.Tiles
                 Main.LocalPlayer.position.Y = projectile.position.Y - Main.LocalPlayer.height + 1;
             }
         }
-
     }
 }
-

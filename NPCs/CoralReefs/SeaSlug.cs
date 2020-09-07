@@ -24,7 +24,6 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.lifeMax = 5;
 
-
             npc.lavaImmune = false;
             npc.noTileCollide = false;
         }
@@ -61,7 +60,8 @@ namespace EEMod.NPCs.CoralReefs
             }
         }
 
-        private int variation = Main.rand.Next(3);
+        private readonly int variation = Main.rand.Next(3);
+
         public override void FindFrame(int frameHeight)
         {
             npc.frame.Y = 18 * variation;

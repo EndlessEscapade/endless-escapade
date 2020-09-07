@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
@@ -22,7 +22,7 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.45f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);   //this is the light colors
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.45f / 255f, (255 - projectile.alpha) * 0.05f / 255f);   //this is the light colors
             if (projectile.timeLeft > 125)
             {
                 projectile.timeLeft = 125;
@@ -40,7 +40,6 @@ namespace EEMod.Projectiles
                 projectile.ai[0] += 1f;
             }
             return;
-
         }
 
         public override void Kill(int timeLeft)
@@ -51,7 +50,10 @@ namespace EEMod.Projectiles
                 float speedX = -(projectile.velocity.X * Main.rand.NextFloat(-.1f, .8f) + Main.rand.NextFloat(-.4f, 2f));
                 float speedY = -(projectile.velocity.Y * Main.rand.Next(30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
                 if (projHolder == 0 || projHolder == 1)
+                {
                     Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(projectile.damage * 0.7), 0f, projectile.owner, 0f, 0f);
+                }
+
                 Main.PlaySound(SoundID.Item27, projectile.position);
             }
             for (var i = 0; i < 20; i++)
@@ -69,20 +71,21 @@ namespace EEMod.Projectiles
             player.AddBuff(BuffID.Frostburn, 120);
             player.AddBuff(BuffID.CursedInferno, 120);				//this make so when the projectile/flame hit a npc, gives it the buff  onfire , 80 = 3 seconds
         }
+
         //private void LookInDirectionP(Vector2 look) // unused
         //{
-        //    float angle = 0.5f * (float)Math.PI;
+        //    float angle = 0.5f * MathHelper.Pi;
         //    if (look.X != 0f)
         //    {
         //        angle = (float)Math.Atan(look.Y / look.X);
         //    }
         //    else if (look.Y < 0f)
         //    {
-        //        angle += (float)Math.PI;
+        //        angle += MathHelper.Pi;
         //    }
         //    if (look.X < 0f)
         //    {
-        //        angle += (float)Math.PI;
+        //        angle += MathHelper.Pi;
         //    }
         //    projectile.rotation = angle;
         //}
@@ -92,6 +95,5 @@ namespace EEMod.Projectiles
             projectile.Kill();
             return false;
         }
-
     }
 }

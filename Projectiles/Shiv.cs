@@ -1,17 +1,17 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria.ID;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
     public abstract class Shiv : ModProjectile
     {
-        public virtual float rotationalCoverage => (float)Math.PI;
-        public virtual float RotationalOffset => (float)Math.PI / 2f;
-        protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);
+        public virtual float rotationalCoverage => MathHelper.Pi ;
+        public virtual float RotationalOffset => MathHelper.PiOver2;
+        protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         public virtual float dirtSmashIntensity => 12;
         public virtual int shakeLength => 20;
         public virtual int shakeIntensity => 3;
@@ -25,6 +25,7 @@ namespace EEMod.Projectiles
 
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
+
         public override void AI()
         {
             float perc = projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
@@ -49,7 +50,7 @@ namespace EEMod.Projectiles
             }
             if (projectile.ai[0] == 1) //schtab
             {
-                projectile.rotation = (float)Math.PI / 4 + Main.rand.NextFloat(-0.2f, 0.2f) + (Main.MouseWorld - projOwner.Center).ToRotation();
+                projectile.rotation = MathHelper.Pi / 4 + Main.rand.NextFloat(-0.2f, 0.2f) + (Main.MouseWorld - projOwner.Center).ToRotation();
                 float percentageX = (float)Math.Sin(projectile.rotation);
                 float percentageY = (float)Math.Cos(projectile.rotation);
                 projectile.position.X += projOwner.itemAnimation % (projOwner.itemAnimationMax / 5) * percentageX;
@@ -87,12 +88,11 @@ namespace EEMod.Projectiles
                         projectile.position.X += xDis;
                     }
                 }
-
             }
             if (projectile.ai[0] == 3) //crasche
             {
 
-                projectile.rotation = -(float)Math.PI / 4;
+                projectile.rotation = -MathHelper.Pi / 4;
                 if (perc > 0.9f)
                 {
                     projectile.alpha = 255;
@@ -170,7 +170,7 @@ namespace EEMod.Projectiles
             {
                 xDis += (6000 - xDis) / 64f;
                 projectile.position.X += -2000 + xDis;
-                projectile.rotation = (float)Math.PI / 4;
+                projectile.rotation = MathHelper.Pi / 4;
             }
             if (projectile.ai[0] == 6) //jump and smasche
             {
@@ -184,7 +184,7 @@ namespace EEMod.Projectiles
                     Tile tile = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3];
                     Tile tile2 = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4];
                     projOwner.velocity.Y += 2f;
-                    projectile.rotation += (-(float)Math.PI / 4 - projectile.rotation) / 4f;
+                    projectile.rotation += (-MathHelper.Pi / 4 - projectile.rotation) / 4f;
                     if (Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3].active() &&
                     (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
                     Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4].active() &&

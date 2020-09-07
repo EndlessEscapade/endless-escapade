@@ -1,9 +1,9 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
@@ -27,24 +27,33 @@ namespace EEMod.Projectiles
             projectile.ignoreWater = true;
             projectile.scale *= 1f;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Bounce(projectile.modProjectile, oldVelocity, .7f);
             return false;
         }
-        static Vector2 SavedVel;
+
+        private static Vector2 SavedVel;
+
         public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
         {
             Projectile projectile = modProj.projectile;
             if (projectile.velocity.X != oldVelocity.X)
+            {
                 projectile.velocity.X = -oldVelocity.X * bouncyness;
+            }
 
             if (projectile.velocity.Y != oldVelocity.Y)
+            {
                 projectile.velocity.Y = -oldVelocity.Y * bouncyness;
+            }
         }
-        int frames = 11;
-        int frame;
-        float ree = 0;
+
+        private readonly int frames = 11;
+        private int frame;
+        private float ree = 0;
+
         public static int GetPlayer(Vector2 center, int[] playersToExclude = default, bool activeOnly = true, float distance = -1, Func<Player, bool> CanAdd = null)
         {
             int currentPlayer = -1;
@@ -70,26 +79,31 @@ namespace EEMod.Projectiles
             }
             return currentPlayer;
         }
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.WriteVector2(SavedVel);
             writer.WriteVector2(mouseHitBoxVec);
             writer.Write(frame);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             SavedVel = reader.ReadVector2();
             mouseHitBoxVec = reader.ReadVector2();
             frame = reader.ReadInt32();
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player chosenPlayer = Main.player[GetPlayer(projectile.Center)];
             Texture2D volleyArrow = TextureCache.VArrow;
-            Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, (volleyArrow.Height / frames) * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.Pi / 2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, volleyArrow.Height / frames * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
             return true;
         }
-        static Vector2 mouseHitBoxVec;
+
+        private static Vector2 mouseHitBoxVec;
+
         public override void AI()
         {
             Player Yoda = Main.player[GetPlayer(projectile.Center)];

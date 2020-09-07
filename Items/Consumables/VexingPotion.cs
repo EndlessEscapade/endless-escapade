@@ -1,8 +1,8 @@
+using EEMod.Buffs.Buffs;
+using EEMod.Items.Fish;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Fish;
-using EEMod.Buffs.Buffs;
 
 namespace EEMod.Items.Consumables
 {

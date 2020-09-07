@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.Bosses.Hydros
 {
@@ -31,17 +31,21 @@ namespace EEMod.NPCs.Bosses.Hydros
         internal const float charge = 240;
         public float LaserLength { get => projectile.localAI[1]; set => projectile.localAI[1] = value; }
         public const float LaserLengthMax = 2000f;
-        int multiplier = 1;
+        private int multiplier = 1;
+
         public override bool ShouldUpdatePosition()
         {
             return false;
         }
+
         public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
         {
             drawCacheProjsBehindProjectiles.Add(index);
         }
-        float attackCounter = 0;
-        float chargeCounter = 0;
+
+        private float attackCounter = 0;
+        private float chargeCounter = 0;
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(attackCounter);
@@ -64,7 +68,10 @@ namespace EEMod.NPCs.Bosses.Hydros
                 chargeCounter = 5;
             }
             else if (projectile.ai[0] >= 20)
+            {
                 chargeCounter += 5f * multiplier;
+            }
+
             projectile.ai[0]++;
             if (chargeCounter == charge)
             {
@@ -75,7 +82,9 @@ namespace EEMod.NPCs.Bosses.Hydros
                 multiplier = -1;
             }
             if (multiplier == -1 && chargeCounter <= 0)
+            {
                 projectile.Kill();
+            }
 
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             projectile.velocity = Vector2.Normalize(projectile.velocity);
@@ -98,6 +107,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             float collisionPoint = 0f;
             return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength, projHitbox.Width, ref collisionPoint);
         }
+
         public override bool? CanCutTiles()
         {
             DelegateMethods.tilecut_0 = Terraria.Enums.TileCuttingContext.AttackProjectile;

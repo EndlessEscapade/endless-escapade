@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
 using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Graphics;
 using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static EEMod.Tiles.Furniture.OrbHolder;
@@ -25,19 +23,21 @@ namespace EEMod.NPCs.CoralReefs
         public int rippleSize = 13;
         public int rippleSpeed = 200;
         public float distortStrength = 5;
-        float alpha;
+        private float alpha;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             alpha += 0.05f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.White.CurrentTechnique.Passes[0].Apply();
-            EEMod.White.Parameters["alpha"].SetValue((((float)Math.Sin(alpha) + 1) * 0.5f));
-            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw() + new Vector2(0,3), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale*1.05f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            EEMod.White.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
+            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw() + new Vector2(0, 3), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.05f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return true;
         }
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -60,23 +60,22 @@ namespace EEMod.NPCs.CoralReefs
         {
             return false;
         }
-        bool isPicking;
-        bool otherPhase;
-        bool otherPhase2;
-        float t;
-        Vector2[] Holder = new Vector2[2];
-        List<List<Dust>> dustHandler = new List<List<Dust>>();
-        List<float> rotHandler = new List<float>();
-        List<float> rotHandlerSquare = new List<float>();
-        float[] PerlinStrip = new float[720];
+
+        private bool isPicking;
+        private bool otherPhase;
+        private bool otherPhase2;
+        private float t;
+        private readonly Vector2[] Holder = new Vector2[2];
+        private readonly List<List<Dust>> dustHandler = new List<List<Dust>>();
+        private readonly List<float> rotHandler = new List<float>();
+        private readonly List<float> rotHandlerSquare = new List<float>();
+        private readonly float[] PerlinStrip = new float[720];
+
         public override void AI()
         {
-            int noOfSubParts = 3;
-            int accuracy = 720;
-
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
             {
-                Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f,2f), -5));
+                Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f, 2f), -5));
                 dust.velocity *= 0.99f;
                 dust.noGravity = true;
                 dust.fadeIn = 1f;
@@ -85,7 +84,7 @@ namespace EEMod.NPCs.CoralReefs
                 {
                 PerlinStrip = EEWorld.EEWorld.PerlinArrayNoZero(3720, 1, new Vector2(50, 100),100);
                 }
-            
+
                 if (dustHandler.Count < 72)
                 {
                     int rot = Main.rand.Next(accuracy);
@@ -112,7 +111,7 @@ namespace EEMod.NPCs.CoralReefs
                     for (int j = 0; j < noOfSubParts; j++)
                     {
                         float per = PerlinStrip[(int)rotHandlerSquare[i]];
-                        float baseOfMovement = i * 10 * ((float)Math.PI / (accuracy * 0.5f));
+                        float baseOfMovement = i * 10 * (MathHelper.Pi / (accuracy * 0.5f));
                         float Extra = (float)(Math.Sin(j / 4f * per) * 155 * per);
                         float xdist = (int)(Math.Sin(baseOfMovement) * (150 - (per * 50) + Extra));
                         float ydist = (int)(Math.Cos(baseOfMovement) * (150 - (per * 50) + Extra));
@@ -138,8 +137,11 @@ namespace EEMod.NPCs.CoralReefs
                 rotHandlerSquare.Clear();
             }
             npc.ai[0] += 0.05f;
-            if(!otherPhase)
-            npc.position.Y += (float)Math.Sin(npc.ai[0])/4f;
+            if (!otherPhase)
+            {
+                npc.position.Y += (float)Math.Sin(npc.ai[0]) / 4f;
+            }
+
             if (npc.life == 0)
             {
                 if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
@@ -147,7 +149,7 @@ namespace EEMod.NPCs.CoralReefs
                     Filters.Scene["EEMod:Shockwave"].Deactivate();
                 }
             }
-            if(Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
+            if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
             {
                 npc.Center = Main.player[(int)npc.ai[1]].Center - new Vector2(0, 80);
                 if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
@@ -155,7 +157,7 @@ namespace EEMod.NPCs.CoralReefs
                     Main.player[(int)npc.ai[1]].bodyFrame.Y = 56 * 5;
                 }
             }
-            if(isPicking && !Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
+            if (isPicking && !Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos == Vector2.Zero)
                 {
@@ -167,10 +169,10 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     otherPhase2 = true;
                     Holder[0] = npc.Center;
-                    Holder[1] = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos + new Vector2(70,60);
+                    Holder[1] = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos + new Vector2(70, 60);
                 }
             }
-            if(otherPhase)
+            if (otherPhase)
             {
                 t += 0.01f;
                 if (t <= 1)

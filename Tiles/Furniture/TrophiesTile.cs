@@ -1,9 +1,9 @@
+using EEMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using EEMod.Items.Placeables.Furniture;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -33,18 +33,23 @@ namespace EEMod.Tiles.Furniture
                 case 0:
                     item = ModContent.ItemType<HydrosTrophy>();
                     break;
+
                 case 1:
                     item = ModContent.ItemType<OmenTrophy>();
                     break;
+
                 case 2:
                     item = ModContent.ItemType<AkumoTrophy>();
                     break;
+
                 case 3:
                     item = ModContent.ItemType<KrakenTrophy>();
                     break;
+
                 case 4:
                     item = ModContent.ItemType<TalosTrophy>();
                     break;
+
                 case 5:
                     item = ModContent.ItemType<CoralGolemTrophy>();
                     break;

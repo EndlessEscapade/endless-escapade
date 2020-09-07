@@ -1,8 +1,8 @@
-using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria;
-using System;
 using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -27,11 +27,12 @@ namespace EEMod.Projectiles.Mage
 
         private int dropTimer = 10;
         private bool firstFrame = true;
+
         public override void AI()
         {
             if (firstFrame)
             {
-                Vector2 closestNPCPos = new Vector2(0, 0);
+                Vector2 closestNPCPos = Vector2.Zero;
                 for (int i = 0; i < Main.npc.Length; i++)
                 {
                     if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Main.npc[i].Center) <= Vector2.DistanceSquared(Main.LocalPlayer.Center, closestNPCPos) && Main.npc[i].active)
@@ -39,7 +40,7 @@ namespace EEMod.Projectiles.Mage
                         closestNPCPos = Main.npc[i].Center;
                     }
                 }
-                if (closestNPCPos == new Vector2(0, 0) || Main.npc.Length == 0)
+                if (closestNPCPos == Vector2.Zero || Main.npc.Length == 0)
                 {
                     projectile.Kill();
                 }
@@ -48,9 +49,13 @@ namespace EEMod.Projectiles.Mage
             }
             Dust.NewDust(projectile.Center, 0, 0, 127);
             if (dropTimer > 0)
+            {
                 dropTimer--;
+            }
             else
+            {
                 projectile.velocity.Y = 32;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -70,7 +75,6 @@ namespace EEMod.Projectiles.Mage
 
         public override void Kill(int timeLeft)
         {
-
         }
     }
 }

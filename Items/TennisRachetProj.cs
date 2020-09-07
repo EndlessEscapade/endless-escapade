@@ -1,11 +1,8 @@
-using System;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria;
 using Microsoft.Xna.Framework.Graphics;
-using EEMod.Projectiles;
 using System.IO;
-using Terraria.ID;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Items
 {
@@ -32,27 +29,32 @@ namespace EEMod.Items
             projectile.damage = 30;
         }
 
-        int frame;
-        int numOfFrames = 8;
+        private int frame;
+        private readonly int numOfFrames = 8;
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.Write(frame);
             writer.Write(indexOfProjectile);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             frame = reader.ReadInt32();
             indexOfProjectile = reader.ReadInt32();
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
-            Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, (tex.Height / numOfFrames) * frame, tex.Width, tex.Height / numOfFrames), lightColor * (1 - (projectile.alpha / 255f)), projectile.rotation, new Rectangle(0, (tex.Height / numOfFrames) * frame, tex.Width, tex.Height / numOfFrames).Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames), lightColor * (1 - (projectile.alpha / 255f)), projectile.rotation, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames).Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
-        int indexOfProjectile;
+
+        private int indexOfProjectile;
         public Vector2 goTo = Main.MouseWorld;
         public int owner;
+
         public override void AI()
         {
             if (projectile.ai[1] > 0)
@@ -84,7 +86,7 @@ namespace EEMod.Items
                 else
                 {
                     frame = (int)((player.Center.X - projectile.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
-                    projectile.rotation = (float)MathHelper.Pi;
+                    projectile.rotation = MathHelper.Pi;
                 }
             }
             frame = (int)MathHelper.Clamp(frame, 0, numOfFrames - 1);

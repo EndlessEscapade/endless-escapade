@@ -1,9 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace EEMod.Tiles
 {
@@ -13,26 +12,29 @@ namespace EEMod.Tiles
         {
             DisplayName.SetDefault("Tile Experimentation");
         }
+
         private static float X(float t,
    float x0, float x1, float x2, float x3)
         {
             return (float)(
-                x0 * Math.Pow((1 - t), 3) +
-                x1 * 3 * t * Math.Pow((1 - t), 2) +
+                x0 * Math.Pow(1 - t, 3) +
+                x1 * 3 * t * Math.Pow(1 - t, 2) +
                 x2 * 3 * Math.Pow(t, 2) * (1 - t) +
                 x3 * Math.Pow(t, 3)
             );
         }
+
         private static float Y(float t,
             float y0, float y1, float y2, float y3)
         {
             return (float)(
-                 y0 * Math.Pow((1 - t), 3) +
-                 y1 * 3 * t * Math.Pow((1 - t), 2) +
+                 y0 * Math.Pow(1 - t, 3) +
+                 y1 * 3 * t * Math.Pow(1 - t, 2) +
                  y2 * 3 * Math.Pow(t, 2) * (1 - t) +
                  y3 * Math.Pow(t, 3)
              );
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (isSupport)
@@ -42,6 +44,7 @@ namespace EEMod.Tiles
             }
             return true;
         }
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -57,29 +60,30 @@ namespace EEMod.Tiles
             projectile.scale *= 1f;
         }
 
-        Vector2 endPoints = Main.LocalPlayer.Center - new Vector2(200, 200);
-        Vector2 startingPos = Main.LocalPlayer.Center;
-        Vector2 c1 = Main.LocalPlayer.Center - new Vector2(120, 100);
-        Vector2 c2 = Main.LocalPlayer.Center - new Vector2(120, 100);
+        private Vector2 endPoints = Main.LocalPlayer.Center - new Vector2(200, 200);
+        private Vector2 startingPos = Main.LocalPlayer.Center;
+        private Vector2 c1 = Main.LocalPlayer.Center - new Vector2(120, 100);
+        private Vector2 c2 = Main.LocalPlayer.Center - new Vector2(120, 100);
 
-        float dipX = (Main.LocalPlayer.Center - new Vector2(120, 210)).X;
-        float dipY = (Main.LocalPlayer.Center - new Vector2(120, 210)).Y;
-        float accelY;
-        float accelX;
-        float accel2 = 1;
-        float accel3;
-        float amplitude;
-        float maxSpeedY = 10;
-        float maxSpeedX = 10;
-        float firstPosX = (Main.LocalPlayer.Center).X;
-        float secondPosX = (Main.LocalPlayer.Center - new Vector2(200, 200)).X;
-        float firstPosY = (Main.LocalPlayer.Center).Y;
-        float secondPosY = (Main.LocalPlayer.Center - new Vector2(200, 200)).Y;
+        private float dipX = (Main.LocalPlayer.Center - new Vector2(120, 210)).X;
+        private float dipY = (Main.LocalPlayer.Center - new Vector2(120, 210)).Y;
+        private float accelY;
+        private float accelX;
+        private float accel2 = 1;
+        private float accel3;
+        private float amplitude;
+        private float maxSpeedY = 10;
+        private float maxSpeedX = 10;
+        private float firstPosX = Main.LocalPlayer.Center.X;
+        private float secondPosX = (Main.LocalPlayer.Center - new Vector2(200, 200)).X;
+        private float firstPosY = Main.LocalPlayer.Center.Y;
+        private float secondPosY = (Main.LocalPlayer.Center - new Vector2(200, 200)).Y;
         public static float checkForLowest;
-        public static float trueControlPoint = ((Main.LocalPlayer.Center).X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X) / 2;
+        public static float trueControlPoint = (Main.LocalPlayer.Center.X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X) / 2;
         public float chainsPerUse;
         public float rotDis;
         public bool isSupport;
+
         public override void AI()
         {
             Rectangle upperPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + 13, projectile.width, 3);
@@ -93,9 +97,9 @@ namespace EEMod.Tiles
             }
             if (playerHitBoxFeet.Intersects(upperPortionWholeEntityCheck) && Main.LocalPlayer.velocity.Y >= 0)
             {
-                Main.LocalPlayer.bodyFrameCounter += (double)Math.Abs(Main.LocalPlayer.velocity.X) * 1.5;
+                Main.LocalPlayer.bodyFrameCounter += Math.Abs(Main.LocalPlayer.velocity.X) * 1.5;
                 Main.LocalPlayer.bodyFrame.Y = Main.LocalPlayer.legFrame.Y;
-                Main.LocalPlayer.legFrameCounter += (double)Math.Abs(Main.LocalPlayer.velocity.X) * 1.3;
+                Main.LocalPlayer.legFrameCounter += Math.Abs(Main.LocalPlayer.velocity.X) * 1.3;
                 while (Main.LocalPlayer.legFrameCounter > 8.0)
                 {
                     Main.LocalPlayer.legFrameCounter -= 8.0;
@@ -111,9 +115,14 @@ namespace EEMod.Tiles
                 }
             }
             if (secondPosY > firstPosY)
+            {
                 checkForLowest = secondPosY;
+            }
             else
+            {
                 checkForLowest = firstPosY;
+            }
+
             if (Main.LocalPlayer.controlUp)
             {
                 firstPosX = Main.mouseX + Main.screenPosition.X;
@@ -123,13 +132,22 @@ namespace EEMod.Tiles
                 accel2 = 1;
                 amplitude = dipY;
                 if (dipY >= secondPosY)
+                {
                     maxSpeedY = (dipY - secondPosY) / 20;
+                }
                 else
+                {
                     maxSpeedY = (secondPosY - dipY) / 20;
+                }
+
                 if (dipX >= trueControlPoint)
-                    maxSpeedX = (dipX - (trueControlPoint)) / 20;
+                {
+                    maxSpeedX = (dipX - trueControlPoint) / 20;
+                }
                 else
-                    maxSpeedX = ((trueControlPoint) - dipX) / 20;
+                {
+                    maxSpeedX = (trueControlPoint - dipX) / 20;
+                }
             }
             if (Main.LocalPlayer.controlUseItem)
             {
@@ -140,14 +158,22 @@ namespace EEMod.Tiles
                 accel2 = 1;
                 amplitude = dipY;
                 if (dipY >= checkForLowest)
+                {
                     maxSpeedY = (dipY - checkForLowest) / 20;
+                }
                 else
+                {
                     maxSpeedY = (checkForLowest - dipY) / 20;
-                if (dipX >= checkForLowest)
-                    maxSpeedX = (dipX - checkForLowest) / 20;
-                else
-                    maxSpeedX = (checkForLowest - dipX) / 20;
+                }
 
+                if (dipX >= checkForLowest)
+                {
+                    maxSpeedX = (dipX - checkForLowest) / 20;
+                }
+                else
+                {
+                    maxSpeedX = (checkForLowest - dipX) / 20;
+                }
             }
             secondPosX = endPoints.X;
             secondPosY = endPoints.Y;
@@ -156,23 +182,32 @@ namespace EEMod.Tiles
                 maxSpeedX *= 0.994f;
                 accel3 = (dipX - trueControlPoint) / 100f;
                 if (accel3 > 1)
+                {
                     accel3 = 1;
+                }
+
                 accelX -= accel2 * accel3;
                 dipX += accelX;
                 if (accelX < -maxSpeedX)
+                {
                     accelX = -maxSpeedX;
+                }
             }
             if (dipX <= trueControlPoint)
             {
                 maxSpeedX *= 0.994f;
                 accel3 = (trueControlPoint - dipX) / 100f;
                 if (accel3 > 1)
+                {
                     accel3 = 1;
+                }
 
                 accelX += accel2 * accel3;
                 dipX += accelX;
                 if (accelX < -maxSpeedX)
+                {
                     accelX = -maxSpeedX;
+                }
             }
 
             //other
@@ -181,23 +216,32 @@ namespace EEMod.Tiles
                 maxSpeedY *= 0.989f;
                 accel3 = (dipY - checkForLowest) / 100f;
                 if (accel3 > 1)
+                {
                     accel3 = 1;
+                }
 
                 dipY += accelY;
                 accelY -= accel2 * accel3;
                 if (accelY < -maxSpeedY)
+                {
                     accelY = -maxSpeedY;
+                }
             }
             else
             {
                 maxSpeedY *= 0.989f;
                 accel3 = (checkForLowest - dipY) / 100f;
                 if (accel3 > 1)
+                {
                     accel3 = 1;
+                }
+
                 dipY += accelY;
                 accelY += accel2 * accel3;
                 if (accelY > maxSpeedY)
+                {
                     accelY = maxSpeedY;
+                }
             }
             projectile.Center = new Vector2(X(projectile.ai[1], firstPosX, dipX, dipX, endPoints.X), Y(projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y));
             Vector2 distBetween = new Vector2(X(projectile.ai[1], firstPosX, dipX, dipX, endPoints.X) -
@@ -208,8 +252,6 @@ namespace EEMod.Tiles
             projectile.rotation = projTrueRotation;
             projectile.ai[0] += 0.1f;
             projectile.velocity.Y += (float)Math.Sin(projectile.ai[0]) * 0.1f;
-
         }
-
     }
 }

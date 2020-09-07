@@ -41,7 +41,6 @@ namespace EEMod.NPCs
 
         public override void SetDefaults()
         {
-
             npc.width = 32;
             npc.height = 58;
             npc.damage = 12;
@@ -105,7 +104,6 @@ namespace EEMod.NPCs
                     return;
                 }
             }
-
         }
 
         public override void NPCLoot()
@@ -242,7 +240,7 @@ namespace EEMod.NPCs
                 int teleportCheckCount = 0;
                 bool hasTeleportPoint = false;
                 if (npc.ai[1] < timeInDig)
-                    npc.velocity = new Vector2(0, 0);
+                    npc.velocity = Vector2.Zero;
                 //gayass
                 //player is too far away, don't teleport.
                 //Universe is so stupid and noone likes him. STFU u stupid ass mofo bitch monkey ass mofo bitch ass monkey mofo ass monkey bitch fucking slutbag.

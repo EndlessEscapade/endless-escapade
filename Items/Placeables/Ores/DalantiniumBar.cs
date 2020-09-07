@@ -1,7 +1,7 @@
+using EEMod.Tiles.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Ores;
 
 namespace EEMod.Items.Placeables.Ores
 {

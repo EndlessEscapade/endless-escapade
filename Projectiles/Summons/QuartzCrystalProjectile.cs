@@ -17,7 +17,6 @@ namespace EEMod.Projectiles.Summons
             ProjectileID.Sets.Homing[projectile.type] = true;
             projectile.localNPCHitCooldown = 1;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-
         }
         private int delay;
         public override void SetDefaults()
@@ -157,11 +156,9 @@ namespace EEMod.Projectiles.Summons
                     zombieAboutToDie = false;
                     projectile.ai[0] = 1f;
                 }
-
             }
             else
             {
-
                 if (!Collision.CanHitLine(projectile.Center, 1, 1, Main.player[projectile.owner].Center, 1, 1))
                 {
                     projectile.ai[0] = 1f;
@@ -258,8 +255,6 @@ namespace EEMod.Projectiles.Summons
                     }
                 }
             }
-
-
         }
 
         public override bool PreAI()

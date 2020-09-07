@@ -1,5 +1,5 @@
+using EEMod.Items.Placeables.Furniture.Atlantis;
 using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables.Furniture;
 using System;
 using Terraria;
 using Terraria.DataStructures;
@@ -8,7 +8,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using EEMod.Items.Placeables.Furniture.Atlantis;
 
 namespace EEMod.Tiles.Furniture.Atlantis
 {
@@ -170,7 +169,9 @@ namespace EEMod.Tiles.Furniture.Atlantis
             player.showItemIcon2 = -1;
             if (chest < 0)
             {
-                player.showItemIconText = Lang.chestType[0].Value;
+#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
+                player.showItemIconText = Lang.chestType[0].Value; // TODO: Change to Language.GetText
+#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
             }
             else
             {

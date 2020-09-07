@@ -1,7 +1,7 @@
+using EEMod.Items.Placeables;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables;
 
 namespace EEMod.Tiles
 {
@@ -11,6 +11,7 @@ namespace EEMod.Tiles
         {
             style = mod.GetWaterfallStyleSlot("Surfacebg");
         }
+
         public override void SetDefaults()
         {
             Main.tileMergeDirt[Type] = true;

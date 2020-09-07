@@ -1,8 +1,7 @@
-using System;
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
 
 namespace EEMod.Projectiles
 {
@@ -33,9 +32,14 @@ namespace EEMod.Projectiles
             projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width / 2 + (float)Math.Sin(projectile.ai[0]) * 10 - 100;
             projectile.position.Y = Main.player[projectile.owner].Center.Y;
             if (projectile.ai[1] == 0)
+            {
                 projectile.alpha += 5;
+            }
             else
+            {
                 projectile.alpha -= 5;
+            }
+
             Helpers.Clamp(ref projectile.alpha, 0, 255);
         }
 

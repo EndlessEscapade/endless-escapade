@@ -1,6 +1,6 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
@@ -34,22 +34,23 @@ namespace EEMod.Projectiles
         //}
         //private void LookInDirectionP(Vector2 look)
         //{
-        //    float angle = 0.5f * (float)Math.PI;
+        //    float angle = 0.5f * MathHelper.Pi;
         //    if (look.X != 0f)
         //    {
         //        angle = (float)Math.Atan(look.Y / look.X);
         //    }
         //    else if (look.Y < 0f)
         //    {
-        //        angle += (float)Math.PI;
+        //        angle += MathHelper.Pi;
         //    }
         //    if (look.X < 0f)
         //    {
-        //        angle += (float)Math.PI;
+        //        angle += MathHelper.Pi;
         //    }
         //    projectile.rotation = angle;
         //}
         private int x = 1;
+
         public override void AI()
         {
             projectile.rotation = new Vector2(projectile.ai[0], projectile.ai[1]).ToRotation();

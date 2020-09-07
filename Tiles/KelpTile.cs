@@ -1,13 +1,12 @@
-using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using EEMod.Items.Materials;
-using EEMod.Tiles;
-using Terraria.ObjectData;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace EEMod.Tiles
 {
@@ -33,6 +32,7 @@ namespace EEMod.Tiles
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
         }
+
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
             if (WorldGen.InWorld(i, j))
@@ -43,9 +43,12 @@ namespace EEMod.Tiles
                     && tile.type != ModContent.TileType<GemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandTile>()
                     && tile.type != ModContent.TileType<DarkGemsandTile>())
+                {
                     WorldGen.KillTile(i, j);
+                }
             }
         }
+
         public override void RandomUpdate(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j - 1);
@@ -55,9 +58,9 @@ namespace EEMod.Tiles
                 NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<KelpTile>(), 0, 0, -1, -1);
             }
         }
+
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-
             return true;
         }
     }

@@ -1,11 +1,6 @@
-using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria.Graphics.Effects;
 using Microsoft.Xna.Framework.Graphics;
-using EEMod.Extensions;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
@@ -31,9 +26,9 @@ namespace EEMod.Projectiles
             projectile.scale *= 1;
             projectile.light = 0;
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-
         }
     }
 }

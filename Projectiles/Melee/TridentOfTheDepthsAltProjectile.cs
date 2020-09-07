@@ -1,10 +1,9 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Melee
 {
@@ -32,26 +31,28 @@ namespace EEMod.Projectiles.Melee
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
-        Vector2 InitPos;
+
+        private Vector2 InitPos;
+
         public override void AI()
         {
             projectile.ai[0]++;
-            if(projectile.ai[0] == 1)
+            if (projectile.ai[0] == 1)
             {
                 InitPos = Main.player[projectile.owner].Center;
                 projectile.Center = Main.player[projectile.owner].Center - new Vector2(2000, 0);
             }
-            if (Math.Abs((InitPos.X -100) - projectile.Center.X) > 20)
+            if (Math.Abs(InitPos.X - 100 - projectile.Center.X) > 20)
             {
                 projectile.velocity = (InitPos - new Vector2(100, 0) - projectile.Center) / 32f;
-                projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI * 0.75f;
+                projectile.rotation = projectile.velocity.ToRotation() + MathHelper.Pi * 0.75f;
             }
             else
             {
-                projectile.position.Y += (float)Math.Sin(projectile.ai[0]/20f) * 0.5f;
+                projectile.position.Y += (float)Math.Sin(projectile.ai[0] / 20f) * 0.5f;
             }
-           
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             for (var i = 0; i < 4; i++)
@@ -60,9 +61,10 @@ namespace EEMod.Projectiles.Melee
                 // Main.dust[num].noGravity = false;
             }
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);

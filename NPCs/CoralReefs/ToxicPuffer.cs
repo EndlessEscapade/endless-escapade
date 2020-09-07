@@ -42,9 +42,10 @@ namespace EEMod.NPCs.CoralReefs
             {
                 Player player = Main.player[i];
                 if (Vector2.Distance(npc.Center, player.Center) <= 320)
+                {
                     isBig = true;
+                }
             }
-
 
             npc.TargetClosest();
             Player target = Main.player[npc.target];
@@ -70,7 +71,7 @@ namespace EEMod.NPCs.CoralReefs
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.PufferSmall;
-            Vector2 offset = new Vector2(0, 0);
+            Vector2 offset = Vector2.Zero;
             if (big)
             {
                 texture = TextureCache.PufferBig;

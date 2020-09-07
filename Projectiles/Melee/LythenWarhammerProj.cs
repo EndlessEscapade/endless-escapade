@@ -1,8 +1,6 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria.ID;
+
 //using SharpDX.D3DCompiler;
 
 namespace EEMod.Projectiles.Melee
@@ -31,8 +29,8 @@ namespace EEMod.Projectiles.Melee
             projectile.damage = 20;
             projectile.knockBack = 4.5f;
         }
-        public override float rotationalCoverage => (float)Math.PI;
-        public override float RotationalOffset => (float)Math.PI / 2f;
+        public override float rotationalCoverage => MathHelper.Pi;
+        public override float RotationalOffset => MathHelper.PiOver2;
         public override float dirtSmashIntensity => 12;
         public override int shakeLength => 20;
         public override int AoE => base.AoE;

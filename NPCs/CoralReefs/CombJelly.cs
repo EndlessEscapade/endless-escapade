@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -45,9 +44,14 @@ namespace EEMod.NPCs.CoralReefs
             if (target.Center.Y > npc.Center.Y)
             {
                 if (npc.velocity.Y < 2)
+                {
                     npc.velocity.Y *= 1.01f;
+                }
+
                 if (npc.velocity.Y <= 0)
+                {
                     npc.velocity.Y += 0.5f;
+                }
             }
             else
             {

@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Materials;
 
 namespace EEMod.NPCs
 {
@@ -34,15 +33,24 @@ namespace EEMod.NPCs
 
         public int yes;
         public int interval = 120;
+
         public override void AI()
         {
             yes++;
             if (yes == interval * 2)
+            {
                 CombatText.NewText(npc.getRect(), Colors.RarityBlue, "*Boing*", false, false);
+            }
+
             if (yes == interval * 4)
+            {
                 CombatText.NewText(npc.getRect(), Colors.RarityBlue, "Ahh Yes The Mlemage", false, false);
+            }
+
             if (yes == interval * 6)
+            {
                 CombatText.NewText(npc.getRect(), Colors.RarityBlue, "Destroy the world now?", false, false);
+            }
         }
     }
 }

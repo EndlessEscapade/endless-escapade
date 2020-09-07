@@ -1,9 +1,9 @@
+using EEMod.Buffs.Buffs;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using EEMod.Buffs.Buffs;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Summons
 {
@@ -17,9 +17,10 @@ namespace EEMod.Projectiles.Summons
             ProjectileID.Sets.Homing[projectile.type] = true;
             projectile.localNPCHitCooldown = 1;
             ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
-
         }
+
         private int delay;
+
         public override void SetDefaults()
         {
             projectile.netImportant = true;
@@ -156,11 +157,9 @@ namespace EEMod.Projectiles.Summons
                     zombieAboutToDie = false;
                     projectile.ai[0] = 1f;
                 }
-
             }
             else
             {
-
                 if (!Collision.CanHitLine(projectile.Center, 1, 1, Main.player[projectile.owner].Center, 1, 1))
                 {
                     projectile.ai[0] = 1f;
@@ -262,11 +261,17 @@ namespace EEMod.Projectiles.Summons
             projectile.velocity.Y += (float)Math.Cos(somethingIDontNeedToSync) / 20f;
 
             if (projectile.velocity.X > 0)
+            {
                 projectile.spriteDirection = -1;
+            }
             else
+            {
                 projectile.spriteDirection = 1;
+            }
         }
-        float somethingIDontNeedToSync;
+
+        private float somethingIDontNeedToSync;
+
         public override bool PreAI()
         {
             bool areYouHere = projectile.type == ModContent.ProjectileType<ARProj>();

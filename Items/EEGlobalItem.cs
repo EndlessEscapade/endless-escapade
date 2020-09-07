@@ -1,10 +1,7 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Items
 {
@@ -16,9 +13,9 @@ namespace EEMod.Items
         //public override bool CloneNewInstances => true;
 
         public int fishLength = 0;
-        private int[] averageSizeFish = { ItemID.ArmoredCavefish, ItemID.AtlanticCod, ItemID.Bass, ItemID.CrimsonTigerfish, ItemID.Ebonkoi, ItemID.Obsidifish, ItemID.SpecularFish, ItemID.Stinkfish, ItemID.Tuna };
-        private int[] smallSizeFish =  { ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.Hemopiranha, ItemID.NeonTetra, ItemID.PrincessFish, ItemID.RedSnapper, /*ItemID.RockLobster, */ ItemID.Salmon, ItemID.Trout };
-        private int[] bigSizeFish = { ItemID.ChaosFish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FlarefinKoi, /*ItemID.Flouder, */ ItemID.Prismite, ItemID.VariegatedLardfish };
+        private readonly int[] averageSizeFish = { ItemID.ArmoredCavefish, ItemID.AtlanticCod, ItemID.Bass, ItemID.CrimsonTigerfish, ItemID.Ebonkoi, ItemID.Obsidifish, ItemID.SpecularFish, ItemID.Stinkfish, ItemID.Tuna };
+        private readonly int[] smallSizeFish = { ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.Hemopiranha, ItemID.NeonTetra, ItemID.PrincessFish, ItemID.RedSnapper, /*ItemID.RockLobster, */ ItemID.Salmon, ItemID.Trout };
+        private readonly int[] bigSizeFish = { ItemID.ChaosFish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FlarefinKoi, /*ItemID.Flouder, */ ItemID.Prismite, ItemID.VariegatedLardfish };
 
         public override void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult)
         {
@@ -63,11 +60,20 @@ namespace EEMod.Items
         {
             EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
             if (averageSizeFish.Contains(item.type))
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(12, 33) * (int)(1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 32);
+            {
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(12, 33) * (1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 32);
+            }
+
             if (smallSizeFish.Contains(item.type))
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(8, 17) * (int)(1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 16);
+            {
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(8, 17) * (1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 16);
+            }
+
             if (bigSizeFish.Contains(item.type))
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(18, 45) * (int)(1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 44);
+            {
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(18, 45) * (1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 44);
+            }
+
             return true;
         }
 

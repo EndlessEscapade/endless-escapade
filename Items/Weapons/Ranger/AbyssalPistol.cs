@@ -1,7 +1,7 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -24,7 +24,9 @@ namespace EEMod.Items.Weapons.Ranger
             item.useAnimation = 26;
             item.width = 20;
             item.height = 20;
+#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.shoot = 10;
+#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
             item.rare = ItemRarityID.Green;
             item.knockBack = 5f;
             item.useStyle = ItemUseStyleID.HoldingOut;
@@ -41,7 +43,10 @@ namespace EEMod.Items.Weapons.Ranger
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (player.wet)
+            {
                 damage = item.damage * 3;
+            }
+
             return true;
         }
     }

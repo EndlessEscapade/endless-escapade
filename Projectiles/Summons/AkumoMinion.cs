@@ -1,12 +1,11 @@
+using EEMod.Buffs.Buffs;
+using EEMod.Extensions;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using EEMod.Buffs.Buffs;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Projectiles.Mage;
-using EEMod.Extensions;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Summons
 {
@@ -37,10 +36,10 @@ namespace EEMod.Projectiles.Summons
             projectile.hostile = false;
         }
 
-        Color minionGlow;
-        float[] projectileAiCont = new float[6];
-        int[] reinforcements = new int[3];
-        int frameSpeed = 4;
+        private Color minionGlow;
+        private readonly float[] projectileAiCont = new float[6];
+        private readonly int[] reinforcements = new int[3];
+        private int frameSpeed = 4;
 
         public override void AI()
         {
@@ -72,11 +71,15 @@ namespace EEMod.Projectiles.Summons
                 }
             }
             if (target != null)
+            {
                 projectile.ai[1] = Main.npc[target.whoAmI].whoAmI;
+            }
 
             projectileAiCont[4]++;
             if (target == null || Vector2.Distance(target.Center, projectile.Center) >= 12800)
+            {
                 projectile.ai[0] = 0;
+            }
             else
             {
                 if (projectileAiCont[4] >= 300)
@@ -93,7 +96,6 @@ namespace EEMod.Projectiles.Summons
             projectile.spriteDirection = projectile.velocity.X > 0 ? -1 : 1;
             projectile.rotation = projectile.velocity.X / 12;
 
-
             #region Attacks
 
             if (Main.player[projectile.owner].statLife <= Main.player[projectile.owner].statLifeMax && reinforcements[2] == default && target != null)
@@ -103,7 +105,7 @@ namespace EEMod.Projectiles.Summons
                     if (reinforcements[i] == default)
                     {
                         Main.NewText(i + "AE");
-                        reinforcements[i] = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: (MathHelper.TwoPi / 3) * i, ai1: target.whoAmI);
+                        reinforcements[i] = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: MathHelper.TwoPi / 3 * i, ai1: target.whoAmI);
                     }
                 }
             }
@@ -111,7 +113,9 @@ namespace EEMod.Projectiles.Summons
             {
                 frameSpeed = 6;
                 if (projectileAiCont[0] > 0)
+                {
                     projectileAiCont[0] -= 0.1f;
+                }
 
                 Player owner = Main.player[projectile.owner];
                 if (!projectile.WithinRange(owner.MountedCenter, 1600)) //(Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center) >= 1600)
@@ -124,14 +128,17 @@ namespace EEMod.Projectiles.Summons
 
                 projectile.velocity -= Vector2.Normalize(projectile.Center - Main.player[projectile.owner].Center) / 8;
                 if ((projectile.velocity.X + projectile.velocity.Y) / 2 < 4)
+                {
                     projectile.velocity *= 1.001f;
+                }
                 else
+                {
                     projectile.velocity *= 0.96f;
+                }
             }
             /*if (projectile.ai[0] == 1)
             {
                 #region Fire attack
-
 
                 projectile.velocity = -Vector2.Normalize(projectile.Center - new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) * 2;
 
@@ -170,25 +177,26 @@ namespace EEMod.Projectiles.Summons
                     radius += 4;
                 }
 
-
-                #endregion
+                #endregion Fire attack
             }*/
 
             if (projectile.ai[0] == 2)
             {
                 #region Feather attack
 
-
                 projectile.velocity *= 0.98f;
 
                 frameSpeed = 5;
                 if (projectileAiCont[0] < 5)
+                {
                     projectileAiCont[0] += 0.15f;
+                }
+
                 minionGlow = Color.OrangeRed;
 
                 projectileAiCont[2] += 0.02f;
                 projectile.velocity = Vector2.Normalize(projectile.Center - new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) * -2 - projectile.velocity * 0.03f;
-                if (Vector2.DistanceSquared(projectile.Center, new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) <= 4*4)
+                if (Vector2.DistanceSquared(projectile.Center, new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) <= 4 * 4)
                 {
                     projectile.spriteDirection = target.Center.X >= projectile.Center.X ? -1 : 1;
                     projectile.rotation = 0;
@@ -207,18 +215,18 @@ namespace EEMod.Projectiles.Summons
                     projectileAiCont[1] = 0;
                 }
 
-
-                #endregion
+                #endregion Feather attack
             }
 
             if (projectile.ai[0] == 3)
             {
                 #region Dash attack
 
-
                 frameSpeed = 3;
                 if (projectileAiCont[0] < 5)
+                {
                     projectileAiCont[0] += 0.15f;
+                }
                 else
                 {
                     projectileAiCont[1]++;
@@ -232,14 +240,16 @@ namespace EEMod.Projectiles.Summons
                     }
                     else
                         if (projectileAiCont[3] < 2)
+                    {
                         projectileAiCont[3] *= 1.005f;
+                    }
                 }
                 minionGlow = Color.Red;
 
-
-                #endregion
+                #endregion Dash attack
             }
-            #endregion
+
+            #endregion Attacks
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -269,7 +279,9 @@ namespace EEMod.Projectiles.Summons
         public override void Kill(int timeleft)
         {
             if (Main.LocalPlayer.HasBuff(ModContent.BuffType<AkumoBuff>()))
+            {
                 Main.LocalPlayer.ClearBuff(ModContent.BuffType<AkumoBuff>());
+            }
         }
     }
 }

@@ -1,16 +1,16 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
     public abstract class WarHammer : ModProjectile
     {
-        public virtual float rotationalCoverage => (float)Math.PI;
-        public virtual float RotationalOffset => (float)Math.PI / 2f;
-        protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);
+        public virtual float rotationalCoverage => MathHelper.Pi ;
+        public virtual float RotationalOffset => MathHelper.PiOver2;
+        protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         public virtual float dirtSmashIntensity => 12;
         public virtual int shakeLength => 20;
         public virtual int shakeIntensity => 3;
@@ -21,6 +21,7 @@ namespace EEMod.Projectiles
         public virtual float weight => 1;
 
         public float damageMultiplier = 1;
+
         public override void AI()
         {
             bool isFlying = false;
@@ -38,7 +39,7 @@ namespace EEMod.Projectiles
                 }
                 else
                 {
-                    projectile.rotation = (RotationalOffset - rotationalCoverage) + (rotationalCoverage * progression);
+                    projectile.rotation = RotationalOffset - rotationalCoverage + (rotationalCoverage * progression);
                     projectile.spriteDirection = -1;
                 }
             }
@@ -57,9 +58,13 @@ namespace EEMod.Projectiles
                     damageMultiplier += damageIncreaseOverTime;
                     isFlying = true;
                     if (projOwner.direction == 1)
+                    {
                         projectile.rotation = (float)(Math.PI * .75f);
+                    }
                     else
+                    {
                         projectile.rotation = (float)(Math.PI * 1.25f);
+                    }
                 }
                 else
                 {
@@ -110,6 +115,7 @@ namespace EEMod.Projectiles
                 {
                     projectile.ai[0]++;
                     if (projectile.ai[0] == 1)
+                    {
                         for (var i = 0; i < 20; i++)
                         {
                             int num = Dust.NewDust(projOwner.Center + new Vector2(projectile.width / 2 * projOwner.direction, projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, Main.rand.NextFloat(-dirtSmashIntensity, -1f), 6, new Color(255, 217, 184, 255), 1);
@@ -117,6 +123,8 @@ namespace EEMod.Projectiles
                             Main.dust[num].velocity.X *= 0.7f;
                             Main.dust[num].noLight = false;
                         }
+                    }
+
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 16f, true, false, shakeIntensity);
                     if (projectile.ai[0] > shakeLength)
                     {

@@ -1,8 +1,6 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -24,9 +22,9 @@ namespace EEMod.Projectiles.Mage
             projectile.alpha = 255;
         }
 
-        bool firstFrame = true;
-        int[] linkedProj = new int[6];
-        bool a = false;
+        private bool firstFrame = true;
+        private readonly int[] linkedProj = new int[6];
+
         public override void AI()
         {
             if (firstFrame)
@@ -53,6 +51,7 @@ namespace EEMod.Projectiles.Mage
         {
             projectile.velocity = Vector2.Zero;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             projectile.velocity = Vector2.Zero;

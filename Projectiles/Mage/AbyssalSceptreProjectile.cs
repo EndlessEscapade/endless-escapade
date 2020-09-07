@@ -1,9 +1,8 @@
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -31,19 +30,22 @@ namespace EEMod.Projectiles.Mage
             {
                 projectile.ai[0]++;
                 if (projectile.ai[0] == 1)
+                {
                     for (var a = 0; a < 50; a++)
                     {
-                        Vector2 vector = new Vector2(0, 20).RotatedBy(((Math.PI * 0.04) * a), default);
+                        Vector2 vector = new Vector2(0, 20).RotatedBy(Math.PI * 0.04 * a, default);
                         int index = Dust.NewDust(projectile.Center, 22, 22, DustID.SolarFlare, vector.X, vector.Y, 0, new Color(0, 255, 0), 1f);
                         Main.dust[index].velocity *= .5f;
                         Main.dust[index].noGravity = true;
                     }
+                }
             }
             Dust.NewDust(projectile.position, projectile.width, projectile.height, 75);
             projectile.rotation = projectile.velocity.ToRotation();
         }
 
         private bool isClone;
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!isClone)
@@ -52,7 +54,7 @@ namespace EEMod.Projectiles.Mage
                 Vector2 position = target.Center + Vector2.One.RotatedBy(rot) * 300;
                 for (var a = 0; a < 50; a++)
                 {
-                    Vector2 vector = new Vector2(0, 20).RotatedBy(((Math.PI * 0.04) * a), default);
+                    Vector2 vector = new Vector2(0, 20).RotatedBy(Math.PI * 0.04 * a, default);
                     int index = Dust.NewDust(projectile.Center, 22, 22, DustID.SolarFlare, vector.X, vector.Y, 0, new Color(0, 255, 0), 1f);
                     Main.dust[index].velocity *= 1.1f;
                     Main.dust[index].noGravity = true;

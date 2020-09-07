@@ -1,6 +1,6 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles.Melee
 {
@@ -38,6 +38,7 @@ namespace EEMod.Projectiles.Melee
         }
 
         private int timer = 5;
+
         // It appears that for this AI, only the ai0 field is used!
         public override void AI()
         {
@@ -49,8 +50,8 @@ namespace EEMod.Projectiles.Melee
             projectile.direction = projOwner.direction;
             projOwner.heldProj = projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            projectile.position.X = ownerMountedCenter.X - (float)(projectile.width / 2);
-            projectile.position.Y = ownerMountedCenter.Y - (float)(projectile.height / 2);
+            projectile.position.X = ownerMountedCenter.X - projectile.width / 2;
+            projectile.position.Y = ownerMountedCenter.Y - projectile.height / 2;
             // As long as the player isn't frozen, the spear can move
             if (!projOwner.frozen)
             {

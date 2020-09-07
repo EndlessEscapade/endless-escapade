@@ -1,16 +1,15 @@
+using EEMod.ID;
+using EEMod.Items.Materials;
+using EEMod.Items.Weapons.Mage;
+using EEMod.Items.Weapons.Melee;
+using EEMod.Items.Weapons.Ranger;
+using EEMod.Items.Weapons.Summon;
+using EEMod.NPCs.CoralReefs;
+using EEMod.NPCs.CoralReefs.MechanicalReefs;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.NPCs.CoralReefs;
-using EEMod.Items.Weapons.Melee;
-using EEMod.Items.Weapons.Ranger;
-using EEMod.Items.Weapons.Mage;
-using EEMod.Items.Weapons.Summon;
-using EEMod.Items.Materials;
-using EEMod.ID;
-using EEMod.NPCs.CoralReefs.MechanicalReefs;
-using EEMod.NPCs.CoralReefs.GlisteningReefs;
 
 namespace EEMod.NPCs
 {
@@ -68,9 +67,11 @@ namespace EEMod.NPCs
                     case 0:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<AbyssalScimitar>(), 1);
                         break;
+
                     case 1:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<AbyssalPistol>(), 1);
                         break;
+
                     case 2:
                         Item.NewItem(npc.getRect(), ModContent.ItemType<AbyssalSceptre>(), 1);
                         break;

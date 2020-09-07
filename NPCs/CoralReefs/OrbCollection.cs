@@ -1,11 +1,8 @@
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
-using Terraria.Graphics;
 using Terraria.Graphics.Effects;
-using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static EEMod.Tiles.Furniture.OrbHolder;
@@ -23,6 +20,7 @@ namespace EEMod.NPCs.CoralReefs
         public int rippleSize = 13;
         public int rippleSpeed = 200;
         public float distortStrength = 5;
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -40,12 +38,13 @@ namespace EEMod.NPCs.CoralReefs
             npc.damage = 0;
             Main.npcFrameCount[npc.type] = 4;
         }
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
             if (npc.frameCounter == 6)
             {
-              //  npc.frame.Y = npc.frame.Y + frameHeight;
+                //  npc.frame.Y = npc.frame.Y + frameHeight;
                 npc.frameCounter = 0;
             }
             if (npc.frame.Y >= frameHeight * 3)
@@ -59,16 +58,21 @@ namespace EEMod.NPCs.CoralReefs
         {
             return false;
         }
-        bool isPicking;
-        bool otherPhase;
-        bool otherPhase2;
-        float t;
-        Vector2[] Holder = new Vector2[2];
+
+        private bool isPicking;
+        private bool otherPhase;
+        private bool otherPhase2;
+        private float t;
+        private readonly Vector2[] Holder = new Vector2[2];
+
         public override void AI()
         {
             npc.ai[0] += 0.05f;
-            if(!otherPhase)
-            npc.position.Y += (float)Math.Sin(npc.ai[0])/2f;
+            if (!otherPhase)
+            {
+                npc.position.Y += (float)Math.Sin(npc.ai[0]) / 2f;
+            }
+
             if (npc.life == 0)
             {
                 if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
@@ -76,7 +80,7 @@ namespace EEMod.NPCs.CoralReefs
                     Filters.Scene["EEMod:Shockwave"].Deactivate();
                 }
             }
-            if(Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
+            if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
             {
                 npc.Center = Main.player[(int)npc.ai[1]].Center - new Vector2(0, 80);
                 if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
@@ -84,7 +88,7 @@ namespace EEMod.NPCs.CoralReefs
                     Main.player[(int)npc.ai[1]].bodyFrame.Y = 56 * 5;
                 }
             }
-            if(isPicking && !Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
+            if (isPicking && !Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos == Vector2.Zero)
                 {
@@ -96,10 +100,10 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     otherPhase2 = true;
                     Holder[0] = npc.Center;
-                    Holder[1] = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos + new Vector2(70,60);
+                    Holder[1] = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos + new Vector2(70, 60);
                 }
             }
-            if(otherPhase)
+            if (otherPhase)
             {
                 t += 0.01f;
                 if (t <= 1)

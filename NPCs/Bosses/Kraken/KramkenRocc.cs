@@ -1,7 +1,7 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
 {
@@ -27,8 +27,6 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             projectile.scale = Main.rand.NextFloat(0.5f, 1.5f);
         }
 
-        Vector2 start;
-        KrakenHead krakenHead => Main.npc[(int)projectile.ai[1]].modNPC as KrakenHead;
         public override void AI()
         {
             projectile.velocity.Y += 0.05f;
@@ -42,7 +40,6 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
 
         public override void Kill(int timeLeft)
         {
-
         }
     }
 }

@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.UI
+namespace EEMod.UI.Elements
 {
     internal class DragableUIPanel : UIPanel
     {
-        bool dragging;
-        float lastX, lastY;
+        private bool dragging;
+        private float lastX, lastY;
 
         public override void Update(GameTime gameTime)
         {

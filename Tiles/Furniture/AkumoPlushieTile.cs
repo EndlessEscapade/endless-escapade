@@ -1,8 +1,8 @@
+using EEMod.Items.Placeables.Furniture;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using EEMod.Items.Placeables.Furniture;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Tiles.Furniture
 {

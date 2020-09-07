@@ -1,14 +1,13 @@
+using EEMod.Buffs.Buffs;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ID;
-using EEMod.Items.Placeables.Furniture;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Buffs.Buffs;
-using System;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -38,7 +37,8 @@ namespace EEMod.Tiles.Furniture
             dustType = DustID.Dirt;
         }
 
-        int lmnop = 0;
+        private int lmnop = 0;
+
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             if (Main.tile[i, j].frameY == 0 && Main.rand.Next(3) == 0)
@@ -50,7 +50,7 @@ namespace EEMod.Tiles.Furniture
             lmnop++;
             if (Math.Abs(Main.LocalPlayer.Center.X - (i * 16)) <= 16 && lmnop >= 60 && Main.LocalPlayer.Center.Y - (j * 16) <= -640)
             {
-                Projectile.NewProjectile(new Vector2((i * 16) + (8), (j * 16) + (0)), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
+                Projectile.NewProjectile(new Vector2((i * 16) + 8, (j * 16) + 0), new Vector2(0, -5), ProjectileID.GeyserTrap, 20, 2f);
                 lmnop = 0;
             }
         }

@@ -14,6 +14,7 @@ namespace EEMod
         // And crit and knockback is usually just added to
         // As a modder, you could make separate variables for multipliers and simple addition bonuses
         public float prophetDamageAdd;
+
         public float prophetDamageMult = 1f;
         public float prophetKnockback;
         public int prophetCrit;

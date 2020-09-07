@@ -1,14 +1,10 @@
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using System;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
-
     public class LythenStaffProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
@@ -31,6 +27,7 @@ namespace EEMod.Projectiles.Mage
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override void Kill(int timeLeft)
         {
             Vector2 origin = projectile.Center;
@@ -47,6 +44,7 @@ namespace EEMod.Projectiles.Mage
                 dust.fadeIn = 1f;
             }
         }
+
         private NPC HomeOnTarget()
         {
             const bool homingCanAimAtWetEnemies = true;
@@ -63,15 +61,22 @@ namespace EEMod.Projectiles.Mage
                         selectedTarget == -1 || //there is no selected target
                         projectile.DistanceSQ(Main.npc[selectedTarget].Center) > distanceSQ)
                     )
+                    {
                         selectedTarget = i;
+                    }
                 }
             }
             if (selectedTarget == -1)
+            {
                 return null;
+            }
+
             return Main.npc[selectedTarget];
         }
-        NPC npc;
+
+        private NPC npc;
         public Vector2[] positionOfOthers = new Vector2[2];
+
         public override void AI()
         {
             npc = HomeOnTarget();
@@ -144,7 +149,9 @@ namespace EEMod.Projectiles.Mage
                 }
             }
             if (projectile.ai[1] < 120)
+            {
                 projectile.ai[1]++;
+            }
             else if (projectile.ai[1] == 120)
             {
                 projectile.damage = projectile.damage * 2;

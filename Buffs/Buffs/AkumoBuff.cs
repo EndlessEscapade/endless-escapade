@@ -1,6 +1,6 @@
+using EEMod.Projectiles.Summons;
 using Terraria;
 using Terraria.ModLoader;
-using EEMod.Projectiles.Summons;
 
 namespace EEMod.Buffs.Buffs
 {
@@ -17,7 +17,9 @@ namespace EEMod.Buffs.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             if (player.ownedProjectileCounts[ModContent.ProjectileType<AkumoMinion>()] > 0)
+            {
                 player.buffTime[buffIndex] = 18000;
+            }
             else
             {
                 player.DelBuff(buffIndex);
