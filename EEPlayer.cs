@@ -521,11 +521,8 @@ namespace EEMod
             }
             Moral();
             if (player.controlHook)
-            {
                 for (int i = 0; i < hasGottenRuneBefore.Length; i++)
                     hasGottenRuneBefore[i] = 0;
-                RuneData.Clear();
-            }
             EEMod.isSaving = false;
             if (Main.worldName != KeyID.Sea)
             {
