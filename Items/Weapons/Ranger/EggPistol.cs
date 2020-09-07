@@ -23,7 +23,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.useAnimation = 21;
             item.width = 20;
             item.height = 20;
-            item.shoot = ModContent.ProjectileType<BubblingWatersRune>();
+            item.shoot = ModContent.ProjectileType<CycloneStormRune>();
             item.rare = ItemRarityID.Yellow;
             item.knockBack = 4f;
             item.useStyle = ItemUseStyleID.HoldingOut;

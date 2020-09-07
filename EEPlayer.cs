@@ -570,9 +570,7 @@ namespace EEMod
                 dur--;
             }
             Moral();
-            if (player.controlHook)
-                for (int i = 0; i < hasGottenRuneBefore.Length; i++)
-                    hasGottenRuneBefore[i] = 0;
+
             EEMod.isSaving = false;
             if (Main.worldName != KeyID.Sea)
             {
@@ -692,6 +690,9 @@ namespace EEMod
 
         public void UpdateRunes()
         {
+            if(runeCooldown > 0) runeCooldown--;
+            Main.NewText(runeCooldown);
+
             bool[][] states = new bool[][] { new bool[] { false, false }, new bool[] { true, false }, new bool[] { true, true } };
             for (int i = 0; i < hasGottenRuneBefore.Length; i++)
             {
@@ -747,7 +748,6 @@ namespace EEMod
                         {
                             if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                Main.NewText("funny");
                                 if (bubbleRuneBubble == 0)
                                 {
                                     bubbleRuneBubble = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BubblingWatersBubble>(), 0, 0, Main.myPlayer);
@@ -778,7 +778,6 @@ namespace EEMod
                         }
                         case RuneID.LeafRune:
                         {
-                            Main.NewText("haha");
                             if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
                                 runeCooldown = 180;
@@ -822,14 +821,13 @@ namespace EEMod
                         {
                             if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                runeCooldown = 180;
+                                player.velocity -= new Vector2((player.Center.X - Main.MouseWorld.X) / 32, 16 * (Main.MouseWorld.Y > player.Center.Y ? -1 : 1));
+                                runeCooldown = 300;
                             }
-                            else
+                            /*else
                             {
                                 player.dash = 3;
-                            }
-                            player.moveSpeed *= 1.06f;
-                            player.statDefense = (int)(player.statDefense * 0.93f);
+                            }*/
                             break;
                         }
                     }
