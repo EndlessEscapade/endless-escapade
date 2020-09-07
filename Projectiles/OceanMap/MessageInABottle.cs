@@ -25,9 +25,13 @@ namespace EEMod.Projectiles.OceanMap
         public override void AI()
         {
             if (!sinking)
+            {
                 projectile.velocity = new Vector2(0.5f, 0);
+            }
             else
+            {
                 Sink();
+            }
         }
 
         private int sinkTimer = 32;

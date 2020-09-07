@@ -29,7 +29,10 @@ namespace EEMod.Autoloading
 
         internal static void LoadManager(Assembly assembly)
         {
-            if (assembly is null) throw new ArgumentNullException(nameof(assembly));
+            if (assembly is null)
+            {
+                throw new ArgumentNullException(nameof(assembly));
+            }
 
             Type[] types = assembly.GetTypesSafe();
             List<MethodInfo> methods = new List<MethodInfo>();
@@ -40,7 +43,9 @@ namespace EEMod.Autoloading
                 foreach (var field in type.GetFields(FLAGS_STATIC))
                 {
                     if (!field.IsInitOnly && !field.IsLiteral && field.TryGetCustomAttribute(out FieldInitAttribute attribute))
+                    {
                         DoInit(field, attribute);
+                    }
                 }
                 // Initializing methods
                 foreach (var method in type.GetMethods(FLAGS_STATIC))
@@ -49,7 +54,9 @@ namespace EEMod.Autoloading
                     if (method.TryGetCustomAttribute(out FieldInitAttribute attribute))
                     {
                         if (ValidCurrent(attribute.loadMode) && CouldBeCalled(method) && method.GetParameters().Length <= 0)
+                        {
                             method.Invoke(null, null);
+                        }
                     }
                 }
             }
@@ -60,7 +67,9 @@ namespace EEMod.Autoloading
                 if (method.TryGetCustomAttribute(out LoadingMethodAttribute attribute) && !(method.GetParameters().Length > 0))
                 {
                     if (ValidCurrent(attribute.mode) && CouldBeCalled(method))
+                    {
                         method.Invoke(null, null);
+                    }
                 }
                 else if (method.TryGetCustomAttribute(out TypeListenerAttribute listenerattributet) && CouldBeCalled(method))
                 {
@@ -68,7 +77,9 @@ namespace EEMod.Autoloading
                     {
                         var parameters = method.GetParameters();
                         if (parameters.Length == 1 && parameters[0].ParameterType == typeof(Type) && method.ReturnType == typeof(void))
+                        {
                             TypeListeners += method.CreateDelegate<Action<Type>>();
+                        }
                     }
                 }
                 //else if (method.TryGetCustomAttribute(out MethodListenerAttribute listenerattributem) && CouldBeCalled(method))
@@ -83,16 +94,26 @@ namespace EEMod.Autoloading
             }
 
             foreach (var type in types)
+            {
                 if (type.IsSubclassOf(typeof(AutoloadTypeManager)))
+                {
                     AutoloadTypeManagerManager.TryAddManager(type);
+                }
+            }
 
             AutoloadTypeManagerManager.InitializeManagers();
             foreach (var type in types)
+            {
                 AutoloadTypeManagerManager.ManagersCheck(type);
+            }
 
             if (TypeListeners != null)
+            {
                 foreach (var type in types)
+                {
                     TypeListeners(type);
+                }
+            }
 
             //if (MethodListeners != null)
             //    foreach (var method in methods)
@@ -111,19 +132,28 @@ namespace EEMod.Autoloading
             {
                 case FieldInitType.DefaultConstructor:
                     if (field.FieldType.TryCreateInstance(out object instance))
+                    {
                         field.SetValue(null, instance);
+                    }
+
                     break;
 
                 case FieldInitType.DefaultConstructorPrivate:
                     if (field.FieldType.TryCreateInstance(true, out object inst))
+                    {
                         field.SetValue(null, inst);
+                    }
+
                     break;
 
                 case FieldInitType.CustomValue:
                     Type fieldtype = field.FieldType;
                     object value = attribute.InitInfo1;
                     if ((value is null && fieldtype.IsNullable()) || fieldtype.IsAssignableFrom(value.GetType()))
+                    {
                         field.SetValue(null, value);
+                    }
+
                     break;
 
                 case FieldInitType.ArrayIntialization:
@@ -142,12 +172,16 @@ namespace EEMod.Autoloading
                         if (subInitType == FieldInitType.DefaultConstructor)
                         {
                             if (fieldType.IsAssignableFrom(type) && type.TryCreateInstance(out object subtypeinstance))
+                            {
                                 field.SetValue(null, subtypeinstance);
+                            }
                         }
                         else if (subInitType == FieldInitType.DefaultConstructorPrivate)
                         {
                             if (fieldType.IsAssignableFrom(type) && type.TryCreateInstance(true, out object subtypeinst))
+                            {
                                 field.SetValue(null, subtypeinst);
+                            }
                         }
                         // if u have a subtype it probably wouldn't be assignable through attribute values
                         //
@@ -161,27 +195,38 @@ namespace EEMod.Autoloading
 
         internal static void UnloadManager(Assembly assembly)
         {
-            if (assembly is null) throw new ArgumentNullException(nameof(assembly));
+            if (assembly is null)
+            {
+                throw new ArgumentNullException(nameof(assembly));
+            }
             //Assembly assembly = a.Code ?? a.GetType().Assembly;
             Type[] types = assembly.GetTypesSafe();
 
             foreach (var field in types.SelectMany(i => i.GetFields(FLAGS_STATIC)))
             {
                 if (field.IsInitOnly || field.IsLiteral)
+                {
                     continue;
+                }
 
                 Type fieldtype = field.FieldType;
                 if (fieldtype.IsValueType && Nullable.GetUnderlyingType(fieldtype) == null) // ignore structs and non nullables
+                {
                     continue;
+                }
 
                 if (field.GetCustomAttribute<UnloadIgnoreAttribute>() == null)
+                {
                     field.SetValue(null, null);
+                }
             }
 
             foreach (var method in types.SelectMany(i => i.GetMethods(FLAGS_STATIC)))
             {
                 if (method.GetCustomAttribute<UnloadingMethodAttribute>() is null || !CouldBeCalled(method) || method.GetParameters().Length > 0)
+                {
                     continue;
+                }
 
                 method.Invoke(null, null);
             }

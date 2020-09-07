@@ -41,55 +41,122 @@ namespace EEMod
 
         public static void Clamp(ref byte value, byte min, byte max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp(ref sbyte value, sbyte min, sbyte max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp(ref int value, int min, int max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp(ref uint value, uint min, uint max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp(ref long value, long min, long max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp(ref ulong value, ulong min, ulong max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp(ref float value, float min, float max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp(ref double value, double min, double max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp(ref decimal value, decimal min, decimal max)
         {
-            if (value < min) value = min; else if (value > max) value = max;
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
         }
 
         public static void Clamp<T>(ref T value, T min, T max) where T : IComparable<T>
         {
             if (value.CompareTo(min) < 0)
+            {
                 value = min;
+            }
             else if (value.CompareTo(max) > 0)
+            {
                 value = max;
+            }
         }
 
         // HALF CHANCE - Basically a coin flip.
@@ -150,7 +217,10 @@ namespace EEMod
             get
             {
                 for (int i = 0; i < Main.npc.Length - 1; i++)
+                {
                     yield return Main.npc[i];
+                }
+
                 yield break;
             }
         }
@@ -160,7 +230,10 @@ namespace EEMod
             get
             {
                 for (int i = 0; i < Main.projectile.Length - 1; i++)
+                {
                     yield return Main.projectile[i];
+                }
+
                 yield break;
             }
         }
@@ -180,7 +253,10 @@ namespace EEMod
             {
                 NPC npc = Main.npc[i];
                 if (searchPredicate?.Invoke(npc) is false)
+                {
                     continue;
+                }
+
                 float distSQ = npc.DistanceSQ(position);
                 /*"there's no defined smallest distance (like the first iteration) or the distance is smaller than the current smallest
                  * and there's no minimum or the distance is smaller than the minimum"*/
@@ -225,9 +301,13 @@ namespace EEMod
             if (flip)
             {
                 if (npc.velocity.X > 0)
+                {
                     npc.spriteDirection = 1 * direction;
+                }
                 else
+                {
                     npc.spriteDirection = -1 * direction;
+                }
             }
         }
 
@@ -332,7 +412,7 @@ namespace EEMod
 
             double A3 = area(p1, p2, p);
 
-            return (A == A1 + A2 + A3);
+            return A == A1 + A2 + A3;
         }
 
         public static Vector2 MoveTowardsNPC(float speed, float currentX, float currentY, NPC npc, Vector2 issue, int direction)
@@ -368,13 +448,18 @@ namespace EEMod
         {
             int[] numbers = new int[size];
             if (size < 1)
+            {
                 return numbers;
+            }
+
             numbers[0] = rand.Next(size);
             for (int i = 1; i < size; i++)
             {
                 int num;
                 do
+                {
                     num = rand.Next(size);
+                }
                 while (Array.IndexOf(numbers, num, 0, i) >= 0);
 
                 numbers[i] = num;

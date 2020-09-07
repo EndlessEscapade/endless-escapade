@@ -24,10 +24,10 @@ namespace EEMod.Projectiles.CoralReefs
             projectile.ignoreWater = true;
         }
 
-        private float detectDist = 160f;
-        private float rotSpeed = 1f;
-        private float closeDist = 16f;
-        private float moveSpeed = 7f;
+        private readonly float detectDist = 160f;
+        private readonly float rotSpeed = 1f;
+        private readonly float closeDist = 16f;
+        private readonly float moveSpeed = 7f;
 
         public override void AI()
         {
@@ -44,9 +44,14 @@ namespace EEMod.Projectiles.CoralReefs
                     }
                     //Flock rotation
                     if (projectile.rotation <= closeProj.rotation)
+                    {
                         projectile.rotation += rotSpeed;
+                    }
                     else //if (projectile.rotation > closeProj.rotation)
+                    {
                         projectile.rotation -= rotSpeed;
+                    }
+
                     closeProjectiles.Add(closeProj);
                 }
             }
@@ -61,9 +66,13 @@ namespace EEMod.Projectiles.CoralReefs
                 projectile.velocity = Vector2.Normalize(projectile.position - (averageLocation / closeProjectiles.Count)) * moveSpeed;
             }
             if (projectile.velocity.X >= 0)
+            {
                 projectile.spriteDirection = 1;
+            }
             else
+            {
                 projectile.spriteDirection = -1;
+            }
         }
     }
 }

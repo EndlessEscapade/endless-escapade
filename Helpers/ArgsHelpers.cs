@@ -42,11 +42,14 @@
         public static bool TryGetFromArray<T>(object[] array, int index, out T result)
         {
             if (index >= 0 && index < array.Length)
+            {
                 if (array[index] is T t)
                 {
                     result = t;
                     return true;
                 }
+            }
+
             result = default;
             return false;
         }

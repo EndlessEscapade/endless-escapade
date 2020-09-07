@@ -68,7 +68,10 @@ namespace EEMod.NPCs.Bosses.Hydros
                 chargeCounter = 5;
             }
             else if (projectile.ai[0] >= 20)
+            {
                 chargeCounter += 5f * multiplier;
+            }
+
             projectile.ai[0]++;
             if (chargeCounter == charge)
             {
@@ -79,7 +82,9 @@ namespace EEMod.NPCs.Bosses.Hydros
                 multiplier = -1;
             }
             if (multiplier == -1 && chargeCounter <= 0)
+            {
                 projectile.Kill();
+            }
 
             projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
             projectile.velocity = Vector2.Normalize(projectile.velocity);

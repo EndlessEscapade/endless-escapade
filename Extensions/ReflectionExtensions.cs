@@ -32,7 +32,10 @@ namespace EEMod.Extensions
             while (type != null && type != typeof(object))
             {
                 if ((type.IsGenericType ? type.GetGenericTypeDefinition() : type) == generictype)
+                {
                     return true;
+                }
+
                 type = type.BaseType;
             }
             return false;
@@ -44,7 +47,10 @@ namespace EEMod.Extensions
             while (gType != null && gType != typeof(object))
             {
                 if ((gType.IsGenericType ? gType.GetGenericTypeDefinition() : gType) == generictype)
+                {
                     return true;
+                }
+
                 gType = gType.BaseType;
             }
             gType = null;

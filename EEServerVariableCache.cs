@@ -63,7 +63,9 @@ namespace EEMod
             if (msg == EEMessageType.SyncVector)
             {
                 if (Main.netMode == NetmodeID.Server)
+                {
                     EENet.SendPacketTo(EEMessageType.SyncVector, -1, fromwho, reader.Read<Vector2>());
+                }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     Vector2 v = reader.Read<Vector2>();
@@ -73,7 +75,9 @@ namespace EEMod
             else if (msg == EEMessageType.SyncPosition)
             {
                 if (Main.netMode == NetmodeID.Server)
+                {
                     EENet.SendPacketTo(EEMessageType.SyncPosition, -1, fromwho, reader.Read<Vector2>());
+                }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     Vector2 v = reader.Read<Vector2>();
@@ -83,7 +87,9 @@ namespace EEMod
             else if (msg == EEMessageType.SyncCool)
             {
                 if (Main.netMode == NetmodeID.Server)
+                {
                     EENet.SendPacketTo(EEMessageType.SyncCool, -1, fromwho, reader.Read<int>());
+                }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     int v = reader.Read<int>();
@@ -93,7 +99,9 @@ namespace EEMod
             else if (msg == EEMessageType.SyncBoatPos)
             {
                 if (Main.netMode == NetmodeID.Server)
+                {
                     EENet.SendPacketTo(EEMessageType.SyncBoatPos, -1, fromwho, reader.Read<Vector2>(), reader.Read<float>(), (ushort)fromwho);
+                }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
                     Vector2 v = reader.Read<Vector2>();

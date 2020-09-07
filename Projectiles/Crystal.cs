@@ -22,7 +22,7 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.45f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);   //this is the light colors
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.45f / 255f, (255 - projectile.alpha) * 0.05f / 255f);   //this is the light colors
             if (projectile.timeLeft > 125)
             {
                 projectile.timeLeft = 125;
@@ -50,7 +50,10 @@ namespace EEMod.Projectiles
                 float speedX = -(projectile.velocity.X * Main.rand.NextFloat(-.1f, .8f) + Main.rand.NextFloat(-.4f, 2f));
                 float speedY = -(projectile.velocity.Y * Main.rand.Next(30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
                 if (projHolder == 0 || projHolder == 1)
+                {
                     Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(projectile.damage * 0.7), 0f, projectile.owner, 0f, 0f);
+                }
+
                 Main.PlaySound(SoundID.Item27, projectile.position);
             }
             for (var i = 0; i < 20; i++)

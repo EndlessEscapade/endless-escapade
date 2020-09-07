@@ -35,11 +35,17 @@ namespace EEMod.Projectiles
             projectile.position.Y -= 1.5f;
             sinControl++;
             if (projectile.ai[1] < 140)
+            {
                 projectile.velocity.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 2);
+            }
             else if (projectile.ai[1] < 160)
+            {
                 projectile.position.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 4);
+            }
             else
-                projectile.position.X -= (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1]);
+            {
+                projectile.position.X -= (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / projectile.ai[1];
+            }
         }
 
         public float flash;

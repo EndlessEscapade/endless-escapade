@@ -27,8 +27,8 @@ namespace EEMod
     float x0, float x1, float x2, float x3)
         {
             return (float)(
-                x0 * Math.Pow((1 - t), 3) +
-                x1 * 3 * t * Math.Pow((1 - t), 2) +
+                x0 * Math.Pow(1 - t, 3) +
+                x1 * 3 * t * Math.Pow(1 - t, 2) +
                 x2 * 3 * Math.Pow(t, 2) * (1 - t) +
                 x3 * Math.Pow(t, 3)
             );
@@ -38,8 +38,8 @@ namespace EEMod
             float y0, float y1, float y2, float y3)
         {
             return (float)(
-                 y0 * Math.Pow((1 - t), 3) +
-                 y1 * 3 * t * Math.Pow((1 - t), 2) +
+                 y0 * Math.Pow(1 - t, 3) +
+                 y1 * 3 * t * Math.Pow(1 - t, 2) +
                  y2 * 3 * Math.Pow(t, 2) * (1 - t) +
                  y3 * Math.Pow(t, 3)
              );
@@ -188,9 +188,14 @@ namespace EEMod
                     int proj = Projectile.NewProjectile(new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X), Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y)), Vector2.Zero, projType, 0, 0f, Main.myPlayer, 0, i);
                     Main.projectile[proj].rotation = projTrueRotation;
                     if (misckeep % 3 == 0)
+                    {
                         misc = true;
+                    }
                     else
+                    {
                         misc = false;
+                    }
+
                     if (isBridge)
                     {
                         Bridge bridge = (Bridge)Main.projectile[proj].modProjectile;
@@ -207,9 +212,13 @@ namespace EEMod
         public static void NewTextAutoSync(string text, Color color)
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
+            {
                 Main.NewText(text, color);
+            }
             else
+            {
                 NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), color);
+            }
         }
 
         public static bool PlayerIsInForest(Player player)
@@ -233,11 +242,11 @@ namespace EEMod
             int y = Main.maxTilesY;
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
-                for (int k = 0; k < (int)((double)(x * y) * frequency); k++)
+                for (int k = 0; k < (int)(x * y * frequency); k++)
                 {
                     int tilesX = WorldGen.genRand.Next(0, x);
                     int tilesY = WorldGen.genRand.Next((int)(y * depth), (int)(y * depthLimit));
-                    WorldGen.OreRunner(tilesX, tilesY, (double)WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
+                    WorldGen.OreRunner(tilesX, tilesY, WorldGen.genRand.Next(3, 8), WorldGen.genRand.Next(3, 8), (ushort)type);
                 }
             }
         }
@@ -268,7 +277,11 @@ namespace EEMod
 
             public static void Message(string obj, Color color = default)
             {
-                if (color == default) color = Color.White;
+                if (color == default)
+                {
+                    color = Color.White;
+                }
+
                 Main.NewText(obj, color);
             }
         }

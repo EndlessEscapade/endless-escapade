@@ -40,20 +40,30 @@ namespace EEMod.NPCs.CoralReefs
         {
             npc.velocity.X = npc.ai[1];
             if (npc.ai[0] == 0)
+            {
                 npc.ai[1] = 1;
+            }
+
             npc.ai[0]++;
             if (npc.ai[0] % 180 == 0 && Helpers.OnGround(npc))
+            {
                 if (npc.ai[0] >= 600)
                 {
                     npc.velocity.Y -= 5;
                     if (Helpers.isCollidingWithWall(npc))
                     {
                         if (npc.ai[1] == -1)
+                        {
                             npc.ai[1] = 1;
+                        }
                         else
+                        {
                             npc.ai[1] = -1;
+                        }
                     }
                 }
+            }
+
             npc.ai[2]++;
             if (npc.ai[2] >= 300)
             {

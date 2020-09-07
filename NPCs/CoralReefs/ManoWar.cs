@@ -37,7 +37,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.noTileCollide = false;
         }
 
-        private int variation = Main.rand.Next(3);
+        private readonly int variation = Main.rand.Next(3);
 
         public override void FindFrame(int frameHeight)
         {

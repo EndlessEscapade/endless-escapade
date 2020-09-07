@@ -79,7 +79,9 @@ namespace EEMod.Projectiles.Summons
         public override void Kill(int timeleft)
         {
             if (Main.LocalPlayer.HasBuff(ModContent.BuffType<AkumoBuff>()))
+            {
                 Main.LocalPlayer.ClearBuff(ModContent.BuffType<AkumoBuff>());
+            }
         }
     }
 }

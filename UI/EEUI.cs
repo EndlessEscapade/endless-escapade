@@ -16,7 +16,9 @@ namespace EEMod.UI
         public override void OnDeactivate()
         {
             for (int i = 0; i < 7; i++)
+            {
                 isPulsating[i] = false;
+            }
         }
 
         public string[] StringOfTextures = {
@@ -31,9 +33,9 @@ namespace EEMod.UI
             "EEMod/Projectiles/Runes/RunePlacement"
             };
 
-        private bool[] isPulsating = new bool[7];
-        private Vector2[] sizes = new Vector2[7];
-        private DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[9];
+        private readonly bool[] isPulsating = new bool[7];
+        private readonly Vector2[] sizes = new Vector2[7];
+        private readonly DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[9];
         public float pivot;
         public int pauseTimer;
 
@@ -46,8 +48,8 @@ namespace EEMod.UI
                 {
                     panels[i].Width.Set(ModContent.GetTexture(StringOfTextures[i]).Width, 0);
                     panels[i].Height.Set(ModContent.GetTexture(StringOfTextures[i]).Height, 0);
-                    panels[i].Left.Set((Main.screenWidth / 2) + (float)(Math.Sin(pivot / 10)) * 500, 0);
-                    panels[i].Top.Set((Main.screenHeight / 2) + (float)(Math.Sin(pivot / 10)) * 500, 0);
+                    panels[i].Left.Set((Main.screenWidth / 2) + (float)Math.Sin(pivot / 10) * 500, 0);
+                    panels[i].Top.Set((Main.screenHeight / 2) + (float)Math.Sin(pivot / 10) * 500, 0);
                     Append(panels[i]);
                 }
             }
@@ -78,7 +80,10 @@ namespace EEMod.UI
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] == 1)
             {
                 for (int i = 0; i < 7; i++)
+                {
                     isPulsating[i] = false;
+                }
+
                 isPulsating[0] = true;
             }
             else
@@ -92,7 +97,10 @@ namespace EEMod.UI
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[1] == 1)
             {
                 for (int i = 0; i < 7; i++)
+                {
                     isPulsating[i] = false;
+                }
+
                 isPulsating[1] = true;
             }
             else
@@ -106,7 +114,10 @@ namespace EEMod.UI
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[2] == 1)
             {
                 for (int i = 0; i < 7; i++)
+                {
                     isPulsating[i] = false;
+                }
+
                 isPulsating[2] = true;
             }
             else
@@ -120,7 +131,10 @@ namespace EEMod.UI
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[3] == 1)
             {
                 for (int i = 0; i < 7; i++)
+                {
                     isPulsating[i] = false;
+                }
+
                 isPulsating[3] = true;
             }
             else
@@ -134,7 +148,10 @@ namespace EEMod.UI
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[4] == 1)
             {
                 for (int i = 0; i < 7; i++)
+                {
                     isPulsating[i] = false;
+                }
+
                 isPulsating[4] = true;
             }
             else
@@ -148,7 +165,10 @@ namespace EEMod.UI
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[5] == 1)
             {
                 for (int i = 0; i < 7; i++)
+                {
                     isPulsating[i] = false;
+                }
+
                 isPulsating[5] = true;
             }
             else
@@ -162,7 +182,10 @@ namespace EEMod.UI
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[6] == 1)
             {
                 for (int i = 0; i < 7; i++)
+                {
                     isPulsating[i] = false;
+                }
+
                 isPulsating[6] = true;
             }
             else
@@ -230,8 +253,8 @@ namespace EEMod.UI
             pivot = 0.05f;
             for (int i = 0; i < 7; i++)
             {
-                panels[i].Left.Set((Main.screenWidth / 2) - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + (float)(Math.Sin((pivot / 10) + (Math.PI * (i * 2)) / 7)) * 200, 0);
-                panels[i].Top.Set((Main.screenHeight / 2) - ModContent.GetTexture(StringOfTextures[i]).Height / 2 + (float)(Math.Cos((pivot / 10) + (Math.PI * (i * 2)) / 7)) * 200, 0);
+                panels[i].Left.Set((Main.screenWidth / 2) - ModContent.GetTexture(StringOfTextures[i]).Width / 2 + (float)Math.Sin((pivot / 10) + Math.PI * (i * 2) / 7) * 200, 0);
+                panels[i].Top.Set((Main.screenHeight / 2) - ModContent.GetTexture(StringOfTextures[i]).Height / 2 + (float)Math.Cos((pivot / 10) + Math.PI * (i * 2) / 7) * 200, 0);
             }
             pulsatingControl += 0.2f;
             for (int i = 0; i < 7; i++)

@@ -59,8 +59,12 @@ namespace EEMod.EEWorld
             }
             eocFlag = NPC.downedBoss1;
             if (EntracesPosses != null)
+            {
                 if (EntracesPosses.Count > 0)
+                {
                     yes = EntracesPosses[0];
+                }
+            }
         }
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
@@ -262,17 +266,25 @@ namespace EEMod.EEWorld
             }
 
             if (missingShipTiles.Count == 0)
+            {
                 shipComplete = true;
+            }
             else
+            {
                 shipComplete = false;
+            }
         }
 
         public static bool HydrosCheck()
         {
             if (instance.minionsKilled >= 5)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 }

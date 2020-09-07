@@ -9,7 +9,7 @@ namespace EEMod.UI
     {
         public new float HAlign;
         public new float VAlign;
-        private UIText text = new UIText("");
+        private readonly UIText text = new UIText("");
 
         public override void OnInitialize()
         {

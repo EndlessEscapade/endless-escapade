@@ -37,7 +37,7 @@ namespace EEMod.Projectiles
             projectile.timeLeft = 900;
             projectile.Center = Main.player[(int)projectile.ai[1]].Center;
             sinControl++;
-            if (sinControl % 20 == 0 && EEModConfigClient.Instance.ParticleEffects)
+            if (sinControl % 20 == 0 && EEModConfigClient.instance.ParticleEffects)
             {
                 Vector2 LeafPos = new Vector2(0, Main.rand.Next(2000)) + Main.screenPosition;
                 LeafClass leaf = new LeafClass
@@ -47,13 +47,15 @@ namespace EEMod.Projectiles
                     Position = LeafPos
                 };
                 if (Leaves.Count < 255)
+                {
                     Leaves.Add(leaf);
+                }
                 else
                 {
                     Leaves.RemoveAt(0);
                 }
             }
-            if (sinControl % 40 == 0 && EEModConfigClient.Instance.ParticleEffects)
+            if (sinControl % 40 == 0 && EEModConfigClient.instance.ParticleEffects)
             {
                 Vector2 particlesPos = new Vector2(Main.rand.Next(2000), Main.screenHeight + 200) + Main.screenPosition;
                 ParticlesClass particle = new ParticlesClass
@@ -63,13 +65,15 @@ namespace EEMod.Projectiles
                     Position = particlesPos
                 };
                 if (Particles.Count < 255)
+                {
                     Particles.Add(particle);
+                }
                 else
                 {
                     Particles.RemoveAt(0);
                 }
             }
-            if (!EEModConfigClient.Instance.ParticleEffects)
+            if (!EEModConfigClient.instance.ParticleEffects)
             {
                 projectile.Kill();
             }
@@ -84,14 +88,14 @@ namespace EEMod.Projectiles
 
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Particles[i].Position - Main.screenPosition, null, Color.White * Math.Abs((float)(Math.Sin(Particles[i].flash / (Particles[i].alpha / 3f)))), Particles[i].flash / 10f, new Vector2(0), Particles[i].scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Particles[i].Position - Main.screenPosition, null, Color.White * Math.Abs((float)Math.Sin(Particles[i].flash / (Particles[i].alpha / 3f))), Particles[i].flash / 10f, new Vector2(0), Particles[i].scale, SpriteEffects.None, 0);
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
             for (int i = 0; i < Particles.Count; i++)
             {
                 Leaves[i].flash++;
-                Leaves[i].Velocity = new Vector2(3f * Leaves[i].scale, (float)Math.Sin((Leaves[i].flash * 0.5f) / Leaves[i].alpha));
+                Leaves[i].Velocity = new Vector2(3f * Leaves[i].scale, (float)Math.Sin(Leaves[i].flash * 0.5f / Leaves[i].alpha));
                 Leaves[i].rotation += Leaves[i].Velocity.X / 50f;
                 Leaves[i].Position += Leaves[i].Velocity;
                 spriteBatch.Draw(TextureCache.Leaf, Leaves[i].Position - Main.screenPosition, null, Color.White, Leaves[i].Velocity.ToRotation() + Leaves[i].rotation, new Vector2(0), Leaves[i].scale, SpriteEffects.None, 0);

@@ -42,7 +42,9 @@ namespace EEMod.NPCs.CoralReefs
             {
                 Player player = Main.player[i];
                 if (Vector2.Distance(npc.Center, player.Center) <= 320)
+                {
                     isBig = true;
+                }
             }
 
             npc.TargetClosest();

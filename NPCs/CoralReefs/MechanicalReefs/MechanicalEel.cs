@@ -106,7 +106,9 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                     npc.velocity += Vector2.Normalize(target.Center - npc.Center) * 10;
                     npc.ai[0] = 0;
                     if (Main.rand.NextBool(3))
+                    {
                         npc.ai[1] = 1;
+                    }
                 }
                 npc.rotation = npc.velocity.ToRotation();
             }

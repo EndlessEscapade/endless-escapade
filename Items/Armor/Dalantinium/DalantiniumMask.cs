@@ -38,9 +38,13 @@ namespace EEMod.Items.Armor.Dalantinium
         public override bool ConsumeAmmo(Player player)
         {
             if (flag)
+            {
                 return Main.rand.NextFloat() < .06f;
+            }
             else
+            {
                 return true;
+            }
         }
 
         public override void UpdateArmorSet(Player player)

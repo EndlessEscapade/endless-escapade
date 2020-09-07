@@ -11,7 +11,7 @@ namespace EEMod.Projectiles
     {
         public virtual float rotationalCoverage => (float)Math.PI;
         public virtual float RotationalOffset => (float)Math.PI / 2f;
-        protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);
+        protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         public virtual float dirtSmashIntensity => 12;
         public virtual int shakeLength => 20;
         public virtual int shakeIntensity => 3;

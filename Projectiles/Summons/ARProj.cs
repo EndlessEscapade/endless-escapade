@@ -261,9 +261,13 @@ namespace EEMod.Projectiles.Summons
             projectile.velocity.Y += (float)Math.Cos(somethingIDontNeedToSync) / 20f;
 
             if (projectile.velocity.X > 0)
+            {
                 projectile.spriteDirection = -1;
+            }
             else
+            {
                 projectile.spriteDirection = 1;
+            }
         }
 
         private float somethingIDontNeedToSync;

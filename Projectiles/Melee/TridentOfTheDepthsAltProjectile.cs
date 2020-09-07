@@ -42,7 +42,7 @@ namespace EEMod.Projectiles.Melee
                 InitPos = Main.player[projectile.owner].Center;
                 projectile.Center = Main.player[projectile.owner].Center - new Vector2(2000, 0);
             }
-            if (Math.Abs((InitPos.X - 100) - projectile.Center.X) > 20)
+            if (Math.Abs(InitPos.X - 100 - projectile.Center.X) > 20)
             {
                 projectile.velocity = (InitPos - new Vector2(100, 0) - projectile.Center) / 32f;
                 projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI * 0.75f;
@@ -64,7 +64,7 @@ namespace EEMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);

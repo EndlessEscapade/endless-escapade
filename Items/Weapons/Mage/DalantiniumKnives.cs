@@ -46,7 +46,9 @@ namespace EEMod.Items.Weapons.Mage
         public override void HoldItem(Player player)
         {
             if (powerUp < 2000)
+            {
                 powerUp++;
+            }
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -60,7 +62,7 @@ namespace EEMod.Items.Weapons.Mage
                 (projectile.modProjectile as DalantiniumFan).boost = powerUp;
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    EEMod.Prims.CreateTrail(projectile);
+                    EEMod.prims.CreateTrail(projectile);
                 }
             }
             if (player.altFunctionUse == 2)
@@ -71,7 +73,7 @@ namespace EEMod.Items.Weapons.Mage
                 powerUp = 0;
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    EEMod.Prims.CreateTrail(projectile);
+                    EEMod.prims.CreateTrail(projectile);
                 }
             }
             return false;

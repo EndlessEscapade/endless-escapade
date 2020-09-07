@@ -38,8 +38,8 @@ namespace EEMod.NPCs.Bosses.Akumo
             return true;
         }
 
-        private float speed = 8;
-        private float xAddon = Main.rand.NextFloat(-.1f, .1f);
+        private readonly float speed = 8;
+        private readonly float xAddon = Main.rand.NextFloat(-.1f, .1f);
 
         public override void AI()
         {

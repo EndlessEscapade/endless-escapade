@@ -23,8 +23,7 @@ namespace EEMod.Projectiles.Mage
         }
 
         private bool firstFrame = true;
-        private int[] linkedProj = new int[6];
-        private bool a = false;
+        private readonly int[] linkedProj = new int[6];
 
         public override void AI()
         {

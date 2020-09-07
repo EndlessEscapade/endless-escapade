@@ -10,7 +10,6 @@ namespace EEMod
     public static class MultiplayerMouseTracker
     {
         public static Vector2[] Mouses = new Vector2[300];
-
         public static Vector2 VectorStorage;
         public static Vector2 PositionStorage;
 
@@ -21,9 +20,11 @@ namespace EEMod
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 Vector2 current = Main.MouseWorld;
+
                 if (Mouses[Main.myPlayer] != current)
                 {
                     EENet.SendPacket(EEMessageType.MouseCheck, current);
+
                     Mouses[Main.myPlayer] = current;
                 }
             }
@@ -34,6 +35,7 @@ namespace EEMod
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 EENet.SendPacket(EEMessageType.SyncVector, v);
+
                 VectorStorage = v;
             }
         }
@@ -43,21 +45,24 @@ namespace EEMod
             if (msg == EEMessageType.MouseCheck)
             {
                 if (Main.netMode == NetmodeID.Server)
+                {
                     EENet.SendPacketTo(EEMessageType.MouseCheck, -1, fromwho, reader.Read<Vector2>(), (ushort)fromwho);
+                }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    Vector2 v = reader.Read<Vector2>();
-                    Mouses[reader.Read<ushort>()] = v;
+                    Mouses[reader.Read<ushort>()] = reader.Read<Vector2>();
                 }
             }
+
             if (msg == EEMessageType.SyncVector)
             {
                 if (Main.netMode == NetmodeID.Server)
+                {
                     EENet.SendPacketTo(EEMessageType.SyncVector, -1, fromwho, reader.Read<Vector2>());
+                }
                 else if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
-                    Vector2 v = reader.Read<Vector2>();
-                    VectorStorage = v;
+                    VectorStorage = reader.Read<Vector2>();
                 }
             }
         }

@@ -78,7 +78,7 @@ namespace EEMod.UI
                 Countur = 0;
                 frame.Y += texture.Height / frames;
             }
-            if (frame.Y >= (texture.Height / frames) * (frames - 1))
+            if (frame.Y >= texture.Height / frames * (frames - 1))
             {
                 frame.Y = 0;
             }
@@ -134,7 +134,7 @@ namespace EEMod.UI
                 Countur = 0;
                 frame.Y += texture.Height / frames;
             }
-            if (frame.Y >= (texture.Height / frames) * (frames - 1))
+            if (frame.Y >= texture.Height / frames * (frames - 1))
             {
                 frame.Y = 0;
             }

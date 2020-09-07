@@ -52,9 +52,15 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                     if (projectile.alpha >= 255)
                     {
                         if (krakenHead.smolBloons[0] != Vector2.Zero)
+                        {
                             krakenHead.smolBloons[0] = Vector2.Zero;
+                        }
+
                         if (krakenHead.smolBloons[1] != Vector2.Zero)
+                        {
                             krakenHead.smolBloons[1] = Vector2.Zero;
+                        }
+
                         projectile.Kill();
                     }
                 }
@@ -67,12 +73,17 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             else
             {
                 if (Main.rand.Next(4) == 0)
+                {
                     Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
+                }
             }
             if (projectile.ai[0] == 0)
             {
                 if (Main.rand.Next(4) == 0)
+                {
                     Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
+                }
+
                 start = projectile.Center;
             }
             if (Timer < 120)

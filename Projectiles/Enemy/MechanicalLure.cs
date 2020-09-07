@@ -30,14 +30,19 @@ namespace EEMod.Projectiles.Enemy
         public override void AI()
         {
             if (projectile.ai[0] == 0)
+            {
                 projectile.velocity = new Vector2(0, 2);
+            }
+
             if (projectile.ai[0] == 1)
             {
                 projectile.velocity = new Vector2(0, -4);
                 Main.player[(int)projectile.ai[1]].Center = projectile.Center;
             }
             if (projectile.Center.Y < Main.npc[projectile.owner].Center.Y)
+            {
                 projectile.Kill();
+            }
         }
 
         public override void Kill(int timeLeft)

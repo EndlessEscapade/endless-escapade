@@ -56,7 +56,9 @@ namespace EEMod.Net
 
                 case EEMessageType.SyncBrightness:
                     if (Main.netMode == NetmodeID.Server)
+                    {
                         SendPacketTo(EEMessageType.SyncBrightness, -1, fromwho, reader.Read<float>());
+                    }
                     else if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
                         float v = reader.Read<float>();
@@ -70,7 +72,10 @@ namespace EEMod.Net
         {
             var serializer = SerializersManager.GetTypeSerializer(obj.GetType());
             if (serializer is null)
+            {
                 throw new ArgumentException($"The type of {nameof(obj)}, {obj.GetType().Name} could not be found");
+            }
+
             serializer.WriteObj(packet, obj);
             //switch (obj)
             //{

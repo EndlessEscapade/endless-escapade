@@ -11,19 +11,25 @@ namespace EEMod.Autoloading.AutoloadTypes
     internal static class AutoloadTypeManagerManager // A
     {
         [FieldInit]
-        private static List<AutoloadTypeManager> managers;
+        private static readonly List<AutoloadTypeManager> managers;
 
         internal static void InitializeManagers()
         {
             foreach (var manager in managers)
+            {
                 manager.Initialize();
+            }
         }
 
         internal static void ManagersCheck(Type type)
         {
             if (typeof(IAutoloadType).IsAssignableFrom(type))
+            {
                 foreach (var manager in managers)
+                {
                     AutoloadTypeManager.Evaluate(manager, type);
+                }
+            }
         }
 
         internal static bool TryAddManager(Type managertype)
@@ -38,8 +44,5 @@ namespace EEMod.Autoloading.AutoloadTypes
             }
             return false;
         }
-
-        [LoadingMethod]
-        private static void postautoload() => AutoloadingManager.PostAutoload += () => { managers.Clear(); managers = null; };
     }
 }

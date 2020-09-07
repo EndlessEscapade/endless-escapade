@@ -102,7 +102,9 @@ namespace EEMod
             {
                 NPC npc = Main.npc[i];
                 if (!npc.active || (NoBoss && npc.boss) || (!Friendly && (npc.friendly || npc.lifeMax <= 5)))
+                {
                     continue;
+                }
 
                 float distSQ = npc.DistanceSQ(Point);
                 if (NearestNPCDistSQ == -1 || distSQ < NearestNPCDistSQ)

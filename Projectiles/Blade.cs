@@ -11,7 +11,7 @@ namespace EEMod.Projectiles
     {
         public virtual float rotationalCoverage => (float)Math.PI;
         public virtual float RotationalOffset => (float)Math.PI / 2f;
-        protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);
+        protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         public virtual float dirtSmashIntensity => 12;
         public virtual int shakeLength => 20;
         public virtual int shakeIntensity => 3;
@@ -25,11 +25,11 @@ namespace EEMod.Projectiles
 
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
-        private int width = 128;
-        private int height = 128;
-        private int frames = 5;
+        private readonly int width = 128;
+        private readonly int height = 128;
+        private readonly int frames = 5;
         private int SlashType;
-        private int Direction = Main.rand.Next(0, 2);
+        private readonly int Direction = Main.rand.Next(0, 2);
         private float rotation;
         private Vector2 offsetHoldout;
 
@@ -58,9 +58,15 @@ namespace EEMod.Projectiles
             int currentFrame = (int)(progression * frames);
             Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
             if (Direction == 0)
+            {
                 spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * currentFrame, width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
+            }
+
             if (Direction == 1)
+            {
                 spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * (frames - currentFrame), width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
+            }
+
             return false;
         }
     }

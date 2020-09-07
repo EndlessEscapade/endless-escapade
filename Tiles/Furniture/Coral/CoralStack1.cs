@@ -45,15 +45,23 @@ namespace EEMod.Tiles.Furniture.Coral
             if (new Rectangle((int)player.position.X / 16, (int)player.position.Y / 16, 1, 2).Intersects(new Rectangle(i, j, 1, 1)) && !isIntersecting && (player.velocity.X > 7 || player.velocity.X < -7))
             {
                 for (int a = 0; a < 8; a++)
+                {
                     Projectile.NewProjectile(new Vector2((i * 16) - frameX, (j * 16) - frameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                }
+
                 isIntersecting = true;
             }
             if (isIntersecting)
             {
                 cooldown--;
                 if (cooldown % 15 == 0)
+                {
                     for (int a = 0; a < 2; a++)
+                    {
                         Projectile.NewProjectile(new Vector2((i * 16) - frameX, (j * 16) - frameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                    }
+                }
+
                 if (cooldown == 0)
                 {
                     isIntersecting = false;

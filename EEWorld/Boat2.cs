@@ -10,33 +10,33 @@ namespace EEMod.EEWorld
 {
     public partial class Boat2
     {
-        static int A = 0;
-        static int B = TileID.WoodBlock;
-        static int C = TileID.PalmWood;
-        static int D = TileID.Ebonwood;
-        static int E = TileID.SpookyWood;
-        static int F = TileID.Chain;
-        static int G = TileID.RichMahogany;
-        static int H = TileID.Rope;
-        static int I = TileID.Platforms;
-        static int J = TileID.DynastyWood;
-        static int K = TileID.Glass;
-        static int L = TileID.WoodenBeam;
-        static int M = TileID.MinecartTrack;
-        static int A0 = 0;
-        static int B1 = WallID.ShadewoodFence;
-        static int C2 = WallID.PalmWoodFence;
-        static int D3 = WallID.RichMahoganyFence;
-        static int E4 = WallID.Planked;
-        static int F5 = WallID.RichMaogany;
-        static int G6 = WallID.Sail;
-        static int H7 = WallID.Wood;
-        static int I8 = WallID.SpookyWood;
-        static int J9 = WallID.PalmWood;
-        static int K10 = WallID.BlueDungeonSlab;
-        static int L11 = WallID.BorealWoodFence;
-        static int M12 = WallID.Glass;
-        static int[] Zero = new int[]{0,0,0,0,0,0,0,0,0,0};
+        static readonly int A = 0;
+        static readonly int B = TileID.WoodBlock;
+        static readonly int C = TileID.PalmWood;
+        static readonly int D = TileID.Ebonwood;
+        static readonly int E = TileID.SpookyWood;
+        static readonly int F = TileID.Chain;
+        static readonly int G = TileID.RichMahogany;
+        static readonly int H = TileID.Rope;
+        static readonly int I = TileID.Platforms;
+        static readonly int J = TileID.DynastyWood;
+        static readonly int K = TileID.Glass;
+        static readonly int L = TileID.WoodenBeam;
+        static readonly int M = TileID.MinecartTrack;
+        static readonly int A0 = 0;
+        static readonly int B1 = WallID.ShadewoodFence;
+        static readonly int C2 = WallID.PalmWoodFence;
+        static readonly int D3 = WallID.RichMahoganyFence;
+        static readonly int E4 = WallID.Planked;
+        static readonly int F5 = WallID.RichMaogany;
+        static readonly int G6 = WallID.Sail;
+        static readonly int H7 = WallID.Wood;
+        static readonly int I8 = WallID.SpookyWood;
+        static readonly int J9 = WallID.PalmWood;
+        static readonly int K10 = WallID.BlueDungeonSlab;
+        static readonly int L11 = WallID.BorealWoodFence;
+        static readonly int M12 = WallID.Glass;
+        static readonly int[] Zero = new int[]{0,0,0,0,0,0,0,0,0,0};
         public static int[,,] Boat2Array = new int[,,]
         {
         {{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{E,A0,28,0,0,0,0,0,72,54},{C,A0,28,0,0,0,0,0,18,0},{B,A0,0,0,0,0,0,0,90,54},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1}},

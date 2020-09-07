@@ -159,7 +159,7 @@ namespace EEMod
                     MultiplayerMouseTracker.UpdateMyMouse();
                 }
                 Vector2 dis = Main.LocalPlayer.Center - Main.player[yeet].Center;
-                Vector2 chosen = (playerWhoAmI != 0 ? MultiplayerMouseTracker.GetMousePos(yeet) + dis : Main.MouseWorld);
+                Vector2 chosen = playerWhoAmI != 0 ? MultiplayerMouseTracker.GetMousePos(yeet) + dis : Main.MouseWorld;
                 velocity = (chosen - UIPosRunTime) / SpeedOfMouseBinding;
             }
             if (BBTimer > 0)
@@ -167,9 +167,14 @@ namespace EEMod
                 BBTimer--;
             }
             if (elementActive)
+            {
                 colourOfStartUp += (1 - colourOfStartUp) / speedOfStartUp;
+            }
             else
+            {
                 colourOfStartUp += (-colourOfStartUp) / speedOfStartUp;
+            }
+
             if (parent != null)
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * 60;

@@ -30,7 +30,7 @@ namespace EEMod.Items
         }
 
         private int frame;
-        private int numOfFrames = 8;
+        private readonly int numOfFrames = 8;
 
         public override void SendExtraAI(BinaryWriter writer)
         {
@@ -47,7 +47,7 @@ namespace EEMod.Items
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.projectileTexture[projectile.type];
-            Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, (tex.Height / numOfFrames) * frame, tex.Width, tex.Height / numOfFrames), lightColor * (1 - (projectile.alpha / 255f)), projectile.rotation, new Rectangle(0, (tex.Height / numOfFrames) * frame, tex.Width, tex.Height / numOfFrames).Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames), lightColor * (1 - (projectile.alpha / 255f)), projectile.rotation, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames).Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
 
@@ -86,7 +86,7 @@ namespace EEMod.Items
                 else
                 {
                     frame = (int)((player.Center.X - projectile.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
-                    projectile.rotation = (float)MathHelper.Pi;
+                    projectile.rotation = MathHelper.Pi;
                 }
             }
             frame = (int)MathHelper.Clamp(frame, 0, numOfFrames - 1);

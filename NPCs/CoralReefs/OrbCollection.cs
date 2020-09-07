@@ -63,13 +63,16 @@ namespace EEMod.NPCs.CoralReefs
         private bool otherPhase;
         private bool otherPhase2;
         private float t;
-        private Vector2[] Holder = new Vector2[2];
+        private readonly Vector2[] Holder = new Vector2[2];
 
         public override void AI()
         {
             npc.ai[0] += 0.05f;
             if (!otherPhase)
+            {
                 npc.position.Y += (float)Math.Sin(npc.ai[0]) / 2f;
+            }
+
             if (npc.life == 0)
             {
                 if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())

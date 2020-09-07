@@ -8,7 +8,7 @@ namespace EEMod.NPCs
 {
     public class CoconutSpider : ModNPC
     {
-        private int coolDown = 600;
+        private readonly int coolDown = 600;
         public bool collision = false;
         public bool canTp = false;
         public bool onGround = false;
@@ -46,7 +46,9 @@ namespace EEMod.NPCs
                 npc.spriteDirection = 1;
             }
             else
+            {
                 npc.spriteDirection = -1;
+            }
 
             if (npc.frameCounter++ > 4)
             {
@@ -63,7 +65,10 @@ namespace EEMod.NPCs
         public override void AI()
         {
             if (npc.ai[1] > 0)
+            {
                 npc.ai[1]--;
+            }
+
             npc.ai[0] = coolDown;
             npc.TargetClosest(false);
             Player player = Main.player[npc.target];
@@ -72,7 +77,10 @@ namespace EEMod.NPCs
             npc.TargetClosest(true);
             float accel2 = Math.Abs(npc.Center.X - player.Center.X) / 140;
             if (accel2 > 0.7f)
+            {
                 accel2 = 0.7f;
+            }
+
             if (npc.Center.X < player.Center.X)
             {
                 npc.velocity.X += accel * accel2;
@@ -84,7 +92,9 @@ namespace EEMod.NPCs
             }
 
             if (Math.Abs(npc.velocity.X) == maxSpeed)
+            {
                 npc.velocity.X = maxSpeed * npc.spriteDirection;
+            }
 
             int minTilePosX = (int)(npc.Center.X / 16.0) - 1;
             int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;

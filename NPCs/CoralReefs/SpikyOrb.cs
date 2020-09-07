@@ -31,7 +31,7 @@ namespace EEMod.NPCs.CoralReefs
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.White.CurrentTechnique.Passes[0].Apply();
-            EEMod.White.Parameters["alpha"].SetValue((((float)Math.Sin(alpha) + 1) * 0.5f));
+            EEMod.White.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
             Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw() + new Vector2(0, 3), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.05f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -65,17 +65,14 @@ namespace EEMod.NPCs.CoralReefs
         private bool otherPhase;
         private bool otherPhase2;
         private float t;
-        private Vector2[] Holder = new Vector2[2];
-        private List<List<Dust>> dustHandler = new List<List<Dust>>();
-        private List<float> rotHandler = new List<float>();
-        private List<float> rotHandlerSquare = new List<float>();
-        private float[] PerlinStrip = new float[720];
+        private readonly Vector2[] Holder = new Vector2[2];
+        private readonly List<List<Dust>> dustHandler = new List<List<Dust>>();
+        private readonly List<float> rotHandler = new List<float>();
+        private readonly List<float> rotHandlerSquare = new List<float>();
+        private readonly float[] PerlinStrip = new float[720];
 
         public override void AI()
         {
-            int noOfSubParts = 3;
-            int accuracy = 720;
-
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
             {
                 Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f, 2f), -5));
@@ -141,7 +138,10 @@ namespace EEMod.NPCs.CoralReefs
             }
             npc.ai[0] += 0.05f;
             if (!otherPhase)
+            {
                 npc.position.Y += (float)Math.Sin(npc.ai[0]) / 4f;
+            }
+
             if (npc.life == 0)
             {
                 if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())

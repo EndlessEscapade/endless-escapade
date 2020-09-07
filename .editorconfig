@@ -5,3 +5,6 @@ dotnet_diagnostic.CS0162.severity = none
 
 # CS1718: Comparação feita com a mesma variável
 dotnet_diagnostic.CS1718.severity = none
+
+# IDE1006: Naming Styles
+dotnet_diagnostic.IDE1006.severity = none

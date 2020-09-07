@@ -84,8 +84,6 @@ namespace EEMod.Tiles.Furniture
             animationFrameHeight = 180;
         }
 
-        private int frameCounter;
-
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             Tile tile = Main.tile[i, j];
@@ -98,7 +96,7 @@ namespace EEMod.Tiles.Furniture
             {
                 if (TE.hasOrb)
                 {
-                    frameYOffset = ((Main.tileFrameCounter[Type] / 3) % 7) * animationFrameHeight;
+                    frameYOffset = Main.tileFrameCounter[Type] / 3 % 7 * animationFrameHeight;
                 }
                 else
                 {

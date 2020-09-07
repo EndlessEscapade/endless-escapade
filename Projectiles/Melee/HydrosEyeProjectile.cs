@@ -51,7 +51,7 @@ namespace EEMod.Projectiles.Melee
             float step = 1 / distance;
             for (float w = 0; w < distance; w += 4)
             {
-                Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 16, Vector2.Zero, 0, default(Color), scale).noGravity = true;
+                Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 16, Vector2.Zero, 0, default, scale).noGravity = true;
             }
         }
 

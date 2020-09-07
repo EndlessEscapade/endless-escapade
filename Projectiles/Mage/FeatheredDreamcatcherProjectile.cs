@@ -49,9 +49,13 @@ namespace EEMod.Projectiles.Mage
             }
             Dust.NewDust(projectile.Center, 0, 0, 127);
             if (dropTimer > 0)
+            {
                 dropTimer--;
+            }
             else
+            {
                 projectile.velocity.Y = 32;
+            }
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

@@ -66,11 +66,19 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                 npc.velocity = Vector2.Normalize(Main.player[npc.target].position - npc.Center) * 4;
             }
             if ((npc.ai[0] + 96) % 120 == 0)
+            {
                 npc.ai[2] = 0;
+            }
+
             if (Main.player[npc.target].position.X < npc.Center.X)
+            {
                 npc.spriteDirection = 1;
+            }
             else
+            {
                 npc.spriteDirection = -1;
+            }
+
             npc.velocity *= 0.99f;
             npc.rotation = npc.velocity.X / 16;
         }

@@ -68,8 +68,12 @@ namespace EEMod.NPCs.CoralReefs
             npc.rotation = npc.velocity.ToRotation() + MathHelper.Pi / 2;
 
             if (npc.life <= npc.lifeMax / 2)
+            {
                 if ((Math.Abs(npc.velocity.X) + Math.Abs(npc.velocity.Y)) / 2 >= 3)
+                {
                     Dust.NewDust(npc.Center, 0, 0, DustID.Smoke, newColor: Color.Black);
+                }
+            }
         }
     }
 }

@@ -72,7 +72,9 @@ namespace EEMod.Projectiles.OceanMap
                 }
             }
             else
+            {
                 Sink();
+            }
         }
 
         private int sinkTimer = 32;

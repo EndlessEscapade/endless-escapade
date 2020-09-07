@@ -27,9 +27,6 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             projectile.scale = Main.rand.NextFloat(0.5f, 1.5f);
         }
 
-        private Vector2 start;
-        private KrakenHead krakenHead => Main.npc[(int)projectile.ai[1]].modNPC as KrakenHead;
-
         public override void AI()
         {
             projectile.velocity.Y += 0.05f;

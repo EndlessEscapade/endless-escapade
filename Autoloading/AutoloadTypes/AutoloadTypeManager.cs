@@ -37,7 +37,9 @@ namespace EEMod.Autoloading.AutoloadTypes
         protected sealed override void EvaluateType(Type type)
         {
             if (type.IsSubclassOf(typeof(T)))
+            {
                 CreateInstance(type);
+            }
         }
     }
 }

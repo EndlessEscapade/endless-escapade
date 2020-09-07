@@ -28,7 +28,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             }
             if (projectile.ai[1] == 1)
             {
-                Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * .6f) / 255f);   //this is the light colors
+                Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * .6f / 255f);   //this is the light colors
 
                 if (projectile.ai[0] > 1f)
                 {

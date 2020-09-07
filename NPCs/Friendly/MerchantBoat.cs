@@ -28,7 +28,9 @@ namespace EEMod.NPCs.Friendly
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
             if (firstButton)
+            {
                 shop = true;
+            }
         }
 
         public override string GetChat()

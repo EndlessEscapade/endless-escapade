@@ -53,7 +53,7 @@ namespace EEMod.Projectiles.Mage
                 lightColor.G = (byte)(lightColor.G + ((Color.White.G * 10) - lightColor.G) * lerp);
                 lightColor.B = (byte)(lightColor.B + ((Color.White.B * 10) - lightColor.B) * lerp);
             }
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, projectile.gfxOffY);
@@ -78,9 +78,15 @@ namespace EEMod.Projectiles.Mage
                 degrees = (int)((direction.ToRotation() - (float)Math.PI) * 57);
                 int chooser = Main.rand.Next(0, 2);
                 if (chooser == 0)
+                {
                     projectile.ai[1] = Main.rand.Next(-11, -8);
+                }
+
                 if (chooser == 1)
+                {
                     projectile.ai[1] = Main.rand.Next(8, 11);
+                }
+
                 degrees -= (int)projectile.ai[1] * 8;
 
                 projectile.netUpdate = true;

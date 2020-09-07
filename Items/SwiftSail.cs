@@ -39,9 +39,13 @@ namespace EEMod.Items
             EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
             modPlayer.boatSpeed = 3;
             if (modPlayer.boatSpeed != 3)
+            {
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
     }
 }

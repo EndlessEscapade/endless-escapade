@@ -9,9 +9,6 @@ namespace EEMod.Tiles.Furniture.Coral
 {
     public class CoralStack2 : ModTile
     {
-        private bool isIntersecting;
-        private int cooldown = 180;
-
         public override void SetDefaults()
         {
             Main.tileSolidTop[Type] = false;

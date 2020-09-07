@@ -37,8 +37,8 @@ namespace EEMod.Projectiles.Summons
         }
 
         private Color minionGlow;
-        private float[] projectileAiCont = new float[6];
-        private int[] reinforcements = new int[3];
+        private readonly float[] projectileAiCont = new float[6];
+        private readonly int[] reinforcements = new int[3];
         private int frameSpeed = 4;
 
         public override void AI()
@@ -71,11 +71,15 @@ namespace EEMod.Projectiles.Summons
                 }
             }
             if (target != null)
+            {
                 projectile.ai[1] = Main.npc[target.whoAmI].whoAmI;
+            }
 
             projectileAiCont[4]++;
             if (target == null || Vector2.Distance(target.Center, projectile.Center) >= 12800)
+            {
                 projectile.ai[0] = 0;
+            }
             else
             {
                 if (projectileAiCont[4] >= 300)
@@ -101,7 +105,7 @@ namespace EEMod.Projectiles.Summons
                     if (reinforcements[i] == default)
                     {
                         Main.NewText(i + "AE");
-                        reinforcements[i] = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: (MathHelper.TwoPi / 3) * i, ai1: target.whoAmI);
+                        reinforcements[i] = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: MathHelper.TwoPi / 3 * i, ai1: target.whoAmI);
                     }
                 }
             }
@@ -109,7 +113,9 @@ namespace EEMod.Projectiles.Summons
             {
                 frameSpeed = 6;
                 if (projectileAiCont[0] > 0)
+                {
                     projectileAiCont[0] -= 0.1f;
+                }
 
                 Player owner = Main.player[projectile.owner];
                 if (!projectile.WithinRange(owner.MountedCenter, 1600)) //(Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center) >= 1600)
@@ -122,9 +128,13 @@ namespace EEMod.Projectiles.Summons
 
                 projectile.velocity -= Vector2.Normalize(projectile.Center - Main.player[projectile.owner].Center) / 8;
                 if ((projectile.velocity.X + projectile.velocity.Y) / 2 < 4)
+                {
                     projectile.velocity *= 1.001f;
+                }
                 else
+                {
                     projectile.velocity *= 0.96f;
+                }
             }
             /*if (projectile.ai[0] == 1)
             {
@@ -178,7 +188,10 @@ namespace EEMod.Projectiles.Summons
 
                 frameSpeed = 5;
                 if (projectileAiCont[0] < 5)
+                {
                     projectileAiCont[0] += 0.15f;
+                }
+
                 minionGlow = Color.OrangeRed;
 
                 projectileAiCont[2] += 0.02f;
@@ -211,7 +224,9 @@ namespace EEMod.Projectiles.Summons
 
                 frameSpeed = 3;
                 if (projectileAiCont[0] < 5)
+                {
                     projectileAiCont[0] += 0.15f;
+                }
                 else
                 {
                     projectileAiCont[1]++;
@@ -225,7 +240,9 @@ namespace EEMod.Projectiles.Summons
                     }
                     else
                         if (projectileAiCont[3] < 2)
+                    {
                         projectileAiCont[3] *= 1.005f;
+                    }
                 }
                 minionGlow = Color.Red;
 
@@ -262,7 +279,9 @@ namespace EEMod.Projectiles.Summons
         public override void Kill(int timeleft)
         {
             if (Main.LocalPlayer.HasBuff(ModContent.BuffType<AkumoBuff>()))
+            {
                 Main.LocalPlayer.ClearBuff(ModContent.BuffType<AkumoBuff>());
+            }
         }
     }
 }

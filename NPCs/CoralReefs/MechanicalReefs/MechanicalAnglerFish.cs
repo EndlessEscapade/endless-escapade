@@ -56,7 +56,10 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             if (frameNumber == 2)
             {
                 if (npc.ai[3] == 0)
+                {
                     npc.ai[3] = Projectile.NewProjectile(npc.Center + new Vector2(-10, 0), Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), npc.damage, 0f, Owner: npc.whoAmI);
+                }
+
                 npc.velocity = Vector2.Zero;
 
                 if (Math.Abs(target.position.X - npc.position.X) > 320)
@@ -86,9 +89,13 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                 npc.velocity = Vector2.Normalize(target.position - npc.position) * 4;
 
                 if (target.position.X > npc.position.X)
+                {
                     npc.spriteDirection = -1;
+                }
                 else
+                {
                     npc.spriteDirection = 1;
+                }
 
                 npc.rotation = npc.velocity.X / 32;
             }
@@ -102,7 +109,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                 Player player = Main.player[npc.target];
                 Texture2D LureChain = TextureCache.MechanicalLureChain;
                 float distance = Vector2.Distance(npc.Center, Main.projectile[(int)npc.ai[3]].position) / LureChain.Height;
-                Vector2 pos = npc.position - Main.screenPosition + new Vector2(x: (npc.width / 2) - (LureChain.Width / 2) - 10, y: (npc.height / 2));
+                Vector2 pos = npc.position - Main.screenPosition + new Vector2(x: (npc.width / 2) - (LureChain.Width / 2) - 10, y: npc.height / 2);
                 for (int i = 0; i < distance; i++)
                 {
                     Main.spriteBatch.Draw(LureChain, pos + new Vector2(x: 0, y: i * LureChain.Height), Color.White);

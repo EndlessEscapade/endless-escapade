@@ -28,7 +28,7 @@ namespace EEMod
                 flash = Main.rand.NextFloat(0, 100),
                 Velocity = new Vector2(Main.rand.NextFloat(0.5f, 1), 0)
             };
-            sea.Add(objects as T);
+            sea.Add(objects);
         }
 
         public static void LazyAppendSides<T>(ref List<T> sea) where T : GraphicObject, new()
@@ -80,7 +80,7 @@ namespace EEMod
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             int FHeight = tex.Height / noOfFrames;
-            int frameY = (frameCounter / PerFrame) % noOfFrames;
+            int frameY = frameCounter / PerFrame % noOfFrames;
             Rectangle rect = new Rectangle(0, FHeight * frameY, tex.Width, FHeight);
             Color drawColour = Lighting.GetColor((int)((Position.X + Main.screenPosition.X) / 16f), (int)((Position.Y + Main.screenPosition.Y) / 16f));
             Main.spriteBatch.Draw(tex, Position.ForDraw() + Main.screenPosition, rect, drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), (float)Math.PI, rect.Size() / 2, scale, SpriteEffects.None, 0f);

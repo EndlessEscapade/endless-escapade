@@ -30,10 +30,8 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         }
 
         private Vector2 start;
-        private Vector2[] yeet = new Vector2[2];
+        private readonly Vector2[] yeet = new Vector2[2];
         KrakenHead krakenHead => Main.npc[(int)projectile.ai[1]].modNPC as KrakenHead;
-        private bool yes = false;
-        private int Timer; //I will sync it I swear
 
         public override void AI()
         {
@@ -48,9 +46,14 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             }
             projectile.ai[0]++;
             if (projectile.alpha > 0 && projectile.ai[0] > 50)
+            {
                 projectile.alpha--;
+            }
+
             if (projectile.ai[0] > 100)
+            {
                 projectile.scale += (1 - projectile.scale) / 64f;
+            }
 
             if (projectile.ai[0] > 300)
             {
@@ -58,7 +61,9 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 float projectileknockBack = 4f;
                 int projectiledamage = 40;
                 if (Main.rand.Next(4) == 0)
+                {
                     Projectile.NewProjectile(projectile.Center.X, projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<InkSpew>(), projectiledamage, projectileknockBack, Main.npc[(int)projectile.ai[1]].target, 0f, 1);
+                }
             }
         }
 

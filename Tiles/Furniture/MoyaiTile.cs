@@ -44,11 +44,18 @@ namespace EEMod.Tiles.Furniture
             int frameY = Main.tile[i, j].frameY;
             Player player = Main.LocalPlayer;
             if (new Rectangle((int)player.position.X / 16, (int)player.position.Y / 16, 1, 2).Intersects(new Rectangle(i, j, 1, 1)) && !isIntersecting)
+            {
                 isIntersecting = true;
+            }
             else
+            {
                 isIntersecting = false;
+            }
+
             if (isIntersecting)
+            {
                 player.GetModPlayer<EEPlayer>().InspectObject();
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace EEMod
     {
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
-        public static EEModConfigClient Instance;
+        public static EEModConfigClient instance;
 
         [DefaultValue(true)]
         [Label("$Mods.EEMod.Common.EEModClassTips")]

@@ -29,8 +29,8 @@ namespace EEMod.Projectiles.Mage
             progress += 11;
             double deg = progress;
             double rad = deg * (Math.PI / 180);
-            projectile.velocity.X -= (float)Math.Cos(rad) * (projectile.ai[0]);
-            projectile.velocity.Y += (float)Math.Cos(rad) * (projectile.ai[1]);
+            projectile.velocity.X -= (float)Math.Cos(rad) * projectile.ai[0];
+            projectile.velocity.Y += (float)Math.Cos(rad) * projectile.ai[1];
         }
     }
 }

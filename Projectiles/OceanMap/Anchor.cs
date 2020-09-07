@@ -36,13 +36,23 @@ namespace EEMod.Projectiles.OceanMap
             projectile.position.X = projectile.ai[0] - projectile.width / 2;
             projectile.position.Y = projectile.ai[1] - 100 + (float)Math.Sin(yes) * 10;
             if (!visible)
+            {
                 projectile.alpha += 5;
+            }
             else
+            {
                 projectile.alpha -= 5;
+            }
+
             if (projectile.alpha < 0)
+            {
                 projectile.alpha = 0;
+            }
+
             if (projectile.alpha > 255)
+            {
                 projectile.alpha = 255;
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)  //this make the projectile sprite rotate perfectaly around the player

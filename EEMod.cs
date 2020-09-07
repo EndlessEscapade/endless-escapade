@@ -106,7 +106,7 @@ namespace EEMod
         private int lerps;
         private float alphas;
         private int delays;
-        private Verlet verlet = new Verlet();
+        private readonly Verlet verlet = new Verlet();
         private bool mode;
 
         public void UpdateVerlet()
@@ -117,7 +117,9 @@ namespace EEMod
                 mode = !mode;
             }
             if (mode)
+            {
                 verlet.Update();
+            }
 
             verlet.GlobalRenderPoints();
             if (Main.LocalPlayer.controlUp && delays == 0)
@@ -162,11 +164,13 @@ namespace EEMod
                 Color drawColour = Lighting.GetColor((int)(modPlayer.SeaObject[i].posToScreen.X / 16f), (int)(modPlayer.SeaObject[i].posToScreen.Y / 16f));
                 if (modPlayer.quickOpeningFloat > 0.01f)
                 {
-                    float lerp = (1 - (modPlayer.quickOpeningFloat / 10f));
+                    float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
                     Main.spriteBatch.Draw(modPlayer.SeaObject[i].texture, modPlayer.SeaObject[i].posToScreen.ForDraw(), drawColour * lerp);
                 }
                 else
+                {
                     Main.spriteBatch.Draw(modPlayer.SeaObject[i].texture, modPlayer.SeaObject[i].posToScreen.ForDraw(), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
+                }
             }
             var OceanElements = EEPlayer.OceanMapElements;
             for (int i = 0; i < OceanElements.Count; i++)
@@ -174,9 +178,9 @@ namespace EEMod
                 var element = OceanElements[i];
                 element.Draw(Main.spriteBatch);
             }
-            for (int i = 0; i < modPlayer.Seagulls.Count; i++)
+            for (int i = 0; i < modPlayer.seagulls.Count; i++)
             {
-                var element = modPlayer.Seagulls[i];
+                var element = modPlayer.seagulls[i];
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
                 element.Draw(TextureCache.Seagulls, 9, 5);
@@ -213,7 +217,10 @@ namespace EEMod
                         if (Dist < 100)
                         {
                             if (alphas < 1)
+                            {
                                 alphas += 0.01f;
+                            }
+
                             if (Main.LocalPlayer.controlUp && delays == 0)
                             {
                                 switch (Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp)
@@ -236,7 +243,9 @@ namespace EEMod
                         else
                         {
                             if (alphas > 0)
+                            {
                                 alphas -= 0.01f;
+                            }
                         }
                     }
                 }
@@ -307,7 +316,9 @@ namespace EEMod
             {
                 delay++;
                 if (delay == 60)
+                {
                     delay = 0;
+                }
             }
 
             //_lastUpdateUiGameTime = gameTime;
@@ -321,8 +332,8 @@ namespace EEMod
         {
             if (Main.netMode != NetmodeID.Server)
             {
-                TrailManager.UpdateTrails();
-                Prims.UpdateTrails();
+                trailManager.UpdateTrails();
+                prims.UpdateTrails();
             }
             EEPlayer.UpdateOceanMapElements();
         }
@@ -423,7 +434,9 @@ namespace EEMod
             }
 
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            {
                 DrawZipline();
+            }
 
             if (Main.worldName == KeyID.Sea)
             {
@@ -451,7 +464,10 @@ namespace EEMod
                     DrawShip();
                 }
                 if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
+                {
                     DrawText();
+                }
+
                 return true;
             },
             InterfaceScaleType.UI);
@@ -489,7 +505,7 @@ namespace EEMod
         public void DrawCR()
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            var Bubbles = modPlayer.Bubbles;
+            var Bubbles = modPlayer.bubbles;
             for (int i = 0; i < Bubbles.Count; i++)
             {
                 Color drawColour = Lighting.GetColor((int)Bubbles[i].Position.X / 16, (int)Bubbles[i].Position.Y / 16);
@@ -614,10 +630,12 @@ namespace EEMod
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
             float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-            if(Main.worldName == KeyID.Sea)
-                Main.spriteBatch.Draw(TextureCache.OceanScreen, (Main.screenPosition + new Vector2(Main.screenWidth/2,100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
             if (Main.worldName == KeyID.Sea)
                 Main.spriteBatch.Draw(TextureCache.OceanScreen, (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            if (Main.worldName == KeyID.Sea)
+            {
+                Main.spriteBatch.Draw(TextureCache.OceanScreen, (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            }
             else
             {
                 Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
@@ -706,23 +724,23 @@ namespace EEMod
                     switch (eePlayer.cannonballType)
                     {
                         case 1:
-                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
+                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
                             break;
 
                         case 2:
-                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyExplosiveCannonball>(), 0, 0);
+                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyExplosiveCannonball>(), 0, 0);
                             break;
 
                         case 3:
-                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyHallowedCannonball>(), 0, 0);
+                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyHallowedCannonball>(), 0, 0);
                             break;
 
                         case 4:
-                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyChlorophyteCannonball>(), 0, 0);
+                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyChlorophyteCannonball>(), 0, 0);
                             break;
 
                         case 5:
-                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize((position + Main.screenPosition) - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyLuminiteCannonball>(), 0, 0);
+                            Projectile.NewProjectile(position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyLuminiteCannonball>(), 0, 0);
                             break;
                     }
                     Main.PlaySound(SoundID.Item61);
@@ -739,9 +757,14 @@ namespace EEMod
             if (Main.netMode == NetmodeID.SinglePlayer || ((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 0))
             {
                 if (eePlayer.boatSpeed == 3)
+                {
                     frameNum = 1;
+                }
+
                 if (eePlayer.boatSpeed == 1)
+                {
                     frameNum = 0;
+                }
             }
             if (Main.netMode != NetmodeID.SinglePlayer)
             {
@@ -749,37 +772,67 @@ namespace EEMod
                 {
                     case 1:
                         if (eePlayer.boatSpeed == 3)
+                        {
                             frameNum = 3;
+                        }
+
                         if (eePlayer.boatSpeed == 1)
+                        {
                             frameNum = 2;
+                        }
+
                         break;
 
                     case 2:
                         if (eePlayer.boatSpeed == 3)
+                        {
                             frameNum = 9;
+                        }
+
                         if (eePlayer.boatSpeed == 1)
+                        {
                             frameNum = 8;
+                        }
+
                         break;
 
                     case 3:
                         if (eePlayer.boatSpeed == 3)
+                        {
                             frameNum = 5;
+                        }
+
                         if (eePlayer.boatSpeed == 1)
+                        {
                             frameNum = 4;
+                        }
+
                         break;
 
                     case 4:
                         if (eePlayer.boatSpeed == 3)
+                        {
                             frameNum = 7;
+                        }
+
                         if (eePlayer.boatSpeed == 1)
+                        {
                             frameNum = 6;
+                        }
+
                         break;
 
                     case 5:
                         if (eePlayer.boatSpeed == 3)
+                        {
                             frameNum = 11;
+                        }
+
                         if (eePlayer.boatSpeed == 1)
+                        {
                             frameNum = 10;
+                        }
+
                         break;
                 }
             }
@@ -791,24 +844,41 @@ namespace EEMod
             for (int i = 0; i < eePlayer.objectPos.Count; i++)
             {
                 if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i != 7 && i != 8)
+                {
                     Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
+                }
+
                 if (i == 1)
+                {
                     Lighting.AddLight(eePlayer.objectPos[i], .15f, .15f, .15f);
+                }
+
                 if (i == 2)
+                {
                     Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
+                }
+
                 if (i == 4)
+                {
                     Lighting.AddLight(eePlayer.objectPos[i], .15f, .15f, .15f);
+                }
+
                 if (i == 7)
+                {
                     Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
+                }
+
                 if (i == 0)
+                {
                     Lighting.AddLight(eePlayer.objectPos[i], .4f, .4f, .4f);
+                }
             }
             //Lighting.AddLight(eePlayer.objectPos[1], 0.9f, 0.9f, 0.9f);
 
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             float quotient = ShipHelth / ShipHelthMax;
-            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)((texture3.Height / 8) * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8), Color.White, 0, new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8).Size() / 2, 1, SpriteEffects.None, 0);
             for (int i = 0; i < Main.ActivePlayersCount; i++)
             {
                 if (i == 0)

@@ -40,18 +40,21 @@ namespace EEMod
 
                 velocities = useOldPos ? proj.oldPos : new Vector2[] { codable.velocity };
             }
-            else return;
+            else
+            {
+                return;
+            }
 
             float offsetY2 = (codable as NPC)?.gfxOffY ?? 0f; //codable is NPC npcd ? npcd.gfxOffY : 0f;
 
             DrawAfterimage(sb, texture, shader, codable.position + new Vector2(0f, offsetY2), codable.width, codable.height, velocities, scale, rotation, spriteDirection, frameCount, frame, distanceScalar, sizeScalar, imageCount, useOldPos, offsetX, offsetY, overrideColor);
         }
 
-        public static void DrawAfterimage(object sb, Texture2D texture, int shader, Vector2 position, int width, int height, Vector2[] oldPoints, float scale = 1f, float rotation = 0f, int direction = 0, int framecount = 1, Rectangle frame = default(Rectangle), float distanceScalar = 1.0F, float sizeScalar = 1f, int imageCount = 7, bool useOldPos = true, float offsetX = 0f, float offsetY = 0f, Color? overrideColor = null)
+        public static void DrawAfterimage(object sb, Texture2D texture, int shader, Vector2 position, int width, int height, Vector2[] oldPoints, float scale = 1f, float rotation = 0f, int direction = 0, int framecount = 1, Rectangle frame = default, float distanceScalar = 1.0F, float sizeScalar = 1f, int imageCount = 7, bool useOldPos = true, float offsetX = 0f, float offsetY = 0f, Color? overrideColor = null)
         {
-            Vector2 origin = new Vector2((float)(texture.Width / 2), (float)(texture.Height / framecount / 2));
+            Vector2 origin = new Vector2(texture.Width / 2, texture.Height / framecount / 2);
             Color lightColor = overrideColor != null ? (Color)overrideColor : GetLightColor(position + new Vector2(width * 0.5f, height * 0.5f));
-            Vector2 velAddon = default(Vector2);
+            Vector2 velAddon = default;
             Vector2 originalpos = position;
             Vector2 offset = new Vector2(offsetX, offsetY);
             for (int m = 1; m <= imageCount; m++)
@@ -64,24 +67,24 @@ namespace EEMod
                 newLightColor.A = (byte)(newLightColor.A * (imageCount + 3 - m) / (imageCount + 9));
                 if (useOldPos)
                 {
-                    position = Vector2.Lerp(originalpos, (m - 1 >= oldPoints.Length ? oldPoints[oldPoints.Length - 1] : oldPoints[m - 1]), distanceScalar);
+                    position = Vector2.Lerp(originalpos, m - 1 >= oldPoints.Length ? oldPoints[oldPoints.Length - 1] : oldPoints[m - 1], distanceScalar);
                     DrawTexture(sb, texture, shader, position + offset, width, height, scale, rotation, direction, framecount, frame, newLightColor);
                 }
                 else
                 {
-                    Vector2 velocity = (m - 1 >= oldPoints.Length ? oldPoints[oldPoints.Length - 1] : oldPoints[m - 1]);
+                    Vector2 velocity = m - 1 >= oldPoints.Length ? oldPoints[oldPoints.Length - 1] : oldPoints[m - 1];
                     velAddon += velocity * distanceScalar;
                     DrawTexture(sb, texture, shader, position + offset - velAddon, width, height, scale, rotation, direction, framecount, frame, newLightColor);
                 }
             }
         }
 
-        public static void DrawTexture(object sb, Texture2D texture, int shader, Entity codable, Color? overrideColor = null, bool drawCentered = false, Vector2 overrideOrigin = default(Vector2))
+        public static void DrawTexture(object sb, Texture2D texture, int shader, Entity codable, Color? overrideColor = null, bool drawCentered = false, Vector2 overrideOrigin = default)
         {
             DrawTexture(sb, texture, shader, codable, 1, overrideColor, drawCentered, overrideOrigin);
         }
 
-        public static void DrawTexture(object sb, Texture2D texture, int shader, Entity codable, int framecountX, Color? overrideColor = null, bool drawCentered = false, Vector2 overrideOrigin = default(Vector2))
+        public static void DrawTexture(object sb, Texture2D texture, int shader, Entity codable, int framecountX, Color? overrideColor = null, bool drawCentered = false, Vector2 overrideOrigin = default)
         {
             Color lightColor;
             int frameCount;
@@ -121,19 +124,22 @@ namespace EEMod
                 spriteDirection = proj.spriteDirection;
                 offsetY = 0f;
             }
-            else return;
+            else
+            {
+                return;
+            }
 
             DrawTexture(sb, texture, shader, codable.position + new Vector2(0f, offsetY), codable.width, codable.height, scale, rotation, spriteDirection, frameCount, framecountX, frame, lightColor, drawCentered, overrideOrigin);
         }
 
-        public static void DrawTexture(object sb, Texture2D texture, int shader, Vector2 position, int width, int height, float scale, float rotation, int direction, int framecount, Rectangle frame, Color? overrideColor = null, bool drawCentered = false, Vector2 overrideOrigin = default(Vector2))
+        public static void DrawTexture(object sb, Texture2D texture, int shader, Vector2 position, int width, int height, float scale, float rotation, int direction, int framecount, Rectangle frame, Color? overrideColor = null, bool drawCentered = false, Vector2 overrideOrigin = default)
         {
             DrawTexture(sb, texture, shader, position, width, height, scale, rotation, direction, framecount, 1, frame, overrideColor, drawCentered, overrideOrigin);
         }
 
         public static Color GetNPCColor(NPC npc, Vector2? position = null, bool effects = true, float shadowOverride = 0f)
         {
-            return npc.GetAlpha(BuffEffects(npc, GetLightColor(position != null ? (Vector2)position : npc.Center), (shadowOverride != 0f ? shadowOverride : 0f), effects, npc.poisoned, npc.onFire, npc.onFire2, Main.LocalPlayer.detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor, npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky));
+            return npc.GetAlpha(BuffEffects(npc, GetLightColor(position != null ? (Vector2)position : npc.Center), shadowOverride != 0f ? shadowOverride : 0f, effects, npc.poisoned, npc.onFire, npc.onFire2, Main.LocalPlayer.detectCreature, false, false, false, npc.venom, npc.midas, npc.ichor, npc.onFrostBurn, false, false, npc.dripping, npc.drippingSlime, npc.loveStruck, npc.stinky));
         }
 
         public static Color GetLightColor(Vector2 position)
@@ -146,10 +152,10 @@ namespace EEMod
             float cr = 1f; float cg = 1f; float cb = 1f; float ca = 1f;
             if (effects && honey && Main.rand.NextBool(30))
             {
-                int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 152, 0f, 0f, 150, default(Color), 1f);
+                int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 152, 0f, 0f, 150, default, 1f);
                 Main.dust[dustID].velocity.Y = 0.3f;
                 Main.dust[dustID].velocity.X *= 0.1f;
-                Main.dust[dustID].scale += (float)Main.rand.Next(3, 4) * 0.1f;
+                Main.dust[dustID].scale += Main.rand.Next(3, 4) * 0.1f;
                 Main.dust[dustID].alpha = 100;
                 Main.dust[dustID].noGravity = true;
                 Main.dust[dustID].velocity += codable.velocity * 0.1f;
@@ -162,7 +168,7 @@ namespace EEMod
             {
                 if (effects && Main.rand.NextBool(30))
                 {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 46, 0f, 0f, 120, default(Color), 0.2f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 46, 0f, 0f, 120, default, 0.2f);
                     Main.dust[dustID].noGravity = true;
                     Main.dust[dustID].fadeIn = 1.9f;
                     if (codable is Player)
@@ -177,7 +183,7 @@ namespace EEMod
             {
                 if (effects && Main.rand.NextBool(10))
                 {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 171, 0f, 0f, 100, default(Color), 0.5f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 171, 0f, 0f, 100, default, 0.5f);
                     Main.dust[dustID].noGravity = true;
                     Main.dust[dustID].fadeIn = 1.5f;
                     if (codable is Player)
@@ -201,7 +207,7 @@ namespace EEMod
             {
                 if (effects)
                 {
-                    int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default(Color), 2f);
+                    int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 2f);
                     Main.dust[dustID].noGravity = true;
                     Main.dust[dustID].velocity *= 1.8f;
                     Main.dust[dustID].velocity.Y -= 0.75f;
@@ -223,7 +229,7 @@ namespace EEMod
                 {
                     if (Main.rand.Next(4) < 3)
                     {
-                        int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 135, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default(Color), 3.5f);
+                        int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 135, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
                         Main.dust[dustID].noGravity = true;
                         Main.dust[dustID].velocity *= 1.8f;
                         Main.dust[dustID].velocity.Y -= 0.5f;
@@ -251,7 +257,7 @@ namespace EEMod
                 {
                     if (Main.rand.Next(4) != 0)
                     {
-                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default(Color), 3.5f);
+                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
                         Main.dust[dustID].noGravity = true;
                         Main.dust[dustID].velocity *= 1.8f;
                         Main.dust[dustID].velocity.Y -= 0.5f;
@@ -279,7 +285,7 @@ namespace EEMod
                 position.X -= 2f; position.Y -= 2f;
                 if (Main.rand.NextBool(2))
                 {
-                    int dustID = Dust.NewDust(position, codable.width + 4, codable.height + 2, 211, 0f, 0f, 50, default(Color), 0.8f);
+                    int dustID = Dust.NewDust(position, codable.width + 4, codable.height + 2, 211, 0f, 0f, 50, default, 0.8f);
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[dustID].alpha += 25;
@@ -301,7 +307,7 @@ namespace EEMod
                 }
                 else
                 {
-                    int dustID = Dust.NewDust(position, codable.width + 8, codable.height + 8, 211, 0f, 0f, 50, default(Color), 1.1f);
+                    int dustID = Dust.NewDust(position, codable.width + 8, codable.height + 8, 211, 0f, 0f, 50, default, 1.1f);
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[dustID].alpha += 25;
@@ -363,7 +369,7 @@ namespace EEMod
                 {
                     if (Main.rand.Next(4) != 0)
                     {
-                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 75, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default(Color), 3.5f);
+                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 75, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
                         Main.dust[dustID].noGravity = true;
                         Main.dust[dustID].velocity *= 1.8f;
                         Main.dust[dustID].velocity.Y -= 0.5f;
@@ -397,10 +403,10 @@ namespace EEMod
             }
             if (bleed)
             {
-                bool dead = (codable is Player ? ((Player)codable).dead : codable is NPC ? ((NPC)codable).life <= 0 : false);
+                bool dead = codable is Player ? ((Player)codable).dead : codable is NPC && ((NPC)codable).life <= 0;
                 if (effects && !dead && Main.rand.NextBool(30))
                 {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 5, 0f, 0f, 0, default(Color), 1f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 5, 0f, 0f, 0, default, 1f);
                     Main.dust[dustID].velocity.Y += 0.5f;
                     Main.dust[dustID].velocity *= 0.25f;
                     if (codable is Player)
@@ -413,10 +419,10 @@ namespace EEMod
             }
             if (loveStruck && effects && shadow == 0f && Main.instance.IsActive && !Main.gamePaused && Main.rand.NextBool(5))
             {
-                Vector2 value = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
+                Vector2 value = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
                 value.Normalize();
                 value.X *= 0.66f;
-                int goreID = Gore.NewGore(codable.position + new Vector2((float)Main.rand.Next(codable.width + 1), (float)Main.rand.Next(codable.height + 1)), value * (float)Main.rand.Next(3, 6) * 0.33f, 331, (float)Main.rand.Next(40, 121) * 0.01f);
+                int goreID = Gore.NewGore(codable.position + new Vector2(Main.rand.Next(codable.width + 1), Main.rand.Next(codable.height + 1)), value * Main.rand.Next(3, 6) * 0.33f, 331, Main.rand.Next(40, 121) * 0.01f);
                 Main.gore[goreID].sticky = false;
                 Main.gore[goreID].velocity *= 0.4f;
                 Main.gore[goreID].velocity.Y -= 0.6f;
@@ -431,10 +437,10 @@ namespace EEMod
                 cb *= 0.55f;
                 if (effects && Main.rand.NextBool(5) && Main.instance.IsActive && !Main.gamePaused)
                 {
-                    Vector2 value2 = new Vector2((float)Main.rand.Next(-10, 11), (float)Main.rand.Next(-10, 11));
+                    Vector2 value2 = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
                     value2.Normalize(); value2.X *= 0.66f; value2.Y = Math.Abs(value2.Y);
-                    Vector2 vector = value2 * (float)Main.rand.Next(3, 5) * 0.25f;
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 188, vector.X, vector.Y * 0.5f, 100, default(Color), 1.5f);
+                    Vector2 vector = value2 * Main.rand.Next(3, 5) * 0.25f;
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 188, vector.X, vector.Y * 0.5f, 100, default, 1.5f);
                     Main.dust[dustID].velocity *= 0.1f;
                     Main.dust[dustID].velocity.Y -= 0.5f;
                     if (codable is Player)
@@ -443,20 +449,20 @@ namespace EEMod
                     }
                 }
             }
-            lightColor.R = (byte)((float)lightColor.R * cr);
-            lightColor.G = (byte)((float)lightColor.G * cg);
-            lightColor.B = (byte)((float)lightColor.B * cb);
-            lightColor.A = (byte)((float)lightColor.A * ca);
+            lightColor.R = (byte)(lightColor.R * cr);
+            lightColor.G = (byte)(lightColor.G * cg);
+            lightColor.B = (byte)(lightColor.B * cb);
+            lightColor.A = (byte)(lightColor.A * ca);
             if (codable is NPC)
             {
                 NPCLoader.DrawEffects((NPC)codable, ref lightColor);
             }
 
-            if (hunter && (codable is NPC ? ((NPC)codable).lifeMax > 1 : true))
+            if (hunter && (!(codable is NPC) || ((NPC)codable).lifeMax > 1))
             {
                 if (effects && !Main.gamePaused && Main.instance.IsActive && Main.rand.NextBool(50))
                 {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 15, 0f, 0f, 150, default(Color), 0.8f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 15, 0f, 0f, 150, default, 0.8f);
                     Main.dust[dustID].velocity *= 0.1f;
                     Main.dust[dustID].noLight = true;
                     if (codable is Player)
@@ -477,14 +483,16 @@ namespace EEMod
             return lightColor;
         }
 
-        public static void DrawTexture(object sb, Texture2D texture, int shader, Vector2 position, int width, int height, float scale, float rotation, int direction, int framecount, int framecountX, Rectangle frame, Color? overrideColor = null, bool drawCentered = false, Vector2 overrideOrigin = default(Vector2))
+        public static void DrawTexture(object sb, Texture2D texture, int shader, Vector2 position, int width, int height, float scale, float rotation, int direction, int framecount, int framecountX, Rectangle frame, Color? overrideColor = null, bool drawCentered = false, Vector2 overrideOrigin = default)
         {
-            Vector2 origin = overrideOrigin != default(Vector2) ? overrideOrigin : new Vector2(frame.Width / framecountX / 2, texture.Height / framecount / 2);
+            Vector2 origin = overrideOrigin != default ? overrideOrigin : new Vector2(frame.Width / framecountX / 2, texture.Height / framecount / 2);
             Color lightColor = overrideColor != null ? (Color)overrideColor : GetLightColor(position + new Vector2(width * 0.5f, height * 0.5f));
             if (sb is List<DrawData> drawdatalist)
             {
-                DrawData dd = new DrawData(texture, GetDrawPosition(position, origin, width, height, texture.Width, texture.Height, frame, framecount, framecountX, scale, drawCentered), frame, lightColor, rotation, origin, scale, direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
-                dd.shader = shader;
+                DrawData dd = new DrawData(texture, GetDrawPosition(position, origin, width, height, texture.Width, texture.Height, frame, framecount, framecountX, scale, drawCentered), frame, lightColor, rotation, origin, scale, direction == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0)
+                {
+                    shader = shader
+                };
                 drawdatalist.Add(dd);
             }
             else if (sb is SpriteBatch spriteBatch)

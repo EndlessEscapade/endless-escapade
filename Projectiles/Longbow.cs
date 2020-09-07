@@ -14,12 +14,12 @@ namespace EEMod.Projectiles
         public virtual int newProj => ModContent.ProjectileType<CoralArrowProjectileLongbow>();
         public virtual float minGrav => 2;
         public virtual float ropeThickness => 32f;
-        protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);
+        protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         protected Player projOwner => Main.player[projectile.owner];
 
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
-        private float Max = 100;
+        private readonly float Max = 100;
         private bool vanillaFlag;
 
         public override void AI()
@@ -34,7 +34,7 @@ namespace EEMod.Projectiles
             if (!projOwner.controlUseItem)
             {
                 projectile.Kill();
-                Projectile.NewProjectile(projOwner.Center, ((Main.MouseWorld - projOwner.Center) / Max) * speed, newProj, 10, 10f, Main.myPlayer, (gravAccel / Max) * 2 * speed * speed, projectile.ai[1]);
+                Projectile.NewProjectile(projOwner.Center, (Main.MouseWorld - projOwner.Center) / Max * speed, newProj, 10, 10f, Main.myPlayer, gravAccel / Max * 2 * speed * speed, projectile.ai[1]);
             }
             if (Math.Abs(gravAccel - minGrav) < 0.3f && !vanillaFlag)
             {
@@ -69,10 +69,13 @@ namespace EEMod.Projectiles
             {
                 float diff = 1 - (Math.Abs(i - yeet) / 50f);
                 if (diff < 0)
+                {
                     diff = 0;
+                }
+
                 grav += gravAccel;
                 Vector2 intendedPath = projOwner.Center + (Main.MouseWorld - projOwner.Center + new Vector2(0, grav)) * (i / Max);
-                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * (diff), 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * diff, 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
             }
             return true;
         }

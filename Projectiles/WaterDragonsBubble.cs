@@ -41,7 +41,9 @@ namespace EEMod.Projectiles
         public override void AI()
         {
             if (projectile.velocity.Y <= 2)
+            {
                 projectile.velocity.Y *= 1.02f;
+            }
 
             projectile.rotation = projectile.velocity.Y / 20f;
             projectile.ai[0]++;

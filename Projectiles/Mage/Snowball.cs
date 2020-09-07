@@ -24,8 +24,6 @@ namespace EEMod.Projectiles.Mage
             projectile.timeLeft = 120;
         }
 
-        private float Timer { get => projectile.ai[0]; set => projectile.ai[0] = value; }
-
         public override void AI()
         {
             if (Main.rand.NextBool(3))

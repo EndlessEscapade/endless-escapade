@@ -28,38 +28,7 @@ namespace EEMod.Projectiles.Melee
             projectile.timeLeft = 1000000000;
         }
 
-        private Vector2 GoTo;
-
-        private NPC HomeOnTarget()
-        {
-            const bool homingCanAimAtWetEnemies = true;
-            const float homingMaximumRangeInPixels = 2000;
-
-            int selectedTarget = -1;
-            for (int i = 0; i < Main.maxNPCs - 1; i++)
-            {
-                NPC target = Main.npc[i];
-                if (target.active && (!target.wet || homingCanAimAtWetEnemies) && target.type != NPCID.TargetDummy)
-                {
-                    float distance = projectile.Distance(target.Center);
-                    if (distance <= homingMaximumRangeInPixels &&
-                        (
-                            selectedTarget == -1 || //there is no selected target
-                            projectile.Distance(Main.npc[selectedTarget].Center) > distance)
-                    )
-                        selectedTarget = i;
-                }
-            }
-            //projectile.velocity.X *= 1.032f;
-            //projectile.velocity.Y *= 1.032f;
-            if (selectedTarget == -1)
-                return null;
-            return Main.npc[selectedTarget];
-        }
-
-        private NPC npc;
-        private int[] WTRPosition = Helpers.FillPseudoRandomUniform(4);
-        private int dist = 300;
+        private readonly int[] WTRPosition = Helpers.FillPseudoRandomUniform(4);
         public int[] projectileIndex = { -1, -1, -1, -1 };
 
         public override void AI()

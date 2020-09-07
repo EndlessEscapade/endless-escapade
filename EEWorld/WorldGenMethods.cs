@@ -55,7 +55,10 @@ namespace EEMod.EEWorld
                 LightStates = tag.GetByteArray("LightStates");
             }
             var downed = new List<string>();
-            if (eocFlag) downed.Add("eocFlag");
+            if (eocFlag)
+            {
+                downed.Add("eocFlag");
+            }
 
             IList<string> flags = tag.GetList<string>("boolFlags");
 
@@ -192,7 +195,7 @@ namespace EEMod.EEWorld
             float[] PerlinStrip = new float[width];
             for (int i = 0; i < width; i++)
             {
-                PerlinStrip[i] = PNF.Perlin2[i, rand] * amplitude;
+                PerlinStrip[i] = PNF.perlin2[i, rand] * amplitude;
             }
             return PerlinStrip;
         }
@@ -204,7 +207,7 @@ namespace EEMod.EEWorld
             float[] PerlinStrip = new float[width];
             for (int i = 0; i < width; i++)
             {
-                PerlinStrip[i] = PNF.Perlin[i, rand] * amplitude;
+                PerlinStrip[i] = PNF.perlin[i, rand] * amplitude;
             }
             return PerlinStrip;
         }
@@ -290,7 +293,9 @@ namespace EEMod.EEWorld
                     if (withPillars)
                     {
                         if (i % 10 == 0)
+                        {
                             MakePillarWalls(new Vector2(i + (int)startingPoint.X, +(int)startingPoint.Y + (int)(i * gradient) - 1), 11);
+                        }
                         //WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y + +(int)Math.Round(i * gradient), WallID.SandstoneBrick);
                     }
                 }
@@ -320,9 +325,13 @@ namespace EEMod.EEWorld
                 if (firstRoomDoorPos.X - firstRoomSize.X / 2 - (int)(secondRoomDoorPos.X + secondRoomSize.X / 2) <= 4)
                 {
                     if (secondRoomDoorPos.Y < firstRoomDoorPos.Y)
+                    {
                         Hole((int)(firstRoomDoorPos.Y - secondRoomDoorPos.Y), 5, new Vector2(firstRoomDoorPos.X - firstRoomSize.X / 2, secondRoomDoorPos.Y));
+                    }
                     else
+                    {
                         Hole((int)(secondRoomDoorPos.Y - firstRoomDoorPos.Y), 5, new Vector2(secondRoomDoorPos.X - secondRoomSize.X / 2, firstRoomDoorPos.Y));
+                    }
                 }
             }
             else
@@ -332,9 +341,13 @@ namespace EEMod.EEWorld
                 if (secondRoomDoorPos.X - secondRoomSize.X / 2 - (int)(firstRoomDoorPos.X + firstRoomSize.X / 2) <= 4)
                 {
                     if (secondRoomDoorPos.Y < firstRoomDoorPos.Y)
+                    {
                         Hole((int)(firstRoomDoorPos.Y - secondRoomDoorPos.Y), 5, new Vector2(firstRoomDoorPos.X + firstRoomSize.X / 2, secondRoomDoorPos.Y));
+                    }
                     else
+                    {
                         Hole((int)(secondRoomDoorPos.Y - firstRoomDoorPos.Y), 5, new Vector2(secondRoomDoorPos.X + secondRoomSize.X / 2, firstRoomDoorPos.Y));
+                    }
                 }
             }
         }
@@ -459,7 +472,10 @@ namespace EEMod.EEWorld
                         {
                             case 0:
                                 if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                                {
                                     NetMessage.sendWater(k, l);
+                                }
+
                                 break;
 
                             case 1:
@@ -2064,7 +2080,9 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                    {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    }
 
                     if (i == width / 2 && j == height / 2)
                     {
@@ -2093,7 +2111,10 @@ namespace EEMod.EEWorld
                         Tile tile = Framing.GetTileSafely(k, l);
                         tile.type = (ushort)blocks[shape[y, x]];
                         if (paints[blocks[shape[y, x]]] != default)
+                        {
                             tile.color((byte)paints[blocks[shape[y, x]]]);
+                        }
+
                         tile.active(true);
                     }
                 }
@@ -2111,7 +2132,9 @@ namespace EEMod.EEWorld
                             Tile tile = Framing.GetTileSafely(k, l);
                             tile.wall = (ushort)walls[wallShape[y, x]];
                             if (wallPaints[walls[wallShape[y, x]]] != default)
+                            {
                                 tile.color((byte)wallPaints[walls[wallShape[y, x]]]);
+                            }
                         }
                     }
                 }
@@ -2127,7 +2150,9 @@ namespace EEMod.EEWorld
                 Main.tile[(int)startingPos.X - 1, (int)startingPos.Y - 4].liquid = 255;
                 WorldGen.SquareTileFrame((int)startingPos.X - 1, (int)startingPos.Y - 3, true); // soemthing for astatic voiding the liquid from being static
                 if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                {
                     NetMessage.sendWater((int)startingPos.X - 1, (int)startingPos.Y - 3);
+                }
             }
             if (fire)
             {
@@ -2372,7 +2397,9 @@ namespace EEMod.EEWorld
             {
                 fireRoom = WorldGen.genRand.Next(2, noOfRooms - 2);
                 if (fireRoom != waterBoltRoom)
+                {
                     break;
+                }
             }
             float startingX = startX;
             float startingY = startY;
@@ -2445,9 +2472,14 @@ namespace EEMod.EEWorld
                     if (isRoom[i] && isRoom[i - 1])
                     {
                         if (j == 0)
+                        {
                             MakePathWay(Rooms[i], Rooms[i - 1], RoomSizes[i], RoomSizes[i - 1], 9, false);
+                        }
+
                         if (j == 1)
+                        {
                             MakePathWay(Rooms[i], Rooms[i - 1], RoomSizes[i], RoomSizes[i - 1], 9, true);
+                        }
                     }
                 }
             }
@@ -2461,7 +2493,9 @@ namespace EEMod.EEWorld
             for (int i = 0; i < noOfRooms - 1; i++)
             {
                 if (WorldGen.genRand.Next(3) == 0 && i != waterBoltRoom && i != fireRoom)
+                {
                     MakePillar(Rooms[i], (int)RoomSizes[i].Y / 2, false, false);
+                }
 
                 if (i == waterBoltRoom && i != fireRoom)
                 {
@@ -2486,14 +2520,20 @@ namespace EEMod.EEWorld
                     FillRegionDiag(slit2, slit2, Rooms[i] - new Vector2(-RoomSizes[i].X / 2, RoomSizes[i].Y / 2), TileID.SandstoneBrick, 1);
                 }
                 if (i != waterBoltRoom)
+                {
                     MakeGoldPile(new Vector2((int)Rooms[i].X + WorldGen.genRand.Next(-(int)RoomSizes[i].X / 2, (int)RoomSizes[i].X / 2), (int)Rooms[i].Y + (int)RoomSizes[i].Y / 2), WorldGen.genRand.Next(2));
+                }
+
                 MakeShelf(new Vector2(Rooms[i].X - RoomSizes[i].X / 2, Rooms[i].Y - WorldGen.genRand.Next((int)RoomSizes[i].Y / 2)), 0, Main.rand.Next(2, 6));
                 MakeShelf(new Vector2(Rooms[i].X + RoomSizes[i].X / 2, Rooms[i].Y - WorldGen.genRand.Next((int)RoomSizes[i].Y / 2)), 1, Main.rand.Next(2, 6));
                 //WorldGen.PlaceObject((int)Rooms[i].X + WorldGen.genRand.Next(-(int)RoomSizes[i].X / 2, (int)RoomSizes[i].X / 2), (int)Rooms[i].Y + (int)RoomSizes[i].Y / 2, TileID.Bathtubs, false, 26);
                 if (i != waterBoltRoom && i != fireRoom)
                 {
                     if (WorldGen.genRand.Next(1) == 0)
+                    {
                         WorldGen.PlaceObject((int)Rooms[i].X + WorldGen.genRand.Next(-(int)RoomSizes[i].X / 2, (int)RoomSizes[i].X / 2), (int)Rooms[i].Y - (int)RoomSizes[i].Y / 2, TileID.Chandeliers, false, 2);
+                    }
+
                     WorldGen.PlaceObject((int)Rooms[i].X + WorldGen.genRand.Next(-(int)RoomSizes[i].X / 2, (int)RoomSizes[i].X / 2), (int)Rooms[i].Y + (int)RoomSizes[i].Y / 2, TileID.Beds, false, 10);
                     WorldGen.PlaceObject(tablePos, (int)Rooms[i].Y + (int)RoomSizes[i].Y / 2, TileID.Tables, false, 18);
                     WorldGen.PlaceObject(tablePos + 2, (int)Rooms[i].Y + (int)RoomSizes[i].Y / 2, TileID.Chairs, false, 19);
@@ -2549,7 +2589,9 @@ namespace EEMod.EEWorld
                     Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid = 255; // set liquid ammount
                     WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
                     if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                    {
                         NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    }
                 }
             }
         }
@@ -2566,7 +2608,9 @@ namespace EEMod.EEWorld
                         Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid = 255; // set liquid ammount
                         WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                        {
                             NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                        }
                     }
                 }
             }
@@ -2631,7 +2675,9 @@ namespace EEMod.EEWorld
                     {
                         Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].ClearEverything();
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                        {
                             NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                        }
                     }
                 }
             }
@@ -2710,7 +2756,9 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                    {
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                    }
 
                     if (i == width / 2 && j == height / 2)
                     {
@@ -2722,12 +2770,17 @@ namespace EEMod.EEWorld
             for (int i = 0; i < width; i++)
             {
                 if (Main.rand.NextBool(2))
+                {
                     steps += Main.rand.Next(-1, 2);
+                }
+
                 for (int j = -6; j < height / 2 - 2 + steps; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     if (tile.type == type)
+                    {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    }
                 }
             }
         }
@@ -2738,23 +2791,33 @@ namespace EEMod.EEWorld
             for (int i = 0; i < width; i++)
             {
                 if (Main.rand.NextBool(2))
+                {
                     steps += Main.rand.Next(-1, 2);
+                }
+
                 for (int j = 0; j < height; j++)
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2) + steps, i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                    {
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                    }
                 }
             }
             int steps2 = 0;
             for (int i = 0; i < width; i++)
             {
                 if (Main.rand.NextBool(2))
+                {
                     steps2 += Main.rand.Next(-1, 2);
+                }
+
                 for (int j = height / 2 - 2 + steps2; j < height + 12 + steps2; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     if (tile.type == type)
+                    {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    }
                 }
             }
         }
@@ -2768,7 +2831,9 @@ namespace EEMod.EEWorld
                     if (j > height / 2)
                     {
                         if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                        {
                             WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                        }
                     }
                     if (i == width / 2 && j == height / 2)
                     {
@@ -2785,7 +2850,9 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                    {
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
+                    }
 
                     if (i == width / 2 && j == height / 2)
                     {
@@ -2803,7 +2870,9 @@ namespace EEMod.EEWorld
                 {
                     float f = size * 0.5f;
                     if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
+                    {
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
+                    }
                 }
             }
         }
@@ -2815,7 +2884,9 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                    {
                         WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
+                    }
 
                     if (i == width / 2 && j == height / 2)
                     {
@@ -2833,7 +2904,9 @@ namespace EEMod.EEWorld
                 int x = WorldGen.genRand.Next(xPos - (size * 2), xPos + (size * 2));
                 int y = WorldGen.genRand.Next(yPos - (size * 2), yPos + (size * 2));
                 if (OvalCheck(xPos, yPos, x, y, size * 2, size))
+                {
                     WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+                }
             }
             for (int i = 0; i < Main.maxTilesX; i++)
             {
@@ -2841,7 +2914,9 @@ namespace EEMod.EEWorld
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (tile.type == TileID.StoneSlab)
+                    {
                         WorldGen.KillTile(i, j);
+                    }
                 }
             }
         }
@@ -2854,7 +2929,9 @@ namespace EEMod.EEWorld
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (tile.type == TileID.StoneSlab)
+                    {
                         WorldGen.KillTile(i, j);
+                    }
                 }
             }
         }
@@ -2867,7 +2944,10 @@ namespace EEMod.EEWorld
             {
                 Tile tile = Framing.GetTileSafely((int)startingPoint.X, (int)startingPoint.Y - i);
                 if (!tile.active())
+                {
                     tile.type = (ushort)ModContent.TileType<KelpTile>();
+                }
+
                 tile.active(true);
             }
         }
@@ -2877,7 +2957,7 @@ namespace EEMod.EEWorld
         public static void NoiseGen(Vector2 topLeft, Vector2 size, Vector2 dimensions, float thresh, ushort type, NoiseConditions noiseFilter = null)
         {
             perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
-            int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
             for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
             {
                 for (int j = (int)topLeft.Y; j < (int)topLeft.Y + (int)size.Y; j++)
@@ -2894,7 +2974,7 @@ namespace EEMod.EEWorld
         public static void NoiseGenWave(Vector2 topLeft, Vector2 size, Vector2 dimensions, ushort type, float thresh, NoiseConditions noiseFilter = null)
         {
             PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
-            int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
             float[] disp = PerlinArrayNoZero((int)size.X, size.Y * 0.5f, new Vector2(50, 100));
             for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
             {
@@ -2953,7 +3033,7 @@ namespace EEMod.EEWorld
             void CreateNoise(bool ensureN, int width, int height, float thresh)
             {
                 perlinNoise = new PerlinNoiseFunction(1000, 1000, width, height, thresh);
-                int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
+                int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
                 if (ensureN)
                 {
                     for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
@@ -2990,20 +3070,20 @@ namespace EEMod.EEWorld
             {
                 case -1:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), (yPos) + (0)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), (yPos) + (-sizeY / 5 - sizeY / 6)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), (yPos) + (-sizeY / 5 - sizeY / 6)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), (yPos) + (sizeY / 5 - sizeY / 6)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), (yPos) + (sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (sizeY / 5 - sizeY / 6)), tile2);
                     break;
 
                 case 0:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), (yPos) + (0)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), (yPos) + (-sizeY / 5)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), (yPos) + (-sizeY / 5)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), (yPos) + (sizeY / 5)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), (yPos) + (sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (-sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (-sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (sizeY / 5)), tile2);
                     CreateNoise(!ensureNoise, 100, 10, 0.45f);
                     break;
 
@@ -3029,7 +3109,10 @@ namespace EEMod.EEWorld
                 case 4:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     for (int i = 0; i < 20; i++)
+                    {
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
+                    }
+
                     break;
 
                 case 5:
@@ -3037,7 +3120,10 @@ namespace EEMod.EEWorld
                     MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
                     MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
                     for (int i = 0; i < 30; i++)
+                    {
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY * 2)), TileID.StoneSlab, true);
+                    }
+
                     break;
 
                 case 6:
@@ -3399,7 +3485,7 @@ namespace EEMod.EEWorld
             int topRight = (int)startingPoint.Y - height;
             if (hasChasm)
             {
-                MakeChasm((int)(startingPoint.X + width / 2), (int)(topRight + (height / (slope * 10))), height - 30, TileID.StoneSlab, 0, 10, 20);
+                MakeChasm((int)(startingPoint.X + width / 2), topRight + (height / (slope * 10)), height - 30, TileID.StoneSlab, 0, 10, 20);
 
                 for (int i = 0; i < Main.maxTilesX; i++)
                 {
@@ -3410,7 +3496,9 @@ namespace EEMod.EEWorld
                         {
                             WorldGen.KillTile(i, j);
                             if (wallType != 0)
+                            {
                                 tile.wall = (ushort)wallType;
+                            }
                         }
                     }
                 }
@@ -3455,23 +3543,6 @@ namespace EEMod.EEWorld
             }
         }
 
-        private static void FillRegion(int width, int height, Vector2 startingPoint, int type1, int type2)
-        {
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    int tileType;
-                    if (Main.rand.Next(100) < 95)
-                        tileType = type1;
-                    else
-                        tileType = type2;
-
-                    WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, tileType);
-                }
-            }
-        }
-
         public static void MakeChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon, int stepAddon)
         {
             for (int i = 0; i < height; i++)
@@ -3486,7 +3557,7 @@ namespace EEMod.EEWorld
             for (int i = 0; i < height; i++)
             {
                 // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
-                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
+                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
             }
         }
 
@@ -3495,7 +3566,7 @@ namespace EEMod.EEWorld
             for (int i = 0; i < height; i++)
             {
                 // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
-                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(10, 12), type, true, 0f, 0f, true, Override);
+                WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(10, 12), type, true, 0f, 0f, true, Override);
             }
         }
 
@@ -3568,7 +3639,7 @@ namespace EEMod.EEWorld
             double p = Math.Pow(x - midX, 2) / Math.Pow(sizeX, 2)
                     + Math.Pow(y - midY, 2) / Math.Pow(sizeY, 2);
 
-            return p < 1 ? true : false;
+            return p < 1;
         }
 
         public static void MakeAtlantis(Vector2 startingPoint, Vector2 size)
@@ -3622,7 +3693,7 @@ namespace EEMod.EEWorld
             Vector2 midpoint = (startingPoint + size) / 2;
             for (int i = 0; i < numberOfBuildingsInMidClass; i++)
             {
-                float randomPosMiddleClass = midpoint.X - sizeX + (i * ((sizeX * 2) / (numberOfBuildingsInMidClass - 1)));
+                float randomPosMiddleClass = midpoint.X - sizeX + (i * (sizeX * 2 / (numberOfBuildingsInMidClass - 1)));
                 float whereTheYShouldBe = yPos + sizeY - (float)(Math.Pow(randomPosMiddleClass - midpoint.X, 2) / (Math.Pow(sizeX, 2) / (float)sizeY));
                 Vector2 actualPlace = new Vector2(randomPosMiddleClass, whereTheYShouldBe);
                 islandPositions.Add(actualPlace);
@@ -3844,7 +3915,9 @@ namespace EEMod.EEWorld
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (tile.type == TileID.StoneSlab)
+                    {
                         WorldGen.KillTile(i, j);
+                    }
                 }
             }
             // MakeChasm(Main.maxTilesX / 2 - 120, (int)startingHeightOfUpperClass + 75, 70, ModContent.TileType<GemsandstoneTile>(), 0, 1,1);
@@ -3919,12 +3992,16 @@ namespace EEMod.EEWorld
                 if (layer == 1)
                 {
                     if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < size * size)
+                    {
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+                    }
                 }
                 if (layer == 2)
                 {
                     if (OvalCheck(X, midY, x, y, size * 3, size))
+                    {
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+                    }
                 }
             }
             RemoveStoneSlabs();
@@ -3946,7 +4023,9 @@ namespace EEMod.EEWorld
                   }
               }*/
             if (layer == 1)
+            {
                 WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(size / 3 - 10, size / 3 + 10), WorldGen.genRand.Next(5, 10), type, true, 1f, 1f, false, true);
+            }
         }
 
         public static void MakeLayerWithOutline(int X, int midY, int size, int layer, int type, int thickness)
@@ -3960,12 +4039,16 @@ namespace EEMod.EEWorld
                 if (layer == 1)
                 {
                     if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < size * size)
+                    {
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+                    }
                 }
                 if (layer == 2)
                 {
                     if (OvalCheck(X, midY, x, y, size * 3, size))
+                    {
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
+                    }
                 }
             }
 
@@ -3978,12 +4061,16 @@ namespace EEMod.EEWorld
                 {
                     int sizeSQ = size + thickness;
                     if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < sizeSQ * sizeSQ)
+                    {
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<GemsandTile>(), true, 0f, 0f, false, false);
+                    }
                 }
                 if (layer == 2)
                 {
-                    if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.active())
+                    if (OvalCheck(X, midY, x, y, (size * 3) + 10, size + 10) && tile.active())
+                    {
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<DarkGemsandTile>(), true, 1, 1, true, true);
+                    }
                 }
             }
             for (int i = 0; i < 800; i++)
@@ -3992,7 +4079,9 @@ namespace EEMod.EEWorld
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (tile.type == TileID.StoneSlab)
+                    {
                         WorldGen.KillTile(i, j);
+                    }
                 }
             }
             if (layer == 1)
@@ -4056,7 +4145,10 @@ namespace EEMod.EEWorld
                         if (shape[y, x, 0] != 0)
                         {
                             if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
+                            {
                                 ChestPos = new Vector2(y, x);
+                            }
+
                             if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
                             {
                                 tile.type = (ushort)shape[y, x, 0];
@@ -4078,11 +4170,11 @@ namespace EEMod.EEWorld
                         }
                         if ((byte)shape[y, x, 6] > 0)
                         {
-                            tile.liquid = ((byte)shape[y, x, 6]);
+                            tile.liquid = (byte)shape[y, x, 6];
                             tile.liquidType((byte)shape[y, x, 7]);
                         }
-                        tile.frameX = ((byte)shape[y, x, 8]);
-                        tile.frameY = ((byte)shape[y, x, 9]);
+                        tile.frameX = (byte)shape[y, x, 8];
+                        tile.frameY = (byte)shape[y, x, 9];
                     }
                 }
             }
@@ -4095,7 +4187,7 @@ namespace EEMod.EEWorld
         public static void Island(int islandWidth, int islandHeight, int posY)
         {
             MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, posY), ModContent.TileType<CoralSandTile>());
-            MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((int)((Main.maxTilesX / 2) - (Main.maxTilesX / 4)), TileCheck((int)(Main.maxTilesX / 2), ModContent.TileType<CoralSandTile>()) - 10), TileID.Dirt);
+            MakeOvalJaggedBottom((int)(islandWidth * 0.6), (int)(islandHeight * 0.6), new Vector2((Main.maxTilesX / 2) - (Main.maxTilesX / 4), TileCheck(Main.maxTilesX / 2, ModContent.TileType<CoralSandTile>()) - 10), TileID.Dirt);
             //KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
 
             for (int i = 0; i < Main.maxTilesX; i++)
@@ -4186,7 +4278,7 @@ namespace EEMod.EEWorld
 
             for (int k = 0; k < lengthL; k++)
             {
-                if (k == (int)(lengthL / 2))
+                if (k == lengthL / 2)
                 {
                     GenerateSubfloors(x, y, corriDiff);
                 }
@@ -4211,7 +4303,7 @@ namespace EEMod.EEWorld
 
             for (int k = 0; k < lengthR; k++)
             {
-                if (k == (int)(lengthL / 2))
+                if (k == lengthL / 2)
                 {
                     GenerateSubfloors(x, y, corriDiff);
                 }

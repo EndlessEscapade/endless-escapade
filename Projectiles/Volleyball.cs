@@ -40,13 +40,17 @@ namespace EEMod.Projectiles
         {
             Projectile projectile = modProj.projectile;
             if (projectile.velocity.X != oldVelocity.X)
+            {
                 projectile.velocity.X = -oldVelocity.X * bouncyness;
+            }
 
             if (projectile.velocity.Y != oldVelocity.Y)
+            {
                 projectile.velocity.Y = -oldVelocity.Y * bouncyness;
+            }
         }
 
-        private int frames = 11;
+        private readonly int frames = 11;
         private int frame;
         private float ree = 0;
 
@@ -94,7 +98,7 @@ namespace EEMod.Projectiles
         {
             Player chosenPlayer = Main.player[GetPlayer(projectile.Center)];
             Texture2D volleyArrow = TextureCache.VArrow;
-            Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, (volleyArrow.Height / frames) * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.Pi / 2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, volleyArrow.Height / frames * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.Pi / 2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
             return true;
         }
 

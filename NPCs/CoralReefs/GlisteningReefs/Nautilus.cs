@@ -54,27 +54,6 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             npc.noTileCollide = false;
         }
 
-        private void Move(Player player, float sped, float TR, Vector2 addOn)
-        {
-            Vector2 moveTo = player.Center + addOn;
-            float speed = sped;
-            Vector2 move = moveTo - npc.Center;
-            float magnitude = move.Length(); // (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
-            if (magnitude > speed)
-            {
-                move *= speed / magnitude;
-            }
-            float turnResistance = TR;
-
-            move = (npc.velocity * turnResistance + move) / (turnResistance + 1f);
-            magnitude = move.Length();
-            if (magnitude > speed)
-            {
-                move *= speed / magnitude;
-            }
-            npc.velocity = move;
-        }
-
         public override void AI()
         {
             npc.TargetClosest(true);
@@ -89,9 +68,14 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             if (npc.ai[0] % 450 == 0)
             {
                 if (npc.life < npc.lifeMax * 0.5f)
+                {
                     npc.ai[1] = Main.rand.Next(1, 3);
+                }
                 else
+                {
                     npc.ai[1] = 1;
+                }
+
                 npc.ai[0] = 0;
                 npc.netUpdate = true;
             }
@@ -109,7 +93,9 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                     {
                         Dust.NewDustPerfect(npc.Center, 113, Vector2.Zero + new Vector2((float)Math.Sin(npc.ai[0] / 10), (float)Math.Cos(npc.ai[0] / 10)));
                         if (npc.ai[0] < 215)
+                        {
                             Helpers.Move(npc, player, 60, 200, Vector2.Zero, true, -1);
+                        }
                     }
                 }
                 if (npc.ai[0] >= 400)
@@ -122,7 +108,10 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             {
                 float rotation = Main.rand.NextFloat((float)Math.PI * 2);
                 for (int i = 0; i < 3; i++)
+                {
                     Dust.NewDustPerfect(npc.Center + new Vector2(-(float)Math.Sin(npc.ai[0] / 30) * 100, 0).RotatedBy(rotation), 113, new Vector2((float)Math.Sin(rotation) * 0.4f, (float)Math.Cos(rotation) * 0.4f), 255 * (int)(npc.velocity.X / 10f));
+                }
+
                 if (npc.ai[0] % 10 == 0)
                 {
                     npc.life += 2;
@@ -139,7 +128,10 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[0] % 100 > 60 || npc.ai[1] == 1)
+            {
                 AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[npc.type], 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+            }
+
             return true;
         }
     }

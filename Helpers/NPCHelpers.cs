@@ -20,7 +20,9 @@ namespace EEMod
                 {
                     p = Main.player[i];
                     if (p.IsAlive())
+                    {
                         return true;
+                    }
                 }
                 return false;
             }
@@ -40,7 +42,9 @@ namespace EEMod
             {
                 NPC npc = Main.npc[i];
                 if (npc.active && npc.type == type)
+                {
                     return i;
+                }
             }
             return -1;
         }

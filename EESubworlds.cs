@@ -61,15 +61,15 @@ namespace EEMod
             {
                 //Placing initial blocks
                 EEMod.progressMessage = "Generating Upper layer base";
-                FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), new Vector2(0, 0), ModContent.TileType<LightGemsandTile>());
+                FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, 0), ModContent.TileType<LightGemsandTile>());
                 EEMod.progressMessage = "Generating Mid layer base";
-                FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), new Vector2(0, Main.maxTilesY / 3), ModContent.TileType<GemsandTile>());
+                FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3), ModContent.TileType<GemsandTile>());
                 EEMod.progressMessage = "Generating Lower layer base";
-                FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), new Vector2(0, (Main.maxTilesY / 3) * 2), ModContent.TileType<DarkGemsandTile>());
+                FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3 * 2), ModContent.TileType<DarkGemsandTile>());
                 EEMod.progressMessage = "Clearing Upper Region";
-                ClearRegion(Main.maxTilesX, (Main.maxTilesY / 10), Vector2.Zero);
+                ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
                 EEMod.progressMessage = "Generating Coral Sand";
-                FillRegionNoEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 20), new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
+                FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
                 int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
                 EEMod.progressMessage = "Finding Suitable Chasm Positions";
                 NoiseGenWave(new Vector2(300, 80), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
@@ -205,26 +205,44 @@ namespace EEMod
                 }
                 EEMod.progressMessage = "Making Wavy Chasms";
                 for (int i = 0; i < 2; i++)
+                {
                     MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
+                }
+
                 for (int i = 2; i < 4; i++)
+                {
                     MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
+                }
+
                 for (int i = 4; i < 6; i++)
+                {
                     MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
+                }
 
                 if (Main.rand.NextBool())
                 {
                     Vector2 highestRoom = new Vector2(0, 3000);
                     foreach (Vector2 legoYoda in roomsLeft)
+                    {
                         if (legoYoda.Y < highestRoom.Y)
+                        {
                             highestRoom = legoYoda;
+                        }
+                    }
+
                     MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + Main.rand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
                 }
                 else
                 {
                     Vector2 highestRoom = new Vector2(0, 3000);
                     foreach (Vector2 legoYoda in roomsRight)
+                    {
                         if (legoYoda.Y < highestRoom.Y)
+                        {
                             highestRoom = legoYoda;
+                        }
+                    }
+
                     MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + Main.rand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
                 }
 
@@ -255,8 +273,12 @@ namespace EEMod
                     {
                         Tile tile = Main.tile[i, j];
                         if (tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
+                        {
                             if (Main.rand.NextBool(2000))
+                            {
                                 WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydriteOreTile>());
+                            }
+                        }
                     }
                 }
 
@@ -269,9 +291,14 @@ namespace EEMod
                     if (!Main.tile[tileX, tileY].active())
                     {
                         if (Main.rand.NextBool())
+                        {
                             PlaceAnyBuilding(tileX, tileY, ReefRuins1);
+                        }
                         else
+                        {
                             PlaceAnyBuilding(tileX, tileY, ReefRuins2);
+                        }
+
                         mlem++;
                     }
                 }
@@ -516,7 +543,9 @@ namespace EEMod
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (tile.type == ModContent.TileType<GemsandTile>())
+                    {
                         WorldGen.KillTile(i, j);
+                    }
                 }
             }
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
@@ -572,7 +601,9 @@ namespace EEMod
                 for (int j = 0; j < Main.maxTilesY; j++)
                 {
                     if (Main.rand.NextBool(3000))
+                    {
                         MakeLavaPit(Main.rand.Next(20, 30), Main.rand.Next(7, 20), new Vector2(i, j), Main.rand.NextFloat(0.1f, 0.5f));
+                    }
                 }
             }
             MakeChasm(200, 10, 100, TileID.StoneSlab, 0, 10, 20);

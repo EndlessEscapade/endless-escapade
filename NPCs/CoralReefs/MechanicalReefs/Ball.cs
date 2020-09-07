@@ -40,8 +40,8 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 float x0, float x1, float x2, float x3)
         {
             return (float)(
-                x0 * Math.Pow((1 - t), 3) +
-                x1 * 3 * t * Math.Pow((1 - t), 2) +
+                x0 * Math.Pow(1 - t, 3) +
+                x1 * 3 * t * Math.Pow(1 - t, 2) +
                 x2 * 3 * Math.Pow(t, 2) * (1 - t) +
                 x3 * Math.Pow(t, 3)
             );
@@ -51,8 +51,8 @@ float x0, float x1, float x2, float x3)
             float y0, float y1, float y2, float y3)
         {
             return (float)(
-                 y0 * Math.Pow((1 - t), 3) +
-                 y1 * 3 * t * Math.Pow((1 - t), 2) +
+                 y0 * Math.Pow(1 - t, 3) +
+                 y1 * 3 * t * Math.Pow(1 - t, 2) +
                  y2 * 3 * Math.Pow(t, 2) * (1 - t) +
                  y3 * Math.Pow(t, 3)
              );
@@ -116,7 +116,7 @@ float x0, float x1, float x2, float x3)
             npc.ai[2] = npc.Center.X - (float)(Math.Cos(rad) * dist) - npc.width / 2;
             npc.ai[3] = npc.Center.Y - (float)(Math.Sin(rad) * dist) - npc.height / 2;
 
-            npc.ai[1] = ((float)Math.Cos(npc.ai[0] * (Math.PI / 180)) * 10);
+            npc.ai[1] = (float)Math.Cos(npc.ai[0] * (Math.PI / 180)) * 10;
 
             npc.velocity.Y = 2;
         }

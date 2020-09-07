@@ -26,10 +26,12 @@ namespace EEMod
         public static Texture2D HydroBeam_Beam;
         public static Texture2D HydroBeam_End;
         public static Texture2D Vine;
-        /*public static Texture2D GBeam_Beam;
-        public static Texture2D GBeam_End;
-        public static Texture2D Gallagar;*/
+
+        //public static Texture2D GBeam_Beam;
+        //public static Texture2D GBeam_End;
+        //public static Texture2D Gallagar;
         public static Texture2D Outline;
+
         public static Texture2D ShipHelth;
         public static Texture2D ShipMount;
         public static Texture2D DuneShamblerDig;
@@ -161,6 +163,7 @@ namespace EEMod
         public static void Load()
         {
             Mod mod = EEMod.instance;
+
             Seagulls = mod.GetTexture("Seagulls");
             OceanScreen = mod.GetTexture("OceanScreen");
             Bob1 = mod.GetTexture("Bob1");
@@ -192,9 +195,9 @@ namespace EEMod
             HydroBeam_Beam = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
             HydroBeam_End = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
             AHT = mod.GetTexture("AirHockeyTable");
-            /*GBeam_Beam = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_Beam");
-            GBeam_End = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_End");
-            Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");*/
+            //GBeam_Beam = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_Beam");
+            //GBeam_End = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_End");
+            //Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");
             Outline = mod.GetTexture("Outline");
             ShipHelth = mod.GetTexture("ShipHelthSheet");
             ShipMount = mod.GetTexture("ShipMount");
@@ -292,61 +295,62 @@ namespace EEMod
         private static void ReflInit(Func<string, Texture2D> textureGetter)
         {
             foreach (var field in typeof(TextureCache).GetFields(Helpers.FlagsStatic))
+            {
                 if (field.TryGetCustomAttribute(out TextureInitAttribute attribute))
+                {
                     field.SetValue(null, textureGetter(attribute.TexturePath));
+                }
+            }
         }
 
-        //[UnloadingMethod]
-        //public static void Unload() // they're claimed by the unloader
-        //{
-        //    TentacleChain = null;
-        //    Tentacle = null;
-        //    CoralLanternLampGlow = null;
-        //    Chain = null;
-        //    Empty = null;
-        //    EyeTileGlow = null;
-        //    Stagrel_Glow = null;
-        //    BleckScren = null;
-        //    DuneShambler = null;
-        //    GiantSquid = null;
-        //    Clam = null;
-        //    Hydros = null;
-        //    Seahorse = null;
-        //    HydroBeam_Beam = null;
-        //    HydroBeam_End = null;
-        //    GBeam_Beam = null;
-        //    GBeam_End = null;
-        //    Gallagar = null;
-        //    Outline = null;
-        //    ShipHelth = null;
-        //    ShipMount = null;
-        //    DuneShamblerDig = null;
-        //    DruidsVin_Beam = null;
-        //    DruidsVin_End = null;
-        //    CoralLanternTileGlow = null;
-        //    AkumoFeather = null;
-        //    Akumo = null;
-        //    Terraria_LogoTexture = null;
-        //    Terraria_Logo2Texture = null;
-        //    Terraria_SunTexture = null;
-        //    Terraria_Sun2Texture = null;
-        //    Terraria_Sun3Texture = null;
-        //    KrakenTentacles = null;
-        //    CoralReefsSurfaceClose = null;
-        //    KrakenGlowMask = null;
-        //    NotBleckScren = null;
-        //}
+        /*[UnloadingMethod]
+        public static void Unload() // they're claimed by the unloader
+        {
+            TentacleChain = null;
+            Tentacle = null;
+            CoralLanternLampGlow = null;
+            Chain = null;
+            Empty = null;
+            EyeTileGlow = null;
+            Stagrel_Glow = null;
+            BleckScren = null;
+            DuneShambler = null;
+            GiantSquid = null;
+            Clam = null;
+            Hydros = null;
+            Seahorse = null;
+            HydroBeam_Beam = null;
+            HydroBeam_End = null;
+            GBeam_Beam = null;
+            GBeam_End = null;
+            Gallagar = null;
+            Outline = null;
+            ShipHelth = null;
+            ShipMount = null;
+            DuneShamblerDig = null;
+            DruidsVin_Beam = null;
+            DruidsVin_End = null;
+            CoralLanternTileGlow = null;
+            AkumoFeather = null;
+            Akumo = null;
+            Terraria_LogoTexture = null;
+            Terraria_Logo2Texture = null;
+            Terraria_SunTexture = null;
+            Terraria_Sun2Texture = null;
+            Terraria_Sun3Texture = null;
+            KrakenTentacles = null;
+            CoralReefsSurfaceClose = null;
+            KrakenGlowMask = null;
+            NotBleckScren = null;
+        }*/
 
         [AttributeUsage(AttributeTargets.Field)]
         private class TextureInitAttribute : Attribute
         {
             public string TexturePath { get; private set; }
-            /**<param name="texturepath">Folders/TextureName</param>*/
 
-            public TextureInitAttribute(string texturepath)
-            {
-                TexturePath = texturepath;
-            }
+            /// <param name="texturePath">Folders/TextureName</param>
+            public TextureInitAttribute(string texturePath) => TexturePath = texturePath;
         }
     }
 }

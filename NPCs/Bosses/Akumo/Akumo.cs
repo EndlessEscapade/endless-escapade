@@ -15,7 +15,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         private float wingspeed
         {
             get => wingsPer;
-            set => wingsPer = (int)(Math.Round((1 / (float)value) * 10));
+            set => wingsPer = (int)Math.Round(1 / (float)value * 10);
         }
 
         public override void SetStaticDefaults()
@@ -114,7 +114,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         private bool isDashing = false;
         private bool isVortexing = false;
         private bool isCircling = false;
-        private bool isFeathering = false;
+        private bool isFeathing = false;
         private readonly int nextAttackTime = 240;
         private readonly int spawnOffset = 1000;
         private int lengthOfAttack = 120;
@@ -128,14 +128,24 @@ namespace EEMod.NPCs.Bosses.Akumo
         public override void AI()
         {
             if (npc.ai[2] == 0 || npc.ai[2] == 2)
+            {
                 lengthOfAttack = lengthOfAttack1;
+            }
             else if (npc.ai[2] == 3)
+            {
                 lengthOfAttack = lengthOfAttack3;
+            }
             else
+            {
                 lengthOfAttack = lengthOfAttack2;
+            }
+
             npc.TargetClosest(true);
             if (scree)
+            {
                 Scree();
+            }
+
             Player player = Main.player[npc.target];
             if (npc.ai[0] == 0)
             {
@@ -143,9 +153,14 @@ namespace EEMod.NPCs.Bosses.Akumo
                 npc.position = new Vector2(player.Center.X, player.Center.Y - spawnOffset);
             }
             if (npc.velocity.X > 0)
+            {
                 npc.spriteDirection = 1;
+            }
             else
+            {
                 npc.spriteDirection = -1;
+            }
+
             isDashing = false;
             isVortexing = false;
             isCircling = false;
@@ -153,6 +168,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             DespawnHandler();
             npc.ai[0]++;
             if (npc.ai[0] >= nextAttackTime && npc.ai[0] <= nextAttackTime + lengthOfAttack + 1)
+            {
                 switch (npc.ai[2])
                 {
                     case 0:
@@ -171,6 +187,8 @@ namespace EEMod.NPCs.Bosses.Akumo
                         Ascend();
                         break;
                 }
+            }
+
             if (!isDashing && !isVortexing && npc.ai[2] != -1 && !isCircling)
             {
                 switchPos(1);
@@ -181,7 +199,10 @@ namespace EEMod.NPCs.Bosses.Akumo
             if (npc.ai[0] == nextAttackTime + lengthOfAttack + 2)
             {
                 for (int i = 0; i < 20; i++)
+                {
                     npc.ai[2] = Main.rand.Next(4);
+                }
+
                 frameUpdate = 0;
                 alpha = 1;
                 scale = 0;
@@ -225,16 +246,28 @@ namespace EEMod.NPCs.Bosses.Akumo
             Player player = Main.player[npc.target];
             isDashing = true;
             if (npc.ai[0] == nextAttackTime)
+            {
                 akumoDirectionDescision = Main.rand.Next(3);
+            }
+
             switchPos(akumoDirectionDescision);
             if (npc.ai[0] < nextAttackTime + 80)
+            {
                 Move(player, 30, 40);
+            }
+
             if (npc.ai[0] == nextAttackTime + 40)
+            {
                 addOn *= 1.5f;
+            }
+
             if (npc.ai[0] >= nextAttackTime + 80)
             {
                 if (npc.ai[1] == 0)
+                {
                     npc.velocity = new Vector2((1 - akumoDirectionDescision) * (npc.ai[0] - (nextAttackTime + 80)) / 2, (npc.ai[0] - (nextAttackTime + 80)) / 2);
+                }
+
                 if (npc.ai[1] == 1)
                 {
                     npc.velocity *= 0.975f;
@@ -266,7 +299,9 @@ namespace EEMod.NPCs.Bosses.Akumo
             float DisX = Main.rand.NextFloat(-1000f, 1000f);
             float rotation = (float)Math.Atan2(vector8.Y - (player.position.Y + (player.height * 0.5f)), vector8.X - (player.position.X + (player.width * 0.5f)));
             if (npc.ai[0] % 5 == 0)
-                Projectile.NewProjectile(vector8.X + DisX, vector8.Y - 1200, (float)((Math.Cos(rotation) * Speed) * -1), (float)((Math.Sin(rotation) * Speed) * -1), type, damage, 0f, 0);
+            {
+                Projectile.NewProjectile(vector8.X + DisX, vector8.Y - 1200, (float)(Math.Cos(rotation) * Speed * -1), (float)(Math.Sin(rotation) * Speed * -1), type, damage, 0f, 0);
+            }
         }
 
         private void Vortex()
@@ -281,7 +316,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             npc.TargetClosest(true);
             Player player = Main.player[npc.target];
             Vector2 dist = new Vector2(npc.Center.X - player.Center.X, npc.Center.Y - player.Center.Y);
-            int speedReduce = (480 - (int)npc.ai[0]) + 800;
+            int speedReduce = 480 - (int)npc.ai[0] + 800;
             dist /= speedReduce;
             int maxDistance = 1000;
             Rectangle rectangle1 = player.Hitbox;
@@ -297,8 +332,8 @@ namespace EEMod.NPCs.Bosses.Akumo
                 double rad = deg * (Math.PI / 180);
 
                 int num7 = Dust.NewDust(npc.Center, npc.width, npc.height, 63, 0f, 0f, 480 - (int)npc.ai[0], new Color(255, 255, 255, 255), (npc.ai[0] / 255) - 1);
-                Main.dust[num7].position.X = npc.Center.X - (int)(Math.Cos(rad) * (i * 30 * (1 - (npc.ai[0] % 30) / 30)));
-                Main.dust[num7].position.Y = npc.Center.Y - (int)(Math.Sin(rad) * (i * 30 * (1 - (npc.ai[0] % 30) / 30)));
+                Main.dust[num7].position.X = npc.Center.X - (int)(Math.Cos(rad) * (i * 30 * (1 - npc.ai[0] % 30 / 30)));
+                Main.dust[num7].position.Y = npc.Center.Y - (int)(Math.Sin(rad) * (i * 30 * (1 - npc.ai[0] % 30 / 30)));
                 Main.dust[num7].noGravity = true;
 
                 npc.ai[1] += 0.5f;
@@ -306,7 +341,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                 {
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num7].scale *= (npc.ai[0] / 255);
+                        Main.dust[num7].scale *= npc.ai[0] / 255;
                     }
                     npc.netUpdate = true;
                 }
@@ -337,7 +372,10 @@ namespace EEMod.NPCs.Bosses.Akumo
         private void Scree()
         {
             if (alpha <= 0)
+            {
                 alpha = 1;
+            }
+
             alpha -= 0.08f;
             scale = 1.8f - (alpha * 1.8f);
         }
@@ -366,8 +404,8 @@ namespace EEMod.NPCs.Bosses.Akumo
                 for (int i = 0; i < 100; i++)
                 {
                     int num7 = Dust.NewDust(npc.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, 2);
-                    Main.dust[num7].position.X = (player.Center.X - 1000) + (i * 20);
-                    Main.dust[num7].position.Y = (player.Center.Y - 700);
+                    Main.dust[num7].position.X = player.Center.X - 1000 + (i * 20);
+                    Main.dust[num7].position.Y = player.Center.Y - 700;
                     Main.dust[num7].noGravity = false;
                 }
                 for (int i = 0; i < 2; i++)
@@ -386,8 +424,8 @@ namespace EEMod.NPCs.Bosses.Akumo
                     for (int i = 0; i < 100; i++)
                     {
                         int num7 = Dust.NewDust(npc.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, 2);
-                        Main.dust[num7].position.X = (player.Center.X - 1000) + (i * 20);
-                        Main.dust[num7].position.Y = (player.Center.Y - 700);
+                        Main.dust[num7].position.X = player.Center.X - 1000 + (i * 20);
+                        Main.dust[num7].position.Y = player.Center.Y - 700;
                         Main.dust[num7].noGravity = false;
                     }
                 }
@@ -455,7 +493,9 @@ namespace EEMod.NPCs.Bosses.Akumo
             {
                 AfterImage.DrawAfterimage(spriteBatch, texture, 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
                 if (npc.ai[0] >= nextAttackTime + 200)
+                {
                     AfterImage.DrawAfterimage(spriteBatch, texture, 0, npc, 2, 1f, 6, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+                }
             }
             return true;
         }

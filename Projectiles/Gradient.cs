@@ -35,7 +35,9 @@ namespace EEMod.Projectiles
             projectile.Center = Main.player[projectile.owner].Center + new Vector2(36, 0).RotatedBy(projectile.rotation);
             projectile.rotation = (Main.player[projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + (float)Math.PI;
             for (int i = 0; i < 10; i++)
+            {
                 Lighting.AddLight(projectile.Center + new Vector2(180 - (i * 20), 0).RotatedBy(projectile.rotation), new Vector3(projectile.ai[0] * brightness, projectile.ai[0] * brightness, projectile.ai[0] * brightness));
+            }
         }
 
         public void pixelPlacmentHours()

@@ -30,7 +30,10 @@ namespace EEMod.NPCs
             Animate(4, false);
             npc.velocity.X = npc.ai[1];
             if (npc.ai[0] == 0)
+            {
                 npc.ai[1] = 1;
+            }
+
             npc.ai[0]++;
             if (npc.ai[0] % 180 == 0 && Helpers.OnGround(npc))
             {
@@ -91,14 +94,16 @@ namespace EEMod.NPCs
                     npc.spriteDirection = 1;
                 }
                 else
+                {
                     npc.spriteDirection = -1;
+                }
             }
             if (npc.frameCounter++ > delay)
             {
                 npc.frameCounter = 0;
                 npc.frame.Y = npc.frame.Y + (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]);
             }
-            if (npc.frame.Y >= (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]) * (Main.npcFrameCount[npc.type] - 1))
+            if (npc.frame.Y >= Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] * (Main.npcFrameCount[npc.type] - 1))
             {
                 npc.frame.Y = 0;
                 return;

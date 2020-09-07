@@ -53,7 +53,7 @@ namespace EEMod.Projectiles.Runes
             }
             float progress = (180 - projectile.ai[1]) / 720f;
             progress *= .3f;
-            distortStrength = (projectile.ai[1] * 2);
+            distortStrength = projectile.ai[1] * 2;
             Filters.Scene["EEMod:Shockwave"].GetShader().UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
 
             if (projectile.ai[1] == 160)
@@ -64,7 +64,6 @@ namespace EEMod.Projectiles.Runes
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            damage = 0;
             target.GetModPlayer<EEPlayer>().hasGottenRuneBefore[3] = 1;
         }
 

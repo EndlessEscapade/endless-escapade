@@ -27,12 +27,19 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
         {
             hits++;
             if (projectile.velocity.X != oldVelocity.X)
+            {
                 projectile.velocity.X = -oldVelocity.X;
+            }
 
             if (projectile.velocity.Y != oldVelocity.Y)
+            {
                 projectile.velocity.Y = -oldVelocity.Y;
+            }
 
-            if (hits == 5) projectile.Kill();
+            if (hits == 5)
+            {
+                projectile.Kill();
+            }
 
             return false;
         }
@@ -42,7 +49,7 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
         public override void AI()
         {
             projectile.velocity.Y += 0.15f;
-            Lighting.AddLight(projectile.Center, ((255 - projectile.alpha) * 0.15f) / 255f, ((255 - projectile.alpha) * 0.45f) / 255f, ((255 - projectile.alpha) * 0.05f) / 255f);   //this is the light colors
+            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.45f / 255f, (255 - projectile.alpha) * 0.05f / 255f);   //this is the light colors
             if (projectile.timeLeft > 125)
             {
                 projectile.timeLeft = 125;

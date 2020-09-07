@@ -30,7 +30,7 @@ namespace EEMod.Tiles.Furniture
                 {
                     for (int k = 0; k < 100; k++)
                     {
-                        if (EEWorld.EEWorld.PylonBegin[k] == default(Vector2))
+                        if (EEWorld.EEWorld.PylonBegin[k] == default)
                         {
                             EEWorld.EEWorld.PylonBegin[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = true;
@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Furniture
                 {
                     for (int k = 0; k < 100; k++)
                     {
-                        if (EEWorld.EEWorld.PylonEnd[k] == default(Vector2) && new Vector2(i, j) * 16 + new Vector2(8, -8) != EEWorld.EEWorld.PylonBegin[k])
+                        if (EEWorld.EEWorld.PylonEnd[k] == default && new Vector2(i, j) * 16 + new Vector2(8, -8) != EEWorld.EEWorld.PylonBegin[k])
                         {
                             EEWorld.EEWorld.PylonEnd[k] = new Vector2(i, j) * 16 + new Vector2(8, -8);
                             Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon = false;

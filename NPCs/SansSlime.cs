@@ -38,11 +38,19 @@ namespace EEMod.NPCs
         {
             yes++;
             if (yes == interval * 2)
+            {
                 CombatText.NewText(npc.getRect(), Colors.RarityBlue, "*Boing*", false, false);
+            }
+
             if (yes == interval * 4)
+            {
                 CombatText.NewText(npc.getRect(), Colors.RarityBlue, "Ahh Yes The Mlemage", false, false);
+            }
+
             if (yes == interval * 6)
+            {
                 CombatText.NewText(npc.getRect(), Colors.RarityBlue, "Destroy the world now?", false, false);
+            }
         }
     }
 }

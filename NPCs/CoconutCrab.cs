@@ -45,7 +45,9 @@ namespace EEMod.NPCs
                 npc.spriteDirection = 1;
             }
             else
+            {
                 npc.spriteDirection = -1;
+            }
 
             if (npc.frameCounter++ > 4)
             {
@@ -62,7 +64,10 @@ namespace EEMod.NPCs
         public override void AI()
         {
             if (npc.ai[1] > 0)
+            {
                 npc.ai[1]--;
+            }
+
             npc.TargetClosest(false);
             Player player = Main.player[npc.target];
             onGround = false;
@@ -70,7 +75,10 @@ namespace EEMod.NPCs
             npc.TargetClosest(true);
             float accel2 = Math.Abs(npc.Center.X - player.Center.X) / 140;
             if (accel2 > 0.7f)
+            {
                 accel2 = 0.7f;
+            }
+
             if (npc.Center.X < player.Center.X)
             {
                 npc.velocity.X += accel * accel2;
@@ -82,23 +90,33 @@ namespace EEMod.NPCs
             }
 
             if (Math.Abs(npc.velocity.X) == maxSpeed)
+            {
                 npc.velocity.X = maxSpeed * npc.spriteDirection;
+            }
 
             int minTilePosX = (int)(npc.Center.X / 16.0) - 1;
             int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;
             int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
             int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
             if (minTilePosX < 0)
+            {
                 minTilePosX = 0;
+            }
 
             if (maxTilePosX > Main.maxTilesX)
+            {
                 maxTilePosX = Main.maxTilesX;
+            }
 
             if (minTilePosY < 0)
+            {
                 minTilePosY = 0;
+            }
 
             if (maxTilePosY > Main.maxTilesY)
+            {
                 maxTilePosY = Main.maxTilesY;
+            }
 
             for (int i = minTilePosX; i < maxTilePosX; ++i)
             {

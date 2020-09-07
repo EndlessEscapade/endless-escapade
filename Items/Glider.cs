@@ -36,8 +36,12 @@ namespace EEMod.Items
 
                 player.velocity.Y = 1;
                 if (Math.Abs(player.velocity.X) < 18)
+                {
                     if ((player.controlRight && player.velocity.X > 0) || (player.controlLeft && player.velocity.X < 0))
+                    {
                         player.velocity.X *= 1.02f;
+                    }
+                }
             }
         }
     }

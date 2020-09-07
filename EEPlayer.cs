@@ -93,9 +93,9 @@ namespace EEMod
 
         public int bubbleRuneBubble = 0;
 
-        private int displaceX = 2;
-        private int displaceY = 4;
-        private float[] dis = new float[51];
+        private readonly int displaceX = 2;
+        private readonly int displaceY = 4;
+        private readonly float[] dis = new float[51];
         public bool isWearingCape = false;
         public string NameForJoiningClients = "";
         public Vector2[] arrayPoints = new Vector2[24];
@@ -110,9 +110,9 @@ namespace EEMod
         public int offSea = 1000;
         private int opac;
         public int boatSpeed = 1;
-        private string shad1 = "EEMod:Ripple";
-        private string shad2 = "EEMod:SunThroughWalls";
-        private string shad3 = "EEMod:SeaTrans";
+        private readonly string shad1 = "EEMod:Ripple";
+        private readonly string shad2 = "EEMod:SunThroughWalls";
+        private readonly string shad3 = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
@@ -137,14 +137,18 @@ namespace EEMod
             {
                 opac++;
                 if (opac > 100)
+                {
                     opac = 100;
+                }
                 //Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
             }
             else
             {
                 opac--;
                 if (opac < 0)
+                {
                     opac = 0;
+                }
                 //	Filters.Scene.Deactivate("EEMod:CR");
             }
         }
@@ -158,9 +162,15 @@ namespace EEMod
         public override void UpdateVanityAccessories()
         {
             if (hydroGear || dragonScale)
+            {
                 player.accFlipper = true;
+            }
+
             if (hydroGear)
+            {
                 player.accDivingHelm = true;
+            }
+
             if (dragonScale && player.wet && PlayerInput.Triggers.JustPressed.Jump)
             {
                 if (dur <= 0)
@@ -174,25 +184,51 @@ namespace EEMod
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType, ref bool junk)
         {
             if (junk)
+            {
                 return;
+            }
+
             if (ZoneCoralReefs)
             {
                 if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<BlueTang>())
+                {
                     caughtType = ItemType<BlueTang>();
+                }
+
                 if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<Spiritfish>() && Main.hardMode)
+                {
                     caughtType = ItemType<Spiritfish>();
+                }
+
                 if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<GlitteringPearlfish>() && downedCoralGolem)
+                {
                     caughtType = ItemType<GlitteringPearlfish>();
+                }
+
                 if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<Ironfin>() && downedTalos)
+                {
                     caughtType = ItemType<Ironfin>();
+                }
+
                 if (Main.rand.NextFloat() < 0.01f)
+                {
                     caughtType = ItemType<LunaJellyItem>();
+                }
+
                 if (Main.rand.NextFloat() < 0.1f)
+                {
                     caughtType = ItemType<Barracuda>();
+                }
+
                 if (Main.rand.NextFloat() < 0.4f)
+                {
                     caughtType = ItemType<ReeftailMinnow>();
+                }
+
                 if (Main.rand.NextFloat() < 0.4f)
+                {
                     caughtType = ItemType<Coralfin>();
+                }
             }
         }
 
@@ -250,7 +286,7 @@ namespace EEMod
         {
             moralScore = 0;
             moralScore += initialMoralScore;
-            moralScore -= (int)WorldGen.totalEvil * 30;
+            moralScore -= WorldGen.totalEvil * 30;
             if (WorldGen.totalEvil == 0)
             {
                 moralScore += 1000;
@@ -330,7 +366,7 @@ namespace EEMod
         public int intensity;
         private int runeCooldown = 0;
 
-        private Dictionary<int, bool[]> RuneData = new Dictionary<int, bool[]>()
+        private readonly Dictionary<int, bool[]> RuneData = new Dictionary<int, bool[]>()
                                             {
                                                 {0,new []{false,false }},
                                                 {1,new []{false,false }},
@@ -385,7 +421,10 @@ namespace EEMod
                     displacmentY -= (displacmentY - player.Center.Y) / 16f;
                     timerForCutscene += 10;
                     if (timerForCutscene > 1000)
+                    {
                         timerForCutscene = 1000;
+                    }
+
                     if (markerPlacer >= (120 * 8) + 1400)
                     {
                         if (Main.netMode != NetmodeID.Server && Filters.Scene[shad1].IsActive())
@@ -415,7 +454,7 @@ namespace EEMod
                     }
                 }
             }
-            if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
+            if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.instance.CamMoveBool)
             {
                 if (player.velocity.X > 1)
                 {
@@ -450,18 +489,23 @@ namespace EEMod
             {
                 player.position = player.oldPosition;
                 if (markerPlacer > 1)
+                {
                     Main.screenPosition += new Vector2(0, offSea);
+                }
             }
             if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
             {
                 if (!Main.gamePaused)
+                {
                     speedOfPan += 0.01f;
+                }
+
                 Main.screenPosition.X += cutSceneTriggerTimer * speedOfPan;
             }
             if (isCameraFixating)
             {
-                displacmentX += ((fixatingPoint.X - player.Center.X) - displacmentX) / fixatingSpeedInv;
-                displacmentY += ((fixatingPoint.Y - player.Center.Y) - displacmentY) / fixatingSpeedInv;
+                displacmentX += (fixatingPoint.X - player.Center.X - displacmentX) / fixatingSpeedInv;
+                displacmentY += (fixatingPoint.Y - player.Center.Y - displacmentY) / fixatingSpeedInv;
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
             else if (Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && Math.Abs(displacmentX + displacmentY) > 0.01f)
@@ -477,7 +521,9 @@ namespace EEMod
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
             if (isCameraShaking)
+            {
                 Main.screenPosition += new Vector2(Main.rand.Next(-intensity, intensity), Main.rand.Next(-intensity, intensity));
+            }
         }
 
         Vector2 mainPoint => new Vector2(player.Center.X, player.position.Y);
@@ -513,7 +559,10 @@ namespace EEMod
                 {
                     bubbleTimer = 6;
                     if (player.wet)
+                    {
                         Projectile.NewProjectile(new Vector2(player.Center.X + bubbleLen - 16, player.Center.Y - bubbleColumn), new Vector2(0, -1), ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: player.whoAmI);
+                    }
+
                     bubbleLen = Main.rand.Next(-16, 17);
                     bubbleColumn += 2;
                 }
@@ -597,16 +646,21 @@ namespace EEMod
             {
                 float prop = (float)Math.Sin(propagation + (i * propagtionSpeedWTRdisX / acc));
                 Vector2 basePos = new Vector2(mainPoint.X + (i * displaceX) + (Math.Abs(player.velocity.X / basePosFluncStatic) * i), mainPoint.Y + (i * displaceY) + 20);
-                float dist = (player.position.Y + yDis) - basePos.Y + (prop / acc) * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
-                float amp = Math.Abs(player.velocity.X * basePosFlunc) * ((i * basePosFlunc) / acc) + 1f;
+                float dist = player.position.Y + yDis - basePos.Y + prop / acc * Math.Abs(-Math.Abs(player.velocity.X) - (i / acc));
+                float amp = Math.Abs(player.velocity.X * basePosFlunc) * (i * basePosFlunc / acc) + 1f;
                 float goTo = Math.Abs(dist * (Math.Abs(player.velocity.X) * upwardDrag)) + (player.velocity.Y / propagtionSpeedWTRvelY * i);
                 float disClamp = (goTo - dis[i]) / smoothStepSpeed;
                 disClamp = MathHelper.Clamp(disClamp, -1.7f, 15);
                 dis[i] += disClamp;
                 if (i == 0)
+                {
                     arrayPoints[i] = basePos;
+                }
                 else
-                    arrayPoints[i] = new Vector2(basePos.X, basePos.Y + (prop / acc) * amp - dis[i] + i * 2);
+                {
+                    arrayPoints[i] = new Vector2(basePos.X, basePos.Y + prop / acc * amp - dis[i] + i * 2);
+                }
+
                 if (player.direction == 1)
                 {
                     float distX = arrayPoints[i].X - player.Center.X;
@@ -615,16 +669,21 @@ namespace EEMod
                 int tracker = 0;
                 if (i != 0)
                 {
-                    while ((Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].active() &&
-                            Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, ((int)arrayPoints[i].Y / 16)].type])
+                    while ((Main.tile[(int)arrayPoints[i].X / 16, (int)arrayPoints[i].Y / 16].active() &&
+                            Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, (int)arrayPoints[i].Y / 16].type])
                            || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
                     {
                         arrayPoints[i].Y--;
                         tracker++;
                         if (tracker >= displaceY * acc)
+                        {
                             break;
+                        }
+
                         if (arrayPoints[i].Y <= arrayPoints[i - 1].Y - 4)
+                        {
                             break;
+                        }
                     }
                 }
             }
@@ -704,9 +763,14 @@ namespace EEMod
                                     {
                                         player.gravity = 0;
                                         if (player.controlUp)
+                                        {
                                             player.gravity = -0.1f;
+                                        }
+
                                         if (player.controlDown)
+                                        {
                                             player.gravity = 0.1f;
+                                        }
                                     }
                                 }
                                 break;
@@ -805,7 +869,10 @@ namespace EEMod
                         }
                     }
                     if (closest != null)
+                    {
                         Projectile.NewProjectile(closest.Center, Vector2.Zero, ProjectileType<CyanoburstTomeKelp>(), 10, 0f, Owner: player.whoAmI);
+                    }
+
                     lythenSetTimer = 0;
                 }
             }
@@ -826,14 +893,21 @@ namespace EEMod
                 Main.LocalPlayer.gravity = 0;
                 Main.LocalPlayer.AddBuff(BuffID.Cursed, 2, true);
                 if (zipMultiplier <= 30)
+                {
                     zipMultiplier *= 1.02f;
+                }
             }
             if (Vector2.DistanceSquared(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 32 * 32 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {
                 int i;
                 for (i = 0; i <= 100; i++)
+                {
                     if (i < 99 && EEWorld.EEWorld.PylonEnd[i] == EEWorld.EEWorld.PylonBegin[i + 1] && EEWorld.EEWorld.PylonEnd[i + 1] != default && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == EEWorld.EEWorld.PylonBegin[i] && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd == EEWorld.EEWorld.PylonEnd[i])
+                    {
                         break;
+                    }
+                }
+
                 if (i >= 99)
                 {
                     //Leaving zipline
@@ -983,8 +1057,12 @@ namespace EEMod
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             if (dalantiniumSet)
+            {
                 for (int i = 0; i < 3; i++)
+                {
                     Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
+                }
+            }
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
@@ -1011,12 +1089,16 @@ namespace EEMod
             if (isQuartzRangedOn && item.ranged)
             {
                 if (crit)
+                {
                     target.AddBuff(BuffID.CursedInferno, 120);
+                }
             }
             if (isQuartzSummonOn && item.summon)
             {
                 if (Main.rand.Next(10) < 3)
+                {
                     target.AddBuff(BuffID.OnFire, 180);
+                }
             }
         }
 
@@ -1025,18 +1107,21 @@ namespace EEMod
             if (isQuartzRangedOn && proj.ranged)
             {
                 if (crit)
+                {
                     target.AddBuff(BuffID.CursedInferno, 120);
+                }
             }
             if (isQuartzSummonOn && proj.minion)
             {
                 if (Main.rand.Next(10) < 3)
+                {
                     target.AddBuff(BuffID.OnFire, 180);
+                }
             }
         }
 
         public override void clientClone(ModPlayer clientClone)
         {
-            EEPlayer clone = clientClone as EEPlayer;
         }
 
         public Vector2 EEPosition;
@@ -1075,7 +1160,10 @@ namespace EEMod
         public override void PreUpdate()
         {
             if (Main.frameRate != 0)
+            {
                 milliseconds += 1000 / Main.frameRate;
+            }
+
             if (milliseconds >= 1000)
             {
                 milliseconds = 0;
@@ -1096,7 +1184,9 @@ namespace EEMod
         internal static void UpdateOceanMapElements()
         {
             for (int i = 0; i < OceanMapElements.Count; i++)
+            {
                 OceanMapElements[i].Update();
+            }
         }
 
         public struct Island
@@ -1109,8 +1199,8 @@ namespace EEMod
                 this.canCollide = canCollide;
             }
 
-            private int posX;
-            private int posY;
+            private readonly int posX;
+            private readonly int posY;
             public bool canCollide;
 
             public int posXToScreen
@@ -1145,7 +1235,7 @@ namespace EEMod
 
             public Texture2D texture;
             public float scale, alpha;
-            private EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
             public DarkCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
             {
@@ -1160,11 +1250,11 @@ namespace EEMod
             public void Draw(SpriteBatch spriteBatch)
             {
                 Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor((int)posXToScreen / 16, (posYToScreen - 1000) / 16);
+                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16);
                 drawcolor.A = (byte)alpha;
                 if (modPlayer.quickOpeningFloat > 0.01f)
                 {
-                    float lerp = (1 - (modPlayer.quickOpeningFloat / 10f));
+                    float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
                     spriteBatch.Draw(texture, p, null, drawcolor * lerp, 0f, default, scale, SpriteEffects.None, 0f);
                     return;
                 }
@@ -1193,7 +1283,7 @@ namespace EEMod
 
             public Texture2D texture;
             public float scale, alpha;
-            private EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
             public MovingCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
             {
@@ -1207,7 +1297,7 @@ namespace EEMod
             public void Draw(SpriteBatch spriteBatch)
             {
                 Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor((int)posXToScreen / 16, (posYToScreen - 1000) / 16);
+                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16);
                 drawcolor.A = (byte)alpha;
                 spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
             }
@@ -1220,9 +1310,9 @@ namespace EEMod
         public class MCloud : IOceanMapElement
         {
             private Vector2 position;
-            private int width, height;
-            private float alpha, scale;
-            private Texture2D texture;
+            private readonly int width, height;
+            private readonly float alpha, scale;
+            private readonly Texture2D texture;
             private Vector2 Center => new Vector2(position.X + width / 2f, position.Y + height / 2f);
 
             public MCloud(Texture2D texture, Vector2 position, int width, int height, float scale, float alpha)

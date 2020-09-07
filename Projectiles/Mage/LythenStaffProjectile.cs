@@ -61,11 +61,16 @@ namespace EEMod.Projectiles.Mage
                         selectedTarget == -1 || //there is no selected target
                         projectile.DistanceSQ(Main.npc[selectedTarget].Center) > distanceSQ)
                     )
+                    {
                         selectedTarget = i;
+                    }
                 }
             }
             if (selectedTarget == -1)
+            {
                 return null;
+            }
+
             return Main.npc[selectedTarget];
         }
 
@@ -144,7 +149,9 @@ namespace EEMod.Projectiles.Mage
                 }
             }
             if (projectile.ai[1] < 120)
+            {
                 projectile.ai[1]++;
+            }
             else if (projectile.ai[1] == 120)
             {
                 projectile.damage = projectile.damage * 2;

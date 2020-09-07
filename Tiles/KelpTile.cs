@@ -43,7 +43,9 @@ namespace EEMod.Tiles
                     && tile.type != ModContent.TileType<GemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandTile>()
                     && tile.type != ModContent.TileType<DarkGemsandTile>())
+                {
                     WorldGen.KillTile(i, j);
+                }
             }
         }
 

@@ -51,7 +51,9 @@ namespace EEMod.Items
 
             Player player = Main.player[projectile.owner];
             if (!projectile.bobber || player.inventory[player.selectedItem].holdStyle <= 0)
+            {
                 return false;
+            }
 
             float originX = player.MountedCenter.X;
             float originY = player.MountedCenter.Y;
@@ -62,7 +64,7 @@ namespace EEMod.Items
 
             if (type == ModContent.ItemType<SailorsPole>())
             {
-                originX += (float)(xPositionAdditive * player.direction);
+                originX += xPositionAdditive * player.direction;
                 if (player.direction < 0)
                 {
                     originX -= 13f;
@@ -79,7 +81,9 @@ namespace EEMod.Items
             Vector2 lineOrigin = projectile.Center - mountedCenter;
             bool canDraw = true;
             if (lineOrigin.X == 0f && lineOrigin.Y == 0f)
+            {
                 return false;
+            }
 
             float projPosMagnitude = lineOrigin.Length();
             projPosMagnitude = 12f / projPosMagnitude;
@@ -93,7 +97,9 @@ namespace EEMod.Items
                 float height = 12f;
                 float positionMagnitude = lineOrigin.Length();
                 if (float.IsNaN(positionMagnitude))
+                {
                     break;
+                }
 
                 if (positionMagnitude < 20f)
                 {
@@ -151,9 +157,9 @@ namespace EEMod.Items
                 }
                 //This color decides the color of the fishing line. The color is randomized as decided in the AI.
                 Color lineColor = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f), fishingLineColor);
-                float rotation = (float)Math.Atan2((double)lineOrigin.Y, (double)lineOrigin.X) - MathHelper.PiOver2;
+                float rotation = (float)Math.Atan2(lineOrigin.Y, lineOrigin.X) - MathHelper.PiOver2;
 
-                Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(mountedCenter.X - Main.screenPosition.X + (float)Main.fishingLineTexture.Width * 0.5f, mountedCenter.Y - Main.screenPosition.Y + (float)Main.fishingLineTexture.Height * 0.5f), new Rectangle?(new Rectangle(0, 0, Main.fishingLineTexture.Width, (int)height)), lineColor, rotation, new Vector2((float)Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(mountedCenter.X - Main.screenPosition.X + Main.fishingLineTexture.Width * 0.5f, mountedCenter.Y - Main.screenPosition.Y + Main.fishingLineTexture.Height * 0.5f), new Rectangle?(new Rectangle(0, 0, Main.fishingLineTexture.Width, (int)height)), lineColor, rotation, new Vector2(Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
             }
             return false;
         }

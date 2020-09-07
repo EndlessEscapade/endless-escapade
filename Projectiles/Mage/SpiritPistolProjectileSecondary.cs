@@ -28,7 +28,10 @@ namespace EEMod.Projectiles.Mage
         {
             projectile.Center = Main.projectile[(int)projectile.ai[1]].Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * radius;
             if (radius < 48)
+            {
                 radius++;
+            }
+
             projectile.ai[0] += 0.1f;
         }
     }
