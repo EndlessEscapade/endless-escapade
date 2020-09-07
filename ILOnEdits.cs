@@ -24,6 +24,10 @@ using EEMod.Extensions;
 using EEMod.Tiles.Furniture;
 using static IL.Terraria.Lighting;
 using Terraria.GameContent.Liquid;
+using Terraria.GameContent.UI.Elements;
+using Terraria.IO;
+using Terraria.Social;
+using Terraria.UI;
 
 namespace EEMod
 {
@@ -47,6 +51,8 @@ namespace EEMod
             On.Terraria.Main.DrawBG += BetterLightingDraw;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
             if (Main.netMode != NetmodeID.Server)
             {
                 TrailManager = new TrailManager(this);
@@ -54,6 +60,63 @@ namespace EEMod
                 Prims.CreateVerlet();
             }
         }
+
+        private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, Terraria.GameContent.UI.Elements.UIWorldListItem self, Terraria.IO.WorldFileData data, int snapPointIndex)
+        {
+            orig(self, data, snapPointIndex);
+
+            float num = 56f;
+
+            if (SocialAPI.Cloud != null)
+            {
+                num += 24f;
+            }
+
+            if (data.WorldGeneratorVersion != 0L)
+            {
+                num += 24f;
+            }
+
+            UIText buttonLabel = new UIText("");
+            buttonLabel.VAlign = 1f;
+            buttonLabel.Left.Set(num + 210f, 0f);
+            buttonLabel.Top.Set(-3f, 0f);
+
+            typeof(Main).Assembly.GetType("Terraria.GameContent.UI.Elements.UIWorldListItem").GetField("_buttonLabel", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(self, buttonLabel);
+
+            self.Append(buttonLabel);
+        }
+
+        private void UIWorldListItem_DrawSelf(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_DrawSelf orig, UIWorldListItem self, SpriteBatch spriteBatch)
+        {
+            orig(self, spriteBatch);
+
+            WorldFileData data = (WorldFileData)typeof(Main).Assembly.GetType("Terraria.GameContent.UI.Elements.UIWorldListItem").GetField("_data", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(self);
+            UIImage worldIcon = (UIImage)typeof(Main).Assembly.GetType("Terraria.GameContent.UI.Elements.UIWorldListItem").GetField("_worldIcon", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(self);
+            CalculatedStyle innerDimensions = self.GetInnerDimensions();
+            CalculatedStyle dimensions = worldIcon.GetDimensions();
+            float num = 56f;
+
+            if (SocialAPI.Cloud != null)
+            {
+                num += 24f;
+            }
+
+            if (data.WorldGeneratorVersion != 0L)
+            {
+                num += 24f;
+            }
+
+            float num2 = dimensions.X + num;
+
+            Vector2 position = new Vector2(num2, innerDimensions.Y + 59);
+            float width = 200;
+
+            spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), position, new Rectangle(0, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White);
+            spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), new Vector2(position.X + 8f, position.Y), new Rectangle(8, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White);
+        }
+
         List<Vector2> LightPoints = new List<Vector2>();
         List<Color> ColourPoints = new List<Color>();
         private void AddToLightArray(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int d, int e, float a, float b, float c)
