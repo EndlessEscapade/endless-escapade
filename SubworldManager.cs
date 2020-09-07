@@ -1,4 +1,7 @@
+using EEMod.Tiles;
+using Microsoft.Xna.Framework;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using Terraria;
@@ -6,19 +9,17 @@ using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.IO;
 using Terraria.Localization;
+using Terraria.ModLoader;
 using Terraria.Social;
 using Terraria.Utilities;
 using Terraria.World.Generation;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Tiles;
-using System.Diagnostics;
-using System.Net;
+
 namespace EEMod
 {
     public class SubworldManager
     {
         public static int _lastSeed;
+
         internal enum EEServerState : byte
         {
             None,
@@ -81,6 +82,7 @@ namespace EEMod
                 Main.tileSolid[190] = true;
             });
         }
+
         public static void Reset(int seed)
         {
             EEMod.progressMessage = "Resetting";
@@ -112,6 +114,7 @@ namespace EEMod
             EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0), ModContent.TileType<GemsandTile>());
             EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
         }
+
         internal static void PreSaveAndQuit()
         {
             Mod[] mods = ModLoader.Mods;
@@ -120,12 +123,14 @@ namespace EEMod
                 mods[i].PreSaveAndQuit();
             }
         }
+
         public void SaveAndQuit(string key)
         {
             Main.PlaySound(SoundID.MenuClose);
             PreSaveAndQuit();
             ThreadPool.QueueUserWorkItem(SaveAndQuitCallBack, key);
         }
+
         public static void SaveAndQuitCallBack(object threadContext)
         {
             try
@@ -188,6 +193,7 @@ namespace EEMod
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{EEPath}\{threadContext as string}.wld", false);
             WorldGen.playWorld();
         }
+
         public static void WorldGenCallBack(object threadContext)
         {
             try
@@ -199,15 +205,18 @@ namespace EEMod
                 Logging.Terraria.Error(Language.GetTextValue("tModLoader.WorldGenError"), ex);
             }
         }
+
         public static void CreateNewWorld(string text)
         {
             Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
             ThreadPool.QueueUserWorkItem(WorldGenCallBack, text);
         }
+
         public static string ConvertToSafeArgument(string arg)
         {
             return Uri.EscapeDataString(arg);
         }
+
         public static WorldFileData CreateSubworldMetaData(string name, bool cloudSave, string path)
         {
             WorldFileData existing = new WorldFileData(path, cloudSave);
@@ -228,8 +237,9 @@ namespace EEMod
             }
             return existing;
         }
+
         public static Process EEServer = new Process();
-        static string EEPath;
+        private static string EEPath;
 
         private static void OnWorldNamed(string text)
         {
@@ -272,7 +282,6 @@ namespace EEMod
             }
             else
             {
-
                 /*   EEServer.StartInfo.FileName = "tModLoaderServer.exe";
                       if (Main.libPath != "")
                       {
@@ -301,6 +310,7 @@ namespace EEMod
                 Main.PlaySound(SoundID.MenuOpen);
             }
         }
+
         public static void StartClientGameplay()
         {
             Main.menuMode = 10;
@@ -312,10 +322,12 @@ namespace EEMod
             Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);
             WorldGen.playWorld();
         }
+
         public static void EnterSub(string key)
         {
             OnWorldNamed(key);
         }
+
         public void Return(string baseWorldName)
         {
             ReturnOnName(baseWorldName);

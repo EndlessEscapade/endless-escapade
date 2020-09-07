@@ -1,9 +1,8 @@
+using EEMod.Items.Placeables.Ores;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Mage;
 
 namespace EEMod.Items.Weapons.Ranger
 {

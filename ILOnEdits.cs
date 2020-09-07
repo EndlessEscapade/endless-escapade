@@ -1,31 +1,26 @@
-using System;
-using System.Reflection;
-using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
-using Terraria.Graphics;
-using Terraria.Graphics.Effects;
-using Terraria.ModLoader;
+using EEMod.Effects;
+using EEMod.Extensions;
+using EEMod.ID;
+using EEMod.NPCs.Bosses.Kraken;
+using EEMod.Projectiles;
+using EEMod.Projectiles.Mage;
+using EEMod.Tiles.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Mono.Cecil;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using EEMod.Projectiles;
-using EEMod.NPCs.Bosses.Kraken;
 using ReLogic.Graphics;
-using EEMod.Projectiles.Mage;
-using EEMod.Effects;
-using EEMod.EEWorld;
-using static EEMod.EEWorld.EEWorld;
-using EEMod.ID;
+using System;
 using System.Collections.Generic;
-using EEMod.Extensions;
-using EEMod.Tiles.Furniture;
-using static IL.Terraria.Lighting;
+using System.Reflection;
+using Terraria;
 using Terraria.GameContent.Liquid;
 using Terraria.GameContent.UI.Elements;
+using Terraria.Graphics;
+using Terraria.Graphics.Effects;
+using Terraria.ID;
 using Terraria.IO;
+using Terraria.ModLoader;
 using Terraria.Social;
 using Terraria.UI;
 
@@ -35,6 +30,7 @@ namespace EEMod
     {
         public static TrailManager TrailManager;
         public static Prims Prims;
+
         private void LoadIL()
         {
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
@@ -117,13 +113,14 @@ namespace EEMod
             spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White);
         }
 
-        List<Vector2> LightPoints = new List<Vector2>();
-        List<Color> ColourPoints = new List<Color>();
+        private List<Vector2> LightPoints = new List<Vector2>();
+        private List<Color> ColourPoints = new List<Color>();
+
         private void AddToLightArray(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int d, int e, float a, float b, float c)
         {
             //LightPoints.Add(new Vector2(d + 0.5f,e + 0.5f));
             //ColourPoints.Add(new Color(a, b, c));
-            orig(d,e, a, b, c);
+            orig(d, e, a, b, c);
         }
 
         //private void Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb(ILContext il)
@@ -162,6 +159,7 @@ namespace EEMod
                    t.Draw(spritebatch, drawOffset, Style, Alpha / 2, bg);
                });
         }
+
         public void DrawRef()
         {
             RenderTarget2D buffer = Main.screenTarget;
@@ -173,6 +171,7 @@ namespace EEMod
             Main.spriteBatch.Draw(screenTex, Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White * 0.3f, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
             Main.graphics.GraphicsDevice.SetRenderTarget(Main.screenTarget);
         }
+
         private void Practice(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -182,7 +181,6 @@ namespace EEMod
                 i => i.MatchBneUn(out _),
                 i => i.MatchStfld(typeof(Vector2).GetField("X"))))
                 return;
-
 
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<Action<NPC>>(npc =>
@@ -213,13 +211,14 @@ namespace EEMod
             progressMessage = null;
             Prims = null;
         }
-        
+
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
             TrailManager.DrawTrails(Main.spriteBatch);
             Prims.DrawTrails(Main.spriteBatch);
             orig(self);
         }
+
         private void BetterLightingDraw(On.Terraria.Main.orig_DrawBG orig, Main self)
         {
             if (EEModConfigClient.Instance.BetterLighting && !Main.gameMenu)
@@ -233,13 +232,16 @@ namespace EEMod
             }
             orig(self);
         }
-        Vector2 ChangingPoints;
+
+        private Vector2 ChangingPoints;
+
         private int Projectile_NewProjectile(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
         {
             int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
             if (Main.netMode != NetmodeID.Server) TrailManager.DoTrailCreation(Main.projectile[index]);
             return index;
         }
+
         public void UnloadShaderAssets()
         {
             if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Saturation"].IsActive())
@@ -247,6 +249,7 @@ namespace EEMod
                 Filters.Scene["EEMod:Saturation"].Deactivate();
             }
         }
+
         private void Main_OldDrawBackground(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -293,14 +296,18 @@ namespace EEMod
                 });
             }
         }
-        float alphaBG;
+
+        private float alphaBG;
+
         //Shader Setup
-        Vector2 sunPos;
-        float globalAlpha;
-        float intensityFunction;
-        Vector2 sunShaderPos;
-        float nightHarshness = 1f;
-        Color BaseColor;
+        private Vector2 sunPos;
+
+        private float globalAlpha;
+        private float intensityFunction;
+        private Vector2 sunShaderPos;
+        private float nightHarshness = 1f;
+        private Color BaseColor;
+
         public void DrawGlobalShaderTextures()
         {
             double num10;
@@ -327,7 +334,6 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin();
         }
-
 
         public void DrawLensFlares()
         {
@@ -387,6 +393,7 @@ namespace EEMod
             }
             Filters.Scene["EEMod:Saturation"].GetShader().UseImageOffset(sunShaderPos).UseIntensity(intensityFunction).UseOpacity(4f).UseProgress(Main.dayTime ? 0 : 1).UseColor(Base, nightHarshness, 0).UseSecondaryColor(BaseColor);
         }
+
         public void DrawCoralReefsBg()
         {
             return; // nothing being drawn atm
@@ -411,6 +418,7 @@ namespace EEMod
                 }
             }
         }
+
         public void UpdateLight()
         {
             for (int i = 0; i < maxNumberOfLights; i++)
@@ -430,15 +438,16 @@ namespace EEMod
             List<Vector2> listTransformable = new List<Vector2>();
             for (int i = 0; i < LightPoints.Count; i++)
             {
-                listTransformable.Add((LightPoints[i]*16 - Main.screenPosition) / new Vector2(Main.screenWidth, Main.screenHeight));
-                
-                if(i < maxNumberOfLights)
-                Filters.Scene[$"EEMod:LightSource{i}"].GetShader().UseImageOffset(listTransformable[i]).UseIntensity(0.0045f).UseColor(ColourPoints[i]);
+                listTransformable.Add((LightPoints[i] * 16 - Main.screenPosition) / new Vector2(Main.screenWidth, Main.screenHeight));
+
+                if (i < maxNumberOfLights)
+                    Filters.Scene[$"EEMod:LightSource{i}"].GetShader().UseImageOffset(listTransformable[i]).UseIntensity(0.0045f).UseColor(ColourPoints[i]);
             }
             LightPoints.Clear();
             ColourPoints.Clear();
             listTransformable.Clear();
         }
+
         public void DrawBehindTiles(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             //UpdateLight();
@@ -447,7 +456,6 @@ namespace EEMod
             if (Main.worldName == KeyID.CoralReefs)
                 EEWorld.EEWorld.instance.DrawVines();
             //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);
-
 
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
             {
@@ -482,8 +490,8 @@ namespace EEMod
                 }
             }
             orig(self);
-
         }
+
         public void OnSave(On.Terraria.WorldGen.orig_SaveAndQuitCallBack orig, object threadcontext)
         {
             isSaving = true;
@@ -491,8 +499,10 @@ namespace EEMod
             isSaving = false;
             //saveInterface?.SetState(null);
         }
+
         public float seed;
         public float speed;
+
         public void DrawNoiseSurfacing()
         {
             Vector2 mouseTilePos = Main.MouseWorld / 16;
@@ -500,7 +510,6 @@ namespace EEMod
             Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = Vector2.Zero;
             if (tile.active() && tile.type == ModContent.TileType<OrbHolder>())
             {
-
                 speed += 0.002f;
                 if (speed % 0.5f < 0.002f)
                 {
@@ -520,9 +529,9 @@ namespace EEMod
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
         }
+
         public void OnUpdate(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
         {
-
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
             {
                 alpha = 0;
@@ -539,13 +548,15 @@ namespace EEMod
             Main.sunTexture = TextureCache.Empty;
             orig(self, gameTime);
         }
-        Texture2D Screentexture;
-        Texture2D texture2;
-        Rectangle Screenframe;
-        int Countur;
-        int Screenframes;
-        int ScreenframeSpeed;
+
+        private Texture2D Screentexture;
+        private Texture2D texture2;
+        private Rectangle Screenframe;
+        private int Countur;
+        private int Screenframes;
+        private int ScreenframeSpeed;
         public static string progressMessage;
+
         public void DrawSky()
         {
             texture2 = TextureCache.NotBleckScren;
@@ -601,7 +612,8 @@ namespace EEMod
             Main.spriteBatch.Draw(texture2, new Vector2(0, 0), new Color(204, 204, 204));
             Main.spriteBatch.Draw(Screentexture, position, new Rectangle(0, frame.Y, Screentexture.Width, Screentexture.Height / Screenframes), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, Screentexture.Width, Screentexture.Height / Screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
-        float alpha;
+
+        private float alpha;
         public static string screenMessageText;
 
         private void OnDrawMenu(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
@@ -650,201 +662,267 @@ namespace EEMod
                     case 0:
                         screenMessageText = "Europium Phosphorus Iodine Cabon Chromium Oxygen Tungsten Nitrogen Potassium Indium Gadolinium";
                         break;
+
                     case 1:
                         screenMessageText = "All good sprites made by Nomis";
                         break;
+
                     case 2:
                         screenMessageText = "Tip of the Day! Loading screens are useless";
                         break;
+
                     case 3:
                         screenMessageText = "Fear the MS Paint cat";
                         break;
+
                     case 4:
                         screenMessageText = "Terraria sprites need outlines... except when I make them";
                         break;
+
                     case 5:
                         screenMessageText = "Remove the Banding";
                         break;
+
                     case 6:
                         screenMessageText = Main.LocalPlayer.name + " ....huh...what a cruddy name";
                         break;
+
                     case 7:
                         screenMessageText = "Dont ping everyone you big dumb stupid";
                         break;
+
                     case 8:
                         screenMessageText = "I'm nothing without attention";
                         break;
+
                     case 9:
                         screenMessageText = "Why are you even reading this?";
                         break;
+
                     case 10:
                         screenMessageText = "We actually think we are funny";
                         break;
+
                     case 11:
                         screenMessageText = "Interitos...whats that?";
                         break;
+
                     case 12:
                         screenMessageText = "its my style";
                         break;
+
                     case 13:
                         screenMessageText = "Now featuring 50% more monkey per chimp!";
                         break;
+
                     case 14:
                         screenMessageText = "im angy";
                         break;
+
                     case 15:
                         screenMessageText = "All good music made by A44";
                         break;
+
                     case 16:
                         screenMessageText = "Mod is not edgy I swear!";
                         break;
+
                     case 17:
                         screenMessageText = "All good art made by cynik";
                         break;
+
                     case 18:
                         screenMessageText = "Im gonna have to mute you for that";
                         break;
+
                     case 19:
                         screenMessageText = "Gamers rise up!";
                         break;
+
                     case 20:
                         screenMessageText = "THATS NOT THE CONCEPT";
                         break;
+
                     case 21:
                         screenMessageText = "caramel popcorn and celeste";
                         break;
+
                     case 22:
                         screenMessageText = "D D D A G# G F D F G";
                         break;
+
                     case 23:
                         screenMessageText = "We live in a society";
                         break;
+
                     case 24:
                         screenMessageText = "Dont mine at night!";
                         break;
+
                     case 25:
                         screenMessageText = "deleting system32...";
                         break;
+
                     case 26:
                         screenMessageText = "Sans in real!";
                         break;
+
                     case 27:
                         screenMessageText = "I sure hope I didnt break the codeghsduighshsy";
                         break;
+
                     case 28:
                         screenMessageText = "If you liked endless escapade you will love endless escapade premium!";
                         break;
+
                     case 29:
                         screenMessageText = "When\nBottomText";
                         break;
+
                     case 30:
                         screenMessageText = "mario in real life";
                         break;
+
                     case 31:
                         screenMessageText = "All good concept art made by phanta";
                         break;
+
                     case 32:
                         screenMessageText = "EEMod Foretold? More like doesn't exist";
                         break;
+
                     case 33:
                         screenMessageText = "You think this is a game? Look behind you 0_0";
                         break;
+
                     case 34:
                         screenMessageText = "Respect the drip Karen";
                         break;
+
                     case 35:
                         screenMessageText = "phosh";
                         break;
+
                     case 36:
                         screenMessageText = "All good sprites made by daimgamer";
                         break;
+
                     case 37:
                         screenMessageText = "All good music made by Universe";
                         break;
+
                     case 38:
                         screenMessageText = "All good sprites made by Vadim";
                         break;
+
                     case 39:
                         screenMessageText = "All good sprites made by Zarn";
                         break;
+
                     case 40:
                         screenMessageText = "All good builds made by Cherry";
                         break;
+
                     case 41:
                         screenMessageText = "Haha funny mod go brrr";
                         break;
+
                     case 42:
                         screenMessageText = "Do a Barrel Roll";
                         break;
+
                     case 43:
                         screenMessageText = "The man behind the laughter";
                         break;
+
                     case 44:
                         screenMessageText = "All good weapons made by Graydee";
                         break;
+
                     case 45:
                         screenMessageText = "An apple a day keeps the errors away!";
                         break;
+
                     case 46:
                         screenMessageText = "Poggers? Poggers.";
                         break;
+
                     case 47:
                         screenMessageText = $"By the way, {Main.LocalPlayer.name} is a dumb name";
                         break;
+
                     case 48:
                         screenMessageText = "It all ends eventually!";
                         break;
+
                     case 49:
                         screenMessageText = "Illegal in 5 countries!";
                         break;
+
                     case 50:
                         screenMessageText = "Inside jokes you wont understand!";
                         break;
+
                     case 51:
                         screenMessageText = "Big content mod bad!";
                         break;
+
                     case 52:
                         screenMessageText = "Loading the random chimp event...";
                         break;
+
                     case 53:
                         screenMessageText = "Sending you to the Aether...";
                         break;
+
                     case 54:
                         screenMessageText = "When";
                         break;
+
                     case 55:
                         screenMessageText = "[Insert non funny joke here]";
                         break;
+
                     case 56:
                         screenMessageText = "The dev server is indeed an asylum";
                         break;
+
                     case 57:
                         screenMessageText = "owo";
                         break;
+
                     case 58:
                         screenMessageText = "That's how the mafia works";
                         break;
+
                     case 59:
                         screenMessageText = "Hacking the mainframe...";
                         break;
+
                     case 60:
                         screenMessageText = "Not Proud";
                         break;
+
                     case 61:
                         screenMessageText = "You know I think the ocean needs more con- Haha the literal ocean goes brr";
                         break;
+
                     case 62:
                         screenMessageText = "EA Jorts, it's in the seams.";
                         break;
+
                     case 63:
                         screenMessageText = "Forged in Fury";
                         break;
-                     case 64:
+
+                    case 64:
                         screenMessageText = "Have you guys heard of calamity?";
                         break;
-                     case 65:
+
+                    case 65:
                         screenMessageText = "Who's the ideas guy?";
                         break;
+
                     case 66:
                         screenMessageText = "Tomato? Tomato.";
                         break;
@@ -879,10 +957,9 @@ namespace EEMod
                     Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
                     Main.sunTexture = TextureCache.Terraria_SunTexture;
                 }
-
             }
         }
-        
+
         private void Main_DrawBackground(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -943,6 +1020,7 @@ namespace EEMod
             EEPlayer.moralScore -= 50;
             Main.NewText(EEPlayer.moralScore);
         }
+
         /*private static void ILSaveWorldTiles(ILContext il)
 {
     ILCursor c = new ILCursor(il);

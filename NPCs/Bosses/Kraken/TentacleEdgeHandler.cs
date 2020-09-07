@@ -1,10 +1,8 @@
-using Terraria;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
-using System;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Effects;
+using System;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
@@ -34,15 +32,16 @@ namespace EEMod.NPCs.Bosses.Kraken
             return false;
         }
 
-        Vector2[] startingPoint = new Vector2[5];
-        Vector2[] endingPoint = new Vector2[5];
-        Vector2[] midPoint = new Vector2[5];
-        float daFlop;
-        float daFlopX;
-        int coolDownForCollision;
-        KrakenHead krakenHead;
-        NPC npcBase;
-        Player player;
+        private Vector2[] startingPoint = new Vector2[5];
+        private Vector2[] endingPoint = new Vector2[5];
+        private Vector2[] midPoint = new Vector2[5];
+        private float daFlop;
+        private float daFlopX;
+        private int coolDownForCollision;
+        private KrakenHead krakenHead;
+        private NPC npcBase;
+        private Player player;
+
         public override void AI()
         {
             if (Main.npc[(int)npc.ai[0]].life <= 0)
@@ -59,9 +58,8 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-
-
         }
+
         private static float X(float t,
     float x0, float x1, float x2, float x3)
         {
@@ -72,6 +70,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 x3 * Math.Pow(t, 3)
             );
         }
+
         private static float Y(float t,
             float y0, float y1, float y2, float y3)
         {
@@ -82,6 +81,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                  y3 * Math.Pow(t, 3)
              );
         }
+
         public void DrawTentacleBeziers()
         {
             Color drawColor = npc.GetAlpha(Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f)));
@@ -128,7 +128,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                     /*if (npc.ai[1] % 8 == 0)
                     {
                         Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].Center.X, (int)Main.player[npc.target].Center.Y, Main.player[npc.target].width, Main.player[npc.target].height);
-                    
+
                         for (int j = 0; j < Helpers.ReturnPoints(startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, width, height, accuracy).Length; j++)
                         {
                             if (playerHitBox.Intersects(Helpers.ReturnPoints(startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, width, height, accuracy)[j]))

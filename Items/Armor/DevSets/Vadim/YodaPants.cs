@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Items.Armor.DevSets.Vadim
 {
@@ -22,6 +21,5 @@ namespace EEMod.Items.Armor.DevSets.Vadim
             item.rare = ItemRarityID.Cyan;
             item.defense = 11;
         }
-
     }
 }

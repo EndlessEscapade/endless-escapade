@@ -1,22 +1,23 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
-using Terraria.UI;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria.UI;
 
 namespace EEMod.UI
 {
     internal class DragableUIPanelBackgroundTexture : UIPanel
     {
-
         public Texture2D _backgroundTexture = null;
-        Color[] color = new Color[7];
+        private Color[] color = new Color[7];
+
         public DragableUIPanelBackgroundTexture(string Texture)
         {
             _backgroundTexture = ModContent.GetTexture(Texture);
         }
+
         public string[] StringOfTextures = {
             "EEMod/Projectiles/Runes/DesertRune",
             "EEMod/Projectiles/Runes/DepocaditaRune",
@@ -31,14 +32,14 @@ namespace EEMod.UI
 
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
-            for(int i = 0; i < Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore.Length; i++)
+            for (int i = 0; i < Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore.Length; i++)
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[i] == 1)
                 {
-                  if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
+                    if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
                     {
                         if (color[i].R < 255)
-                           color[i].R++;
+                            color[i].R++;
                         if (color[i].G < 255)
                             color[i].G++;
                         if (color[i].B < 255)

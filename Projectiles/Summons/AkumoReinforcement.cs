@@ -1,12 +1,8 @@
-using System;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
-using Microsoft.Xna.Framework;
 using EEMod.Buffs.Buffs;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Projectiles.Mage;
-using EEMod.Extensions; 
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Summons
 {

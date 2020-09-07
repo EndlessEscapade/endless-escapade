@@ -1,8 +1,7 @@
-using System;
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
 
 namespace EEMod.Projectiles
 {
@@ -28,6 +27,7 @@ namespace EEMod.Projectiles
         }
 
         public bool visible = false;
+
         public override void AI()
         {
             projectile.ai[0] += 0.1f;

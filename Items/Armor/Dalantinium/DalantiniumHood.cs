@@ -1,8 +1,7 @@
+using EEMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables;
-using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Items.Armor.Dalantinium
 {

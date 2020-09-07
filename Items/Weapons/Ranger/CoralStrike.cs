@@ -1,9 +1,7 @@
-﻿using Terraria;
+﻿using EEMod.Items.Placeables.Ores;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Melee;
-using EEMod.Projectiles.Runes;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -35,7 +33,6 @@ namespace EEMod.Items.Weapons.Ranger
 
             item.UseSound = SoundID.Item5;
         }
-
 
         public override void AddRecipes()
         {

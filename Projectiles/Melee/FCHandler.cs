@@ -1,8 +1,4 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,9 +26,9 @@ namespace EEMod.Projectiles.Melee
             projectile.damage = 0;
             projectile.alpha = 255;
             projectile.timeLeft = 1000000000;
-
         }
-        Vector2 GoTo;
+
+        private Vector2 GoTo;
 
         private NPC HomeOnTarget()
         {
@@ -60,9 +56,10 @@ namespace EEMod.Projectiles.Melee
                 return null;
             return Main.npc[selectedTarget];
         }
-        NPC npc;
-        int[] WTRPosition = Helpers.FillPseudoRandomUniform(4);
-        int dist = 300;
+
+        private NPC npc;
+        private int[] WTRPosition = Helpers.FillPseudoRandomUniform(4);
+        private int dist = 300;
         public int[] projectileIndex = { -1, -1, -1, -1 };
 
         public override void AI()
@@ -101,9 +98,7 @@ namespace EEMod.Projectiles.Melee
                         Main.projectile[projectileIndex[i]].velocity += (npc.Center + PositionScope[WTRPosition[i]] - Main.projectile[projectileIndex[i]].Center) / 200f - Main.projectile[projectileIndex[i]].velocity * 0.1f;
                     }
                 }
-
             }*/
         }
     }
 }
-

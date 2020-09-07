@@ -45,7 +45,6 @@ namespace EEMod.NPCs.CoralReefs
                     isBig = true;
             }
 
-
             npc.TargetClosest();
             Player target = Main.player[npc.target];
 

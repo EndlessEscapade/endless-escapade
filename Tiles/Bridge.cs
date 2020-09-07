@@ -1,9 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace EEMod.Tiles
 {
@@ -13,6 +12,7 @@ namespace EEMod.Tiles
         {
             DisplayName.SetDefault("Tile Experimentation");
         }
+
         private static float X(float t,
    float x0, float x1, float x2, float x3)
         {
@@ -23,6 +23,7 @@ namespace EEMod.Tiles
                 x3 * Math.Pow(t, 3)
             );
         }
+
         private static float Y(float t,
             float y0, float y1, float y2, float y3)
         {
@@ -33,6 +34,7 @@ namespace EEMod.Tiles
                  y3 * Math.Pow(t, 3)
              );
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (isSupport)
@@ -42,6 +44,7 @@ namespace EEMod.Tiles
             }
             return true;
         }
+
         public override void SetDefaults()
         {
             projectile.width = 16;
@@ -57,29 +60,30 @@ namespace EEMod.Tiles
             projectile.scale *= 1f;
         }
 
-        Vector2 endPoints = Main.LocalPlayer.Center - new Vector2(200, 200);
-        Vector2 startingPos = Main.LocalPlayer.Center;
-        Vector2 c1 = Main.LocalPlayer.Center - new Vector2(120, 100);
-        Vector2 c2 = Main.LocalPlayer.Center - new Vector2(120, 100);
+        private Vector2 endPoints = Main.LocalPlayer.Center - new Vector2(200, 200);
+        private Vector2 startingPos = Main.LocalPlayer.Center;
+        private Vector2 c1 = Main.LocalPlayer.Center - new Vector2(120, 100);
+        private Vector2 c2 = Main.LocalPlayer.Center - new Vector2(120, 100);
 
-        float dipX = (Main.LocalPlayer.Center - new Vector2(120, 210)).X;
-        float dipY = (Main.LocalPlayer.Center - new Vector2(120, 210)).Y;
-        float accelY;
-        float accelX;
-        float accel2 = 1;
-        float accel3;
-        float amplitude;
-        float maxSpeedY = 10;
-        float maxSpeedX = 10;
-        float firstPosX = (Main.LocalPlayer.Center).X;
-        float secondPosX = (Main.LocalPlayer.Center - new Vector2(200, 200)).X;
-        float firstPosY = (Main.LocalPlayer.Center).Y;
-        float secondPosY = (Main.LocalPlayer.Center - new Vector2(200, 200)).Y;
+        private float dipX = (Main.LocalPlayer.Center - new Vector2(120, 210)).X;
+        private float dipY = (Main.LocalPlayer.Center - new Vector2(120, 210)).Y;
+        private float accelY;
+        private float accelX;
+        private float accel2 = 1;
+        private float accel3;
+        private float amplitude;
+        private float maxSpeedY = 10;
+        private float maxSpeedX = 10;
+        private float firstPosX = (Main.LocalPlayer.Center).X;
+        private float secondPosX = (Main.LocalPlayer.Center - new Vector2(200, 200)).X;
+        private float firstPosY = (Main.LocalPlayer.Center).Y;
+        private float secondPosY = (Main.LocalPlayer.Center - new Vector2(200, 200)).Y;
         public static float checkForLowest;
         public static float trueControlPoint = ((Main.LocalPlayer.Center).X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X) / 2;
         public float chainsPerUse;
         public float rotDis;
         public bool isSupport;
+
         public override void AI()
         {
             Rectangle upperPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + 13, projectile.width, 3);
@@ -147,7 +151,6 @@ namespace EEMod.Tiles
                     maxSpeedX = (dipX - checkForLowest) / 20;
                 else
                     maxSpeedX = (checkForLowest - dipX) / 20;
-
             }
             secondPosX = endPoints.X;
             secondPosY = endPoints.Y;
@@ -208,8 +211,6 @@ namespace EEMod.Tiles
             projectile.rotation = projTrueRotation;
             projectile.ai[0] += 0.1f;
             projectile.velocity.Y += (float)Math.Sin(projectile.ai[0]) * 0.1f;
-
         }
-
     }
 }

@@ -1,9 +1,8 @@
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -44,6 +43,7 @@ namespace EEMod.Projectiles.Mage
         }
 
         private bool isClone;
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!isClone)

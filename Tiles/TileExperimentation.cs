@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles
 {
@@ -38,7 +38,9 @@ namespace EEMod.Tiles
 
             return true;
         }
-        bool canspawn = false;
+
+        private bool canspawn = false;
+
         public override void AI()
         {
             projectile.ai[0] += 0.1f;
@@ -55,7 +57,5 @@ namespace EEMod.Tiles
                 Main.LocalPlayer.position.Y = projectile.position.Y - Main.LocalPlayer.height + 1;
             }
         }
-
     }
 }
-

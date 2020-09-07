@@ -1,7 +1,7 @@
+using EEMod.Items.Materials.Fruit;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Materials.Fruit;
 
 namespace EEMod.Items.Armor
 {

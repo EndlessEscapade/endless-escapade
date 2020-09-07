@@ -1,10 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EEMod.Projectiles.CoralReefs;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
-using EEMod.Projectiles.CoralReefs;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
@@ -12,6 +12,7 @@ namespace EEMod.Tiles.Furniture.Coral
     {
         private bool isIntersecting;
         private int cooldown = 180;
+
         public override void SetDefaults()
         {
             Main.tileSolidTop[Type] = false;
@@ -35,7 +36,6 @@ namespace EEMod.Tiles.Furniture.Coral
             dustType = 107;
         }
 
-
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
             int frameX = Main.tile[i, j].frameX;
@@ -55,7 +55,6 @@ namespace EEMod.Tiles.Furniture.Coral
                         Projectile.NewProjectile(new Vector2((i * 16) - frameX, (j * 16) - frameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
                 if (cooldown == 0)
                 {
-
                     isIntersecting = false;
                     cooldown = 180;
                 }

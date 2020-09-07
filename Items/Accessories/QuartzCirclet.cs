@@ -7,7 +7,6 @@ using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.Accessories
 {
-
     public class QuartzCirclet : ModItem
     {
         //commit check

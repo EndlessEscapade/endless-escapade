@@ -1,17 +1,16 @@
+using EEMod.Extensions;
+using EEMod.Projectiles;
+using EEMod.Projectiles.Mage;
+using EEMod.Projectiles.Melee;
+using EEMod.Projectiles.Runes;
+using EEMod.Projectiles.Summons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
-using Terraria.ID;
-using EEMod.Projectiles.Melee;
-using EEMod.Projectiles.Mage;
 using Terraria.ModLoader;
-using EEMod.Extensions;
-using EEMod.Projectiles.Summons;
-using EEMod.Projectiles;
-using EEMod.Projectiles.Runes;
 
 namespace EEMod.Effects
 {
@@ -46,13 +45,12 @@ namespace EEMod.Effects
             }
             if (projectile.type == ModContent.ProjectileType<WaterDragonsBubble>() || projectile.type == ModContent.ProjectileType<BubblingWatersBubbleSmall>())
             {
-                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f,128f);
+                CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 128f);
             }
         }
 
         public void TryTrailKill(Projectile projectile)
         {
-
         }
 
         public void CreateTrail(Projectile projectile, ITrailColor trailType, ITrailCap trailCap, ITrailPosition trailPosition, float widthAtFront, float maxLength, ITrailShader shader = null)
@@ -319,12 +317,14 @@ namespace EEMod.Effects
     public interface ITrailShader
     {
         string ShaderPass { get; }
+
         void ApplyShader(Effect effect, Trail trail, List<Vector2> positions);
     }
 
     public class DefaultShader : ITrailShader
     {
         public string ShaderPass => "DefaultPass";
+
         public void ApplyShader(Effect effect, Trail trail, List<Vector2> positions)
         {
             effect.CurrentTechnique.Passes[ShaderPass].Apply();
@@ -385,12 +385,14 @@ namespace EEMod.Effects
             return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
         }
     }
+
     public interface ITrailColor
     {
         Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points);
     }
 
     #region Different Trail Color Types
+
     public class GradientTrail : ITrailColor
     {
         private Color _startColour;
@@ -458,6 +460,7 @@ namespace EEMod.Effects
             }
             return new Color(r, g, b);
         }
+
         private float GetColorComponent(float temp1, float temp2, float temp3)
         {
             if (temp3 < 0f)
@@ -491,15 +494,18 @@ namespace EEMod.Effects
             return _colour * (1f - progress);
         }
     }
-    #endregion
+
+    #endregion Different Trail Color Types
 
     public interface ITrailCap
     {
         int ExtraTris { get; }
+
         void AddCap(VertexPositionColorTexture[] array, ref int currentIndex, Color colour, Vector2 position, Vector2 startNormal, float width);
     }
 
     #region Different Trail Caps
+
     public class RoundCap : ITrailCap
     {
         public int ExtraTris => 20;
@@ -543,14 +549,15 @@ namespace EEMod.Effects
             }
         }
     }
+
     public class NoCap : ITrailCap
     {
         public int ExtraTris => 0;
 
         public void AddCap(VertexPositionColorTexture[] array, ref int currentIndex, Color colour, Vector2 position, Vector2 startNormal, float width)
         {
-
         }
     }
-    #endregion
+
+    #endregion Different Trail Caps
 }

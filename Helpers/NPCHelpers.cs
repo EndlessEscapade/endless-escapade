@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using EEMod.Extensions;
+using Terraria;
 using Terraria.ID;
-using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -25,6 +25,7 @@ namespace EEMod
                 return false;
             }
         }
+
         /// <summary>
         /// Looks for the first NPC in the <seealso cref="Main.npc"/> array that's alive and it's type is the one specified <paramref name="type"/>, starting from <paramref name="start"/>. <br />
         /// If no NPC is found, -1 is returned.

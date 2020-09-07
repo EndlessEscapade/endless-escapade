@@ -1,6 +1,3 @@
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -8,7 +5,6 @@ namespace EEMod.NPCs
 {
     public class BigChungus : ModNPC
     {
-
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Big Chungus");
@@ -30,4 +26,3 @@ namespace EEMod.NPCs
         }
     }
 }
-

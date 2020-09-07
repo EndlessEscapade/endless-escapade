@@ -1,11 +1,10 @@
+using EEMod.Projectiles.Ranged;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Projectiles
 {
@@ -18,11 +17,11 @@ namespace EEMod.Projectiles
         protected float progression => (projOwner.itemAnimation / (float)projOwner.itemAnimationMax);
         protected Player projOwner => Main.player[projectile.owner];
 
-
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
-        float Max = 100;
-        bool vanillaFlag;
+        private float Max = 100;
+        private bool vanillaFlag;
+
         public override void AI()
         {
             projectile.direction = projOwner.direction;
@@ -53,8 +52,10 @@ namespace EEMod.Projectiles
                 projectile.ai[1] = 1;
             }
         }
-        float gravAccel = 4;
-        int yeet;
+
+        private float gravAccel = 4;
+        private int yeet;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             yeet++;

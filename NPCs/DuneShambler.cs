@@ -41,7 +41,6 @@ namespace EEMod.NPCs
 
         public override void SetDefaults()
         {
-
             npc.width = 32;
             npc.height = 58;
             npc.damage = 12;
@@ -105,7 +104,6 @@ namespace EEMod.NPCs
                     return;
                 }
             }
-
         }
 
         public override void NPCLoot()

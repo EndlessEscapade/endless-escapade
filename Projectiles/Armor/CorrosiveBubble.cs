@@ -1,6 +1,6 @@
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Armor
 {
@@ -25,7 +25,7 @@ namespace EEMod.Projectiles.Armor
 
         public override void AI()
         {
-            if(Main.rand.NextBool(3))
+            if (Main.rand.NextBool(3))
                 Dust.NewDust(projectile.Center, 0, 0, DustID.ToxicBubble);
         }
     }

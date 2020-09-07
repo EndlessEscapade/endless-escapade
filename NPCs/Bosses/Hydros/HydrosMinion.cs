@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.Bosses.Hydros
 {
@@ -14,6 +13,7 @@ namespace EEMod.NPCs.Bosses.Hydros
         }
 
         private int frameNumber = 0;
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -28,7 +28,6 @@ namespace EEMod.NPCs.Bosses.Hydros
                 npc.frame.Y = frameNumber * 118;
             }
         }
-
 
         public override void SetDefaults()
         {
@@ -52,8 +51,6 @@ namespace EEMod.NPCs.Bosses.Hydros
                 npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 4;
             }
         }
-
-
 
         /*public override bool CheckDead()
         {

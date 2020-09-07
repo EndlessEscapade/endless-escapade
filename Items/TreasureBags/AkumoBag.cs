@@ -34,12 +34,15 @@ namespace EEMod.Items.TreasureBags
                 case 0:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<FeatheredDreamcatcher>(), 1);
                     break;
+
                 case 1:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<FeatheredChakram>(), 1);
                     break;
+
                 case 2:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<EggPistol>(), 1);
                     break;
+
                 case 3:
                     //Main.LocalPlayer.QuickSpawnItem(ItemType<WaterDragonsScale>(), 1);
                     break;

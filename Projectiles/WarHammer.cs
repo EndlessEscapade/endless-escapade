@@ -1,8 +1,8 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
@@ -21,6 +21,7 @@ namespace EEMod.Projectiles
         public virtual float weight => 1;
 
         public float damageMultiplier = 1;
+
         public override void AI()
         {
             bool isFlying = false;

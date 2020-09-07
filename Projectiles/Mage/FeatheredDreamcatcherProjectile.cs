@@ -1,8 +1,8 @@
-using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria;
-using System;
 using Microsoft.Xna.Framework;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -27,6 +27,7 @@ namespace EEMod.Projectiles.Mage
 
         private int dropTimer = 10;
         private bool firstFrame = true;
+
         public override void AI()
         {
             if (firstFrame)
@@ -70,7 +71,6 @@ namespace EEMod.Projectiles.Mage
 
         public override void Kill(int timeLeft)
         {
-
         }
     }
 }

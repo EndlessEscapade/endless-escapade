@@ -1,10 +1,9 @@
+using EEMod.Projectiles.Enemy;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles.Enemy;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 {
@@ -60,7 +59,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             npc.TargetClosest();
             Player target = Main.player[npc.target];
             npc.ai[1]++;
-            if(npc.ai[1] >= 60)
+            if (npc.ai[1] >= 60)
             {
                 npc.ai[2]++;
                 if (npc.ai[2] >= 2)
@@ -69,7 +68,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                     npc.ai[2] = 0;
                 }
 
-                if(target.position.Y <= npc.position.Y)
+                if (target.position.Y <= npc.position.Y)
                 {
                     npc.velocity.Y -= 16;
                     npc.velocity.X += Helpers.Clamp((target.Center.X - npc.Center.X) / 10, -8, 8);

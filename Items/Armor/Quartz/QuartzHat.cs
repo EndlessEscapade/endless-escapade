@@ -37,7 +37,6 @@ namespace EEMod.Items.Armor.Quartz
             player.setBonus = "6% increased magic critical strike chance\n10% reduced mana usage";
             player.magicCrit += 6;
             player.manaCost *= 0.9f;
-
         }
 
         public override void UpdateEquip(Player player)

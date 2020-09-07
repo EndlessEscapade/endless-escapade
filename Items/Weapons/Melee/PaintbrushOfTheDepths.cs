@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Melee
             item.autoReuse = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.knockBack = 4.5f; // 5 and 1/4
-            item.useTime = 20; 
+            item.useTime = 20;
             item.useAnimation = 20;
             item.value = Item.buyPrice(0, 0, 30, 0);
             item.damage = 14;

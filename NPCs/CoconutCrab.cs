@@ -12,8 +12,8 @@ namespace EEMod.NPCs
         public bool canTp = false;
         public bool onGround = false;
         public int alpha = 1;
-        readonly float accel = 0.2f;
-        readonly float maxSpeed = 1.4f;
+        private readonly float accel = 0.2f;
+        private readonly float maxSpeed = 1.4f;
         public Vector2 tilePos;
 
         public override void SetStaticDefaults()
@@ -36,6 +36,7 @@ namespace EEMod.NPCs
             npc.alpha = 20;
             npc.behindTiles = true;
         }
+
         public override void FindFrame(int frameHeight)
         {
             Player player = Main.player[npc.target];
@@ -57,7 +58,6 @@ namespace EEMod.NPCs
                 return;
             }
         }
-
 
         public override void AI()
         {
@@ -147,4 +147,3 @@ namespace EEMod.NPCs
         }
     }
 }
-

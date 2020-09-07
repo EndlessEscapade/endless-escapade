@@ -1,7 +1,7 @@
-﻿using System;
+﻿using EEMod.Extensions;
+using System;
 using System.Collections.Generic;
 using Terraria.ModLoader;
-using EEMod.Extensions;
 
 namespace EEMod.Autoloading.AutoloadTypes
 {

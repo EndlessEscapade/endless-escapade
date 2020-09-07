@@ -1,8 +1,8 @@
-using Terraria.ID;
-using Terraria.ModLoader;
 using EEMod.Items.Placeables.Ores;
 using EEMod.Projectiles.Melee;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -35,10 +35,12 @@ namespace EEMod.Items.Weapons.Melee
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<TideBreakerProj>();
         }
+
         public override bool CanUseItem(Player player)
         {
             return player.ownedProjectileCounts[item.shoot] < 1;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

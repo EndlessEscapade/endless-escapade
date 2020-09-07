@@ -1,15 +1,15 @@
+using EEMod.Tiles;
+using EEMod.Tiles.Ores;
+using EEMod.Tiles.Walls;
+using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
-using Microsoft.Xna.Framework;
-using EEMod.Tiles;
-using EEMod.Tiles.Walls;
-using System.Collections.Generic;
-using System;
-using EEMod.Tiles.Furniture;
-using EEMod.Tiles.Ores;
 using static EEMod.EEWorld.EEWorld;
+
 namespace EEMod
 {
     public class EESubWorlds
@@ -17,6 +17,7 @@ namespace EEMod
         public static IList<Vector2> ChainConnections = new List<Vector2>();
         public static IList<Vector2> OrbPositions = new List<Vector2>();
         public static Vector2 CoralBoatPos;
+
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
         {
             Main.maxTilesX = 400;
@@ -73,7 +74,6 @@ namespace EEMod
                 EEMod.progressMessage = "Finding Suitable Chasm Positions";
                 NoiseGenWave(new Vector2(300, 80), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
                 NoiseGenWave(new Vector2(300, 60), new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20), new Vector2(50, 50), TileID.StoneSlab, 0.6f);
-
 
                 //Making chasms
                 for (int i = 0; i < roomsLeft.Length; i++)
@@ -228,7 +228,6 @@ namespace EEMod
                     MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + Main.rand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
                 }
 
-
                 RemoveStoneSlabs();
 
                 MakeLayer(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400, 100, 1, ModContent.TileType<GemsandTile>());
@@ -263,13 +262,13 @@ namespace EEMod
 
                 EEMod.progressMessage = "Generating Ruins";
                 int mlem = 0;
-                while(mlem < 5)
+                while (mlem < 5)
                 {
                     int tileX = Main.rand.Next(100, 1400);
                     int tileY = Main.rand.Next(200, 700);
                     if (!Main.tile[tileX, tileY].active())
                     {
-                        if(Main.rand.NextBool())
+                        if (Main.rand.NextBool())
                             PlaceAnyBuilding(tileX, tileY, ReefRuins1);
                         else
                             PlaceAnyBuilding(tileX, tileY, ReefRuins2);
@@ -304,7 +303,7 @@ namespace EEMod
                 EEMod.progressMessage = e.ToString();
                 SubworldManager.PreSaveAndQuit();
             }
-            
+
             //Placing boat
             PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
             PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
@@ -327,17 +326,17 @@ namespace EEMod
                                 }
                             }
                         }
-                    for(int m = 0; m< OrbPositions.Count;m++)
+                        for (int m = 0; m < OrbPositions.Count; m++)
                         {
-                            if(Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200*200)
+                            if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
                             {
                                 noOfTiles++;
                             }
                         }
-                    if(noOfTiles == 0)
-                    {
-                        OrbPositions.Add(new Vector2(i, j));
-                    }
+                        if (noOfTiles == 0)
+                        {
+                            OrbPositions.Add(new Vector2(i, j));
+                        }
                     }
                     if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type])
                     {
@@ -370,7 +369,6 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-
             FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             RemoveWaterFromRegion(Main.maxTilesX, 170, new Vector2(0, 0));
 
@@ -380,12 +378,10 @@ namespace EEMod
 
             FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSandTile>());
 
-
             for (int i = 42; i < Main.maxTilesX - 42; i++)
             {
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
-
                     int yes = WorldGen.genRand.Next(0, 5);
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSandTile>())
@@ -396,14 +392,15 @@ namespace EEMod
                             case 0:
                                 WorldGen.PlaceTile(i, j - 1, 324);
                                 break;
+
                             case 1:
                                 WorldGen.PlaceTile(i, j - 1, 324, style: 2);
                                 break;
+
                             case 2:
                                 WorldGen.PlaceTile(i, j - 1, TileID.Coral);
                                 break;
                         }
-
                     }
                     yes = WorldGen.genRand.Next(0, 10);
                     if (TileCheck2(i, j) == 2 && yes == 0 && tile.type == TileID.Grass)
@@ -435,13 +432,13 @@ namespace EEMod
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;
         }
+
         public static void Island2(int seed, GenerationProgress customProgressObject = null)
         {
             Main.maxTilesX = 1000;
             Main.maxTilesY = 500;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-
 
             FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, new Vector2(0, 0));
             RemoveWaterFromRegion(Main.maxTilesX, 170, new Vector2(0, 0));
@@ -452,12 +449,10 @@ namespace EEMod
 
             FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 190), ModContent.TileType<CoralSandTile>());
 
-
             for (int i = 42; i < Main.maxTilesX - 42; i++)
             {
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
-
                     int yes = WorldGen.genRand.Next(0, 5);
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (TileCheck2(i, j) == 2 && yes < 3 && tile.type == ModContent.TileType<CoralSandTile>())
@@ -468,14 +463,15 @@ namespace EEMod
                             case 0:
                                 WorldGen.PlaceTile(i, j - 1, 324);
                                 break;
+
                             case 1:
                                 WorldGen.PlaceTile(i, j - 1, 324, style: 2);
                                 break;
+
                             case 2:
                                 WorldGen.PlaceTile(i, j - 1, TileID.Coral);
                                 break;
                         }
-
                     }
                     yes = WorldGen.genRand.Next(0, 10);
                     if (TileCheck2(i, j) == 2 && yes == 0 && tile.type == TileID.Grass)
@@ -498,12 +494,12 @@ namespace EEMod
 
             WorldGen.AddTrees();
 
-
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;
         }
+
         public static void Cutscene1(int seed, GenerationProgress customProgressObject = null)
         {
             Main.maxTilesX = 400;
@@ -530,6 +526,7 @@ namespace EEMod
             Main.spawnTileX = 200;
             Main.spawnTileY = 140;
         }
+
         public static void VolcanoIsland(int seed, GenerationProgress customProgressObject = null)
         {
             Main.maxTilesX = 1200;
@@ -538,7 +535,6 @@ namespace EEMod
             //Main.rockLayer = Main.maxTilesY;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-
 
             FillRegionWithWater(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             RemoveWaterFromRegion(Main.maxTilesX, 360, Vector2.Zero);
@@ -560,6 +556,7 @@ namespace EEMod
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;
         }
+
         public static void VolcanoInside(int seed, GenerationProgress customProgressObject = null)
         {
             Main.maxTilesX = 400;

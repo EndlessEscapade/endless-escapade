@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
 {
@@ -22,6 +22,7 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
         }
 
         public int hits;
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             hits++;
@@ -37,6 +38,7 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
         }
 
         private float scale = 1;
+
         public override void AI()
         {
             projectile.velocity.Y += 0.15f;

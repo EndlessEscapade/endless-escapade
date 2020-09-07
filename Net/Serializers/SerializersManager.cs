@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using EEMod.Autoloading;
+﻿using EEMod.Autoloading;
 using EEMod.Autoloading.AutoloadTypes;
 using EEMod.Extensions;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace EEMod.Net.Serializers
 {
@@ -33,13 +33,16 @@ namespace EEMod.Net.Serializers
         public static void AddSerializer<T>(NetObjSerializer<T> serializer, SerializerPriority priority) => AddSerializer(typeof(T), serializer, priority);
 
         public static NetObjSerializer GetTypeSerializer(Type fortype) => serializers.TryGetValue(fortype, out var serializer) ? serializer.GetHighestPrioritySerializer() : null;
+
         public static NetObjSerializer<T> GetTypeSerializer<T>() => (NetObjSerializer<T>)GetTypeSerializer(typeof(T));
 
-        class SerializerInfo
+        private class SerializerInfo
         {
-            Dictionary<SerializerPriority, NetObjSerializer> serializers;
+            private Dictionary<SerializerPriority, NetObjSerializer> serializers;
             private NetObjSerializer _cachedHighest;
+
             public NetObjSerializer GetHighestPrioritySerializer() => _cachedHighest;
+
             public void AddSerializer(SerializerPriority priority, NetObjSerializer serializer)
             {
                 serializers.Add(priority, serializer);
@@ -53,6 +56,7 @@ namespace EEMod.Net.Serializers
                 }
                 _cachedHighest = serializer;
             }
+
             public SerializerInfo(NetObjSerializer defaultSerializer, SerializerPriority priority = SerializerPriority.Medium)
             {
                 serializers = new Dictionary<SerializerPriority, NetObjSerializer>();

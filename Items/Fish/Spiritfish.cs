@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Fish
 {
@@ -21,7 +20,6 @@ namespace EEMod.Items.Fish
             item.value = Item.buyPrice(0, 0, 18, 0);
             item.rare = ItemRarityID.Green;
         }
-
 
         public override bool IsQuestFish()
         {

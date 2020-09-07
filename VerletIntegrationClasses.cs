@@ -1,35 +1,33 @@
-﻿using EEMod.Autoloading;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
+﻿using EEMod.Extensions;
 using Microsoft.Xna.Framework;
-using Terraria;
-using System.Collections.Generic;
-using EEMod.Extensions;
-using System.Linq;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using EEMod.Effects;
-using EEMod.Projectiles.Mage;
+using System.Collections.Generic;
+using Terraria;
 
 namespace EEMod
 {
     public class Verlet
     {
-        float gravity = 0.5f;
-        float bounce = 0.9f;
-        float AR = 0.99f;
-        int fluff = 1;
+        private float gravity = 0.5f;
+        private float bounce = 0.9f;
+        private float AR = 0.99f;
+        private int fluff = 1;
         public List<Stick> stickPoints = new List<Stick>();
         public static List<Point> points = new List<Point>();
+
         public int CreateVerletPoint(Vector2 pos, bool isStatic = false)
         {
             points.Add(new Point(pos, pos - new Vector2(Main.rand.Next(-10, 10), Main.rand.Next(-10, 10)), isStatic));
             return points.Count - 1;
         }
+
         public void ClearPoints()
         {
             points.Clear();
             stickPoints.Clear();
         }
+
         public int[] CreateVerletSquare(Vector2 pos, int size)
         {
             int a = CreateVerletPoint(pos + new Vector2(-size / 2, -size / 2));
@@ -43,6 +41,7 @@ namespace EEMod
             BindPoints(a, c);
             return new int[] { a, b, c, d };
         }
+
         public int[] CreateStickMan(Vector2 pos)
         {
             int first = CreateVerletPoint(pos);
@@ -77,6 +76,7 @@ namespace EEMod
             BindPoints(f, d, true, Color.Yellow);
             return new int[] { first, a, b, c, d, e, f, g, h, i, j, k };
         }
+
         public void BindPoints(int a, int b, bool isVisible = true, Color color = default)
         {
             try
@@ -88,6 +88,7 @@ namespace EEMod
                 Main.NewText("dont be dumb");
             }
         }
+
         public void Update()
         {
             UpdatePoints();
@@ -99,6 +100,7 @@ namespace EEMod
             }
             UpdateStickCollision();
         }
+
         public void GlobalRenderPoints()
         {
             RenderPoints();
@@ -119,6 +121,7 @@ namespace EEMod
                 this.vel = vel;
                 isStatic = false;
             }
+
             public Point(Vector2 point)
             {
                 this.point = point;
@@ -126,6 +129,7 @@ namespace EEMod
                 vel = new Vector2(0, 0);
                 isStatic = false;
             }
+
             public Point(Vector2 point, Vector2 oldPoint, bool isStatic)
             {
                 this.point = point;
@@ -133,6 +137,7 @@ namespace EEMod
                 this.vel = new Vector2(0, 0);
                 this.isStatic = isStatic;
             }
+
             public Point(Vector2 point, Vector2 oldPoint)
             {
                 this.point = point;
@@ -141,6 +146,7 @@ namespace EEMod
                 isStatic = false;
             }
         }
+
         public class Stick
         {
             public Vector2 p1;
@@ -155,6 +161,7 @@ namespace EEMod
             public int b;
             public bool isVisible;
             public Color color;
+
             public Stick(int a, int b, bool isVisible = true, Color color = default)
             {
                 this.a = a;
@@ -182,7 +189,8 @@ namespace EEMod
                 this.isVisible = isVisible;
             }
         }
-        void UpdateSticks()
+
+        private void UpdateSticks()
         {
             for (int i = 0; i < stickPoints.Count; i++)
             {
@@ -208,7 +216,8 @@ namespace EEMod
                 }
             }
         }
-        void UpdateStickCollision()
+
+        private void UpdateStickCollision()
         {
             for (int i = 0; i < stickPoints.Count; i++)
             {
@@ -226,7 +235,8 @@ namespace EEMod
                 }
             }
         }
-        void UpdatePoints()
+
+        private void UpdatePoints()
         {
             for (int i = 0; i < points.Count; i++)
             {
@@ -242,9 +252,9 @@ namespace EEMod
                 }
             }
         }
-        void RenderPoints()
-        {
 
+        private void RenderPoints()
+        {
             for (int i = 0; i < points.Count; i++)
             {
                 if (i == 0)
@@ -253,11 +263,11 @@ namespace EEMod
                 }
                 else
                 {
-
                 }
             }
         }
-        void RenderSticks()
+
+        private void RenderSticks()
         {
             for (int i = 0; i < stickPoints.Count; i++)
             {
@@ -274,7 +284,8 @@ namespace EEMod
                 }
             }
         }
-        int[] GetContactPoints(Vector2 point)
+
+        private int[] GetContactPoints(Vector2 point)
         {
             int[] points = new int[4];
             Vector2 tileP = point / 16;
@@ -342,7 +353,8 @@ namespace EEMod
             }
             return points;
         }
-        void ConstrainPoints()
+
+        private void ConstrainPoints()
         {
             for (int i = 0; i < points.Count; i++)
             {
@@ -366,7 +378,6 @@ namespace EEMod
                 {
                     points[i].oldPoint.X = ContactPoints[0] - fluff + points[i].vel.X * bounce;
                     points[i].point.X = ContactPoints[0] - fluff;
-
                 }
                 ContactPoints = GetContactPoints(points[i].point);
                 if (points[i].point.X < ContactPoints[1] + fluff && ContactPoints[1] != -1)
@@ -374,12 +385,10 @@ namespace EEMod
                     points[i].oldPoint.X = ContactPoints[1] + fluff + points[i].vel.X * bounce;
                     points[i].point.X = ContactPoints[1] + fluff;
                 }
-
-
-
             }
         }
-        void ConstrainToWorld()
+
+        private void ConstrainToWorld()
         {
             for (int i = 0; i < points.Count; i++)
             {
@@ -406,7 +415,6 @@ namespace EEMod
                     points[i].oldPoint.X = points[i].vel.X * bounce;
                     points[i].point.X = 0;
                 }
-
             }
         }
     }

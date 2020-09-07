@@ -1,10 +1,6 @@
-using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.IO;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Enemy
 {
@@ -33,7 +29,7 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
-            if(projectile.ai[0] == 0)
+            if (projectile.ai[0] == 0)
                 projectile.velocity = new Vector2(0, 2);
             if (projectile.ai[0] == 1)
             {

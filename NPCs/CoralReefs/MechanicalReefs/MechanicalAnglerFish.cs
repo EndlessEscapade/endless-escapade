@@ -1,10 +1,10 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
+using EEMod.Projectiles.Enemy;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using EEMod.Projectiles.Enemy;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
@@ -17,6 +17,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
         }
 
         private int frameNumber = 0;
+
         public override void FindFrame(int frameHeight)
         {
             npc.frame.Y = frameNumber * frameHeight;

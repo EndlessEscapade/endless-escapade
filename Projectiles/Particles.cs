@@ -1,10 +1,9 @@
-using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace EEMod.Projectiles
 {
     public class Particles : ModProjectile
@@ -26,7 +25,9 @@ namespace EEMod.Projectiles
             projectile.light = 0;
             projectile.timeLeft = 900;
         }
-        int sinControl;
+
+        private int sinControl;
+
         public override void AI()
         {
             projectile.scale = projectile.ai[0];
@@ -42,6 +43,7 @@ namespace EEMod.Projectiles
         }
 
         public float flash;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             flash += 0.01f;

@@ -1,9 +1,9 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
@@ -15,7 +15,8 @@ namespace EEMod.NPCs.Bosses.Kraken
             DisplayName.SetDefault("Kraken");
             Main.npcFrameCount[npc.type] = 6;
         }
-        int tentaclesPer = 7;
+
+        private int tentaclesPer = 7;
         private int frameUpdate;
         private int frameUpdate2;
         private bool mouthOpenConsume;
@@ -99,30 +100,31 @@ namespace EEMod.NPCs.Bosses.Kraken
             tentacleAlpha = 0;
         }
 
-        bool firstFrame = true;
-        float thrustingPower = 9;
-        float variablethrustingPower = 5;
-        bool thrust = false;
+        private bool firstFrame = true;
+        private float thrustingPower = 9;
+        private float variablethrustingPower = 5;
+        private bool thrust = false;
         public bool isRightOrLeft = true;
-        bool resetAnim = false;
+        private bool resetAnim = false;
         public Vector2 arenaPosition = new Vector2((Main.maxTilesX / 2) * 16, (Main.maxTilesY / 2 + 400) * 16);
         public Vector2[] dashPositions = new Vector2[5];
         public Vector2[] npcFromPositions = new Vector2[5];
-        Rectangle seperateFrame = new Rectangle(0, 0, 568, 472);
+        private Rectangle seperateFrame = new Rectangle(0, 0, 568, 472);
         public float numberOfPushes;
         public float tentaclerotation;
         public bool GETHIMBOIS;
         public float tentacleAlpha = 1;
         public bool hasChains;
-        Vector2[] geyserPositionsVarUp;
-        Vector2[] geyserPositionsVarDown;
-        Vector2[] geyserPositionsVarRight;
-        Vector2[] geyserPositionsVarLeft;
+        private Vector2[] geyserPositionsVarUp;
+        private Vector2[] geyserPositionsVarDown;
+        private Vector2[] geyserPositionsVarRight;
+        private Vector2[] geyserPositionsVarLeft;
         public int howMany = 5;
         public Vector2[] smolBloons = new Vector2[2];
         public Vector2[] bigBloons = new Vector2[2];
         public float waterLevel;
-        float speedOfIncline = 0.1f;
+        private float speedOfIncline = 0.1f;
+
         public void UpdateInkBlobs(int chance)
         {
             if (Main.rand.Next(chance) == 0)
@@ -596,7 +598,6 @@ namespace EEMod.NPCs.Bosses.Kraken
                         }
                     }
                 }
-
             }
         }
 

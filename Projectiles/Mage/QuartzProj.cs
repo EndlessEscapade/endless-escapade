@@ -39,7 +39,6 @@ namespace EEMod.Projectiles.Mage
                     Main.dust[num].noLight = false;
                 }
             }
-
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
@@ -50,7 +49,6 @@ namespace EEMod.Projectiles.Mage
         }
         public override void Kill(int timeLeft)
         {
-
             Main.PlaySound(SoundID.Item27, projectile.position);
             for (var i = 0; i < 20; i++)
             {

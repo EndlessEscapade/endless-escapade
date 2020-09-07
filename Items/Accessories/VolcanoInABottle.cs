@@ -1,13 +1,8 @@
-﻿using Terraria;
-using Terraria.ID;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Materials;
-
-using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.Accessories
 {
-
     public class VolcanoInABottle : ModItem
     {
         //commit check
@@ -26,4 +21,3 @@ namespace EEMod.Items.Accessories
         }
     }
 }
-

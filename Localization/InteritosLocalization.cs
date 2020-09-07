@@ -1,10 +1,3 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using Terraria;
-using Terraria.Localization;
-using Terraria.ModLoader;
-
 namespace EEMod.Localization
 {
     //public static class InteritosLocalization
@@ -32,6 +25,7 @@ namespace EEMod.Localization
     public static string GetBuffDesc(string buffname) => GetText("BuffDescription" + buffname); */
     //}
 }
+
 //      // private static string[][] _localizations;
 //      class TranslationThing : ConcurrentDictionary<GameCulture, ConcurrentDictionary<string, string>>
 //      {

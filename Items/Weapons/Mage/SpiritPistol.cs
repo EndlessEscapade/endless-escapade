@@ -1,8 +1,6 @@
-using Terraria;
+using EEMod.Projectiles.Mage;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles.Mage;
 
 namespace EEMod.Items.Weapons.Mage
 {

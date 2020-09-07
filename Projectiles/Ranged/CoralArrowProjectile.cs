@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles.Ranged
 {
@@ -31,7 +31,8 @@ namespace EEMod.Projectiles.Ranged
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
 
-        int bubol = 0;
+        private int bubol = 0;
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation() + (float)Math.PI / 2;
@@ -58,8 +59,8 @@ namespace EEMod.Projectiles.Ranged
                 Projectile.NewProjectile(projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: projectile.owner);
                 bubol = 0;
             }
-
         }
+
         public override void Kill(int timeLeft)
         {
             if (projectile.ai[1] == 1)

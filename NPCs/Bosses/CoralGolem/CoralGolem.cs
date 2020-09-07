@@ -1,10 +1,7 @@
-using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using EEMod.Compatibility;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.CoralGolem
 {

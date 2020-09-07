@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
@@ -18,7 +15,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
             projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
             projectile.penetrate = -1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
-            projectile.timeLeft = 70;  //The amount of time the projectile is alive for  
+            projectile.timeLeft = 70;  //The amount of time the projectile is alive for
             projectile.tileCollide = false;
         }
 

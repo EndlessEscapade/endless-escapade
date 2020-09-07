@@ -1,8 +1,8 @@
 using EEMod.Tiles.Banners;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
-using Terraria.ID;
 
 namespace EEMod.Items.Banners
 {

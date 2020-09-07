@@ -38,7 +38,6 @@ namespace EEMod.Items.Armor.Quartz
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Is to be announced lol";
-
         }
 
         public override void UpdateEquip(Player player)
@@ -46,7 +45,6 @@ namespace EEMod.Items.Armor.Quartz
             player.statDefense += 2;
             player.thrownDamage *= 1.06f;
             player.thrownCrit += 5;
-
         }
 
         public override void AddRecipes()

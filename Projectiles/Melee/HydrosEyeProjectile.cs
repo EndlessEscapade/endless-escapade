@@ -1,9 +1,9 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Melee
 {
@@ -35,6 +35,7 @@ namespace EEMod.Projectiles.Melee
             projectile.melee = true;
             projectile.scale = 1f;
         }
+
         // notes for aiStyle 99:
         // localAI[0] is used for timing up to YoyosLifeTimeMultiplier
         // localAI[1] can be used freely by specific types
@@ -42,7 +43,8 @@ namespace EEMod.Projectiles.Melee
         // ai[0] is -1f once YoyosLifeTimeMultiplier is reached, when the player is stoned/frozen, when the yoyo is too far away, or the player is no longer clicking the shoot button.
         // ai[0] being negative makes the yoyo move back towards the player
         // Any AI method can be used for dust, spawning projectiles, etc specific to your yoyo.
-        Vector2 closestNPCPos;
+        private Vector2 closestNPCPos;
+
         private void Trail(Vector2 from, Vector2 to, float scale)
         {
             float distance = Vector2.Distance(from, to);
@@ -52,10 +54,11 @@ namespace EEMod.Projectiles.Melee
                 Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 16, Vector2.Zero, 0, default(Color), scale).noGravity = true;
             }
         }
-        Vector2 center;
+
+        private Vector2 center;
+
         public override void PostAI()
         {
-
             alphaCounter += 0.04f;
             for (int i = 0; i < Main.npc.Length; i++)
             {
@@ -92,7 +95,9 @@ namespace EEMod.Projectiles.Melee
             }
             center = projectile.Center;
         }
-        float alphaCounter = 0;
+
+        private float alphaCounter = 0;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;

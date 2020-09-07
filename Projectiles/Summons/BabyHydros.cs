@@ -1,10 +1,8 @@
+using EEMod.Buffs.Buffs;
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles;
-using EEMod.Buffs.Buffs;
 
 namespace EEMod.Projectiles.Summons
 {
@@ -33,8 +31,9 @@ namespace EEMod.Projectiles.Summons
             projectile.minionSlots = 1;
         }
 
-        int attackTimer = 90;
-        bool firstFrame = true;
+        private int attackTimer = 90;
+        private bool firstFrame = true;
+
         public override void AI()
         {
             if (firstFrame)

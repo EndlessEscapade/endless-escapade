@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.DataStructures;
 
 namespace EEMod.Tiles.Furniture.Coral
 {

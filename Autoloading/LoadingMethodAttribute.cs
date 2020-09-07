@@ -9,7 +9,11 @@ namespace EEMod.Autoloading
     internal class LoadingMethodAttribute : Attribute
     {
         internal LoadMode mode;
-        public LoadingMethodAttribute() { }
+
+        public LoadingMethodAttribute()
+        {
+        }
+
         public LoadingMethodAttribute(LoadMode loadmode) => mode = loadmode;
     }
 }

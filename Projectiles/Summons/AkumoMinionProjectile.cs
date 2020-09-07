@@ -1,9 +1,9 @@
-using Terraria.ModLoader;
-using Terraria.ID;
-using Terraria;
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Summons
 {

@@ -1,12 +1,11 @@
+using EEMod.Buffs.Buffs;
+using EEMod.Extensions;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
-using EEMod.Buffs.Buffs;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Projectiles.Mage;
-using EEMod.Extensions;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Summons
 {
@@ -37,10 +36,10 @@ namespace EEMod.Projectiles.Summons
             projectile.hostile = false;
         }
 
-        Color minionGlow;
-        float[] projectileAiCont = new float[6];
-        int[] reinforcements = new int[3];
-        int frameSpeed = 4;
+        private Color minionGlow;
+        private float[] projectileAiCont = new float[6];
+        private int[] reinforcements = new int[3];
+        private int frameSpeed = 4;
 
         public override void AI()
         {
@@ -93,7 +92,6 @@ namespace EEMod.Projectiles.Summons
             projectile.spriteDirection = projectile.velocity.X > 0 ? -1 : 1;
             projectile.rotation = projectile.velocity.X / 12;
 
-
             #region Attacks
 
             if (Main.player[projectile.owner].statLife <= Main.player[projectile.owner].statLifeMax && reinforcements[2] == default && target != null)
@@ -132,7 +130,6 @@ namespace EEMod.Projectiles.Summons
             {
                 #region Fire attack
 
-
                 projectile.velocity = -Vector2.Normalize(projectile.Center - new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) * 2;
 
                 if (Vector2.Distance(projectile.Center, new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) <= 32)
@@ -170,14 +167,12 @@ namespace EEMod.Projectiles.Summons
                     radius += 4;
                 }
 
-
-                #endregion
+                #endregion Fire attack
             }*/
 
             if (projectile.ai[0] == 2)
             {
                 #region Feather attack
-
 
                 projectile.velocity *= 0.98f;
 
@@ -188,7 +183,7 @@ namespace EEMod.Projectiles.Summons
 
                 projectileAiCont[2] += 0.02f;
                 projectile.velocity = Vector2.Normalize(projectile.Center - new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) * -2 - projectile.velocity * 0.03f;
-                if (Vector2.DistanceSquared(projectile.Center, new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) <= 4*4)
+                if (Vector2.DistanceSquared(projectile.Center, new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) <= 4 * 4)
                 {
                     projectile.spriteDirection = target.Center.X >= projectile.Center.X ? -1 : 1;
                     projectile.rotation = 0;
@@ -207,14 +202,12 @@ namespace EEMod.Projectiles.Summons
                     projectileAiCont[1] = 0;
                 }
 
-
-                #endregion
+                #endregion Feather attack
             }
 
             if (projectile.ai[0] == 3)
             {
                 #region Dash attack
-
 
                 frameSpeed = 3;
                 if (projectileAiCont[0] < 5)
@@ -236,10 +229,10 @@ namespace EEMod.Projectiles.Summons
                 }
                 minionGlow = Color.Red;
 
-
-                #endregion
+                #endregion Dash attack
             }
-            #endregion
+
+            #endregion Attacks
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

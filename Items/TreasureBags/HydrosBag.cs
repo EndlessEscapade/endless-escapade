@@ -37,15 +37,19 @@ namespace EEMod.Items.TreasureBags
                 case 0:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<HydrosEye>(), 1);
                     break;
+
                 case 1:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<CyanoburstTome>(), 1);
                     break;
+
                 case 2:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<Triggerfish>(), 1);
                     break;
+
                 case 3:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<Hydroshot>(), 1);
                     break;
+
                 case 4:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<EnchantedCoral>(), 1);
                     break;

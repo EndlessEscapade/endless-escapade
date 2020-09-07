@@ -1,9 +1,8 @@
-using Terraria;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
-using Terraria.ModLoader;
-using System;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
@@ -26,14 +25,15 @@ namespace EEMod.NPCs.Bosses.Kraken
             npc.knockBackResist = 0f;
         }
 
-        Vector2 startingPosition;
-        Vector2 distance;
-        bool isGrabbing0;
-        bool isGrabbing1;
-        bool isRetrating = false;
-        bool yeet;
-        float distanceCovered = 2000;
-        float alpha = 1;
+        private Vector2 startingPosition;
+        private Vector2 distance;
+        private bool isGrabbing0;
+        private bool isGrabbing1;
+        private bool isRetrating = false;
+        private bool yeet;
+        private float distanceCovered = 2000;
+        private float alpha = 1;
+
         public override bool CheckActive()
         {
             return false;
@@ -48,7 +48,6 @@ namespace EEMod.NPCs.Bosses.Kraken
             Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height);
             if (npc.ai[3] == 0)
             {
-
                 npc.spriteDirection = -1;
                 if (isGrabbing0 && !isRetrating)
                 {
@@ -120,7 +119,6 @@ namespace EEMod.NPCs.Bosses.Kraken
                     npc.velocity.Y += (float)Math.Sin(npc.ai[0] / 10f) * 0.04f;
                 }
                 distance = (npc.Center - startingPosition);
-
             }
             if (npc.ai[3] == 1)
             {
@@ -222,7 +220,6 @@ namespace EEMod.NPCs.Bosses.Kraken
               Main.spriteBatch.Draw(texture, npc.Center + new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2 + new Vector2(70,0), new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
               if (npc.ai[3] == 1)
                   Main.spriteBatch.Draw(texture, npc.Center - new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2 + new Vector2(70, 0), new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);*/
-
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

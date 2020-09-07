@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EEMod.Extensions
+﻿namespace EEMod.Extensions
 {
     public static class ArrayExtensions
     {
@@ -18,6 +12,7 @@ namespace EEMod.Extensions
             for (int i = 0; i < t.Length; i++)
                 t[i] = new T();
         }
+
         public static void InitializeNulls<T>(this T[] t) where T : class, new()
         {
             for (int i = 0; i < t.Length; i++)
@@ -26,6 +21,7 @@ namespace EEMod.Extensions
                     t[i] = new T();
             }
         }
+
         public static void SetAllDefault<T>(this T[] t)
         {
             for (int i = 0; i < t.Length; i++)

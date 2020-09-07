@@ -1,9 +1,6 @@
+using EEMod.Projectiles.Mage;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
-using EEMod.Projectiles.Mage;
 
 namespace EEMod.Projectiles.Ranged
 {
@@ -14,6 +11,7 @@ namespace EEMod.Projectiles.Ranged
             DisplayName.SetDefault("Corrodent Shotbow");
             Main.projFrames[projectile.type] = 7;
         }
+
         public override void SetDefaults()
         {
             projectile.width = 40;
@@ -42,6 +40,7 @@ namespace EEMod.Projectiles.Ranged
                 projectile.frameCounter = 0;
             }
         }
+
         public override float speedOfArrow => 3.5f;
         public override float minGrav => 0.3f;
         public override float ropeThickness => 40f;

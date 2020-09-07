@@ -1,7 +1,6 @@
-using Terraria;
+using EEMod.Projectiles;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles;
 
 namespace EEMod.Items
 {

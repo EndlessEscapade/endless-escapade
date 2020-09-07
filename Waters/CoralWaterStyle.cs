@@ -1,9 +1,7 @@
-
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
-using static Terraria.ModLoader.ModContent;
+using Terraria.ModLoader;
 
 namespace EEMod.Waters
 {

@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using EEMod.Mounts;
 
 namespace EEMod.Buffs.Buffs
 {

@@ -1,21 +1,23 @@
+using EEMod.Compatibility;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Compatibility;
 
 namespace EEMod.NPCs.Bosses.Akumo
 {
     public class Akumo : ModNPC
     {
         private int wingsPer = 6;
+
         private float wingspeed
         {
             get => wingsPer;
             set => wingsPer = (int)(Math.Round((1 / (float)value) * 10));
         }
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Akumo");
@@ -55,7 +57,6 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override void FindFrame(int frameHeight)
         {
-
             frameUpdate++;
             if (frameUpdate == wingsPer)
             {
@@ -68,7 +69,6 @@ namespace EEMod.NPCs.Bosses.Akumo
             }
             if (npc.frame.Y >= frameHeight * 8)
             {
-
                 npc.frame.Y = 0;
                 return;
             }
@@ -86,7 +86,9 @@ namespace EEMod.NPCs.Bosses.Akumo
             EEWorld.EEWorld.downedAkumo = true;
             //EEMod.ServBoolUpdate();
         }
-        Vector2 addOn;
+
+        private Vector2 addOn;
+
         private void switchPos(int mode)
         {
             switch (mode)
@@ -107,8 +109,8 @@ namespace EEMod.NPCs.Bosses.Akumo
                         break;
                     }
             }
-
         }
+
         private bool isDashing = false;
         private bool isVortexing = false;
         private bool isCircling = false;
@@ -125,7 +127,6 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override void AI()
         {
-
             if (npc.ai[2] == 0 || npc.ai[2] == 2)
                 lengthOfAttack = lengthOfAttack1;
             else if (npc.ai[2] == 3)
@@ -157,12 +158,15 @@ namespace EEMod.NPCs.Bosses.Akumo
                     case 0:
                         Dash();
                         break;
+
                     case 1:
                         Vortex();
                         break;
+
                     case 2:
                         Feathers();
                         break;
+
                     case 3:
                         Ascend();
                         break;
@@ -212,7 +216,9 @@ namespace EEMod.NPCs.Bosses.Akumo
                 }
             }
         }
-        int akumoDirectionDescision;
+
+        private int akumoDirectionDescision;
+
         private void Dash()
         {
             npc.TargetClosest(true);
@@ -245,6 +251,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                 npc.ai[1]++;
             }
         }
+
         private void Feathers()
         {
             npc.velocity *= 0.98f;
@@ -420,7 +427,8 @@ namespace EEMod.NPCs.Bosses.Akumo
         }
 
         private float alpha, scale;
-        bool scree => npc.ai[0] < 60 && npc.ai[0] > 0;
+        private bool scree => npc.ai[0] < 60 && npc.ai[0] > 0;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Texture2D texture = TextureCache.Akumo;

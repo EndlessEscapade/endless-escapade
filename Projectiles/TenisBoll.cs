@@ -1,11 +1,11 @@
-﻿using Terraria;
-using Terraria.ModLoader;
+﻿using EEMod.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.IO;
+using Terraria;
 using Terraria.ID;
-using EEMod.Items;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
@@ -31,12 +31,15 @@ namespace EEMod.Projectiles
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Bounce(projectile.modProjectile, oldVelocity, .7f);
             return false;
         }
-        static Vector2 SavedVel;
+
+        private static Vector2 SavedVel;
+
         public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
         {
             Projectile projectile = modProj.projectile;
@@ -46,9 +49,11 @@ namespace EEMod.Projectiles
             if (projectile.velocity.Y != oldVelocity.Y)
                 projectile.velocity.Y = -oldVelocity.Y * bouncyness;
         }
-        int frames = 11;
-        int frame;
-        float ree = 0;
+
+        private int frames = 11;
+        private int frame;
+        private float ree = 0;
+
         public static int GetPlayer(Vector2 center, int[] playersToExclude = default, bool activeOnly = true, float distance = -1, Func<Player, bool> CanAdd = null)
         {
             int currentPlayer = -1;
@@ -74,7 +79,9 @@ namespace EEMod.Projectiles
             }
             return currentPlayer;
         }
-        int indexOfProjectile;
+
+        private int indexOfProjectile;
+
         public override void SendExtraAI(BinaryWriter writer)
         {
             writer.WriteVector2(SavedVel);
@@ -83,6 +90,7 @@ namespace EEMod.Projectiles
             writer.Write(ree);
             writer.Write(indexOfProjectile);
         }
+
         public override void ReceiveExtraAI(BinaryReader reader)
         {
             SavedVel = reader.ReadVector2();
@@ -91,6 +99,7 @@ namespace EEMod.Projectiles
             ree = reader.ReadInt32();
             indexOfProjectile = reader.ReadInt32();
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player chosenPlayer = Main.player[GetPlayer(projectile.Center)];
@@ -109,8 +118,10 @@ namespace EEMod.Projectiles
             }
             return true;
         }
-        static Vector2 mouseHitBoxVec;
+
+        private static Vector2 mouseHitBoxVec;
         public static Projectile chosenRacket;
+
         public override void AI()
         {
             Player Yoda = Main.player[GetPlayer(projectile.Center)];

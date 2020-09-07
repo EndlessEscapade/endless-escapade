@@ -59,7 +59,7 @@ namespace EEMod.Items
             {
                 projectile.Kill();
             }
-            
+
             if (projectile.alpha > 0)
             {
                 projectile.alpha--;

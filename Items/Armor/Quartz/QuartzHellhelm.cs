@@ -35,7 +35,6 @@ namespace EEMod.Items.Armor.Quartz
         public override void UpdateArmorSet(Player player)
         {
             player.setBonus = "Vanity.";
-
         }
 
         public override void UpdateEquip(Player player)

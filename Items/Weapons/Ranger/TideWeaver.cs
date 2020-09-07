@@ -1,8 +1,7 @@
-﻿using Terraria;
+﻿using EEMod.Projectiles.Ranged;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -35,6 +34,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<TideWeaverProj>();
         }
+
         public override bool CanUseItem(Player player)
         {
             // Ensures no more than one spear can be thrown out, use this when using autoReuse

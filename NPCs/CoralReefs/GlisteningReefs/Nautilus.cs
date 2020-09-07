@@ -1,11 +1,10 @@
-﻿using Terraria;
-using Terraria.Audio;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using EEMod.EEWorld;
 using System;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
+
 namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 {
     internal class Nautilus : ModNPC
@@ -16,6 +15,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
         }
 
         private int frameNumber = 0;
+
         public override void FindFrame(int frameHeight)
         {
             npc.frameCounter++;
@@ -53,6 +53,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             npc.lavaImmune = false;
             npc.noTileCollide = false;
         }
+
         private void Move(Player player, float sped, float TR, Vector2 addOn)
         {
             Vector2 moveTo = player.Center + addOn;

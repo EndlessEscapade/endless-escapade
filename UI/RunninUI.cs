@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
-using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace EEMod.UI
@@ -10,7 +9,8 @@ namespace EEMod.UI
     {
         public new float HAlign;
         public new float VAlign;
-        UIText text = new UIText("");
+        private UIText text = new UIText("");
+
         public override void OnInitialize()
         {
             UIPanel panel = new UIPanel();
@@ -29,6 +29,7 @@ namespace EEMod.UI
             panel.Append(text);
             Append(panel);
         }
+
         public override void Update(GameTime gameTime)
         {
             EEPlayer player = Main.LocalPlayer.GetModPlayer<EEPlayer>();

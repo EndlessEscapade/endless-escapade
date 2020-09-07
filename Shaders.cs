@@ -1,9 +1,9 @@
-﻿using Terraria;
+﻿using EEMod.Autoloading;
+using EEMod.NPCs.Bosses.Akumo;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Autoloading;
-using EEMod.NPCs.Bosses.Akumo;
 
 namespace EEMod
 {
@@ -12,10 +12,10 @@ namespace EEMod
         public static int noOfPasses = 1;
         public static int startingTermination = 1;
         public static int maxNumberOfLights = 1000;
+
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
-            
             // instance is a static field and this method is still inside the mod class
             Ref<Effect> screenRef = new Ref<Effect>(instance.GetEffect("Effects/PracticeEffect"));
             Ref<Effect> screenRef2 = new Ref<Effect>(instance.GetEffect("Effects/Shockwave"));

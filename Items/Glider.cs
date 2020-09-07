@@ -1,10 +1,7 @@
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles.Ranged;
-using Microsoft.Xna.Framework;
-using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Items
 {
@@ -39,7 +36,7 @@ namespace EEMod.Items
 
                 player.velocity.Y = 1;
                 if (Math.Abs(player.velocity.X) < 18)
-                    if((player.controlRight && player.velocity.X > 0) || (player.controlLeft && player.velocity.X < 0))
+                    if ((player.controlRight && player.velocity.X > 0) || (player.controlLeft && player.velocity.X < 0))
                         player.velocity.X *= 1.02f;
             }
         }

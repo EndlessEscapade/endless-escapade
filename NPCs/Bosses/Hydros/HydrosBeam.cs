@@ -1,6 +1,6 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.NPCs.Bosses.Hydros

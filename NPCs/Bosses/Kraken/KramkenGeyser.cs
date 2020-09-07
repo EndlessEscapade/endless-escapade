@@ -1,8 +1,7 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using System;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
@@ -21,7 +20,6 @@ namespace EEMod.NPCs.Bosses.Kraken
             projectile.aiStyle = -1;
             projectile.timeLeft = 180;
             projectile.tileCollide = false;
-
         }
 
         public override void AI()
@@ -86,6 +84,5 @@ namespace EEMod.NPCs.Bosses.Kraken
                 projectile.netUpdate = true;
             }
         }
-
     }
 }

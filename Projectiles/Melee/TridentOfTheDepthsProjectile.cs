@@ -1,6 +1,6 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles.Melee
 {
@@ -38,6 +38,7 @@ namespace EEMod.Projectiles.Melee
         }
 
         private int timer = 5;
+
         // It appears that for this AI, only the ai0 field is used!
         public override void AI()
         {

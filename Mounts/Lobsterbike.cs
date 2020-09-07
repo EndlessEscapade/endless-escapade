@@ -1,13 +1,10 @@
+using EEMod.Autoloading;
+using EEMod.Buffs.Buffs;
+using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Buffs.Buffs;
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using Terraria.DataStructures;
-using EEMod.Autoloading;
 
 namespace EEMod.Mounts
 {
@@ -76,9 +73,12 @@ namespace EEMod.Mounts
         {
             // count tracks how many balloons are still left. See ExamplePerson.Hurt to see how count decreases whenever damage is taken.
             internal int count;
+
             internal float[] rotations;
-            [FieldInit(FieldInitType.CustomValue, new float[] { 0, 14, -14})]
+
+            [FieldInit(FieldInitType.CustomValue, new float[] { 0, 14, -14 })]
             internal static float[] offsets = new float[] { 0, 14, -14 };
+
             public LobsterbikeSpecificData()
             {
                 count = 3;

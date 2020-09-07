@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -10,8 +7,8 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
 {
     public class SecondPhaseInkBlob : ModProjectile
     {
-
         public static short customGlowMask = 0;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ink Blob");
@@ -31,11 +28,13 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             projectile.scale = 1;
             projectile.alpha = 255;
         }
-        Vector2 start;
-        Vector2[] yeet = new Vector2[2];
+
+        private Vector2 start;
+        private Vector2[] yeet = new Vector2[2];
         KrakenHead krakenHead => Main.npc[(int)projectile.ai[1]].modNPC as KrakenHead;
-        bool yes = false;
-        int Timer; //I will sync it I swear
+        private bool yes = false;
+        private int Timer; //I will sync it I swear
+
         public override void AI()
         {
             if (Main.npc[(int)projectile.ai[1]].life <= 0)

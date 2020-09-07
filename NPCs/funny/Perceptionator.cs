@@ -1,10 +1,8 @@
 using Microsoft.Xna.Framework;
-using System;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod;
 
 namespace EEMod.NPCs.funny
 {
@@ -54,8 +52,6 @@ namespace EEMod.NPCs.funny
 
             if (npc.ai[3] == 0)
                 npc.ai[3] = NPC.NewNPC((int)npc.Center.X, (int)npc.Center.Y, ModContent.NPCType<Jawbrawn>());
-
-
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color DrawColor)
