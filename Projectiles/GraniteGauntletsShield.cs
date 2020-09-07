@@ -1,15 +1,14 @@
-using System;
+using EEMod.Buffs.Buffs;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Buffs.Buffs;
 
 namespace EEMod.Projectiles
 {
     public class GraniteGauntletsShield : ModProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Granite Shield");
@@ -30,6 +29,7 @@ namespace EEMod.Projectiles
         }
 
         private bool firstFrame = true;
+
         public override void AI()
         {
             Player ownerplayer = Main.player[projectile.owner];

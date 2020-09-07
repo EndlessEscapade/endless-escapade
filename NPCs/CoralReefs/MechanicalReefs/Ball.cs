@@ -1,9 +1,9 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
@@ -46,6 +46,7 @@ float x0, float x1, float x2, float x3)
                 x3 * Math.Pow(t, 3)
             );
         }
+
         private static float Y(float t,
             float y0, float y1, float y2, float y3)
         {
@@ -73,7 +74,6 @@ float x0, float x1, float x2, float x3)
                 {
                     if (i % chainsPerUse * 2 == 0)
                     {
-
                     }
                     Vector2 distBetween;
                     float projTrueRotation;
@@ -112,7 +112,6 @@ float x0, float x1, float x2, float x3)
             double deg = (double)npc.ai[1] + 10;
             double rad = deg * (Math.PI / 180) + Math.PI / 2;
             double dist = 180;
-
 
             npc.ai[2] = npc.Center.X - (float)(Math.Cos(rad) * dist) - npc.width / 2;
             npc.ai[3] = npc.Center.Y - (float)(Math.Sin(rad) * dist) - npc.height / 2;

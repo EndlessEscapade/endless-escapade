@@ -1,7 +1,7 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
@@ -40,7 +40,6 @@ namespace EEMod.Projectiles
                 projectile.ai[0] += 1f;
             }
             return;
-
         }
 
         public override void Kill(int timeLeft)
@@ -69,6 +68,7 @@ namespace EEMod.Projectiles
             player.AddBuff(BuffID.Frostburn, 120);
             player.AddBuff(BuffID.CursedInferno, 120);				//this make so when the projectile/flame hit a npc, gives it the buff  onfire , 80 = 3 seconds
         }
+
         //private void LookInDirectionP(Vector2 look) // unused
         //{
         //    float angle = 0.5f * (float)Math.PI;
@@ -92,6 +92,5 @@ namespace EEMod.Projectiles
             projectile.Kill();
             return false;
         }
-
     }
 }

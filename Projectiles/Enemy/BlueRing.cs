@@ -1,10 +1,8 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System.IO;
 
 namespace EEMod.Projectiles.Enemy
 {
@@ -33,12 +31,13 @@ namespace EEMod.Projectiles.Enemy
             projectile.spriteDirection = -1;
         }
 
-        float radius = 0;
+        private float radius = 0;
+
         public override void AI()
         {
             Vector2 origin = projectile.Center;
             projectile.ai[0]++;
-            radius = 8 * (float)Math.Sin(projectile.ai[0]/10) + 24;
+            radius = 8 * (float)Math.Sin(projectile.ai[0] / 10) + 24;
             int numLocations = 40;
             for (int i = 0; i < numLocations; i++)
             {

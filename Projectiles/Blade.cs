@@ -1,10 +1,9 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles
 {
@@ -26,16 +25,16 @@ namespace EEMod.Projectiles
 
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
-        int width = 128;
-        int height = 128;
-        int frames = 5;
-        int SlashType;
-        int Direction = Main.rand.Next(0, 2);
-        float rotation;
-        Vector2 offsetHoldout;
+        private int width = 128;
+        private int height = 128;
+        private int frames = 5;
+        private int SlashType;
+        private int Direction = Main.rand.Next(0, 2);
+        private float rotation;
+        private Vector2 offsetHoldout;
+
         public override void AI()
         {
-
             projectile.direction = projOwner.direction;
             projOwner.heldProj = projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;

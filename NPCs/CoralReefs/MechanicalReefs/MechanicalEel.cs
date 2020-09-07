@@ -1,10 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles.Enemy;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
@@ -55,7 +53,8 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
-        Vector2 oldPlayerPos = new Vector2();
+        private Vector2 oldPlayerPos = new Vector2();
+
         public override void AI()
         {
             npc.TargetClosest();
@@ -85,11 +84,11 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                     npc.ai[0] = 100;
                 }
 
-                if (Vector2.DistanceSquared(target.Center, npc.Center) <= 640*640)
+                if (Vector2.DistanceSquared(target.Center, npc.Center) <= 640 * 640)
                 {
                     for (int i = 0; i < 50; i++)
                     {
-                        Vector2 position = Vector2.Lerp(target.Center, npc.Center, i/50f);
+                        Vector2 position = Vector2.Lerp(target.Center, npc.Center, i / 50f);
                         Dust dust = Dust.NewDustPerfect(position, 111);
                         dust.noGravity = true;
                         dust.velocity = Vector2.Zero;
@@ -102,7 +101,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             if (npc.ai[1] == 0)
             {
                 npc.velocity *= 0.99f;
-                if(npc.ai[0] >= 100)
+                if (npc.ai[0] >= 100)
                 {
                     npc.velocity += Vector2.Normalize(target.Center - npc.Center) * 10;
                     npc.ai[0] = 0;

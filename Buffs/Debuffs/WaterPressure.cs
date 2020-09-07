@@ -1,6 +1,5 @@
 using Terraria;
 using Terraria.ModLoader;
-using EEMod.Projectiles;
 
 namespace EEMod.Buffs.Debuffs
 {

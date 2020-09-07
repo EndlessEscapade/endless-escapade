@@ -1,11 +1,5 @@
-﻿using Terraria;
+﻿using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.IO;
-using Terraria.ID;
-using EEMod.Items;
 
 namespace EEMod.Projectiles.Ranged
 {

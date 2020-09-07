@@ -1,9 +1,8 @@
 using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Graphics.Shaders;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.ID;
+using Terraria;
 using Terraria.Graphics.Effects;
+using Terraria.ID;
 
 namespace EEMod
 {
@@ -14,26 +13,27 @@ namespace EEMod
         public override Vector2 centerOfMainCanvas => Main.LocalPlayer.Center;
         public override Color colourOfMainCanvas => Color.White;
         public override float speedOfStartUp => 16f;
-        float pauseShaderTImer;
+        private float pauseShaderTImer;
+
         public override void Initialize()
         {
             for (int i = 0; i < Main.ActivePlayersCount; i++)
             {
-                    int puck = AddUIElement(new Vector2(30, 30), Color.White,centerOfMainCanvas + new Vector2(-300 + (i*600),0));
-                    elementArray[puck].AttatchToMouse(16f, i);
-                    elementArray[puck].BindElementToGame(this);
-                    elementArray[puck].AttachCollisionComponents(true, false, false);
+                int puck = AddUIElement(new Vector2(30, 30), Color.White, centerOfMainCanvas + new Vector2(-300 + (i * 600), 0));
+                elementArray[puck].AttatchToMouse(16f, i);
+                elementArray[puck].BindElementToGame(this);
+                elementArray[puck].AttachCollisionComponents(true, false, false);
                 if (i == 0)
                 {
                     elementArray[puck].BindElementToTexture(TextureCache.BluePuck);
-                  //  if(Main.myPlayer == 1)
-                   // elementArray[puck].AttachCollisionComponents(false, false, false);
+                    //  if(Main.myPlayer == 1)
+                    // elementArray[puck].AttachCollisionComponents(false, false, false);
                 }
                 if (i == 1)
                 {
                     elementArray[puck].BindElementToTexture(TextureCache.RedPuck);
-                   // if (Main.myPlayer == 0)
-                   // elementArray[puck].AttachCollisionComponents(false, false, false);
+                    // if (Main.myPlayer == 0)
+                    // elementArray[puck].AttachCollisionComponents(false, false, false);
                 }
             }
             int ball = AddUIElement(new Vector2(30, 30), Color.White, centerOfMainCanvas);
@@ -43,6 +43,7 @@ namespace EEMod
             elementArray[ball].AttachCollisionComponents(false, true, true, 0.97f, 1.5f);
             elementArray[ball].AttachTag("ball");
         }
+
         public override void OnDeactivate()
         {
             if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Pause"].IsActive())
@@ -50,6 +51,7 @@ namespace EEMod
                 Filters.Scene.Deactivate("EEMod:Pause");
             }
         }
+
         public override void Update(GameTime gameTime)
         {
             if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Pause"].IsActive())

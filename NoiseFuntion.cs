@@ -1,16 +1,16 @@
 using Microsoft.Xna.Framework;
 using System.Drawing;
 using Terraria;
-using Terraria.Graphics.Shaders;
 
 namespace EEMod
 {
     public class NoiseFunction
     {
-        Vector2 sampleSize;
-        float division;
-        Bitmap myBitmap = new Bitmap($@"{Main.SavePath}\Mod Sources\EEMod\noise2.png");
+        private Vector2 sampleSize;
+        private float division;
+        private Bitmap myBitmap = new Bitmap($@"{Main.SavePath}\Mod Sources\EEMod\noise2.png");
         public Vector2 middle;
+
         public NoiseFunction(Vector2 sampleSize, float division)
         {
             this.sampleSize = sampleSize;

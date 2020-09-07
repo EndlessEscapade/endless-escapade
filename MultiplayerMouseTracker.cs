@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using EEMod.Net;
+using EEMod.Net.Serializers;
+using Microsoft.Xna.Framework;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Extensions;
-using EEMod.Net;
-using EEMod.Net.Serializers;
 
 namespace EEMod
 {
@@ -20,6 +13,7 @@ namespace EEMod
 
         public static Vector2 VectorStorage;
         public static Vector2 PositionStorage;
+
         public static Vector2 GetMousePos(int playerWhoAmI) => Mouses[playerWhoAmI];
 
         public static void UpdateMyMouse()
@@ -34,6 +28,7 @@ namespace EEMod
                 }
             }
         }
+
         public static void SyncVector(Vector2 v)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -42,6 +37,7 @@ namespace EEMod
                 VectorStorage = v;
             }
         }
+
         internal static void HandlePacket(BinaryReader reader, int fromwho, EEMessageType msg)
         {
             if (msg == EEMessageType.MouseCheck)

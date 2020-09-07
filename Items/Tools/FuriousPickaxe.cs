@@ -1,6 +1,5 @@
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Materials;
 
 namespace EEMod.Items.Tools
 {

@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Terraria.Enums;
-using EEMod.Projectiles.CoralReefs;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
@@ -12,6 +11,7 @@ namespace EEMod.Tiles.Furniture.Coral
     {
         private bool isIntersecting;
         private int cooldown = 180;
+
         public override void SetDefaults()
         {
             Main.tileSolidTop[Type] = false;

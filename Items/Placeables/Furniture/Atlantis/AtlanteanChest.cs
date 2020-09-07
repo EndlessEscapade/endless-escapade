@@ -1,7 +1,6 @@
-using EEMod.Tiles.Furniture;
+using EEMod.Tiles.Furniture.Atlantis;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Furniture.Atlantis;
 
 namespace EEMod.Items.Placeables.Furniture.Atlantis
 {
@@ -11,7 +10,6 @@ namespace EEMod.Items.Placeables.Furniture.Atlantis
         {
             DisplayName.SetDefault("Atlantean Chest");
         }
-
 
         public override void SetDefaults()
         {

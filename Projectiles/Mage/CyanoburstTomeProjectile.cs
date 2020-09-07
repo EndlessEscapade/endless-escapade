@@ -1,8 +1,8 @@
-using Terraria.ModLoader;
-using Terraria;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -23,7 +23,9 @@ namespace EEMod.Projectiles.Mage
             projectile.friendly = true;
             projectile.penetrate = -1;
         }
-        Vector2 firstVel;
+
+        private Vector2 firstVel;
+
         public override void AI()
         {
             if (firstVel == default)
@@ -44,6 +46,7 @@ namespace EEMod.Projectiles.Mage
                 Main.dust[num].noLight = false;
             }
         }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 360; i += 5)

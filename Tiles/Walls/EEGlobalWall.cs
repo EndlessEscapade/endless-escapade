@@ -1,9 +1,6 @@
+using EEMod.ID;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables;
-using EEMod.ID;
-using EEMod;
 
 namespace EEMod.Tiles.Walls
 {

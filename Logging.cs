@@ -1,4 +1,6 @@
-﻿using System;
+﻿using log4net;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,8 +10,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using log4net;
 
 namespace EEMod
 {
@@ -80,16 +80,10 @@ namespace EEMod
             get;
         } = LogManager.GetLogger("Terraria");
 
-
         internal static ILog tML
         {
             get;
         } = LogManager.GetLogger("tML");
-
-
-
-
-
 
         private static string GetNewLogFile(string baseName)
         {
@@ -141,8 +135,6 @@ namespace EEMod
             }
         }
 
-
-
         internal static void ResetPastExceptions()
         {
             pastExceptions.Clear();
@@ -160,8 +152,6 @@ namespace EEMod
                 ignoreContents.Add(source);
             }
         }
-
-
 
         private static void AddChatMessage(string msg, Color color)
         {
@@ -183,11 +173,6 @@ namespace EEMod
                 LogManager.GetLogger("StatusText").Info((object)value2);
             }
         }
-
-
-
-
-
 
         private static void EnablePortablePDBTraces()
         {

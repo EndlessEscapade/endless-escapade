@@ -1,9 +1,6 @@
-using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod;
 
 namespace EEMod.NPCs
 {
@@ -83,6 +80,7 @@ namespace EEMod.NPCs
                 return;
             }
         }
+
         public void Animate(int delay, bool flip)
         {
             Player player = Main.player[npc.target];
@@ -106,10 +104,9 @@ namespace EEMod.NPCs
                 return;
             }
         }
+
         public override void FindFrame(int frameHeight)
         {
-
-
         }
     }
 }

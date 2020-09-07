@@ -11,7 +11,6 @@ namespace EEMod.Items.Placeables.Furniture
             DisplayName.SetDefault("Gemsand Chest");
         }
 
-
         public override void SetDefaults()
         {
             item.width = 32;

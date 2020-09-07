@@ -1,11 +1,11 @@
+using EEMod.Autoloading.AutoloadTypes;
+using EEMod.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
+using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
-using EEMod.Extensions;
-using EEMod.Autoloading.AutoloadTypes;
 
 namespace EEMod.Autoloading
 {
@@ -19,12 +19,14 @@ namespace EEMod.Autoloading
 
         /// <summary> Event called during autoload with each known type </summary>
         public static event Action<Type> TypeListeners;
+
         ///// <summary>
         ///// Ecent called during autoload with each known method
         ///// </summary>
         //public static event Action<MethodInfo> MethodListeners;
 
         internal static void LoadManager(Mod formod) => LoadManager((formod ?? throw new ArgumentNullException(nameof(formod))).Code ?? formod.GetType().Assembly);
+
         internal static void LoadManager(Assembly assembly)
         {
             if (assembly is null) throw new ArgumentNullException(nameof(assembly));
@@ -148,14 +150,15 @@ namespace EEMod.Autoloading
                                 field.SetValue(null, subtypeinst);
                         }
                         // if u have a subtype it probably wouldn't be assignable through attribute values
-                        // 
-                        // 
+                        //
+                        //
                     }
                     break;
             }
         }
 
         internal static void UnloadManager(Mod formod) => UnloadManager((formod ?? throw new ArgumentNullException(nameof(formod))).Code ?? formod.GetType().Assembly);
+
         internal static void UnloadManager(Assembly assembly)
         {
             if (assembly is null) throw new ArgumentNullException(nameof(assembly));
@@ -185,6 +188,7 @@ namespace EEMod.Autoloading
         }
 
         private static bool ValidCurrent(LoadMode mode) => mode == LoadMode.Both || mode == LoadMode.Server == Main.dedServ;
+
         private static bool CouldBeCalled(MethodInfo method) => !(method.IsAbstract || method.IsGenericMethod != method.IsGenericMethodDefinition || method.GetMethodBody()?.GetILAsByteArray() is null);
     }
 }

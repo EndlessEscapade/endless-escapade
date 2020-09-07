@@ -1,14 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ModLoader;
-using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Terraria.Enums;
-using EEMod.Projectiles.CoralReefs;
-using Terraria.ID;
+﻿using EEMod.Items.Materials;
 using EEMod.Items.Materials.Fruit;
 using EEMod.NPCs;
-using EEMod.Items.Materials;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -38,7 +37,6 @@ namespace EEMod.Tiles.Furniture
             disableSmartCursor = true;
             dustType = DustID.Dirt;
         }
-
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {

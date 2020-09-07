@@ -1,28 +1,30 @@
-
+using EEMod.Net.Serializers;
+using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Net.Serializers;
 
 namespace EEMod.Net
 {
     public static class EENet
     {
         public static void SendPacket(EEMessageType msg, params object[] data) => _SendPacket(msg, data: data);
+
         public static void SendPacketTo(EEMessageType msg, int toclient = -1, int ignoreclient = -1, params object[] data) => _SendPacket(msg, toclient, ignoreclient, data);
+
         private static void _SendPacket(EEMessageType msg, int toclient = -1, int ignoreclient = -1, params object[] data)
         {
             WriteToPacket(msg, data).Send(toclient, ignoreclient);
         }
-        public static void SendMessageMultiPlayer(string yes,int exclude)
+
+        public static void SendMessageMultiPlayer(string yes, int exclude)
         {
             NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(yes), new Color(0, 0, 0), exclude);
         }
+
         public static ModPacket WriteToPacket(EEMessageType msg, params object[] param)
         {
             ModPacket packet = EEMod.instance.GetPacket();
@@ -45,11 +47,13 @@ namespace EEMod.Net
                 case EEMessageType.MouseCheck:
                     MultiplayerMouseTracker.HandlePacket(reader, fromwho, EEMessageType.MouseCheck);
                     break;
+
                 case EEMessageType.SyncVector:
                 case EEMessageType.SyncPosition:
                 case EEMessageType.SyncBoatPos:
                     EEServerVariableCache.HandlePacket(reader, fromwho, msgtype);
                     break;
+
                 case EEMessageType.SyncBrightness:
                     if (Main.netMode == NetmodeID.Server)
                         SendPacketTo(EEMessageType.SyncBrightness, -1, fromwho, reader.Read<float>());

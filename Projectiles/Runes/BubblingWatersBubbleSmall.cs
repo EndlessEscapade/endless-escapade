@@ -38,7 +38,6 @@ namespace EEMod.Projectiles.Runes
                 projectile.velocity.Y = -1;
             }
 
-
             if (projectile.ai[1] == 1)
             {
                 if (projectile.velocity.Y >= -8)

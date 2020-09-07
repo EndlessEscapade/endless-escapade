@@ -1,9 +1,7 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.Graphics.Effects;
 
 namespace EEMod.Projectiles.Runes
 {
@@ -35,10 +33,10 @@ namespace EEMod.Projectiles.Runes
         {
             projectile.Center = Main.player[projectile.owner].Center;
             projectile.ai[0]++;
-            projectile.scale += (float)Math.Sin(projectile.ai[0]/20)/120;
+            projectile.scale += (float)Math.Sin(projectile.ai[0] / 20) / 120;
 
             projectile.ai[1]++;
-            if(projectile.ai[1] >= 120)
+            if (projectile.ai[1] >= 120)
             {
                 Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersBubbleSmall>(), 0, 0, Owner: Main.myPlayer);
                 projectile.ai[1] = 0;

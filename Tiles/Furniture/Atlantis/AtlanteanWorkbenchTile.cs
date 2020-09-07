@@ -1,9 +1,9 @@
+using EEMod.Items.Placeables.Furniture.Atlantis;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using EEMod.Items.Placeables.Furniture.Atlantis;
 
 namespace EEMod.Tiles.Furniture.Atlantis
 {

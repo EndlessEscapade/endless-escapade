@@ -1,6 +1,5 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using EEMod.Items;
+﻿using EEMod.Items;
+using Terraria;
 
 namespace EEMod.Extensions
 {

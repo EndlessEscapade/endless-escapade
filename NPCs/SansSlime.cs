@@ -1,7 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Materials;
 
 namespace EEMod.NPCs
 {
@@ -34,6 +33,7 @@ namespace EEMod.NPCs
 
         public int yes;
         public int interval = 120;
+
         public override void AI()
         {
             yes++;

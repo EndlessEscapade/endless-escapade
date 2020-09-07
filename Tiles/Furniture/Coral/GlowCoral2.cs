@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
-using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using Terraria.DataStructures;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
@@ -44,7 +43,6 @@ namespace EEMod.Tiles.Furniture.Coral
                 b = 0.9f;
             }
         }
-
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {

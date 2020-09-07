@@ -35,12 +35,15 @@ namespace EEMod.Items.TreasureBags
                 case 0:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<Shocktopus>(), 1);
                     break;
+
                 case 1:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<KOKEN>(), 1);
                     break;
+
                 case 2:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<InkFlask>(), 1);
                     break;
+
                 case 3:
                     //Main.LocalPlayer.QuickSpawnItem(ItemType<Hydroshot>(), 1);
                     break;

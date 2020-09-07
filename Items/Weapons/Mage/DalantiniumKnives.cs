@@ -1,9 +1,9 @@
+using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Mage;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles.Mage;
-using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -40,14 +40,17 @@ namespace EEMod.Items.Weapons.Mage
         {
             return new Vector2(0, 0);
         }
-        int powerUp;
+
+        private int powerUp;
+
         public override void HoldItem(Player player)
         {
-            if(powerUp < 2000)
-            powerUp++;
+            if (powerUp < 2000)
+                powerUp++;
         }
+
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
-        {  
+        {
             if (player.altFunctionUse == 0)
             {
                 type = ModContent.ProjectileType<DalantiniumFan>();
@@ -73,10 +76,12 @@ namespace EEMod.Items.Weapons.Mage
             }
             return false;
         }
+
         public override bool AltFunctionUse(Player player)
         {
             return powerUp > 2000;
         }
+
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);

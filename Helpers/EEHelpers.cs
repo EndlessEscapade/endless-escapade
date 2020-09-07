@@ -1,10 +1,10 @@
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.Utilities;
-using Microsoft.Xna.Framework;
-using Terraria.ID;
 using Terraria.Graphics.Effects;
+using Terraria.ID;
+using Terraria.Utilities;
 
 namespace EEMod
 {
@@ -12,31 +12,78 @@ namespace EEMod
     {
         // CLAMPS - Used to keep variables between certain values, mainly used for situations where the game keeps crashing or entity goes wild
         public static byte Clamp(byte value, byte minValue, byte maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static sbyte Clamp(sbyte value, sbyte minValue, sbyte maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static int Clamp(int value, int minValue, int maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static uint Clamp(uint value, uint minValue, uint maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static long Clamp(long value, long minValue, long maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static ulong Clamp(ulong value, ulong minValue, ulong maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static float Clamp(float value, float minValue, float maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static double Clamp(double value, double minValue, double maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static decimal Clamp(decimal value, decimal minValue, decimal maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static T Clamp<T>(T value, T min, T max) where T : IComparable<T> =>
             value.CompareTo(min) < 0 ? min : // CompareTo would return a negative if the argument is bigger
             value.CompareTo(max) > 0 ? max : // CompareTo would return a positive if the argument is smaller
             value; // When CompareTo returns 0
+
         public static T Clamp<T>(T value, T min, T max, IComparer<T> comparer) =>
             comparer.Compare(value, min) < 0 ? min :
             comparer.Compare(value, max) > 0 ? max :
             value;
-        public static void Clamp(ref byte value, byte min, byte max) { if (value < min) value = min; else if (value > max) value = max; }
-        public static void Clamp(ref sbyte value, sbyte min, sbyte max) { if (value < min) value = min; else if (value > max) value = max; }
-        public static void Clamp(ref int value, int min, int max) { if (value < min) value = min; else if (value > max) value = max; }
-        public static void Clamp(ref uint value, uint min, uint max) { if (value < min) value = min; else if (value > max) value = max; }
-        public static void Clamp(ref long value, long min, long max) { if (value < min) value = min; else if (value > max) value = max; }
-        public static void Clamp(ref ulong value, ulong min, ulong max) { if (value < min) value = min; else if (value > max) value = max; }
-        public static void Clamp(ref float value, float min, float max) { if (value < min) value = min; else if (value > max) value = max; }
-        public static void Clamp(ref double value, double min, double max) { if (value < min) value = min; else if (value > max) value = max; }
-        public static void Clamp(ref decimal value, decimal min, decimal max) { if (value < min) value = min; else if (value > max) value = max; }
+
+        public static void Clamp(ref byte value, byte min, byte max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
+        public static void Clamp(ref sbyte value, sbyte min, sbyte max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
+        public static void Clamp(ref int value, int min, int max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
+        public static void Clamp(ref uint value, uint min, uint max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
+        public static void Clamp(ref long value, long min, long max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
+        public static void Clamp(ref ulong value, ulong min, ulong max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
+        public static void Clamp(ref float value, float min, float max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
+        public static void Clamp(ref double value, double min, double max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
+        public static void Clamp(ref decimal value, decimal min, decimal max)
+        {
+            if (value < min) value = min; else if (value > max) value = max;
+        }
+
         public static void Clamp<T>(ref T value, T min, T max) where T : IComparable<T>
         {
             if (value.CompareTo(min) < 0)
@@ -45,38 +92,54 @@ namespace EEMod
                 value = max;
         }
 
-
         // HALF CHANCE - Basically a coin flip.
         public static T ChooseRandom<T>(T obj1, T obj2) => Main.rand.NextBool(2) ? obj1 : obj2;
 
-
         public static bool IsEvenNumber(int num1) => num1 % 2 == 0;
-
 
         // RANGE - Useful for a number of things, such as getting the distance between two objects
         public static bool InRange(byte value, byte min, byte max) => value > min && value < max;
+
         public static bool InRange(sbyte value, sbyte min, sbyte max) => value > min && value < max;
+
         public static bool InRange(int value, int min, int max) => value > min && value < max;
+
         public static bool InRange(uint value, uint min, uint max) => value > min && value < max;
+
         public static bool InRange(long value, long min, long max) => value > min && value < max;
+
         public static bool InRange(ulong value, ulong min, ulong max) => value > min && value < max;
+
         public static bool InRange(float value, float min, float max) => value > min && value < max;
+
         public static bool InRange(double value, double min, double max) => value > min && value < max;
+
         public static bool InRange(decimal value, decimal min, decimal max) => value > min && value < max;
+
         public static bool InRange<T>(IComparable<T> value, T min, T max) where T : IComparable<T> => value.CompareTo(min) > 0 && value.CompareTo(max) < 0;
+
         public static bool InRange<T>(T value, T min, T max, IComparer<T> comparer) => comparer.Compare(value, min) > 0 && comparer.Compare(value, max) < 0;
 
         public static bool VectorInRange(Vector2 from, Vector2 to, float MaxRange) => Vector2.DistanceSquared(from, to) <= MaxRange * MaxRange;
 
         public static bool PointInRectangle(Vector2 point, Vector4 rectangle) => PointInRectangle(point.X, point.Y, rectangle.X, rectangle.Y, rectangle.W, rectangle.Z);
+
         public static bool PointInRectangle(float pointX, float pointY, Vector4 rectangle) => PointInRectangle(pointX, pointY, rectangle.X, rectangle.Y, rectangle.W, rectangle.Z);
+
         public static bool PointInRectangle(Vector2 point, Vector2 pos, Vector2 size) => PointInRectangle(point.X, point.Y, pos.X, pos.Y, size.X, size.Y);
+
         public static bool PointInRectangle(Vector2 point, float x, float y, Vector2 size) => PointInRectangle(point.X, point.Y, x, y, size.X, size.Y);
+
         public static bool PointInRectangle(Vector2 point, Vector2 pos, float width, float height) => PointInRectangle(point.X, point.Y, pos.X, pos.Y, width, height);
+
         public static bool PointInRectangle(Vector2 point, float x, float y, float width, float height) => PointInRectangle(point.X, point.Y, x, y, width, height);
+
         public static bool PointInRectangle(float pointX, float pointY, Vector2 pos, Vector2 size) => PointInRectangle(pointX, pointY, pos.X, pos.Y, size.X, size.Y);
+
         public static bool PointInRectangle(float pointX, float pointY, float rectangleX, float rectangleY, Vector2 size) => PointInRectangle(pointX, pointY, rectangleX, rectangleY, size.X, size.Y);
+
         public static bool PointInRectangle(float pointX, float pointY, Vector2 rectanglepos, float width, float height) => PointInRectangle(pointX, pointY, rectanglepos.X, rectanglepos.Y, width, height);
+
         public static bool PointInRectangle(float pointX, float pointY, float rectangleX, float rectangleY, float width, float height) =>
             pointY >= rectangleY &&
             pointX >= rectangleX && pointX <= rectangleX + width &&
@@ -91,6 +154,7 @@ namespace EEMod
                 yield break;
             }
         }
+
         public static IEnumerable<Projectile> ProjectileForeach
         {
             get
@@ -112,7 +176,7 @@ namespace EEMod
         {
             float closestDistSQ = -1;
             int npcindex = -1;
-            for(int i = 0; i < Main.npc.Length -1; i++)
+            for (int i = 0; i < Main.npc.Length - 1; i++)
             {
                 NPC npc = Main.npc[i];
                 if (searchPredicate?.Invoke(npc) is false)
@@ -120,7 +184,7 @@ namespace EEMod
                 float distSQ = npc.DistanceSQ(position);
                 /*"there's no defined smallest distance (like the first iteration) or the distance is smaller than the current smallest
                  * and there's no minimum or the distance is smaller than the minimum"*/
-                if((closestDistSQ == -1 || distSQ < closestDistSQ) && (minDistance == -1 || distSQ < minDistance * minDistance))
+                if ((closestDistSQ == -1 || distSQ < closestDistSQ) && (minDistance == -1 || distSQ < minDistance * minDistance))
                 {
                     npcindex = i;
                     closestDistSQ = distSQ;
@@ -138,6 +202,7 @@ namespace EEMod
         {
             return (float)Math.Atan2(v4, v5);
         }
+
         public static void Move(NPC npc, Player player, float sped, float TR, Vector2 addOn, bool flip = true, int direction = 1)
         {
             Vector2 moveTo = player.Center + addOn;
@@ -165,6 +230,7 @@ namespace EEMod
                     npc.spriteDirection = -1 * direction;
             }
         }
+
         public static int ShiftChance(bool boss, bool flag, bool flag2)
         {
             if (boss)
@@ -239,12 +305,14 @@ namespace EEMod
             // The final result
             return new Vector2(currentX, currentY);
         }
-        static double area(Vector2 p1, Vector2 p2, Vector2 p3)
+
+        private static double area(Vector2 p1, Vector2 p2, Vector2 p3)
         {
             return Math.Abs((p1.X * (p2.Y - p3.Y) +
                              p2.X * (p3.Y - p1.Y) +
                              p3.X * (p1.Y - p2.Y)) / 2.0);
         }
+
         public static void ActivateShader(string Name, Entity entity)
         {
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[Name].IsActive())
@@ -252,6 +320,7 @@ namespace EEMod
                 Filters.Scene.Activate(Name, entity.Center).GetShader();
             }
         }
+
         public static bool IsInside(Vector2 p1, Vector2 p2, Vector2 p3,
                              Vector2 p)
         {
@@ -265,6 +334,7 @@ namespace EEMod
 
             return (A == A1 + A2 + A3);
         }
+
         public static Vector2 MoveTowardsNPC(float speed, float currentX, float currentY, NPC npc, Vector2 issue, int direction)
         {
             Vector2 vector3 = new Vector2(issue.X + (direction * 20), issue.Y + 6f);
@@ -278,6 +348,7 @@ namespace EEMod
             currentY = (currentY * 58f + num3) / 58.8f;
             return new Vector2(currentX, currentY);
         }
+
         public static int[] FillPseudoRandomUniform(int size)
         {
             int number;
@@ -292,6 +363,7 @@ namespace EEMod
             }
             return listNumbers.ToArray();
         }
+
         public static int[] FillPseudoRandomUniform2(this UnifiedRandom rand, int size)
         {
             int[] numbers = new int[size];
@@ -309,7 +381,9 @@ namespace EEMod
             }
             return numbers;
         }
+
         public static int[] FillPseudoRandomUniform2(int size) => FillPseudoRandomUniform2(Main.rand, size);
+
         public static Vector2 MoveTowardsProjectile(float speed, float currentX, float currentY, Projectile projectile, Vector2 issue, int direction)
         {
             Vector2 vector3 = new Vector2(issue.X + (direction * 20), issue.Y + 6f);

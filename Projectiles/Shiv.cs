@@ -1,9 +1,9 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System;
-using Terraria.ID;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
@@ -25,6 +25,7 @@ namespace EEMod.Projectiles
 
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
+
         public override void AI()
         {
             float perc = projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
@@ -87,11 +88,9 @@ namespace EEMod.Projectiles
                         projectile.position.X += xDis;
                     }
                 }
-
             }
             if (projectile.ai[0] == 3) //crasche
             {
-
                 projectile.rotation = -(float)Math.PI / 4;
                 if (perc > 0.9f)
                 {

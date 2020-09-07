@@ -1,16 +1,14 @@
-using System;
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Buffs.Buffs;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
     public class VolcanoSmoke : ModNPC
     {
         public override string Texture => Helpers.EmptyTexture;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Smoke");

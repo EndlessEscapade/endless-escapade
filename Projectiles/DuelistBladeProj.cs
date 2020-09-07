@@ -1,10 +1,5 @@
 using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
 using Terraria.ID;
-using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace EEMod.Projectiles
 {
@@ -34,6 +29,7 @@ namespace EEMod.Projectiles
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             for (var i = 0; i < 4; i++)
@@ -42,6 +38,5 @@ namespace EEMod.Projectiles
                 // Main.dust[num].noGravity = false;
             }
         }
-
     }
 }

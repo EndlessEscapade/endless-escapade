@@ -1,7 +1,7 @@
+using EEMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Items.Armor.Dalantinium
 {
@@ -9,6 +9,7 @@ namespace EEMod.Items.Armor.Dalantinium
     public class DalantiniumMask : ModItem
     {
         private bool flag;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dalantinium Mask");

@@ -1,8 +1,8 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.UI
 {
@@ -17,7 +17,6 @@ namespace EEMod.UI
 
         public override void Update(GameTime gameTime)
         {
-
         }
 
         public override Color OnTileColor(Color inColor)
@@ -25,13 +24,13 @@ namespace EEMod.UI
             return new Color(255, 255, 255);
         }
 
+        private Texture2D texture;
+        private Texture2D texture2;
+        private Rectangle frame;
+        private int Countur;
+        private int frames;
+        private int frameSpeed;
 
-        Texture2D texture;
-        Texture2D texture2;
-        Rectangle frame;
-        int Countur;
-        int frames;
-        int frameSpeed;
         public void DrawSky()
         {
             texture2 = TextureCache.NotBleckScren;
@@ -87,6 +86,7 @@ namespace EEMod.UI
             Main.spriteBatch.Draw(texture2, new Vector2(0, 0), new Color(204, 204, 204));
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
         }
+
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
             texture2 = TextureCache.NotBleckScren;
@@ -150,17 +150,14 @@ namespace EEMod.UI
 
         public override void Activate(Vector2 position, params object[] args)
         {
-
         }
 
         public override void Deactivate(params object[] args)
         {
-
         }
 
         public override void Reset()
         {
-
         }
 
         public override bool IsActive()
@@ -177,7 +174,6 @@ namespace EEMod.UI
 
         private void UpdateSavingSky()
         {
-
         }
 
         public override void Apply()

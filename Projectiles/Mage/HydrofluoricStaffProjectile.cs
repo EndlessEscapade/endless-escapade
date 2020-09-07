@@ -1,7 +1,7 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -21,7 +21,8 @@ namespace EEMod.Projectiles.Mage
             projectile.penetrate = 2;
         }
 
-        int progress;
+        private int progress;
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation();

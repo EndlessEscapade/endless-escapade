@@ -1,8 +1,8 @@
+using EEMod.Items.Placeables.Ores;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.Tiles.Ores
 {
@@ -17,7 +17,7 @@ namespace EEMod.Tiles.Ores
             Main.tileShine[Type] = 1100; // How often tiny dust appear off this tile. Larger is less frequently
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true; // lemme open some important files so you can acess them
-            Main.tileBlockLight[Type] = true; // 
+            Main.tileBlockLight[Type] = true; //
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Dalantinium");

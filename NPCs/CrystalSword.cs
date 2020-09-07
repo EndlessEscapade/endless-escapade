@@ -118,7 +118,6 @@ namespace EEMod.NPCs
             }
             if (projectile.ai[0] > 1f)  //this defines where the flames starts
             {
-
                 for (int i = 0; i < 15; i++)    //this defines how many dust to spawn
                 {
                     int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 64, projectile.velocity.X * 0.3f, projectile.velocity.Y * 0.3f, 0, new Color(255, 255, 153), 1);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
@@ -130,7 +129,6 @@ namespace EEMod.NPCs
                 projectile.ai[0] += 1f;
             }
             return;
-
         }
         public override void Kill(int timeLeft)
         {
@@ -151,7 +149,6 @@ namespace EEMod.NPCs
                 Main.dust[num].noLight = false;
             }
         }
-
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
         {

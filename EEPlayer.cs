@@ -1,42 +1,25 @@
+using EEMod.Autoloading;
+using EEMod.Buffs.Buffs;
+using EEMod.Extensions;
+using EEMod.ID;
+using EEMod.Items.Fish;
+using EEMod.Projectiles;
+using EEMod.Projectiles.Armor;
+using EEMod.Projectiles.Mage;
+using EEMod.Projectiles.Runes;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
 using Terraria;
+using Terraria.GameInput;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
-using Terraria.IO;
-using Terraria.World.Generation;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles;
-using EEMod.Projectiles.Mage;
-using EEMod.Projectiles.OceanMap;
-using EEMod.Projectiles.CoralReefs;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader.IO;
-using Terraria.GameInput;
-using EEMod.NPCs.Bosses.Hydros;
-using static Terraria.ModLoader.ModContent;
-using EEMod.NPCs;
-using EEMod.Tiles;
-using EEMod.NPCs.Bosses.Akumo;
-using EEMod.NPCs.CoralReefs;
-using EEMod.NPCs.Bosses.Kraken;
-using EEMod.NPCs.Friendly;
-using EEMod.Items;
-using EEMod.Buffs.Debuffs;
-using EEMod.Buffs.Buffs;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
-using EEMod.Extensions;
-using EEMod.Items.Fish;
-using EEMod.ID;
-using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
-using EEMod.Tiles.Walls;
-using EEMod.Autoloading;
-using EEMod.Projectiles.Runes;
+using static Terraria.ModLoader.ModContent;
 
 namespace EEMod
 {
@@ -90,7 +73,7 @@ namespace EEMod
         public byte[] inPossesion = new byte[7];
         public static int moralScore;
         public int initialMoralScore;
-        readonly SubworldManager SM = new SubworldManager();
+        private readonly SubworldManager SM = new SubworldManager();
         public int rippleCount = 3;
         public int rippleSize = 5;
         public int rippleSpeed = 15;
@@ -104,32 +87,32 @@ namespace EEMod
         public int thermalHealingTimer = 30;
         public int cannonballType = 0;
         public bool isPickingUp;
-        float propagation;
+        private float propagation;
 
         public Dictionary<int, int> fishLengths = new Dictionary<int, int>();
 
         public int bubbleRuneBubble = 0;
 
-        int displaceX = 2;
-        int displaceY = 4;
-        float[] dis = new float[51];
+        private int displaceX = 2;
+        private int displaceY = 4;
+        private float[] dis = new float[51];
         public bool isWearingCape = false;
         public string NameForJoiningClients = "";
         public Vector2[] arrayPoints = new Vector2[24];
         public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
-        int Arrow;
-        int Arrow2;
-        int Anchors;
-        float speedOfPan = 1;
-        int AnchorsVolc;
-        int AnchorsMain;
-        int AnchorsCoral;
+        private int Arrow;
+        private int Arrow2;
+        private int Anchors;
+        private float speedOfPan = 1;
+        private int AnchorsVolc;
+        private int AnchorsMain;
+        private int AnchorsCoral;
         public int offSea = 1000;
         private int opac;
         public int boatSpeed = 1;
-        string shad1 = "EEMod:Ripple";
-        string shad2 = "EEMod:SunThroughWalls";
-        string shad3 = "EEMod:SeaTrans";
+        private string shad1 = "EEMod:Ripple";
+        private string shad2 = "EEMod:SunThroughWalls";
+        private string shad3 = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
@@ -139,6 +122,7 @@ namespace EEMod
         public int PlayerX;
         public int PlayerY;
         public Vector2 velHolder;
+
         [FieldInit]
         internal static List<IOceanMapElement> OceanMapElements = new List<IOceanMapElement>();
 
@@ -236,6 +220,7 @@ namespace EEMod
             BitsByte flags = reader.ReadByte();
             ZoneCoralReefs = flags[0];
         }
+
         private void MoralFirstFrame()
         {
             switch (player.name)
@@ -260,6 +245,7 @@ namespace EEMod
                     break;
             }
         }
+
         private void Moral()
         {
             moralScore = 0;
@@ -334,15 +320,17 @@ namespace EEMod
             Initialize();
             SM.SaveAndQuit(baseWorldName);
         }
-        float displacmentX = 0;
-        float displacmentY = 0;
+
+        private float displacmentX = 0;
+        private float displacmentY = 0;
         public bool isCameraFixating;
         public bool isCameraShaking;
         public Vector2 fixatingPoint;
         public float fixatingSpeedInv;
         public int intensity;
-        int runeCooldown = 0;
-        Dictionary<int, bool[]> RuneData = new Dictionary<int, bool[]>()
+        private int runeCooldown = 0;
+
+        private Dictionary<int, bool[]> RuneData = new Dictionary<int, bool[]>()
                                             {
                                                 {0,new []{false,false }},
                                                 {1,new []{false,false }},
@@ -352,6 +340,7 @@ namespace EEMod
                                                 {5,new []{false,false }},
                                                 {6,new []{false,false }},
                                             };
+
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {
             fixatingPoint = fixatingPointCamera;
@@ -360,6 +349,7 @@ namespace EEMod
             isCameraShaking = isCameraShakings;
             this.intensity = intensity;
         }
+
         public void TurnCameraFixationsOff()
         {
             isCameraFixating = false;
@@ -370,7 +360,6 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
-
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
@@ -457,8 +446,6 @@ namespace EEMod
                 Main.screenPosition += new Vector2(displacmentX, displacmentY);
             }
 
-
-
             if (Main.worldName == KeyID.Sea)
             {
                 player.position = player.oldPosition;
@@ -467,8 +454,8 @@ namespace EEMod
             }
             if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
             {
-                if(!Main.gamePaused)
-                speedOfPan += 0.01f;
+                if (!Main.gamePaused)
+                    speedOfPan += 0.01f;
                 Main.screenPosition.X += cutSceneTriggerTimer * speedOfPan;
             }
             if (isCameraFixating)
@@ -495,7 +482,8 @@ namespace EEMod
 
         Vector2 mainPoint => new Vector2(player.Center.X, player.position.Y);
 
-        float inspectTimer = 0;
+        private float inspectTimer = 0;
+
         public void InspectObject()
         {
             Main.spriteBatch.Draw(TextureCache.InspectIcon, (player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
@@ -503,7 +491,7 @@ namespace EEMod
         }
 
         public override void UpdateBiomeVisuals()
-        { 
+        {
             if (isWearingCape)
             {
                 UpdateArrayPoints();
@@ -596,6 +584,7 @@ namespace EEMod
             }
             UpdateCutscenesAndTempShaders();
         }
+
         public void UpdateArrayPoints()
         {
             float acc = arrayPoints.Length;
@@ -643,6 +632,7 @@ namespace EEMod
                 }
             }
         }
+
         public void UpdateRunes()
         {
             bool[][] states = new bool[][] { new bool[] { false, false }, new bool[] { true, false }, new bool[] { true, true } };
@@ -786,9 +776,9 @@ namespace EEMod
             //synergies
             if (RuneData[RuneID.SandRune] == states[StateID.Equiped])
             {
-
             }
         }
+
         public void UpdateSets()
         {
             if (hydrofluoricSet)
@@ -828,6 +818,7 @@ namespace EEMod
                 player.gills = true;
             }
         }
+
         public void UpdateZipLines()
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
@@ -863,6 +854,7 @@ namespace EEMod
                 }
             }
         }
+
         public void UpdatePowerLevel()
         {
             if (player.controlUseItem)
@@ -878,6 +870,7 @@ namespace EEMod
                 powerLevel = 0;
             }
         }
+
         public void UpdateCutscenesAndTempShaders()
         {
             Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
@@ -947,6 +940,7 @@ namespace EEMod
              */
             };
         }
+
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("hasGottenRuneBefore"))
@@ -988,15 +982,16 @@ namespace EEMod
 		          Milliseconds = tag.GetInt("Milliseconds");
                   */
         }
+
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
             if (dalantiniumSet)
                 for (int i = 0; i < 3; i++)
                     Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
         }
+
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-
             if (godMode)
             {
                 int getRand = Main.rand.Next(5);
@@ -1048,6 +1043,7 @@ namespace EEMod
         }
 
         public Vector2 EEPosition;
+
         public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
         {
             ModPacket packet = mod.GetPacket();
@@ -1078,6 +1074,7 @@ namespace EEMod
         public int minutes;
         public int seconds;
         public int milliseconds;
+
         public override void PreUpdate()
         {
             if (Main.frameRate != 0)
@@ -1104,6 +1101,7 @@ namespace EEMod
             for (int i = 0; i < OceanMapElements.Count; i++)
                 OceanMapElements[i].Update();
         }
+
         public struct Island
         {
             public Island(Vector2 pos, Texture2D tex, bool canCollide = false)
@@ -1113,36 +1111,45 @@ namespace EEMod
                 texture = tex;
                 this.canCollide = canCollide;
             }
-            int posX;
-            int posY;
+
+            private int posX;
+            private int posY;
             public bool canCollide;
+
             public int posXToScreen
             {
                 get => posX + (int)Main.screenPosition.X + Main.screenWidth;
             }
+
             public int posYToScreen
             {
                 get => posY + (int)Main.screenPosition.Y + Main.screenHeight;
             }
+
             public Texture2D texture;
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
             public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / 2 + 1000, texture.Width, texture.Height);
         }
+
         public class DarkCloud : IOceanMapElement
         {
             public Vector2 pos;
             public float flash;
+
             public int posXToScreen
             {
                 get => (int)(pos.X + Main.screenPosition.X);
             }
+
             public int posYToScreen
             {
                 get => (int)(pos.Y + Main.screenPosition.Y);
             }
+
             public Texture2D texture;
             public float scale, alpha;
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            private EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+
             public DarkCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
             {
                 flash += 0.01f;
@@ -1169,24 +1176,28 @@ namespace EEMod
 
             public void Update()
             {
-
             }
         }
+
         public class MovingCloud : IOceanMapElement
         {
             public Vector2 pos;
             public float flash;
+
             public int posXToScreen
             {
                 get => (int)(pos.X + Main.screenPosition.X);
             }
+
             public int posYToScreen
             {
                 get => (int)(pos.Y + Main.screenPosition.Y);
             }
+
             public Texture2D texture;
             public float scale, alpha;
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            private EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+
             public MovingCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
             {
                 this.pos = pos;
@@ -1206,16 +1217,16 @@ namespace EEMod
 
             public void Update()
             {
-
             }
         }
+
         public class MCloud : IOceanMapElement
         {
-            Vector2 position;
-            int width, height;
-            float alpha, scale;
-            Texture2D texture;
-            Vector2 Center => new Vector2(position.X + width / 2f, position.Y + height / 2f);
+            private Vector2 position;
+            private int width, height;
+            private float alpha, scale;
+            private Texture2D texture;
+            private Vector2 Center => new Vector2(position.X + width / 2f, position.Y + height / 2f);
 
             public MCloud(Texture2D texture, Vector2 position, int width, int height, float scale, float alpha)
             {
@@ -1227,7 +1238,6 @@ namespace EEMod
                 this.position = position;
                 this.width = width;
                 this.height = height;
-
             }
 
             public void Draw(SpriteBatch spriteBatch)
@@ -1243,9 +1253,11 @@ namespace EEMod
                 position.X--;
             }
         }
+
         internal interface IOceanMapElement
         {
             void Update();
+
             void Draw(SpriteBatch spriteBatch);
         }
     }

@@ -1,9 +1,9 @@
-
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+
 namespace EEMod.Projectiles.CoralReefs
 {
     public class CBPetrude : ModProjectile
@@ -25,7 +25,9 @@ namespace EEMod.Projectiles.CoralReefs
             projectile.tileCollide = false;
             projectile.timeLeft = 80;
         }
-        int sinControl;
+
+        private int sinControl;
+
         public override void AI()
         {
             projectile.alpha++;
@@ -48,6 +50,7 @@ namespace EEMod.Projectiles.CoralReefs
             else
                 projectile.velocity.X -= (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 10);
         }
+
         public override void Kill(int timeLeft)
         {
             for (var a = 0; a < 5; a++)

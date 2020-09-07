@@ -1,10 +1,7 @@
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Graphics.Shaders;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ID;
-using Terraria.Graphics.Effects;
 using EEMod.Extensions;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 
 namespace EEMod
 {
@@ -23,25 +20,30 @@ namespace EEMod
 
         public float colourOfStartUp = 0;
         public bool gameActive;
+
         public EEGame()
         {
             Initialize();
         }
+
         public virtual void Initialize()
         {
-
         }
+
         public virtual void OnDeactivate()
         {
-
         }
-        public virtual void StartGame(int host) {
+
+        public virtual void StartGame(int host)
+        {
             gameActive = true;
             this.host = host;
-                }
+        }
 
         public int host;
+
         public virtual void EndGame() => gameActive = false;
+
         public virtual int AddUIElement(Vector2 size, Color color, Vector2 Center)
         {
             for (int i = 0; i < elementArray.Length; i++)
@@ -55,6 +57,7 @@ namespace EEMod
             }
             return 0;
         }
+
         public virtual void Update(GameTime gameTime)
         {
             if (gameActive)

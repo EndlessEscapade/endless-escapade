@@ -1,51 +1,31 @@
+using EEMod.Buffs.Debuffs;
+using EEMod.Extensions;
+using EEMod.ID;
+using EEMod.Net;
+using EEMod.NPCs;
+using EEMod.NPCs.Bosses.Akumo;
+using EEMod.NPCs.Bosses.Hydros;
+using EEMod.NPCs.CoralReefs;
+using EEMod.NPCs.Friendly;
+using EEMod.Projectiles;
+using EEMod.Projectiles.OceanMap;
+using EEMod.Tiles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
-using Terraria.IO;
-using Terraria.World.Generation;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles;
-using EEMod.Projectiles.Mage;
-using EEMod.Projectiles.OceanMap;
-using EEMod.Projectiles.CoralReefs;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader.IO;
-using Terraria.GameInput;
-using EEMod.NPCs.Bosses.Hydros;
-using static Terraria.ModLoader.ModContent;
-using EEMod.NPCs;
-using EEMod.Tiles;
-using EEMod.NPCs.Bosses.Akumo;
-using EEMod.NPCs.CoralReefs;
-using EEMod.NPCs.Bosses.Kraken;
-using EEMod.NPCs.Friendly;
-using EEMod.Items;
-using EEMod.Buffs.Debuffs;
-using EEMod.Buffs.Buffs;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
-using EEMod.Extensions;
-using EEMod.Items.Fish;
-using EEMod.ID;
-using EEMod.Projectiles.Armor;
 using static EEMod.EEWorld.EEWorld;
-using EEMod.Tiles.Walls;
-using EEMod.Net;
-using System.Reflection;
-using Terraria.DataStructures;
-using static On.Terraria.Lighting;
-using System.Linq;
+using static Terraria.ModLoader.ModContent;
 
 namespace EEMod
 {
     public partial class EEPlayer : ModPlayer
     {
-        List<float> BubbleRoots = new List<float>();
+        private List<float> BubbleRoots = new List<float>();
         public List<BubbleClass> Bubbles = new List<BubbleClass>();
         public List<SeagullsClass> Seagulls = new List<SeagullsClass>();
         public float brightness;
@@ -89,7 +69,9 @@ namespace EEMod
                 Filters.Scene.Deactivate(shad2);
             }
         }
+
         public float quickOpeningFloat = 5;
+
         public void UpdateSea()
         {
             if (Main.dayTime)
@@ -106,7 +88,7 @@ namespace EEMod
             if (Main.netMode == NetmodeID.MultiplayerClient)
                 EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
             if (quickOpeningFloat > 0.01f)
-            quickOpeningFloat -= quickOpeningFloat / 20f;
+                quickOpeningFloat -= quickOpeningFloat / 20f;
             else
             {
                 quickOpeningFloat = 0;
@@ -158,7 +140,7 @@ namespace EEMod
                 for (int i = 0; i < 400; i++)
                 {
                     int CloudChoose = Main.rand.Next(3);
-                    Vector2 CloudPos = new Vector2(Main.rand.NextFloat(- 200, Main.screenWidth), Main.rand.NextFloat(800, Main.screenHeight + 1000));
+                    Vector2 CloudPos = new Vector2(Main.rand.NextFloat(-200, Main.screenWidth), Main.rand.NextFloat(800, Main.screenHeight + 1000));
                     Vector2 dist = new Vector2(Main.screenWidth, Main.screenHeight + 1000) - CloudPos;
                     if (dist.Length() > 1140)
                     {
@@ -167,7 +149,7 @@ namespace EEMod
                         {
                             case 0:
                             case 1:
-                                cloudTexture = GetTexture("EEMod/Projectiles/OceanMap/DarkCloud" + (CloudChoose+1));
+                                cloudTexture = GetTexture("EEMod/Projectiles/OceanMap/DarkCloud" + (CloudChoose + 1));
                                 break;
 
                             default:
@@ -182,7 +164,6 @@ namespace EEMod
                     objectPos.Add(SeaObject[i].posToScreen);
 
                 //upgrade, pirates, radial
-
             }
 
             Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
@@ -316,7 +297,7 @@ namespace EEMod
             {
                 (Main.projectile[AnchorsCoral].modProjectile as Anchor).visible = false;
             }
-            if(importantCutscene)
+            if (importantCutscene)
             {
                 EEMod.Noise2D.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
                 Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
@@ -375,7 +356,6 @@ namespace EEMod
                         player.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(0, 100));
                         player.QuickSpawnItem(ItemID.CopperCoin, Main.rand.Next(0, 100));
 
-
                         a.sinking = true;
                         a.Sink();
                     }
@@ -397,7 +377,7 @@ namespace EEMod
 
             if (markerPlacer % 800 == 0)
                 Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
-            if(markerPlacer % 150 == 0)
+            if (markerPlacer % 150 == 0)
             {
                 if (Seagulls.Count < 500)
                     GraphicObject.LazyAppendInBoids(ref Seagulls, 5);
@@ -408,7 +388,6 @@ namespace EEMod
             }
             if (markerPlacer % 20 == 0)
             {
-
                 int CloudChoose = Main.rand.Next(5);
                 IOceanMapElement cloud;
                 switch (CloudChoose)
@@ -452,9 +431,9 @@ namespace EEMod
                 Projectile.NewProjectile(Main.screenPosition + EEMod.instance.position, Vector2.Zero, ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.instance.velocity.X, EEMod.instance.velocity.Y);
             }
         }
+
         public void UpdateCR()
         {
-            
             if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
             {
                 player.AddBuff(BuffType<WaterPressure>(), 60);
@@ -473,10 +452,9 @@ namespace EEMod
             if (titleText <= 0)
                 titleText = 0;
             markerPlacer++;
-            if(markerPlacer % 80 == 0)
+            if (markerPlacer % 80 == 0)
             {
                 BubbleRoots.Add(Main.rand.Next(Main.screenWidth) + player.Center.X - Main.screenWidth / 2);
-                
             }
             if (markerPlacer % 120 == 0)
             {
@@ -498,10 +476,10 @@ namespace EEMod
                     Bubbles.RemoveAt(0);
                 // Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
             }
-            foreach(BubbleClass bubble in Bubbles)
+            foreach (BubbleClass bubble in Bubbles)
             {
                 bubble.flash++;
-                bubble.Position -= new Vector2((float)Math.Sin(bubble.flash / (bubble.Velocity.X*30)), bubble.Velocity.X);
+                bubble.Position -= new Vector2((float)Math.Sin(bubble.flash / (bubble.Velocity.X * 30)), bubble.Velocity.X);
             }
             if (!arrowFlag)
             {
@@ -539,9 +517,9 @@ namespace EEMod
             }
             catch
             {
-
             }
         }
+
         public void UpdateIsland()
         {
             player.ClearBuff(BuffID.Cursed);
@@ -551,6 +529,7 @@ namespace EEMod
                 arrowFlag = true;
             }
         }
+
         public void UpdateVolcano()
         {
             firstFrameVolcano = true;
@@ -592,6 +571,7 @@ namespace EEMod
                 firstFrameVolcano = false;
             }
         }
+
         public void UpdateCutscene()
         {
             markerPlacer++;
@@ -610,37 +590,35 @@ namespace EEMod
             }
         }
 
-
         public void UpdateWorld()
         {
-        /*    object tempLights = typeof(Lighting).GetField("tempLights", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
-            try
-            {
-                Main.NewText(tempLights.get);
-                //Point16[] arrayOfAllKeys = buffer.Keys.ToArray();
-               // foreach (Point16 p in arrayOfAllKeys)
-               // {
-               //    Main.NewText(p);
-               // }
-            }
-            catch
-            {
-                Main.NewText("few");
-            }*/
+            /*    object tempLights = typeof(Lighting).GetField("tempLights", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
+                try
+                {
+                    Main.NewText(tempLights.get);
+                    //Point16[] arrayOfAllKeys = buffer.Keys.ToArray();
+                   // foreach (Point16 p in arrayOfAllKeys)
+                   // {
+                   //    Main.NewText(p);
+                   // }
+                }
+                catch
+                {
+                    Main.NewText("few");
+                }*/
             int lastNoOfShipTiles = missingShipTiles.Count;
             try
             {
                 int DefShipPosX = 100;
                 int DefShipPosY = TileCheckWater(100) - 22;
-                if (Main.LocalPlayer.Center.X < (DefShipPosX + ShipTiles.GetLength(1))*16 &&
-                    Main.LocalPlayer.Center.Y < (DefShipPosY + ShipTiles.GetLength(0))*16)
+                if (Main.LocalPlayer.Center.X < (DefShipPosX + ShipTiles.GetLength(1)) * 16 &&
+                    Main.LocalPlayer.Center.Y < (DefShipPosY + ShipTiles.GetLength(0)) * 16)
                 {
                     ShipComplete();
                 }
             }
             catch
             {
-
             }
             if (missingShipTiles.Count != lastNoOfShipTiles)
             {
@@ -702,25 +680,25 @@ namespace EEMod
                     newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
                 }
             }
-           /* if (EntracesPosses.Count > 0)
-            {
-                if (Main.projectile[Arrow].modProjectile is DesArrowProjectile arrow)
-                {
-                    Vector2 entrace = EntracesPosses[0];
-                    if (Helpers.PointInRectangle(player.Center / 16, entrace.X + 10, entrace.Y + 5, 4, 4))
-                    {
-                        if (player.controlUp)
-                        {
-                            godMode = true;
-                        }
-                        arrow.visible = true;
-                    }
-                    else
-                    {
-                        arrow.visible = false;
-                    }
-                }
-            }*/
+            /* if (EntracesPosses.Count > 0)
+             {
+                 if (Main.projectile[Arrow].modProjectile is DesArrowProjectile arrow)
+                 {
+                     Vector2 entrace = EntracesPosses[0];
+                     if (Helpers.PointInRectangle(player.Center / 16, entrace.X + 10, entrace.Y + 5, 4, 4))
+                     {
+                         if (player.controlUp)
+                         {
+                             godMode = true;
+                         }
+                         arrow.visible = true;
+                     }
+                     else
+                     {
+                         arrow.visible = false;
+                     }
+                 }
+             }*/
             Vector2 revisedRee = new Vector2(ree.X == 0 ? 100 : ree.X,
                                              ree.Y == 0 ? TileCheckWater(100) - 22 : ree.Y);
             if (Helpers.PointInRectangle(player.Center / 16, revisedRee.X, revisedRee.Y + 12, 4, 4) && shipComplete)
@@ -736,12 +714,10 @@ namespace EEMod
                     }
                 }
                 Main.projectile[Arrow2].ai[1] = 1;
-
             }
             else
             {
                 Main.projectile[Arrow2].ai[1] = 0;
-
             }
         }
     }

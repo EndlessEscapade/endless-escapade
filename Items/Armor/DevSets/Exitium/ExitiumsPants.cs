@@ -1,12 +1,10 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.Armor.DevSets.Exitium
 {
     [AutoloadEquip(EquipType.Legs)]
-
     public class ExitiumsPants : ModItem
     {
         public override void SetStaticDefaults()
@@ -14,6 +12,7 @@ namespace EEMod.Items.Armor.DevSets.Exitium
             DisplayName.SetDefault("Exitium's Fabulous Pants");
             Tooltip.SetDefault("'Even the finest sword plunged into salt water will eventually rust.'");
         }
+
         public override void SetDefaults()
         {
             item.width = 22;
@@ -30,6 +29,7 @@ namespace EEMod.Items.Armor.DevSets.Exitium
             player.armorEffectDrawShadowBasilisk = true;
             player.armorEffectDrawShadowEOCShield = true;
         }
+
         public override bool DrawLegs()
         {
             return false;

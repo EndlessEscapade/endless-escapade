@@ -22,6 +22,7 @@ namespace EEMod.Projectiles.OceanMap
 
         private int killTimer = 180;
         private bool sinking;
+
         public override void AI()
         {
             if (!sinking)
@@ -44,6 +45,7 @@ namespace EEMod.Projectiles.OceanMap
         }
 
         private int sinkTimer = 32;
+
         private void Sink()
         {
             projectile.velocity.X = 0;

@@ -1,3 +1,8 @@
+using EEMod.Extensions;
+using EEMod.Tiles;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -5,12 +10,6 @@ using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
-using Microsoft.Xna.Framework;
-using System;
-using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader;
-using EEMod.Tiles;
-using EEMod.Extensions;
 
 namespace EEMod
 {
@@ -34,6 +33,7 @@ namespace EEMod
                 x3 * Math.Pow(t, 3)
             );
         }
+
         private static float Y(float t,
             float y0, float y1, float y2, float y3)
         {
@@ -44,6 +44,7 @@ namespace EEMod
                  y3 * Math.Pow(t, 3)
              );
         }
+
         public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, bool alphaBlend = false, bool emitsDust = false)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
@@ -54,7 +55,7 @@ namespace EEMod
                 {
                     float x = X(i, startingPos.X, c1.X, c2.X, endPoints.X);
                     float y = Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
-                    if(emitsDust)
+                    if (emitsDust)
                     {
                         if (Main.rand.Next(50) == 0)
                         {
@@ -82,25 +83,27 @@ namespace EEMod
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
 
-        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2,float rotOffset = 0)
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0)
         {
             //USE IN PROPER HOOK PLZ THX
             float width = tex.Width;
             float length = (p1 - p2).Length();
             float rotation = (p1 - p2).ToRotation();
             Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
-            for (float i = 0; i<1; i += width/length)
+            for (float i = 0; i < 1; i += width / length)
             {
                 Vector2 lerp = p1 + (p2 - p1) * i;
-                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size()/2,1f,SpriteEffects.None,0f);
+                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
+
         public static Vector2 TraverseBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float t)
         {
             float x = X(t, startingPos.X, c1.X, c2.X, endPoints.X);
             float y = Y(t, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
             return new Vector2(x, y);
         }
+
         public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, int dim)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
@@ -122,6 +125,7 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
+
         public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, Texture2D endingTexture)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
@@ -147,6 +151,7 @@ namespace EEMod
             //spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
+
         public static Rectangle[] ReturnPoints(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, int chogsizeX, int chogsizeY, int accuracy)
         {
             Rectangle[] collision = new Rectangle[(int)(1 / (chainsPerUse * accuracy)) + 1]; //41
@@ -161,7 +166,9 @@ namespace EEMod
             }
             return collision;
         }
-        static int misckeep;
+
+        private static int misckeep;
+
         public static void DrawBezierProj(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, int projType, bool isBridge)
         {
             bool misc;
@@ -196,6 +203,7 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
+
         public static void NewTextAutoSync(string text, Color color)
         {
             if (Main.netMode == NetmodeID.SinglePlayer)
@@ -238,7 +246,6 @@ namespace EEMod
         {
             public static void DrawNPCVanilla()
             {
-
             }
         } */
 
@@ -248,10 +255,12 @@ namespace EEMod
             {
                 Main.NewText(obj + $"<{Path.GetDirectoryName(callerName).Split('\\').Last()}/{Path.GetFileName(callerName)}>" + $"({lineNumber})", 0, 255, 0);
             }
+
             public static void Log(object obj, [CallerFilePath] string callerName = "", [CallerLineNumber] int lineNumber = -1)
             {
                 LogChat(obj.ToString(), callerName, lineNumber);
             }
+
             public static void LogError(string obj, [CallerFilePath] string callerName = "", [CallerLineNumber] int lineNumber = -1)
             {
                 Main.NewText(obj + $"<{Path.GetDirectoryName(callerName).Split('\\').Last()}/{Path.GetFileName(callerName)}>" + $"({lineNumber})", 255, 0, 0);

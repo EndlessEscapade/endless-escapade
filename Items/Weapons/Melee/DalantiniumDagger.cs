@@ -1,8 +1,8 @@
+using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Melee;
 
 namespace EEMod.Items.Weapons.Melee
 {

@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.OceanMap
 {
@@ -24,6 +24,7 @@ namespace EEMod.Projectiles.OceanMap
         }
 
         private bool sinking;
+
         public override void AI()
         {
             if (!sinking)
@@ -75,6 +76,7 @@ namespace EEMod.Projectiles.OceanMap
         }
 
         private int sinkTimer = 32;
+
         private void Sink()
         {
             projectile.velocity.X = 0;

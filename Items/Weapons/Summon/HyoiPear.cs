@@ -1,9 +1,6 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using EEMod.Buffs.Buffs;
-using EEMod.Projectiles.Summons;
 
 namespace EEMod.Items.Weapons.Summon
 {

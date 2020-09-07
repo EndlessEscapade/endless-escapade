@@ -1,10 +1,8 @@
+using EEMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Projectiles.Melee;
-using System;
 
 namespace EEMod.Items.Weapons.Melee
 {

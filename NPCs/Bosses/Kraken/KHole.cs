@@ -1,11 +1,6 @@
-using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using EEMod.Compatibility;
-using EEMod.NPCs.Bosses.Hydros;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
@@ -52,6 +47,5 @@ namespace EEMod.NPCs.Bosses.Kraken
                 npc.spriteDirection = 1;
             }
         }
-
     }
 }

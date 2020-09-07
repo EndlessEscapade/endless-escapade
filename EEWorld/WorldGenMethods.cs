@@ -1,24 +1,25 @@
-﻿using System;
-using Terraria;
-using Terraria.GameContent.Events;
-using Terraria.ID;
-using Terraria.World.Generation;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
+﻿using EEMod.ID;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using EEMod.Tiles.Furniture.Coral;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
+using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.GameContent.Events;
+using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using EEMod.ID;
+using Terraria.World.Generation;
 
 namespace EEMod.EEWorld
 {
     public partial class EEWorld
     {
         public static IList<Vector2> Vines = new List<Vector2>();
+
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("EntracesPosses"))
@@ -65,6 +66,7 @@ namespace EEMod.EEWorld
             downedHydros = flags.Contains("downedHydros");
             downedKraken = flags.Contains("downedKraken");
         }
+
         public override TagCompound Save()
         {
             TagCompound tag = new TagCompound();
@@ -84,6 +86,7 @@ namespace EEMod.EEWorld
             tag["ree"] = ree;
             return tag;
         }
+
         /*List<string> boolflags = new List<string>();
 
         // Game modes
@@ -110,18 +113,19 @@ namespace EEMod.EEWorld
         if (downedBeheader)
             boolflags.Add("downedBeheader");
 
-
         return new TagCompound
         {
             ["SaveVersion"] = new Version(0, 3, 0, 0).ToString(),
             ["boolFlags"] = boolflags
         };*/
+
         private static void StartSandstorm()
         {
             Sandstorm.Happening = true;
             Sandstorm.TimeLeft = (int)(3600f * (8f + Main.rand.NextFloat() * 16f));
             ChangeSeverityIntentions();
         }
+
         private static void ChangeSeverityIntentions()
         {
             if (Sandstorm.Happening)
@@ -162,7 +166,6 @@ namespace EEMod.EEWorld
             }
         }
 
-
         public static void FillRegionNoEdit(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;
@@ -179,19 +182,22 @@ namespace EEMod.EEWorld
             }
             EEMod.progressMessage = messageBefore;
         }
-        static PerlinNoiseFunction PNF;
+
+        private static PerlinNoiseFunction PNF;
+
         public static float[] PerlinArray(int width, int seedVar, float amplitude, Vector2 res)
         {
             PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f);
             int rand = Main.rand.Next(0, seedVar);
             float[] PerlinStrip = new float[width];
-            for(int i = 0; i<width; i++)
+            for (int i = 0; i < width; i++)
             {
                 PerlinStrip[i] = PNF.Perlin2[i, rand] * amplitude;
             }
             return PerlinStrip;
         }
-        public static float[] PerlinArrayNoZero(int width,float amplitude, Vector2 res, int seedVar = 1000)
+
+        public static float[] PerlinArrayNoZero(int width, float amplitude, Vector2 res, int seedVar = 1000)
         {
             PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f);
             int rand = Main.rand.Next(0, seedVar);
@@ -202,10 +208,11 @@ namespace EEMod.EEWorld
             }
             return PerlinStrip;
         }
+
         public static void FillRegionNoEditWithNoise(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;
-            float[] PerlinStrip = PerlinArray(width,1000,15, new Vector2(60,200));
+            float[] PerlinStrip = PerlinArray(width, 1000, 15, new Vector2(60, 200));
             for (int i = 0; i < width; i++)
             {
                 for (int j = (int)PerlinStrip[i]; j < height; j++)
@@ -219,6 +226,7 @@ namespace EEMod.EEWorld
             }
             EEMod.progressMessage = messageBefore;
         }
+
         public static void FillWall(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;
@@ -235,6 +243,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         private static void FillRegionDiag(int width, int height, Vector2 startingPoint, int type, int leftOrRight)
         {
             string messageBefore = EEMod.progressMessage;
@@ -265,7 +274,6 @@ namespace EEMod.EEWorld
             EEMod.progressMessage = messageBefore;
         }
 
-
         private static void ClearPathWay(int width, int height, float gradient, Vector2 startingPoint, bool withPillars)
         {
             for (int i = 0; i < width; i++)
@@ -287,8 +295,8 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-
         }
+
         private static void Hole(int height, int width, Vector2 startingPoint)
         {
             for (int i = 0; i < height; i++)
@@ -300,6 +308,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         private static void MakePathWay(Vector2 firstRoom, Vector2 secondRoom, Vector2 firstRoomSize, Vector2 secondRoomSize, int heightOfConnection, bool withPillars)
         {
             Vector2 secondRoomDoorPos = new Vector2(secondRoom.X, secondRoomSize.Y / 2 + secondRoom.Y - heightOfConnection);
@@ -347,14 +356,17 @@ namespace EEMod.EEWorld
                             case 0:
                                 WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = TileID.SandstoneBrick;
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.RubyGemspark;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -362,6 +374,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceWalls(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -378,16 +391,20 @@ namespace EEMod.EEWorld
                             case 0:
                                 WorldGen.KillWall(y, x, false);
                                 break;
+
                             case 1:
                                 tile.wall = WallID.SandFall;
                                 break;
+
                             case 2:
                                 tile.wall = WallID.SandstoneBrick;
                                 break;
+
                             case 3:
                                 tile.wall = WallID.DesertFossil;
                                 tile.wallColor(29);
                                 break;
+
                             default:
                                 break;
                         }
@@ -395,6 +412,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void LowerResident1(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -417,6 +435,7 @@ namespace EEMod.EEWorld
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -424,6 +443,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceShip(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -441,31 +461,38 @@ namespace EEMod.EEWorld
                                 if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                                     NetMessage.sendWater(k, l);
                                 break;
+
                             case 1:
                                 tile.type = TileID.WoodBlock;
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.RichMahogany;
                                 tile.color(28);
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.GoldCoinPile;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.WoodenBeam;
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.type = TileID.SilkRope;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -473,6 +500,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceLootRoom(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -490,63 +518,78 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
                                 Main.tile[x, y].inActive(true);
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.BlueDungeonBrick;
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.type = TileID.SapphireGemspark;
                                 tile.active(true);
                                 break;
+
                             case 7:
                                 tile.type = TileID.BlueDynastyShingles;
                                 tile.active(true);
                                 break;
+
                             case 8:
                                 tile.type = TileID.LeafBlock;
                                 tile.active(true);
                                 break;
+
                             case 9:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 10:
                                 tile.type = TileID.Books;
                                 tile.active(true);
                                 break;
+
                             case 11:
                                 tile.type = TileID.TeamBlockBluePlatform;
                                 tile.active(true);
                                 break;
+
                             case 12:
                                 tile.type = TileID.MeteoriteBrick;
                                 tile.active(true);
                                 break;
+
                             case 13:
                                 tile.type = TileID.CobaltBrick;
                                 tile.active(true);
                                 break;
+
                             case 14:
                                 tile.type = TileID.Spikes;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -555,6 +598,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, LootRoomWalls);
         }
+
         public static void PlaceFountain(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -572,38 +616,46 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Sand;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Stone;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.LivingFire;
                                 tile.color(4);
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.type = TileID.SilkRope;
                                 tile.active(true);
                                 break;
+
                             case 7:
                                 tile.type = TileID.LeafBlock;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -612,6 +664,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, FountainWalls);
         }
+
         public static void PlaceM1(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -629,32 +682,39 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.LeafBlock;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.Books;
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.type = TileID.VineRope;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -663,6 +723,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, M1Walls);
         }
+
         public static void PlaceBlackSmith(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -680,27 +741,33 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Coralstone;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.MetalBars;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.Chain;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -709,6 +776,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, BlacksmithWalls);
         }
+
         public static void PlaceM2(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -726,22 +794,27 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Coralstone;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Books;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -749,6 +822,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceM3(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -766,18 +840,22 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Books;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -786,6 +864,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, M3Walls);
         }
+
         public static void PlaceBrewery(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -803,31 +882,38 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Books;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Glass;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.LeafBlock;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.type = TileID.BlueDungeonBrick;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -836,6 +922,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, BreweryWalls);
         }
+
         public static void PlaceM4Temple(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -853,26 +940,32 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Books;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.CobaltBrick;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.Coralstone;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -881,6 +974,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, M4TempleWalls);
         }
+
         public static void PlaceH2(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -898,57 +992,70 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Glass;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.BlueDungeonBrick;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.PalladiumColumn;
                                 Main.tile[x, y].inActive(true);
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.MeteoriteBrick;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.type = TileID.BlueDynastyShingles;
                                 tile.active(true);
                                 break;
+
                             case 7:
                                 tile.type = TileID.Chain;
                                 tile.active(true);
                                 break;
+
                             case 8:
                                 tile.type = TileID.Gold;
                                 tile.active(true);
                                 break;
+
                             case 9:
                                 tile.type = TileID.Cog;
                                 tile.active(true);
                                 break;
+
                             case 10:
                                 tile.type = TileID.LeafBlock;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 11:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 12:
                                 tile.type = TileID.CrystalBlock;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -957,6 +1064,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, H2Walls);
         }
+
         public static void MidTemp2(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -974,36 +1082,44 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.PalladiumColumn;
                                 Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Books;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.TeamBlockBluePlatform;
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.type = TileID.RainCloud;
                                 tile.active(true);
                                 break;
+
                             case 7:
                                 tile.type = TileID.Pots;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1011,6 +1127,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceFiller1(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1028,10 +1145,12 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1057,16 +1176,19 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.PalladiumColumn;
                                 Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1074,6 +1196,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceFiller3(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1091,15 +1214,18 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.StoneSlab;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1107,6 +1233,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceFiller4(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1124,10 +1251,12 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1153,10 +1282,12 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1164,6 +1295,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceFiller6(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1181,23 +1313,28 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<AtlanteanBrickTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.StoneSlab;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Cloud;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1205,6 +1342,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceShrine(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1222,27 +1360,33 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.LeafBlock;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
                                 Main.tile[x, y].inActive(true);
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.LivingCursedFire;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1250,6 +1394,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceObservatory(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1267,27 +1412,33 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.LeafBlock;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Glass;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.BlueDungeonBrick;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1295,6 +1446,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceDome(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1312,18 +1464,22 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.BlueDungeonBrick;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Glass;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1332,6 +1488,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, DomeWalls);
         }
+
         public static void PlaceMisc(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1349,27 +1506,33 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Glass;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.LeafBlock;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.LivingCursedFire;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1377,6 +1540,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceMisc1(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1394,14 +1558,17 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1410,6 +1577,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, M1Walls);
         }
+
         public static void PlaceMisc2(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1427,24 +1595,29 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Marble;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.MarbleBlock;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1452,6 +1625,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceMisc3(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1469,20 +1643,24 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
                                 Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1491,6 +1669,7 @@ namespace EEMod.EEWorld
             }
             PlaceAtlantisWalls(i, j, M3Walls);
         }
+
         public static void PlaceMisc4(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1508,26 +1687,32 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Glass;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1535,6 +1720,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceH1(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1552,52 +1738,63 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.PalladiumColumn;
                                 Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Glass;
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.DynastyWood;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.type = TileID.TeamBlockBluePlatform;
                                 tile.active(true);
                                 break;
+
                             case 7:
                                 tile.type = TileID.PalladiumColumn;
                                 Main.tile[x, y].inActive(true);
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 8:
                                 tile.type = TileID.LunarBlockStardust;
                                 tile.active(true);
                                 break;
+
                             case 9:
                                 tile.type = TileID.RainCloud;
                                 tile.active(true);
                                 break;
+
                             case 10:
                                 tile.type = TileID.AdamantiteBeam;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1605,6 +1802,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceHeadQ(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1622,28 +1820,34 @@ namespace EEMod.EEWorld
                             case 0:
                                 //WorldGen.KillTile(k, l, false, false, true);
                                 break;
+
                             case 1:
                                 tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             case 3:
                                 tile.type = TileID.BlueDungeonBrick;
                                 tile.active(true);
                                 break;
+
                             case 4:
                                 tile.type = TileID.Glass;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 tile.type = TileID.Marble;
                                 tile.color(8);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1651,6 +1855,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceAtlantisWalls(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1667,101 +1872,130 @@ namespace EEMod.EEWorld
                         {
                             case 0:
                                 break;
+
                             case 1:
                                 WorldGen.PlaceWall(k, l, WallID.SandstoneBrick);
                                 tile.wallColor(21);
                                 break;
+
                             case 2:
                                 tile.wall = WallID.SapphireGemspark;
                                 break;
+
                             case 3:
                                 tile.wall = WallID.Dirt;
                                 break;
+
                             case 4:
                                 tile.wall = WallID.ShroomitePlating;
                                 tile.wallColor(17);
                                 break;
+
                             case 5:
                                 tile.wall = WallID.BlueDungeonTile;
                                 tile.wallColor(21);
                                 break;
+
                             case 6:
                                 tile.wall = WallID.StoneSlab;
                                 tile.wallColor(21);
                                 break;
+
                             case 7:
                                 tile.wall = WallID.Dirt;
                                 break;
+
                             case 8:
                                 tile.wall = WallID.Stone;
                                 tile.wallColor(21);
                                 break;
+
                             case 9:
                                 tile.wall = WallID.BlueDungeon;
                                 tile.wallColor(21);
                                 break;
+
                             case 10:
                                 tile.wall = WallID.Grass;
                                 break;
+
                             case 11:
                                 tile.wall = WallID.Dirt;
                                 break;
+
                             case 12:
                                 tile.wall = WallID.Dirt;
                                 break;
+
                             case 13:
                                 tile.wall = WallID.AdamantiteBeam;
                                 break;
+
                             case 14:
                                 tile.wall = WallID.BlueDungeonTile;
                                 tile.wallColor(27);
                                 break;
+
                             case 15:
                                 tile.wall = WallID.Waterfall;
                                 break;
+
                             case 16:
                                 tile.wall = WallID.CobaltBrick;
                                 break;
+
                             case 17:
                                 WorldGen.PlaceWall(k, l, WallID.Dirt);
                                 break;
+
                             case 18:
                                 tile.wall = WallID.Grass;
                                 tile.wallColor(1);
                                 break;
+
                             case 19:
                                 tile.wall = WallID.Grass;
                                 tile.wallColor(10);
                                 break;
+
                             case 20:
                                 tile.wall = WallID.Dirt;
                                 break;
+
                             case 21:
                                 tile.wall = WallID.Dirt;
                                 break;
+
                             case 22:
                                 tile.wall = WallID.SilverBrick;
                                 break;
+
                             case 23:
                                 tile.wall = WallID.SapphireGemspark;
                                 break;
+
                             case 24:
                                 tile.wall = WallID.GreenDungeonSlab;
                                 break;
+
                             case 25:
                                 tile.wall = WallID.DiscWall;
                                 tile.wallColor(10);
                                 break;
+
                             case 26:
                                 tile.wall = WallID.RichMahoganyFence;
                                 tile.wallColor(21);
                                 break;
+
                             case 27:
                                 tile.wall = WallID.Waterfall;
                                 break;
+
                             case 28:
                                 tile.wall = WallID.Dirt;
                                 break;
+
                             default:
                                 break;
                         }
@@ -1769,6 +2003,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceShipWalls(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -1785,28 +2020,35 @@ namespace EEMod.EEWorld
                             case 0:
                                 WorldGen.KillWall(y, x, false);
                                 break;
+
                             case 1:
                                 tile.wall = WallID.Cloud;
                                 break;
+
                             case 2:
                                 tile.wall = WallID.RichMahoganyFence;
                                 tile.wallColor(28);
                                 break;
+
                             case 3:
                                 tile.wall = WallID.Cloud;
                                 tile.wallColor(29);
                                 break;
+
                             case 4:
                                 tile.wall = WallID.Wood;
                                 break;
+
                             case 5:
                                 tile.type = TileID.WoodenBeam;
                                 tile.active(true);
                                 break;
+
                             case 6:
                                 tile.wall = WallID.Sail;
                                 tile.wallColor(29);
                                 break;
+
                             default:
                                 break;
                         }
@@ -1878,7 +2120,6 @@ namespace EEMod.EEWorld
 
         private static void MakePillar(Vector2 startingPos, int height, bool water, bool fire)
         {
-
             if (water)
             {
                 Main.tile[(int)startingPos.X - 1, (int)startingPos.Y - 3].liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
@@ -1922,7 +2163,6 @@ namespace EEMod.EEWorld
             {
                 for (int i = -1; i < 2; i++)
                 {
-
                     for (int j = 0; j < height; j++)
                     {
                         var tile = Framing.GetTileSafely((int)startingPos.X + i, (int)startingPos.Y + j);
@@ -1932,6 +2172,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         private static void MakeGoldPile(Vector2 startingPos, int type)
         {
             if (type == 0)
@@ -2001,46 +2242,55 @@ namespace EEMod.EEWorld
                                 WorldGen.KillTile(RoomPosX + x, RoomPosY - y, false, false, true);
                             }
                             break;
+
                         case 1:
                             tile.type = TileID.SandstoneBrick;
                             tile.active(true);
                             break;
+
                         case 2:
                             tile.type = TileID.GoldCoinPile;
                             tile.active(true);
                             break;
+
                         case 3:
                             tile.type = TileID.SandStoneSlab;
                             tile.active(true);
                             tile.color(28);
                             break;
+
                         case 4:
                             tile.type = TileID.MarbleBlock;
                             tile.active(true);
                             tile.color(28);
                             break;
+
                         case 5:
                             tile.type = TileID.RubyGemspark;
                             tile.active(true);
                             break;
+
                         case 6:
                             tile.type = TileID.PalladiumColumn;
                             tile.active(true);
                             tile.inActive(true);
                             tile.color(28);
                             break;
+
                         case 7:
                             tile.type = TileID.Lamps;
                             tile.active(true);
                             tile.inActive(true);
                             tile.color(28);
                             break;
+
                         case 8:
                             tile.type = TileID.Banners;
                             tile.active(true);
                             tile.inActive(true);
                             tile.color(28);
                             break;
+
                         case 9:
                             WorldGen.PlaceObject(RoomPosX + x, RoomPosY - y, TileID.TallGateClosed);
                             tile.active(true);
@@ -2060,26 +2310,28 @@ namespace EEMod.EEWorld
                         case 1:
                             tile.wall = WallID.SandstoneBrick;
                             break;
+
                         case 2:
                             tile.wall = WallID.StoneSlab;
                             tile.wallColor(28);
                             break;
+
                         case 3:
                             tile.wall = WallID.DesertFossil;
                             break;
+
                         case 4:
                             tile.wall = WallID.DesertFossil;
                             tile.wallColor(29);
                             break;
+
                         case 5:
                             tile.wall = WallID.SandFall;
                             break;
                     }
                 }
             }
-
         }
-
 
         public static void DoAndAssignShrineValues()
         {
@@ -2090,12 +2342,14 @@ namespace EEMod.EEWorld
             EntracesPosses.Add(new Vector2(posX, posY));
             yes = new Vector2(posX, posY);
         }
+
         public static void DoAndAssignShipValues()
         {
             PlaceShipWalls(100, TileCheckWater(100) - 22, ShipWalls);
             PlaceShip(100, TileCheckWater(100) - 22, ShipTiles);
             ree = new Vector2(100, TileCheckWater(100) - 22);
         }
+
         public static int TileCheckWater(int positionX)
         {
             for (int i = 0; i < Main.maxTilesY; i++)
@@ -2108,6 +2362,7 @@ namespace EEMod.EEWorld
             }
             return 0;
         }
+
         public static void Pyramid(float startX, float startY)
         {
             int noOfRooms = 12;
@@ -2141,7 +2396,6 @@ namespace EEMod.EEWorld
                 }
                 if (i != 0 && i != noOfRooms - 1)
                 {
-
                     for (int j = 0; j < 500; j++)
                     {
                         int counter = 0;
@@ -2251,9 +2505,6 @@ namespace EEMod.EEWorld
             FirstRoomFirstVariation(new Vector2(Rooms[0].X - RoomSizes[0].X / 2 - 2, Rooms[0].Y + RoomSizes[0].Y / 2));
         }
 
-
-
-
         public static void ClearRegion(int width, int height, Vector2 startingPoint)
         {
             string messageBefore = EEMod.progressMessage;
@@ -2269,6 +2520,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void ClearRegionSafely(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;
@@ -2286,6 +2538,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void FillRegionWithWater(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
@@ -2300,6 +2553,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void FillRegionWithLava(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
@@ -2317,6 +2571,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeVolcanoEntrance(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -2333,9 +2588,11 @@ namespace EEMod.EEWorld
                         {
                             case 0:
                                 break;
+
                             case 1:
                                 WorldGen.PlaceTile(k, l, ModContent.TileType<VolcanicAshTile>());
                                 break;
+
                             case 2:
                                 WorldGen.PlaceWall(k, l, WallID.DiamondGemspark);
                                 tile.wallColor(29);
@@ -2345,6 +2602,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void GenerateLuminite()
         {
             for (int i = 0; i < Main.maxTilesX; i++)
@@ -2362,6 +2620,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void RemoveWaterFromRegion(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
@@ -2377,6 +2636,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static int TileCheck2(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);
@@ -2409,6 +2669,7 @@ namespace EEMod.EEWorld
                 return 0;
             }
         }
+
         public static int WaterCheck(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);
@@ -2441,6 +2702,7 @@ namespace EEMod.EEWorld
                 return 0;
             }
         }
+
         public static void MakeOvalJaggedTop(int width, int height, Vector2 startingPoint, int type, int lowRand = 10, int highRand = 20)
         {
             for (int i = 0; i < width; i++)
@@ -2469,6 +2731,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeOvalJaggedBottom(int width, int height, Vector2 startingPoint, int type, bool overwrite = false)
         {
             int steps = 0;
@@ -2495,6 +2758,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
@@ -2513,6 +2777,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeOval(int width, int height, Vector2 startingPoint, int type, bool forced)
         {
             for (int i = 0; i < width; i++)
@@ -2529,18 +2794,20 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeCircle(int size, Vector2 startingPoint, int type, bool forced)
         {
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
-                    float f = size*0.5f;
+                    float f = size * 0.5f;
                     if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
                         WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
                 }
             }
         }
+
         public static void MakeJaggedOval(int width, int height, Vector2 startingPoint, int type, bool forced)
         {
             for (int i = 0; i < width; i++)
@@ -2557,6 +2824,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeKramkenArena(int xPos, int yPos, int size)
         {
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
@@ -2577,6 +2845,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void RemoveStoneSlabs()
         {
             for (int i = 0; i < Main.maxTilesX; i++)
@@ -2589,7 +2858,9 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static PerlinNoiseFunction perlinNoise;
+
         public static void PlaceKelp(int height, Vector2 startingPoint)
         {
             for (int i = 0; i < height; i++)
@@ -2600,28 +2871,31 @@ namespace EEMod.EEWorld
                 tile.active(true);
             }
         }
+
         public delegate bool NoiseConditions(Vector2 point);
+
         public static void NoiseGen(Vector2 topLeft, Vector2 size, Vector2 dimensions, float thresh, ushort type, NoiseConditions noiseFilter = null)
         {
-               perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
-               int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
-               for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
-               {
-                 for (int j = (int)topLeft.Y; j < (int)topLeft.Y + (int)size.Y; j++)
-                 {
+            perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
+            int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
+            for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
+            {
+                for (int j = (int)topLeft.Y; j < (int)topLeft.Y + (int)size.Y; j++)
+                {
                     Tile tile = Framing.GetTileSafely(i, j);
                     if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
                     {
                         WorldGen.PlaceTile(i, j, type);
                     }
-                 }
-               }
+                }
+            }
         }
+
         public static void NoiseGenWave(Vector2 topLeft, Vector2 size, Vector2 dimensions, ushort type, float thresh, NoiseConditions noiseFilter = null)
         {
             PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
             int[,] perlinNoiseFunction = perlinNoise.PerlinBinary;
-            float[] disp = PerlinArrayNoZero((int)size.X, size.Y*0.5f,new Vector2(50,100));
+            float[] disp = PerlinArrayNoZero((int)size.X, size.Y * 0.5f, new Vector2(50, 100));
             for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
             {
                 for (int j = (int)topLeft.Y + (int)disp[i - (int)topLeft.X]; j < (int)topLeft.Y + (int)size.Y; j++)
@@ -2650,6 +2924,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int foliage, bool ensureNoise = false)
         {
             int sizeX = size;
@@ -2715,29 +2990,33 @@ namespace EEMod.EEWorld
             {
                 case -1:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), ( yPos) + ( 0)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), ( yPos) + ( -sizeY / 5 - sizeY / 6)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), ( yPos) + ( -sizeY / 5 - sizeY / 6)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), ( yPos) + ( sizeY / 5 - sizeY / 6)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), ( yPos) + ( sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), (yPos) + (0)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), (yPos) + (-sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), (yPos) + (-sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5 - sizeX / 6), (yPos) + (sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5 - sizeX / 6), (yPos) + (sizeY / 5 - sizeY / 6)), tile2);
                     break;
+
                 case 0:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), ( yPos) + ( 0)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), ( yPos) + ( -sizeY / 5)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), ( yPos) + ( -sizeY / 5)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), ( yPos) + ( sizeY / 5)), tile2);
-                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), ( yPos) + ( sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (0), (yPos) + (0)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), (yPos) + (-sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), (yPos) + (-sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (sizeX / 5), (yPos) + (sizeY / 5)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2((xPos) + (-sizeX / 5), (yPos) + (sizeY / 5)), tile2);
                     CreateNoise(!ensureNoise, 100, 10, 0.45f);
                     break;
+
                 case 1:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     CreateNoise(!ensureNoise, 20, 200, 0.5f);
                     break;
+
                 case 2:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     CreateNoise(!ensureNoise, 200, 20, 0.5f);
                     break;
+
                 case 3:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     MakeWavyChasm3(new Vector2(TL.X - 50 + Main.rand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X - 50 + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
@@ -2746,11 +3025,13 @@ namespace EEMod.EEWorld
                     MakeWavyChasm3(new Vector2(TL.X + Main.rand.Next(-100, 100), TL.Y - 10), new Vector2(BR.X + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
                     MakeWavyChasm3(new Vector2(TL.X + Main.rand.Next(-100, 100), yPos - 10), new Vector2(BR.X + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
                     break;
+
                 case 4:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     for (int i = 0; i < 20; i++)
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
                     break;
+
                 case 5:
                     MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true);
                     MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
@@ -2758,6 +3039,7 @@ namespace EEMod.EEWorld
                     for (int i = 0; i < 30; i++)
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY * 2)), TileID.StoneSlab, true);
                     break;
+
                 case 6:
                     MakeJaggedOval((int)(sizeX * 1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     MakeWavyChasm3(new Vector2(TL.X - 50 + Main.rand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X - 50 + Main.rand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
@@ -2774,7 +3056,7 @@ namespace EEMod.EEWorld
                 for (int j = -20; j < sizeY + 20; j++)
                 {
                     Vector2 basePos = new Vector2(i + xPos - size / 2f, j + yPos - size / 4f);
-                    if (WorldGen.InWorld((int)basePos.X, (int)basePos.Y,20))
+                    if (WorldGen.InWorld((int)basePos.X, (int)basePos.Y, 20))
                     {
                         switch (foliage)
                         {
@@ -2787,18 +3069,23 @@ namespace EEMod.EEWorld
                                         case 0:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral1>());
                                             break;
+
                                         case 1:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral2>());
                                             break;
+
                                         case 2:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral3>());
                                             break;
+
                                         case 3:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral4>());
                                             break;
+
                                         case 4:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral5>());
                                             break;
+
                                         case 5:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral6>());
                                             break;
@@ -2812,48 +3099,62 @@ namespace EEMod.EEWorld
                                         case 0:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 8, ModContent.TileType<CoralStack1>());
                                             break;
+
                                         case 1:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 8, ModContent.TileType<CoralStack2>());
                                             break;
+
                                         case 2:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 3, ModContent.TileType<MediumCoral>(), style: WorldGen.genRand.Next(0, 2));
                                             break;
+
                                         case 3:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<ShortCoral>(), style: WorldGen.genRand.Next(0, 3));
                                             break;
+
                                         case 4:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<SingleCoral>(), style: WorldGen.genRand.Next(0, 3));
                                             break;
+
                                         case 5:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<SquareCoral>(), style: WorldGen.genRand.Next(0, 5));
                                             break;
+
                                         case 6:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 7, ModContent.TileType<BigCoral1>());
                                             break;
+
                                         case 7:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 7, ModContent.TileType<BigCoral2>());
                                             break;
+
                                         case 8:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 6, ModContent.TileType<TallCoral>());
                                             break;
+
                                         case 9:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 3, ModContent.TileType<Brain1BigCoral>());
                                             break;
+
                                         case 10:
                                             WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 3, ModContent.TileType<Brain2BigCoral>());
                                             break;
+
                                         case 11:
                                             PlaceKelp(WorldGen.genRand.Next(sizeY / 30, sizeY / 20), new Vector2((int)basePos.X, (int)basePos.Y - 1));
                                             break;
+
                                         case 12:
                                             switch (WorldGen.genRand.Next(3))
                                             {
                                                 case 0:
                                                     WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral1>());
                                                     break;
+
                                                 case 1:
                                                     WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral2>());
                                                     break;
+
                                                 case 2:
                                                     WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral3>());
                                                     break;
@@ -2862,6 +3163,7 @@ namespace EEMod.EEWorld
                                     }
                                 }
                                 break;
+
                             case 1:
                                 if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && !WorldGen.genRand.NextBool(6))
                                 {
@@ -2877,6 +3179,7 @@ namespace EEMod.EEWorld
                                             case 0:
                                                 WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<ShortCoral>(), style: WorldGen.genRand.Next(0, 3));
                                                 break;
+
                                             case 1:
                                                 WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<SingleCoral>(), style: WorldGen.genRand.Next(0, 3));
                                                 break;
@@ -2884,6 +3187,7 @@ namespace EEMod.EEWorld
                                     }
                                 }
                                 break;
+
                             case 2:
                                 if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && WorldGen.genRand.NextBool() && !WorldGen.genRand.NextBool(6))
                                 {
@@ -2899,18 +3203,23 @@ namespace EEMod.EEWorld
                                             case 0:
                                                 WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<SquareCoral>(), style: 3);
                                                 break;
+
                                             case 1:
                                                 WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral1>());
                                                 break;
+
                                             case 2:
                                                 WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral2>());
                                                 break;
+
                                             case 3:
                                                 WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<SingleCoral>(), style: 0);
                                                 break;
+
                                             case 4:
                                                 WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<Brain1BigCoral>(), style: 0);
                                                 break;
+
                                             case 5:
                                                 WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<Brain2BigCoral>(), style: 0);
                                                 break;
@@ -2918,9 +3227,11 @@ namespace EEMod.EEWorld
                                     }
                                 }
                                 break;
+
                             case 3:
                                 //Currents
                                 break;
+
                             case 4:
                                 //Nothing
                                 break;
@@ -2928,8 +3239,8 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-
         }
+
         public static void PlaceCoral()
         {
             for (int i = 42; i < Main.maxTilesX - 42; i++)
@@ -2944,28 +3255,35 @@ namespace EEMod.EEWorld
                             case 0:
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral1>());
                                 break;
+
                             case 1:
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral2>());
                                 break;
+
                             case 2:
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral3>());
                                 break;
+
                             case 3:
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral4>());
                                 break;
+
                             case 4:
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral5>());
                                 break;
+
                             case 5:
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral6>());
                                 break;
+
                             case 6:
                                 ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
                                 WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                 break;
+
                             case 7:
-                               // ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
-                               // WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
+                                // ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
+                                // WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
                                 break;
                         }
                     }
@@ -2977,61 +3295,78 @@ namespace EEMod.EEWorld
                             case 0:
                                 WorldGen.PlaceTile(i, j - 8, ModContent.TileType<CoralStack1>());
                                 break;
+
                             case 1:
                                 WorldGen.PlaceTile(i, j - 8, ModContent.TileType<CoralStack2>());
                                 break;
+
                             case 2:
                                 WorldGen.PlaceTile(i, j - 3, ModContent.TileType<MediumCoral>(), style: WorldGen.genRand.Next(0, 2));
                                 break;
+
                             case 3:
                                 WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ShortCoral>(), style: WorldGen.genRand.Next(0, 3));
                                 break;
+
                             case 4:
                                 WorldGen.PlaceTile(i, j - 1, ModContent.TileType<SingleCoral>(), style: WorldGen.genRand.Next(0, 3));
                                 break;
+
                             case 5:
                                 WorldGen.PlaceTile(i, j - 2, ModContent.TileType<SquareCoral>(), style: WorldGen.genRand.Next(0, 5));
                                 break;
+
                             case 6:
                                 WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral1>());
                                 break;
+
                             case 7:
                                 WorldGen.PlaceTile(i, j - 7, ModContent.TileType<BigCoral2>());
                                 break;
+
                             case 8:
                                 WorldGen.PlaceTile(i, j - 6, ModContent.TileType<TallCoral>());
                                 break;
+
                             case 9:
                                 WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain1BigCoral>());
                                 break;
+
                             case 10:
                                 WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Brain2BigCoral>());
                                 break;
+
                             case 11:
                                 PlaceKelp(WorldGen.genRand.Next(3, 9), new Vector2(i, j - 1));
                                 break;
+
                             case 12:
                                 switch (WorldGen.genRand.Next(3))
                                 {
                                     case 0:
                                         WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral1>());
                                         break;
+
                                     case 1:
                                         WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral2>());
                                         break;
+
                                     case 2:
                                         WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral3>());
                                         break;
                                 }
                                 break;
+
                             case 13:
                                 ModContent.GetInstance<GroundGlowCoralTE>().Place(i, j - 13);
                                 WorldGen.PlaceTile(i, j - 13, ModContent.TileType<GroundGlowCoral>());
                                 break;
+
                             case 14:
                                 ModContent.GetInstance<GroundGlowCoral2TE>().Place(i, j - 5);
                                 WorldGen.PlaceTile(i, j - 5, ModContent.TileType<GroundGlowCoral2>());
                                 break;
+
                             case 15:
                                 ModContent.GetInstance<GroundGlowCoral3TE>().Place(i, j - 4);
                                 WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
@@ -3041,6 +3376,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false, int wallType = 0)
         {
             int initialStartingPosX = (int)startingPoint.X;
@@ -3085,6 +3421,7 @@ namespace EEMod.EEWorld
                 KillWall(initialWidth, height / 5, new Vector2(initialStartingPosX, topRight - 5));
             }
         }
+
         public static void FillRegion(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;
@@ -3101,6 +3438,7 @@ namespace EEMod.EEWorld
             }
             EEMod.progressMessage = messageBefore;
         }
+
         public static void MakeCoral(Vector2 startingPoint, int type, int strength)
         {
             for (int j = 0; j < 5; j++)
@@ -3133,6 +3471,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon, int stepAddon)
         {
             for (int i = 0; i < height; i++)
@@ -3141,6 +3480,7 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(positionX + (int)(i * slant), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10) + stepAddon, type, true, 0f, 0f, true, true);
             }
         }
+
         public static void MakeWavyChasm(int positionX, int positionY, int height, int type, float slant, int sizeAddon)
         {
             for (int i = 0; i < height; i++)
@@ -3149,6 +3489,7 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
             }
         }
+
         public static void MakeWavyChasm2(int positionX, int positionY, int height, int type, float slant, int sizeAddon, bool Override)
         {
             for (int i = 0; i < height; i++)
@@ -3157,6 +3498,7 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / (float)height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(10, 12), type, true, 0f, 0f, true, Override);
             }
         }
+
         public static void MakeWavyChasm3(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds, int waveInvolvment = 0, float frequency = 5, bool withBranches = false, int branchFrequency = 0, int lengthOfBranches = 0)
         {
             for (int i = 0; i < accuracy; i++)
@@ -3179,7 +3521,6 @@ namespace EEMod.EEWorld
                 {
                     if (i % branchFrequency == 0 && WorldGen.genRand.Next(2) == 0)
                     {
-
                         int Side = Main.rand.Next(0, 2);
                         if (Side == 0)
                         {
@@ -3197,6 +3538,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static int TileCheck(int positionX, int type)
         {
             for (int i = 0; i < Main.maxTilesY; i++)
@@ -3209,6 +3551,7 @@ namespace EEMod.EEWorld
             }
             return 0;
         }
+
         public static void KillWall(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
@@ -3227,6 +3570,7 @@ namespace EEMod.EEWorld
 
             return p < 1 ? true : false;
         }
+
         public static void MakeAtlantis(Vector2 startingPoint, Vector2 size)
         {
             List<Vector2> islandPositions = new List<Vector2>();
@@ -3563,9 +3907,9 @@ namespace EEMod.EEWorld
             FillRegionWithWater((int)size.X, (int)size.Y, startingPoint);
             FillRegionWithWater((int)size.X, (int)size.Y, startingPoint);
         }
+
         public static void MakeLayer(int X, int midY, int size, int layer, int type)
         {
-
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
             for (int k = 0; k < maxTiles * (size / 8); k++)
             {
@@ -3604,9 +3948,9 @@ namespace EEMod.EEWorld
             if (layer == 1)
                 WorldGen.TileRunner(X, midY, WorldGen.genRand.Next(size / 3 - 10, size / 3 + 10), WorldGen.genRand.Next(5, 10), type, true, 1f, 1f, false, true);
         }
+
         public static void MakeLayerWithOutline(int X, int midY, int size, int layer, int type, int thickness)
         {
-
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
             for (int k = 0; k < maxTiles * (size / 8); k++)
             {
@@ -3675,14 +4019,17 @@ namespace EEMod.EEWorld
                                 WorldGen.PlaceTile(k, l, TileID.GrayBrick);
                                 tile.active(true);
                                 break;
+
                             case 2:
                                 WorldGen.PlaceTile(k, l, TileID.Stone);
                                 tile.active(true);
                                 break;
+
                             case 5:
                                 WorldGen.PlaceTile(k, l, TileID.HangingLanterns);
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -3690,7 +4037,9 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static Vector2 ChestPos = Vector2.Zero;
+
         public static void PlaceAnyBuilding(int i, int j, int[,,] shape)
         {
             ChestPos = Vector2.Zero;
@@ -3707,13 +4056,13 @@ namespace EEMod.EEWorld
                         if (shape[y, x, 0] != 0)
                         {
                             if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
-                            ChestPos = new Vector2(y,x);
+                                ChestPos = new Vector2(y, x);
                             if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
                             {
                                 tile.type = (ushort)shape[y, x, 0];
                                 tile.active(true);
                             }
-                            WorldGen.PlaceChest(y - 1, x-2, (ushort)ModContent.TileType<GemsandChestTile>());
+                            WorldGen.PlaceChest(y - 1, x - 2, (ushort)ModContent.TileType<GemsandChestTile>());
                         }
                         tile.wall = (ushort)shape[y, x, 1];
                         tile.color((byte)shape[y, x, 2]);
@@ -3739,9 +4088,10 @@ namespace EEMod.EEWorld
             }
             if (ChestPos != Vector2.Zero)
             {
-                WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y+1,21);
+                WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y + 1, 21);
             }
         }
+
         public static void Island(int islandWidth, int islandHeight, int posY)
         {
             MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, posY), ModContent.TileType<CoralSandTile>());
@@ -3756,6 +4106,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void PlaceAtlantisCastleRoom(int i, int j, int[,] shape)
         {
             for (int y = 0; y < shape.GetLength(0); y++)
@@ -3785,6 +4136,7 @@ namespace EEMod.EEWorld
                                 tile.type = TileID.Platforms;
                                 tile.active(true);
                                 break;
+
                             default:
                                 break;
                         }
@@ -3814,6 +4166,7 @@ namespace EEMod.EEWorld
                                 tile.wall = WallID.BlueDungeonTile;
                                 tile.wallColor(20);
                                 break;
+
                             default:
                                 break;
                         }

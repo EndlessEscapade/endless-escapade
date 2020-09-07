@@ -38,7 +38,6 @@ namespace EEMod.NPCs.Bosses.Hydros
             }
         }
 
-
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -72,15 +71,19 @@ namespace EEMod.NPCs.Bosses.Hydros
                     case 0:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosEye>(), 1);
                         break;
+
                     case 1:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
                         break;
+
                     case 2:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Triggerfish>(), 1);
                         break;
+
                     case 3:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
                         break;
+
                     case 4:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EnchantedCoral>(), 1);
                         break;
@@ -94,8 +97,8 @@ namespace EEMod.NPCs.Bosses.Hydros
             }
         }
 
-
         public float[] ai = new float[NPC.maxAI];
+
         private void Move(Player player, float sped, float TR, Vector2 addon)
         {
             Vector2 moveTo = player.Center + addon;
@@ -152,11 +155,13 @@ namespace EEMod.NPCs.Bosses.Hydros
                 }
             }
         }
-        int prepare;
-        int timeForAttack;
+
+        private int prepare;
+        private int timeForAttack;
         public bool flaginOut;
         public float dist1;
-        Vector2[] potentialMinionArray = new Vector2[3];
+        private Vector2[] potentialMinionArray = new Vector2[3];
+
         public override void AI()
         {
             int phaseChange = 400;
@@ -205,6 +210,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                     {
                         case 0:
                             break;
+
                         case 1:
                             {
                                 Move(target, speed, TR, Vector2.Zero);
@@ -302,6 +308,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                     }
                 }
         }
+
         /*public override bool CheckDead()
         {
             int goreIndex = Gore.NewGore(new Vector2(npc.position.X + (float)(npc.width / 2) - 24f, npc.position.Y + (float)(npc.height / 2) - 24f), default(Vector2), mod.GetGoreSlot("Gores/HydrosGore"), 1f);

@@ -1,5 +1,3 @@
-using EEMod.Items.Banners;
-using EEMod.NPCs.CoralReefs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -40,24 +38,31 @@ namespace EEMod.Tiles.Banners
                 case 0:
                     item = "ClamBanner";
                     break;
+
                 case 1:
                     item = "LunaJellyBanner";
                     break;
+
                 case 2:
                     item = "ManoWarBanner";
                     break;
+
                 case 3:
                     item = "SeaSlugBanner";
                     break;
+
                 case 4:
                     item = "ToxicPufferBanner";
                     break;
+
                 case 5:
                     item = "GiantSquidBanner";
                     break;
+
                 case 6:
                     item = "SmallClamBanner";
                     break;
+
                 default:
                     return;
             }
@@ -76,21 +81,27 @@ namespace EEMod.Tiles.Banners
                     case 0:
                         type = "Clam";
                         break;
+
                     case 1:
                         type = "LunaJelly";
                         break;
+
                     case 2:
                         type = "ManoWar";
                         break;
+
                     case 3:
                         type = "SeaSlug";
                         break;
+
                     case 4:
                         type = "ToxicPuffer";
                         break;
+
                     case 5:
                         type = "GiantSquid";
                         break;
+
                     default:
                         return;
                 }

@@ -21,7 +21,6 @@ namespace EEMod.Projectiles.OceanMap
 
         public override void AI()
         {
-
         }
     }
 }*/

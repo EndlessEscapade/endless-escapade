@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
@@ -15,10 +10,15 @@ namespace EEMod.Projectiles
     public abstract class VisualProjectile : ModProjectile
     {
         public override bool? CanCutTiles() => false;
+
         public override bool CanDamage() => false;
+
         public override bool? CanHitNPC(NPC target) => false;
+
         public override bool CanHitPlayer(Player target) => false;
+
         public override bool CanHitPvp(Player target) => false;
+
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) => false;
     }
 }

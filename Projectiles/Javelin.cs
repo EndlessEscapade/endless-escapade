@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.Projectiles
 {
@@ -12,9 +12,9 @@ namespace EEMod.Projectiles
         protected int maxStickingJavelins = 5; // projectile is the max. amount of javelins being able to attach
         protected float rotationOffset = 0f;
         protected float maxTicks = 45f;
+
         public virtual void ExtraAI()
         {
-
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
@@ -42,7 +42,6 @@ namespace EEMod.Projectiles
             // Please note the usage of MathHelper, please use projectile! We subtract 90 degrees as radians to the rotation vector to offset the sprite as its default rotation in the sprite isn't aligned properly.
             // Vector2 rotVector = (projectile.rotation - MathHelper.ToRadians(90f)).ToRotationVector2();
             //_ = rotVector * 16f;
-
 
             if (projectile.owner == Main.myPlayer && dropItem != -1)
             {
@@ -208,7 +207,6 @@ namespace EEMod.Projectiles
                 {
                     projectile.Kill();
                 }
-
             }
             ExtraAI();
         }

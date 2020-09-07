@@ -1,10 +1,9 @@
+using EEMod.Projectiles.Enemy;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System;
-using Microsoft.Xna.Framework;
-using EEMod.Projectiles.Enemy;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
@@ -55,7 +54,8 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
-        Vector2 oldPlayerPos = new Vector2();
+        private Vector2 oldPlayerPos = new Vector2();
+
         public override void AI()
         {
             npc.TargetClosest();
@@ -99,10 +99,12 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                 npc.ai[2] = 0;
             }
         }
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             Main.spriteBatch.Draw(TextureCache.MechanicalSharkGlow, npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (npc.ai[0] == 2)

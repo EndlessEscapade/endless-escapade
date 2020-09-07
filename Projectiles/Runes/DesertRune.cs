@@ -1,10 +1,10 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.Graphics.Effects;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.Runes
 {
@@ -33,11 +33,13 @@ namespace EEMod.Projectiles.Runes
             projectile.arrow = true;
             projectile.damage = 0;
         }
+
         public int rippleCount = 3;
         public int rippleSize = 500;
         public int rippleSpeed = 200;
         public float distortStrength = 200;
         public int yes;
+
         public override void AI()           //this make that the projectile will face the corect way
         {
             yes++;
@@ -58,8 +60,6 @@ namespace EEMod.Projectiles.Runes
                         Filters.Scene.Activate("EEMod:Shockwave", projectile.Center).GetShader().UseColor(rippleCount, rippleSize, rippleSpeed).UseTargetPosition(projectile.Center);
                         projectile.ai[0] = 1;
                     }
-
-
                 }
                 float progress = (180 - projectile.ai[1]) / 720f;
                 progress *= .3f;
@@ -73,7 +73,9 @@ namespace EEMod.Projectiles.Runes
                 }
             }
         }
-        float flash = 0;
+
+        private float flash = 0;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             flash += 0.01f;
@@ -108,6 +110,7 @@ namespace EEMod.Projectiles.Runes
                 target.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] = 1;
             }
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             //target.AddBuff(BuffID.Chilled, 100);

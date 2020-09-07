@@ -1,10 +1,8 @@
-using Terraria;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using System;
-using Terraria.ID;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using Terraria;
+using Terraria.ID;
 
 namespace EEMod.Projectiles.Melee
 {
@@ -34,6 +32,7 @@ namespace EEMod.Projectiles.Melee
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             for (var i = 0; i < 4; i++)
@@ -42,7 +41,9 @@ namespace EEMod.Projectiles.Melee
                 // Main.dust[num].noGravity = false;
             }
         }
+
         public override List<int> exclude => new List<int> { 0, 6, 1, 2, 4, 5 };
+
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));

@@ -1,6 +1,6 @@
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics;
@@ -8,7 +8,6 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -23,6 +22,7 @@ namespace EEMod.NPCs.CoralReefs
         public int rippleSize = 13;
         public int rippleSpeed = 200;
         public float distortStrength = 5;
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -61,6 +61,7 @@ namespace EEMod.NPCs.CoralReefs
         public int size = 300;
         public int sizeGrowth;
         public float num88 = 1;
+
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Shockwave"].IsActive())

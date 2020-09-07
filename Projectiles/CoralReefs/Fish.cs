@@ -1,8 +1,7 @@
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
 
 namespace EEMod.Projectiles.CoralReefs
 {
@@ -29,6 +28,7 @@ namespace EEMod.Projectiles.CoralReefs
         private float rotSpeed = 1f;
         private float closeDist = 16f;
         private float moveSpeed = 7f;
+
         public override void AI()
         {
             List<Projectile> closeProjectiles = new List<Projectile>();

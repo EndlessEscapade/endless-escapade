@@ -1,16 +1,13 @@
-using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
-using Terraria.Graphics.Effects;
-using Microsoft.Xna.Framework.Graphics;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Runes
 {
     public class DesertRuneInsignia : ModProjectile
     {
         public override string Texture => TextureCache.Empty.ToString();
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Desert Rune Insignia");
@@ -34,10 +31,10 @@ namespace EEMod.Projectiles.Runes
             projectile.damage = 0;
         }
 
-        public override void AI()  
+        public override void AI()
         {
             projectile.ai[0]++;
-            if(projectile.ai[0] <= 60) //Desert rune insignia
+            if (projectile.ai[0] <= 60) //Desert rune insignia
             {
                 Vector2 origin = Main.LocalPlayer.Center + new Vector2(0, -160);
                 float radius = 48;
@@ -51,7 +48,7 @@ namespace EEMod.Projectiles.Runes
                     radius--;
                 }
             }
-            if(projectile.ai[0] >= 90 && projectile.ai[0] <= 120) //Bubble rune insignia
+            if (projectile.ai[0] >= 90 && projectile.ai[0] <= 120) //Bubble rune insignia
             {
                 Vector2 origin = Main.LocalPlayer.Center + new Vector2(0, -160);
                 float radius = 8;

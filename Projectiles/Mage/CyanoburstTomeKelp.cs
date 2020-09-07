@@ -1,8 +1,8 @@
-using Terraria.ModLoader;
-using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -27,11 +27,14 @@ namespace EEMod.Projectiles.Mage
             projectile.alpha = 255;
             projectile.damage = 100;
         }
-        NPC chosenTarget;
+
+        private NPC chosenTarget;
+
         public void DrawBehind()
         {
             Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, new Rectangle(0, projectile.height * projectile.frame, projectile.width, projectile.height), Color.White, projectile.rotation, new Rectangle(0, projectile.height * projectile.frame, projectile.width, projectile.height).Size() / 2, 1, SpriteEffects.None, 0);
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (!target.boss && chosenTarget == null)
@@ -39,6 +42,7 @@ namespace EEMod.Projectiles.Mage
                 chosenTarget = target;
             }
         }
+
         public override void AI()
         {
             if (chosenTarget != null)

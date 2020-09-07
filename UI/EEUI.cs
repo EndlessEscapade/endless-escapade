@@ -1,11 +1,9 @@
-using Terraria.UI;
-using Terraria.GameContent.UI.Elements;
 using Microsoft.Xna.Framework;
-using Terraria;
-using System;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.Graphics.Effects;
+using System;
+using Terraria;
+using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace EEMod.UI
 {
@@ -13,7 +11,6 @@ namespace EEMod.UI
     {
         public override void OnActivate()
         {
-
         }
 
         public override void OnDeactivate()
@@ -34,11 +31,12 @@ namespace EEMod.UI
             "EEMod/Projectiles/Runes/RunePlacement"
             };
 
-        bool[] isPulsating = new bool[7];
-        Vector2[] sizes = new Vector2[7];
-        DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[9];
+        private bool[] isPulsating = new bool[7];
+        private Vector2[] sizes = new Vector2[7];
+        private DragableUIPanelBackgroundTexture[] panels = new DragableUIPanelBackgroundTexture[9];
         public float pivot;
         public int pauseTimer;
+
         public override void OnInitialize()
         {
             for (int i = 0; i < 9; i++)
@@ -73,7 +71,6 @@ namespace EEMod.UI
             panels[8].Top.Set(450, 0);
             panels[8].OnClick += ChooseSecondRune;
             Append(panels[8]);
-
         }
 
         private void OnButtonClick(UIMouseEvent evt, UIElement listeningElement)
@@ -89,6 +86,7 @@ namespace EEMod.UI
                 isPulsating[0] = false;
             }
         }
+
         private void OnButtonClick2(UIMouseEvent evt, UIElement listeningElement)
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[1] == 1)
@@ -102,6 +100,7 @@ namespace EEMod.UI
                 isPulsating[1] = false;
             }
         }
+
         private void OnButtonClick3(UIMouseEvent evt, UIElement listeningElement)
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[2] == 1)
@@ -115,6 +114,7 @@ namespace EEMod.UI
                 isPulsating[2] = false;
             }
         }
+
         private void OnButtonClick4(UIMouseEvent evt, UIElement listeningElement)
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[3] == 1)
@@ -128,6 +128,7 @@ namespace EEMod.UI
                 isPulsating[3] = false;
             }
         }
+
         private void OnButtonClick5(UIMouseEvent evt, UIElement listeningElement)
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[4] == 1)
@@ -141,6 +142,7 @@ namespace EEMod.UI
                 isPulsating[4] = false;
             }
         }
+
         private void OnButtonClick6(UIMouseEvent evt, UIElement listeningElement)
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[5] == 1)
@@ -154,6 +156,7 @@ namespace EEMod.UI
                 isPulsating[5] = false;
             }
         }
+
         private void OnButtonClick7(UIMouseEvent evt, UIElement listeningElement)
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[6] == 1)
@@ -167,6 +170,7 @@ namespace EEMod.UI
                 isPulsating[6] = false;
             }
         }
+
         private void ChooseFirstRune(UIMouseEvent evt, UIElement listeningElement)
         {
             Texture2D textBeforeChange = panels[7]._backgroundTexture;
@@ -192,6 +196,7 @@ namespace EEMod.UI
                 panels[7]._backgroundTexture = textBeforeChange;
             }
         }
+
         private void ChooseSecondRune(UIMouseEvent evt, UIElement listeningElement)
         {
             Texture2D textBeforeChange = panels[8]._backgroundTexture;
@@ -218,7 +223,8 @@ namespace EEMod.UI
             }
         }
 
-        float pulsatingControl;
+        private float pulsatingControl;
+
         public override void Update(GameTime gameTime)
         {
             pivot = 0.05f;

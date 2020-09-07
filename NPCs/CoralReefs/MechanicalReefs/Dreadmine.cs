@@ -1,7 +1,7 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
@@ -26,6 +26,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
         }
 
         private NPC OwnerNpc => Main.npc[(int)projectile.ai[0]];
+
         // It appears that for this AI, only the ai0 field is used!
         public override void AI()
         {

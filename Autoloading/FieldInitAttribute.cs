@@ -12,42 +12,61 @@ namespace EEMod.Autoloading
         public object InitInfo1 { get; internal set; }
         public object InitInfo2 { get; internal set; }
         public FieldInitType InitType { get; internal set; }
-        public FieldInitAttribute() : this(FieldInitType.DefaultConstructor) { }
+
+        public FieldInitAttribute() : this(FieldInitType.DefaultConstructor)
+        {
+        }
+
         public FieldInitAttribute(FieldInitType initType, object initInfo1 = null, object initInfo2 = null)
         {
             InitType = initType;
             InitInfo1 = initInfo1;
             InitInfo2 = initInfo2;
         }
-        public FieldInitAttribute(FieldInitType initType, bool privateconstructor) : this(initType, initInfo1:  privateconstructor) { }
-        public FieldInitAttribute(FieldInitType initType, object value) : this(initType, initInfo1: value) { }
-        public FieldInitAttribute(FieldInitType initType, int arrayCapcity) : this(initType, initInfo1: arrayCapcity) { }
+
+        public FieldInitAttribute(FieldInitType initType, bool privateconstructor) : this(initType, initInfo1: privateconstructor)
+        {
+        }
+
+        public FieldInitAttribute(FieldInitType initType, object value) : this(initType, initInfo1: value)
+        {
+        }
+
+        public FieldInitAttribute(FieldInitType initType, int arrayCapcity) : this(initType, initInfo1: arrayCapcity)
+        {
+        }
+
         public FieldInitAttribute(FieldInitType initType, Type subtype, FieldInitType subInitType) : this(initType, initInfo1: subtype, initInfo2: subInitType)
         {
-
         }
+
         internal LoadMode loadMode; // fields instantiating and method calling
     }
-    enum FieldInitType
+
+    internal enum FieldInitType
     {
         /// <summary>
         /// Attempts to initialize the field looking for the default constructor
         /// </summary>
         DefaultConstructor,
+
         /// <summary>
         /// Attempts to initialize the field looking for the default constructor, even if it's private
         /// </summary>
         DefaultConstructorPrivate,
+
         /// <summary>
         /// The provided object will be the value for initializing the field
         /// </summary>
         CustomValue,
+
         /// <summary>
         /// Initialize the current array with a given capacity. <br />
         /// Note this only takes an int as parameter which indicates the capcity, <br />
         /// if you need to initialize with already existing values (e.g. new int[3] { 1, 2, 3 }), use <see cref="CustomValue"/>.
         /// </summary>
         ArrayIntialization,
+
         /// <summary>
         /// The arguments shall be (<see cref="SubType"/>, <see cref="Type"/> type, <see cref="FieldInitType"/> subInitType) <br />
         /// e.g. <br />

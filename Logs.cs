@@ -1,5 +1,3 @@
-
-
 //// Terraria.ModLoader.Logging
 //using log4net;
 //using log4net.Appender;
@@ -79,7 +77,6 @@
 //	{
 //		get;
 //	} = LogManager.GetLogger("Terraria");
-
 
 //	internal static ILog tML
 //	{

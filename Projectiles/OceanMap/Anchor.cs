@@ -1,8 +1,8 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.OceanMap
 {
@@ -29,6 +29,7 @@ namespace EEMod.Projectiles.OceanMap
 
         public bool visible = false;
         public float yes;
+
         public override void AI()
         {
             yes += 0.1f;

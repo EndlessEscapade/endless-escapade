@@ -1,13 +1,9 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Materials;
-
-using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.Accessories
 {
-
     public class WaterDragonsScale : ModItem
     {
         //commit check
@@ -31,4 +27,3 @@ namespace EEMod.Items.Accessories
         }
     }
 }
-

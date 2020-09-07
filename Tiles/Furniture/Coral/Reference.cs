@@ -51,7 +51,6 @@ namespace EEMod.Tiles.Furniture.Coral
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {

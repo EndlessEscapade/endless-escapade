@@ -1,11 +1,8 @@
-﻿using Terraria;
-using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using System;
-using System.IO;
+using Terraria;
 using Terraria.ID;
-using EEMod.Items;
+using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Ranged
 {
@@ -31,6 +28,7 @@ namespace EEMod.Projectiles.Ranged
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
+
         public override void Kill(int timeLeft)
         {
             for (int i = 0; i < 360; i += 10)
@@ -45,6 +43,7 @@ namespace EEMod.Projectiles.Ranged
                 dust.fadeIn = 1f;
             }
         }
+
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation();

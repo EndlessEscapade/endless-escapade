@@ -1,9 +1,8 @@
-using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework;
-using Terraria.Graphics.Effects;
 
 namespace EEMod.Projectiles.Runes
 {
@@ -32,10 +31,12 @@ namespace EEMod.Projectiles.Runes
             projectile.arrow = true;
             projectile.damage = 0;
         }
+
         public int rippleCount = 3;
         public int rippleSize = 500;
         public int rippleSpeed = 200;
         public float distortStrength = 200;
+
         public override void AI()           //this make that the projectile will face the corect way
         {
             projectile.damage = 0;
@@ -66,6 +67,7 @@ namespace EEMod.Projectiles.Runes
             damage = 0;
             target.GetModPlayer<EEPlayer>().hasGottenRuneBefore[1] = 1;
         }
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             //target.AddBuff(BuffID.Chilled, 100);
