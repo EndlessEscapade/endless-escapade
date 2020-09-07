@@ -41,22 +41,23 @@ namespace EEMod.Projectiles.Mage
             direction.Normalize();
             Vector2 direction2 = direction * 4;
             direction *= (float)(Math.Sin(projectile.ai[0] * 0.2f) * 3);
-            if (projectile.ai[0] % 5 == 1)
+            if (projectile.ai[0] % 10 == 1)
             {
                 Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
             }
-            if (boost > 2000 && boost % 1500 <= 200)
-            {
-                lerp += 0.1f;
-                lightColor.R = (byte)(lightColor.R + ((Color.White.R * 10) - lightColor.R) * lerp);
-                lightColor.G = (byte)(lightColor.G + ((Color.White.G * 10) - lightColor.G) * lerp);
-                lightColor.B = (byte)(lightColor.B + ((Color.White.B * 10) - lightColor.B) * lerp);
-            }
+            
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, (projectile.height * 0.5f));
             for (int k = 0; k < projectile.oldPos.Length; k++)
             {
                 Vector2 drawPos = projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, projectile.gfxOffY);
                 Color color2 = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
+                if (boost > 2000 && boost % 4000 <= 200)
+                {
+                    lerp += 0.1f;
+                    color2.R = (byte)(color2.R + (Color.HotPink.R - color2.R) * lerp);
+                    color2.G = (byte)(color2.G + (Color.HotPink.G - color2.G) * lerp);
+                    color2.B = (byte)(color2.B + (Color.HotPink.B - color2.B) * lerp);
+                }
                 spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), color2 * 0.5f, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
             }
             return false;

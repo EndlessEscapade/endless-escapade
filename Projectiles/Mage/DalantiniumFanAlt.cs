@@ -45,20 +45,38 @@ namespace EEMod.Projectiles.Mage
 		float lerp;
         public override bool PreAI()
 		{
-			int firstPhase = 60;
-			int secondPhase = 110;
-			int thirdPhase = 160;
+			int firstPhase = 30;
+			int secondPhase = 45;
+			int thirdPhase = 60;
+			void circleDustPattern()
+			{
+				for (int i = 0; i < 360; i += 10)
+				{
+					float xdist = (float)(Math.Sin(i * (Math.PI / 180)) * 1);
+					float ydist = (float)(Math.Cos(i * (Math.PI / 180)) * 2);
+					Vector2 offset = new Vector2(xdist, ydist).RotatedBy(projectile.rotation);
+					Dust dust = Dust.NewDustPerfect(Main.player[projectile.owner].Center + Dist.RotatedBy(lerp) * 1.2f, 219, offset * 0.5f, 0, Color.Red);
+					dust.noGravity = true;
+					dust.velocity *= 0.94f;
+					dust.noLight = false;
+					dust.fadeIn = 1f;
+				}
+			}
 			projectile.ai[0]++;
+			if(projectile.ai[0] == 1)
+			{
+				Dist = Vector2.Normalize(Main.MouseWorld - Main.player[projectile.owner].Center) * 100;
+			}
 			Vector2 dist = projectile.Center - Main.player[projectile.owner].Center;
 			if (projectile.ai[0] < firstPhase)
 			{
-				projectile.velocity += (Main.player[projectile.owner].Center + new Vector2(60, -60) - projectile.Center)/258f - projectile.velocity*0.02f;
+				projectile.velocity += (Main.player[projectile.owner].Center + Dist - projectile.Center)/202f - projectile.velocity*0.02f;
 				projectile.rotation = dist.ToRotation() + (float)Math.PI/4f;
 				
 			}
 			else if(projectile.ai[0] < secondPhase)
 			{
-				Dust.NewDust(projectile.position, 30, 30, 123);
+				Dust.NewDust(projectile.position, 30, 30, 219);
 				if (projectile.ai[0] == firstPhase)
 				{
 					Dist = dist;
@@ -66,48 +84,35 @@ namespace EEMod.Projectiles.Mage
 				projectile.rotation = dist.ToRotation() + (float)Math.PI / 4f + (lerp - 1.57f)/2f;
 				projectile.Center = Main.player[projectile.owner].Center + Dist.RotatedBy(lerp);
 				float traverseFunction = (float)Math.Sin((projectile.ai[0] - firstPhase) / ((secondPhase - firstPhase) / 3.14f));
-				lerp += (0.1f * traverseFunction * traverseFunction) - 0.02f;
-				if (projectile.ai[0] % 3 == 1 && projectile.ai[0] > firstPhase + 10)
+				lerp += (0.18f * traverseFunction * traverseFunction) - 0.02f;
+				if (projectile.ai[0] % 2 == 1 && projectile.ai[0] > firstPhase + 1)
 				{
 					Projectile.NewProjectile(projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp))*10, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
-					for (int i = 0; i < 360; i += 10)
-					{
-						float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 2);
-						float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 5);
-						Vector2 offset = new Vector2(xdist, ydist).RotatedBy(projectile.rotation);
-						Dust dust = Dust.NewDustPerfect(Main.player[projectile.owner].Center + Dist.RotatedBy(lerp)*1.2f, DustID.PinkFlame, offset * 0.5f);
-						dust.noGravity = true;
-						dust.velocity *= 0.94f;
-						dust.noLight = false;
-						dust.fadeIn = 1f;
-					}
+					circleDustPattern();
 				}
 			}
 			else if(projectile.ai[0] < thirdPhase)
 			{
-				if (projectile.ai[0] == secondPhase)
+				Dust.NewDust(projectile.position, 30, 30, 123);
+				projectile.rotation = dist.ToRotation() + (float)Math.PI / 4f + (lerp - 1.57f) / 2f;
+				projectile.Center = Main.player[projectile.owner].Center + Dist.RotatedBy(lerp);
+				float traverseFunction = (float)Math.Sin((projectile.ai[0] - secondPhase) / ((thirdPhase - secondPhase) / 3.14f));
+				lerp -= (0.18f * traverseFunction * traverseFunction);
+				if (projectile.ai[0] % 2 == 1 && projectile.ai[0] > secondPhase + 1)
 				{
-					Dist = dist;
+					Projectile.NewProjectile(projectile.Center, Vector2.Normalize(Dist.RotatedBy(lerp)) * 10, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
+					circleDustPattern();
 				}
-
-				projectile.velocity += (Main.player[projectile.owner].Center + new Vector2(0, -100) - projectile.Center) / 200f - projectile.velocity * 0.1f;
-				projectile.velocity += new Vector2(Main.rand.NextFloat(-.1f,.1f), Main.rand.NextFloat(-.1f, .1f));
-				projectile.rotation += (-(float)Math.PI / 4f - projectile.rotation) / 12f;
-				if(projectile.ai[0] == thirdPhase - 1)
+				if (projectile.ai[0] == thirdPhase - 5)
 				{
-					for (int i = 0; i < 360; i += 10)
-					{
-						float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 10);
-						float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 10);
-						Vector2 offset = new Vector2(xdist, ydist).RotatedBy(projectile.rotation);
-						Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.PinkFlame, offset * 0.5f);
-						dust.noGravity = true;
-						dust.velocity *= 0.94f;
-						dust.noLight = false;
-						dust.fadeIn = 1f;
-						Projectile.NewProjectile(projectile.Center, offset, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
-					}
 					projectile.Kill();
+					for (var i = 0; i < 40; i++)
+					{
+						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 219, Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-2f, -1f), 6, default, projectile.scale);
+						Main.dust[num].noGravity = true;
+						Main.dust[num].velocity *= 2.5f;
+						Main.dust[num].noLight = false;
+					}
 				}
 			}
             return true;

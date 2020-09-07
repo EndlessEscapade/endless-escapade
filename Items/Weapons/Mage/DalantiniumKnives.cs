@@ -4,6 +4,9 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using EEMod.Projectiles.Mage;
 using EEMod.Items.Placeables.Ores;
+using EEMod.Extensions;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -41,10 +44,32 @@ namespace EEMod.Items.Weapons.Mage
             return new Vector2(0, 0);
         }
         int powerUp;
+        int anim;
+        bool isInHand;
         public override void HoldItem(Player player)
         {
+            isInHand = true;
+            anim++;
             if(powerUp < 2000)
             powerUp++;
+        }
+        public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
+        {
+            if (anim < 200)
+            {
+                Texture2D tex = mod.GetTexture("Projectiles/Mage/DalantiniumFanSheet");
+                Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
+                spriteBatch.Draw(tex, Main.LocalPlayer.Center.ForDraw() + new Vector2(0, -100 + (float)Math.Sin(anim / 10f)), rect, lightColor, 0f, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
+            }
+            return true;
+        }
+        public override void UpdateInventory(Player player)
+        {
+            if (!isInHand)
+            {
+                anim = 0;
+            }
+            isInHand = false;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {  

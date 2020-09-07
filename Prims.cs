@@ -388,7 +388,7 @@ namespace EEMod
                         {
                         if (i == 0)
                             {
-                            Color c = Color.DarkRed;
+                            Color c = Color.Red;
                             Vector2 normalAhead = CurveNormal(_points, i + 1);
                                 Vector2 secondUp = _points[i + 1] - normalAhead * width;
                                 Vector2 secondDown = _points[i + 1] + normalAhead * width;
@@ -435,12 +435,12 @@ namespace EEMod
                 {
                     vertices = new VertexPositionColorTexture[noOfPoints];
                     float width = 6;
-                    float alphaValue = 0.1f;
+                    float alphaValue = 0.2f;
                     for (int i = 0; i < _points.Count; i++)
                     {
                         if (i == 0)
                         {
-                            Color c = Color.DarkRed;
+                            Color c = Color.Red;
                             Vector2 normalAhead = CurveNormal(_points, i + 1);
                             Vector2 secondUp = _points[i + 1] - normalAhead * width;
                             Vector2 secondDown = _points[i + 1] + normalAhead * width;
@@ -455,7 +455,7 @@ namespace EEMod
                                 Color c = Color.Red;
                                 Vector2 normal = CurveNormal(_points, i);
                                 Vector2 normalAhead = CurveNormal(_points, i + 1);
-                                float j = (DalCap + ((float)(Math.Sin(lerper/10f))*1) - i*0.05f) / DalCap;
+                                float j = (DalCap + ((float)(Math.Sin(lerper/10f))*1) - i*0.1f) / DalCap;
                                 width *= j;
                                 Vector2 firstUp = _points[i] - normal * width;
                                 Vector2 firstDown = _points[i] + normal * width;
