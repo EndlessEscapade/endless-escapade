@@ -114,7 +114,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         private bool isDashing = false;
         private bool isVortexing = false;
         private bool isCircling = false;
-        private bool isFeathing = false;
+        private bool isFeathering = false;
         private readonly int nextAttackTime = 240;
         private readonly int spawnOffset = 1000;
         private int lengthOfAttack = 120;
