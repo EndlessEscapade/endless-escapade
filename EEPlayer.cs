@@ -698,19 +698,19 @@ namespace EEMod
             {
                 if (hasGottenRuneBefore[i] == 1)
                 {
-                    RuneData.TryGetValue(i, out states[StateID.RetrievedButNotEquiped]);
+                    RuneData.TryGetValue(i, out states[(int)StateID.RetrievedButNotEquiped]);
                     if (inPossesion[i] == 1)
                     {
-                        RuneData.TryGetValue(i, out states[StateID.Equiped]);
+                        RuneData.TryGetValue(i, out states[(int)StateID.Equiped]);
                     }
                 }
                 else
                 {
-                    RuneData.TryGetValue(i, out states[StateID.Nothing]);
+                    RuneData.TryGetValue(i, out states[(int)StateID.Nothing]);
                 }
-                if (RuneData[i] == states[StateID.Equiped])
+                if (RuneData[i] == states[(int)StateID.Equiped])
                 {
-                    switch (i)
+                    switch ((RuneID)i)
                     {
                         case RuneID.SandRune:
                         {
@@ -834,7 +834,7 @@ namespace EEMod
                 }
             }
             //synergies
-            if (RuneData[RuneID.SandRune] == states[StateID.Equiped])
+            if (RuneData[(int)RuneID.SandRune] == states[(int)StateID.Equiped])
             {
             }
         }
