@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,7 +22,7 @@ namespace EEMod.Items
 
             item.maxStack = 1;
 
-            item.holdStyle = 2;
+            item.holdStyle = 1;
 
             //item.flame = true; needs a flame texture.
             item.noWet = true;
@@ -29,6 +30,7 @@ namespace EEMod.Items
 
         public override void HoldStyle(Player player)
         {
+            player.itemLocation += new Vector2(-100 * player.direction, 0);
             if (player.velocity.Y > 0)
             {
                 player.gravity = 0.133f;

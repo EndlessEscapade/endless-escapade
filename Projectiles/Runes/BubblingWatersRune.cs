@@ -30,7 +30,6 @@ namespace EEMod.Projectiles.Runes
             projectile.tileCollide = true;
             projectile.extraUpdates = 1;
             projectile.aiStyle = -1;
-            projectile.arrow = true;
             projectile.damage = 0;
         }
 
