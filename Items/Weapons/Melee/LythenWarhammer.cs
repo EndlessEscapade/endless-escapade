@@ -17,9 +17,9 @@ namespace EEMod.Items.Weapons.Melee
         {
             item.damage = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 70;
-            item.useTime = 24;
-            item.shootSpeed = 4;
+            item.useAnimation = 40;
+            item.useTime = 40;
+            item.shootSpeed = 12f;
             item.knockBack = 6.5f;
             item.width = 32;
             item.height = 32;

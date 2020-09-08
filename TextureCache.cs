@@ -146,8 +146,6 @@ namespace EEMod
         [TextureInit("NPCs/CoralReefs/MechanicalReefs/MechanicalSharkGlow")]
         public static Texture2D MechanicalSharkGlow;
 
-        [TextureInit("NPCs/funny/FleshChain")]
-        public static Texture2D FleshChain;
 
         [TextureInit("Projectiles/SailorsClaspChain")]
         public static Texture2D SailorsClaspChain;
