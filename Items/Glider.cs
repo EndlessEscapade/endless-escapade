@@ -26,11 +26,29 @@ namespace EEMod.Items
             //item.flame = true; needs a flame texture.
             item.noWet = true;
         }
-
+        int lerpage;
         public override void HoldStyle(Player player)
         {
+            Tile tile = Main.tile[(int)player.position.X / 16, (int)player.position.Y / 16 + 3];
+            if (tile.active()
+                && Main.tileSolid[tile.type]
+                && Math.Abs(player.fullRotation) > 0.01f)
+            {
+                player.fullRotation -= player.fullRotation / 16f;
+                lerpage = 0;
+            }
+            else
+            {
+                if (player.velocity.Y > 0)
+                {
+                    lerpage += 1;
+                    float rotFactor = Math.Max(0, player.velocity.Y / 150f);
+                    player.fullRotation += (float)Math.Sin(lerpage / 20f - .1f) * rotFactor * Helpers.Clamp(lerpage/200f,0,1);
+                }
+            }
             if (player.velocity.Y > 0)
             {
+                
                 player.gravity = 0.133f;
                 player.bodyFrame.Y = 4 * 56;
 

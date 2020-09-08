@@ -10,6 +10,8 @@ using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
@@ -47,7 +49,34 @@ namespace EEMod
                  y3 * Math.Pow(t, 3)
              );
         }
-
+        public static int[,] ConvertTexToBitmap(string tex, int thresh)
+        {
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap($@"{Main.SavePath}\Mod Sources\EEMod\" + tex + ".png");
+            int[,] Array = new int[bitmap.Width, bitmap.Height];
+            for (int i = 0; i < bitmap.Width; i++)
+            {
+                for (int j = 0; j < bitmap.Height; j++)
+                {
+                    Array[i, j] = bitmap.GetPixel(i, j).R < thresh ? 1 : 0;
+                }
+            }
+            return Array;
+        }
+        public static void TexToDust(string path, Vector2 position, int accuracy = 1, float spacing = 1, int threshold = 126)
+        {
+            int[,] array = ConvertTexToBitmap(path,threshold);
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    if (array[i, j] == 1 && i % accuracy == 0 && j % accuracy == 0)
+                    {
+                        Dust dust = Dust.NewDustPerfect(position + new Vector2(i, j)* spacing, 219, Vector2.Zero);
+                        dust.noGravity = true;
+                    }
+                }
+            }
+        }
         public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, bool alphaBlend = false, bool emitsDust = false)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)

@@ -303,6 +303,8 @@ namespace EEMod
             }
             else
             {
+                Main.spawnTileX = 100;
+                Main.spawnTileY = EEWorld.EEWorld.TileCheckWater(100) - 22;
                 Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);
                 Main.ActivePlayerFileData.SetAsActive();
             }

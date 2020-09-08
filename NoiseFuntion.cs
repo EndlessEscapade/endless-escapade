@@ -24,6 +24,7 @@ namespace EEMod
             {
                 ImageIO.RawToPng(EEMod.instance.GetFileStream("noise2.rawimg"), ms); // tmod stores images as .rawimg
                 _myBitmap = new Bitmap(ms);
+                ms.Close();
             }
         }
 

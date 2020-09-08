@@ -49,6 +49,7 @@ namespace EEMod.Projectiles.Mage
             if (boost > 2000 && boost % 1500 <= 200)
             {
                 lerp += 0.1f;
+                //port to Lerp method
                 lightColor.R = (byte)(lightColor.R + ((Color.White.R * 10) - lightColor.R) * lerp);
                 lightColor.G = (byte)(lightColor.G + ((Color.White.G * 10) - lightColor.G) * lerp);
                 lightColor.B = (byte)(lightColor.B + ((Color.White.B * 10) - lightColor.B) * lerp);
