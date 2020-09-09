@@ -27,8 +27,8 @@ namespace EEMod.Items.Weapons.Mage
             item.value = Item.sellPrice(0, 0, 21);
             item.mana = 7;
             item.shootSpeed = 4f;
-            item.useTime = 160;
-            item.useAnimation = 160;
+            item.useTime = 65;
+            item.useAnimation = 65;
             item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
