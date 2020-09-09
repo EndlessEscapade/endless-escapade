@@ -158,6 +158,7 @@ namespace EEMod
         private int bubbleLen = 0;
         private int dur = 0;
         private int bubbleColumn;
+        public bool isHoldingGlider;
         public Vector2 currentAltarPos;
 
         public override void UpdateVanityAccessories()
@@ -536,9 +537,52 @@ namespace EEMod
             Main.spriteBatch.Draw(TextureCache.InspectIcon, (player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
             inspectTimer += 0.5f;
         }
+        public void UpdateVerletCollisions(int pRP)
+        {
+            foreach (Verlet.Stick stick in Verlet.stickPoints)
+            {
+                Rectangle pRect = new Rectangle((int)player.position.X - pRP, (int)player.position.Y - pRP, player.width + pRP, player.height + pRP);
+                Vector2 Vec1 = Verlet.points[stick.a].point;
+                Vector2 Vec2 = Verlet.points[stick.b].point;
+                int Y = Vec1.Y < Vec2.Y ? (int)Vec1.Y : (int)Vec2.Y;
+                int X = Vec1.X < Vec2.X ? (int)Vec1.X : (int)Vec2.X;
+                int Y1 = Y == (int)Vec1.Y ? (int)Vec2.Y : (int)Vec1.Y;
+                int X1 = X == (int)Vec1.X ? (int)Vec2.X : (int)Vec1.X;
 
+                Rectangle vRect = new Rectangle(X - pRP, Y - pRP, X1 - X + pRP, Y1 - Y + pRP);
+                if (pRect.Intersects(vRect))
+                {
+                    float perc = (player.Center.X - Vec1.X) / (Vec2.X - Vec1.X);
+                    float yTarget = Vec1.Y + (Vec2.Y - Vec1.Y) * perc + 10;
+                    float feetPos = player.position.Y + 56;
+                    float grad = (Vec2.Y - Vec1.Y) / (Vec2.X - Vec1.X);
+                    grad *= 1.6f;
+                    if (feetPos - 5 - player.velocity.Y < yTarget && feetPos > yTarget)
+                    {
+                        player.velocity.Y = 0;
+                        player.gravity = 0f;
+                        player.position.Y = yTarget - (53 - grad * player.direction * Math.Abs(player.velocity.X / 1.3f));
+                        player.bodyFrameCounter += Math.Abs(velocity.X) * 0.5f;
+                        while (player.bodyFrameCounter > 8.0)
+                        {
+                            player.bodyFrameCounter -= 8.0;
+                            player.bodyFrame.Y += player.bodyFrame.Height;
+                        }
+                        if (player.bodyFrame.Y < player.bodyFrame.Height * 7)
+                        {
+                            player.bodyFrame.Y = player.bodyFrame.Height * 19;
+                        }
+                        else if (player.bodyFrame.Y > player.bodyFrame.Height * 19)
+                        {
+                            player.bodyFrame.Y = player.bodyFrame.Height * 7;
+                        }
+                    }
+                }
+            }
+        }
         public override void UpdateBiomeVisuals()
         {
+            UpdateVerletCollisions(5);
             if (isWearingCape)
             {
                 UpdateArrayPoints();
@@ -691,7 +735,6 @@ namespace EEMod
         public void UpdateRunes()
         {
             if(runeCooldown > 0) runeCooldown--;
-            Main.NewText(runeCooldown);
 
             bool[][] states = new bool[][] { new bool[] { false, false }, new bool[] { true, false }, new bool[] { true, true } };
             for (int i = 0; i < hasGottenRuneBefore.Length; i++)

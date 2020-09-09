@@ -28,8 +28,16 @@ namespace EEMod.Items
             item.noWet = true;
         }
         int lerpage;
+        public override void UpdateInventory(Player player)
+        {
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider = false;
+        }
         public override void HoldStyle(Player player)
         {
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider = true;
+            player.itemLocation += new Vector2(-100 * player.direction, 0);
+            if(Main.rand.Next(4) == 0)
+            Dust.NewDust(player.position + new Vector2(-30 * player.direction,-5), 2, 2, 91,0,0,0,default,Math.Abs(player.velocity.X)/40f);
             Tile tile = Main.tile[(int)player.position.X / 16, (int)player.position.Y / 16 + 3];
             if (tile.active()
                 && Main.tileSolid[tile.type]
@@ -54,7 +62,7 @@ namespace EEMod.Items
                 player.bodyFrame.Y = 4 * 56;
 
                 player.velocity.Y = 1;
-                if (Math.Abs(player.velocity.X) < 18)
+                if (Math.Abs(player.velocity.X) < 8)
                 {
                     if ((player.controlRight && player.velocity.X > 0) || (player.controlLeft && player.velocity.X < 0))
                     {

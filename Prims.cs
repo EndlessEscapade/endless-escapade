@@ -79,10 +79,12 @@ namespace EEMod
         {
             for (int i = 0; i < _trails.Count; i++)
             {
+                if (_trails[i]._projectile != null)
+                { 
                 if (!_trails[i]._projectile.active)
                 {
                     if (_trails[i]._projectile.type != ProjectileType<DalantiniumFan>() &&
-                    _trails[i]._projectile.type != ProjectileType<DalantiniumFanAlt>())
+                        _trails[i]._projectile.type != ProjectileType<DalantiniumFanAlt>())
                     {
                         _trails.RemoveAt(i);
                     }
@@ -101,6 +103,7 @@ namespace EEMod
                             }
                         }
                     }
+                }
                 }
             }
         }
@@ -261,7 +264,7 @@ namespace EEMod
             public List<Vector2> _points = new List<Vector2>();
             public bool active;
             public int lerper;
-            float DalCap;
+            float Cap;
             List<UpdatePrimDelegate> UpdateMethods = new List<UpdatePrimDelegate>();
             void LythenPrimUpdates()
             {
@@ -288,7 +291,7 @@ namespace EEMod
             {
                 if (_projectile.type == ProjectileType<DalantiniumFan>())
                 {
-                    DalCap = 10;
+                    Cap = 10;
                     DalantiniumFan DF = (_projectile.modProjectile as DalantiniumFan);
                     lerper++;
                     _points.Add(DF.DrawPos);
@@ -303,15 +306,26 @@ namespace EEMod
             {
                 if (_projectile.type == ProjectileType<DalantiniumFanAlt>())
                 {
-                    DalCap = 20;
+                    Cap = 20;
                     DalantiniumFanAlt DF = (_projectile.modProjectile as DalantiniumFanAlt);
                     lerper++;
                     _points.Add(_projectile.Center);
                     active = true;
-                    if (_points.Count > DalCap)
+                    if (_points.Count > Cap)
                     {
                         _points.RemoveAt(0);
                     }
+                }
+            }
+            void GliderUpdates()
+            {
+                _points.Add(Main.LocalPlayer.Center + new Vector2(0,-25));
+                active = true;
+                Cap = 20;
+                lerper++;
+                if (_points.Count > Cap)
+                {
+                    _points.RemoveAt(0);
                 }
             }
             public Trail(ITrailCap cap, ITrailShader shader, Projectile projectile)
@@ -325,12 +339,16 @@ namespace EEMod
             }
             public void Update()
             {
+                if(_projectile == null)
+                {
+                    GliderUpdates();
+                }
                 if (_projectile != null)
                 {
-                  foreach(UpdatePrimDelegate UPD in UpdateMethods)
-                  {
+                    foreach (UpdatePrimDelegate UPD in UpdateMethods)
+                    {
                         UPD.Invoke();
-                  }
+                    }
                 }
             }
             public void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
@@ -404,8 +422,8 @@ namespace EEMod
                                     Color c = Color.Red;
                                     Vector2 normal = CurveNormal(_points, i);
                                     Vector2 normalAhead = CurveNormal(_points, i + 1);
-                                    float j = (DalCap - (i * 0.9f)) / DalCap;
-                                    width *=  (DalCap - (i * 0.4f)) / DalCap;
+                                    float j = (Cap - (i * 0.9f)) / Cap;
+                                    width *=  (Cap - (i * 0.4f)) / Cap;
                                     Vector2 firstUp = _points[i] - normal * width;
                                     Vector2 firstDown = _points[i] + normal * width;
                                     Vector2 secondUp = _points[i + 1] - normalAhead * width;
@@ -426,6 +444,59 @@ namespace EEMod
                                 }
                             }
                         }
+
+
+                    PrepareBasicShader();
+                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                };
+                DrawPrimDelegate GliderPrims = (int noOfPoints) =>
+                {
+                    if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider) return;
+                    vertices = new VertexPositionColorTexture[noOfPoints];
+                    float width = 5;
+                    float alphaValue = 0.8f;
+                    for (int i = 0; i < _points.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            Color c = Color.White;
+                            Vector2 normalAhead = CurveNormal(_points, i + 1);
+                            Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                            Vector2 secondDown = _points[i + 1] + normalAhead * width;
+                            //AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                           // AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            //AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                        }
+                        else
+                        {
+
+                            if (i != _points.Count - 1)
+                            {
+                                float vel = Math.Abs(Main.LocalPlayer.velocity.X);
+                                Color c = Color.White * (i / Cap) * (vel/20f);
+                                Vector2 normal = CurveNormal(_points, i);
+                                Vector2 normalAhead = CurveNormal(_points, i + 1);
+                                float j = (Cap - (i * 0.9f)) / Cap;
+                                width =  (i / Cap) * 5;
+                                Vector2 firstUp = _points[i] - normal * width + new Vector2(0,(float)Math.Sin(lerper / 10f + i/3f));
+                                Vector2 firstDown = _points[i] + normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f));
+                                Vector2 secondUp = _points[i + 1] - normalAhead * width + new Vector2(0, (float)Math.Sin(lerper/10f + i/3f + .33f));
+                                Vector2 secondDown = _points[i + 1] + normalAhead * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f + .33f));
+
+                                AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                               
+                                AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
 
 
                     PrepareBasicShader();
@@ -455,7 +526,7 @@ namespace EEMod
                                 Color c = Color.Red;
                                 Vector2 normal = CurveNormal(_points, i);
                                 Vector2 normalAhead = CurveNormal(_points, i + 1);
-                                float j = (DalCap + ((float)(Math.Sin(lerper/10f))*1) - i*0.1f) / DalCap;
+                                float j = (Cap + ((float)(Math.Sin(lerper/10f))*1) - i*0.1f) / Cap;
                                 width *= j;
                                 Vector2 firstUp = _points[i] - normal * width;
                                 Vector2 firstDown = _points[i] + normal * width;
@@ -488,13 +559,14 @@ namespace EEMod
                     }
                     if (_projectile.type == ProjectileType<DalantiniumFan>())
                     {
-                        DalantiniumPrims.Invoke((int)DalCap * 6 - 9);
+                        DalantiniumPrims.Invoke((int)Cap * 6 - 9);
                     }
                     if (_projectile.type == ProjectileType<DalantiniumFanAlt>())
                     {
-                        DalantiniumAltPrims.Invoke((int)DalCap*6 - 9);
+                        DalantiniumAltPrims.Invoke((int)Cap * 6 - 9);
                     }
                 }
+                GliderPrims.Invoke((int)Cap * 6 - 12);
             }
             //Helper methods
             private Vector2 CurveNormal(List<Vector2> points, int index)

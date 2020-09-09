@@ -133,14 +133,14 @@ namespace EEMod
             {
                 if (Verlet.points.Count == 0)
                 {
-                    // verlet.CreateVerletPoint(Main.MouseWorld);
+                    verlet.CreateVerletPoint(Main.MouseWorld);
                 }
                 else
                 {
-                    //  int a = verlet.CreateVerletPoint(Main.MouseWorld);
-                    // verlet.BindPoints(a - 1, a);
+                      int a = verlet.CreateVerletPoint(Main.MouseWorld);
+                     verlet.BindPoints(a - 1, a);
                 }
-                verlet.CreateStickMan(Main.MouseWorld);
+              //  verlet.CreateStickMan(Main.MouseWorld);
                 delays = 20;
             }
             if (Main.LocalPlayer.controlUseItem && delays == 0)
@@ -421,7 +421,7 @@ namespace EEMod
                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         UpdateGame(lastGameTime);
-                        // UpdateVerlet();
+                         UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {
                             DrawCR();

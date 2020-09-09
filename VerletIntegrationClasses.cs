@@ -14,7 +14,7 @@ namespace EEMod
         private readonly float _AR = 0.99f;
         private readonly int _fluff = 1;
 
-        public List<Stick> stickPoints = new List<Stick>();
+        public static List<Stick> stickPoints = new List<Stick>();
         public static List<Point> points = new List<Point>();
 
         public int CreateVerletPoint(Vector2 pos, bool isStatic = false)
@@ -235,6 +235,7 @@ namespace EEMod
         {
             for (int i = 0; i < stickPoints.Count; i++)
             {
+
                 Stick stick = stickPoints[i];
                 int max = 0;
 
@@ -243,10 +244,12 @@ namespace EEMod
                     max++;
                     Vector2 grad = Vector2.Normalize(points[stick.a].point - points[stick.b].point);
                     Vector2 normal = grad.RotatedBy(Math.PI / 2f);
-                    points[stick.a].point -= normal;
-                    points[stick.b].point -= normal;
+                    if (!stickPoints[i].isStatic[0])
+                        points[stick.a].point -= normal;
+                    if (!stickPoints[i].isStatic[1])
+                        points[stick.b].point -= normal;
 
-                    if (max > 20)
+                    if (max > 10)
                     {
                         break;
                     }
@@ -277,7 +280,7 @@ namespace EEMod
             {
                 if (i == 0)
                 {
-                    Main.spriteBatch.Draw(Main.magicPixel, points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
+                   // Main.spriteBatch.Draw(Main.magicPixel, points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
                 }
                 else
                 {
@@ -397,37 +400,40 @@ namespace EEMod
         {
             for (int i = 0; i < points.Count; i++)
             {
-                points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;
-                points[i].vel.Y = (points[i].point.Y - points[i].oldPoint.Y) * _AR;
-
-                int[] ContactPoints = GetContactPoints(points[i].point);
-
-                if (points[i].point.Y > ContactPoints[2] - _fluff && ContactPoints[2] != -1)
+                if (!points[i].isStatic)
                 {
-                    points[i].oldPoint.Y = ContactPoints[2] - _fluff + points[i].vel.Y * _bounce;
-                    points[i].point.Y = ContactPoints[2] - _fluff;
-                }
+                    points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;
+                    points[i].vel.Y = (points[i].point.Y - points[i].oldPoint.Y) * _AR;
 
-                ContactPoints = GetContactPoints(points[i].point);
+                    int[] ContactPoints = GetContactPoints(points[i].point);
 
-                if (points[i].point.Y < ContactPoints[3] + _fluff && ContactPoints[3] != -1)
-                {
-                    points[i].oldPoint.Y = ContactPoints[3] + _fluff + points[i].vel.Y * _bounce;
-                    points[i].point.Y = ContactPoints[3] + _fluff;
-                }
-                ContactPoints = GetContactPoints(points[i].point);
+                    if (points[i].point.Y > ContactPoints[2] - _fluff && ContactPoints[2] != -1)
+                    {
+                        points[i].oldPoint.Y = ContactPoints[2] - _fluff + points[i].vel.Y * _bounce;
+                        points[i].point.Y = ContactPoints[2] - _fluff;
+                    }
 
-                if (points[i].point.X > ContactPoints[0] - _fluff && ContactPoints[0] != -1)
-                {
-                    points[i].oldPoint.X = ContactPoints[0] - _fluff + points[i].vel.X * _bounce;
-                    points[i].point.X = ContactPoints[0] - _fluff;
-                }
-                ContactPoints = GetContactPoints(points[i].point);
+                    ContactPoints = GetContactPoints(points[i].point);
 
-                if (points[i].point.X < ContactPoints[1] + _fluff && ContactPoints[1] != -1)
-                {
-                    points[i].oldPoint.X = ContactPoints[1] + _fluff + points[i].vel.X * _bounce;
-                    points[i].point.X = ContactPoints[1] + _fluff;
+                    if (points[i].point.Y < ContactPoints[3] + _fluff && ContactPoints[3] != -1)
+                    {
+                        points[i].oldPoint.Y = ContactPoints[3] + _fluff + points[i].vel.Y * _bounce;
+                        points[i].point.Y = ContactPoints[3] + _fluff;
+                    }
+                    ContactPoints = GetContactPoints(points[i].point);
+
+                    if (points[i].point.X > ContactPoints[0] - _fluff && ContactPoints[0] != -1)
+                    {
+                        points[i].oldPoint.X = ContactPoints[0] - _fluff + points[i].vel.X * _bounce;
+                        points[i].point.X = ContactPoints[0] - _fluff;
+                    }
+                    ContactPoints = GetContactPoints(points[i].point);
+
+                    if (points[i].point.X < ContactPoints[1] + _fluff && ContactPoints[1] != -1)
+                    {
+                        points[i].oldPoint.X = ContactPoints[1] + _fluff + points[i].vel.X * _bounce;
+                        points[i].point.X = ContactPoints[1] + _fluff;
+                    }
                 }
             }
         }
@@ -436,31 +442,34 @@ namespace EEMod
         {
             for (int i = 0; i < points.Count; i++)
             {
-                points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;
-                points[i].vel.Y = (points[i].point.Y - points[i].oldPoint.Y) * _AR;
-
-                if (points[i].point.Y > Main.maxTilesY * 16)
+                if (!points[i].isStatic)
                 {
-                    points[i].oldPoint.Y = Main.maxTilesY * 16 + points[i].vel.Y * _bounce;
-                    points[i].point.Y = Main.maxTilesY * 16;
-                }
+                    points[i].vel.X = (points[i].point.X - points[i].oldPoint.X) * _AR;
+                    points[i].vel.Y = (points[i].point.Y - points[i].oldPoint.Y) * _AR;
 
-                if (points[i].point.Y < 0)
-                {
-                    points[i].oldPoint.Y = points[i].vel.Y * _bounce;
-                    points[i].point.Y = 0;
-                }
+                    if (points[i].point.Y > Main.maxTilesY * 16)
+                    {
+                        points[i].oldPoint.Y = Main.maxTilesY * 16 + points[i].vel.Y * _bounce;
+                        points[i].point.Y = Main.maxTilesY * 16;
+                    }
 
-                if (points[i].point.X > Main.maxTilesX * 16)
-                {
-                    points[i].oldPoint.X = Main.maxTilesX * 16 + points[i].vel.X * _bounce;
-                    points[i].point.X = Main.maxTilesX * 16;
-                }
+                    if (points[i].point.Y < 0)
+                    {
+                        points[i].oldPoint.Y = points[i].vel.Y * _bounce;
+                        points[i].point.Y = 0;
+                    }
 
-                if (points[i].point.X < 0)
-                {
-                    points[i].oldPoint.X = points[i].vel.X * _bounce;
-                    points[i].point.X = 0;
+                    if (points[i].point.X > Main.maxTilesX * 16)
+                    {
+                        points[i].oldPoint.X = Main.maxTilesX * 16 + points[i].vel.X * _bounce;
+                        points[i].point.X = Main.maxTilesX * 16;
+                    }
+
+                    if (points[i].point.X < 0)
+                    {
+                        points[i].oldPoint.X = points[i].vel.X * _bounce;
+                        points[i].point.X = 0;
+                    }
                 }
             }
         }

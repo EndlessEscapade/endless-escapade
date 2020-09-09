@@ -71,6 +71,7 @@ namespace EEMod
                 prims = new Prims(this);
 
                 prims.CreateVerlet();
+                prims.CreateTrail();
             }
         }
 
