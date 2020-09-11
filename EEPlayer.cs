@@ -537,7 +537,7 @@ namespace EEMod
             Main.spriteBatch.Draw(TextureCache.InspectIcon, (player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
             inspectTimer += 0.5f;
         }
-        public void UpdateVerletCollisions(int pRP)
+        public void UpdateVerletCollisions(int pRP, float velDamp, int fakeElevation, int newFeetPos, float gradientFunction)
         {
             foreach (Verlet.Stick stick in Verlet.stickPoints)
             {
@@ -553,15 +553,15 @@ namespace EEMod
                 if (pRect.Intersects(vRect))
                 {
                     float perc = (player.Center.X - Vec1.X) / (Vec2.X - Vec1.X);
-                    float yTarget = Vec1.Y + (Vec2.Y - Vec1.Y) * perc + 10;
-                    float feetPos = player.position.Y + 56;
+                    float yTarget = Vec1.Y + (Vec2.Y - Vec1.Y) * perc + fakeElevation;
+                    float feetPos = player.position.Y + player.height;
                     float grad = (Vec2.Y - Vec1.Y) / (Vec2.X - Vec1.X);
-                    grad *= 1.6f;
+                    grad *= gradientFunction;
                     if (feetPos - 5 - player.velocity.Y < yTarget && feetPos > yTarget)
                     {
                         player.velocity.Y = 0;
                         player.gravity = 0f;
-                        player.position.Y = yTarget - (53 - grad * player.direction * Math.Abs(player.velocity.X / 1.3f));
+                        player.position.Y = yTarget - (newFeetPos - grad * player.direction * Math.Abs(player.velocity.X / velDamp));
                         player.bodyFrameCounter += Math.Abs(velocity.X) * 0.5f;
                         while (player.bodyFrameCounter > 8.0)
                         {
@@ -582,7 +582,7 @@ namespace EEMod
         }
         public override void UpdateBiomeVisuals()
         {
-            UpdateVerletCollisions(5);
+            UpdateVerletCollisions(1,3f,10,54,1.6f);
             if (isWearingCape)
             {
                 UpdateArrayPoints();

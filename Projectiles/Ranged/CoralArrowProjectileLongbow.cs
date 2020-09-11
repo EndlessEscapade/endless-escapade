@@ -42,17 +42,18 @@ namespace EEMod.Projectiles.Ranged
                 bubol++;
                 if (bubol >= 10)
                 {
-                    Projectile.NewProjectile(projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: projectile.owner);
-                    bubol = 0;
+                   // Projectile.NewProjectile(projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: projectile.owner);
+                  //  bubol = 0;
                 }
+                if(bubol % 2 == 0)
                 for (int i = 0; i < 360; i += 10)
                 {
-                    float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 5);
-                    float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 5);
+                    float xdist = (float)(Math.Sin(i * (Math.PI / 180)) * 2);
+                    float ydist = (float)(Math.Cos(i * (Math.PI / 180)) * 1);
                     Vector2 offset = new Vector2(xdist, ydist).RotatedBy(projectile.rotation);
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 113, offset * 0.5f);
+                    Dust dust = Dust.NewDustPerfect(projectile.Center, 113, offset);
                     dust.noGravity = true;
-                    dust.velocity *= 0.94f;
+                    dust.velocity *= 0.98f;
                     dust.noLight = false;
                     dust.fadeIn = 1f;
                 }

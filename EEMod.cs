@@ -421,7 +421,7 @@ namespace EEMod
                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         UpdateGame(lastGameTime);
-                         UpdateVerlet();
+                        // UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {
                             DrawCR();

@@ -32,7 +32,7 @@ namespace EEMod.Projectiles.Melee
         private NPC HomeOnTarget()
         {
             const bool homingCanAimAtWetEnemies = true;
-            const float homingMaximumRangeInPixels = 2000;
+            const float homingMaximumRangeInPixels = 500;
 
             int selectedTarget = -1;
             for (int i = 0; i < Main.maxNPCs; i++)
