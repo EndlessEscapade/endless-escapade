@@ -20,7 +20,6 @@ namespace EEMod.Projectiles.Runes
         {
             projectile.width = 22;
             projectile.height = 52;
-            projectile.aiStyle = 1;
             projectile.friendly = true;
             projectile.hostile = true;
             projectile.ranged = true;
@@ -30,47 +29,16 @@ namespace EEMod.Projectiles.Runes
             projectile.tileCollide = true;
             projectile.extraUpdates = 1;
             projectile.aiStyle = -1;
-            projectile.arrow = true;
             projectile.damage = 0;
         }
 
-        public int rippleCount = 3;
-        public int rippleSize = 500;
-        public int rippleSpeed = 200;
-        public float distortStrength = 200;
-        public int yes;
-
-        public override void AI()           //this make that the projectile will face the corect way
+        public override void AI()
         {
-            yes++;
-            if (yes > 120)
-            {
-                if (projectile.ai[0] > 1)
-                {
-                    projectile.ai[0] += 0.1f;
-                }
-                projectile.damage = 1;
-                projectile.velocity = Vector2.Zero;
-                projectile.ai[1] += 0.5f;
-                //projectile.velocity.Y = (float)Math.Sin(projectile.ai[1]/16) / 4;
-                if (projectile.ai[0] == 0)
-                {
-                    if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Shockwave"].IsActive())
-                    {
-                        Filters.Scene.Activate("EEMod:Shockwave", projectile.Center).GetShader().UseColor(rippleCount, rippleSize, rippleSpeed).UseTargetPosition(projectile.Center);
-                        projectile.ai[0] = 1;
-                    }
-                }
-                float progress = (180 - projectile.ai[1]) / 720f;
-                distortStrength = projectile.ai[1] * 2;
-                //  Filters.Scene["EEMod:Shockwave"].GetShader().UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
-                //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(projectile.ai[0]);
+            projectile.ai[1]++;
+            if (projectile.ai[0] > 0)
+                projectile.alpha -= 4;
 
-                if (projectile.ai[1] == 160)
-                {
-                    projectile.ai[1] = 0;
-                }
-            }
+            projectile.Center += new Vector2(0, (float)Math.Sin(flash * 3) / 20);
         }
 
         private float flash = 0;
@@ -78,20 +46,10 @@ namespace EEMod.Projectiles.Runes
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             flash += 0.01f;
-            if (flash == 2)
-            {
-                flash = 10;
-            }
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            if (projectile.ai[0] > 1)
-            {
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * flash * 0.5f, projectile.rotation + flash, new Vector2(174, 174) / 2, projectile.ai[0], SpriteEffects.None, 0);
-            }
-            else
-            {
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, projectile.rotation + flash, new Vector2(174, 174) / 2, projectile.ai[0], SpriteEffects.None, 0);
-            }
+            if (projectile.ai[1] > 120)
+                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -101,33 +59,18 @@ namespace EEMod.Projectiles.Runes
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (yes > 120)
+            if (projectile.ai[1] > 120)
             {
-                projectile.timeLeft = 3600;
+                projectile.timeLeft = 64;
                 projectile.ai[0]++;
                 flash = 0;
                 target.GetModPlayer<EEPlayer>().hasGottenRuneBefore[0] = 1;
+                projectile.Kill();
             }
         }
 
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        /*public override void Kill(int timeleft)
         {
-            //target.AddBuff(BuffID.Chilled, 100);
-        }
-
-        public override void Kill(int timeleft)
-        {
-            EEMod.isAscending = false;
-            EEMod.AscentionHandler = 0;
-            if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
-            {
-                Filters.Scene["EEMod:Shockwave"].Deactivate();
-            }
-            if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:WhiteFlash"].IsActive())
-            {
-                Filters.Scene["EEMod:WhiteFlash"].Deactivate();
-            }
-            //Main.PlaySound(2, (int)projectile.position.X, (int)projectile.position.Y, 50);
             Main.PlaySound(SoundID.Item27, projectile.position);
             for (var i = 0; i < 20; i++)
             {
@@ -136,6 +79,6 @@ namespace EEMod.Projectiles.Runes
                 Main.dust[num].velocity *= 2.5f;
                 Main.dust[num].noLight = false;
             }
-        }
+        }*/
     }
 }

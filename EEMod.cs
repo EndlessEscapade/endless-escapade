@@ -129,7 +129,7 @@ namespace EEMod
             }
 
             verlet.GlobalRenderPoints();
-            if (Main.LocalPlayer.controlUp && delays == 0)
+            /*if (Main.LocalPlayer.controlUp && delays == 0)
             {
                 if (Verlet.points.Count == 0)
                 {
@@ -142,8 +142,8 @@ namespace EEMod
                 }
               //  verlet.CreateStickMan(Main.MouseWorld);
                 delays = 20;
-            }
-            if (Main.LocalPlayer.controlUseItem && delays == 0)
+            }*/
+            /*if (Main.LocalPlayer.controlUseItem && delays == 0)
             {
                 if (Verlet.points.Count == 0)
                 {
@@ -155,7 +155,7 @@ namespace EEMod
                     verlet.BindPoints(a - 1, a);
                 }
                 delays = 20;
-            }
+            }*/
             if (Main.LocalPlayer.controlHook && delays == 0)
             {
                 verlet.ClearPoints();
