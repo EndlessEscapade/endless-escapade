@@ -76,6 +76,7 @@ namespace EEMod
         public static Texture2D OceanScreen;
         public static Texture2D Seagulls;
         public static Texture2D Kappa;
+        public static Texture2D Anchor;
 
         [TextureInit("Projectiles/Summons/AkumoMinionGlow")]
         public static Texture2D AkumoMinionGlow;
@@ -225,12 +226,14 @@ namespace EEMod
             VArrow = mod.GetTexture("Projectiles/VolleyballArrow");
             CB1 = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
             GradientEffect = mod.GetTexture("Masks/GradientEffect");
+            Anchor = mod.GetTexture("Projectiles/OceanMap/Anchor");
             ReflInit(mod.GetTexture);
         }
 
         [UnloadingMethod]
         public static void Unload()
         {
+            Anchor = null;
             Kappa = null;
             Seagulls = null;
             OceanScreen = null;

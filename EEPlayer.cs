@@ -77,11 +77,6 @@ namespace EEMod
         public List<Vector2> objectPos = new List<Vector2>();
         public List<Island> SeaObject = new List<Island>();
         public Dictionary<string, Island> Islands = new Dictionary<string, Island>();
-        public bool isNearIsland;
-        public bool isNearIsland2;
-        public bool isNearVolcano;
-        public bool isNearMainIsland;
-        public bool isNearCoralReefs;
         public string baseWorldName;
         
         //Runes
@@ -121,11 +116,7 @@ namespace EEMod
         public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
         private int Arrow;
         private int Arrow2;
-        private int Anchors;
         private float speedOfPan = 1;
-        private int AnchorsVolc;
-        private int AnchorsMain;
-        private int AnchorsCoral;
         public int offSea = 1000;
         private int opac;
         public int boatSpeed = 1;
@@ -608,7 +599,7 @@ namespace EEMod
             thermalHealingTimer--;
             if (player.HasBuff(BuffType<ThermalHealing>()) && thermalHealingTimer <= 0)
             {
-                player.statLife += 1;
+                player.statLife++;
                 thermalHealingTimer = 30;
             }
             UpdateRunes();
@@ -1265,6 +1256,8 @@ namespace EEMod
             public Texture2D texture;
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
             public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / 2 + 1000, texture.Width, texture.Height);
+            private Rectangle ShipHitBox => new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
+            public bool isColliding => hitBox.Intersects(ShipHitBox) && canCollide;
         }
 
         public class DarkCloud : IOceanMapElement
@@ -1363,6 +1356,7 @@ namespace EEMod
             private readonly int width, height;
             private readonly float alpha, scale;
             private readonly Texture2D texture;
+            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             private Vector2 Center => new Vector2(position.X + width / 2f, position.Y + height / 2f);
 
             public MCloud(Texture2D texture, Vector2 position, int width, int height, float scale, float alpha)
@@ -1382,7 +1376,7 @@ namespace EEMod
                 Vector2 newPos = Center + Main.screenPosition;
                 Rectangle rect = new Rectangle(0, 0, width, height);
                 Color lightColour = Lighting.GetColor((int)newPos.X / 16, (int)newPos.Y / 16);
-                spriteBatch.Draw(texture, Center, rect, lightColour * ((255 - alpha) / 255f), 0f, rect.Size() / 2, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, Center, rect, lightColour * ((255 - alpha) / 255f) * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, rect.Size() / 2, scale, SpriteEffects.None, 0f);
             }
 
             public void Update()

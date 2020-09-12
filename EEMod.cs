@@ -47,10 +47,7 @@ namespace EEMod
 
         public static int _lastSeed;
 
-        public UserInterface customResources;
-
-        public UserInterface SpeedrunnTimer;
-        internal RunninUI RunUI;
+       
 
         internal delegate void UIUpdateDelegate(GameTime gameTime);
         internal delegate void UIModifyLayersDelegate(List<GameInterfaceLayer> layers, int mouseTextIndex, GameTime lastUpdateUIGameTime);
@@ -91,9 +88,7 @@ namespace EEMod
             instance = null;
         }
 
-        internal EEUI eeui;
-        public UserInterface EEInterface;
-        private GameTime lastGameTime;
+       
         private int delay;
         private float pauseShaderTImer;
         public IceHockey simpleGame;
@@ -162,21 +157,50 @@ namespace EEMod
                 delays = 20;
             }
         }
-
+        float[] anchorLerp = new float[12];
         public void UpdateIslands()
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             for (int i = 0; i < modPlayer.SeaObject.Count; i++)
             {
-                Color drawColour = Lighting.GetColor((int)(modPlayer.SeaObject[i].posToScreen.X / 16f), (int)(modPlayer.SeaObject[i].posToScreen.Y / 16f));
-                if (modPlayer.quickOpeningFloat > 0.01f)
+                EEPlayer.Island current = modPlayer.SeaObject[i];
+                Vector2 currentPos = current.posToScreen.ForDraw();
+                Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f));
+                if(current.isColliding)
                 {
-                    float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
-                    Main.spriteBatch.Draw(modPlayer.SeaObject[i].texture, modPlayer.SeaObject[i].posToScreen.ForDraw(), drawColour * lerp);
+                    if(anchorLerp[i] < 1)
+                    anchorLerp[i] += 0.02f;
                 }
                 else
                 {
-                    Main.spriteBatch.Draw(modPlayer.SeaObject[i].texture, modPlayer.SeaObject[i].posToScreen.ForDraw(), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
+                    if (anchorLerp[i] > 0)
+                        anchorLerp[i] -= 0.02f;
+                }
+                Main.spriteBatch.Draw(TextureCache.Anchor, currentPos + new Vector2(0,(float)Math.Sin(markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - TextureCache.Anchor.Width/2f, -80), drawColour * anchorLerp[i]);
+                if (modPlayer.quickOpeningFloat > 0.01f)
+                {
+                    float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
+                    if (i > 4 && i < 8 || i == 11)
+                    {
+                        float score = currentPos.X + currentPos.Y;
+                        Main.spriteBatch.Draw(current.texture, currentPos + new Vector2(0, (float)Math.Sin(score + markerPlacer / 40f)) * 4, drawColour * lerp);
+                    }
+                    else
+                    {
+                        Main.spriteBatch.Draw(current.texture, currentPos, drawColour * lerp);
+                    }
+                }
+                else
+                {
+                    if (i > 4 && i < 8 || i == 11)
+                    {
+                        float score = currentPos.X + currentPos.Y;
+                        Main.spriteBatch.Draw(current.texture, currentPos + new Vector2(0,(float)Math.Sin(score + markerPlacer/40f))*4, drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
+                    }
+                    else
+                    {
+                        Main.spriteBatch.Draw(current.texture, currentPos, drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
+                    }
                 }
             }
             var OceanElements = EEPlayer.OceanMapElements;
@@ -191,6 +215,75 @@ namespace EEMod
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
                 element.Draw(TextureCache.Seagulls, 9, 5);
+            }
+        }
+        float counter;
+        Vector2[,,] lol1 = new Vector2[3, 10, 2];
+        public void UpdateJellyfishTesting()
+        {
+            Vector2 first = Main.LocalPlayer.Center - new Vector2(0, 300);
+            float[] lastX = new float[6];
+            float[] lastY = new float[6];
+            float[] ControlY = new float[6];
+            float[] ControlX = new float[6];
+            float[] ControlY2 = new float[6];
+            float[] ControlX2 = new float[6];
+            float tip = first.Y + 200;
+            int diff = 20;
+            int startingdiff = 30;
+            float firstContactPoint = tip - 40;
+            float secondContactPoint = tip - 80;
+                
+                float asnycPeriod = 0.7f;
+                float accell = ((float)Math.Sin(counter) + 1.4f) / 2f;
+                counter += 0.08f * accell;
+                for (int i = 0; i < 3; i++)
+                {
+                    ControlX[i] = ((first.X - startingdiff) - i * diff) - (float)Math.Sin(counter + 0.35f + i / 10f) * (startingdiff + i * diff);
+                    ControlY[i] = secondContactPoint - (float)Math.Cos(counter + 0.05f) * (tip - secondContactPoint);
+                    ControlX2[i] = ((first.X - startingdiff) - i * diff / 2) - (float)Math.Sin(counter + 0.25f + i / 5f) * (startingdiff + i * diff / 2);
+                    ControlY2[i] = firstContactPoint - (float)Math.Cos(counter + 0.05f) * (tip - firstContactPoint);
+                    lastX[i] = ((first.X - startingdiff) - i * diff) - (float)Math.Sin(counter + 0.15f) * (startingdiff + i * diff);
+                    lastY[i] = (tip - 30) - (float)Math.Sin(counter + asnycPeriod + 0.05f + i / 20f) * 30;
+                }
+                for (int i = 3; i < 6; i++)
+                {
+                    ControlX[i] = ((first.X + startingdiff) + (i - 3) * diff) + (float)Math.Sin(counter + i / 13f) * (startingdiff + (i - 3) * diff);
+                    ControlY[i] = secondContactPoint - (float)Math.Cos(counter + i / 14f) * (tip - secondContactPoint);
+                    ControlX2[i] = ((first.X + startingdiff) + (i - 3) * diff / 2) + (float)Math.Sin(counter + i / 15f) * (startingdiff + (i - 3) * diff / 2);
+                    ControlY2[i] = firstContactPoint - (float)Math.Cos(counter + i / 20f) * (tip - firstContactPoint);
+                    lastX[i] = ((first.X + startingdiff) + (i - 3) * diff) + (float)Math.Sin(counter + i / 10f - 0.1f) * (startingdiff + (i - 3) * diff);
+                    lastY[i] = (tip - 30) - (float)Math.Sin(counter + asnycPeriod + i / 20f + 0.2f) * 30;
+                }
+                int sep = 5;
+                for (int i = 0; i < 6; i++)
+                {
+                if (i < 3)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                       Vector2 yas = Helpers.TraverseBezier(new Vector2(first.X - i * sep, first.Y), new Vector2(ControlX2[i] - i * sep, ControlY2[i]), new Vector2(ControlX[i] - i * sep, ControlY[i]), new Vector2(lastX[i] - i * sep, lastY[i]), j/100f);
+                        lol1[i,j,0] = yas;
+                    }
+                }
+                else
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        Vector2 yas = Helpers.TraverseBezier(new Vector2(first.X + (i - 3) * sep, first.Y), new Vector2(ControlX2[i] + (i - 3) * sep, ControlY2[i]), new Vector2(ControlX[i] + (i - 3) * sep, ControlY[i]), new Vector2(lastX[i] + (i - 3) * sep, lastY[i]),j/100f);
+                        lol1[i, j, 1] = yas;
+                    }
+                }
+                }
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 2; k++)
+                    {
+                        Main.spriteBatch.Draw(Main.magicPixel, lol1[i,j,k].ForDraw(),Color.Red);
+                    }
+                }
             }
         }
 
@@ -267,64 +360,7 @@ namespace EEMod
             }
 
         }
-        public override void UpdateUI(GameTime gameTime)
-        {
-            OnUpdateUI?.Invoke(gameTime);
-            lastGameTime = gameTime;
-            if (EEInterface?.CurrentState != null)
-            {
-                EEInterface.Update(gameTime);
-            }
-            base.UpdateUI(gameTime);
-
-            if (RuneActivator.JustPressed && delay == 0)
-            {
-                if (EEUIVisible)
-                {
-                    EEUIVisible = false;
-                    if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Pause"].IsActive())
-                    {
-                        Filters.Scene.Deactivate("EEMod:Pause");
-                    }
-                }
-                else
-                {
-                    EEUIVisible = true;
-                    if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Pause"].IsActive())
-                    {
-                        Filters.Scene.Activate("EEMod:Pause").GetShader().UseOpacity(pauseShaderTImer);
-                    }
-                }
-                delay++;
-            }
-            if (EEUIVisible)
-            {
-                Filters.Scene["EEMod:Pause"].GetShader().UseOpacity(pauseShaderTImer);
-                pauseShaderTImer += 50;
-                if (pauseShaderTImer > 1000)
-                {
-                    pauseShaderTImer = 1000;
-                }
-            }
-            else
-            {
-                pauseShaderTImer = 0;
-            }
-            if (delay > 0)
-            {
-                delay++;
-                if (delay == 60)
-                {
-                    delay = 0;
-                }
-            }
-
-            //_lastUpdateUiGameTime = gameTime;
-            if (SpeedrunnTimer?.CurrentState != null)
-            {
-                RunUI.Update(gameTime);
-            }
-        }
+        
 
         public override void MidUpdateProjectileItem()
         {
@@ -362,9 +398,6 @@ namespace EEMod
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
             if (!Main.dedServ)
             {
-                eeui = new EEUI();
-                eeui.Activate();
-                EEInterface = new UserInterface();
                 Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Ripple"));
                 Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/SeaTrans"));
                 Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/SunThroughWalls"));
@@ -385,6 +418,7 @@ namespace EEMod
 		  SpeedrunnTimer.SetState(RunUI);
                 */
             }
+            LoadUI();
             LoadIL();
             LoadDetours();
         }
@@ -399,12 +433,8 @@ namespace EEMod
         public static ModHotKey ActivateGame;
         public static ModHotKey ActivateVerletEngine;
 
-        internal bool EEUIVisible
-        {
-            get => EEInterface?.CurrentState != null;
-            set => EEInterface?.SetState(value ? eeui : null);
-        }
-
+        private GameTime lastGameTime;
+        public UserInterface EEInterface;
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
@@ -694,6 +724,8 @@ namespace EEMod
 
         private int cannonDelay = 60;
         public Vector2 otherBoatPos;
+        public Vector2 currentLightningPos;
+        float intenstityLightning;
 
         private void DrawShip()
         {
@@ -874,7 +906,18 @@ namespace EEMod
                 }
             }
             //Lighting.AddLight(eePlayer.objectPos[1], 0.9f, 0.9f, 0.9f);
-
+            if(Main.rand.NextBool(100) && !Main.dayTime)
+            {
+                currentLightningPos = Main.screenPosition + new Vector2(Main.rand.Next(500), Main.rand.Next(1000));
+                intenstityLightning = Main.rand.NextFloat(.1f,.2f);
+            }
+            if(intenstityLightning > 0)
+            {
+                float rand = Main.rand.NextFloat(.2f, 5f);
+                intenstityLightning -= 0.008f;
+                float light = rand * intenstityLightning;
+                Lighting.AddLight(currentLightningPos, light, light, light);
+            }
             Texture2D texture3 = TextureCache.ShipHelth;
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             //float quotient = ShipHelth / ShipHelthMax; // unused
