@@ -141,11 +141,6 @@ namespace EEMod
             {
                 noU = true;
             }
-            else
-            {
-                noU = false;
-            }
-
             Filters.Scene[shad2].GetShader().UseOpacity(EEMod.instance.position.X);
 
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad2].IsActive())
