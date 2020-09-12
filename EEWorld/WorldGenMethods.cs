@@ -3005,7 +3005,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int foliage, bool ensureNoise = false)
+        public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int minibiome, bool ensureNoise = false)
         {
             int sizeX = size;
             int sizeY = size / 2;
@@ -3144,7 +3144,7 @@ namespace EEMod.EEWorld
                     Vector2 basePos = new Vector2(i + xPos - size / 2f, j + yPos - size / 4f);
                     if (WorldGen.InWorld((int)basePos.X, (int)basePos.Y, 20))
                     {
-                        switch (foliage)
+                        switch (minibiome)
                         {
                             case 0:
                                 if (TileCheck2((int)basePos.X, (int)basePos.Y) == 1 && !WorldGen.genRand.NextBool(5))
@@ -3249,8 +3249,47 @@ namespace EEMod.EEWorld
                                     }
                                 }
                                 break;
+                            case 1: //Kelp Forest
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && !WorldGen.genRand.NextBool(6))
+                                {
+                                    if (WorldGen.genRand.NextBool())
+                                    {
+                                        PlaceKelp(WorldGen.genRand.Next(sizeY / 10, sizeY / 3), new Vector2((int)basePos.X, (int)basePos.Y - 1));
+                                    }
+                                    else
+                                    {
+                                        int selection = WorldGen.genRand.Next(2);
+                                        switch (selection)
+                                        {
+                                            case 0:
+                                                WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<ShortCoral>(), style: WorldGen.genRand.Next(0, 3));
+                                                break;
 
-                            case 1:
+                                            case 1:
+                                                WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<SingleCoral>(), style: WorldGen.genRand.Next(0, 3));
+                                                break;
+                                            case 2:
+                                                ModContent.GetInstance<GroundGlowCoralTE>().Place(i, j - 13);
+                                                WorldGen.PlaceTile(i, j - 13, ModContent.TileType<GroundGlowCoral>());
+                                                break;
+                                            case 3:
+                                                ModContent.GetInstance<GroundGlowCoral2TE>().Place(i, j - 5);
+                                                WorldGen.PlaceTile(i, j - 13, ModContent.TileType<GroundGlowCoral2>());
+                                                break;
+                                            case 4:
+                                                ModContent.GetInstance<GroundGlowCoral3TE>().Place(i, j - 4);
+                                                WorldGen.PlaceTile(i, j - 13, ModContent.TileType<GroundGlowCoral3>());
+                                                break;
+                                        }
+                                    }
+                                }
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 1 && !WorldGen.genRand.NextBool(6))
+                                {
+                                    ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
+                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
+                                }
+                                break;
+                            case 2: //Polyp Zone
                                 if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && !WorldGen.genRand.NextBool(6))
                                 {
                                     if (WorldGen.genRand.NextBool())
@@ -3273,8 +3312,49 @@ namespace EEMod.EEWorld
                                     }
                                 }
                                 break;
+                            case 3: //Jellyfish Caverns
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 1 && !WorldGen.genRand.NextBool(5))
+                                {
+                                    int selection = WorldGen.genRand.Next(6);
+                                    switch (selection)
+                                    {
+                                        case 0:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral1>());
+                                            break;
 
-                            case 2:
+                                        case 1:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral2>());
+                                            break;
+
+                                        case 2:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral3>());
+                                            break;
+
+                                        case 3:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral4>());
+                                            break;
+
+                                        case 4:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral5>());
+                                            break;
+
+                                        case 5:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral6>());
+                                            break;
+                                    }
+                                }
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && !WorldGen.genRand.NextBool(6))
+                                {
+                                    int selection = WorldGen.genRand.Next(13);
+                                    switch (selection)
+                                    {
+                                        case 0:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 8, ModContent.TileType<CoralStack1>());
+                                            break;
+                                    }
+                                }
+                                break;
+                            case 4: //Bulbous Grove
                                 if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && WorldGen.genRand.NextBool() && !WorldGen.genRand.NextBool(6))
                                 {
                                     if (WorldGen.genRand.NextBool())
@@ -3314,12 +3394,10 @@ namespace EEMod.EEWorld
                                 }
                                 break;
 
-                            case 3:
-                                //Currents
+                            case 5: //Thermal Vents
                                 break;
 
-                            case 4:
-                                //Nothing
+                            case 6: //Subterranean Waters
                                 break;
                         }
                     }
@@ -3333,7 +3411,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
-                    if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(5) && WorldGen.InWorld(i, j))
+                    if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(3) && WorldGen.InWorld(i, j))
                     {
                         int selection = WorldGen.genRand.Next(8);
                         switch (selection)
@@ -3373,7 +3451,7 @@ namespace EEMod.EEWorld
                                 break;
                         }
                     }
-                    if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(6) && WorldGen.InWorld(i, j))
+                    if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(3) && WorldGen.InWorld(i, j))
                     {
                         int selection = WorldGen.genRand.Next(16);
                         switch (selection)

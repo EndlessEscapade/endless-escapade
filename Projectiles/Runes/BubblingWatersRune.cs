@@ -34,6 +34,14 @@ namespace EEMod.Projectiles.Runes
 
         public override void AI()
         {
+            if(projectile.ai[1] == 0)
+            {
+                for(int i = 0; i<2; i++)
+                {
+                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersRuneBubble>(), 0, 0, projectile.whoAmI);
+                }
+            }
+
             projectile.ai[1]++;
             if (projectile.ai[0] > 0)
                 projectile.alpha += 4;

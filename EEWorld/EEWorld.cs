@@ -9,6 +9,8 @@ using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
+using EEMod.Tiles;
+using EEMod.Tiles.Furniture;
 
 namespace EEMod.EEWorld
 {
@@ -25,6 +27,8 @@ namespace EEMod.EEWorld
         public static bool downedOmen;
         public static bool downedKraken;
         public static bool omenPath;
+
+        public static Vector2[] reefMinibiomes = new Vector2[6];
 
         // private static List<Point> BiomeCenters;
         public static Vector2 yes;

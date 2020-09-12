@@ -28,11 +28,21 @@ namespace EEMod
     {
         public bool importantCutscene;
         public static bool startingText;
-        public bool FlameSpirit;
-        public bool dalantiniumHood;
-        public bool hydriteVisage;
+        public bool godMode = false;
+
+        //Biome checks
         public bool ZoneCoralReefs;
+
+        public bool ZoneKelpForest;
+        public bool ZonePolypZone;
+        public bool ZoneJellyfishCaverns;
+        public bool ZoneThermalVents;
+        public bool ZoneBublousGrove;
+        public bool ZoneSubterraneanWaters;
+
         public bool ZoneTropicalIsland;
+
+        //Equipment booleans
         public bool hydroGear;
         public bool dragonScale;
         public bool lythenSet;
@@ -41,12 +51,15 @@ namespace EEMod
         public bool hydriteSet;
         public bool hydrofluoricSet;
         public int hydrofluoricSetTimer;
-        public bool godMode = false;
+        public bool dalantiniumHood;
+        public bool hydriteVisage;
         public bool quartzCrystal = false;
         public bool isQuartzRangedOn = false;
         public bool isQuartzSummonOn = false;
         public bool isQuartzMeleeOn = false;
         public bool isQuartzChestOn = false;
+        public bool FlameSpirit;
+
         public int timerForCutscene;
         public bool arrowFlag = false;
         public static bool isSaving;
@@ -70,10 +83,15 @@ namespace EEMod
         public bool isNearMainIsland;
         public bool isNearCoralReefs;
         public string baseWorldName;
+        
+        //Runes
         public byte[] hasGottenRuneBefore = new byte[7];
         public byte[] inPossesion = new byte[7];
+
+        //Morality
         public static int moralScore;
         public int initialMoralScore;
+
         private readonly SubworldManager SM = new SubworldManager();
         public int rippleCount = 3;
         public int rippleSize = 5;
@@ -807,14 +825,11 @@ namespace EEMod
                                 {
                                     player.gravity = 0;
                                     if (player.controlUp)
-                                    {
-                                        player.gravity = -0.1f;
-                                    }
-
+                                        player.gravity = -0.2f;
                                     if (player.controlDown)
-                                    {
                                         player.gravity = 0.1f;
-                                    }
+                                    if(!player.controlUp && !player.controlDown)
+                                        player.gravity = -0.1f;
                                 }
                             }
                             break;
@@ -1297,6 +1312,7 @@ namespace EEMod
 
             public void Update()
             {
+
             }
         }
 
