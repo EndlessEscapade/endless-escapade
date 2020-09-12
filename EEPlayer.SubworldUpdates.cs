@@ -168,6 +168,7 @@ namespace EEMod
                 SeaObject.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Projectiles/OceanMap/MainIsland"), true));
                 SeaObject.Add(new Island(new Vector2(-300, -600), GetTexture("EEMod/Projectiles/OceanMap/CoralReefsEntrance"), true));
                 SeaObject.Add(new Island(new Vector2(-600, -800), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
+                SeaObject.Add(new Island(new Vector2(-300, -250), GetTexture("EEMod/Projectiles/OceanMap/Rock2")));
 
                 if (!Islands.ContainsKey("VolcanoIsland"))
                 {
@@ -237,15 +238,6 @@ namespace EEMod
 
                 //upgrade, pirates, radial
             }
-
-            Rectangle ShipHitBox = new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
-
-            isNearIsland = false;
-            isNearIsland2 = false;
-            isNearVolcano = false;
-            isNearMainIsland = false;
-            isNearCoralReefs = false;
-
             if (EEMod.ShipHelth <= 0)
             {
                 if (prevKey == baseWorldName || prevKey == "Main")
@@ -261,153 +253,79 @@ namespace EEMod
                     SM.SaveAndQuit(prevKey);
                 }
             }
-
-            if (Islands["VolcanoIsland"].hitBox.Intersects(ShipHitBox))
+            if (markerPlacer > 10)
             {
-                isNearVolcano = true;
-            }
+                if (Islands["VolcanoIsland"].isColliding)
+                {
+                    if (player.controlUp)
+                    {
+                        Initialize();
+                        SM.SaveAndQuit(KeyID.VolcanoIsland);
 
-            if (Islands["Island"].hitBox.Intersects(ShipHitBox))
-            {
-                isNearIsland = true;
-            }
+                        prevKey = KeyID.VolcanoIsland;
+                    }
+                }
+                else if (Islands["Island"].isColliding)
+                {
+                    if (player.controlUp)
+                    {
+                        Initialize();
+                        SM.SaveAndQuit(KeyID.Island);
 
-            if (Islands["MainIsland"].hitBox.Intersects(ShipHitBox))
-            {
-                isNearMainIsland = true;
-            }
+                        prevKey = KeyID.Island;
+                    }
+                }
+                else if (Islands["MainIsland"].isColliding)
+                {
+                    if (player.controlUp)
+                    {
+                        ReturnHome();
 
-            if (Islands["CoralReefsEntrance"].hitBox.Intersects(ShipHitBox))
-            {
-                isNearCoralReefs = true;
-            }
+                        prevKey = baseWorldName;
+                    }
+                }
+                else if (Islands["CoralReefsEntrance"].isColliding)
+                {
+                    if (player.controlUp)
+                    {
+                        importantCutscene = true;
+                    }
+                }
+                else if (Islands["UpperLand"].isColliding)
+                {
+                    if (player.controlUp)
+                    {
+                        Initialize();
+                        SM.SaveAndQuit(KeyID.Island2);
 
-            if (Islands["UpperLand"].hitBox.Intersects(ShipHitBox))
-            {
-                isNearIsland2 = true;
-            }
+                        prevKey = KeyID.Island2;
+                    }
+                }
+                else
+                {
+                    subTextAlpha -= 0.02f;
 
+                    if (subTextAlpha <= 0)
+                    {
+                        subTextAlpha = 0;
+                    }
+                }
+            }
             if (!arrowFlag)
             {
-                Anchors = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["Island"].posXToScreen, Islands["Island"].posYToScreen + 1000);
-                AnchorsVolc = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["VolcanoIsland"].posXToScreen, Islands["VolcanoIsland"].posYToScreen - 50 + 1000);
-                AnchorsMain = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["MainIsland"].posXToScreen, Islands["MainIsland"].posYToScreen - 50 + 1000);
-                AnchorsCoral = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<Anchor>(), 0, 0, player.whoAmI, Islands["CoralReefsEntrance"].posXToScreen, Islands["CoralReefsEntrance"].posYToScreen - 50 + 1000);
                 arrowFlag = true;
             }
-            if (isNearIsland)
+
+            foreach(Island island in Islands.Values)
             {
-                subTextAlpha += 0.02f;
-
-                if (subTextAlpha >= 1)
+                if(island.isColliding)
                 {
-                    subTextAlpha = 1;
+                    subTextAlpha += 0.02f;
+                    if (subTextAlpha >= 1)
+                    {
+                        subTextAlpha = 1;
+                    }
                 }
-
-                ((Anchor)Main.projectile[Anchors].modProjectile).visible = true;
-
-                if (player.controlUp)
-                {
-                    Initialize();
-                    SM.SaveAndQuit(KeyID.Island);
-
-                    prevKey = KeyID.Island;
-                }
-            }
-            else
-            {
-                (Main.projectile[Anchors].modProjectile as Anchor).visible = false;
-            }
-
-            if (isNearIsland2)
-            {
-                subTextAlpha += 0.02f;
-
-                if (subTextAlpha >= 1)
-                {
-                    subTextAlpha = 1;
-                }
-
-                ((Anchor)Main.projectile[Anchors].modProjectile).visible = true;
-
-                if (player.controlUp)
-                {
-                    Initialize();
-                    SM.SaveAndQuit(KeyID.Island2);
-
-                    prevKey = KeyID.Island2;
-                }
-            }
-            /*else
-            {
-                ((Anchor)Main.projectile[Anchors].modProjectile).visible = false;
-            }*/
-
-            if (isNearVolcano)
-            {
-                subTextAlpha += 0.02f;
-
-                if (subTextAlpha >= 1)
-                {
-                    subTextAlpha = 1;
-                }
-
-                ((Anchor)Main.projectile[AnchorsVolc].modProjectile).visible = true;
-
-                if (player.controlUp)
-                {
-                    Initialize();
-                    SM.SaveAndQuit(KeyID.VolcanoIsland);
-
-                    prevKey = KeyID.VolcanoIsland;
-                }
-            }
-            else
-            {
-                ((Anchor)Main.projectile[AnchorsVolc].modProjectile).visible = false;
-            }
-
-            if (isNearMainIsland && markerPlacer > 10)
-            {
-                if (player.controlUp)
-                {
-                    ReturnHome();
-
-                    prevKey = baseWorldName;
-                }
-
-                subTextAlpha += 0.02f;
-
-                if (subTextAlpha >= 1)
-                {
-                    subTextAlpha = 1;
-                }
-                ((Anchor)Main.projectile[AnchorsMain].modProjectile).visible = true;
-            }
-            else
-            {
-                ((Anchor)Main.projectile[AnchorsMain].modProjectile).visible = false;
-            }
-
-            if (isNearCoralReefs && markerPlacer > 1)
-            {
-                subTextAlpha += 0.02f;
-
-                if (subTextAlpha >= 1)
-                {
-                    subTextAlpha = 1;
-                }
-
-                ((Anchor)Main.projectile[AnchorsMain].modProjectile).visible = true;
-
-                if (player.controlUp)
-                {
-                    importantCutscene = true;
-                }
-            }
-            else
-            {
-                ((Anchor)Main.projectile[AnchorsMain].modProjectile).visible = false;
             }
 
             if (importantCutscene)
@@ -431,15 +349,7 @@ namespace EEMod
                     prevKey = KeyID.CoralReefs;
                 }
             }
-            if (!isNearVolcano && !isNearIsland && !isNearCoralReefs && !isNearMainIsland)
-            {
-                subTextAlpha -= 0.02f;
-
-                if (subTextAlpha <= 0)
-                {
-                    subTextAlpha = 0;
-                }
-            }
+            
 
             for (int j = 0; j < 450; j++)
             {

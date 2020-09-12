@@ -429,7 +429,7 @@ namespace EEMod
             return new Vector2(currentX, currentY);
         }
 
-        public static int[] FillPseudoRandomUniform(int size)
+        public static T[] FillPseudoRandomUniform<T>(int size) where T : struct
         {
             int number;
             List<int> listNumbers = new List<int>();
@@ -441,7 +441,7 @@ namespace EEMod
                 } while (listNumbers.Contains(number));
                 listNumbers.Add(number);
             }
-            return listNumbers.ToArray();
+            return listNumbers.ToArray() as T[];
         }
 
         public static int[] FillPseudoRandomUniform2(this UnifiedRandom rand, int size)

@@ -28,7 +28,6 @@ namespace EEMod.Projectiles.Melee
             projectile.timeLeft = 1000000000;
         }
 
-        private readonly int[] WTRPosition = Helpers.FillPseudoRandomUniform(4);
         public int[] projectileIndex = { -1, -1, -1, -1 };
 
         public override void AI()

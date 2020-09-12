@@ -87,7 +87,7 @@ namespace EEMod.Projectiles.Melee
             Player player = Main.player[projectile.owner];
             if (player.controlUseItem && projectile.ai[0] <= 3 || projectile.ai[0] % 50 == 0)
             {
-                GoTo = Main.MouseWorld + suitablePosses[Helpers.FillPseudoRandomUniform(4)[Main.rand.Next(0, 4)]] * 0.6f;
+                GoTo = Main.MouseWorld + suitablePosses[Helpers.FillPseudoRandomUniform<int>(4)[Main.rand.Next(0, 4)]] * 0.6f;
             }
             else
             {
