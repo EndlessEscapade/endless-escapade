@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items
+namespace EEMod.Items.FishingPoles
 {
     public class FishingPoleOfTheSevenSeas : ModItem
     {

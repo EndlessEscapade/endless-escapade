@@ -11,6 +11,7 @@ using EEMod.Effects;
 using EEMod.Projectiles.Mage;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
+using EEMod.Projectiles.Ranged;
 
 namespace EEMod
 {
@@ -84,7 +85,8 @@ namespace EEMod
                 if (!_trails[i]._projectile.active)
                 {
                     if (_trails[i]._projectile.type != ProjectileType<DalantiniumFan>() &&
-                        _trails[i]._projectile.type != ProjectileType<DalantiniumFanAlt>())
+                        _trails[i]._projectile.type != ProjectileType<DalantiniumFanAlt>() &&
+                        _trails[i]._projectile.type != ProjectileType<DalantiniumSpike>())
                     {
                         _trails.RemoveAt(i);
                     }
@@ -92,7 +94,11 @@ namespace EEMod
                     {
                         _trails.RemoveAt(i);
                     }
-                    if (i >= 0 && i < _trails.Count)
+                    if (_trails[i].lerper > 20 && _trails[i]._projectile.type == ProjectileType<DalantiniumSpike>())
+                    {
+                        _trails.RemoveAt(i);
+                    }
+                        if (i >= 0 && i < _trails.Count)
                     {
                         if (_trails[i]._projectile.type == ProjectileType<DalantiniumFanAlt>())
                         {
@@ -317,6 +323,21 @@ namespace EEMod
                     }
                 }
             }
+            void DalantiniumSpikePrimUpdates()
+            {
+                if (_projectile.type == ProjectileType<DalantiniumSpike>())
+                {
+                    Cap = 20;
+                    DalantiniumSpike DF = (_projectile.modProjectile as DalantiniumSpike);
+                    lerper++;
+                    _points.Add(_projectile.Center);
+                    active = true;
+                    if (_points.Count > Cap)
+                    {
+                        _points.RemoveAt(0);
+                    }
+                }
+            }
             void GliderUpdates()
             {
                 _points.Add(Main.LocalPlayer.Center + new Vector2(0,-25));
@@ -336,6 +357,7 @@ namespace EEMod
                 UpdateMethods.Add(LythenPrimUpdates);
                 UpdateMethods.Add(DalantiniumPrimUpdates);
                 UpdateMethods.Add(DalantiniumAltPrimUpdates);
+                UpdateMethods.Add(DalantiniumSpikePrimUpdates);
             }
             public void Update()
             {

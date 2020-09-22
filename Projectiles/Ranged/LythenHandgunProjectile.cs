@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Projectiles.Ranged
 {
@@ -47,17 +48,23 @@ namespace EEMod.Projectiles.Ranged
         public override void AI()
         {
             projectile.rotation = projectile.velocity.ToRotation();
-            for (int i = 0; i < 360; i += 10)
-            {
-                float xdist = (int)(Math.Sin(Math.Sin(i * (Math.PI / 180))) * 5);
-                float ydist = (int)(Math.Cos(Math.Cos(i * (Math.PI / 180))) * 5);
-                Vector2 offset = new Vector2(xdist, ydist).RotatedBy(projectile.rotation);
-                Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 111, offset * 0.5f);
-                dust.noGravity = true;
-                dust.velocity *= 0.94f;
-                dust.noLight = false;
-                dust.fadeIn = 1f;
-            }
+            projectile.ai[0]++;
+
+            //brainstorming ideas is fun fun fun fun fun :D
+
+            projectile.ai[1]++;
+
+            float radius = 48 + (12 * (float)Math.Sin(projectile.ai[1]/10));
+            Vector2 position = projectile.Center + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / projectile.ai[1] % 32)) * radius;
+            Dust dust = Dust.NewDustPerfect(position, 111);
+            dust.velocity = Vector2.Zero;
+            dust.noGravity = true;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Main.spriteBatch.Draw(TextureCache.Extra_49, projectile.Center - Main.screenPosition, null, new Color(97, 215, 248, 0), 0f, new Vector2(50, 50), 0.25f * (float)Math.Sin(projectile.ai[0] / 10) + 0.75f, SpriteEffects.None, 0f);
+            return base.PreDraw(spriteBatch, lightColor);
         }
     }
 }

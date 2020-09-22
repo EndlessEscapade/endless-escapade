@@ -64,11 +64,17 @@ namespace EEMod
             {
                 Main.spriteBatch.Draw(tex, centerOfMainCanvas.ForDraw(), new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y), colourOfMainCanvas * colourOfStartUp, 0f, new Rectangle(0, 0, (int)sizeOfMainCanvas.X, (int)sizeOfMainCanvas.Y).Size() / 2, 1, SpriteEffects.None, 0f);
                 colourOfStartUp += (1 - colourOfStartUp) / speedOfStartUp;
-                foreach (GameElement GE in elementArray)
+                int d = 0;
+                for(int i = 0; i < elementArray.Length; i++)
                 {
+                    GameElement GE = elementArray[i];
                     if (GE != null)
                     {
                         GE.Update(gameTime);
+                        if (GE.colourOfStartUp == 0 && GE.elementActive == false)
+                        {
+                            elementArray[i] = null;
+                        }
                     }
                 }
             }

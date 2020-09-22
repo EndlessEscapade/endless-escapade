@@ -77,6 +77,10 @@ namespace EEMod
         public static Texture2D Seagulls;
         public static Texture2D Kappa;
         public static Texture2D Anchor;
+        public static Texture2D SAPlayer;
+        public static Texture2D SAEnemy;
+        public static Texture2D SABolt;
+        public static Texture2D ArcadeBG;
 
         [TextureInit("Projectiles/Summons/AkumoMinionGlow")]
         public static Texture2D AkumoMinionGlow;
@@ -164,7 +168,6 @@ namespace EEMod
         public static void Load()
         {
             Mod mod = EEMod.instance;
-            Kappa = mod.GetTexture("kappa");
             Seagulls = mod.GetTexture("Seagulls");
             OceanScreen = mod.GetTexture("OceanScreen");
             Bob1 = mod.GetTexture("Bob1");
@@ -176,9 +179,9 @@ namespace EEMod
             SunRing = mod.GetTexture("ShaderAssets/SunRing");
             LightVine = mod.GetTexture("Projectiles/Light");
             Vine = mod.GetTexture("Projectiles/Vine");
-            BluePuck = mod.GetTexture("BlueAirHockeyThing");
-            RedPuck = mod.GetTexture("RedAirHockeyThing");
-            Puck = mod.GetTexture("AirHockeyPuck");
+            BluePuck = mod.GetTexture("EEGameAssets/BlueAirHockeyThing");
+            RedPuck = mod.GetTexture("EEGameAssets/RedAirHockeyThing");
+            Puck = mod.GetTexture("EEGameAssets/AirHockeyPuck");
             BlackTex = mod.GetTexture("NoiseSurfacingTest");
             //CoralLanternLampGlow = mod.GetTexture("Tiles/Furniture/Coral/CoralLanternLampGlow");
             Chain = mod.GetTexture("NPCs/CoralReefs/MechanicalReefs/DreadmineChain");
@@ -186,8 +189,8 @@ namespace EEMod
             Mask1 = mod.GetTexture("Masks/Extra_49");
             //EyeTileGlow = mod.GetTexture("Tiles/Furniture/Coral/EyeTileGlow");
             //Stagrel_Glow = mod.GetTexture("NPCs/Bosses/Stagrel/Stagrel_Glow");
-            BleckScren = mod.GetTexture("BleckScreen");
-            NotBleckScren = mod.GetTexture("NotBleckScren");
+            BleckScren = mod.GetTexture("LoadingScreenImages/BleckScreen");
+            NotBleckScren = mod.GetTexture("LoadingScreenImages/BleckScreen");
             DuneShambler = mod.GetTexture("NPCs/DuneShambler");
             GiantSquid = mod.GetTexture("LoadingScreenImages/GiantSquid");
             Clam = mod.GetTexture("LoadingScreenImages/Clam");
@@ -195,7 +198,7 @@ namespace EEMod
             Seahorse = mod.GetTexture("LoadingScreenImages/Seahorse");
             HydroBeam_Beam = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
             HydroBeam_End = mod.GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
-            AHT = mod.GetTexture("AirHockeyTable");
+            AHT = mod.GetTexture("EEGameAssets/AirHockeyTable");
             //GBeam_Beam = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_Beam");
             //GBeam_End = mod.GetTexture("NPCs/Bosses/Gallagar/GBeam_End");
             //Gallagar = mod.GetTexture("NPCs/Bosses/Gallagar/Gallagar");
@@ -227,6 +230,10 @@ namespace EEMod
             CB1 = mod.GetTexture("Backgrounds/CoralReefsSurfaceClose");
             GradientEffect = mod.GetTexture("Masks/GradientEffect");
             Anchor = mod.GetTexture("Projectiles/OceanMap/Anchor");
+            SAPlayer = mod.GetTexture("EEGameAssets/SAPlayer");
+            SAEnemy = mod.GetTexture("EEGameAssets/SAEnemy");
+            SABolt = mod.GetTexture("EEGameAssets/SABolt");
+            ArcadeBG = mod.GetTexture("EEGameAssets/ArcadeBG");
             ReflInit(mod.GetTexture);
         }
 
@@ -294,6 +301,10 @@ namespace EEMod
             CoralReefsSurfaceClose = null;
             KrakenGlowMask = null;
             NotBleckScren = null;
+            SAPlayer = null;
+            SAEnemy = null;
+            SABolt = null;
+            ArcadeBG = null;
         }
 
         private static void ReflInit(Func<string, Texture2D> textureGetter)

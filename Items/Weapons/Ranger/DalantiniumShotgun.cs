@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Ranger
 {
@@ -17,20 +18,18 @@ namespace EEMod.Items.Weapons.Ranger
         {
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAmmo = AmmoID.Bullet;
-#pragma warning disable ChangeMagicNumberToID // Change magic numbers into appropriate ID values
-            item.shoot = 10;
-#pragma warning restore ChangeMagicNumberToID // Change magic numbers into appropriate ID values
-            item.shootSpeed = 36f;
+            item.shoot = ModContent.ProjectileType<DalantiniumSpike>();
+            item.shootSpeed = 16f;
             item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
             item.noMelee = true;
             item.ranged = true;
             item.damage = 20;
-            item.useTime = 36;
-            item.useAnimation = 36;
+            item.useTime = 1;
+            item.useAnimation = 1;
             item.value = Item.buyPrice(0, 0, 30, 0);
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.knockBack = 6f;
             item.UseSound = SoundID.Item11;
             item.crit = 1;
@@ -41,25 +40,26 @@ namespace EEMod.Items.Weapons.Ranger
             return new Vector2(-3, 0);
         }
 
+        int chargeTime = 120;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            int numberProjectiles = 3 + Main.rand.Next(2);
-            for (int i = 0; i < numberProjectiles; i++)
+            if(chargeTime <= 0)
             {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(22));
-
-                Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
+                chargeTime = 120;
+                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<DalantiniumSpike>(), damage, knockBack);
             }
-            player.velocity += -Vector2.Normalize(Main.MouseWorld - player.Center) * 8;
-            return true;
+            return false;
+        }
+
+        public override void HoldItem(Player player)
+        {
+            if(player.controlUseItem) if(chargeTime > 0) chargeTime--;
         }
 
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
-            recipe.AddIngredient(ItemID.IllegalGunParts, 1);
-            recipe.AddIngredient(ItemID.Boomstick, 1);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

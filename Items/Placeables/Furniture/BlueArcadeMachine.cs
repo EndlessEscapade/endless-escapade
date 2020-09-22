@@ -4,11 +4,12 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Furniture
 {
-    public class Moyai : ModItem
+    public class BlueArcadeMachine : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Moyai");
+            DisplayName.SetDefault("Blue Arcade Machine");
+            Tooltip.SetDefault("The label says 'Martian Invaders'");
         }
 
         public override void SetDefaults()
@@ -24,7 +25,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<ThermalVent>();
+            item.createTile = ModContent.TileType<BlueArcadeMachineTile>();
         }
     }
 }

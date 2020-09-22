@@ -31,6 +31,29 @@ namespace EEMod.Extensions
             return spaceGravityMult < 1f;
         }
 
+        public static long GetSavings(this Player player) //Thanks Dire
+        {
+            long inv = Utils.CoinsCount(out _, player.inventory, new int[]
+            {
+        58, //Mouse item
+        57, //Ammo slots
+        56,
+        55,
+        54
+            });
+            int[] empty = new int[0];
+            long piggy = Utils.CoinsCount(out _, player.bank.item, empty);
+            long safe = Utils.CoinsCount(out _, player.bank2.item, empty);
+            long forge = Utils.CoinsCount(out _, player.bank3.item, empty);
+            return Utils.CoinsCombineStacks(out _, new long[]
+            {
+        inv,
+        piggy,
+        safe,
+        forge
+            });
+        }
+
         public static bool PillarZone(this Player player) => player.ZoneTowerStardust || player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula;
 
         public static bool InventoryHas(this Player player, params int[] items) => items.Any(itemType => player.HasItem(itemType));//player.inventory.Any(item => items.Contains(item.type));

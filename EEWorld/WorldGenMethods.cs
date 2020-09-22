@@ -3146,7 +3146,7 @@ namespace EEMod.EEWorld
                     {
                         switch (minibiome)
                         {
-                            case 0:
+                            case 0: //Default
                                 if (TileCheck2((int)basePos.X, (int)basePos.Y) == 1 && !WorldGen.genRand.NextBool(5))
                                 {
                                     int selection = WorldGen.genRand.Next(6);
@@ -3179,7 +3179,7 @@ namespace EEMod.EEWorld
                                 }
                                 if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && !WorldGen.genRand.NextBool(6))
                                 {
-                                    int selection = WorldGen.genRand.Next(13);
+                                    int selection = WorldGen.genRand.Next(14);
                                     switch (selection)
                                     {
                                         case 0:
@@ -3245,6 +3245,10 @@ namespace EEMod.EEWorld
                                                     WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral3>());
                                                     break;
                                             }
+                                            break;
+
+                                        case 13:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 3, ModContent.TileType<ThermalVent>());
                                             break;
                                     }
                                 }
@@ -3357,44 +3361,71 @@ namespace EEMod.EEWorld
                             case 4: //Bulbous Grove
                                 if (TileCheck2((int)basePos.X, (int)basePos.Y) == 2 && WorldGen.genRand.NextBool() && !WorldGen.genRand.NextBool(6))
                                 {
-                                    if (WorldGen.genRand.NextBool())
+                                    int selection = WorldGen.genRand.Next(6);
+                                    switch (selection)
                                     {
-                                        WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 3, ModContent.TileType<ThermalVent>());
-                                    }
-                                    else
-                                    {
-                                        int selection = WorldGen.genRand.Next(6);
-                                        switch (selection)
-                                        {
-                                            case 0:
-                                                WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<SquareCoral>(), style: 3);
-                                                break;
+                                        case 0:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<SquareCoral>(), style: 3);
+                                            break;
 
-                                            case 1:
-                                                WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral1>());
-                                                break;
+                                        case 1:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral1>());
+                                            break;
 
-                                            case 2:
-                                                WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral2>());
-                                                break;
+                                        case 2:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 2, ModContent.TileType<GlowCoral2>());
+                                            break;
 
-                                            case 3:
-                                                WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<SingleCoral>(), style: 0);
-                                                break;
+                                        case 3:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<SingleCoral>(), style: 0);
+                                            break;
 
-                                            case 4:
-                                                WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<Brain1BigCoral>(), style: 0);
-                                                break;
+                                        case 4:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<Brain1BigCoral>(), style: 0);
+                                            break;
 
-                                            case 5:
-                                                WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<Brain2BigCoral>(), style: 0);
-                                                break;
-                                        }
+                                        case 5:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 1, ModContent.TileType<Brain2BigCoral>(), style: 0);
+                                            break;
                                     }
                                 }
                                 break;
 
                             case 5: //Thermal Vents
+                                if (TileCheck2((int)basePos.X, (int)basePos.Y) == 1 && !WorldGen.genRand.NextBool(5))
+                                {
+                                    int selection = WorldGen.genRand.Next(6);
+                                    switch (selection)
+                                    {
+                                        case 0:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral1>());
+                                            break;
+
+                                        case 1:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral2>());
+                                            break;
+
+                                        case 2:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral3>());
+                                            break;
+
+                                        case 3:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral4>());
+                                            break;
+
+                                        case 4:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral5>());
+                                            break;
+
+                                        case 5:
+                                            WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y + 1, ModContent.TileType<HangingCoral6>());
+                                            break;
+                                    }
+                                    if (WorldGen.genRand.NextBool())
+                                    {
+                                        WorldGen.PlaceTile((int)basePos.X, (int)basePos.Y - 3, ModContent.TileType<ThermalVent>());
+                                    }
+                                }
                                 break;
 
                             case 6: //Subterranean Waters

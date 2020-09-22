@@ -20,6 +20,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.World.Generation;
+using EEMod.Tiles.Furniture;
 
 namespace EEMod
 {
@@ -76,7 +77,7 @@ namespace EEMod
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             Noise2D = null;
             RuneActivator = null;
-            ActivateGame = null;
+            Inspect = null;
             RuneSpecial = null;
             simpleGame = null;
             ActivateVerletEngine = null;
@@ -91,7 +92,7 @@ namespace EEMod
        
         private int delay;
         private float pauseShaderTImer;
-        public IceHockey simpleGame;
+        public SpaceInvaders simpleGame;
 
         public ModPacket GetPacket(EEMessageType type, int capacity)
         {
@@ -340,25 +341,31 @@ namespace EEMod
                     }
                 }
             }
-            simpleGame = simpleGame ?? new IceHockey();
+            simpleGame = simpleGame ?? new SpaceInvaders();
             simpleGame.Update(gameTime);
             for (int i = 0; i < Main.player.Length; i++)
             {
                 Player player = Main.player[i];
                 if (player.active && !player.dead)
                 {
-                    if (ActivateGame.JustPressed)
+                    if (Inspect.JustPressed && player.GetModPlayer<EEPlayer>().playingGame == true)
                     {
-                        simpleGame = new IceHockey();
-                        simpleGame.StartGame(i);
-                    }
-                    if (player.controlHook)
-                    {
+                        player.GetModPlayer<EEPlayer>().playingGame = false;
+                        player.webbed = false;
                         simpleGame.EndGame();
+                        break;
+                    }
+                    if (Inspect.JustPressed && Main.tile[(int)player.Center.X/16, (int)player.Center.Y/16].type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
+                    {
+                        simpleGame = new SpaceInvaders();
+                        Main.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
+                        player.BuyItem(2500);
+                        simpleGame.StartGame(i);
+                        player.GetModPlayer<EEPlayer>().playingGame = true;
+                        break;
                     }
                 }
             }
-
         }
         
 
@@ -392,7 +399,7 @@ namespace EEMod
             instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
-            ActivateGame = RegisterHotKey("Activate Games", "[");
+            Inspect = RegisterHotKey("Inspect", "E");
             ActivateVerletEngine = RegisterHotKey("Activate VerletEngine", "N");
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
@@ -430,7 +437,7 @@ namespace EEMod
 
         public static ModHotKey RuneActivator;
         public static ModHotKey RuneSpecial;
-        public static ModHotKey ActivateGame;
+        public static ModHotKey Inspect;
         public static ModHotKey ActivateVerletEngine;
 
         private GameTime lastGameTime;

@@ -20,9 +20,9 @@ namespace EEMod
                                                       (int)sizeOfMainCanvas.X,
                                                       (int)sizeOfMainCanvas.Y);
 
-        public virtual float speedOfStartUp => 16f;
-        private float colourOfStartUp = 0;
-        private bool elementActive;
+        public float speedOfStartUp = 16f;
+        public float colourOfStartUp = 0;
+        public bool elementActive;
         private bool isBoundToMouse = false;
 
         public virtual void StartElement() => elementActive = true;
@@ -49,7 +49,7 @@ namespace EEMod
 
         public void AttachCollisionComponents(bool isSolid, bool collides, bool collidesWithEdges = false, float friction = 0.97f, float bounce = 1f, int bounceBuffer = 30)
         {
-            this.isSolid = isSolid;
+            this.isSolid = isSolid; 
             this.collides = collides;
             this.friction = friction;
             this.collidesWithEdges = collidesWithEdges;
@@ -72,6 +72,7 @@ namespace EEMod
         public float friction;
         public float bounce;
         public int bounceBuffer;
+        public int lifetime = -1;
         private int BBTimer;
         private int playerWhoAmI;
         public Vector2 mousePosition;
@@ -80,6 +81,7 @@ namespace EEMod
         private Vector2 lastSyncPos;
         private Vector2 lastSyncPos2;
         private int lastCool;
+        public float[] ai = new float[4]; 
 
         public void SyncVelocityCache()
         {
@@ -144,6 +146,7 @@ namespace EEMod
 
         public virtual void Update(GameTime gameTime)
         {
+            centerOfElement = UIPosRunTime;
             if (isBoundToMouse)
             {
                 for (int i = 0; i < 255; i++)
@@ -166,6 +169,10 @@ namespace EEMod
             {
                 BBTimer--;
             }
+
+            if (lifetime == 0) elementActive = false;
+            if (lifetime > 0) lifetime--;
+
             if (elementActive)
             {
                 colourOfStartUp += (1 - colourOfStartUp) / speedOfStartUp;
@@ -173,10 +180,69 @@ namespace EEMod
             else
             {
                 colourOfStartUp += (-colourOfStartUp) / speedOfStartUp;
+                collides = false;
             }
+
+            if (tag == "SAEnemy")
+            {
+                ai[0]++;
+
+                if (ai[2] == 0)
+                {
+                    if (ai[0] % 120 / ai[1] == 0)
+                    {
+                        velocity.X = -velocity.X;
+                        velocity.Y = 2f + ai[3];
+                    }
+                    if (ai[0] % 120 / ai[1] == 15)
+                    {
+                        velocity.Y = 0;
+                    }
+                    if (centerOfElement.Y - Main.LocalPlayer.Center.Y >= 300 && collides == true)
+                    {
+                        EEMod.instance.simpleGame.LoseLife();
+                        elementActive = false;
+                        collides = false;
+                    }
+                }
+                if (ai[2] == 1)
+                {
+                    if (velocity.Y < 1) velocity.Y = 1;
+                    if (velocity.Y < 8) velocity.Y *= 1.04f;
+                    velocity.X *= 0.98f;
+                    elementActive = false;
+
+                    if(ai[0] > 60)
+                    {
+                        colourOfStartUp = 0;
+                    }
+                }
+            }
+            if (tag == "SABolt")
+            {
+                if(velocity.Y > -1)
+                {
+                    elementActive = false;
+                }
+            }
+
 
             if (parent != null)
             {
+                if (tag == "SAEnemy" && collides)
+                    foreach (GameElement GE in parent.elementArray)
+                        if (GE != null && GE.collides && GE.elementRect.Intersects(elementRect) && GE.tag == "SABolt" && GE.elementActive == true)
+                        {
+                            elementActive = false;
+                            GE.elementActive = false;
+                            collides = false;
+                            velocity.Y = 2;
+                            velocity.X = Main.rand.NextFloat(-0.5f, 0.5f);
+                            Main.PlaySound(SoundID.NPCHit4);
+                            ai[0] = 0;
+                            ai[2] = 1;
+                        }
+
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds * 60;
                 if (collides)
                 {
@@ -196,6 +262,7 @@ namespace EEMod
                         }
                     }
                 }
+
                 if (collidesWithEdges)
                 {
                     if (UIPosRunTime.Y <= parent.TopLeft.Y + sizeOfMainCanvas.Y / 2 || UIPosRunTime.Y >= parent.BottomLeft.Y - sizeOfMainCanvas.Y / 2)
@@ -207,6 +274,7 @@ namespace EEMod
                         velocity.X *= -1;
                     }
                 }
+                
                 UIPosRunTime += velocity + Main.LocalPlayer.velocity;
                 velocity *= friction;
 

@@ -589,8 +589,14 @@ namespace EEMod
                 }
             }
         }
+
+        public bool playingGame;
         public override void UpdateBiomeVisuals()
         {
+            if (playingGame)
+            {
+                player.velocity = Vector2.Zero;
+            }
             UpdateVerletCollisions(1,3f,10,54,1.6f);
             if (isWearingCape)
             {
@@ -1104,13 +1110,13 @@ namespace EEMod
 
         public override void Hurt(bool pvp, bool quiet, double damage, int hitDirection, bool crit)
         {
-            if (dalantiniumSet)
+            /*if (dalantiniumSet)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     Projectile.NewProjectile(player.Center, new Vector2(Main.rand.NextFloat(-2, 2), Main.rand.NextFloat(-2, 2)), ProjectileType<DalantiniumFang>(), 12, 2f);
                 }
-            }
+            }*/
         }
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
