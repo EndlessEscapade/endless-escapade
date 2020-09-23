@@ -67,8 +67,8 @@ namespace EEMod
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
             Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
             Main.spriteBatch.Begin();
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
             Main.spriteBatch.End();
         }
 
@@ -299,7 +299,7 @@ namespace EEMod
             for (int i = 0; i < Main.npc.Length; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.type == ModContent.NPCType<OrbCollection>() && npc.active)
+                if ((npc.type == ModContent.NPCType<OrbCollection>() || npc.type == ModContent.NPCType<SpikyOrb>()) && npc.active)
                 {
                     float Dist = Vector2.Distance(npc.Center, Main.LocalPlayer.Center);
                     if (Dist < 1000)
@@ -311,7 +311,7 @@ namespace EEMod
                             for (float j = 0; j < 1; j += 1 / Dist)
                             {
                                 Vector2 Lerped = p1 + j * (p2 - p1);
-                                Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), Color.AliceBlue * Math.Abs(lerpLol - j), 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
+                                Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), new Color(71, 33, 184) * Math.Abs(lerpLol - j), 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
                             }
                             UIText("Pick Up?", Color.White * alphas, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 - 50), 1);
                         }
@@ -981,7 +981,7 @@ namespace EEMod
         /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(this);
-            recipe.AddIngredient(ModContent.ItemType<SaharaSceptoid>(), 1);
+            recipe.AddIngredient(ItemType<SaharaSceptoid>(), 1);
             recipe.AddIngredient(ItemID.CrystalShard, 8);
             recipe.AddIngredient(ItemID.SoulofLight, 5);
             recipe.AddTile(TileID.MythrilAnvil);
@@ -989,7 +989,7 @@ namespace EEMod
             recipe.AddRecipe();
 
             recipe = new ModRecipe(this);
-            recipe.AddIngredient(ModContent.ItemType<QuartzicLifeFragment>(), 1);
+            recipe.AddIngredient(ItemType<QuartzicLifeFragment>(), 1);
             recipe.AddIngredient(ItemID.Gel, 25);
             recipe.AddIngredient(ItemID.Wood, 10);
             recipe.AddTile(TileID.Solidifier);

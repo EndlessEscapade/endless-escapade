@@ -75,12 +75,13 @@ namespace EEMod.NPCs.CoralReefs
         {
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
             {
-                Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f, 2f), -5));
+                /*Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f, 2f), -5));
                 dust.velocity *= 0.99f;
                 dust.noGravity = true;
                 dust.fadeIn = 1f;
                 dust.noLight = false;
-                /*if (dustHandler.Count == 0)
+
+                if (dustHandler.Count == 0)
                 {
                 PerlinStrip = EEWorld.EEWorld.PerlinArrayNoZero(3720, 1, new Vector2(50, 100),100);
                 }
@@ -139,7 +140,11 @@ namespace EEMod.NPCs.CoralReefs
             npc.ai[0] += 0.05f;
             if (!otherPhase)
             {
-                npc.position.Y += (float)Math.Sin(npc.ai[0]) / 4f;
+                npc.position.Y += (float)Math.Sin(npc.ai[0]) / 2f;
+
+                npc.ai[3]++;
+                float lasdlasld = (5 + ((int)Math.Sin(npc.ai[3])));
+                Lighting.AddLight(npc.Center, new Vector3(0 * lasdlasld, 0 * lasdlasld, 1 * lasdlasld));
             }
 
             if (npc.life == 0)

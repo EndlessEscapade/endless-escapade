@@ -4521,4 +4521,4 @@ namespace EEMod.EEWorld
             PlaceAtlantisCastleRoomWalls(tempX, tempY, EEWorld.CastleBorderRUndergroundWalls);
         }
     }
-}
+} // :peepomadcat:
