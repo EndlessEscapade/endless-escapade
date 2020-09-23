@@ -2,13 +2,13 @@ using EEMod.Tiles.Furniture.Paintings;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Paintings
+namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class CrownedKing : ModItem
+    public class Cat : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crowned King");
+            DisplayName.SetDefault("Cat");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace EEMod.Items.Placeables.Paintings
             item.width = 12;
             item.height = 12;
 
-            item.createTile = ModContent.TileType<CrownedKingTile>();
+            item.createTile = ModContent.TileType<CatTile>();
         }
     }
 }

@@ -2,13 +2,13 @@ using EEMod.Tiles.Furniture.Paintings;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Paintings
+namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class ASailorsTale : ModItem
+    public class GuardianOfTheCoralReefs : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("A Sailor's Tale");
+            DisplayName.SetDefault("Guardian of the Coral Reefs");
         }
 
         public override void SetDefaults()

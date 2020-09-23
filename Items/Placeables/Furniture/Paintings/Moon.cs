@@ -2,13 +2,13 @@ using EEMod.Tiles.Furniture.Paintings;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Paintings
+namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class Cat : ModItem
+    public class Moon : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cat");
+            DisplayName.SetDefault("Moon");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace EEMod.Items.Placeables.Paintings
             item.width = 12;
             item.height = 12;
 
-            item.createTile = ModContent.TileType<CatTile>();
+            item.createTile = ModContent.TileType<MoonTile>();
         }
     }
 }

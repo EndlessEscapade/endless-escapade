@@ -2,13 +2,13 @@ using EEMod.Tiles.Furniture.Paintings;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Paintings
+namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class Moon : ModItem
+    public class MountainsOfDestiny : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Moon");
+            DisplayName.SetDefault("Mountains of Destiny");
         }
 
         public override void SetDefaults()

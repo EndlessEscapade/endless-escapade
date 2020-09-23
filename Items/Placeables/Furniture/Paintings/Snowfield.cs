@@ -2,13 +2,13 @@ using EEMod.Tiles.Furniture.Paintings;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Paintings
+namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class TerrorOfTheDepths : ModItem
+    public class Snowfield : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("TerrorOfTheDepths");
+            DisplayName.SetDefault("Snowfield");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace EEMod.Items.Placeables.Paintings
             item.width = 12;
             item.height = 12;
 
-            item.createTile = ModContent.TileType<MoonTile>();
+            item.createTile = ModContent.TileType<SnowfieldTile>();
         }
     }
 }

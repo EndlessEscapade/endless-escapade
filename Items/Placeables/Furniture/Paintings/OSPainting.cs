@@ -2,13 +2,13 @@ using EEMod.Tiles.Furniture.Paintings;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Paintings
+namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class GuardianOfTheCoralReefs : ModItem
+    public class OSPainting : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Guardian of the Coral Reefs");
+            DisplayName.SetDefault("Trillion Dollar Company");
         }
 
         public override void SetDefaults()
@@ -22,8 +22,9 @@ namespace EEMod.Items.Placeables.Paintings
             item.consumable = true;
             item.width = 12;
             item.height = 12;
+            item.rare = ItemRarityID.Cyan;
 
-            item.createTile = ModContent.TileType<MoonTile>();
+            item.createTile = ModContent.TileType<OSPaintingTile>();
         }
     }
 }

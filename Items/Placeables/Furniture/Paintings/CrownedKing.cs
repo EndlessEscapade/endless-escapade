@@ -2,13 +2,13 @@ using EEMod.Tiles.Furniture.Paintings;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Paintings
+namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class MountainsOfDestiny : ModItem
+    public class CrownedKing : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Mountains of Destiny");
+            DisplayName.SetDefault("Crowned King");
         }
 
         public override void SetDefaults()
@@ -23,7 +23,7 @@ namespace EEMod.Items.Placeables.Paintings
             item.width = 12;
             item.height = 12;
 
-            item.createTile = ModContent.TileType<MoonTile>();
+            item.createTile = ModContent.TileType<CrownedKingTile>();
         }
     }
 }

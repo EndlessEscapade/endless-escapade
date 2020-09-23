@@ -2,13 +2,13 @@ using EEMod.Tiles.Furniture.Paintings;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Paintings
+namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class OSPainting : ModItem
+    public class ASailorsTale : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Trillion Dollar Company");
+            DisplayName.SetDefault("A Sailor's Tale");
         }
 
         public override void SetDefaults()
@@ -22,9 +22,8 @@ namespace EEMod.Items.Placeables.Paintings
             item.consumable = true;
             item.width = 12;
             item.height = 12;
-            item.rare = ItemRarityID.Cyan;
 
-            item.createTile = ModContent.TileType<OSPaintingTile>();
+            item.createTile = ModContent.TileType<MoonTile>();
         }
     }
 }
