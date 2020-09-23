@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Mounts
 {
-    public class Surfboard : ModMountData
+    public class SurfboardMount : ModMountData
     {
         public override void SetDefaults()
         {

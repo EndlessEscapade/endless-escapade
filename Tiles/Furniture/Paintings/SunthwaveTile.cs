@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Paintings;
+using EEMod.Items.Placeables.Furniture.Paintings;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;

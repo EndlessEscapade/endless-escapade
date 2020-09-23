@@ -6,17 +6,17 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Paintings
 {
-    public class CatTile : ModTile
+    public class SnowfieldTile : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
 
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Cat");
+            name.SetDefault("Moon");
             AddMapEntry(new Color(255, 168, 28), name);
             dustType = 11;
             disableSmartCursor = true;
@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Furniture.Paintings
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Cat>());
+            Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<Snowfield>());
         }
     }
 }

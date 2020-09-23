@@ -6,6 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Projectiles.TennisRackets;
 
 namespace EEMod.Projectiles
 {
@@ -126,6 +127,11 @@ namespace EEMod.Projectiles
         private static Vector2 mouseHitBoxVec;
         public static Projectile chosenRacket;
 
+        private bool isRacket(int i)
+        {
+            return Main.projectile[i].type == ModContent.ProjectileType<TennisRacketProj>();
+        }
+
         public override void AI()
         {
             Player Yoda = Main.player[GetPlayer(projectile.Center)];
@@ -139,7 +145,7 @@ namespace EEMod.Projectiles
             Vector2 pos = Vector2.Zero;
             for (int i = 0; i < Main.projectile.Length; i++)
             {
-                if (Main.projectile[i].type == ModContent.ProjectileType<TennisRachetProj>() && Main.projectile[i].active)
+                if (isRacket(i) && Main.projectile[i].active)
                 {
                     if ((Main.projectile[i].Center - projectile.Center).LengthSquared() < (pos - projectile.Center).LengthSquared())
                     {

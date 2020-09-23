@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
 using Terraria.ModLoader;
+using EEMod.Items;
 
-namespace EEMod.Items
+namespace EEMod.Projectiles.TennisRackets
 {
-    public class TennisRachetProj : ModProjectile
+    public class TennisRacketProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -63,7 +64,7 @@ namespace EEMod.Items
             }
 
             Player player = Main.player[projectile.owner];
-            if (player.inventory[player.selectedItem].type != ModContent.ItemType<TennisRachet>())
+            if (player.inventory[player.selectedItem].type != ModContent.ItemType<TennisRacket>())
             {
                 projectile.Kill();
             }

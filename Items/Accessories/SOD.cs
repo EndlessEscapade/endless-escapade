@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items
+namespace EEMod.Items.Accessories
 {
     [AutoloadEquip(EquipType.Shield)]
     public class SOD : ModItem
@@ -10,7 +10,6 @@ namespace EEMod.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shield Of The Depths");
-            Tooltip.SetDefault("Yeet");
         }
 
         public override void SetDefaults()

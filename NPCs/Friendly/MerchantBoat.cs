@@ -1,4 +1,4 @@
-﻿using EEMod.Items.Placeables.Paintings;
+﻿using EEMod.Items.Placeables.Furniture.Paintings;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;

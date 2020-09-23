@@ -23,7 +23,7 @@ namespace EEMod.Items.Placeables.Furniture.Paintings
             item.width = 12;
             item.height = 12;
 
-            item.createTile = ModContent.TileType<MoonTile>();
+            item.createTile = ModContent.TileType<GuardianOfTheCoralReefsTile>();
         }
     }
 }

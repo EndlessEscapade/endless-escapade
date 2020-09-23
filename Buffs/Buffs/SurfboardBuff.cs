@@ -15,7 +15,7 @@ namespace EEMod.Buffs.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            player.mount.SetMount(ModContent.MountType<Mounts.Surfboard>(), player);
+            player.mount.SetMount(ModContent.MountType<Mounts.SurfboardMount>(), player);
             player.buffTime[buffIndex] = 10;
         }
     }

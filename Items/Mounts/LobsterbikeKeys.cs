@@ -2,7 +2,7 @@ using EEMod.Mounts;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items
+namespace EEMod.Items.Mounts
 {
     public class LobsterbikeKeys : ModItem
     {
