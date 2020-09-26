@@ -349,6 +349,11 @@ namespace EEMod
                     _points.RemoveAt(0);
                 }
             }
+
+            void JellyFishUpdates()
+            {
+
+            }
             public Trail(ITrailCap cap, ITrailShader shader, Projectile projectile)
             {
                 _trailShader = shader;
@@ -358,6 +363,7 @@ namespace EEMod
                 UpdateMethods.Add(DalantiniumPrimUpdates);
                 UpdateMethods.Add(DalantiniumAltPrimUpdates);
                 UpdateMethods.Add(DalantiniumSpikePrimUpdates);
+                UpdateMethods.Add(JellyFishUpdates);
             }
             public void Update()
             {
@@ -419,6 +425,80 @@ namespace EEMod
                     PrepareShader();
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints/3);
                 };
+                void DrawJelly(int noOfPoints)
+                {
+                            Cap = 200;
+                   List<List<List<Vector2>>> tentacle = new List<List<List<Vector2>>>();
+                    for (int b = 0; b < 2; b++)
+                    {
+                        List<List<Vector2>> tempTentA = new List<List<Vector2>>();
+                        for (int a = 0; a < 3; a++)
+                        {
+                            List<Vector2> tempTent = new List<Vector2>();
+                            for (int i = 0; i < 200; i++)
+                            {
+                                tempTent.Add(EEMod.lol1[a, 199 - i, b]);
+                            }
+                            tempTentA.Add(tempTent);
+                        }
+                        tentacle.Add(tempTentA);
+                    }
+                    List<VertexPositionColorTexture[]> vertices2 = new List<VertexPositionColorTexture[]>();
+                    vertices = new VertexPositionColorTexture[noOfPoints];
+                            float width = 5;
+                            float alphaValue = 0.8f;
+                    for (int b = 0; b < tentacle.Count; b++)
+                    {
+                        for (int a = 0; a < tentacle[b].Count; a++)
+                        {
+                            for (int i = 0; i < tentacle[b][a].Count; i++)
+                            {
+                                if (i == 0)
+                                {
+                                    //  Color c = Color.White;
+                                    //  Vector2 normalAhead = CurveNormal(_points, i + 1);
+                                    // Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                                    //  Vector2 secondDown = _points[i + 1] + normalAhead * width;
+                                    //AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    //AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                    //AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                }
+                                else
+                                {
+
+                                    if (i != tentacle[b][a].Count - 1)
+                                    {
+                                        Color c = Color.White * (i / Cap);
+                                        Vector2 normal = CurveNormal(tentacle[b][a], i);
+                                        Vector2 normalAhead = CurveNormal(tentacle[b][a], i + 1);
+                                        float j = (Cap - (i * 0.9f)) / Cap;
+                                        width = (i / Cap) * 5;
+                                        Vector2 firstUp = tentacle[b][a][i] - normal * width;
+                                        Vector2 firstDown = tentacle[b][a][i] + normal * width;
+                                        Vector2 secondUp = tentacle[b][a][i + 1] - normalAhead * width;
+                                        Vector2 secondDown = tentacle[b][a][i + 1] + normalAhead * width;
+
+                                        AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                        AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                        AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+
+                                        AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                        AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                        AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                }
+                            }
+
+                            vertices2.Add(vertices);
+                            PrepareBasicShader();
+                            device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices2[a], 0, noOfPoints / 3);
+                        }
+                    }
+                }
                 DrawPrimDelegate DalantiniumPrims = (int noOfPoints) =>
                 {
                     vertices = new VertexPositionColorTexture[noOfPoints];
@@ -524,6 +604,9 @@ namespace EEMod
                     PrepareBasicShader();
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
+                DrawPrimDelegate JellyfishPrims = (int noOfPoints) =>
+                {
+                };
                 DrawPrimDelegate DalantiniumAltPrims = (int noOfPoints) =>
                 {
                     vertices = new VertexPositionColorTexture[noOfPoints];
@@ -589,6 +672,7 @@ namespace EEMod
                     }
                 }
                 GliderPrims.Invoke((int)Cap * 6 - 12);
+               // DrawJelly((200 * 6 - 12)*6);
             }
             //Helper methods
             private Vector2 CurveNormal(List<Vector2> points, int index)

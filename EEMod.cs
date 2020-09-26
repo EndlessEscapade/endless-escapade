@@ -219,7 +219,7 @@ namespace EEMod
             }
         }
         float counter;
-        Vector2[,,] lol1 = new Vector2[3, 10, 2];
+        public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
         public void UpdateJellyfishTesting()
         {
             Vector2 first = Main.LocalPlayer.Center - new Vector2(0, 300);
@@ -229,12 +229,12 @@ namespace EEMod
             float[] ControlX = new float[6];
             float[] ControlY2 = new float[6];
             float[] ControlX2 = new float[6];
-            float tip = first.Y + 200;
+            float tip = first.Y + 160;
             int diff = 20;
-            int startingdiff = 30;
-            float firstContactPoint = tip - 40;
-            float secondContactPoint = tip - 80;
-                
+            int startingdiff = 60;
+            float firstContactPoint = tip - 100;
+            float secondContactPoint = tip - 20;
+            float accuracy = 200;
                 float asnycPeriod = 0.7f;
                 float accell = ((float)Math.Sin(counter) + 1.4f) / 2f;
                 counter += 0.08f * accell;
@@ -261,31 +261,21 @@ namespace EEMod
                 {
                 if (i < 3)
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < accuracy; j++)
                     {
-                       Vector2 yas = Helpers.TraverseBezier(new Vector2(first.X - i * sep, first.Y), new Vector2(ControlX2[i] - i * sep, ControlY2[i]), new Vector2(ControlX[i] - i * sep, ControlY[i]), new Vector2(lastX[i] - i * sep, lastY[i]), j/100f);
+                        Vector2 yas = Helpers.TraverseBezier(new Vector2(lastX[i] - i * sep, lastY[i]), new Vector2(first.X - i * sep, first.Y), new Vector2(ControlX2[i] - i * sep, ControlY2[i]), new Vector2(ControlX[i] - i * sep, ControlY[i]), j / accuracy);
                         lol1[i,j,0] = yas;
                     }
                 }
                 else
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int j = 0; j < accuracy; j++)
                     {
-                        Vector2 yas = Helpers.TraverseBezier(new Vector2(first.X + (i - 3) * sep, first.Y), new Vector2(ControlX2[i] + (i - 3) * sep, ControlY2[i]), new Vector2(ControlX[i] + (i - 3) * sep, ControlY[i]), new Vector2(lastX[i] + (i - 3) * sep, lastY[i]),j/100f);
-                        lol1[i, j, 1] = yas;
+                        Vector2 yas = Helpers.TraverseBezier(new Vector2(lastX[i] + (i - 3) * sep, lastY[i]), new Vector2(first.X + (i - 3) * sep, first.Y), new Vector2(ControlX2[i] + (i - 3) * sep, ControlY2[i]), new Vector2(ControlX[i] + (i - 3) * sep, ControlY[i]),j/ accuracy);
+                       lol1[i - 3, j, 1] = yas;
                     }
                 }
                 }
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    for (int k = 0; k < 2; k++)
-                    {
-                        Main.spriteBatch.Draw(Main.magicPixel, lol1[i,j,k].ForDraw(),Color.Red);
-                    }
-                }
-            }
         }
 
         public void UpdateGame(GameTime gameTime)
@@ -458,6 +448,7 @@ namespace EEMod
                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         UpdateGame(lastGameTime);
+                        UpdateJellyfishTesting();
                         // UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {
@@ -469,7 +460,6 @@ namespace EEMod
                 }, InterfaceScaleType.UI);
                 layers.Insert(mouseTextIndex, EEInterfaceLayer);
             }
-
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {
                 DrawZipline();
