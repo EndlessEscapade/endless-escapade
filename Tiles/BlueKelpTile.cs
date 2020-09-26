@@ -10,7 +10,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles
 {
-    public class KelpTile : ModTile
+    public class BlueKelpTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -28,9 +28,10 @@ namespace EEMod.Tiles
             minPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<KelpTile>(), ModContent.TileType<LightGemsandTile>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<BlueKelpTile>(), ModContent.TileType<LightGemsandTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
+            animationFrameHeight = 18;
         }
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
@@ -39,7 +40,7 @@ namespace EEMod.Tiles
             {
                 Tile tile = Framing.GetTileSafely(i, j + 1);
                 if (!tile.active()
-                    || tile.type != ModContent.TileType<KelpTile>()
+                    || tile.type != ModContent.TileType<BlueKelpTile>()
                     && tile.type != ModContent.TileType<GemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandTile>()
                     && tile.type != ModContent.TileType<DarkGemsandTile>())
@@ -54,8 +55,24 @@ namespace EEMod.Tiles
             Tile tile = Framing.GetTileSafely(i, j - 1);
             if (!tile.active() && Main.rand.Next(4) == 0)
             {
-                WorldGen.PlaceObject(i, j - 1, ModContent.TileType<KelpTile>());
-                NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<KelpTile>(), 0, 0, -1, -1);
+                WorldGen.PlaceObject(i, j - 1, ModContent.TileType<BlueKelpTile>());
+                NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<BlueKelpTile>(), 0, 0, -1, -1);
+            }
+        }
+
+        int b = Main.rand.Next(0, 9);
+        public override void AnimateTile(ref int frame, ref int frameCounter)
+        {
+            frameCounter++;
+            if (frameCounter >= 6)
+            {
+                b++;
+                if (b >= 8)
+                {
+                    b = 0;
+                }
+                frame = b;
+                frameCounter = 0;
             }
         }
 

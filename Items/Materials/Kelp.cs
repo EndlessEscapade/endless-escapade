@@ -20,7 +20,7 @@ namespace EEMod.Items.Materials
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 18, 0);
             item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<KelpTile>();
+            item.createTile = ModContent.TileType<BlueKelpTile>();
             item.consumable = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTime = 10;

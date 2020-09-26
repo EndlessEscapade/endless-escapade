@@ -811,67 +811,33 @@ namespace EEMod
                 {
                     case 1:
                         if (eePlayer.boatSpeed == 3)
-                        {
                             frameNum = 3;
-                        }
-
                         if (eePlayer.boatSpeed == 1)
-                        {
                             frameNum = 2;
-                        }
-
                         break;
-
                     case 2:
                         if (eePlayer.boatSpeed == 3)
-                        {
                             frameNum = 9;
-                        }
-
                         if (eePlayer.boatSpeed == 1)
-                        {
                             frameNum = 8;
-                        }
-
                         break;
-
                     case 3:
                         if (eePlayer.boatSpeed == 3)
-                        {
                             frameNum = 5;
-                        }
-
                         if (eePlayer.boatSpeed == 1)
-                        {
                             frameNum = 4;
-                        }
-
                         break;
-
                     case 4:
                         if (eePlayer.boatSpeed == 3)
-                        {
                             frameNum = 7;
-                        }
-
                         if (eePlayer.boatSpeed == 1)
-                        {
                             frameNum = 6;
-                        }
-
                         break;
-
                     case 5:
                         if (eePlayer.boatSpeed == 3)
-                        {
                             frameNum = 11;
-                        }
-
                         if (eePlayer.boatSpeed == 1)
-                        {
                             frameNum = 10;
-                        }
-
                         break;
                 }
             }

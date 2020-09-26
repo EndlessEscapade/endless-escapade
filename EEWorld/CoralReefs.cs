@@ -52,7 +52,7 @@ namespace EEMod.EEWorld
                 Tile tile = Framing.GetTileSafely((int)startingPoint.X, (int)startingPoint.Y - i);
                 if (!tile.active())
                 {
-                    tile.type = (ushort)ModContent.TileType<KelpTile>();
+                    tile.type = (ushort)ModContent.TileType<BlueKelpTile>();
                 }
 
                 tile.active(true);
@@ -593,7 +593,7 @@ namespace EEMod.EEWorld
                         }
                         if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(3) && WorldGen.InWorld(i, j))
                         {
-                            int selection = WorldGen.genRand.Next(16);
+                            int selection = WorldGen.genRand.Next(18);
                             switch (selection)
                             {
                                 case 0:
@@ -645,33 +645,28 @@ namespace EEMod.EEWorld
                                     break;
 
                                 case 12:
-                                    switch (WorldGen.genRand.Next(3))
-                                    {
-                                        case 0:
-                                            WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral1>());
-                                            break;
-
-                                        case 1:
-                                            WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral2>());
-                                            break;
-
-                                        case 2:
-                                            WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral3>());
-                                            break;
-                                    }
+                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral1>());
                                     break;
 
                                 case 13:
+                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral2>());
+                                    break;
+
+                                case 14:
+                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<GlowCoral3>());
+                                    break;
+
+                                case 15:
                                     ModContent.GetInstance<GroundGlowCoralTE>().Place(i, j - 13);
                                     WorldGen.PlaceTile(i, j - 13, ModContent.TileType<GroundGlowCoral>());
                                     break;
 
-                                case 14:
+                                case 16:
                                     ModContent.GetInstance<GroundGlowCoral2TE>().Place(i, j - 5);
                                     WorldGen.PlaceTile(i, j - 5, ModContent.TileType<GroundGlowCoral2>());
                                     break;
 
-                                case 15:
+                                case 17:
                                     ModContent.GetInstance<GroundGlowCoral3TE>().Place(i, j - 4);
                                     WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
                                     break;
