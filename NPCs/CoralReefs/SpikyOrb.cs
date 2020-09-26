@@ -9,6 +9,7 @@ using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static EEMod.Tiles.Furniture.OrbHolder;
+using EEMod.Items.Placeables.Ores;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -196,49 +197,32 @@ namespace EEMod.NPCs.CoralReefs
                     otherPhase = false;
                 }
             }
-            else if (otherPhase2)
-            {
-                t += 0.01f;
-                if (t <= 1)
-                {
-                    Vector2 mid = (Holder[0] + Holder[1]) / 2;
-                    npc.Center = Helpers.TraverseBezier(Holder[1], Holder[0], mid - new Vector2(0, 300), mid - new Vector2(0, 300), t);
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, false, true, 0);
-                }
-                else if (t <= 1.3f)
-                {
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, true, false, 10);
-                }
-                else
-                {
-                    Tile tile = Main.tile[(int)(Holder[1].X / 16), (int)(Holder[1].Y / 16)];
-                    int index = ModContent.GetInstance<OrbHolderTE>().Find((int)(Holder[1].X / 16 - tile.frameX / 16), (int)(Holder[1].Y / 16 - tile.frameY / 16));
-                    if (index != -1)
-                    {
-                        OrbHolderTE TE = (OrbHolderTE)TileEntity.ByID[index];
-                        TE.hasOrb = true;
-                    }
-                    t = 0;
-                    otherPhase2 = false;
-                    for (int i = 0; i < 50; i++)
-                    {
-                        Vector2 position = npc.Center + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / 50 * i)) * 30;
-                        //'position' will be a point on a circle around 'origin'.  If you're using this to spawn dust, use Dust.NewDustPerfect
-                        Dust dust = Dust.NewDustPerfect(position, DustID.PurpleCrystalShard);
-                        dust.noGravity = true;
-                        dust.velocity = Vector2.Normalize(dust.position - npc.Center) * 4;
-                        dust.noLight = false;
-                        dust.fadeIn = 1f;
-                    }
-                    npc.life = 0;
-                    npc.timeLeft = 0;
-                }
-            }
             else
             {
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
             }
             isPicking = Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
+
+            if (Helpers.isCollidingWithWall(npc))
+            {
+                npc.life = 0;
+                npc.timeLeft = 0;
+                Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
+                //Gore.NewGorePerfect();
+                Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));
+                switch (Main.rand.Next(3))
+                {
+                    case 0:
+                        Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Sapphire, Main.rand.Next(1, 4));
+                        break;
+                    case 1:
+                        Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Emerald, Main.rand.Next(1, 4));
+                        break;
+                    case 2:
+                        Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Diamond, Main.rand.Next(1, 4));
+                        break;
+                }
+            }
         }
 
         public int size = 128;

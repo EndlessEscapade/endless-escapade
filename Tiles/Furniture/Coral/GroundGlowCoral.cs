@@ -18,8 +18,13 @@ namespace EEMod.Tiles.Furniture.Coral
 
         public override bool ValidTile(int i, int j)
         {
-            Tile tile = Main.tile[i, j];
-            return tile.active();
+            if (WorldGen.InWorld(i, j))
+            {
+                Tile tile = Main.tile[i, j];
+                return tile.active();
+            }
+            else
+                return false;
         }
 
         public override void Update()

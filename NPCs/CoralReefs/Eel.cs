@@ -29,7 +29,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 16;
+            npc.aiStyle = -1;
 
             npc.HitSound = SoundID.NPCHit25;
             npc.DeathSound = SoundID.NPCDeath28;
@@ -47,6 +47,6 @@ namespace EEMod.NPCs.CoralReefs
             npc.lavaImmune = false;
             npc.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
-        }
+        } //hmm.. what to do with eel
     }
 }

@@ -14,34 +14,6 @@ namespace EEMod.NPCs.CoralReefs
             DisplayName.SetDefault("Isopod");
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-
-            EEMod.NoiseSurfacing.Parameters["yCoord"].SetValue(npc.ai[1]);
-            EEMod.NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (npc.ai[0] % 0.5f))) * 4);
-            EEMod.NoiseSurfacing.Parameters["xDis"].SetValue(npc.ai[0] % 0.5f);
-            EEMod.NoiseSurfacing.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
-            EEMod.NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
-            return true;
-        }
-
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            //spriteBatch.End();
-            //spriteBatch.Begin();
-        }
-
-        public override void AI()
-        {
-            npc.ai[0] += 0.002f;
-            if (npc.ai[0] % 0.5f < 0.002f)
-            {
-                npc.ai[1] = Main.rand.NextFloat(0, 1);
-            }
-        }
-
         public override void SetDefaults()
         {
             npc.aiStyle = -1;
@@ -59,11 +31,25 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.noGravity = true;
 
-            npc.buffImmune[BuffID.Confused] = true;
-
             npc.lavaImmune = false;
             npc.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
+        }
+
+
+        public override void AI()
+        {
+            npc.ai[1]++;
+
+            npc.TargetClosest();
+            Player target = Main.player[npc.target];
+            if (npc.ai[1] % 90 == 0)
+            {
+                npc.velocity += Vector2.Normalize(target.Center - npc.Center) * 12;
+            }
+            npc.velocity *= 0.98f;
+
+            npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
         }
     }
 }

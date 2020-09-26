@@ -4,6 +4,8 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using EEMod.Items;
+using System;
+using Terraria.ID;
 
 namespace EEMod.Projectiles.TennisRackets
 {
@@ -56,8 +58,15 @@ namespace EEMod.Projectiles.TennisRackets
         public Vector2 goTo = Main.MouseWorld;
         public int owner;
 
+        private int d = 0;
         public override void AI()
         {
+            d++;
+            if (Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y) > 5 && d % 3 == 0)
+            {
+                Dust dust = Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.Next(-32, 33), Main.rand.Next(-32, 33)), 178);
+                dust.noGravity = true;
+            }
             if (projectile.ai[1] > 0)
             {
                 projectile.ai[1]--;

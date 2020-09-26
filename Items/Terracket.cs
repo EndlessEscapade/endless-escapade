@@ -45,7 +45,7 @@ namespace EEMod.Items
         {
             if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI)
             {
-                proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TennisRacketProj>(), 0, 0f, player.whoAmI);
+                proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TerracketProj>(), 0, 0f, player.whoAmI);
                 yeet = 1;
                 Main.projectile[proj].netUpdate = true;
             }

@@ -366,7 +366,7 @@ namespace EEMod
                             OrbPositions.Add(new Vector2(i, j));
                         }
                     }
-                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type])
+                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type] && j > Main.maxTilesY / 10)
                     {
                         if (ChainConnections.Count == 0)
                         {

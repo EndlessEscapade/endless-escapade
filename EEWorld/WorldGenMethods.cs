@@ -1160,11 +1160,11 @@ namespace EEMod.EEWorld
             Tile tile7 = Framing.GetTileSafely(i - 2, j);
             Tile tile8 = Framing.GetTileSafely(i + 1, j);
             Tile tile9 = Framing.GetTileSafely(i + 2, j);
-            if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active())
+            if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active() && tile1.slope() == 0)
             {
                 return 1;
             }
-            if (tile1.active() && !tile2.active() && !tile3.active() && tile4.active() && tile5.active())
+            if (tile1.active() && !tile2.active() && !tile3.active() && tile4.active() && tile5.active() && tile1.slope() == 0)
             {
                 return 2;
             }
