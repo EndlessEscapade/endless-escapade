@@ -729,6 +729,9 @@ namespace EEMod
             markerPlacer++;
             Player player = Main.LocalPlayer;
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            Main.NewText(position);
+            position.X = MathHelper.Clamp(position.X, Main.screenWidth * 0.6f, Main.screenWidth);
+            position.Y = MathHelper.Clamp(position.Y, 0, Main.screenHeight);
             if (!Main.gamePaused)
             {
                 position += velocity;

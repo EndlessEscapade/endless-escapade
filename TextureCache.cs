@@ -118,10 +118,10 @@ namespace EEMod
         [TextureInit("Tiles/Furniture/Coral/GlowCoral3Glow")]
         public static Texture2D GlowCoral3Glow;
 
-        [TextureInit("Tiles/Furniture/Coral/GlowHangCoral1Glow")]
+        [TextureInit("Tiles/Furniture/Coral/HangingCoral/GlowHangCoral1Glow")]
         public static Texture2D GlowHangCoral1Glow;
 
-        [TextureInit("Tiles/Furniture/Coral/GlowHangCoral2Glow")]
+        [TextureInit("Tiles/Furniture/Coral/HangingCoral/GlowHangCoral2Glow")]
         public static Texture2D GlowHangCoral2Glow;
 
         [TextureInit("NPCs/CoralReefs/GrebyserGlow")]
