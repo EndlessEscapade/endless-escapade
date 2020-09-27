@@ -81,7 +81,7 @@ namespace EEMod.Tiles.Furniture
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(TextureCache.ThermalVentGlow, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/ThermalVentGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }

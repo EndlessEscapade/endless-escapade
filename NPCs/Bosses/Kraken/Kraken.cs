@@ -710,14 +710,14 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = TextureCache.KrakenTentacles;
+            Texture2D texture = EEMod.instance.GetTexture("NPCs/Bosses/Kraken/KrakenTentacles");
             Main.spriteBatch.Draw(texture, npc.spriteDirection == -1 ? npc.Center - Main.screenPosition + new Vector2(texture.Width / 16, -texture.Height / 96) : npc.Center - Main.screenPosition + new Vector2(texture.Width / 16, -texture.Height / 96), seperateFrame, drawColor * tentacleAlpha, tentaclerotation, seperateFrame.Size() / 2 + new Vector2(texture.Width / 16, -texture.Height / 96), npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return true;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = TextureCache.KrakenGlowMask;
+            Texture2D texture = EEMod.instance.GetTexture("NPCs/Bosses/Kraken/KrakenHeadGlowMask");
             Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition, npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 

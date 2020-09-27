@@ -69,6 +69,7 @@ namespace EEMod.Tiles.Furniture
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
+            Texture2D zipline = EEMod.instance.GetTexture("Items/Zipline");
             for (int l = 0; l < 100; l++)
             {
                 if (EEWorld.EEWorld.PylonBegin[l] != default && EEWorld.EEWorld.PylonEnd[l] != default)
@@ -81,14 +82,15 @@ namespace EEMod.Tiles.Furniture
                     //Texture2D texture = TextureCache.Zipline;
                     for (float k = 0; k < 1; k += n)
                     {
-                        Main.spriteBatch.Draw(TextureCache.Zipline, begin + (end - begin) * k - Main.screenPosition + (new Vector2(11.5f, 13.5f) * 16) + new Vector2(8, -8), new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(zipline, begin + (end - begin) * k - Main.screenPosition + new Vector2(11.5f * 16 + 8, 13.5f * 16 - 8), new Rectangle(0, 0, 2, 2), Color.White, (end - begin).ToRotation(), Vector2.One, 1, SpriteEffects.None, 0);
                         //Main.spriteBatch.Draw(texture, begin + endbegindistance * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, ebdistrot, Vector2.One, 1, SpriteEffects.None, 0);
                     }
                 }
             }
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().holdingPylon && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == new Vector2(i, j) * 16 + new Vector2(8, -8))
+            EEPlayer eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            if (eeplayer.holdingPylon && eeplayer.PylonBegin == new Vector2(i, j) * 16 + new Vector2(8, -8))
             {
-                Main.spriteBatch.Draw(TextureCache.Zipline, Main.LocalPlayer.position + Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (Main.LocalPlayer.position - Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin).ToRotation(), new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(zipline, Main.LocalPlayer.position + Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White, (Main.LocalPlayer.position - eeplayer.PylonBegin).ToRotation(), Vector2.One, 1, SpriteEffects.None, 0);
             }
         }
 

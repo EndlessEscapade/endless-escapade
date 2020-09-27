@@ -62,7 +62,7 @@ namespace EEMod.Tiles.Furniture.Coral
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(TextureCache.GlowCoral2Glow, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/GlowCoral2Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }

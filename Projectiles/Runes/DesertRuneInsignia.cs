@@ -6,7 +6,7 @@ namespace EEMod.Projectiles.Runes
 {
     public class DesertRuneInsignia : ModProjectile
     {
-        public override string Texture => TextureCache.Empty.ToString();
+        public override string Texture => EEMod.instance.GetTexture("Empty").ToString();
 
         public override void SetStaticDefaults()
         {

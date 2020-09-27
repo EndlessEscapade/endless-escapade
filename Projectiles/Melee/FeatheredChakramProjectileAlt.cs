@@ -150,10 +150,10 @@ namespace EEMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            //    Main.spriteBatch.Draw(TextureCache.GradientEffect, projectile.Center - Main.screenPosition, new Rectangle(0, 0, TextureCache.Mask1.Width, TextureCache.Mask1.Height), LerpColour * 0.4f, projectile.rotation, new Rectangle(0, 0, TextureCache.GradientEffect.Width, TextureCache.Mask1.Height).Size() / 2, projectile.ai[1] * 0.5f, SpriteEffects.None, 0);
+            //    Main.spriteBatch.Draw(TextureCache.GradientEffect, projectile.Center - Main.screenPosition, new Rectangle(0, 0, EEMod.instance.GetTexture("Masks/Extra_49").Width, EEMod.instance.GetTexture("Masks/Extra_49").Height), LerpColour * 0.4f, projectile.rotation, new Rectangle(0, 0, TextureCache.GradientEffect.Width, EEMod.instance.GetTexture("Masks/Extra_49").Height).Size() / 2, projectile.ai[1] * 0.5f, SpriteEffects.None, 0);
             //  AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[projectile.type], 0, projectile, 1.5f, 1f, 6, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(TextureCache.Mask1, projectile.Center - Main.screenPosition, null, new Color(LerpColour.R, LerpColour.G, LerpColour.B, 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color(LerpColour.R, LerpColour.G, LerpColour.B, 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
             return true;
         }
 

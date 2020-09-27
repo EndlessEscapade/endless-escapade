@@ -63,7 +63,7 @@ namespace EEMod.Projectiles.Ranged
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.spriteBatch.Draw(TextureCache.Extra_49, projectile.Center - Main.screenPosition, null, new Color(97, 215, 248, 0), 0f, new Vector2(50, 50), 0.25f * (float)Math.Sin(projectile.ai[0] / 10) + 0.75f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color(97, 215, 248, 0), 0f, new Vector2(50, 50), 0.25f * (float)Math.Sin(projectile.ai[0] / 10) + 0.75f, SpriteEffects.None, 0f);
             return base.PreDraw(spriteBatch, lightColor);
         }
     }

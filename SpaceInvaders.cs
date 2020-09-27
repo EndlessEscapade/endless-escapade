@@ -10,7 +10,7 @@ namespace EEMod
 {
     public class SpaceInvaders : EEGame
     {
-        public override Texture2D tex => TextureCache.ArcadeBG;
+        public override Texture2D tex => EEMod.instance.GetTexture("EEGameAssets/ArcadeBG");
         public override Vector2 sizeOfMainCanvas => new Vector2(600, 800);
         public override Vector2 centerOfMainCanvas => Main.LocalPlayer.Center;
         public override Color colourOfMainCanvas => Color.White;
@@ -28,7 +28,7 @@ namespace EEMod
                 {1, 0, 0, 1, 0, 0, 1 },
                 {0, 1, 1, 1, 1, 1, 1 }
             },
-            {   
+            {
                 {0, 1, 0, 0, 0, 1, 0 },
                 {0, 0, 1, 0, 1, 0, 0 },
                 {0, 1, 1, 1, 1, 1, 0 },
@@ -61,21 +61,22 @@ namespace EEMod
         public int[] lifeImages = new int[3];
         public override void Initialize()
         {
+            Texture2D SAPlayer = EEMod.instance.GetTexture("EEGameAssets/SAPlayer");
             player = AddUIElement(new Vector2(30, 48), Color.White, centerOfMainCanvas + new Vector2(0, 300));
             //elementArray[puck].AttatchToMouse(16f, i);
             elementArray[player].BindElementToGame(this);
             elementArray[player].AttachCollisionComponents(false, true, false);
-            elementArray[player].BindElementToTexture(TextureCache.SAPlayer);
+            elementArray[player].BindElementToTexture(SAPlayer);
 
             SpawnFormation();
 
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 lifeImages[i] = AddUIElement(new Vector2(30, 48), Color.White, centerOfMainCanvas + new Vector2(-266 + (i * 48), -366));
 
                 elementArray[lifeImages[i]].BindElementToGame(this);
                 elementArray[lifeImages[i]].AttachCollisionComponents(false, false, false);
-                elementArray[lifeImages[i]].BindElementToTexture(TextureCache.SAPlayer);
+                elementArray[lifeImages[i]].BindElementToTexture(SAPlayer);
             }
             time = 0;
             level = 1;
@@ -97,7 +98,7 @@ namespace EEMod
 
                         elementArray[enemy].BindElementToGame(this);
                         elementArray[enemy].AttachCollisionComponents(false, true, false, 1);
-                        elementArray[enemy].BindElementToTexture(TextureCache.SAEnemy);
+                        elementArray[enemy].BindElementToTexture(EEMod.instance.GetTexture("EEGameAssets/SAEnemy"));
                         elementArray[enemy].speedOfStartUp = 8;
                         elementArray[enemy].AttachTag("SAEnemy");
                         elementArray[enemy].velocity.X = 1.5f;
@@ -127,9 +128,9 @@ namespace EEMod
         {
             lives--;
             elementArray[lifeImages[lives + 1]].elementActive = false;
-            foreach(GameElement GE in elementArray)
+            foreach (GameElement GE in elementArray)
             {
-                if(GE != null && GE.tag == "SAEnemy")
+                if (GE != null && GE.tag == "SAEnemy")
                 {
                     GE.elementActive = false;
                     time = 780;
@@ -175,7 +176,7 @@ namespace EEMod
 
                     elementArray[bolt].BindElementToGame(this);
                     elementArray[bolt].AttachCollisionComponents(false, true, false);
-                    elementArray[bolt].BindElementToTexture(TextureCache.SABolt);
+                    elementArray[bolt].BindElementToTexture(EEMod.instance.GetTexture("EEGameAssets/SABolt"));
                     elementArray[bolt].velocity = new Vector2(0, -16);
                     elementArray[bolt].lifetime = 45;
                     elementArray[bolt].friction = 1;

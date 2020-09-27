@@ -469,7 +469,7 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = TextureCache.Akumo;
+            Texture2D texture = EEMod.instance.GetTexture("NPCs/Bosses/Akumo/Akumo");
             //Main.spriteBatch.End();
             //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             //Vector2 drawOrigin = new Vector2(Main.npcTexture[npc.type].Width * 0.5f, npc.height * 0.5f);

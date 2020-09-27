@@ -14,6 +14,12 @@ namespace EEMod.NPCs.CoralReefs
             DisplayName.SetDefault("Isopod");
         }
 
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            //spriteBatch.End();
+            //spriteBatch.Begin();
+        }
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;

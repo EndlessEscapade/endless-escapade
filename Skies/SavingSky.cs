@@ -33,12 +33,12 @@ namespace EEMod.Skies
 
         public void DrawSky()
         {
-            texture2 = TextureCache.NotBleckScren;
+            texture2 = EEMod.instance.GetTexture("NotBleckScren");
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
                 {
-                    texture = TextureCache.DuneShambler;
+                    texture = EEMod.instance.GetTexture("NPCs/DuneShambler");
                     frames = 6;
                     frameSpeed = 15;
                     break;
@@ -46,28 +46,28 @@ namespace EEMod.Skies
 
                 case 1:
                 {
-                    texture = TextureCache.GiantSquid;
+                    texture = EEMod.instance.GetTexture("LoadingScreenImages/GiantSquid");
                     frames = 3;
                     frameSpeed = 30;
                     break;
                 }
                 case 2:
                 {
-                    texture = TextureCache.Clam;
+                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Clam");
                     frames = 3;
                     frameSpeed = 30;
                     break;
                 }
                 case 3:
                 {
-                    texture = TextureCache.Hydros;
+                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Hydros");
                     frames = 8;
                     frameSpeed = 25;
                     break;
                 }
                 case 4:
                 {
-                    texture = TextureCache.Seahorse;
+                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Seahorse");
                     frames = 5;
                     frameSpeed = 20;
                     break;
@@ -89,12 +89,12 @@ namespace EEMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            texture2 = TextureCache.NotBleckScren;
+            texture2 = EEMod.instance.GetTexture("NotBleckScren");
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
                 {
-                    texture = TextureCache.DuneShambler;
+                    texture = EEMod.instance.GetTexture("NPCs/DuneShambler");
                     frames = 6;
                     frameSpeed = 15;
                     break;
@@ -102,28 +102,28 @@ namespace EEMod.Skies
 
                 case 1:
                 {
-                    texture = TextureCache.GiantSquid;
+                    texture = EEMod.instance.GetTexture("LoadingScreenImages/GiantSquid");
                     frames = 3;
                     frameSpeed = 30;
                     break;
                 }
                 case 2:
                 {
-                    texture = TextureCache.Clam;
+                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Clam");
                     frames = 3;
                     frameSpeed = 30;
                     break;
                 }
                 case 3:
                 {
-                    texture = TextureCache.Hydros;
+                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Hydros");
                     frames = 8;
                     frameSpeed = 25;
                     break;
                 }
                 case 4:
                 {
-                    texture = TextureCache.Seahorse;
+                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Seahorse");
                     frames = 5;
                     frameSpeed = 20;
                     break;

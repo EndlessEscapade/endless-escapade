@@ -59,7 +59,7 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D texture = TextureCache.AkumoFeather;
+            Texture2D texture = EEMod.instance.GetTexture("NPCs/Bosses/Akumo/AkumoFeather");
             AfterImage.DrawAfterimage(spriteBatch, texture, 0, projectile, 1.5f, 1f, 2, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
             return true;
         }

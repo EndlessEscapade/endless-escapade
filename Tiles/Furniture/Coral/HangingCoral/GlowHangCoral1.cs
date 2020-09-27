@@ -132,7 +132,7 @@ namespace EEMod.Tiles.Furniture.Coral.HangingCoral
                 color *= (float)Math.Sin(TE.kayLerp) * 0.5f + 0.5f;
                 for (int k = 0; k < 7; k++)
                 {
-                    Main.spriteBatch.Draw(TextureCache.GlowHangCoral1Glow, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/GlowHangCoral1Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
                 }
             }
         }
