@@ -18,8 +18,8 @@ namespace EEMod.Projectiles.TennisRackets
 
         public override void SetDefaults()
         {
-            projectile.width = 114;
-            projectile.height = 50;
+            projectile.width = 134;
+            projectile.height = 56;
             projectile.timeLeft = 600;
             projectile.penetrate = -1;
             projectile.hostile = false;
@@ -33,7 +33,7 @@ namespace EEMod.Projectiles.TennisRackets
         }
 
         private int frame;
-        private readonly int numOfFrames = 8;
+        private readonly int numOfFrames = 7;
 
         public override void SendExtraAI(BinaryWriter writer)
         {
