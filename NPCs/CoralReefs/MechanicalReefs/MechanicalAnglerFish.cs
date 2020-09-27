@@ -107,7 +107,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             {
                 npc.TargetClosest();
                 Player player = Main.player[npc.target];
-                Texture2D LureChain = TextureCache.MechanicalLureChain;
+                Texture2D LureChain = EEMod.instance.GetTexture("Projectiles/Enemy/MechanicalLureChain");
                 float distance = Vector2.Distance(npc.Center, Main.projectile[(int)npc.ai[3]].position) / LureChain.Height;
                 Vector2 pos = npc.position - Main.screenPosition + new Vector2(x: (npc.width / 2) - (LureChain.Width / 2) - 10, y: npc.height / 2);
                 for (int i = 0; i < distance; i++)

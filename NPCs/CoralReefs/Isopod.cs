@@ -14,6 +14,25 @@ namespace EEMod.NPCs.CoralReefs
             DisplayName.SetDefault("Isopod");
         }
 
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            EEMod.NoiseSurfacing.Parameters["yCoord"].SetValue(npc.ai[1]);
+            EEMod.NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (npc.ai[0] % 0.5f))) * 4);
+            EEMod.NoiseSurfacing.Parameters["xDis"].SetValue(npc.ai[0] % 0.5f);
+            EEMod.NoiseSurfacing.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
+            EEMod.NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
+            return true;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            //spriteBatch.End();
+            //spriteBatch.Begin();
+        }
+
         public override void SetDefaults()
         {
             npc.aiStyle = -1;

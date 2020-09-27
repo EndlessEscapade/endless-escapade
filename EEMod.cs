@@ -177,7 +177,7 @@ namespace EEMod
                     if (anchorLerp[i] > 0)
                         anchorLerp[i] -= 0.02f;
                 }
-                Main.spriteBatch.Draw(TextureCache.Anchor, currentPos + new Vector2(0,(float)Math.Sin(markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - TextureCache.Anchor.Width/2f, -80), drawColour * anchorLerp[i]);
+                Main.spriteBatch.Draw(GetTexture("Projectiles/OceanMap/Anchor"), currentPos + new Vector2(0,(float)Math.Sin(markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - EEMod.instance.GetTexture("Projectiles/OceanMap/Anchor").Width/2f, -80), drawColour * anchorLerp[i]);
                 if (modPlayer.quickOpeningFloat > 0.01f)
                 {
                     float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
@@ -215,7 +215,7 @@ namespace EEMod
                 var element = modPlayer.seagulls[i];
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
-                element.Draw(TextureCache.Seagulls, 9, 5);
+                element.Draw(EEMod.instance.GetTexture("Seagulls"), 9, 5);
             }
         }
         float counter;
@@ -536,7 +536,7 @@ namespace EEMod
             for (int i = 0; i < Bubbles.Count; i++)
             {
                 Color drawColour = Lighting.GetColor((int)Bubbles[i].Position.X / 16, (int)Bubbles[i].Position.Y / 16);
-                Main.spriteBatch.Draw(TextureCache.Bob1, Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Bob1"), Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
             }
         }
 
@@ -652,16 +652,16 @@ namespace EEMod
                 text = "Tropical Island";
                 color = Color.GreenYellow * alpha;
             }
-            Texture2D Outline = TextureCache.Outline;
-            Texture2D Screen = TextureCache.OceanScreen;
+            Texture2D Outline = EEMod.instance.GetTexture("Outline");
+            Texture2D Screen = EEMod.instance.GetTexture("OceanScreen");
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
             float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
             if (Main.worldName == KeyID.Sea)
-                Main.spriteBatch.Draw(TextureCache.OceanScreen, (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("OceanScreen"), (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
             if (Main.worldName == KeyID.Sea)
             {
-                Main.spriteBatch.Draw(TextureCache.OceanScreen, (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("OceanScreen"), (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
             }
             else
             {
@@ -779,7 +779,7 @@ namespace EEMod
             }
             velocity.X = Helpers.Clamp(velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             velocity.Y = Helpers.Clamp(velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
-            texture = TextureCache.ShipMount;
+            texture = EEMod.instance.GetTexture("ShipMount");
 
             frames = 12;
             int frameNum = 0;
@@ -881,7 +881,7 @@ namespace EEMod
                 float light = rand * intenstityLightning;
                 Lighting.AddLight(currentLightningPos, light, light, light);
             }
-            Texture2D texture3 = TextureCache.ShipHelth;
+            Texture2D texture3 = EEMod.instance.GetTexture("ShipHelthSheet");
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             //float quotient = ShipHelth / ShipHelthMax; // unused
             Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8);
@@ -952,5 +952,7 @@ namespace EEMod
             recipe.SetResult(ItemID.SlimeStaff, 1);
             recipe.AddRecipe();
         }*/
+
+        internal static Texture2D GetTEExture(string name) => instance.GetTexture(name);
     }
 }

@@ -255,7 +255,7 @@ namespace EEMod.Projectiles.Summons
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float funnySin = (float)Math.Sin(projectileAiCont[0]);
-            Texture2D texture = TextureCache.AkumoMinionGlow;
+            Texture2D texture = EEMod.instance.GetTexture("Projectiles/Summons/AkumoMinionGlow");
             Vector2 funny = projectile.Center.ForDraw();
             Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, projectile.Center, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
             Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, 10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, projectile.Center, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);

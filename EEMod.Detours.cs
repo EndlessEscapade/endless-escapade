@@ -253,11 +253,11 @@ namespace EEMod
 
                 velocity = Vector2.Zero;
                 Main.numClouds = 0;
-                Main.logo2Texture = TextureCache.Empty;
-                Main.logoTexture = TextureCache.Empty;
-                Main.sun2Texture = TextureCache.Empty;
-                Main.sun3Texture = TextureCache.Empty;
-                Main.sunTexture = TextureCache.Empty;
+                Main.logo2Texture = EEMod.instance.GetTexture("Empty");
+                Main.logoTexture = EEMod.instance.GetTexture("Empty");
+                Main.sun2Texture = EEMod.instance.GetTexture("Empty");
+                Main.sun3Texture = EEMod.instance.GetTexture("Empty");
+                Main.sunTexture = EEMod.instance.GetTexture("Empty");
 
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null)
                 {
@@ -558,7 +558,7 @@ namespace EEMod
                         Vector2 textSize2 = Main.fontMouseText.MeasureString(progressMessage);
                         float textPosition2Left = Main.screenWidth / 2 - textSize2.X / 2;
 
-                        Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage.ToString(), new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                        Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage, new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                     }
 
                     float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
@@ -581,11 +581,11 @@ namespace EEMod
                         SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
                     }
 
-                    Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
-                    Main.logoTexture = TextureCache.Terraria_LogoTexture;
-                    Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
-                    Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
-                    Main.sunTexture = TextureCache.Terraria_SunTexture;
+                    Main.logo2Texture = ModContent.GetTexture("Terraria/Logo2");
+                    Main.logoTexture = ModContent.GetTexture("Terraria/Logo");
+                    Main.sun2Texture = ModContent.GetTexture("Terraria/Sun2");
+                    Main.sun3Texture = ModContent.GetTexture("Terraria/Sun3");
+                    Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
                 }
             }
         }
@@ -604,14 +604,14 @@ namespace EEMod
                     SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
                 }
 
-                Main.logo2Texture = TextureCache.Terraria_Logo2Texture;
-                Main.logoTexture = TextureCache.Terraria_LogoTexture;
-                Main.sun2Texture = TextureCache.Terraria_Sun2Texture;
-                Main.sun3Texture = TextureCache.Terraria_Sun3Texture;
-                Main.sunTexture = TextureCache.Terraria_SunTexture;
+                Main.logo2Texture = ModContent.GetTexture("Terraria/Logo2");
+                Main.logoTexture = ModContent.GetTexture("Terraria/Logo");
+                Main.sun2Texture = ModContent.GetTexture("Terraria/Sun2");
+                Main.sun3Texture = ModContent.GetTexture("Terraria/Sun3");
+                Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
             }
 
-            Main.sunTexture = TextureCache.Empty;
+            Main.sunTexture = EEMod.instance.GetTexture("Empty");
 
             orig(self, gameTime);
         }

@@ -101,7 +101,7 @@ namespace EEMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if(projectile.ai[0] >= 30)
-                Main.spriteBatch.Draw(TextureCache.Extra_49, projectile.Center - Main.screenPosition, null, new Color(97, 215, 248, 0) * MathHelper.Clamp(nearbyProjectiles / 3, 1, 1.5f), 0f, new Vector2(50, 50), (projectile.ai[1]/32), SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color(97, 215, 248, 0) * MathHelper.Clamp(nearbyProjectiles / 3, 1, 1.5f), 0f, new Vector2(50, 50), (projectile.ai[1]/32), SpriteEffects.None, 0f);
             return base.PreDraw(spriteBatch, lightColor);
         }
     }

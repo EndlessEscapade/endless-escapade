@@ -102,7 +102,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(TextureCache.MechanicalSharkGlow, npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(EEMod.instance.GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalSharkGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

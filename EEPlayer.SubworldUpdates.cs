@@ -325,7 +325,7 @@ namespace EEMod
 
             if (importantCutscene)
             {
-                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(TextureCache.Noise);
+                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
                 Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
 
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
