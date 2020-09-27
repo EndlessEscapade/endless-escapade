@@ -161,7 +161,7 @@ namespace EEMod
         public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, int frame, int noOfFrames, int frameDiff)
         {
             int yeet = 0;
-            for (float i = 0; i <= 1; i += chainsPerUse)
+            for (float i = 0; i < 1; i += chainsPerUse)
             {
                 yeet += frameDiff;
                 Vector2 distBetween;
