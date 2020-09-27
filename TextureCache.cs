@@ -81,6 +81,7 @@ namespace EEMod
         public static Texture2D SAEnemy;
         public static Texture2D SABolt;
         public static Texture2D ArcadeBG;
+        public static Texture2D BlueKelpTile;
 
         [TextureInit("Projectiles/Summons/AkumoMinionGlow")]
         public static Texture2D AkumoMinionGlow;
@@ -168,6 +169,7 @@ namespace EEMod
         public static void Load()
         {
             Mod mod = EEMod.instance;
+            BlueKelpTile = mod.GetTexture("Tiles/BlueKelpTile");
             Seagulls = mod.GetTexture("Seagulls");
             OceanScreen = mod.GetTexture("OceanScreen");
             Bob1 = mod.GetTexture("Bob1");
@@ -240,6 +242,7 @@ namespace EEMod
         [UnloadingMethod]
         public static void Unload()
         {
+            BlueKelpTile = null;
             Anchor = null;
             Kappa = null;
             Seagulls = null;
