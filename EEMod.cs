@@ -952,7 +952,5 @@ namespace EEMod
             recipe.SetResult(ItemID.SlimeStaff, 1);
             recipe.AddRecipe();
         }*/
-
-        internal static Texture2D GetTEExture(string name) => instance.GetTexture(name);
     }
 }
