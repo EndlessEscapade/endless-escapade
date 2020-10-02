@@ -9,14 +9,14 @@ namespace EEMod.Items.Armor.DevSets.Exitium
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exitium's Fabulous Shirt");
-            Tooltip.SetDefault("'To know your Enemy, you must become your Enemy.'");
+            DisplayName.SetDefault("Exitium's Shirt");
+            Tooltip.SetDefault("'Who wishes to fight must first count the cost.'\n'Great for impersonating mod devs!'");
         }
 
         public override void SetDefaults()
         {
             item.width = 30;
-            item.height = 22;
+            item.height = 20;
             item.rare = ItemRarityID.Cyan;
             item.vanity = true;
         }
@@ -28,16 +28,6 @@ namespace EEMod.Items.Armor.DevSets.Exitium
             player.armorEffectDrawShadowLokis = true;
             player.armorEffectDrawShadowBasilisk = true;
             player.armorEffectDrawShadowEOCShield = true;
-        }
-
-        public override bool DrawBody()
-        {
-            return false;
-        }
-
-        public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
-        {
-            drawHair = false;
         }
     }
 }
