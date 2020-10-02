@@ -788,7 +788,7 @@ namespace EEMod.EEWorld
                     }
                     else
                     {
-                        if (WorldGen.InWorld(i, j) && WorldGen.genRand.NextBool(4))
+                        if (WorldGen.InWorld(i, j) && !WorldGen.genRand.NextBool(5))
                         {
                             int selection;
                             switch (TileCheck2(i, j))
