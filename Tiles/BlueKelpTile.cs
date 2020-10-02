@@ -87,8 +87,12 @@ namespace EEMod.Tiles
             Vector2 lerp = Vector2.Lerp(pos,end,0.5f);
             float dist = (end - pos).Length();
             Texture2D tex = EEMod.instance.GetTexture("Tiles/BlueKelpTile");
+
+
             int noOfFrames = 10;
             int frame = (int)((Main.time / 10f + j*i) % noOfFrames);
+
+
             if (Main.tileSolid[tile.type] && tile.active())
             {
                 Helpers.DrawBezier(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2)) / dist, 0f,frame,noOfFrames,3);

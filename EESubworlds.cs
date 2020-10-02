@@ -96,7 +96,7 @@ namespace EEMod
                             breakLoop++;
                             score = 0;
                             randPosX = Main.rand.Next((int)roomsLeft[i - 1].X - distance, (int)roomsLeft[i - 1].X + distance);
-                            randPosY = Main.rand.Next((int)roomsLeft[i - 1].Y - distance, (int)roomsLeft[i - 1].Y + distance);
+                            randPosY = MathHelper.Clamp(Main.rand.Next((int)roomsLeft[i - 1].Y - distance, (int)roomsLeft[i - 1].Y + distance), Main.maxTilesY/10, Main.maxTilesY);
                             float f = sizeOfChasm * 1.6f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
@@ -140,7 +140,7 @@ namespace EEMod
                             breakLoop++;
                             score = 0;
                             randPosX = Main.rand.Next((int)roomsRight[i - 1].X - distance, (int)roomsRight[i - 1].X + distance);
-                            randPosY = Main.rand.Next((int)roomsRight[i - 1].Y - distance, (int)roomsRight[i - 1].Y + distance);
+                            randPosY = MathHelper.Clamp(Main.rand.Next((int)roomsRight[i - 1].Y - distance, (int)roomsRight[i - 1].Y + distance), Main.maxTilesY / 10, Main.maxTilesY); ;
                             float f = sizeOfChasm * 1.6f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
@@ -305,7 +305,7 @@ namespace EEMod
                 }
 
                 //Placing water and etc
-                KillWall(1000, 1000, Vector2.Zero);
+                KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
                 //Lower reefs stuffs
