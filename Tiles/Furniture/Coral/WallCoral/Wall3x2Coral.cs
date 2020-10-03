@@ -23,7 +23,7 @@ namespace EEMod.Tiles.Furniture.Coral.WallCoral
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorLeft = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            //TileObjectData.newTile.RandomStyleRange = 2;
+            TileObjectData.newTile.RandomStyleRange = 2;
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
@@ -45,7 +45,7 @@ namespace EEMod.Tiles.Furniture.Coral.WallCoral
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorRight = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            //TileObjectData.newTile.RandomStyleRange = 2;
+            TileObjectData.newTile.RandomStyleRange = 2;
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));

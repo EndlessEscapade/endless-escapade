@@ -9,8 +9,8 @@ namespace EEMod.Items.Armor.DevSets.Exitium
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Exitium's Fabulous Pants");
-            Tooltip.SetDefault("'Even the finest sword plunged into salt water will eventually rust.'");
+            DisplayName.SetDefault("Exitium's Pants");
+            Tooltip.SetDefault("'Even the finest sword plunged into salt water will eventually rust.'\n'Great for impersonating mod devs!'");
         }
 
         public override void SetDefaults()

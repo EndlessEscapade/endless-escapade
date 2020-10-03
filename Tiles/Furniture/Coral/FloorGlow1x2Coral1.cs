@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
-    public class Floor1x2Coral : ModTile
+    public class FloorGlow1x2Coral1 : ModTile
     {
         public override void SetDefaults()
         {
@@ -27,26 +27,37 @@ namespace EEMod.Tiles.Furniture.Coral
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorTop = default;
-            TileObjectData.newTile.RandomStyleRange = 7;
-            TileObjectData.newTile.DrawFlipHorizontal = true;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
         }
 
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 0.9f;
+            g = 0.9f;
+            b = 0.9f;
+        }
+
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Tile tile = Main.tile[i, j];
+            Color color = Color.White;
+            int frameX = Main.tile[i, j].frameX;
+            int frameY = Main.tile[i, j].frameY;
+            const int width = 20;
+            const int offsetY = 2;
+            const int height = 20;
+            const int offsetX = 2;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
                 zero = Vector2.Zero;
             }
-            int height = tile.frameY == 36 ? 18 : 16;
-            //  Main.spriteBatch.Draw(Main.tileTexture[tile.type], new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero, new Rectangle(tile.frameX, tile.frameY, 16, height), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-        }
-
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
+            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero;
+            Rectangle rect = new Rectangle(frameX, frameY, width, height);
+            for (int k = 0; k < 7; k++)
+            {
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/FloorGlow1x2Coral1"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
-    public class GlowCoral1 : ModTile
+    public class FloorGlow2x2Coral2 : ModTile
     {
         public override void SetDefaults()
         {
@@ -35,13 +35,9 @@ namespace EEMod.Tiles.Furniture.Coral
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            Tile tile = Main.tile[i, j];
-            if (tile.frameX < 18)
-            {
-                r = 0.9f;
-                g = 0.9f;
-                b = 0.9f;
-            }
+            r = 0.9f;
+            g = 0.9f;
+            b = 0.9f;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
@@ -62,7 +58,7 @@ namespace EEMod.Tiles.Furniture.Coral
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/GlowCoral1Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/FloorGlow2x2Coral2Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }
