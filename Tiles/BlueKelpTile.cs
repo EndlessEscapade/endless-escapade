@@ -32,7 +32,7 @@ namespace EEMod.Tiles
             TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<BlueKelpTile>(), ModContent.TileType<LightGemsandTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
-            animationFrameHeight = 16;
+            animationFrameHeight = 18;
         }
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
@@ -50,7 +50,7 @@ namespace EEMod.Tiles
             }
         }
 
-        int b = Main.rand.Next(0, 10);
+        int b = Main.rand.Next(0, 9);
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             frameCounter++;
@@ -65,37 +65,26 @@ namespace EEMod.Tiles
                 frameCounter = 0;
             }
         }
-
-
-        private int height = Main.rand.Next(1, 150);
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Tile tile = Framing.GetTileSafely(i, j + 1);
             if (WorldGen.InWorld(i, j))
             {
                 if (!tile.active()
-                    || tile.type != ModContent.TileType<GemsandTile>()
+                    || tile.type != ModContent.TileType<BlueKelpTile>()
+                    && tile.type != ModContent.TileType<GemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandTile>()
                     && tile.type != ModContent.TileType<DarkGemsandTile>())
                 {
                     WorldGen.KillTile(i, j);
                 }
             }
-
-            if (Main.rand.NextBool())
-            {
-                height+=1;
-            }
-
-            height = Helpers.Clamp(height, 1, 300);
-
             if (!Main.tileSolid[tile.type])
                 return false;
             Vector2 pos = new Vector2((i+12) * 16, (j + 14) * 16);
-            Vector2 sprout = new Vector2((float)(Math.Sin(Main.time / (Helpers.Clamp(height/3, 60, 120)) + i) * 20), 10 * (i * j % 10) + height);
-            sprout = new Vector2((float)(Math.Sin(Main.time / 60f + i) * 20), 30 * (i * j % 10) + 50);
+            Vector2 sprout = new Vector2((float)(Math.Sin(Main.time / 60f + i) * 20), 30 * (i * j % 10) + 50);
             Vector2 end = pos - sprout;
-            Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
+            Vector2 lerp = Vector2.Lerp(pos,end,0.5f);
             float dist = (end - pos).Length();
             Texture2D tex = EEMod.instance.GetTexture("Tiles/BlueKelpTile");
 
@@ -106,9 +95,7 @@ namespace EEMod.Tiles
 
             if (Main.tileSolid[tile.type] && tile.active())
             {
-                Helpers.DrawBezier(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - (height/2)), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2)) / dist, 0f,frame,noOfFrames,3);
                 Helpers.DrawBezier(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, 0f,frame,noOfFrames,3);
-
             }
             return false;
         }
