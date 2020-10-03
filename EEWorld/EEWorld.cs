@@ -16,8 +16,6 @@ namespace EEMod.EEWorld
 {
     public partial class EEWorld : ModWorld
     {
-        //public static bool GenkaiMode;
-
         public int minionsKilled;
         public static EEWorld instance => ModContent.GetInstance<EEWorld>();
         public static bool downedTalos;
