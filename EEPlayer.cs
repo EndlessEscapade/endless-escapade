@@ -138,6 +138,10 @@ namespace EEMod
 
         public override void PostUpdate()
         {
+            if (player.wet)
+            {
+                player.fullRotation = player.velocity.ToRotation() + (float)Math.PI / 2f;
+            }
         }
 
         public override void UpdateBiomes()
