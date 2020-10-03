@@ -87,6 +87,7 @@ namespace EEMod
             UnloadDetours();
             AutoloadingManager.UnloadManager(this);
             instance = null;
+            Noise2DShift = null;
         }
 
        
@@ -222,6 +223,7 @@ namespace EEMod
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
         public void UpdateJellyfishTesting()
         {
+
             Vector2 first = Main.LocalPlayer.Center - new Vector2(0, 300);
             float[] lastX = new float[6];
             float[] lastY = new float[6];
@@ -432,8 +434,10 @@ namespace EEMod
 
         private GameTime lastGameTime;
         public UserInterface EEInterface;
+        float sineInt;
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
+            sineInt += 0.003f;
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             OnModifyInterfaceLayers?.Invoke(layers, mouseTextIndex, lastGameTime);
             if (mouseTextIndex != -1)
@@ -448,7 +452,20 @@ namespace EEMod
                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
                         UpdateGame(lastGameTime);
-                        UpdateJellyfishTesting();
+                        //   UpdateJellyfishTesting();
+                        Main.spriteBatch.End();
+                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                        Noise2DShift.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
+                        Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt)*0.2f);
+                        Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt)* 0.2f);
+
+                        Noise2DShift.CurrentTechnique.Passes[0].Apply();
+
+                        Vector2 position = Main.MouseWorld;
+
+                        Main.spriteBatch.Draw(instance.GetTexture("CoralTreeBall"), position.ForDraw(), Color.White * 0);
+                        Main.spriteBatch.End();
+                        Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
                         // UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {

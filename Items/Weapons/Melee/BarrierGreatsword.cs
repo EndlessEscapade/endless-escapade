@@ -11,7 +11,10 @@ namespace EEMod.Items.Weapons.Melee
         {
             DisplayName.SetDefault("Barrier Greatsword");
         }
-
+        public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
+        {
+            target.AddBuff(BuffID.Ichor, 120);
+        }
         public override void SetDefaults()
         {
             item.damage = 20;
