@@ -21,7 +21,7 @@ namespace EEMod.Tiles.Furniture.Coral.HangingCoral
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.RandomStyleRange = 2;
+            TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.CoordinateHeights = new int[]

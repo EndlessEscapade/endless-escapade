@@ -279,7 +279,7 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 3:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: 1);
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(3));
                                                         break;
                                                     case 4:
                                                         ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
@@ -738,7 +738,7 @@ namespace EEMod.EEWorld
                                                             break;
 
                                                         case 3:
-                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(2));
+                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(3));
                                                             break;
                                                     }
                                                     break;
@@ -795,7 +795,7 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 2:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(2));
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(3));
                                                         break;
                                                 }
                                                 break;
