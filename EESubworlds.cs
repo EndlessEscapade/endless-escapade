@@ -404,6 +404,14 @@ namespace EEMod
             {
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
+                    
+
+                }
+            }
+             for (int j = 42; j < Main.maxTilesY - 42; j++)
+              {
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                {
                     int noOfTiles = 0;
                     if (j > 200)
                     {
@@ -427,28 +435,6 @@ namespace EEMod
                         if (noOfTiles == 0)
                         {
                             OrbPositions.Add(new Vector2(i, j));
-                        }
-                        noOfTiles = 0;
-                        for (int k = -5; k < 5; k++)
-                        {
-                            for (int l = -5; l < 5; l++)
-                            {
-                                if (Main.tile[i + k, j + l].active())
-                                {
-                                    noOfTiles++;
-                                }
-                            }
-                        }
-                        for (int m = 0; m < OrbPositions.Count; m++)
-                        {
-                            if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
-                            {
-                                noOfTiles += 6;
-                            }
-                        }
-                        if (noOfTiles <= 5)
-                        {
-                            BulbousTreePosition.Add(new Vector2(i, j));
                         }
                     }
                     if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type] && j > Main.maxTilesY / 10)

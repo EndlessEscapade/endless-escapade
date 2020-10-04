@@ -606,7 +606,7 @@ namespace EEMod
                     break;
                 }
             }
-            Main.NewText(minibiome);
+          //  Main.NewText(minibiome);
 
             if (playingGame)
             {
