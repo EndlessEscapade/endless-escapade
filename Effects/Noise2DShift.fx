@@ -47,7 +47,6 @@ float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
         float b = 1 - distance(float2(0.5f, 0.5f),coords)*1.6f;
         colour = float4(0, 0, b, b);
     }
-
     return colour;
 }
 
