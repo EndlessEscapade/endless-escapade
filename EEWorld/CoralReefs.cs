@@ -688,7 +688,7 @@ namespace EEMod.EEWorld
 
                                 #region Bulbous Grove
                                 case 4: //Bulbous Grove(Round/circular/bulbous coral/plants)
-                                    if (!WorldGen.genRand.NextBool(4))
+                                    if (WorldGen.genRand.NextBool())
                                     {
                                         switch (TileCheck2(i, j))
                                         {
