@@ -158,17 +158,26 @@ namespace EEMod.EEWorld
                             if (j > 200)
                             {
                                 int noOfTiles = 0;
-
+                                for (int k = -6; k < 6; k++)
+                                {
+                                    for (int l = -6; l < 6; l++)
+                                    {
+                                        if (Main.tile[i + k, j + l].active())
+                                        {
+                                            noOfTiles++;
+                                        }
+                                    }
+                                }
                                 for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
                                 {
-                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 80 * 80)
+                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 50 * 50)
                                     {
                                         noOfTiles += 5;
                                     }
                                 }
                                 for (int m = 0; m < EESubWorlds.OrbPositions.Count; m++)
                                 {
-                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 80 * 80)
+                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 50 * 50)
                                     {
                                         noOfTiles += 5;
                                     }
