@@ -81,9 +81,9 @@ namespace EEMod.Tiles
             if (!Main.tileSolid[tile.type])
                 return false;
             Vector2 pos = new Vector2((i+12) * 16, (j + 14) * 16);
-            Vector2 sprout = new Vector2((float)(Math.Sin(Main.time / 60f + i) * 20), 10 * (i * j % 10) + 200);
+            Vector2 sprout = new Vector2((float)(Math.Sin(Main.time / 60f + i) * 20), 30 * (i * j % 10) + 50);
             Vector2 end = pos - sprout;
-            Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
+            Vector2 lerp = Vector2.Lerp(pos,end,0.5f);
             float dist = (end - pos).Length();
             Texture2D tex = EEMod.instance.GetTexture("Tiles/GreenKelpTile");
 
@@ -94,7 +94,7 @@ namespace EEMod.Tiles
 
             if (Main.tileSolid[tile.type] && tile.active())
             {
-                Helpers.DrawBezier(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2)) / dist, 0f,frame,noOfFrames,3);
+                Helpers.DrawBezier(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, 0f,frame,noOfFrames,3);
             }
             return false;
         }

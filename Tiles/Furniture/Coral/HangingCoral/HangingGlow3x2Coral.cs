@@ -1,35 +1,42 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.Tiles.Furniture.Coral
+namespace EEMod.Tiles.Furniture.Coral.HangingCoral
 {
-    public class FloorGlow1x2Coral1 : ModTile
+    public class HangingGlow3x2Coral : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
+            TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 1, 1);
+            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.newTile.Height = 2;
-            TileObjectData.newTile.Width = 1;
-            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.Width = 3;
+            TileObjectData.newTile.UsesCustomCanPlace = true;
+            TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.CoordinateHeights = new int[]
             {
                 16,
                 16
             };
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.AnchorTop = default;
+
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(120, 85, 60));
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Coral Lamp");
+            AddMapEntry(new Color(0, 100, 200), name);
+            dustType = DustID.Dirt;
         }
+
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
@@ -56,7 +63,7 @@ namespace EEMod.Tiles.Furniture.Coral
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/FloorGlow1x2Coral1Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/HangingGlow2x4CoralGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }

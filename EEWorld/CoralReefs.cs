@@ -263,7 +263,7 @@ namespace EEMod.EEWorld
                                         switch (TileCheck2(i, j))
                                         {
                                             case 1:
-                                                selection = WorldGen.genRand.Next(4);
+                                                selection = WorldGen.genRand.Next(5);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -280,6 +280,10 @@ namespace EEMod.EEWorld
 
                                                     case 3:
                                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: 1);
+                                                        break;
+                                                    case 4:
+                                                        ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
                                                         break;
                                                 }
                                                 break;
@@ -443,12 +447,13 @@ namespace EEMod.EEWorld
                                     break;
                                 #endregion
 
+                                #region Kelp Forest
                                 case 1: //Kelp Forest (Glowing Kelp/Greencoral)
                                     if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(6))
                                     {
                                         if (!WorldGen.genRand.NextBool(4))
                                         {
-                                            WorldGen.PlaceTile(i, j - 1, ModContent.TileType<BlueKelpTile>());
+                                            WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
                                         }
                                         else if (!Main.rand.NextBool(6))
                                         {
@@ -496,26 +501,30 @@ namespace EEMod.EEWorld
                                             }
                                         }
                                     }
-                                    if (TileCheck2(i, j) == 1 && !WorldGen.genRand.NextBool(6))
+                                    if (TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(6))
                                     {
                                         ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                     }
                                     break;
+                                #endregion
 
-
-
+                                #region The Great Anemone
                                 case 2: //Anemone(A massive anemone throughout the minibiome that electrocutes the player on contact, coral fans)
                                     if (!WorldGen.genRand.NextBool(6))
                                     {
                                         switch (TileCheck2(i, j))
                                         {
                                             case 2:
-                                                selection = 0; // WorldGen.genRand.Next(1);
+                                                selection = WorldGen.genRand.Next(2); // WorldGen.genRand.Next(1);
                                                 switch (selection)
                                                 {
                                                     case 0:
                                                         WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor4x3Coral>());
+                                                        break;
+
+                                                    case 1:
+                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor3x3Coral>(), style: 1);
                                                         break;
                                                 }
                                                 break;
@@ -572,9 +581,9 @@ namespace EEMod.EEWorld
                                         }
                                     }
                                     break;
+                                #endregion
 
-
-
+                                #region Jellyfish Caverns
                                 case 3: //Jellyfish Caverns(More hanging coral/longer hanging coral)
                                     if (!WorldGen.genRand.NextBool(6))
                                     {
@@ -628,17 +637,31 @@ namespace EEMod.EEWorld
                                         break;
                                     }
                                     break;
+                                #endregion
 
-
-
+                                #region Bulbous Grove
                                 case 4: //Bulbous Grove(Round/circular/bulbous coral/plants)
-                                    if (!WorldGen.genRand.NextBool(6))
+                                    if (!WorldGen.genRand.NextBool(4))
                                     {
                                         switch (TileCheck2(i, j))
                                         {
                                             case 1:
-                                                ModContent.GetInstance<HangingCoral7TE>().Place(i, j + 1);
-                                                WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral7>());
+                                                selection = WorldGen.genRand.Next(3);
+                                                switch (selection)
+                                                {
+                                                    case 0:
+                                                        ModContent.GetInstance<HangingCoral7TE>().Place(i, j + 1);
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral7>());
+                                                        break;
+
+                                                    case 1:
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingGlow2x4Coral>());
+                                                        break;
+
+                                                    case 2:
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingGlow3x2Coral>());
+                                                        break;
+                                                }
                                                 break;
                                             case 2:
                                                 selection = WorldGen.genRand.Next(7);
@@ -671,14 +694,22 @@ namespace EEMod.EEWorld
                                                     case 6:
                                                         WorldGen.PlaceTile(i, j - 3, ModContent.TileType<WideBulbousCoral>());
                                                         break;
+
+                                                    case 7:
+                                                        WorldGen.PlaceTile(i, j - 4, ModContent.TileType<FloorGlow4x4Coral>());
+                                                        break;
+
+                                                    case 8:
+                                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<FloorGlow2x1Coral>());
+                                                        break;
                                                 }
                                                 break;
                                         }
                                     }
                                     break;
+                                #endregion
 
-
-
+                                #region Thermal Vents
                                 case 5: //Thermal Vents(Thermal Vents-Thermal Vents and larger coral, more coral stacks)
                                     if (!WorldGen.genRand.NextBool(6))
                                     {
@@ -743,7 +774,9 @@ namespace EEMod.EEWorld
                                         break;
                                     }
                                     break;
+                                #endregion
 
+                                #region Subterranean Waters
                                 case 6: //Subterranean Waters(Thinner, taller coral)
                                     if (!WorldGen.genRand.NextBool(5))
                                     {
@@ -785,6 +818,7 @@ namespace EEMod.EEWorld
                                         break;
                                     }
                                     break;
+                                    #endregion
                             }
                         }
                     }

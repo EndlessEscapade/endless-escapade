@@ -140,7 +140,7 @@ namespace EEMod
         {
             if (player.wet)
             {
-                player.fullRotation = player.velocity.ToRotation() + (float)Math.PI / 2f;
+                //player.fullRotation = player.velocity.ToRotation() + (float)Math.PI / 2f;
             }
         }
 
@@ -597,6 +597,17 @@ namespace EEMod
         public bool playingGame;
         public override void UpdateBiomeVisuals()
         {
+            int minibiome = 0;
+            for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
+            {
+                if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(player.Center.X / 16, player.Center.Y / 16)) < (220 * 220) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                {
+                    minibiome = (int)EESubWorlds.MinibiomeLocations[k].Z;
+                    break;
+                }
+            }
+            Main.NewText(minibiome);
+
             if (playingGame)
             {
                 player.velocity = Vector2.Zero;

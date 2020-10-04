@@ -71,8 +71,7 @@ namespace EEMod.Tiles
             if (WorldGen.InWorld(i, j))
             {
                 if (!tile.active()
-                    || tile.type != ModContent.TileType<BlueKelpTile>()
-                    && tile.type != ModContent.TileType<GemsandTile>()
+                    || tile.type != ModContent.TileType<GemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandTile>()
                     && tile.type != ModContent.TileType<DarkGemsandTile>())
                 {

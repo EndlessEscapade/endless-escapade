@@ -130,10 +130,10 @@ namespace EEMod
                          || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 220 * 220);
                         roomsLeft[i] = new Vector2(randPosX, randPosY);
                     }
-                    int biome = WorldGen.genRand.Next(0, 3);
+                    int biome = WorldGen.genRand.Next(4);
                     if((int)roomsLeft[i].Y > 800 && biome != 0)
                         biome += 3;
-                    MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(0, 3));
+                    MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(4));
                     MinibiomeLocations.Add(new Vector3((int)roomsLeft[i].X, (int)roomsLeft[i].Y, biome));
                     if (i != 0)
                     {
@@ -348,6 +348,30 @@ namespace EEMod
                 //Placing water and etc
                 KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
+
+
+
+                perlinNoise = new PerlinNoiseFunction((int)size.X, (int)(Main.maxTilesY * 0.9f), 1, 1, 0.7f);
+                int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+                for (int i = 0; i < Main.maxTilesY * 9 / 10; i++)
+                {
+                    for (int j = Main.maxTilesY / 10; j < Main.maxTilesY; j++)
+                    {
+                        //Tile tile = Framing.GetTileSafely(i, j);
+                        if (perlinNoiseFunction[i, j - (Main.maxTilesY / 10)] == 1)
+                        {
+                            int type;
+                            switch((int)Main.tile[i, j - (Main.maxTilesY / 10)].type)
+                            {
+                                case ModContent.TileType<LightGemsandTile>():
+                                    type = ModContent.TileType<LightGemsandstoneTile>();
+                                    break;
+
+                            }
+                            WorldGen.PlaceTile(i, j, type);
+                        }
+                    }
+                }
 
                 //Final polishing
                 EEMod.progressMessage = "Placing Corals";

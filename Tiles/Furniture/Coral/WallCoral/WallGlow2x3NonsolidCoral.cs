@@ -51,7 +51,7 @@ namespace EEMod.Tiles.Furniture.Coral.WallCoral
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero;
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
-            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/WallGlow2x3NonsolidCoralLGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/WallCoral/WallGlow2x3NonsolidCoralLGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }
 
@@ -98,7 +98,7 @@ namespace EEMod.Tiles.Furniture.Coral.WallCoral
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero;
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
-            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/WallGlow2x3NonsolidCoralRGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/WallCoral/WallGlow2x3NonsolidCoralRGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }
 }
