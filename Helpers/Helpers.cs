@@ -174,7 +174,7 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
-        public static void DrawBezier(Texture2D headTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, float addonPerUse, float rotDis = 0f, bool alphaBlend = false, float scale = 1, bool emitsDust = false)
+        public static void DrawBezier(Texture2D headTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, float addonPerUse, float rotDis = 0f, bool alphaBlend = false, float scale = 1, bool emitsDust = false,bool fadeScale = false)
         {
             float width = headTexture.Width;
             float length = (startingPos - endPoints).Length();
@@ -208,12 +208,13 @@ namespace EEMod
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
                     headTexture.Bounds, alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor, projTrueRotation,
-                    new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * i + 0.5f, SpriteEffects.None, 0);
+                    new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1), SpriteEffects.None, 0);
                 }
             }
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
+
         public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0)
         {
             //USE IN PROPER HOOK PLZ THX

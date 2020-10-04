@@ -400,14 +400,6 @@ namespace EEMod
 
             #region Implementing dynamic objects
             EEMod.progressMessage = "Adding Dynamics";
-            for (int j = 42; j < Main.maxTilesY - 42; j++)
-            {
-                for (int i = 42; i < Main.maxTilesX - 42; i++)
-                {
-                    
-
-                }
-            }
              for (int j = 42; j < Main.maxTilesY - 42; j++)
               {
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
