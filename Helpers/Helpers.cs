@@ -115,7 +115,43 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
-
+        public static void DrawBezier(Texture2D headTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, float rotDis = 0f, bool alphaBlend = false, float scale = 1, bool emitsDust = false)
+        {
+            for (float i = 0; i <= 1; i += chainsPerUse)
+            {
+                Vector2 distBetween;
+                float projTrueRotation;
+                if (i != 0)
+                {
+                    float x = X(i, startingPos.X, c1.X, c1.X, endPoints.X);
+                    float y = Y(i, startingPos.Y, c1.Y, c1.Y, endPoints.Y);
+                    if (emitsDust)
+                    {
+                        if (Main.rand.Next(50) == 0)
+                        {
+                            if (!Main.tile[(int)x / 16, (int)y / 16].active())
+                            {
+                                Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
+                                dust.fadeIn = 1f;
+                                dust.scale = 0.1f;
+                                dust.noGravity = true;
+                                dust.velocity *= 0.25f;
+                            }
+                        }
+                    }
+                    distBetween = new Vector2(x -
+                    X(i - chainsPerUse, startingPos.X, c1.X, c1.X, endPoints.X),
+                    y -
+                    Y(i - chainsPerUse, startingPos.Y, c1.Y, c1.Y, endPoints.Y));
+                    projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
+                    Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
+                    headTexture.Bounds, alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor, projTrueRotation,
+                    new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale, SpriteEffects.None, 0);
+                }
+            }
+            //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
+        }
         public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0)
         {
             //USE IN PROPER HOOK PLZ THX

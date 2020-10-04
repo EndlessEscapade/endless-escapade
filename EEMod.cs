@@ -435,6 +435,50 @@ namespace EEMod
         private GameTime lastGameTime;
         public UserInterface EEInterface;
         float sineInt;
+        void HandleBulbDraw()
+        {
+            Vector2 position = Main.MouseWorld;
+            Vector2 tilePos = Main.MouseWorld / 16;
+            int spread = 8;
+            int down = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, 1, 30);
+            int up = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, -1, 30);
+            int down2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, 1, 30);
+            int up2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, -1, 30);
+            int down3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, 1, 30);
+            int up3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, -1, 30);
+            Vector2 p1 = new Vector2(tilePos.X * 16, down * 16);
+            Vector2 p2 = new Vector2(tilePos.X * 16, up * 16);
+            Vector2 p3 = new Vector2((tilePos.X - spread) * 16, down2 * 16);
+            Vector2 p4 = new Vector2((tilePos.X - spread) * 16, up2 * 16);
+            Vector2 p5 = new Vector2((tilePos.X + spread) * 16, down3 * 16);
+            Vector2 p6 = new Vector2((tilePos.X + spread) * 16, up3 * 16);
+            Texture2D vineTexture = instance.GetTexture("Projectiles/Vine");
+            Helpers.DrawBezier(vineTexture, Color.White, p1, Main.MouseWorld + new Vector2(0, 65), Vector2.Lerp(p1, Main.MouseWorld, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt)*20), 0.05f, (float)Math.PI / 2, true, 0.8f);
+            Helpers.DrawBezier(vineTexture, Color.White, p2, Main.MouseWorld + new Vector2(0, -65), Vector2.Lerp(p2, Main.MouseWorld, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt) * 20), 0.02f, (float)Math.PI / 2, true, 0.8f);
+            Helpers.DrawBezier(vineTexture, Color.White, p3, Main.MouseWorld + new Vector2(-60, 55), Vector2.Lerp(p3, Main.MouseWorld, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt) * 20), 0.02f, (float)Math.PI / 2, true, 0.8f);
+            Helpers.DrawBezier(vineTexture, Color.White, p4, Main.MouseWorld + new Vector2(-60, -55), Vector2.Lerp(p4, Main.MouseWorld, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt) * 20), 0.02f, (float)Math.PI / 2, true, 0.8f);
+            Helpers.DrawBezier(vineTexture, Color.White, p5, Main.MouseWorld + new Vector2(60, 55), Vector2.Lerp(p5, Main.MouseWorld, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt) * 20), 0.02f, (float)Math.PI / 2, true, 0.8f);
+            Helpers.DrawBezier(vineTexture, Color.White, p6, Main.MouseWorld + new Vector2(60, -55), Vector2.Lerp(p6, Main.MouseWorld, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt) * 20), 0.02f, (float)Math.PI / 2, true, 0.8f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            Noise2DShift.Parameters["noiseTexture"].SetValue(instance.GetTexture("noise"));
+            Noise2DShift.Parameters["tentacle"].SetValue(instance.GetTexture("WormNoise"));
+            Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt) * 0.2f);
+            Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt) * 0.2f);
+
+            Noise2DShift.CurrentTechnique.Passes[0].Apply();
+
+
+            Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
+            Texture2D tex = instance.GetTexture("BulbousBall");
+            
+            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), new Rectangle(0, 0, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), Color.White * 0, (float)Math.Sin(sineInt), tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+
+        }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             sineInt += 0.003f;
@@ -445,27 +489,15 @@ namespace EEMod
                 LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface",
                 delegate
                 {
-                    if (lastGameTime != null)
+                if (lastGameTime != null)
+                {
+                    if (EEInterface?.CurrentState != null)
                     {
-                        if (EEInterface?.CurrentState != null)
-                        {
-                            EEInterface.Draw(Main.spriteBatch, lastGameTime);
-                        }
-                        UpdateGame(lastGameTime);
+                        EEInterface.Draw(Main.spriteBatch, lastGameTime);
+                    }
+                    UpdateGame(lastGameTime);
                         //   UpdateJellyfishTesting();
-                        Main.spriteBatch.End();
-                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                        Noise2DShift.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
-                        Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt)*0.2f);
-                        Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt)* 0.2f);
-
-                        Noise2DShift.CurrentTechnique.Passes[0].Apply();
-
-                        Vector2 position = Main.MouseWorld;
-
-                        Main.spriteBatch.Draw(instance.GetTexture("CoralTreeBall"), position.ForDraw(), Color.White * 0);
-                        Main.spriteBatch.End();
-                        Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                        HandleBulbDraw();
                         // UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {

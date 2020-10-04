@@ -1576,7 +1576,24 @@ namespace EEMod.EEWorld
                 }
             }
         }
-
+        public static int TileCheckVertical(int positionX, int positionY,int step,int maxIterations = 100)
+        {
+            int a = 0;
+            for (int i = positionY; i < Main.maxTilesY || i > 0; i += step)
+            {
+                a++;
+                Tile tile = Framing.GetTileSafely(positionX, i);
+                if(a == maxIterations)
+                {
+                    return 0;
+                }
+                if (tile.active() && Main.tileSolid[tile.type])
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
         public static int TileCheck(int positionX, int type)
         {
             for (int i = 0; i < Main.maxTilesY; i++)
