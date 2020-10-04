@@ -50,6 +50,10 @@ namespace EEMod.EEWorld
             {
                 EESubWorlds.OrbPositions = tag.GetList<Vector2>("OrbPositions");
             }
+            if (tag.ContainsKey("BulbousTreePosition"))
+            {
+                EESubWorlds.BulbousTreePosition = tag.GetList<Vector2>("BulbousTreePosition");
+            }
             if (tag.ContainsKey("LightStates"))
             {
                 LightStates = tag.GetByteArray("LightStates");
@@ -78,6 +82,7 @@ namespace EEMod.EEWorld
                 tag["CoralBoatPos"] = EESubWorlds.CoralBoatPos;
                 tag["ChainConnections"] = EESubWorlds.ChainConnections;
                 tag["OrbPositions"] = EESubWorlds.OrbPositions;
+                tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
                 tag["LightStates"] = LightStates;
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)

@@ -145,9 +145,8 @@ namespace EEMod
 
             return index;
         }
-        void HandleBulbDraw()
+        void HandleBulbDraw(Vector2 position)
         {
-            Vector2 position = Main.MouseWorld;
             Vector2 tilePos = position / 16;
             int spread = 8;
             int down = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, 1, 30);
@@ -210,7 +209,7 @@ namespace EEMod
             Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
             Texture2D tex = instance.GetTexture("BulbousBall");
 
-            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y + (int)Math.Sin(sineInt) * 100, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), new Rectangle(0, 0, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), Color.White * 0, (float)Math.Sin(sineInt), tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), new Rectangle(0, 0, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), Color.White * 0, (float)Math.Sin(sineInt), tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
@@ -221,7 +220,12 @@ namespace EEMod
             //UpdateLight();
             DrawNoiseSurfacing();
             DrawLensFlares();
-            HandleBulbDraw();
+            for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
+            {
+                HandleBulbDraw(EESubWorlds.BulbousTreePosition[i]);
+            }
+            if(Main.worldName == KeyID.CoralReefs)
+            Main.NewText(EESubWorlds.BulbousTreePosition.Count);
             if (Main.worldName == KeyID.CoralReefs)
             {
                 EEWorld.EEWorld.instance.DrawVines();

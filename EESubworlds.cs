@@ -17,6 +17,7 @@ namespace EEMod
         public static IList<Vector2> ChainConnections = new List<Vector2>();
         public static IList<Vector3> MinibiomeLocations = new List<Vector3>();
         public static IList<Vector2> OrbPositions = new List<Vector2>();
+        public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
         public static Vector2 CoralBoatPos;
 
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
@@ -427,6 +428,28 @@ namespace EEMod
                         {
                             OrbPositions.Add(new Vector2(i, j));
                         }
+                        noOfTiles = 0;
+                        for (int k = -5; k < 5; k++)
+                        {
+                            for (int l = -5; l < 5; l++)
+                            {
+                                if (Main.tile[i + k, j + l].active())
+                                {
+                                    noOfTiles++;
+                                }
+                            }
+                        }
+                        for (int m = 0; m < OrbPositions.Count; m++)
+                        {
+                            if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
+                            {
+                                noOfTiles += 6;
+                            }
+                        }
+                        if (noOfTiles <= 5)
+                        {
+                            BulbousTreePosition.Add(new Vector2(i, j));
+                        }
                     }
                     if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type] && j > Main.maxTilesY / 10)
                     {
@@ -445,6 +468,7 @@ namespace EEMod
                     }
                 }
             }
+
             #endregion
 
             //Finishing initialization stuff
