@@ -351,24 +351,20 @@ namespace EEMod
 
 
 
-                perlinNoise = new PerlinNoiseFunction((int)size.X, (int)(Main.maxTilesY * 0.9f), 1, 1, 0.7f);
+                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.2f);
                 int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
-                for (int i = 0; i < Main.maxTilesY * 9 / 10; i++)
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    for (int j = Main.maxTilesY / 10; j < Main.maxTilesY; j++)
+                    for (int j = (Main.maxTilesY / 10); j < Main.maxTilesY - 42; j++)
                     {
-                        //Tile tile = Framing.GetTileSafely(i, j);
                         if (perlinNoiseFunction[i, j - (Main.maxTilesY / 10)] == 1)
                         {
-                            int type;
-                            switch((int)Main.tile[i, j - (Main.maxTilesY / 10)].type)
-                            {
-                                case ModContent.TileType<LightGemsandTile>():
-                                    type = ModContent.TileType<LightGemsandstoneTile>();
-                                    break;
-
-                            }
-                            WorldGen.PlaceTile(i, j, type);
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<LightGemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<LightGemsandstoneTile>();
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<GemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<DarkGemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<DarkGemsandstoneTile>();
                         }
                     }
                 }
