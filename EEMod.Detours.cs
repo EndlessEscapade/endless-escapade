@@ -147,14 +147,15 @@ namespace EEMod
         }
         void HandleBulbDraw(Vector2 position)
         {
+            Lighting.AddLight(position, new Vector3(0,0.1f,1)*3);
             Vector2 tilePos = position / 16;
             int spread = 8;
-            int down = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, 1, 30);
-            int up = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, -1, 30);
-            int down2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, 1, 30);
-            int up2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, -1, 30);
-            int down3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, 1, 30);
-            int up3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, -1, 30);
+            int down = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, 1, 50);
+            int up = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, -1, 50);
+            int down2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, 1, 50);
+            int up2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, -1, 50);
+            int down3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, 1, 50);
+            int up3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, -1, 50);
             Vector2 p1 = new Vector2(tilePos.X * 16, down * 16);
             Vector2 p2 = new Vector2(tilePos.X * 16, up * 16);
             Vector2 p3 = new Vector2((tilePos.X - spread) * 16, down2 * 16);
@@ -209,7 +210,7 @@ namespace EEMod
             Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
             Texture2D tex = instance.GetTexture("BulbousBall");
 
-            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), new Rectangle(0, 0, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), Color.White * 0, (float)Math.Sin(sineInt), tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y + (int)(Math.Sin(sineInt*4) * 10), tex.Width + (int)(Math.Sin(sineInt) * 10), tex.Height + (int)Math.Cos(sineInt) * 10), new Rectangle(0, 0, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), Color.White * 0, (float)Math.Sin(sineInt), tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
@@ -217,17 +218,18 @@ namespace EEMod
         }
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
+
             //UpdateLight();
             DrawNoiseSurfacing();
             DrawLensFlares();
             for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
             {
-                HandleBulbDraw(EESubWorlds.BulbousTreePosition[i]);
+                if ((EESubWorlds.BulbousTreePosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000*2000)
+                HandleBulbDraw(EESubWorlds.BulbousTreePosition[i]*16);
             }
-            if(Main.worldName == KeyID.CoralReefs)
-            Main.NewText(EESubWorlds.BulbousTreePosition.Count);
             if (Main.worldName == KeyID.CoralReefs)
             {
+                Main.NewText(EESubWorlds.BulbousTreePosition.Count);
                 EEWorld.EEWorld.instance.DrawVines();
             }
 

@@ -50,6 +50,25 @@ namespace EEMod
                  y3 * Math.Pow(t, 3)
              );
         }
+        private static float X(float t,
+   float x0, float x1, float x2)
+        {
+            return (float)(
+                x0 * Math.Pow(1 - t, 2) +
+                x1 * 2 * t * (1-t) +
+                x2 * Math.Pow(t, 2)
+            );
+        }
+
+        private static float Y(float t,
+            float y0, float y1, float y2)
+        {
+            return (float)(
+                y0 * Math.Pow(1 - t, 2) +
+                y1 * 2 * t * (1 - t) +
+                y2 * Math.Pow(t, 2)
+            );
+        }
         public static int[,] ConvertTexToBitmap(string tex, int thresh)
         {
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap($@"{Main.SavePath}\Mod Sources\EEMod\" + tex + ".png");
@@ -126,8 +145,8 @@ namespace EEMod
                 float projTrueRotation;
                 if (i != 0)
                 {
-                    float x = X(i, startingPos.X, c1.X, c1.X, endPoints.X);
-                    float y = Y(i, startingPos.Y, c1.Y, c1.Y, endPoints.Y);
+                    float x = X(i, startingPos.X, c1.X, endPoints.X);
+                    float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
                     if (emitsDust)
                     {
                         if (Main.rand.Next(50) == 0)
@@ -143,9 +162,9 @@ namespace EEMod
                         }
                     }
                     distBetween = new Vector2(x -
-                    X(i - chainsPerUse, startingPos.X, c1.X, c1.X, endPoints.X),
+                    X(i - chainsPerUse, startingPos.X, c1.X, endPoints.X),
                     y -
-                    Y(i - chainsPerUse, startingPos.Y, c1.Y, c1.Y, endPoints.Y));
+                    Y(i - chainsPerUse, startingPos.Y, c1.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     Main.spriteBatch.Draw(headTexture, new Vector2(x - Main.screenPosition.X, y - Main.screenPosition.Y),
                     new Rectangle(0, 0, headTexture.Width, headTexture.Height), alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor, projTrueRotation,
@@ -166,8 +185,8 @@ namespace EEMod
                 float projTrueRotation;
                 if (i != 0)
                 {
-                    float x = X(i, startingPos.X, c1.X, c1.X, endPoints.X);
-                    float y = Y(i, startingPos.Y, c1.Y, c1.Y, endPoints.Y);
+                    float x = X(i, startingPos.X, c1.X, endPoints.X);
+                    float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
                     if (emitsDust)
                     {
                         if (Main.rand.Next(50) == 0)
@@ -183,9 +202,9 @@ namespace EEMod
                         }
                     }
                     distBetween = new Vector2(x -
-                    X(i - chainsPerUse, startingPos.X, c1.X, c1.X, endPoints.X),
+                    X(i - chainsPerUse, startingPos.X, c1.X, endPoints.X),
                     y -
-                    Y(i - chainsPerUse, startingPos.Y, c1.Y, c1.Y, endPoints.Y));
+                    Y(i - chainsPerUse, startingPos.Y, c1.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
                     headTexture.Bounds, alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor, projTrueRotation,
