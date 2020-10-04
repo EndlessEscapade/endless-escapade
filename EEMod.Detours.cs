@@ -163,38 +163,38 @@ namespace EEMod
             Vector2 p5 = new Vector2((tilePos.X + spread) * 16, down3 * 16);
             Vector2 p6 = new Vector2((tilePos.X + spread) * 16, up3 * 16);
             Texture2D BlueLight = instance.GetTexture("Projectiles/LightBlue");
-            Texture2D vineTexture = instance.GetTexture("Projectiles/Vine");
+            Texture2D vineTexture = instance.GetTexture("Projectiles/BigVine");
             float Addon = 10;
-            float cockandbol = 0.3f;
+            float cockandbol = 0.8f;
             float bolandcock = 7f;
             if (p1.Y >= 1)
             {
-                Helpers.DrawBezier(vineTexture, Color.White, p1, position + new Vector2(0, 65), Vector2.Lerp(p1, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2) * 40), cockandbol, (float)Math.PI / 2, true, 0.8f, false, true);
+                Helpers.DrawBezier(vineTexture, Color.White, p1, position + new Vector2(0, 65), Vector2.Lerp(p1, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2) * 40), cockandbol, (float)Math.PI / 2, true, 1, false, true);
                 Helpers.DrawBezier(BlueLight, "", Color.White, p1 + new Vector2(0, Addon), position + new Vector2(0, 65 + Addon), Vector2.Lerp(p1, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2) * 40 + Addon), bolandcock, MathHelper.PiOver2, false, true);
             }
             if (p2.Y >= 1)
             {
-                Helpers.DrawBezier(vineTexture, Color.White, p2, position + new Vector2(0, -65), Vector2.Lerp(p2, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.5f) * 40), cockandbol, (float)Math.PI / 2, true, 0.8f, false, true);
+                Helpers.DrawBezier(vineTexture, Color.White, p2, position + new Vector2(0, -65), Vector2.Lerp(p2, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.5f) * 40), cockandbol, (float)Math.PI / 2, true, 1, false, true);
                 Helpers.DrawBezier(BlueLight, "", Color.White, p2 + new Vector2(0, Addon), position + new Vector2(0, -65 + Addon), Vector2.Lerp(p2, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.5f) * 40 + Addon), bolandcock, MathHelper.PiOver2, false, true);
             }
             if (p3.Y >= 1)
             {
-                Helpers.DrawBezier(vineTexture, Color.White, p3, position + new Vector2(-60, 55), Vector2.Lerp(p3, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.2f) * 40), cockandbol, (float)Math.PI / 2, true, 0.8f, false, true);
+                Helpers.DrawBezier(vineTexture, Color.White, p3, position + new Vector2(-60, 55), Vector2.Lerp(p3, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.2f) * 40), cockandbol, (float)Math.PI / 2, true, 1, false, true);
                 Helpers.DrawBezier(BlueLight, "", Color.White, p3 + new Vector2(0, Addon), position + new Vector2(-60, 55 + Addon), Vector2.Lerp(p3, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.2f) * 40 + Addon), bolandcock, MathHelper.PiOver2, false, true);
             }
             if (p4.Y >= 1)
             {
-                Helpers.DrawBezier(vineTexture, Color.White, p4, position + new Vector2(-60, -55), Vector2.Lerp(p4, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.8f) * 40), cockandbol, (float)Math.PI / 2, true, 0.8f, false, true);
+                Helpers.DrawBezier(vineTexture, Color.White, p4, position + new Vector2(-60, -55), Vector2.Lerp(p4, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.8f) * 40), cockandbol, (float)Math.PI / 2, true, 1, false, true);
                 Helpers.DrawBezier(BlueLight, "", Color.White, p4 + new Vector2(0, Addon), position + new Vector2(-60, -55 + Addon), Vector2.Lerp(p4, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.8f) * 40 + Addon), bolandcock, MathHelper.PiOver2, false, true);
             }
             if (p5.Y >= 1)
             {
-                Helpers.DrawBezier(vineTexture, Color.White, p5, position + new Vector2(60, 55), Vector2.Lerp(p5, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.9f) * 40), cockandbol, (float)Math.PI / 2, true, 0.8f, false, true);
+                Helpers.DrawBezier(vineTexture, Color.White, p5, position + new Vector2(60, 55), Vector2.Lerp(p5, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.9f) * 40), cockandbol, (float)Math.PI / 2, true, 1, false, true);
                 Helpers.DrawBezier(BlueLight, "", Color.White, p5 + new Vector2(0, Addon), position + new Vector2(60, 55 + Addon), Vector2.Lerp(p5, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.9f) * 40 + Addon), bolandcock, MathHelper.PiOver2, false, true);
             }
             if (p6.Y >= 1)
             {
-                Helpers.DrawBezier(vineTexture, Color.White, p6, position + new Vector2(60, -55), Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), cockandbol, (float)Math.PI / 2, true, 0.8f,false,true);
+                Helpers.DrawBezier(vineTexture, Color.White, p6, position + new Vector2(60, -55), Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), cockandbol, (float)Math.PI / 2, true, 1,false,true);
                 Helpers.DrawBezier(BlueLight, "", Color.White, p6 + new Vector2(0, Addon), position + new Vector2(60, -55 + Addon), Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40 + Addon), bolandcock, MathHelper.PiOver2, false, true);
             }
             Main.spriteBatch.End();

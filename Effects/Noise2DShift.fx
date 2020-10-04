@@ -37,9 +37,9 @@ float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
         colour.b += lerp;
         float a = (1.5f - distance(float2(0.7f - xCoord, 0.4f - yCoord), coords) * 1.2f) * 2 * height;
         if (distance(float2(0.5f, 0.5f), coords) > 0.385f + lerp * 0.2f)
-            colour = float4(0.01f, 0.01f, 0.5f, 10);
+            colour = float4(0.01f, 0.01f, 1, 10);
         colour.rgb += (lightColour.b * colour2 * a)/3.1f;
-        colour.rgb *= lightColour + 0.3f;
+        colour.rgb *= lightColour + 0.5f;
        
     }
     else

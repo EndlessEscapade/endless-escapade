@@ -429,18 +429,29 @@ namespace EEMod
                             OrbPositions.Add(new Vector2(i, j));
                         }
                     }
-                    if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type] && j > Main.maxTilesY / 10)
+                    int ifa = 0;
+                    for (int m = 0; m < BulbousTreePosition.Count; m++)
                     {
-                        if (ChainConnections.Count == 0)
+                        if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 50 * 50)
                         {
-                            ChainConnections.Add(new Vector2(i, j));
+                            ifa++;
                         }
-                        else
+                    }
+                    if (ifa == 0)
+                    {
+                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type] && j > Main.maxTilesY / 10)
                         {
-                            Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
-                            if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 35 * 35 || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 500 * 500 && Math.Abs(lastPos.X - i) > 3)
+                            if (ChainConnections.Count == 0)
                             {
                                 ChainConnections.Add(new Vector2(i, j));
+                            }
+                            else
+                            {
+                                Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
+                                if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 35 * 35 || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 500 * 500 && Math.Abs(lastPos.X - i) > 3)
+                                {
+                                    ChainConnections.Add(new Vector2(i, j));
+                                }
                             }
                         }
                     }
