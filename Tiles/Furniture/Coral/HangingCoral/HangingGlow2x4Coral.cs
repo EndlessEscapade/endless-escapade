@@ -52,9 +52,9 @@ namespace EEMod.Tiles.Furniture.Coral.HangingCoral
             int frameX = Main.tile[i, j].frameX;
             int frameY = Main.tile[i, j].frameY;
             const int width = 20;
-            const int offsetY = 2;
+            const int offsetY = 0;
             const int height = 20;
-            const int offsetX = 2;
+            const int offsetX = 0;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {

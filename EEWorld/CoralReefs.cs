@@ -292,7 +292,7 @@ namespace EEMod.EEWorld
                                         switch (TileCheck2(i, j))
                                         {
                                             case 1:
-                                                selection = WorldGen.genRand.Next(5);
+                                                selection = WorldGen.genRand.Next(6);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -304,15 +304,20 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 2:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x3Coral>());
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x3Coral>(), style: WorldGen.genRand.Next(2));
                                                         break;
 
                                                     case 3:
                                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(3));
                                                         break;
+
                                                     case 4:
                                                         ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
                                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
+                                                        break;
+
+                                                    case 5:
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
                                                         break;
                                                 }
                                                 break;
@@ -619,7 +624,7 @@ namespace EEMod.EEWorld
                                         switch (TileCheck2(i, j))
                                         {
                                             case 1:
-                                                selection = WorldGen.genRand.Next(4);
+                                                selection = WorldGen.genRand.Next(5);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -631,11 +636,15 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 2:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x3Coral>());
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x3Coral>(), style: WorldGen.genRand.Next(2));
                                                         break;
 
                                                     case 3:
                                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(2));
+                                                        break;
+
+                                                    case 4:
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
                                                         break;
                                                 }
                                                 break;
@@ -693,7 +702,7 @@ namespace EEMod.EEWorld
                                                 }
                                                 break;
                                             case 2:
-                                                selection = WorldGen.genRand.Next(7);
+                                                selection = WorldGen.genRand.Next(9);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -751,23 +760,27 @@ namespace EEMod.EEWorld
                                             switch (TileCheck2(i, j))
                                             {
                                                 case 1:
-                                                    selection = WorldGen.genRand.Next(4);
+                                                    selection = WorldGen.genRand.Next(5);
                                                     switch (selection)
                                                     {
                                                         case 0:
                                                             WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x2Coral>());
                                                             break;
-
+                                                            
                                                         case 1:
                                                             WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x3Coral>(), style: WorldGen.genRand.Next(2));
                                                             break;
 
                                                         case 2:
-                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x3Coral>());
+                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x3Coral>(), style: WorldGen.genRand.Next(2));
                                                             break;
 
                                                         case 3:
                                                             WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(3));
+                                                            break;
+
+                                                        case 4:
+                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
                                                             break;
                                                     }
                                                     break;
@@ -812,7 +825,7 @@ namespace EEMod.EEWorld
                                         switch (TileCheck2(i, j))
                                         {
                                             case 1:
-                                                selection = WorldGen.genRand.Next(3);
+                                                selection = WorldGen.genRand.Next(4);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -825,6 +838,10 @@ namespace EEMod.EEWorld
 
                                                     case 2:
                                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(3));
+                                                        break;
+
+                                                    case 3:
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
                                                         break;
                                                 }
                                                 break;

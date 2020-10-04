@@ -51,9 +51,9 @@ namespace EEMod.Tiles.Furniture.Coral.HangingCoral
             int frameX = Main.tile[i, j].frameX;
             int frameY = Main.tile[i, j].frameY;
             const int width = 20;
-            const int offsetY = 2;
+            const int offsetY = 0;
             const int height = 20;
-            const int offsetX = 2;
+            const int offsetX = 0;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
@@ -63,7 +63,7 @@ namespace EEMod.Tiles.Furniture.Coral.HangingCoral
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/HangingCoral/HangingGlow2x4CoralGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/HangingCoral/HangingGlow3x2CoralGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }
