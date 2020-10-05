@@ -31,6 +31,7 @@ namespace EEMod
             On.Terraria.Main.Draw += Main_Draw;
             On.Terraria.Main.DrawBG += Main_DrawBG;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
+            On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
 
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
@@ -45,6 +46,7 @@ namespace EEMod
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
             On.Terraria.Main.DoUpdate -= Main_DoUpdate;
+            On.Terraria.Main.DrawNPC -= Main_DrawNPC;
             On.Terraria.Main.Draw -= Main_Draw;
             On.Terraria.Main.DrawBG -= Main_DrawBG;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
@@ -275,12 +277,18 @@ namespace EEMod
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
-            trailManager.DrawTrails(Main.spriteBatch);
-            prims.DrawTrails(Main.spriteBatch);
+            //trailManager.DrawTrails(Main.spriteBatch);
+           // prims.DrawTrails(Main.spriteBatch);
 
             orig(self);
         }
+        private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self,int iNPCTiles, bool behindTiles)
+        {
+            trailManager.DrawTrails(Main.spriteBatch);
+            prims.DrawTrails(Main.spriteBatch);
 
+            orig(self, iNPCTiles, behindTiles);
+        }
         private void Main_DrawBG(On.Terraria.Main.orig_DrawBG orig, Main self)
         {
             if (EEModConfigClient.Instance.BetterLighting && !Main.gameMenu)

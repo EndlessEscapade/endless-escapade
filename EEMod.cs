@@ -221,64 +221,7 @@ namespace EEMod
         }
         float counter;
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
-        public void UpdateJellyfishTesting()
-        {
-
-            Vector2 first = Main.LocalPlayer.Center - new Vector2(0, 300);
-            float[] lastX = new float[6];
-            float[] lastY = new float[6];
-            float[] ControlY = new float[6];
-            float[] ControlX = new float[6];
-            float[] ControlY2 = new float[6];
-            float[] ControlX2 = new float[6];
-            float tip = first.Y + 160;
-            int diff = 20;
-            int startingdiff = 60;
-            float firstContactPoint = tip - 100;
-            float secondContactPoint = tip - 20;
-            float accuracy = 200;
-                float asnycPeriod = 0.7f;
-                float accell = ((float)Math.Sin(counter) + 1.4f) / 2f;
-                counter += 0.08f * accell;
-                for (int i = 0; i < 3; i++)
-                {
-                    ControlX[i] = ((first.X - startingdiff) - i * diff) - (float)Math.Sin(counter + 0.35f + i / 10f) * (startingdiff + i * diff);
-                    ControlY[i] = secondContactPoint - (float)Math.Cos(counter + 0.05f) * (tip - secondContactPoint);
-                    ControlX2[i] = ((first.X - startingdiff) - i * diff / 2) - (float)Math.Sin(counter + 0.25f + i / 5f) * (startingdiff + i * diff / 2);
-                    ControlY2[i] = firstContactPoint - (float)Math.Cos(counter + 0.05f) * (tip - firstContactPoint);
-                    lastX[i] = ((first.X - startingdiff) - i * diff) - (float)Math.Sin(counter + 0.15f) * (startingdiff + i * diff);
-                    lastY[i] = (tip - 30) - (float)Math.Sin(counter + asnycPeriod + 0.05f + i / 20f) * 30;
-                }
-                for (int i = 3; i < 6; i++)
-                {
-                    ControlX[i] = ((first.X + startingdiff) + (i - 3) * diff) + (float)Math.Sin(counter + i / 13f) * (startingdiff + (i - 3) * diff);
-                    ControlY[i] = secondContactPoint - (float)Math.Cos(counter + i / 14f) * (tip - secondContactPoint);
-                    ControlX2[i] = ((first.X + startingdiff) + (i - 3) * diff / 2) + (float)Math.Sin(counter + i / 15f) * (startingdiff + (i - 3) * diff / 2);
-                    ControlY2[i] = firstContactPoint - (float)Math.Cos(counter + i / 20f) * (tip - firstContactPoint);
-                    lastX[i] = ((first.X + startingdiff) + (i - 3) * diff) + (float)Math.Sin(counter + i / 10f - 0.1f) * (startingdiff + (i - 3) * diff);
-                    lastY[i] = (tip - 30) - (float)Math.Sin(counter + asnycPeriod + i / 20f + 0.2f) * 30;
-                }
-                int sep = 5;
-                for (int i = 0; i < 6; i++)
-                {
-                if (i < 3)
-                {
-                    for (int j = 0; j < accuracy; j++)
-                    {
-                        Vector2 yas = Helpers.TraverseBezier(new Vector2(lastX[i] - i * sep, lastY[i]), new Vector2(first.X - i * sep, first.Y), new Vector2(ControlX2[i] - i * sep, ControlY2[i]), new Vector2(ControlX[i] - i * sep, ControlY[i]), j / accuracy);
-                        lol1[i,j,0] = yas;
-                    }
-                }
-                else
-                {
-                    for (int j = 0; j < accuracy; j++)
-                    {
-                        Vector2 yas = Helpers.TraverseBezier(new Vector2(lastX[i] + (i - 3) * sep, lastY[i]), new Vector2(first.X + (i - 3) * sep, first.Y), new Vector2(ControlX2[i] + (i - 3) * sep, ControlY2[i]), new Vector2(ControlX[i] + (i - 3) * sep, ControlY[i]),j/ accuracy);
-                       lol1[i - 3, j, 1] = yas;
-                    }
-                }
-                }
-        }
+        
 
         public void UpdateGame(GameTime gameTime)
         {

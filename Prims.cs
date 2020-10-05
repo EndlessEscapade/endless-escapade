@@ -12,6 +12,7 @@ using EEMod.Projectiles.Mage;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 using EEMod.Projectiles.Ranged;
+using EEMod.NPCs.CoralReefs;
 
 namespace EEMod
 {
@@ -74,6 +75,11 @@ namespace EEMod
         public void CreateTrail(Projectile projectile = null)
         {
             Trail newTrail = new Trail(new RoundCap(), new DefaultShader(), projectile);
+            _trails.Add(newTrail);
+        }
+        public void CreateTrailWithNPC(Projectile projectile = null, NPC npc = null)
+        {
+            Trail newTrail = new Trail(new RoundCap(), new DefaultShader(), projectile,npc);
             _trails.Add(newTrail);
         }
         public void Dispose()
@@ -267,6 +273,7 @@ namespace EEMod
             
             private ITrailShader _trailShader;
             public Projectile _projectile;
+            public NPC npc;
             public List<Vector2> _points = new List<Vector2>();
             public bool active;
             public int lerper;
@@ -354,7 +361,7 @@ namespace EEMod
             {
 
             }
-            public Trail(ITrailCap cap, ITrailShader shader, Projectile projectile)
+            public Trail(ITrailCap cap, ITrailShader shader, Projectile projectile, NPC npc = null)
             {
                 _trailShader = shader;
                 _projectile = projectile;
@@ -363,7 +370,7 @@ namespace EEMod
                 UpdateMethods.Add(DalantiniumPrimUpdates);
                 UpdateMethods.Add(DalantiniumAltPrimUpdates);
                 UpdateMethods.Add(DalantiniumSpikePrimUpdates);
-                UpdateMethods.Add(JellyFishUpdates);
+                this.npc = npc;
             }
             public void Update()
             {
@@ -377,6 +384,10 @@ namespace EEMod
                     {
                         UPD.Invoke();
                     }
+                }
+                if(npc != null)
+                {
+                    JellyFishUpdates();
                 }
             }
             public void Draw(Effect effect, BasicEffect effect2, GraphicsDevice device)
@@ -427,17 +438,18 @@ namespace EEMod
                 };
                 void DrawJelly(int noOfPoints)
                 {
-                            Cap = 200;
+                    JellyfishPlatform1 ja = (npc.modNPC as JellyfishPlatform1);
+                   Cap = ja.cap;
                    List<List<List<Vector2>>> tentacle = new List<List<List<Vector2>>>();
                     for (int b = 0; b < 2; b++)
                     {
                         List<List<Vector2>> tempTentA = new List<List<Vector2>>();
-                        for (int a = 0; a < 3; a++)
+                        for (int a = 0; a < ja.noOfTentacles/2; a++)
                         {
                             List<Vector2> tempTent = new List<Vector2>();
-                            for (int i = 0; i < 200; i++)
+                            for (int i = 0; i < Cap; i++)
                             {
-                                tempTent.Add(EEMod.lol1[a, 199 - i, b]);
+                                tempTent.Add(ja.lol1[a, (int)Cap - i - 1, b]);
                             }
                             tempTentA.Add(tempTent);
                         }
@@ -445,7 +457,7 @@ namespace EEMod
                     }
                     List<VertexPositionColorTexture[]> vertices2 = new List<VertexPositionColorTexture[]>();
                     vertices = new VertexPositionColorTexture[noOfPoints];
-                            float width = 5;
+                            float width = 2;
                             float alphaValue = 0.8f;
                     for (int b = 0; b < tentacle.Count; b++)
                     {
@@ -455,24 +467,22 @@ namespace EEMod
                             {
                                 if (i == 0)
                                 {
-                                    //  Color c = Color.White;
-                                    //  Vector2 normalAhead = CurveNormal(_points, i + 1);
-                                    // Vector2 secondUp = _points[i + 1] - normalAhead * width;
-                                    //  Vector2 secondDown = _points[i + 1] + normalAhead * width;
-                                    //AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                    //AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                    //AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                                 }
                                 else
                                 {
 
                                     if (i != tentacle[b][a].Count - 1)
                                     {
-                                        Color c = Color.White * (i / Cap);
+                                        //7,86,122
+                                        //255,244,173
+                                        Color base1 = new Color(7, 86, 122);
+                                        Color base2 = new Color(255, 244, 173);
+                                        Color c = Color.Lerp(Color.DarkCyan, base2, i / Cap);
+                                        Color c1 = Color.Lerp(Color.DarkCyan, base2, (i + 1) / Cap); 
                                         Vector2 normal = CurveNormal(tentacle[b][a], i);
                                         Vector2 normalAhead = CurveNormal(tentacle[b][a], i + 1);
                                         float j = (Cap - (i * 0.9f)) / Cap;
-                                        width = (i / Cap) * 5;
+                                        width = (i / Cap) * 3;
                                         Vector2 firstUp = tentacle[b][a][i] - normal * width;
                                         Vector2 firstDown = tentacle[b][a][i] + normal * width;
                                         Vector2 secondUp = tentacle[b][a][i + 1] - normalAhead * width;
@@ -480,10 +490,10 @@ namespace EEMod
 
                                         AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                                         AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                        AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                        AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
 
-                                        AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                        AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                        AddVertex(secondUp, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                        AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
                                         AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
                                     }
                                     else
@@ -670,9 +680,16 @@ namespace EEMod
                     {
                         DalantiniumAltPrims.Invoke((int)Cap * 6 - 9);
                     }
+                    
+                }
+                if(npc != null)
+                {
+                    if (npc.type == NPCType<JellyfishPlatform1>())
+                    {
+                        DrawJelly(((int)Cap * 6 - 12) * (npc.modNPC as JellyfishPlatform1).noOfTentacles);
+                    }
                 }
                 GliderPrims.Invoke((int)Cap * 6 - 12);
-               // DrawJelly((200 * 6 - 12)*6);
             }
             //Helper methods
             private Vector2 CurveNormal(List<Vector2> points, int index)
