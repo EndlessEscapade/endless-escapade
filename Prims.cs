@@ -86,6 +86,14 @@ namespace EEMod
         {
             for (int i = 0; i < _trails.Count; i++)
             {
+                if (_trails[i].npc != null)
+                {
+                    if(!_trails[i].npc.active)
+                    {
+                        _trails[i]._points.Clear();
+                        _trails.RemoveAt(i);
+                    }
+                }
                 if (_trails[i]._projectile != null)
                 { 
                 if (!_trails[i]._projectile.active)
@@ -270,7 +278,10 @@ namespace EEMod
         public static Type[] types => Assembly.GetExecutingAssembly().GetTypes();
         public class Trail
         {
-            
+            public void Dispose()
+            {
+
+            }
             private ITrailShader _trailShader;
             public Projectile _projectile;
             public NPC npc;
@@ -519,7 +530,7 @@ namespace EEMod
                         {
                         if (i == 0)
                             {
-                            Color c = Color.Red;
+                            Color c = Color.Lerp(Color.Red, Color.DarkRed, i / Cap);
                             Vector2 normalAhead = CurveNormal(_points, i + 1);
                                 Vector2 secondUp = _points[i + 1] - normalAhead * width;
                                 Vector2 secondDown = _points[i + 1] + normalAhead * width;
@@ -532,8 +543,8 @@ namespace EEMod
                                 
                                 if (i != _points.Count - 1)
                                 {
-                                    Color c = Color.Red;
-                                    Vector2 normal = CurveNormal(_points, i);
+                                Color c = Color.Lerp(Color.Red, Color.DarkRed, i / Cap);
+                                Vector2 normal = CurveNormal(_points, i);
                                     Vector2 normalAhead = CurveNormal(_points, i + 1);
                                     float j = (Cap - (i * 0.9f)) / Cap;
                                     width *=  (Cap - (i * 0.4f)) / Cap;
