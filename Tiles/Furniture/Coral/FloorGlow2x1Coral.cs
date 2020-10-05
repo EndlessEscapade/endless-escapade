@@ -57,11 +57,8 @@ namespace EEMod.Tiles.Furniture.Coral
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
             Texture2D texture = EEMod.instance.GetTexture("Tiles/Furniture/Coral/FloorGlow2x1CoralGlow");
-            Rectangle rect = new Rectangle(frameX, frameY, texture.Width, texture.Height);
-            for (int k = 0; k < 7; k++)
-            {
-                Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
-            }
+            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }
 }

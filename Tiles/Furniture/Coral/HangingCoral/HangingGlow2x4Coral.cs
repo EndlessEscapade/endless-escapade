@@ -22,6 +22,8 @@ namespace EEMod.Tiles.Furniture.Coral.HangingCoral
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.CoordinateHeights = new int[]
@@ -58,7 +60,7 @@ namespace EEMod.Tiles.Furniture.Coral.HangingCoral
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
             Texture2D texture = EEMod.instance.GetTexture("Tiles/Furniture/Coral/HangingCoral/HangingGlow2x4CoralGlow");
-            Rectangle rect = new Rectangle(frameX, frameY, texture.Width, texture.Height);
+            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }
