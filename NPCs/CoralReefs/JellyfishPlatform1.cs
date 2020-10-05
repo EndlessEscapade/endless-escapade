@@ -26,7 +26,7 @@ namespace EEMod.NPCs.CoralReefs
 
             //npc.alpha = 127;
 
-            npc.lifeMax = 5;
+            npc.lifeMax = 300;
 
             npc.width = 48;
             npc.height = 32;
