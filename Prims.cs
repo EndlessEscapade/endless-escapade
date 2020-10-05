@@ -477,8 +477,9 @@ namespace EEMod
                                         //255,244,173
                                         Color base1 = new Color(7, 86, 122);
                                         Color base2 = new Color(255, 244, 173);
-                                        Color c = Color.Lerp(Color.DarkCyan, base2, i / Cap);
-                                        Color c1 = Color.Lerp(Color.DarkCyan, base2, (i + 1) / Cap); 
+                                        Color drawColour = Lighting.GetColor((int)npc.Center.X / 16, (int)npc.Center.Y / 16);
+                                        Color c = Color.Lerp(Color.DarkCyan, base2, i / Cap).MultiplyRGB(drawColour);
+                                        Color c1 = Color.Lerp(Color.DarkCyan, base2, (i + 1) / Cap).MultiplyRGB(drawColour); 
                                         Vector2 normal = CurveNormal(tentacle[b][a], i);
                                         Vector2 normalAhead = CurveNormal(tentacle[b][a], i + 1);
                                         float j = (Cap - (i * 0.9f)) / Cap;
