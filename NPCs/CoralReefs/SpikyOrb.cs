@@ -208,20 +208,30 @@ namespace EEMod.NPCs.CoralReefs
                 npc.life = 0;
                 npc.timeLeft = 0;
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
-                //Gore.NewGorePerfect();
-                Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Sapphire, Main.rand.Next(1, 4));
-                        break;
-                    case 1:
-                        Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Emerald, Main.rand.Next(1, 4));
-                        break;
-                    case 2:
-                        Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Diamond, Main.rand.Next(1, 4));
-                        break;
-                }
+                npc.NPCLoot();
+            }
+        }
+
+        public override void NPCLoot()
+        {
+            for(int i = 0; i < 4; i++)
+            {
+                Gore gore = Gore.NewGorePerfect(npc.Center, Vector2.Zero, mod.GetGoreSlot("Gores/SpikyOrb" + (i + 1)), 1);
+                gore.velocity = new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5));
+            }
+
+            Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));
+            switch (Main.rand.Next(3))
+            {
+                case 0:
+                    Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Sapphire, Main.rand.Next(1, 4));
+                    break;
+                case 1:
+                    Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Emerald, Main.rand.Next(1, 4));
+                    break;
+                case 2:
+                    Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ItemID.Diamond, Main.rand.Next(1, 4));
+                    break;
             }
         }
 

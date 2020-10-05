@@ -182,11 +182,11 @@ namespace EEMod
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 220 * 220);
                         roomsRight[i] = new Vector2(randPosX, randPosY);
                     }
-                    int biome = WorldGen.genRand.Next(0, 3);
-                    if ((int)roomsLeft[i].Y > 800 && biome != 0)
+                    int biome = WorldGen.genRand.Next(4);
+                    if ((int)roomsRight[i].Y > 800 && biome != 0)
                         biome += 3;
-                    MakeCoralRoom((int)roomsLeft[i].X, (int)roomsLeft[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(0, 3));
-                    MinibiomeLocations.Add(new Vector3((int)roomsLeft[i].X, (int)roomsLeft[i].Y, biome));
+                    MakeCoralRoom((int)roomsRight[i].X, (int)roomsRight[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(4));
+                    MinibiomeLocations.Add(new Vector3((int)roomsRight[i].X, (int)roomsRight[i].Y, biome));
                     if (i != 0)
                     {
                         MakeWavyChasm3(roomsRight[i], roomsRight[i - 1], TileID.StoneSlab, 100, 10, true, new Vector2(20, 40), 0, 5, true, 51, WorldGen.genRand.Next(80, 120));
