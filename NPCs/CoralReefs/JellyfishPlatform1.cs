@@ -43,8 +43,10 @@ namespace EEMod.NPCs.CoralReefs
         public Vector2[,,] lol1;
         public int noOfTentacles = 8;
         float counter2;
+        public Color drawColour;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
+            this.drawColour = drawColor;
             counter2 += 0.1f;
             Texture2D tex = Main.npcTexture[npc.type];
             Vector2 pos = npc.Center.ForDraw();
