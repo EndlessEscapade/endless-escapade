@@ -277,14 +277,12 @@ namespace EEMod
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
-            //trailManager.DrawTrails(Main.spriteBatch);
-           // prims.DrawTrails(Main.spriteBatch);
+            trailManager.DrawTrails(Main.spriteBatch);
 
             orig(self);
         }
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self,int iNPCTiles, bool behindTiles)
         {
-            trailManager.DrawTrails(Main.spriteBatch);
             prims.DrawTrails(Main.spriteBatch);
 
             orig(self, iNPCTiles, behindTiles);
