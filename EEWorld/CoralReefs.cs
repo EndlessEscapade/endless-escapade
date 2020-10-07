@@ -183,7 +183,7 @@ namespace EEMod.EEWorld
                                     {
                                         for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
                                         {
-                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 50 * 50)
+                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 20 * 20)
                                             {
                                                 noOfTiles += 5;
                                             }
@@ -193,7 +193,7 @@ namespace EEMod.EEWorld
                                     {
                                         for (int m = 0; m < EESubWorlds.OrbPositions.Count; m++)
                                         {
-                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 50 * 50)
+                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 20 * 20)
                                             {
                                                 noOfTiles += 5;
                                             }
