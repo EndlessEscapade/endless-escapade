@@ -244,6 +244,20 @@ namespace EEMod.EEWorld
 
             switch (minibiome)
             {
+                case MinibiomeID.Anemone:
+                    perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
+                    int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+                    for (int i = 0; i < sizeX; i++)
+                    {
+                        for (int j = 0; j < sizeY; j++)
+                        {
+                            if (perlinNoiseFunction[i, j] == 1)
+                            {
+                                WorldGen.PlaceWall(i + xPos, j + yPos, ModContent.WallType<AnemoneWallTile>());
+                            }
+                        }
+                    }
+                    break;
                 case MinibiomeID.CrystallineCaves:
                     break;
             }
