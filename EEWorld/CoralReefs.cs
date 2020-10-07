@@ -242,6 +242,12 @@ namespace EEMod.EEWorld
                     break;
             }
 
+            switch (minibiome)
+            {
+                case MinibiomeID.CrystallineCaves:
+                    break;
+            }
+
             CreateNoise(ensureNoise, Main.rand.Next(30,50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f,0.6f));
         }
         
@@ -850,8 +856,8 @@ namespace EEMod.EEWorld
                                     break;
                                 #endregion
 
-                                #region Subterranean Waters
-                                case 6: //Subterranean Waters(Thinner, taller coral)
+                                #region Crystalline Caves
+                                case 6: //Crystalline Caves(Thinner, taller coral, crystals)
                                     if (!WorldGen.genRand.NextBool(5))
                                     {
                                         switch (TileCheck2(i, j))
