@@ -157,52 +157,66 @@ namespace EEMod.EEWorld
                     break;
 
                 case 4:
-                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                    try
                     {
-                        for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                        for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                         {
-                            if (j > 200)
+                            for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                             {
-                                int noOfTiles = 0;
-                                for (int k = -6; k < 6; k++)
+                                if (j > 200)
                                 {
-                                    for (int l = -6; l < 6; l++)
+                                    int noOfTiles = 0;
+                                    for (int k = -6; k < 6; k++)
                                     {
-                                       if(WorldGen.InWorld(i+k, j+l,10))
-                                       {
-                                            if (Main.tile[i + k, j + l].active())
+                                        for (int l = -6; l < 6; l++)
+                                        {
+                                            if (WorldGen.InWorld(i + k, j + l, 10))
                                             {
-                                                noOfTiles++;
+                                                if (Main.tile[i + k, j + l].active())
+                                                {
+                                                    noOfTiles++;
+                                                }
                                             }
-                                        } 
+                                        }
                                     }
-                                }
-                                for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
-                                {
-                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 50 * 50)
+                                    if (EESubWorlds.BulbousTreePosition.Count > 0)
                                     {
-                                        noOfTiles += 5;
+                                        for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
+                                        {
+                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 50 * 50)
+                                            {
+                                                noOfTiles += 5;
+                                            }
+                                        }
                                     }
-                                }
-                                for (int m = 0; m < EESubWorlds.OrbPositions.Count; m++)
-                                {
-                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 50 * 50)
+                                    if (EESubWorlds.OrbPositions.Count > 0)
                                     {
-                                        noOfTiles += 5;
+                                        for (int m = 0; m < EESubWorlds.OrbPositions.Count; m++)
+                                        {
+                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 50 * 50)
+                                            {
+                                                noOfTiles += 5;
+                                            }
+                                        }
                                     }
-                                }
-                                if (noOfTiles < 3)
-                                {
-                                    EESubWorlds.BulbousTreePosition.Add(new Vector2(i, j));
+                                    if (noOfTiles < 3)
+                                    {
+                                        EESubWorlds.BulbousTreePosition.Add(new Vector2(i, j));
+                                    }
                                 }
                             }
                         }
+                    }
+                    catch
+                    {
+
                     }
                             MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     for (int i = 0; i < 20; i++)
                     {
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
                     }
+
 
                     break;
 
@@ -228,7 +242,7 @@ namespace EEMod.EEWorld
                     break;
             }
 
-            CreateNoise(ensureNoise, Main.rand.Next(40,100), Main.rand.Next(20, 70), Main.rand.NextFloat(0.4f,0.6f));
+            CreateNoise(ensureNoise, Main.rand.Next(30,50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f,0.6f));
         }
         
 

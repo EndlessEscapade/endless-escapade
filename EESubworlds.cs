@@ -144,7 +144,7 @@ namespace EEMod
                             MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X, (int)roomsUp[i].Y, biome));
                             if (i != 0)
                             {
-                                MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), 0, 5, true, 51, WorldGen.genRand.Next(80, 120));
+                                MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 50), 5, true, 51, WorldGen.genRand.Next(80, 120));
                             }
                         }
                         if (i > 3)
@@ -203,11 +203,11 @@ namespace EEMod
 
                         void PlaceRoom(int biome)
                         {
-                            MakeCoralRoom((int)roomsUp[i].X, (int)roomsUp[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(4));
-                            MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X, (int)roomsUp[i].Y, biome));
+                            MakeCoralRoom((int)roomsDown[i].X, (int)roomsDown[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(4));
+                            MinibiomeLocations.Add(new Vector3((int)roomsDown[i].X, (int)roomsDown[i].Y, biome));
                             if (i != 0)
                             {
-                                MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), 0, 5, true, 51, WorldGen.genRand.Next(80, 120));
+                                MakeWavyChasm3(roomsDown[i], roomsDown[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 50), 5, true, 51, WorldGen.genRand.Next(80, 120));
                             }
                         }
                         if (i > 3)
