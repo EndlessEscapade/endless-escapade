@@ -293,7 +293,7 @@ namespace EEMod.EEWorld
 
                             int selection;
                             switch (minibiome)
-                            {
+                            {   
                                 #region Default
                                 case 0: //Default
                                     if (!WorldGen.genRand.NextBool(6))
