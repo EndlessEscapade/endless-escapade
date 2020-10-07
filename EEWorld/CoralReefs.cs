@@ -242,6 +242,26 @@ namespace EEMod.EEWorld
                     break;
             }
 
+            switch (minibiome)
+            {
+                case MinibiomeID.Anemone:
+                    perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
+                    int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+                    for (int i = 0; i < sizeX; i++)
+                    {
+                        for (int j = 0; j < sizeY; j++)
+                        {
+                            if (perlinNoiseFunction[i, j] == 1)
+                            {
+                                WorldGen.PlaceWall(i + xPos, j + yPos, ModContent.WallType<AnemoneWallTile>());
+                            }
+                        }
+                    }
+                    break;
+                case MinibiomeID.CrystallineCaves:
+                    break;
+            }
+
             CreateNoise(ensureNoise, Main.rand.Next(30,50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f,0.6f));
         }
         
@@ -318,7 +338,7 @@ namespace EEMod.EEWorld
                             switch (minibiome)
                             {   
                                 #region Default
-                                case 0: //Default
+                                case MinibiomeID.None: //Default
                                     if (!WorldGen.genRand.NextBool(6))
                                     {
                                         switch (TileCheck2(i, j))
@@ -514,7 +534,7 @@ namespace EEMod.EEWorld
                                 #endregion
 
                                 #region Kelp Forest
-                                case 1: //Kelp Forest (Glowing Kelp/Greencoral)
+                                case MinibiomeID.KelpForest: //Kelp Forest (Glowing Kelp/Greencoral)
                                     if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(6))
                                     {
                                         if (!WorldGen.genRand.NextBool(4))
@@ -576,7 +596,7 @@ namespace EEMod.EEWorld
                                 #endregion
 
                                 #region The Great Anemone
-                                case 2: //Anemone(A massive anemone throughout the minibiome that electrocutes the player on contact, coral fans)
+                                case MinibiomeID.Anemone: //Anemone(A massive anemone throughout the minibiome that electrocutes the player on contact, coral fans)
                                     if (!WorldGen.genRand.NextBool(6))
                                     {
                                         switch (TileCheck2(i, j))
@@ -650,7 +670,7 @@ namespace EEMod.EEWorld
                                 #endregion
 
                                 #region Jellyfish Caverns
-                                case 3: //Jellyfish Caverns(More hanging coral/longer hanging coral)
+                                case MinibiomeID.JellyfishCaverns: //Jellyfish Caverns(More hanging coral/longer hanging coral)
                                     if (!WorldGen.genRand.NextBool(6))
                                     {
                                         switch (TileCheck2(i, j))
@@ -710,7 +730,7 @@ namespace EEMod.EEWorld
                                 #endregion
 
                                 #region Bulbous Grove
-                                case 4: //Bulbous Grove(Round/circular/bulbous coral/plants)
+                                case MinibiomeID.BulbousGrove: //Bulbous Grove(Round/circular/bulbous coral/plants)
                                     if (WorldGen.genRand.NextBool())
                                     {
                                         switch (TileCheck2(i, j))
@@ -780,7 +800,7 @@ namespace EEMod.EEWorld
                                 #endregion
 
                                 #region Thermal Vents
-                                case 5: //Thermal Vents(Thermal Vents-Thermal Vents and larger coral, more coral stacks)
+                                case MinibiomeID.ThermalVents: //Thermal Vents(Thermal Vents-Thermal Vents and larger coral, more coral stacks)
                                     if (!WorldGen.genRand.NextBool(6))
                                     {
                                         if (WorldGen.genRand.NextBool())
@@ -850,8 +870,8 @@ namespace EEMod.EEWorld
                                     break;
                                 #endregion
 
-                                #region Subterranean Waters
-                                case 6: //Subterranean Waters(Thinner, taller coral)
+                                #region Crystalline Caves
+                                case MinibiomeID.CrystallineCaves: //Crystalline Caves(Thinner, taller coral, crystals)
                                     if (!WorldGen.genRand.NextBool(5))
                                     {
                                         switch (TileCheck2(i, j))
