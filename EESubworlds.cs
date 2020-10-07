@@ -144,7 +144,7 @@ namespace EEMod
                             MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X, (int)roomsUp[i].Y, biome));
                             if (i != 0)
                             {
-                                MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 50), WorldGen.genRand.Next(2, 4), true, 51, WorldGen.genRand.Next(80, 120));
+                                MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                             }
                         }
                         if (i > 3)
@@ -207,7 +207,7 @@ namespace EEMod
                             MinibiomeLocations.Add(new Vector3((int)roomsDown[i].X, (int)roomsDown[i].Y, biome));
                             if (i != 0)
                             {
-                                MakeWavyChasm3(roomsDown[i], roomsDown[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 50), WorldGen.genRand.Next(2, 4), true, 51, WorldGen.genRand.Next(80, 120));
+                                MakeWavyChasm3(roomsDown[i], roomsDown[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                             }
                         }
                         if (i > 3)
@@ -285,8 +285,6 @@ namespace EEMod
                     MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40), WorldGen.genRand.Next(10, 50), WorldGen.genRand.Next(2, 5));
                 }
 
-                if (WorldGen.genRand.NextBool())
-                {
                     Vector2 highestRoom = new Vector2(0, 3000);
                     foreach (Vector2 legoYoda in roomsUp)
                     {
@@ -297,20 +295,6 @@ namespace EEMod
                     }
 
                     MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + WorldGen.genRand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
-                }
-                else
-                {
-                    Vector2 highestRoom = new Vector2(0, 3000);
-                    foreach (Vector2 legoYoda in roomsDown)
-                    {
-                        if (legoYoda.Y < highestRoom.Y)
-                        {
-                            highestRoom = legoYoda;
-                        }
-                    }
-
-                    MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + WorldGen.genRand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
-                }
                 #endregion
 
                 MakeLayer(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400, 100, 1, ModContent.TileType<GemsandTile>());
