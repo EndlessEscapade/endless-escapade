@@ -231,7 +231,6 @@ namespace EEMod
             }
             if (Main.worldName == KeyID.CoralReefs)
             {
-                Main.NewText(EESubWorlds.BulbousTreePosition.Count);
                 EEWorld.EEWorld.instance.DrawVines();
             }
 

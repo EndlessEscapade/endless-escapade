@@ -63,8 +63,7 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            try
-            {
+            
                 //Placing initial blocks
                 #region Initial block placement
                 EEMod.progressMessage = "Generating Upper layer base";
@@ -94,6 +93,8 @@ namespace EEMod
                 NoiseGenWave(new Vector2(300, 60), size, new Vector2(50, 50), TileID.StoneSlab, 0.6f);
                 int[] roomGen = Helpers.FillPseudoRandomUniform<int>(4);
                 int[] typeGen = Helpers.FillPseudoRandomUniform<int>(4);
+            try
+            {
                 //Making chasms
                 for (int i = 0; i < roomsUp.Length; i++)
                 {
@@ -108,14 +109,14 @@ namespace EEMod
                         int breakLoop = 0;
                         float randPosX;
                         float randPosY;
-                        int distance = 400;
+                        int distance = 250;
                         do
                         {
                             breakLoop++;
                             score = 0;
                             randPosX = WorldGen.genRand.Next((int)roomsUp[i - 1].X - distance, (int)roomsUp[i - 1].X + distance);
                             randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsUp[i - 1].Y - distance, (int)roomsUp[i - 1].Y + distance), Main.maxTilesY/10, Main.maxTilesY);
-                            float f = sizeOfChasm * 2f;
+                            float f = sizeOfChasm * 1f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
                             {
@@ -132,28 +133,30 @@ namespace EEMod
                         || randPosX < sizeOfChasm * 2f
                         || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
                         || randPosY < sizeOfChasm 
-                        || randPosY > Main.maxTilesY*0.5f 
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 100 * 100
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 100 * 100);
+                        || randPosY > Main.maxTilesY*0.4f 
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 200 * 200
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 200 * 200);
                         roomsUp[i] = new Vector2(randPosX, randPosY);
-                    }
-                    void PlaceRoom(int biome)
-                    {
-                        MakeCoralRoom((int)roomsUp[i].X, (int)roomsUp[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(4));
-                        MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X, (int)roomsUp[i].Y, biome));
-                        if (i != 0)
+
+                        void PlaceRoom(int biome)
                         {
-                            MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), 0, 5, true, 51, WorldGen.genRand.Next(80, 120));
+                            MakeCoralRoom((int)roomsUp[i].X, (int)roomsUp[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(4));
+                            MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X, (int)roomsUp[i].Y, biome));
+                            if (i != 0)
+                            {
+                                MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), 0, 5, true, 51, WorldGen.genRand.Next(80, 120));
+                            }
+                        }
+                        if (i > 3)
+                        {
+                            PlaceRoom(WorldGen.genRand.Next(4));
+                        }
+                        else
+                        {
+                            PlaceRoom(roomGen[i]);
                         }
                     }
-                    if (i > 3)
-                    {
-                        PlaceRoom(WorldGen.genRand.Next(4));
-                    }
-                    else
-                    {
-                        PlaceRoom(roomGen[i]);
-                    }
+
                 }
 
                 for (int i = 0; i < roomsDown.Length; i++)
@@ -169,14 +172,14 @@ namespace EEMod
                         int breakLoop = 0;
                         float randPosX;
                         float randPosY;
-                        int distance = 400;
+                        int distance = 250;
                         do
                         {
                             breakLoop++;
                             score = 0;
                             randPosX = WorldGen.genRand.Next((int)roomsDown[i - 1].X - distance, (int)roomsDown[i - 1].X + distance);
                             randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsDown[i - 1].Y - distance, (int)roomsDown[i - 1].Y + distance), Main.maxTilesY / 10, Main.maxTilesY); 
-                            float f = sizeOfChasm * 2f;
+                            float f = sizeOfChasm;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
                             {
@@ -193,29 +196,30 @@ namespace EEMod
                         || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
                         || randPosX < sizeOfChasm * 1.2f
                         || randPosY < Main.maxTilesY*0.5f
-                        || randPosY > Main.maxTilesY*0.9f
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 100 * 100
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 100 * 100);
+                        || randPosY > Main.maxTilesY*0.95f
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 200 * 200
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 200 * 200);
                         roomsDown[i] = new Vector2(randPosX, randPosY);
-                    }
-                    void PlaceRoom(int biome,int type)
-                    {
-                        if (biome == 3) biome = 0;
-                        MakeCoralRoom((int)roomsDown[i].X, (int)roomsDown[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(4));
-                        MinibiomeLocations.Add(new Vector3((int)roomsDown[i].X, (int)roomsDown[i].Y, biome));
-                        if (i != 0)
+
+                        void PlaceRoom(int biome)
                         {
-                            MakeWavyChasm3(roomsDown[i], roomsDown[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), 0, 5, true, 51, WorldGen.genRand.Next(80, 120));
+                            MakeCoralRoom((int)roomsUp[i].X, (int)roomsUp[i].Y, sizeOfChasm, biome, WorldGen.genRand.Next(4));
+                            MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X, (int)roomsUp[i].Y, biome));
+                            if (i != 0)
+                            {
+                                MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), 0, 5, true, 51, WorldGen.genRand.Next(80, 120));
+                            }
+                        }
+                        if (i > 3)
+                        {
+                            PlaceRoom(WorldGen.genRand.Next(4) + 3);
+                        }
+                        else
+                        {
+                            PlaceRoom(roomGen[i] + 3);
                         }
                     }
-                    if (i > 3)
-                    {
-                        PlaceRoom(WorldGen.genRand.Next(4) + 3, typeGen[i]);
-                    }
-                    else
-                    {
-                        PlaceRoom(roomGen[i] + 3, typeGen[i]);
-                    }
+
                 }
 
                 EEMod.progressMessage = "Genning Rooms";
@@ -413,8 +417,10 @@ namespace EEMod
             }
             catch (Exception e)
             {
+                EEMod.progressMessage = "Unsuccessful!";
                 EEMod.progressMessage = e.ToString();
                 SubworldManager.PreSaveAndQuit();
+                return;
             }
 
             #region Placing the boat

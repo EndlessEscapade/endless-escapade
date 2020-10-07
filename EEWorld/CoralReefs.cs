@@ -83,25 +83,31 @@ namespace EEMod.EEWorld
                     {
                         for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                         {
-                            if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
+                            if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
                             {
-                                Tile tile = Framing.GetTileSafely(i, j);
-                                if (j < Main.maxTilesY * 0.33f)
+                                if (i - (int)startingPoint.X < 1000 && j - (int)startingPoint.Y < 1000)
                                 {
-                                    tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
-                                }
-                                else if (j < Main.maxTilesY * 0.66f)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<GemsandTile>();
-                                }
-                                else if (j > Main.maxTilesY * 0.66f)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
-                                }
+                                    if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
+                                    {
+                                        Tile tile = Framing.GetTileSafely(i, j);
+                                        if (j < Main.maxTilesY * 0.33f)
+                                        {
+                                            tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
+                                        }
+                                        else if (j < Main.maxTilesY * 0.66f)
+                                        {
+                                            tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                        }
+                                        else if (j > Main.maxTilesY * 0.66f)
+                                        {
+                                            tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
+                                        }
 
-                                if (j < Main.maxTilesY / 10)
-                                {
-                                    tile.type = (ushort)ModContent.TileType<CoralSandTile>();
+                                        if (j < Main.maxTilesY / 10)
+                                        {
+                                            tile.type = (ushort)ModContent.TileType<CoralSandTile>();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -162,10 +168,13 @@ namespace EEMod.EEWorld
                                 {
                                     for (int l = -6; l < 6; l++)
                                     {
-                                        if (Main.tile[i + k, j + l].active())
-                                        {
-                                            noOfTiles++;
-                                        }
+                                       if(WorldGen.InWorld(i+k, j+l,10))
+                                       {
+                                            if (Main.tile[i + k, j + l].active())
+                                            {
+                                                noOfTiles++;
+                                            }
+                                        } 
                                     }
                                 }
                                 for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
@@ -219,7 +228,7 @@ namespace EEMod.EEWorld
                     break;
             }
 
-            CreateNoise(ensureNoise, 50, 20, 0.5f);
+            CreateNoise(ensureNoise, Main.rand.Next(40,100), Main.rand.Next(20, 70), Main.rand.NextFloat(0.4f,0.6f));
         }
         
 
