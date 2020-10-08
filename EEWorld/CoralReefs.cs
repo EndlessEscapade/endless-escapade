@@ -159,9 +159,9 @@ namespace EEMod.EEWorld
                 case 4:
                     try
                     {
-                        for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                        for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX; i++)
                         {
-                            for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                            for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY; j++)
                             {
                                 if (j > 200)
                                 {
@@ -183,7 +183,7 @@ namespace EEMod.EEWorld
                                     {
                                         for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
                                         {
-                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 20 * 20)
+                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 64 * 64)
                                             {
                                                 noOfTiles += 5;
                                             }
@@ -242,7 +242,7 @@ namespace EEMod.EEWorld
                     break;
             }
 
-            switch (minibiome)
+            /*switch (minibiome)
             {
                 case MinibiomeID.Anemone:
                     perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
@@ -260,15 +260,30 @@ namespace EEMod.EEWorld
                     break;
                 case MinibiomeID.CrystallineCaves:
                     break;
-            }
+            }*/
 
             CreateNoise(ensureNoise, Main.rand.Next(30,50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f,0.6f));
         }
-        
 
 
 
 
+        public static void MakeCrystal(int xPos, int yPos, int length, int width, int vertDir, int horDir)
+        {
+            for(int a = 0; a < length; a++)
+            {
+                for(int i = xPos + (a * horDir); i < width; i++)
+                {
+                    for(int j = yPos + (a * vertDir); j < width; j++)
+                    {
+                        if (!Main.tile[i, j].active())
+                        {
+                            WorldGen.PlaceTile(i, j, ModContent.TileType<HydriteOreTile>());
+                        }
+                    }
+                }
+            }
+        }
 
         public static void PlaceCoral()
         {
@@ -740,7 +755,6 @@ namespace EEMod.EEWorld
                                                 switch (selection)
                                                 {
                                                     case 0:
-                                                        ModContent.GetInstance<HangingCoral7TE>().Place(i, j + 1);
                                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral7>());
                                                         break;
 
@@ -874,44 +888,51 @@ namespace EEMod.EEWorld
                                 case MinibiomeID.CrystallineCaves: //Crystalline Caves(Thinner, taller coral, crystals)
                                     if (!WorldGen.genRand.NextBool(5))
                                     {
-                                        switch (TileCheck2(i, j))
+                                        if (WorldGen.genRand.NextBool(20))
                                         {
-                                            case 1:
-                                                selection = WorldGen.genRand.Next(4);
-                                                switch (selection)
-                                                {
-                                                    case 0:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x2Coral>());
-                                                        break;
+                                            MakeCrystal(i, j, WorldGen.genRand.Next(10, 30), WorldGen.genRand.Next(2, 5), WorldGen.genRand.NextBool().ToDirectionInt(), WorldGen.genRand.NextBool().ToDirectionInt());
+                                        }
+                                        else
+                                        {
+                                            switch (TileCheck2(i, j))
+                                            {
+                                                case 1:
+                                                    selection = WorldGen.genRand.Next(4);
+                                                    switch (selection)
+                                                    {
+                                                        case 0:
+                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x2Coral>());
+                                                            break;
 
-                                                    case 1:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x3Coral>(), style: WorldGen.genRand.Next(2));
-                                                        break;
+                                                        case 1:
+                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x3Coral>(), style: WorldGen.genRand.Next(2));
+                                                            break;
 
-                                                    case 2:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(3));
-                                                        break;
+                                                        case 2:
+                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(3));
+                                                            break;
 
-                                                    case 3:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
-                                                        break;
-                                                }
-                                                break;
-                                            case 2:
-                                                selection = WorldGen.genRand.Next(3);
-                                                switch (selection)
-                                                {
-                                                    case 0:
-                                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor1x2Coral>(), style: WorldGen.genRand.Next(7));
-                                                        break;
-                                                    case 1:
-                                                        WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor2x6Coral>());
-                                                        break;
-                                                    case 2:
-                                                        WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor6x8Coral>());
-                                                        break;
-                                                }
-                                                break;
+                                                        case 3:
+                                                            WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
+                                                            break;
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    selection = WorldGen.genRand.Next(3);
+                                                    switch (selection)
+                                                    {
+                                                        case 0:
+                                                            WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor1x2Coral>(), style: WorldGen.genRand.Next(7));
+                                                            break;
+                                                        case 1:
+                                                            WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor2x6Coral>());
+                                                            break;
+                                                        case 2:
+                                                            WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor6x8Coral>());
+                                                            break;
+                                                    }
+                                                    break;
+                                            }
                                         }
                                         break;
                                     }

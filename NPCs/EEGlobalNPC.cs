@@ -34,6 +34,9 @@ namespace EEMod.NPCs
                 pool.Add(ModContent.NPCType<SeaSlug>(), 0.5f);
                 pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
             }
+
+
+
             if (Main.ActiveWorldFileData.Name == KeyID.Island || Main.ActiveWorldFileData.Name == KeyID.Island2)
             {
                 pool[0] = 0f;

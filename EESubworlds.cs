@@ -225,7 +225,7 @@ namespace EEMod
                 EEMod.progressMessage = "Genning Rooms";
 
 
-                MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, 0, WorldGen.genRand.Next(0, 4), true);
+                MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, 0, WorldGen.genRand.Next(4), true);
                 MinibiomeLocations.Add(new Vector3(Main.maxTilesX / 2, Main.maxTilesY / 2, 0));
                 MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400, 400, 0, 0, false);
                 MinibiomeLocations.Add(new Vector3(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400, 0));
