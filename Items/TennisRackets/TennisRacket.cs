@@ -4,14 +4,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Projectiles.TennisRackets;
 
-namespace EEMod.Items
+namespace EEMod.Items.TennisRackets
 {
-    public class Terracket : ModItem
+    public class TennisRacket : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Terracket");
-            Tooltip.SetDefault("Better than the toilet, I guess");
+            DisplayName.SetDefault("Tennis Racket");
         }
 
         public override void SetDefaults()
@@ -45,7 +44,7 @@ namespace EEMod.Items
         {
             if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI)
             {
-                proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TerracketProj>(), 0, 0f, player.whoAmI);
+                proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TennisRacketProj>(), 0, 0f, player.whoAmI);
                 yeet = 1;
                 Main.projectile[proj].netUpdate = true;
             }

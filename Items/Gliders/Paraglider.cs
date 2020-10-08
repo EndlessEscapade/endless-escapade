@@ -4,13 +4,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items
+namespace EEMod.Items.Gliders
 {
-    public class MantaRayGlider : ModItem
+    public class Paraglider : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Manta Ray Glider");
+            DisplayName.SetDefault("Paraglider");
             ItemID.Sets.SortingPriorityMaterials[item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
         }
 
@@ -27,7 +27,9 @@ namespace EEMod.Items
             //item.flame = true; needs a flame texture.
             item.noWet = true;
         }
+
         int lerpage;
+        int updraftCooldown;
         public override void UpdateInventory(Player player)
         {
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider = false;
@@ -35,7 +37,7 @@ namespace EEMod.Items
         public override void HoldStyle(Player player)
         {
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider = true;
-            player.itemLocation += new Vector2(-100 * player.direction, 0);
+            player.itemLocation += new Vector2(-17 * player.direction, 0);
             if(Main.rand.Next(4) == 0)
             Dust.NewDust(player.position + new Vector2(-30 * player.direction,-5), 2, 2, 91,0,0,0,default,Math.Abs(player.velocity.X)/40f);
             Tile tile = Main.tile[(int)player.position.X / 16, (int)player.position.Y / 16 + 3];
@@ -58,7 +60,7 @@ namespace EEMod.Items
             if (player.velocity.Y > 0)
             {
 
-                player.gravity = 0.133f;
+                player.gravity = 0.15f;
                 player.bodyFrame.Y = 4 * 56;
 
                 player.velocity.Y = 1;
@@ -69,6 +71,13 @@ namespace EEMod.Items
                         player.velocity.X *= 1.02f;
                     }
                 }
+            }
+
+            if (updraftCooldown > 0) updraftCooldown--;
+            if (player.controlUp && updraftCooldown <= 0)
+            {
+                updraftCooldown = 900;
+                player.velocity.Y += -16;
             }
         }
     }
