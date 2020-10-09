@@ -441,9 +441,30 @@ namespace EEMod
                 DrawPrimDelegate LythenPrims = (int noOfPoints) =>
                 {
                     vertices = new VertexPositionColorTexture[noOfPoints];
-                    AddVertex(_points[0], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                    AddVertex(_points[1], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                    AddVertex(_points[2], Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    Vector2 leftMostPoint = Vector2.Zero;
+                    Vector2 rightMostPoint = Vector2.Zero;
+                    Vector2 between = Vector2.Zero;
+                    for (int i = 0; i < _points.Count; i++)
+                    {
+                        if (leftMostPoint == Vector2.Zero || _points[i].X < leftMostPoint.X)
+                        {
+                            leftMostPoint = _points[i];
+                        }
+                        if (rightMostPoint == Vector2.Zero || _points[i].X > rightMostPoint.X)
+                        {
+                            rightMostPoint = _points[i];
+                        }
+                    }
+                    for (int i = 0; i < _points.Count; i++)
+                    {
+                        if (_points[i].X > leftMostPoint.X && _points[i].X < rightMostPoint.X)
+                        {
+                            between = _points[i];
+                        }
+                    }
+                    AddVertex(rightMostPoint, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    AddVertex(between, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                    AddVertex(leftMostPoint, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                     PrepareShader();
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints/3);
                 };

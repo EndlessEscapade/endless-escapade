@@ -134,8 +134,9 @@ namespace EEMod
                         || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
                         || randPosY < sizeOfChasm 
                         || randPosY > Main.maxTilesY*0.4f 
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 150 * 150
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 150 * 150);
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 300 * 300
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) < 300 * 300
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 300 * 300);
                         roomsUp[i] = new Vector2(randPosX, randPosY);
 
                         void PlaceRoom(int biome)
@@ -197,8 +198,9 @@ namespace EEMod
                         || randPosX < sizeOfChasm * 1.2f
                         || randPosY < Main.maxTilesY*0.5f
                         || randPosY > Main.maxTilesY*0.95f
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 150 * 150
-                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 150 * 150);
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 300 * 300
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) < 300 * 300
+                        || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 300 * 300);
                         roomsDown[i] = new Vector2(randPosX, randPosY);
 
                         void PlaceRoom(int biome)

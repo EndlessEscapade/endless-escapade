@@ -164,9 +164,9 @@ namespace EEMod.EEWorld
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
                     }
                     RemoveStoneSlabs();
-                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX; i++)
+                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX*2; i++)
                         {
-                            for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY; j++)
+                            for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY*2; j++)
                             {
 
                                     int noOfTiles = 0;
@@ -187,7 +187,7 @@ namespace EEMod.EEWorld
                                     {
                                         for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
                                         {
-                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 50 * 50)
+                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 45 * 45)
                                             {
                                                 noOfTiles += 5;
                                             }
