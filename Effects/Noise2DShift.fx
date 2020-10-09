@@ -29,17 +29,17 @@ float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
     float height = GetHeight(coords * 0.1f + float2(xCoord + 0.3f, yCoord + 0.3f));
     float lerp = height * GetHeight(float2(xCoord * coords.x, yCoord * coords.y));
     
-    if (distance(float2(0.5f, 0.5f), coords) < 0.4f + lerp*0.2f)
+    if (distance(float2(0.5f, 0.5f), coords) < 0.4f + lerp* 0.2f)
     {
         //colobur = float4(0.1f, 0.1f, 0.5f, 1);
         colour.b += lerp*4;
-        colour.g += lerp;
-        colour.b += lerp;
+        colour.g += lerp*.8f;
+        colour.b += lerp * .8f;
         float a = (1.5f - distance(float2(0.7f - xCoord, 0.4f - yCoord), coords) * 1.2f) * 2 * height;
         if (distance(float2(0.5f, 0.5f), coords) > 0.385f + lerp * 0.2f)
             colour = float4(0.01f, 0.01f, 1, 10);
-        colour.rgb += (lightColour.b * colour2 * a)/3.1f;
-        colour.rgb *= lightColour + 0.5f;
+        colour.rgb += (colour2 * a)/4.1f;
+        colour.rgb *= lightColour + 0.2f;
        
     }
     else
