@@ -91,7 +91,7 @@ namespace EEMod.Projectiles.Mage
             dust.velocity = Vector2.Normalize(dust.position - projectile.Center) * 2;
             dust.noLight = false;
             dust.fadeIn = 1f;
-            projectile.velocity *= 0.98f;
+            projectile.velocity *= 0.95f;
             radius = 16;
             numLocations = 120;
             for (int i = 0; i < projectile.ai[1]; i++)

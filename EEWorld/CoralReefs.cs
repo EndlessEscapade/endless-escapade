@@ -157,22 +157,26 @@ namespace EEMod.EEWorld
                     break;
 
                 case 4:
-                    try
+
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
+                    for (int i = 0; i < 20; i++)
                     {
-                        for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX; i++)
+                        MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
+                    }
+                    RemoveStoneSlabs();
+                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX*2; i++)
                         {
-                            for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY; j++)
+                            for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY*2; j++)
                             {
-                                if (j > 200)
-                                {
+
                                     int noOfTiles = 0;
-                                    for (int k = -6; k < 6; k++)
+                                    for (int k = -5; k < 5; k++)
                                     {
-                                        for (int l = -6; l < 6; l++)
+                                        for (int l = -5; l < 5; l++)
                                         {
                                             if (WorldGen.InWorld(i + k, j + l, 10))
                                             {
-                                                if (Main.tile[i + k, j + l].active())
+                                                if (Main.tile[i + k, j + l].active() && Main.tileSolid[Main.tile[i + k, j + l].type])
                                                 {
                                                     noOfTiles++;
                                                 }
@@ -183,7 +187,7 @@ namespace EEMod.EEWorld
                                     {
                                         for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
                                         {
-                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 64 * 64)
+                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 45 * 45)
                                             {
                                                 noOfTiles += 5;
                                             }
@@ -203,19 +207,9 @@ namespace EEMod.EEWorld
                                     {
                                         EESubWorlds.BulbousTreePosition.Add(new Vector2(i, j));
                                     }
-                                }
                             }
                         }
-                    }
-                    catch
-                    {
 
-                    }
-                            MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    for (int i = 0; i < 20; i++)
-                    {
-                        MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
-                    }
 
 
                     break;

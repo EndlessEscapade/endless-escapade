@@ -158,6 +158,7 @@ namespace EEMod
                                 dust.scale = 0.1f;
                                 dust.noGravity = true;
                                 dust.velocity *= 0.25f;
+                                dust.noLight = false;
                             }
                         }
                     }
