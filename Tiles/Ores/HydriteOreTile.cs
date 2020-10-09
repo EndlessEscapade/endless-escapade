@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Ores
             AddMapEntry(new Color(152, 171, 198), name);
 
             dustType = 84;
-            drop = ModContent.ItemType<HydriteOre>();
+            //drop = ModContent.ItemType<HydriteOre>();
             soundType = SoundID.Tink;
             soundStyle = 1;
             mineResist = 1f;

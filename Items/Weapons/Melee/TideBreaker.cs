@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Ores;
+/*using EEMod.Items.Placeables.Ores;
 using EEMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
@@ -50,4 +50,4 @@ namespace EEMod.Items.Weapons.Melee
             recipe.AddRecipe();
         }
     }
-}
+}*/

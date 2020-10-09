@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Ores;
+/*using EEMod.Items.Placeables.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -38,4 +38,4 @@ namespace EEMod.Items.Armor.Hydrite
             recipe.AddRecipe();
         }
     }
-}
+}*/
