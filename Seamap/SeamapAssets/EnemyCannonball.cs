@@ -1,13 +1,15 @@
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.SeamapAssets
+namespace EEMod.Seamap.SeamapAssets
 {
-    public class FriendlyChlorophyteCannonball : ModProjectile
+    public class EnemyCannonball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Chlorophyte Cannonball");
+            DisplayName.SetDefault("Cannonball");
         }
 
         public override void SetDefaults()
@@ -28,6 +30,12 @@ namespace EEMod.SeamapAssets
                 projectile.velocity *= 0.995f;
                 projectile.rotation = projectile.velocity.ToRotation();
                 killTimer--;
+                if (Vector2.DistanceSquared(EEMod.instance.position + Main.screenPosition, projectile.Center) < (20 * 20))
+                {
+                    sinking = true;
+                    projectile.Kill();
+                    Main.PlaySound(SoundID.NPCHit4);
+                }
             }
             if (killTimer <= 0)
             {
