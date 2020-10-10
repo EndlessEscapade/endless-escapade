@@ -21,6 +21,7 @@ using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
 using EEMod.SeamapAssets;
+using ReLogic.Graphics;
 
 namespace EEMod
 {
