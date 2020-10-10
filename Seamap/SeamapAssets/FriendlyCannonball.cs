@@ -1,45 +1,47 @@
-using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod.SeamapAssets
+namespace EEMod.Seamap.SeamapAssets
 {
-    public class MessageInABottle : ModProjectile
+    public class FriendlyCannonball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Message in a Bottle");
+            DisplayName.SetDefault("Cannonball");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 18;
-            projectile.hostile = false;
+            projectile.width = 8;
+            projectile.height = 8;
             projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1f;
+            projectile.magic = true;
         }
 
-        public bool sinking;
+        private int killTimer = 180;
+        private bool sinking;
 
         public override void AI()
         {
             if (!sinking)
             {
-                projectile.velocity = new Vector2(0.5f, 0);
+                projectile.velocity *= 0.995f;
+                projectile.rotation = projectile.velocity.ToRotation();
+                killTimer--;
             }
-            else
+            if (killTimer <= 0)
             {
                 Sink();
+                sinking = true;
             }
         }
 
         private int sinkTimer = 32;
 
-        public void Sink()
+        private void Sink()
         {
             projectile.velocity.X = 0;
-            projectile.velocity.Y = 0.5f;
+            projectile.velocity.Y = 0.3f;
             projectile.alpha += 8;
             sinkTimer--;
             if (sinkTimer <= 0)

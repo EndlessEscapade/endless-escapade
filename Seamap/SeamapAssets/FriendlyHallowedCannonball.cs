@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod.SeamapAssets
+namespace EEMod.Seamap.SeamapAssets
 {
     public class FriendlyHallowedCannonball : ModProjectile
     {

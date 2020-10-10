@@ -21,6 +21,7 @@ using Terraria.UI;
 using Terraria.World.Generation;
 using EEMod.Tiles.Furniture;
 using EEMod.SeamapAssets;
+using EEMod.Seamap.SeamapContent;
 
 namespace EEMod
 {
@@ -368,9 +369,10 @@ namespace EEMod
                 Ascension();
                 if (Main.worldName == KeyID.Sea)
                 {
-                    UpdateIslands();
+                    SeamapUpdates.UpdateShipMovement();
+                    SeamapRender.RenderIslands();
+                    SeamapRender.DrawShip();
                     DrawSubText();
-                    DrawShip();
                 }
                 if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
                 {

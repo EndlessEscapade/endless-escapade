@@ -4,9 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.SeamapAssets
+namespace EEMod.Seamap.SeamapAssets
 {
-    public class PirateShip : ModProjectile
+    public class RedDutchman : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -20,28 +20,25 @@ namespace EEMod.SeamapAssets
             projectile.hostile = false;
             projectile.friendly = true;
             projectile.ignoreWater = true;
-            projectile.scale = 1f;
+            projectile.scale = 1.2f;
         }
 
         private bool sinking;
+        private int hp = 5;
+        private int invincTime = 60;
 
         public override void AI()
         {
             if (!sinking)
             {
-                projectile.ai[0]++;
                 Vector2 moveTo = Main.screenPosition + EEMod.instance.position;
                 projectile.spriteDirection = 1;
                 if (projectile.velocity.X > 0)
                 {
                     projectile.spriteDirection = -1;
                 }
-                float speed = .3f;
+                float speed = .5f; //a
                 Vector2 move = moveTo - projectile.Center;
-                if (projectile.ai[0] % 180 == 0 && move.LengthSquared() < 500 * 500)
-                {
-                    Projectile.NewProjectile(projectile.Center, Vector2.Normalize(move) * 3, ModContent.ProjectileType<EnemyCannonball>(), 10, 10f);
-                }
                 float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                 if (magnitude > speed)
                 {
@@ -58,17 +55,25 @@ namespace EEMod.SeamapAssets
 
                 projectile.rotation = projectile.velocity.X / 2;
 
+                invincTime--;
+
+                invincTime = (int)MathHelper.Clamp(invincTime, 0, 61);
                 for (int j = 0; j < 450; j++)
                 {
                     if (Main.projectile[j].type == ModContent.ProjectileType<FriendlyCannonball>())
                     {
-                        if (Vector2.DistanceSquared(Main.projectile[j].Center, projectile.Center) < (60 * 60))
+                        if (Vector2.DistanceSquared(Main.projectile[j].Center, projectile.Center) < (50 * 50) && invincTime == 0)
                         {
-                            sinking = true;
+                            invincTime = 60;
                             Main.projectile[j].Kill();
                             Main.PlaySound(SoundID.NPCHit4);
+                            hp--;
                         }
                     }
+                }
+                if (hp <= 0)
+                {
+                    sinking = true;
                 }
             }
             else
