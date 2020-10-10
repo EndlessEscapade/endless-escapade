@@ -178,7 +178,7 @@ namespace EEMod
                     if (anchorLerp[i] > 0)
                         anchorLerp[i] -= 0.02f;
                 }
-                Main.spriteBatch.Draw(GetTexture("EEMod.SeamapAssets/Anchor"), currentPos + new Vector2(0,(float)Math.Sin(markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - EEMod.instance.GetTexture("SeamapAssets/Anchor").Width/2f, -80), drawColour * anchorLerp[i]);
+                Main.spriteBatch.Draw(GetTexture("SeamapAssets/Anchor"), currentPos + new Vector2(0,(float)Math.Sin(markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - EEMod.instance.GetTexture("SeamapAssets/Anchor").Width/2f, -80), drawColour * anchorLerp[i]);
                 if (modPlayer.quickOpeningFloat > 0.01f)
                 {
                     float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
@@ -216,7 +216,7 @@ namespace EEMod
                 var element = modPlayer.seagulls[i];
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
-                element.Draw(EEMod.instance.GetTexture("Seagulls"), 9, 5);
+                element.Draw(EEMod.instance.GetTexture("SeamapAssets/Seagulls"), 9, 5);
             }
         }
         float counter;
@@ -729,7 +729,7 @@ namespace EEMod
             }
             velocity.X = Helpers.Clamp(velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             velocity.Y = Helpers.Clamp(velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
-            texture = EEMod.instance.GetTexture("ShipMount");
+            texture = EEMod.instance.GetTexture("SeamapAssets/ShipMount");
 
             frames = 12;
             int frameNum = 0;
@@ -831,7 +831,7 @@ namespace EEMod
                 float light = rand * intenstityLightning;
                 Lighting.AddLight(currentLightningPos, light, light, light);
             }
-            Texture2D texture3 = EEMod.instance.GetTexture("ShipHelthSheet");
+            Texture2D texture3 = EEMod.instance.GetTexture("SeamapAssets/ShipHelthSheet");
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
             //float quotient = ShipHelth / ShipHelthMax; // unused
             Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8);
