@@ -13,11 +13,12 @@ namespace EEMod
         public static int startingTermination = 1;
         public static int maxNumberOfLights = 1000;
         public static Effect Noise2DShift;
-
+        public static Effect ReflectionShader;
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
             Noise2DShift = instance.GetEffect("Effects/Noise2DShift");
+            ReflectionShader = instance.GetEffect("Effects/ReflectionShader");
             //instance is a static field and this method is still inside the mod class
             Ref<Effect> screenRef = new Ref<Effect>(instance.GetEffect("Effects/PracticeEffect"));
             Ref<Effect> screenRef2 = new Ref<Effect>(instance.GetEffect("Effects/Shockwave"));
@@ -27,6 +28,7 @@ namespace EEMod
             Ref<Effect> screenRef6 = new Ref<Effect>(Noise2D);
             Ref<Effect> screenRef7 = new Ref<Effect>(instance.GetEffect("Effects/SeaOpening"));
             Ref<Effect> screenRef8 = new Ref<Effect>(instance.GetEffect("Effects/LightSource"));
+            Ref<Effect> screenRef9 = new Ref<Effect>(instance.GetEffect("Effects/ReflectionShader"));
             instance.GetEffect("Effects/Noise2D").Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
             Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:Boom"] = new Filter(new ScreenShaderData(screenRef, "DeathAnimation"), EffectPriority.VeryHigh);
@@ -49,7 +51,6 @@ namespace EEMod
             Filters.Scene["EEMod:SmoothDown2"].Load();
             Filters.Scene["EEMod:Noise2D"].Load();
             Filters.Scene["EEMod:SeaOpening"].Load();
-
             for (int i = 0; i < maxNumberOfLights; i++)
             {
                 Filters.Scene[$"EEMod:LightSource{i}"] = new Filter(new ScreenShaderData(screenRef8, "LightSource"), EffectPriority.VeryHigh);

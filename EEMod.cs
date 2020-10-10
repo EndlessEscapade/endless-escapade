@@ -180,15 +180,8 @@ namespace EEMod
                     float Dist = Vector2.Distance(npc.Center, Main.LocalPlayer.Center);
                     if (Dist < 1000)
                     {
-                        Vector2 p1 = npc.Center;
-                        Vector2 p2 = Main.LocalPlayer.Center;
                         if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp)
                         {
-                            for (float j = 0; j < 1; j += 1 / Dist)
-                            {
-                                Vector2 Lerped = p1 + j * (p2 - p1);
-                                Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), new Color(71, 33, 184) * Math.Abs(lerpLol - j), 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
-                            }
                             UIText("Pick Up?", Color.White * alphas, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 - 50), 1);
                         }
                         if (Dist < 100)

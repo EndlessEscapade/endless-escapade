@@ -33,10 +33,20 @@ namespace EEMod.NPCs.CoralReefs
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.White.CurrentTechnique.Passes[0].Apply();
             EEMod.White.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
-            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw() + new Vector2(0, 3), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.05f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw(), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.01f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            return true;
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
+            EEMod.ReflectionShader.Parameters["alpha"].SetValue(alpha*2 % 6);
+            EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
+            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(EEMod.instance.GetTexture("ShaderAssets/SpikyOrbLightMap"));
+            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw(), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            return false;
         }
 
         public override void SetDefaults()
@@ -209,16 +219,22 @@ namespace EEMod.NPCs.CoralReefs
                 npc.timeLeft = 0;
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
                 npc.NPCLoot();
+                if (!a)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Gore gore = Gore.NewGorePerfect(npc.Center, Vector2.Zero, mod.GetGoreSlot("Gores/SpikyOrb" + (i + 1)), 1);
+                        gore.velocity = new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5));
+                    }
+                    a = true;
+                }
             }
         }
-
+        bool a;
         public override void NPCLoot()
         {
-            for(int i = 0; i < 4; i++)
-            {
-                Gore gore = Gore.NewGorePerfect(npc.Center, Vector2.Zero, mod.GetGoreSlot("Gores/SpikyOrb" + (i + 1)), 1);
-                gore.velocity = new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5));
-            }
+            
+
 
             Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));
             switch (Main.rand.Next(3))
