@@ -236,10 +236,10 @@ namespace EEMod.EEWorld
                     break;
             }
 
-            /*switch (minibiome)
+            switch (minibiome)
             {
                 case MinibiomeID.Anemone:
-                    perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
+                    /*perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
                     int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
                     for (int i = 0; i < sizeX; i++)
                     {
@@ -251,10 +251,10 @@ namespace EEMod.EEWorld
                             }
                         }
                     }
-                    break;
+                    break;*/
                 case MinibiomeID.CrystallineCaves:
                     break;
-            }*/
+            }
 
             CreateNoise(ensureNoise, Main.rand.Next(30,50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f,0.6f));
         }
@@ -262,17 +262,17 @@ namespace EEMod.EEWorld
 
 
 
-        public static void MakeCrystal(int xPos, int yPos, int length, int width, int vertDir, int horDir)
+        public static void MakeCrystal(int xPos, int yPos, int length, int width, int vertDir, int horDir, int type)
         {
             for(int a = 0; a < length; a++)
             {
-                for(int i = xPos + (a * horDir); i < width; i++)
+                for(int i = 0; i < width; i++)
                 {
-                    for(int j = yPos + (a * vertDir); j < width; j++)
+                    for(int j = 0; j < width; j++)
                     {
                         if (!Main.tile[i, j].active())
                         {
-                            WorldGen.PlaceTile(i, j, ModContent.TileType<HydriteOreTile>());
+                            WorldGen.PlaceTile(i + xPos + (a * horDir), j + yPos + (a * vertDir), type);
                         }
                     }
                 }
@@ -882,9 +882,9 @@ namespace EEMod.EEWorld
                                 case MinibiomeID.CrystallineCaves: //Crystalline Caves(Thinner, taller coral, crystals)
                                     if (!WorldGen.genRand.NextBool(5))
                                     {
-                                        if (WorldGen.genRand.NextBool(20))
+                                        if (WorldGen.genRand.NextBool(200) && Main.tile[i, j].active())
                                         {
-                                            MakeCrystal(i, j, WorldGen.genRand.Next(10, 30), WorldGen.genRand.Next(2, 5), WorldGen.genRand.NextBool().ToDirectionInt(), WorldGen.genRand.NextBool().ToDirectionInt());
+                                            MakeCrystal(i, j, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(2, 4), WorldGen.genRand.NextBool().ToDirectionInt(), WorldGen.genRand.NextBool().ToDirectionInt(), ModContent.TileType<HydriteOreTile>());
                                         }
                                         else
                                         {

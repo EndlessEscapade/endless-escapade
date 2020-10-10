@@ -14,7 +14,7 @@ namespace EEMod.Tiles.Ores
             Main.tileSpelunker[Type] = true;
             Main.tileValue[Type] = 410; // Metal Detector value
             Main.tileShine2[Type] = true; // Modifies the draw color slightly.
-            Main.tileShine[Type] = 1100; // How often tiny dust appear off this tile. Larger is less frequently
+            Main.tileShine[Type] = 180; // How often tiny dust appear off this tile. Larger is less frequently
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
