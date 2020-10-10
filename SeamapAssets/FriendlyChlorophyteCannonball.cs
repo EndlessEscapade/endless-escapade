@@ -1,7 +1,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod.Projectiles.OceanMap
+namespace EEMod.SeamapAssets
 {
     public class FriendlyChlorophyteCannonball : ModProjectile
     {

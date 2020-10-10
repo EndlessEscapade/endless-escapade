@@ -1,9 +1,11 @@
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Projectiles.OceanMap
+namespace EEMod.SeamapAssets
 {
-    public class FriendlyCannonball : ModProjectile
+    public class EnemyCannonball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -28,6 +30,12 @@ namespace EEMod.Projectiles.OceanMap
                 projectile.velocity *= 0.995f;
                 projectile.rotation = projectile.velocity.ToRotation();
                 killTimer--;
+                if (Vector2.DistanceSquared(EEMod.instance.position + Main.screenPosition, projectile.Center) < (20 * 20))
+                {
+                    sinking = true;
+                    projectile.Kill();
+                    Main.PlaySound(SoundID.NPCHit4);
+                }
             }
             if (killTimer <= 0)
             {

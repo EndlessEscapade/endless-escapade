@@ -1,13 +1,13 @@
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
-namespace EEMod.Projectiles.OceanMap
+namespace EEMod.SeamapAssets
 {
-    public class Crate : ModProjectile
+    public class MessageInABottle : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Crate");
+            DisplayName.SetDefault("Message in a Bottle");
         }
 
         public override void SetDefaults()

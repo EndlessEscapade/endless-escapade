@@ -1,47 +1,45 @@
-using Terraria;
+using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 
-namespace EEMod.Projectiles.OceanMap
+namespace EEMod.SeamapAssets
 {
-    public class FriendlyLuminiteCannonball : ModProjectile
+    public class Crate : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Luminite Cannonball");
+            DisplayName.SetDefault("Crate");
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
+            projectile.width = 16;
+            projectile.height = 18;
+            projectile.hostile = false;
             projectile.friendly = true;
-            projectile.magic = true;
+            projectile.ignoreWater = true;
+            projectile.scale = 1f;
         }
 
-        private int killTimer = 180;
-        private bool sinking;
+        public bool sinking;
 
         public override void AI()
         {
             if (!sinking)
             {
-                projectile.velocity *= 0.995f;
-                projectile.rotation = projectile.velocity.ToRotation();
-                killTimer--;
+                projectile.velocity = new Vector2(0.5f, 0);
             }
-            if (killTimer <= 0)
+            else
             {
                 Sink();
-                sinking = true;
             }
         }
 
         private int sinkTimer = 32;
 
-        private void Sink()
+        public void Sink()
         {
             projectile.velocity.X = 0;
-            projectile.velocity.Y = 0.3f;
+            projectile.velocity.Y = 0.5f;
             projectile.alpha += 8;
             sinkTimer--;
             if (sinkTimer <= 0)

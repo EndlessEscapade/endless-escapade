@@ -1,13 +1,13 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod.Projectiles.OceanMap
+namespace EEMod.SeamapAssets
 {
-    public class FriendlyHallowedCannonball : ModProjectile
+    public class FriendlyExplosiveCannonball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hallowed Cannonball");
+            DisplayName.SetDefault("Explosive Cannonball");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace EEMod.Projectiles.OceanMap
         {
             if (!sinking)
             {
-                projectile.velocity *= 1.05f;
+                projectile.velocity *= 0.995f;
                 projectile.rotation = projectile.velocity.ToRotation();
                 killTimer--;
             }

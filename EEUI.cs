@@ -3,7 +3,6 @@ using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Net;
 using EEMod.NPCs.CoralReefs;
-using EEMod.Projectiles.OceanMap;
 using EEMod.Skies;
 using EEMod.UI.States;
 using Microsoft.Xna.Framework;

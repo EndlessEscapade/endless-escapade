@@ -3,7 +3,6 @@ using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Net;
 using EEMod.NPCs.CoralReefs;
-using EEMod.Projectiles.OceanMap;
 using EEMod.Skies;
 using EEMod.UI.States;
 using Microsoft.Xna.Framework;
@@ -21,6 +20,7 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.World.Generation;
 using EEMod.Tiles.Furniture;
+using EEMod.SeamapAssets;
 
 namespace EEMod
 {
@@ -178,7 +178,7 @@ namespace EEMod
                     if (anchorLerp[i] > 0)
                         anchorLerp[i] -= 0.02f;
                 }
-                Main.spriteBatch.Draw(GetTexture("Projectiles/OceanMap/Anchor"), currentPos + new Vector2(0,(float)Math.Sin(markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - EEMod.instance.GetTexture("Projectiles/OceanMap/Anchor").Width/2f, -80), drawColour * anchorLerp[i]);
+                Main.spriteBatch.Draw(GetTexture("EEMod.SeamapAssets/Anchor"), currentPos + new Vector2(0,(float)Math.Sin(markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - EEMod.instance.GetTexture("SeamapAssets/Anchor").Width/2f, -80), drawColour * anchorLerp[i]);
                 if (modPlayer.quickOpeningFloat > 0.01f)
                 {
                     float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);

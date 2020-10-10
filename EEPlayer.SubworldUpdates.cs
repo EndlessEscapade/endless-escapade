@@ -9,7 +9,6 @@ using EEMod.NPCs.Bosses.Hydros;
 using EEMod.NPCs.CoralReefs;
 using EEMod.NPCs.Friendly;
 using EEMod.Projectiles;
-using EEMod.Projectiles.OceanMap;
 using EEMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,6 +20,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
+using EEMod.SeamapAssets;
 
 namespace EEMod
 {
@@ -152,18 +152,18 @@ namespace EEMod
 
             if (markerPlacer == 1)
             {
-                SeaObject.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Projectiles/OceanMap/Land")));
-                SeaObject.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Projectiles/OceanMap/VolcanoIsland"), true));
-                SeaObject.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
-                SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse")));
-                SeaObject.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Projectiles/OceanMap/Lighthouse2")));
-                SeaObject.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Projectiles/OceanMap/Rock1")));
-                SeaObject.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Projectiles/OceanMap/Rock2")));
-                SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Projectiles/OceanMap/Rock3")));
-                SeaObject.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Projectiles/OceanMap/MainIsland"), true));
-                SeaObject.Add(new Island(new Vector2(-300, -600), GetTexture("EEMod/Projectiles/OceanMap/CoralReefsEntrance"), true));
-                SeaObject.Add(new Island(new Vector2(-600, -800), GetTexture("EEMod/Projectiles/OceanMap/Land"), true));
-                SeaObject.Add(new Island(new Vector2(-300, -250), GetTexture("EEMod/Projectiles/OceanMap/Rock2")));
+                SeaObject.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/SeamapAssets/Land")));
+                SeaObject.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/SeamapAssets/VolcanoIsland"), true));
+                SeaObject.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/SeamapAssets/Land"), true));
+                SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/SeamapAssets/Lighthouse")));
+                SeaObject.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/SeamapAssets/Lighthouse2")));
+                SeaObject.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/SeamapAssets/Rock1")));
+                SeaObject.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/SeamapAssets/Rock2")));
+                SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/SeamapAssets/Rock3")));
+                SeaObject.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/SeamapAssets/MainIsland"), true));
+                SeaObject.Add(new Island(new Vector2(-300, -600), GetTexture("EEMod/SeamapAssets/CoralReefsEntrance"), true));
+                SeaObject.Add(new Island(new Vector2(-600, -800), GetTexture("EEMod/SeamapAssets/Land"), true));
+                SeaObject.Add(new Island(new Vector2(-300, -250), GetTexture("EEMod/SeamapAssets/Rock2")));
 
                 if (!Islands.ContainsKey("VolcanoIsland"))
                 {
@@ -214,11 +214,11 @@ namespace EEMod
                         {
                             case 0:
                             case 1:
-                                cloudTexture = GetTexture("EEMod/Projectiles/OceanMap/DarkCloud" + (CloudChoose + 1));
+                                cloudTexture = GetTexture("EEMod/SeamapAssets/DarkCloud" + (CloudChoose + 1));
                                 break;
 
                             default:
-                                cloudTexture = GetTexture("EEMod/Projectiles/OceanMap/DarkCloud3");
+                                cloudTexture = GetTexture("EEMod/SeamapAssets/DarkCloud3");
                                 break;
                         }
 
@@ -451,7 +451,7 @@ namespace EEMod
                     }
                     case 1:
                     {
-                        cloud = new MCloud(GetTexture("EEMod/Projectiles/OceanMap/Cloud6"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 144, 42, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                        cloud = new MCloud(GetTexture("EEMod/SeamapAssets/Cloud6"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 144, 42, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                         OceanMapElements.Add(cloud);
                         //Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud6>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
 
@@ -465,7 +465,7 @@ namespace EEMod
                     }
                     case 3:
                     {
-                        cloud = new MCloud(GetTexture("EEMod/Projectiles/OceanMap/Cloud4"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 100, 48, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                        cloud = new MCloud(GetTexture("EEMod/SeamapAssets/Cloud4"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 100, 48, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                         OceanMapElements.Add(cloud);
                         //Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud4>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
 
@@ -473,7 +473,7 @@ namespace EEMod
                     }
                     case 4:
                     {
-                        cloud = new MCloud(GetTexture("EEMod/Projectiles/OceanMap/Cloud5"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 96, 36, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                        cloud = new MCloud(GetTexture("EEMod/SeamapAssets/Cloud5"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 96, 36, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                         OceanMapElements.Add(cloud);
                         //Projectile.NewProjectile(new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Cloud5>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
 

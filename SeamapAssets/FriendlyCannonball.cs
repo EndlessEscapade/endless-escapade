@@ -1,13 +1,13 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod.Projectiles.OceanMap
+namespace EEMod.SeamapAssets
 {
-    public class FriendlyExplosiveCannonball : ModProjectile
+    public class FriendlyCannonball : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Explosive Cannonball");
+            DisplayName.SetDefault("Cannonball");
         }
 
         public override void SetDefaults()
