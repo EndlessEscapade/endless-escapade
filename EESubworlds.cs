@@ -111,7 +111,7 @@ namespace EEMod
                         int breakLoop = 0;
                         float randPosX;
                         float randPosY;
-                        int distance = 300;
+                        int distance = 400;
                         do
                         {
                             breakLoop++;
@@ -135,7 +135,7 @@ namespace EEMod
                         || randPosX < sizeOfChasm * 2f
                         || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
                         || randPosY < sizeOfChasm 
-                        || randPosY > Main.maxTilesY*0.4f 
+                        || randPosY > Main.maxTilesY/3
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 300 * 300
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) < 300 * 300
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 300 * 300);
@@ -159,7 +159,6 @@ namespace EEMod
                             PlaceRoom(roomGen[i]);
                         }
                     }
-
                 }
 
                 for (int i = 0; i < roomsDown.Length; i++)
@@ -175,7 +174,7 @@ namespace EEMod
                         int breakLoop = 0;
                         float randPosX;
                         float randPosY;
-                        int distance = 300;
+                        int distance = 400;
                         do
                         {
                             breakLoop++;
@@ -373,7 +372,7 @@ namespace EEMod
 
 
 
-                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.3f);
+                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.4f);
                 int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
