@@ -103,13 +103,12 @@ namespace EEMod
                 SeaObject.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), 16, 10, true));
                 SeaObject.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), 16, 10, true));
                 SeaObject.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), 16, 10, true));
-                SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse"), 1, 0));
-                SeaObject.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse2"), 1, 0));
+                SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse2"), 1, 0));
                 SeaObject.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), 1, 0));
                 SeaObject.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), 1, 0));
                 SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), 1, 0));
                 SeaObject.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), 1, 0, true));
-                SeaObject.Add(new Island(new Vector2(-200, -600), GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), 1, 0, true));
+                SeaObject.Add(new Island(new Vector2(-200, -600), GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), 16, 10, true));
                 SeaObject.Add(new Island(new Vector2(-450, -650), GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), 16, 10, true));
                 SeaObject.Add(new Island(new Vector2(-300, -250), GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), 1, 0));
 

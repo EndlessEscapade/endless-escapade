@@ -41,7 +41,6 @@ namespace EEMod
             Main.spawnTileY = 92;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            FillWall(400, 400, Vector2.Zero, WallID.Waterfall);
             EEMod.isSaving = false;
         }
 
