@@ -13,6 +13,7 @@ namespace EEMod.Seamap.SeamapContent
         {
             Player player = Main.LocalPlayer;
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            //TODO: Refactor integrating lighting system into Islands
             for (int i = 0; i < eePlayer.objectPos.Count; i++)
             {
                 if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i != 7 && i != 8)
@@ -98,8 +99,6 @@ namespace EEMod.Seamap.SeamapContent
 
             instance.velocity.X = Helpers.Clamp(instance.velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             instance.velocity.Y = Helpers.Clamp(instance.velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
-            int frameNum = 0;
-
 
             if (!Main.gamePaused)
             {
