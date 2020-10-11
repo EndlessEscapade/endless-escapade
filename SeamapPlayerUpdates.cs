@@ -106,7 +106,7 @@ namespace EEMod
                 SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse2"), 1, 0));
                 SeaObject.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), 16, 10));
                 SeaObject.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), 16, 10));
-                SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), 1, 0));
+                SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), 16, 10));
                 SeaObject.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), 1, 0, true));
                 SeaObject.Add(new Island(new Vector2(-200, -600), GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), 16, 10, true));
                 SeaObject.Add(new Island(new Vector2(-450, -650), GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), 16, 10, true));
