@@ -100,18 +100,27 @@ namespace EEMod
 
             if (markerPlacer == 1)
             {
-                SeaObject.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Seamap/SeamapAssets/Land")));
-                SeaObject.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), true));
-                SeaObject.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Seamap/SeamapAssets/Land"), true));
-                SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse")));
-                SeaObject.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse2")));
-                SeaObject.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Seamap/SeamapAssets/Rock1")));
-                SeaObject.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Seamap/SeamapAssets/Rock2")));
-                SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Seamap/SeamapAssets/Rock3")));
-                SeaObject.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), true));
-                SeaObject.Add(new Island(new Vector2(-300, -600), GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), true));
-                SeaObject.Add(new Island(new Vector2(-600, -800), GetTexture("EEMod/Seamap/SeamapAssets/Land"), true));
-                SeaObject.Add(new Island(new Vector2(-300, -250), GetTexture("EEMod/Seamap/SeamapAssets/Rock2")));
+                SeaObject.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), 16, 10, true));
+                SeaObject.Add(new Island(new Vector2(-400, -400), GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), 16, 10, true));
+                SeaObject.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), 16, 10, true));
+                SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse"), 1, 0));
+                SeaObject.Add(new Island(new Vector2(-1000, -400), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse2"), 1, 0));
+                SeaObject.Add(new Island(new Vector2(-300, -100), GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), 1, 0));
+                SeaObject.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), 1, 0));
+                SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), 1, 0));
+                SeaObject.Add(new Island(new Vector2(-100, -40), GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), 1, 0, true));
+                SeaObject.Add(new Island(new Vector2(-200, -600), GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), 1, 0, true));
+                SeaObject.Add(new Island(new Vector2(-450, -650), GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), 16, 10, true));
+                SeaObject.Add(new Island(new Vector2(-300, -250), GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), 1, 0));
+
+                if (SeaObjectFrames.Count != SeaObject.Count)
+                {
+                    SeaObjectFrames.Capacity = SeaObject.Count;
+                    for (int i = 0; i < SeaObject.Count; i++)
+                    {
+                        SeaObjectFrames.Add(0);
+                    }
+                }
 
                 if (!Islands.ContainsKey("VolcanoIsland"))
                 {
@@ -148,10 +157,10 @@ namespace EEMod
                     Islands.Add("UpperLand", SeaObject[10]);
                 }
 
-                for (int i = 0; i < 400; i++)
+                for (int i = 0; i < 300; i++)
                 {
                     int CloudChoose = Main.rand.Next(3);
-                    Vector2 CloudPos = new Vector2(Main.rand.NextFloat(-200, Main.screenWidth), Main.rand.NextFloat(800, Main.screenHeight + 1000));
+                    Vector2 CloudPos = new Vector2(Main.rand.NextFloat(-200, Main.screenWidth * 0.7f), Main.rand.NextFloat(800, Main.screenHeight + 1000));
                     Vector2 dist = new Vector2(Main.screenWidth, Main.screenHeight + 1000) - CloudPos;
 
                     if (dist.Length() > 1140)
@@ -200,7 +209,7 @@ namespace EEMod
             {
                 if (Islands["VolcanoIsland"].isColliding)
                 {
-                    if (player.controlUp)
+                    if (EEMod.Inspect.JustPressed)
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.VolcanoIsland);
@@ -210,7 +219,7 @@ namespace EEMod
                 }
                 else if (Islands["Island"].isColliding)
                 {
-                    if (player.controlUp)
+                    if (EEMod.Inspect.JustPressed)
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.Island);
@@ -220,7 +229,7 @@ namespace EEMod
                 }
                 else if (Islands["MainIsland"].isColliding)
                 {
-                    if (player.controlUp)
+                    if (EEMod.Inspect.JustPressed)
                     {
                         ReturnHome();
 
@@ -229,14 +238,14 @@ namespace EEMod
                 }
                 else if (Islands["CoralReefsEntrance"].isColliding)
                 {
-                    if (player.controlUp)
+                    if (EEMod.Inspect.JustPressed)
                     {
                         importantCutscene = true;
                     }
                 }
                 else if (Islands["UpperLand"].isColliding)
                 {
-                    if (player.controlUp)
+                    if (EEMod.Inspect.JustPressed)
                     {
                         Initialize();
                         SM.SaveAndQuit(KeyID.Island2);
@@ -490,8 +499,5 @@ namespace EEMod
             }
             return false;
         }
-
-        
-        
     }
 }

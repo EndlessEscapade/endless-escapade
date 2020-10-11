@@ -192,7 +192,7 @@ namespace EEMod
                                 alphas += 0.01f;
                             }
 
-                            if (Main.LocalPlayer.controlUp && delays == 0)
+                            if (Inspect.JustPressed && delays == 0)
                             {
                                 var modp = Main.LocalPlayer.GetModPlayer<EEPlayer>();
                                 if (!modp.isPickingUp)
@@ -324,13 +324,13 @@ namespace EEMod
                 LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface",
                 delegate
                 {
-                if (lastGameTime != null)
-                {
-                    if (EEInterface?.CurrentState != null)
+                    if (lastGameTime != null)
                     {
-                        EEInterface.Draw(Main.spriteBatch, lastGameTime);
-                    }
-                    UpdateGame(lastGameTime);
+                        if (EEInterface?.CurrentState != null)
+                        {
+                            EEInterface.Draw(Main.spriteBatch, lastGameTime);
+                        }
+                        UpdateGame(lastGameTime);
                         //   UpdateJellyfishTesting();
                         // UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
