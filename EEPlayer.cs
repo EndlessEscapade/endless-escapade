@@ -1411,7 +1411,7 @@ namespace EEMod
 
             public void Update()
             {
-                position.X--;
+                position.X-=0.3f;
             }
         }
 
