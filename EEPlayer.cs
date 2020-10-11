@@ -1319,6 +1319,7 @@ namespace EEMod
 
             public void Draw(SpriteBatch spriteBatch)
             {
+                flash += 0.003f;
                 Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
                 Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16);
                 drawcolor.A = (byte)alpha;
@@ -1367,6 +1368,7 @@ namespace EEMod
 
             public void Draw(SpriteBatch spriteBatch)
             {
+                flash += 0.003f;
                 Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
                 Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16);
                 drawcolor.A = (byte)alpha;
