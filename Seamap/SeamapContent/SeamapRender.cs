@@ -210,20 +210,23 @@ namespace EEMod.SeamapAssets
         }
         static void RenderWater()
         {
-            Texture2D waterTexture = instance.GetTexture("Seamap/SeamapAssets/Woter");
-            int noOfFrames = 16;
-            int width = 32;
-            int height = 32;
-            for (int i = 0; i < 100; i++)
-            {
-                for (int j = 0; j < 100; j++)
-                {
-                    Vector2 pos = new Vector2(i * width + 1600, j * height + 1000);
-                    Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
-                    Main.spriteBatch.Draw(waterTexture, pos.ForDraw(), new Rectangle(0, (frame / 8 % noOfFrames) * height, width, height), colour);
-                }
-            }
-
+            Texture2D waterTexture = instance.GetTexture("Seamap/SeamapAssets/WaterBg");
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            WaterShader.Parameters["noise"].SetValue(instance.GetTexture("WormNoisePixelated"));
+            WaterShader.Parameters["noiseN"].SetValue(instance.GetTexture("WormNoise"));
+            WaterShader.Parameters["water"].SetValue(instance.GetTexture("ShaderAssets/WaterShaderLightMap"));
+            WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time/3000f) * 0.2f);
+            WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time/2000f) * 0.2f);
+            WaterShader.Parameters["Colour"].SetValue(new Vector3(0.1f,0.1f,1f));
+            WaterShader.Parameters["waveSpeed"].SetValue(4);
+            WaterShader.CurrentTechnique.Passes[0].Apply();
+            Vector2 pos = Main.screenPosition;
+            Vector2 toScreen = pos.ForDraw();
+            Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
+            Main.spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y,2000,1200),colour);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
     }

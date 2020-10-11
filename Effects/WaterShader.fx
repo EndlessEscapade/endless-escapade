@@ -20,23 +20,79 @@ float uSaturation;
 float4 uSourceRect;
 float2 uZoom;
 texture noise;
+texture noiseN;
 texture water;
+float yCoord;
+float xCoord;
 sampler noiseSampler = sampler_state
 {
     Texture = (noise);
+};
+sampler noiseSampler2 = sampler_state
+{
+    Texture = (noiseN);
 };
 sampler waterMapSampler = sampler_state
 {
     Texture = (water);
 };
-
+float GetNoisePixelUnPixelated(float2 Coord)
+{
+    float2 pos = float2(Coord.x, Coord.y);
+    float height = tex2D(noiseSampler2, pos).r;
+    return height;
+}
+float GetNoisePixel(float2 Coord)
+{
+    float2 pos = float2(Coord.x, Coord.y);
+    float height = tex2D(noiseSampler, pos).r;
+    return height;
+}
+float2 Round(float2 num,int scale)
+{
+    return float2((int)(num.x * scale) / scale, round(num.y * scale) / scale);
+}
+float3 Colour;
+float waveSpeed;
 float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : COLOR0
 {
-    float4 waterMap = tex2D(noiseSampler, coords);
-    float4 noiseMap = tex2D(waterMapSampler, coords);
-    float4 Texture = tex2D(uImage0, coords);
-    Texture += noiseMap * waterMap;
-    return Texture;
+    float stateX;
+    float stateY;
+    float xRes = 1 / 1980;
+    float yRes = 1 / 1080;
+    float2 Center = float2(0.5f, 0.5f);
+    float dist = distance(Center, coords.x);
+
+    //Keep just in case;
+        if (round(coords.x * 1980) % 2 != 0)
+        {
+            stateX = -xRes;
+        }
+        else
+        {
+            stateX = 0;
+        }
+        if (round(coords.y * 1080) % 2 != 0)
+        {
+            stateY = -yRes;
+        }
+        else
+        {
+            stateY = 0;
+        }
+        float sina = abs(sin(coords.x * 10 + xCoord * 20 - coords.y*10)) + GetNoisePixelUnPixelated(coords)/5;
+        float2 finalState = float2(stateX, stateY);
+        float2 alteredCoords = finalState + coords;
+    float2 pixelPos = alteredCoords + GetNoisePixelUnPixelated(alteredCoords) + float2(xCoord, yCoord)*(waveSpeed + sina);
+    float4 waterMap = tex2D(waterMapSampler, pixelPos);
+    float2 noisePos = alteredCoords * 0.1f + float2(xCoord + 0.3f, yCoord + 0.3f);
+    float pix = GetNoisePixelUnPixelated(noisePos);
+    float4 colour;
+    colour.rgb = Colour;
+    colour.a = 1;
+    float4 target = float4(0.7f / (1 + sina / 6), 0.7f / (1 + sina / 6), 1* (1 +sina/ 6),1);
+    colour = lerp(colour,target,(pix * waterMap.b)*1.4f);
+    return colour;
 }
 
 technique Technique1

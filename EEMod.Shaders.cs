@@ -20,7 +20,7 @@ namespace EEMod
         {
             Noise2DShift = instance.GetEffect("Effects/Noise2DShift");
             ReflectionShader = instance.GetEffect("Effects/ReflectionShader");
-            ReflectionShader = instance.GetEffect("Effects/WaterShader");
+            WaterShader = instance.GetEffect("Effects/WaterShader");
             //instance is a static field and this method is still inside the mod class
             Ref<Effect> screenRef = new Ref<Effect>(instance.GetEffect("Effects/PracticeEffect"));
             Ref<Effect> screenRef2 = new Ref<Effect>(instance.GetEffect("Effects/Shockwave"));
