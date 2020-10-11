@@ -119,9 +119,25 @@ namespace EEMod.SeamapAssets
             Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8);
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), rect, Color.White, 0, rect.Size() / 2, 1, SpriteEffects.None, 0);
         }
+        int pog;
+        static int frame = 0;
         public static void RenderIslands()
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            Texture2D waterTexture = instance.GetTexture("Seamap/SeamapAssets/Woter");
+            int noOfFrames = 16;
+            int width = 32;
+            int height = 32;
+            frame++;
+            for (int i = 0; i < 100; i++)
+            {
+                for(int j = 0; j< 100; j++)
+                {
+                    Vector2 pos = new Vector2(i * width + 1600, j * height + 1000);
+                    Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
+                    Main.spriteBatch.Draw(waterTexture, pos.ForDraw(), new Rectangle(0, (frame/4 % noOfFrames) * height, width, height), colour);
+                }
+            }
             for (int i = 0; i < modPlayer.SeaObject.Count; i++)
             {
                 EEPlayer.Island current = modPlayer.SeaObject[i];
