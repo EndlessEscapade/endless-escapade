@@ -1283,7 +1283,7 @@ namespace EEMod
 
             public Texture2D texture;
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / (2 * frames));
-            public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / (2 * frames) + 1000, texture.Width, texture.Height / (2 * frames));
+            public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / (frames) + 1000, texture.Width, texture.Height / (2 * frames));
             private Rectangle ShipHitBox => new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
             public bool isColliding => hitBox.Intersects(ShipHitBox) && canCollide;
         }
