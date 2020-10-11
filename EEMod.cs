@@ -370,8 +370,7 @@ namespace EEMod
                 if (Main.worldName == KeyID.Sea)
                 {
                     SeamapUpdates.UpdateShipMovement();
-                    SeamapRender.RenderIslands();
-                    SeamapRender.DrawShip();
+                    SeamapRender.Render();
                     DrawSubText();
                 }
                 if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)

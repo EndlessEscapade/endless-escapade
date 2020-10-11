@@ -11,7 +11,11 @@ namespace EEMod.SeamapAssets
 {
     public class SeamapRender
     {
-        public static void DrawShip()
+        static EEPlayer modPlayer
+        {
+            get => Main.LocalPlayer.GetModPlayer<EEPlayer>();
+        }
+        public static void RenderShip()
         {
             Vector2 position = instance.position;
 
@@ -121,25 +125,33 @@ namespace EEMod.SeamapAssets
         }
         int pog;
         static int frame = 0;
-        public static void RenderIslands()
+        public static void Render()
         {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            Texture2D waterTexture = instance.GetTexture("Seamap/SeamapAssets/Woter");
-            int noOfFrames = 16;
-            int width = 32;
-            int height = 32;
+            RenderWater();
+            RenderIslands();
+            RenderShip();
+            RenderClouds();
+        }
+        static void RenderClouds()
+        {
             frame++;
-            for (int i = 0; i < 100; i++)
+
+            var OceanElements = EEPlayer.OceanMapElements;
+            for (int i = 0; i < OceanElements.Count; i++)
             {
-                for(int j = 0; j< 100; j++)
-                {
-                    Vector2 pos = new Vector2(i * width + 1600, j * height + 1000);
-                    Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
-                    Main.spriteBatch.Draw(waterTexture, pos.ForDraw(), new Rectangle(0, (frame/8 % noOfFrames) * height, width, height), colour);
-                }
+                var element = OceanElements[i];
+                element.Draw(Main.spriteBatch);
             }
-
-
+            for (int i = 0; i < modPlayer.seagulls.Count; i++)
+            {
+                var element = modPlayer.seagulls[i];
+                element.frameCounter++;
+                element.Position += new Vector2(0, -0.5f);
+                element.Draw(instance.GetTexture("Seamap/SeamapAssets/Seagulls"), 9, 5);
+            }
+        }
+        static void RenderIslands()
+        {
             for (int i = 0; i < modPlayer.SeaObject.Count; i++)
             {
                 EEPlayer.Island current = modPlayer.SeaObject[i];
@@ -195,21 +207,24 @@ namespace EEMod.SeamapAssets
                     }
                 }
             }
-
-
-            var OceanElements = EEPlayer.OceanMapElements;
-            for (int i = 0; i < OceanElements.Count; i++)
-            {
-                var element = OceanElements[i];
-                element.Draw(Main.spriteBatch);
-            }
-            for (int i = 0; i < modPlayer.seagulls.Count; i++)
-            {
-                var element = modPlayer.seagulls[i];
-                element.frameCounter++;
-                element.Position += new Vector2(0, -0.5f);
-                element.Draw(instance.GetTexture("Seamap/SeamapAssets/Seagulls"), 9, 5);
-            }
         }
+        static void RenderWater()
+        {
+            Texture2D waterTexture = instance.GetTexture("Seamap/SeamapAssets/Woter");
+            int noOfFrames = 16;
+            int width = 32;
+            int height = 32;
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    Vector2 pos = new Vector2(i * width + 1600, j * height + 1000);
+                    Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
+                    Main.spriteBatch.Draw(waterTexture, pos.ForDraw(), new Rectangle(0, (frame / 8 % noOfFrames) * height, width, height), colour);
+                }
+            }
+
+        }
+
     }
 }
