@@ -50,7 +50,7 @@ namespace EEMod.Seamap.SeamapContent
             if (!Main.gamePaused)
             {
                 instance.position += instance.velocity;
-                if (player.controlJump)
+                if (player.controlUp)
                 {
                     instance.velocity.Y -= 0.1f * eePlayer.boatSpeed;
                 }

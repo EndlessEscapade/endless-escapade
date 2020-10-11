@@ -326,20 +326,6 @@ namespace EEMod
                         }
                     }
                 }
-                for (int j = barrier; j < Main.maxTilesY; j++)
-                {
-                    for (int i = 0; i < Main.maxTilesX; i++)
-                    {
-                        Tile tile = Main.tile[i, j];
-                        if (tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
-                        {
-                            if (WorldGen.genRand.NextBool(2000))
-                            {
-                                WorldGen.TileRunner(i, j, WorldGen.genRand.Next(4, 8), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydriteOreTile>());
-                            }
-                        }
-                    }
-                }
                 #endregion
 
                 #region Ruins

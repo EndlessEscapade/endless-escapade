@@ -76,6 +76,7 @@ namespace EEMod
         public Vector2 velocity;
         public List<Vector2> objectPos = new List<Vector2>();
         public List<Island> SeaObject = new List<Island>();
+        public List<int> SeaObjectFrames = new List<int>();
         public Dictionary<string, Island> Islands = new Dictionary<string, Island>();
         public string baseWorldName;
         
@@ -1252,16 +1253,22 @@ namespace EEMod
 
         public struct Island
         {
-            public Island(Vector2 pos, Texture2D tex, bool canCollide = false)
+            public Island(Vector2 pos, Texture2D tex, int frameCount = 1, int frameSpid = 2, bool canCollide = false, int startingFrame = 0)
             {
                 posX = (int)pos.X;
                 posY = (int)pos.Y;
                 texture = tex;
+                frames = frameCount;
+                frameSpeed = frameSpid;
+                currentFrame = startingFrame;
                 this.canCollide = canCollide;
             }
 
             private readonly int posX;
             private readonly int posY;
+            public int frames;
+            public int currentFrame;
+            public int frameSpeed;
             public bool canCollide;
 
             public int posXToScreen
@@ -1275,8 +1282,8 @@ namespace EEMod
             }
 
             public Texture2D texture;
-            public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / 2);
-            public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / 2 + 1000, texture.Width, texture.Height);
+            public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / (2 * frames));
+            public Rectangle hitBox => new Rectangle((int)posToScreen.X - texture.Width / 2, (int)posToScreen.Y - texture.Height / (2 * frames) + 1000, texture.Width, texture.Height / (2 * frames));
             private Rectangle ShipHitBox => new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30 + 1000, 60, 60);
             public bool isColliding => hitBox.Intersects(ShipHitBox) && canCollide;
         }

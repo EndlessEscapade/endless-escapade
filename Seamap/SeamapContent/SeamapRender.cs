@@ -135,9 +135,11 @@ namespace EEMod.SeamapAssets
                 {
                     Vector2 pos = new Vector2(i * width + 1600, j * height + 1000);
                     Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
-                    Main.spriteBatch.Draw(waterTexture, pos.ForDraw(), new Rectangle(0, (frame/4 % noOfFrames) * height, width, height), colour);
+                    Main.spriteBatch.Draw(waterTexture, pos.ForDraw(), new Rectangle(0, (frame/8 % noOfFrames) * height, width, height), colour);
                 }
             }
+
+
             for (int i = 0; i < modPlayer.SeaObject.Count; i++)
             {
                 EEPlayer.Island current = modPlayer.SeaObject[i];
@@ -153,18 +155,30 @@ namespace EEMod.SeamapAssets
                     if (instance.anchorLerp[i] > 0)
                         instance.anchorLerp[i] -= 0.02f;
                 }
-                Main.spriteBatch.Draw(instance.GetTexture("Seamap/SeamapAssets/Anchor"), currentPos + new Vector2(0, (float)Math.Sin(instance.markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - instance.GetTexture("Seamap/SeamapAssets/Anchor").Width / 2f, -80), drawColour * instance.anchorLerp[i]);
+
+                //Main.spriteBatch.Draw(instance.GetTexture("Seamap/SeamapAssets/Anchor"), currentPos + new Vector2(0, (float)Math.Sin(instance.markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - instance.GetTexture("Seamap/SeamapAssets/Anchor").Width / 2f, -80), drawColour * instance.anchorLerp[i]);
+
+                if (current.frameSpeed > 0)
+                {
+                    if (frame % current.frameSpeed == 0)
+                    {
+                        modPlayer.SeaObjectFrames[i]++;
+                        if (modPlayer.SeaObjectFrames[i] > current.frames - 1)
+                            modPlayer.SeaObjectFrames[i] = 0;
+                    }
+                }
                 if (modPlayer.quickOpeningFloat > 0.01f)
                 {
                     float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
                     if (i > 4 && i < 8 || i == 11)
                     {
                         float score = currentPos.X + currentPos.Y;
-                        Main.spriteBatch.Draw(current.texture, currentPos + new Vector2(0, (float)Math.Sin(score + instance.markerPlacer / 40f)) * 4, drawColour * lerp);
+                        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + instance.markerPlacer / 40f)) * 4;
+                        Main.spriteBatch.Draw(current.texture, new Rectangle((int)pos.X, (int)pos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * lerp);
                     }
                     else
                     {
-                        Main.spriteBatch.Draw(current.texture, currentPos, drawColour * lerp);
+                        Main.spriteBatch.Draw(current.texture, new Rectangle((int)currentPos.X, (int)currentPos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * lerp);
                     }
                 }
                 else
@@ -172,14 +186,17 @@ namespace EEMod.SeamapAssets
                     if (i > 4 && i < 8 || i == 11)
                     {
                         float score = currentPos.X + currentPos.Y;
-                        Main.spriteBatch.Draw(current.texture, currentPos + new Vector2(0, (float)Math.Sin(score + instance.markerPlacer / 40f)) * 4, drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
+                        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + instance.markerPlacer / 40f)) * 4;
+                        Main.spriteBatch.Draw(current.texture, new Rectangle((int)pos.X, (int)pos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
                     }
                     else
                     {
-                        Main.spriteBatch.Draw(current.texture, currentPos, drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
+                        Main.spriteBatch.Draw(current.texture, new Rectangle((int)currentPos.X, (int)currentPos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
                     }
                 }
             }
+
+
             var OceanElements = EEPlayer.OceanMapElements;
             for (int i = 0; i < OceanElements.Count; i++)
             {

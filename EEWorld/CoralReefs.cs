@@ -884,7 +884,7 @@ namespace EEMod.EEWorld
                                     {
                                         if (WorldGen.genRand.NextBool(200) && Main.tile[i, j].active())
                                         {
-                                            MakeCrystal(i, j, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(2, 4), WorldGen.genRand.NextBool().ToDirectionInt(), WorldGen.genRand.NextBool().ToDirectionInt(), ModContent.TileType<HydriteOreTile>());
+                                            MakeCrystal(i, j, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(2, 4), WorldGen.genRand.NextBool().ToDirectionInt(), WorldGen.genRand.NextBool().ToDirectionInt(), ModContent.TileType<AquamarineTile>());
                                         }
                                         else
                                         {
