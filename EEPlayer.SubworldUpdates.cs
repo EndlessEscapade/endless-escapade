@@ -345,6 +345,14 @@ namespace EEMod
             {
                 markerPlacer = 0;
             }
+            if(markerPlacer == 1)
+            {
+                if (prevKey == KeyID.Sea)
+                {
+                    player.Center = new Vector2(100*16, (TileCheckWater(100) - 22)*16);
+                    player.ClearBuff(BuffID.Cursed);
+                }
+            }
             if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
             {
                 Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), player.whoAmI);

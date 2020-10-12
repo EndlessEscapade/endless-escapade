@@ -1041,6 +1041,7 @@ namespace EEMod
             if (timerForCutscene >= 1400)
             {
                 Initialize();
+                prevKey = baseWorldName;
                 SM.SaveAndQuit(KeyID.Pyramids); //pyramid
             }
             if (cutSceneTriggerTimer > 0)
@@ -1048,6 +1049,7 @@ namespace EEMod
                 if (cutSceneTriggerTimer >= 500)
                 {
                     Initialize();
+                    prevKey = KeyID.BaseWorldName;
                     SM.SaveAndQuit(KeyID.Sea); //sea
                 }
             }

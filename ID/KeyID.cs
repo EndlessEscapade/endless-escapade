@@ -1,3 +1,9 @@
+using Terraria;
+using Terraria.GameInput;
+using Terraria.Graphics.Effects;
+using Terraria.ID;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 namespace EEMod.ID
 {
     public class KeyID
@@ -10,5 +16,6 @@ namespace EEMod.ID
         public const string VolcanoInside = "VolcanoInside";
         public const string Cutscene1 = "Cutscene1";
         public const string Island2 = "Island2";
+        public static string BaseWorldName => Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName;
     }
 }

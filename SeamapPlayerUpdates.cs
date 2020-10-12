@@ -186,8 +186,7 @@ namespace EEMod
                     if (EEMod.Inspect.JustPressed)
                     {
                         ReturnHome();
-
-                        prevKey = baseWorldName;
+                        prevKey = KeyID.Sea;
                     }
                 }
                 else if (Islands["CoralReefsEntrance"].isColliding)
@@ -195,6 +194,7 @@ namespace EEMod
                     if (EEMod.Inspect.JustPressed)
                     {
                         importantCutscene = true;
+                        prevKey = KeyID.Sea;
                     }
                 }
                 else
@@ -242,7 +242,7 @@ namespace EEMod
                     Filters.Scene.Deactivate("EEMod:Noise2D");
                     SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
 
-                    prevKey = KeyID.CoralReefs;
+
                 }
             }
 
