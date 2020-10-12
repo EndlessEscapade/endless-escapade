@@ -305,6 +305,7 @@ namespace EEMod
             {
                 Main.spawnTileX = 100;
                 Main.spawnTileY = EEWorld.EEWorld.TileCheckWater(100) - 22;
+                Main.LocalPlayer.position = new Vector2(100, EEWorld.EEWorld.TileCheckWater(100) - 22);
                 Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);
                 Main.ActivePlayerFileData.SetAsActive();
             }

@@ -1253,7 +1253,8 @@ namespace EEMod
 
         public struct Island
         {
-            public Island(Vector2 pos, Texture2D tex, int frameCount = 1, int frameSpid = 2, bool canCollide = false, int startingFrame = 0)
+            EEPlayer player => Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            public Island(Vector2 pos, Texture2D tex, string NameOfIsland, int frameCount = 1, int frameSpid = 2, bool canCollide = false, int startingFrame = 0)
             {
                 posX = (int)pos.X;
                 posY = (int)pos.Y;
@@ -1262,6 +1263,13 @@ namespace EEMod
                 frameSpeed = frameSpid;
                 currentFrame = startingFrame;
                 this.canCollide = canCollide;
+                if (NameOfIsland != null)
+                {
+                    if (!player.Islands.ContainsKey(NameOfIsland))
+                    {
+                        player.Islands.Add(NameOfIsland, this);
+                    }
+                }
             }
 
             private readonly int posX;
