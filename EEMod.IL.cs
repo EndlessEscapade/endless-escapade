@@ -450,7 +450,21 @@ namespace EEMod
 
         public void DrawSky()
         {
-            _texture2 = EEMod.instance.GetTexture("NotBleckScren");
+            switch (loadingChooseImage)
+            {
+                case 0:
+                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    break;
+                case 1:
+                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen2");
+                    break;
+                case 2:
+                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
+                    break;
+                default:
+                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    break;
+            }
             switch (loadingChooseImage)
             {
                 case 0:

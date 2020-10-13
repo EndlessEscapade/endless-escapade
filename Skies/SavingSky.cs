@@ -33,7 +33,21 @@ namespace EEMod.Skies
 
         public void DrawSky()
         {
-            texture2 = EEMod.instance.GetTexture("NotBleckScren");
+            switch (Main.rand.Next(3))
+            {
+                case 0:
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    break;
+                case 1:
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen2");
+                    break;
+                case 2:
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
+                    break;
+                default:
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    break;
+            }
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
@@ -89,7 +103,21 @@ namespace EEMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            texture2 = EEMod.instance.GetTexture("NotBleckScren");
+            switch (Main.rand.Next(3))
+            {
+                case 0:
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    break;
+                case 1:
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen2");
+                    break;
+                case 2:
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
+                    break;
+                default:
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    break;
+            }
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
