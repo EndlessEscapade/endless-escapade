@@ -104,7 +104,7 @@ namespace EEMod.Seamap.SeamapContent
             {
                 instance.velocity *= 0.98f;
             }
-            
+
             instance.flash += 0.01f;
             if (instance.flash == 2)
             {

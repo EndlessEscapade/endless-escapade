@@ -27,11 +27,11 @@ namespace EEMod
         public UserInterface customResources;
         public UserInterface SpeedrunnTimer;
         public UserInterface MerchantBoatUI;
-        
+
         internal RunninUI RunUI;
         internal MerchantBoatUI MBUI;
         internal EEUI eeui;
-        
+
 
         internal bool EEUIVisible
         {

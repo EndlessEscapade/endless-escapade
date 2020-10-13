@@ -34,10 +34,10 @@ namespace EEMod.Projectiles.Runes
         public override void AI()
         {
             projectile.ai[1]++;
-            if(projectile.ai[0] > 0)
+            if (projectile.ai[0] > 0)
                 projectile.alpha -= 4;
 
-            projectile.Center += new Vector2(0, (float)Math.Sin(flash * 3)/20);
+            projectile.Center += new Vector2(0, (float)Math.Sin(flash * 3) / 20);
         }
 
         private float flash = 0;

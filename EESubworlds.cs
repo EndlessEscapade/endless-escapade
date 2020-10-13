@@ -62,31 +62,31 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            
+
             //Placing initial blocks
             #region Initial block placement
-                EEMod.progressMessage = "Generating Upper layer base";
-                FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), Vector2.Zero, ModContent.TileType<LightGemsandTile>());
+            EEMod.progressMessage = "Generating Upper layer base";
+            FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), Vector2.Zero, ModContent.TileType<LightGemsandTile>());
 
-                EEMod.progressMessage = "Generating Mid layer base";
-                FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3), ModContent.TileType<GemsandTile>());
+            EEMod.progressMessage = "Generating Mid layer base";
+            FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3), ModContent.TileType<GemsandTile>());
 
-                EEMod.progressMessage = "Generating Lower layer base";
-                FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3 * 2), ModContent.TileType<DarkGemsandTile>());
+            EEMod.progressMessage = "Generating Lower layer base";
+            FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3 * 2), ModContent.TileType<DarkGemsandTile>());
 
-                EEMod.progressMessage = "Clearing Upper Region";
-                ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
+            EEMod.progressMessage = "Clearing Upper Region";
+            ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
 
-                EEMod.progressMessage = "Generating Coral Sand";
-                FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
+            EEMod.progressMessage = "Generating Coral Sand";
+            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
 
-                #endregion
-            
+            #endregion
+
             #region Finding suitable chasm positions and room positions
             int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
             EEMod.progressMessage = "Finding Suitable Chasm Positions";
-            
-            
+
+
             Vector2 size = new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20);
             NoiseGenWave(new Vector2(300, 80), size, new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
             NoiseGenWave(new Vector2(300, 60), size, new Vector2(50, 50), TileID.StoneSlab, 0.6f);
@@ -116,7 +116,7 @@ namespace EEMod
                             breakLoop++;
                             score = 0;
                             randPosX = WorldGen.genRand.Next(Helpers.Clamp((int)roomsUp[i - 1].X - distance, 200, Main.maxTilesX - 200), Helpers.Clamp((int)roomsUp[i - 1].X + distance, 200, Main.maxTilesX - 200));
-                            randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsUp[i - 1].Y - distance, (int)roomsUp[i - 1].Y + distance), Main.maxTilesY/10, Main.maxTilesY);
+                            randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsUp[i - 1].Y - distance, (int)roomsUp[i - 1].Y + distance), Main.maxTilesY / 10, Main.maxTilesY);
                             float f = sizeOfChasm * 1.4f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
@@ -130,11 +130,11 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != 0 
+                        } while (score != 0
                         || randPosX < sizeOfChasm * 2f
                         || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
-                        || randPosY < sizeOfChasm 
-                        || randPosY > Main.maxTilesY/3
+                        || randPosY < sizeOfChasm
+                        || randPosY > Main.maxTilesY / 3
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 300 * 300
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) < 300 * 300
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 300 * 300);
@@ -179,8 +179,8 @@ namespace EEMod
                             breakLoop++;
                             score = 0;
                             randPosX = WorldGen.genRand.Next(Helpers.Clamp((int)roomsDown[i - 1].X - distance, 200, Main.maxTilesX - 200), Helpers.Clamp((int)roomsDown[i - 1].X + distance, 200, Main.maxTilesX - 200));
-                            randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsDown[i - 1].Y - distance, (int)roomsDown[i - 1].Y + distance), Main.maxTilesY / 10, Main.maxTilesY); 
-                            float f = sizeOfChasm*1.4f;
+                            randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsDown[i - 1].Y - distance, (int)roomsDown[i - 1].Y + distance), Main.maxTilesY / 10, Main.maxTilesY);
+                            float f = sizeOfChasm * 1.4f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
                             {
@@ -193,11 +193,11 @@ namespace EEMod
                             {
                                 break;
                             }
-                        } while (score != 0 
+                        } while (score != 0
                         || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
                         || randPosX < sizeOfChasm * 1.2f
-                        || randPosY < Main.maxTilesY*0.5f
-                        || randPosY > Main.maxTilesY*0.95f
+                        || randPosY < Main.maxTilesY * 0.5f
+                        || randPosY > Main.maxTilesY * 0.95f
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 300 * 300
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) < 300 * 300
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 300 * 300);
@@ -291,16 +291,16 @@ namespace EEMod
                     MakeWavyChasm3(chosen[i], new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40), WorldGen.genRand.Next(10, 50), WorldGen.genRand.Next(2, 5));
                 }
 
-                    Vector2 highestRoom = new Vector2(0, 3000);
-                    foreach (Vector2 legoYoda in roomsUp)
+                Vector2 highestRoom = new Vector2(0, 3000);
+                foreach (Vector2 legoYoda in roomsUp)
+                {
+                    if (legoYoda.Y < highestRoom.Y)
                     {
-                        if (legoYoda.Y < highestRoom.Y)
-                        {
-                            highestRoom = legoYoda;
-                        }
+                        highestRoom = legoYoda;
                     }
+                }
 
-                    MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + WorldGen.genRand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
+                MakeWavyChasm3(highestRoom, new Vector2(highestRoom.X + WorldGen.genRand.Next(-100, 101), 100), TileID.StoneSlab, 100, 10, true, new Vector2(20, 40));
                 #endregion
 
                 MakeLayer(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400, 100, 1, ModContent.TileType<GemsandTile>());
@@ -407,8 +407,8 @@ namespace EEMod
 
             #region Implementing dynamic objects
             EEMod.progressMessage = "Adding Dynamics";
-             for (int j = 42; j < Main.maxTilesY - 42; j++)
-              {
+            for (int j = 42; j < Main.maxTilesY - 42; j++)
+            {
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
                     int noOfTiles = 0;

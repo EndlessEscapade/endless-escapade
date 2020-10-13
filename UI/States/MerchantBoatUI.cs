@@ -26,12 +26,12 @@ namespace EEMod.UI.States
 
         public override void OnDeactivate()
         {
-           
+
         }
 
         public override void Update(GameTime gameTime)
         {
-           
+
         }
     }
 }

@@ -216,15 +216,15 @@ namespace EEMod.SeamapAssets
             WaterShader.Parameters["noise"].SetValue(instance.GetTexture("WormNoisePixelated"));
             WaterShader.Parameters["noiseN"].SetValue(instance.GetTexture("WormNoise"));
             WaterShader.Parameters["water"].SetValue(instance.GetTexture("ShaderAssets/WaterShaderLightMap"));
-            WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time/3000f) * 0.2f);
-            WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time/2000f) * 0.2f);
-            WaterShader.Parameters["Colour"].SetValue(new Vector3(0.1f,0.1f,1f));
+            WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
+            WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 2000f) * 0.2f);
+            WaterShader.Parameters["Colour"].SetValue(new Vector3(0.1f, 0.1f, 1f));
             WaterShader.Parameters["waveSpeed"].SetValue(4);
             WaterShader.CurrentTechnique.Passes[0].Apply();
             Vector2 pos = Main.screenPosition;
             Vector2 toScreen = pos.ForDraw();
             Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
-            Main.spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y,2000,1200),colour);
+            Main.spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, 2000, 1200), colour);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }

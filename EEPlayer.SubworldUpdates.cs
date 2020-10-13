@@ -345,11 +345,11 @@ namespace EEMod
             {
                 markerPlacer = 0;
             }
-            if(markerPlacer == 1)
+            if (markerPlacer == 1)
             {
                 if (prevKey == KeyID.Sea)
                 {
-                    player.Center = new Vector2(100*16, (TileCheckWater(100) - 22)*16);
+                    player.Center = new Vector2(100 * 16, (TileCheckWater(100) - 22) * 16);
                     player.ClearBuff(BuffID.Cursed);
                 }
             }

@@ -441,7 +441,7 @@ namespace EEMod
                         if (Math.Abs(npc.Center.X - vector2.X) <= 16 + (npc.width / 2))
                         {
                             return true;
-                            
+
                         }
                     }
                 }

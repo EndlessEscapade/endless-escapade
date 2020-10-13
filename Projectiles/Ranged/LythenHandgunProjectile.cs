@@ -54,7 +54,7 @@ namespace EEMod.Projectiles.Ranged
 
             projectile.ai[1]++;
 
-            float radius = 48 + (12 * (float)Math.Sin(projectile.ai[1]/10));
+            float radius = 48 + (12 * (float)Math.Sin(projectile.ai[1] / 10));
             Vector2 position = projectile.Center + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / projectile.ai[1] % 32)) * radius;
             Dust dust = Dust.NewDustPerfect(position, 111);
             dust.velocity = Vector2.Zero;

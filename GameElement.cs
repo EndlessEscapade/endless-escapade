@@ -49,7 +49,7 @@ namespace EEMod
 
         public void AttachCollisionComponents(bool isSolid, bool collides, bool collidesWithEdges = false, float friction = 0.97f, float bounce = 1f, int bounceBuffer = 30)
         {
-            this.isSolid = isSolid; 
+            this.isSolid = isSolid;
             this.collides = collides;
             this.friction = friction;
             this.collidesWithEdges = collidesWithEdges;
@@ -81,7 +81,7 @@ namespace EEMod
         private Vector2 lastSyncPos;
         private Vector2 lastSyncPos2;
         private int lastCool;
-        public float[] ai = new float[4]; 
+        public float[] ai = new float[4];
 
         public void SyncVelocityCache()
         {
@@ -212,7 +212,7 @@ namespace EEMod
                     velocity.X *= 0.98f;
                     elementActive = false;
 
-                    if(ai[0] > 60)
+                    if (ai[0] > 60)
                     {
                         colourOfStartUp = 0;
                     }
@@ -220,7 +220,7 @@ namespace EEMod
             }
             if (tag == "SABolt")
             {
-                if(velocity.Y > -1)
+                if (velocity.Y > -1)
                 {
                     elementActive = false;
                 }
@@ -274,7 +274,7 @@ namespace EEMod
                         velocity.X *= -1;
                     }
                 }
-                
+
                 UIPosRunTime += velocity + Main.LocalPlayer.velocity;
                 velocity *= friction;
 

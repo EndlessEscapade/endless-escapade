@@ -223,127 +223,197 @@ namespace EEMod.NPCs.Bosses.Kraken
             switch (npc.ai[1])
             {
                 case 0:
-                    {
-                        break;
-                    }
+                {
+                    break;
+                }
                 case 1:
+                {
+                    npc.ai[0]++;
+                    if (isRightOrLeft)
                     {
-                        npc.ai[0]++;
-                        if (isRightOrLeft)
+                        if (!thrust)
                         {
-                            if (!thrust)
-                            {
-                                variablethrustingPower *= 0.97f;
-                            }
-                            resetAnim = false;
-                            npc.velocity.X = variablethrustingPower;
-                            if (variablethrustingPower <= 1f && !thrust)
-                            {
-                                thrust = true;
-                                resetAnim = true;
-                                UpdateInkBlobs(3);
-                                numberOfPushes++;
-                            }
+                            variablethrustingPower *= 0.97f;
+                        }
+                        resetAnim = false;
+                        npc.velocity.X = variablethrustingPower;
+                        if (variablethrustingPower <= 1f && !thrust)
+                        {
+                            thrust = true;
+                            resetAnim = true;
+                            UpdateInkBlobs(3);
+                            numberOfPushes++;
+                        }
 
-                            if (thrust && variablethrustingPower < thrustingPower)
-                            {
-                                variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
-                                if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
-                                {
-                                    thrust = false;
-                                }
-                            }
-                            if (numberOfPushes == 4)
-                            {
-                                Reset(1);
-                            }
-                            if (npc.Center.X > topRight.X && variablethrustingPower <= 1f)
-                            {
-                                isRightOrLeft = false;
-                            }
-                        }
-                        else
+                        if (thrust && variablethrustingPower < thrustingPower)
                         {
-                            if (!thrust)
+                            variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
+                            if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
                             {
-                                variablethrustingPower *= 0.97f;
-                            }
-                            resetAnim = false;
-                            npc.velocity.X = -variablethrustingPower;
-                            if (variablethrustingPower <= 1f && !thrust)
-                            {
-                                thrust = true;
-                                resetAnim = true;
-                                UpdateInkBlobs(3);
-                                numberOfPushes++;
-                            }
-                            if (thrust && variablethrustingPower < thrustingPower)
-                            {
-                                variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
-                                if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
-                                {
-                                    thrust = false;
-                                }
-                            }
-                            if (numberOfPushes == 4)
-                            {
-                                Reset(1);
-                            }
-                            if (npc.Center.X < topLeft.X && variablethrustingPower <= 1f)
-                            {
-                                isRightOrLeft = true;
+                                thrust = false;
                             }
                         }
-                        break;
+                        if (numberOfPushes == 4)
+                        {
+                            Reset(1);
+                        }
+                        if (npc.Center.X > topRight.X && variablethrustingPower <= 1f)
+                        {
+                            isRightOrLeft = false;
+                        }
                     }
-                case 2:
+                    else
                     {
-                        npc.ai[0]++;
-                        npc.velocity *= 0.95f;
-                        if (npc.ai[0] == 10)
+                        if (!thrust)
                         {
-                            geyserPositionsVarUp = SpawnProjectileNearPlayerOnTile(40, howMany, true);
-                            geyserPositionsVarDown = SpawnProjectileNearPlayerOnTile(40, howMany, false);
-                            geyserPositionsVarRight = SpawnProjectileNearPlayerOnTileSide(40, howMany, true);
-                            geyserPositionsVarLeft = SpawnProjectileNearPlayerOnTileSide(40, howMany, false);
+                            variablethrustingPower *= 0.97f;
                         }
-                        if (npc.ai[0] == 30)
+                        resetAnim = false;
+                        npc.velocity.X = -variablethrustingPower;
+                        if (variablethrustingPower <= 1f && !thrust)
                         {
-                            for (int i = 0; i < geyserPositionsVarUp.Length; i++)
+                            thrust = true;
+                            resetAnim = true;
+                            UpdateInkBlobs(3);
+                            numberOfPushes++;
+                        }
+                        if (thrust && variablethrustingPower < thrustingPower)
+                        {
+                            variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
+                            if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
                             {
-                                Projectile.NewProjectile(geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 0);
-                                Projectile.NewProjectile(geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 1);
-                                Projectile.NewProjectile(geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 2);
-                                Projectile.NewProjectile(geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 3);
+                                thrust = false;
                             }
                         }
+                        if (numberOfPushes == 4)
+                        {
+                            Reset(1);
+                        }
+                        if (npc.Center.X < topLeft.X && variablethrustingPower <= 1f)
+                        {
+                            isRightOrLeft = true;
+                        }
+                    }
+                    break;
+                }
+                case 2:
+                {
+                    npc.ai[0]++;
+                    npc.velocity *= 0.95f;
+                    if (npc.ai[0] == 10)
+                    {
+                        geyserPositionsVarUp = SpawnProjectileNearPlayerOnTile(40, howMany, true);
+                        geyserPositionsVarDown = SpawnProjectileNearPlayerOnTile(40, howMany, false);
+                        geyserPositionsVarRight = SpawnProjectileNearPlayerOnTileSide(40, howMany, true);
+                        geyserPositionsVarLeft = SpawnProjectileNearPlayerOnTileSide(40, howMany, false);
+                    }
+                    if (npc.ai[0] == 30)
+                    {
                         for (int i = 0; i < geyserPositionsVarUp.Length; i++)
                         {
-                            if (npc.ai[0] > 100)
+                            Projectile.NewProjectile(geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 0);
+                            Projectile.NewProjectile(geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 1);
+                            Projectile.NewProjectile(geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 2);
+                            Projectile.NewProjectile(geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, 0, 0, ModContent.ProjectileType<KramkenGeyser>(), 1, 0f, Main.myPlayer, 0, 3);
+                        }
+                    }
+                    for (int i = 0; i < geyserPositionsVarUp.Length; i++)
+                    {
+                        if (npc.ai[0] > 100)
+                        {
+                            if (npc.ai[0] % 4 == 0)
                             {
-                                if (npc.ai[0] % 4 == 0)
+                                Projectile.NewProjectile(geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(-10, -15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(10, 15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, Main.rand.NextFloat(10f, 15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                Projectile.NewProjectile(geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, Main.rand.NextFloat(-10f, -15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                            }
+                        }
+                    }
+                    if (npc.ai[0] < 80)
+                    {
+                        modPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true, false, 10);
+                    }
+                    else if (npc.ai[0] == 200)
+                    {
+                        Reset(2);
+                    }
+                    break;
+                }
+                case 3:
+                {
+                    Vector2 gradient = Vector2.Normalize(arenaPosition - npc.Center);
+                    if (Vector2.DistanceSquared(arenaPosition, npc.Center) > (280 * 280) && !GETHIMBOIS)
+                    {
+                        if (!thrust)
+                        {
+                            variablethrustingPower *= 0.97f;
+                        }
+                        resetAnim = false;
+                        npc.velocity.X = variablethrustingPower * gradient.X;
+                        npc.velocity.Y = variablethrustingPower * gradient.Y;
+                        if (variablethrustingPower <= 1f && !thrust)
+                        {
+                            thrust = true;
+                            resetAnim = true;
+                            UpdateInkBlobs(3);
+                            numberOfPushes++;
+                        }
+                        if (thrust && variablethrustingPower < thrustingPower)
+                        {
+                            variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
+                            if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
+                            {
+                                thrust = false;
+                            }
+                        }
+                    }
+                    else if (!GETHIMBOIS)
+                    {
+                        npc.ai[0]++;
+
+                        npc.velocity *= 0.98f;
+                        if (npc.ai[0] == 100)
+                        {
+                            for (int i = 0; i < holePositions.Length; i++)
+                            {
+                                if (i == 0 || i == 2)
                                 {
-                                    Projectile.NewProjectile(geyserPositionsVarUp[i].X, geyserPositionsVarUp[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(-10, -15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
-                                    Projectile.NewProjectile(geyserPositionsVarDown[i].X, geyserPositionsVarDown[i].Y, Main.rand.NextFloat(-.1f, .1f), Main.rand.NextFloat(10, 15), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
-                                    Projectile.NewProjectile(geyserPositionsVarRight[i].X, geyserPositionsVarRight[i].Y, Main.rand.NextFloat(10f, 15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
-                                    Projectile.NewProjectile(geyserPositionsVarLeft[i].X, geyserPositionsVarLeft[i].Y, Main.rand.NextFloat(-10f, -15f), Main.rand.NextFloat(-.1f, .1f), ModContent.ProjectileType<WaterSpew>(), 30, 0f, Main.myPlayer);
+                                    NPC.NewNPC((int)holePositions[i].X + 120, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
+                                }
+
+                                if (i == 1 || i == 3)
+                                {
+                                    NPC.NewNPC((int)holePositions[i].X + 100, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI, 1);
                                 }
                             }
                         }
-                        if (npc.ai[0] < 80)
+                        if (npc.ai[0] >= 400)
                         {
-                            modPlayer.FixateCameraOn((geyserPositions[0] + geyserPositions[1]) / 2, 64f, true, false, 10);
+                            Reset(3);
                         }
-                        else if (npc.ai[0] == 200)
+                        if (npc.ai[0] > 10)
                         {
-                            Reset(2);
+                            resetAnim = true;
+                            thrust = true;
+                            npc.velocity.X = (float)Math.Sin(npc.ai[0] / 20) * 2;
+                            npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 20) * 2;
                         }
-                        break;
                     }
-                case 3:
+                    if (GETHIMBOIS)
                     {
-                        Vector2 gradient = Vector2.Normalize(arenaPosition - npc.Center);
-                        if (Vector2.DistanceSquared(arenaPosition, npc.Center) > (280 * 280) && !GETHIMBOIS)
+                        Vector2 yeet;
+                        if (isRightOrLeft)
+                        {
+                            yeet = player.Center + new Vector2(400, 0);
+                        }
+                        else
+                        {
+                            yeet = player.Center + new Vector2(-400, 0);
+                        }
+                        modPlayer.FixateCameraOn(npc.Center, 64f, false, true, 10);
+                        gradient = Vector2.Normalize(yeet - npc.Center);
+                        if (Vector2.DistanceSquared(yeet, npc.Center) > (180 * 180))
                         {
                             if (!thrust)
                             {
@@ -356,7 +426,6 @@ namespace EEMod.NPCs.Bosses.Kraken
                             {
                                 thrust = true;
                                 resetAnim = true;
-                                UpdateInkBlobs(3);
                                 numberOfPushes++;
                             }
                             if (thrust && variablethrustingPower < thrustingPower)
@@ -368,204 +437,135 @@ namespace EEMod.NPCs.Bosses.Kraken
                                 }
                             }
                         }
-                        else if (!GETHIMBOIS)
+                        else
                         {
                             npc.ai[0]++;
-
-                            npc.velocity *= 0.98f;
-                            if (npc.ai[0] == 100)
-                            {
-                                for (int i = 0; i < holePositions.Length; i++)
-                                {
-                                    if (i == 0 || i == 2)
-                                    {
-                                        NPC.NewNPC((int)holePositions[i].X + 120, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI);
-                                    }
-
-                                    if (i == 1 || i == 3)
-                                    {
-                                        NPC.NewNPC((int)holePositions[i].X + 100, (int)holePositions[i].Y + 200, ModContent.NPCType<Tentacle>(), 0, 0, 0, npc.whoAmI, 1);
-                                    }
-                                }
-                            }
-                            if (npc.ai[0] >= 400)
-                            {
-                                Reset(3);
-                            }
-                            if (npc.ai[0] > 10)
-                            {
-                                resetAnim = true;
-                                thrust = true;
-                                npc.velocity.X = (float)Math.Sin(npc.ai[0] / 20) * 2;
-                                npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 20) * 2;
-                            }
-                        }
-                        if (GETHIMBOIS)
-                        {
-                            Vector2 yeet;
+                            npc.velocity = (yeet - npc.Center) / 64f;
+                            npc.velocity *= .98f;
+                            resetAnim = true;
+                            mouthOpenConsume = true;
                             if (isRightOrLeft)
                             {
-                                yeet = player.Center + new Vector2(400, 0);
+                                npc.spriteDirection = 1;
                             }
                             else
                             {
-                                yeet = player.Center + new Vector2(-400, 0);
+                                npc.spriteDirection = -1;
                             }
-                            modPlayer.FixateCameraOn(npc.Center, 64f, false, true, 10);
-                            gradient = Vector2.Normalize(yeet - npc.Center);
-                            if (Vector2.DistanceSquared(yeet, npc.Center) > (180 * 180))
+                            if (npc.ai[0] == 10)
                             {
-                                if (!thrust)
-                                {
-                                    variablethrustingPower *= 0.97f;
-                                }
-                                resetAnim = false;
-                                npc.velocity.X = variablethrustingPower * gradient.X;
-                                npc.velocity.Y = variablethrustingPower * gradient.Y;
-                                if (variablethrustingPower <= 1f && !thrust)
-                                {
-                                    thrust = true;
-                                    resetAnim = true;
-                                    numberOfPushes++;
-                                }
-                                if (thrust && variablethrustingPower < thrustingPower)
-                                {
-                                    variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
-                                    if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
-                                    {
-                                        thrust = false;
-                                    }
-                                }
+                                CombatText.NewText(npc.getRect(), Colors.RarityBlue, "*How the fuck did you fall for that???", false, false);
                             }
-                            else
+                            if (npc.ai[0] == 80)
                             {
-                                npc.ai[0]++;
-                                npc.velocity = (yeet - npc.Center) / 64f;
-                                npc.velocity *= .98f;
-                                resetAnim = true;
-                                mouthOpenConsume = true;
-                                if (isRightOrLeft)
+                                CombatText.NewText(npc.getRect(), Colors.RarityBlue, "Now that you're here", false, false);
+                            }
+                            if (npc.ai[0] > 140)
+                            {
+                                modPlayer.FixateCameraOn(npc.Center, 64f, true, true, 10);
+                                float projectilespeedX = 10 * -npc.spriteDirection;
+                                float projectilespeedY = Main.rand.NextFloat(-2, 2);
+                                float projectileknockBack = 4f;
+                                int projectiledamage = 20;
+                                Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, ModContent.ProjectileType<WaterSpew>(), projectiledamage, projectileknockBack, npc.target, 0f, 1);
+                                if (npc.ai[0] == 280)
                                 {
-                                    npc.spriteDirection = 1;
-                                }
-                                else
-                                {
-                                    npc.spriteDirection = -1;
-                                }
-                                if (npc.ai[0] == 10)
-                                {
-                                    CombatText.NewText(npc.getRect(), Colors.RarityBlue, "*How the fuck did you fall for that???", false, false);
-                                }
-                                if (npc.ai[0] == 80)
-                                {
-                                    CombatText.NewText(npc.getRect(), Colors.RarityBlue, "Now that you're here", false, false);
-                                }
-                                if (npc.ai[0] > 140)
-                                {
-                                    modPlayer.FixateCameraOn(npc.Center, 64f, true, true, 10);
-                                    float projectilespeedX = 10 * -npc.spriteDirection;
-                                    float projectilespeedY = Main.rand.NextFloat(-2, 2);
-                                    float projectileknockBack = 4f;
-                                    int projectiledamage = 20;
-                                    Projectile.NewProjectile(npc.Center.X + 110 * -npc.spriteDirection, npc.Center.Y + 10, projectilespeedX, projectilespeedY, ModContent.ProjectileType<WaterSpew>(), projectiledamage, projectileknockBack, npc.target, 0f, 1);
-                                    if (npc.ai[0] == 280)
-                                    {
-                                        Reset(3);
-                                    }
+                                    Reset(3);
                                 }
                             }
                         }
-                        break;
                     }
+                    break;
+                }
                 case 4:
+                {
+                    resetAnim = true;
+                    thrust = true;
+                    npc.ai[0]++;
+                    npc.alpha++;
+                    tentacleAlpha -= 0.025f;
+                    int speed = 50;
+                    npc.velocity.X = (float)Math.Sin(npc.ai[0] / 10);
+                    npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 10);
+                    if (npc.alpha > 255)
                     {
-                        resetAnim = true;
-                        thrust = true;
-                        npc.ai[0]++;
-                        npc.alpha++;
-                        tentacleAlpha -= 0.025f;
-                        int speed = 50;
-                        npc.velocity.X = (float)Math.Sin(npc.ai[0] / 10);
-                        npc.velocity.Y = (float)Math.Cos(npc.ai[0] / 10);
-                        if (npc.alpha > 255)
+                        npc.alpha = 255;
+                    }
+                    if (npc.ai[0] < dashPositions.Length * speed)
+                    {
+                        if (npc.ai[0] % speed == 0)
                         {
-                            npc.alpha = 255;
+                            hasChains = true;
+                            dashPositions[(int)(npc.ai[0] / speed)] = player.Center + new Vector2(Main.rand.Next(-7, 7), Main.rand.Next(-7, 7));
+                            npcFromPositions[(int)(npc.ai[0] / speed)] = arenaPosition - new Vector2(Main.rand.Next(-2000, -1000), Main.rand.Next(-2000, -1000));
                         }
-                        if (npc.ai[0] < dashPositions.Length * speed)
-                        {
-                            if (npc.ai[0] % speed == 0)
-                            {
-                                hasChains = true;
-                                dashPositions[(int)(npc.ai[0] / speed)] = player.Center + new Vector2(Main.rand.Next(-7, 7), Main.rand.Next(-7, 7));
-                                npcFromPositions[(int)(npc.ai[0] / speed)] = arenaPosition - new Vector2(Main.rand.Next(-2000, -1000), Main.rand.Next(-2000, -1000));
-                            }
 
-                            for (int j = 0; j < 300; j++)
+                        for (int j = 0; j < 300; j++)
+                        {
+                            for (int i = 0; i <= (int)(npc.ai[0] / speed); i++)
                             {
-                                for (int i = 0; i <= (int)(npc.ai[0] / speed); i++)
-                                {
-                                    Lighting.AddLight(npcFromPositions[i] + Vector2.Normalize(dashPositions[i] - npcFromPositions[i]) * 30 * j, new Vector3(0, .5f, 0));
-                                }
+                                Lighting.AddLight(npcFromPositions[i] + Vector2.Normalize(dashPositions[i] - npcFromPositions[i]) * 30 * j, new Vector3(0, .5f, 0));
                             }
                         }
-                        else
-                        {
-                            Reset(4);
-                        }
-                        break;
                     }
-                case 5:
+                    else
                     {
-                        Vector2 gradient = Vector2.Normalize(topRight - npc.Center);
-                        if (Vector2.DistanceSquared(topRight, npc.Center) > (200 * 200) && !GETHIMBOIS)
+                        Reset(4);
+                    }
+                    break;
+                }
+                case 5:
+                {
+                    Vector2 gradient = Vector2.Normalize(topRight - npc.Center);
+                    if (Vector2.DistanceSquared(topRight, npc.Center) > (200 * 200) && !GETHIMBOIS)
+                    {
+                        if (!thrust)
                         {
-                            if (!thrust)
+                            variablethrustingPower *= 0.97f;
+                        }
+                        resetAnim = false;
+                        npc.velocity.X = variablethrustingPower * gradient.X;
+                        npc.velocity.Y = variablethrustingPower * gradient.Y;
+                        if (variablethrustingPower <= 1f && !thrust)
+                        {
+                            thrust = true;
+                            resetAnim = true;
+                            UpdateInkBlobs(3);
+                            numberOfPushes++;
+                        }
+                        if (thrust && variablethrustingPower < thrustingPower)
+                        {
+                            variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
+                            if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
                             {
-                                variablethrustingPower *= 0.97f;
+                                thrust = false;
                             }
-                            resetAnim = false;
-                            npc.velocity.X = variablethrustingPower * gradient.X;
-                            npc.velocity.Y = variablethrustingPower * gradient.Y;
-                            if (variablethrustingPower <= 1f && !thrust)
-                            {
-                                thrust = true;
-                                resetAnim = true;
-                                UpdateInkBlobs(3);
-                                numberOfPushes++;
-                            }
-                            if (thrust && variablethrustingPower < thrustingPower)
-                            {
-                                variablethrustingPower += (thrustingPower - (thrustingPower - variablethrustingPower)) / 13f;
-                                if (variablethrustingPower > thrustingPower || Math.Abs(variablethrustingPower - thrustingPower) < 0.4f)
-                                {
-                                    thrust = false;
-                                }
-                            }
+                        }
+                    }
+                    else
+                    {
+                        int frequency = 10;
+                        npc.ai[0]++;
+                        if (npc.ai[0] % frequency == 0)
+                        {
+                            Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
+                        }
+                        if (npc.ai[0] % frequency * 8 <= frequency * 8 / 2)
+                        {
+                            modPlayer.FixateCameraOn(player.Center, 64f, true, false, 10);
                         }
                         else
                         {
-                            int frequency = 10;
-                            npc.ai[0]++;
-                            if (npc.ai[0] % frequency == 0)
-                            {
-                                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-1000, 1000), -1000), Vector2.Zero, ModContent.ProjectileType<KramkenRocc>(), 40, 1f);
-                            }
-                            if (npc.ai[0] % frequency * 8 <= frequency * 8 / 2)
-                            {
-                                modPlayer.FixateCameraOn(player.Center, 64f, true, false, 10);
-                            }
-                            else
-                            {
-                                modPlayer.TurnCameraFixationsOff();
-                            }
-                            if (npc.ai[0] == 400)
-                            {
-                                Reset(5);
-                                modPlayer.TurnCameraFixationsOff();
-                            }
+                            modPlayer.TurnCameraFixationsOff();
                         }
-                        break;
+                        if (npc.ai[0] == 400)
+                        {
+                            Reset(5);
+                            modPlayer.TurnCameraFixationsOff();
+                        }
                     }
+                    break;
+                }
             }
         }
 

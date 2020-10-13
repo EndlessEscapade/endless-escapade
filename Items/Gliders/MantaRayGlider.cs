@@ -36,8 +36,8 @@ namespace EEMod.Items.Gliders
         {
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider = true;
             player.itemLocation += new Vector2(-100 * player.direction, 0);
-            if(Main.rand.Next(4) == 0)
-            Dust.NewDust(player.position + new Vector2(-30 * player.direction,-5), 2, 2, 91,0,0,0,default,Math.Abs(player.velocity.X)/40f);
+            if (Main.rand.Next(4) == 0)
+                Dust.NewDust(player.position + new Vector2(-30 * player.direction, -5), 2, 2, 91, 0, 0, 0, default, Math.Abs(player.velocity.X) / 40f);
             Tile tile = Main.tile[(int)player.position.X / 16, (int)player.position.Y / 16 + 3];
             if (tile.active()
                 && Main.tileSolid[tile.type]
@@ -52,7 +52,7 @@ namespace EEMod.Items.Gliders
                 {
                     lerpage += 1;
                     float rotFactor = Math.Max(0, player.velocity.Y / 150f);
-                    player.fullRotation += (float)Math.Sin(lerpage / 20f - .1f) * rotFactor * Helpers.Clamp(lerpage/200f,0,1);
+                    player.fullRotation += (float)Math.Sin(lerpage / 20f - .1f) * rotFactor * Helpers.Clamp(lerpage / 200f, 0, 1);
                 }
             }
             if (player.velocity.Y > 0)

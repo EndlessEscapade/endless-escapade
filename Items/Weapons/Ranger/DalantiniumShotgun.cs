@@ -43,7 +43,7 @@ namespace EEMod.Items.Weapons.Ranger
         int chargeTime = 120;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if(chargeTime <= 0)
+            if (chargeTime <= 0)
             {
                 chargeTime = 120;
                 Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<DalantiniumSpike>(), damage, knockBack);
@@ -53,7 +53,7 @@ namespace EEMod.Items.Weapons.Ranger
 
         public override void HoldItem(Player player)
         {
-            if(player.controlUseItem) if(chargeTime > 0) chargeTime--;
+            if (player.controlUseItem) if (chargeTime > 0) chargeTime--;
         }
 
         public override void AddRecipes()

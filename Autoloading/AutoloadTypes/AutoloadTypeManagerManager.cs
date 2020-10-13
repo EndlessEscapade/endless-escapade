@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Autoloading.AutoloadTypes
 {
-    #pragma warning disable IDE0051 // Private members
+#pragma warning disable IDE0051 // Private members
     /// <summary>
     /// A
     /// </summary>

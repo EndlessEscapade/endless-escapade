@@ -164,51 +164,51 @@ namespace EEMod.EEWorld
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
                     }
                     RemoveStoneSlabs();
-                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX*2; i++)
+                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                    {
+                        for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                         {
-                            for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY*2; j++)
-                            {
 
-                                    int noOfTiles = 0;
-                                    for (int k = -5; k < 5; k++)
+                            int noOfTiles = 0;
+                            for (int k = -5; k < 5; k++)
+                            {
+                                for (int l = -5; l < 5; l++)
+                                {
+                                    if (WorldGen.InWorld(i + k, j + l, 10))
                                     {
-                                        for (int l = -5; l < 5; l++)
+                                        if (Main.tile[i + k, j + l].active() && Main.tileSolid[Main.tile[i + k, j + l].type])
                                         {
-                                            if (WorldGen.InWorld(i + k, j + l, 10))
-                                            {
-                                                if (Main.tile[i + k, j + l].active() && Main.tileSolid[Main.tile[i + k, j + l].type])
-                                                {
-                                                    noOfTiles++;
-                                                }
-                                            }
+                                            noOfTiles++;
                                         }
                                     }
-                                    if (EESubWorlds.BulbousTreePosition.Count > 0)
+                                }
+                            }
+                            if (EESubWorlds.BulbousTreePosition.Count > 0)
+                            {
+                                for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
+                                {
+                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 45 * 45)
                                     {
-                                        for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
-                                        {
-                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 45 * 45)
-                                            {
-                                                noOfTiles += 5;
-                                            }
-                                        }
+                                        noOfTiles += 5;
                                     }
-                                    if (EESubWorlds.OrbPositions.Count > 0)
+                                }
+                            }
+                            if (EESubWorlds.OrbPositions.Count > 0)
+                            {
+                                for (int m = 0; m < EESubWorlds.OrbPositions.Count; m++)
+                                {
+                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 20 * 20)
                                     {
-                                        for (int m = 0; m < EESubWorlds.OrbPositions.Count; m++)
-                                        {
-                                            if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 20 * 20)
-                                            {
-                                                noOfTiles += 5;
-                                            }
-                                        }
+                                        noOfTiles += 5;
                                     }
-                                    if (noOfTiles < 3)
-                                    {
-                                        EESubWorlds.BulbousTreePosition.Add(new Vector2(i, j));
-                                    }
+                                }
+                            }
+                            if (noOfTiles < 3)
+                            {
+                                EESubWorlds.BulbousTreePosition.Add(new Vector2(i, j));
                             }
                         }
+                    }
 
 
 
@@ -239,24 +239,24 @@ namespace EEMod.EEWorld
             switch (minibiome)
             {
                 case MinibiomeID.Anemone:
-                    /*perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
-                    int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
-                    for (int i = 0; i < sizeX; i++)
+                /*perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
+                int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+                for (int i = 0; i < sizeX; i++)
+                {
+                    for (int j = 0; j < sizeY; j++)
                     {
-                        for (int j = 0; j < sizeY; j++)
+                        if (perlinNoiseFunction[i, j] == 1)
                         {
-                            if (perlinNoiseFunction[i, j] == 1)
-                            {
-                                WorldGen.PlaceWall(i + xPos, j + yPos, ModContent.WallType<AnemoneWallTile>());
-                            }
+                            WorldGen.PlaceWall(i + xPos, j + yPos, ModContent.WallType<AnemoneWallTile>());
                         }
                     }
-                    break;*/
+                }
+                break;*/
                 case MinibiomeID.CrystallineCaves:
                     break;
             }
 
-            CreateNoise(ensureNoise, Main.rand.Next(30,50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f,0.6f));
+            CreateNoise(ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f, 0.6f));
         }
 
 
@@ -264,11 +264,11 @@ namespace EEMod.EEWorld
 
         public static void MakeCrystal(int xPos, int yPos, int length, int width, int vertDir, int horDir, int type)
         {
-            for(int a = 0; a < length; a++)
+            for (int a = 0; a < length; a++)
             {
-                for(int i = 0; i < width; i++)
+                for (int i = 0; i < width; i++)
                 {
-                    for(int j = 0; j < width; j++)
+                    for (int j = 0; j < width; j++)
                     {
                         if (!Main.tile[i, j].active())
                         {
@@ -308,7 +308,7 @@ namespace EEMod.EEWorld
                                 case 3:
                                     WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor3x3Coral>(), style: WorldGen.genRand.Next(2));
                                     break;
-                                    
+
                                 case 4:
                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor1x2Coral>(), style: WorldGen.genRand.Next(7));
                                     break;
@@ -334,9 +334,9 @@ namespace EEMod.EEWorld
                         if (WorldGen.InWorld(i, j))
                         {
                             int minibiome = 0;
-                            for(int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
+                            for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
                             {
-                                if(Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)) < (220 * 220) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                                if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)) < (220 * 220) && EESubWorlds.MinibiomeLocations[k].Z != 0)
                                 {
                                     minibiome = (int)EESubWorlds.MinibiomeLocations[k].Z;
                                     break;
@@ -345,7 +345,7 @@ namespace EEMod.EEWorld
 
                             int selection;
                             switch (minibiome)
-                            {   
+                            {
                                 #region Default
                                 case MinibiomeID.None: //Default
                                     if (!WorldGen.genRand.NextBool(6))
@@ -826,7 +826,7 @@ namespace EEMod.EEWorld
                                                         case 0:
                                                             WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x2Coral>());
                                                             break;
-                                                            
+
                                                         case 1:
                                                             WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x3Coral>(), style: WorldGen.genRand.Next(2));
                                                             break;

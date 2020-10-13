@@ -280,7 +280,7 @@ namespace EEMod
             {
                 if (i == 0)
                 {
-                   // Main.spriteBatch.Draw(Main.magicPixel, points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
+                    // Main.spriteBatch.Draw(Main.magicPixel, points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
                 }
                 else
                 {

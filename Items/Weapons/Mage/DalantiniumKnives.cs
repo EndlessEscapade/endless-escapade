@@ -50,8 +50,8 @@ namespace EEMod.Items.Weapons.Mage
         {
             isInHand = true;
             anim++;
-            if(powerUp < 2000)
-            powerUp++;
+            if (powerUp < 2000)
+                powerUp++;
         }
         public override bool PreDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
         {

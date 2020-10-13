@@ -55,7 +55,7 @@ namespace EEMod
         {
             return (float)(
                 x0 * Math.Pow(1 - t, 2) +
-                x1 * 2 * t * (1-t) +
+                x1 * 2 * t * (1 - t) +
                 x2 * Math.Pow(t, 2)
             );
         }
@@ -84,14 +84,14 @@ namespace EEMod
         }
         public static void TexToDust(string path, Vector2 position, int accuracy = 1, float spacing = 1, int threshold = 126)
         {
-            int[,] array = ConvertTexToBitmap(path,threshold);
+            int[,] array = ConvertTexToBitmap(path, threshold);
             for (int i = 0; i < array.GetLength(0); i++)
             {
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
                     if (array[i, j] == 1 && i % accuracy == 0 && j % accuracy == 0)
                     {
-                        Dust dust = Dust.NewDustPerfect(position + new Vector2(i, j)* spacing, 219, Vector2.Zero);
+                        Dust dust = Dust.NewDustPerfect(position + new Vector2(i, j) * spacing, 219, Vector2.Zero);
                         dust.noGravity = true;
                     }
                 }
@@ -175,11 +175,11 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
-        public static void DrawBezier(Texture2D headTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, float addonPerUse, float rotDis = 0f, bool alphaBlend = false, float scale = 1, bool emitsDust = false,bool fadeScale = false)
+        public static void DrawBezier(Texture2D headTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, float addonPerUse, float rotDis = 0f, bool alphaBlend = false, float scale = 1, bool emitsDust = false, bool fadeScale = false)
         {
             float width = headTexture.Width;
             float length = (startingPos - endPoints).Length();
-            float chainsPerUse = (width / length)* addonPerUse;
+            float chainsPerUse = (width / length) * addonPerUse;
             for (float i = 0; i <= 1; i += chainsPerUse)
             {
                 Vector2 distBetween;
@@ -237,7 +237,7 @@ namespace EEMod
             return new Vector2(x, y);
         }
 
-        public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis,Rectangle source)
+        public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, Rectangle source)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
             {
@@ -252,7 +252,7 @@ namespace EEMod
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
                     source, drawColor, projTrueRotation,
-                    source.Size()/2, 1, SpriteEffects.None, 0);
+                    source.Size() / 2, 1, SpriteEffects.None, 0);
                 }
             }
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);

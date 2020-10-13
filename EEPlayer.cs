@@ -79,7 +79,7 @@ namespace EEMod
         public List<int> SeaObjectFrames = new List<int>();
         public Dictionary<string, Island> Islands = new Dictionary<string, Island>();
         public string baseWorldName;
-        
+
         //Runes
         public byte[] hasGottenRuneBefore = new byte[7];
         public byte[] inPossesion = new byte[7];
@@ -370,7 +370,7 @@ namespace EEMod
         public void ReturnHome()
         {
             Initialize();
-            SM.SaveAndQuit(baseWorldName);
+            SM.SaveAndQuit(KeyID.BaseWorldName);
         }
 
         private float displacmentX = 0;
@@ -466,7 +466,7 @@ namespace EEMod
                         }
 
                         Initialize();
-                        SM.SaveAndQuit(baseWorldName);
+                        SM.SaveAndQuit(KeyID.BaseWorldName);
                     }
                 }
             }
@@ -607,13 +607,13 @@ namespace EEMod
                     break;
                 }
             }
-          //  Main.NewText(minibiome);
+            //  Main.NewText(minibiome);
 
             if (playingGame)
             {
                 player.velocity = Vector2.Zero;
             }
-            UpdateVerletCollisions(1,3f,10,54,1.6f);
+            UpdateVerletCollisions(1, 3f, 10, 54, 1.6f);
             if (isWearingCape)
             {
                 UpdateArrayPoints();
@@ -765,7 +765,7 @@ namespace EEMod
 
         public void UpdateRunes()
         {
-            if(runeCooldown > 0) runeCooldown--;
+            if (runeCooldown > 0) runeCooldown--;
 
             bool[][] states = new bool[][] { new bool[] { false, false }, new bool[] { true, false }, new bool[] { true, true } };
             for (int i = 0; i < hasGottenRuneBefore.Length; i++)
@@ -841,7 +841,7 @@ namespace EEMod
                                         player.gravity = -0.2f;
                                     if (player.controlDown)
                                         player.gravity = 0.1f;
-                                    if(!player.controlUp && !player.controlDown)
+                                    if (!player.controlUp && !player.controlDown)
                                         player.gravity = -0.1f;
                                 }
                             }
@@ -1041,7 +1041,7 @@ namespace EEMod
             if (timerForCutscene >= 1400)
             {
                 Initialize();
-                prevKey = baseWorldName;
+                prevKey = KeyID.BaseWorldName;
                 SM.SaveAndQuit(KeyID.Pyramids); //pyramid
             }
             if (cutSceneTriggerTimer > 0)
@@ -1142,7 +1142,7 @@ namespace EEMod
             if (godMode)
             {
                 int getRand = Main.rand.Next(5);
-                int healSet = Helpers.Clamp( damage / 9, 1, 5);
+                int healSet = Helpers.Clamp(damage / 9, 1, 5);
 
                 if (getRand == 1)
                 {
@@ -1421,7 +1421,7 @@ namespace EEMod
 
             public void Update()
             {
-                position.X-=0.3f;
+                position.X -= 0.3f;
             }
         }
 

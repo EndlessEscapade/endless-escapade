@@ -37,7 +37,7 @@ namespace EEMod.Projectiles.Melee
                 projectile.velocity = Vector2.Normalize(projectile.Center - Main.player[projectile.owner].Center) * -16;
                 projectile.rotation += 0.4f;
                 projectile.tileCollide = false;
-                if(Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center) <= 8)
+                if (Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center) <= 8)
                     projectile.Kill();
             }
             float legoYoda = projectile.velocity.X > 0 ? MathHelper.PiOver4 : MathHelper.Pi - MathHelper.PiOver4;

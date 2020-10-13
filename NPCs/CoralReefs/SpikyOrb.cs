@@ -40,7 +40,7 @@ namespace EEMod.NPCs.CoralReefs
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
-            EEMod.ReflectionShader.Parameters["alpha"].SetValue(alpha*2 % 6);
+            EEMod.ReflectionShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
             EEMod.ReflectionShader.Parameters["tentacle"].SetValue(EEMod.instance.GetTexture("ShaderAssets/SpikyOrbLightMap"));
             Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw(), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
@@ -233,7 +233,7 @@ namespace EEMod.NPCs.CoralReefs
         bool a;
         public override void NPCLoot()
         {
-            
+
 
 
             Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));

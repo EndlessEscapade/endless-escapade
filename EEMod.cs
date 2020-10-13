@@ -49,7 +49,7 @@ namespace EEMod
 
         public static int _lastSeed;
 
-       
+
 
         internal delegate void UIUpdateDelegate(GameTime gameTime);
         internal delegate void UIModifyLayersDelegate(List<GameInterfaceLayer> layers, int mouseTextIndex, GameTime lastUpdateUIGameTime);
@@ -91,7 +91,7 @@ namespace EEMod
             Noise2DShift = null;
         }
 
-       
+
         private int delay;
         private float pauseShaderTImer;
         public SpaceInvaders simpleGame;
@@ -163,7 +163,7 @@ namespace EEMod
 
         float counter;
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
-        
+
 
         public void UpdateGame(GameTime gameTime)
         {
@@ -225,7 +225,7 @@ namespace EEMod
                         simpleGame.EndGame();
                         break;
                     }
-                    if (Inspect.JustPressed && Main.tile[(int)player.Center.X/16, (int)player.Center.Y/16].type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
+                    if (Inspect.JustPressed && Main.tile[(int)player.Center.X / 16, (int)player.Center.Y / 16].type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
                     {
                         simpleGame = new SpaceInvaders();
                         Main.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
@@ -237,7 +237,7 @@ namespace EEMod
                 }
             }
         }
-        
+
 
         public override void MidUpdateProjectileItem()
         {
@@ -313,7 +313,7 @@ namespace EEMod
         private GameTime lastGameTime;
         public UserInterface EEInterface;
         float sineInt;
-        
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             sineInt += 0.003f;

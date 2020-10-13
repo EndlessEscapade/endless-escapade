@@ -34,9 +34,9 @@ namespace EEMod.Projectiles.Runes
 
         public override void AI()
         {
-            if(projectile.ai[1] == 0)
+            if (projectile.ai[1] == 0)
             {
-                for(int i = 0; i<2; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersRuneBubble>(), 0, 0, projectile.whoAmI);
                 }
@@ -59,7 +59,7 @@ namespace EEMod.Projectiles.Runes
 
             Main.NewText((255 - projectile.alpha) / 255);
             if (projectile.ai[1] > 120)
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f * ((255-projectile.alpha)/255), projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f * ((255 - projectile.alpha) / 255), projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

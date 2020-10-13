@@ -40,7 +40,7 @@ namespace EEMod.Projectiles.Ranged
             projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
 
             projectile.ai[0]++;
-            if(projectile.ai[0] % 15 == 0)
+            if (projectile.ai[0] % 15 == 0)
             {
                 for (int i = 0; i < 360; i += 10)
                 {

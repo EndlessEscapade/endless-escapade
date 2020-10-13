@@ -7,8 +7,8 @@ using System.Collections.Generic;
 
 namespace EEMod.Net.Serializers
 {
-    #pragma warning disable IDE0044 // readonly modifier
-    #pragma warning disable IDE0028 // initialization
+#pragma warning disable IDE0044 // readonly modifier
+#pragma warning disable IDE0028 // initialization
     public class SerializersManager : AutoloadTypeManager<NetObjSerializer>
     {
         [FieldInit]

@@ -35,7 +35,7 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.lavaImmune = false;
             npc.noTileCollide = false;
-            
+
             npc.damage = 5;
         }
         float counter;
@@ -50,13 +50,13 @@ namespace EEMod.NPCs.CoralReefs
             counter2 += 0.1f;
             Texture2D tex = Main.npcTexture[npc.type];
             Vector2 pos = npc.Center.ForDraw();
-            Main.spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, tex.Width + (int)(Math.Sin(counter2) *2) - 5, tex.Height + (int)(Math.Cos(counter2) *5) - 2), npc.frame, Color.Lerp(drawColor, Color.MediumPurple,(float)Math.Sin(counter2)*0.2f), npc.rotation, npc.frame.Size() / 2, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, tex.Width + (int)(Math.Sin(counter2) * 2) - 5, tex.Height + (int)(Math.Cos(counter2) * 5) - 2), npc.frame, Color.Lerp(drawColor, Color.MediumPurple, (float)Math.Sin(counter2) * 0.2f), npc.rotation, npc.frame.Size() / 2, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
         public void UpdateJellyfishTesting()
         {
             npc.rotation = npc.velocity.X / 16f;
-            lol1 = new Vector2[noOfTentacles/2, cap, 2];
+            lol1 = new Vector2[noOfTentacles / 2, cap, 2];
             Vector2 first = npc.Center;
             float[] lastX = new float[noOfTentacles];
             float[] lastY = new float[noOfTentacles];
@@ -75,7 +75,7 @@ namespace EEMod.NPCs.CoralReefs
             float accell = ((float)Math.Sin(counter) + 1.4f) / 2f;
             counter += 0.08f * accell;
             float rot = npc.velocity.X / 10f;
-            for (int i = 0; i < noOfTentacles/2; i++)
+            for (int i = 0; i < noOfTentacles / 2; i++)
             {
                 Vector2 firstControl = new Vector2(-startingdiff - i * diff - (float)Math.Sin(counter + 0.35f + i / 10f) * (startingdiff + i * diff), -(float)Math.Cos(counter + 0.05f) * (tip - secondContactPoint)).RotatedBy(rot);
                 Vector2 secondControl = new Vector2(-startingdiff - i * diff / 2 - (float)Math.Sin(counter + 0.25f + i / 5f) * (startingdiff + i * diff / 2), -(float)Math.Cos(counter + 0.05f) * (tip - firstContactPoint)).RotatedBy(rot);
@@ -87,7 +87,7 @@ namespace EEMod.NPCs.CoralReefs
                 lastX[i] = first.X + thidControl.X;
                 lastY[i] = first.Y + thidControl.Y;
             }
-            for (int i = noOfTentacles/2; i < noOfTentacles; i++)
+            for (int i = noOfTentacles / 2; i < noOfTentacles; i++)
             {
                 Vector2 firstControl = new Vector2(startingdiff + (i - noOfTentacles / 2) * diff + (float)Math.Sin(counter + i / 13f) * (startingdiff + (i - noOfTentacles / 2) * diff), -(float)Math.Cos(counter + i / 14f) * (tip - secondContactPoint)).RotatedBy(rot);
                 Vector2 secondControl = new Vector2(startingdiff + (i - noOfTentacles / 2) * diff / 2 + (float)Math.Sin(counter + i / 15f) * (startingdiff + (i - noOfTentacles / 2) * diff / 2), -(float)Math.Cos(counter + i / 20f) * (tip - firstContactPoint)).RotatedBy(rot);
@@ -102,7 +102,7 @@ namespace EEMod.NPCs.CoralReefs
             int sep = 5;
             for (int i = 0; i < noOfTentacles; i++)
             {
-                if (i < noOfTentacles/2)
+                if (i < noOfTentacles / 2)
                 {
                     for (int j = 0; j < accuracy; j++)
                     {
@@ -114,8 +114,8 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     for (int j = 0; j < accuracy; j++)
                     {
-                        Vector2 yas = Helpers.TraverseBezier(new Vector2(lastX[i] + (i - noOfTentacles/2) * sep, lastY[i]), new Vector2(first.X + (i - noOfTentacles/2) * sep, first.Y), new Vector2(ControlX2[i] + (i - noOfTentacles/2) * sep, ControlY2[i]), new Vector2(ControlX[i] + (i - noOfTentacles/2) * sep, ControlY[i]), j / accuracy);
-                        lol1[i - noOfTentacles/2, j, 1] = yas;
+                        Vector2 yas = Helpers.TraverseBezier(new Vector2(lastX[i] + (i - noOfTentacles / 2) * sep, lastY[i]), new Vector2(first.X + (i - noOfTentacles / 2) * sep, first.Y), new Vector2(ControlX2[i] + (i - noOfTentacles / 2) * sep, ControlY2[i]), new Vector2(ControlX[i] + (i - noOfTentacles / 2) * sep, ControlY[i]), j / accuracy);
+                        lol1[i - noOfTentacles / 2, j, 1] = yas;
                     }
                 }
             }
@@ -128,7 +128,7 @@ namespace EEMod.NPCs.CoralReefs
             Player target = Main.player[npc.target];
             if (counter % ((float)Math.PI * 2) < 0.5f)
             {
-                Helpers.Move(npc, target, 18, 40,Vector2.Zero);
+                Helpers.Move(npc, target, 18, 40, Vector2.Zero);
             }
             npc.velocity *= 0.98f;
             if (npc.ai[1] == 0)

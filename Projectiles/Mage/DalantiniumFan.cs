@@ -83,7 +83,7 @@ namespace EEMod.Projectiles.Mage
                 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
                 direction.Normalize();
                 direction *= 7f;
-                degrees = (int)((direction.ToRotation() - MathHelper.Pi ) * 57);
+                degrees = (int)((direction.ToRotation() - MathHelper.Pi) * 57);
                 int chooser = Main.rand.Next(0, 2);
                 if (chooser == 0)
                 {

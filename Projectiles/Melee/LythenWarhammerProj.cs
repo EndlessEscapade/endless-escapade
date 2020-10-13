@@ -83,14 +83,14 @@ namespace EEMod.Projectiles.Melee
                     dust.noGravity = true;
                 }
             }
-            if(projectile.ai[0] >= 640)
+            if (projectile.ai[0] >= 640)
             {
-                if(projectile.ai[1] > 0) projectile.ai[1]--;
+                if (projectile.ai[1] > 0) projectile.ai[1]--;
                 projectile.rotation += 0.75f;
 
                 projectile.velocity = Vector2.Normalize(projectile.Center - Main.player[projectile.owner].Center) * -16;
 
-                if(Vector2.Distance(Main.player[projectile.owner].Center, projectile.Center) <= 16)
+                if (Vector2.Distance(Main.player[projectile.owner].Center, projectile.Center) <= 16)
                 {
                     Main.player[projectile.owner].velocity += projectile.velocity / 2;
                     projectile.Kill();
@@ -100,8 +100,8 @@ namespace EEMod.Projectiles.Melee
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if(projectile.ai[0] >= 30)
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color(97, 215, 248, 0) * MathHelper.Clamp(nearbyProjectiles / 3, 1, 1.5f), 0f, new Vector2(50, 50), (projectile.ai[1]/32), SpriteEffects.None, 0f);
+            if (projectile.ai[0] >= 30)
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color(97, 215, 248, 0) * MathHelper.Clamp(nearbyProjectiles / 3, 1, 1.5f), 0f, new Vector2(50, 50), (projectile.ai[1] / 32), SpriteEffects.None, 0f);
             return base.PreDraw(spriteBatch, lightColor);
         }
     }

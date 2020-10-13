@@ -11,7 +11,7 @@ namespace EEMod.Items.Armor.DevSets.Exitium
 
     public class ExitiumsScarf : ModItem
     {
-public override void SetStaticDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exitium's Scarf");
             Tooltip.SetDefault("'Appear weak when you are strong, and strong when you are weak.'\n'Great for impersonating mod devs!'");
