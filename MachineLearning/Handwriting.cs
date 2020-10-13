@@ -15,6 +15,11 @@ namespace EEMod
 {
     public class Handwriting : NeuralNetwork
     {
+        public override int SIZEOFINPUTS => objTrainer[0].kerneledInputs.Length;
+        public override int NumberOfKernels => 2;
+        public override int NumberOfClassifications => 10;
+        public override float LearningRate => 0.01f;
+
         int[] convolutionalFilter1 =
         {
         -1, 0, 1,
@@ -39,10 +44,16 @@ namespace EEMod
                 Layers.errors.Add(ERROR);
             }
         }
-        void CreateNewDataSet()
+
+        public override void OnInitialize()
+        {
+            MainPerceptron = new Perceptron(SIZEOFINPUTS*NumberOfKernels, SIZEOFINPUTS, SIZEOFINPUTS/2, NumberOfClassifications, 0.01f);
+        }
+
+        public void CreateNewDataSet(string TrainingInputsExcel)
         {
             Excel.Application xlApp = new Excel.Application();
-            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(@"sandbox_test.xlsx");
+            Excel.Workbook xlWorkbook = xlApp.Workbooks.Open(TrainingInputsExcel);
             Excel._Worksheet xlWorksheet = (Excel._Worksheet)xlWorkbook.Sheets[1];
             Excel.Range xlRange = xlWorksheet.UsedRange;
 
@@ -52,8 +63,8 @@ namespace EEMod
             {
                 //currentRow = (int)random(csvReader.getRowCount());
                 //csvRow = csvReader.getRow(currentRow);
-                double[] inputs = new double[784];
-                for (int a = 0; a < 784; a++)
+                double[] inputs = new double[SIZEOFINPUTS];
+                for (int a = 0; a < SIZEOFINPUTS; a++)
                 {
                    // inputs[a] = (csvRow.getInt(a + 1) / (double)255);
                 }
@@ -61,17 +72,16 @@ namespace EEMod
                // answers[csvRow.getInt(0)] = 1;
                 //training[i] = new Trainer(inputs, answers, currentRow);
 
-
                 float[][] Kernels =
                 {
-                 KernelMultidimensionalArray3x3<float>(inputs, 28, 28, convolutionalFilter1,1),
-                 KernelMultidimensionalArray3x3<float>(inputs, 28, 28, convolutionalFilter2,1)
+                 KernelMultidimensionalArray3x3<float>(inputs, IMAGEWIDTH, IMAGEHEIGHT, convolutionalFilter1,1),
+                 KernelMultidimensionalArray3x3<float>(inputs, IMAGEWIDTH, IMAGEHEIGHT, convolutionalFilter2,1)
                };
 
                 float[][] Pools =
                 {
-                 MaxPoolMultiDimensionalArray<float>(Kernels[0], 26,26,2,2),
-                 MaxPoolMultiDimensionalArray<float>(Kernels[1], 26,26,2,2)
+                 MaxPoolMultiDimensionalArray<float>(Kernels[0], IMAGEWIDTH - 2,IMAGEHEIGHT - 2,2,2),
+                 MaxPoolMultiDimensionalArray<float>(Kernels[1], IMAGEWIDTH - 2,IMAGEHEIGHT - 2,2,2)
                 };
 
                 objTrainer[i].kerneledInputs = Flatten<float>(Pools);

@@ -56,7 +56,11 @@ namespace EEMod
             get;
             set;
         }
-        public virtual int UpdateSpeed => 1;
+        public virtual int UpdateSpeed { get; set; }
+        public virtual int SIZEOFINPUTS { get; set; }
+        public virtual int NumberOfClassifications { get; set; }
+        public virtual int NumberOfKernels { get; set; }
+        public virtual float LearningRate { get; set; }
         public virtual int sizeOfData
         {
             get;
