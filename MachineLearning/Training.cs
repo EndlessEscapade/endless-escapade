@@ -11,7 +11,7 @@ using System.Threading;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod
+namespace EEMod.MachineLearning
 {
     public class Trainer
     {

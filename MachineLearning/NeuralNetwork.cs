@@ -11,16 +11,31 @@ using System.Threading;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod
+namespace EEMod.MachineLearning
 {
     public class NeuralNetwork : MLObject
     {
         public bool isActive;
-        public int TrainStride;
+        internal int EpochNo;
+        public virtual string PerceptronSavePath { get; set; }
+        internal Serializers Serializer = new Serializers();
+        public virtual int TrainStride => 1;
         public Perceptron MainPerceptron = new Perceptron(169 * 2, 169, 80, 10, 0.01f);
         public Trainer[] objTrainer;
         public NeuronInterface Layers = new NeuronInterface();
         public int CurrentData;
+        public void MoveToNext()
+        {
+            CurrentData += TrainStride;
+            if (CurrentData > SIZEOFINPUTS - 1)
+            {
+                CurrentData = 0;
+                EpochNo++;
+            }
+        }
+        public void SerliazeCurrentPerceptron() => Serializer.Serialize(MainPerceptron, PerceptronSavePath);
+        public Perceptron DeserializeSavedPerceptron() =>  Serializer.Deserialize<Perceptron>(PerceptronSavePath);
+
         public void FeedForward()
         {
             Layers.finalLayer = MainPerceptron.FeedForward(objTrainer[CurrentData].kerneledInputs);

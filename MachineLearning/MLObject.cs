@@ -11,8 +11,9 @@ using System.Threading;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod
+namespace EEMod.MachineLearning
 {
+    [Serializable]
     public class MLObject
     {
         public void Initialize()
@@ -26,5 +27,9 @@ namespace EEMod
         public virtual void OnInitialize() {; }
 
         public virtual void OnUpdate() {; }
+        public MLObject()
+        {
+            Initialize();
+        }
     }
 }

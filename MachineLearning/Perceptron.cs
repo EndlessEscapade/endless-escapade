@@ -11,8 +11,9 @@ using System.Threading;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod
+namespace EEMod.MachineLearning
 {
+    [Serializable]
     public class Perceptron : MLObject
     {
         float[,] weights1;
@@ -23,19 +24,16 @@ namespace EEMod
         int noOfLayersSecond;
         int noOfInputs;
         int noOfLayersFinal;
-        float error;
         float[] biases1;
         float[] biases2;
         float[] biases3;
         float weightVariation = 0.1f;
         float biasVariation = 0;
-        float[] sum;
         public List<float> firstHiddenLayer = new List<float>();
         public List<float> secondHiddenLayer = new List<float>();
         public float[] finalLayerHold;
         public List<float> outputLayer = new List<float>();
         double e = 2.7182818284590452353602874713527;
-        double[] trackVar;
 
         //[end]
 
@@ -145,9 +143,8 @@ namespace EEMod
             for (int i = 0; i < input.Count; i++)
             {
                 errors += -(float)((desired[i] * Math.Log(input[i])));//cross entropy
-                error = errors / 1;
+                error = errors / 1f;
             }
-            this.error = error;
             return error;
         }
         public float getIndexOfLargest(float[] array)
