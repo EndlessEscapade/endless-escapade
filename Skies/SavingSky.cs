@@ -122,38 +122,38 @@ namespace EEMod.Skies
             {
                 case 0:
                 {
-                    texture = EEMod.instance.GetTexture("NPCs/DuneShambler");
-                    frames = 6;
-                    frameSpeed = 15;
+                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/SeaDragon");
+                    frames = 4;
+                    frameSpeed = 10;
                     break;
                 }
 
                 case 1:
                 {
-                    texture = EEMod.instance.GetTexture("LoadingScreenImages/GiantSquid");
+                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/Grebyser");
                     frames = 3;
-                    frameSpeed = 30;
+                    frameSpeed = 15;
                     break;
                 }
                 case 2:
                 {
-                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Clam");
-                    frames = 3;
-                    frameSpeed = 30;
+                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/CrescentJelly");
+                    frames = 9;
+                    frameSpeed = 5;
                     break;
                 }
                 case 3:
                 {
-                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Hydros");
+                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
                     frames = 8;
-                    frameSpeed = 25;
+                    frameSpeed = 10;
                     break;
                 }
                 case 4:
                 {
-                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Seahorse");
-                    frames = 5;
-                    frameSpeed = 20;
+                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
+                    frames = 6;
+                    frameSpeed = 10;
                     break;
                 }
             }
@@ -167,8 +167,8 @@ namespace EEMod.Skies
                 frame.Y = 0;
             }
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
-            Main.spriteBatch.Draw(texture2, Vector2.Zero, new Color(204, 204, 204));
-            Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture2, new Rectangle(Main.screenWidth/2, Main.screenHeight/2, texture2.Width, texture2.Height), texture2.Bounds, new Color(204, 204, 204), 0, origin: new Vector2(texture2.Width/2, texture2.Height/2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames), new Color(0, 0, 0), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
         }
 
         public override float GetCloudAlpha()
