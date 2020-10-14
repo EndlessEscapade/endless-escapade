@@ -450,38 +450,59 @@ namespace EEMod
 
         public void DrawSky()
         {
-            _texture2 = EEMod.instance.GetTexture("NotBleckScren");
             switch (loadingChooseImage)
             {
                 case 0:
-                    _screenTexture = EEMod.instance.GetTexture("NPCs/DuneShambler");
-                    _screenframes = 6;
-                    _screenframeSpeed = 5;
+                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
                     break;
+                case 1:
+                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen2");
+                    break;
+                case 2:
+                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
+                    break;
+                default:
+                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    break;
+            }
+            switch (loadingChooseImage)
+            {
+                case 0:
+                {
+                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/SeaDragon");
+                    _screenframes = 4;
+                    _screenframeSpeed = 10;
+                    break;
+                }
 
                 case 1:
-                    _screenTexture = EEMod.instance.GetTexture("LoadingScreenImages/GiantSquid");
+                {
+                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/Grebyser");
                     _screenframes = 3;
-                    _screenframeSpeed = 5;
+                    _screenframeSpeed = 15;
                     break;
-
+                }
                 case 2:
-                    _screenTexture = EEMod.instance.GetTexture("LoadingScreenImages/Clam");
-                    _screenframes = 3;
+                {
+                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/CrescentJelly");
+                    _screenframes = 9;
                     _screenframeSpeed = 5;
                     break;
-
+                }
                 case 3:
-                    _screenTexture = EEMod.instance.GetTexture("LoadingScreenImages/Hydros");
+                {
+                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
                     _screenframes = 8;
-                    _screenframeSpeed = 3;
+                    _screenframeSpeed = 10;
                     break;
-
+                }
                 case 4:
-                    _screenTexture = EEMod.instance.GetTexture("LoadingScreenImages/Seahorse");
-                    _screenframes = 5;
-                    _screenframeSpeed = 3;
+                {
+                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
+                    _screenframes = 6;
+                    _screenframeSpeed = 10;
                     break;
+                }
             }
 
             if (_counter++ > _screenframeSpeed)
@@ -497,8 +518,8 @@ namespace EEMod
 
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
 
-            Main.spriteBatch.Draw(_texture2, Vector2.Zero, new Color(204, 204, 204));
-            Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, _texture2.Width, _texture2.Height), _texture2.Bounds, Color.White, 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(0, 0, 0), 0, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
 
         private void Main_DrawBackground(ILContext il)
