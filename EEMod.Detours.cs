@@ -201,8 +201,8 @@ namespace EEMod
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            Noise2DShift.Parameters["noiseTexture"].SetValue(instance.GetTexture("noise"));
-            Noise2DShift.Parameters["tentacle"].SetValue(instance.GetTexture("WormNoise"));
+            Noise2DShift.Parameters["noiseTexture"].SetValue(instance.GetTexture("Noise/noise"));
+            Noise2DShift.Parameters["tentacle"].SetValue(instance.GetTexture("Noise/WormNoise"));
             Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt) * 0.2f);
             Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt) * 0.2f);
 
@@ -210,7 +210,7 @@ namespace EEMod
 
 
             Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
-            Texture2D tex = instance.GetTexture("BulbousBall");
+            Texture2D tex = instance.GetTexture("ShaderAssets/BulbousBall");
 
             Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y + (int)(Math.Sin(sineInt * 4) * 10), tex.Width + (int)(Math.Sin(sineInt) * 10), tex.Height + (int)Math.Cos(sineInt) * 10), new Rectangle(0, 0, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), Color.White * 0, (float)Math.Sin(sineInt), tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
