@@ -419,7 +419,7 @@ namespace EEMod
             for (int i = 0; i < Bubbles.Count; i++)
             {
                 Color drawColour = Lighting.GetColor((int)Bubbles[i].Position.X / 16, (int)Bubbles[i].Position.Y / 16);
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Bob1"), Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("ForegroundParticles/Bob1"), Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
             }
         }
 
@@ -535,16 +535,16 @@ namespace EEMod
                 text = "Tropical Island";
                 color = Color.GreenYellow * alpha;
             }
-            Texture2D Outline = EEMod.instance.GetTexture("Outline");
-            Texture2D Screen = EEMod.instance.GetTexture("OceanScreen");
+            Texture2D Outline = EEMod.instance.GetTexture("UI/Outline");
+            Texture2D Screen = EEMod.instance.GetTexture("Seamap/SeamapAssets/OceanScreen");
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
             float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
             if (Main.worldName == KeyID.Sea)
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("OceanScreen"), (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Seamap/SeamapAssets/OceanScreen"), (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
             if (Main.worldName == KeyID.Sea)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("OceanScreen"), (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Seamap/SeamapAssets/OceanScreen"), (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
             }
             else
             {
