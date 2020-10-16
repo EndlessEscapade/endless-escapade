@@ -22,6 +22,7 @@ using Terraria.World.Generation;
 using EEMod.Tiles.Furniture;
 using EEMod.SeamapAssets;
 using EEMod.Seamap.SeamapContent;
+using EEMod.MachineLearning;
 
 namespace EEMod
 {
@@ -49,8 +50,7 @@ namespace EEMod
 
         public static int _lastSeed;
 
-
-
+        public Handwriting HandwritingCNN;
         internal delegate void UIUpdateDelegate(GameTime gameTime);
         internal delegate void UIModifyLayersDelegate(List<GameInterfaceLayer> layers, int mouseTextIndex, GameTime lastUpdateUIGameTime);
         internal static event UIUpdateDelegate OnUpdateUI;
@@ -76,12 +76,14 @@ namespace EEMod
         public override void Unload()
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
+            HandwritingCNN = null;
             Noise2D = null;
             RuneActivator = null;
             Inspect = null;
             RuneSpecial = null;
             simpleGame = null;
             ActivateVerletEngine = null;
+            Train = null;
             NoiseSurfacing = null;
             White = null;
             UnloadIL();
@@ -265,12 +267,13 @@ namespace EEMod
         public override void Load()
         {
             Noise2D = GetEffect("Effects/Noise2D");
-
+            HandwritingCNN = new Handwriting();
             instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
             Inspect = RegisterHotKey("Inspect", "E");
             ActivateVerletEngine = RegisterHotKey("Activate VerletEngine", "N");
+            Train = RegisterHotKey("Train Neural Network", "P");
             AutoloadingManager.LoadManager(this);
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
             if (!Main.dedServ)
@@ -309,11 +312,27 @@ namespace EEMod
         public static ModHotKey RuneSpecial;
         public static ModHotKey Inspect;
         public static ModHotKey ActivateVerletEngine;
-
+        public static ModHotKey Train;
         private GameTime lastGameTime;
         public UserInterface EEInterface;
         float sineInt;
-
+        bool IsTraining;
+        void UpdateNet()
+        {
+            HandwritingCNN.Draw();
+            if (Train.JustPressed)
+            {
+                IsTraining = !IsTraining;
+            }
+            if (IsTraining)
+            {
+                UIText(HandwritingCNN.ERROR.ToString(), Color.White, Main.screenPosition.ForDraw() + new Vector2(50,400), 1);
+                for (int i = 0; i < 60; i++)
+                {
+                    HandwritingCNN.Update();
+                }
+            }
+        }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             sineInt += 0.003f;
@@ -330,9 +349,10 @@ namespace EEMod
                         {
                             EEInterface.Draw(Main.spriteBatch, lastGameTime);
                         }
+                        //UpdateNet();
                         UpdateGame(lastGameTime);
                         //   UpdateJellyfishTesting();
-                        // UpdateVerlet();
+                         UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {
                             DrawCR();
@@ -403,7 +423,7 @@ namespace EEMod
         public static int startingTextHandler;
         public static bool isAscending;
 
-        private void UIText(string text, Color colour, Vector2 position, int style)
+        public static void UIText(string text, Color colour, Vector2 position, int style)
         {
             DynamicSpriteFont font = style == 0 ? Main.fontDeathText : Main.fontMouseText;
             Vector2 textSize = font.MeasureString(text);
