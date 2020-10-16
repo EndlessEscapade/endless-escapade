@@ -99,7 +99,7 @@ namespace EEMod.SeamapAssets
             {
                 if (i == 0)
                 {
-                    Color drawColour = Lighting.GetColor((int)((Main.screenPosition.X + position.X) / 16f), (int)((Main.screenPosition.Y + position.Y) / 16f)) * (eePlayer.isStorming ? 1 : 2/3) * eePlayer.brightness;
+                    Color drawColour = Lighting.GetColor((int)((Main.screenPosition.X + position.X) / 16f), (int)((Main.screenPosition.Y + position.Y) / 16f)) * (eePlayer.isStorming ? 1 : 2/3f) * eePlayer.brightness;
                     Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 }
                 else
@@ -156,7 +156,7 @@ namespace EEMod.SeamapAssets
             {
                 EEPlayer.Island current = modPlayer.SeaObject[i];
                 Vector2 currentPos = current.posToScreen.ForDraw();
-                Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f)) * (Main.LocalPlayer.GetModPlayer<EEPlayer>().isStorming ? 1 : 2 / 3);// * Main.LocalPlayer.GetModPlayer<EEPlayer>().brightness;
+                Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f)) * (Main.LocalPlayer.GetModPlayer<EEPlayer>().isStorming ? 1 : 2 / 3f);// * Main.LocalPlayer.GetModPlayer<EEPlayer>().brightness;
                 if (current.isColliding)
                 {
                     if (instance.anchorLerp[i] < 1)

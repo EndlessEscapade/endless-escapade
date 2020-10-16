@@ -57,42 +57,19 @@ float GetNoisePixel(float2 Coord)
 
 float2 Round(float2 num,int scale)
 {
-    return float2((int)(num.x * scale) / scale, round(num.y * scale) / scale);
+    return float2((int)(num.x * scale) / (float)scale, (int)(num.y * scale) / (float)scale);
 }
 
 float3 Colour;
 float waveSpeed;
 float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : COLOR0
 {
-    float stateX;
-    float stateY;
     float xRes = 1 / (1980);
     float yRes = 1 / (1080);
     float2 Center = float2(0.5f, 0.5f);
-    float dist = distance(Center, coords.x);
-
-    //Keep just in case;
-		if (round(coords.x * (1980)) % 2 != 0)
-		{
-			stateX = -xRes;
-		}
-		else
-		{
-			stateX = 0;
-		}
-		if (round(coords.y * (1080) % 2 != 0)
-		{
-			stateY = -yRes;
-		}
-		else
-		{
-			stateY = 0;
-		}
-		float sina = abs(sin(coords.x * 20 + xCoord * 30 - coords.y*(30+sin(coords.x*5)))) + GetNoisePixel(coords)/5;
-		float2 finalState = float2(stateX, stateY);
-		float2 alteredCoords = finalState + coords;
-
-
+    float2 newCoord = Round(coords, 500);
+    float sina = abs(sin(newCoord.x * 20 + xCoord * 30 - newCoord.y*(30+sin(newCoord.x*5))));
+    float2 alteredCoords = newCoord;
     float2 pixelPos = alteredCoords + GetNoisePixel(alteredCoords) + float2(xCoord, yCoord)*(waveSpeed + sina);
     float4 waterMap = tex2D(waterMapSampler, pixelPos);
     float2 noisePos = alteredCoords * 0.1f + float2(xCoord + 0.3f, yCoord + 0.3f);
@@ -100,7 +77,8 @@ float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : C
     float4 colour;
     colour.rgb = Colour;
     colour.a = 1;
-    float4 target = float4(0.5f / (1 + sina / 6), 0.9f / (1 + sina / 6), 1* (1 +sina/ 6),1);
+    float targetAlt = (1 + sina / 6);
+    float4 target = float4(0.5f / targetAlt, 0.9f / targetAlt, targetAlt,1);
     colour = lerp(colour,target,(pix * waterMap.b)*1.2f);
     return colour;
 }
