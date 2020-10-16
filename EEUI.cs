@@ -24,12 +24,10 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
-        public UIManager UI;
         public void LoadUI()
         {
             if (!Main.dedServ)
             {
-                UI = new UIManager();
                 UI.AddUIState("RunUI", new RunninUI());
                 UI.AddUIState("MBUI", new MerchantBoatUI());
                 UI.AddUIState("EEUI", new EEUI());
@@ -46,49 +44,16 @@ namespace EEMod
         }
         public override void UpdateUI(GameTime gameTime)
         {
-            OnUpdateUI?.Invoke(gameTime);
             UI.Update(gameTime);
             lastGameTime = gameTime;
+            UIControls();
             base.UpdateUI(gameTime);
+        }
+        public void UIControls()
+        {
             if (RuneActivator.JustPressed && delay == 0)
             {
                 UI.SwitchBindedState("EEInterface");
-                if (UI.isActive("EEInterface"))
-                {
-                    if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Pause"].IsActive())
-                    {
-                        Filters.Scene.Deactivate("EEMod:Pause");
-                    }
-                }
-                else
-                {
-                    if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Pause"].IsActive())
-                    {
-                        Filters.Scene.Activate("EEMod:Pause").GetShader().UseOpacity(pauseShaderTImer);
-                    }
-                }
-                delay++;
-            }
-            if (UI.isActive("EEInterface"))
-            {
-                Filters.Scene["EEMod:Pause"].GetShader().UseOpacity(pauseShaderTImer);
-                pauseShaderTImer += 50;
-                if (pauseShaderTImer > 1000)
-                {
-                    pauseShaderTImer = 1000;
-                }
-            }
-            else
-            {
-                pauseShaderTImer = 0;
-            }
-            if (delay > 0)
-            {
-                delay++;
-                if (delay == 60)
-                {
-                    delay = 0;
-                }
             }
         }
     }

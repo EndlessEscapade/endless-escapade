@@ -266,9 +266,10 @@ namespace EEMod
 
         public static Effect Noise2D;
         public static Effect White;
-
+        UIManager UI;
         public override void Load()
         {
+            UI = new UIManager();
             Noise2D = GetEffect("Effects/Noise2D");
             HandwritingCNN = new Handwriting();
             instance = this;
