@@ -24,52 +24,37 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
-        public UserInterface customResources;
-        public UserInterface SpeedrunnTimer;
-        public UserInterface MerchantBoatUI;
-
-        internal RunninUI RunUI;
-        internal MerchantBoatUI MBUI;
-        internal EEUI eeui;
-
-
-        internal bool EEUIVisible
-        {
-            get => EEInterface?.CurrentState != null;
-            set => EEInterface?.SetState(value ? eeui : null);
-        }
-        internal bool MerchantBoatUIVisible
-        {
-            get => MerchantBoatUI?.CurrentState != null;
-            set => MerchantBoatUI?.SetState(value ? eeui : null);
-        }
+        public UIManager UI;
         public void LoadUI()
         {
             if (!Main.dedServ)
             {
-                eeui = new EEUI();
-                MBUI = new MerchantBoatUI();
-                eeui.Activate();
-                MBUI.Activate();
-                EEInterface = new UserInterface();
-                MerchantBoatUI = new UserInterface();
+                UI = new UIManager();
+                UI.AddUIState("RunUI", new RunninUI());
+                UI.AddUIState("MBUI", new MerchantBoatUI());
+                UI.AddUIState("EEUI", new EEUI());
+                UI.AddInterface("CustomResources");
+                //autobind
+                UI.AddInterface("SpeedrunnTimer", "RunUI");
+                UI.AddInterface("MerchantBoatUI", "MBUI");
+                UI.AddInterface("EEInterface", "EEUI");
             }
+        }
+        public void UnloadUI()
+        {
+            UI.UnLoad();
         }
         public override void UpdateUI(GameTime gameTime)
         {
             OnUpdateUI?.Invoke(gameTime);
+            UI.Update(gameTime);
             lastGameTime = gameTime;
-            if (EEInterface?.CurrentState != null)
-            {
-                EEInterface.Update(gameTime);
-            }
             base.UpdateUI(gameTime);
-
             if (RuneActivator.JustPressed && delay == 0)
             {
-                if (EEUIVisible)
+                UI.SwitchBindedState("EEInterface");
+                if (UI.isActive("EEInterface"))
                 {
-                    EEUIVisible = false;
                     if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Pause"].IsActive())
                     {
                         Filters.Scene.Deactivate("EEMod:Pause");
@@ -77,7 +62,6 @@ namespace EEMod
                 }
                 else
                 {
-                    EEUIVisible = true;
                     if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Pause"].IsActive())
                     {
                         Filters.Scene.Activate("EEMod:Pause").GetShader().UseOpacity(pauseShaderTImer);
@@ -85,7 +69,7 @@ namespace EEMod
                 }
                 delay++;
             }
-            if (EEUIVisible)
+            if (UI.isActive("EEInterface"))
             {
                 Filters.Scene["EEMod:Pause"].GetShader().UseOpacity(pauseShaderTImer);
                 pauseShaderTImer += 50;
@@ -105,15 +89,6 @@ namespace EEMod
                 {
                     delay = 0;
                 }
-            }
-
-            if (SpeedrunnTimer?.CurrentState != null)
-            {
-                RunUI.Update(gameTime);
-            }
-            if (MerchantBoatUI?.CurrentState != null)
-            {
-                MBUI.Update(gameTime);
             }
         }
     }

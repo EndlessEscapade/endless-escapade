@@ -50,6 +50,8 @@ namespace EEMod
 
         public static int _lastSeed;
 
+
+
         public Handwriting HandwritingCNN;
         internal delegate void UIUpdateDelegate(GameTime gameTime);
         internal delegate void UIModifyLayersDelegate(List<GameInterfaceLayer> layers, int mouseTextIndex, GameTime lastUpdateUIGameTime);
@@ -88,6 +90,7 @@ namespace EEMod
             White = null;
             UnloadIL();
             UnloadDetours();
+            UnloadUI();
             AutoloadingManager.UnloadManager(this);
             instance = null;
             Noise2DShift = null;
@@ -345,10 +348,7 @@ namespace EEMod
                 {
                     if (lastGameTime != null)
                     {
-                        if (EEInterface?.CurrentState != null)
-                        {
-                            EEInterface.Draw(Main.spriteBatch, lastGameTime);
-                        }
+                        UI.Draw(lastGameTime);
                         //UpdateNet();
                         UpdateGame(lastGameTime);
                         //   UpdateJellyfishTesting();
