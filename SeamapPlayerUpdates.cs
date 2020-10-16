@@ -30,29 +30,29 @@ namespace EEMod
     {
         public List<SeagullsClass> seagulls = new List<SeagullsClass>();
         public float brightness;
+        public bool isStorming;
 
         public void UpdateSea()
         {
             if (Main.dayTime)
             {
                 if (Main.time <= 200)
-                {
                     brightness += 0.0025f;
-                }
 
                 if (Main.time >= 52000 && brightness > 0.1f)
-                {
                     brightness -= 0.0025f;
-                }
 
                 if (Main.time > 2000 && Main.time < 52000)
-                {
                     brightness = 0.5f;
-                }
             }
             else
             {
                 brightness = 0.1f;
+            }
+
+            if(Main.time % 1000 == 0)
+            {
+                if (Main.rand.NextBool(10)) isStorming = !isStorming;
             }
 
             if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -226,7 +226,7 @@ namespace EEMod
 
             if (importantCutscene)
             {
-                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
+                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("Noise/noise"));
                 Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
 
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())

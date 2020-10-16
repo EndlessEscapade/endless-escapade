@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
+using System.Diagnostics;
 
 namespace EEMod.EEWorld
 {
@@ -1796,41 +1797,55 @@ namespace EEMod.EEWorld
                         {
                             if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
                             {
-                                ChestPos = new Vector2(y, x);
+                                ChestPos = new Vector2(k, l);
+                                for(int u = k; u < k + 2; u++)
+                                {
+                                    for (int p = l; p < l + 2; p++)
+                                    {
+                                        tile.type = 0;
+                                        tile.active(false);
+                                    }
+                                }
                             }
 
                             if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
                             {
                                 tile.type = (ushort)shape[y, x, 0];
                                 tile.active(true);
+                                tile.wall = (ushort)shape[y, x, 1];
+                                tile.color((byte)shape[y, x, 2]);
+                                tile.slope((byte)shape[y, x, 3]);
+                                tile.wallColor((byte)shape[y, x, 4]);
+                                if ((byte)shape[y, x, 5] == 1)
+                                {
+                                    tile.inActive(true);
+                                }
+                                else
+                                {
+                                    tile.inActive(false);
+                                }
+                                if ((byte)shape[y, x, 6] > 0)
+                                {
+                                    tile.liquid = (byte)shape[y, x, 6];
+                                    tile.liquidType((byte)shape[y, x, 7]);
+                                }
+                                tile.frameX = (byte)shape[y, x, 8];
+                                tile.frameY = (byte)shape[y, x, 9];
                             }
-                            WorldGen.PlaceChest(y - 1, x - 2, (ushort)ModContent.TileType<GemsandChestTile>());
+
+                            /*Debug.WriteLine("saifnaskdlfjnasldfjnalkdsfjnfalksjdfnalksjdnfalkdjnflaksdjfnalkdjfnakldjfnakldjfnalkjsdnflajsdnflakjsdnfklajsndf");
+                            WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GemsandChestTile>());*/
                         }
-                        tile.wall = (ushort)shape[y, x, 1];
-                        tile.color((byte)shape[y, x, 2]);
-                        tile.slope((byte)shape[y, x, 3]);
-                        tile.wallColor((byte)shape[y, x, 4]);
-                        if ((byte)shape[y, x, 5] == 1)
-                        {
-                            tile.inActive(true);
-                        }
-                        else
-                        {
-                            tile.inActive(false);
-                        }
-                        if ((byte)shape[y, x, 6] > 0)
-                        {
-                            tile.liquid = (byte)shape[y, x, 6];
-                            tile.liquidType((byte)shape[y, x, 7]);
-                        }
-                        tile.frameX = (byte)shape[y, x, 8];
-                        tile.frameY = (byte)shape[y, x, 9];
+
+
+
                     }
                 }
             }
             if (ChestPos != Vector2.Zero)
             {
-                WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y + 1, 21);
+                WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y, 21);
+                Debug.WriteLine("Chest Placed");
             }
         }
 

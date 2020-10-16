@@ -32,7 +32,7 @@ namespace EEMod.SeamapAssets
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
             //Lighting.AddLight(eePlayer.objectPos[1], 0.9f, 0.9f, 0.9f);
-            if (Main.rand.NextBool(100) && !Main.dayTime)
+            if (Main.rand.NextBool(100) && eePlayer.isStorming)
             {
                 currentLightningPos = Main.screenPosition + new Vector2(Main.rand.Next(500), Main.rand.Next(1000));
                 intenstityLightning = Main.rand.NextFloat(.1f, .2f);
@@ -99,7 +99,7 @@ namespace EEMod.SeamapAssets
             {
                 if (i == 0)
                 {
-                    Color drawColour = Lighting.GetColor((int)((Main.screenPosition.X + position.X) / 16f), (int)((Main.screenPosition.Y + position.Y) / 16f));
+                    Color drawColour = Lighting.GetColor((int)((Main.screenPosition.X + position.X) / 16f), (int)((Main.screenPosition.Y + position.Y) / 16f)) * (eePlayer.isStorming ? 1 : 2/3) * eePlayer.brightness;
                     Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 }
                 else
@@ -112,7 +112,7 @@ namespace EEMod.SeamapAssets
                     {
                         if (Main.player[j].active && j != Main.myPlayer)
                         {
-                            Color drawColour = Lighting.GetColor((int)(EEServerVariableCache.OtherBoatPos[j].X / 16f), (int)(EEServerVariableCache.OtherBoatPos[j].Y / 16f));
+                            Color drawColour = Lighting.GetColor((int)(EEServerVariableCache.OtherBoatPos[j].X / 16f), (int)(EEServerVariableCache.OtherBoatPos[j].Y / 16f)) * (eePlayer.isStorming ? 1 : 2 / 3) * eePlayer.brightness;
                             Main.spriteBatch.Draw(texture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), EEServerVariableCache.OtherRot[j] / 10f, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, EEServerVariableCache.OtherRot[j] < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                         }
                     }
@@ -156,7 +156,7 @@ namespace EEMod.SeamapAssets
             {
                 EEPlayer.Island current = modPlayer.SeaObject[i];
                 Vector2 currentPos = current.posToScreen.ForDraw();
-                Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f));
+                Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f)) * (Main.LocalPlayer.GetModPlayer<EEPlayer>().isStorming ? 1 : 2 / 3);// * Main.LocalPlayer.GetModPlayer<EEPlayer>().brightness;
                 if (current.isColliding)
                 {
                     if (instance.anchorLerp[i] < 1)
@@ -213,8 +213,8 @@ namespace EEMod.SeamapAssets
             Texture2D waterTexture = instance.GetTexture("Seamap/SeamapAssets/WaterBg");
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            WaterShader.Parameters["noise"].SetValue(instance.GetTexture("WormNoisePixelated"));
-            WaterShader.Parameters["noiseN"].SetValue(instance.GetTexture("WormNoise"));
+            WaterShader.Parameters["noise"].SetValue(instance.GetTexture("Noise/WormNoisePixelated"));
+            WaterShader.Parameters["noiseN"].SetValue(instance.GetTexture("Noise/WormNoise"));
             WaterShader.Parameters["water"].SetValue(instance.GetTexture("ShaderAssets/WaterShaderLightMap"));
             WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 2000f) * 0.2f);
