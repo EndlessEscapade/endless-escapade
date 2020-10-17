@@ -78,10 +78,10 @@ float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : C
     float4 colour;
     colour.rgb = Colour;
     colour.a = 1;
-    float targetAlt = (1 + sina / 6);
+    float targetAlt = (1 + sina / 10);
     float4 target = float4(0.5f / targetAlt, 0.9f / targetAlt, targetAlt,1);
-    colour = lerp(colour,target,(pix * waterMap.b)*1.2f);
-    colour.rgb *= LightColour;
+    colour = lerp(colour,target,(pix * waterMap.b*2)* (1 + sina / 10));
+    colour.rgb *= LightColour*LightColour;
     return colour;
 }
 
