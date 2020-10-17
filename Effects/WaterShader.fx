@@ -68,7 +68,7 @@ float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : C
     float yRes = 1 / (1080);
     float2 Center = float2(0.5f, 0.5f);
     float2 newCoord = Round(coords, 500);
-    float sina = abs(sin(newCoord.x * 20 + xCoord * 30 - newCoord.y*(30+sin(newCoord.x*5))));
+    float sina = abs(sin(newCoord.x * 10 + xCoord * 60 - newCoord.y*(30+sin(newCoord.x*20))));
     float2 alteredCoords = newCoord;
     float2 pixelPos = alteredCoords + GetNoisePixel(alteredCoords) + float2(xCoord, yCoord)*(waveSpeed + sina);
     float4 waterMap = tex2D(waterMapSampler, pixelPos);
