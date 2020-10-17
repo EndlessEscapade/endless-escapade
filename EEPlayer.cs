@@ -599,7 +599,7 @@ namespace EEMod
         public float seamapLightColor;
         public override void UpdateBiomeVisuals()
         {
-            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2/3f) * brightness, 1f, 5f);
+            seamapLightColor = MathHelper.Clamp(brightness, 0.666f, 2f);
             int minibiome = 0;
             for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
             {
