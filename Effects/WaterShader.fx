@@ -62,6 +62,7 @@ float2 Round(float2 num,int scale)
 
 float3 Colour;
 float waveSpeed;
+float3 LightColour;
 float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : COLOR0
 {
     float xRes = 1 / (1980);
@@ -80,6 +81,7 @@ float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : C
     float targetAlt = (1 + sina / 6);
     float4 target = float4(0.5f / targetAlt, 0.9f / targetAlt, targetAlt,1);
     colour = lerp(colour,target,(pix * waterMap.b)*1.2f);
+    colour.rgb *= LightColour;
     return colour;
 }
 
