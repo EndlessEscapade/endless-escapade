@@ -325,11 +325,11 @@ namespace EEMod
                 Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
             }
 
-            if (markerPlacer % 150 == 0)
+            if (markerPlacer % 200 == 0)
             {
                 if (seagulls.Count < 500)
                 {
-                    GraphicObject.LazyAppendInBoids(ref seagulls, 5);
+                    GraphicObject.LazyAppendInBoids(ref seagulls, Main.rand.Next(4, 8));
                 }
                 else
                 {

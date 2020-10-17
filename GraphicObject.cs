@@ -82,7 +82,8 @@ namespace EEMod
             int FHeight = tex.Height / noOfFrames;
             int frameY = frameCounter / PerFrame % noOfFrames;
             Rectangle rect = new Rectangle(0, FHeight * frameY, tex.Width, FHeight);
-            Color drawColour = Lighting.GetColor((int)((Position.X + Main.screenPosition.X) / 16f), (int)((Position.Y + Main.screenPosition.Y) / 16f));
+            Color drawColour = Lighting.GetColor((int)((Position.X + Main.screenPosition.X) / 16f), (int)((Position.Y + Main.screenPosition.Y) / 16f)) * modPlayer.seamapLightColor;
+            drawColour.A = 255;
             Main.spriteBatch.Draw(tex, Position.ForDraw() + Main.screenPosition, rect, drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), MathHelper.Pi, rect.Size() / 2, scale, SpriteEffects.None, 0f);
         }
     }

@@ -596,8 +596,10 @@ namespace EEMod
         }
 
         public bool playingGame;
+        public float seamapLightColor;
         public override void UpdateBiomeVisuals()
         {
+            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2/3f) * brightness, 0.1f, 5f);
             int minibiome = 0;
             for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
             {
@@ -1331,7 +1333,7 @@ namespace EEMod
             {
                 flash += 0.003f;
                 Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16);
+                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16) * modPlayer.brightness * (modPlayer.isStorming ? 2/3 : 1);
                 drawcolor.A = (byte)alpha;
                 if (modPlayer.quickOpeningFloat > 0.01f)
                 {
@@ -1380,13 +1382,14 @@ namespace EEMod
             {
                 flash += 0.003f;
                 Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16);
+                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16) * modPlayer.brightness * (modPlayer.isStorming ? 2 / 3 : 1);
                 drawcolor.A = (byte)alpha;
                 spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
             }
 
             public void Update()
             {
+
             }
         }
 
@@ -1415,8 +1418,8 @@ namespace EEMod
             {
                 Vector2 newPos = Center + Main.screenPosition;
                 Rectangle rect = new Rectangle(0, 0, width, height);
-                Color lightColour = Lighting.GetColor((int)newPos.X / 16, (int)newPos.Y / 16);
-                spriteBatch.Draw(texture, Center, rect, lightColour * ((255 - alpha) / 255f) * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, rect.Size() / 2, scale, SpriteEffects.None, 0f);
+                Color lightColour = Lighting.GetColor((int)newPos.X / 16, (int)newPos.Y / 16) * modPlayer.brightness * (modPlayer.isStorming ? 2 / 3 : 1);
+                spriteBatch.Draw(texture, Center, rect, lightColour * (alpha / 255f) * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, rect.Size() / 2, scale, SpriteEffects.None, 0f);
             }
 
             public void Update()

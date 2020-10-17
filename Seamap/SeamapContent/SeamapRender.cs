@@ -99,7 +99,8 @@ namespace EEMod.SeamapAssets
             {
                 if (i == 0)
                 {
-                    Color drawColour = Lighting.GetColor((int)((Main.screenPosition.X + position.X) / 16f), (int)((Main.screenPosition.Y + position.Y) / 16f)) * (eePlayer.isStorming ? 1 : 2/3f) * eePlayer.brightness;
+                    Color drawColour = Lighting.GetColor((int)((Main.screenPosition.X + position.X) / 16f), (int)((Main.screenPosition.Y + position.Y) / 16f)) * eePlayer.seamapLightColor;
+                    drawColour.A = 255;
                     Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 }
                 else
@@ -112,11 +113,11 @@ namespace EEMod.SeamapAssets
                     {
                         if (Main.player[j].active && j != Main.myPlayer)
                         {
-                            Color drawColour = Lighting.GetColor((int)(EEServerVariableCache.OtherBoatPos[j].X / 16f), (int)(EEServerVariableCache.OtherBoatPos[j].Y / 16f)) * (eePlayer.isStorming ? 1 : 2 / 3) * eePlayer.brightness;
+                            Color drawColour = Lighting.GetColor((int)(EEServerVariableCache.OtherBoatPos[j].X / 16f), (int)(EEServerVariableCache.OtherBoatPos[j].Y / 16f)) * eePlayer.seamapLightColor;
+                            drawColour.A = 255;
                             Main.spriteBatch.Draw(texture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), EEServerVariableCache.OtherRot[j] / 10f, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, EEServerVariableCache.OtherRot[j] < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                         }
                     }
-
                 }
             }
             //float quotient = ShipHelth / ShipHelthMax; // unused
@@ -150,13 +151,16 @@ namespace EEMod.SeamapAssets
                 element.Draw(instance.GetTexture("Seamap/SeamapAssets/Seagulls"), 9, 5);
             }
         }
+
         static void RenderIslands()
         {
             for (int i = 0; i < modPlayer.SeaObject.Count; i++)
             {
                 EEPlayer.Island current = modPlayer.SeaObject[i];
                 Vector2 currentPos = current.posToScreen.ForDraw();
-                Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f)) * (Main.LocalPlayer.GetModPlayer<EEPlayer>().isStorming ? 1 : 2 / 3f);// * Main.LocalPlayer.GetModPlayer<EEPlayer>().brightness;
+                Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f)) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
+                drawColour.A = 255;
+
                 if (current.isColliding)
                 {
                     if (instance.anchorLerp[i] < 1)
@@ -208,8 +212,10 @@ namespace EEMod.SeamapAssets
                 }
             }
         }
+
         static void RenderWater()
         {
+            EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             Texture2D waterTexture = instance.GetTexture("Seamap/SeamapAssets/WaterBg");
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -218,7 +224,7 @@ namespace EEMod.SeamapAssets
             WaterShader.Parameters["water"].SetValue(instance.GetTexture("ShaderAssets/WaterShaderLightMap"));
             WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 2000f) * 0.2f);
-            WaterShader.Parameters["Colour"].SetValue(new Vector3(0.1f, 0.1f, 1f));
+            WaterShader.Parameters["Colour"].SetValue(new Vector3(0.1568f, 0.6549f, 0.7607f) * eePlayer.seamapLightColor);
             WaterShader.Parameters["waveSpeed"].SetValue(4);
             WaterShader.CurrentTechnique.Passes[0].Apply();
             Vector2 pos = Main.screenPosition;
