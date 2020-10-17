@@ -224,7 +224,7 @@ namespace EEMod.SeamapAssets
             WaterShader.Parameters["water"].SetValue(instance.GetTexture("ShaderAssets/WaterShaderLightMap"));
             WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 2000f) * 0.2f);
-            WaterShader.Parameters["Colour"].SetValue(new Vector3(0.1568f, 0.6549f, 0.7607f) * eePlayer.seamapLightColor);
+            WaterShader.Parameters["Colour"].SetValue(new Vector3(0.1568f, 0.6549f, 0.7607f) * eePlayer.seamapLightColor/10);
             WaterShader.Parameters["waveSpeed"].SetValue(4);
             WaterShader.CurrentTechnique.Passes[0].Apply();
             Vector2 pos = Main.screenPosition;

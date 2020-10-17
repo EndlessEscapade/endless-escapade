@@ -599,7 +599,7 @@ namespace EEMod
         public float seamapLightColor;
         public override void UpdateBiomeVisuals()
         {
-            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2/3f) * brightness, 0.1f, 5f);
+            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2/3f) * brightness, 1f, 5f);
             int minibiome = 0;
             for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
             {
@@ -1333,7 +1333,7 @@ namespace EEMod
             {
                 flash += 0.003f;
                 Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16) * modPlayer.brightness * (modPlayer.isStorming ? 2/3 : 1);
+                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16) * modPlayer.seamapLightColor;
                 drawcolor.A = (byte)alpha;
                 if (modPlayer.quickOpeningFloat > 0.01f)
                 {
