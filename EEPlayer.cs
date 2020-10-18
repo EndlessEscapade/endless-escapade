@@ -281,18 +281,17 @@ namespace EEMod
                 case "EpicCrownKing":
                 case "Coolo109":
                 case "Pyxis":
-                case "Adarian Virell":
                 case "phanta":
                 case "cynik":
                 case "daimgamer":
                 case "Thecherrynuke":
                 case "Vadim":
-                case "CrackJackery":
                 case "Exitium":
-                case "Franswal":
-                case "Chakylis":
+                case "Chkylis":
                 case "LolXD87":
-                case "naka":
+                case "Nomis":
+                case "A44":
+                case "Stevie":
                     initialMoralScore += 1000;
                     break;
             }
@@ -599,7 +598,7 @@ namespace EEMod
         public float seamapLightColor;
         public override void UpdateBiomeVisuals()
         {
-            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2/3f) + brightness, 0.666f, 2f);
+            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2/3f) + brightness, 0.333f, 2f);
             int minibiome = 0;
             for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
             {

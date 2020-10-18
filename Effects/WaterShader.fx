@@ -65,7 +65,7 @@ float waveSpeed;
 float3 LightColour;
 float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : COLOR0
 {
-    float xRes = 1 / (1980);
+    float xRes = 1 / (1960);
     float yRes = 1 / (1080);
     float2 Center = float2(0.5f, 0.5f);
     float2 newCoord = Round(coords, 500);

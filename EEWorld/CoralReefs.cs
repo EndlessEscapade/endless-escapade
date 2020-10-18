@@ -420,7 +420,7 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 8:
-                                                        WorldGen.PlaceTile(i, j - 6, ModContent.TileType<Floor4x2Coral>());
+                                                        WorldGen.PlaceTile(i, j - 6, ModContent.TileType<Floor4x2Coral>(), style: WorldGen.genRand.Next(3));
                                                         break;
 
                                                     case 9:

@@ -27,7 +27,7 @@ namespace EEMod.Tiles.Furniture.Coral
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.newTile.RandomStyleRange = 1;
+            TileObjectData.newTile.RandomStyleRange = 3;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
         }
