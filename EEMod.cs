@@ -75,7 +75,7 @@ namespace EEMod
 
         public void TestParticleSystem()
         {
-            Particles.Get("GlobalParticleZone").SpawnParticles(Main.LocalPlayer.Center,Vector2.Zero,Main.magicPixel, 150, new Spew(.2f,.2f,new Vector2(-2,2),.99f));
+            
         }
 
         public override void Unload()
