@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 
 namespace EEMod
@@ -18,7 +19,7 @@ namespace EEMod
         private readonly List<IParticleSpawner> SpawningModules = new List<IParticleSpawner>();
         public bool CanSpawn { get; set; }
         public int zoneTimer;
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, List<IParticleModule> CustomBaseZoneModule = null)
+        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60,params IParticleModule[] CustomBaseZoneModule)
         {
             CanSpawn = false;
             foreach (IParticleSpawner Module in SpawningModules)
@@ -34,13 +35,13 @@ namespace EEMod
                 {
                     if (!particles[i].active)
                     {
-                        particles[i] = new Particle(position, timeLeft, texture ?? Main.magicPixel, velocity, CustomBaseZoneModule ?? BaseZoneModules);
+                        particles[i] = new Particle(position, timeLeft, texture ?? Main.magicPixel, velocity, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
                         return i;
                     }
                 }
                 else
                 {
-                    particles[i] = new Particle(position, timeLeft, texture ?? Main.magicPixel, velocity, CustomBaseZoneModule ?? BaseZoneModules);
+                    particles[i] = new Particle(position, timeLeft, texture ?? Main.magicPixel, velocity, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
                     return i;
                 }
             }

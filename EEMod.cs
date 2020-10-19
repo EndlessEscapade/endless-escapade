@@ -75,8 +75,7 @@ namespace EEMod
 
         public void TestParticleSystem()
         {
-            float yeet = Main.rand.NextFloat(6.1f);
-            Particles.Get("GlobalParticleZone").SpawnParticles(Main.LocalPlayer.Center, new Vector2((float)Math.Sin(yeet), (float)Math.Cos(yeet)) * 4,Main.magicPixel, 150);
+            Particles.Get("GlobalParticleZone").SpawnParticles(Main.LocalPlayer.Center,Vector2.Zero,Main.magicPixel, 150, new Spew(.2f,.2f,new Vector2(-2,2),.99f));
         }
 
         public override void Unload()
@@ -278,10 +277,7 @@ namespace EEMod
         }
         public override void Load()
         {
-            Particles = new ParticleZoneHandler();
-            Particles.AddZone("GlobalParticleZone", 400);
-            Particles.AppendModule("GlobalParticleZone", new SlowDown(.98f));
-            Particles.AppendSpawnModule("GlobalParticleZone", new SpawnPeriodically(2));
+
             UI = new UIManager();
             Noise2D = GetEffect("Effects/Noise2D");
             HandwritingCNN = new Handwriting();
@@ -318,6 +314,9 @@ namespace EEMod
             LoadUI();
             LoadIL();
             LoadDetours();
+            Particles = new ParticleZoneHandler();
+            Particles.AddZone("GlobalParticleZone", 400);
+            Particles.AppendSpawnModule("GlobalParticleZone", new SpawnPeriodically(4));
         }
 
         public static bool isSaving = false;
