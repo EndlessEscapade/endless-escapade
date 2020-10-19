@@ -49,9 +49,7 @@ namespace EEMod
         public static double rockLayerHigh;
 
         public static int _lastSeed;
-
-
-
+        public static ParticleZoneHandler Particles;
         public Handwriting HandwritingCNN;
         internal delegate void UIUpdateDelegate(GameTime gameTime);
         internal delegate void UIModifyLayersDelegate(List<GameInterfaceLayer> layers, int mouseTextIndex, GameTime lastUpdateUIGameTime);
@@ -73,6 +71,12 @@ namespace EEMod
             Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
             Main.spriteBatch.End();
+        }
+
+        public void TestParticleSystem()
+        {
+            float yeet = Main.rand.NextFloat(6.1f);
+            Particles.Get("GlobalParticleZone").SpawnParticles(Main.LocalPlayer.Center, new Vector2((float)Math.Sin(yeet), (float)Math.Cos(yeet)) * 4,Main.magicPixel, 150);
         }
 
         public override void Unload()
@@ -267,8 +271,17 @@ namespace EEMod
         public static Effect Noise2D;
         public static Effect White;
         UIManager UI;
+        public override void PreUpdateEntities()
+        {
+            base.PreUpdateEntities();
+            Particles.Update();
+        }
         public override void Load()
         {
+            Particles = new ParticleZoneHandler();
+            Particles.AddZone("GlobalParticleZone", 400);
+            Particles.AppendModule("GlobalParticleZone", new SlowDown(.98f));
+            Particles.AppendSpawnModule("GlobalParticleZone", new SpawnPeriodically(2));
             UI = new UIManager();
             Noise2D = GetEffect("Effects/Noise2D");
             HandwritingCNN = new Handwriting();
@@ -350,6 +363,8 @@ namespace EEMod
                     if (lastGameTime != null)
                     {
                         UI.Draw(lastGameTime);
+                        Particles.Draw();
+                        TestParticleSystem();
                         //UpdateNet();
                         UpdateGame(lastGameTime);
                         //   UpdateJellyfishTesting();

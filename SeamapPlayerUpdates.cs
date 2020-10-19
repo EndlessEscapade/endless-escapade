@@ -7,7 +7,6 @@ using EEMod.NPCs;
 using EEMod.NPCs.Bosses.Akumo;
 using EEMod.NPCs.Bosses.Hydros;
 using EEMod.NPCs.CoralReefs;
-using EEMod.NPCs.Friendly;
 using EEMod.Projectiles;
 using EEMod.Tiles;
 using Microsoft.Xna.Framework;

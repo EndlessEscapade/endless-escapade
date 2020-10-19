@@ -11,6 +11,7 @@ namespace EEMod
     {
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
+        Texture2D texture;
         public virtual void OnUpdate()
         {
 
@@ -20,11 +21,13 @@ namespace EEMod
         {
 
         }
-        public Particle(Vector2 position, int timeLeft, Vector2? velocity = null, List<IParticleModule> StartingModule = null)
+        public Particle(Vector2 position, int timeLeft,Texture2D texture, Vector2? velocity = null, List<IParticleModule> StartingModule = null)
         {
             this.timeLeft = timeLeft;
             this.position = position;
             this.velocity = velocity ?? Vector2.Zero;
+            this.texture = texture;
+            active = true;
             SetModules(StartingModule ?? new List<IParticleModule> { }); 
         }
 
@@ -37,6 +40,7 @@ namespace EEMod
             {
                 Module.Update(this);
             }
+            position += velocity;
             OnUpdate();
             if(timeLeft > 0)
             timeLeft--;
@@ -46,6 +50,8 @@ namespace EEMod
 
         public void Draw()
         {
+            Vector2 positionDraw = position.ForDraw();
+            Main.spriteBatch.Draw(texture, new Rectangle((int)positionDraw.X, (int)positionDraw.Y,2,2), Color.White);
             OnDraw();
         }
     }

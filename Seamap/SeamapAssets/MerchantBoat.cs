@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace EEMod.NPCs.Friendly
+namespace EEMod.Seamap.SeamapAssets
 {
     public class MerchantBoat : ModNPC
     {

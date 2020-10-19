@@ -7,7 +7,6 @@ using EEMod.NPCs;
 using EEMod.NPCs.Bosses.Akumo;
 using EEMod.NPCs.Bosses.Hydros;
 using EEMod.NPCs.CoralReefs;
-using EEMod.NPCs.Friendly;
 using EEMod.Projectiles;
 using EEMod.Tiles;
 using Microsoft.Xna.Framework;
@@ -355,7 +354,7 @@ namespace EEMod
             }
             if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
             {
-                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<Particle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), player.whoAmI);
+                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<EEParticle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), player.whoAmI);
             }
             baseWorldName = Main.ActiveWorldFileData.Name;
             if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
