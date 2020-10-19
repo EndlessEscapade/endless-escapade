@@ -14,6 +14,9 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
 using System.Diagnostics;
+using Microsoft.Office.Interop.Excel;
+using System.Runtime.InteropServices;
+using Terraria.DataStructures;
 
 namespace EEMod.EEWorld
 {
@@ -217,7 +220,21 @@ namespace EEMod.EEWorld
             }
             return PerlinStrip;
         }
-
+        public static void CreateInvisibleTiles(byte[,] array, Vector2 TilePosition)
+        {
+            for(int i = 0; i<array.GetLength(1); i++)
+            {
+                for(int j = 0; j < array.GetLength(0); j++)
+                {
+                    if(array[j,i] == 1)
+                    {
+                        Tile tile = Framing.GetTileSafely(i + (int)TilePosition.X, j + (int)TilePosition.Y);
+                        tile.type = (ushort)ModContent.TileType<EmptyTile>();
+                        tile.active(true);
+                    }
+                }
+            }
+        }
         public static void FillRegionNoEditWithNoise(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;

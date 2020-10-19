@@ -33,7 +33,7 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
-
+            On.Terraria.Main.DrawNPC += Main_DrawNPC1;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
@@ -42,6 +42,7 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
         }
+
         private void UnloadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
@@ -51,13 +52,17 @@ namespace EEMod
             On.Terraria.Main.DrawBG -= Main_DrawBG;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
+            On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
         }
-
+        private void Main_DrawNPC1(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
+        {
+            orig(self, iNPCIndex, behindTiles);
+        }
         private void WorldGen_SmashAltar(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
         {
             orig(i, j);
@@ -147,6 +152,12 @@ namespace EEMod
 
             return index;
         }
+        void HandleCrystalDraw(Vector2 position)
+        {
+            Texture2D tex = instance.GetTexture("Tiles/EmptyTileArrays/CoralCrystal");
+
+            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width, tex.Height), new Rectangle(0, 0, tex.Width, tex.Height), Color.White,0f, Vector2.Zero, SpriteEffects.None, 0f);
+        }
         void HandleBulbDraw(Vector2 position)
         {
             Lighting.AddLight(position, new Vector3(0, 0.1f, 1) * 3);
@@ -228,6 +239,11 @@ namespace EEMod
             {
                 if ((EESubWorlds.BulbousTreePosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
                     HandleBulbDraw(EESubWorlds.BulbousTreePosition[i] * 16);
+            }
+            for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
+            {
+                if ((EESubWorlds.CoralCrystalPosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
+                    HandleCrystalDraw(EESubWorlds.CoralCrystalPosition[i] * 16);
             }
             if (Main.worldName == KeyID.CoralReefs)
             {

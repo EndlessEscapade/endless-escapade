@@ -1,6 +1,8 @@
 using EEMod.Tiles;
+using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
+using IL.Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ namespace EEMod
         public static IList<Vector3> MinibiomeLocations = new List<Vector3>();
         public static IList<Vector2> OrbPositions = new List<Vector2>();
         public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
+        public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
         public static Vector2 CoralBoatPos;
 
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
@@ -434,6 +437,9 @@ namespace EEMod
                         if (noOfTiles == 0)
                         {
                             OrbPositions.Add(new Vector2(i, j));
+                            CoralCrystalPosition.Add(new Vector2(i, j));
+                            CreateInvisibleTiles(EmptyTileArrays.CoralCrystal, new Vector2(i, j));
+                            
                         }
                     }
                     int ifa = 0;
