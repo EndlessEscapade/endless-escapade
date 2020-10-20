@@ -437,9 +437,8 @@ namespace EEMod
                         if (noOfTiles == 0)
                         {
                             OrbPositions.Add(new Vector2(i, j));
+                            EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i,j)), new Vector2(i, j), EmptyTileArrays.CoralCrystal);
                             CoralCrystalPosition.Add(new Vector2(i, j));
-                            CreateInvisibleTiles(EmptyTileArrays.CoralCrystal, new Vector2(i, j));
-                            
                         }
                     }
                     int ifa = 0;

@@ -1,4 +1,5 @@
 using EEMod.Items.Placeables;
+using EEMod.Tiles.EmptyTileArrays;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -13,7 +14,6 @@ namespace EEMod.Tiles
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
-
             AddMapEntry(new Color(253, 247, 173));
 
             dustType = 154;
@@ -22,7 +22,10 @@ namespace EEMod.Tiles
             mineResist = 1f;
             minPick = 0;
         }
-
+        public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
+        {
+            EmptyTileEntityCache.Invoke(new Vector2(i, j));
+        }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             return false;
