@@ -13,6 +13,9 @@ namespace EEMod
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
         Texture2D texture;
+        public int scale { get; set; }
+        public float alpha;
+        public Color colour;
         public virtual void OnUpdate()
         {
 
@@ -22,13 +25,16 @@ namespace EEMod
         {
 
         }
-        public Particle(Vector2 position, int timeLeft,Texture2D texture, Vector2? velocity = null, params IParticleModule[] StartingModule)
+        public Particle(Vector2 position, int timeLeft,Texture2D texture, Vector2? velocity = null,int scale = 1,Color? colour = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
             this.position = position;
             this.velocity = velocity ?? Vector2.Zero;
             this.texture = texture;
             active = true;
+            alpha = 1;
+            this.scale = scale;
+            this.colour = colour ?? Color.White;
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]); 
         }
 
@@ -52,7 +58,7 @@ namespace EEMod
         public void Draw()
         {
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, new Rectangle((int)positionDraw.X, (int)positionDraw.Y,2,2), Color.White);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)positionDraw.X, (int)positionDraw.Y,scale, scale), colour * alpha);
             OnDraw();
         }
     }
@@ -157,6 +163,46 @@ namespace EEMod
             Vector2 rotVec = new Vector2((float)Math.Sin(timer) * width, (float)Math.Cos(timer) * height).RotatedBy(rotation);
             particle.position.X = orbitPoint.Center.X + rotVec.X;
             particle.position.Y = orbitPoint.Center.Y + rotVec.Y;
+        }
+    }
+    class CircularMotionSin : IParticleModule
+    {
+        float width;
+        float height;
+        float speed;
+        float timer;
+        Entity orbitPoint;
+        float rotation;
+        float intensity;
+        float period;
+        bool disapearFromBack;
+        public CircularMotionSin(float width, float height, float speed, Entity orbitPoint, float rotation = 0f,float intensity = 0f, float period = 0f,bool disapearFromBack = false)
+        {
+            this.width = width;
+            this.height = height;
+            this.speed = speed;
+            this.orbitPoint = orbitPoint;
+            this.rotation = rotation;
+            this.intensity = intensity;
+            this.disapearFromBack = disapearFromBack;
+        }
+        public void Update(in Particle particle)
+        {
+            timer += speed * (1 + (float)Math.Sin(timer*period) * intensity);
+            Vector2 rotVec = new Vector2((float)Math.Sin(timer) * width, (float)Math.Cos(timer) * height).RotatedBy(rotation);
+            particle.position.X = orbitPoint.Center.X + rotVec.X;
+            particle.position.Y = orbitPoint.Center.Y + rotVec.Y;
+            if(disapearFromBack)
+            {
+               if(timer % (float)Math.PI*4 < (float)Math.PI)
+                {
+                    particle.alpha = 0f;
+                }
+               else
+                {
+                    particle.alpha = 1f;
+                }
+            }
         }
     }
     class BaseModule : IParticleModule

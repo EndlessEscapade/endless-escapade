@@ -24,6 +24,10 @@ namespace EEMod.EEWorld
     {
         public static IList<Vector2> Vines = new List<Vector2>();
 
+        public void AddToVector2SaveCache(string name, ref Vector2 vec)
+        {
+
+        }
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("EntracesPosses"))
@@ -58,6 +62,10 @@ namespace EEMod.EEWorld
             {
                 EESubWorlds.BulbousTreePosition = tag.GetList<Vector2>("BulbousTreePosition");
             }
+            if (tag.ContainsKey("CoralCrystalPosition"))
+            {
+                EESubWorlds.CoralCrystalPosition = tag.GetList<Vector2>("CoralCrystalPosition");
+            }
             if (tag.ContainsKey("LightStates"))
             {
                 LightStates = tag.GetByteArray("LightStates");
@@ -88,6 +96,7 @@ namespace EEMod.EEWorld
                 tag["OrbPositions"] = EESubWorlds.OrbPositions;
                 tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
                 tag["LightStates"] = LightStates;
+                tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {

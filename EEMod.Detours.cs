@@ -34,6 +34,7 @@ namespace EEMod
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DrawNPC += Main_DrawNPC1;
+            On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
@@ -53,11 +54,17 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
             On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
+            On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
+
+        }
+        private void Main_DrawGoreBehind(On.Terraria.Main.orig_DrawGoreBehind orig, Main self)
+        {
+            orig(self);
         }
         private void Main_DrawNPC1(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
         {
@@ -117,7 +124,7 @@ namespace EEMod
             orig(self, data, snapPointIndex);
 
             float num = 56f;
-
+            
             if (SocialAPI.Cloud != null)
             {
                 num += 24f;
@@ -235,6 +242,7 @@ namespace EEMod
             //UpdateLight();
             DrawNoiseSurfacing();
             DrawLensFlares();
+            DrawCoralReefsBg();
             for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
             {
                 if ((EESubWorlds.BulbousTreePosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
@@ -299,7 +307,6 @@ namespace EEMod
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)
         {
             prims.DrawTrails(Main.spriteBatch);
-
             orig(self, iNPCTiles, behindTiles);
         }
         private void Main_DrawBG(On.Terraria.Main.orig_DrawBG orig, Main self)

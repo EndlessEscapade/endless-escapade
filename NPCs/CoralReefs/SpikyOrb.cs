@@ -86,6 +86,10 @@ namespace EEMod.NPCs.CoralReefs
         {
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
             {
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300,1,null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80*(float)Math.Sin(npc.ai[0]), 0.03f, npc, - npc.ai[0], 2f, 0.2f, true));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 1, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.25f, 2f, 0.2f, false)); ;
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 1, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.5f, 2f, 0.2f, false));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 1, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.75f, 2f, 0.2f, false));
                 /*Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f, 2f), -5));
                 dust.velocity *= 0.99f;
                 dust.noGravity = true;
