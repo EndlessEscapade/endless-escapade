@@ -41,6 +41,7 @@ namespace EEMod.Projectiles.Runes
         }
 
         private float flash = 0;
+        private float alpha;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -50,11 +51,31 @@ namespace EEMod.Projectiles.Runes
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             if (projectile.ai[1] > 120)
                 spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
+            return true;
+        }
 
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            alpha += 0.05f;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            EEMod.White.CurrentTechnique.Passes[0].Apply();
+            EEMod.White.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
+            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, projectile.getRect(), Color.White, projectile.rotation, projectile.getRect().Size() / 2, projectile.scale * 1.01f, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            return true;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
+            EEMod.ReflectionShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
+            EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
+            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(EEMod.instance.GetTexture("ShaderAssets/PermafrostRuneLightMap"));
+            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, projectile.getRect(), Color.White, projectile.rotation, projectile.getRect().Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
