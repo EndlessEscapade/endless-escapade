@@ -315,8 +315,8 @@ namespace EEMod
             LoadIL();
             LoadDetours();
             Particles = new ParticleZoneHandler();
-            Particles.AddZone("GlobalParticleZone", 400);
-            Particles.AppendSpawnModule("GlobalParticleZone", new SpawnPeriodically(4));
+            Particles.AddZone("Main", 400);
+            Particles.AppendSpawnModule("Main", new SpawnPeriodically(4));
         }
 
         public static bool isSaving = false;

@@ -4,6 +4,7 @@ using EEMod.ID;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Projectiles;
 using EEMod.Projectiles.Mage;
+using EEMod.Tiles.EmptyTileArrays;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
@@ -34,6 +35,7 @@ namespace EEMod
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DrawNPC += Main_DrawNPC1;
+            On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
@@ -53,11 +55,16 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
             On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
+            On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
+        }
+        private void Main_DrawGoreBehind(On.Terraria.Main.orig_DrawGoreBehind orig, Main self)
+        {
+            orig(self);
         }
         private void Main_DrawNPC1(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
         {
@@ -117,7 +124,7 @@ namespace EEMod
             orig(self, data, snapPointIndex);
 
             float num = 56f;
-
+            
             if (SocialAPI.Cloud != null)
             {
                 num += 24f;
@@ -155,7 +162,8 @@ namespace EEMod
         void HandleCrystalDraw(Vector2 position)
         {
             Texture2D tex = instance.GetTexture("Tiles/EmptyTileArrays/CoralCrystal");
-
+            Rectangle mouseBox = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 3, 3);
+            Rectangle crystalBox = new Rectangle((int)position.X, (int)position.Y, tex.Width, tex.Height);
             Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width, tex.Height), new Rectangle(0, 0, tex.Width, tex.Height), Color.White,0f, Vector2.Zero, SpriteEffects.None, 0f);
         }
         void HandleBulbDraw(Vector2 position)
@@ -233,14 +241,17 @@ namespace EEMod
         {
 
             //UpdateLight();
+            EmptyTileEntityCache.Update();
+            EmptyTileEntityCache.Draw();
             DrawNoiseSurfacing();
             DrawLensFlares();
+            DrawCoralReefsBg();
             for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
             {
                 if ((EESubWorlds.BulbousTreePosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
                     HandleBulbDraw(EESubWorlds.BulbousTreePosition[i] * 16);
             }
-            for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
+            for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
             {
                 if ((EESubWorlds.CoralCrystalPosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
                     HandleCrystalDraw(EESubWorlds.CoralCrystalPosition[i] * 16);
@@ -299,7 +310,6 @@ namespace EEMod
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)
         {
             prims.DrawTrails(Main.spriteBatch);
-
             orig(self, iNPCTiles, behindTiles);
         }
         private void Main_DrawBG(On.Terraria.Main.orig_DrawBG orig, Main self)
