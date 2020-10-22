@@ -253,8 +253,8 @@ namespace EEMod
             }
             for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
             {
-                if ((EESubWorlds.CoralCrystalPosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
-                    HandleCrystalDraw(EESubWorlds.CoralCrystalPosition[i] * 16);
+              //  if ((EESubWorlds.CoralCrystalPosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
+                    //HandleCrystalDraw(EESubWorlds.CoralCrystalPosition[i] * 16);
             }
             if (Main.worldName == KeyID.CoralReefs)
             {

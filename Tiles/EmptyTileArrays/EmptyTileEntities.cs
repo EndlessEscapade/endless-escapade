@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using EEMod.Extensions;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace EEMod.Tiles.EmptyTileArrays
 {
@@ -14,6 +16,8 @@ namespace EEMod.Tiles.EmptyTileArrays
         public Vector2 position;
         public int activeTime;
         public float alpha = 1;
+        public Color colour = Color.White;
+        public int RENDERDISTANCE => 2000;
         public virtual int activityTime { get; set; }
         public virtual Texture2D tex { get; set; }
         public EmptyTileDrawEntity(Vector2 position)
@@ -52,7 +56,8 @@ namespace EEMod.Tiles.EmptyTileArrays
         }
         public void Draw()
         {
-            Main.spriteBatch.Draw(tex, (position*16).ForDraw(), Color.White * alpha);
+            if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
+                Main.spriteBatch.Draw(tex, (position*16).ForDraw(), colour * alpha);
         }
     }
     public static class EmptyTileEntityCache
@@ -74,6 +79,15 @@ namespace EEMod.Tiles.EmptyTileArrays
                 }
             }
             EEWorld.EEWorld.CreateInvisibleTiles(array, position);
+        }
+        public static void Remove(Vector2 position)
+        {
+            EmptyTileEntityPairs.Remove(Convert(position));
+            foreach (var item in EmptyTilePairs.Where(kvp => kvp.Value == Convert(position)).ToList())
+            {
+                WorldGen.KillTile((int)item.Key.X,(int)item.Key.Y);
+                EmptyTilePairs.Remove(item.Key);
+            }
         }
         public static Vector2 Convert(Vector2 position)
         {
@@ -107,15 +121,15 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             this.position = position;
         }
-        public override Texture2D tex => EEMod.instance.GetTexture("ShaderAssets/BulbousBall");
-        public override int activityTime => 60;
+        public override Texture2D tex => EEMod.instance.GetTexture("Tiles/EmptyTileArrays/CoralCrystal");
+        public override int activityTime => 120;
         public override void DuringActivation()
         {
-            alpha = 0;
+            colour = Color.Lerp(Color.White, Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime)*5);
         }
         public override void DuringNonActivation()
         {
-            alpha = 1;
+            colour = Color.White;
         }
     }
 }
