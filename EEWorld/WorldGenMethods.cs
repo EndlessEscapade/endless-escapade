@@ -17,6 +17,7 @@ using System.Diagnostics;
 using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using Terraria.DataStructures;
+using EEMod.Tiles.EmptyTileArrays;
 
 namespace EEMod.EEWorld
 {
@@ -65,6 +66,8 @@ namespace EEMod.EEWorld
             if (tag.ContainsKey("CoralCrystalPosition"))
             {
                 EESubWorlds.CoralCrystalPosition = tag.GetList<Vector2>("CoralCrystalPosition");
+               // for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
+                //    EmptyTileEntityCache.AddPair(new Crystal(EESubWorlds.CoralCrystalPosition[i]), EESubWorlds.CoralCrystalPosition[i], EmptyTileArrays.CoralCrystal);
             }
             if (tag.ContainsKey("LightStates"))
             {
@@ -229,16 +232,17 @@ namespace EEMod.EEWorld
             }
             return PerlinStrip;
         }
-        public static void CreateInvisibleTiles(byte[,] array, Vector2 TilePosition)
+        public static void CreateInvisibleTiles(byte[,,] array, Vector2 TilePosition)
         {
             for(int i = 0; i<array.GetLength(1); i++)
             {
                 for(int j = 0; j < array.GetLength(0); j++)
                 {
-                    if(array[j,i] == 1)
+                    if(array[j,i,0] == 1)
                     {
                         Tile tile = Framing.GetTileSafely(i + (int)TilePosition.X, j + (int)TilePosition.Y);
                         tile.type = (ushort)ModContent.TileType<EmptyTile>();
+                        tile.slope(array[j, i, 1]);
                         tile.active(true);
                     }
                 }
@@ -1213,7 +1217,30 @@ namespace EEMod.EEWorld
                 return 0;
             }
         }
-
+        public static bool CheckRangeRight(int i, int j,int length)
+        {
+            for(int k = 0; k<length; k++)
+            {
+                if (WorldGen.InWorld(i + k, j, 20))
+                {
+                    if (!Framing.GetTileSafely(i + k, j).active() || !Main.tileSolid[Framing.GetTileSafely(i + k, j).type] || Framing.GetTileSafely(i + k, j).type == ModContent.TileType<EmptyTile>())
+                        return false;
+                }
+            }
+            return true;
+        }
+        public static bool CheckRangeDown(int i, int j, int length)
+        {
+            for (int k = 0; k < length; k++)
+            {
+                if (WorldGen.InWorld(i, j + k, 20))
+                {
+                    if (!Framing.GetTileSafely(i, j + k).active() && Main.tileSolid[Framing.GetTileSafely(i + k, j).type])
+                        return false;
+                }
+            }
+            return true;
+        }
         public static int WaterCheck(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);

@@ -88,7 +88,7 @@ namespace EEMod
         public static int moralScore;
         public int initialMoralScore;
 
-        private readonly SubworldManager SM = new SubworldManager();
+        public readonly SubworldManager SM = new SubworldManager();
         public int rippleCount = 3;
         public int rippleSize = 5;
         public int rippleSpeed = 15;

@@ -16,6 +16,7 @@ using Terraria.World.Generation;
 using EEMod.Tiles.Furniture.Coral.HangingCoral;
 using EEMod.Tiles.Furniture.Coral.WallCoral;
 using System.Diagnostics;
+using EEMod.Tiles.EmptyTileArrays;
 
 namespace EEMod.EEWorld
 {
@@ -891,7 +892,7 @@ namespace EEMod.EEWorld
                                             switch (TileCheck2(i, j))
                                             {
                                                 case 1:
-                                                    selection = WorldGen.genRand.Next(4);
+                                                    selection = WorldGen.genRand.Next(7);
                                                     switch (selection)
                                                     {
                                                         case 0:
@@ -909,10 +910,40 @@ namespace EEMod.EEWorld
                                                         case 3:
                                                             WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
                                                             break;
+                                                        case 4:
+                                                            if (CheckRangeRight(i, j, 2))
+                                                            {
+                                                                if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i + 2, j + 4).active())
+                                                                {
+                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j + 1), EEMod.instance.GetTexture("Tiles/EmptyTileArrays/LuminantCoralHang1")), new Vector2(i, j + 1), EmptyTileArrays.LuminantCoralCrystalHang1);
+                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j + 1));
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 5:
+                                                            if (CheckRangeRight(i, j, 1))
+                                                            {
+                                                                if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i + 1, j + 4).active())
+                                                                {
+                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j + 1), EEMod.instance.GetTexture("Tiles/EmptyTileArrays/LuminantCoralHang2")), new Vector2(i, j + 1), EmptyTileArrays.LuminantCoralCrystalHang2);
+                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j + 1));
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 6:
+                                                            if (CheckRangeRight(i, j, 1))
+                                                            {
+                                                                if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i + 1, j + 1).active())
+                                                                {
+                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j + 1), EEMod.instance.GetTexture("Tiles/EmptyTileArrays/LuminantCoralHang3")), new Vector2(i, j + 1), EmptyTileArrays.LuminantCoralCrystalHang3);
+                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j + 1));
+                                                                }
+                                                            }
+                                                            break;
                                                     }
                                                     break;
                                                 case 2:
-                                                    selection = WorldGen.genRand.Next(3);
+                                                    selection = WorldGen.genRand.Next(8);
                                                     switch (selection)
                                                     {
                                                         case 0:
@@ -923,6 +954,64 @@ namespace EEMod.EEWorld
                                                             break;
                                                         case 2:
                                                             WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor6x8Coral>());
+                                                            break;
+                                                        case 3:
+                                                            if (CheckRangeRight(i, j, 4))
+                                                            {
+                                                                if (!Framing.GetTileSafely(i, j - 7).active() && !Framing.GetTileSafely(i + 4, j - 1).active())
+                                                                {
+                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - 7), EEMod.instance.GetTexture("Tiles/EmptyTileArrays/CoralCrystal")), new Vector2(i, j - 7), EmptyTileArrays.CoralCrystal);
+                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - 7));
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 4:
+                                                            int width = 5;
+                                                            int height = 7;
+                                                            if (CheckRangeRight(i, j, width - 1))
+                                                            {
+                                                                if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
+                                                                {
+                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), EEMod.instance.GetTexture("Tiles/EmptyTileArrays/LuminantCoralGround1")), new Vector2(i, j - height), EmptyTileArrays.LuminantCoralCrystalGround);
+                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 5:
+                                                            width = 2;
+                                                            height = 2;
+                                                            if (CheckRangeRight(i, j, width - 1))
+                                                            {
+                                                                if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
+                                                                {
+                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), EEMod.instance.GetTexture("Tiles/EmptyTileArrays/LuminantCoralGround3")), new Vector2(i, j - height), EmptyTileArrays.LuminantCoralCrystalGround2);
+                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 6:
+                                                            width = 2;
+                                                            height = 3;
+                                                            if (CheckRangeRight(i, j, width - 1))
+                                                            {
+                                                                if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
+                                                                {
+                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), EEMod.instance.GetTexture("Tiles/EmptyTileArrays/LuminantCoralGround2")), new Vector2(i, j - height), EmptyTileArrays.LuminantCoralCrystalGround3);
+                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
+                                                                }
+                                                            }
+                                                            break;
+                                                        case 7:
+                                                            width = 4;
+                                                            height = 3;
+                                                            if (CheckRangeRight(i, j, width - 1))
+                                                            {
+                                                                if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
+                                                                {
+                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), EEMod.instance.GetTexture("Tiles/EmptyTileArrays/LuminantCoralGround4")), new Vector2(i, j - height), EmptyTileArrays.LuminantCoralCrystalGround4);
+                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
+                                                                }
+                                                            }
                                                             break;
                                                     }
                                                     break;

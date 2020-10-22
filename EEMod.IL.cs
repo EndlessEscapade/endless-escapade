@@ -447,7 +447,7 @@ namespace EEMod
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
         }
-
+        int screenLerp;
         public void DrawSky()
         {
             switch (loadingChooseImage)
@@ -462,14 +462,14 @@ namespace EEMod
                     _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen1");
                     break;
             }
             switch (loadingChooseImage)
             {
                 case 0:
                 {
-                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/SeaDragon");
+                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/SeaDragon");
                     _screenframes = 4;
                     _screenframeSpeed = 10;
                     break;
@@ -477,21 +477,21 @@ namespace EEMod
 
                 case 1:
                 {
-                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/Grebyser");
+                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/Grebyser");
                     _screenframes = 3;
                     _screenframeSpeed = 15;
                     break;
                 }
                 case 2:
                 {
-                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/CrescentJelly");
+                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/CrescentJelly");
                     _screenframes = 9;
                     _screenframeSpeed = 5;
                     break;
                 }
                 case 3:
                 {
-                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
+                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
                     _screenframes = 8;
                     _screenframeSpeed = 10;
                     break;
@@ -518,7 +518,7 @@ namespace EEMod
 
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
 
-            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, _texture2.Width, _texture2.Height), _texture2.Bounds, Color.White, 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, _texture2.Width, _texture2.Height), _texture2.Bounds, Color.Lerp(Color.Black,Color.White,lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
             Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(0, 0, 0), 0, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
 

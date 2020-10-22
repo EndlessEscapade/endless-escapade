@@ -391,7 +391,75 @@ namespace EEMod
                         }
                     }
                 }
-                #endregion  
+                #endregion
+
+                #region Placing the boat
+                PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
+                PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
+                CoralBoatPos = new Vector2(boatPos, TileCheckWater(boatPos) - 22);
+                #endregion
+
+                #region Implementing dynamic objects
+                EEMod.progressMessage = "Adding Dynamics";
+                for (int j = 42; j < Main.maxTilesY - 42; j++)
+                {
+                    for (int i = 42; i < Main.maxTilesX - 42; i++)
+                    {
+                        int noOfTiles = 0;
+                        if (j > 200)
+                        {
+                            for (int k = -11; k < 11; k++)
+                            {
+                                for (int l = -11; l < 11; l++)
+                                {
+                                    if (Main.tile[i + k, j + l].active())
+                                    {
+                                        noOfTiles++;
+                                    }
+                                }
+                            }
+                            for (int m = 0; m < OrbPositions.Count; m++)
+                            {
+                                if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
+                                {
+                                    noOfTiles++;
+                                }
+                            }
+                            if (noOfTiles == 0)
+                            {
+                                OrbPositions.Add(new Vector2(i, j));
+                            }
+                        }
+                        int ifa = 0;
+                        for (int m = 0; m < BulbousTreePosition.Count; m++)
+                        {
+                            if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 50 * 50)
+                            {
+                                ifa++;
+                            }
+                        }
+                        if (ifa == 0)
+                        {
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type] && j > Main.maxTilesY / 10)
+                            {
+                                if (ChainConnections.Count == 0)
+                                {
+                                    ChainConnections.Add(new Vector2(i, j));
+                                }
+                                else
+                                {
+                                    Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
+                                    if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 35 * 35 || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 500 * 500 && Math.Abs(lastPos.X - i) > 3)
+                                    {
+                                        ChainConnections.Add(new Vector2(i, j));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                #endregion
 
             }
             catch (Exception e)
@@ -401,77 +469,6 @@ namespace EEMod
                 SubworldManager.PreSaveAndQuit();
                 return;
             }
-
-            #region Placing the boat
-            PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
-            PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
-            CoralBoatPos = new Vector2(boatPos, TileCheckWater(boatPos) - 22);
-            #endregion
-
-            #region Implementing dynamic objects
-            EEMod.progressMessage = "Adding Dynamics";
-            for (int j = 42; j < Main.maxTilesY - 42; j++)
-            {
-                for (int i = 42; i < Main.maxTilesX - 42; i++)
-                {
-                    int noOfTiles = 0;
-                    if (j > 200)
-                    {
-                        for (int k = -11; k < 11; k++)
-                        {
-                            for (int l = -11; l < 11; l++)
-                            {
-                                if (Main.tile[i + k, j + l].active())
-                                {
-                                    noOfTiles++;
-                                }
-                            }
-                        }
-                        for (int m = 0; m < OrbPositions.Count; m++)
-                        {
-                            if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
-                            {
-                                noOfTiles++;
-                            }
-                        }
-                        if (noOfTiles == 0)
-                        {
-                            OrbPositions.Add(new Vector2(i, j));
-                            EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i,j)), new Vector2(i, j), EmptyTileArrays.CoralCrystal);
-                            CoralCrystalPosition.Add(new Vector2(i, j));
-                        }
-                    }
-                    int ifa = 0;
-                    for (int m = 0; m < BulbousTreePosition.Count; m++)
-                    {
-                        if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 50 * 50)
-                        {
-                            ifa++;
-                        }
-                    }
-                    if (ifa == 0)
-                    {
-                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type] && j > Main.maxTilesY / 10)
-                        {
-                            if (ChainConnections.Count == 0)
-                            {
-                                ChainConnections.Add(new Vector2(i, j));
-                            }
-                            else
-                            {
-                                Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
-                                if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 35 * 35 || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 500 * 500 && Math.Abs(lastPos.X - i) > 3)
-                                {
-                                    ChainConnections.Add(new Vector2(i, j));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            #endregion
-
             //Finishing initialization stuff
             EEMod.progressMessage = "Successful!";
             EEMod.isSaving = false;

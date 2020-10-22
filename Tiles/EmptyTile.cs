@@ -3,6 +3,7 @@ using EEMod.Tiles.EmptyTileArrays;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Tiles
@@ -14,9 +15,8 @@ namespace EEMod.Tiles
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
+            TileID.Sets.DrawsWalls[Type] = true;
             AddMapEntry(new Color(253, 247, 173));
-
-            dustType = 154;
             drop = ModContent.ItemType<CoralSand>();
             soundStyle = 1;
             mineResist = 4f;

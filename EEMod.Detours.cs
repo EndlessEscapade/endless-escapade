@@ -27,7 +27,6 @@ namespace EEMod
         private void LoadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float += Lighting_AddLight_int_int_float_float_float;
-
             On.Terraria.Main.DoUpdate += Main_DoUpdate;
             On.Terraria.Main.Draw += Main_Draw;
             On.Terraria.Main.DrawBG += Main_DrawBG;
@@ -37,7 +36,6 @@ namespace EEMod
             On.Terraria.Main.DrawNPC += Main_DrawNPC1;
             On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
-
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
 
@@ -354,7 +352,12 @@ namespace EEMod
             if (isSaving && Main.gameMenu)
             {
                 alpha += 0.01f;
-
+                if(lerp != 1)
+                lerp += (1 - lerp) / 16f;
+                if(lerp > 0.99f)
+                {
+                    lerp = 1;
+                }
                 if (alpha > 1)
                 {
                     alpha = 1;
@@ -698,11 +701,12 @@ namespace EEMod
                 }
             }
         }
-
+        public static float lerp;
         private void Main_DoUpdate(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, Microsoft.Xna.Framework.GameTime gameTime)
         {
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
             {
+                lerp = 0;
                 alpha = 0;
                 loadingChoose = Main.rand.Next(68);
                 loadingChooseImage = Main.rand.Next(5);

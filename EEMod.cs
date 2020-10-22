@@ -23,6 +23,7 @@ using EEMod.Tiles.Furniture;
 using EEMod.SeamapAssets;
 using EEMod.Seamap.SeamapContent;
 using EEMod.MachineLearning;
+using EEMod.Tiles.EmptyTileArrays;
 
 namespace EEMod
 {
@@ -277,7 +278,7 @@ namespace EEMod
         }
         public override void Load()
         {
-
+            
             UI = new UIManager();
             Noise2D = GetEffect("Effects/Noise2D");
             HandwritingCNN = new Handwriting();
@@ -315,8 +316,7 @@ namespace EEMod
             LoadIL();
             LoadDetours();
             Particles = new ParticleZoneHandler();
-            Particles.AddZone("Main", 400);
-            Particles.AppendSpawnModule("Main", new SpawnPeriodically(4));
+            Particles.AddZone("Main", 40000);
         }
 
         public static bool isSaving = false;

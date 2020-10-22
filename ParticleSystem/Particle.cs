@@ -13,7 +13,8 @@ namespace EEMod
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
         Texture2D texture;
-        public int scale { get; set; }
+        int RENDERDISTANCE => 2000;
+        public float scale { get; set; }
         public float alpha;
         public Color colour;
         public virtual void OnUpdate()
@@ -45,10 +46,21 @@ namespace EEMod
         {
             position += velocity;
             OnUpdate();
-            if(timeLeft > 0)
+            if(timeLeft > 1)
             timeLeft--;
-            if (timeLeft == 0)
+            if (timeLeft == 1)
+            {
+                scale *= 0.98f;
+                if(scale < 0.001f)
+                {
+                    timeLeft--;
+                }
+            }
+            if(timeLeft == 0)
+            {
                 active = false;
+            }
+
             foreach (IParticleModule Module in Modules)
             {
                 Module.Update(this);
@@ -58,7 +70,7 @@ namespace EEMod
         public void Draw()
         {
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, new Rectangle((int)positionDraw.X, (int)positionDraw.Y,scale, scale), colour * alpha);
+            Main.spriteBatch.Draw(texture, positionDraw,new Rectangle(0, 0,1, 1), colour * alpha,0f, new Rectangle(0, 0, 1, 1).Size()/2,scale,SpriteEffects.None,0f);
             OnDraw();
         }
     }
@@ -138,6 +150,30 @@ namespace EEMod
                 particle.velocity = new Vector2(initialSpeed.X, initialSpeed.Y).RotatedBy(randAngle)*randVel;
             }
             particle.velocity *= airResistance;
+        }
+    }
+    class AddVelocity : IParticleModule
+    {
+        Vector2 velocity;
+        public AddVelocity(Vector2 velocity)
+        {
+            this.velocity = velocity;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.velocity += velocity;
+        }
+    }
+    class RotateVelocity : IParticleModule
+    {
+        float rotFac;
+        public RotateVelocity(float rotFac)
+        {
+            this.rotFac = rotFac;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.velocity = particle.velocity.RotatedBy(rotFac);
         }
     }
 
