@@ -237,9 +237,6 @@ namespace EEMod.NPCs.CoralReefs
         bool a;
         public override void NPCLoot()
         {
-
-
-
             Item.NewItem((int)npc.Center.X, (int)npc.Center.Y, npc.width, npc.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));
             switch (Main.rand.Next(3))
             {
