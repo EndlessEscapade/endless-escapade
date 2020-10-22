@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Furniture.Coral
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.AnchorTop = default;
-            TileObjectData.newTile.RandomStyleRange = 4;
+            TileObjectData.newTile.RandomStyleRange = 5;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
         }

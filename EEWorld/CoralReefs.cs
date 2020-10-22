@@ -323,7 +323,7 @@ namespace EEMod.EEWorld
                                     break;
 
                                 case 7:
-                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor2x1Coral>(), style: WorldGen.genRand.Next(4));
+                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor2x1Coral>(), style: WorldGen.genRand.Next(5));
                                     break;
                             }
                         }
@@ -458,7 +458,7 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 14:
-                                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Floor2x1Coral>(), style: WorldGen.genRand.Next(4));
+                                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Floor2x1Coral>(), style: WorldGen.genRand.Next(5));
                                                         break;
                                                 }
                                                 break;
@@ -856,7 +856,7 @@ namespace EEMod.EEWorld
                                                             WorldGen.PlaceTile(i, j - 6, ModContent.TileType<Floor1x1Coral>(), style: WorldGen.genRand.Next(3));
                                                             break;
                                                         case 2:
-                                                            WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor2x1Coral>(), style: WorldGen.genRand.Next(4));
+                                                            WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor2x1Coral>(), style: WorldGen.genRand.Next(5));
                                                             break;
                                                         case 3:
                                                             WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor6x8Coral>());
