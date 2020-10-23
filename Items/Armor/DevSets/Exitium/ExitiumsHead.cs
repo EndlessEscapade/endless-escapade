@@ -10,7 +10,7 @@ namespace EEMod.Items.Armor.DevSets.Exitium
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exitium's Head");
-            Tooltip.SetDefault("'Move swift as the Wind and closely-formed as the Wood. Attack like the Fire and be still as the Mountain'\n'Great for impersonating mod devs!'");
+            Tooltip.SetDefault("'Where the sun doesn't shine...'\n'Great for impersonating mod devs!'");
         }
 
         public override void SetDefaults()
