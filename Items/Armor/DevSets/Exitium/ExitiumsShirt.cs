@@ -10,7 +10,7 @@ namespace EEMod.Items.Armor.DevSets.Exitium
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Exitium's Suit");
-            Tooltip.SetDefault("'Where the moon reigns bright...'\n'Great for impersonating mod devs!'");
+            Tooltip.SetDefault("'This idea is good trust me'\n'Great for impersonating mod devs!'");
         }
 
         public override void SetDefaults()
