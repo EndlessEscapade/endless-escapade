@@ -3,6 +3,8 @@ sampler uImage1 : register(s1);
 float alpha;
 float shineSpeed;
 texture tentacle;
+float3 lightColour;
+float shaderLerp;
 sampler tent = sampler_state
 {
     Texture = (tentacle);
@@ -17,6 +19,7 @@ float4 White(float2 coords : TEXCOORD0) : COLOR0
     {
         float clamper = clamp(0.6f - distance(alpha* shineSpeed, coords.x)*2,0,1)* colour2.r;
         colour.rgb = lerp(colour,white, clamper);
+        colour.rgb *= shaderLerp;
     }
     return colour;
 }

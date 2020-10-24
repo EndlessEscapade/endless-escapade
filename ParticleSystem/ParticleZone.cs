@@ -15,14 +15,14 @@ namespace EEMod
             particles = new Particle[MaxLength];
         }
         internal readonly Particle[] particles;
-        private readonly List<IParticleModule> BaseZoneModules = new List<IParticleModule>();
+        private List<IParticleModule> BaseZoneModules = new List<IParticleModule>();
         private readonly List<IParticleSpawner> SpawningModules = new List<IParticleSpawner>();
         public bool CanSpawn { get; set; }
         public int zoneTimer;
         int MAXDRAWDISTANCE => 2000;
         public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, int scale = 1, Color? colour = null,params IParticleModule[] CustomBaseZoneModule)
         {
-            if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
+            if ((position - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
             {
                 CanSpawn = false;
                 foreach (IParticleSpawner Module in SpawningModules)
@@ -101,14 +101,14 @@ namespace EEMod
                 }
                 else
                 {
-                    particles[i] = new Particle(position, 60, Main.magicPixel, velocity, scale, colour ?? Color.White, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
+                    particles[i] = new Particle(position, 60, Main.magicPixel, velocity, scale, colour ?? Color.White, CustomBaseZoneModule.ToArray().Length == 0 ?BaseZoneModules.ToArray() : CustomBaseZoneModule);
                     return i;
                 }
             }
             return -1;
         }
-        public void AddModule(IParticleModule Module) => BaseZoneModules.Add(Module);
-        public void AddSpawningModule(IParticleSpawner Module) { SpawningModules.Clear(); SpawningModules.Add(Module); }
+        public void SetModules(params IParticleModule[] Module) { BaseZoneModules.Clear(); BaseZoneModules = Module.ToList(); }
+        public void SetSpawningModules(IParticleSpawner Module) { SpawningModules.Clear(); SpawningModules.Add(Module); }
         public void Update()
         {
             for (int k = 0; k<particles.Length; k++)

@@ -276,9 +276,10 @@ namespace EEMod
             base.PreUpdateEntities();
             Particles.Update();
         }
+        public RenderTarget2D playerTarget;
         public override void Load()
         {
-            
+            playerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 100, 100);
             UI = new UIManager();
             Noise2D = GetEffect("Effects/Noise2D");
             HandwritingCNN = new Handwriting();

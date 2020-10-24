@@ -5,6 +5,7 @@ using EEMod.ID;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Projectiles;
 using EEMod.Projectiles.Mage;
+using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -62,6 +63,7 @@ namespace EEMod
             //IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
 
             IL.Terraria.NPC.AI_001_Slimes += Practice;
+            //IL.Terraria.Main.oldDrawWater += Main_oldDrawWater;
 
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
 
@@ -73,6 +75,24 @@ namespace EEMod
                 prims.CreateVerlet();
                 prims.CreateTrail();
             }
+        }
+
+        private void Main_oldDrawWater(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(i => i.MatchLdfld(typeof(Tile).GetField("type"))))
+            {
+                throw new Exception("Couldn't find field type");
+            }
+            c.Index += 2;
+
+            c.EmitDelegate<Action<int>>((type) =>
+            {
+                if(type != ModContent.TileType<EmptyTile>())
+                {
+
+                }
+            });
         }
 
         private void UnloadIL()
@@ -498,7 +518,7 @@ namespace EEMod
                 }
                 case 4:
                 {
-                    _screenTexture = EEMod.instance.GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
+                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
                     _screenframes = 6;
                     _screenframeSpeed = 10;
                     break;

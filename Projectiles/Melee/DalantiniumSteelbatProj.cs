@@ -1,5 +1,8 @@
+using EEMod.Extensions;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
+using Terraria;
 
 namespace EEMod.Projectiles.Melee
 {
@@ -26,6 +29,10 @@ namespace EEMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.damage = 20;
             projectile.knockBack = 4.5f;
+        }
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            return true;
         }
         public override float rotationalCoverage => MathHelper.Pi;
         public override float RotationalOffset => MathHelper.PiOver2;

@@ -15,13 +15,13 @@ namespace EEMod
         {
             particleZones.Add(NameOfZone, new ParticleZone(MaxNumberOfParticlesInZone));
         }
-        public void AppendModule(string NameOfZone, IParticleModule Module)
+        public void AppendModule(string NameOfZone, params IParticleModule[] Module)
         {
-            particleZones[NameOfZone].AddModule(Module);
+            particleZones[NameOfZone].SetModules(Module);
         }
         public void AppendSpawnModule(string NameOfZone, IParticleSpawner Module)
         {
-            particleZones[NameOfZone].AddSpawningModule(Module);
+            particleZones[NameOfZone].SetSpawningModules(Module);
         }
         public ParticleZone Get(string NameOfZone)
         {
