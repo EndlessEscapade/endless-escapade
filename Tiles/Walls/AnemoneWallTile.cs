@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Walls
             AddMapEntry(new Color(66, 46, 156));
 
             Main.wallHouse[Type] = false;
-            dustType = DustID.Dirt;
+            dustType = DustID.ToxicBubble;
             soundStyle = 1;
         }
     }

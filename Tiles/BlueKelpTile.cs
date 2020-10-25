@@ -29,7 +29,7 @@ namespace EEMod.Tiles
             minPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<BlueKelpTile>(), ModContent.TileType<LightGemsandTile>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<LightGemsandTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
             animationFrameHeight = 18;
