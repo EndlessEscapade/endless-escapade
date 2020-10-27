@@ -17,6 +17,7 @@ namespace EEMod
         public float scale { get; set; }
         public float alpha;
         public Color colour;
+        public float rotation;
         public virtual void OnUpdate()
         {
 
@@ -70,7 +71,7 @@ namespace EEMod
         public void Draw()
         {
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, positionDraw,new Rectangle(0, 0,1, 1), colour * alpha,0f, new Rectangle(0, 0, 1, 1).Size()/2,scale,SpriteEffects.None,0f);
+            Main.spriteBatch.Draw(texture, positionDraw,new Rectangle(0, 0,1, 1), colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size()/2, scale, SpriteEffects.None, 0f);
             OnDraw();
         }
     }
@@ -91,6 +92,18 @@ namespace EEMod
         public void Update(in Particle particle)
         {
             particle.velocity *= slowDownFactor;
+        }
+    }
+    class RotateTexture : IParticleModule
+    {
+        float rotationSpeed;
+        public RotateTexture(float rotationSpeed)
+        {
+            this.rotationSpeed = rotationSpeed;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.rotation += rotationSpeed;
         }
     }
     class SimpleBrownianMotion : IParticleModule

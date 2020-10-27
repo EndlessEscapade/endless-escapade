@@ -1,5 +1,6 @@
 using EEMod.Buffs.Buffs;
 using EEMod.Projectiles.Summons;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,6 +31,11 @@ namespace EEMod.Items.Weapons.Summon
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.UseSound = SoundID.Item8;
             item.shoot = ModContent.ProjectileType<FlamingPumpkinProjectile>();
+        }
+
+        public override Vector2? HoldoutOffset()
+        {
+            return new Vector2(0, -2);
         }
     }
 }

@@ -20,12 +20,11 @@ namespace EEMod.Projectiles.Summons
             projectile.width = 20;
             projectile.height = 18;
             projectile.aiStyle = -1;
-            projectile.penetrate = -1;
+            projectile.penetrate = 1;
             projectile.timeLeft = 720;
             projectile.minion = true;
-            projectile.tileCollide = false;
+            projectile.tileCollide = true;
             projectile.ignoreWater = true;
-            projectile.minionSlots = 1;
             projectile.friendly = true;
             projectile.hostile = false;
             projectile.ai[0] = 60;
@@ -33,9 +32,8 @@ namespace EEMod.Projectiles.Summons
 
         public override void AI()
         {
-            projectile.ai[0]++;
-
-            if(projectile.ai[0] < 600)
+            projectile.ai[1]++;
+            if(projectile.ai[1] < 600)
             {
                 Vector2 targetPos = Vector2.Zero;
 
@@ -43,34 +41,83 @@ namespace EEMod.Projectiles.Summons
                     if (Vector2.DistanceSquared(Main.npc[i].Center, projectile.Center) < Vector2.DistanceSquared(targetPos, projectile.Center))
                         targetPos = Main.npc[i].Center;
 
+                projectile.ai[0]++;
                 if(projectile.velocity.Y >= -0.01f && projectile.velocity.Y <= 0.01f && targetPos != Vector2.Zero && projectile.ai[0] >= 60)
                 {
                     projectile.velocity.Y -= 6;
                     projectile.ai[0] = 0;
                 }
 
-                projectile.velocity.X += Vector2.Normalize(targetPos - projectile.Center).X / 20;
+                projectile.velocity.X += Vector2.Normalize(targetPos - projectile.Center).X / 24f;
                 MathHelper.Clamp(projectile.velocity.X, -6, 6);
 
-                projectile.rotation = projectile.velocity.X / 24f;
+                projectile.rotation = projectile.velocity.X / 12f;
                 projectile.velocity.Y += 0.2f;
             }
-            if (projectile.ai[0] >= 600 && projectile.ai[0] < 720)
+
+            if (projectile.ai[1] >= 600 && projectile.ai[1] < 720)
             {
-                projectile.velocity.Y += 0.2f;
+                projectile.velocity.X *= 0.93f;
 
-                projectile.velocity.Y *= 0.95f;
+                projectile.rotation *= 0.5f;
 
-                if(projectile.velocity.X <= 0.01f && projectile.velocity.X >= -0.01f && projectile.velocity.Y <= 0.01f && projectile.velocity.Y >= -0.01f)
+                if(projectile.velocity.X <= 0.02f && projectile.velocity.X >= -0.02f && projectile.velocity.Y <= 0.02f && projectile.velocity.Y >= -0.02f)
                 {
+                    projectile.frameCounter++;
+                    if (projectile.frameCounter >= 4)
+                    {
+                        projectile.frameCounter = 0;
+                        projectile.frame++;
+                        if (projectile.frame >= Main.projFrames[projectile.type])
+                            projectile.frame = 0;
+                    }
+                    projectile.velocity = Vector2.Zero;
+                }
 
+                projectile.velocity.Y += 0.2f;
+            }
+
+            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.5f));
+            EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), 2, Color.Lerp(Color.Red, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)), new RotateTexture(0.02f));
+
+            Color lightColor = Color.Lerp(Color.OrangeRed, Color.Yellow, (float)Math.Sin(projectile.ai[1] / 20));
+            Lighting.AddLight(projectile.Center, new Vector3(lightColor.R, lightColor.G, lightColor.B)/500);
+        }
+
+        private int[,] arrae =
+            {
+                { 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0 },
+                { 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0 },
+                { 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0 },
+                { 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0 },
+                { 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0 },
+                { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+                { 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1 },
+                { 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1 },
+                { 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0 },
+                { 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0 },
+                { 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0 }
+            };
+
+        public override void Kill(int timeLeft)
+        {
+            for(int j = 0; j < 13; j++)
+            {
+                for (int i = 0; i < 18; i++)
+                {
+                    if (arrae[j, i] == 1)
+                    {
+                        EEMod.Particles.Get("Main").SpawnParticles(projectile.Center + new Vector2(i - 9, (j - 6)/2) * 2, Vector2.Normalize(projectile.Center - (projectile.Center - new Vector2(i - 9, j - 6))), 3, Color.Lerp(Color.Red, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.95f), new RotateTexture(0.01f));
+                    }
                 }
             }
         }
 
-        public override void Kill(int timeLeft)
+        public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            
+            return false;
         }
     }
 }
