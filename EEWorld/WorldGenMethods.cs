@@ -1217,25 +1217,26 @@ namespace EEMod.EEWorld
                 return 0;
             }
         }
-        public static bool CheckRangeRight(int i, int j,int length)
+        public static bool CheckRangeRight(int i, int j, int length, bool opposite = false)
         {
-            for(int k = 0; k<length; k++)
-            {
-                if (WorldGen.InWorld(i + k, j, 20))
+                for (int k = 0; k < length; k++)
                 {
-                    if (!Framing.GetTileSafely(i + k, j).active() || !Main.tileSolid[Framing.GetTileSafely(i + k, j).type] || Framing.GetTileSafely(i + k, j).type == ModContent.TileType<EmptyTile>())
-                        return false;
+                    if (WorldGen.InWorld(i + (opposite ? -k : k), j, 20))
+                    {
+                        if (!Framing.GetTileSafely(i + (opposite ? -k : k), j).active() || !Main.tileSolid[Framing.GetTileSafely(i + (opposite ? -k : k), j).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
+                            return false;
+                    }
                 }
-            }
+            
             return true;
         }
-        public static bool CheckRangeDown(int i, int j, int length)
+        public static bool CheckRangeDown(int i, int j, int length, bool opposite = false)
         {
             for (int k = 0; k < length; k++)
             {
-                if (WorldGen.InWorld(i, j + k, 20))
+                if (WorldGen.InWorld(i, j + (opposite ? -k : k), 20))
                 {
-                    if (!Framing.GetTileSafely(i, j + k).active() && Main.tileSolid[Framing.GetTileSafely(i + k, j).type])
+                    if (!Framing.GetTileSafely(i, j + (opposite ? -k : k)).active() || !Main.tileSolid[Framing.GetTileSafely(i, j+ (opposite ? -k : k)).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
                         return false;
                 }
             }

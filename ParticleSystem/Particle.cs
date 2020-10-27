@@ -14,6 +14,7 @@ namespace EEMod
         List<IParticleModule> Modules = new List<IParticleModule>();
         Texture2D texture;
         int RENDERDISTANCE => 2000;
+        float varScale;
         public float scale { get; set; }
         public float alpha;
         public Color colour;
@@ -35,7 +36,6 @@ namespace EEMod
             this.texture = texture;
             active = true;
             alpha = 1;
-            this.scale = scale;
             this.colour = colour ?? Color.White;
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]); 
         }
@@ -51,11 +51,15 @@ namespace EEMod
             timeLeft--;
             if (timeLeft == 1)
             {
-                scale *= 0.98f;
-                if(scale < 0.001f)
+                varScale *= 0.98f;
+                if (varScale < 0.001f)
                 {
                     timeLeft--;
                 }
+            }
+            else if (Math.Abs(scale - varScale) > 0.01f)
+            {
+                varScale = (scale - varScale) / 16f;
             }
             if(timeLeft == 0)
             {
@@ -71,7 +75,7 @@ namespace EEMod
         public void Draw()
         {
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, positionDraw,new Rectangle(0, 0,1, 1), colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size()/2, scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, positionDraw,new Rectangle(0, 0,1, 1), colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size()/2, varScale, SpriteEffects.None, 0f);
             OnDraw();
         }
     }

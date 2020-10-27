@@ -18,16 +18,19 @@ namespace EEMod.Tiles.EmptyTileArrays
         public float alpha = 1;
         public Color colour = Color.White;
         public float rotation;
+        public Vector2 origin;
         public Vector2 ScreenPosition => position * 16;
         public int RENDERDISTANCE => 2000;
         public virtual int activityTime { get; set; }
-        public virtual Texture2D tex { get; set; }
+        public virtual string tex { get; set; }
 
         public bool CanActivate { get; set; }
-        public EmptyTileDrawEntity(Vector2 position, Texture2D texture)
+        public Texture2D texture => EEMod.instance.GetTexture(tex);
+        public EmptyTileDrawEntity(Vector2 position, string text)
         {
             this.position = position;
-            tex = texture;
+            tex = text;
+            origin = new Vector2(0, texture.Height);
         }
         public void Activiate()
         {
@@ -68,7 +71,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         public virtual void Draw()
         {
             if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
-                Main.spriteBatch.Draw(tex, (position*16).ForDraw() + new Vector2(0,tex.Height),new Rectangle(0,0,tex.Width,tex.Height), colour * alpha, rotation, new Vector2(0,tex.Height),1f,SpriteEffects.None,0f);
+                Main.spriteBatch.Draw(texture, (position*16).ForDraw() + new Vector2(0, texture.Height),new Rectangle(0,0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f,SpriteEffects.None,0f);
         }
     }
     public static class EmptyTileEntityCache
@@ -131,13 +134,13 @@ namespace EEMod.Tiles.EmptyTileArrays
     public class Crystal : EmptyTileDrawEntity
     {
         float speed;
-        Texture2D glow;
-        public Crystal(Vector2 position, Texture2D texture,Texture2D glow) : base(position, texture)
+        public Texture2D glow;
+        public Crystal(Vector2 position, string texture, string glow) : base(position, texture)
         {
             this.position = position;
             tex = texture;
-            speed = Main.rand.NextFloat(0.03f);
-            this.glow = glow;
+            speed = Main.rand.NextFloat(0.01f, 0.03f);
+            this.glow = EEMod.instance.GetTexture(glow);
         }
         public override int activityTime => 20;
         float shaderLerp;
@@ -145,11 +148,11 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)activityTime) * activeTime);
             colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime));
-            rotation = Main.rand.NextFloat(-.01f, .01f);
+            rotation = (shaderLerp-1)/20f;
         }
         public override void DuringNonActivation()
         {
-            Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + tex.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + tex.Height));
+            Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + texture.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + texture.Height));
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.01f));
             EEMod.Particles.Get("Main").SpawnParticles(rand,new Vector2(Main.rand.NextFloat(-1f,1f), Main.rand.NextFloat(-1f,1f)), 2,Color.LightBlue, new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)));
             rotation = 0;
@@ -169,7 +172,55 @@ namespace EEMod.Tiles.EmptyTileArrays
             EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(shaderLerp/3f);
             EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
             if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
-                Main.spriteBatch.Draw(tex, (position * 16).ForDraw() + new Vector2(0, tex.Height), new Rectangle(0, 0, tex.Width, tex.Height), colour * alpha, rotation, new Vector2(0, tex.Height), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(0, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, new Vector2(0, texture.Height), 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+        }
+
+    }
+    public class BigCrystal : EmptyTileDrawEntity
+    {
+        float speed;
+        public Texture2D glow;
+        public BigCrystal(Vector2 position, string text, string glow) : base(position, text)
+        {
+            this.position = position;
+            tex = text;
+            speed = Main.rand.NextFloat(0.01f,0.02f);
+            this.glow = EEMod.instance.GetTexture(glow);
+            origin = new Vector2(texture.Width, texture.Height);
+        }
+        public override int activityTime => 40;
+        float shaderLerp;
+        public override void DuringActivation()
+        {
+            shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)activityTime) * activeTime);
+            colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime));
+            rotation = (shaderLerp - 1) / 100f;
+        }
+        public override void DuringNonActivation()
+        {
+            Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + texture.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + texture.Height));
+            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.02f));
+            EEMod.Particles.Get("Main").SpawnParticles(rand, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), 3, new Color(7, 185, 172), new SlowDown(0.98f), new RotateTexture(0.01f), new RotateVelocity(Main.rand.NextFloat(-.18f, .18f)));
+            rotation = 0;
+            shaderLerp = 1;
+            colour = Lighting.GetColor((int)position.X, (int)position.Y);
+        }
+        float lerp;
+        public override void Draw()
+        {
+            lerp += speed;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            EEMod.ReflectionShader.Parameters["alpha"].SetValue(lerp * 2 % 6);
+            EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
+            EEMod.ReflectionShader.Parameters["lightColour"].SetValue(colour.ToVector3());
+            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(glow);
+            EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(shaderLerp / 3f);
+            EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
+            if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
+                Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(texture.Width, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
