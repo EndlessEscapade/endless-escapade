@@ -18,6 +18,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using Terraria.DataStructures;
 using EEMod.Tiles.EmptyTileArrays;
+using System.Linq;
 
 namespace EEMod.EEWorld
 {
@@ -63,6 +64,18 @@ namespace EEMod.EEWorld
             {
                 EESubWorlds.BulbousTreePosition = tag.GetList<Vector2>("BulbousTreePosition");
             }
+            if (tag.ContainsKey("EmptyTileVectorMain") && tag.ContainsKey("EmptyTileVectorSub"))
+            {
+                IList<Vector2> VecMains = tag.GetList<Vector2>("EmptyTileVectorMain");
+                IList<Vector2> VecSubs = tag.GetList<Vector2>("EmptyTileVectorSub");
+                EmptyTileEntityCache.EmptyTilePairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+            }
+            if (tag.ContainsKey("EmptyTileVectorEntities") && tag.ContainsKey("EmptyTileEntities"))
+            {
+                IList<Vector2> VecMains = tag.GetList<Vector2>("EmptyTileVectorEntities");
+                IList<EmptyTileDrawEntity> VecSubs = tag.GetList<EmptyTileDrawEntity>("EmptyTileEntities");
+                EmptyTileEntityCache.EmptyTileEntityPairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+            }
             if (tag.ContainsKey("CoralCrystalPosition"))
             {
                 EESubWorlds.CoralCrystalPosition = tag.GetList<Vector2>("CoralCrystalPosition");
@@ -100,6 +113,10 @@ namespace EEMod.EEWorld
                 tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
                 tag["LightStates"] = LightStates;
                 tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;
+                tag["EmptyTileVectorMain"] = EmptyTileEntityCache.EmptyTilePairs.Keys.ToList();
+                tag["EmptyTileVectorSub"] = EmptyTileEntityCache.EmptyTilePairs.Values.ToList();
+                tag["EmptyTileVectorEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Keys.ToList();
+                tag["EmptyTileEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Values.ToList();
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {

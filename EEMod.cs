@@ -279,6 +279,9 @@ namespace EEMod
         public RenderTarget2D playerTarget;
         public override void Load()
         {
+            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
+            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
+            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());
             playerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 100, 100);
             UI = new UIManager();
             Noise2D = GetEffect("Effects/Noise2D");

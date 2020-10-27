@@ -239,8 +239,7 @@ namespace EEMod
         {
 
             //UpdateLight();
-            EmptyTileEntityCache.Update();
-            EmptyTileEntityCache.Draw();
+
             DrawNoiseSurfacing();
             DrawLensFlares();
             DrawCoralReefsBg();
@@ -258,7 +257,8 @@ namespace EEMod
             {
                 EEWorld.EEWorld.instance.DrawVines();
             }
-
+            EmptyTileEntityCache.Update();
+            EmptyTileEntityCache.Draw();
             //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);
 
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)

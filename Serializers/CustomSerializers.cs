@@ -37,4 +37,43 @@ namespace EEMod
 
 		public override BigCrystal Deserialize(TagCompound tag) => new BigCrystal(tag.Get<Vector2>("position"), tag.GetString("texture"), tag.GetString("glowmask"));
 	}
+	public class EmptyTileEntitySerializer : TagSerializer<EmptyTileDrawEntity, TagCompound>
+	{
+		public override TagCompound Serialize(EmptyTileDrawEntity value)
+		{
+			if (value.GetType().Name == "BigCrystal")
+			{
+				return new TagCompound
+				{
+					["position"] = value.position,
+					["texture"] = value.tex,
+					["glowBC"] = (value as BigCrystal).glowPath,
+				};
+			}
+			if (value.GetType().Name == "Crystal")
+			{
+				return new TagCompound
+				{
+					["position"] = value.position,
+					["texture"] = value.tex,
+					["glowC"] = (value as Crystal).glowPath,
+				};
+			}
+			return new TagCompound
+			{
+				["position"] = value.position,
+				["texture"] = value.tex,
+			};
+		}
+
+		public override EmptyTileDrawEntity Deserialize(TagCompound tag)
+		{ 
+            if (tag.ContainsKey("glowBC"))
+                return new BigCrystal(tag.Get<Vector2>("position"), tag.GetString("texture"), tag.GetString("glowBC"));
+            else if (tag.ContainsKey("glowC"))
+                return new Crystal(tag.Get<Vector2>("position"), tag.GetString("texture"), tag.GetString("glowC"));
+			else
+				return new EmptyTileDrawEntity(tag.Get<Vector2>("position"), tag.GetString("texture"));
+		}
+	}
 }

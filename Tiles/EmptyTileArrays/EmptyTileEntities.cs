@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace EEMod.Tiles.EmptyTileArrays
 {
-    public abstract class EmptyTileDrawEntity
+    public class EmptyTileDrawEntity
     {
         public Vector2 position;
         public int activeTime;
@@ -76,8 +76,8 @@ namespace EEMod.Tiles.EmptyTileArrays
     }
     public static class EmptyTileEntityCache
     {
-        static internal readonly Dictionary<Vector2, Vector2> EmptyTilePairs = new Dictionary<Vector2, Vector2>();
-        static internal readonly Dictionary<Vector2, EmptyTileDrawEntity> EmptyTileEntityPairs = new Dictionary<Vector2, EmptyTileDrawEntity>();
+        static internal Dictionary<Vector2, Vector2> EmptyTilePairs = new Dictionary<Vector2, Vector2>();
+        static internal Dictionary<Vector2, EmptyTileDrawEntity> EmptyTileEntityPairs = new Dictionary<Vector2, EmptyTileDrawEntity>();
 
         public static void AddPair(EmptyTileDrawEntity ETE, Vector2 position, byte[,,] array)
         {
@@ -133,17 +133,20 @@ namespace EEMod.Tiles.EmptyTileArrays
     }
     public class Crystal : EmptyTileDrawEntity
     {
-        float speed;
-        public Texture2D glow;
+        public float speed;
+        public Texture2D glow => EEMod.instance.GetTexture(glowPath);
+        public string glowPath;
+        public float shaderLerp;
+        public float lerp;
         public Crystal(Vector2 position, string texture, string glow) : base(position, texture)
         {
             this.position = position;
             tex = texture;
             speed = Main.rand.NextFloat(0.01f, 0.03f);
-            this.glow = EEMod.instance.GetTexture(glow);
+            glowPath = glow;
         }
         public override int activityTime => 20;
-        float shaderLerp;
+
         public override void DuringActivation()
         {
             shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)activityTime) * activeTime);
@@ -159,7 +162,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             shaderLerp = 1;
             colour = Lighting.GetColor((int)position.X, (int)position.Y);
         }
-        float lerp;
+
         public override void Draw()
         {
             lerp += speed;
@@ -180,18 +183,21 @@ namespace EEMod.Tiles.EmptyTileArrays
     }
     public class BigCrystal : EmptyTileDrawEntity
     {
-        float speed;
-        public Texture2D glow;
+        public float speed;
+        public Texture2D glow => EEMod.instance.GetTexture(glowPath);
+        public string glowPath;
+        public float shaderLerp;
+        public float lerp;
         public BigCrystal(Vector2 position, string text, string glow) : base(position, text)
         {
             this.position = position;
             tex = text;
             speed = Main.rand.NextFloat(0.01f,0.02f);
-            this.glow = EEMod.instance.GetTexture(glow);
+            glowPath = glow;
             origin = new Vector2(texture.Width, texture.Height);
         }
         public override int activityTime => 40;
-        float shaderLerp;
+
         public override void DuringActivation()
         {
             shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)activityTime) * activeTime);
@@ -207,7 +213,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             shaderLerp = 1;
             colour = Lighting.GetColor((int)position.X, (int)position.Y);
         }
-        float lerp;
+
         public override void Draw()
         {
             lerp += speed;
