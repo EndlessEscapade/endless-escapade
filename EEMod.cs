@@ -51,7 +51,7 @@ namespace EEMod
 
         public static int _lastSeed;
         public static ParticleZoneHandler Particles;
-        public Handwriting HandwritingCNN;
+        //public Handwriting HandwritingCNN;
         internal delegate void UIUpdateDelegate(GameTime gameTime);
         internal delegate void UIModifyLayersDelegate(List<GameInterfaceLayer> layers, int mouseTextIndex, GameTime lastUpdateUIGameTime);
         internal static event UIUpdateDelegate OnUpdateUI;
@@ -82,7 +82,7 @@ namespace EEMod
         public override void Unload()
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
-            HandwritingCNN = null;
+            //HandwritingCNN = null;
             Noise2D = null;
             RuneActivator = null;
             Inspect = null;
@@ -285,7 +285,7 @@ namespace EEMod
             playerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 100, 100);
             UI = new UIManager();
             Noise2D = GetEffect("Effects/Noise2D");
-            HandwritingCNN = new Handwriting();
+            //HandwritingCNN = new Handwriting();
             instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
@@ -339,17 +339,17 @@ namespace EEMod
         bool IsTraining;
         void UpdateNet()
         {
-            HandwritingCNN.Draw();
+            //HandwritingCNN.Draw();
             if (Train.JustPressed)
             {
                 IsTraining = !IsTraining;
             }
             if (IsTraining)
             {
-                UIText(HandwritingCNN.ERROR.ToString(), Color.White, Main.screenPosition.ForDraw() + new Vector2(50,400), 1);
+                //UIText(HandwritingCNN.ERROR.ToString(), Color.White, Main.screenPosition.ForDraw() + new Vector2(50,400), 1);
                 for (int i = 0; i < 60; i++)
                 {
-                    HandwritingCNN.Update();
+                    //HandwritingCNN.Update();
                 }
             }
         }

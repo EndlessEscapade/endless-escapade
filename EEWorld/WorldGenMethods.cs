@@ -14,7 +14,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
 using System.Diagnostics;
-using Microsoft.Office.Interop.Excel;
+//using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
 using Terraria.DataStructures;
 using EEMod.Tiles.EmptyTileArrays;

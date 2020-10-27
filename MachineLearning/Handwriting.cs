@@ -1,4 +1,4 @@
-﻿using EEMod.Extensions;
+﻿/*using EEMod.Extensions;
 using EEMod.Items.Placeables.Furniture;
 using IL.Terraria.GameContent.UI.Elements;
 using log4net;
@@ -206,4 +206,5 @@ namespace EEMod.MachineLearning
             }
     }
 
-
+}
+*/

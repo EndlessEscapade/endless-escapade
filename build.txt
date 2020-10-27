@@ -1,5 +1,4 @@
 displayName = Endless Escapade
 author = The Endless Escapade Dev Team
 version = 0.1
-dllReferences = Interop.Microsoft.Office.Interop.Excel
 buildIgnore = build.txt, .gitattributes, .gitignore, .git/, .vs/, .idea/, bin/, obj/, Thumbs.db, .csproj, .cs, .sln, .zip, .editorconfig

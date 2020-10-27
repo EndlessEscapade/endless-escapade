@@ -17,7 +17,7 @@ using EEMod.Tiles.Furniture.Coral.HangingCoral;
 using EEMod.Tiles.Furniture.Coral.WallCoral;
 using System.Diagnostics;
 using EEMod.Tiles.EmptyTileArrays;
-using Microsoft.Office.Interop.Excel;
+//using Microsoft.Office.Interop.Excel;
 
 namespace EEMod.EEWorld
 {
