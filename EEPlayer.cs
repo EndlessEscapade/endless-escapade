@@ -297,7 +297,7 @@ namespace EEMod
                     break;
             }
         }
-
+        public bool isHangingOnVine;
         private void Moral()
         {
             moralScore = 0;

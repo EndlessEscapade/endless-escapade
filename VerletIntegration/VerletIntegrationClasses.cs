@@ -9,9 +9,9 @@ namespace EEMod.VerletIntegration
 {
     public class Verlet
     {
-        private readonly float _gravity = 0.5f;
+        private readonly float _gravity = 0.4f;
         private readonly float _bounce = 0.9f;
-        private readonly float _AR = 0.99f;
+        private readonly float _AR = 0.999f;
         private readonly int _fluff = 1;
         int RENDERDISTANCE => 2000;
         public static List<Stick> stickPoints = new List<Stick>();

@@ -71,7 +71,7 @@ namespace EEMod
             }
             else if (Math.Abs(scale - varScale) > 0.01f)
             {
-                varScale += (scale - varScale) / 16f;
+                varScale += (scale - varScale) / 6f;
             }
             if(timeLeft == 0)
             {
