@@ -59,7 +59,7 @@ namespace EEMod
         private void LoadIL()
         {
             //IL.Terraria.Main.DrawBackground += Main_DrawBackground;
-            IL.Terraria.Main.DrawWater += Main_DrawWater;
+            //IL.Terraria.Main.DrawWater += Main_DrawWater;
             //IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
 
             IL.Terraria.NPC.AI_001_Slimes += Practice;
@@ -81,7 +81,9 @@ namespace EEMod
         {
             ILCursor c = new ILCursor(il);
             ILLabel l = null; // where after !Main.tileSolid[(int)Main.tile[j, i].type] || Main.tileSolidTop[(int)Main.tile[j, i].type]
-            if (!c.TryGotoNext(i => i.MatchCallOrCallvirt(typeof(Tile).GetMethod(nameof(Tile.nactive))),
+            MethodInfo drawcall = typeof(Lighting).GetMethod(nameof(Lighting.GetColor), new Type[] { typeof(int), typeof(int)});
+            if (!c.TryGotoNext(
+                i => i.MatchCallOrCallvirt(typeof(Tile).GetMethod(nameof(Tile.nactive))),
                 i => i.MatchBrfalse(out l)) || l is null)
             {
                 throw new Exception("Could not modify draw water");
@@ -89,17 +91,17 @@ namespace EEMod
             // callvirt  instance bool Terraria.Tile::nactive() 
             // brfalse.s IL_01CB // after !Main.tileSolid[(int)Main.tile[j, i].type] || Main.tileSolidTop[(int)Main.tile[j, i].type]
             c.Index += 2;   // ldsfld    bool[] Terraria.Main::tileSolid
-
             c.Emit(OpCodes.Ldloc, 12); // i
             c.Emit(OpCodes.Ldloc, 11); // j
-            c.EmitDelegate<Func<int, int, bool>>((i, j) => Main.tile[i, j].type == ModContent.TileType<EmptyTile>());
+            c.EmitDelegate<Func<int, int, bool>>((i, j) => true);
+
             c.Emit(OpCodes.Brtrue, l); // skip the other checks
         }
 
         private void UnloadIL()
         {
             //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
-            IL.Terraria.Main.DrawWater -= Main_DrawWater;
+            //IL.Terraria.Main.DrawWater -= Main_DrawWater;
             //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
             IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
             IL.Terraria.NPC.AI_001_Slimes -= Practice;

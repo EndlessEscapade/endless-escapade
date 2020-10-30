@@ -17,6 +17,7 @@ using EEMod.Tiles.Furniture.Coral.HangingCoral;
 using EEMod.Tiles.Furniture.Coral.WallCoral;
 using System.Diagnostics;
 using EEMod.Tiles.EmptyTileArrays;
+using EEMod.VerletIntegration;
 //using Microsoft.Office.Interop.Excel;
 
 namespace EEMod.EEWorld
@@ -274,7 +275,7 @@ namespace EEMod.EEWorld
                     {
                         if (!Main.tile[i, j].active())
                         {
-                            WorldGen.PlaceTile(i + xPos + (a * horDir), j + yPos + (a * vertDir), type);
+                            WorldGen.TileRunner(i + xPos + (a * horDir), j + yPos + (a * vertDir), Main.rand.Next(2, 3), Main.rand.Next(1, 2), type,true,0,0,false,false);
                         }
                     }
                 }
@@ -603,6 +604,10 @@ namespace EEMod.EEWorld
                                         ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                     }
+                                    else if(TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(10))
+                                    {
+                                        VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), Main.rand.Next(10, 30));
+                                    }
                                     break;
                                 #endregion
 
@@ -884,7 +889,7 @@ namespace EEMod.EEWorld
                                 case MinibiomeID.CrystallineCaves: //Crystalline Caves(Thinner, taller coral, crystals)
                                     if (!WorldGen.genRand.NextBool(5))
                                     {
-                                        if (WorldGen.genRand.NextBool(200) && Main.tile[i, j].active())
+                                        if (WorldGen.genRand.NextBool(200) && Main.tile[i, j].active() && Main.tile[i, j].type != ModContent.TileType<AquamarineTile>())
                                         {
                                             MakeCrystal(i, j, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(2, 4), WorldGen.genRand.NextBool().ToDirectionInt(), WorldGen.genRand.NextBool().ToDirectionInt(), ModContent.TileType<AquamarineTile>());
                                         }
@@ -917,7 +922,7 @@ namespace EEMod.EEWorld
                                                             }
                                                         }
                                                     }
-                                                    if (check <= 15)
+                                                    if (check <= 11)
                                                     {
                                                         EmptyTileEntityCache.AddPair(new BigCrystal(TopLeft, "Tiles/EmptyTileArrays/LuminantCoralCrystalBigTopLeft", "ShaderAssets/LuminantCoralCrystalBigTopLeftLightMap"), TopLeft, EmptyTileArrays.LuminantCoralCrystalBigTopLeft);
                                                         EESubWorlds.CoralCrystalPosition.Add(TopLeft);

@@ -5,6 +5,8 @@ using EEMod.Net;
 using EEMod.NPCs.CoralReefs;
 using EEMod.Skies;
 using EEMod.UI.States;
+using EEMod.Tiles.Furniture;
+using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
@@ -120,7 +122,7 @@ namespace EEMod
         private int lerps;
         private float alphas;
         private int delays;
-        private readonly Verlet verlet = new Verlet();
+        public Verlet verlet = new Verlet();
         private bool mode;
 
         public void UpdateVerlet()
@@ -134,8 +136,44 @@ namespace EEMod
             {
                 verlet.Update();
             }
+            if (delays > 0)
+            {
+                delays--;
+            }
+            if (Main.LocalPlayer.controlUp && delays == 0)
+            {
+                VerletHelpers.AddStickChain(ref verlet, Main.MouseWorld, 8, 50f);
+                delays = 20;
+            }
+            foreach(int index in VerletHelpers.EndPointChains)
+            {
+                var vec = Verlet.Points[index].point;
+                if ((vec - Main.LocalPlayer.Center).LengthSquared() < 200*200)
+                {
+                    float lerp = 1f - (vec - Main.LocalPlayer.Center).LengthSquared() / (200 * 200);
+                    Helpers.Draw(ModContent.GetTexture("Masks/Extra_49"), vec.ForDraw(), Color.Green* lerp, lerp*0.5f);
+                    if(Inspect.Current)
+                    {
+                        Main.LocalPlayer.Center = vec;
+                        Main.LocalPlayer.gravity = 0f;
+                        Main.LocalPlayer.velocity = Vector2.Zero;
+                        if (Main.LocalPlayer.controlLeft)
+                        {
+                            Verlet.Points[index].point.X -= 0.3f;
+                        }
+                        if (Main.LocalPlayer.controlRight)
+                        {
+                            Verlet.Points[index].point.X += 0.3f;
+                        }
+                    }
+                    if(Main.LocalPlayer.controlUseItem)
+                    {
+                        Verlet.Points[index].point = Main.LocalPlayer.Center;
+                    }
 
-            verlet.GlobalRenderPoints();
+                }
+            }
+                verlet.GlobalRenderPoints();
             /*if (Main.LocalPlayer.controlUp && delays == 0)
             {
                 if (Verlet.points.Count == 0)
