@@ -239,7 +239,7 @@ namespace EEMod.EEWorld
                     break;
             }
 
-            switch (minibiome)
+            /*switch (minibiome)
             {
                 case MinibiomeID.Anemone:
                 /*perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
@@ -254,10 +254,10 @@ namespace EEMod.EEWorld
                         }
                     }
                 }
-                break;*/
+                break;
                 case MinibiomeID.CrystallineCaves:
                     break;
-            }
+            }*/
 
             CreateNoise(ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f, 0.6f));
         }
