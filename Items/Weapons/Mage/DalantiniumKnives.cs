@@ -46,6 +46,7 @@ namespace EEMod.Items.Weapons.Mage
         int powerUp;
         int anim;
         bool isInHand;
+
         public override void HoldItem(Player player)
         {
             isInHand = true;

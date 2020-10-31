@@ -37,5 +37,32 @@ namespace EEMod.Items.Weapons.Summon
         {
             return new Vector2(0, -2);
         }
+
+        int flameColor = 0;
+        public override bool AltFunctionUse(Player player)
+        {
+            if (flameColor < 3)
+            {
+                Main.NewText("ae");
+                flameColor++;
+            }
+            if (flameColor == 3)
+            {
+                Main.NewText("ae");
+                flameColor = 0;
+            }
+            Main.NewText(flameColor);
+            return true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if (player.altFunctionUse == 0)
+            {
+                Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<FlamingPumpkinProjectile>(), item.damage, item.knockBack, ai0: flameColor);
+                Main.NewText(flameColor);
+            }
+            return false;
+        }
     }
 }

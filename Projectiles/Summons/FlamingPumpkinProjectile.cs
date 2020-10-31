@@ -27,18 +27,16 @@ namespace EEMod.Projectiles.Summons
             projectile.ignoreWater = true;
             projectile.friendly = true;
             projectile.hostile = false;
-            projectile.ai[0] = 60;
         }
 
         public override void AI()
         {
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.5f));
 
+            Main.NewText(projectile.ai[0]);
 
 
-
-            projectile.ai[1]++;
-            if(projectile.ai[1] < 600)
+            if(projectile.timeLeft > 120)
             {
                 Vector2 targetPos = Vector2.Zero;
 
@@ -46,9 +44,11 @@ namespace EEMod.Projectiles.Summons
                     if (Vector2.DistanceSquared(Main.npc[i].Center, projectile.Center) < Vector2.DistanceSquared(targetPos, projectile.Center))
                         targetPos = Main.npc[i].Center;
 
-                if(projectile.velocity.Y >= -0.01f && projectile.velocity.Y <= 0.01f && targetPos != Vector2.Zero)
+                projectile.ai[1]++;
+                if(projectile.velocity.Y >= -0.01f && projectile.velocity.Y <= 0.01f && targetPos != Vector2.Zero && projectile.ai[1] >= 60)
                 {
                     projectile.velocity.Y -= 6;
+                    projectile.ai[1] = 0;
                 }
 
                 projectile.velocity.X += Vector2.Normalize(targetPos - projectile.Center).X / 24f;
@@ -58,7 +58,7 @@ namespace EEMod.Projectiles.Summons
                 projectile.velocity.Y += 0.2f;
             }
 
-            if (projectile.ai[1] >= 600 && projectile.ai[1] < 720)
+            if (projectile.timeLeft < 120)
             {
                 projectile.velocity.X *= 0.93f;
 
@@ -128,7 +128,18 @@ namespace EEMod.Projectiles.Summons
                 {
                     if (arrae[j, i] == 1)
                     {
-                        EEMod.Particles.Get("Main").SpawnParticles(projectile.Center + new Vector2(i - 9, (j - 6)/2) * 2, Vector2.Normalize(projectile.Center - (projectile.Center - new Vector2(i - 9, j - 6))), 3, Color.Lerp(Color.Red, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.95f), new RotateTexture(0.01f));
+                        switch (projectile.ai[0])
+                        {
+                            case 0:
+                                EEMod.Particles.Get("Main").SpawnParticles(projectile.Center + new Vector2(i - 9, (j - 6) / 2) * 2, Vector2.Normalize(projectile.Center - (projectile.Center - new Vector2(i - 9, j - 6))), 3, Color.Lerp(Color.DarkRed, Color.OrangeRed, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)), new RotateTexture(0.02f));
+                                break;
+                            case 1:
+                                EEMod.Particles.Get("Main").SpawnParticles(projectile.Center + new Vector2(i - 9, (j - 6) / 2) * 2, Vector2.Normalize(projectile.Center - (projectile.Center - new Vector2(i - 9, j - 6))), 3, Color.Lerp(Color.OrangeRed, Color.Goldenrod, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)), new RotateTexture(0.02f));
+                                break;
+                            case 2:
+                                EEMod.Particles.Get("Main").SpawnParticles(projectile.Center + new Vector2(i - 9, (j - 6) / 2) * 2, Vector2.Normalize(projectile.Center - (projectile.Center - new Vector2(i - 9, j - 6))), 3, Color.Lerp(Color.Goldenrod, Color.LightYellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)), new RotateTexture(0.02f));
+                                break;
+                        }
                     }
                 }
             }
