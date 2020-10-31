@@ -8,6 +8,7 @@ using EEMod.Projectiles;
 using EEMod.Projectiles.Armor;
 using EEMod.Projectiles.Mage;
 using EEMod.Projectiles.Runes;
+using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -296,7 +297,7 @@ namespace EEMod
                     break;
             }
         }
-
+        public bool isHangingOnVine;
         private void Moral()
         {
             moralScore = 0;
@@ -555,8 +556,8 @@ namespace EEMod
             foreach (Verlet.Stick stick in Verlet.stickPoints)
             {
                 Rectangle pRect = new Rectangle((int)player.position.X - pRP, (int)player.position.Y - pRP, player.width + pRP, player.height + pRP);
-                Vector2 Vec1 = Verlet.points[stick.a].point;
-                Vector2 Vec2 = Verlet.points[stick.b].point;
+                Vector2 Vec1 = Verlet.Points[stick.a].point;
+                Vector2 Vec2 = Verlet.Points[stick.b].point;
                 int Y = Vec1.Y < Vec2.Y ? (int)Vec1.Y : (int)Vec2.Y;
                 int X = Vec1.X < Vec2.X ? (int)Vec1.X : (int)Vec2.X;
                 int Y1 = Y == (int)Vec1.Y ? (int)Vec2.Y : (int)Vec1.Y;
@@ -614,7 +615,7 @@ namespace EEMod
             {
                 player.velocity = Vector2.Zero;
             }
-            UpdateVerletCollisions(1, 3f, 10, 54, 1.6f);
+            //UpdateVerletCollisions(1, 3f, 10, 54, 1.6f);
             if (isWearingCape)
             {
                 UpdateArrayPoints();

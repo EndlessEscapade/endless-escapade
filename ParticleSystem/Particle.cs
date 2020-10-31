@@ -14,11 +14,19 @@ namespace EEMod
         List<IParticleModule> Modules = new List<IParticleModule>();
         Texture2D texture;
         int RENDERDISTANCE => 2000;
-        float varScale;
+        public float varScale;
         public float scale { get; set; }
         public float alpha;
         public Color colour;
         public float rotation;
+        int TrailLength;
+        public Vector2[] PositionCache;
+        private int a;
+        public void UpdatePositionCache()
+        {
+            a++;
+            PositionCache[5 - (a % TrailLength)] = position;
+        }
         public virtual void OnUpdate()
         {
 
@@ -35,8 +43,11 @@ namespace EEMod
             this.velocity = velocity ?? Vector2.Zero;
             this.texture = texture;
             active = true;
+            this.scale = scale;
             alpha = 1;
             this.colour = colour ?? Color.White;
+            TrailLength = 6;
+            PositionCache = new Vector2[TrailLength];
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]); 
         }
 
@@ -47,7 +58,8 @@ namespace EEMod
         {
             position += velocity;
             OnUpdate();
-            if(timeLeft > 1)
+            //UpdatePositionCache();
+            if (timeLeft > 1)
             timeLeft--;
             if (timeLeft == 1)
             {
@@ -59,7 +71,7 @@ namespace EEMod
             }
             else if (Math.Abs(scale - varScale) > 0.01f)
             {
-                varScale = (scale - varScale) / 16f;
+                varScale += (scale - varScale) / 6f;
             }
             if(timeLeft == 0)
             {
@@ -74,6 +86,10 @@ namespace EEMod
 
         public void Draw()
         {
+            foreach (IParticleModule Module in Modules)
+            {
+                Module.Draw(this);
+            }
             Vector2 positionDraw = position.ForDraw();
             Main.spriteBatch.Draw(texture, positionDraw,new Rectangle(0, 0,1, 1), colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size()/2, varScale, SpriteEffects.None, 0f);
             OnDraw();
@@ -85,6 +101,7 @@ namespace EEMod
         {
             particle.position.X++;
         }
+        public void Draw(in Particle particle) {; }
     }
     class SlowDown : IParticleModule
     {
@@ -97,6 +114,7 @@ namespace EEMod
         {
             particle.velocity *= slowDownFactor;
         }
+        public void Draw(in Particle particle) {; }
     }
     class RotateTexture : IParticleModule
     {
@@ -109,6 +127,7 @@ namespace EEMod
         {
             particle.rotation += rotationSpeed;
         }
+        public void Draw(in Particle particle) {; }
     }
     class SimpleBrownianMotion : IParticleModule
     {
@@ -122,6 +141,7 @@ namespace EEMod
             particle.velocity.X += Main.rand.NextFloat(-1,1)*intensity;
             particle.velocity.Y += Main.rand.NextFloat(-1,1)*intensity;
         }
+        public void Draw(in Particle particle) {; }
     }
     class AdditiveCircularMotion : IParticleModule
     {
@@ -142,6 +162,24 @@ namespace EEMod
             particle.position.X += rotVec.X;
             particle.position.Y += rotVec.Y;
         }
+        public void Draw(in Particle particle) {; }
+    }
+    class AfterImageTrail : IParticleModule
+    {
+        float alphaFallOff;
+        public AfterImageTrail(float alphaFallOff)
+        {
+            this.alphaFallOff = alphaFallOff;
+        }
+        public void Draw(in Particle particle)
+        {
+            for(int i = 0; i<particle.PositionCache.Length; i++)
+            {
+                float globalFallOff = 1 - (i/(float)particle.PositionCache.Length)*alphaFallOff;
+                Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw(), new Rectangle(0, 0, 1, 1), particle.colour* particle.alpha* globalFallOff, particle.rotation, new Rectangle(0, 0, 1, 1).Size() / 2, particle.varScale* globalFallOff, SpriteEffects.None,0f);
+            }
+        }
+        public void Update(in Particle particle) {; }
     }
     class Spew : IParticleModule
     {
@@ -168,6 +206,7 @@ namespace EEMod
             }
             particle.velocity *= airResistance;
         }
+        public void Draw(in Particle particle) {; }
     }
     class AddVelocity : IParticleModule
     {
@@ -180,6 +219,7 @@ namespace EEMod
         {
             particle.velocity += velocity;
         }
+        public void Draw(in Particle particle) {; }
     }
     class RotateVelocity : IParticleModule
     {
@@ -192,6 +232,7 @@ namespace EEMod
         {
             particle.velocity = particle.velocity.RotatedBy(rotFac);
         }
+        public void Draw(in Particle particle) {; }
     }
 
     class CircularMotion : IParticleModule
@@ -217,6 +258,7 @@ namespace EEMod
             particle.position.X = orbitPoint.Center.X + rotVec.X;
             particle.position.Y = orbitPoint.Center.Y + rotVec.Y;
         }
+        public void Draw(in Particle particle) {; }
     }
     class CircularMotionSin : IParticleModule
     {
@@ -257,13 +299,16 @@ namespace EEMod
                 }
             }
         }
+        public void Draw(in Particle particle) {; }
     }
     class BaseModule : IParticleModule
     {
         public void Update(in Particle particle) { ; }
+        public void Draw(in Particle particle) {; }
     }
     public interface IParticleModule
     {
         void Update(in Particle particle);
+        void Draw(in Particle particle);
     }
 }
