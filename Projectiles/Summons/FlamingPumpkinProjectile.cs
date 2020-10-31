@@ -32,6 +32,11 @@ namespace EEMod.Projectiles.Summons
 
         public override void AI()
         {
+            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.5f));
+
+
+
+
             projectile.ai[1]++;
             if(projectile.ai[1] < 600)
             {
@@ -41,11 +46,9 @@ namespace EEMod.Projectiles.Summons
                     if (Vector2.DistanceSquared(Main.npc[i].Center, projectile.Center) < Vector2.DistanceSquared(targetPos, projectile.Center))
                         targetPos = Main.npc[i].Center;
 
-                projectile.ai[0]++;
-                if(projectile.velocity.Y >= -0.01f && projectile.velocity.Y <= 0.01f && targetPos != Vector2.Zero && projectile.ai[0] >= 60)
+                if(projectile.velocity.Y >= -0.01f && projectile.velocity.Y <= 0.01f && targetPos != Vector2.Zero)
                 {
                     projectile.velocity.Y -= 6;
-                    projectile.ai[0] = 0;
                 }
 
                 projectile.velocity.X += Vector2.Normalize(targetPos - projectile.Center).X / 24f;
@@ -77,10 +80,26 @@ namespace EEMod.Projectiles.Summons
                 projectile.velocity.Y += 0.2f;
             }
 
-            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.5f));
-            EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), 2, Color.Lerp(Color.Red, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)), new RotateTexture(0.02f));
 
-            Color lightColor = Color.Lerp(Color.OrangeRed, Color.Yellow, (float)Math.Sin(projectile.ai[1] / 20));
+
+
+            Color lightColor = Color.White;
+            switch (projectile.ai[0])
+            {
+                case 0:
+                    lightColor = Color.Red;
+                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), 2, Color.Lerp(Color.DarkRed, Color.OrangeRed, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)), new RotateTexture(0.02f));
+                    break;
+                case 1:
+                    lightColor = Color.Orange;
+                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), 2, Color.Lerp(Color.OrangeRed, Color.Goldenrod, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)), new RotateTexture(0.02f));
+                    break;
+                case 2:
+                    lightColor = Color.Yellow;
+                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), 2, Color.Lerp(Color.Goldenrod, Color.LightYellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)), new RotateTexture(0.02f));
+                    break;
+            }
+
             Lighting.AddLight(projectile.Center, new Vector3(lightColor.R, lightColor.G, lightColor.B)/500);
         }
 

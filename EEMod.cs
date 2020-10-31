@@ -299,6 +299,7 @@ namespace EEMod
                 Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Ripple"));
                 Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/SeaTrans"));
                 Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/SunThroughWalls"));
+                Ref<Effect> MyTestShader = new Ref<Effect>(GetEffect("Effects/MyTestShader"));
                 Filters.Scene["EEMod:Ripple"] = new Filter(new ScreenShaderData(screenRef3, "Ripple"), EffectPriority.High);
                 Filters.Scene["EEMod:Ripple"].Load();
                 Filters.Scene["EEMod:SeaTrans"] = new Filter(new ScreenShaderData(screenRef2, "SeaTrans"), EffectPriority.High);
@@ -306,6 +307,9 @@ namespace EEMod
                 Filters.Scene["EEMod:SunThroughWalls"] = new Filter(new ScreenShaderData(screenRef, "SunThroughWalls"), EffectPriority.High);
                 Filters.Scene["EEMod:SunThroughWalls"].Load();
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
+                Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
+                Filters.Scene["EEMod:MyTestShader"].Load();
+
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
                 NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
                 White = GetEffect("Effects/WhiteOutline");
