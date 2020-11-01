@@ -6,6 +6,8 @@ namespace EEMod.Projectiles.Mage
 {
     public class SpiritPistolProjectileMain : ModProjectile
     {
+        public override string Texture => Helpers.EmptyTexture;
+
         public override void SetDefaults()
         {
             projectile.width = 12;       //projectile width

@@ -7,6 +7,8 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
 {
     public class CrystalKill : ModProjectile
     {
+        public override string Texture => Helpers.EmptyTexture;
+
         public override void SetDefaults()
         {
             projectile.width = 12;  //Set the hitbox width

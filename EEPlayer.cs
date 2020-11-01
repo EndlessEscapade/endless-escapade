@@ -807,19 +807,6 @@ namespace EEMod
                             }
                             break;
                         }
-                        case RuneID.ShroomRune:
-                        {
-                            if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
-                            {
-                                runeCooldown = 600;
-                            }
-                            else
-                            {
-                                player.statDefense = (int)(player.statDefense * 1.1f);
-                                player.statDefense += 5;
-                            }
-                            break;
-                        }
                         case RuneID.WaterRune:
                         {
                             if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)

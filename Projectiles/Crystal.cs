@@ -7,6 +7,8 @@ namespace EEMod.Projectiles
 {
     public class Crystal : ModProjectile
     {
+        public override string Texture => Helpers.EmptyTexture;
+
         public override void SetDefaults()
         {
             projectile.width = 12;

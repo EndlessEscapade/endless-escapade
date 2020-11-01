@@ -18,6 +18,7 @@ namespace EEMod.Tiles.Furniture.Coral
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x2);
             TileObjectData.newTile.Height = 6;
             TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.RandomStyleRange = 2;
             TileObjectData.newTile.CoordinateHeights = new int[]
             {
                 16,

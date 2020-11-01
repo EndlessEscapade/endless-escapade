@@ -4,6 +4,8 @@ namespace EEMod.Projectiles
 {
     public class ShipHelper : ModProjectile
     {
+        public override string Texture => Helpers.EmptyTexture;
+
         public override void SetDefaults()
         {
             projectile.width = 16;

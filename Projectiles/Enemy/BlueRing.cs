@@ -8,7 +8,7 @@ namespace EEMod.Projectiles.Enemy
 {
     public class BlueRing : ModProjectile
     {
-        public override string Texture => "EEMod/Empty";
+        public override string Texture => Helpers.EmptyTexture;
 
         public override void SetStaticDefaults()
         {

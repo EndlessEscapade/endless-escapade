@@ -6,6 +6,8 @@ namespace EEMod.Projectiles
 {
     public class HydroBurst : ModProjectile
     {
+        public override string Texture => Helpers.EmptyTexture;
+
         public override void SetDefaults()
         {
             projectile.width = 4;
