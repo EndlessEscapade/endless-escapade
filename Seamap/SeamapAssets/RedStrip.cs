@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod.Projectiles
+namespace EEMod.Seamap.SeamapAssets
 {
     public class RedStrip : ModProjectile
     {

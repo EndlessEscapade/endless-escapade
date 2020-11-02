@@ -105,6 +105,9 @@ namespace EEMod.Tiles.Furniture.Coral
         {
             Tile tile = Main.tile[i, j];
 
+            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.003f));
+            EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), mod.GetTexture("Particles/Cross"), 30, 2, Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.7f));
+
             if (tile != null && tile.active() && tile.type == Type)
             {
                 int frameX = tile.frameX;
