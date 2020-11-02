@@ -23,6 +23,7 @@ namespace EEMod.VerletIntegration
         }
         public static HashSet<int> EndPointChains = new HashSet<int>();
         public static List<Vector2> SwingableVines = new List<Vector2>();
+
         public static void AddStickChain(ref Verlet verlet,Vector2 position,int numberOfChains, float lengthOfChains)
         {
             for (int i = 0; i < numberOfChains; i++)
