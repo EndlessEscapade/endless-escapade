@@ -29,14 +29,13 @@ namespace EEMod.VerletIntegration
             { 
                 int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
                 if (i > 0)
-                    verlet.BindPoints(a, a - 1);
+                    verlet.BindPoints(a, a - 1,true,default, ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Vine"));
 
                 if(i == numberOfChains - 1)
                 {
                     EndPointChains.Add(a);
                 }
             }
-
         }
         public static void LoadVines()
         {

@@ -144,7 +144,7 @@ namespace EEMod
             }
             if (Main.LocalPlayer.controlUp && delays == 0)
             {
-                //VerletHelpers.AddStickChain(ref verlet, Main.MouseWorld, 8, 50f);
+               // VerletHelpers.AddStickChain(ref verlet, Main.MouseWorld, 8, 27f);
                 delays = 20;
             }
             foreach(int index in VerletHelpers.EndPointChains)

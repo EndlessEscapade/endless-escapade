@@ -20,12 +20,14 @@ namespace EEMod
         public Color colour;
         public float rotation;
         int TrailLength;
-        public Vector2[] PositionCache;
-        private int a;
+        public List<Vector2> PositionCache = new List<Vector2>();
         public void UpdatePositionCache()
         {
-            a++;
-            PositionCache[5 - (a % TrailLength)] = position;
+            PositionCache.Insert(0,position);
+            if(PositionCache.Count > TrailLength)
+            {
+                PositionCache.RemoveAt(PositionCache.Count - 1);
+            }
         }
         public virtual void OnUpdate()
         {
@@ -46,8 +48,7 @@ namespace EEMod
             this.scale = scale;
             alpha = 1;
             this.colour = colour ?? Color.White;
-            TrailLength = 6;
-            PositionCache = new Vector2[TrailLength];
+            TrailLength = 18;
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]); 
         }
 
@@ -58,20 +59,20 @@ namespace EEMod
         {
             position += velocity;
             OnUpdate();
-            //UpdatePositionCache();
+            UpdatePositionCache();
             if (timeLeft > 1)
             timeLeft--;
             if (timeLeft == 1)
             {
-                varScale *= 0.98f;
-                if (varScale < 0.001f)
+                varScale *= 0.99f;
+                if (varScale < 0.01f)
                 {
                     timeLeft--;
                 }
             }
-            else if (Math.Abs(scale - varScale) > 0.01f)
+            else if (Math.Abs(scale - varScale) > 0.01f && timeLeft != 0)
             {
-                varScale += (scale - varScale) / 6f;
+                varScale += (scale - varScale) / 14f;
             }
             if(timeLeft == 0)
             {
@@ -173,9 +174,9 @@ namespace EEMod
         }
         public void Draw(in Particle particle)
         {
-            for(int i = 0; i<particle.PositionCache.Length; i++)
+            for(int i = 0; i<particle.PositionCache.Count; i++)
             {
-                float globalFallOff = 1 - (i/(float)particle.PositionCache.Length)*alphaFallOff;
+                float globalFallOff = 1 - (i/(float)(particle.PositionCache.Count - 1))*alphaFallOff;
                 Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw(), new Rectangle(0, 0, 1, 1), particle.colour* particle.alpha* globalFallOff, particle.rotation, new Rectangle(0, 0, 1, 1).Size() / 2, particle.varScale* globalFallOff, SpriteEffects.None,0f);
             }
         }

@@ -39,10 +39,12 @@ namespace EEMod.NPCs.CoralReefs
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-            EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
             EEMod.ReflectionShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
             EEMod.ReflectionShader.Parameters["tentacle"].SetValue(EEMod.instance.GetTexture("ShaderAssets/SpikyOrbLightMap"));
+            EEMod.ReflectionShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
+            EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(1f);
+            EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
             Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw(), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -86,10 +88,10 @@ namespace EEMod.NPCs.CoralReefs
         {
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
             {
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300,4,null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80*(float)Math.Sin(npc.ai[0]), 0.03f, npc, - npc.ai[0], 2f, 0.2f, true), new AfterImageTrail(1f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 4, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.25f, 2f, 0.2f, false), new AfterImageTrail(1f)); ;
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 4, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.5f, 2f, 0.2f, false), new AfterImageTrail(1f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 4, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.75f, 2f, 0.2f, false), new AfterImageTrail(1f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300,2,null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80*(float)Math.Sin(npc.ai[0]), 0.03f, npc, - npc.ai[0], 2f, 0.2f, false), new AfterImageTrail(1f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 2, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.25f, 2f, 0.2f, false), new AfterImageTrail(1f)); ;
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 2, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.5f, 2f, 0.2f, false), new AfterImageTrail(1f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 2, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.75f, 2f, 0.2f, false), new AfterImageTrail(1f));
                 /*Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f, 2f), -5));
                 dust.velocity *= 0.99f;
                 dust.noGravity = true;
