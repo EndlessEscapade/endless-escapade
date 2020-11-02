@@ -5,6 +5,7 @@ using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Projectiles;
 using EEMod.Projectiles.Mage;
 using EEMod.Tiles.EmptyTileArrays;
+using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
@@ -164,6 +165,96 @@ namespace EEMod
             Rectangle crystalBox = new Rectangle((int)position.X, (int)position.Y, tex.Width, tex.Height);
             Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width, tex.Height), new Rectangle(0, 0, tex.Width, tex.Height), Color.White,0f, Vector2.Zero, SpriteEffects.None, 0f);
         }
+        public void DrawKelpTarzanVines()
+        {
+            foreach (int index in VerletHelpers.EndPointChains)
+            {
+                var vec = Verlet.Points[index].point;
+                if ((vec - Main.LocalPlayer.Center).LengthSquared() < 100 * 100)
+                {
+                    float lerp = 1f - (vec - Main.LocalPlayer.Center).LengthSquared() / (100 * 100);
+
+                    if (Inspect.Current)
+                    {
+                        if ((vec - Main.LocalPlayer.Center).LengthSquared() < 20 * 20)
+                        {
+                            if (Main.LocalPlayer.fullRotation != 0)
+                            {
+                                Main.LocalPlayer.fullRotation = 0;
+                            }
+                            if (Main.LocalPlayer.controlLeft)
+                            {
+                                Verlet.Points[index].point.X -= 0.3f;
+                            }
+                            if (Main.LocalPlayer.controlRight)
+                            {
+                                Verlet.Points[index].point.X += 0.3f;
+                            }
+                            if (index > 0)
+                                Main.LocalPlayer.fullRotation = ((Verlet.Points[index - 1].point - Verlet.Points[index].point).ToRotation() + (float)Math.PI / 2f) * 0.45f;
+                        }
+                        if (Inspect.JustPressed)
+                        {
+                            Verlet.Points[index].point.X += Main.LocalPlayer.velocity.X * 1.5f;
+                        }
+                        Main.LocalPlayer.velocity = (vec - Main.LocalPlayer.Center) / (1 + (vec - Main.LocalPlayer.Center).LengthSquared() / 2000f);
+                        Main.LocalPlayer.gravity = 0f;
+                        Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine = true;
+                    }
+                    else
+                    {
+                        Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49"), vec.ForDraw(), Color.Green * lerp, lerp * 0.2f);
+                        Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine = false;
+                    }
+                    if (Main.LocalPlayer.controlUseItem)
+                    {
+                        Verlet.Points[index].point = Main.LocalPlayer.Center;
+                    }
+
+                }
+            }
+
+            if (bufferVariable != Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
+            {
+                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
+                {
+                    Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
+                    for (int i = 0; i < 20; i++)
+                    {
+                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, 1, Color.White, new Spew(6.14f, 1f, Vector2.One / 2f, 0.98f));
+                    }
+                }
+                if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
+                {
+                    if (Main.LocalPlayer.velocity.X > 0)
+                    {
+                        rotGoto = -6.28f;
+                    }
+                    else
+                    {
+                        rotGoto = 6.28f;
+                    }
+                }
+            }
+            if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
+            {
+                rotationBuffer += (rotGoto - rotationBuffer) / 12f;
+                if (Math.Abs(6.28f - rotationBuffer) > 0.01f)
+                {
+                    Main.LocalPlayer.fullRotation = rotationBuffer;
+                    Main.LocalPlayer.fullRotationOrigin = new Vector2(Main.LocalPlayer.width / 2f, Main.LocalPlayer.height / 2f);
+                }
+                else if (Main.LocalPlayer.fullRotation != 0)
+                {
+                    Main.LocalPlayer.fullRotation = 0;
+                }
+            }
+            else
+            {
+                rotationBuffer = 0f;
+            }
+            bufferVariable = Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine;
+        }
         void HandleBulbDraw(Vector2 position)
         {
             Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
@@ -239,7 +330,8 @@ namespace EEMod
         {
 
             //UpdateLight();
-
+            DrawKelpTarzanVines();
+            verlet.GlobalRenderPoints();
             DrawNoiseSurfacing();
             DrawLensFlares();
             DrawCoralReefsBg();

@@ -610,7 +610,7 @@ namespace EEMod.EEWorld
                                     }
                                     else if(TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(10))
                                     {
-                                        VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 32);
+                                        VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
                                     }
                                     break;
                                 #endregion
