@@ -84,18 +84,17 @@ namespace EEMod.VerletIntegration
             return new int[] { first, a, b, c, d, e, f, g, h, i, j, k };
         }
 
-        public void BindPoints(int a, int b, bool isVisible = true, Color color = default)
+        public void BindPoints(int a, int b, bool isVisible = true, Color color = default, Texture2D tex = null)
         {
             try
             {
-                stickPoints.Add(new Stick(a, b, isVisible, color));
+                stickPoints.Add(new Stick(a, b, isVisible, color, tex));
             }
             catch
             {
                 Main.NewText("Don't be dumb. smh");
             }
         }
-
         public void Update()
         {
             UpdatePoints();
@@ -159,6 +158,7 @@ namespace EEMod.VerletIntegration
         public class Stick
         {
             public Color color;
+            public Texture2D tex;
             public Vector2 p1;
             public Vector2 p2;
             public Vector2 oldP1;
@@ -171,7 +171,7 @@ namespace EEMod.VerletIntegration
             public int b;
             public bool isVisible;
 
-            public Stick(int a, int b, bool isVisible = true, Color color = default)
+            public Stick(int a, int b, bool isVisible = true, Color color = default, Texture2D tex = null)
             {
                 this.a = a;
                 this.b = b;
@@ -189,7 +189,7 @@ namespace EEMod.VerletIntegration
                 Length = (float)Math.Sqrt(disX * disX + disY * disY);
                 isStatic[0] = Points[a].isStatic;
                 isStatic[1] = Points[b].isStatic;
-
+                this.tex = tex;
                 if (color == default)
                 {
                     this.color = Color.DarkRed;
@@ -304,12 +304,19 @@ namespace EEMod.VerletIntegration
                         Vector2 p1 = Points[stickPoints[i].a].point;
                         Vector2 p2 = Points[stickPoints[i].b].point;
                         float Dist = Vector2.Distance(p1, p2);
-
-                        for (float j = 0; j < 1; j += 1 / Dist)
+                        if (stickPoints[i].tex == null)
                         {
-                            Vector2 Lerped = p1 + j * (p2 - p1);
+                            for (float j = 0; j < 1; j += 1 / Dist)
+                            {
+                                Vector2 Lerped = p1 + j * (p2 - p1);
 
-                            Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), stickPoints[i].color, 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
+                                Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), stickPoints[i].color, 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
+                            }
+                        }
+                        else
+                        {
+                            Vector2 mid = p1 * 0.5f + p2 * 0.5f;
+                            Main.spriteBatch.Draw(stickPoints[i].tex, mid.ForDraw(), stickPoints[i].tex.Bounds, Lighting.GetColor((int)mid.X/16, (int)mid.Y / 16), (p1 - p2).ToRotation(), stickPoints[i].tex.Bounds.Size()/2, 1f, SpriteEffects.None, 0f);
                         }
                     }
                 }

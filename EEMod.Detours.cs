@@ -166,7 +166,7 @@ namespace EEMod
         }
         void HandleBulbDraw(Vector2 position)
         {
-            Lighting.AddLight(position, new Vector3(0, 0.1f, 1) * 3);
+            Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
             Vector2 tilePos = position / 16;
             int spread = 8;
             int down = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, 1, 50);
