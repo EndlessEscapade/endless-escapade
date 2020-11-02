@@ -310,7 +310,7 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             Noise2DShift.Parameters["noiseTexture"].SetValue(instance.GetTexture("Noise/noise"));
-            Noise2DShift.Parameters["tentacle"].SetValue(instance.GetTexture("Noise/WormNoise"));
+            Noise2DShift.Parameters["tentacle"].SetValue(instance.GetTexture("Noise/WormNoisePixelated"));
             Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt) * 0.2f);
             Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt) * 0.2f);
 

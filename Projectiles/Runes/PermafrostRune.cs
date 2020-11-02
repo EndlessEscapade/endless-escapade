@@ -17,7 +17,7 @@ namespace EEMod.Projectiles.Runes
             Main.projFrames[projectile.type] = 1;
         }
 
-        public override int RuneID => RuneID.PermafrostRune;
+        //public override int RuneID => RuneID.PermafrostRune;
         public override void SetDefaults()
         {
             projectile.width = 46;

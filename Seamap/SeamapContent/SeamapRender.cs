@@ -224,7 +224,7 @@ namespace EEMod.SeamapAssets
             Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
             Color SeaColour = new Color(0.1568f, 0.6549f, 0.7607f).MultiplyRGB(colour);
             WaterShader.Parameters["noise"].SetValue(instance.GetTexture("Noise/WormNoisePixelated"));
-            WaterShader.Parameters["noiseN"].SetValue(instance.GetTexture("Noise/WormNoise"));
+            WaterShader.Parameters["noiseN"].SetValue(instance.GetTexture("Noise/WormNoisePixelated"));
             WaterShader.Parameters["water"].SetValue(instance.GetTexture("ShaderAssets/WaterShaderLightMap"));
             WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 2000f) * 0.2f);
