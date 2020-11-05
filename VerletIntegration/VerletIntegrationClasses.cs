@@ -84,11 +84,11 @@ namespace EEMod.VerletIntegration
             return new int[] { first, a, b, c, d, e, f, g, h, i, j, k };
         }
 
-        public void BindPoints(int a, int b, bool isVisible = true, Color color = default, Texture2D tex = null)
+        public void BindPoints(int a, int b, bool isVisible = true, Color color = default, Texture2D tex = null, Texture2D glowmask = null)
         {
             try
             {
-                stickPoints.Add(new Stick(a, b, isVisible, color, tex));
+                stickPoints.Add(new Stick(a, b, isVisible, color, tex, glowmask));
             }
             catch
             {
@@ -170,8 +170,9 @@ namespace EEMod.VerletIntegration
             public int a;
             public int b;
             public bool isVisible;
+            public Texture2D glowmask;
 
-            public Stick(int a, int b, bool isVisible = true, Color color = default, Texture2D tex = null)
+            public Stick(int a, int b, bool isVisible = true, Color color = default, Texture2D tex = null, Texture2D glowmask = null)
             {
                 this.a = a;
                 this.b = b;
@@ -200,6 +201,7 @@ namespace EEMod.VerletIntegration
                 }
 
                 this.isVisible = isVisible;
+                this.glowmask = glowmask;
             }
         }
 
@@ -317,6 +319,10 @@ namespace EEMod.VerletIntegration
                         {
                             Vector2 mid = p1 * 0.5f + p2 * 0.5f;
                             Main.spriteBatch.Draw(stickPoints[i].tex, mid.ForDraw(), stickPoints[i].tex.Bounds, Lighting.GetColor((int)mid.X/16, (int)mid.Y / 16), (p1 - p2).ToRotation(), stickPoints[i].tex.Bounds.Size()/2, 1f, SpriteEffects.None, 0f);
+                            if(stickPoints[i].glowmask != null)
+                            {
+                                Main.spriteBatch.Draw(stickPoints[i].glowmask, mid.ForDraw(), stickPoints[i].glowmask.Bounds, Color.White, (p1 - p2).ToRotation(), stickPoints[i].glowmask.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
+                            }
                         }
                     }
                 }

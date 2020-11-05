@@ -165,6 +165,11 @@ namespace EEMod
             Rectangle crystalBox = new Rectangle((int)position.X, (int)position.Y, tex.Width, tex.Height);
             Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width, tex.Height), new Rectangle(0, 0, tex.Width, tex.Height), Color.White,0f, Vector2.Zero, SpriteEffects.None, 0f);
         }
+
+
+
+
+
         public void DrawKelpTarzanVines()
         {
             foreach (int index in VerletHelpers.EndPointChains)
@@ -214,6 +219,7 @@ namespace EEMod
                 }
             }
 
+            #region Spawning particles
             if (bufferVariable != Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
@@ -236,6 +242,9 @@ namespace EEMod
                     }
                 }
             }
+            #endregion
+
+            #region Player movement
             if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
             {
                 rotationBuffer += (rotGoto - rotationBuffer) / 12f;
@@ -254,7 +263,13 @@ namespace EEMod
                 rotationBuffer = 0f;
             }
             bufferVariable = Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine;
+            #endregion
         }
+
+
+
+
+
         void HandleBulbDraw(Vector2 position)
         {
             Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
