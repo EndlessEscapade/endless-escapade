@@ -80,11 +80,11 @@ namespace EEMod
         private void Main_oldDrawWater(ILContext il)
         {
             ILCursor c = new ILCursor(il);
-            ILLabel l = null; // where after !Main.tileSolid[(int)Main.tile[j, i].type] || Main.tileSolidTop[(int)Main.tile[j, i].type]
-            MethodInfo drawcall = typeof(Lighting).GetMethod(nameof(Lighting.GetColor), new Type[] { typeof(int), typeof(int)});
+            ILLabel l = c.DefineLabel(); // where Color color = Lighting.GetColor(j, i);
+            MethodInfo drawcall = typeof(Lighting).GetMethod(nameof(Lighting.GetColor), new Type[] { typeof(int), typeof(int) });
             if (!c.TryGotoNext(
                 i => i.MatchCallOrCallvirt(typeof(Tile).GetMethod(nameof(Tile.nactive))),
-                i => i.MatchBrfalse(out l)) || l is null)
+                i => i.MatchBrfalse(out _)))
             {
                 throw new Exception("Could not modify draw water");
             }
@@ -96,6 +96,15 @@ namespace EEMod
             c.EmitDelegate<Func<int, int, bool>>((i, j) => true);
 
             c.Emit(OpCodes.Brtrue, l); // skip the other checks
+
+            if (!c.TryGotoNext(i => i.MatchLdloc(12),
+                i => i.MatchLdloc(11),
+                i => i.MatchCall(typeof(Lighting).GetMethod(nameof(Lighting.GetColor), new Type[] { typeof(int), typeof(int) }))))
+            { // match call
+                throw new Exception("Couldn't find call to Lighting.GetColor");
+            }
+
+            c.MarkLabel(l); // point to current instr (ldloc 12)
         }
 
         private void UnloadIL()

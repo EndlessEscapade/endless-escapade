@@ -215,7 +215,7 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
-        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, Color color, int frequency, float rotDis = 0f)
+        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, Color color, int frequency, float rotDis = 0, float spawnChance = 1f,params IParticleModule[] modules)
         {
             float length = (startingPos - endPoints).Length();
             for (float i = 0; i <= 1; i += chainsPerUse)
@@ -226,8 +226,8 @@ namespace EEMod
                     float y = Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
                     if (Main.rand.Next(frequency) == 0)
                     {
-                        EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
-                        EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x - 190, y - 190), null, 2, color, new Spew(6.14f, 1f, Vector2.One / 6f, 0.98f));
+                        EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(spawnChance));
+                        EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x - 190, y - 190), null, 2, color, modules);
                     }
                 }
             }
