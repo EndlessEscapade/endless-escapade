@@ -1,5 +1,3 @@
-
-
 using Terraria;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +6,13 @@ using System.Collections.Generic;
 using EEMod.Extensions;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Terraria.ModLoader;
+using System.IO;
+using Terraria.DataStructures;
+using Terraria.Enums;
+using Terraria.ID;
+using Terraria.ModLoader.IO;
+using Terraria.ObjectData;
 
 namespace EEMod.Tiles.EmptyTileArrays
 {
@@ -157,7 +162,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + texture.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + texture.Height));
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.01f));
-            EEMod.Particles.Get("Main").SpawnParticles(rand,new Vector2(Main.rand.NextFloat(-1f,1f), Main.rand.NextFloat(-1f,1f)), 2,Color.LightBlue, new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.08f, .08f)));
+            EEMod.Particles.Get("Main").SpawnParticles(rand, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), ModContent.GetTexture("EEMod/Particles/Crystal"), 60, 3, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), new SlowDown(0.98f), new RotateTexture(0.01f), new RotateVelocity(Main.rand.NextFloat(-.1f, .1f)));
             rotation = 0;
             shaderLerp = 1;
             colour = Lighting.GetColor((int)position.X, (int)position.Y);
@@ -204,11 +209,12 @@ namespace EEMod.Tiles.EmptyTileArrays
             colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime));
             rotation = (shaderLerp - 1) / 100f;
         }
+
         public override void DuringNonActivation()
         {
             Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + texture.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + texture.Height));
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.02f));
-            EEMod.Particles.Get("Main").SpawnParticles(rand, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), 3, new Color(7, 185, 172), new SlowDown(0.98f), new RotateTexture(0.01f), new RotateVelocity(Main.rand.NextFloat(-.18f, .18f)));
+            EEMod.Particles.Get("Main").SpawnParticles(rand, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), ModContent.GetTexture("EEMod/Particles/Crystal"), 60, 3, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), new SlowDown(0.98f), new RotateTexture(0.01f), new RotateVelocity(Main.rand.NextFloat(-.1f, .1f)));
             rotation = 0;
             shaderLerp = 1;
             colour = Lighting.GetColor((int)position.X, (int)position.Y);
