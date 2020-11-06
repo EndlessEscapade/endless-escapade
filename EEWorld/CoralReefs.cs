@@ -51,6 +51,12 @@ namespace EEMod.EEWorld
 
         public static PerlinNoiseFunction perlinNoise;
 
+        public static bool GemsandCheck(int i, int j)
+        {
+            int ecksdee = Main.tile[i, j].type;
+            return ecksdee == ModContent.TileType<LightGemsandTile>() || ecksdee == ModContent.TileType<LightGemsandstoneTile>() || ecksdee == ModContent.TileType<GemsandTile>() || ecksdee == ModContent.TileType<GemsandstoneTile>() || ecksdee == ModContent.TileType<DarkGemsandTile>() || ecksdee == ModContent.TileType<DarkGemsandstoneTile>();
+        }
+
         public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int minibiome, bool ensureNoise = false)
         {
             int sizeX = size;
@@ -334,7 +340,7 @@ namespace EEMod.EEWorld
 
                     else
                     {
-                        if (WorldGen.InWorld(i, j))
+                        if (WorldGen.InWorld(i, j) && GemsandCheck(i, j))
                         {
                             int minibiome = 0;
                             for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
@@ -608,7 +614,7 @@ namespace EEMod.EEWorld
                                         ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                     }
-                                    else if(TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(10))
+                                    else if(TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(15))
                                     {
                                         VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
                                     }

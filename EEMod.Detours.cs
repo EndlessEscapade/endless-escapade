@@ -217,6 +217,7 @@ namespace EEMod
                     }
 
                 }
+                Lighting.AddLight(vec, new Vector3(235, 166, 0)/255);
             }
 
             #region Spawning particles

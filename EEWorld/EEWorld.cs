@@ -11,6 +11,8 @@ using Terraria.ModLoader;
 using Terraria.World.Generation;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
+using Terraria.ModLoader.IO;
+using Terraria.ObjectData;
 
 namespace EEMod.EEWorld
 {

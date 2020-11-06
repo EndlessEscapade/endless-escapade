@@ -53,7 +53,7 @@ namespace EEMod
 
         public static void CoralReefs(int seed, GenerationProgress customProgressObject = null)
         {
-            EEMod.progressMessage = "Generating CoralReefs";
+            EEMod.progressMessage = "Generating Coral Reefs";
             //Variables and Initialization stuff
             int depth = 70;
             int boatPos = Main.maxTilesX / 2;
@@ -440,7 +440,7 @@ namespace EEMod
                         }
                         if (ifa == 0)
                         {
-                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2) && Main.tileSolid[Main.tile[i, j].type] && j > Main.maxTilesY / 10)
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool() && GemsandCheck(i, j) && j > Main.maxTilesY / 10)
                             {
                                 if (ChainConnections.Count == 0)
                                 {

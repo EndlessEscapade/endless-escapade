@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod.VerletIntegration
 {
@@ -322,6 +323,8 @@ namespace EEMod.VerletIntegration
                             if(stickPoints[i].glowmask != null)
                             {
                                 Main.spriteBatch.Draw(stickPoints[i].glowmask, mid.ForDraw(), stickPoints[i].glowmask.Bounds, Color.White, (p1 - p2).ToRotation(), stickPoints[i].glowmask.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
+                                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.003f));
+                                EEMod.Particles.Get("Main").SpawnParticles(mid, new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 30, 2, Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.7f));
                             }
                         }
                     }
