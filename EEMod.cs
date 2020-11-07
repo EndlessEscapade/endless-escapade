@@ -25,6 +25,7 @@ using EEMod.SeamapAssets;
 using EEMod.Seamap.SeamapContent;
 using EEMod.MachineLearning;
 using EEMod.Tiles.EmptyTileArrays;
+using EEMod.Items.Dyes;
 
 namespace EEMod
 {
@@ -282,13 +283,19 @@ namespace EEMod
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
                 NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
                 White = GetEffect("Effects/WhiteOutline");
-                /*
-		  SpeedrunnTimer = new UserInterface();
-		  //RunUI.Activate();
-		  RunUI = new RunninUI();
-		  SpeedrunnTimer.SetState(RunUI);
-                */
-            }
+
+
+                Ref<Effect> dyeRef = new Ref<Effect>(GetEffect("Effects/HydrosDye"));
+
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(dyeRef, "HydrosDyeShader"));
+
+            /*
+      SpeedrunnTimer = new UserInterface();
+      //RunUI.Activate();
+      RunUI = new RunninUI();
+      SpeedrunnTimer.SetState(RunUI);
+            */
+        }
             LoadUI();
             LoadIL();
             LoadDetours();

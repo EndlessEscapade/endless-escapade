@@ -482,5 +482,23 @@ namespace EEMod
             currentY = (currentY * 58f + num3) / 58.8f;
             return new Vector2(currentX, currentY);
         }
+
+        public static Color MultiLerpColor(float percent, params Color[] colors)
+        {
+            float per = 1f / ((float)colors.Length - 1);
+            float total = per;
+            int currentID = 0;
+            while ((percent / total) > 1f && (currentID < colors.Length - 2)) { total += per; currentID++; }
+            return Color.Lerp(colors[currentID], colors[currentID + 1], (percent - (per * currentID)) / per);
+        }
+
+        public static Vector2 MultiLerpVector(float percent, params Vector2[] vectors)
+        {
+            float per = 1f / ((float)vectors.Length - 1);
+            float total = per;
+            int currentID = 0;
+            while ((percent / total) > 1f && (currentID < vectors.Length - 2)) { total += per; currentID++; }
+            return Vector2.Lerp(vectors[currentID], vectors[currentID + 1], (percent - (per * currentID)) / per);
+        }
     }
 }
