@@ -47,10 +47,6 @@ namespace EEMod
             EEMod.isSaving = false;
         }
 
-
-
-
-
         public static void CoralReefs(int seed, GenerationProgress customProgressObject = null)
         {
             EEMod.progressMessage = "Generating Coral Reefs";
@@ -440,7 +436,7 @@ namespace EEMod
                         }
                         if (ifa == 0)
                         {
-                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool() && GemsandCheck(i, j) && j > Main.maxTilesY / 10)
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool() /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 10)
                             {
                                 if (ChainConnections.Count == 0)
                                 {
@@ -476,10 +472,6 @@ namespace EEMod
             Main.spawnTileY = TileCheckWater(boatPos) - 22;
             EEMod.progressMessage = null;
         }
-
-
-
-
 
         public static void Island(int seed, GenerationProgress customProgressObject = null)
         {

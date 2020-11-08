@@ -149,7 +149,7 @@ namespace EEMod
 
         public static Color BuffEffects(Entity codable, Color lightColor, float shadow = 0f, bool effects = true, bool poisoned = false, bool onFire = false, bool onFire2 = false, bool hunter = false, bool noItems = false, bool blind = false, bool bleed = false, bool venom = false, bool midas = false, bool ichor = false, bool onFrostBurn = false, bool burned = false, bool honey = false, bool dripping = false, bool drippingSlime = false, bool loveStruck = false, bool stinky = false)
         {
-            float cr = 1f; float cg = 1f; float cb = 1f; float ca = 1f;
+            float cr = 1f, cg = 1f, cb = 1f, ca = 1f;
             if (effects && honey && Main.rand.NextBool(30))
             {
                 int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 152, 0f, 0f, 150, default, 1f);
@@ -201,7 +201,14 @@ namespace EEMod
             }
             if (ichor)
             {
-                if (codable is NPC) { lightColor = new Color(255, 255, 0, 255); } else { cb = 0f; }
+                if (codable is NPC) 
+                { 
+                    lightColor = new Color(255, 255, 0, 255); 
+                } 
+                else 
+                { 
+                    cb = 0f;
+                }
             }
             if (burned)
             {
@@ -403,7 +410,7 @@ namespace EEMod
             }
             if (bleed)
             {
-                bool dead = codable is Player ? ((Player)codable).dead : codable is NPC && ((NPC)codable).life <= 0;
+                bool dead = codable is Player player ? player.dead : codable is NPC nPC && nPC.life <= 0;
                 if (effects && !dead && Main.rand.NextBool(30))
                 {
                     int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 5, 0f, 0f, 0, default, 1f);

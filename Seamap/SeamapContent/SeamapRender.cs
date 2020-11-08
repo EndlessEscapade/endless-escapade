@@ -47,7 +47,7 @@ namespace EEMod.SeamapAssets
 
             Lighting.AddLight(Main.screenPosition + position, .1f, .1f, .1f);
 
-            if (Main.netMode == NetmodeID.SinglePlayer || ((Main.netMode == NetmodeID.MultiplayerClient || Main.netMode == NetmodeID.Server) && player.team == 0))
+            if (Main.netMode == NetmodeID.SinglePlayer || (player.team == 0))
             {
                 if (eePlayer.boatSpeed == 3)
                 {
@@ -122,7 +122,7 @@ namespace EEMod.SeamapAssets
             }
             //float quotient = ShipHelth / ShipHelthMax; // unused
             Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8);
-            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), rect, Color.White, 0, rect.Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
         }
         int pog;
         static int frame = 0;

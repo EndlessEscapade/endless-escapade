@@ -20,7 +20,7 @@ namespace EEMod
         public bool CanSpawn { get; set; }
         public int zoneTimer;
         int MAXDRAWDISTANCE => 2000;
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, int scale = 1, Color? colour = null,params IParticleModule[] CustomBaseZoneModule)
+        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, int scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
         {
             if ((position - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
             {
@@ -117,7 +117,7 @@ namespace EEMod
         public void SetSpawningModules(IParticleSpawner Module) { SpawningModules.Clear(); SpawningModules.Add(Module); }
         public void Update()
         {
-            for (int k = 0; k<particles.Length; k++)
+            for (int k = 0; k < particles.Length; k++)
             {
                 if (particles[k] != null)
                 {

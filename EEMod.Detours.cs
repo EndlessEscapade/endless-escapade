@@ -39,9 +39,349 @@ namespace EEMod
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
+            On.Terraria.Main.oldDrawWater += Main_oldDrawWater1;
 
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
+        }
+
+        private void Main_oldDrawWater1(On.Terraria.Main.orig_oldDrawWater orig, Main self, bool bg, int Style, float Alpha)
+        {
+            float num = 0f;
+            float num2 = 99999f;
+            float num3 = 99999f;
+            int num4 = -1;
+            int num5 = -1;
+            Vector2 zero = new Vector2((float)Main.offScreenRange, (float)Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+            //new Color[4];
+            int num6 = (int)(255f * (1f - Main.gfxQuality) + 40f * Main.gfxQuality);
+            float num7 = Main.gfxQuality;
+            float num8 = Main.gfxQuality;
+            int num9 = (int)((Main.screenPosition.X - zero.X) / 16f - 1f);
+            int num10 = (int)((Main.screenPosition.X + (float)Main.screenWidth + zero.X) / 16f) + 2;
+            int num11 = (int)((Main.screenPosition.Y - zero.Y) / 16f - 1f);
+            int num12 = (int)((Main.screenPosition.Y + (float)Main.screenHeight + zero.Y) / 16f) + 5;
+            if (num9 < 5)
+            {
+                num9 = 5;
+            }
+            if (num10 > Main.maxTilesX - 5)
+            {
+                num10 = Main.maxTilesX - 5;
+            }
+            if (num11 < 5)
+            {
+                num11 = 5;
+            }
+            if (num12 > Main.maxTilesY - 5)
+            {
+                num12 = Main.maxTilesY - 5;
+            }
+            for (int i = num11; i < num12 + 4; i++)
+            {
+                for (int j = num9 - 2; j < num10 + 2; j++)
+                {
+                    if (Main.tile[j, i] == null)
+                    {
+                        Main.tile[j, i] = new Tile();
+                    }
+                    if (Main.tile[j, i].liquid > 0 && (!Main.tile[j, i].nactive() || !Main.tileSolid[(int)Main.tile[j, i].type] || Main.tileSolidTop[(int)Main.tile[j, i].type]) && (Lighting.Brightness(j, i) > 0f || bg))
+                    {
+                        Color color = Lighting.GetColor(j, i);
+                        float num13 = (float)(256 - (int)Main.tile[j, i].liquid);
+                        num13 /= 32f;
+                        int num14 = 0;
+                        if (Main.tile[j, i].lava())
+                        {
+                            if (Main.drewLava)
+                            {
+                                goto IL_E7B;
+                            }
+                            float num15 = Math.Abs((float)(j * 16 + 8) - (Main.screenPosition.X + (float)(Main.screenWidth / 2)));
+                            float num16 = Math.Abs((float)(i * 16 + 8) - (Main.screenPosition.Y + (float)(Main.screenHeight / 2)));
+                            if (num15 < (float)(Main.screenWidth * 2) && num16 < (float)(Main.screenHeight * 2))
+                            {
+                                float num17 = (float)Math.Sqrt((double)(num15 * num15 + num16 * num16));
+                                float num18 = 1f - num17 / ((float)Main.screenWidth * 0.75f);
+                                if (num18 > 0f)
+                                {
+                                    num += num18;
+                                }
+                            }
+                            if (num15 < num2)
+                            {
+                                num2 = num15;
+                                num4 = j * 16 + 8;
+                            }
+                            if (num16 < num3)
+                            {
+                                num3 = num15;
+                                num5 = i * 16 + 8;
+                            }
+                            num14 = 1;
+                        }
+                        else if (Main.tile[j, i].honey())
+                        {
+                            num14 = 11;
+                        }
+                        if (num14 == 0)
+                        {
+                            num14 = Style;
+                        }
+                        if ((num14 != 1 && num14 != 11) || !Main.drewLava)
+                        {
+                            float num19 = 0.5f;
+                            if (bg)
+                            {
+                                num19 = 1f;
+                            }
+                            if (num14 != 1 && num14 != 11)
+                            {
+                                num19 *= Alpha;
+                            }
+                            Vector2 vector = new Vector2((float)(j * 16), (float)(i * 16 + (int)num13 * 2));
+                            Rectangle rectangle = new Rectangle(0, 0, 16, 16 - (int)num13 * 2);
+                            if (Main.tile[j, i + 1].liquid < 245 && (!Main.tile[j, i + 1].nactive() || !Main.tileSolid[(int)Main.tile[j, i + 1].type] || Main.tileSolidTop[(int)Main.tile[j, i + 1].type]))
+                            {
+                                float num20 = (float)(256 - (int)Main.tile[j, i + 1].liquid);
+                                num20 /= 32f;
+                                num19 = 0.5f * (8f - num13) / 4f;
+                                if ((double)num19 > 0.55)
+                                {
+                                    num19 = 0.55f;
+                                }
+                                if ((double)num19 < 0.35)
+                                {
+                                    num19 = 0.35f;
+                                }
+                                float num21 = num13 / 2f;
+                                if (Main.tile[j, i + 1].liquid < 200)
+                                {
+                                    if (bg)
+                                    {
+                                        goto IL_E7B;
+                                    }
+                                    if (Main.tile[j, i - 1].liquid > 0 && Main.tile[j, i - 1].liquid > 0)
+                                    {
+                                        rectangle = new Rectangle(0, 4, 16, 16);
+                                        num19 = 0.5f;
+                                    }
+                                    else if (Main.tile[j, i - 1].liquid > 0)
+                                    {
+                                        vector = new Vector2((float)(j * 16), (float)(i * 16 + 4));
+                                        rectangle = new Rectangle(0, 4, 16, 12);
+                                        num19 = 0.5f;
+                                    }
+                                    else if (Main.tile[j, i + 1].liquid <= 0)
+                                    {
+                                        vector = new Vector2((float)(j * 16 + (int)num21), (float)(i * 16 + (int)num21 * 2 + (int)num20 * 2));
+                                        rectangle = new Rectangle(0, 4, 16 - (int)num21 * 2, 16 - (int)num21 * 2);
+                                    }
+                                    else
+                                    {
+                                        vector = new Vector2((float)(j * 16), (float)(i * 16 + (int)num13 * 2 + (int)num20 * 2));
+                                        rectangle = new Rectangle(0, 4, 16, 16 - (int)num13 * 2);
+                                    }
+                                }
+                                else
+                                {
+                                    num19 = 0.5f;
+                                    rectangle = new Rectangle(0, 4, 16, 16 - (int)num13 * 2 + (int)num20 * 2);
+                                }
+                            }
+                            else if (Main.tile[j, i - 1].liquid > 32)
+                            {
+                                rectangle = new Rectangle(0, 4, rectangle.Width, rectangle.Height);
+                            }
+                            else if (num13 < 1f && Main.tile[j, i - 1].nactive() && Main.tileSolid[(int)Main.tile[j, i - 1].type] && !Main.tileSolidTop[(int)Main.tile[j, i - 1].type])
+                            {
+                                vector = new Vector2((float)(j * 16), (float)(i * 16));
+                                rectangle = new Rectangle(0, 4, 16, 16);
+                            }
+                            else
+                            {
+                                bool flag = true;
+                                int num22 = i + 1;
+                                while (num22 < i + 6 && (!Main.tile[j, num22].nactive() || !Main.tileSolid[(int)Main.tile[j, num22].type] || Main.tileSolidTop[(int)Main.tile[j, num22].type]))
+                                {
+                                    if (Main.tile[j, num22].liquid < 200)
+                                    {
+                                        flag = false;
+                                        break;
+                                    }
+                                    num22++;
+                                }
+                                if (!flag)
+                                {
+                                    num19 = 0.5f;
+                                    rectangle = new Rectangle(0, 4, 16, 16);
+                                }
+                                else if (Main.tile[j, i - 1].liquid > 0)
+                                {
+                                    rectangle = new Rectangle(0, 2, rectangle.Width, rectangle.Height);
+                                }
+                            }
+                            if ((color.R > 20 || color.B > 20 || color.G > 20) && rectangle.Y < 4)
+                            {
+                                int num23 = (int)color.R;
+                                if ((int)color.G > num23)
+                                {
+                                    num23 = (int)color.G;
+                                }
+                                if ((int)color.B > num23)
+                                {
+                                    num23 = (int)color.B;
+                                }
+                                num23 /= 30;
+                                if (Main.rand.Next(20000) < num23)
+                                {
+                                    Color newColor = new Color(255, 255, 255);
+                                    if (Main.tile[j, i].honey())
+                                    {
+                                        newColor = new Color(255, 255, 50);
+                                    }
+                                    int num24 = Dust.NewDust(new Vector2((float)(j * 16), vector.Y - 2f), 16, 8, 43, 0f, 0f, 254, newColor, 0.75f);
+                                    Main.dust[num24].velocity *= 0f;
+                                }
+                            }
+                            if (Main.tile[j, i].honey())
+                            {
+                                num19 *= 1.6f;
+                                if (num19 > 1f)
+                                {
+                                    num19 = 1f;
+                                }
+                            }
+                            if (Main.tile[j, i].lava())
+                            {
+                                num19 *= 1.8f;
+                                if (num19 > 1f)
+                                {
+                                    num19 = 1f;
+                                }
+                                if (self.IsActive && !Main.gamePaused && Dust.lavaBubbles < 200)
+                                {
+                                    if (Main.tile[j, i].liquid > 200 && Main.rand.Next(700) == 0)
+                                    {
+                                        Dust.NewDust(new Vector2((float)(j * 16), (float)(i * 16)), 16, 16, 35, 0f, 0f, 0, default(Color), 1f);
+                                    }
+                                    if (rectangle.Y == 0 && Main.rand.Next(350) == 0)
+                                    {
+                                        int num25 = Dust.NewDust(new Vector2((float)(j * 16), (float)(i * 16) + num13 * 2f - 8f), 16, 8, 35, 0f, 0f, 50, default(Color), 1.5f);
+                                        Main.dust[num25].velocity *= 0.8f;
+                                        Dust dust = Main.dust[num25];
+                                        dust.velocity.X = dust.velocity.X * 2f;
+                                        Dust dust2 = Main.dust[num25];
+                                        dust2.velocity.Y = dust2.velocity.Y - (float)Main.rand.Next(1, 7) * 0.1f;
+                                        if (Main.rand.Next(10) == 0)
+                                        {
+                                            Dust dust3 = Main.dust[num25];
+                                            dust3.velocity.Y = dust3.velocity.Y * (float)Main.rand.Next(2, 5);
+                                        }
+                                        Main.dust[num25].noGravity = true;
+                                    }
+                                }
+                            }
+                            float num26 = (float)color.R * num19;
+                            float num27 = (float)color.G * num19;
+                            float num28 = (float)color.B * num19;
+                            float num29 = (float)color.A * num19;
+                            color = new Color((int)((byte)num26), (int)((byte)num27), (int)((byte)num28), (int)((byte)num29));
+                            if (Lighting.NotRetro && !bg)
+                            {
+                                Color color2 = color;
+                                if (num14 != 1 && ((double)color2.R > (double)num6 * 0.6 || (double)color2.G > (double)num6 * 0.65 || (double)color2.B > (double)num6 * 0.7))
+                                {
+                                    for (int k = 0; k < 4; k++)
+                                    {
+                                        int num30 = 0;
+                                        int num31 = 0;
+                                        int width = 8;
+                                        int height = 8;
+                                        Color color3 = color2;
+                                        Color color4 = Lighting.GetColor(j, i);
+                                        if (k == 0)
+                                        {
+                                            color4 = Lighting.GetColor(j - 1, i - 1);
+                                            if (rectangle.Height < 8)
+                                            {
+                                                height = rectangle.Height;
+                                            }
+                                        }
+                                        if (k == 1)
+                                        {
+                                            color4 = Lighting.GetColor(j + 1, i - 1);
+                                            num30 = 8;
+                                            if (rectangle.Height < 8)
+                                            {
+                                                height = rectangle.Height;
+                                            }
+                                        }
+                                        if (k == 2)
+                                        {
+                                            color4 = Lighting.GetColor(j - 1, i + 1);
+                                            num31 = 8;
+                                            height = 8 - (16 - rectangle.Height);
+                                        }
+                                        if (k == 3)
+                                        {
+                                            color4 = Lighting.GetColor(j + 1, i + 1);
+                                            num30 = 8;
+                                            num31 = 8;
+                                            height = 8 - (16 - rectangle.Height);
+                                        }
+                                        num26 = (float)color4.R * num19;
+                                        num27 = (float)color4.G * num19;
+                                        num28 = (float)color4.B * num19;
+                                        num29 = (float)color4.A * num19;
+                                        color4 = new Color((int)((byte)num26), (int)((byte)num27), (int)((byte)num28), (int)((byte)num29));
+                                        color3.R = (byte)((color2.R * 3 + color4.R * 2) / 5);
+                                        color3.G = (byte)((color2.G * 3 + color4.G * 2) / 5);
+                                        color3.B = (byte)((color2.B * 3 + color4.B * 2) / 5);
+                                        color3.A = (byte)((color2.A * 3 + color4.A * 2) / 5);
+                                        Main.spriteBatch.Draw(Main.liquidTexture[num14], vector - Main.screenPosition + new Vector2((float)num30, (float)num31) + zero, new Rectangle?(new Rectangle(rectangle.X + num30, rectangle.Y + num31, width, height)), color3, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                                    }
+                                }
+                                else
+                                {
+                                    Main.spriteBatch.Draw(Main.liquidTexture[num14], vector - Main.screenPosition + zero, new Rectangle?(rectangle), color, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                                }
+                            }
+                            else
+                            {
+                                if (rectangle.Y < 4)
+                                {
+                                    rectangle.X += (int)(Main.wFrame * 18f);
+                                }
+                                Main.spriteBatch.Draw(Main.liquidTexture[num14], vector - Main.screenPosition + zero, new Rectangle?(rectangle), color, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                            }
+                            if (Main.tile[j, i + 1].halfBrick())
+                            {
+                                color = Lighting.GetColor(j, i + 1);
+                                num26 = (float)color.R * num19;
+                                num27 = (float)color.G * num19;
+                                num28 = (float)color.B * num19;
+                                num29 = (float)color.A * num19;
+                                color = new Color((int)((byte)num26), (int)((byte)num27), (int)((byte)num28), (int)((byte)num29));
+                                vector = new Vector2((float)(j * 16), (float)(i * 16 + 16));
+                                Main.spriteBatch.Draw(Main.liquidTexture[num14], vector - Main.screenPosition + zero, new Rectangle?(new Rectangle(0, 4, 16, 8)), color, 0f, default(Vector2), 1f, SpriteEffects.None, 0f);
+                            }
+                        }
+                    }
+                IL_E7B:;
+                }
+            }
+            if (!Main.drewLava)
+            {
+                Main.ambientLavaX = (float)num4;
+                Main.ambientLavaY = (float)num5;
+                Main.ambientLavaStrength = num;
+            }
+            Main.drewLava = true;
         }
 
         private void UnloadDetours()
@@ -123,7 +463,7 @@ namespace EEMod
             orig(self, data, snapPointIndex);
 
             float num = 56f;
-            
+
             if (SocialAPI.Cloud != null)
             {
                 num += 24f;
@@ -163,12 +503,8 @@ namespace EEMod
             Texture2D tex = instance.GetTexture("Tiles/EmptyTileArrays/CoralCrystal");
             Rectangle mouseBox = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 3, 3);
             Rectangle crystalBox = new Rectangle((int)position.X, (int)position.Y, tex.Width, tex.Height);
-            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width, tex.Height), new Rectangle(0, 0, tex.Width, tex.Height), Color.White,0f, Vector2.Zero, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width, tex.Height), new Rectangle(0, 0, tex.Width, tex.Height), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
         }
-
-
-
-
 
         public void DrawKelpTarzanVines()
         {
@@ -217,7 +553,7 @@ namespace EEMod
                     }
 
                 }
-                Lighting.AddLight(vec, new Vector3(235, 166, 0)/255);
+                Lighting.AddLight(vec, new Vector3(235, 166, 0) / 255);
             }
 
             #region Spawning particles
@@ -358,8 +694,8 @@ namespace EEMod
             }
             for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
             {
-              //  if ((EESubWorlds.CoralCrystalPosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
-                    //HandleCrystalDraw(EESubWorlds.CoralCrystalPosition[i] * 16);
+                //  if ((EESubWorlds.CoralCrystalPosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
+                //HandleCrystalDraw(EESubWorlds.CoralCrystalPosition[i] * 16);
             }
             if (Main.worldName == KeyID.CoralReefs)
             {
@@ -382,13 +718,13 @@ namespace EEMod
             {
                 if (Main.projectile[i].active)
                 {
-                    if (Main.projectile[i].type == ModContent.ProjectileType<Gradient>())
+                    if (Main.projectile[i].modProjectile is Gradient a)
                     {
-                        (Main.projectile[i].modProjectile as Gradient).pixelPlacmentHours();
+                        a.pixelPlacmentHours();
                     }
-                    if (Main.projectile[i].type == ModContent.ProjectileType<CyanoburstTomeKelp>())
+                    if (Main.projectile[i].modProjectile is CyanoburstTomeKelp aa)
                     {
-                        (Main.projectile[i].modProjectile as CyanoburstTomeKelp).DrawBehind();
+                        aa.DrawBehind();
                     }
                 }
             }
@@ -460,9 +796,9 @@ namespace EEMod
             if (isSaving && Main.gameMenu)
             {
                 alpha += 0.01f;
-                if(lerp != 1)
-                lerp += (1 - lerp) / 16f;
-                if(lerp > 0.99f)
+                if (lerp != 1)
+                    lerp += (1 - lerp) / 16f;
+                if (lerp > 0.99f)
                 {
                     lerp = 1;
                 }

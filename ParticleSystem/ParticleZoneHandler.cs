@@ -9,7 +9,7 @@ namespace EEMod
 {
     public class ParticleZoneHandler
     {
-        private readonly Dictionary<string,ParticleZone> particleZones = new Dictionary<string,ParticleZone>();
+        private readonly Dictionary<string, ParticleZone> particleZones = new Dictionary<string, ParticleZone>();
 
         public void AddZone(string NameOfZone, int MaxNumberOfParticlesInZone)
         {

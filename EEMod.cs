@@ -54,14 +54,39 @@ namespace EEMod
         public static int _lastSeed;
         public static ParticleZoneHandler Particles;
         //public Handwriting HandwritingCNN;
-        internal delegate void UIUpdateDelegate(GameTime gameTime);
-        internal delegate void UIModifyLayersDelegate(List<GameInterfaceLayer> layers, int mouseTextIndex, GameTime lastUpdateUIGameTime);
-        internal static event UIUpdateDelegate OnUpdateUI;
-        internal static event UIModifyLayersDelegate OnModifyInterfaceLayers;
 
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
-            typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
+            switch (key)
+            {
+                case nameof(EESubWorlds.CoralReefs): 
+                    EESubWorlds.CoralReefs(seed, customProgressObject); 
+                    break;
+                case nameof(EESubWorlds.Cutscene1): 
+                    EESubWorlds.Cutscene1(seed, customProgressObject); 
+                    break;
+                case nameof(EESubWorlds.Island):  
+                    EESubWorlds.Island(seed, customProgressObject); 
+                    break;
+                case nameof(EESubWorlds.Island2): 
+                    EESubWorlds.Island2(seed, customProgressObject); 
+                    break;
+                case nameof(EESubWorlds.Pyramids): 
+                    EESubWorlds.Pyramids(seed, customProgressObject); 
+                    break;
+                case nameof(EESubWorlds.Sea): 
+                    EESubWorlds.Sea(seed, customProgressObject); 
+                    break;
+                case nameof(EESubWorlds.VolcanoInside): 
+                    EESubWorlds.VolcanoInside(seed, customProgressObject); 
+                    break;
+                case nameof(EESubWorlds.VolcanoIsland): 
+                    EESubWorlds.VolcanoIsland(seed, customProgressObject); 
+                    break;
+                default:
+                typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
+                    break;
+            }
         }
 
         public static Effect NoiseSurfacing;
@@ -338,7 +363,6 @@ namespace EEMod
         {
             sineInt += 0.003f;
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
-            OnModifyInterfaceLayers?.Invoke(layers, mouseTextIndex, lastGameTime);
             if (mouseTextIndex != -1)
             {
                 LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface",
@@ -556,21 +580,22 @@ namespace EEMod
                 color = Color.GreenYellow * alpha;
             }
             Texture2D Outline = EEMod.instance.GetTexture("UI/Outline");
-            Texture2D Screen = EEMod.instance.GetTexture("Seamap/SeamapAssets/OceanScreen");
+            Texture2D OceanScreen = EEMod.instance.GetTexture("Seamap/SeamapAssets/OceanScreen");
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
             float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
+            Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
             if (Main.worldName == KeyID.Sea)
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Seamap/SeamapAssets/OceanScreen"), (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
             if (Main.worldName == KeyID.Sea)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Seamap/SeamapAssets/OceanScreen"), (Main.screenPosition + new Vector2(Main.screenWidth / 2, 100)).ForDraw(), new Rectangle(0, 0, Screen.Width, Screen.Height), Color.White * alpha, 0, new Rectangle(0, 0, Screen.Width, Screen.Height).Size() / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
             }
             else
             {
                 Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(Outline, new Vector2(textPositionLeft - 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, new Rectangle(0, 0, Outline.Width, Outline.Height).Size() / 2, 1, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(Outline, new Vector2(textPositionRight + 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, new Rectangle(0, 0, Outline.Width, Outline.Height).Size() / 2, 1, SpriteEffects.FlipHorizontally, 0);
+                Main.spriteBatch.Draw(Outline, new Vector2(textPositionLeft - 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(Outline, new Vector2(textPositionRight + 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.FlipHorizontally, 0);
             }
         }
 

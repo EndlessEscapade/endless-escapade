@@ -23,8 +23,8 @@ namespace EEMod
         public List<Vector2> PositionCache = new List<Vector2>();
         public void UpdatePositionCache()
         {
-            PositionCache.Insert(0,position);
-            if(PositionCache.Count > TrailLength)
+            PositionCache.Insert(0, position);
+            if (PositionCache.Count > TrailLength)
             {
                 PositionCache.RemoveAt(PositionCache.Count - 1);
             }
@@ -38,7 +38,7 @@ namespace EEMod
         {
 
         }
-        public Particle(Vector2 position, int timeLeft,Texture2D texture, Vector2? velocity = null,int scale = 1,Color? colour = null, params IParticleModule[] StartingModule)
+        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2? velocity = null, int scale = 1, Color? colour = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
             this.position = position;
@@ -49,7 +49,7 @@ namespace EEMod
             alpha = 1;
             this.colour = colour ?? Color.White;
             TrailLength = 18;
-            SetModules(StartingModule.ToArray() ?? new IParticleModule[0]); 
+            SetModules(StartingModule.ToArray() ?? new IParticleModule[0]);
         }
 
         public void AddModule(IParticleModule Module) => Modules.Add(Module);
@@ -61,7 +61,7 @@ namespace EEMod
             OnUpdate();
             UpdatePositionCache();
             if (timeLeft > 1)
-            timeLeft--;
+                timeLeft--;
             if (timeLeft == 1)
             {
                 varScale *= 0.99f;
@@ -74,7 +74,7 @@ namespace EEMod
             {
                 varScale += (scale - varScale) / 14f;
             }
-            if(timeLeft == 0)
+            if (timeLeft == 0)
             {
                 active = false;
             }
@@ -92,7 +92,7 @@ namespace EEMod
                 Module.Draw(this);
             }
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, positionDraw,new Rectangle(0, 0,1, 1), colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size()/2, varScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, positionDraw, new Rectangle(0, 0, 1, 1), colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
             OnDraw();
         }
     }
@@ -139,8 +139,8 @@ namespace EEMod
         }
         public void Update(in Particle particle)
         {
-            particle.velocity.X += Main.rand.NextFloat(-1,1)*intensity;
-            particle.velocity.Y += Main.rand.NextFloat(-1,1)*intensity;
+            particle.velocity.X += Main.rand.NextFloat(-1, 1) * intensity;
+            particle.velocity.Y += Main.rand.NextFloat(-1, 1) * intensity;
         }
         public void Draw(in Particle particle) {; }
     }
@@ -174,10 +174,10 @@ namespace EEMod
         }
         public void Draw(in Particle particle)
         {
-            for(int i = 0; i<particle.PositionCache.Count; i++)
+            for (int i = 0; i < particle.PositionCache.Count; i++)
             {
-                float globalFallOff = 1 - (i/(float)(particle.PositionCache.Count - 1))*alphaFallOff;
-                Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw(), new Rectangle(0, 0, 1, 1), particle.colour* particle.alpha* globalFallOff, particle.rotation, new Rectangle(0, 0, 1, 1).Size() / 2, particle.varScale* globalFallOff, SpriteEffects.None,0f);
+                float globalFallOff = 1 - (i / (float)(particle.PositionCache.Count - 1)) * alphaFallOff;
+                Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw(), new Rectangle(0, 0, 1, 1), particle.colour * particle.alpha * globalFallOff, particle.rotation, new Rectangle(0, 0, 1, 1).Size() / 2, particle.varScale * globalFallOff, SpriteEffects.None, 0f);
             }
         }
         public void Update(in Particle particle) {; }
@@ -203,7 +203,7 @@ namespace EEMod
                 initial = true;
                 float randVel = 1 + Main.rand.NextFloat(-randomSpeed / 2, randomSpeed / 2);
                 float randAngle = Main.rand.NextFloat(-randomAngle / 2, randomAngle / 2);
-                particle.velocity = new Vector2(initialSpeed.X, initialSpeed.Y).RotatedBy(randAngle)*randVel;
+                particle.velocity = new Vector2(initialSpeed.X, initialSpeed.Y).RotatedBy(randAngle) * randVel;
             }
             particle.velocity *= airResistance;
         }
@@ -244,7 +244,7 @@ namespace EEMod
         float timer;
         Entity orbitPoint;
         float rotation;
-        public CircularMotion(float width, float height, float speed, Entity orbitPoint,float rotation = 0f)
+        public CircularMotion(float width, float height, float speed, Entity orbitPoint, float rotation = 0f)
         {
             this.width = width;
             this.height = height;
@@ -272,7 +272,7 @@ namespace EEMod
         float intensity;
         float period;
         bool disapearFromBack;
-        public CircularMotionSin(float width, float height, float speed, Entity orbitPoint, float rotation = 0f,float intensity = 0f, float period = 0f,bool disapearFromBack = false)
+        public CircularMotionSin(float width, float height, float speed, Entity orbitPoint, float rotation = 0f, float intensity = 0f, float period = 0f, bool disapearFromBack = false)
         {
             this.width = width;
             this.height = height;
@@ -284,17 +284,17 @@ namespace EEMod
         }
         public void Update(in Particle particle)
         {
-            timer += speed * (1 + (float)Math.Sin(timer*period) * intensity);
+            timer += speed * (1 + (float)Math.Sin(timer * period) * intensity);
             Vector2 rotVec = new Vector2((float)Math.Sin(timer) * width, (float)Math.Cos(timer) * height).RotatedBy(rotation);
             particle.position.X = orbitPoint.Center.X + rotVec.X;
             particle.position.Y = orbitPoint.Center.Y + rotVec.Y;
-            if(disapearFromBack)
+            if (disapearFromBack)
             {
-               if(timer % (float)Math.PI*4 < (float)Math.PI)
+                if (timer % (float)Math.PI * 4 < (float)Math.PI)
                 {
                     particle.alpha = 0f;
                 }
-               else
+                else
                 {
                     particle.alpha = 1f;
                 }
@@ -325,7 +325,7 @@ namespace EEMod
     }
     class BaseModule : IParticleModule
     {
-        public void Update(in Particle particle) { ; }
+        public void Update(in Particle particle) {; }
         public void Draw(in Particle particle) {; }
     }
     public interface IParticleModule
