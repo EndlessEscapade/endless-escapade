@@ -17,9 +17,9 @@ namespace EEMod.Items.Weapons.Melee
         public override void SetDefaults()
         {
             item.damage = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 40;
-            item.useTime = 120;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useTime = 320;
+            item.useAnimation = 320;
             item.shootSpeed = 0f;
             item.knockBack = 6.5f;
             item.width = 54;
@@ -31,8 +31,8 @@ namespace EEMod.Items.Weapons.Melee
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.autoReuse = true;
-
+            item.autoReuse = false;
+            item.channel = true;
             item.UseSound = SoundID.Item1;
             item.shoot = ModContent.ProjectileType<LythenWarhammerProjectile>();
         }
