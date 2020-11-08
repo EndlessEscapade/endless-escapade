@@ -19,11 +19,11 @@ namespace EEMod.Items.Weapons.Melee
             item.damage = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.useAnimation = 40;
-            item.useTime = 40;
-            item.shootSpeed = 12f;
+            item.useTime = 120;
+            item.shootSpeed = 0f;
             item.knockBack = 6.5f;
-            item.width = 32;
-            item.height = 32;
+            item.width = 54;
+            item.height = 60;
             item.scale = 1f;
             item.rare = ItemRarityID.Purple;
             item.value = Item.sellPrice(silver: 10);
@@ -34,7 +34,7 @@ namespace EEMod.Items.Weapons.Melee
             item.autoReuse = true;
 
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<LythenWarhammerProj>();
+            item.shoot = ModContent.ProjectileType<LythenWarhammerProjectile>();
         }
 
         public override void AddRecipes()
@@ -46,15 +46,16 @@ namespace EEMod.Items.Weapons.Melee
             recipe.AddRecipe();
         }
 
-        /*public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        public override bool CanUseItem(Player player)
         {
-            int proj = Projectile.NewProjectile( stuff );
-            YourProjectile mp = Main.projectile[proj].modProjectile as YourProjectile;
-            mp.MidPoint = midpoint;  //'midpoint' is the calculated midpoint
-            mp.Radius = radius;      //'radius' is just half the distance to the mouse
-            mp.RotateClockwise = clockwise;  //'clockwise' is self-explanatory
-            mp.InitialDirection = player.DirectionFrom(midpoint);  //used to make the rotation look good
-            return false;
-        }*/
+            if(player.ownedProjectileCounts[ModContent.ProjectileType<LythenWarhammerProjectile>()] >= 1)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 }

@@ -302,6 +302,27 @@ namespace EEMod
         }
         public void Draw(in Particle particle) {; }
     }
+    class ZigzagMotion : IParticleModule
+    {
+        float interval;
+        float maxDistance;
+        int timer;
+        public ZigzagMotion(float interval, float maxDistance)
+        {
+            this.interval = interval;
+            this.maxDistance = maxDistance;
+        }
+        public void Update(in Particle particle)
+        {
+            timer++;
+            if (timer > interval)
+            {
+                particle.velocity = particle.velocity.RotatedBy(Main.rand.NextFloat(-maxDistance, maxDistance));
+                timer = 0;
+            }
+        }
+        public void Draw(in Particle particle) {; }
+    }
     class BaseModule : IParticleModule
     {
         public void Update(in Particle particle) { ; }

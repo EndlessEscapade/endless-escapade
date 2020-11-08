@@ -488,7 +488,10 @@ namespace EEMod
             float per = 1f / ((float)colors.Length - 1);
             float total = per;
             int currentID = 0;
-            while ((percent / total) > 1f && (currentID < colors.Length - 2)) { total += per; currentID++; }
+            while ((percent / total) > 1f && (currentID < colors.Length - 2))
+            {
+                total += per; currentID++;
+            }
             return Color.Lerp(colors[currentID], colors[currentID + 1], (percent - (per * currentID)) / per);
         }
 

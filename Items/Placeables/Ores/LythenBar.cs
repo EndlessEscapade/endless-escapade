@@ -3,6 +3,8 @@ using EEMod.Tiles.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace EEMod.Items.Placeables.Ores
 {
@@ -12,24 +14,16 @@ namespace EEMod.Items.Placeables.Ores
         {
             DisplayName.SetDefault("Lythen Bar");
             ItemID.Sets.SortingPriorityMaterials[item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 7));
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.maxStack = 99;
+            item.width = 36;
+            item.height = 40;
+            item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 18, 0);
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
             item.rare = ItemRarityID.Green;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
-            item.material = true;
-            item.placeStyle = 0;
-            item.createTile = ModContent.TileType<LythenBarTile>();
         }
 
         public override void AddRecipes()
@@ -40,6 +34,11 @@ namespace EEMod.Items.Placeables.Ores
             recipe.AddTile(TileID.Furnaces);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+
+        public override void PostUpdate()
+        {
+            
         }
     }
 }

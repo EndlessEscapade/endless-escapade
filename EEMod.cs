@@ -285,17 +285,18 @@ namespace EEMod
                 White = GetEffect("Effects/WhiteOutline");
 
 
-                Ref<Effect> dyeRef = new Ref<Effect>(GetEffect("Effects/HydrosDye"));
+                Ref<Effect> hydrosDye = new Ref<Effect>(GetEffect("Effects/HydrosDye"));
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
+                Ref<Effect> aquamarineDye  = new Ref<Effect>(GetEffect("Effects/AquamarineDye"));
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
 
-                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(dyeRef, "HydrosDyeShader"));
-
-            /*
-      SpeedrunnTimer = new UserInterface();
-      //RunUI.Activate();
-      RunUI = new RunninUI();
-      SpeedrunnTimer.SetState(RunUI);
-            */
-        }
+                /*
+          SpeedrunnTimer = new UserInterface();
+          //RunUI.Activate();
+          RunUI = new RunninUI();
+          SpeedrunnTimer.SetState(RunUI);
+                */
+            }
             LoadUI();
             LoadIL();
             LoadDetours();
