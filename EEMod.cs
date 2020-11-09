@@ -375,7 +375,7 @@ namespace EEMod
                         TestParticleSystem();
                         //UpdateNet();
                         UpdateGame(lastGameTime);
-                        UpdateSpiderPort();
+                        //UpdateSpiderPort();
                         //   UpdateJellyfishTesting();
                         UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)

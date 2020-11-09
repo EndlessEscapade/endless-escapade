@@ -406,7 +406,7 @@ namespace EEMod
         }
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
         {
-            DrawSpiderPort();
+            //DrawSpiderPort();
             orig(self);
         }
         private void Main_DrawGoreBehind(On.Terraria.Main.orig_DrawGoreBehind orig, Main self)
