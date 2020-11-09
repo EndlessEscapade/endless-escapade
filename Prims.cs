@@ -12,6 +12,7 @@ using EEMod.Projectiles.Mage;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 using EEMod.Projectiles.Ranged;
+using EEMod.Projectiles.Melee;
 using EEMod.NPCs.CoralReefs;
 
 namespace EEMod
@@ -100,7 +101,8 @@ namespace EEMod
                     {
                         if (_trails[i]._projectile.type != ProjectileType<DalantiniumFan>() &&
                             _trails[i]._projectile.type != ProjectileType<DalantiniumFanAlt>() &&
-                            _trails[i]._projectile.type != ProjectileType<DalantiniumSpike>())
+                            _trails[i]._projectile.type != ProjectileType<DalantiniumSpike>() &&
+                             _trails[i]._projectile.type != ProjectileType<AxeLightning>())
                         {
                             _trails.RemoveAt(i);
                         }
@@ -109,6 +111,10 @@ namespace EEMod
                             _trails.RemoveAt(i);
                         }
                         if (_trails[i].lerper > 20 && _trails[i]._projectile.type == ProjectileType<DalantiniumSpike>())
+                        {
+                            _trails.RemoveAt(i);
+                        }
+                        if (_trails[i].lerper > 30 && _trails[i]._projectile.type == ProjectileType<AxeLightning>())
                         {
                             _trails.RemoveAt(i);
                         }
@@ -341,6 +347,21 @@ namespace EEMod
                     }
                 }
             }
+            void AxeLightningPrimUpdates()
+            {
+                if (_projectile.type == ProjectileType<AxeLightning>())
+                {
+                    Cap = 50;
+                    AxeLightning DF = (_projectile.modProjectile as AxeLightning);
+                    lerper++;
+                    _points.Add(_projectile.Center);
+                    active = true;
+                    if (_points.Count > Cap)
+                    {
+                        _points.RemoveAt(0);
+                    }
+                }
+            }
             void DalantiniumSpikePrimUpdates()
             {
                 if (_projectile.type == ProjectileType<DalantiniumSpike>())
@@ -381,6 +402,7 @@ namespace EEMod
                 UpdateMethods.Add(DalantiniumPrimUpdates);
                 UpdateMethods.Add(DalantiniumAltPrimUpdates);
                 UpdateMethods.Add(DalantiniumSpikePrimUpdates);
+                UpdateMethods.Add(AxeLightningPrimUpdates);
                 this.npc = npc;
             }
             public void Update()
@@ -699,6 +721,60 @@ namespace EEMod
                     PrepareBasicShader();
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
+                DrawPrimDelegate AxeLightningPrims = (int noOfPoints) =>
+                {
+                    vertices = new VertexPositionColorTexture[noOfPoints];
+                    float width = 8;
+                    float alphaValue = 0.7f;
+                    float colorSin = (float)Math.Sin(_projectile.timeLeft / 10);
+                    for (int i = 0; i < _points.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            width = (float)Math.Sqrt(_points.Count);
+                            Color c = Color.Lerp(Color.White, Color.Cyan, colorSin);
+                            Vector2 normalAhead = CurveNormal(_points, i + 1);
+                            Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                            Vector2 secondDown = _points[i + 1] + normalAhead * width;
+                            AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                        }
+                        else
+                        {
+                            if (i != _points.Count - 1)
+                            {
+                                width = (float)Math.Sqrt(_points.Count - i);
+                                Color base1 = new Color(7, 86, 122);
+                                Color base2 = new Color(255, 244, 173);
+                                Color c = Color.Lerp(Color.White, Color.Cyan, colorSin);
+                                Vector2 normal = CurveNormal(_points, i);
+                                Vector2 normalAhead = CurveNormal(_points, i + 1);
+                                float j = (Cap + ((float)(Math.Sin(lerper / 10f)) * 1) - i * 0.1f) / Cap;
+                                width *= j;
+                                Vector2 firstUp = _points[i] - normal * width;
+                                Vector2 firstDown = _points[i] + normal * width;
+                                Vector2 secondUp = _points[i + 1] - normalAhead * width;
+                                Vector2 secondDown = _points[i + 1] + normalAhead * width;
+
+                                AddVertex(firstUp, c * alphaValue, new Vector2(1));
+                                AddVertex(secondDown, c * alphaValue, new Vector2(0));
+                                AddVertex(firstDown, c * alphaValue, new Vector2(0));
+
+
+                                AddVertex(secondUp, c * alphaValue, new Vector2(1));
+                                AddVertex(secondDown, c * alphaValue, new Vector2(0));
+                                AddVertex(firstUp, c * alphaValue, new Vector2(0));
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+                    PrepareBasicShader();
+                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                };
                 if (_projectile != null)
                 {
                     if (_projectile.type == ProjectileType<LythenStaffProjectile>())
@@ -712,6 +788,10 @@ namespace EEMod
                     if (_projectile.type == ProjectileType<DalantiniumFanAlt>())
                     {
                         DalantiniumAltPrims.Invoke((int)Cap * 6 - 9);
+                    }
+                    if (_projectile.type == ProjectileType<AxeLightning>())
+                    {
+                        AxeLightningPrims.Invoke((int)Cap * 6 - 9);
                     }
 
                 }

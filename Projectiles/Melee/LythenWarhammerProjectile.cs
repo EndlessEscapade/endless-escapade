@@ -83,6 +83,11 @@ namespace EEMod.Projectiles.Melee
                         Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
                     }
                 }
+                else
+                {
+                     EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.1f));
+                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
+                }
                 Vector2 direction = Main.MouseWorld - player.position;
                 direction.Normalize();
                 double throwingAngle = direction.ToRotation() + 3.14;
@@ -189,18 +194,19 @@ namespace EEMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.ai[1] == 1)
+            if (projectile.ai[1] == 1 && projectile.ai[0] >= chargeTime)
             { 
-                DoTheThing();
+                DoTheThing(projectile.position);
             }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            DoTheThing();
+            if (projectile.ai[0] >= chargeTime)
+                DoTheThing(projectile.position + (projectile.velocity * 2));
             return false;
         }
 
-        private void DoTheThing()
+        private void DoTheThing(Vector2 pos)
         {
             Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 8f, true, false, 8);
             projectile.timeLeft = 200;
@@ -208,7 +214,11 @@ namespace EEMod.Projectiles.Melee
             {
                 for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
                 {
-                    Projectile.NewProjectile(projectile.position + (projectile.velocity * 2), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                     int lightningproj = Projectile.NewProjectile(pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                     if (Main.netMode != NetmodeID.Server)
+                        {
+                            EEMod.prims.CreateTrail(Main.projectile[lightningproj]);
+                        }
                 }
                 projectile.ai[1] = 2;
             }
