@@ -51,11 +51,11 @@ namespace EEMod.Projectiles.Melee
                 projectile.scale = MathHelper.Clamp(projectile.ai[0] / 10, 0, 1);
                 if (player.direction == 1)
                 {
-                    radians += (double)((projectile.ai[0] + 10) / 300);
+                    radians += (double)((projectile.ai[0] + 10) / 200);
                 }
                 else
                 {
-                    radians -= (double)((projectile.ai[0] + 10) / 300);
+                    radians -= (double)((projectile.ai[0] + 10) / 200);
                 }
                 if (radians > 6.28)
                 {
@@ -65,7 +65,7 @@ namespace EEMod.Projectiles.Melee
                 {
                     radians += 6.28;
                 }
-                player.itemAnimation -= (int)((projectile.ai[0] + 50) / 10);
+                player.itemAnimation -= (int)((projectile.ai[0] + 50) / 6);
 
                 while (player.itemAnimation < 3)
                 {
@@ -100,12 +100,15 @@ namespace EEMod.Projectiles.Melee
                     projectile.timeLeft = 500;
                     projectile.position = player.position;
 
-                    direction *= 20;
+                    direction *= 30;
                     projectile.velocity = direction;
                 }
                 projectile.position.Y = player.Center.Y - (int)(Math.Sin(radians * 0.96) * 40) - (projectile.height / 2);
                 projectile.position.X = player.Center.X - (int)(Math.Cos(radians * 0.96) * 40) - (projectile.width / 2);
             }
+
+
+
             else if (projectile.ai[1] == 1)
             {
                 if (projectile.ai[0] < chargeTime)
@@ -134,7 +137,7 @@ namespace EEMod.Projectiles.Melee
                     projectile.active = false;
                 }
                 direction.Normalize();
-                direction *= 15;
+                direction *= 20;
                 projectile.velocity = direction;
                 if (projectile.timeLeft == 170)
                 {
@@ -174,7 +177,7 @@ namespace EEMod.Projectiles.Melee
         {
             if (projectile.ai[0] >= chargeTime)
             {
-                float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+                float sineAdd = (float)Math.Sin(alphaCounter) + 2.5f;
                 Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
             }
             if (projectile.ai[1] != 0)
@@ -182,32 +185,31 @@ namespace EEMod.Projectiles.Melee
                 Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/LythenWarhammerProjectileGlow"), new Rectangle((int)(projectile.Center.X - Main.screenPosition.X), (int)(projectile.Center.Y - Main.screenPosition.Y), 54, 60), Main.projectileTexture[projectile.type].Bounds, Color.White, projectile.rotation, new Vector2(27, 30), SpriteEffects.None, 0);
             }
         }
+
+
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 8f, true, false, 8);
-            projectile.timeLeft = 200;
-            if (projectile.ai[1] == 1)
-            {
-                for (double i = 0; i < 6.28; i += 2.1)
-                {
-                    Projectile.NewProjectile(projectile.position + (projectile.velocity * 2), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
-                }
-                projectile.ai[1] = 2;
-            }
+            DoTheThing();
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
+            DoTheThing();
+            return false;
+        }
+
+        private void DoTheThing()
+        {
             Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 8f, true, false, 8);
             projectile.timeLeft = 200;
             if (projectile.ai[1] == 1)
             {
-                for (double i = 0; i < 6.28; i += 2.1)
+                for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
                 {
                     Projectile.NewProjectile(projectile.position + (projectile.velocity * 2), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
                 projectile.ai[1] = 2;
             }
-            return false;
+            Main.PlaySound(SoundID.Item70, projectile.Center);
         }
     }
 }
