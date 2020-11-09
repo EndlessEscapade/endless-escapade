@@ -38,7 +38,7 @@ namespace EEMod.Tiles
             TileObjectData.newTile.AnchorTop = isHanging ? new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 1, 1) : AnchorData.Empty;
             TileObjectData.newTile.AnchorBottom = isHanging ? AnchorData.Empty : new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             int[] coordHeights = new int[Height];
-            for(int i = 0; i< Height; i++)
+            for (int i = 0; i < Height; i++)
             {
                 coordHeights[i] = 16;
             }

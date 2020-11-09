@@ -142,21 +142,21 @@ namespace EEMod
         {
             if (player.wet)
             {
-                //player.fullRotation = player.velocity.ToRotation() + (float)Math.PI / 2f;
-                float drag = 2f;
-                float maxSpeed = 8f;
-                if (Math.Abs(player.velocity.X) < maxSpeed && (player.controlLeft || player.controlRight))
-                {
-                    if(player.controlLeft && player.velocity.X < 0)
-                    player.velocity.X += Helpers.Clamp(player.velocity.X/ drag, -1, 1);
-                    else if (player.controlRight && player.velocity.X > 0)
-                    player.velocity.X += Helpers.Clamp(player.velocity.X/ drag, -1, 1);
-                }
+                /*   //player.fullRotation = player.velocity.ToRotation() + (float)Math.PI / 2f;
+                   float drag = 2f;
+                   float maxSpeed = 8f;
+                   if (Math.Abs(player.velocity.X) < maxSpeed && (player.controlLeft || player.controlRight))
+                   {
+                       if(player.controlLeft && player.velocity.X < 0)
+                       player.velocity.X += Helpers.Clamp(player.velocity.X/ drag, -1, 1);
+                       else if (player.controlRight && player.velocity.X > 0)
+                       player.velocity.X += Helpers.Clamp(player.velocity.X/ drag, -1, 1);
+                   }*/
             }
 
 
         }
-
+        
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = Main.ActiveWorldFileData.Name == KeyID.CoralReefs;
@@ -610,7 +610,7 @@ namespace EEMod
         public float seamapLightColor;
         public override void UpdateBiomeVisuals()
         {
-            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2/3f) + brightness, 0.333f, 2f);
+            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2 / 3f) + brightness, 0.333f, 2f);
             int minibiome = 0;
             for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
             {

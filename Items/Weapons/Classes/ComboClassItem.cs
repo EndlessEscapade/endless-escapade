@@ -18,7 +18,7 @@ namespace EEMod.Projectiles
             ComboChangeBehaviour();
             Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), ComboProjectile, damage, knockBack, player.whoAmI);
             try
-            { 
+            {
                 (projectile.modProjectile as ComboWeapon).SetCombo(CurrentCombo);
             }
             catch

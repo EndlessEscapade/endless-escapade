@@ -39,8 +39,8 @@ namespace EEMod.Tiles.EmptyTileArrays
         }
         public void Activiate()
         {
-            if(CanActivate)
-            activeTime = activityTime;
+            if (CanActivate)
+                activeTime = activityTime;
         }
         public virtual void DuringActivation()
         {
@@ -76,7 +76,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         public virtual void Draw()
         {
             if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
-                Main.spriteBatch.Draw(texture, (position*16).ForDraw() + new Vector2(0, texture.Height),new Rectangle(0,0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f,SpriteEffects.None,0f);
+                Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(0, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
     }
     public static class EmptyTileEntityCache
@@ -86,13 +86,13 @@ namespace EEMod.Tiles.EmptyTileArrays
 
         public static void AddPair(EmptyTileDrawEntity ETE, Vector2 position, byte[,,] array)
         {
-            if(!EmptyTileEntityPairs.ContainsKey(position))
-            EmptyTileEntityPairs.Add(position, ETE);
+            if (!EmptyTileEntityPairs.ContainsKey(position))
+                EmptyTileEntityPairs.Add(position, ETE);
             for (int i = 0; i < array.GetLength(1); i++)
             {
                 for (int j = 0; j < array.GetLength(0); j++)
                 {
-                    if (array[j, i,0] == 1)
+                    if (array[j, i, 0] == 1)
                     {
                         if (!EmptyTilePairs.ContainsKey(position + new Vector2(i, j)))
                             EmptyTilePairs.Add(position + new Vector2(i, j), position);
@@ -117,10 +117,10 @@ namespace EEMod.Tiles.EmptyTileArrays
 
         public static void Update()
         {
-            foreach(EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values)
+            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values)
             {
-                if(ETE != null)
-                ETE.Update();
+                if (ETE != null)
+                    ETE.Update();
             }
         }
         public static void Draw()
@@ -156,7 +156,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)activityTime) * activeTime);
             colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime));
-            rotation = (shaderLerp-1)/20f;
+            rotation = (shaderLerp - 1) / 20f;
         }
         public override void DuringNonActivation()
         {
@@ -177,7 +177,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
             EEMod.ReflectionShader.Parameters["lightColour"].SetValue(colour.ToVector3());
             EEMod.ReflectionShader.Parameters["tentacle"].SetValue(glow);
-            EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(shaderLerp/3f);
+            EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(shaderLerp / 3f);
             EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
             if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
                 Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(0, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, new Vector2(0, texture.Height), 1f, SpriteEffects.None, 0f);
@@ -197,7 +197,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             this.position = position;
             tex = text;
-            speed = Main.rand.NextFloat(0.01f,0.02f);
+            speed = Main.rand.NextFloat(0.01f, 0.02f);
             glowPath = glow;
             origin = new Vector2(texture.Width, texture.Height);
         }

@@ -89,7 +89,7 @@ namespace EEMod.NPCs.CoralReefs
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
             {
                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.01f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300,2,null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80*(float)Math.Sin(npc.ai[0]), 0.03f, npc, - npc.ai[0], 2f, 0.2f, false), new AfterImageTrail(1f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 2, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, -npc.ai[0], 2f, 0.2f, false), new AfterImageTrail(1f));
                 EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 2, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.25f, 2f, 0.2f, false), new AfterImageTrail(1f)); ;
                 EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 2, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.5f, 2f, 0.2f, false), new AfterImageTrail(1f));
                 EEMod.Particles.Get("Main").SpawnParticles(npc.Center, null, null, 300, 2, null, new CircularMotionSin(10 * (float)Math.Cos(npc.ai[0]), 80 * (float)Math.Sin(npc.ai[0]), 0.03f, npc, (float)Math.PI * 0.75f, 2f, 0.2f, false), new AfterImageTrail(1f));

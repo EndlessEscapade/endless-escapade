@@ -550,7 +550,7 @@ namespace EEMod
 
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
 
-            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, _texture2.Width, _texture2.Height), _texture2.Bounds, Color.Lerp(Color.Black,Color.White,lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, _texture2.Width, _texture2.Height), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
             Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(0, 0, 0), 0, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
 

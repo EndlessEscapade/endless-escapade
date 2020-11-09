@@ -34,7 +34,7 @@ namespace EEMod.MachineLearning
             }
         }
         public void SerliazeCurrentPerceptron() => Serializer.Serialize(MainPerceptron, PerceptronSavePath);
-        public Perceptron DeserializeSavedPerceptron() =>  Serializer.Deserialize<Perceptron>(PerceptronSavePath);
+        public Perceptron DeserializeSavedPerceptron() => Serializer.Deserialize<Perceptron>(PerceptronSavePath);
 
         public void FeedForward()
         {

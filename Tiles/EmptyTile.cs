@@ -28,7 +28,7 @@ namespace EEMod.Tiles
         }
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
-          EmptyTileEntityCache.Invoke(new Vector2(i, j));
+            EmptyTileEntityCache.Invoke(new Vector2(i, j));
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {

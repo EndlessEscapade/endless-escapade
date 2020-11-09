@@ -36,7 +36,7 @@ namespace EEMod.Projectiles.Summons
             Main.NewText(projectile.ai[0]);
 
 
-            if(projectile.timeLeft > 120)
+            if (projectile.timeLeft > 120)
             {
                 Vector2 targetPos = Vector2.Zero;
 
@@ -45,7 +45,7 @@ namespace EEMod.Projectiles.Summons
                         targetPos = Main.npc[i].Center;
 
                 projectile.ai[1]++;
-                if(projectile.velocity.Y >= -0.01f && projectile.velocity.Y <= 0.01f && targetPos != Vector2.Zero && projectile.ai[1] >= 60)
+                if (projectile.velocity.Y >= -0.01f && projectile.velocity.Y <= 0.01f && targetPos != Vector2.Zero && projectile.ai[1] >= 60)
                 {
                     projectile.velocity.Y -= 6;
                     projectile.ai[1] = 0;
@@ -64,7 +64,7 @@ namespace EEMod.Projectiles.Summons
 
                 projectile.rotation *= 0.5f;
 
-                if(projectile.velocity.X <= 0.02f && projectile.velocity.X >= -0.02f && projectile.velocity.Y <= 0.02f && projectile.velocity.Y >= -0.02f)
+                if (projectile.velocity.X <= 0.02f && projectile.velocity.X >= -0.02f && projectile.velocity.Y <= 0.02f && projectile.velocity.Y >= -0.02f)
                 {
                     projectile.frameCounter++;
                     if (projectile.frameCounter >= 4)
@@ -100,7 +100,7 @@ namespace EEMod.Projectiles.Summons
                     break;
             }
 
-            Lighting.AddLight(projectile.Center, new Vector3(lightColor.R, lightColor.G, lightColor.B)/500);
+            Lighting.AddLight(projectile.Center, new Vector3(lightColor.R, lightColor.G, lightColor.B) / 500);
         }
 
         private int[,] arrae =
@@ -122,7 +122,7 @@ namespace EEMod.Projectiles.Summons
 
         public override void Kill(int timeLeft)
         {
-            for(int j = 0; j < 13; j++)
+            for (int j = 0; j < 13; j++)
             {
                 for (int i = 0; i < 18; i++)
                 {

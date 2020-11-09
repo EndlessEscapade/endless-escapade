@@ -210,8 +210,8 @@ namespace EEMod.VerletIntegration
         {
             for (int i = 0; i < stickPoints.Count; i++)
             {
-                    Stick stick = stickPoints[i];
-                if ((Main.LocalPlayer.Center - (Points[stick.a].point + Points[stick.b].point)/2f).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
+                Stick stick = stickPoints[i];
+                if ((Main.LocalPlayer.Center - (Points[stick.a].point + Points[stick.b].point) / 2f).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
                 {
                     Point p1 = Points[stick.a];
                     Point p2 = Points[stick.b];
@@ -268,7 +268,7 @@ namespace EEMod.VerletIntegration
         {
             for (int i = 0; i < Points.Count; i++)
             {
-                if (!Points[i].isStatic && (Main.LocalPlayer.Center - Points[i].point).LengthSquared() < RENDERDISTANCE*RENDERDISTANCE)
+                if (!Points[i].isStatic && (Main.LocalPlayer.Center - Points[i].point).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
                 {
                     Points[i].vel.X = (Points[i].point.X - Points[i].oldPoint.X) * _AR;
                     Points[i].vel.Y = (Points[i].point.Y - Points[i].oldPoint.Y) * _AR;
@@ -287,7 +287,7 @@ namespace EEMod.VerletIntegration
             {
                 if (i == 0)
                 {
-                   // Main.spriteBatch.Draw(Main.magicPixel, Points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
+                    // Main.spriteBatch.Draw(Main.magicPixel, Points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
                 }
                 else
                 {
@@ -319,8 +319,8 @@ namespace EEMod.VerletIntegration
                         else
                         {
                             Vector2 mid = p1 * 0.5f + p2 * 0.5f;
-                            Main.spriteBatch.Draw(stickPoints[i].tex, mid.ForDraw(), stickPoints[i].tex.Bounds, Lighting.GetColor((int)mid.X/16, (int)mid.Y / 16), (p1 - p2).ToRotation(), stickPoints[i].tex.Bounds.Size()/2, 1f, SpriteEffects.None, 0f);
-                            if(stickPoints[i].glowmask != null)
+                            Main.spriteBatch.Draw(stickPoints[i].tex, mid.ForDraw(), stickPoints[i].tex.Bounds, Lighting.GetColor((int)mid.X / 16, (int)mid.Y / 16), (p1 - p2).ToRotation(), stickPoints[i].tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
+                            if (stickPoints[i].glowmask != null)
                             {
                                 Main.spriteBatch.Draw(stickPoints[i].glowmask, mid.ForDraw(), stickPoints[i].glowmask.Bounds, Color.White, (p1 - p2).ToRotation(), stickPoints[i].glowmask.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
                                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.003f));

@@ -4,6 +4,7 @@ using EEMod.ID;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Projectiles;
 using EEMod.Projectiles.Mage;
+using EEMod.Tiles;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -35,6 +36,7 @@ namespace EEMod
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DrawNPC += Main_DrawNPC1;
+            On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
@@ -89,7 +91,7 @@ namespace EEMod
                     {
                         Main.tile[j, i] = new Tile();
                     }
-                    if (Main.tile[j, i].liquid > 0 && (!Main.tile[j, i].nactive() || !Main.tileSolid[(int)Main.tile[j, i].type] || Main.tileSolidTop[(int)Main.tile[j, i].type]) && (Lighting.Brightness(j, i) > 0f || bg))
+                    if (Main.tile[j, i].liquid > 0 || Main.tile[j, i].type == ModContent.TileType<EmptyTile>() &&  (!Main.tile[j, i].nactive() || !Main.tileSolid[(int)Main.tile[j, i].type] || Main.tileSolidTop[(int)Main.tile[j, i].type]) && (Lighting.Brightness(j, i) > 0f || bg))
                     {
                         Color color = Lighting.GetColor(j, i);
                         float num13 = (float)(256 - (int)Main.tile[j, i].liquid);
@@ -145,7 +147,7 @@ namespace EEMod
                             }
                             Vector2 vector = new Vector2((float)(j * 16), (float)(i * 16 + (int)num13 * 2));
                             Rectangle rectangle = new Rectangle(0, 0, 16, 16 - (int)num13 * 2);
-                            if (Main.tile[j, i + 1].liquid < 245 && (!Main.tile[j, i + 1].nactive() || !Main.tileSolid[(int)Main.tile[j, i + 1].type] || Main.tileSolidTop[(int)Main.tile[j, i + 1].type]))
+                            if (Main.tile[j, i + 1].liquid < 245 && (!Main.tile[j, i + 1].nactive() || !Main.tileSolid[(int)Main.tile[j, i + 1].type] || Main.tileSolidTop[(int)Main.tile[j, i + 1].type] || Main.tile[j, i].type == ModContent.TileType<EmptyTile>()))
                             {
                                 float num20 = (float)(256 - (int)Main.tile[j, i + 1].liquid);
                                 num20 /= 32f;
@@ -197,7 +199,7 @@ namespace EEMod
                             {
                                 rectangle = new Rectangle(0, 4, rectangle.Width, rectangle.Height);
                             }
-                            else if (num13 < 1f && Main.tile[j, i - 1].nactive() && Main.tileSolid[(int)Main.tile[j, i - 1].type] && !Main.tileSolidTop[(int)Main.tile[j, i - 1].type])
+                            else if (num13 < 1f && Main.tile[j, i - 1].nactive() && Main.tileSolid[(int)Main.tile[j, i - 1].type] && !Main.tileSolidTop[(int)Main.tile[j, i - 1].type] && Main.tile[j, i].type != ModContent.TileType<EmptyTile>())
                             {
                                 vector = new Vector2((float)(j * 16), (float)(i * 16));
                                 rectangle = new Rectangle(0, 4, 16, 16);
@@ -206,7 +208,7 @@ namespace EEMod
                             {
                                 bool flag = true;
                                 int num22 = i + 1;
-                                while (num22 < i + 6 && (!Main.tile[j, num22].nactive() || !Main.tileSolid[(int)Main.tile[j, num22].type] || Main.tileSolidTop[(int)Main.tile[j, num22].type]))
+                                while (num22 < i + 6 && (!Main.tile[j, num22].nactive() || !Main.tileSolid[(int)Main.tile[j, num22].type] || Main.tileSolidTop[(int)Main.tile[j, num22].type]) && Main.tile[j, i].type != ModContent.TileType<EmptyTile>())
                                 {
                                     if (Main.tile[j, num22].liquid < 200)
                                     {
@@ -386,6 +388,7 @@ namespace EEMod
 
         private void UnloadDetours()
         {
+            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
             On.Terraria.Main.DoUpdate -= Main_DoUpdate;
             On.Terraria.Main.DrawNPC -= Main_DrawNPC;
@@ -400,6 +403,11 @@ namespace EEMod
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
+        }
+        private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
+        {
+            DrawSpiderPort();
+            orig(self);
         }
         private void Main_DrawGoreBehind(On.Terraria.Main.orig_DrawGoreBehind orig, Main self)
         {
@@ -604,7 +612,145 @@ namespace EEMod
         }
 
 
+        Vector2[] jointPoints;
+        Vector2[] legPoints;
+        bool[] CanMove;
+        int[] CoolDown;
+        Vector2 SpiderBodyPosition;
+        int numberOfLegs = 6;
+        int seperationOfLegs = 15;
+        int lengthOfUpperLeg = 30;
+        int lengthOfLowerLeg = 30;
+        int legVert = 25;
+        int jointElevation = 5;
+        float accell = 0.03f;
+        float velocityOfSpider;
+        float VertVel;
+        bool OnGround;
+        public void UpdateSpiderPort()
+        {
+            if (SpiderBodyPosition == Vector2.Zero)
+            {
+                SpiderBodyPosition = Main.LocalPlayer.Center;
+            }
+            jointPoints = jointPoints ?? new Vector2[numberOfLegs];
+            legPoints = legPoints ?? new Vector2[numberOfLegs];
+            CanMove = CanMove ?? new bool[numberOfLegs];
+            CoolDown = CoolDown ?? new int[numberOfLegs];
+            for (int i = 0; i < numberOfLegs; i++)
+            {
+                legPoints[i] = legPoints[i] == Vector2.Zero ? new Vector2(Main.LocalPlayer.Center.X + (i - numberOfLegs * 0.5f + 0.5f) * seperationOfLegs, Main.LocalPlayer.Center.Y + legVert) : legPoints[i];
+                jointPoints[i] = jointPoints[i] == Vector2.Zero ? new Vector2(Main.LocalPlayer.Center.X + (i - numberOfLegs * 0.5f + 0.5f) * seperationOfLegs, Main.LocalPlayer.Center.Y + legVert) : jointPoints[i];
+            }
+            if (Main.LocalPlayer.controlRight)
+            {
+                velocityOfSpider += accell;
+            }
+            if (Main.LocalPlayer.controlLeft)
+            {
+                velocityOfSpider -= accell;
+            }
 
+            velocityOfSpider *= 0.99f;
+            SpiderBodyPosition.X += velocityOfSpider;
+            float absVel = Math.Abs(velocityOfSpider);
+            for (int i = 0; i < numberOfLegs; i++)
+            {
+                jointPoints[i] = CorrectLeg(SpiderBodyPosition, jointPoints[i])[1];
+                jointPoints[i] = CorrectLeg(legPoints[i], jointPoints[i])[1];
+                jointPoints[i].Y -= jointElevation;
+                float dx = legPoints[i].X - jointPoints[i].X;
+                float dy = legPoints[i].Y - jointPoints[i].Y;
+                float dist = (float)Math.Sqrt(dx * dx + dy * dy);
+                float TrueY = SpiderBodyPosition.Y + legVert;
+                float TrueX = SpiderBodyPosition.X + (i - numberOfLegs * 0.5f + 0.5f) * seperationOfLegs + velocityOfSpider * 20;
+                int Pogger = 0;
+
+                if (WorldGen.InWorld((int)(TrueX / 16), (int)(TrueY / 16), 20))
+                {
+                    while (Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).active() && Pogger < 64 && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).slope() == 0)
+                    {
+                        SpiderBodyPosition.Y -= 0.005f;
+                        TrueY--;
+                        Pogger++;
+                    }
+                    while ((!Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] || !Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).active()) && Pogger < 32)
+                    {
+                        SpiderBodyPosition.Y += 0.005f;
+                        TrueY++;
+                        Pogger++;
+                    }
+                }
+                Vector2 Goto = new Vector2(TrueX, TrueY);
+                float dx2 = legPoints[i].X - Goto.X;
+                float dy2 = legPoints[i].Y - Goto.Y;
+                float distToGoto = (float)Math.Sqrt(dx2 * dx2 + dy2 * dy2);
+                if (dist > lengthOfLowerLeg)
+                {
+                    if (CoolDown[i] > 0)
+                        CoolDown[i]--;
+                    if (CoolDown[i] <= 0)
+                        CanMove[i] = true;
+                    legPoints[i].Y += (Goto.Y - legPoints[i].Y) / 6f;
+                }
+                if (CanMove[i])
+                {
+                    float factor = 4f;
+                    if (CoolDown[i] > 0)
+                        CoolDown[i]--;
+                    float xCompletion = Math.Abs(Goto.X - legPoints[i].X);
+                    legPoints[i].X += (Goto.X - legPoints[i].X) / factor;
+                    legPoints[i].Y += (Goto.Y - legPoints[i].Y) / factor - (float)Math.Sin(xCompletion / 20f) * 7;
+                    if (distToGoto < (factor * absVel + 4f + absVel))
+                    {
+                        CoolDown[i] = Main.rand.Next((int)(20 - absVel * 3), (int)(40 + absVel * 3));
+                        CanMove[i] = false;
+                    }
+                }
+            }
+            float UnderSpiderY = SpiderBodyPosition.Y + legVert;
+            float UnderSpiderX = SpiderBodyPosition.X;
+            bool OnGroundBuffer = OnGround;
+            if (!Main.tileSolid[Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).type] || !Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).active())
+            {
+                VertVel += 0.2f;
+                OnGround = false;
+            }
+            else
+            {
+                VertVel -= 0.1f;
+                OnGround = true;
+            }
+            if (OnGroundBuffer != OnGround && OnGround)
+            {
+                VertVel = 0;
+            }
+            VertVel *= 0.95f;
+            SpiderBodyPosition.Y += VertVel;
+
+            Vector2[] CorrectLeg(Vector2 feetVec, Vector2 jointVec)
+            {
+                float dx = feetVec.X - jointVec.X;
+                float dy = feetVec.Y - jointVec.Y;
+                float currentLength = (float)Math.Sqrt(dx * dx + dy * dy);
+                float deltaLength = currentLength - lengthOfUpperLeg;
+                float perc = (deltaLength / (float)currentLength) * 0.5f;
+                float offsetX = perc * dx;
+                float offsetY = perc * dy;
+                Vector2 F = new Vector2(feetVec.X + offsetX, feetVec.Y + offsetY);
+                Vector2 J = new Vector2(jointVec.X + offsetX, jointVec.Y + offsetY);
+
+                return new Vector2[] { F, J };
+            }
+        }
+        public void DrawSpiderPort()
+        {
+            for (int i = 0; i < numberOfLegs; i++)
+            {
+                Helpers.DrawLine(new Vector2(SpiderBodyPosition.X, SpiderBodyPosition.Y).ForDraw(), new Vector2(jointPoints[i].X, jointPoints[i].Y).ForDraw(), Color.White, 1f);
+                Helpers.DrawLine(new Vector2(jointPoints[i].X, jointPoints[i].Y).ForDraw(), new Vector2(legPoints[i].X, legPoints[i].Y).ForDraw(), Color.White, 1f);
+            }
+        }
 
 
         void HandleBulbDraw(Vector2 position)

@@ -15,7 +15,7 @@ namespace EEMod.Items.Weapons.Combo
 
         public override void ComboChangeBehaviour()
         {
-            if(CurrentCombo == 0)
+            if (CurrentCombo == 0)
             {
                 CurrentCombo = 1;
                 return;

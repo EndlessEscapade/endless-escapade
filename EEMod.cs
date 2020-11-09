@@ -100,10 +100,10 @@ namespace EEMod
             Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
             Main.spriteBatch.End();
         }
-
+        
         public void TestParticleSystem()
         {
-            
+
         }
 
         public override void Unload()
@@ -152,7 +152,7 @@ namespace EEMod
         bool bufferVariable;
         private float rotationBuffer;
         private float rotGoto;
-        
+
         public void UpdateVerlet()
         {
             ScTex = Main.screenTarget;
@@ -375,8 +375,9 @@ namespace EEMod
                         TestParticleSystem();
                         //UpdateNet();
                         UpdateGame(lastGameTime);
+                        UpdateSpiderPort();
                         //   UpdateJellyfishTesting();
-                         UpdateVerlet();
+                        UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {
                             DrawCR();

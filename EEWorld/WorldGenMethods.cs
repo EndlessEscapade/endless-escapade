@@ -19,6 +19,7 @@ using System.Runtime.InteropServices;
 using Terraria.DataStructures;
 using EEMod.Tiles.EmptyTileArrays;
 using System.Linq;
+using EEMod.VerletIntegration;
 
 namespace EEMod.EEWorld
 {
@@ -64,6 +65,12 @@ namespace EEMod.EEWorld
             {
                 EESubWorlds.BulbousTreePosition = tag.GetList<Vector2>("BulbousTreePosition");
             }
+            if (tag.ContainsKey("SwingableVines"))
+            {
+                VerletHelpers.SwingableVines = tag.GetList<Vector2>("SwingableVines");
+               // foreach (Vector2 vec in VerletHelpers.SwingableVines)
+                //    VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, vec, Main.rand.Next(5, 15), 27);
+            }
             if (tag.ContainsKey("EmptyTileVectorMain") && tag.ContainsKey("EmptyTileVectorSub"))
             {
                 IList<Vector2> VecMains = tag.GetList<Vector2>("EmptyTileVectorMain");
@@ -79,7 +86,7 @@ namespace EEMod.EEWorld
             if (tag.ContainsKey("CoralCrystalPosition"))
             {
                 EESubWorlds.CoralCrystalPosition = tag.GetList<Vector2>("CoralCrystalPosition");
-               // for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
+                // for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
                 //    EmptyTileEntityCache.AddPair(new Crystal(EESubWorlds.CoralCrystalPosition[i]), EESubWorlds.CoralCrystalPosition[i], EmptyTileArrays.CoralCrystal);
             }
             if (tag.ContainsKey("LightStates"))
@@ -111,6 +118,7 @@ namespace EEMod.EEWorld
                 tag["ChainConnections"] = EESubWorlds.ChainConnections;
                 tag["OrbPositions"] = EESubWorlds.OrbPositions;
                 tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
+                tag["SwingableVines"] = VerletHelpers.SwingableVines;
                 tag["LightStates"] = LightStates;
                 tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;
                 tag["EmptyTileVectorMain"] = EmptyTileEntityCache.EmptyTilePairs.Keys.ToList();
@@ -251,11 +259,11 @@ namespace EEMod.EEWorld
         }
         public static void CreateInvisibleTiles(byte[,,] array, Vector2 TilePosition)
         {
-            for(int i = 0; i<array.GetLength(1); i++)
+            for (int i = 0; i < array.GetLength(1); i++)
             {
-                for(int j = 0; j < array.GetLength(0); j++)
+                for (int j = 0; j < array.GetLength(0); j++)
                 {
-                    if(array[j,i,0] == 1)
+                    if (array[j, i, 0] == 1)
                     {
                         Tile tile = Framing.GetTileSafely(i + (int)TilePosition.X, j + (int)TilePosition.Y);
                         tile.type = (ushort)ModContent.TileType<EmptyTile>();
@@ -1236,15 +1244,15 @@ namespace EEMod.EEWorld
         }
         public static bool CheckRangeRight(int i, int j, int length, bool opposite = false)
         {
-                for (int k = 0; k < length; k++)
+            for (int k = 0; k < length; k++)
+            {
+                if (WorldGen.InWorld(i + (opposite ? -k : k), j, 20))
                 {
-                    if (WorldGen.InWorld(i + (opposite ? -k : k), j, 20))
-                    {
-                        if (!Framing.GetTileSafely(i + (opposite ? -k : k), j).active() || !Main.tileSolid[Framing.GetTileSafely(i + (opposite ? -k : k), j).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
-                            return false;
-                    }
+                    if (!Framing.GetTileSafely(i + (opposite ? -k : k), j).active() || !Main.tileSolid[Framing.GetTileSafely(i + (opposite ? -k : k), j).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
+                        return false;
                 }
-            
+            }
+
             return true;
         }
         public static bool CheckRangeDown(int i, int j, int length, bool opposite = false)
@@ -1253,7 +1261,7 @@ namespace EEMod.EEWorld
             {
                 if (WorldGen.InWorld(i, j + (opposite ? -k : k), 20))
                 {
-                    if (!Framing.GetTileSafely(i, j + (opposite ? -k : k)).active() || !Main.tileSolid[Framing.GetTileSafely(i, j+ (opposite ? -k : k)).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
+                    if (!Framing.GetTileSafely(i, j + (opposite ? -k : k)).active() || !Main.tileSolid[Framing.GetTileSafely(i, j + (opposite ? -k : k)).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
                         return false;
                 }
             }
@@ -1869,7 +1877,7 @@ namespace EEMod.EEWorld
                             if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
                             {
                                 ChestPos = new Vector2(k, l);
-                                for(int u = k; u < k + 2; u++)
+                                for (int u = k; u < k + 2; u++)
                                 {
                                     for (int p = l; p < l + 2; p++)
                                     {

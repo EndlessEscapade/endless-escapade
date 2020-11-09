@@ -215,7 +215,7 @@ namespace EEMod
             //  spriteBatch.Draw(neckTex2D, new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, drawColor, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
             //spriteBatch.Draw(mod.GetTexture(glowMaskTexture), new Vector2(head.Center.X - Main.screenPosition.X, head.Center.Y - Main.screenPosition.Y), head.frame, Color.White, head.rotation, new Vector2(36 * 0.5f, 32 * 0.5f), 1f, SpriteEffects.None, 0f);
         }
-        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, Color color, int frequency, float rotDis = 0, float spawnChance = 1f,params IParticleModule[] modules)
+        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, Color color, int frequency, float rotDis = 0, float spawnChance = 1f, params IParticleModule[] modules)
         {
             float length = (startingPos - endPoints).Length();
             for (float i = 0; i <= 1; i += chainsPerUse)
@@ -409,7 +409,13 @@ namespace EEMod
                 && !player.ZoneBeach
                 && player.ZoneOverworldHeight;
         }
-
+        public static void DrawLine(Vector2 p1, Vector2 p2, Color tint = default, float lineWidth = 1f)
+        {
+            Vector2 between = p2 - p1;
+            float length = between.Length();
+            float rotation = (float)Math.Atan2(between.Y, between.X);
+            Main.spriteBatch.Draw(Main.magicPixel, p1, new Rectangle(0,0,1,1), tint == default ? Color.White : tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, 0f);
+        }
         public static void SpawnOre(int type, double frequency, float depth, float depthLimit)
         {
             int x = Main.maxTilesX;

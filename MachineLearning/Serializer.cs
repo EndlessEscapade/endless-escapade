@@ -39,7 +39,7 @@ namespace EEMod.MachineLearning
         }
         public void SerializeToJson(object t, string path)
         {
-           // var json = new JavaScriptSerializer().Serialize(t);
+            // var json = new JavaScriptSerializer().Serialize(t);
         }
         //Could explicitly return 2d array, 
         //or be casted from an object to be more dynamic

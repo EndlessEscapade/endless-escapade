@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 namespace EEMod.Projectiles
 {
     public delegate void Combo();
-    public abstract class ComboWeapon : ModProjectile,IComboProjectile
+    public abstract class ComboWeapon : ModProjectile, IComboProjectile
     {
         protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         protected bool isFinished => progression >= 1;
@@ -20,8 +20,8 @@ namespace EEMod.Projectiles
         private readonly Dictionary<int, Combo> Combos = new Dictionary<int, Combo>();
         protected void AddCombo(int key, Combo combo)
         {
-            if(!Combos.ContainsKey(key))
-            Combos.Add(key, combo);
+            if (!Combos.ContainsKey(key))
+                Combos.Add(key, combo);
         }
         public override void AI()
         {

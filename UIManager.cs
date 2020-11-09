@@ -34,7 +34,7 @@ namespace EEMod
                 throw new InvalidOperationException("Interface name already used");
             }
             UIInterfaces.Add(UIStateName, new UserInterface());
-            if(Bind != "")
+            if (Bind != "")
             {
                 BindInterfaceToState(UIStateName, Bind);
             }
@@ -74,8 +74,8 @@ namespace EEMod
 
         public void SetToBindedState(string UIInterfaceName)
         {
-            if(IsBinded(UIInterfaceName))
-            UIInterfaces[UIInterfaceName].SetState(Binds[UIInterfaces[UIInterfaceName]]);
+            if (IsBinded(UIInterfaceName))
+                UIInterfaces[UIInterfaceName].SetState(Binds[UIInterfaces[UIInterfaceName]]);
         }
 
         public bool isActive(string UIInterfaceName) => UIInterfaces[UIInterfaceName].CurrentState != null;
@@ -86,7 +86,7 @@ namespace EEMod
         {
             if (IsBinded(UIInterfaceName))
             {
-                if(!isActive(UIInterfaceName))
+                if (!isActive(UIInterfaceName))
                 {
                     SetToBindedState(UIInterfaceName);
                 }
@@ -98,7 +98,7 @@ namespace EEMod
         }
         public void Load()
         {
-            for(int i = 0; i< UIStates.Count; i++)
+            for (int i = 0; i < UIStates.Count; i++)
             {
                 UIStates.Values.ToArray()[i].OnActivate();
             }
@@ -106,11 +106,11 @@ namespace EEMod
         public void UnLoad() { UIInterfaces.Clear(); UIStates.Clear(); Binds.Clear(); }
         public void Update(GameTime gameTime)
         {
-            foreach(UserInterface item in UIInterfaces.Values)
+            foreach (UserInterface item in UIInterfaces.Values)
             {
                 if (item.CurrentState != null)
                 {
-                   item.Update(gameTime);
+                    item.Update(gameTime);
                 }
             }
         }

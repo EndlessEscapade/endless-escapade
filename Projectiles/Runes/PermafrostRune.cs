@@ -26,7 +26,7 @@ namespace EEMod.Projectiles.Runes
 
         public override void AI()
         {
-            
+
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -36,7 +36,7 @@ namespace EEMod.Projectiles.Runes
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            
+
         }
     }
 }

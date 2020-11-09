@@ -49,7 +49,7 @@ namespace EEMod
                 brightness = 0.1f;
             }
 
-            if(Main.time % 1000 == 0)
+            if (Main.time % 1000 == 0)
             {
                 if (Main.rand.NextBool(10)) isStorming = !isStorming;
             }

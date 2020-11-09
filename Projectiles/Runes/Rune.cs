@@ -46,7 +46,7 @@ namespace EEMod.Projectiles.Runes
                     break;
             }
 
-            if(Vector2.Distance(projectile.Center, Main.LocalPlayer.Center) <= 48)
+            if (Vector2.Distance(projectile.Center, Main.LocalPlayer.Center) <= 48)
             {
                 projectile.timeLeft = 32;
                 projectile.ai[1] = 1;
