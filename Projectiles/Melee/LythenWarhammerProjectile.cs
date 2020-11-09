@@ -189,7 +189,10 @@ namespace EEMod.Projectiles.Melee
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            DoTheThing();
+            if (projectile.ai[1] == 1)
+            { 
+                DoTheThing();
+            }
         }
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
