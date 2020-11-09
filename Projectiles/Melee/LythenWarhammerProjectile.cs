@@ -5,6 +5,9 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 
+//TODO:
+//Make it explode
+//Finish sound effects
 namespace EEMod.Projectiles.Melee
 {
     public class LythenWarhammerProjectile : ModProjectile
@@ -12,13 +15,13 @@ namespace EEMod.Projectiles.Melee
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lythen Warhammer");
-            Main.projFrames[projectile.type] = 2;
+            Main.projFrames[projectile.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 48;
-            projectile.height = 48;
+            projectile.width = 32;
+            projectile.height = 32;
             projectile.aiStyle = -1;
             projectile.penetrate = -1;
             projectile.scale = 1f;
@@ -32,6 +35,7 @@ namespace EEMod.Projectiles.Melee
         }
         double radians = 0;
         int flickerTime = 0;
+        float alphaCounter = 0;
         int chargeTime = 90;
         //ai[0] = charge
         //ai[1] = Whether or not thrown
@@ -39,6 +43,7 @@ namespace EEMod.Projectiles.Melee
         int width = 54;
         public override void AI()
         {
+            alphaCounter += 0.08f;
             Player player = Main.player[projectile.owner];
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.4f));
             if (projectile.ai[1] == 0)
@@ -64,11 +69,11 @@ namespace EEMod.Projectiles.Melee
 
                 while (player.itemAnimation < 3)
                 {
+                    Main.PlaySound(SoundID.Item1, projectile.Center);
                     player.itemAnimation += 320;
                 }
                 player.itemTime = player.itemAnimation;
                 projectile.velocity = Vector2.Zero;
-                projectile.position = player.position;
 
                 if (projectile.ai[0] < chargeTime)
                 {
@@ -92,8 +97,7 @@ namespace EEMod.Projectiles.Melee
                     player.itemAnimation = 2;
 
                     projectile.tileCollide = true;
-                    projectile.penetrate = 1;
-                    projectile.timeLeft = 60;
+                    projectile.timeLeft = 500;
                     projectile.position = player.position;
 
                     direction *= 20;
@@ -102,7 +106,7 @@ namespace EEMod.Projectiles.Melee
                 projectile.position.Y = player.Center.Y - (int)(Math.Sin(radians * 0.96) * 40) - (projectile.height / 2);
                 projectile.position.X = player.Center.X - (int)(Math.Cos(radians * 0.96) * 40) - (projectile.width / 2);
             }
-            else
+            else if (projectile.ai[1] == 1)
             {
                 if (projectile.ai[0] < chargeTime)
                 {
@@ -114,6 +118,28 @@ namespace EEMod.Projectiles.Melee
                     EEMod.Particles.Get("Main").SpawnParticles(projectile.Center + (projectile.velocity * 5), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
                     projectile.rotation = projectile.velocity.ToRotation() + 0.78f;
                 }
+                if (projectile.timeLeft == 450)
+                {
+                    projectile.ai[1] = 2;
+                }
+            }
+            else
+            {
+                projectile.tileCollide = false;
+                projectile.rotation -= 0.5f;
+                Vector2 direction = player.position - projectile.position;
+                if (direction.Length() < 20 || player.statLife < 1)
+                {
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
+                    projectile.active = false;
+                }
+                direction.Normalize();
+                direction *= 15;
+                projectile.velocity = direction;
+                if (projectile.timeLeft == 170)
+                {
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
+                }
             }
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -123,67 +149,65 @@ namespace EEMod.Projectiles.Melee
             {
                 Color color = lightColor;
                 Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, 0, width, height), color, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 0);
-                if (projectile.ai[0] >= chargeTime && projectile.ai[1] == 0 && flickerTime < 16)
+                if (projectile.ai[0] >= chargeTime && projectile.ai[1] == 0)
                 {
-                    flickerTime++;
-                    color = Color.White;
-                    float flickerTime2 = (float)(flickerTime / 20f);
-                    float alpha = 1.5f - (((flickerTime2 * flickerTime2) / 2) + (2f * flickerTime2));
-                    if (alpha < 0)
+                    Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, height * 2, width, height), Color.White * 0.9f, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 1);
+
+                    if (flickerTime < 16)
                     {
-                        alpha = 0;
+                        flickerTime++;
+                        color = Color.White;
+                        float flickerTime2 = (float)(flickerTime / 20f);
+                        float alpha = 1.5f - (((flickerTime2 * flickerTime2) / 2) + (2f * flickerTime2));
+                        if (alpha < 0)
+                        {
+                            alpha = 0;
+                        }
+                        Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, height, width, height), color * alpha, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 1);
                     }
-                    Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], Main.player[projectile.owner].Center - Main.screenPosition, new Rectangle(0, height, width, height), color * alpha, (float)radians + 3.9f, new Vector2(0, height), projectile.scale, SpriteEffects.None, 1);
                 }
                 return false;
             }
             return true;
-        }
-
-       /* public override void AI()
+       }
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Player owner = Main.player[projectile.owner];
-            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.4f));
-            if (projectile.ai[0] < 80)
+            if (projectile.ai[0] >= chargeTime)
             {
-                if (owner.controlUseItem)
+                float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+            }
+            if (projectile.ai[1] != 0)
+            {
+                Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/LythenWarhammerProjectileGlow"), new Rectangle((int)(projectile.Center.X - Main.screenPosition.X), (int)(projectile.Center.Y - Main.screenPosition.Y), 54, 60), Main.projectileTexture[projectile.type].Bounds, Color.White, projectile.rotation, new Vector2(27, 30), SpriteEffects.None, 0);
+            }
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 8f, true, false, 8);
+            projectile.timeLeft = 200;
+            if (projectile.ai[1] == 1)
+            {
+                for (double i = 0; i < 6.28; i += 2.1)
                 {
-                    projectile.ai[0]++;
-                    if (owner.velocity.Y > -4)
-                    {
-                        owner.velocity.Y -= 0.5f;
-                    }
+                    Projectile.NewProjectile(projectile.position + (projectile.velocity * 2), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
-                projectile.Center = owner.Center;
+                projectile.ai[1] = 2;
             }
-            if (projectile.ai[0] >= 40 && projectile.ai[0] <= 80)
+        }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 8f, true, false, 8);
+            projectile.timeLeft = 200;
+            if (projectile.ai[1] == 1)
             {
-                Dust dust = Dust.NewDustPerfect(owner.position + new Vector2(10 + (owner.direction * 3), 13), DustID.Electric, newColor: Color.Cyan);
-                dust.velocity = Vector2.Zero;
-                dust.noGravity = true;
-            }
-            if (projectile.ai[0] == 80)
-            {
-                if (!owner.controlUseItem)
+                for (double i = 0; i < 6.28; i += 2.1)
                 {
-                    projectile.velocity = Vector2.Normalize(projectile.Center - Main.MouseWorld) * -12;
-                    projectile.ai[0]++;
+                    Projectile.NewProjectile(projectile.position + (projectile.velocity * 2), new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
                 }
-                else
-                {
-                    owner.Center = projectile.Center;
-                    owner.velocity.X = 0;
-                    owner.velocity.Y = 0;
-                }
+                projectile.ai[1] = 2;
             }
-            else
-            {
-                projectile.velocity *= 1.02f;
-                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.4f));
-                EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
-            }
-            projectile.rotation += projectile.ai[0] / 80;
-        }*/
-
+            return false;
+        }
     }
 }
