@@ -152,7 +152,6 @@ namespace EEMod.Projectiles.Melee
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-
             if (projectile.ai[1] == 0)
             {
                 Color color = lightColor;

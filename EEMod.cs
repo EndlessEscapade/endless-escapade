@@ -110,6 +110,7 @@ namespace EEMod
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             //HandwritingCNN = null;
+            PrismShader = null;
             Noise2D = null;
             RuneActivator = null;
             Inspect = null;

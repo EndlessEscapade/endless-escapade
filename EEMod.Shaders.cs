@@ -15,9 +15,11 @@ namespace EEMod
         public static Effect Noise2DShift;
         public static Effect ReflectionShader;
         public static Effect WaterShader;
+        public static Effect PrismShader;
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
+            PrismShader = instance.GetEffect("Effects/PrismShader");
             Noise2DShift = instance.GetEffect("Effects/Noise2DShift");
             ReflectionShader = instance.GetEffect("Effects/ReflectionShader");
             WaterShader = instance.GetEffect("Effects/WaterShader");
