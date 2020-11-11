@@ -71,7 +71,6 @@ namespace EEMod.Items.Weapons.Melee
             {
                 float angle = (float)(swordsActive * 0.7f);
                 swordArray[swordsActive] = Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<PrismDagger>(), damage2, 0, player.whoAmI, angle);
-
                 swordsActive++;
             }
         }
