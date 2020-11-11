@@ -85,7 +85,7 @@ namespace EEMod.Projectiles.Melee
                 }
                 else
                 {
-                     EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.1f));
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.1f));
                     EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
                 }
                 Vector2 direction = Main.MouseWorld - player.position;
@@ -186,7 +186,7 @@ namespace EEMod.Projectiles.Melee
             }
             if (projectile.ai[1] != 0)
             {
-                Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Melee/LythenWarhammerProjectileGlow"), new Rectangle((int)(projectile.Center.X - Main.screenPosition.X), (int)(projectile.Center.Y - Main.screenPosition.Y), 54, 60), Main.projectileTexture[projectile.type].Bounds, Color.White, projectile.rotation, new Vector2(27, 30), SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], new Rectangle((int)(projectile.Center.X - Main.screenPosition.X), (int)(projectile.Center.Y - Main.screenPosition.Y), 54, 60), new Rectangle(0, height * 2, width, height), Color.White, projectile.rotation, new Vector2(27, 30), SpriteEffects.None, 0);
             }
         }
 
