@@ -17,26 +17,17 @@ namespace EEMod.Projectiles.Runes
             Main.projFrames[projectile.type] = 1;
         }
 
-        //public override int RuneID => RuneID.PermafrostRune;
+        public override int ThisRuneID => (int)RuneID.IceRune;
         public override void SetDefaults()
         {
             projectile.width = 46;
             projectile.height = 50;
         }
 
-        public override void AI()
+        public override void CustomAI()
         {
-
-        }
-
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            return true;
-        }
-
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-
+            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.05f));
+            EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), default, 180, 4, Color.GhostWhite, new CircularMotion(48 + (int)(Math.Sin(projectile.ai[0]) * 16), 48 + (int)(Math.Cos(projectile.ai[0]) * 16), 3, projectile));
         }
     }
 }
