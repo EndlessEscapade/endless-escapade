@@ -53,9 +53,12 @@ namespace EEMod.Projectiles.Runes
                 projectile.ai[1] = 1;
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[ThisRuneID] = 1;
             }
-            Main.NewText(projectile.ai[1]);
-
             CustomAI();
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            CustomPostDraw();
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
@@ -64,5 +67,7 @@ namespace EEMod.Projectiles.Runes
         }
 
         public abstract void CustomAI();
+
+        public abstract void CustomPostDraw();
     }
 }

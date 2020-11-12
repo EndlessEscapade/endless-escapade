@@ -27,7 +27,12 @@ namespace EEMod.Projectiles.Runes
         public override void CustomAI()
         {
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.05f));
-            EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)), default, 180, 4, Color.GhostWhite, new CircularMotion(48 + (int)(Math.Sin(projectile.ai[0]) * 16), 48 + (int)(Math.Cos(projectile.ai[0]) * 16), 3, projectile));
+            EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, Vector2.Zero, default, 180, 4, Color.LightSkyBlue, new CircularMotion(56 + (int)(Math.Sin(projectile.ai[0]) * 16), 56 + (int)(Math.Cos(projectile.ai[0]) * 16), 1, projectile), new AfterImageTrail(0.5f));
+        }
+
+        public override void CustomPostDraw()
+        {
+            Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Runes/PermafrostRuneGlow"), projectile.position - Main.screenPosition, Color.White * ((int)(Math.Sin(projectile.ai[0]) / 2) + 0.5f)); //FIX THIS DRAW
         }
     }
 }
