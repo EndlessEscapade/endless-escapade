@@ -128,7 +128,6 @@ namespace EEMod
                         if (_trails[i]._projectile.type == ProjectileType<AxeLightning>())
                         {
                             _trails[i].width *= 0.9f;
-                            Main.NewText("we");
                             if (_trails[i].width < 0.05f)
                             {
                                 _trails[i]._points.Clear();
