@@ -44,7 +44,7 @@ namespace EEMod.VerletIntegration
                 {
                     int vineRand = Main.rand.Next(0, 7);
                     if (vineRand != 0 && vineRand != 3)
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Glow"));
+                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Map"));
                     else
                         verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand));
                 }
@@ -52,14 +52,14 @@ namespace EEMod.VerletIntegration
                 {
                     int vineRand = Main.rand.Next(0, 3);
                     if (vineRand != 0)
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Glow"));
+                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Map"));
                     else
                         verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand));
                 }
 
                 if (i == numberOfChains - 1)
                 {
-                    verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine2"), eemood.GetTexture("Projectiles/Vines/Vine2Glow"));
+                    verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine2"), eemood.GetTexture("Projectiles/Vines/Vine2Glow"), eemood.GetTexture("Projectiles/Vines/Vine2Map"));
                     EndPointChains.Add(a);
                 }
             }

@@ -302,6 +302,52 @@ namespace EEMod
         }
         public void Draw(in Particle particle) {; }
     }
+    class CircularMotionSinSpin : IParticleModule
+    {
+        float width;
+        float height;
+        float speed;
+        float timer;
+        Entity orbitPoint;
+        float rotation;
+        float intensity;
+        float period;
+        float spinSpeed;
+        bool disapearFromBack;
+        float rot;
+        public CircularMotionSinSpin(float width, float height, float speed, Entity orbitPoint, float spinSpeed = 0f, float rotation = 0f, float intensity = 0f, float period = 0f, bool disapearFromBack = false)
+        {
+            this.width = width;
+            this.height = height;
+            this.speed = speed;
+            this.orbitPoint = orbitPoint;
+            this.rotation = rotation;
+            this.intensity = intensity;
+            this.disapearFromBack = disapearFromBack;
+            this.spinSpeed = spinSpeed;
+        }
+        public void Update(in Particle particle)
+        {
+            timer += speed * (1 + (float)Math.Sin(timer * period) * intensity);
+            rot += spinSpeed;
+            Vector2 rotVec = new Vector2((float)Math.Sin(timer) * width, (float)Math.Cos(timer) * height).RotatedBy(rotation);
+            Vector2 alt = rotVec.RotatedBy(rot);
+            particle.position.X = orbitPoint.Center.X + alt.X;
+            particle.position.Y = orbitPoint.Center.Y + alt.Y;
+            if (disapearFromBack)
+            {
+                if (timer % (float)Math.PI * 4 < (float)Math.PI)
+                {
+                    particle.alpha = 0f;
+                }
+                else
+                {
+                    particle.alpha = 1f;
+                }
+            }
+        }
+        public void Draw(in Particle particle) {; }
+    }
     class ZigzagMotion : IParticleModule
     {
         float interval;

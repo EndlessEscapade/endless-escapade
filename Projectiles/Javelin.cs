@@ -15,6 +15,7 @@ namespace EEMod.Projectiles
 
         public virtual void ExtraAI()
         {
+
         }
 
         public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)

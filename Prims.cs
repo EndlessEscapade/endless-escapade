@@ -775,19 +775,20 @@ namespace EEMod
                     vertices = new VertexPositionColorTexture[noOfPoints];
                     float widthVar;
                     float alphaValue = 0.7f;
-                    float colorSin = (float)Math.Sin(_projectile.timeLeft / 10);
+                    float colorSin = (float)Math.Sin(_projectile.timeLeft / 10f);
+
                     for (int i = 0; i < _points.Count; i++)
                     {
                         if (i == 0)
                         {
                             widthVar = (float)Math.Sqrt(_points.Count) * width;
-                            Color c = Color.Lerp(Color.White, Color.Cyan, colorSin);
+                            Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
                             Vector2 normalAhead = CurveNormal(_points, i + 1);
                             Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                             Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-                            AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                            AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                            AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(_points[i], c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(secondUp, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                            AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                         }
                         else
                         {
@@ -797,7 +798,7 @@ namespace EEMod
                                 Color base1 = new Color(7, 86, 122);
                                 Color base2 = new Color(255, 244, 173);
                                 Color c = Color.Lerp(Color.White, Color.Cyan, colorSin) * (1 - (i / (float)_points.Count));
-                                Color CBT = Color.Lerp(Color.White, Color.Cyan, colorSin) * (1 - ((i+1) / (float)_points.Count));
+                                Color CBT = Color.Lerp(Color.White, Color.Cyan, colorSin) * (1 - ((i + 1) / (float)_points.Count));
                                 Vector2 normal = CurveNormal(_points, i);
                                 Vector2 normalAhead = CurveNormal(_points, i + 1);
                                 float j = (Cap + ((float)(Math.Sin(lerper / 10f)) * 1) - i * 0.1f) / Cap;

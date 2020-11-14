@@ -113,6 +113,37 @@ namespace EEMod
             }
             return -1;
         }
+        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
+        {
+            if ((position - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
+            {
+                CanSpawn = false;
+                foreach (IParticleSpawner Module in SpawningModules)
+                {
+                    Module.CanSpawn(this);
+                }
+
+                if (!CanSpawn) return -1;
+
+                for (int i = 0; i < particles.Length; i++)
+                {
+                    if (particles[i] != null)
+                    {
+                        if (!particles[i].active)
+                        {
+                            particles[i] = new Particle(position, 60, Main.magicPixel, velocity, 1, colour ?? Color.White, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
+                            return i;
+                        }
+                    }
+                    else
+                    {
+                        particles[i] = new Particle(position, 60, Main.magicPixel, velocity, 1, colour ?? Color.White, CustomBaseZoneModule.ToArray().Length == 0 ? BaseZoneModules.ToArray() : CustomBaseZoneModule);
+                        return i;
+                    }
+                }
+            }
+            return -1;
+        }
         public void SetModules(params IParticleModule[] Module) { BaseZoneModules.Clear(); BaseZoneModules = Module.ToList(); }
         public void SetSpawningModules(IParticleSpawner Module) { SpawningModules.Clear(); SpawningModules.Add(Module); }
         public void Update()

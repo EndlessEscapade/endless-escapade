@@ -61,11 +61,10 @@ namespace EEMod
             //IL.Terraria.Main.DrawBackground += Main_DrawBackground;
             //IL.Terraria.Main.DrawWater += Main_DrawWater;
             //IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
-
             IL.Terraria.NPC.AI_001_Slimes += Practice;
             //IL.Terraria.Main.oldDrawWater += Main_oldDrawWater;
 
-            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
 
             if (Main.netMode != NetmodeID.Server)
             {
@@ -75,6 +74,19 @@ namespace EEMod
                 prims.CreateVerlet();
                 prims.CreateTrail();
             }
+        }
+
+        private void LiquidRenderer_InternalDraw1(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+
+            Type t = typeof(LiquidRenderer).GetNestedType("LiquidCache", BindingFlags.NonPublic | BindingFlags.Public);
+            FieldInfo issolid = t.GetField("IsSolid");
+            if (!c.TryGotoNext(i => i.MatchStfld(issolid)))
+                throw new Exception();
+            // before the stfld there will be an int on the stack
+            c.Emit(OpCodes.Ldloc, 3); // tile
+            c.EmitDelegate<Func<bool, Tile, bool>>((orig, tile) => orig && tile.type == ModContent.TileType<EmptyTile>());
         }
 
         private void Main_oldDrawWater(ILContext il)
@@ -114,7 +126,7 @@ namespace EEMod
             //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
             IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
             IL.Terraria.NPC.AI_001_Slimes -= Practice;
-
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
 
             screenMessageText = null;
