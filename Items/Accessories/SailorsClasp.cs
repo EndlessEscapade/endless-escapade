@@ -2,7 +2,7 @@ using EEMod.Projectiles;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items
+namespace EEMod.Items.Accessories
 {
     public class SailorsClasp : ModItem
     {

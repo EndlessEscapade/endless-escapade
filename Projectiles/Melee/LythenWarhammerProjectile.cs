@@ -14,7 +14,7 @@ namespace EEMod.Projectiles.Melee
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lythen Warhammer");
+            DisplayName.SetDefault("Tidebreaker");
             Main.projFrames[projectile.type] = 3;
         }
 

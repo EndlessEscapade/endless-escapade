@@ -26,8 +26,8 @@ namespace EEMod.Projectiles.Runes
 
         public override void CustomAI()
         {
-            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.05f));
-            EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, Vector2.Zero, default, 180, 4, Color.LightSkyBlue, new CircularMotion(56 + (int)(Math.Sin(projectile.ai[0]) * 16), 56 + (int)(Math.Cos(projectile.ai[0]) * 16), 1, projectile), new AfterImageTrail(0.5f));
+            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
+            EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, Vector2.Zero, default, 180, 4, Color.Lerp(Color.SkyBlue, Color.White, Main.rand.NextFloat(0f, 1f)), new CircularMotion(32 + (int)(Math.Sin(projectile.ai[0] / 20) * 16), 32 + (int)(Math.Cos(projectile.ai[0] / 20) * 16), 0.25f, projectile), new AfterImageTrail(0.95f));
         }
 
         public override void CustomPostDraw()

@@ -218,9 +218,6 @@ namespace EEMod.EEWorld
                             }
                         }
                     }
-
-
-
                     break;
 
                 case 5:

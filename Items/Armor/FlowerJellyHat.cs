@@ -1,23 +1,24 @@
+using EEMod.Items.Materials.Fruit;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Items.Placeables.Ores;
 
-namespace EEMod.Items.Armor.BossMasks
+namespace EEMod.Items.Armor
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AkumoMask : ModItem
+    public class FlowerJellyHat : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Akumo Mask");
+            DisplayName.SetDefault("Flower Jelly Hat");
         }
 
         public override void SetDefaults()
         {
             item.width = 18;
             item.height = 18;
-            item.rare = ItemRarityID.Blue;
+            item.value = Item.sellPrice(0, 0, 30);
+            item.rare = ItemRarityID.Orange;
         }
     }
 }
