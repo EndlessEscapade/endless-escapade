@@ -26,11 +26,6 @@ namespace EEMod.EEWorld
     public partial class EEWorld
     {
         public static IList<Vector2> Vines = new List<Vector2>();
-
-        public void AddToVector2SaveCache(string name, ref Vector2 vec)
-        {
-
-        }
         public override void Load(TagCompound tag)
         {
             if (tag.ContainsKey("EntracesPosses"))
@@ -68,8 +63,13 @@ namespace EEMod.EEWorld
             if (tag.ContainsKey("SwingableVines"))
             {
                 VerletHelpers.SwingableVines = tag.GetList<Vector2>("SwingableVines");
-               // foreach (Vector2 vec in VerletHelpers.SwingableVines)
-                //    VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, vec, Main.rand.Next(5, 15), 27);
+                if (VerletHelpers.SwingableVines.Count != 0)
+                {
+                    foreach (Vector2 vec in VerletHelpers.SwingableVines)
+                    {
+                        VerletHelpers.AddStickChainNoAdd(ref ModContent.GetInstance<EEMod>().verlet, vec, Main.rand.Next(5, 15), 27);
+                    }
+                }
             }
             if (tag.ContainsKey("EmptyTileVectorMain") && tag.ContainsKey("EmptyTileVectorSub"))
             {

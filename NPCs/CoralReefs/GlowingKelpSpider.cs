@@ -156,7 +156,7 @@ namespace EEMod.NPCs.CoralReefs
                     {
                         legPoints[i].X += (Goto.X - legPoints[i].X) / factor;
 
-                        legPoints[i].Y += (Goto.Y - legPoints[i].Y) / factor - (PreparingForJump ? (float)Math.Sin(xCompletion / 20f) * 7 : 0);
+                        legPoints[i].Y += (Goto.Y - legPoints[i].Y) / factor - (!PreparingForJump ? (float)Math.Sin(xCompletion / 20f) * 7 : 0);
                         if (distToGoto < (factor * absVel + 4f + absVel))
                         {
                             CoolDown[i] = Main.rand.Next((int)(20 - absVel * 3), (int)(40 + absVel * 3));
