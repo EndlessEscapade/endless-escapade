@@ -138,23 +138,100 @@ namespace EEMod
         [FieldInit]
         internal static List<IOceanMapElement> OceanMapElements = new List<IOceanMapElement>();
 
+        public bool currentlyRotated, currentlyRotatedByToRotation, wasAirborn, lerpingToRotation = false;
+        public int timeAirborne = 0;
+
         public override void PostUpdate()
         {
             if (player.wet)
             {
-                /*   //player.fullRotation = player.velocity.ToRotation() + (float)Math.PI / 2f;
-                   float drag = 2f;
-                   float maxSpeed = 8f;
-                   if (Math.Abs(player.velocity.X) < maxSpeed && (player.controlLeft || player.controlRight))
-                   {
-                       if(player.controlLeft && player.velocity.X < 0)
-                       player.velocity.X += Helpers.Clamp(player.velocity.X/ drag, -1, 1);
-                       else if (player.controlRight && player.velocity.X > 0)
-                       player.velocity.X += Helpers.Clamp(player.velocity.X/ drag, -1, 1);
-                   }*/
+                if (player.fullRotation % MathHelper.ToRadians(-360f) < 1 && player.fullRotation % MathHelper.ToRadians(-360f) > -1 && !lerpingToRotation)
+                {
+                    player.fullRotation = 0;
+                    wasAirborn = false;
+                }
+
+                if (player.mount.Type == -1)
+                {
+                    player.fullRotationOrigin = new Vector2(player.width / 2, player.height / 2);
+
+                    if (player.fullRotation != 0)
+                    {
+                        currentlyRotated = true;
+                    }
+
+                    if ((player.velocity.X != 0 && player.velocity.Y != 0) || (player.velocity.Y != 0 && timeAirborne > 60))
+                    {
+                        timeAirborne++;
+
+                        if (timeAirborne > 60)
+                        {
+                            lerpingToRotation = true;
+                            player.fullRotation = player.fullRotation.AngleLerp(player.velocity.ToRotation() + (float)Math.PI / 2f, 0.05f);
+                            wasAirborn = true;
+                        }
+                        else
+                        {
+                            lerpingToRotation = false;
+                            wasAirborn = false;
+                        }
+                    }
+                    else
+                    {
+                        lerpingToRotation = false;
+
+                        if (player.direction == -1)
+                        {
+                            if (wasAirborn)
+                            {
+                                player.fullRotation = MathHelper.Lerp(player.fullRotation, 0f, -0.085f);
+                            }
+                            else
+                            {
+                                player.fullRotation = 0;
+                                timeAirborne = 0;
+                            }
+                        }
+                        else
+                        {
+                            if (wasAirborn)
+                            {
+                                player.fullRotation = MathHelper.Lerp(player.fullRotation, 0f, -0.085f);
+                            }
+                            else
+                            {
+                                player.fullRotation = 0;
+                                timeAirborne = 0;
+                            }
+                        }
+
+                        if (player.fullRotation == 0)
+                        {
+                            player.fullRotation += player.velocity.X / 7f;
+
+                            if (player.fullRotation > MathHelper.ToRadians(player.velocity.X))
+                            {
+                                player.fullRotation = MathHelper.ToRadians(player.velocity.X);
+                            }
+
+                            if (player.fullRotation < MathHelper.ToRadians(-player.velocity.X))
+                            {
+                                player.fullRotation = -MathHelper.ToRadians(-player.velocity.X);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (currentlyRotated)
+                    {
+                        player.fullRotation = 0f;
+                        currentlyRotated = false;
+                        wasAirborn = false;
+                        lerpingToRotation = false;
+                    }
+                }
             }
-
-
         }
         
         public override void UpdateBiomes()
@@ -884,8 +961,6 @@ namespace EEMod
                             {
                                 player.dash = 3;
                             }
-                            player.moveSpeed *= 1.06f;
-                            player.statDefense = (int)(player.statDefense * 0.93f);
                             break;
                         }
                         case RuneID.SkyRune:
@@ -1435,6 +1510,27 @@ namespace EEMod
             void Update();
 
             void Draw(SpriteBatch spriteBatch);
+        }
+
+        public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
+        {
+            if (!Main.gameMenu)
+            {
+                if (player.wet)
+                {
+                    if (drawInfo.drawPlayer.fullRotation < MathHelper.ToRadians(90) && drawInfo.drawPlayer.fullRotation > MathHelper.ToRadians(-90))
+                    {
+                        if (drawInfo.drawPlayer.direction == 1 && Main.MouseWorld.X > drawInfo.drawPlayer.position.X)
+                        {
+                            drawInfo.drawPlayer.headRotation = Utils.Clamp((Main.MouseWorld - drawInfo.drawPlayer.Center).ToRotation(), -0.5f, 0.5f);
+                        }
+                        else if (drawInfo.drawPlayer.direction == -1 && Main.MouseWorld.X < drawInfo.drawPlayer.position.X)
+                        {
+                            drawInfo.drawPlayer.headRotation = Utils.Clamp((drawInfo.drawPlayer.Center - Main.MouseWorld).ToRotation(), -0.5f, 0.5f);
+                        }
+                    }
+                }
+            }
         }
     }
 }

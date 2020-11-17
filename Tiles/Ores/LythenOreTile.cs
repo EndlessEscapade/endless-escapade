@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.EEWorld;
 
 namespace EEMod.Tiles.Ores
 {
@@ -13,14 +14,12 @@ namespace EEMod.Tiles.Ores
             TileID.Sets.Ore[Type] = true;
             Main.tileSpelunker[Type] = true;
             Main.tileValue[Type] = 410; // Metal Detector value
-            Main.tileShine2[Type] = true; // Modifies the draw color slightly.
-            Main.tileShine[Type] = 180; // How often tiny dust appear off this tile. Larger is less frequently
-            Main.tileMergeDirt[Type] = true;
+            Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Lythen");
+            name.SetDefault("Lythen Ore");
             AddMapEntry(new Color(152, 171, 198), name);
 
             dustType = 84;
@@ -33,7 +32,7 @@ namespace EEMod.Tiles.Ores
 
         public override bool CanExplode(int i, int j)
         {
-            return NPC.downedBoss1;
+            return EEWorld.EEWorld.downedHydros;
         }
     }
 }
