@@ -80,7 +80,7 @@ namespace EEMod
         private void Main_DrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
             orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
-            ModContent.GetInstance<EEMod>().TVH.Draw();
+            ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
         }
 
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)

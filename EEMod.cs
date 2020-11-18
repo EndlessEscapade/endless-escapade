@@ -275,12 +275,12 @@ namespace EEMod
         {
             base.PreUpdateEntities();
             Particles.Update();
-        }
+       }
         public RenderTarget2D playerTarget;
-        public TileVisualHandler TVH;
+        public ComponenetManager<TileObjVisual> TVH;
         public override void Load()
         {
-            TVH = new TileVisualHandler();
+            TVH = new ComponenetManager<TileObjVisual>();
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());

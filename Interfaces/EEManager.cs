@@ -1,40 +1,40 @@
-using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Drawing;
+using System.IO;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class TileVisualHandler : IComponentHandler<TileObjVisual>
+    public class ComponenetManager<T> where T : Entity,IComponent
     {
-        List<TileObjVisual> TileVisuals = new List<TileObjVisual>();
+        List<T> Objects = new List<T>();
         public void Update()
         {
-            foreach (TileObjVisual TV in TileVisuals)
+            foreach (T TV in Objects)
             {
                 TV.Update();
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (TileObjVisual TV in TileVisuals)
+            foreach (T TV in Objects)
             {
                 TV.Draw(spriteBatch);
             }
         }
-
-        public void AddElement(TileObjVisual TV)
+        public void AddElement(T TV)
         {
-            foreach (TileObjVisual TOV in TileVisuals)
+            foreach (T TOV in Objects)
             {
                 if (TOV.position == TV.position)
                     return;
             }
-            TileVisuals.Add(TV);
+            Objects.Add(TV);
         }
     }
+
 }
