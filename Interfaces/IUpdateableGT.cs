@@ -7,8 +7,8 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public interface IUpdateable
+    public interface IUpdateableGT
     {
-        void Update();
+        void Update(GameTime gameTime);
     }
 }

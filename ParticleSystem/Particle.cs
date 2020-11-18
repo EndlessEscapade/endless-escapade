@@ -20,6 +20,7 @@ namespace EEMod
         public Color colour;
         public float rotation;
         int TrailLength;
+        public Rectangle Frame;
         public List<Vector2> PositionCache = new List<Vector2>();
         public void UpdatePositionCache()
         {
@@ -49,6 +50,7 @@ namespace EEMod
             alpha = 1;
             this.colour = colour ?? Color.White;
             TrailLength = 18;
+            Frame = new Rectangle(0, 0, 1, 1);
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]);
         }
 
@@ -92,7 +94,7 @@ namespace EEMod
                 Module.Draw(this);
             }
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, positionDraw, new Rectangle(0, 0, 1, 1), colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, positionDraw, Frame, colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
             OnDraw();
         }
     }
@@ -236,6 +238,19 @@ namespace EEMod
         public void Draw(in Particle particle) {; }
     }
 
+    class SetFrame : IParticleModule
+    {
+        Rectangle frame;
+        public SetFrame(Rectangle bounds)
+        {
+            frame = bounds;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.Frame = frame;
+        }
+        public void Draw(in Particle particle) {; }
+    }
     class CircularMotion : IParticleModule
     {
         float width;

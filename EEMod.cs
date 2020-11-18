@@ -145,7 +145,7 @@ namespace EEMod
             EENet.ReceievePacket(reader, whoAmI);
         }
 
-        private int lerps;
+        public int lerps;
         private float alphas;
         private int delays;
         public Verlet verlet = new Verlet();
@@ -267,14 +267,20 @@ namespace EEMod
         public static Effect Noise2D;
         public static Effect White;
         UIManager UI;
+        public void LoadGrass()
+        {
+
+        }
         public override void PreUpdateEntities()
         {
             base.PreUpdateEntities();
             Particles.Update();
         }
         public RenderTarget2D playerTarget;
+        public TileVisualHandler TVH;
         public override void Load()
         {
+            TVH = new TileVisualHandler();
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());

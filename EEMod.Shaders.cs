@@ -16,6 +16,7 @@ namespace EEMod
         public static Effect ReflectionShader;
         public static Effect WaterShader;
         public static Effect PrismShader;
+        public static Effect TrailPractice;
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
@@ -23,6 +24,7 @@ namespace EEMod
             Noise2DShift = instance.GetEffect("Effects/Noise2DShift");
             ReflectionShader = instance.GetEffect("Effects/ReflectionShader");
             WaterShader = instance.GetEffect("Effects/WaterShader");
+            TrailPractice = instance.GetEffect("Effects/NonBasicEffectShader");
             //instance is a static field and this method is still inside the mod class
             Ref<Effect> screenRef = new Ref<Effect>(instance.GetEffect("Effects/PracticeEffect"));
             Ref<Effect> screenRef2 = new Ref<Effect>(instance.GetEffect("Effects/Shockwave"));

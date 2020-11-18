@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
@@ -36,6 +38,7 @@ namespace EEMod
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DrawNPC += Main_DrawNPC1;
+            On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
@@ -61,6 +64,7 @@ namespace EEMod
             On.Terraria.Main.DoUpdate -= Main_DoUpdate;
             On.Terraria.Main.DrawNPC -= Main_DrawNPC;
             On.Terraria.Main.Draw -= Main_Draw;
+            On.Terraria.Main.DrawPlayer -= Main_DrawPlayer;
             On.Terraria.Main.DrawBG -= Main_DrawBG;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
@@ -72,6 +76,13 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
         }
+
+        private void Main_DrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
+        {
+            orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
+            ModContent.GetInstance<EEMod>().TVH.Draw();
+        }
+
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
         {
             //DrawSpiderPort();
@@ -127,7 +138,7 @@ namespace EEMod
             float num2 = dimensions.X + num;
 
             Vector2 position = new Vector2(num2, innerDimensions.Y + 59);
-            float width = 200;
+            float width = 370;
 
             spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), position, new Rectangle(0, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White);
             spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), new Vector2(position.X + 8f, position.Y), new Rectangle(8, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
@@ -137,7 +148,25 @@ namespace EEMod
         private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, Terraria.GameContent.UI.Elements.UIWorldListItem self, Terraria.IO.WorldFileData data, int snapPointIndex)
         {
             orig(self, data, snapPointIndex);
+            string EEPath = $@"{Main.SavePath}\Worlds\{data.Name}Subworlds";
+            List<string> SubworldsUnlocked = new List<string>();
 
+            if (Directory.Exists(EEPath))
+            {
+                //TODO make this better
+                string[] Subworlds = new string[] { "CoralReefs", "Sea","VolcanoIsland" };
+                foreach (string S in Subworlds)
+                {
+                    string CRPath = $@"{EEPath}\{S}.wld";
+
+                    if (File.Exists(CRPath))
+                    {
+                        SubworldsUnlocked.Add(S);
+                    }
+                }
+            }
+
+              
             float num = 56f;
 
             if (SocialAPI.Cloud != null)
@@ -149,12 +178,16 @@ namespace EEMod
             {
                 num += 24f;
             }
-
-            UIText buttonLabel = new UIText("")
+            string SLock = "Unlocked Islands:";
+            foreach(string SW in SubworldsUnlocked)
+            {
+                SLock += $" {SW},";
+            }
+            UIText buttonLabel = new UIText(SLock)
             {
                 VAlign = 1f
             };
-            buttonLabel.Left.Set(num + 210f, 0f);
+            buttonLabel.Left.Set(num + 10, 0f);
             buttonLabel.Top.Set(-3f, 0f);
 
             typeof(Main).Assembly.GetType("Terraria.GameContent.UI.Elements.UIWorldListItem").GetField("_buttonLabel", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(self, buttonLabel);
@@ -360,6 +393,8 @@ namespace EEMod
         {
 
             //UpdateLight();
+            ModContent.GetInstance<EEMod>().TVH.Update();
+
             DrawKelpTarzanVines();
             verlet.GlobalRenderPoints();
             DrawNoiseSurfacing();
