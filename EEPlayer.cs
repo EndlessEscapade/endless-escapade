@@ -233,7 +233,7 @@ namespace EEMod
                 }
             }
         }
-        
+
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = Main.ActiveWorldFileData.Name == KeyID.CoralReefs;
@@ -263,7 +263,7 @@ namespace EEMod
         private int bubbleColumn;
         public bool isHoldingGlider;
         public Vector2 currentAltarPos;
-
+        public bool isInSubworld;
         public override void UpdateVanityAccessories()
         {
             if (hydroGear || dragonScale)
@@ -402,6 +402,14 @@ namespace EEMod
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
+                try
+                {
+                    isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
+                }
+                catch
+                {
+
+                }
                 for (int i = 0; i < arrayPoints.Length; i++)
                 {
                     arrayPoints[i] = new Vector2(mainPoint.X + (i * displaceX), mainPoint.Y + (i * displaceY));

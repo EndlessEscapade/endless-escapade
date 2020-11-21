@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,6 +32,12 @@ namespace EEMod.Items.Gliders
         public override void UpdateInventory(Player player)
         {
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider = false;
+        }
+        public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
+        {
+            
+            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(2));
+            EEMod.Particles.Get("Main").SpawnParticles(position,null);
         }
         public override void HoldStyle(Player player)
         {

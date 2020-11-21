@@ -166,7 +166,7 @@ namespace EEMod
                 }
             }
 
-              
+
             float num = 56f;
 
             if (SocialAPI.Cloud != null)
@@ -182,6 +182,11 @@ namespace EEMod
             foreach(string SW in SubworldsUnlocked)
             {
                 SLock += $" {SW},";
+            }
+            SLock = SLock.TrimEnd(',', ' ');
+            if(SLock == "Unlocked Islands:")
+            {
+                SLock = "No Unlocked Islands";
             }
             UIText buttonLabel = new UIText(SLock)
             {

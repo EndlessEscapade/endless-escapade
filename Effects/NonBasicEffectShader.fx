@@ -42,12 +42,17 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
+	return input.Color * sin(input.TextureCoordinates.y * 20);
+}
+float4 Extras(VertexShaderOutput input) : COLOR
+{
 	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
 }
 
+
 float4 BasicImage(VertexShaderOutput input) : COLOR
 {
-    float alpha = (1.0 - strength) + tex2D(imageSampler, coordOffset + input.TextureCoordinates * coordMultiplier).r * strength;
+    float alpha = abs((1.0 - strength) + tex2D(imageSampler, coordOffset + input.TextureCoordinates * coordMultiplier).r * strength);
 	return input.Color * alpha;
 }
 

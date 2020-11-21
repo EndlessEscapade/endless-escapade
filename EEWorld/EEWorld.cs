@@ -69,6 +69,7 @@ namespace EEMod.EEWorld
                     yes = EntracesPosses[0];
                 }
             }
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
         }
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)

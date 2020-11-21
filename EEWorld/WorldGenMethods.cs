@@ -98,7 +98,6 @@ namespace EEMod.EEWorld
             {
                 downed.Add("eocFlag");
             }
-
             IList<string> flags = tag.GetList<string>("boolFlags");
 
             // Game modes

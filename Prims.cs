@@ -432,6 +432,17 @@ namespace EEMod
                     _points.RemoveAt(0);
                 }
             }
+            void TesterUpdates()
+            {
+                _points.Add(Main.MouseWorld);
+                active = true;
+                Cap = 20;
+                lerper++;
+                if (_points.Count > Cap)
+                {
+                    _points.RemoveAt(0);
+                }
+            }
 
             void JellyFishUpdates()
             {
@@ -454,7 +465,8 @@ namespace EEMod
             {
                 if (_projectile == null)
                 {
-                    GliderUpdates();
+                    //GliderUpdates();
+                    TesterUpdates();
                 }
                 if (_projectile != null)
                 {
@@ -483,15 +495,15 @@ namespace EEMod
                     if (currentIndex < vertices.Length)
                         vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
                 }
-                void PrepareShader()
+                void PrepareShader(Effect effects)
                 {
                     int width = device.Viewport.Width;
                     int height = device.Viewport.Height;
                     Vector2 zoom = Main.GameViewMatrix.Zoom;
                     Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
                     Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
-                    effect.Parameters["WorldViewProjection"].SetValue(view * projection);
-                    _trailShader.ApplyShader(effect, this, _points);
+                    effects.Parameters["WorldViewProjection"].SetValue(view * projection);
+                    _trailShader.ApplyShader(effects, this, _points);
                 }
                 void PrepareBasicShader()
                 {
@@ -506,6 +518,27 @@ namespace EEMod
                     {
                         pass.Apply();
                     }
+                }
+                void MakePrimMidFade(int i,int Width, float alphaValue,Color baseColour = default,float fadeValue = 1,float sineFactor = 0)
+                {
+                    Color c = (baseColour == default ? Color.White : baseColour) * (i / Cap) * fadeValue;
+                    Vector2 normal = CurveNormal(_points, i);
+                    Vector2 normalAhead = CurveNormal(_points, i + 1);
+                    float j = (Cap - (i * 0.9f)) / Cap;
+                    float width = (i / Cap) * Width;
+                    float width2 = ((i+1) / Cap) * Width;
+                    Vector2 firstUp = _points[i] - normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f))* sineFactor;
+                    Vector2 firstDown = _points[i] + normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f)) * sineFactor;
+                    Vector2 secondUp = _points[i + 1] - normalAhead * width2 + new Vector2(0, (float)Math.Sin(lerper / 10f + (i+1) / 3f)) * sineFactor;
+                    Vector2 secondDown = _points[i + 1] + normalAhead * width2 + new Vector2(0, (float)Math.Sin(lerper / 10f + (i+1) / 3f)) * sineFactor;
+
+                    AddVertex(firstDown, c * alphaValue, new Vector2((i / Cap), 1));
+                    AddVertex(firstUp, c * alphaValue, new Vector2((i / Cap), 0));
+                    AddVertex(secondDown, c * alphaValue, new Vector2((i + 1) / Cap, 1));
+
+                    AddVertex(secondUp, c * alphaValue, new Vector2((i + 1) / Cap, 0));
+                    AddVertex(secondDown, c * alphaValue, new Vector2((i + 1) / Cap, 1));
+                    AddVertex(firstUp, c * alphaValue, new Vector2((i / Cap), 0));
                 }
                 //PRIM DELEGATES
                 DrawPrimDelegate LythenPrims = (int noOfPoints) =>
@@ -535,7 +568,6 @@ namespace EEMod
                     AddVertex(rightMostPoint, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                     AddVertex(between, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                     AddVertex(leftMostPoint, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                    PrepareShader();
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
                 void DrawJelly(int noOfPoints)
@@ -634,24 +666,7 @@ namespace EEMod
 
                             if (i != _points.Count - 1)
                             {
-                                Color c = Color.Lerp(Color.Red, Color.DarkRed, i / Cap);
-                                Vector2 normal = CurveNormal(_points, i);
-                                Vector2 normalAhead = CurveNormal(_points, i + 1);
-                                float j = (Cap - (i * 0.9f)) / Cap;
-                                width *= (Cap - (i * 0.4f)) / Cap;
-                                Vector2 firstUp = _points[i] - normal * width;
-                                Vector2 firstDown = _points[i] + normal * width;
-                                Vector2 secondUp = _points[i + 1] - normalAhead * width;
-                                Vector2 secondDown = _points[i + 1] + normalAhead * width;
-
-                                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-
-
-                                AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                MakePrimMidFade(i, 5, 1f, Color.Red);
                             }
                             else
                             {
@@ -660,10 +675,10 @@ namespace EEMod
                         }
                     }
 
-
                     PrepareBasicShader();
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
+
                 DrawPrimDelegate GliderPrims = (int noOfPoints) =>
                 {
                     if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider) return;
@@ -674,37 +689,14 @@ namespace EEMod
                     {
                         if (i == 0)
                         {
-                            Color c = Color.White;
-                            Vector2 normalAhead = CurveNormal(_points, i + 1);
-                            Vector2 secondUp = _points[i + 1] - normalAhead * width;
-                            Vector2 secondDown = _points[i + 1] + normalAhead * width;
-                            //AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                            // AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                            //AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+
                         }
                         else
                         {
 
                             if (i != _points.Count - 1)
                             {
-                                float vel = Math.Abs(Main.LocalPlayer.velocity.X);
-                                Color c = Color.White * (i / Cap) * (vel / 20f);
-                                Vector2 normal = CurveNormal(_points, i);
-                                Vector2 normalAhead = CurveNormal(_points, i + 1);
-                                float j = (Cap - (i * 0.9f)) / Cap;
-                                width = (i / Cap) * 5;
-                                Vector2 firstUp = _points[i] - normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f));
-                                Vector2 firstDown = _points[i] + normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f));
-                                Vector2 secondUp = _points[i + 1] - normalAhead * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f + .33f));
-                                Vector2 secondDown = _points[i + 1] + normalAhead * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f + .33f));
-
-                                AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-
-                                AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                MakePrimMidFade(i,5, 0.8f,default, Math.Abs(Main.LocalPlayer.velocity.X)/20f,1);
                             }
                             else
                             {
@@ -713,8 +705,33 @@ namespace EEMod
                         }
                     }
 
+                    PrepareShader(EEMod.TrailPractice);
+                    device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
+                };
+                DrawPrimDelegate TesterPrims = (int noOfPoints) =>
+                {
+                    vertices = new VertexPositionColorTexture[noOfPoints];
+                    for (int i = 0; i < _points.Count; i++)
+                    {
+                        if (i == 0)
+                        {
 
-                    PrepareBasicShader();
+                        }
+                        else
+                        {
+
+                            if (i != _points.Count - 1)
+                            {
+                                MakePrimMidFade(i, 20, 0.8f);
+                            }
+                            else
+                            {
+
+                            }
+                        }
+                    }
+
+                    PrepareShader(EEMod.TrailPractice);
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
                 DrawPrimDelegate JellyfishPrims = (int noOfPoints) =>
@@ -741,24 +758,7 @@ namespace EEMod
                         {
                             if (i != _points.Count - 1)
                             {
-                                Color c = Color.Red;
-                                Vector2 normal = CurveNormal(_points, i);
-                                Vector2 normalAhead = CurveNormal(_points, i + 1);
-                                float j = (Cap + ((float)(Math.Sin(lerper / 10f)) * 1) - i * 0.1f) / Cap;
-                                width *= j;
-                                Vector2 firstUp = _points[i] - normal * width;
-                                Vector2 firstDown = _points[i] + normal * width;
-                                Vector2 secondUp = _points[i + 1] - normalAhead * width;
-                                Vector2 secondDown = _points[i + 1] + normalAhead * width;
-
-                                AddVertex(firstUp, c * alphaValue, new Vector2(1));
-                                AddVertex(secondDown, c * alphaValue, new Vector2(0));
-                                AddVertex(firstDown, c * alphaValue, new Vector2(0));
-
-
-                                AddVertex(secondUp, c * alphaValue, new Vector2(1));
-                                AddVertex(secondDown, c * alphaValue, new Vector2(0));
-                                AddVertex(firstUp, c * alphaValue, new Vector2(0));
+                                MakePrimMidFade(i, 5, 1f);
                             }
                             else
                             {
@@ -807,14 +807,13 @@ namespace EEMod
                                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                                AddVertex(firstUp, c * alphaValue, new Vector2(1));
-                                AddVertex(secondDown, CBT * alphaValue, new Vector2(0));
-                                AddVertex(firstDown, c * alphaValue, new Vector2(0));
+                                AddVertex(firstDown, c * alphaValue, new Vector2((i / Cap), 1));
+                                AddVertex(firstUp, c * alphaValue, new Vector2((i / Cap), 0));
+                                AddVertex(secondDown, CBT * alphaValue, new Vector2((i + 1) / Cap, 1));
 
-
-                                AddVertex(secondUp, CBT * alphaValue, new Vector2(1));
-                                AddVertex(secondDown, CBT * alphaValue, new Vector2(0));
-                                AddVertex(firstUp, c * alphaValue, new Vector2(0));
+                                AddVertex(secondUp, CBT * alphaValue, new Vector2((i + 1) / Cap, 0));
+                                AddVertex(secondDown, CBT * alphaValue, new Vector2((i + 1) / Cap, 1));
+                                AddVertex(firstUp, c * alphaValue, new Vector2((i / Cap), 0));
                             }
                             else
                             {
@@ -822,7 +821,7 @@ namespace EEMod
                             }
                         }
                     }
-                    PrepareBasicShader();
+                    PrepareShader(EEMod.TrailPractice);
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
                 DrawPrimDelegate PrismDaggerPrims = (int noOfPoints) =>
@@ -911,6 +910,7 @@ namespace EEMod
                     }
                 }
                 GliderPrims.Invoke((int)Cap * 6 - 12);
+                TesterPrims.Invoke((int)Cap * 6 - 12);
             }
             //Helper methods
             private Vector2 CurveNormal(List<Vector2> points, int index)

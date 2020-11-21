@@ -54,7 +54,6 @@ namespace EEMod
         public static int _lastSeed;
         public static ParticleZoneHandler Particles;
         //public Handwriting HandwritingCNN;
-
         public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
         {
             switch (key)
