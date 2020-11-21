@@ -249,6 +249,8 @@ namespace EEMod
             {
                 trailManager.UpdateTrails();
                 prims.UpdateTrails();
+
+                primTrailHelper.UpdateTrails();
             }
             EEPlayer.UpdateOceanMapElements();
         }

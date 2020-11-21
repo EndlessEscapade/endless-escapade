@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
+using EEMod.Prim;
 
 //TODO:
 //Make it explode
@@ -216,8 +217,9 @@ namespace EEMod.Projectiles.Melee
                      int lightningproj = Projectile.NewProjectile(pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
                      if (Main.netMode != NetmodeID.Server)
                         {
-                            EEMod.prims.CreateTrail(Main.projectile[lightningproj]);
-                        }
+                        new Prim.AxeLightningPrimTrail(Main.projectile[lightningproj]);
+                        //    EEMod.prims.CreateTrail(Main.projectile[lightningproj]);
+                    }
                 }
                 projectile.ai[1] = 2;
             }

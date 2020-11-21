@@ -25,6 +25,7 @@ using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.Social;
 using Terraria.UI;
+using EEMod.Prim;
 
 namespace EEMod
 {
@@ -52,6 +53,7 @@ namespace EEMod
         public static string screenMessageText;
         public static string progressMessage;
         public static TrailManager trailManager;
+        public static PrimTrailHelper primTrailHelper = new PrimTrailHelper();
         public static Prims prims;
         public float seed;
         public float speed;

@@ -2,6 +2,7 @@
 using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.NPCs.Bosses.Kraken;
+using EEMod.Prim;
 using EEMod.Projectiles;
 using EEMod.Projectiles.Mage;
 using EEMod.Tiles;
@@ -465,6 +466,9 @@ namespace EEMod
         {
             trailManager.DrawTrails(Main.spriteBatch);
             prims.DrawProjectileTrails();
+
+            primTrailHelper.DrawTrails(Main.spriteBatch);
+
             orig(self);
         }
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)
