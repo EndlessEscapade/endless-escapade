@@ -23,7 +23,7 @@ namespace EEMod
         public interface ITrailShader
         {
             string ShaderPass { get; }
-            void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions);
+            void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions, string ESP);
         }
         public void DrawTrails(SpriteBatch spriteBatch)
         {
@@ -48,11 +48,15 @@ namespace EEMod
         public class DefaultShader : ITrailShader
         {
             public string ShaderPass => "DefaultPass";
-            public void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions)
+            public void ApplyShader<T>(Effect effect, T trail, List<Vector2> positions, string ESP)
             {
-                foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
+                try
                 {
-                    pass.Apply();
+                    effect.CurrentTechnique.Passes[ESP].Apply();
+                }
+                catch
+                {
+
                 }
                 effect.CurrentTechnique.Passes[ShaderPass].Apply();
             }
@@ -503,7 +507,7 @@ namespace EEMod
                     Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
                     Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
                     effects.Parameters["WorldViewProjection"].SetValue(view * projection);
-                    _trailShader.ApplyShader(effects, this, _points);
+                    _trailShader.ApplyShader(effects, this, _points,"MainPS");
                 }
                 void PrepareBasicShader()
                 {

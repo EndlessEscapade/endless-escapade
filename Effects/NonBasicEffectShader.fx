@@ -42,7 +42,15 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	return input.Color * sin(input.TextureCoordinates.y * 20);
+	input.Color.r += sin(input.TextureCoordinates.x * 5);
+	input.Color.g -= cos(input.TextureCoordinates.x * 2);
+	input.Color.b += cos(input.TextureCoordinates.x * 7);
+	return input.Color * sin(input.TextureCoordinates.y * 10.14159265);
+}
+float4 MainPS3(VertexShaderOutput input) : COLOR
+{
+	input.Color.r += sin(input.TextureCoordinates.x * 5);
+	return input.Color;
 }
 float4 Extras(VertexShaderOutput input) : COLOR
 {
