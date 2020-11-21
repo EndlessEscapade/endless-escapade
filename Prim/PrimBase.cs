@@ -34,7 +34,7 @@ namespace EEMod.Prim
             }
         }
     }
-    public class PrimTrail : IUpdateable
+    public partial class PrimTrail : IUpdateable
     {
         protected Projectile _projectile;
         protected NPC _npc;
@@ -42,9 +42,9 @@ namespace EEMod.Prim
         protected float _alphaValue;
         protected int _cap;
 
-        protected int _lerper;
+        protected int _counter;
         protected int _noOfPoints;
-        protected List<Vector2> _listOfPoints = new List<Vector2>();
+        protected List<Vector2> _points = new List<Vector2>();
 
         protected GraphicsDevice _device;
         protected Effect _effect;
@@ -56,43 +56,32 @@ namespace EEMod.Prim
             PrimTrailHelper._trails.Add(this);
             SetDefaults();
         }
-        
-        public virtual void Update()
+
+        public void Dispose()
+        {
+            PrimTrailHelper._trails.Remove(this);
+        }
+        public void Update()
+        {
+            OnUpdate();
+        }
+        public virtual void OnUpdate()
         {
 
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-           
+
         }
         public virtual void SetDefaults()
         {
 
         }
 
-        public virtual void Dispose()
+        public virtual void OnDestroy()
         {
 
         }
         //Helper methods
-        protected static Vector2 CurveNormal(List<Vector2> points, int index)
-        {
-            if (points.Count == 1) return points[0];
-
-            if (index == 0)
-            {
-                return Clockwise90(Vector2.Normalize(points[1] - points[0]));
-            }
-            if (index == points.Count - 1)
-            {
-                return Clockwise90(Vector2.Normalize(points[index] - points[index - 1]));
-            }
-            return Clockwise90(Vector2.Normalize(points[index + 1] - points[index - 1]));
-        }
-
-        protected static Vector2 Clockwise90(Vector2 vector)
-        {
-            return new Vector2(-vector.Y, vector.X);
-        }
     }
 }
