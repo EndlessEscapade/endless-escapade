@@ -417,17 +417,10 @@ namespace EEMod
             delegate
             {
                 Ascension();
-                if (Main.worldName == KeyID.Sea)
-                {
-                    SeamapUpdates.UpdateShipMovement();
-                    SeamapRender.Render();
-                    DrawSubText();
-                }
                 if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
                 {
                     DrawText();
                 }
-
                 return true;
             },
             InterfaceScaleType.UI);
