@@ -88,7 +88,7 @@ namespace EEMod
                 throw new Exception();
             // before the stfld there will be an int on the stack
             c.Emit(OpCodes.Ldloc, 3); // tile
-            c.EmitDelegate<Func<bool, Tile, bool>>((orig, tile) => orig && tile.type == ModContent.TileType<EmptyTile>());
+            c.EmitDelegate<Func<bool, Tile, bool>>((orig, tile) => orig && tile.type != ModContent.TileType<EmptyTile>());
         }
 
         private void Main_oldDrawWater(ILContext il)

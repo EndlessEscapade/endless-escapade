@@ -1,4 +1,5 @@
-﻿using EEMod.Config;
+﻿using EEMod.Autoloading;
+using EEMod.Config;
 using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.NPCs.Bosses.Kraken;
@@ -38,29 +39,22 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
-            On.Terraria.Main.DrawNPC += Main_DrawNPC1;
+            //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
             On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
-            On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
-            On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
+            //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
+            //On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
-            On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
+            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
         }
 
-        private void LiquidRenderer_InternalDraw(On.Terraria.GameContent.Liquid.LiquidRenderer.orig_InternalDraw orig, Terraria.GameContent.Liquid.LiquidRenderer self, SpriteBatch spriteBatch, Vector2 drawOffset, int waterStyle, float globalAlpha, bool isBackgroundDraw)
-        {
-            orig(self, spriteBatch, drawOffset, waterStyle, globalAlpha, isBackgroundDraw);
-        }
-
-      
-
         private void UnloadDetours()
         {
-            On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= LiquidRenderer_InternalDraw;
-            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
+            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= LiquidRenderer_InternalDraw;
+            //On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
             On.Terraria.Main.DoUpdate -= Main_DoUpdate;
             On.Terraria.Main.DrawNPC -= Main_DrawNPC;
@@ -69,8 +63,8 @@ namespace EEMod
             On.Terraria.Main.DrawBG -= Main_DrawBG;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
-            On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
-            On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
+            //On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
+            //On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
@@ -78,13 +72,18 @@ namespace EEMod
             On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
         }
 
+        /*private void LiquidRenderer_InternalDraw(On.Terraria.GameContent.Liquid.LiquidRenderer.orig_InternalDraw orig, Terraria.GameContent.Liquid.LiquidRenderer self, SpriteBatch spriteBatch, Vector2 drawOffset, int waterStyle, float globalAlpha, bool isBackgroundDraw)
+        {
+            orig(self, spriteBatch, drawOffset, waterStyle, globalAlpha, isBackgroundDraw);
+        }*/
+
         private void Main_DrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
             orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
             ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
         }
 
-        private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
+        /*private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
         {
             //DrawSpiderPort();
             orig(self);
@@ -96,7 +95,8 @@ namespace EEMod
         private void Main_DrawNPC1(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
         {
             orig(self, iNPCIndex, behindTiles);
-        }
+        }*/
+
         private void WorldGen_SmashAltar(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
         {
             orig(i, j);
@@ -120,8 +120,8 @@ namespace EEMod
         {
             orig(self, spriteBatch);
 
-            WorldFileData data = (WorldFileData)typeof(Main).Assembly.GetType("Terraria.GameContent.UI.Elements.UIWorldListItem").GetField("_data", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(self);
-            UIImage worldIcon = (UIImage)typeof(Main).Assembly.GetType("Terraria.GameContent.UI.Elements.UIWorldListItem").GetField("_worldIcon", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(self);
+            WorldFileData data = (WorldFileData)DetourReflectionCache.UIWorldListItem_data.GetValue(self);
+            UIImage worldIcon = (UIImage)DetourReflectionCache.UIWorldListItem_worldIcon.GetValue(self);
             CalculatedStyle innerDimensions = self.GetInnerDimensions();
             CalculatedStyle dimensions = worldIcon.GetDimensions();
             float num = 56f;
@@ -139,14 +139,15 @@ namespace EEMod
             float num2 = dimensions.X + num;
 
             Vector2 position = new Vector2(num2, innerDimensions.Y + 59);
-            float width = 370;
+            const float width = 370;
 
-            spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), position, new Rectangle(0, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White);
-            spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), new Vector2(position.X + 8f, position.Y), new Rectangle(8, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
-            spriteBatch.Draw(TextureManager.Load("Images/UI/InnerPanelBackground"), new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, TextureManager.Load("Images/UI/InnerPanelBackground").Height), Color.White);
+            Texture2D texture = TextureManager.Load("Images/UI/InnerPanelBackground");
+            spriteBatch.Draw(texture, position, new Rectangle(0, 0, 8, texture.Height), Color.White);
+            spriteBatch.Draw(texture, new Vector2(position.X + 8f, position.Y), new Rectangle(8, 0, 8, texture.Height), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, texture.Height), Color.White);
         }
 
-        private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, Terraria.GameContent.UI.Elements.UIWorldListItem self, Terraria.IO.WorldFileData data, int snapPointIndex)
+        private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int snapPointIndex)
         {
             orig(self, data, snapPointIndex);
             string EEPath = $@"{Main.SavePath}\Worlds\{data.Name}Subworlds";
@@ -155,7 +156,7 @@ namespace EEMod
             if (Directory.Exists(EEPath))
             {
                 //TODO make this better
-                string[] Subworlds = new string[] { "CoralReefs", "Sea","VolcanoIsland" };
+                string[] Subworlds = new string[] { KeyID.CoralReefs, KeyID.Sea, KeyID.VolcanoIsland };
                 foreach (string S in Subworlds)
                 {
                     string CRPath = $@"{EEPath}\{S}.wld";
@@ -179,16 +180,12 @@ namespace EEMod
             {
                 num += 24f;
             }
-            string SLock = "Unlocked Islands:";
-            foreach(string SW in SubworldsUnlocked)
-            {
-                SLock += $" {SW},";
-            }
-            SLock = SLock.TrimEnd(',', ' ');
-            if(SLock == "Unlocked Islands:")
-            {
-                SLock = "No Unlocked Islands";
-            }
+            //foreach (string SW in SubworldsUnlocked)
+            //{
+            //    SLock += $" {SW},";
+            //}
+            //SLock = SLock.TrimEnd(',', ' ');
+            string SLock = SubworldsUnlocked.Count > 0 ? string.Join(", ", SubworldsUnlocked) : "No Unlocked Islands"; // TODO: Localization maybe?
             UIText buttonLabel = new UIText(SLock)
             {
                 VAlign = 1f
@@ -196,7 +193,7 @@ namespace EEMod
             buttonLabel.Left.Set(num + 10, 0f);
             buttonLabel.Top.Set(-3f, 0f);
 
-            typeof(Main).Assembly.GetType("Terraria.GameContent.UI.Elements.UIWorldListItem").GetField("_buttonLabel", BindingFlags.Instance | BindingFlags.NonPublic).SetValue(self, buttonLabel);
+            DetourReflectionCache.UIWorldListItem_buttonLabel.SetValue(self, buttonLabel);
 
             self.Append(buttonLabel);
         }
@@ -213,6 +210,7 @@ namespace EEMod
 
             return index;
         }
+
         void HandleCrystalDraw(Vector2 position)
         {
             Texture2D tex = instance.GetTexture("Tiles/EmptyTileArrays/CoralCrystal");
@@ -318,12 +316,6 @@ namespace EEMod
             #endregion
         }
 
-
-
-       
- 
-
-
         void HandleBulbDraw(Vector2 position)
         {
             Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
@@ -392,9 +384,8 @@ namespace EEMod
             Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y + (int)(Math.Sin(sineInt * 4) * 10), tex.Width + (int)(Math.Sin(sineInt) * 10), tex.Height + (int)Math.Cos(sineInt) * 10), new Rectangle(0, 0, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), Color.White * 0, (float)Math.Sin(sineInt), tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-
-
         }
+
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             //UpdateLight();
@@ -469,11 +460,13 @@ namespace EEMod
 
             orig(self);
         }
+
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)
         {
             prims.DrawTrails(Main.spriteBatch);
             orig(self, iNPCTiles, behindTiles);
         }
+
         private void Main_DrawBG(On.Terraria.Main.orig_DrawBG orig, Main self)
         {
             if (EEModConfigClient.Instance.BetterLighting && !Main.gameMenu)
@@ -489,7 +482,7 @@ namespace EEMod
             orig(self);
         }
 
-        private void Main_Draw(On.Terraria.Main.orig_Draw orig, Main self, Microsoft.Xna.Framework.GameTime gameTime)
+        private void Main_Draw(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
 
@@ -865,8 +858,9 @@ namespace EEMod
                 }
             }
         }
+
         public static float lerp;
-        private void Main_DoUpdate(On.Terraria.Main.orig_DoUpdate orig, Terraria.Main self, Microsoft.Xna.Framework.GameTime gameTime)
+        private void Main_DoUpdate(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
         {
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
             {
@@ -899,6 +893,22 @@ namespace EEMod
             //ColourPoints.Add(new Color(a, b, c));
 
             orig(i, j, R, G, B);
+        }
+
+        private static class DetourReflectionCache
+        {
+            public static FieldInfo UIWorldListItem_data;
+            public static FieldInfo UIWorldListItem_worldIcon;
+            public static FieldInfo UIWorldListItem_buttonLabel;
+
+            [LoadingMethod]
+            private static void Load()
+            {
+                Type t = typeof(UIWorldListItem);
+                UIWorldListItem_data = t.GetField("_data", BindingFlags.Instance | BindingFlags.NonPublic);
+                UIWorldListItem_worldIcon = t.GetField("_worldIcon", BindingFlags.Instance | BindingFlags.NonPublic);
+                UIWorldListItem_buttonLabel = t.GetField("_buttonLabel", BindingFlags.Instance | BindingFlags.NonPublic);
+            }
         }
     }
 }

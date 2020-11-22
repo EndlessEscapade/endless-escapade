@@ -404,7 +404,10 @@ namespace EEMod
             {
                 try
                 {
-                    isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
+                    if (Main.gameMenu)
+                        isInSubworld = false;
+                    else
+                        isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
                 }
                 catch
                 {
