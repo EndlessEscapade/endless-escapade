@@ -23,7 +23,7 @@ namespace EEMod.Prim
         {
             foreach (PrimTrail trail in _trails.ToArray())
             {
-                trail.Draw(spriteBatch);
+                trail.Draw();
             }
         }
         public void UpdateTrails()
@@ -51,6 +51,9 @@ namespace EEMod.Prim
         protected GraphicsDevice _device;
         protected Effect _effect;
         protected BasicEffect _basicEffect;
+
+        protected VertexPositionColorTexture[] vertices;
+        protected int currentIndex;
         public PrimTrail(Projectile projectile)
         {
             _device = Main.graphics.GraphicsDevice;
@@ -58,7 +61,9 @@ namespace EEMod.Prim
             _basicEffect.VertexColorEnabled = true;
             _projectile = projectile;
             SetDefaults();
+            vertices = new VertexPositionColorTexture[_cap];
         }
+
 
         public void Dispose()
         {
@@ -72,7 +77,18 @@ namespace EEMod.Prim
         {
 
         }
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public void Draw()
+        {
+            vertices = new VertexPositionColorTexture[_noOfPoints];
+            currentIndex = 0;
+            PrimStructure(Main.spriteBatch);
+            SetShaders();
+        }
+        public virtual void PrimStructure(SpriteBatch spriteBatch)
+        {
+
+        }
+        public virtual void SetShaders()
         {
 
         }

@@ -37,11 +37,7 @@ namespace EEMod.Prim
         {
             return new Vector2(-vector.Y, vector.X);
         }
-        protected static void AddVertex(Vector2 position, Color color, Vector2 uv, ref int currentIndex, ref VertexPositionColorTexture[] vertices)
-        {
-            if (currentIndex < vertices.Length)
-                vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
-        }
+
         protected void PrepareShader(Effect effects)
         {
             int width = _device.Viewport.Width;
@@ -66,6 +62,11 @@ namespace EEMod.Prim
                 pass.Apply();
             }
         }
+        protected void AddVertex(Vector2 position, Color color, Vector2 uv)
+        {
+            if (currentIndex < vertices.Length)
+                vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
+        }
         protected void MakePrimMidFade(int i, int Width, float alphaValue, ref int currentIndex, ref VertexPositionColorTexture[] vertices, Color baseColour = default, float fadeValue = 1, float sineFactor = 0)
         {
             Color c = (baseColour == default ? Color.White : baseColour) * (i / _cap) * fadeValue;
@@ -79,13 +80,13 @@ namespace EEMod.Prim
             Vector2 secondUp = _points[i + 1] - normalAhead * width2 + new Vector2(0, (float)Math.Sin(_counter / 10f + (i + 1) / 3f)) * sineFactor;
             Vector2 secondDown = _points[i + 1] + normalAhead * width2 + new Vector2(0, (float)Math.Sin(_counter / 10f + (i + 1) / 3f)) * sineFactor;
 
-            AddVertex(firstDown, c * alphaValue, new Vector2((i / _cap), 1), ref currentIndex, ref vertices);
-            AddVertex(firstUp, c * alphaValue, new Vector2((i / _cap), 0), ref currentIndex, ref vertices);
-            AddVertex(secondDown, c * alphaValue, new Vector2((i + 1) / _cap, 1), ref currentIndex, ref vertices);
+            AddVertex(firstDown, c * alphaValue, new Vector2((i / _cap), 1));
+            AddVertex(firstUp, c * alphaValue, new Vector2((i / _cap), 0));
+            AddVertex(secondDown, c * alphaValue, new Vector2((i + 1) / _cap, 1));
 
-            AddVertex(secondUp, c * alphaValue, new Vector2((i + 1) / _cap, 0), ref currentIndex, ref vertices);
-            AddVertex(secondDown, c * alphaValue, new Vector2((i + 1) / _cap, 1), ref currentIndex, ref vertices);
-            AddVertex(firstUp, c * alphaValue, new Vector2((i / _cap), 0), ref currentIndex, ref vertices);
+            AddVertex(secondUp, c * alphaValue, new Vector2((i + 1) / _cap, 0));
+            AddVertex(secondDown, c * alphaValue, new Vector2((i + 1) / _cap, 1));
+            AddVertex(firstUp, c * alphaValue, new Vector2((i / _cap), 0));
         }
         protected void DrawBasicTrail(Color c1, float widthVar)
         {

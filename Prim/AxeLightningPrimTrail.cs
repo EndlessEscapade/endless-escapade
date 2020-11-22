@@ -29,7 +29,7 @@ namespace EEMod.Prim
             _width = 1;
             _cap = 80;
         }
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void PrimStructure(SpriteBatch spriteBatch)
         {
             /*if (_noOfPoints <= 1) return; //for easier, but less customizable, drawing
             float colorSin = (float)Math.Sin(_counter / 3f);
@@ -38,10 +38,8 @@ namespace EEMod.Prim
             DrawBasicTrail(c1, widthVar);*/
 
             if (_noOfPoints <= 1) return;
-            VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[_noOfPoints];
             float widthVar;
             float colorSin = (float)Math.Sin(_counter / 3f);
-            int currentIndex = 0;
             for (int i = 0; i < _points.Count; i++)
             {
                 if (i == 0)
@@ -51,9 +49,9 @@ namespace EEMod.Prim
                     Vector2 normalAhead = CurveNormal(_points, i + 1);
                     Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                     Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-                    AddVertex(_points[i], c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)), ref currentIndex, ref vertices);
-                    AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)), ref currentIndex, ref vertices);
-                    AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)), ref currentIndex, ref vertices);
+                    AddVertex(_points[i], c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
+                    AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
+                    AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
                 }
                 else
                 {
@@ -73,13 +71,13 @@ namespace EEMod.Prim
                         Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                         Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                        AddVertex(firstDown, c * _alphaValue, new Vector2((i / _cap), 1), ref currentIndex, ref vertices);
-                        AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0), ref currentIndex, ref vertices);
-                        AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1), ref currentIndex, ref vertices);
+                        AddVertex(firstDown, c * _alphaValue, new Vector2((i / _cap), 1));
+                        AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
+                        AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
 
-                        AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / _cap, 0), ref currentIndex, ref vertices);
-                        AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1), ref currentIndex, ref vertices);
-                        AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0), ref currentIndex, ref vertices);
+                        AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / _cap, 0));
+                        AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                        AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
                     }
                     else
                     {
