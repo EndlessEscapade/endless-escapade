@@ -10,7 +10,7 @@ namespace EEMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Torch");
+            DisplayName.SetDefault("Flashlight");
         }
 
         public override void SetDefaults()

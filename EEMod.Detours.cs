@@ -25,6 +25,8 @@ using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.Social;
 using Terraria.UI;
+using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.SeamapAssets;
 
 namespace EEMod
 {
@@ -459,6 +461,15 @@ namespace EEMod
             primitives.DrawTrails(Main.spriteBatch);
 
             orig(self);
+
+            if (Main.worldName == KeyID.Sea)
+            {
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                SeamapUpdates.UpdateShipMovement();
+                SeamapAssets.SeamapRender.Render();
+                DrawSubText();
+                Main.spriteBatch.End();
+            }
         }
 
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)

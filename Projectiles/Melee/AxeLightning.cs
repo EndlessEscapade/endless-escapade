@@ -10,6 +10,8 @@ namespace EEMod.Projectiles.Melee
 {
     public class AxeLightning : ModProjectile
     {
+        public override string Texture => Helpers.EmptyTexture;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lythen Warhammer");

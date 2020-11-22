@@ -7,6 +7,8 @@ namespace EEMod.Projectiles.Melee
 {
     public class FCHandler : ModProjectile
     {
+        public override string Texture => Helpers.EmptyTexture;
+
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Feathered Chakram");
