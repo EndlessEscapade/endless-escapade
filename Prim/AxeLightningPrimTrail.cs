@@ -31,6 +31,12 @@ namespace EEMod.Prim
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
+            /*if (_noOfPoints <= 1) return; //for easier, but less customizable, drawing
+            float colorSin = (float)Math.Sin(_counter / 3f);
+            Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
+            float widthVar = (float)Math.Sqrt(_points.Count) * _width;
+            DrawBasicTrail(c1, widthVar);*/
+
             if (_noOfPoints <= 1) return;
             VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[_noOfPoints];
             float widthVar;
