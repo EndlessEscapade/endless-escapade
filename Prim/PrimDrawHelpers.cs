@@ -100,9 +100,9 @@ namespace EEMod.Prim
                     Vector2 normalAhead = CurveNormal(_points, i + 1);
                     Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                     Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-                    AddVertex(_points[i], c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)), ref currentIndex, ref vertices);
-                    AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)), ref currentIndex, ref vertices);
-                    AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)), ref currentIndex, ref vertices);
+                    AddVertex(_points[i], c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
+                    AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
+                    AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
                 }
                 else
                 {
@@ -117,13 +117,13 @@ namespace EEMod.Prim
                         Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                         Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                        AddVertex(firstDown, c1 * _alphaValue, new Vector2((i / _cap), 1), ref currentIndex, ref vertices);
-                        AddVertex(firstUp, c1 * _alphaValue, new Vector2((i / _cap), 0), ref currentIndex, ref vertices);
-                        AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1), ref currentIndex, ref vertices);
+                        AddVertex(firstDown, c1 * _alphaValue, new Vector2((i / _cap), 1));
+                        AddVertex(firstUp, c1 * _alphaValue, new Vector2((i / _cap), 0));
+                        AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1));
 
-                        AddVertex(secondUp, c1 * _alphaValue, new Vector2((i + 1) / _cap, 0), ref currentIndex, ref vertices);
-                        AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1), ref currentIndex, ref vertices);
-                        AddVertex(firstUp, c1 * _alphaValue, new Vector2((i / _cap), 0), ref currentIndex, ref vertices);
+                        AddVertex(secondUp, c1 * _alphaValue, new Vector2((i + 1) / _cap, 0));
+                        AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                        AddVertex(firstUp, c1 * _alphaValue, new Vector2((i / _cap), 0));
                     }
                     else
                     {
