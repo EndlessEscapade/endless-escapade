@@ -34,7 +34,7 @@ namespace EEMod.Prim
             if (_noOfPoints <= 1) return;
             VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[_noOfPoints];
             float widthVar;
-            float colorSin = (float)Math.Sin(_projectile.timeLeft / 10f);
+            float colorSin = (float)Math.Sin(_counter / 3f);
             int currentIndex = 0;
             for (int i = 0; i < _points.Count; i++)
             {
@@ -88,7 +88,7 @@ namespace EEMod.Prim
         {
             _counter++;
             _noOfPoints = _points.Count() * 6;
-            if (_cap < _noOfPoints)
+            if (_cap < _noOfPoints / 6)
             {
                 _points.RemoveAt(0);
             }

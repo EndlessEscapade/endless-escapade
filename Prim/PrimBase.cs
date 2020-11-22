@@ -55,6 +55,7 @@ namespace EEMod.Prim
         {
             _device = Main.graphics.GraphicsDevice;
             _basicEffect = new BasicEffect(_device);
+            _basicEffect.VertexColorEnabled = true;
             _projectile = projectile;
             SetDefaults();
         }
