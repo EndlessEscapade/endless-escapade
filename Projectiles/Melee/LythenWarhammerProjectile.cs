@@ -215,10 +215,9 @@ namespace EEMod.Projectiles.Melee
                 for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
                 {
                      int lightningproj = Projectile.NewProjectile(pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
-                     if (Main.netMode != NetmodeID.Server)
-                        {
-                        new Prim.AxeLightningPrimTrail(Main.projectile[lightningproj]);
-                        //    EEMod.prims.CreateTrail(Main.projectile[lightningproj]);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        EEMod.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
                     }
                 }
                 projectile.ai[1] = 2;

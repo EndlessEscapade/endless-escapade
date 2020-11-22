@@ -397,10 +397,8 @@ namespace EEMod
         }
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
-
             //UpdateLight();
             ModContent.GetInstance<EEMod>().TVH.Update();
-
             DrawKelpTarzanVines();
             verlet.GlobalRenderPoints();
             DrawNoiseSurfacing();
@@ -408,7 +406,7 @@ namespace EEMod
             DrawCoralReefsBg();
             for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
             {
-                if ((EESubWorlds.BulbousTreePosition[i] * 16 - Main.LocalPlayer.Center).LengthSquared() < 2000 * 2000)
+                if (((EESubWorlds.BulbousTreePosition[i] * 16).ForDraw()).LengthSquared() < 2000 * 2000)
                     HandleBulbDraw(EESubWorlds.BulbousTreePosition[i] * 16);
             }
             for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
@@ -467,7 +465,7 @@ namespace EEMod
             trailManager.DrawTrails(Main.spriteBatch);
             prims.DrawProjectileTrails();
 
-            primTrailHelper.DrawTrails(Main.spriteBatch);
+            primitives.DrawTrails(Main.spriteBatch);
 
             orig(self);
         }

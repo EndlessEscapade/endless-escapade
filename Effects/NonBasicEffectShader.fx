@@ -17,7 +17,7 @@ struct VertexShaderOutput
 float2 coordMultiplier;
 float2 coordOffset;
 float strength;
-
+float progress;
 //custom passes
 texture imageTexture;
 sampler imageSampler = sampler_state
@@ -42,10 +42,10 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	input.Color.r += sin(input.TextureCoordinates.x * 5);
-	input.Color.g -= cos(input.TextureCoordinates.x * 2);
-	input.Color.b += cos(input.TextureCoordinates.x * 7);
-	return input.Color * sin(input.TextureCoordinates.y * 10.14159265);
+	input.Color.r += sin(input.TextureCoordinates.x * 4 + progress);
+	input.Color.g -= cos(input.TextureCoordinates.x * 4 + progress);
+	input.Color.b += cos(input.TextureCoordinates.x * 4 + progress);
+	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
 }
 float4 MainPS3(VertexShaderOutput input) : COLOR
 {
@@ -69,6 +69,9 @@ technique BasicColorDrawing
 	pass DefaultPass
 	{
 		VertexShader = compile vs_2_0 MainVS();
+	}
+	pass RainbowLightPass
+	{
 		PixelShader = compile ps_2_0 MainPS();
 	}
 	pass BasicImagePass

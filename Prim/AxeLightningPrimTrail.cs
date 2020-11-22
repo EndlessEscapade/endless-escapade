@@ -19,10 +19,9 @@ namespace EEMod.Prim
 {
     class AxeLightningPrimTrail : PrimTrail
     {
-        public AxeLightningPrimTrail(Projectile projectile)
+        public AxeLightningPrimTrail(Projectile projectile) : base(projectile)
         {
             _projectile = projectile;
-            _points.Add(_projectile.position);
         }
         public override void SetDefaults()
         {
@@ -101,7 +100,6 @@ namespace EEMod.Prim
             {
                 _points.Add(_projectile.Center);
             }
-            base.Update();
         }
         public override void OnDestroy()
         {

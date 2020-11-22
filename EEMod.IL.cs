@@ -53,7 +53,7 @@ namespace EEMod
         public static string screenMessageText;
         public static string progressMessage;
         public static TrailManager trailManager;
-        public static PrimTrailHelper primTrailHelper = new PrimTrailHelper();
+        public static PrimTrailManager primitives;
         public static Prims prims;
         public float seed;
         public float speed;

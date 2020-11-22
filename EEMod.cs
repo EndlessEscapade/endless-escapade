@@ -26,6 +26,7 @@ using EEMod.Seamap.SeamapContent;
 using EEMod.MachineLearning;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Items.Dyes;
+using EEMod.Prim;
 
 namespace EEMod
 {
@@ -249,8 +250,7 @@ namespace EEMod
             {
                 trailManager.UpdateTrails();
                 prims.UpdateTrails();
-
-                primTrailHelper.UpdateTrails();
+                primitives.UpdateTrails();
             }
             EEPlayer.UpdateOceanMapElements();
         }
@@ -268,10 +268,6 @@ namespace EEMod
         public static Effect Noise2D;
         public static Effect White;
         UIManager UI;
-        public void LoadGrass()
-        {
-
-        }
         public override void PreUpdateEntities()
         {
             base.PreUpdateEntities();
@@ -288,6 +284,7 @@ namespace EEMod
             playerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 100, 100);
             UI = new UIManager();
             Noise2D = GetEffect("Effects/Noise2D");
+            primitives = new PrimTrailManager();
             //HandwritingCNN = new Handwriting();
             instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
