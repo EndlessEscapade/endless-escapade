@@ -12,61 +12,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
-    public class GroundGlowCoral2TE : ModTileEntity
-    {
-        public float kayLerp;
-
-        public override bool ValidTile(int i, int j)
-        {
-            if (WorldGen.InWorld(i, j))
-            {
-                Tile tile = Main.tile[i, j];
-                return tile.active();
-            }
-            else
-                return false;
-        }
-
-        public override void Update()
-        {
-            kayLerp += Main.rand.NextFloat(0, 0.04f);
-        }
-
-        public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
-        {
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                NetMessage.SendTileSquare(Main.myPlayer, i - 1, j - 1, 3);
-                NetMessage.SendData(MessageID.TileEntityPlacement, -1, -1, null, i, j, Type, 0f, 0, 0, 0);
-                return -1;
-            }
-
-            return Place(i, j);
-        }
-
-        public override void NetSend(BinaryWriter writer, bool lightSend)
-        {
-            writer.Write(kayLerp);
-        }
-
-        public override void NetReceive(BinaryReader reader, bool lightReceive)
-        {
-            kayLerp = reader.ReadSingle();
-        }
-
-        public override TagCompound Save()
-        {
-            return new TagCompound
-            {
-                [nameof(kayLerp)] = kayLerp
-            };
-        }
-
-        public override void Load(TagCompound tag)
-        {
-            kayLerp = tag.GetFloat(nameof(kayLerp));
-        }
-    }
+    
 
     public class GroundGlowCoral2 : ModTile
     {
@@ -121,15 +67,9 @@ namespace EEMod.Tiles.Furniture.Coral
                     zero = Vector2.Zero;
                 }
                 Color color = Color.White;
-                int index = ModContent.GetInstance<GroundGlowCoral2TE>().Find(i - tile.frameX / 16, j - tile.frameY / 16);
-                if (index == -1)
-                {
-                    return;
-                }
-                GroundGlowCoral2TE TE = (GroundGlowCoral2TE)TileEntity.ByID[index];
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero + new Vector2(2, 0);
                 Rectangle rect = new Rectangle(frameX, frameY, width, height);
-                color *= (float)Math.Sin(TE.kayLerp) * 0.5f + 0.5f;
+                color *= (float)Math.Sin(Main.GameUpdateCount / 60f + i + j) * 0.5f + 0.5f;
                 for (int k = 0; k < 7; k++)
                 {
                     Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/GroundGlowCoralGlow2"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);

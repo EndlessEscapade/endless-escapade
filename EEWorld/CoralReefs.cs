@@ -379,7 +379,6 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 4:
-                                                        ModContent.GetInstance<GlowHangCoral2TE>().Place(i, j + 1);
                                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral2>());
                                                         break;
 
@@ -576,12 +575,10 @@ namespace EEMod.EEWorld
                                                 case 2:
                                                     if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && TileCheck2(i + 2, j) == 2)
                                                     {
-                                                        ModContent.GetInstance<GroundGlowCoralTE>().Place(i, j - 13);
                                                         WorldGen.PlaceTile(i, j - 13, ModContent.TileType<GroundGlowCoral>());
                                                     }
                                                     else
                                                     {
-                                                        ModContent.GetInstance<GroundGlowCoral3TE>().Place(i, j - 4);
                                                         WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
                                                     }
                                                     break;
@@ -589,18 +586,15 @@ namespace EEMod.EEWorld
                                                 case 3:
                                                     if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && TileCheck2(i + 2, j) == 2)
                                                     {
-                                                        ModContent.GetInstance<GroundGlowCoral2TE>().Place(i, j - 5);
                                                         WorldGen.PlaceTile(i, j - 5, ModContent.TileType<GroundGlowCoral2>());
                                                     }
                                                     else
                                                     {
-                                                        ModContent.GetInstance<GroundGlowCoral3TE>().Place(i, j - 4);
                                                         WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
                                                     }
                                                     break;
 
                                                 case 4:
-                                                    ModContent.GetInstance<GroundGlowCoral3TE>().Place(i, j - 4);
                                                     WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
                                                     break;
                                             }
@@ -608,10 +602,9 @@ namespace EEMod.EEWorld
                                     }
                                     if (TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(6))
                                     {
-                                        ModContent.GetInstance<GlowHangCoral1TE>().Place(i, j + 1);
                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                     }
-                                    else if(TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(15))
+                                    else if(TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(38))
                                     {
                                         VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
                                     }
