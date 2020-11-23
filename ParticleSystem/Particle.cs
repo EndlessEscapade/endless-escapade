@@ -12,7 +12,7 @@ namespace EEMod
     {
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
-        Texture2D texture;
+        public Texture2D texture;
         int RENDERDISTANCE => 2000;
         public float varScale;
         public float scale { get; set; }

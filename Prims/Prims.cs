@@ -440,7 +440,7 @@ namespace EEMod
             }
             void TesterUpdates()
             {
-                _points.Add(Main.MouseWorld);
+                _points.Add(Main.LocalPlayer.Center);
                 active = true;
                 Cap = 100;
                 lerper++;

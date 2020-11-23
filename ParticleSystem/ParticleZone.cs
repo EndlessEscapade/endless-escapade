@@ -41,12 +41,20 @@ namespace EEMod
                             if (!particles[i].active)
                             {
                                 particles[i] = new Particle(position, timeLeft, texture ?? Main.magicPixel, velocity, scale, colour ?? Color.White, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
+                                if(texture != null)
+                                {
+                                    particles[i].Frame = texture.Bounds;
+                                }
                                 return i;
                             }
                         }
                         else
                         {
                             particles[i] = new Particle(position, timeLeft, texture ?? Main.magicPixel, velocity, scale, colour ?? Color.White, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
+                            if(texture != null)
+                            {
+                                particles[i].Frame = texture.Bounds;
+                            }
                             return i;
                         }
                     }

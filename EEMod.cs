@@ -172,6 +172,15 @@ namespace EEMod
 
         public void UpdateGame(GameTime gameTime)
         {
+            if (Inspect.JustReleased)
+            {
+                randombool = !randombool;
+                Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
+                for (int i = 0; i < 40; i++)
+                {
+                    Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, new Vector2(4,0).RotatedBy(Main.rand.NextFloat(6.28f)), 2, Color.White, new SlowDown(0.83f), new AfterImageTrail(0.8f), new RotateVelocity(0.1f), new AdditiveCircularMotion(2,2,2));
+                }
+            }
             lerps++;
             if (delays > 0)
             {
