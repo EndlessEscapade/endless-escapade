@@ -35,11 +35,11 @@ namespace EEMod
         public bool ZoneCoralReefs;
 
         public bool ZoneKelpForest;
-        public bool ZonePolypZone;
+        public bool ZoneBulbousGrove;
         public bool ZoneJellyfishCaverns;
         public bool ZoneThermalVents;
-        public bool ZoneBublousGrove;
-        public bool ZoneSubterraneanWaters;
+        public bool ZoneHalocline;
+        public bool ZoneAquamarineCaverns;
 
         public bool ZoneTropicalIsland;
 

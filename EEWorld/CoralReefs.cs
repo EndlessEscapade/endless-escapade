@@ -611,72 +611,67 @@ namespace EEMod.EEWorld
                                     break;
                                 #endregion
 
-                                #region The Great Anemone
-                                case MinibiomeID.Anemone: //Anemone(A massive anemone throughout the minibiome that electrocutes the player on contact, coral fans)
-                                    if (!WorldGen.genRand.NextBool(6))
+                                #region Bulbous Grove
+                                case MinibiomeID.BulbousGrove: //Anemone(A massive anemone throughout the minibiome that electrocutes the player on contact, coral fans)
+                                    if (WorldGen.genRand.NextBool())
                                     {
                                         switch (TileCheck2(i, j))
                                         {
+                                            case 1:
+                                                selection = WorldGen.genRand.Next(3);
+                                                switch (selection)
+                                                {
+                                                    case 0:
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral7>());
+                                                        break;
+
+                                                    case 1:
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingGlow2x4Coral>());
+                                                        break;
+
+                                                    case 2:
+                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingGlow3x2Coral>());
+                                                        break;
+                                                }
+                                                break;
                                             case 2:
-                                                selection = WorldGen.genRand.Next(2); // WorldGen.genRand.Next(1);
+                                                selection = WorldGen.genRand.Next(9);
                                                 switch (selection)
                                                 {
                                                     case 0:
-                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor4x3Coral>());
+                                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor2x2Coral>(), style: 3);
                                                         break;
 
                                                     case 1:
-                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor3x3Coral>(), style: 1);
-                                                        break;
-                                                }
-                                                break;
-                                            case 3:
-                                                selection = WorldGen.genRand.Next(5);
-                                                switch (selection)
-                                                {
-                                                    case 0:
-                                                        WorldGen.PlaceTile(i + 1, j, ModContent.TileType<Wall3x2NonsolidCoralL>());
-                                                        break;
-
-                                                    case 1:
-                                                        WorldGen.PlaceTile(i + 1, j, ModContent.TileType<Wall5x2NonsolidCoralL>());
+                                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral1>());
                                                         break;
 
                                                     case 2:
-                                                        WorldGen.PlaceTile(i + 1, j, ModContent.TileType<Wall2x2CoralL>(), style: 0);
+                                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral2>());
                                                         break;
 
                                                     case 3:
-                                                        WorldGen.PlaceTile(i + 1, j, ModContent.TileType<Wall3x2CoralL>(), style: 0);
+                                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Floor1x1Coral>(), style: 0);
                                                         break;
 
                                                     case 4:
-                                                        WorldGen.PlaceTile(i + 1, j, ModContent.TileType<Wall4x2CoralL>(), style: 0);
-                                                        break;
-                                                }
-                                                break;
-                                            case 4:
-                                                selection = WorldGen.genRand.Next(5);
-                                                switch (selection)
-                                                {
-                                                    case 0:
-                                                        WorldGen.PlaceTile(i - 3, j, ModContent.TileType<Wall3x2NonsolidCoralR>());
+                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor8x3Coral>(), style: WorldGen.genRand.Next(2));
                                                         break;
 
-                                                    case 1:
-                                                        WorldGen.PlaceTile(i - 5, j, ModContent.TileType<Wall5x2NonsolidCoralR>());
+                                                    case 5:
+                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor5x3Coral>());
                                                         break;
 
-                                                    case 2:
-                                                        WorldGen.PlaceTile(i - 2, j, ModContent.TileType<Wall2x2CoralR>(), style: 0);
+                                                    case 6:
+                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<WideBulbousCoral>());
                                                         break;
 
-                                                    case 3:
-                                                        WorldGen.PlaceTile(i - 3, j, ModContent.TileType<Wall3x2CoralR>(), style: 0);
+                                                    case 7:
+                                                        WorldGen.PlaceTile(i, j - 4, ModContent.TileType<FloorGlow4x4Coral>());
                                                         break;
 
-                                                    case 4:
-                                                        WorldGen.PlaceTile(i - 4, j, ModContent.TileType<Wall4x2CoralR>(), style: 0);
+                                                    case 8:
+                                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<FloorGlow2x1Coral>());
                                                         break;
                                                 }
                                                 break;
@@ -745,72 +740,8 @@ namespace EEMod.EEWorld
                                     break;
                                 #endregion
 
-                                #region Bulbous Grove
-                                case MinibiomeID.BulbousGrove: //Bulbous Grove(Round/circular/bulbous coral/plants)
-                                    if (WorldGen.genRand.NextBool())
-                                    {
-                                        switch (TileCheck2(i, j))
-                                        {
-                                            case 1:
-                                                selection = WorldGen.genRand.Next(3);
-                                                switch (selection)
-                                                {
-                                                    case 0:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral7>());
-                                                        break;
-
-                                                    case 1:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingGlow2x4Coral>());
-                                                        break;
-
-                                                    case 2:
-                                                        WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingGlow3x2Coral>());
-                                                        break;
-                                                }
-                                                break;
-                                            case 2:
-                                                selection = WorldGen.genRand.Next(9);
-                                                switch (selection)
-                                                {
-                                                    case 0:
-                                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor2x2Coral>(), style: 3);
-                                                        break;
-
-                                                    case 1:
-                                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral1>());
-                                                        break;
-
-                                                    case 2:
-                                                        WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral2>());
-                                                        break;
-
-                                                    case 3:
-                                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Floor1x1Coral>(), style: 0);
-                                                        break;
-
-                                                    case 4:
-                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor8x3Coral>(), style: WorldGen.genRand.Next(2));
-                                                        break;
-
-                                                    case 5:
-                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor5x3Coral>());
-                                                        break;
-
-                                                    case 6:
-                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<WideBulbousCoral>());
-                                                        break;
-
-                                                    case 7:
-                                                        WorldGen.PlaceTile(i, j - 4, ModContent.TileType<FloorGlow4x4Coral>());
-                                                        break;
-
-                                                    case 8:
-                                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<FloorGlow2x1Coral>());
-                                                        break;
-                                                }
-                                                break;
-                                        }
-                                    }
+                                #region Halocline
+                                case MinibiomeID.Halocline:
                                     break;
                                 #endregion
 
