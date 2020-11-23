@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables
 {
-    public class GlacialIce : ModItem
+    public class BulbousBlock : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Glacial Ice");
+            DisplayName.SetDefault("Bulbous Block");
         }
 
         public override void SetDefaults()
@@ -26,7 +26,7 @@ namespace EEMod.Items.Placeables
             item.autoReuse = true;
             item.maxStack = 999;
 
-            item.createTile = ModContent.TileType<GlacialIceTile>();
+            item.createTile = ModContent.TileType<BulbousBlockTile>();
         }
     }
 }
