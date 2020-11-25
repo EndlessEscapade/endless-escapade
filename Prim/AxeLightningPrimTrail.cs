@@ -85,8 +85,10 @@ namespace EEMod.Prim
                     }
                 }
             }
+        }
+        public override void SetShaders()
+        {
             PrepareBasicShader();
-            _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
         }
         public override void OnUpdate()
         {

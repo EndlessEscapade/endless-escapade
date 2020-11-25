@@ -43,7 +43,7 @@ namespace EEMod.Prim
         protected float _width;
         protected float _alphaValue;
         protected int _cap;
-
+        protected ITrailShader _trailShader;
         protected int _counter;
         protected int _noOfPoints;
         protected List<Vector2> _points = new List<Vector2>();
@@ -56,6 +56,7 @@ namespace EEMod.Prim
         protected int currentIndex;
         public PrimTrail(Projectile projectile)
         {
+            _trailShader = new DefaultShader();
             _device = Main.graphics.GraphicsDevice;
             _basicEffect = new BasicEffect(_device);
             _basicEffect.VertexColorEnabled = true;
@@ -81,8 +82,11 @@ namespace EEMod.Prim
         {
             vertices = new VertexPositionColorTexture[_noOfPoints];
             currentIndex = 0;
+            
             PrimStructure(Main.spriteBatch);
             SetShaders();
+            if (_noOfPoints >= 1)
+                _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
         }
         public virtual void PrimStructure(SpriteBatch spriteBatch)
         {

@@ -72,9 +72,8 @@ namespace EEMod
             {
                 trailManager = new TrailManager(this);
                 prims = new Prims(this);
-
+                primitives.CreateTrail(new RainbowLightTrail(null));
                 prims.CreateVerlet();
-                prims.CreateTrail();
             }
         }
 

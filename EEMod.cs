@@ -176,9 +176,19 @@ namespace EEMod
             {
                 randombool = !randombool;
                 Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
-                for (int i = 0; i < 40; i++)
+                if (randombool)
                 {
-                    Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, new Vector2(4,0).RotatedBy(Main.rand.NextFloat(6.28f)), 2, Color.White, new SlowDown(0.83f), new AfterImageTrail(0.8f), new RotateVelocity(0.1f), new AdditiveCircularMotion(2,2,2));
+                    for (int i = 0; i < 20; i++)
+                    {
+                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, new Vector2(0, 5).RotatedBy(Main.rand.NextFloat(6.28f)), ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 50, 1, null, new SlowDown(0.8f), new SimpleBrownianMotion(0.1f), new AfterImageTrail(1f), new RotateVelocity(0.01f));
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < 40; i++)
+                    {
+                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, 100).RotatedBy(Main.rand.NextFloat(6.28f)),null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 50, 2, null, new FollowEntity(Main.LocalPlayer), new SimpleBrownianMotion(0.1f), new AfterImageTrail(1f), new RotateVelocity(0.01f));
+                    }
                 }
             }
             lerps++;

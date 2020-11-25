@@ -42,7 +42,7 @@ namespace EEMod
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
-            On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
+            On.Terraria. Main.DrawPlayer += Main_DrawPlayer;
             //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             //On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
@@ -81,7 +81,6 @@ namespace EEMod
         bool randombool;
         private void Main_DrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
-
             if(!randombool)
              orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
             if (randombool)

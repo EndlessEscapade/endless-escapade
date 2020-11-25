@@ -317,6 +317,24 @@ namespace EEMod
         }
         public void Draw(in Particle particle) {; }
     }
+    class FollowEntity : IParticleModule
+    {
+        float resistance;
+        float dampen;
+        Entity orbitPoint;
+
+        public FollowEntity(Entity orbitPoint, float resistance = 100f, float dampen = 10f)
+        {
+            this.dampen = dampen;
+            this.orbitPoint = orbitPoint;
+            this.resistance = resistance;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.velocity += (orbitPoint.Center - particle.position) / resistance - particle.velocity/dampen;
+        }
+        public void Draw(in Particle particle) {; }
+    }
     class CircularMotionSinSpin : IParticleModule
     {
         float width;
