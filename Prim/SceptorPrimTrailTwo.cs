@@ -29,8 +29,10 @@ namespace EEMod.Prim
             _alphaValue = 0.5f;
             _width = 2;
             _cap = 80;
-            color = Main.hslToRgb(Main.rand.NextFloat(0.46f, 0.83f), 1f, 0.7f);
+            color = Color.White;
+            _counter = Main.rand.Next(60);
         }
+        
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
             /*if (_noOfPoints <= 1) return; //for easier, but less customizable, drawing
@@ -89,7 +91,7 @@ namespace EEMod.Prim
         }
         public override void SetShaders()
         {
-            PrepareBasicShader();
+            PrepareShader(EEMod.TrailPractice, "AquaLightPass", _counter / 20f);
         }
         public override void OnUpdate()
         {
