@@ -48,7 +48,7 @@ namespace EEMod.Prim
         }
         public override void SetShaders()
         {
-            PrepareShader(EEMod.TrailPractice, _counter / 40f);
+            PrepareShader(EEMod.TrailPractice, "RainbowLightPass", _counter / 40f);
         }
         public override void OnUpdate()
         {

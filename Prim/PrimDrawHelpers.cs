@@ -60,7 +60,7 @@ namespace EEMod.Prim
         {
             return new Vector2(-vector.Y, vector.X);
         }
-        public void PrepareShader(Effect effects, float progress = 0)
+        public void PrepareShader(Effect effects, string PassName, float progress = 0)
         {
             int width = _device.Viewport.Width;
             int height = _device.Viewport.Height;
@@ -68,7 +68,7 @@ namespace EEMod.Prim
             Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
             effects.Parameters["WorldViewProjection"].SetValue(view * projection);
-            _trailShader.ApplyShader(effects, this, _points, "RainbowLightPass", progress);
+            _trailShader.ApplyShader(effects, this, _points, PassName, progress);
         }
         protected void PrepareShader(Effect effects)
         {
