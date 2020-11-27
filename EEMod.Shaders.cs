@@ -17,9 +17,11 @@ namespace EEMod
         public static Effect WaterShader;
         public static Effect PrismShader;
         public static Effect TrailPractice;
+        public static Effect RadialField;
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
+            RadialField = instance.GetEffect("Effects/RadialSurfacing"); 
             PrismShader = instance.GetEffect("Effects/PrismShader");
             Noise2DShift = instance.GetEffect("Effects/Noise2DShift");
             ReflectionShader = instance.GetEffect("Effects/ReflectionShader");

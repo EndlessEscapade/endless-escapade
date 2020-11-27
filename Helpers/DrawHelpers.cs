@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -15,6 +16,8 @@ namespace EEMod
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            
             Main.spriteBatch.Draw(tex, position, tex.Bounds, colour, 0f, tex.TextureCenter(), scale, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -24,6 +27,12 @@ namespace EEMod
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+
+            EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
+            EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+            EEMod.RadialField.Parameters["alpha"].SetValue(Main.LocalPlayer.velocity.Length()/10f);
+            EEMod.RadialField.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("Noise/noise"));
+            EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
             Main.spriteBatch.Draw(tex, position, tex.Bounds, colour, rotation, tex.TextureCenter(), scale, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

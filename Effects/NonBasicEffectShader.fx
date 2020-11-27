@@ -18,6 +18,7 @@ float2 coordMultiplier;
 float2 coordOffset;
 float strength;
 float progress;
+float progress2;
 //custom passes
 texture imageTexture;
 sampler imageSampler = sampler_state

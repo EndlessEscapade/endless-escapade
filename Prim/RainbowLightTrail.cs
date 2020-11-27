@@ -41,7 +41,7 @@ namespace EEMod.Prim
                 {
                     if (i != _points.Count - 1)
                     {
-                        MakePrimHelix(i, 20, 0.8f);
+                        MakePrimHelix(i, 20, 0.8f,default,1,2);
                     }
                 }
             }
