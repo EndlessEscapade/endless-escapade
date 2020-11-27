@@ -242,25 +242,10 @@ namespace EEMod.EEWorld
                     break;
             }
 
-            /*switch (minibiome)
+            if(minibiome == MinibiomeID.CrystallineCaves) //Generate Spire
             {
-                case MinibiomeID.Anemone:
-                /*perlinNoise = new PerlinNoiseFunction(sizeX, sizeY, 50, 50, 0.5f);
-                int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
-                for (int i = 0; i < sizeX; i++)
-                {
-                    for (int j = 0; j < sizeY; j++)
-                    {
-                        if (perlinNoiseFunction[i, j] == 1)
-                        {
-                            WorldGen.PlaceWall(i + xPos, j + yPos, ModContent.WallType<AnemoneWallTile>());
-                        }
-                    }
-                }
-                break;
-                case MinibiomeID.CrystallineCaves:
-                    break;
-            }*/
+                Vector2 center = new Vector2(xPos, yPos);
+            }
 
             CreateNoise(ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f, 0.6f));
         }

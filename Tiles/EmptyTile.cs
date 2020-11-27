@@ -15,6 +15,7 @@ namespace EEMod.Tiles
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
+            Main.tileSolidTop[Type] = false;
             TileID.Sets.DrawsWalls[Type] = true;
             AddMapEntry(new Color(253, 247, 173));
             soundStyle = 1;
