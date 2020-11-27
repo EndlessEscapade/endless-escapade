@@ -11,7 +11,7 @@ namespace EEMod.Items.Armor.Hydrofluoric
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Hydrofluoric Helm");
-            Tooltip.SetDefault("18% increased melee damage");
+            Tooltip.SetDefault("18% increased damage");
         }
 
         public override void SetDefaults()
@@ -30,13 +30,11 @@ namespace EEMod.Items.Armor.Hydrofluoric
 
         public override void UpdateEquip(Player player)
         {
-            player.meleeDamage += 0.18f;
+            player.allDamageMult += 0.18f;
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            player.meleeDamage += 0.10f;
-            player.meleeSpeed += 0.06f;
             player.GetModPlayer<EEPlayer>().hydrofluoricSet = true;
         }
 

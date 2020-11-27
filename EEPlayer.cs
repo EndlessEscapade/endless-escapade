@@ -895,14 +895,7 @@ namespace EEMod
                             }
                             else
                             {
-                                player.moveSpeed *= 1.15f;
-                                player.jumpSpeedBoost *= 1.6f;
-                                player.noFallDmg = true;
-                                if (player.wet)
-                                {
-                                    player.meleeSpeed *= 1.07f;
-                                    player.noKnockback = false;
-                                }
+                                
                             }
                             break;
                         }
@@ -939,13 +932,12 @@ namespace EEMod
                         {
                             if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                runeCooldown = 180;
+                                
                             }
                             else
                             {
-                                player.meleeSpeed *= 1.08f;
+                                
                             }
-                            player.moveSpeed *= 1.06f;
                             break;
                         }
                         case RuneID.FireRune:
@@ -956,21 +948,34 @@ namespace EEMod
                             }
                             else
                             {
-                                player.dash = 3;
+                                
                             }
-                            player.moveSpeed *= 1.06f;
-                            player.statDefense = (int)(player.statDefense * 0.93f);
+
                             break;
                         }
                         case RuneID.IceRune:
                         {
+                            Main.NewText("rune equipped");
+                            for (int j = 0; j < Main.npc.Length - 1; j++)
+                            {
+                                if(Vector2.Distance(Main.npc[j].Center, player.Center) <= 256)
+                                {
+                                    Main.npc[j].AddBuff(BuffID.Slow, 30);
+
+                                    Texture2D tex = mod.GetTexture("EEMod/Projectiles/Runes/PermafrostSnowflake");
+                                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                                    Main.spriteBatch.Draw(tex, new Vector2(Main.npc[j].Center.X, Main.npc[j].Center.Y - (Main.npc[j].height/2) - 32), tex.Bounds, Color.White, 0, tex.Bounds.Size() / 2, 1, SpriteEffects.None, 0);
+                                    Main.spriteBatch.End();
+                                }
+                            }
+
                             if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
                                 runeCooldown = 180;
                             }
                             else
                             {
-                                player.dash = 3;
+                                
                             }
                             break;
                         }
@@ -981,10 +986,11 @@ namespace EEMod
                                 player.velocity -= new Vector2((player.Center.X - Main.MouseWorld.X) / 32, 16 * (Main.MouseWorld.Y > player.Center.Y ? -1 : 1));
                                 runeCooldown = 300;
                             }
-                            /*else
+                            else
                             {
                                 player.dash = 3;
-                            }*/
+                            }
+
                             break;
                         }
                     }
@@ -993,6 +999,7 @@ namespace EEMod
             //synergies
             if (RuneData[(int)RuneID.SandRune] == states[(int)StateID.Equiped])
             {
+
             }
         }
 

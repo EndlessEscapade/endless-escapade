@@ -17,7 +17,6 @@ namespace EEMod.Tiles
             Main.tileBlendAll[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
             AddMapEntry(new Color(253, 247, 173));
-            drop = ModContent.ItemType<CoralSand>();
             soundStyle = 1;
             mineResist = 4f;
             minPick = 100;
