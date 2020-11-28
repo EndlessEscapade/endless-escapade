@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class ThermalVent : ModTile
+    public class ThermalVent1x3Tile1 : ModTile
     {
         public override void SetDefaults()
         {
@@ -81,7 +81,7 @@ namespace EEMod.Tiles.Furniture
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/ThermalVentGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/ThermalVent1x3Glow1"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }
