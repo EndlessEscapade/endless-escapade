@@ -109,7 +109,7 @@ namespace EEMod.Prim
         }
         public override void OnDestroy()
         {
-            destroyed = true;
+            _destroyed = true;
             _width *= 0.8f;
             if (_width < 0.05f)
             {
