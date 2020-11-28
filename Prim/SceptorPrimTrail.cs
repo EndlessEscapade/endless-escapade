@@ -86,7 +86,6 @@ namespace EEMod.Prim
                 }
             }
         }
-        bool destroyed = false;
         public override void SetShaders()
         {
             PrepareBasicShader();
@@ -99,11 +98,11 @@ namespace EEMod.Prim
             {
                 _points.RemoveAt(0);
             }
-            if ((!_projectile.active && _projectile != null))
+            if ((!_projectile.active && _projectile != null) || _destroyed)
             {
                 OnDestroy();
             }
-            else if (!destroyed)
+            else
             {
                 _points.Add(_projectile.Center);
             }

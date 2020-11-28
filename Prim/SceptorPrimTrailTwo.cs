@@ -100,7 +100,7 @@ namespace EEMod.Prim
             {
                 _points.RemoveAt(0);
             }
-            if ((!_projectile.active && _projectile != null))
+            if ((!_projectile.active && _projectile != null) || _destroyed)
             {
                 OnDestroy();
             }
@@ -111,6 +111,7 @@ namespace EEMod.Prim
         }
         public override void OnDestroy()
         {
+            _destroyed = true;
             _width *= 0.9f;
             if (_width < 0.05f)
             {
