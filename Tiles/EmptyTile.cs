@@ -12,11 +12,12 @@ namespace EEMod.Tiles
     {
         public override void SetDefaults()
         {
-            Main.tileMergeDirt[Type] = true;
-            Main.tileSolid[Type] = true;
+            Main.tileMergeDirt[Type] = false;
+            Main.tileSolid[Type] = false;
             Main.tileBlendAll[Type] = true;
-            Main.tileSolidTop[Type] = false;
+            Main.tileSolidTop[Type] = true;
             TileID.Sets.DrawsWalls[Type] = true;
+
             AddMapEntry(new Color(253, 247, 173));
             soundStyle = 1;
             mineResist = 4f;
