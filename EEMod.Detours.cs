@@ -93,7 +93,7 @@ namespace EEMod
             }
             
             ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
-            Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradientSlit"), Main.LocalPlayer.Center.ForDraw() + Main.LocalPlayer.velocity/3f, Color.White * (0.9f * Main.LocalPlayer.velocity.Length()/5f), (0.8f * Main.LocalPlayer.velocity.Length() / 10f), Main.LocalPlayer.velocity.ToRotation() + 3.14f);
+            //Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradientSlit"), Main.LocalPlayer.Center.ForDraw() + Main.LocalPlayer.velocity/3f, Color.White * (0.9f * Main.LocalPlayer.velocity.Length()/5f), (0.8f * Main.LocalPlayer.velocity.Length() / 10f), Main.LocalPlayer.velocity.ToRotation() + 3.14f);
         }
 
         /*private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)

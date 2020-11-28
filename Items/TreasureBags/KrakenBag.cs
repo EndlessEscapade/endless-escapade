@@ -1,4 +1,4 @@
-using EEMod.Items.Weapons.Mage;
+/*using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Weapons.Melee;
 using EEMod.Items.Weapons.Ranger;
 using Terraria;
@@ -56,4 +56,4 @@ namespace EEMod.Items.TreasureBags
             return true;
         }
     }
-}
+}*/

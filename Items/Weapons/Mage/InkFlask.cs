@@ -1,4 +1,4 @@
-using EEMod.Projectiles.Mage;
+/*using EEMod.Projectiles.Mage;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,4 +31,4 @@ namespace EEMod.Items.Weapons.Mage
             item.autoReuse = true;
         }
     }
-}
+}*/

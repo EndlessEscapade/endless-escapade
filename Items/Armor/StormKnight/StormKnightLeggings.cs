@@ -3,14 +3,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Armor.Lythen
+namespace EEMod.Items.Armor.StormKnight
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class LythenBoots : ModItem
+    public class StormKnightLeggings : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lythen Boots");
+            DisplayName.SetDefault("Storm Knight's Leggings");
             Tooltip.SetDefault("4% increased movement speed");
         }
 

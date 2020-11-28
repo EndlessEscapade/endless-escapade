@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Ores;
+/*using EEMod.Items.Placeables.Ores;
 using EEMod.Projectiles.Ranged;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -58,4 +58,4 @@ namespace EEMod.Items.Weapons.Ranger
             recipe.AddRecipe();
         }
     }
-}
+}*/

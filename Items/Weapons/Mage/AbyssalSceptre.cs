@@ -1,4 +1,4 @@
-using EEMod.Projectiles.Mage;
+/*Zusing EEMod.Projectiles.Mage;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,4 +33,4 @@ namespace EEMod.Items.Weapons.Mage
             item.useStyle = ItemUseStyleID.HoldingOut;
         }
     }
-}
+}*/

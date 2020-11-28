@@ -7,11 +7,11 @@ using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Ranger
 {
-    public class DalantiniumShotgun : ModItem
+    public class DalantiniumBohiya : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Dalantinium Shotgun");
+            DisplayName.SetDefault("Dalantinium Bo-Hiya");
         }
 
         public override void SetDefaults()

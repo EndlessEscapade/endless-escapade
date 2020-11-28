@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Ranger
 {
-    public class BubbleStriker : ModItem
+    public class BubbleBlitzer : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Bubble Striker");
+            DisplayName.SetDefault("Bubble Blitzer");
         }
 
         public override void SetDefaults()

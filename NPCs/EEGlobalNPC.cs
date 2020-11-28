@@ -63,23 +63,6 @@ namespace EEMod.NPCs
             {
                 EEWorld.EEWorld.GenerateLuminite();
             }
-            if ((npc.type == ModContent.NPCType<Seahorse>() || npc.type == ModContent.NPCType<SmallClam>()) && Main.rand.Next(200) == 0)
-            {
-                switch (Main.rand.Next(3))
-                {
-                    case 0:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<AbyssalScimitar>(), 1);
-                        break;
-
-                    case 1:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<AbyssalPistol>(), 1);
-                        break;
-
-                    case 2:
-                        Item.NewItem(npc.getRect(), ModContent.ItemType<AbyssalSceptre>(), 1);
-                        break;
-                }
-            }
             if (npc.type == ModContent.NPCType<Seahorse>() && EEWorld.EEWorld.downedHydros && Main.rand.Next(3) == 0)
             {
                 Item.NewItem(npc.getRect(), ModContent.ItemType<HydrosScales>(), Main.rand.Next(1, 4));

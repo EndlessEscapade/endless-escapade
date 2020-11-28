@@ -374,7 +374,7 @@ namespace EEMod.EEWorld
                                                 break;
                                             case 2:
                                             {
-                                                selection = WorldGen.genRand.Next(16);
+                                                selection = WorldGen.genRand.Next(15);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -443,14 +443,10 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 13:
-                                                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<ThermalVent>());
-                                                        break;
-
-                                                    case 14:
                                                         WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Floor2x1Coral>(), style: WorldGen.genRand.Next(5));
                                                         break;
 
-                                                    case 15:
+                                                    case 14:
                                                         WorldGen.PlaceTile(i, j - 6, ModContent.TileType<Floor2x6Coral>(), style: WorldGen.genRand.Next(2));
                                                         break;
                                                 }
@@ -762,7 +758,7 @@ namespace EEMod.EEWorld
                                                 }
                                                 break;
                                             case 2:
-                                                selection = WorldGen.genRand.Next(7);
+                                                selection = WorldGen.genRand.Next(9);
                                                 switch (selection)
                                                 {
                                                     case 0:

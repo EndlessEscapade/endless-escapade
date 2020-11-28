@@ -3,15 +3,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Armor.Lythen
+namespace EEMod.Items.Armor.StormKnight
 {
     [AutoloadEquip(EquipType.Head)]
-    public class LythenMask : ModItem
+    public class StormKnightCrest : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lythen Mask");
-            Tooltip.SetDefault("5% increased ranged damage");
+            DisplayName.SetDefault("Storm Knight's Crest");
+            Tooltip.SetDefault("5% increased melee damage");
         }
 
         public override void SetDefaults()
@@ -20,17 +20,17 @@ namespace EEMod.Items.Armor.Lythen
             item.height = 18;
             item.value = Item.sellPrice(0, 0, 21);
             item.rare = ItemRarityID.Green;
-            item.defense = 3;
+            item.defense = 4;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)
         {
-            return body.type == ModContent.ItemType<LythenChestplate>() && legs.type == ModContent.ItemType<LythenBoots>();
+            return body.type == ModContent.ItemType<StormKnightBreastplate>() && legs.type == ModContent.ItemType<StormKnightLeggings>();
         }
 
         public override void UpdateEquip(Player player)
         {
-            player.rangedDamage += 0.05f;
+            player.meleeDamage += 0.05f;
         }
 
         public override void UpdateArmorSet(Player player)

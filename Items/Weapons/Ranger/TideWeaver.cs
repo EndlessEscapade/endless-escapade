@@ -1,4 +1,4 @@
-﻿using EEMod.Projectiles.Ranged;
+﻿/*using EEMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,4 +41,4 @@ namespace EEMod.Items.Weapons.Ranger
             return player.ownedProjectileCounts[item.shoot] < 1;
         }
     }
-}
+}*/

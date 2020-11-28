@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Furniture
+namespace EEMod.Tiles.Furniture.Coral
 {
     public class ThermalVent1x3Tile1 : ModTile
     {

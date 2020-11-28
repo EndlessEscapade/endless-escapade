@@ -3,14 +3,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Armor.Lythen
+namespace EEMod.Items.Armor.StormKnight
 {
     [AutoloadEquip(EquipType.Body)]
-    public class LythenChestplate : ModItem
+    public class StormKnightBreastplate : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Lythen Chestplate");
+            DisplayName.SetDefault("Storm Knight's Breastplate");
             Tooltip.SetDefault("5% increased damage");
         }
 

@@ -1,4 +1,4 @@
-﻿using EEMod.Projectiles.Melee;
+﻿/*using EEMod.Projectiles.Melee;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -54,4 +54,4 @@ namespace EEMod.Items.Weapons.Melee
             return player.ownedProjectileCounts[item.shoot] < 1;
         }
     }
-}
+}*/
