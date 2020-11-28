@@ -26,11 +26,10 @@ namespace EEMod.Prim
         private Color color;
         public override void SetDefaults()
         {
-            _alphaValue = 0.5f;
+            _alphaValue = 0.8f;
             _width = 2;
             _cap = 80;
-            color = Color.White;
-            _counter = Main.rand.Next(60);
+            color = Main.hslToRgb(Main.rand.NextFloat(0.46f, 0.83f), 1f, 0.6f);
         }
         
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -91,7 +90,7 @@ namespace EEMod.Prim
         }
         public override void SetShaders()
         {
-            PrepareShader(EEMod.TrailPractice, "AquaLightPass", _counter / 20f);
+            PrepareBasicShader();
         }
         public override void OnUpdate()
         {
