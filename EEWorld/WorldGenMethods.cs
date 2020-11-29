@@ -48,6 +48,10 @@ namespace EEMod.EEWorld
             {
                 ree = tag.Get<Vector2>("ree");
             }
+            if (tag.ContainsKey("SpirePosition"))
+            {
+                EESubWorlds.SpirePosition = tag.Get<Vector2>("SpirePosition");
+            }
             if (tag.ContainsKey("ChainConnections"))
             {
                 EESubWorlds.ChainConnections = tag.GetList<Vector2>("ChainConnections");
@@ -120,6 +124,7 @@ namespace EEMod.EEWorld
                 tag["SwingableVines"] = VerletHelpers.SwingableVines;
                 tag["LightStates"] = LightStates;
                 tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;
+                tag["SpirePosition"] = EESubWorlds.SpirePosition;
                 tag["EmptyTileVectorMain"] = EmptyTileEntityCache.EmptyTilePairs.Keys.ToList();
                 tag["EmptyTileVectorSub"] = EmptyTileEntityCache.EmptyTilePairs.Values.ToList();
                 tag["EmptyTileVectorEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Keys.ToList();

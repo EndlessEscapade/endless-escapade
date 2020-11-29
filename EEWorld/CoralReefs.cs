@@ -241,13 +241,12 @@ namespace EEMod.EEWorld
                     CreateNoise(true, 100, 20, 0.2f);
                     break;
             }
-
-            if(minibiome == MinibiomeID.CrystallineCaves) //Generate Spire
+            CreateNoise(ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f, 0.6f));
+            if (minibiome == MinibiomeID.CrystallineCaves) //Generate Spire
             {
                 Vector2 center = new Vector2(xPos, yPos);
+                EESubWorlds.SpirePosition = new Vector2(xPos, yPos);
             }
-
-            CreateNoise(ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f, 0.6f));
         }
 
 

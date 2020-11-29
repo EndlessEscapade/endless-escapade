@@ -1,3 +1,4 @@
+using EEMod.NPCs.CoralReefs;
 using EEMod.Tiles;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles.Ores;
@@ -22,7 +23,7 @@ namespace EEMod
         public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
         public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
         public static Vector2 CoralBoatPos;
-
+        public static Vector2 SpirePosition;
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
         {
             Main.maxTilesX = 400;
@@ -456,6 +457,9 @@ namespace EEMod
                 }
 
                 #endregion
+                MakeWavyChasm3(new Vector2(SpirePosition.X + 10, SpirePosition.Y - 150 / 2), new Vector2(SpirePosition.X + 10, SpirePosition.Y + 150 / 2), ModContent.TileType<DarkGemsandstoneTile>(), 100, 20, true, new Vector2(10, 20));
+                ClearRegion(28, 26, new Vector2(SpirePosition.X + 10 - 15, SpirePosition.Y - 26));
+
 
             }
             catch (Exception e)
