@@ -389,12 +389,6 @@ namespace EEMod
                 }
                 #endregion
 
-                #region Placing the boat
-                PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
-                PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
-                CoralBoatPos = new Vector2(boatPos, TileCheckWater(boatPos) - 22);
-                #endregion
-
                 #region Implementing dynamic objects
                 EEMod.progressMessage = "Adding Dynamics";
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
@@ -482,6 +476,12 @@ namespace EEMod
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
 
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
+
+                #region Placing the boat
+                PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
+                PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
+                CoralBoatPos = new Vector2(boatPos, TileCheckWater(boatPos) - 22);
+                #endregion
             }
             catch (Exception e)
             {
