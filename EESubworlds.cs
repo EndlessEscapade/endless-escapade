@@ -457,8 +457,30 @@ namespace EEMod
                 }
 
                 #endregion
-                MakeWavyChasm3(new Vector2(SpirePosition.X + 10, SpirePosition.Y - 150 / 2), new Vector2(SpirePosition.X + 10, SpirePosition.Y + 150 / 2), ModContent.TileType<DarkGemsandstoneTile>(), 100, 20, true, new Vector2(10, 20));
-                ClearRegion(28, 26, new Vector2(SpirePosition.X + 10 - 15, SpirePosition.Y - 26));
+                Vector2 pos1 = new Vector2(SpirePosition.X + 10, SpirePosition.Y - 150 / 2);
+                Vector2 pos2 = new Vector2(SpirePosition.X + 10, SpirePosition.Y + 150 / 2);
+                int tile2 = 0;
+                if (pos1.Y < Main.maxTilesY * 0.33f)
+                {
+                    tile2 = (ushort)ModContent.TileType<LightGemsandTile>();
+                }
+                else if (pos1.Y < Main.maxTilesY * 0.66f)
+                {
+                    tile2 = (ushort)ModContent.TileType<GemsandTile>();
+                }
+                else
+                {
+                    tile2 = (ushort)ModContent.TileType<DarkGemsandTile>();
+                }
+                if (pos1.Y < Main.maxTilesY / 10)
+                {
+                    tile2 = (ushort)ModContent.TileType<CoralSandTile>();
+                }
+                MakeExpandingChasm(pos1, pos2, tile2, 100, -2, true, new Vector2(20, 30), .5f);
+                MakeExpandingChasm(pos2, pos1, tile2, 100, -2, true, new Vector2(20, 30), .5f);
+                ClearRegion(46, 26, new Vector2(SpirePosition.X + 10 - 24, SpirePosition.Y - 26));
+                MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y - 26), new Vector2(SpirePosition.X + 25, SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
+                MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
 
 
             }

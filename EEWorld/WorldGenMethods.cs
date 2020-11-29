@@ -1625,7 +1625,26 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(10, 12), type, true, 0f, 0f, true, Override);
             }
         }
-
+        public static void MakeExpandingChasm(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds, float expansionRate)
+        {
+            for (int i = 0; i < accuracy; i++)
+            {
+                // Tile tile = Framing.GetTileSafely(positionX + (int)(i * slant), positionY + i);
+                float perc = i / (float)accuracy;
+                Vector2 currentPos = new Vector2(position1.X + (perc * (position2.X - position1.X)), position1.Y + (perc * (position2.Y - position1.Y)));
+                WorldGen.TileRunner((int)currentPos.X,
+                    (int)currentPos.Y,
+                    WorldGen.genRand.Next(5 + sizeAddon / 2 + (int)(i* expansionRate), 10 + sizeAddon + (int)(i * expansionRate)),
+                    WorldGen.genRand.Next((int)stepBounds.X, (int)stepBounds.Y),
+                    type,
+                    true,
+                    0f,
+                    0f,
+                    true,
+                    Override)
+                    ;
+            }
+        }
         public static void MakeWavyChasm3(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds, int waveInvolvment = 0, float frequency = 5, bool withBranches = false, int branchFrequency = 0, int lengthOfBranches = 0)
         {
             for (int i = 0; i < accuracy; i++)
