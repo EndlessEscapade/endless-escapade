@@ -55,15 +55,15 @@ namespace EEMod.NPCs.CoralReefs
         float HeartBeat;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if(Main.GameUpdateCount % 60 < 20)
+            if(Main.GameUpdateCount % 120 < 50)
             {
-                HeartBeat = (float)Math.Sin((Main.GameUpdateCount % 60) * (6.14f/20f));
+                HeartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % 60) * (6.28f/50f)));
             }
             else
             {
                 HeartBeat = 0;
             }
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/SpireEye"), npc.Center.ForDraw() + new Vector2(0,5), npc.frame, Color.White * (float)Math.Sin(Main.GameUpdateCount / 60f), npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/SpireEye"), npc.Center.ForDraw() + new Vector2(0,5), npc.frame, Color.White * HeartBeat, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
         public override void AI()
         {
@@ -72,11 +72,12 @@ namespace EEMod.NPCs.CoralReefs
             Vector2 two = new Vector2(10, Main.rand.Next(-10, 10)).RotatedBy(1.57f / 2f);
             Vector2 three = new Vector2(Main.rand.Next(-10, 10), 10).RotatedBy(1.57f / 2f);
             Vector2 four = new Vector2(Main.rand.Next(-10, 10), -10).RotatedBy(1.57f / 2f);
-            Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f));
-            EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one*2 + offset, -Vector2.Normalize(one)/2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1,Color.White, new SlowDown(0.95f));
-            EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * 2 + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f));
-            EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * 2 + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f)); 
-            EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * 2 + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f));
+            Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2);
+            int scale = 4;
+            EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one* scale + offset, -Vector2.Normalize(one)/2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1,Color.White, new SlowDown(0.95f), new AfterImageTrail(1f));
+            EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f));
+            EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f)); 
+            EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f));
         }
     }
 }
