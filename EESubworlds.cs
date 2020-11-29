@@ -353,7 +353,6 @@ namespace EEMod
                 #region Remaining generation
                 //Placing water and etc
                 KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-                FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
 
 
@@ -482,7 +481,7 @@ namespace EEMod
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y - 26), new Vector2(SpirePosition.X + 25, SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
 
-
+                FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
             }
             catch (Exception e)
             {
