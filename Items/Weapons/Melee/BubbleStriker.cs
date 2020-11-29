@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee
 {
-    public class BubbleStriker : ModItem
+    public class BubbleStrikerMelee : ModItem
     {
         public override void SetStaticDefaults()
         {

@@ -52,8 +52,17 @@ namespace EEMod.NPCs.CoralReefs
         {
             return false;
         }
+        float HeartBeat;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
+            if(Main.GameUpdateCount % 60 < 20)
+            {
+                HeartBeat = (float)Math.Sin((Main.GameUpdateCount % 60) * (6.14f/20f));
+            }
+            else
+            {
+                HeartBeat = 0;
+            }
             Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/SpireEye"), npc.Center.ForDraw() + new Vector2(0,5), npc.frame, Color.White * (float)Math.Sin(Main.GameUpdateCount / 60f), npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
         public override void AI()
