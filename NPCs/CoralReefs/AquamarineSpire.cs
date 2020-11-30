@@ -42,7 +42,7 @@ namespace EEMod.NPCs.CoralReefs
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.SolidOutline.CurrentTechnique.Passes[0].Apply();
-            EEMod.SolidOutline.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
+            EEMod.SolidOutline.Parameters["alpha"].SetValue(((float)Math.Sin(alpha/2f) + 1) * 0.5f);
             Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw() + new Vector2(0,4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.01f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -55,9 +55,11 @@ namespace EEMod.NPCs.CoralReefs
         float HeartBeat;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if(Main.GameUpdateCount % 120 < 50)
+            float timeBetween = 70;
+            float bigTimeBetween = 200;
+            if(Main.GameUpdateCount % 200 < timeBetween)
             {
-                HeartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % 60) * (6.28f/50f)));
+                HeartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f/ timeBetween))) * (1-(Main.GameUpdateCount % bigTimeBetween) / (timeBetween*1.5f));
             }
             else
             {

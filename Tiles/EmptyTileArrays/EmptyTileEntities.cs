@@ -50,7 +50,29 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
 
         }
+        public void Destroy()
+        {
+            OnDestroy();
+            EmptyTileEntityCache.EmptyTileEntityPairs.Remove(position);
+            try
+            {
+                    foreach (var item in EmptyTileEntityCache.EmptyTilePairs.Where(kvp => kvp.Value == position).ToList())
+                    {
+                        if (Main.tile[(int)item.Key.X, (int)item.Key.Y].active())
+                            WorldGen.KillTile((int)item.Key.X, (int)item.Key.Y);
+                    }
+            }
+            catch
+            {
+                Main.NewText("TileNotFound");
+            }
 
+            EmptyTileEntityCache.EmptyTilePairs.Remove(position);
+        }
+        public virtual void OnDestroy()
+        {
+
+        }
         public virtual void OnUpdate()
         {
 
@@ -101,18 +123,17 @@ namespace EEMod.Tiles.EmptyTileArrays
             }
             EEWorld.EEWorld.CreateInvisibleTiles(array, position);
         }
-        public static void Remove(Vector2 position)
-        {
-            EmptyTileEntityPairs.Remove(Convert(position));
-            foreach (var item in EmptyTilePairs.Where(kvp => kvp.Value == Convert(position)).ToList())
-            {
-                //WorldGen.KillTile((int)item.Key.X,(int)item.Key.Y);
-                EmptyTilePairs.Remove(item.Key);
-            }
-        }
+        public static void Remove(Vector2 position)=>
+            EmptyTileEntityPairs[Convert(position)].Destroy();
+        
         public static Vector2 Convert(Vector2 position)
         {
+            if(EmptyTilePairs.ContainsKey(position))
             return EmptyTilePairs[position];
+            else
+            {
+                return Vector2.Zero;
+            }
         }
 
         public static void Update()
@@ -158,6 +179,15 @@ namespace EEMod.Tiles.EmptyTileArrays
             colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime));
             rotation = (shaderLerp - 1) / 20f;
         }
+        public override void OnUpdate()
+        {
+            Tile tile = Main.tile[(int)position.X, (int)position.Y];
+            lerp += speed;
+            if (tile.type != ModContent.TileType<EmptyTile>() && tile.active())
+            {
+                Destroy();
+            }
+        }
         public override void DuringNonActivation()
         {
             Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + texture.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + texture.Height));
@@ -170,7 +200,7 @@ namespace EEMod.Tiles.EmptyTileArrays
 
         public override void Draw()
         {
-            lerp += speed;
+ 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.ReflectionShader.Parameters["alpha"].SetValue(lerp * 2 % 6);
@@ -209,7 +239,15 @@ namespace EEMod.Tiles.EmptyTileArrays
             colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime));
             rotation = (shaderLerp - 1) / 100f;
         }
-
+        public override void OnUpdate()
+        {
+            lerp += speed;
+            Tile tile = Main.tile[(int)position.X, (int)position.Y];
+            if (tile.type != ModContent.TileType<EmptyTile>() && tile.active())
+            {
+                Destroy();
+            }
+        }
         public override void DuringNonActivation()
         {
             Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + texture.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + texture.Height));
@@ -222,7 +260,7 @@ namespace EEMod.Tiles.EmptyTileArrays
 
         public override void Draw()
         {
-            lerp += speed;
+            
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.ReflectionShader.Parameters["alpha"].SetValue(lerp * 2 % 6);
