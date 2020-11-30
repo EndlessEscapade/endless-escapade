@@ -37,7 +37,7 @@ namespace EEMod.Items.Weapons.Mage
             item.autoReuse = false;
             item.shoot = ModContent.ProjectileType<SceptorLaser>();
             item.shootSpeed = 5;
-            item.UseSound = SoundID.Item1;
+            item.UseSound = SoundID.Item115;
         }
 
         public override Vector2? HoldoutOffset()

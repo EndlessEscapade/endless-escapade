@@ -1,4 +1,4 @@
-using EEMod.Projectiles.Mage;
+/*using EEMod.Projectiles.Mage;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -69,4 +69,4 @@ namespace EEMod.Items.Weapons.Mage
             return false;
         }
     }
-}
+}*/

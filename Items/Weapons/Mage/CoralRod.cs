@@ -30,7 +30,7 @@ namespace EEMod.Items.Weapons.Mage
             item.shoot = ModContent.ProjectileType<Snowball>();
             item.shootSpeed = 16f;
             item.mana = 2;
-            item.UseSound = SoundID.Item1;
+            item.UseSound = SoundID.DD2_MonkStaffSwing;
             item.useStyle = ItemUseStyleID.HoldingOut;
         }
     }
