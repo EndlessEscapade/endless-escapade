@@ -79,7 +79,7 @@ namespace EEMod
                 Filters.Scene.Deactivate(shad2);
             }
         }
-
+        int SpireCutscene;
         public void UpdateCR()
         {
             if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
@@ -154,7 +154,21 @@ namespace EEMod
                 bubble.flash++;
                 bubble.Position -= new Vector2((float)Math.Sin(bubble.flash / (bubble.Velocity.X * 30)), bubble.Velocity.X);
             }
-
+            if(Vector2.DistanceSquared(Main.LocalPlayer.Center, EESubWorlds.SpirePosition*16) < 700* 700)
+            {
+                HasVisitedSpire = true;
+            }
+            if(HasVisitedSpire && SpireCutscene<200)
+            {
+                FixateCameraOn(EESubWorlds.SpirePosition * 16 + new Vector2(0,-13*16), 64f, false, true, 0);
+                SpireCutscene++;
+            }
+            if(SpireCutscene == 200)
+            {
+                HasVisitedSpire = true;
+                SpireCutscene++;
+                TurnCameraFixationsOff();
+            }
             if (!arrowFlag)
             {
                 for (int i = 0; i < EESubWorlds.OrbPositions.Count; i++)

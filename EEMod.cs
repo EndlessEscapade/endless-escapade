@@ -174,9 +174,9 @@ namespace EEMod
         {
             if (Inspect.JustReleased)
             {
-                randombool = !randombool;
+                Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight = !Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight;
                 Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
-                if (randombool)
+                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
                 {
                     for (int i = 0; i < 20; i++)
                     {

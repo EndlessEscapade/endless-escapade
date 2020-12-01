@@ -30,17 +30,16 @@ namespace EEMod
         public bool importantCutscene;
         public static bool startingText;
         public bool godMode = false;
-
         //Biome checks
         public bool ZoneCoralReefs;
-
+        public bool HasVisitedSpire;
         public bool ZoneKelpForest;
         public bool ZoneBulbousGrove;
         public bool ZoneJellyfishCaverns;
         public bool ZoneThermalVents;
         public bool ZoneHalocline;
         public bool ZoneAquamarineCaverns;
-
+        public bool isLight;
         public bool ZoneTropicalIsland;
 
         //Equipment booleans
@@ -402,6 +401,7 @@ namespace EEMod
         {
             if (Main.netMode != NetmodeID.MultiplayerClient)
             {
+                SpireCutscene = 0;
                 try
                 {
                     if (Main.gameMenu)

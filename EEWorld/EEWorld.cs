@@ -27,7 +27,6 @@ namespace EEMod.EEWorld
         public static bool downedOmen;
         public static bool downedKraken;
         public static bool omenPath;
-
         public static Vector2[] reefMinibiomes = new Vector2[6];
 
         // private static List<Point> BiomeCenters;
