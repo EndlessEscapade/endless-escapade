@@ -474,16 +474,7 @@ namespace EEMod
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
-        public void DrawCR()
-        {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            var Bubbles = modPlayer.bubbles;
-            for (int i = 0; i < Bubbles.Count; i++)
-            {
-                Color drawColour = Lighting.GetColor((int)Bubbles[i].Position.X / 16, (int)Bubbles[i].Position.Y / 16);
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("ForegroundParticles/Bob1"), Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
-            }
-        }
+
 
         private void Ascension()
         {

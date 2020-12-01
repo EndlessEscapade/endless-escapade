@@ -115,37 +115,38 @@ namespace EEMod
 
             markerPlacer++;
 
-            if (markerPlacer % 80 == 0)
+            if (Main.GameUpdateCount % 200 == 0)
             {
                 _bubbleRoots.Add(Main.rand.Next(Main.screenWidth) + player.Center.X - Main.screenWidth / 2);
             }
 
-            if (markerPlacer % 120 == 0)
+            if (Main.GameUpdateCount % 100 == 0)
             {
                 for (int i = 0; i < _bubbleRoots.Count; i++)
                 {
-                    Vector2 BubblePos = new Vector2(_bubbleRoots[i], player.Center.Y + 600);
+                    Vector2 BubblePos = new Vector2(_bubbleRoots[i], player.Center.Y + 1300);
+                    float scalpha = Main.rand.NextFloat(.2f, .9f);
                     BubbleClass bubble = new BubbleClass
                     {
-                        scale = Main.rand.NextFloat(0.5f, 1f),
-                        alpha = Main.rand.NextFloat(.2f, .8f),
+                        scale = scalpha,
+                        alpha = scalpha,
                         Position = BubblePos,
                         flash = Main.rand.NextFloat(0, 100),
-                        Velocity = new Vector2(Main.rand.NextFloat(0.5f, 1), 0)
+                        Velocity = new Vector2(Main.rand.NextFloat(0.5f, 1), 0),
+                        paralax = (1 - scalpha) * 0.7f
                     };
-
+                    bubble.Position -= new Vector2(Main.LocalPlayer.Center.X * bubble.paralax, 0); 
                     if (bubbles.Count < 500)
                     {
                         bubbles.Add(bubble);
                     }
                 }
 
-                if (bubbles.Count > 500)
+                if (bubbles.Count >= 500)
                 {
                     bubbles.RemoveAt(0);
                 }
 
-                //Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<CoralBubble>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
             }
 
             foreach (BubbleClass bubble in bubbles)
@@ -160,7 +161,7 @@ namespace EEMod
                 {
                     NPC.NewNPC((int)EESubWorlds.OrbPositions[i].X * 16, (int)EESubWorlds.OrbPositions[i].Y * 16, NPCType<SpikyOrb>());
                 }
-                NPC.NewNPC((int)EESubWorlds.SpirePosition.X * 16 + 160 - 8, (int)EESubWorlds.SpirePosition.Y * 16, ModContent.NPCType<AquamarineSpire>());
+                NPC.NewNPC((int)EESubWorlds.SpirePosition.X * 16 + 160 - 8, (int)EESubWorlds.SpirePosition.Y * 16, NPCType<AquamarineSpire>());
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
