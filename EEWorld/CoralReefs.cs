@@ -866,34 +866,14 @@ namespace EEMod.EEWorld
                                                             WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
                                                             break;
                                                         case 4:
-                                                            if (CheckRangeRight(i, j, 2))
-                                                            {
-                                                                if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i + 2, j + 4).active())
-                                                                {
-                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j + 1), "Tiles/EmptyTileArrays/LuminantCoralHang1", "ShaderAssets/CrystalLightMapHang2"), new Vector2(i, j + 1), EmptyTileArrays.LuminantCoralCrystalHang1);
-                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j + 1));
-                                                                }
-                                                            }
+                                                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralHang1", "ShaderAssets/CrystalLightMapHang2");
+   
                                                             break;
                                                         case 5:
-                                                            if (CheckRangeRight(i, j, 1))
-                                                            {
-                                                                if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i + 1, j + 4).active())
-                                                                {
-                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j + 1), "Tiles/EmptyTileArrays/LuminantCoralHang2", "ShaderAssets/CrystalLightMapHang2"), new Vector2(i, j + 1), EmptyTileArrays.LuminantCoralCrystalHang2);
-                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j + 1));
-                                                                }
-                                                            }
+                                                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralHang2", "ShaderAssets/CrystalLightMapHang2");
                                                             break;
                                                         case 6:
-                                                            if (CheckRangeRight(i, j, 1))
-                                                            {
-                                                                if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i + 1, j + 1).active())
-                                                                {
-                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j + 1), "Tiles/EmptyTileArrays/LuminantCoralHang3", "ShaderAssets/CrystalLightMapHang3"), new Vector2(i, j + 1), EmptyTileArrays.LuminantCoralCrystalHang3);
-                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j + 1));
-                                                                }
-                                                            }
+                                                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralHang3", "ShaderAssets/CrystalLightMapHang3");
                                                             break;
                                                     }
                                                     break;
@@ -911,62 +891,19 @@ namespace EEMod.EEWorld
                                                             WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor6x8Coral>());
                                                             break;
                                                         case 3:
-                                                            if (CheckRangeRight(i, j, 4))
-                                                            {
-                                                                if (!Framing.GetTileSafely(i, j - 7).active() && !Framing.GetTileSafely(i + 4, j - 1).active())
-                                                                {
-                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - 7), "Tiles/EmptyTileArrays/CoralCrystal", "ShaderAssets/CrystalLightMapGround1"), new Vector2(i, j - 7), EmptyTileArrays.CoralCrystal);
-                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - 7));
-                                                                }
-                                                            }
+                                                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround, "Tiles/EmptyTileArrays/LuminantCoralGround1", "ShaderAssets/CrystalLightMapGround1");
                                                             break;
                                                         case 4:
-                                                            int width = 5;
-                                                            int height = 7;
-                                                            if (CheckRangeRight(i, j, width))
-                                                            {
-                                                                if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
-                                                                {
-                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), "Tiles/EmptyTileArrays/LuminantCoralGround1", "ShaderAssets/CrystalLightMapGround1"), new Vector2(i, j - height), EmptyTileArrays.LuminantCoralCrystalGround);
-                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
-                                                                }
-                                                            }
+                                                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround, "Tiles/EmptyTileArrays/LuminantCoralGround1", "ShaderAssets/CrystalLightMapGround1");
                                                             break;
                                                         case 5:
-                                                            width = 2;
-                                                            height = 2;
-                                                            if (CheckRangeRight(i, j, width))
-                                                            {
-                                                                if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
-                                                                {
-                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), "Tiles/EmptyTileArrays/LuminantCoralGround3", "ShaderAssets/CrystalLightMapGround2"), new Vector2(i, j - height), EmptyTileArrays.LuminantCoralCrystalGround2);
-                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
-                                                                }
-                                                            }
+                                                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround2, "Tiles/EmptyTileArrays/LuminantCoralGround2", "ShaderAssets/CrystalLightMapGround2");
                                                             break;
                                                         case 6:
-                                                            width = 2;
-                                                            height = 3;
-                                                            if (CheckRangeRight(i, j, width))
-                                                            {
-                                                                if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
-                                                                {
-                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), "Tiles/EmptyTileArrays/LuminantCoralGround2", "ShaderAssets/CrystalLightMapGround3"), new Vector2(i, j - height), EmptyTileArrays.LuminantCoralCrystalGround3);
-                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
-                                                                }
-                                                            }
+                                                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround3, "Tiles/EmptyTileArrays/LuminantCoralGround3", "ShaderAssets/CrystalLightMapGround3");
                                                             break;
                                                         case 7:
-                                                            width = 4;
-                                                            height = 3;
-                                                            if (CheckRangeRight(i, j, width))
-                                                            {
-                                                                if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
-                                                                {
-                                                                    EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), "Tiles/EmptyTileArrays/LuminantCoralGround4", "ShaderAssets/CrystalLightMapGround4"), new Vector2(i, j - height), EmptyTileArrays.LuminantCoralCrystalGround4);
-                                                                    EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
-                                                                }
-                                                            }
+                                                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround4, "Tiles/EmptyTileArrays/LuminantCoralGround4", "ShaderAssets/CrystalLightMapGround4");
                                                             break;
                                                     }
                                                     break;

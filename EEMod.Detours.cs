@@ -78,18 +78,17 @@ namespace EEMod
         {
             orig(self, spriteBatch, drawOffset, waterStyle, globalAlpha, isBackgroundDraw);
         }*/
-        bool randombool;
         private void Main_DrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
-            if(!randombool)
-             orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
-            if (randombool)
+            // if(!Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
+            orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
             {
-                Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.004f));
+               /* Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.004f));
                 Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 0f, 0.04f, 0.01f));
                 Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.33f, 0.04f, 0.01f));
                 Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));
-                Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, null, 200, 1, null, new CircularMotionSinSpin(1, 1, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));
+                Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, null, 200, 1, null, new CircularMotionSinSpin(1, 1, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));*/
             }
             
             ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
@@ -159,7 +158,17 @@ namespace EEMod
             spriteBatch.Draw(texture, new Vector2(position.X + 8f, position.Y), new Rectangle(8, 0, 8, texture.Height), Color.White, 0f, Vector2.Zero, new Vector2((width - 16f) / 8f, 1f), SpriteEffects.None, 0f);
             spriteBatch.Draw(texture, new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, texture.Height), Color.White);
         }
-
+        public void DrawCR()
+        {
+            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            var Bubbles = modPlayer.bubbles;
+            for (int i = 0; i < Bubbles.Count; i++)
+            {
+                Vector2 pos = Bubbles[i].Position + new Vector2(Main.LocalPlayer.Center.X * Bubbles[i].paralax, 0);
+                Color drawColour = Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16).MultiplyRGB(new Color(Bubbles[i].alpha, Bubbles[i].alpha, Bubbles[i].alpha));
+                Main.spriteBatch.Draw(instance.GetTexture("ForegroundParticles/Bob1"), pos.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
+            }
+        }
         private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int snapPointIndex)
         {
             orig(self, data, snapPointIndex);
@@ -404,6 +413,7 @@ namespace EEMod
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             //UpdateLight();
+            DrawCR();
             ModContent.GetInstance<EEMod>().TVH.Update();
             DrawKelpTarzanVines();
             verlet.GlobalRenderPoints();

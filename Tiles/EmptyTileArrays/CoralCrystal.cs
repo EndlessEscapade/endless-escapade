@@ -43,12 +43,12 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             {{1,0},{1,0}}
         };
-        public static byte[,,] LuminantCoralCrystalGround2 = new byte[,,]
+        public static byte[,,] LuminantCoralCrystalGround3 = new byte[,,]
         {
             {{1,0},{1,0}},
             {{1,0},{1,0}}
         };
-        public static byte[,,] LuminantCoralCrystalGround3 = new byte[,,]
+        public static byte[,,] LuminantCoralCrystalGround2 = new byte[,,]
         {
             {{1,0},{0,0}},
             {{1,0},{1,(byte)Slope.UpLeft}},

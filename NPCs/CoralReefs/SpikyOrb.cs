@@ -83,7 +83,7 @@ namespace EEMod.NPCs.CoralReefs
         private readonly List<float> rotHandler = new List<float>();
         private readonly List<float> rotHandlerSquare = new List<float>();
         private readonly float[] PerlinStrip = new float[720];
-
+        bool flag;
         public override void AI()
         {
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
@@ -193,6 +193,7 @@ namespace EEMod.NPCs.CoralReefs
             }
             if (otherPhase)
             {
+                flag = false;
                 t += 0.01f;
                 if (t <= 1)
                 {
@@ -210,9 +211,10 @@ namespace EEMod.NPCs.CoralReefs
                     otherPhase = false;
                 }
             }
-            else
+            else if(!flag)
             {
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
+                flag = true;
+               // Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
             }
             isPicking = Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
 

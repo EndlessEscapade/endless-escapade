@@ -11,7 +11,7 @@ namespace EEMod
 {
     public class TileVisualHandler : IComponentHandler<TileObjVisual>
     {
-        List<TileObjVisual> TileVisuals = new List<TileObjVisual>();
+        private List<TileObjVisual> TileVisuals = new List<TileObjVisual>();
         public void Update()
         {
             foreach (TileObjVisual TV in TileVisuals)
@@ -26,7 +26,7 @@ namespace EEMod
                 TV.Draw(spriteBatch);
             }
         }
-
+        public void Clear() => TileVisuals.Clear();
         public void AddElement(TileObjVisual TV)
         {
             foreach (TileObjVisual TOV in TileVisuals)

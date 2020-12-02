@@ -174,9 +174,9 @@ namespace EEMod
         {
             /*if (Inspect.JustReleased)
             {
-                randombool = !randombool;
+                Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight = !Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight;
                 Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
-                if (randombool)
+                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
                 {
                     for (int i = 0; i < 20; i++)
                     {
@@ -293,10 +293,10 @@ namespace EEMod
             Particles.Update();
        }
         public RenderTarget2D playerTarget;
-        public ComponenetManager<TileObjVisual> TVH;
+        public ComponentManager<TileObjVisual> TVH;
         public override void Load()
         {
-            TVH = new ComponenetManager<TileObjVisual>();
+            TVH = new ComponentManager<TileObjVisual>();
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());
@@ -423,7 +423,7 @@ namespace EEMod
                 {
                     var layer = layers[i];
                     //Remove Resource bars
-                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar"))
+                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap"))
                     {
                         layers.RemoveAt(i);
                     }
@@ -474,16 +474,7 @@ namespace EEMod
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
-        public void DrawCR()
-        {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            var Bubbles = modPlayer.bubbles;
-            for (int i = 0; i < Bubbles.Count; i++)
-            {
-                Color drawColour = Lighting.GetColor((int)Bubbles[i].Position.X / 16, (int)Bubbles[i].Position.Y / 16);
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("ForegroundParticles/Bob1"), Bubbles[i].Position.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
-            }
-        }
+
 
         private void Ascension()
         {

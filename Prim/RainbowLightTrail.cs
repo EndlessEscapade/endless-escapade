@@ -31,6 +31,7 @@ namespace EEMod.Prim
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
+            if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight) return;
             for (int i = 0; i < _points.Count; i++)
             {
                 if (i == 0)

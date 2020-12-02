@@ -67,13 +67,23 @@ namespace EEMod.NPCs.CoralReefs
             {
 
                 Main.spriteBatch.Draw(UpperLegTex,((SpiderBodyPosition + jointPoints[i]) / 2f).ForDraw(), UpperLegTex.Bounds, drawColour, (SpiderBodyPosition - jointPoints[i]).ToRotation()+(float)Math.PI/2f,UpperLegTex.TextureCenter(),1f,SpriteEffects.None,0f);
-                
+                if(i % 2 == 0)
                 Main.spriteBatch.Draw(LowerLegTex, ((legPoints[i] + jointPoints[i])/2f).ForDraw(), LowerLegTex.Bounds, drawColour, (legPoints[i] - jointPoints[i]).ToRotation() + (float)Math.PI/2f, LowerLegTex.TextureCenter(), 0.9f, SpriteEffects.None, 0f);
                 Main.spriteBatch.Draw(UpperLegTexGlow, ((SpiderBodyPosition + jointPoints[i]) / 2f).ForDraw(), UpperLegTex.Bounds, Color.White* lerpCache, (SpiderBodyPosition - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, UpperLegTex.TextureCenter(), 1f, SpriteEffects.None, 0f);
-                
-                Main.spriteBatch.Draw(LowerLegTexGlow, ((legPoints[i] + jointPoints[i]) / 2f).ForDraw(), LowerLegTex.Bounds, Color.White* lerpCache, (legPoints[i] - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, LowerLegTex.TextureCenter(), 0.9f, SpriteEffects.None, 0f) ;
-                Main.spriteBatch.Draw(KelpSpiderBody, SpiderBodyPosition.ForDraw(), KelpSpiderBody.Bounds, drawColour, rotation, KelpSpiderBody.TextureCenter(), 1f, !cond ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(KelpSpiderBodyGlow, SpiderBodyPosition.ForDraw(), KelpSpiderBody.Bounds, Color.White * lerpCache, rotation, KelpSpiderBody.TextureCenter(), 1f, !cond ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
+                if (i % 2 == 0)
+                    Main.spriteBatch.Draw(LowerLegTexGlow, ((legPoints[i] + jointPoints[i]) / 2f).ForDraw(), LowerLegTex.Bounds, Color.White* lerpCache, (legPoints[i] - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, LowerLegTex.TextureCenter(), 0.9f, SpriteEffects.None, 0f) ;
+               
+            }
+            Main.spriteBatch.Draw(KelpSpiderBody, SpiderBodyPosition.ForDraw(), KelpSpiderBody.Bounds, drawColour, rotation, KelpSpiderBody.TextureCenter(), 1f, !cond ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(KelpSpiderBodyGlow, SpiderBodyPosition.ForDraw(), KelpSpiderBody.Bounds, Color.White * lerpCache, rotation, KelpSpiderBody.TextureCenter(), 1f, !cond ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
+            for (int i = 0; i < numberOfLegs; i++)
+            {
+
+                if (i % 2 == 1)
+                    Main.spriteBatch.Draw(LowerLegTex, ((legPoints[i] + jointPoints[i]) / 2f).ForDraw(), LowerLegTex.Bounds, drawColour, (legPoints[i] - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, LowerLegTex.TextureCenter(), 0.9f, SpriteEffects.None, 0f);
+                if (i % 2 == 1)
+                    Main.spriteBatch.Draw(LowerLegTexGlow, ((legPoints[i] + jointPoints[i]) / 2f).ForDraw(), LowerLegTex.Bounds, Color.White * lerpCache, (legPoints[i] - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, LowerLegTex.TextureCenter(), 0.9f, SpriteEffects.None, 0f);
+
             }
         }
         public void UpdateSpiderPort()

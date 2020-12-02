@@ -27,7 +27,6 @@ namespace EEMod.EEWorld
         public static bool downedOmen;
         public static bool downedKraken;
         public static bool omenPath;
-
         public static Vector2[] reefMinibiomes = new Vector2[6];
 
         // private static List<Point> BiomeCenters;
@@ -53,6 +52,7 @@ namespace EEMod.EEWorld
         //public Vector2[] sinDis = new Vector2[10000];
         public override void Initialize()
         {
+            ModContent.GetInstance<EEMod>().TVH.Clear();
             if (sinDis != null)
             {
                 for (int i = 0; i < sinDis.Length; i++)

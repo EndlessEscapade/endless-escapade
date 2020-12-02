@@ -9,7 +9,7 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class ComponenetManager<T> where T : Entity,IComponent
+    public class ComponentManager<T> where T : Entity,IComponent
     {
         List<T> Objects = new List<T>();
         public void Update()
@@ -26,6 +26,7 @@ namespace EEMod
                 TV.Draw(spriteBatch);
             }
         }
+        public void Clear() => Objects.Clear();
         public void AddElement(T TV)
         {
             foreach (T TOV in Objects)
