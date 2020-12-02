@@ -70,11 +70,11 @@ namespace EEMod.NPCs.CoralReefs
         public override void AI()
         {
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.18f));
-            Vector2 one = new Vector2(-10, Main.rand.Next(-10, 10)).RotatedBy(1.57f / 2f);
-            Vector2 two = new Vector2(10, Main.rand.Next(-10, 10)).RotatedBy(1.57f / 2f);
-            Vector2 three = new Vector2(Main.rand.Next(-10, 10), 10).RotatedBy(1.57f / 2f);
-            Vector2 four = new Vector2(Main.rand.Next(-10, 10), -10).RotatedBy(1.57f / 2f);
-            Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2);
+            Vector2 one = new Vector2(-10, Main.rand.Next(-10, 10)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+            Vector2 two = new Vector2(10, Main.rand.Next(-10, 10)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+            Vector2 three = new Vector2(Main.rand.Next(-10, 10), 10).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+            Vector2 four = new Vector2(Main.rand.Next(-10, 10), -10).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+            Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + HeartBeat / 60f);
             int scale = 4;
             EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one* scale + offset, -Vector2.Normalize(one)/2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1,Color.White, new SlowDown(0.95f), new AfterImageTrail(1f));
             EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f));
