@@ -293,10 +293,10 @@ namespace EEMod
             Particles.Update();
        }
         public RenderTarget2D playerTarget;
-        public ComponenetManager<TileObjVisual> TVH;
+        public ComponentManager<TileObjVisual> TVH;
         public override void Load()
         {
-            TVH = new ComponenetManager<TileObjVisual>();
+            TVH = new ComponentManager<TileObjVisual>();
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());
@@ -423,7 +423,7 @@ namespace EEMod
                 {
                     var layer = layers[i];
                     //Remove Resource bars
-                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar"))
+                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap"))
                     {
                         layers.RemoveAt(i);
                     }

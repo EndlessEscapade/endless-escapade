@@ -81,15 +81,15 @@ namespace EEMod
         bool randombool;
         private void Main_DrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
-            if(!randombool)
+           // if(!randombool)
              orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
             if (randombool)
             {
-                Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.004f));
+               /* Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.004f));
                 Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 0f, 0.04f, 0.01f));
                 Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.33f, 0.04f, 0.01f));
                 Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));
-                Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, null, 200, 1, null, new CircularMotionSinSpin(1, 1, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));
+                Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, null, 200, 1, null, new CircularMotionSinSpin(1, 1, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));*/
             }
             
             ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
