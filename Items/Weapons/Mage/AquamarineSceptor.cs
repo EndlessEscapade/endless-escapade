@@ -28,13 +28,13 @@ namespace EEMod.Items.Weapons.Mage
             item.value = Item.sellPrice(0, 0, 21);
             item.mana = 7;
             item.shootSpeed = 4f;
-            item.useTime = 45;
-            item.useAnimation = 45;
+            item.useTime = 35;
+            item.useAnimation = 35;
             item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SceptorLaser>();
             item.shootSpeed = 5;
             item.UseSound = SoundID.Item115;
@@ -70,15 +70,6 @@ namespace EEMod.Items.Weapons.Mage
         public override bool AltFunctionUse(Player player)
         {
             return true;
-        }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
         }
     }
 }

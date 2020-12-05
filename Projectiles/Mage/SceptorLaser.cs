@@ -37,7 +37,7 @@ namespace EEMod.Projectiles.Mage
                 {
                     if (proj.type == ModContent.ProjectileType<SceptorPrism>() && proj.active)
                     {
-                        for (float i = -0.6f; i <= 0.6f; i += 0.4f)
+                        for (float i = -0.6f; i <= 0.6f; i += 0.3f)
                         {
                             int proj2 = Projectile.NewProjectile(proj.Center - (Vector2.UnitY.RotatedBy((double)i) * 60), 5 * Vector2.UnitY.RotatedBy((double)i), ModContent.ProjectileType<SceptorLaserTwo>(), projectile.damage, projectile.knockBack, projectile.owner);
                             EEMod.primitives.CreateTrail(new SceptorPrimTrailTwo(Main.projectile[proj2]));
