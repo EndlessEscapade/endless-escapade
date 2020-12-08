@@ -274,16 +274,6 @@ namespace EEMod
             EEPlayer.UpdateOceanMapElements();
         }
 
-        //internal void ShowMyUI()
-        //{
-        //    SpeedrunnTimer?.SetState(RunUI);
-        //}
-
-        //internal void HideMyUI()
-        //{
-        //    SpeedrunnTimer?.SetState(null);
-        //}
-
         public static Effect Noise2D;
         public static Effect White;
         UIManager UI;

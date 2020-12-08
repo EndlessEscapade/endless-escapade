@@ -28,6 +28,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
+            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f,1f);
             alpha += 0.05f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -48,6 +49,7 @@ namespace EEMod.NPCs.CoralReefs
             Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw(), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
             return false;
         }
 
@@ -157,7 +159,7 @@ namespace EEMod.NPCs.CoralReefs
                 npc.position.Y += (float)Math.Sin(npc.ai[0]) / 2f;
 
                 npc.ai[3]++;
-                float lasdlasld = (5 + ((int)Math.Sin(npc.ai[3])));
+                float lasdlasld = (0.1f + ((int)Math.Sin(npc.ai[3])));
                 Lighting.AddLight(npc.Center, new Vector3(0 * lasdlasld, 0 * lasdlasld, 1 * lasdlasld));
             }
 
