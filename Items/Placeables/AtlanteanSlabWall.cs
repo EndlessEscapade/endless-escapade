@@ -1,4 +1,4 @@
-using EEMod.Tiles.Walls;
+/*using EEMod.Tiles.Walls;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,4 +28,4 @@ namespace EEMod.Items.Placeables
             item.createWall = ModContent.WallType<AtlanteanSlabWallTile>();
         }
     }
-}
+}*/

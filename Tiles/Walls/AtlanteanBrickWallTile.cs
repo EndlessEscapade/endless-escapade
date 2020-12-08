@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables;
+/*using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -17,4 +17,4 @@ namespace EEMod.Tiles.Walls
             soundStyle = 1;
         }
     }
-}
+}*/

@@ -45,7 +45,7 @@ namespace EEMod.Skies
                     texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen4");
                     break;
             }
             switch (EEMod.loadingChooseImage)

@@ -230,9 +230,9 @@ namespace EEMod.SeamapAssets
             WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 2000f) * 0.2f);
             WaterShader.Parameters["Colour"].SetValue(SeaColour.ToVector3());
             WaterShader.Parameters["LightColour"].SetValue(colour.ToVector3());
-            WaterShader.Parameters["waveSpeed"].SetValue(4);
+            WaterShader.Parameters["waveSpeed"].SetValue(6);
             WaterShader.CurrentTechnique.Passes[0].Apply();
-            Main.spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, 2400, 1800), colour);
+            Main.spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, Main.screenWidth, Main.screenWidth), colour);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }

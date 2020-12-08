@@ -1,4 +1,4 @@
-using EEMod.Tiles.Furniture;
+/*using EEMod.Tiles.Furniture;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -29,4 +29,4 @@ namespace EEMod.Items.Placeables
             item.createTile = ModContent.TileType<OrbHolder>();
         }
     }
-}
+}*/

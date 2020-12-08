@@ -179,14 +179,7 @@ namespace EEMod.EEWorld
 
         public static void ShipComplete()
         {
-            missingShipTiles.Clear();
-            missingShipTilesItems.Clear();
-            missingShipTilesRespectedPos.Clear();
-            int? nullableReeX = (int)ree.X;
-            int? nullableReeY = (int)ree.Y;
-            int ShipTilePosX = nullableReeX ?? 100;
-            int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 22;
-            if (ree == Vector2.Zero)
+            /*if (ree == Vector2.Zero)
             {
                 ShipTilePosX = 100;
                 ShipTilePosY = TileCheckWater(100) - 22;
@@ -270,9 +263,31 @@ namespace EEMod.EEWorld
                         }
                     }
                 }
+            }*/
+
+            int? nullableReeX = (int)ree.X;
+            int? nullableReeY = (int)ree.Y;
+            int ShipTilePosX = nullableReeX ?? 100;
+            int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 22;
+
+            bool hasSteeringWheel = false;
+            int numberOfTiles = 0;
+            for (int i = ShipTilePosX; i < ShipTilePosX + ShipTiles.GetLength(1); i++)
+            {
+                for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
+                {
+                    if(Main.tile[i, j].active() == true)
+                    {
+                        numberOfTiles++;
+                    }
+                    if(Main.tile[i, j].type == ModContent.TileType<WoodenShipsWheelTile>())
+                    {
+                        hasSteeringWheel = true;
+                    }
+                }
             }
 
-            if (missingShipTiles.Count == 0)
+            if (hasSteeringWheel && numberOfTiles > 100)
             {
                 shipComplete = true;
             }

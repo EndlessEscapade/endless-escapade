@@ -499,16 +499,16 @@ namespace EEMod
             switch (loadingChooseImage)
             {
                 case 0:
-                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen1");
                     break;
                 case 1:
-                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen2");
+                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen2");
                     break;
                 case 2:
-                    _texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
+                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen4");
                     break;
             }
             switch (loadingChooseImage)
@@ -530,8 +530,8 @@ namespace EEMod
                 }
                 case 2:
                 {
-                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/CrescentJelly");
-                    _screenframes = 9;
+                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/Nautilus");
+                    _screenframes = 4;
                     _screenframeSpeed = 5;
                     break;
                 }

@@ -431,9 +431,10 @@ namespace EEMod
 
             Vector2 revisedRee = new Vector2(ree.X == 0 ? 100 : ree.X,
                                              ree.Y == 0 ? TileCheckWater(100) - 22 : ree.Y);
-            if (Helpers.PointInRectangle(player.Center / 16, revisedRee.X, revisedRee.Y + 12, 4, 4) && shipComplete)
+
+            /*if (Helpers.PointInRectangle(player.Center / 16, revisedRee.X, revisedRee.Y + 12, 4, 4) && shipComplete)
             {
-                if (player.controlUp)
+                if (EEMod.Inspect.Current)
                 {
                     triggerSeaCutscene = true;
                     if (Main.netMode == NetmodeID.Server)
@@ -449,7 +450,7 @@ namespace EEMod
             else
             {
                 Main.projectile[Arrow2].ai[1] = 0;
-            }
+            }*/
         }
     }
 }

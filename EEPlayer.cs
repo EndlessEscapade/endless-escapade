@@ -116,7 +116,7 @@ namespace EEMod
         public Vector2[] arrayPoints = new Vector2[24];
         public static EEPlayer instance => Main.LocalPlayer.GetModPlayer<EEPlayer>();
         private int Arrow;
-        private int Arrow2;
+        public int Arrow2;
         private float speedOfPan = 1;
         public int offSea = 1000;
         private int opac;
