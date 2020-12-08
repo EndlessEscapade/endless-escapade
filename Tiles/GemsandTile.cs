@@ -1,6 +1,7 @@
 using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Tiles
@@ -10,6 +11,7 @@ namespace EEMod.Tiles
 
         public override void SetDefaults()
         {
+            
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;

@@ -1,5 +1,14 @@
 ﻿matrix WorldViewProjection;
-
+texture noiseTexture;
+sampler noiseSampler = sampler_state
+{
+	Texture = (noiseTexture);
+};
+texture spotTexture;
+sampler spotSampler = sampler_state
+{
+	Texture = (spotTexture);
+};
 struct VertexShaderInput
 {
 	float2 TextureCoordinates : TEXCOORD0;
@@ -76,11 +85,30 @@ float4 MainPS3(VertexShaderOutput input) : COLOR
 	input.Color.r += sin(input.TextureCoordinates.x * 5);
 	return input.Color;
 }
-float4 Extras(VertexShaderOutput input) : COLOR
+float GetHeight(float2 Coord)
 {
-	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
+	return tex2D(noiseSampler, Coord).r;
 }
-
+float4 Basic(VertexShaderOutput input) : COLOR
+{
+	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
+	float4 spotColor = tex2D(spotSampler, coords).r;
+	input.Color *= GetHeight(coords/2 + float2(sin(progress)/5 + 0.5f,cos(progress)/5 + 0.5f))*3;
+	input.Color *= 1 + coords.x * abs(sin(input.TextureCoordinates.y * 20))*5;
+	input.Color *= sin(input.TextureCoordinates.y * 3.14f); 
+	input.Color.rgb -= float3(1 + spotColor.r, 1 - spotColor.g, spotColor.b);
+	return input.Color;
+}
+float4 WaterPogPass(VertexShaderOutput input) : COLOR
+{
+	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
+	float4 spotColor = tex2D(spotSampler, coords).r;
+	input.Color *= GetHeight(coords / 2 + float2(sin(progress) / 5 + 0.5f,cos(progress) / 5 + 0.5f)) * 3;
+	input.Color *= 1 + coords.x * abs(sin(input.TextureCoordinates.y * 20)) * 5;
+	input.Color *= sin(input.TextureCoordinates.y * 3.14f);
+	input.Color.rgb -= float3(1 + spotColor.r, 1 - spotColor.g, spotColor.b);
+	return input.Color;
+}
 
 float4 BasicImage(VertexShaderOutput input) : COLOR
 {
@@ -97,6 +125,10 @@ technique BasicColorDrawing
 	pass RainbowLightPass
 	{
 		PixelShader = compile ps_2_0 MainPS();
+	}
+	pass Edge
+	{
+		PixelShader = compile ps_2_0 Basic();
 	}
 	pass AquaLightPass
 	{

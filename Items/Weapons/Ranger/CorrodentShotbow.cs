@@ -1,4 +1,5 @@
 ﻿using EEMod.Items.Placeables.Ores;
+using EEMod.Projectiles.Melee;
 using EEMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
@@ -17,8 +18,8 @@ namespace EEMod.Items.Weapons.Ranger
         {
             item.damage = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 2;
-            item.useTime = 24;
+            item.useAnimation = 200;
+            item.useTime = 200;
             item.shootSpeed = 4;
             item.knockBack = 6.5f;
             item.width = 32;
@@ -33,13 +34,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.autoReuse = false;
 
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<CorrodentShotbowProj>();
-        }
-
-        public override bool CanUseItem(Player player)
-        {
-            // Ensures no more than one spear can be thrown out, use this when using autoReuse
-            return player.ownedProjectileCounts[item.shoot] < 1;
+            item.shoot = ModContent.ProjectileType<Pog>();
         }
 
         public override void AddRecipes()
