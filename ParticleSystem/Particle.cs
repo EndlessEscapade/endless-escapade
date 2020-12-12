@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace EEMod
 {
@@ -13,6 +14,9 @@ namespace EEMod
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
         public Texture2D texture;
+        public Texture2D mask;
+        public float paralax;
+        
         int RENDERDISTANCE => 2000;
         public float varScale;
         public float scale { get; set; }
@@ -39,7 +43,7 @@ namespace EEMod
         {
 
         }
-        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2? velocity = null, int scale = 1, Color? colour = null, params IParticleModule[] StartingModule)
+        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2? velocity = null, int scale = 1, Color? colour = null,Texture2D masks = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
             this.position = position;
@@ -51,6 +55,7 @@ namespace EEMod
             this.colour = colour ?? Color.White;
             TrailLength = 18;
             Frame = new Rectangle(0, 0, 1, 1);
+            mask = masks;
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]);
         }
 
@@ -94,7 +99,9 @@ namespace EEMod
                 Module.Draw(this);
             }
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, positionDraw, Frame, colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), Frame, colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
+            if(mask != null)
+            Helpers.DrawAdditiveFunky(mask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
             OnDraw();
         }
     }
@@ -103,6 +110,21 @@ namespace EEMod
         public void Update(in Particle particle)
         {
             particle.position.X++;
+        }
+        public void Draw(in Particle particle) {; }
+    }
+    class MovementSin : IParticleModule
+    {
+        int counter;
+        float frequency;
+        public MovementSin(float frequency)
+        {
+            this.frequency = frequency;
+        }
+        public void Update(in Particle particle)
+        {
+            counter++;
+            particle.velocity *= Math.Abs((float)Math.Sin(counter * frequency));
         }
         public void Draw(in Particle particle) {; }
     }
@@ -179,7 +201,7 @@ namespace EEMod
             for (int i = 0; i < particle.PositionCache.Count; i++)
             {
                 float globalFallOff = 1 - (i / (float)(particle.PositionCache.Count - 1)) * alphaFallOff;
-                Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw(), new Rectangle(0, 0, 1, 1), particle.colour * particle.alpha * globalFallOff, particle.rotation, new Rectangle(0, 0, 1, 1).Size() / 2, particle.varScale * globalFallOff, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw().ParalaxX(particle.paralax), new Rectangle(0, 0, 1, 1), particle.colour * particle.alpha * globalFallOff, particle.rotation, new Rectangle(0, 0, 1, 1).Size() / 2, particle.varScale * globalFallOff, SpriteEffects.None, 0f);
             }
         }
         public void Update(in Particle particle) {; }

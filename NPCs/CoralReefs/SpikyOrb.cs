@@ -28,7 +28,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f,0.5f);
+            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f,0.8f);
             alpha += 0.05f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -90,62 +90,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
             {
-                isPicking = Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
-                /*Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f, 2f), -5));
-                dust.velocity *= 0.99f;
-                dust.noGravity = true;
-                dust.fadeIn = 1f;
-                dust.noLight = false;
 
-                if (dustHandler.Count == 0)
-                {
-                PerlinStrip = EEWorld.EEWorld.PerlinArrayNoZero(3720, 1, new Vector2(50, 100),100);
-                }
-
-                if (dustHandler.Count < 72)
-                {
-                    int rot = Main.rand.Next(accuracy);
-                    rotHandler.Add(rot);
-                    rotHandlerSquare.Add(0);
-                    List<Dust> Vertices = new List<Dust>();
-                    for (int i = 0; i < noOfSubParts; i++)
-                    {
-                        Vertices.Add(Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard));
-                    }
-                    dustHandler.Add(Vertices);
-                }
-                for (int i = 0; i < rotHandler.Count; i++)
-                {
-                    rotHandler[i]++;
-                    rotHandlerSquare[i]++;
-                    if (rotHandler[i] > 3720 - 1)
-                    {
-                        for (int j = 0; j < rotHandlerSquare.Count; j++)
-                        {
-                            rotHandlerSquare[j] = 0;
-                        }
-                    }
-                    for (int j = 0; j < noOfSubParts; j++)
-                    {
-                        float per = PerlinStrip[(int)rotHandlerSquare[i]];
-                        float baseOfMovement = i * 10 * (MathHelper.Pi / (accuracy * 0.5f));
-                        float Extra = (float)(Math.Sin(j / 4f * per) * 155 * per);
-                        float xdist = (int)(Math.Sin(baseOfMovement) * (150 - (per * 50) + Extra));
-                        float ydist = (int)(Math.Cos(baseOfMovement) * (150 - (per * 50) + Extra));
-                        Vector2 offset = new Vector2(xdist * (per + 1) * 0.8f, ydist * (per + 1) * 0.8f);
-                        dustHandler[i][j].position = npc.Center + offset;
-                    }
-                }
-                foreach (List<Dust> Dusts in dustHandler)
-                {
-                    foreach (Dust dust in Dusts)
-                    {
-                        dust.noGravity = true;
-                        dust.velocity *= 0.94f;
-                        dust.noLight = false;
-                        dust.fadeIn = 1f;
-                    }
-                }*/
             }
             else
             {
@@ -159,8 +104,8 @@ namespace EEMod.NPCs.CoralReefs
                 npc.position.Y += (float)Math.Sin(npc.ai[0]) / 2f;
 
                 npc.ai[3]++;
-                float lasdlasld = (0.1f + ((int)Math.Sin(npc.ai[3])));
-                Lighting.AddLight(npc.Center, new Vector3(0 * lasdlasld, 0 * lasdlasld, 1 * lasdlasld));
+                float lasdlasld = (0.3f + ((int)Math.Sin(npc.ai[3])));
+                Lighting.AddLight(npc.Center, new Vector3(0.1f * lasdlasld, 0.1f * lasdlasld, 1 * lasdlasld));
             }
 
             if (npc.life == 0)
@@ -170,7 +115,7 @@ namespace EEMod.NPCs.CoralReefs
                     Filters.Scene["EEMod:Shockwave"].Deactivate();
                 }
             }
-            if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
+            if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp && isPicking)
             {
                 npc.Center = Main.player[(int)npc.ai[1]].Center - new Vector2(0, 80);
                 if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
@@ -216,7 +161,7 @@ namespace EEMod.NPCs.CoralReefs
             else if(!flag)
             {
                 flag = true;
-               // Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
+                Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
             }
             
 
@@ -236,7 +181,12 @@ namespace EEMod.NPCs.CoralReefs
                     a = true;
                 }
             }
-        }
+            if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
+            {
+                isPicking = Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
+
+            }
+         }
         bool a;
         public override void NPCLoot()
         {
