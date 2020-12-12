@@ -163,7 +163,6 @@ namespace EEMod
                 verlet.Update();
             if (delays > 0)
                 delays--;
-
         }
 
         float counter;

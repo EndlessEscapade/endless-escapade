@@ -416,13 +416,13 @@ namespace EEMod
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             //UpdateLight();
-            DrawCR();
+            
             ModContent.GetInstance<EEMod>().TVH.Update();
-            DrawKelpTarzanVines();
+            
             verlet.GlobalRenderPoints();
             DrawNoiseSurfacing();
             DrawLensFlares();
-            DrawCoralReefsBg();
+            
             for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
             {
                 if (((EESubWorlds.BulbousTreePosition[i] * 16).ForDraw()).LengthSquared() < 2000 * 2000)
@@ -436,9 +436,13 @@ namespace EEMod
             if (Main.worldName == KeyID.CoralReefs)
             {
                 EEWorld.EEWorld.instance.DrawVines();
+                DrawKelpTarzanVines();
+                DrawCR();
+                DrawCoralReefsBg();
+                EmptyTileEntityCache.Update();
+                EmptyTileEntityCache.Draw();
             }
-            EmptyTileEntityCache.Update();
-            EmptyTileEntityCache.Draw();
+            
             //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);
 
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
