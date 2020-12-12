@@ -28,7 +28,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f,1f);
+            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f,0.3f);
             alpha += 0.05f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
