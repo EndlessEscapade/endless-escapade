@@ -30,15 +30,11 @@ namespace EEMod
         public bool importantCutscene;
         public static bool startingText;
         public bool godMode = false;
+
         //Biome checks
         public bool ZoneCoralReefs;
         public bool HasVisitedSpire;
-        public bool ZoneKelpForest;
-        public bool ZoneBulbousGrove;
-        public bool ZoneJellyfishCaverns;
-        public bool ZoneThermalVents;
-        public bool ZoneHalocline;
-        public bool ZoneAquamarineCaverns;
+        public bool[] reefMinibiome = new bool[7];
         public bool isLight;
         public bool ZoneTropicalIsland;
 
@@ -81,8 +77,9 @@ namespace EEMod
         public string baseWorldName;
 
         //Runes
-        public byte[] hasGottenRuneBefore = new byte[7];
-        public byte[] inPossesion = new byte[7];
+        public byte[] hasGottenRuneBefore = new byte[6];
+        public byte[] inPossesion = new byte[6];
+        public int bubbleRuneBubble = 0;
 
         //Morality
         public static int moralScore;
@@ -105,8 +102,6 @@ namespace EEMod
         private float propagation;
 
         public Dictionary<int, int> fishLengths = new Dictionary<int, int>();
-
-        public int bubbleRuneBubble = 0;
 
         private readonly int displaceX = 2;
         private readonly int displaceY = 4;
@@ -142,7 +137,7 @@ namespace EEMod
 
         public override void PostUpdate()
         {
-            if (player.wet)
+            /*if (player.wet)
             {
                 if (player.fullRotation % MathHelper.ToRadians(-360f) < 1 && player.fullRotation % MathHelper.ToRadians(-360f) > -1 && !lerpingToRotation)
                 {
@@ -230,7 +225,7 @@ namespace EEMod
                         lerpingToRotation = false;
                     }
                 }
-            }
+            }*/
         }
 
         public override void UpdateBiomes()
@@ -244,6 +239,21 @@ namespace EEMod
                     opac = 100;
                 }
                 //Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
+
+                int minibiome = 0;
+                for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
+                {
+                    if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), player.Center) < (220 * 220) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                    {
+                        minibiome = (int)EESubWorlds.MinibiomeLocations[k].Z;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < reefMinibiome.Length; i++)
+                    reefMinibiome[i] = false;
+
+                reefMinibiome[minibiome] = true;
             }
             else
             {
