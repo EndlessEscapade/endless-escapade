@@ -243,7 +243,7 @@ namespace EEMod
                 int minibiome = 0;
                 for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
                 {
-                    if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), player.Center) < (220 * 220) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                    if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), player.Center/16) < (160 * 160) && EESubWorlds.MinibiomeLocations[k].Z != 0)
                     {
                         minibiome = (int)EESubWorlds.MinibiomeLocations[k].Z;
                         break;
@@ -723,7 +723,9 @@ namespace EEMod
             }*/
             // Main.NewText(minibiome);
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
-            if(Main.worldName == KeyID.CoralReefs && Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[MinibiomeID.CrystallineCaves])
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[MinibiomeID.CrystallineCaves])
+                Main.NewText("a");
+            if(Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[MinibiomeID.CrystallineCaves])
             EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY*3,null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f,0.002f)));
             if (playingGame)
             {
