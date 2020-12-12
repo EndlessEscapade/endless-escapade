@@ -77,8 +77,8 @@ namespace EEMod
         public string baseWorldName;
 
         //Runes
-        public byte[] hasGottenRuneBefore = new byte[6];
-        public byte[] inPossesion = new byte[6];
+        public byte[] hasGottenRuneBefore = new byte[7];
+        public byte[] inPossesion = new byte[7];
         public int bubbleRuneBubble = 0;
 
         //Morality
@@ -254,6 +254,8 @@ namespace EEMod
                     reefMinibiome[i] = false;
 
                 reefMinibiome[minibiome] = true;
+
+                Main.NewText(reefMinibiome);
             }
             else
             {
