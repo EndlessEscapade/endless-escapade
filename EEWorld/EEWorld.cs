@@ -13,6 +13,17 @@ using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
+using EEMod.ID;
+using EEMod.Tiles.Furniture.Coral;
+using EEMod.Tiles.Ores;
+using EEMod.Tiles.Walls;
+using Terraria.GameContent.Events;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using Terraria.DataStructures;
+using EEMod.Tiles.EmptyTileArrays;
+using System.Linq;
+using EEMod.VerletIntegration;
 
 namespace EEMod.EEWorld
 {
@@ -307,6 +318,148 @@ namespace EEMod.EEWorld
             {
                 return false;
             }
+        }
+
+        public static IList<Vector2> Vines = new List<Vector2>();
+        public override void Load(TagCompound tag)
+        {
+            if (tag.ContainsKey("EntracesPosses"))
+            {
+                EntracesPosses = tag.GetList<Vector2>("EntracesPosses");
+            }
+            if (tag.ContainsKey("CoralBoatPos"))
+            {
+                EESubWorlds.CoralBoatPos = tag.Get<Vector2>("CoralBoatPos");
+            }
+            if (tag.ContainsKey("SubWorldSpecificVolcanoInsidePos"))
+            {
+                SubWorldSpecificVolcanoInsidePos = tag.Get<Vector2>("SubWorldSpecificVolcanoInsidePos");
+            }
+            if (tag.ContainsKey("yes"))
+            {
+                yes = tag.Get<Vector2>("yes");
+            }
+            if (tag.ContainsKey("ree"))
+            {
+                ree = tag.Get<Vector2>("ree");
+            }
+            if (tag.ContainsKey("SpirePosition"))
+            {
+                EESubWorlds.SpirePosition = tag.Get<Vector2>("SpirePosition");
+            }
+            if (tag.ContainsKey("ChainConnections"))
+            {
+                EESubWorlds.ChainConnections = tag.GetList<Vector2>("ChainConnections");
+            }
+            if (tag.ContainsKey("OrbPositions"))
+            {
+                EESubWorlds.OrbPositions = tag.GetList<Vector2>("OrbPositions");
+            }
+            if (tag.ContainsKey("BulbousTreePosition"))
+            {
+                EESubWorlds.BulbousTreePosition = tag.GetList<Vector2>("BulbousTreePosition");
+            }
+            if (tag.ContainsKey("SwingableVines"))
+            {
+                VerletHelpers.SwingableVines = tag.GetList<Vector2>("SwingableVines");
+                if (VerletHelpers.SwingableVines.Count != 0)
+                {
+                    foreach (Vector2 vec in VerletHelpers.SwingableVines)
+                    {
+                        VerletHelpers.AddStickChainNoAdd(ref ModContent.GetInstance<EEMod>().verlet, vec, Main.rand.Next(5, 15), 27);
+                    }
+                }
+            }
+            if (tag.ContainsKey("EmptyTileVectorMain") && tag.ContainsKey("EmptyTileVectorSub"))
+            {
+                IList<Vector2> VecMains = tag.GetList<Vector2>("EmptyTileVectorMain");
+                IList<Vector2> VecSubs = tag.GetList<Vector2>("EmptyTileVectorSub");
+                EmptyTileEntityCache.EmptyTilePairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+            }
+            if (tag.ContainsKey("EmptyTileVectorEntities") && tag.ContainsKey("EmptyTileEntities"))
+            {
+                IList<Vector2> VecMains = tag.GetList<Vector2>("EmptyTileVectorEntities");
+                IList<EmptyTileDrawEntity> VecSubs = tag.GetList<EmptyTileDrawEntity>("EmptyTileEntities");
+                EmptyTileEntityCache.EmptyTileEntityPairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+            }
+            if (tag.ContainsKey("CoralCrystalPosition"))
+            {
+                EESubWorlds.CoralCrystalPosition = tag.GetList<Vector2>("CoralCrystalPosition");
+                // for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
+                //    EmptyTileEntityCache.AddPair(new Crystal(EESubWorlds.CoralCrystalPosition[i]), EESubWorlds.CoralCrystalPosition[i], EmptyTileArrays.CoralCrystal);
+            }
+            if (tag.ContainsKey("LightStates"))
+            {
+                LightStates = tag.GetByteArray("LightStates");
+            }
+            if (tag.ContainsKey("ReefMinibiomesPositions") && tag.ContainsKey("ReefMinibiomeTypes"))
+            {
+                List<Vector3> tempList = new List<Vector3>();
+
+                for (int i = 0; i < tag.GetList<Vector2>("ReefMinibiomePositions").Count; i++)
+                {
+                    tempList.Add(new Vector3(tag.GetList<Vector2>("ReefMinibiomePositions")[i].X, tag.GetList<Vector2>("ReefMinibiomePositions")[i].Y, tag.GetIntArray("ReefMinibiomeTypes")[i]));
+                }
+
+                EESubWorlds.MinibiomeLocations = tempList;
+            }
+            var downed = new List<string>();
+            if (eocFlag)
+            {
+                downed.Add("eocFlag");
+            }
+            IList<string> flags = tag.GetList<string>("boolFlags");
+
+            // Game modes
+
+            // Downed bosses
+            downedAkumo = flags.Contains("downedAkumo");
+            downedHydros = flags.Contains("downedHydros");
+            downedKraken = flags.Contains("downedKraken");
+        }
+
+        public override TagCompound Save()
+        {
+            TagCompound tag = new TagCompound();
+            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
+            {
+                tag["CoralBoatPos"] = EESubWorlds.CoralBoatPos;
+                tag["ChainConnections"] = EESubWorlds.ChainConnections;
+                tag["OrbPositions"] = EESubWorlds.OrbPositions;
+                tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
+                tag["SwingableVines"] = VerletHelpers.SwingableVines;
+                tag["LightStates"] = LightStates;
+                tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;
+                tag["SpirePosition"] = EESubWorlds.SpirePosition;
+                tag["EmptyTileVectorMain"] = EmptyTileEntityCache.EmptyTilePairs.Keys.ToList();
+                tag["EmptyTileVectorSub"] = EmptyTileEntityCache.EmptyTilePairs.Values.ToList();
+                tag["EmptyTileVectorEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Keys.ToList();
+                tag["EmptyTileEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Values.ToList();
+
+
+
+                if (EESubWorlds.MinibiomeLocations.Count > 0)
+                {
+                    Vector2[] ReefMinibiomePositions = new Vector2[EESubWorlds.MinibiomeLocations.Count];
+                    int[] ReefMinibiomeTypes = new int[EESubWorlds.MinibiomeLocations.Count];
+                    for (int i = 0; i < EESubWorlds.MinibiomeLocations.Count; i++)
+                    {
+                        ReefMinibiomePositions[i] = new Vector2(EESubWorlds.MinibiomeLocations[i].X, EESubWorlds.MinibiomeLocations[i].Y);
+                        ReefMinibiomeTypes[i] = (int)EESubWorlds.MinibiomeLocations[i].Z;
+                    }
+
+                    tag["ReefMinibiomePositions"] = ReefMinibiomePositions;
+                    tag["ReefMinibiomeTypes"] = ReefMinibiomeTypes;
+                }
+            }
+            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
+            {
+                tag["SubWorldSpecificVolcanoInsidePos"] = SubWorldSpecificVolcanoInsidePos;
+            }
+            tag["EntracesPosses"] = EntracesPosses;
+            tag["yes"] = yes;
+            tag["ree"] = ree;
+            return tag;
         }
     }
 }
