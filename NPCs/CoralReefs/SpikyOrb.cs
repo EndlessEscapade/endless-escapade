@@ -28,7 +28,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f,0.3f);
+            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f,0.5f);
             alpha += 0.05f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -76,7 +76,7 @@ namespace EEMod.NPCs.CoralReefs
             return false;
         }
 
-        private bool isPicking;
+        public bool isPicking;
         private bool otherPhase;
         private bool otherPhase2;
         private float t;
@@ -90,7 +90,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, npc.Center) < 1000 * 1000)
             {
-              
+                isPicking = Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
                 /*Dust dust = Dust.NewDustPerfect(npc.Center, DustID.PurpleCrystalShard, new Vector2(Main.rand.NextFloat(-2f, 2f), -5));
                 dust.velocity *= 0.99f;
                 dust.noGravity = true;
@@ -218,7 +218,7 @@ namespace EEMod.NPCs.CoralReefs
                 flag = true;
                // Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
             }
-            isPicking = Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
+            
 
             if (Helpers.isCollidingWithWall(npc))
             {
