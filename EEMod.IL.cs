@@ -102,7 +102,7 @@ namespace EEMod
             {
                 throw new Exception("Could not modify draw water");
             }
-            // callvirt  instance bool Terraria.Tile::nactive() 
+            // callvirt  instance bool Terraria.Tile::nactive()
             // brfalse.s IL_01CB // after !Main.tileSolid[(int)Main.tile[j, i].type] || Main.tileSolidTop[(int)Main.tile[j, i].type]
             c.Index += 2;   // ldsfld    bool[] Terraria.Main::tileSolid
             c.Emit(OpCodes.Ldloc, 12); // i
@@ -530,7 +530,7 @@ namespace EEMod
                 }
                 case 2:
                 {
-                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/Nautilus");
+                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/GlisteningReefs/Nautilus");
                     _screenframes = 4;
                     _screenframeSpeed = 5;
                     break;

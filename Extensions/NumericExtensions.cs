@@ -6,6 +6,7 @@ namespace EEMod.Extensions
 {
     public static class NumericExtensions
     {
+        public static Vector2 ParalaxX(this Vector2 vec, float paralax) => vec - new Vector2(Main.LocalPlayer.Center.X * paralax, Main.LocalPlayer.Center.Y * paralax);
         public static Vector2 ForDraw(this Vector2 vec) => vec - Main.screenPosition;
 
         public static float ToRadians(this float num) => num * (float)(Math.PI / 180f);
