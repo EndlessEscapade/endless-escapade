@@ -448,8 +448,8 @@ namespace EEMod.EEWorld
                         ReefMinibiomeTypes[i] = (int)EESubWorlds.MinibiomeLocations[i].Z;
                     }
 
-                    tag["ReefMinibiomePositions"] = ReefMinibiomePositions;
-                    tag["ReefMinibiomeTypes"] = ReefMinibiomeTypes;
+                    tag["ReefMinibiomePositions"] = ReefMinibiomePositions.ToList();
+                    tag["ReefMinibiomeTypes"] = ReefMinibiomeTypes.ToList();
                 }
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
