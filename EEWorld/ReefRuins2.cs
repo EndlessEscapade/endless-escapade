@@ -3,6 +3,7 @@ using EEMod.Tiles.Furniture;
 using EEMod.Tiles.Walls;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles.Furniture.Chests;
 using static EEMod.EEWorld.EEWorld.ReefRuins2ArrayValues;
 
 namespace EEMod.EEWorld

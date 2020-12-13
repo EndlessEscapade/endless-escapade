@@ -20,6 +20,7 @@ using Terraria.DataStructures;
 using EEMod.Tiles.EmptyTileArrays;
 using System.Linq;
 using EEMod.VerletIntegration;
+using EEMod.Tiles.Furniture.Chests;
 
 namespace EEMod.EEWorld
 {

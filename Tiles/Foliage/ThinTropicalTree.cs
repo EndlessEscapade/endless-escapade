@@ -1,4 +1,4 @@
-﻿using EEMod.Items.Materials;
+﻿/*using EEMod.Items.Materials;
 using EEMod.Items.Materials.Fruit;
 using EEMod.NPCs;
 using Microsoft.Xna.Framework;
@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class ThinTropicalTree_R : ModTile
+    public class ThinTropicalTree : ModTile
     {
         public override void SetDefaults()
         {
@@ -48,4 +48,4 @@ namespace EEMod.Tiles.Furniture
             Item.NewItem(new Vector2(i, j), ModContent.ItemType<Coconut>(), Main.rand.Next(3, 5));
         }
     }
-}
+}*/

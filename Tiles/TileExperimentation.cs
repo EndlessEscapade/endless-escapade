@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ModLoader;
+using EEMod.Tiles.Furniture;
 
 namespace EEMod.Tiles
 {

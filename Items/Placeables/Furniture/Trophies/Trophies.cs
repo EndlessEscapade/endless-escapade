@@ -2,7 +2,7 @@ using EEMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables.Furniture
+namespace EEMod.Items.Placeables.Furniture.Trophies
 {
     public abstract class ThropyItem : ModItem
     {

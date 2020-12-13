@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using EEMod.Items.Placeables.Furniture.Trophies;
 
 namespace EEMod.Tiles.Furniture
 {

@@ -4,7 +4,7 @@ using System;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace EEMod.Tiles
+namespace EEMod.Tiles.Furniture
 {
     public class Bridge : ModProjectile
     {

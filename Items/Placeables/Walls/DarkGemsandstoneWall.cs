@@ -3,13 +3,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables
+namespace EEMod.Items.Placeables.Walls
 {
-    public class GemsandstoneWall : ModItem
+    public class DarkGemsandstoneWall : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Gemsandstone Wall");
+            DisplayName.SetDefault("Dark Gemsandstone Wall");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.useTurn = true;
             item.autoReuse = true;
             item.maxStack = 999;
-            item.createWall = ModContent.WallType<GemsandstoneWallTile>();
+            item.createWall = ModContent.WallType<DarkGemsandstoneWallTile>();
         }
     }
 }
