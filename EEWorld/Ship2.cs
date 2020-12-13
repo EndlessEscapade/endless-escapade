@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Terraria.ID;
 using EEMod.Tiles.Furniture;
 using EEMod.Tiles.Walls;
+using EEMod.Tiles.Furniture.Chests;
 
 namespace EEMod.EEWorld
 {

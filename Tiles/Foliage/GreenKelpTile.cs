@@ -9,9 +9,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles
+namespace EEMod.Tiles.Foliage
 {
-    public class BlueKelpTile : ModTile
+    public class GreenKelpTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -29,7 +29,7 @@ namespace EEMod.Tiles
             minPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<LightGemsandTile>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<GreenKelpTile>(), ModContent.TileType<LightGemsandTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
             animationFrameHeight = 18;
@@ -45,8 +45,8 @@ namespace EEMod.Tiles
             Tile tile = Framing.GetTileSafely(i, j - 1);
             if (!tile.active() && Main.rand.Next(4) == 0)
             {
-                WorldGen.PlaceObject(i, j - 1, ModContent.TileType<BlueKelpTile>());
-                NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<BlueKelpTile>(), 0, 0, -1, -1);
+                WorldGen.PlaceObject(i, j - 1, ModContent.TileType<GreenKelpTile>());
+                NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<GreenKelpTile>(), 0, 0, -1, -1);
             }
         }
 
@@ -88,7 +88,7 @@ namespace EEMod.Tiles
             Vector2 end = pos - sprout;
             Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
             float dist = (end - pos).Length();
-            Texture2D tex = EEMod.instance.GetTexture("Tiles/BlueKelpTile");
+            Texture2D tex = EEMod.instance.GetTexture("Tiles/GreenKelpTile");
 
 
             int noOfFrames = 10;
@@ -98,8 +98,12 @@ namespace EEMod.Tiles
             if (Main.tileSolid[tile.type] && tile.active())
             {
                 Helpers.DrawBezier(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, 0f, frame, noOfFrames, 3);
-                Helpers.DrawParticlesAlongBezier(end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, Color.Cyan, 2, 30, 0.002f, new Spew(6.14f, 1f, Vector2.One / 5f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f));
+                if (Main.rand.Next(100) == 0)
+                {
+                    Helpers.DrawParticlesAlongBezier(end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, Color.Lerp(Color.LightGreen, Color.DarkGreen, Main.rand.NextFloat(1f)), 2, 100, 0.1f, new Spew(6.14f, 1f, Vector2.One / 5f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f));
+                }
             }
+
             return false;
         }
     }

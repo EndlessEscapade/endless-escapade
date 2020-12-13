@@ -9,9 +9,9 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Furniture
+namespace EEMod.Tiles.Furniture.Chests
 {
-    public class CoralChestTile : ModTile
+    public class GemsandChestTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -33,13 +33,13 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Coral Chest");
+            name.SetDefault("Gemsand Chest");
             AddMapEntry(new Color(255, 0, 0), name);
             dustType = 0;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
-            chestDrop = ModContent.ItemType<CoralChest>();
-            chest = "Coral Chest";
+            chestDrop = ModContent.ItemType<GemsandChest>();
+            chest = "Gemsand Chest";
         }
 
         public string MapChestName(string name, int i, int j)
@@ -174,10 +174,10 @@ namespace EEMod.Tiles.Furniture
             }
             else
             {
-                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Coral Chest";
-                if (player.showItemIconText == "Coral Chest")
+                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Gemsand Chest";
+                if (player.showItemIconText == "Gemsand Chest")
                 {
-                    player.showItemIcon2 = ModContent.ItemType<CoralChest>();
+                    player.showItemIcon2 = ModContent.ItemType<GemsandChest>();
                     player.showItemIconText = "";
                 }
             }

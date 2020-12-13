@@ -1,15 +1,15 @@
-using EEMod.Tiles.Walls;
+/*using EEMod.Tiles.Walls;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables
+namespace EEMod.Items.Placeables.Walls
 {
-    public class MagmastoneWall : ModItem
+    public class AtlanteanSlabWall : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Magmastone Wall");
+            DisplayName.SetDefault("Atlantean Slab Wall");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.useTurn = true;
             item.autoReuse = true;
             item.maxStack = 999;
-            item.createWall = ModContent.WallType<MagmastoneWallTile>();
+            item.createWall = ModContent.WallType<AtlanteanSlabWallTile>();
         }
     }
-}
+}*/

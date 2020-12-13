@@ -19,6 +19,7 @@ using System.Diagnostics;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.VerletIntegration;
 //using Microsoft.Office.Interop.Excel;
+using EEMod.Tiles.Foliage;
 
 namespace EEMod.EEWorld
 {

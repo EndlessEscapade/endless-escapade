@@ -13,6 +13,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using EEMod.Tiles.Furniture;
 
 namespace EEMod
 {

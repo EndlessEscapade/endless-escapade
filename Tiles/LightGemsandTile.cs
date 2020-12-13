@@ -27,12 +27,12 @@ namespace EEMod.Tiles
         void PlaceGroundGrass(int i, int j)
         {
             int noOfGrassBlades = (int)(((i + j) % 16) * 0.4f);
-            string tex = "Tiles/KelpGrassLong";
-            string tex3 = "Tiles/KelpGrassShort";
-            string tex4 = "Tiles/KelpGrassStubbed";
-            string tex5 = "Tiles/KelpGrassLongX";
-            string tex6 = "Tiles/KelpGrassLongXX";
-            string tex2 = "Tiles/KelpGrassMedium";
+            string tex = "Tiles/Foliage/KelpGrassLong";
+            string tex3 = "Tiles/Foliage/KelpGrassShort";
+            string tex4 = "Tiles/Foliage/KelpGrassStubbed";
+            string tex5 = "Tiles/Foliage/KelpGrassLongX";
+            string tex6 = "Tiles/Foliage/KelpGrassLongXX";
+            string tex2 = "Tiles/Foliage/KelpGrassMedium";
             string Chosen = tex;
 
             for (int a = 0; a < noOfGrassBlades; a++)

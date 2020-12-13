@@ -24,7 +24,7 @@ namespace EEMod.Tiles
             mineResist = 1f;
             minPick = 0;
         }
-        void PlaceGroundGrass(int i, int j)
+        /*void PlaceGroundGrass(int i, int j)
         {
             int noOfGrassBlades = (int)(((i + j) % 16) * 0.1f);
             string tex = "Tiles/KelpGrassLong";
@@ -61,8 +61,8 @@ namespace EEMod.Tiles
                 float pos = i * 16 + (i + j * a + a * 7) % 16;
                 ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos, j * 16), Chosen, 0f, Color.Lerp(Color.LightGreen, Color.Green, ((i + j + a * 3) % 4) / 4f), ((i + j * a * 2) % 2 == 0)));
             }
-        }
-        public override void PlaceInWorld(int i, int j, Item item)
+        }*/
+        /*public override void PlaceInWorld(int i, int j, Item item)
         {
             PlaceGroundGrass(i, j);
         }
@@ -77,6 +77,6 @@ namespace EEMod.Tiles
 
             }
             return true;
-        }
+        }*/
     }
 }

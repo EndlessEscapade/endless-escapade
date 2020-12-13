@@ -3,13 +3,13 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Placeables
+namespace EEMod.Items.Placeables.Walls
 {
-    public class AtlanteanSlabWall : ModItem
+    public class AtlanteanBrickWall : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Atlantean Slab Wall");
+            DisplayName.SetDefault("Atlantean Brick Wall");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.useTurn = true;
             item.autoReuse = true;
             item.maxStack = 999;
-            item.createWall = ModContent.WallType<AtlanteanSlabWallTile>();
+            item.createWall = ModContent.WallType<AtlanteanBrickWallTile>();
         }
     }
 }*/

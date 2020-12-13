@@ -4,11 +4,12 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Furniture
 {
-    public class Moyai : ModItem
+    public class AirHockeyTable : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Moyai");
+            DisplayName.SetDefault("Air Hockey Table");
+            Tooltip.SetDefault("Fun for the whole family!");
         }
 
         public override void SetDefaults()
@@ -24,7 +25,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<MoyaiTile>();
+            item.createTile = ModContent.TileType<AirHockeyTableTile>();
         }
     }
 }

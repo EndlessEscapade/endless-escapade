@@ -4,11 +4,12 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Furniture
 {
-    public class Moyai : ModItem
+    public class BrokenArcadeMachine : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Moyai");
+            DisplayName.SetDefault("Broken Arcade Machine");
+            Tooltip.SetDefault("Maybe you can repair it");
         }
 
         public override void SetDefaults()
@@ -24,7 +25,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<MoyaiTile>();
+            item.createTile = ModContent.TileType<BrokenArcadeMachineTile>();
         }
     }
 }

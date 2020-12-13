@@ -1,6 +1,7 @@
 using EEMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles.Furniture.Chests;
 
 namespace EEMod.Items.Placeables.Furniture
 {

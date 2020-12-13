@@ -5,8 +5,9 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.ObjectData;
+using EEMod.Items.Placeables.Furniture;
 
-namespace EEMod.Tiles
+namespace EEMod.Tiles.Furniture
 {
     public class SimpleSailTile : ModTile
     {
@@ -54,17 +55,8 @@ namespace EEMod.Tiles
             else
                 frame = 3;
 
-            /*if(Main.tile[i - 1, j].type == ModContent.TileType<SimpleSailTile>())
-            {
-                if (Main.tile[i - 1, j])
-                {
-
-                }
-            }*/
-
-
             Texture2D tex = mod.GetTexture("Tiles/SimpleSailSails");
-            Main.spriteBatch.Draw(tex, new Rectangle((i * 16) - (int)Main.screenPosition.X + (tex.Width/2) + 32, (j * 16) - (int)Main.screenPosition.Y + tex.Height * 2, 16, 96), new Rectangle((frame * 80) + (height * 16), 0, 16, 96), Color.White);
+            Main.spriteBatch.Draw(tex, new Rectangle((i * 16) - (int)Main.screenPosition.X + (tex.Width/2) + 32, (j * 16) - (int)Main.screenPosition.Y + tex.Height * 2, 16, 96), new Rectangle((frame * 80) + (height * 16), 0, 16, 96), Lighting.GetColor(i, j));
         }
 
         public override bool NewRightClick(int i, int j)

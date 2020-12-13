@@ -2,6 +2,7 @@ using EEMod.Tiles;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles.Foliage;
 
 namespace EEMod.Items.Materials
 {
