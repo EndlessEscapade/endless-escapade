@@ -495,8 +495,7 @@ namespace EEMod
             if (Main.worldName == KeyID.Sea)
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-                SeamapUpdates.UpdateShipMovement();
-                SeamapAssets.SeamapRender.Render();
+                Seamap.SeamapContent.Seamap.Render();
                 DrawSubText();
                 Main.spriteBatch.End();
             }
@@ -936,6 +935,7 @@ namespace EEMod
             orig(i, j, R, G, B);
         }
 
+#pragma warning disable IDE0051 // Private members
         private static class DetourReflectionCache
         {
             public static FieldInfo UIWorldListItem_data;

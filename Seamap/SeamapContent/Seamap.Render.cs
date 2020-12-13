@@ -7,9 +7,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static EEMod.EEMod;
-namespace EEMod.SeamapAssets
+namespace EEMod.Seamap.SeamapContent
 {
-    public class SeamapRender
+    public partial class Seamap
     {
         static EEPlayer modPlayer
         {

@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.Utilities;
+using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
@@ -413,6 +415,81 @@ namespace EEMod
             double A3 = area(p1, p2, p);
 
             return A == A1 + A2 + A3;
+        }
+
+        public static bool TryGetIntArray(this TagCompound tag, string key, out int[] array)
+        {
+            if (tag.ContainsKey(key))
+            {
+                array = tag.GetIntArray(key);
+                return true;
+            }
+            var v = DBNull.Value;
+            array = null;
+            return false;
+        }
+
+        public static bool TryGetByteArrayRef(this TagCompound tag, string key, ref byte[] array)
+        {
+            if (tag.ContainsKey(key))
+            {
+                array = tag.GetByteArray(key);
+                return true;
+            }
+            return false;
+        }
+
+        public static bool TryGetByteArray(this TagCompound tag, string key, out byte[] array)
+        {
+            if (tag.ContainsKey(key))
+            {
+                array = tag.GetByteArray(key);
+                return true;
+            }
+            array = null;
+            return false;
+        }
+
+        public static bool TryGetListRef<T>(this TagCompound tag, string key, ref IList<T> list)
+        {
+            if (tag.ContainsKey(key))
+            {
+                list = tag.GetList<T>(key);
+                return true;
+            }
+            return false;
+        }
+
+        public static bool TryGetList<T>(this TagCompound tag, string key, out IList<T> list)
+        {
+            if (tag.ContainsKey(key))
+            {
+                list = tag.GetList<T>(key);
+                return true;
+            }
+            list = null;
+            return false;
+        }
+
+        public static bool TryGetRef<T>(this TagCompound tag, string key, ref T value)
+        {
+            if (tag.ContainsKey(key))
+            {
+                value = tag.Get<T>(key);
+                return true;
+            }
+            return false;
+        }
+
+        public static bool TryGet<T>(this TagCompound tag, string key, out T value)
+        {
+            if (tag.ContainsKey(key))
+            {
+                value = tag.Get<T>(key);
+                return true;
+            }
+            value = default;
+            return false;
         }
 
         public static Vector2 MoveTowardsNPC(float speed, float currentX, float currentY, NPC npc, Vector2 issue, int direction)

@@ -276,10 +276,10 @@ namespace EEMod.EEWorld
                 }
             }*/
 
-            int? nullableReeX = (int)ree.X;
-            int? nullableReeY = (int)ree.Y;
-            int ShipTilePosX = nullableReeX ?? 100;
-            int ShipTilePosY = nullableReeY ?? TileCheckWater(100) - 22;
+            //int? nullableReeX = (int)ree.X; // not a null value
+            //int? nullableReeY = (int)ree.Y;
+            int ShipTilePosX = (int)ree.X;// ?? 100;
+            int ShipTilePosY = (int)ree.Y;// ?? TileCheckWater(100) - 22;
 
             bool hasSteeringWheel = false;
             int numberOfTiles = 0;
@@ -323,45 +323,17 @@ namespace EEMod.EEWorld
         public static IList<Vector2> Vines = new List<Vector2>();
         public override void Load(TagCompound tag)
         {
-            if (tag.ContainsKey("EntracesPosses"))
+            tag.TryGetListRef<Vector2>("EntracesPosses", ref EntracesPosses);
+            tag.TryGetRef<Vector2>("CoralBoatPos", ref EESubWorlds.CoralBoatPos);
+            tag.TryGetRef<Vector2>("SubWorldSpecificVolcanoInsidePos", ref SubWorldSpecificVolcanoInsidePos);
+            tag.TryGetRef<Vector2>("yes", ref yes);
+            tag.TryGetRef<Vector2>("ree", ref ree);
+            tag.TryGetRef<Vector2>("SpirePosition", ref EESubWorlds.SpirePosition);
+            tag.TryGetListRef<Vector2>("ChainConnections", ref EESubWorlds.ChainConnections);
+            tag.TryGetListRef<Vector2>("OrbPositions", ref EESubWorlds.OrbPositions);
+            tag.TryGetListRef<Vector2>("BulbousTreePosition", ref EESubWorlds.BulbousTreePosition);
+            if(tag.TryGetListRef<Vector2>("SwingableVines", ref VerletHelpers.SwingableVines))
             {
-                EntracesPosses = tag.GetList<Vector2>("EntracesPosses");
-            }
-            if (tag.ContainsKey("CoralBoatPos"))
-            {
-                EESubWorlds.CoralBoatPos = tag.Get<Vector2>("CoralBoatPos");
-            }
-            if (tag.ContainsKey("SubWorldSpecificVolcanoInsidePos"))
-            {
-                SubWorldSpecificVolcanoInsidePos = tag.Get<Vector2>("SubWorldSpecificVolcanoInsidePos");
-            }
-            if (tag.ContainsKey("yes"))
-            {
-                yes = tag.Get<Vector2>("yes");
-            }
-            if (tag.ContainsKey("ree"))
-            {
-                ree = tag.Get<Vector2>("ree");
-            }
-            if (tag.ContainsKey("SpirePosition"))
-            {
-                EESubWorlds.SpirePosition = tag.Get<Vector2>("SpirePosition");
-            }
-            if (tag.ContainsKey("ChainConnections"))
-            {
-                EESubWorlds.ChainConnections = tag.GetList<Vector2>("ChainConnections");
-            }
-            if (tag.ContainsKey("OrbPositions"))
-            {
-                EESubWorlds.OrbPositions = tag.GetList<Vector2>("OrbPositions");
-            }
-            if (tag.ContainsKey("BulbousTreePosition"))
-            {
-                EESubWorlds.BulbousTreePosition = tag.GetList<Vector2>("BulbousTreePosition");
-            }
-            if (tag.ContainsKey("SwingableVines"))
-            {
-                VerletHelpers.SwingableVines = tag.GetList<Vector2>("SwingableVines");
                 if (VerletHelpers.SwingableVines.Count != 0)
                 {
                     foreach (Vector2 vec in VerletHelpers.SwingableVines)
@@ -370,52 +342,37 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-            if (tag.ContainsKey("EmptyTileVectorMain") && tag.ContainsKey("EmptyTileVectorSub"))
+            if(tag.TryGetList<Vector2>("EmptyTileVectorMain", out IList<Vector2> vecMains) && tag.TryGetList<Vector2>("EmptyTileVectorSub", out IList<Vector2> list2))
             {
-                IList<Vector2> VecMains = tag.GetList<Vector2>("EmptyTileVectorMain");
-                IList<Vector2> VecSubs = tag.GetList<Vector2>("EmptyTileVectorSub");
-                EmptyTileEntityCache.EmptyTilePairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+                EmptyTileEntityCache.EmptyTilePairs = vecMains.Zip(list2, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+
             }
-            if (tag.ContainsKey("EmptyTileVectorEntities") && tag.ContainsKey("EmptyTileEntities"))
+            if(tag.TryGetList<Vector2>("EmptyTileVectorEntities", out var VecMains) && tag.TryGetList<EmptyTileDrawEntity>("EmptyTileEntities", out var VecSubs))
             {
-                IList<Vector2> VecMains = tag.GetList<Vector2>("EmptyTileVectorEntities");
-                IList<EmptyTileDrawEntity> VecSubs = tag.GetList<EmptyTileDrawEntity>("EmptyTileEntities");
                 EmptyTileEntityCache.EmptyTileEntityPairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
             }
-            if (tag.ContainsKey("CoralCrystalPosition"))
+            if(tag.TryGetListRef<Vector2>("CoralCrystalPosition", ref EESubWorlds.CoralCrystalPosition))
             {
-                EESubWorlds.CoralCrystalPosition = tag.GetList<Vector2>("CoralCrystalPosition");
                 // for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
                 //    EmptyTileEntityCache.AddPair(new Crystal(EESubWorlds.CoralCrystalPosition[i]), EESubWorlds.CoralCrystalPosition[i], EmptyTileArrays.CoralCrystal);
             }
-            if (tag.ContainsKey("LightStates"))
+            tag.TryGetByteArrayRef("LightStates", ref LightStates);
+            if(tag.TryGetList("ReefMinibiomesPositions", out IList<Vector2> list) && tag.TryGetIntArray("ReefMinibiomeTypes", out int[] types))
             {
-                LightStates = tag.GetByteArray("LightStates");
-            }
-            if (tag.ContainsKey("ReefMinibiomesPositions") && tag.ContainsKey("ReefMinibiomeTypes"))
-            {
-                List<Vector3> tempList = new List<Vector3>();
-
-                for (int i = 0; i < tag.GetList<Vector2>("ReefMinibiomePositions").Count; i++)
+                List<Vector3> templist = new List<Vector3>(list.Count);
+                for(int i= 0; i < list.Count; i++)
                 {
-                    tempList.Add(new Vector3(tag.GetList<Vector2>("ReefMinibiomePositions")[i].X, tag.GetList<Vector2>("ReefMinibiomePositions")[i].Y, tag.GetIntArray("ReefMinibiomeTypes")[i]));
+                    templist.Add(new Vector3(list[i], types[i]));
                 }
-
-                EESubWorlds.MinibiomeLocations = tempList;
+                EESubWorlds.MinibiomeLocations = templist;
             }
-            var downed = new List<string>();
-            if (eocFlag)
+            if(tag.TryGetList<string>("boolFlags", out var flags))
             {
-                downed.Add("eocFlag");
+                // Downed bosses
+                downedAkumo = flags.Contains("downedAkumo");
+                downedHydros = flags.Contains("downedHydros");
+                downedKraken = flags.Contains("downedKraken");
             }
-            IList<string> flags = tag.GetList<string>("boolFlags");
-
-            // Game modes
-
-            // Downed bosses
-            downedAkumo = flags.Contains("downedAkumo");
-            downedHydros = flags.Contains("downedHydros");
-            downedKraken = flags.Contains("downedKraken");
         }
 
         public override TagCompound Save()
@@ -435,8 +392,6 @@ namespace EEMod.EEWorld
                 tag["EmptyTileVectorSub"] = EmptyTileEntityCache.EmptyTilePairs.Values.ToList();
                 tag["EmptyTileVectorEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Keys.ToList();
                 tag["EmptyTileEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Values.ToList();
-
-
 
                 if (EESubWorlds.MinibiomeLocations.Count > 0)
                 {

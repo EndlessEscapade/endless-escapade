@@ -12,16 +12,17 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.World.Generation;
 using static EEMod.EEWorld.EEWorld;
+using EEMod.Autoloading;
 
 namespace EEMod
 {
     public class EESubWorlds
     {
-        public static IList<Vector2> ChainConnections = new List<Vector2>();
-        public static IList<Vector3> MinibiomeLocations = new List<Vector3>();
-        public static IList<Vector2> OrbPositions = new List<Vector2>();
-        public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
-        public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
+        [FieldInit] public static IList<Vector2> ChainConnections = new List<Vector2>();
+        [FieldInit] public static IList<Vector3> MinibiomeLocations = new List<Vector3>();
+        [FieldInit] public static IList<Vector2> OrbPositions = new List<Vector2>();
+        [FieldInit] public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
+        [FieldInit] public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
         public static Vector2 CoralBoatPos;
         public static Vector2 SpirePosition;
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
@@ -142,7 +143,7 @@ namespace EEMod
 
                         void PlaceRoom(int biome)
                         {
-                            MakeCoralRoom((int)roomsUp[i].X + sizeOfChasm/2, (int)roomsUp[i].Y + sizeOfChasm/4, sizeOfChasm, biome, biome);
+                            MakeCoralRoom((int)roomsUp[i].X + sizeOfChasm / 2, (int)roomsUp[i].Y + sizeOfChasm / 4, sizeOfChasm, biome, biome);
                             MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X + 100, (int)roomsUp[i].Y + 100, biome));
                             if (i != 0)
                             {
