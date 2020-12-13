@@ -8,14 +8,17 @@ namespace EEMod
 {
     public class ParticlesClass : GraphicObject
     {
+
     }
 
     public class LeafClass : GraphicObject
     {
+
     }
 
     public class BubbleClass : GraphicObject
     {
+
     }
 
     public class SeagullsClass : GraphicObject

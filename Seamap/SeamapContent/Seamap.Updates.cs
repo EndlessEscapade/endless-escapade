@@ -48,6 +48,8 @@ namespace EEMod.Seamap.SeamapContent
             }
             instance.position.X = MathHelper.Clamp(instance.position.X, Main.screenWidth * 0.6f, Main.screenWidth);
             instance.position.Y = MathHelper.Clamp(instance.position.Y, 0, Main.screenHeight);
+
+            #region Player controls(movement and shooting)
             if (!Main.gamePaused)
             {
                 instance.position += instance.velocity;
@@ -104,6 +106,7 @@ namespace EEMod.Seamap.SeamapContent
             {
                 instance.velocity *= 0.98f;
             }
+            #endregion
 
             instance.flash += 0.01f;
             if (instance.flash == 2)

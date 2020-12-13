@@ -56,26 +56,6 @@ namespace EEMod
         public bool isQuartzChestOn = false;
         public bool FlameSpirit;
 
-        public int timerForCutscene;
-        public bool arrowFlag = false;
-        public static bool isSaving;
-        public float titleText;
-        public float titleText2;
-        public float subTextAlpha;
-        public bool noU;
-        public bool triggerSeaCutscene;
-        public int cutSceneTriggerTimer;
-        public float cutSceneTriggerTimer3;
-        public int coralReefTrans;
-        public int markerPlacer;
-        public Vector2 position;
-        public Vector2 velocity;
-        public List<Vector2> objectPos = new List<Vector2>();
-        public List<Island> SeaObject = new List<Island>();
-        public List<int> SeaObjectFrames = new List<int>();
-        public Dictionary<string, Island> Islands = new Dictionary<string, Island>();
-        public string baseWorldName;
-
         //Runes
         public byte[] hasGottenRuneBefore = new byte[7];
         public byte[] inPossesion = new byte[7];
@@ -128,9 +108,6 @@ namespace EEMod
         public int PlayerX;
         public int PlayerY;
         public Vector2 velHolder;
-
-        [FieldInit]
-        internal static List<IOceanMapElement> OceanMapElements = new List<IOceanMapElement>();
 
         public bool currentlyRotated, currentlyRotatedByToRotation, wasAirborn, lerpingToRotation = false;
         public int timeAirborne = 0;
@@ -243,7 +220,7 @@ namespace EEMod
                 int minibiome = 0;
                 for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
                 {
-                    if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), player.Center/16) < (160 * 160) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                    if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), player.Center / 16) < (160 * 160) && EESubWorlds.MinibiomeLocations[k].Z != 0)
                     {
                         minibiome = (int)EESubWorlds.MinibiomeLocations[k].Z;
                         break;
@@ -721,8 +698,8 @@ namespace EEMod
             }*/
             // Main.NewText(minibiome);
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
-            if(Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[MinibiomeID.CrystallineCaves])
-            EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY*3,null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f,0.002f)));
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[MinibiomeID.CrystallineCaves])
+                EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)));
             if (playingGame)
             {
                 player.velocity = Vector2.Zero;
@@ -908,7 +885,7 @@ namespace EEMod
                             }
                             else
                             {
-                                
+
                             }
                             break;
                         }
@@ -945,11 +922,11 @@ namespace EEMod
                         {
                             if (EEMod.RuneSpecial.JustPressed && runeCooldown == 0)
                             {
-                                
+
                             }
                             else
                             {
-                                
+
                             }
                             break;
                         }
@@ -961,7 +938,7 @@ namespace EEMod
                             }
                             else
                             {
-                                
+
                             }
 
                             break;
@@ -971,13 +948,13 @@ namespace EEMod
                             Main.NewText("rune equipped");
                             for (int j = 0; j < Main.npc.Length - 1; j++)
                             {
-                                if(Vector2.Distance(Main.npc[j].Center, player.Center) <= 256)
+                                if (Vector2.Distance(Main.npc[j].Center, player.Center) <= 256)
                                 {
                                     Main.npc[j].AddBuff(BuffID.Slow, 30);
 
                                     Texture2D tex = mod.GetTexture("EEMod/Projectiles/Runes/PermafrostSnowflake");
                                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                                    Main.spriteBatch.Draw(tex, new Vector2(Main.npc[j].Center.X, Main.npc[j].Center.Y - (Main.npc[j].height/2) - 32), tex.Bounds, Color.White, 0, tex.Bounds.Size() / 2, 1, SpriteEffects.None, 0);
+                                    Main.spriteBatch.Draw(tex, new Vector2(Main.npc[j].Center.X, Main.npc[j].Center.Y - (Main.npc[j].height / 2) - 32), tex.Bounds, Color.White, 0, tex.Bounds.Size() / 2, 1, SpriteEffects.None, 0);
                                     Main.spriteBatch.End();
                                 }
                             }
@@ -988,7 +965,7 @@ namespace EEMod
                             }
                             else
                             {
-                                
+
                             }
                             break;
                         }
@@ -1115,53 +1092,6 @@ namespace EEMod
             else
             {
                 powerLevel = 0;
-            }
-        }
-
-        public void UpdateCutscenesAndTempShaders()
-        {
-            Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad1].IsActive())
-            {
-                Filters.Scene.Activate(shad1, player.Center).GetShader().UseOpacity(timerForCutscene);
-            }
-            if (!godMode)
-            {
-                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad1].IsActive())
-                {
-                    Filters.Scene.Deactivate(shad1);
-                }
-            }
-            Filters.Scene[shad3].GetShader().UseOpacity(cutSceneTriggerTimer);
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad3].IsActive())
-            {
-                Filters.Scene.Activate(shad3, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
-            }
-            if (!triggerSeaCutscene)
-            {
-                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad3].IsActive())
-                {
-                    Filters.Scene.Deactivate(shad3);
-                }
-            }
-            /*if(Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:MyTestShader"].IsActive())
-            {
-                Filters.Scene.Activate("EEMod:MyTestShader", player.Center).GetShader().UseColor(Color.Red).UseTargetPosition(player.Center);
-            }*/
-            if (timerForCutscene >= 1400)
-            {
-                Initialize();
-                prevKey = KeyID.BaseWorldName;
-                SM.SaveAndQuit(KeyID.Pyramids); //pyramid
-            }
-            if (cutSceneTriggerTimer > 0)
-            {
-                if (cutSceneTriggerTimer >= 500)
-                {
-                    Initialize();
-                    prevKey = KeyID.BaseWorldName;
-                    SM.SaveAndQuit(KeyID.Sea); //sea
-                }
             }
         }
 
@@ -1294,33 +1224,6 @@ namespace EEMod
             }
         }
 
-        public override void clientClone(ModPlayer clientClone)
-        {
-        }
-
-        public Vector2 EEPosition;
-
-        public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
-        {
-            ModPacket packet = mod.GetPacket();
-            packet.Write(triggerSeaCutscene);
-            packet.WriteVector2(EEPosition);
-            packet.Send(toWho, fromWho);
-        }
-
-        public override void SendClientChanges(ModPlayer clientPlayer)
-        {
-            EEPlayer clone = clientPlayer as EEPlayer;
-
-            if (clone.EEPosition != EEMod.instance.position)
-            {
-                var packet = mod.GetPacket();
-                packet.Write(triggerSeaCutscene);
-                packet.WriteVector2(EEPosition);
-                packet.Send();
-            }
-        }
-
         private void ResetMinionEffect()
         {
             quartzCrystal = false;
@@ -1353,194 +1256,6 @@ namespace EEMod
                 minutes = 0;
                 hours++;
             }
-        }
-
-        internal static void UpdateOceanMapElements()
-        {
-            for (int i = 0; i < OceanMapElements.Count; i++)
-            {
-                OceanMapElements[i].Update();
-            }
-        }
-
-        public struct Island
-        {
-            EEPlayer player => Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            public Island(Vector2 pos, Texture2D tex, string NameOfIsland, int frameCount = 1, int frameSpid = 2, bool canCollide = false, int startingFrame = 0)
-            {
-                posX = (int)pos.X;
-                posY = (int)pos.Y;
-                texture = tex;
-                frames = frameCount;
-                frameSpeed = frameSpid;
-                currentFrame = startingFrame;
-                this.canCollide = canCollide;
-                if (NameOfIsland != null)
-                {
-                    if (!player.Islands.ContainsKey(NameOfIsland))
-                    {
-                        player.Islands.Add(NameOfIsland, this);
-                    }
-                }
-            }
-
-            private readonly int posX;
-            private readonly int posY;
-            public int frames;
-            public int currentFrame;
-            public int frameSpeed;
-            public bool canCollide;
-
-            public int posXToScreen
-            {
-                get => posX + (int)Main.screenPosition.X + Main.screenWidth;
-            }
-
-            public int posYToScreen
-            {
-                get => posY + (int)Main.screenPosition.Y + Main.screenHeight;
-            }
-
-            public Texture2D texture;
-            public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / (2 * frames));
-            public Rectangle hitBox => new Rectangle((int)posToScreen.X, (int)posToScreen.Y - texture.Height / (frames * 2), texture.Width, texture.Height / (frames));
-            private Rectangle ShipHitBox => new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30, 30, 30);
-            public bool isColliding => hitBox.Intersects(ShipHitBox) && canCollide;
-        }
-
-        public class DarkCloud : IOceanMapElement
-        {
-            public Vector2 pos;
-            public float flash;
-
-            public int posXToScreen
-            {
-                get => (int)(pos.X + Main.screenPosition.X);
-            }
-
-            public int posYToScreen
-            {
-                get => (int)(pos.Y + Main.screenPosition.Y);
-            }
-
-            public Texture2D texture;
-            public float scale, alpha;
-            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-
-            public DarkCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
-            {
-                flash += 0.01f;
-                this.pos = pos;
-                texture = tex;
-                this.scale = scale;
-                this.alpha = alpha;
-                flash = Main.rand.NextFloat(0, 4);
-            }
-
-            public void Draw(SpriteBatch spriteBatch)
-            {
-                flash += 0.003f;
-                Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16) * modPlayer.seamapLightColor;
-                drawcolor.A = (byte)alpha;
-                if (modPlayer.quickOpeningFloat > 0.01f)
-                {
-                    float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
-                    spriteBatch.Draw(texture, p, null, drawcolor * lerp, 0f, default, scale, SpriteEffects.None, 0f);
-                    return;
-                }
-                spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
-            }
-
-            public void Update()
-            {
-
-            }
-        }
-
-        public class MovingCloud : IOceanMapElement
-        {
-            public Vector2 pos;
-            public float flash;
-
-            public int posXToScreen
-            {
-                get => (int)(pos.X + Main.screenPosition.X);
-            }
-
-            public int posYToScreen
-            {
-                get => (int)(pos.Y + Main.screenPosition.Y);
-            }
-
-            public Texture2D texture;
-            public float scale, alpha;
-            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-
-            public MovingCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
-            {
-                this.pos = pos;
-                texture = tex;
-                this.scale = scale;
-                this.alpha = alpha;
-                flash = Main.rand.NextFloat(0, 4);
-            }
-
-            public void Draw(SpriteBatch spriteBatch)
-            {
-                flash += 0.003f;
-                Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16) * modPlayer.brightness * (modPlayer.isStorming ? 2 / 3f : 1);
-                drawcolor.A = (byte)alpha;
-                spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
-            }
-
-            public void Update()
-            {
-
-            }
-        }
-
-        public class MCloud : IOceanMapElement
-        {
-            private Vector2 position;
-            private readonly int width, height;
-            private readonly float alpha, scale;
-            private readonly Texture2D texture;
-            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            private Vector2 Center => new Vector2(position.X + width / 2f, position.Y + height / 2f);
-
-            public MCloud(Texture2D texture, Vector2 position, int width, int height, float scale, float alpha)
-            {
-                //scale = projectile.ai[0];
-                //alpha = (int)projectile.ai[1];
-                this.scale = scale;
-                this.alpha = alpha;
-                this.texture = texture;
-                this.position = position;
-                this.width = width;
-                this.height = height;
-            }
-
-            public void Draw(SpriteBatch spriteBatch)
-            {
-                Vector2 newPos = Center + Main.screenPosition;
-                Rectangle rect = new Rectangle(0, 0, width, height);
-                Color lightColour = Lighting.GetColor((int)newPos.X / 16, (int)newPos.Y / 16) * modPlayer.brightness * (modPlayer.isStorming ? 2 / 3f : 1);
-                spriteBatch.Draw(texture, Center, rect, lightColour * (alpha / 255f) * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, rect.Size() / 2, scale, SpriteEffects.None, 0f);
-            }
-
-            public void Update()
-            {
-                position.X -= 0.3f;
-            }
-        }
-
-        internal interface IOceanMapElement
-        {
-            void Update();
-
-            void Draw(SpriteBatch spriteBatch);
         }
 
         public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
