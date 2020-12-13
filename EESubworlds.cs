@@ -377,16 +377,6 @@ namespace EEMod
                 //Final polishing
                 EEMod.progressMessage = "Placing Corals";
                 PlaceCoral();
-                for (int i = 2; i < Main.maxTilesX - 2; i++)
-                {
-                    for (int j = 2; j < Main.maxTilesY - 2; j++)
-                    {
-                        if (WorldGen.genRand.NextBool(2))
-                        {
-                            Tile.SmoothSlope(i, j);
-                        }
-                    }
-                }
                 #endregion
 
                 #region Implementing dynamic objects
@@ -474,6 +464,19 @@ namespace EEMod
                 ClearRegion(46, 26, new Vector2(SpirePosition.X + 10 - 24, SpirePosition.Y - 26));
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y - 26), new Vector2(SpirePosition.X + 25, SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
+
+                #region Smoothing
+                for (int i = 2; i < Main.maxTilesX - 2; i++)
+                {
+                    for (int j = 2; j < Main.maxTilesY - 2; j++)
+                    {
+                        if (WorldGen.genRand.NextBool(2))
+                        {
+                            Tile.SmoothSlope(i, j);
+                        }
+                    }
+                }
+                #endregion
 
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
