@@ -235,6 +235,28 @@ namespace EEMod.EEWorld
                     MakeJaggedOval((int)(sizeX * 1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     CreateNoise(true, 100, 20, 0.3f);
                     CreateNoise(true, 20, 100, 0.4f);
+                    for (int j = (int)TL.Y - 50; j < (int)TL.Y + sizeY * 2; j++)
+                    {
+                        for (int i = (int)TL.X - 50; i < (int)TL.X + sizeX * 2; i++)
+                          {
+
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && j > Main.maxTilesY / 10 && !Main.rand.NextBool(2))
+                                {
+                                    if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
+                                    {
+                                      EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                                    }
+                                    else
+                                    {
+                                        Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
+                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 70 * 70 && Math.Abs(lastPos.X - i) > 3) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 110 * 110 )
+                                        {
+                                        EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                                        }
+                                    }
+                                }
+                            }
+                    }
                     EESubWorlds.SpirePosition = new Vector2(xPos, yPos);
                     break;
             }

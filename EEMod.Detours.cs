@@ -436,6 +436,7 @@ namespace EEMod
             if (Main.worldName == KeyID.CoralReefs)
             {
                 EEWorld.EEWorld.instance.DrawVines();
+                EEWorld.EEWorld.instance.DrawAquamarineZiplines();
                 DrawKelpTarzanVines();
                 DrawCR();
                 DrawCoralReefsBg();

@@ -162,6 +162,38 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        public void DrawAquamarineZiplines()
+        {
+            Main.NewText(EESubWorlds.AquamarineZiplineLocations.Count);
+            if (EESubWorlds.AquamarineZiplineLocations.Count > 0)
+            {
+                for (int i = 1; i < EESubWorlds.AquamarineZiplineLocations.Count - 2; i++)
+                {
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.004f));
+
+                    Vector2 addOn = new Vector2(0, 8);
+                    Vector2 ChainConneccPos = EESubWorlds.AquamarineZiplineLocations[i] * 16;
+                    Vector2 LastChainConneccPos = EESubWorlds.AquamarineZiplineLocations[i - 1] * 16;
+                    Tile CurrentTile = Main.tile[(int)EESubWorlds.AquamarineZiplineLocations[i].X, (int)EESubWorlds.AquamarineZiplineLocations[i].Y];
+                    Tile LastTile = Main.tile[(int)EESubWorlds.AquamarineZiplineLocations[i - 1].X, (int)EESubWorlds.AquamarineZiplineLocations[i - 1].Y];
+                    bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
+                    Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
+                    Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2;
+                    Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.2f);
+                    Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.8f);
+                    if (Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid)
+                    {
+                        Main.NewText(ChainConneccPos);
+                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/Vine"), Color.White, ChainConneccPos, LastChainConneccPos, Mid, 0.6f, MathHelper.PiOver2, true);
+                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/Light"), Color.Blue, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2, false, 1, true);
+                    }
+                    EEMod.Particles.Get("Main").SpawnParticles(ChainConneccPos, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpinC(3, 15, 0.06f, ChainConneccPos, 0, 0f, 0.04f, 0.01f));
+                    EEMod.Particles.Get("Main").SpawnParticles(ChainConneccPos, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpinC(3, 15, 0.06f, ChainConneccPos, 0, 6.28f * 0.33f, 0.04f, 0.01f));
+                    EEMod.Particles.Get("Main").SpawnParticles(ChainConneccPos, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpinC(3, 15, 0.06f, ChainConneccPos, 0, 6.28f * 0.66f, 0.04f, 0.01f));
+                    EEMod.Particles.Get("Main").SpawnParticles(ChainConneccPos, null, null, 200, 1, null, new CircularMotionSinSpin(1, 1, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));
+                }
+            }
+        }
 
         public override void PostUpdate()
         {
@@ -323,17 +355,59 @@ namespace EEMod.EEWorld
         public static IList<Vector2> Vines = new List<Vector2>();
         public override void Load(TagCompound tag)
         {
-            tag.TryGetListRef<Vector2>("EntracesPosses", ref EntracesPosses);
-            tag.TryGetRef<Vector2>("CoralBoatPos", ref EESubWorlds.CoralBoatPos);
-            tag.TryGetRef<Vector2>("SubWorldSpecificVolcanoInsidePos", ref SubWorldSpecificVolcanoInsidePos);
-            tag.TryGetRef<Vector2>("yes", ref yes);
-            tag.TryGetRef<Vector2>("ree", ref ree);
-            tag.TryGetRef<Vector2>("SpirePosition", ref EESubWorlds.SpirePosition);
-            tag.TryGetListRef<Vector2>("ChainConnections", ref EESubWorlds.ChainConnections);
-            tag.TryGetListRef<Vector2>("OrbPositions", ref EESubWorlds.OrbPositions);
-            tag.TryGetListRef<Vector2>("BulbousTreePosition", ref EESubWorlds.BulbousTreePosition);
-            if(tag.TryGetListRef<Vector2>("SwingableVines", ref VerletHelpers.SwingableVines))
+            tag.TryGetListRef("EntracesPosses", ref EntracesPosses);
+            tag.TryGetRef("CoralBoatPos", ref EESubWorlds.CoralBoatPos);
+            tag.TryGetRef("SubWorldSpecificVolcanoInsidePos", ref SubWorldSpecificVolcanoInsidePos);
+            tag.TryGetRef("yes", ref yes);
+            tag.TryGetRef("ree", ref ree);
+            tag.TryGetRef("SpirePosition", ref EESubWorlds.SpirePosition);
+            tag.TryGetListRef("ChainConnections", ref EESubWorlds.ChainConnections);
+            tag.TryGetListRef("OrbPositions", ref EESubWorlds.OrbPositions);
+            tag.TryGetListRef("BulbousTreePosition", ref EESubWorlds.BulbousTreePosition);
+            if(tag.TryGetListRef("SwingableVines", ref VerletHelpers.SwingableVines))
             {
+
+                EntracesPosses = tag.GetList<Vector2>("EntracesPosses");
+            }
+            if (tag.ContainsKey("CoralBoatPos"))
+            {
+                EESubWorlds.CoralBoatPos = tag.Get<Vector2>("CoralBoatPos");
+            }
+            if (tag.ContainsKey("SubWorldSpecificVolcanoInsidePos"))
+            {
+                SubWorldSpecificVolcanoInsidePos = tag.Get<Vector2>("SubWorldSpecificVolcanoInsidePos");
+            }
+            if (tag.ContainsKey("yes"))
+            {
+                yes = tag.Get<Vector2>("yes");
+            }
+            if (tag.ContainsKey("ree"))
+            {
+                ree = tag.Get<Vector2>("ree");
+            }
+            if (tag.ContainsKey("SpirePosition"))
+            {
+                EESubWorlds.SpirePosition = tag.Get<Vector2>("SpirePosition");
+            }
+            if (tag.ContainsKey("ChainConnections"))
+            {
+                EESubWorlds.ChainConnections = tag.GetList<Vector2>("ChainConnections");
+            }
+            if (tag.ContainsKey("AquamarineZiplineLocations"))
+            {
+                EESubWorlds.AquamarineZiplineLocations = tag.GetList<Vector2>("AquamarineZiplineLocations");
+            }
+            if (tag.ContainsKey("OrbPositions"))
+            {
+                EESubWorlds.OrbPositions = tag.GetList<Vector2>("OrbPositions");
+            }
+            if (tag.ContainsKey("BulbousTreePosition"))
+            {
+                EESubWorlds.BulbousTreePosition = tag.GetList<Vector2>("BulbousTreePosition");
+            }
+            if (tag.ContainsKey("SwingableVines"))
+            {
+                VerletHelpers.SwingableVines = tag.GetList<Vector2>("SwingableVines");
                 if (VerletHelpers.SwingableVines.Count != 0)
                 {
                     foreach (Vector2 vec in VerletHelpers.SwingableVines)
@@ -382,6 +456,7 @@ namespace EEMod.EEWorld
             {
                 tag["CoralBoatPos"] = EESubWorlds.CoralBoatPos;
                 tag["ChainConnections"] = EESubWorlds.ChainConnections;
+                tag["AquamarineZiplineLocations"] = EESubWorlds.AquamarineZiplineLocations;
                 tag["OrbPositions"] = EESubWorlds.OrbPositions;
                 tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
                 tag["SwingableVines"] = VerletHelpers.SwingableVines;

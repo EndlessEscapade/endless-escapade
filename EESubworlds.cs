@@ -23,6 +23,8 @@ namespace EEMod
         [FieldInit] public static IList<Vector2> OrbPositions = new List<Vector2>();
         [FieldInit] public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
         [FieldInit] public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
+        [FieldInit] public static IList<Vector2> AquamarineZiplineLocations = new List<Vector2>();
+
         public static Vector2 CoralBoatPos;
         public static Vector2 SpirePosition;
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
@@ -198,7 +200,7 @@ namespace EEMod
                         || randPosX > Main.maxTilesX - (sizeOfChasm * 1.2f)
                         || randPosX < sizeOfChasm * 1.2f
                         || randPosY < Main.maxTilesY * 0.5f
-                        || randPosY > Main.maxTilesY * 0.95f
+                        || randPosY > Main.maxTilesY * 0.78f
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2)) < 300 * 300
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400)) < 300 * 300
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 300 * 300);
