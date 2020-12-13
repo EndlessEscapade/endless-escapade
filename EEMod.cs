@@ -21,7 +21,6 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.World.Generation;
-using EEMod.SeamapAssets;
 using EEMod.Seamap.SeamapContent;
 using EEMod.MachineLearning;
 using EEMod.Tiles.EmptyTileArrays;
@@ -271,6 +270,7 @@ namespace EEMod
                 primitives.UpdateTrails();
             }
             EEPlayer.UpdateOceanMapElements();
+            Seamap.SeamapContent.Seamap.UpdateShipMovement();
         }
 
         public static Effect Noise2D;

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using static EEMod.EEMod;
 namespace EEMod.Seamap.SeamapContent
 {
-    public class SeamapUpdates
+    public partial class Seamap
     {
         public static void UpdateShipMovement()
         {
