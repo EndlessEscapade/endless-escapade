@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Ores;
+using EEMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -31,7 +31,7 @@ namespace EEMod.Items.Armor.TropicalWood
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 15);
+            recipe.AddIngredient(ModContent.ItemType<TropicalWoodItem>(), 15);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

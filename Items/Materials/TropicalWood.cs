@@ -1,10 +1,11 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles;
 
 namespace EEMod.Items.Materials
 {
-    public class TropicalWood : ModItem
+    public class TropicalWoodItem : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -24,6 +25,7 @@ namespace EEMod.Items.Materials
             item.autoReuse = true;
             item.consumable = true;
             item.material = true;
+            item.createTile = ModContent.TileType<TropicalWoodTile>();
         }
     }
 }

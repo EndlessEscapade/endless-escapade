@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Ores;
+using EEMod.Items.Materials;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,7 +32,7 @@ namespace EEMod.Items.Tools.TropicalWood
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 8);
+            recipe.AddIngredient(ModContent.ItemType<TropicalWoodItem>(), 8);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();

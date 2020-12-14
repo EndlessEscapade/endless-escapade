@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Materials;
 
 namespace EEMod.Items.Armor.TropicalWood
 {
@@ -41,7 +42,7 @@ namespace EEMod.Items.Armor.TropicalWood
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<Materials.TropicalWood>(), 20);
+            recipe.AddIngredient(ModContent.ItemType<TropicalWoodItem>(), 20);
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
