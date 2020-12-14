@@ -1125,30 +1125,12 @@ namespace EEMod
 
         public override void Load(TagCompound tag)
         {
-            if (tag.ContainsKey("hasGottenRuneBefore"))
-            {
-                hasGottenRuneBefore = tag.GetByteArray("hasGottenRuneBefore");
-            }
-            if (tag.ContainsKey("moral"))
-            {
-                moralScore = tag.GetInt("moral");
-            }
-            if (tag.ContainsKey("baseworldname"))
-            {
-                baseWorldName = tag.GetString("baseworldname");
-            }
-            if (tag.ContainsKey("importantCutscene"))
-            {
-                importantCutscene = tag.GetBool("importantCutscene");
-            }
-            if (tag.ContainsKey("swiftSail"))
-            {
-                boatSpeed = tag.GetInt("swiftSail");
-            }
-            if (tag.ContainsKey("cannonball"))
-            {
-                cannonballType = tag.GetInt("cannonball");
-            }
+            tag.TryGetByteArrayRef("hasGottenRuneBefore", ref hasGottenRuneBefore);
+            tag.TryGetRef("moral", ref moralScore);
+            tag.TryGetRef("baseworldname", ref baseWorldName);
+            tag.TryGetRef("importantCutscene", ref importantCutscene);
+            tag.TryGetRef("swiftSail", ref boatSpeed);
+            tag.TryGetRef("cannonball", ref cannonballType);
             /*if (tag.ContainsKey("fishLengths"))
             {
                 fishLengths = tag.GetList("fishLengths");

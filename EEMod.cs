@@ -58,32 +58,32 @@ namespace EEMod
         {
             switch (key)
             {
-                case nameof(EESubWorlds.CoralReefs): 
-                    EESubWorlds.CoralReefs(seed, customProgressObject); 
+                case nameof(EESubWorlds.CoralReefs):
+                    EESubWorlds.CoralReefs(seed, customProgressObject);
                     break;
-                case nameof(EESubWorlds.Cutscene1): 
-                    EESubWorlds.Cutscene1(seed, customProgressObject); 
+                case nameof(EESubWorlds.Cutscene1):
+                    EESubWorlds.Cutscene1(seed, customProgressObject);
                     break;
-                case nameof(EESubWorlds.Island):  
-                    EESubWorlds.Island(seed, customProgressObject); 
+                case nameof(EESubWorlds.Island):
+                    EESubWorlds.Island(seed, customProgressObject);
                     break;
-                case nameof(EESubWorlds.Island2): 
-                    EESubWorlds.Island2(seed, customProgressObject); 
+                case nameof(EESubWorlds.Island2):
+                    EESubWorlds.Island2(seed, customProgressObject);
                     break;
-                case nameof(EESubWorlds.Pyramids): 
-                    EESubWorlds.Pyramids(seed, customProgressObject); 
+                case nameof(EESubWorlds.Pyramids):
+                    EESubWorlds.Pyramids(seed, customProgressObject);
                     break;
-                case nameof(EESubWorlds.Sea): 
-                    EESubWorlds.Sea(seed, customProgressObject); 
+                case nameof(EESubWorlds.Sea):
+                    EESubWorlds.Sea(seed, customProgressObject);
                     break;
-                case nameof(EESubWorlds.VolcanoInside): 
-                    EESubWorlds.VolcanoInside(seed, customProgressObject); 
+                case nameof(EESubWorlds.VolcanoInside):
+                    EESubWorlds.VolcanoInside(seed, customProgressObject);
                     break;
-                case nameof(EESubWorlds.VolcanoIsland): 
-                    EESubWorlds.VolcanoIsland(seed, customProgressObject); 
+                case nameof(EESubWorlds.VolcanoIsland):
+                    EESubWorlds.VolcanoIsland(seed, customProgressObject);
                     break;
                 default:
-                typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
+                    typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
                     break;
             }
         }
@@ -99,7 +99,7 @@ namespace EEMod
             Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
             Main.spriteBatch.End();
         }
-        
+
         public void TestParticleSystem()
         {
 
@@ -280,7 +280,7 @@ namespace EEMod
         {
             base.PreUpdateEntities();
             Particles.Update();
-       }
+        }
         public RenderTarget2D playerTarget;
         public ComponentManager<TileObjVisual> TVH;
         public override void Load()
@@ -325,7 +325,7 @@ namespace EEMod
 
                 Ref<Effect> hydrosDye = new Ref<Effect>(GetEffect("Effects/HydrosDye"));
                 GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
-                Ref<Effect> aquamarineDye  = new Ref<Effect>(GetEffect("Effects/AquamarineDye"));
+                Ref<Effect> aquamarineDye = new Ref<Effect>(GetEffect("Effects/AquamarineDye"));
                 GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
 
                 /*
@@ -421,18 +421,21 @@ namespace EEMod
 
             // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
-            var computerState = new LegacyGameInterfaceLayer("EE: UI",
-            delegate
+            if (textLayer != -1)
             {
-                Ascension();
-                if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
+                var computerState = new LegacyGameInterfaceLayer("EE: UI",
+                delegate
                 {
-                    DrawText();
-                }
-                return true;
-            },
-            InterfaceScaleType.UI);
-            layers.Insert(textLayer, computerState);
+                    Ascension();
+                    if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
+                    {
+                        DrawText();
+                    }
+                    return true;
+                },
+                InterfaceScaleType.UI);
+                layers.Insert(textLayer, computerState);
+            }
             /*if (mouseTextIndex != -1)
 		    {
 		        layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(

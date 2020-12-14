@@ -26,21 +26,21 @@ namespace EEMod.Tiles.EmptyTileArrays
         public Vector2 origin;
         public Vector2 ScreenPosition => position * 16;
         public int RENDERDISTANCE => 2000;
-        public virtual int activityTime { get; set; }
-        public virtual string tex { get; set; }
+        public virtual int ActivityTime { get; set; }
+        public virtual string Tex { get; set; }
 
         public bool CanActivate { get; set; }
-        public Texture2D texture => EEMod.instance.GetTexture(tex);
+        public Texture2D texture => EEMod.instance.GetTexture(Tex);
         public EmptyTileDrawEntity(Vector2 position, string text)
         {
             this.position = position;
-            tex = text;
+            Tex = text;
             origin = new Vector2(0, texture.Height);
         }
         public void Activiate()
         {
             if (CanActivate)
-                activeTime = activityTime;
+                activeTime = ActivityTime;
         }
         public virtual void DuringActivation()
         {
@@ -56,11 +56,11 @@ namespace EEMod.Tiles.EmptyTileArrays
             EmptyTileEntityCache.EmptyTileEntityPairs.Remove(position);
             try
             {
-                    foreach (var item in EmptyTileEntityCache.EmptyTilePairs.Where(kvp => kvp.Value == position).ToList())
-                    {
-                        if (Main.tile[(int)item.Key.X, (int)item.Key.Y].active())
-                            WorldGen.KillTile((int)item.Key.X, (int)item.Key.Y);
-                    }
+                foreach (var item in EmptyTileEntityCache.EmptyTilePairs.Where(kvp => kvp.Value == position)) // Turning into a list is not needed
+                {
+                    if (Main.tile[(int)item.Key.X, (int)item.Key.Y].active())
+                        WorldGen.KillTile((int)item.Key.X, (int)item.Key.Y);
+                }
             }
             catch
             {
@@ -123,18 +123,18 @@ namespace EEMod.Tiles.EmptyTileArrays
             }
             EEWorld.EEWorld.CreateInvisibleTiles(array, position);
         }
-        public static void Remove(Vector2 position)=>
+        public static void Remove(Vector2 position) =>
             EmptyTileEntityPairs[Convert(position)].Destroy();
-        
-        public static Vector2 Convert(Vector2 position)
-        {
-            if(EmptyTilePairs.ContainsKey(position))
-            return EmptyTilePairs[position];
-            else
-            {
-                return Vector2.Zero;
-            }
-        }
+
+        public static Vector2 Convert(Vector2 position) => EmptyTilePairs.TryGetValue(position, out var val) ? val : Vector2.Zero;
+        //{
+        //    if (EmptyTilePairs.ContainsKey(position))
+        //        return EmptyTilePairs[position];
+        //    else
+        //    {
+        //        return Vector2.Zero;
+        //    }
+        //}
 
         public static void Update()
         {
@@ -167,16 +167,16 @@ namespace EEMod.Tiles.EmptyTileArrays
         public Crystal(Vector2 position, string texture, string glow) : base(position, texture)
         {
             this.position = position;
-            tex = texture;
+            Tex = texture;
             speed = Main.rand.NextFloat(0.01f, 0.03f);
             glowPath = glow;
         }
-        public override int activityTime => 20;
+        public override int ActivityTime => 20;
 
         public override void DuringActivation()
         {
-            shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)activityTime) * activeTime);
-            colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime));
+            shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)ActivityTime) * activeTime);
+            colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)ActivityTime) * activeTime));
             rotation = (shaderLerp - 1) / 20f;
         }
         public override void OnUpdate()
@@ -200,7 +200,7 @@ namespace EEMod.Tiles.EmptyTileArrays
 
         public override void Draw()
         {
- 
+
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.ReflectionShader.Parameters["alpha"].SetValue(lerp * 2 % 6);
@@ -226,17 +226,17 @@ namespace EEMod.Tiles.EmptyTileArrays
         public BigCrystal(Vector2 position, string text, string glow) : base(position, text)
         {
             this.position = position;
-            tex = text;
+            Tex = text;
             speed = Main.rand.NextFloat(0.01f, 0.02f);
             glowPath = glow;
             origin = new Vector2(texture.Width, texture.Height);
         }
-        public override int activityTime => 40;
+        public override int ActivityTime => 40;
 
         public override void DuringActivation()
         {
-            shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)activityTime) * activeTime);
-            colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)activityTime) * activeTime));
+            shaderLerp = 1 + (float)Math.Sin((Math.PI / (float)ActivityTime) * activeTime);
+            colour = Color.Lerp(Lighting.GetColor((int)position.X, (int)position.Y), Color.LightBlue, (float)Math.Sin((Math.PI / (float)ActivityTime) * activeTime));
             rotation = (shaderLerp - 1) / 100f;
         }
         public override void OnUpdate()
@@ -260,7 +260,6 @@ namespace EEMod.Tiles.EmptyTileArrays
 
         public override void Draw()
         {
-            
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.ReflectionShader.Parameters["alpha"].SetValue(lerp * 2 % 6);

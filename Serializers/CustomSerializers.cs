@@ -20,7 +20,7 @@ namespace EEMod
         public override TagCompound Serialize(Crystal value) => new TagCompound
         {
             ["position"] = value.position,
-            ["texture"] = value.tex,
+            ["texture"] = value.Tex,
             ["glowmask"] = value.glow
         };
 
@@ -31,7 +31,7 @@ namespace EEMod
         public override TagCompound Serialize(BigCrystal value) => new TagCompound
         {
             ["position"] = value.position,
-            ["texture"] = value.tex,
+            ["texture"] = value.Tex,
             ["glowmask"] = value.glow
         };
 
@@ -46,7 +46,7 @@ namespace EEMod
                 return new TagCompound
                 {
                     ["position"] = value.position,
-                    ["texture"] = value.tex,
+                    ["texture"] = value.Tex,
                     ["glowBC"] = (value as BigCrystal).glowPath,
                 };
             }
@@ -55,14 +55,14 @@ namespace EEMod
                 return new TagCompound
                 {
                     ["position"] = value.position,
-                    ["texture"] = value.tex,
+                    ["texture"] = value.Tex,
                     ["glowC"] = (value as Crystal).glowPath,
                 };
             }
             return new TagCompound
             {
                 ["position"] = value.position,
-                ["texture"] = value.tex,
+                ["texture"] = value.Tex,
             };
         }
 

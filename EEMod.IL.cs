@@ -464,7 +464,7 @@ namespace EEMod
         public void DrawNoiseSurfacing()
         {
             Vector2 mouseTilePos = Main.MouseWorld / 16;
-            Tile tile = Framing.GetTileSafely((int)(mouseTilePos.X), (int)(mouseTilePos.Y));
+            Tile tile = Framing.GetTileSafely((int)mouseTilePos.X, (int)mouseTilePos.Y);
 
             Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = Vector2.Zero;
 
