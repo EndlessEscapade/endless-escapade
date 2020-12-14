@@ -51,7 +51,7 @@ namespace EEMod
         public string baseWorldName;
 
         [FieldInit]
-        internal static List<IOceanMapElement> OceanMapElements = new List<IOceanMapElement>(); //List 4
+        internal static List<ISeamapEntity> OceanMapElements = new List<ISeamapEntity>(); //List 4
 
 
         public void UpdateSea()
@@ -377,7 +377,7 @@ namespace EEMod
             if (markerPlacer % 20 == 0)
             {
                 int CloudChoose = Main.rand.Next(5);
-                IOceanMapElement cloud;
+                ISeamapEntity cloud;
 
                 switch (CloudChoose)
                 {
@@ -554,7 +554,7 @@ namespace EEMod
             }
         }
 
-        public class DarkCloud : IOceanMapElement
+        public class DarkCloud : ISeamapEntity
         {
             public Vector2 pos;
             public float flash;
@@ -604,7 +604,7 @@ namespace EEMod
             }
         }
 
-        public class MovingCloud : IOceanMapElement
+        public class MovingCloud : ISeamapEntity
         {
             public Vector2 pos;
             public float flash;
@@ -647,7 +647,7 @@ namespace EEMod
             }
         }
 
-        public class MCloud : IOceanMapElement
+        public class MCloud : ISeamapEntity
         {
             private Vector2 position;
             private readonly int width, height;
@@ -682,7 +682,7 @@ namespace EEMod
             }
         }
 
-        internal interface IOceanMapElement
+        internal interface ISeamapEntity
         {
             void Update();
 
