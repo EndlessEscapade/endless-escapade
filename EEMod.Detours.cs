@@ -490,9 +490,6 @@ namespace EEMod
             prims.DrawProjectileTrails();
 
             primitives.DrawTrails(Main.spriteBatch);
-
-            orig(self);
-
             if (Main.worldName == KeyID.Sea)
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -500,6 +497,9 @@ namespace EEMod
                 DrawSubText();
                 Main.spriteBatch.End();
             }
+            orig(self);
+
+
         }
 
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)

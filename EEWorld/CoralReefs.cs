@@ -236,12 +236,12 @@ namespace EEMod.EEWorld
                     MakeJaggedOval((int)(sizeX * 1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     CreateNoise(true, 100, 20, 0.3f);
                     CreateNoise(true, 20, 100, 0.4f);
-                    for (int j = (int)TL.Y - 50; j < (int)TL.Y + sizeY * 2; j++)
+                    for (int j = (int)TL.Y - sizeY*2; j < (int)TL.Y + sizeY; j++)
                     {
-                        for (int i = (int)TL.X - 50; i < (int)TL.X + sizeX * 2; i++)
+                        for (int i = (int)TL.X - sizeX*2; i < (int)TL.X + sizeX; i++)
                           {
 
-                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && j > Main.maxTilesY / 10 && !Main.rand.NextBool(2))
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && !Main.rand.NextBool(2))
                                 {
                                     if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
                                     {
@@ -250,7 +250,7 @@ namespace EEMod.EEWorld
                                     else
                                     {
                                         Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
-                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 70 * 70 && Math.Abs(lastPos.X - i) > 3) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 110 * 110 )
+                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 150 * 150) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
                                         {
                                         EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
                                         }
@@ -339,15 +339,27 @@ namespace EEMod.EEWorld
                         if (WorldGen.InWorld(i, j) && GemsandCheck(i, j))
                         {
                             int minibiome = 0;
+                            List<float> BufferLengths = new List<float>();
+                            List<int> BufferMinibiome = new List<int>();
                             for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
                             {
-                                if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)) < (220 * 220) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                                if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)) < (180 * 180) && EESubWorlds.MinibiomeLocations[k].Z != 0)
                                 {
-                                    minibiome = (int)EESubWorlds.MinibiomeLocations[k].Z;
-                                    break;
+                                    BufferLengths.Add(Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)));
+                                    BufferMinibiome.Add((int)EESubWorlds.MinibiomeLocations[k].Z);
                                 }
                             }
-
+                            float MakingMyWayDownTown = -1;
+                            int WalkingFast = -1;
+                            for(int a = 0; a< BufferLengths.Count; a++)
+                            {
+                                if(BufferLengths[a] < MakingMyWayDownTown || MakingMyWayDownTown == -1)
+                                {
+                                    MakingMyWayDownTown = BufferLengths[a];
+                                    WalkingFast = BufferMinibiome[a];
+                                }
+                            }
+                            if (WalkingFast != -1) minibiome = WalkingFast;
                             int selection;
                             switch (minibiome)
                             {

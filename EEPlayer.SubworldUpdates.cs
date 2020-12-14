@@ -323,7 +323,7 @@ namespace EEMod
                     int DefShipPosX = 100;
                     int DefShipPosY = TileCheckWater(100) - 22;
 
-                    if (Main.LocalPlayer.Center.X < (DefShipPosX + ShipTiles.GetLength(1)) * 16 && Main.LocalPlayer.Center.Y < (DefShipPosY + ShipTiles.GetLength(0)) * 16)
+                    if (Main.LocalPlayer.Center.X < (DefShipPosX + ShipTiles.GetLength(1)) * 16 && Main.LocalPlayer.Center.Y < (DefShipPosY + ShipTiles.GetLength(0)) * 16 && Main.GameUpdateCount % 100 == 0)
                     {
                         ShipComplete();
                     }

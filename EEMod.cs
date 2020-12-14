@@ -412,7 +412,7 @@ namespace EEMod
                 {
                     var layer = layers[i];
                     //Remove Resource bars
-                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap"))
+                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap") || layer.Name.Contains("Vanilla: Inventory"))
                     {
                         layers.RemoveAt(i);
                     }
