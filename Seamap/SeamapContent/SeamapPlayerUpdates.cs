@@ -45,14 +45,13 @@ namespace EEMod
         public int markerPlacer;
         public Vector2 position;
         public Vector2 velocity;
-        public List<Vector2> objectPos = new List<Vector2>();
-        public List<Island> SeaObject = new List<Island>();
+        public List<SeaEntity> SeaObject = new List<SeaEntity>(); //List 1
         public List<int> SeaObjectFrames = new List<int>();
-        public Dictionary<string, Island> Islands = new Dictionary<string, Island>();
+        public Dictionary<string, SeaEntity> Islands = new Dictionary<string, SeaEntity>(); //List 3
         public string baseWorldName;
 
         [FieldInit]
-        internal static List<IOceanMapElement> OceanMapElements = new List<IOceanMapElement>();
+        internal static List<IOceanMapElement> OceanMapElements = new List<IOceanMapElement>(); //List 4
 
 
         public void UpdateSea()
@@ -128,17 +127,17 @@ namespace EEMod
             #region Placing islands
             if (markerPlacer == 1)
             {
-                SeaObject.Add(new Island(new Vector2(500, 500), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland", 16, 10, true));
-                SeaObject.Add(new Island(new Vector2(-1200, -400), GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), "VolcanoIsland", 16, 10, true));
-                SeaObject.Add(new Island(new Vector2(-700, -300), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland2", 16, 10, true));
-                //SeaObject.Add(new Island(new Vector2(-500, -200), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse2"), 1, 0));
-                SeaObject.Add(new Island(new Vector2(-400, -100), GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), null, 16, 10));
-                SeaObject.Add(new Island(new Vector2(-800, -150), GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), null, 16, 10));
-                SeaObject.Add(new Island(new Vector2(-200, -300), GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), null, 16, 10));
-                SeaObject.Add(new Island(new Vector2(-209, -55), GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), "MainIsland", 1, 0, true));
-                SeaObject.Add(new Island(new Vector2(-200, -600), GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), "CoralReefsEntrance", 16, 10, true));
-                SeaObject.Add(new Island(new Vector2(-450, -650), GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), "MoyaiIsland", 16, 10, true));
-                SeaObject.Add(new Island(new Vector2(-300, -250), GetTexture("EEMod/Seamap/SeamapAssets/Rock4"), null, 16, 10));
+                SeaObject.Add(new SeaEntity(new Vector2(500, 500), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland", 16, 10, true));
+                SeaObject.Add(new SeaEntity(new Vector2(-1200, -400), GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), "VolcanoIsland", 16, 10, true));
+                SeaObject.Add(new SeaEntity(new Vector2(-700, -300), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland2", 16, 10, true));
+                SeaObject.Add(new SeaEntity(new Vector2(-500, -200), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse"), null, 1, 0));
+                SeaObject.Add(new SeaEntity(new Vector2(-400, -100), GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), null, 16, 10));
+                SeaObject.Add(new SeaEntity(new Vector2(-800, -150), GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), null, 16, 10));
+                SeaObject.Add(new SeaEntity(new Vector2(-200, -300), GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), null, 16, 10));
+                SeaObject.Add(new SeaEntity(new Vector2(-209, -55), GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), "MainIsland", 1, 0, true));
+                SeaObject.Add(new SeaEntity(new Vector2(-200, -600), GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), "CoralReefsEntrance", 16, 10, true));
+                SeaObject.Add(new SeaEntity(new Vector2(-450, -650), GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), "MoyaiIsland", 16, 10, true));
+                SeaObject.Add(new SeaEntity(new Vector2(-300, -250), GetTexture("EEMod/Seamap/SeamapAssets/Rock4"), null, 16, 10));
 
                 if (SeaObjectFrames.Count != SeaObject.Count)
                 {
@@ -174,12 +173,6 @@ namespace EEMod
                         OceanMapElements.Add(new DarkCloud(CloudPos, cloudTexture, Main.rand.NextFloat(.6f, 1), Main.rand.NextFloat(60, 180)));
                     }
                 }
-
-                for (int i = 0; i < SeaObject.Count; i++)
-                {
-                    objectPos.Add(SeaObject[i].posToScreen);
-                }
-
                 //upgrade, pirates, radial
             }
             #endregion
@@ -246,7 +239,7 @@ namespace EEMod
                 arrowFlag = true;
             }
 
-            foreach (Island island in Islands.Values)
+            foreach (SeaEntity island in Islands.Values)
             {
                 if (island.isColliding)
                 {
@@ -511,10 +504,10 @@ namespace EEMod
         }
         #endregion
 
-        public struct Island
+        public struct SeaEntity
         {
             EEPlayer player => Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            public Island(Vector2 pos, Texture2D tex, string NameOfIsland, int frameCount = 1, int frameSpid = 2, bool canCollide = false, int startingFrame = 0)
+            public SeaEntity(Vector2 pos, Texture2D tex, string NameOfIsland, int frameCount = 1, int frameSpid = 2, bool canCollide = false, int startingFrame = 0)
             {
                 posX = (int)pos.X;
                 posY = (int)pos.Y;
@@ -554,6 +547,11 @@ namespace EEMod
             public Rectangle hitBox => new Rectangle((int)posToScreen.X, (int)posToScreen.Y - texture.Height / (frames * 2), texture.Width, texture.Height / (frames));
             private Rectangle ShipHitBox => new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30, 30, 30);
             public bool isColliding => hitBox.Intersects(ShipHitBox) && canCollide;
+
+            public void Update()
+            {
+
+            }
         }
 
         public class DarkCloud : IOceanMapElement

@@ -151,11 +151,10 @@ namespace EEMod.Seamap.SeamapContent
         {
             frame++;
 
-            #region Drawing elements from the OceanElements array
-            var OceanElements = EEPlayer.OceanMapElements;
-            for (int i = 0; i < OceanElements.Count; i++)
+            #region Drawing elements from the OceanMapElements array
+            for (int i = 0; i < EEPlayer.OceanMapElements.Count; i++)
             {
-                var element = OceanElements[i];
+                var element = EEPlayer.OceanMapElements[i];
                 element.Draw(Main.spriteBatch);
             }
             #endregion
@@ -175,7 +174,8 @@ namespace EEMod.Seamap.SeamapContent
         {
             for (int i = 0; i < modPlayer.SeaObject.Count; i++)
             {
-                EEPlayer.Island current = modPlayer.SeaObject[i];
+                EEPlayer.SeaEntity current = modPlayer.SeaObject[i];
+
                 Vector2 currentPos = current.posToScreen.ForDraw();
                 Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f)) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
                 drawColour.A = 255;

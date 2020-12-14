@@ -423,7 +423,6 @@ namespace EEMod
                 speedOfPan = 0;
                 subTextAlpha = 0;
                 EEMod.instance.position = new Vector2(1700, 900);
-                objectPos.Clear();
                 SeaObject.Clear();
                 EEMod.ShipHelth = EEMod.ShipHelthMax;
                 MoralFirstFrame();
