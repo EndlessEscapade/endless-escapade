@@ -405,6 +405,9 @@ namespace EEMod.EEWorld
                 downedAkumo = flags.Contains("downedAkumo");
                 downedHydros = flags.Contains("downedHydros");
                 downedKraken = flags.Contains("downedKraken");
+                downedCoralGolem = flags.Contains("downedCoralGolem");
+                downedOmen = flags.Contains("downedOmen");
+                downedTalos = flags.Contains("downedTalos");
             }
         }
 
@@ -452,6 +455,9 @@ namespace EEMod.EEWorld
             if (downedAkumo) flags.Add("downedAkumo");
             if (downedHydros) flags.Add("downedHydros");
             if (downedKraken) flags.Add("downedKraken");
+            if (downedCoralGolem) flags.Add("downedCoralGolem");
+            if (downedOmen) flags.Add("downedOmen");
+            if (downedTalos) flags.Add("downedTalos");
             return tag;
         }
     }

@@ -16,28 +16,6 @@ namespace EEMod.UI.States
     public class ArrowsUIState : UIState
     {
         public static bool OceanArrowVisible { get; set; }
-        //{
-        //    get
-        //    {
-        //        if (Main.gameMenu)
-        //            return false;
-        //        var playerat = Main.LocalPlayer.position;
-        //        int tileX = (int)(playerat.X / 16);
-        //        int tileY = (int)(playerat.Y / 16);
-        //        int w = Main.LocalPlayer.width / 16;
-        //        int h = Main.LocalPlayer.height / 16;
-        //        for (int i = tileX - w; i < tileX + w; i++)
-        //        {
-        //            for(int j = tileY - h; j < tileY + h; j++)
-        //            {
-        //                Tile t = Framing.GetTileSafely(i, j);
-        //                if (t.type == ModContent.TileType<WoodenShipsWheelTile>())
-        //                    return true;
-        //            }
-        //        }
-        //        return false;
-        //    }
-        //}
         public static bool DesertArrowVisible { get; set; }
         Texture2D arrowUp;
         Texture2D arrowLeft;
