@@ -26,6 +26,7 @@ using Terraria.ModLoader;
 using Terraria.Social;
 using Terraria.UI;
 using EEMod.Prim;
+using EEMod.Seamap.SeamapContent;
 
 namespace EEMod
 {
@@ -554,12 +555,12 @@ namespace EEMod
             if (_counter++ > _screenframeSpeed)
             {
                 _counter = 0;
-                frame.Y += _screenTexture.Height / _screenframes;
+                SeamapPlayerShip.localship.frame.Y += _screenTexture.Height / _screenframes;
             }
 
-            if (frame.Y >= _screenTexture.Height / _screenframes * (_screenframes - 1))
+            if (SeamapPlayerShip.localship.frame.Y >= _screenTexture.Height / _screenframes * (_screenframes - 1))
             {
-                frame.Y = 0;
+                SeamapPlayerShip.localship.frame.Y = 0;
             }
 
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
@@ -573,7 +574,7 @@ namespace EEMod
                 height *= (Main.screenWidth / _texture2.Width);
             }
             Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, width, height), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(width / 2, height / 2), SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(0, 0, 0), 0, new Rectangle(0, frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(0, 0, 0), 0, new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
 
         private void Main_DrawBackground(ILContext il)

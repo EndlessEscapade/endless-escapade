@@ -18,14 +18,14 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void RenderShip()
         {
-            Vector2 position = instance.position;
+            Vector2 position = SeamapPlayerShip.localship.position;
 
-            float intenstityLightning = instance.intenstityLightning;
-            Vector2 currentLightningPos = instance.currentLightningPos;
-            Vector2 velocity = instance.velocity;
+            float intenstityLightning =SeamapPlayerShip.localship.intenstityLightning;
+            Vector2 currentLightningPos = SeamapPlayerShip.localship.currentLightningPos;
+            Vector2 velocity = SeamapPlayerShip.localship.velocity;
 
             int frames = 12;
-            Rectangle frame = instance.frame;
+            Rectangle frame = SeamapPlayerShip.localship.frame;
             int frameNum = 0;
             Texture2D texture3 = instance.GetTexture("Seamap/SeamapAssets/ShipHelthSheet");
             Texture2D texture = instance.GetTexture("Seamap/SeamapAssets/ShipMount");
@@ -133,7 +133,7 @@ namespace EEMod.Seamap.SeamapContent
 
             #region Drawing the ship healthbar
             //float quotient = ShipHelth / ShipHelthMax; // unused
-            Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * ShipHelth), texture3.Width, texture3.Height / 8);
+            Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * SeamapPlayerShip.localship.shipHelth), texture3.Width, texture3.Height / 8);
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
             #endregion
         }
@@ -183,13 +183,13 @@ namespace EEMod.Seamap.SeamapContent
                 #region Making the anchor move if the object can be departed to
                 if (current.isColliding)
                 {
-                    if (instance.anchorLerp[i] < 1)
-                        instance.anchorLerp[i] += 0.02f;
+                    if (SeamapPlayerShip.localship.anchorLerp[i] < 1)
+                        SeamapPlayerShip.localship.anchorLerp[i] += 0.02f;
                 }
                 else
                 {
-                    if (instance.anchorLerp[i] > 0)
-                        instance.anchorLerp[i] -= 0.02f;
+                    if (SeamapPlayerShip.localship.anchorLerp[i] > 0)
+                        SeamapPlayerShip.localship.anchorLerp[i] -= 0.02f;
                 }
                 #endregion
 
@@ -214,7 +214,7 @@ namespace EEMod.Seamap.SeamapContent
                     if (i > 4 && i < 8 || i == 11)
                     {
                         float score = currentPos.X + currentPos.Y;
-                        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + instance.markerPlacer / 40f)) * 4;
+                        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + SeamapPlayerShip.localship.markerPlacer / 40f)) * 4;
                         Main.spriteBatch.Draw(current.texture, new Rectangle((int)pos.X, (int)pos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * lerp);
                     }
                     else
@@ -227,7 +227,7 @@ namespace EEMod.Seamap.SeamapContent
                     if (i > 4 && i < 8 || i == 11)
                     {
                         float score = currentPos.X + currentPos.Y;
-                        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + instance.markerPlacer / 40f)) * 4;
+                        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + SeamapPlayerShip.localship.markerPlacer / 40f)) * 4;
                         Main.spriteBatch.Draw(current.texture, new Rectangle((int)pos.X, (int)pos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
                     }
                     else

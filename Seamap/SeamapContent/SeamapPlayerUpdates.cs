@@ -21,6 +21,7 @@ using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
 using ReLogic.Graphics;
 using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.SeamapContent;
 using EEMod.Autoloading;
 
 namespace EEMod
@@ -114,7 +115,7 @@ namespace EEMod
             {
                 noU = true;
             }
-            Filters.Scene[shad2].GetShader().UseOpacity(EEMod.instance.position.X);
+            Filters.Scene[shad2].GetShader().UseOpacity(SeamapPlayerShip.localship.position.X);
 
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad2].IsActive())
             {
@@ -178,7 +179,7 @@ namespace EEMod
             #endregion
 
             #region If ship crashes
-            if (EEMod.ShipHelth <= 0)
+            if (SeamapPlayerShip.localship.shipHelth <= 0)
             {
                 if (prevKey == baseWorldName || prevKey == "Main")
                 {
@@ -280,23 +281,23 @@ namespace EEMod
             {
                 if (Main.projectile[j].type == ProjectileType<PirateShip>() || Main.projectile[j].type == ProjectileType<RedDutchman>() || Main.projectile[j].type == ProjectileType<EnemyCannonball>())
                 {
-                    if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 40 && Main.projectile[j].type != ProjectileType<EnemyCannonball>())
+                    if ((Main.projectile[j].Center - SeamapPlayerShip.localship.position.ForDraw()).Length() < 40 && Main.projectile[j].type != ProjectileType<EnemyCannonball>())
                     {
-                        EEMod.ShipHelth -= 1;
-                        EEMod.instance.velocity += Main.projectile[j].velocity * 20;
+                        SeamapPlayerShip.localship.shipHelth -= 1;
+                        SeamapPlayerShip.localship.velocity += Main.projectile[j].velocity * 20;
                     }
 
-                    if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 30 && Main.projectile[j].type == ProjectileType<EnemyCannonball>())
+                    if ((Main.projectile[j].Center - SeamapPlayerShip.localship.position.ForDraw()).Length() < 30 && Main.projectile[j].type == ProjectileType<EnemyCannonball>())
                     {
-                        EEMod.ShipHelth -= 1;
-                        EEMod.instance.velocity += Main.projectile[j].velocity;
+                        SeamapPlayerShip.localship.shipHelth -= 1;
+                        SeamapPlayerShip.localship.velocity += Main.projectile[j].velocity;
                     }
                 }
                 if (Main.projectile[j].type == ProjectileType<Crate>())
                 {
                     Crate a = (Crate)Main.projectile[j].modProjectile;
 
-                    if ((Main.projectile[j].Center - EEMod.instance.position.ForDraw()).Length() < 40 && !a.sinking)
+                    if ((Main.projectile[j].Center - SeamapPlayerShip.localship.position.ForDraw()).Length() < 40 && !a.sinking)
                     {
                         //Crate loot tables go here
                         if (Main.rand.NextBool())
@@ -431,7 +432,7 @@ namespace EEMod
         {
             EEPlayer clone = clientPlayer as EEPlayer;
 
-            if (clone.EEPosition != EEMod.instance.position)
+            if (clone.EEPosition != SeamapPlayerShip.localship.position)
             {
                 var packet = mod.GetPacket();
                 packet.Write(triggerSeaCutscene);
@@ -545,7 +546,7 @@ namespace EEMod
             public Texture2D texture;
             public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / (2 * frames));
             public Rectangle hitBox => new Rectangle((int)posToScreen.X, (int)posToScreen.Y - texture.Height / (frames * 2), texture.Width, texture.Height / (frames));
-            private Rectangle ShipHitBox => new Rectangle((int)Main.screenPosition.X + (int)EEMod.instance.position.X - 30, (int)Main.screenPosition.Y + (int)EEMod.instance.position.Y - 30, 30, 30);
+            private Rectangle ShipHitBox => new Rectangle((int)Main.screenPosition.X + (int)SeamapPlayerShip.localship.position.X - 30, (int)Main.screenPosition.Y + (int)SeamapPlayerShip.localship.position.Y - 30, 30, 30);
             public bool isColliding => hitBox.Intersects(ShipHitBox) && canCollide;
 
             public void Update()
@@ -692,43 +693,6 @@ namespace EEMod
 
     public partial class EEMod : Mod
     {
-        public float[] anchorLerp = new float[12];
-        public Texture2D texture;
-        public Rectangle frame;
-        public int frames;
-        public static float ShipHelthMax = 7;
-        public static float ShipHelth = 7;
-        public Vector2 position;
-        public Vector2 velocity;
-        public static readonly Vector2 start = new Vector2(1700, 900);
-        public int cannonDelay = 60;
-        public Vector2 otherBoatPos;
-        public Vector2 currentLightningPos;
-        public float intenstityLightning;
-
-        #region Drawing "Disembark" text
-        private void DrawSubText()
-        {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            float alpha = modPlayer.subTextAlpha;
-            Color color = Color.White;
-            if (Main.worldName == KeyID.Sea)
-            {
-                text = "Disembark?";
-                color *= alpha;
-            }
-            if (text != null)
-            {
-                Vector2 textSize = Main.fontMouseText.MeasureString(text);
-                float textPositionLeft = position.X - textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-            }
-        }
-        #endregion
-
-        public float flash = 0;
-        public float markerPlacer = 0;
-
         public static bool IsPlayerLocalServerOwner(int whoAmI)
         {
             if (Main.netMode == NetmodeID.MultiplayerClient)

@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Seamap.SeamapContent;
 
 namespace EEMod.Seamap.SeamapAssets
 {
@@ -30,7 +31,7 @@ namespace EEMod.Seamap.SeamapAssets
             if (!sinking)
             {
                 projectile.ai[0]++;
-                Vector2 moveTo = Main.screenPosition + EEMod.instance.position;
+                Vector2 moveTo = Main.screenPosition + SeamapPlayerShip.localship.position;
                 projectile.spriteDirection = 1;
                 if (projectile.velocity.X > 0)
                 {

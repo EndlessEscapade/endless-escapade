@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Seamap.SeamapContent;
 
 namespace EEMod.Seamap.SeamapAssets
 {
@@ -30,7 +31,7 @@ namespace EEMod.Seamap.SeamapAssets
                 projectile.velocity *= 0.995f;
                 projectile.rotation = projectile.velocity.ToRotation();
                 killTimer--;
-                if (Vector2.DistanceSquared(EEMod.instance.position + Main.screenPosition, projectile.Center) < (20 * 20))
+                if (Vector2.DistanceSquared(SeamapPlayerShip.localship.position + Main.screenPosition, projectile.Center) < (20 * 20))
                 {
                     sinking = true;
                     projectile.Kill();
