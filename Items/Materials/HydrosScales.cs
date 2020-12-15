@@ -21,7 +21,6 @@ namespace EEMod.Items.Materials
             item.rare = ItemRarityID.Green;
             item.useAnimation = 15;
             item.useTime = 10;
-            item.autoReuse = true;
             item.consumable = true;
             item.material = true;
         }

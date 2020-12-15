@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
 
-namespace EEMod.Items.Banners
+namespace EEMod.Items.Placeables.Banners
 {
     public abstract class BannerItem : ModItem
     {

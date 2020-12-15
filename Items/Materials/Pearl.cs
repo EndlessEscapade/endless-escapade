@@ -19,10 +19,6 @@ namespace EEMod.Items.Materials
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 18, 0);
             item.rare = ItemRarityID.Green;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.consumable = true;
             item.material = true;
         }
     }

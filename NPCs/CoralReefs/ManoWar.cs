@@ -11,7 +11,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             DisplayName.SetDefault("Man o War");
             Main.npcFrameCount[npc.type] = 3;
-            bannerItem = ModContent.ItemType<Items.Banners.ManoWarBanner>();
+            //bannerItem = ModContent.ItemType<Items.Banners.ManoWarBanner>();
         }
 
         public override void SetDefaults()

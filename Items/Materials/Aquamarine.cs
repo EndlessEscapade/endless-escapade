@@ -25,6 +25,7 @@ namespace EEMod.Items.Materials
             item.autoReuse = true;
             item.consumable = true;
             item.material = true;
+            item.placeStyle = 10;
             item.createTile = ModContent.TileType<AquamarineTile>();
         }
     }

@@ -13,10 +13,16 @@ namespace EEMod.Items.Accessories
 
         public override void SetDefaults()
         {
+            item.width = 18;
+            item.height = 18;
+            item.value = Item.sellPrice(0, 0, 30);
+            item.rare = ItemRarityID.Orange;
             item.accessory = true;
-            item.rare = ItemRarityID.Blue;
-            item.width = 32;
-            item.height = 34;
+        }
+
+        public override void UpdateAccessory(Player player, bool hideVisual)
+        {
+            player.GetModPlayer<EEPlayer>().isWearingCape = true;
         }
     }
 }

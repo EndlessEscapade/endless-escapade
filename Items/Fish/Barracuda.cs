@@ -19,6 +19,7 @@ namespace EEMod.Items.Fish
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 18, 0);
             item.rare = ItemRarityID.Green;
+            item.material = true;
         }
     }
 }

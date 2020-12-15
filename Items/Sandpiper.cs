@@ -8,9 +8,7 @@ namespace EEMod.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Swift Sail");
-            Tooltip.SetDefault("Use this to make your boat sail faster.");
-            ItemID.Sets.SortingPriorityMaterials[item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
+            DisplayName.SetDefault("Sandpiper");
         }
 
         public override void SetDefaults()
@@ -19,17 +17,7 @@ namespace EEMod.Items
             item.height = 20;
             item.maxStack = 999;
             item.value = Item.buyPrice(0, 0, 18, 0);
-            item.rare = ItemRarityID.Green;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = SoundID.Item1;
-            item.consumable = true;
-            item.useTime = 15;
-            item.useAnimation = 15;
-        }
-
-        public override void OnConsumeItem(Player player)
-        {
-            //NPC.NewNPC(player.Center, ModContent.NPCType<>);
+            item.rare = ItemRarityID.White;
         }
     }
 }

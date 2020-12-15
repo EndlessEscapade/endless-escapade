@@ -1,4 +1,3 @@
-using EEMod.Items.Banners;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -33,7 +32,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.buffImmune[BuffID.Confused] = true;
             npc.lavaImmune = false;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<ClamBanner>();
+            //bannerItem = ModContent.ItemType<ClamBanner>();
             npc.value = Item.sellPrice(0, 0, 0, 75);
         }
 

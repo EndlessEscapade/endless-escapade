@@ -32,7 +32,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.buffImmune[BuffID.Confused] = true;
             npc.lavaImmune = false;
             banner = npc.type;
-            bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
+            //bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
             npc.value = Item.sellPrice(0, 0, 0, 75);
         }
 

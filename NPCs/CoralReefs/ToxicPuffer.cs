@@ -30,7 +30,7 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.lavaImmune = false;
             npc.noTileCollide = false;
-            bannerItem = ModContent.ItemType<Items.Banners.ToxicPufferBanner>();
+            //bannerItem = ModContent.ItemType<Items.Banners.ToxicPufferBanner>();
         }
 
         public bool big;
