@@ -697,7 +697,8 @@ namespace EEMod
             }*/
             // Main.NewText(minibiome);
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[MinibiomeID.CrystallineCaves])
+            EEPlayer eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
                 EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)));
             if (playingGame)
             {
@@ -1125,30 +1126,12 @@ namespace EEMod
 
         public override void Load(TagCompound tag)
         {
-            if (tag.ContainsKey("hasGottenRuneBefore"))
-            {
-                hasGottenRuneBefore = tag.GetByteArray("hasGottenRuneBefore");
-            }
-            if (tag.ContainsKey("moral"))
-            {
-                moralScore = tag.GetInt("moral");
-            }
-            if (tag.ContainsKey("baseworldname"))
-            {
-                baseWorldName = tag.GetString("baseworldname");
-            }
-            if (tag.ContainsKey("importantCutscene"))
-            {
-                importantCutscene = tag.GetBool("importantCutscene");
-            }
-            if (tag.ContainsKey("swiftSail"))
-            {
-                boatSpeed = tag.GetInt("swiftSail");
-            }
-            if (tag.ContainsKey("cannonball"))
-            {
-                cannonballType = tag.GetInt("cannonball");
-            }
+            tag.TryGetByteArrayRef("hasGottenRuneBefore", ref hasGottenRuneBefore);
+            tag.TryGetRef("moral", ref moralScore);
+            tag.TryGetRef("baseworldname", ref baseWorldName);
+            tag.TryGetRef("importantCutscene", ref importantCutscene);
+            tag.TryGetRef("swiftSail", ref boatSpeed);
+            tag.TryGetRef("cannonball", ref cannonballType);
             /*if (tag.ContainsKey("fishLengths"))
             {
                 fishLengths = tag.GetList("fishLengths");

@@ -9,6 +9,7 @@ using EEMod.NPCs.Bosses.Hydros;
 using EEMod.NPCs.CoralReefs;
 using EEMod.Projectiles;
 using EEMod.Tiles;
+using EEMod.UI.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -53,11 +54,11 @@ namespace EEMod
 
             if (!arrowFlag)
             {
-                Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
+                //Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
                 arrowFlag = true;
             }
 
-            DesArrowProjectile desArrowProj = (DesArrowProjectile)Main.projectile[Arrow].modProjectile;
+            //DesArrowProjectile desArrowProj = (DesArrowProjectile)Main.projectile[Arrow].modProjectile;
 
             if (player.Center.X / 16 >= Main.spawnTileX - 5 && player.Center.X / 16 <= Main.spawnTileX + 5 && player.Center.Y / 16 >= Main.spawnTileY - 5 && player.Center.Y / 16 <= Main.spawnTileY + 5)
             {
@@ -66,11 +67,11 @@ namespace EEMod
                     ReturnHome();
                 }
 
-                desArrowProj.visible = true;
+                ArrowsUIState.DesertArrowVisible = true;
             }
             else
             {
-                desArrowProj.visible = false;
+                ArrowsUIState.DesertArrowVisible = false;
             }
 
             if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
@@ -177,7 +178,7 @@ namespace EEMod
                 NPC.NewNPC((int)EESubWorlds.SpirePosition.X * 16 + 160 - 8, (int)EESubWorlds.SpirePosition.Y * 16, NPCType<AquamarineSpire>());
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
+                    //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
                 }
 
                 player.ClearBuff(BuffID.Cursed);
@@ -191,7 +192,7 @@ namespace EEMod
 
             try
             {
-                Projectile oceanarrow = Main.projectile[Arrow2];
+                //Projectile oceanarrow = Main.projectile[Arrow2];
 
                 if (Helpers.PointInRectangle(player.Center / 16, EESubWorlds.CoralBoatPos.X, EESubWorlds.CoralBoatPos.Y + 12, 4, 4))
                 {
@@ -204,11 +205,11 @@ namespace EEMod
                         SM.SaveAndQuit(KeyID.Sea);
                     }
 
-                    oceanarrow.ai[1] = 1;
+                    ArrowsUIState.OceanArrowVisible = true;
                 }
                 else
                 {
-                    oceanarrow.ai[1] = 0;
+                    ArrowsUIState.OceanArrowVisible = false;
                 }
             }
             catch
@@ -236,8 +237,8 @@ namespace EEMod
 
             if (!arrowFlag)
             {
-                Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
-                Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
+                //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
+                //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<VolcanoArrowProj>(), 0, 0, player.whoAmI);
                 NPC.NewNPC(600 * 16, 594 * 16, NPCType<VolcanoSmoke>());
 
                 arrowFlag = true;
@@ -248,7 +249,7 @@ namespace EEMod
                 SubWorldSpecificVolcanoInsidePos = new Vector2(198, 198);
             }
 
-            VolcanoArrowProj voclanoarrow = (VolcanoArrowProj)Main.projectile[Arrow2].modProjectile;
+            //VolcanoArrowProj voclanoarrow = (VolcanoArrowProj)Main.projectile[Arrow2].modProjectile;
 
             if (Helpers.PointInRectangle(player.Center / 16, SubWorldSpecificVolcanoInsidePos.X - 4, SubWorldSpecificVolcanoInsidePos.Y - 4, 8, 8))
             {
@@ -258,11 +259,13 @@ namespace EEMod
                     SM.SaveAndQuit(KeyID.VolcanoInside);
                 }
 
-                voclanoarrow.visible = true;
+                //voclanoarrow.visible = true;
+                ArrowsUIState.DesertArrowVisible = true;
             }
             else
             {
-                voclanoarrow.visible = false;
+                //voclanoarrow.visible = false;
+                ArrowsUIState.DesertArrowVisible = false;
             }
         }
 
@@ -387,8 +390,8 @@ namespace EEMod
 
                 player.ClearBuff(BuffID.Cursed);
 
-                Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
-                Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
+                //Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
+                //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);
 
                 arrowFlag = true;
 

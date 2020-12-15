@@ -1,13 +1,13 @@
 namespace EEMod.ID
 {
-    public class MinibiomeID
+    public enum MinibiomeID
     {
-        public const int None = 0;
-        public const int KelpForest = 1;
-        public const int BulbousGrove = 2;
-        public const int JellyfishCaverns = 3;
-        public const int Halocline = 4;
-        public const int ThermalVents = 5;
-        public const int CrystallineCaves = 6;
+        None,
+        KelpForest,
+        BulbousGrove,
+        JellyfishCaverns,
+        Halocline,
+        ThermalVents,
+        CrystallineCaves,
     }
 }

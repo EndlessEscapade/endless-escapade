@@ -362,7 +362,7 @@ namespace EEMod.EEWorld
                             }
                             if (WalkingFast != -1) minibiome = WalkingFast;
                             int selection;
-                            switch (minibiome)
+                            switch ((MinibiomeID)minibiome)
                             {
                                 #region Default
                                 case MinibiomeID.None: //Default

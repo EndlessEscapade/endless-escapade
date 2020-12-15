@@ -42,7 +42,7 @@ namespace EEMod
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
-            On.Terraria. Main.DrawPlayer += Main_DrawPlayer;
+            On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
             //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             //On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
@@ -81,7 +81,7 @@ namespace EEMod
         private void Main_DrawPlayer(On.Terraria.Main.orig_DrawPlayer orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
             // if(!Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
-             orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
+            orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
             if (!Main.gameMenu)
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
@@ -416,17 +416,18 @@ namespace EEMod
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             //UpdateLight();
-            
+
             ModContent.GetInstance<EEMod>().TVH.Update();
-            
+
             verlet.GlobalRenderPoints();
             DrawNoiseSurfacing();
             DrawLensFlares();
-            
+
             for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
             {
-                if (((EESubWorlds.BulbousTreePosition[i] * 16).ForDraw()).LengthSquared() < 2000 * 2000)
-                    HandleBulbDraw(EESubWorlds.BulbousTreePosition[i] * 16);
+                Vector2 pos = EESubWorlds.BulbousTreePosition[i] * 16;
+                if (pos.ForDraw().LengthSquared() < 2000 * 2000)
+                    HandleBulbDraw(pos);
             }
             for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
             {
@@ -443,7 +444,7 @@ namespace EEMod
                 EmptyTileEntityCache.Update();
                 EmptyTileEntityCache.Draw();
             }
-            
+
             //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);
 
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
