@@ -421,6 +421,13 @@ namespace EEMod
                                 ifa++;
                             }
                         }
+                        for (int m = 0; m < AquamarineZiplineLocations.Count; m++)
+                        {
+                            if (Vector2.DistanceSquared(new Vector2(i, j), AquamarineZiplineLocations[m]) < 50 * 50)
+                            {
+                                ifa++;
+                            }
+                        }
                         if (ifa == 0)
                         {
                             if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool() /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 10)

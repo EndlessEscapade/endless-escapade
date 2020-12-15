@@ -273,6 +273,19 @@ namespace EEMod
         }
         public void Draw(in Particle particle) {; }
     }
+    class SetMask : IParticleModule
+    {
+        Texture2D tex;
+        public SetMask(Texture2D bounds)
+        {
+            tex = bounds;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.mask = tex;
+        }
+        public void Draw(in Particle particle) {; }
+    }
     class CircularMotion : IParticleModule
     {
         float width;

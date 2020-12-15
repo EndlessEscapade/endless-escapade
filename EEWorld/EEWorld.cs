@@ -164,7 +164,6 @@ namespace EEMod.EEWorld
         }
         public void DrawAquamarineZiplines()
         {
-            Main.NewText(EESubWorlds.AquamarineZiplineLocations.Count);
             if (EESubWorlds.AquamarineZiplineLocations.Count > 0)
             {
                 for (int i = 1; i < EESubWorlds.AquamarineZiplineLocations.Count - 2; i++)
@@ -179,18 +178,27 @@ namespace EEMod.EEWorld
                     bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
                     Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                     Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2;
-                    Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.2f);
-                    Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.8f);
-                    if (Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid)
+                    Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.3f);
+                    Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.7f);
+                    if (Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid && 
+                        !Main.tile[(int)Mid.X/16, (int)Mid.Y/16].active()
+                        && !Main.tile[(int)lerp1.X / 16, (int)lerp1.Y / 16].active()
+                        && !Main.tile[(int)lerp2.X / 16, (int)lerp2.Y / 16].active())
                     {
-                        Main.NewText(ChainConneccPos);
-                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/Vine"), Color.White, ChainConneccPos, LastChainConneccPos, Mid, 0.6f, MathHelper.PiOver2, true);
-                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/Light"), Color.Blue, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2, false, 1, true);
+                        if (i % 2 == 0)
+                        {
+                            Texture2D a = EEMod.instance.GetTexture("Projectiles/CrystalVineThin");
+                            Texture2D b = EEMod.instance.GetTexture("Projectiles/CrystalVineDangleThick");
+                            Helpers.DrawBezier(a, Color.White, ChainConneccPos + new Vector2(0, b.Height), LastChainConneccPos + new Vector2(0, b.Height), Mid + new Vector2(0, b.Height), 1, MathHelper.PiOver2, true, 1, false, false, 1);
+                            Helpers.DrawBezier(b, Color.White, ChainConneccPos + new Vector2(0,a.Height), LastChainConneccPos + new Vector2(0, a.Height), Mid + new Vector2(0, a.Height), 1, MathHelper.PiOver2, true, 1, false, false, 1);
+                            Helpers.DrawParticlesAlongBezier(LastChainConneccPos, ChainConneccPos, Mid, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
+                        }
+                        else
+                        {
+                            Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/CrystalVineThick"), Color.White, ChainConneccPos, LastChainConneccPos, Mid, 1, MathHelper.PiOver2, true, 1, false, false, 1);
+                            Helpers.DrawParticlesAlongBezier(LastChainConneccPos, ChainConneccPos, Mid, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
+                        }
                     }
-                    EEMod.Particles.Get("Main").SpawnParticles(ChainConneccPos, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpinC(3, 15, 0.06f, ChainConneccPos, 0, 0f, 0.04f, 0.01f));
-                    EEMod.Particles.Get("Main").SpawnParticles(ChainConneccPos, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpinC(3, 15, 0.06f, ChainConneccPos, 0, 6.28f * 0.33f, 0.04f, 0.01f));
-                    EEMod.Particles.Get("Main").SpawnParticles(ChainConneccPos, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpinC(3, 15, 0.06f, ChainConneccPos, 0, 6.28f * 0.66f, 0.04f, 0.01f));
-                    EEMod.Particles.Get("Main").SpawnParticles(ChainConneccPos, null, null, 200, 1, null, new CircularMotionSinSpin(1, 1, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));
                 }
             }
         }
