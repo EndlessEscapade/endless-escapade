@@ -22,6 +22,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
+using EEMod.Seamap.SeamapContent;
 
 namespace EEMod
 {
@@ -422,9 +423,9 @@ namespace EEMod
                 importantCutscene = false;
                 speedOfPan = 0;
                 subTextAlpha = 0;
-                EEMod.instance.position = new Vector2(1700, 900);
+                SeamapPlayerShip.localship.position = new Vector2(1700, 900);
                 SeaObject.Clear();
-                EEMod.ShipHelth = EEMod.ShipHelthMax;
+                SeamapPlayerShip.localship.shipHelth = SeamapPlayerShip.ShipHelthMax;
                 MoralFirstFrame();
                 displacmentX = 0;
                 displacmentY = 0;

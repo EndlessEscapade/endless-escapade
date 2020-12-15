@@ -20,6 +20,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
+using EEMod.Seamap.SeamapContent;
 
 namespace EEMod
 {
@@ -200,7 +201,7 @@ namespace EEMod
                     {
                         Initialize();
 
-                        EEMod.instance.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
+                        SeamapPlayerShip.localship.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
 
                         SM.SaveAndQuit(KeyID.Sea);
                     }
@@ -378,8 +379,8 @@ namespace EEMod
             {
                 Filters.Scene.Deactivate(shad2);
             }
-            EEMod.instance.position = EEMod.start;
-            EEMod.instance.velocity = Vector2.Zero;
+            SeamapPlayerShip.localship.position = SeamapPlayerShip.start;
+            SeamapPlayerShip.localship.velocity = Vector2.Zero;
             titleText2 = 0;
             if (!arrowFlag)
             {

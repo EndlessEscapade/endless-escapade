@@ -495,7 +495,7 @@ namespace EEMod
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
                 Seamap.SeamapContent.Seamap.Render();
-                DrawSubText();
+                Seamap.SeamapContent.SeamapPlayerShip.localship.DrawSubText();
                 Main.spriteBatch.End();
             }
             orig(self);
@@ -562,7 +562,7 @@ namespace EEMod
                     alpha = 1;
                 }
 
-                velocity = Vector2.Zero;
+                Seamap.SeamapContent.SeamapPlayerShip.localship.velocity = Vector2.Zero;
                 Main.numClouds = 0;
                 Main.logo2Texture = EEMod.instance.GetTexture("Empty");
                 Main.logoTexture = EEMod.instance.GetTexture("Empty");

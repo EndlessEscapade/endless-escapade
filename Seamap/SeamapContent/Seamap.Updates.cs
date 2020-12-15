@@ -46,72 +46,77 @@ namespace EEMod.Seamap.SeamapContent
                     Lighting.AddLight(eePlayer.SeaObject[i].posToScreen, .4f, .4f, .4f);
                 }
             }
-            instance.position.X = MathHelper.Clamp(instance.position.X, Main.screenWidth * 0.6f, Main.screenWidth);
-            instance.position.Y = MathHelper.Clamp(instance.position.Y, 0, Main.screenHeight);
+            SeamapPlayerShip ship = SeamapPlayerShip.localship;
+            #region Clamp in screen
+            ship.position.X = MathHelper.Clamp(ship.position.X, Main.screenWidth * 0.6f, Main.screenWidth);
+            ship.position.Y = MathHelper.Clamp(ship.position.Y, 0, Main.screenHeight);
+            #endregion
 
             #region Player controls(movement and shooting)
             if (!Main.gamePaused)
             {
-                instance.position += instance.velocity;
+                ship.position += ship.velocity;
                 if (player.controlUp)
                 {
-                    instance.velocity.Y -= 0.1f * eePlayer.boatSpeed;
+                    ship.velocity.Y -= 0.1f * eePlayer.boatSpeed;
                 }
                 if (player.controlDown)
                 {
-                    instance.velocity.Y += 0.1f * eePlayer.boatSpeed;
+                    ship.velocity.Y += 0.1f * eePlayer.boatSpeed;
                 }
                 if (player.controlRight)
                 {
-                    instance.velocity.X += 0.1f * eePlayer.boatSpeed;
+                    ship.velocity.X += 0.1f * eePlayer.boatSpeed;
                 }
                 if (player.controlLeft)
                 {
-                    instance.velocity.X -= 0.1f * eePlayer.boatSpeed;
+                    ship.velocity.X -= 0.1f * eePlayer.boatSpeed;
                 }
-                if (player.controlUseItem && instance.cannonDelay <= 0 && eePlayer.cannonballType != 0)
+                if (player.controlUseItem && ship.cannonDelay <= 0 && eePlayer.cannonballType != 0)
                 {
                     switch (eePlayer.cannonballType)
                     {
                         case 1:
-                            Projectile.NewProjectile(instance.position + Main.screenPosition, -Vector2.Normalize(instance.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
+                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
                             break;
 
                         case 2:
-                            Projectile.NewProjectile(instance.position + Main.screenPosition, -Vector2.Normalize(instance.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyExplosiveCannonball>(), 0, 0);
+                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyExplosiveCannonball>(), 0, 0);
                             break;
 
                         case 3:
-                            Projectile.NewProjectile(instance.position + Main.screenPosition, -Vector2.Normalize(instance.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyHallowedCannonball>(), 0, 0);
+                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyHallowedCannonball>(), 0, 0);
                             break;
 
                         case 4:
-                            Projectile.NewProjectile(instance.position + Main.screenPosition, -Vector2.Normalize(instance.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyChlorophyteCannonball>(), 0, 0);
+                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyChlorophyteCannonball>(), 0, 0);
                             break;
 
                         case 5:
-                            Projectile.NewProjectile(instance.position + Main.screenPosition, -Vector2.Normalize(instance.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyLuminiteCannonball>(), 0, 0);
+                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyLuminiteCannonball>(), 0, 0);
                             break;
                     }
                     Main.PlaySound(SoundID.Item61);
-                    instance.cannonDelay = 60;
+                    ship.cannonDelay = 60;
                 }
-                instance.cannonDelay--;
+                ship.cannonDelay--;
             }
 
-            instance.velocity.X = Helpers.Clamp(instance.velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
-            instance.velocity.Y = Helpers.Clamp(instance.velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
+            Vector2 v = new Vector2(eePlayer.boatSpeed);
+            ship.velocity = Vector2.Clamp(ship.velocity, -v, v);
+            //ship.velocity.X = Helpers.Clamp(ship.velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
+            //ship.velocity.Y = Helpers.Clamp(ship.velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
 
             if (!Main.gamePaused)
             {
-                instance.velocity *= 0.98f;
+                ship.velocity *= 0.98f;
             }
             #endregion
 
-            instance.flash += 0.01f;
-            if (instance.flash == 2)
+            ship.flash += 0.01f;
+            if (ship.flash == 2)
             {
-                instance.flash = 10;
+                ship.flash = 10;
             }
         }
     }
