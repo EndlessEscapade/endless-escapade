@@ -11,6 +11,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using EEMod.Items.Placeables.Furniture;
 using EEMod.EEWorld;
+using EEMod.UI.States;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -49,8 +50,8 @@ namespace EEMod.Tiles.Furniture
         private bool isIntersecting;
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
+            //int frameX = Main.tile[i, j].frameX;
+            //int frameY = Main.tile[i, j].frameY;
             Player player = Main.LocalPlayer;
             if (new Rectangle((int)player.position.X / 16, (int)player.position.Y / 16, 1, 2).Intersects(new Rectangle(i, j, 1, 1)) && !isIntersecting)
                 isIntersecting = true;
@@ -59,7 +60,8 @@ namespace EEMod.Tiles.Furniture
 
             if (isIntersecting)
             {
-                Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 1;
+                //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 1;
+                ArrowsUIState.OceanArrowVisible = true;
 
                 if(EEMod.Inspect.Current && EEWorld.EEWorld.shipComplete)
                 {
@@ -75,7 +77,8 @@ namespace EEMod.Tiles.Furniture
             }
             else
             {
-                Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 0;
+                //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 0;
+                ArrowsUIState.OceanArrowVisible = false;
             }
         }
     }

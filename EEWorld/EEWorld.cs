@@ -45,7 +45,7 @@ namespace EEMod.EEWorld
 
         public static Vector2 ree;
 
-        [FieldInit]
+        [FieldInit(FieldInitType.SubType, typeof(List<Vector2>))]
         public static IList<Vector2> EntracesPosses = new List<Vector2>();
 
         [FieldInit(FieldInitType.ArrayIntialization, 6)]
