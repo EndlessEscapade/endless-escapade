@@ -88,7 +88,7 @@ namespace EEMod.Tiles.Foliage
             Vector2 end = pos - sprout;
             Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
             float dist = (end - pos).Length();
-            Texture2D tex = EEMod.instance.GetTexture("Tiles/BlueKelpTile");
+            Texture2D tex = EEMod.instance.GetTexture("Tiles/Foliage/BlueKelpTile");
 
 
             int noOfFrames = 10;
@@ -98,7 +98,7 @@ namespace EEMod.Tiles.Foliage
             if (Main.tileSolid[tile.type] && tile.active())
             {
                 Helpers.DrawBezier(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, 0f, frame, noOfFrames, 3);
-                Helpers.DrawParticlesAlongBezier(end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, Color.Cyan, 2, 30, 0.002f, new Spew(6.14f, 1f, Vector2.One / 5f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f));
+                Helpers.DrawParticlesAlongBezier(end, pos, pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, Color.Cyan, 0.0002f, new Spew(6.14f, 1f, Vector2.One / 5f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f));
             }
             return false;
         }

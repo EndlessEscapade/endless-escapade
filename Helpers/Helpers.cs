@@ -214,8 +214,9 @@ namespace EEMod
                 }
             }
         }
-        public static void DrawBezier(Texture2D headTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, float addonPerUse, float rotDis = 0f, bool alphaBlend = false, float scale = 1, bool emitsDust = false, bool fadeScale = false)
+        public static void DrawBezier(Texture2D headTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, float addonPerUse, float rotDis = 0f, bool alphaBlend = false, float scale = 1, bool emitsDust = false, bool fadeScale = false, float lerpIntensity = 0, bool TrueRotation = false)
         {
+            float c = (Main.GameUpdateCount/(60f + endPoints.X % 20)) % 4 - 2;
             float width = headTexture.Width;
             float length = (startingPos - endPoints).Length();
             float chainsPerUse = (width / length) * addonPerUse;
@@ -241,31 +242,33 @@ namespace EEMod
                             }
                         }
                     }
+                    bool ifBlack = Lighting.GetColor((int)(x / 16), (int)(y / 16)) == Color.Black;
+                    float cDist = 0.5f - Math.Abs(i - c)*2;
+                    if (cDist < 0)
+                        cDist = 0;
                     distBetween = new Vector2(x -
                     X(i - chainsPerUse, startingPos.X, c1.X, endPoints.X),
                     y -
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
-                    headTexture.Bounds, alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor, projTrueRotation,
+                    headTexture.Bounds, ifBlack ? Color.Black : Color.Lerp((alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor),Color.White, cDist * lerpIntensity), TrueRotation ? 0 : projTrueRotation,
                     new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1), SpriteEffects.None, 0);
                 }
             }
         }
-        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, Color color, int frequency, float rotDis = 0, float spawnChance = 1f, params IParticleModule[] modules)
+
+        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, Color color, float spawnChance = 1f, params IParticleModule[] modules)
         {
-            float length = (startingPos - endPoints).Length();
             for (float i = 0; i <= 1; i += chainsPerUse)
             {
                 if (i != 0)
                 {
-                    float x = X(i, startingPos.X, c1.X, c2.X, endPoints.X);
-                    float y = Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
-                    if (Main.rand.Next(frequency) == 0)
-                    {
+                    float x = X(i, startingPos.X, c1.X, endPoints.X);
+                    float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
+
                         EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(spawnChance));
-                        EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x - 190, y - 190), null, 2, color, modules);
-                    }
+                        EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x, y), null, 2, color, modules);
                 }
             }
         }

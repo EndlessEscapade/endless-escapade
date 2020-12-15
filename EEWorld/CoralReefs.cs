@@ -236,12 +236,13 @@ namespace EEMod.EEWorld
                     MakeJaggedOval((int)(sizeX * 1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
                     CreateNoise(true, 100, 20, 0.3f);
                     CreateNoise(true, 20, 100, 0.4f);
-                    for (int j = (int)TL.Y - sizeY*2; j < (int)TL.Y + sizeY; j++)
+                    RemoveStoneSlabs();
+                    for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                     {
-                        for (int i = (int)TL.X - sizeX*2; i < (int)TL.X + sizeX; i++)
+                        for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                           {
 
-                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && !Main.rand.NextBool(2))
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(13) == 1)
                                 {
                                     if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
                                     {
@@ -250,9 +251,9 @@ namespace EEMod.EEWorld
                                     else
                                     {
                                         Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
-                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 150 * 150) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
+                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 90 * 90) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
                                         {
-                                        EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                                          EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
                                         }
                                     }
                                 }
@@ -361,7 +362,7 @@ namespace EEMod.EEWorld
                             }
                             if (WalkingFast != -1) minibiome = WalkingFast;
                             int selection;
-                            switch (minibiome)
+                            switch ((MinibiomeID)minibiome)
                             {
                                 #region Default
                                 case MinibiomeID.None: //Default
