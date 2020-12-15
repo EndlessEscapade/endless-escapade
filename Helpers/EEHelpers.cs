@@ -188,7 +188,7 @@ namespace EEMod
         public static bool InRange<T>(IComparable<T> value, T min, T max) where T : IComparable<T> => value.CompareTo(min) > 0 && value.CompareTo(max) < 0;
 
         public static bool InRange<T>(T value, T min, T max, IComparer<T> comparer) => comparer.Compare(value, min) > 0 && comparer.Compare(value, max) < 0;
-
+        
         public static bool VectorInRange(Vector2 from, Vector2 to, float MaxRange) => Vector2.DistanceSquared(from, to) <= MaxRange * MaxRange;
 
         public static bool PointInRectangle(Vector2 point, Vector4 rectangle) => PointInRectangle(point.X, point.Y, rectangle.X, rectangle.Y, rectangle.W, rectangle.Z);
@@ -417,6 +417,7 @@ namespace EEMod
             return A == A1 + A2 + A3;
         }
 
+        // TagCompound
         public static bool TryGetIntArray(this TagCompound tag, string key, out int[] array)
         {
             if (tag.ContainsKey(key))
@@ -424,7 +425,6 @@ namespace EEMod
                 array = tag.GetIntArray(key);
                 return true;
             }
-            var v = DBNull.Value;
             array = null;
             return false;
         }
@@ -545,6 +545,10 @@ namespace EEMod
         }
 
         public static int[] FillPseudoRandomUniform2(int size) => FillPseudoRandomUniform2(Main.rand, size);
+
+        public static Color ColorSmoothStep(Color value1, Color value2, float ammount) => Color.Lerp(value1, value2, ammount * ammount * (3f - 2f * ammount));
+
+        public static double SmoothStepValueAsLerp(double val) => val * val * (3f - 2f * val);
 
         public static Vector2 MoveTowardsProjectile(float speed, float currentX, float currentY, Projectile projectile, Vector2 issue, int direction)
         {

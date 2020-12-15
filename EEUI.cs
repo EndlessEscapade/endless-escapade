@@ -28,6 +28,7 @@ namespace EEMod
         {
             if (!Main.dedServ)
             {
+                UI.AddUIState("ArrowUI", new ArrowsUIState());
                 UI.AddUIState("RunUI", new RunninUI());
                 UI.AddUIState("MBUI", new MerchantBoatUI());
                 UI.AddUIState("EEUI", new EEUI());
@@ -36,6 +37,9 @@ namespace EEMod
                 UI.AddInterface("SpeedrunnTimer", "RunUI");
                 UI.AddInterface("MerchantBoatUI", "MBUI");
                 UI.AddInterface("EEInterface", "EEUI");
+                UI.AddInterface("ArrowInterface", "ArrowUI");
+
+                UI.SwitchBindedState("ArrowInterface");
             }
         }
         public void UnloadUI()
