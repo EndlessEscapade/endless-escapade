@@ -330,7 +330,7 @@ namespace EEMod
                 }
                 #endregion
 
-                #region Ruins
+                #region Shipwrecks
                 EEMod.progressMessage = "Generating Ruins";
                 int mlem = 0;
                 while (mlem < 5)
