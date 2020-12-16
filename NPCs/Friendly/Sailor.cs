@@ -23,9 +23,9 @@ namespace EEMod.NPCs
         {
             // DisplayName automatically assigned from .lang files, but the commented line below is the normal approach.
             // DisplayName.SetDefault("Example Person");
-            Main.npcFrameCount[npc.type] = 25;
-            NPCID.Sets.ExtraFramesCount[npc.type] = 9;
-            NPCID.Sets.AttackFrameCount[npc.type] = 4;
+            //Main.npcFrameCount[npc.type] = 25;
+            //NPCID.Sets.ExtraFramesCount[npc.type] = 9;
+            //NPCID.Sets.AttackFrameCount[npc.type] = 4;
             NPCID.Sets.DangerDetectRange[npc.type] = 700;
             NPCID.Sets.AttackType[npc.type] = 0;
             NPCID.Sets.AttackTime[npc.type] = 90;
@@ -46,7 +46,7 @@ namespace EEMod.NPCs
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
             npc.knockBackResist = 0.5f;
-            animationType = NPCID.Guide;
+            //animationType = NPCID.Guide;
         }
 
         public override bool CanTownNPCSpawn(int numTownNPCs, int money)

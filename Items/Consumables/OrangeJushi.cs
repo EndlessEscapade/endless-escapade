@@ -1,3 +1,4 @@
+using EEMod.Items.Materials.Fruit;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -5,11 +6,12 @@ using EEMod.Items.Materials;
 
 namespace EEMod.Items.Consumables
 {
-    public class Sushi : ModItem
+    public class OrangeJushi : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sushi");
+            DisplayName.SetDefault("Orange Jushi");
+            Tooltip.SetDefault("'Working as intended!'");
             ItemID.Sets.SortingPriorityMaterials[item.type] = 100;
         }
 
@@ -30,6 +32,8 @@ namespace EEMod.Items.Consumables
         public override bool UseItem(Player player)
         {
             player.AddBuff(BuffID.WellFed, 60 * 300);
+            player.AddBuff(BuffID.Swiftness, 60 * 60);
+            player.AddBuff(BuffID.Regeneration, 60 * 30);
             return true;
         }
 
