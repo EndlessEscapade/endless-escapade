@@ -23,11 +23,11 @@ namespace EEMod
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
         }
-        public static void DrawAdditiveFunky(Texture2D tex, Vector2 position, Color colour, float scale, float intensity)
+        public static void DrawAdditiveFunky(Texture2D tex, Vector2 position, Color colour, float scale, float intensity, float offset = 0)
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
+            EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
             EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
             EEMod.RadialField.Parameters["alpha"].SetValue(intensity);
             EEMod.RadialField.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("Noise/noise"));

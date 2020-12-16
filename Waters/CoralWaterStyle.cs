@@ -8,7 +8,7 @@ namespace EEMod.Waters
     public class CoralWaterStyle : ModWaterStyle
     {
         public override bool ChooseWaterStyle()
-            => Main.bgStyle == mod.GetSurfaceBgStyleSlot("");
+            => Main.worldName == "CoralReefs";
 
         public override int ChooseWaterfallStyle()
             => mod.GetWaterfallStyleSlot("CoralWaterfallStyle");

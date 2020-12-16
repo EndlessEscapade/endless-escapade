@@ -242,7 +242,7 @@ namespace EEMod.EEWorld
                         for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                           {
 
-                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(13) == 1)
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(19) == 1)
                                 {
                                     if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
                                     {
@@ -251,7 +251,7 @@ namespace EEMod.EEWorld
                                     else
                                     {
                                         Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
-                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 90 * 90) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
+                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
                                         {
                                           EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
                                         }
