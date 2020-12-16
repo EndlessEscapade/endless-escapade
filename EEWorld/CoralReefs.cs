@@ -129,7 +129,7 @@ namespace EEMod.EEWorld
             switch (type) //Creating the formation of the room(the shape)
             {
                 case -1:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
@@ -138,27 +138,38 @@ namespace EEMod.EEWorld
                     break;
 
                 case 0:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX + 50, sizeY - 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX - 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (-sizeY / 5)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (-sizeY / 5)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (sizeY / 5)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (sizeY / 5)), tile2);
-                    CreateNoise(!ensureNoise, 100, 10, 0.45f);
+                    CreateNoise(!ensureNoise, Main.rand.Next(20, 60), Main.rand.Next(50, 100), 0.3f);
+                    CreateNoise(!ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), 0.3f);
                     break;
 
                 case 1:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    CreateNoise(!ensureNoise, 20, 200, 0.5f);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX-50, sizeY- 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX+ 50, sizeY+ 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    CreateNoise(!ensureNoise, 20, 200, 0.4f);
+                    CreateNoise(!ensureNoise, 20, 200, 0.4f);
                     break;
 
                 case 2:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                    CreateNoise(!ensureNoise, 200, 20, 0.5f);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    CreateNoise(!ensureNoise, 100, 50, 0.3f);
+                    CreateNoise(!ensureNoise, 50, 100, 0.3f);
                     break;
 
                 case 3:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeWavyChasm3(new Vector2(TL.X - 50 + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X - 50 + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
                     MakeWavyChasm3(new Vector2(TL.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), new Vector2(BR.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
                     MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
@@ -168,7 +179,7 @@ namespace EEMod.EEWorld
 
                 case 4:
 
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
                     for (int i = 0; i < 20; i++)
                     {
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
@@ -222,7 +233,7 @@ namespace EEMod.EEWorld
                     break;
 
                 case 5:
-                    MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true);
+                    MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true, 50);
                     MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
                     MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
                     for (int i = 0; i < 30; i++)
@@ -233,7 +244,7 @@ namespace EEMod.EEWorld
                     break;
 
                 case 6:
-                    MakeJaggedOval((int)(sizeX * 1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
+                    MakeJaggedOval((int)(sizeX * 1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
                     CreateNoise(true, 100, 20, 0.3f);
                     CreateNoise(true, 20, 100, 0.4f);
                     RemoveStoneSlabs();
@@ -262,7 +273,7 @@ namespace EEMod.EEWorld
                     EESubWorlds.SpirePosition = new Vector2(xPos, yPos);
                     break;
             }
-            CreateNoise(ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.4f, 0.6f));
+            CreateNoise(ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.3f, 0.6f));
         }
 
 

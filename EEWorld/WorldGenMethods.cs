@@ -1296,13 +1296,13 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void MakeJaggedOval(int width, int height, Vector2 startingPoint, int type, bool forced)
+        public static void MakeJaggedOval(int width, int height, Vector2 startingPoint, int type, bool forced = false, int chance = 1)
         {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)))
+                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)) && Main.rand.Next(chance) <= 1)
                     {
                         WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
                     }
