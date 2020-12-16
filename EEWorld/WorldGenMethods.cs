@@ -753,11 +753,21 @@ namespace EEMod.EEWorld
             yes = new Vector2(posX, posY);
         }
 
-        public static void DoAndAssignShipValues()
+        public static void DoAndAssignShipyardValues()
         {
             PlaceShipWalls(100, TileCheckWater(100) - 22, ShipWalls);
             PlaceShip(100, TileCheckWater(100) - 22, ShipTiles);
             ree = new Vector2(100, TileCheckWater(100) - 22);
+
+            PlaceShipyard(140, TileCheckWater(100) - 22);
+        }
+
+        public static void PlaceShipyard(int x, int y)
+        {
+            PlaceAnyBuilding(x, y, FrontOfPier);
+            PlaceAnyBuilding(x + 6, y, MidPier1);
+            PlaceAnyBuilding(x + 6 + 16, y, MidPier1);
+            PlaceAnyBuilding(x + 6 + 16 + 16, y, EndOfPier);
         }
 
         public static int TileCheckWater(int positionX)

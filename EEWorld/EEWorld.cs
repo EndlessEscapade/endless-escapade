@@ -130,7 +130,7 @@ namespace EEMod.EEWorld
         public override void PostWorldGen()
         {
             DoAndAssignShrineValues();
-            DoAndAssignShipValues();
+            DoAndAssignShipyardValues();
             for (int i = 0; i < sinDis.Length; i++)
             {
                 sinDis[i].X = Main.rand.NextFloat(0, 0.03f);
