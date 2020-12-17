@@ -2,6 +2,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using System.Linq;
+using Terraria.ID;
+using EEMod.Prim;
 namespace EEMod.Projectiles.Ranged
 {
     public class BlitzBubble : ModProjectile
@@ -21,14 +23,14 @@ namespace EEMod.Projectiles.Ranged
 			projectile.hostile = false;
             projectile.ranged = true;
             projectile.penetrate = 1;
-			projectile.timeLeft = 150;
+			projectile.timeLeft = 200;
 			projectile.alpha = 110;
 		}
 
 		public override void AI()
 		{
-			if (projectile.timeLeft == 150) {
-				projectile.scale = Main.rand.NextFloat(0.7f, 1.3f);
+			if (projectile.timeLeft == 200) {
+				projectile.scale = Main.rand.NextFloat(0.85f, 1.3f);
 			}
 			projectile.velocity.X *= 0.99f;
 			projectile.velocity.Y -= 0.015f;
@@ -49,7 +51,11 @@ namespace EEMod.Projectiles.Ranged
                         if (Main.dust[num].position != projectile.Center)
                             Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 8f;
                     }
-                    Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubbleBoom>(), projectile.damage * 3, 0, projectile.owner);
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        EEMod.primitives.CreateTrail(new BubbleBlitzerPrimTrail(proj));
+                    }
+                    proj.damage = (int)(proj.damage * 1.21f);
                 }
             }
 		}
@@ -63,29 +69,8 @@ namespace EEMod.Projectiles.Ranged
 				Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 				Main.dust[num].scale *= .4f;
 				if (Main.dust[num].position != projectile.Center)
-					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 5f;
+					Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 3f;
 			}
-		}
-    }
-     public class BubbleBoom : ModProjectile
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Bubble");
-        }
-
-        public override void SetDefaults()
-		{
-			projectile.aiStyle = -1;
-			projectile.width = 140;
-			projectile.height = 140;
-			projectile.friendly = true;
-			projectile.tileCollide = true;
-			projectile.hostile = false;
-            projectile.ranged = true;
-            projectile.penetrate = -1;
-			projectile.timeLeft = 5;
-			projectile.alpha = 255;
 		}
     }
 }
