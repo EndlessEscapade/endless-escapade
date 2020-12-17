@@ -25,8 +25,5 @@ namespace EEMod.Waters
             g = 1f;
             b = 1f;
         }
-
-        public override Color BiomeHairColor()
-            => Color.White;
     }
 }
