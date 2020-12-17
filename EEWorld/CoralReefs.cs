@@ -249,7 +249,6 @@ namespace EEMod.EEWorld
                     {
                         for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                         {
-
                             if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(19) == 1)
                             {
                                 if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
