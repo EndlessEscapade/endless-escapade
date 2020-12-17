@@ -30,7 +30,7 @@ namespace EEMod.Projectiles.Ranged
 		public override void AI()
 		{
 			if (projectile.timeLeft == 200) {
-				projectile.scale = Main.rand.NextFloat(0.85f, 1.3f);
+				projectile.scale = Main.rand.NextFloat(0.95f, 1.35f);
 			}
 			projectile.velocity.X *= 0.99f;
 			projectile.velocity.Y -= 0.015f;
@@ -58,6 +58,8 @@ namespace EEMod.Projectiles.Ranged
                     proj.damage = (int)(proj.damage * 1.21f);
                 }
             }
+
+            projectile.rotation = projectile.velocity.X / 32;
 		}
 		public override void Kill(int timeLeft)
 		{

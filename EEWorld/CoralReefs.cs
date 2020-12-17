@@ -654,7 +654,8 @@ namespace EEMod.EEWorld
                                                 }
                                                 break;
                                             case 2:
-                                                selection = WorldGen.genRand.Next(9);
+                                                WorldGen.TileRunner(i, j, WorldGen.genRand.Next(2, 10), 1, ModContent.TileType<BulbousBlockTile>());
+                                                /*selection = WorldGen.genRand.Next(9);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -692,7 +693,7 @@ namespace EEMod.EEWorld
                                                     case 8:
                                                         WorldGen.PlaceTile(i, j - 1, ModContent.TileType<FloorGlow2x1Coral>());
                                                         break;
-                                                }
+                                                }*/
                                                 break;
                                         }
                                     }

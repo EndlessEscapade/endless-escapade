@@ -27,9 +27,9 @@ namespace EEMod.Prim
         public override void SetDefaults()
         {
             _alphaValue = 0.1f;
-            _width = 5;
+            _width = 4;
             _cap = 20;
-            _color = new Color(0.75f, 0.38f, 0.88f, 1f);
+            _color = new Color(0.75f, 0.38f, 0.9f, 1f);
         }
         public override void PrimStructure(SpriteBatch spriteBatch)
         {

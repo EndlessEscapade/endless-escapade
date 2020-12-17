@@ -20,7 +20,7 @@ namespace EEMod.Items.Weapons.Ranger
             item.autoReuse = true;
             item.ranged = true;
             item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 10;
+            item.damage = 12;
             item.useTime = 25;
             item.useAnimation = 25;
             item.width = 20;
