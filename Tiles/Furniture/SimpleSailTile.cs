@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Furniture
 
         private int frame = 3;
         private int height = 0;
-        private bool raising;
+        private bool opening = true;
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (Main.tile[i + 1, j].type == ModContent.TileType<SimpleSailTile>() && Main.tile[i - 1, j].type != ModContent.TileType<SimpleSailTile>())
@@ -55,15 +55,22 @@ namespace EEMod.Tiles.Furniture
             else
                 frame = 3;
 
+            if (Main.time % 5 == 0)
+            {
+                Main.NewText("mmyes");
+                if (opening && height < 4)
+                    height++;
+                if (!opening && height > 0)
+                    height--;
+            }
+
             Texture2D tex = mod.GetTexture("Tiles/Furniture/SimpleSailSails");
             Main.spriteBatch.Draw(tex, new Rectangle((i * 16) - (int)Main.screenPosition.X + (tex.Width/2) + 32, (j * 16) - (int)Main.screenPosition.Y + tex.Height * 2, 16, 96), new Rectangle((frame * 80) + (height * 16), 0, 16, 96), Lighting.GetColor(i, j));
         }
 
         public override bool NewRightClick(int i, int j)
         {
-            height++;
-            if (height > 4)
-                height = 0;
+            opening = !opening;
             return true;
         }
     }
