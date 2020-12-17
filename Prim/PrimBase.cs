@@ -34,7 +34,7 @@ namespace EEMod.Prim
             }
         }
         public void CreateTrail(PrimTrail PT) => _trails.Add(PT);
-        
+
     }
     public partial class PrimTrail : IUpdateable
     {
@@ -83,7 +83,7 @@ namespace EEMod.Prim
         {
             vertices = new VertexPositionColorTexture[_noOfPoints];
             currentIndex = 0;
-            
+
             PrimStructure(Main.spriteBatch);
             SetShaders();
             if (_noOfPoints >= 1)

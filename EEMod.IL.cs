@@ -568,7 +568,7 @@ namespace EEMod
             int width = _texture2.Width;
             int height = _texture2.Height;
 
-            if(width < Main.screenWidth)
+            if (width < Main.screenWidth)
             {
                 width = Main.screenWidth;
                 height *= (Main.screenWidth / _texture2.Width);

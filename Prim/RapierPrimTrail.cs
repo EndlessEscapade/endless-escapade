@@ -20,11 +20,11 @@ namespace EEMod.Prim
 {
     class RapierPrimTrail : PrimTrail
     {
-        public RapierPrimTrail(Projectile projectile,Vector2 start, Vector2 mid, Vector2 end) : base(projectile)
+        public RapierPrimTrail(Projectile projectile, Vector2 start, Vector2 mid, Vector2 end) : base(projectile)
         {
             _projectile = projectile;
-            for(float i = 0; i<=1; i += 0.01f)
-            _points.Add(Helpers.TraverseBezier(end, start, mid, mid, i));
+            for (float i = 0; i <= 1; i += 0.01f)
+                _points.Add(Helpers.TraverseBezier(end, start, mid, mid, i));
         }
         public override void SetDefaults()
         {
@@ -53,17 +53,17 @@ namespace EEMod.Prim
                     Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                     Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
                     //AddVertex(_points[i], c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                   // AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
+                    // AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
                     //AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
                 }
                 else
                 {
                     if (i != _points.Count - 1)
                     {
-                        float dist = Math.Abs((_points.Count - i) - _counter*5);
-                        widthVar = (float)Math.Sin(i * (3.14f/_points.Count)) * _width * (i)/100f;
-                        float widthVar2 = (float)Math.Sin((i+1) * (3.14f / _points.Count)) * _width * ((i + 1)) / 100f;
-                        Color c = Color.White * ((100 - dist) * 0.01f) * (_counter/10f);
+                        float dist = Math.Abs((_points.Count - i) - _counter * 5);
+                        widthVar = (float)Math.Sin(i * (3.14f / _points.Count)) * _width * (i) / 100f;
+                        float widthVar2 = (float)Math.Sin((i + 1) * (3.14f / _points.Count)) * _width * ((i + 1)) / 100f;
+                        Color c = Color.White * ((100 - dist) * 0.01f) * (_counter / 10f);
                         Color CBT = Color.White * ((100 - dist) * 0.01f) * (_counter / 10f);
                         Vector2 normal = CurveNormal(_points, i);
                         Vector2 normalAhead = CurveNormal(_points, i + 1);
@@ -89,7 +89,7 @@ namespace EEMod.Prim
         }
         public override void SetShaders()
         {
-            PrepareShader(EEMod.TrailPractice,"Edge",_counter/20f);
+            PrepareShader(EEMod.TrailPractice, "Edge", _counter / 20f);
         }
         public override void OnUpdate()
         {

@@ -16,7 +16,7 @@ namespace EEMod
         public Texture2D texture;
         public Texture2D mask;
         public float paralax;
-        
+
         int RENDERDISTANCE => 2000;
         public float varScale;
         public float scale { get; set; }
@@ -43,7 +43,7 @@ namespace EEMod
         {
 
         }
-        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2? velocity = null, int scale = 1, Color? colour = null,Texture2D masks = null, params IParticleModule[] StartingModule)
+        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2? velocity = null, int scale = 1, Color? colour = null, Texture2D masks = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
             this.position = position;
@@ -100,8 +100,8 @@ namespace EEMod
             }
             Vector2 positionDraw = position.ForDraw();
             Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), Frame, colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
-            if(mask != null)
-            Helpers.DrawAdditiveFunky(mask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
+            if (mask != null)
+                Helpers.DrawAdditiveFunky(mask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
             OnDraw();
         }
     }
@@ -366,7 +366,7 @@ namespace EEMod
         }
         public void Update(in Particle particle)
         {
-            particle.velocity += (orbitPoint.Center - particle.position) / resistance - particle.velocity/dampen;
+            particle.velocity += (orbitPoint.Center - particle.position) / resistance - particle.velocity / dampen;
         }
         public void Draw(in Particle particle) {; }
     }

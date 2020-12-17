@@ -12,7 +12,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Coral
 {
-   
+
     public class GroundGlowCoral3 : ModTile
     {
         public override void SetDefaults()

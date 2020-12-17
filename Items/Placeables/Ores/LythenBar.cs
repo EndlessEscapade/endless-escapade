@@ -38,7 +38,7 @@ namespace EEMod.Items.Placeables.Ores
 
         public override void PostUpdate()
         {
-            
+
         }
     }
 }

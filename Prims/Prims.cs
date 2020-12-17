@@ -41,8 +41,8 @@ namespace EEMod
         {
             foreach (Trail trail in _trails)
             {
-                if(trail.isProjectile)
-                trail.Draw(_effect, _basicEffect, Main.graphics.GraphicsDevice);
+                if (trail.isProjectile)
+                    trail.Draw(_effect, _basicEffect, Main.graphics.GraphicsDevice);
             }
         }
         public class DefaultShader : ITrailShader
@@ -60,7 +60,7 @@ namespace EEMod
                 {
 
                 }
-                
+
             }
         }
         private Effect _effect;
@@ -501,7 +501,7 @@ namespace EEMod
                     if (currentIndex < vertices.Length)
                         vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
                 }
-                void PrepareShader(Effect effects,float progress = 0)
+                void PrepareShader(Effect effects, float progress = 0)
                 {
                     int width = device.Viewport.Width;
                     int height = device.Viewport.Height;
@@ -525,18 +525,18 @@ namespace EEMod
                         pass.Apply();
                     }
                 }
-                void MakePrimMidFade(int i,int Width, float alphaValue,Color baseColour = default,float fadeValue = 1,float sineFactor = 0)
+                void MakePrimMidFade(int i, int Width, float alphaValue, Color baseColour = default, float fadeValue = 1, float sineFactor = 0)
                 {
                     Color c = (baseColour == default ? Color.White : baseColour) * (i / Cap) * fadeValue;
                     Vector2 normal = CurveNormal(_points, i);
                     Vector2 normalAhead = CurveNormal(_points, i + 1);
                     float j = (Cap - (i * 0.9f)) / Cap;
                     float width = (i / Cap) * Width;
-                    float width2 = ((i+1) / Cap) * Width;
-                    Vector2 firstUp = _points[i] - normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f))* sineFactor;
+                    float width2 = ((i + 1) / Cap) * Width;
+                    Vector2 firstUp = _points[i] - normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f)) * sineFactor;
                     Vector2 firstDown = _points[i] + normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f)) * sineFactor;
-                    Vector2 secondUp = _points[i + 1] - normalAhead * width2 + new Vector2(0, (float)Math.Sin(lerper / 10f + (i+1) / 3f)) * sineFactor;
-                    Vector2 secondDown = _points[i + 1] + normalAhead * width2 + new Vector2(0, (float)Math.Sin(lerper / 10f + (i+1) / 3f)) * sineFactor;
+                    Vector2 secondUp = _points[i + 1] - normalAhead * width2 + new Vector2(0, (float)Math.Sin(lerper / 10f + (i + 1) / 3f)) * sineFactor;
+                    Vector2 secondDown = _points[i + 1] + normalAhead * width2 + new Vector2(0, (float)Math.Sin(lerper / 10f + (i + 1) / 3f)) * sineFactor;
 
                     AddVertex(firstDown, c * alphaValue, new Vector2((i / Cap), 1));
                     AddVertex(firstUp, c * alphaValue, new Vector2((i / Cap), 0));
@@ -551,13 +551,13 @@ namespace EEMod
                     Color c = (baseColour == default ? Color.White : baseColour) * (i / Cap) * fadeValue;
                     Vector2 normal = CurveNormal(_points, i);
                     Vector2 normalAhead = CurveNormal(_points, i + 1);
-                    float fallout = (float)Math.Sin(i * (3.14f/Cap));
-                    float fallout1 = (float)Math.Sin((i+1) * (3.14f / Cap));
-                    float lerpers = lerper/15f;
+                    float fallout = (float)Math.Sin(i * (3.14f / Cap));
+                    float fallout1 = (float)Math.Sin((i + 1) * (3.14f / Cap));
+                    float lerpers = lerper / 15f;
                     float sine1 = i * (6.14f / _points.Count);
                     float sine2 = (i + 1) * (6.14f / Cap);
-                    float width =  Width * Math.Abs((float)Math.Sin(sine1 + lerpers) * (i / Cap)) * fallout;
-                    float width2 = Width * Math.Abs((float)Math.Sin(sine2 + lerpers) * ((i + 1) / Cap)) * fallout1; 
+                    float width = Width * Math.Abs((float)Math.Sin(sine1 + lerpers) * (i / Cap)) * fallout;
+                    float width2 = Width * Math.Abs((float)Math.Sin(sine2 + lerpers) * ((i + 1) / Cap)) * fallout1;
                     Vector2 firstUp = _points[i] - normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f)) * sineFactor;
                     Vector2 firstDown = _points[i] + normal * width + new Vector2(0, (float)Math.Sin(lerper / 10f + i / 3f)) * sineFactor;
                     Vector2 secondUp = _points[i + 1] - normalAhead * width2 + new Vector2(0, (float)Math.Sin(lerper / 10f + (i + 1) / 3f)) * sineFactor;
@@ -727,7 +727,7 @@ namespace EEMod
 
                             if (i != _points.Count - 1)
                             {
-                                MakePrimMidFade(i,5, 0.8f,default, Math.Abs(Main.LocalPlayer.velocity.X)/20f,1);
+                                MakePrimMidFade(i, 5, 0.8f, default, Math.Abs(Main.LocalPlayer.velocity.X) / 20f, 1);
                             }
                             else
                             {
@@ -753,7 +753,7 @@ namespace EEMod
 
                             if (i != _points.Count - 1)
                             {
-                                MakePrimMidFadeEnds(i, 20, 0.8f,default,1f,2);
+                                MakePrimMidFadeEnds(i, 20, 0.8f, default, 1f, 2);
                             }
                             else
                             {
@@ -762,7 +762,7 @@ namespace EEMod
                         }
                     }
                     lerper++;
-                    PrepareShader(EEMod.TrailPractice, lerper/40f);
+                    PrepareShader(EEMod.TrailPractice, lerper / 40f);
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
                 DrawPrimDelegate JellyfishPrims = (int noOfPoints) =>
@@ -824,7 +824,7 @@ namespace EEMod
                         {
                             if (i != _points.Count - 1)
                             {
-                                widthVar = (float)Math.Sqrt(_points.Count - i)*width;
+                                widthVar = (float)Math.Sqrt(_points.Count - i) * width;
                                 Color base1 = new Color(7, 86, 122);
                                 Color base2 = new Color(255, 244, 173);
                                 Color c = Color.Lerp(Color.White, Color.Cyan, colorSin) * (1 - (i / (float)_points.Count));
@@ -880,7 +880,7 @@ namespace EEMod
                                 widthvar = (float)Math.Sqrt(i) * width;
                                 Color base1 = new Color(7, 86, 122);
                                 Color base2 = new Color(255, 244, 173);
-                                Color c = Main.hslToRgb((_projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f) * ((i*3) / (float)_points.Count);
+                                Color c = Main.hslToRgb((_projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f) * ((i * 3) / (float)_points.Count);
                                 Color cBT = Main.hslToRgb((_projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f) * (((i + 1) * 3) / (float)_points.Count);
                                 Vector2 normal = CurveNormal(_points, i);
                                 Vector2 normalAhead = CurveNormal(_points, i + 1);

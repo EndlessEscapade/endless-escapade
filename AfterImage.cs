@@ -201,12 +201,12 @@ namespace EEMod
             }
             if (ichor)
             {
-                if (codable is NPC) 
-                { 
-                    lightColor = new Color(255, 255, 0, 255); 
-                } 
-                else 
-                { 
+                if (codable is NPC)
+                {
+                    lightColor = new Color(255, 255, 0, 255);
+                }
+                else
+                {
                     cb = 0f;
                 }
             }

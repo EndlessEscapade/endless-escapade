@@ -109,11 +109,11 @@ namespace EEMod
             }
         }
 
-        public void UnLoad() 
-        { 
+        public void UnLoad()
+        {
             UIInterfaces.Clear();
-            UIStates.Clear(); 
-            Binds.Clear(); 
+            UIStates.Clear();
+            Binds.Clear();
         }
 
         public void Update(GameTime gameTime)

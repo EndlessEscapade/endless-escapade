@@ -11,7 +11,7 @@ namespace EEMod.Tiles
 
         public override void SetDefaults()
         {
-            
+
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;

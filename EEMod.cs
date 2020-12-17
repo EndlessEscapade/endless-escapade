@@ -147,7 +147,7 @@ namespace EEMod
         public int lerps;
         private float alphas;
         private int delays;
-        public Verlet verlet = new Verlet();
+        public Verlet verlet;
         private bool mode = true;
         bool bufferVariable;
         private float rotationBuffer;
@@ -286,6 +286,7 @@ namespace EEMod
         public override void Load()
         {
             TVH = new ComponentManager<TileObjVisual>();
+            verlet = new Verlet();
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());

@@ -136,7 +136,7 @@ namespace EEMod
                         Velocity = new Vector2(Main.rand.NextFloat(0.5f, 1), 0),
                         paralax = (1 - scalpha) * 0.7f
                     };
-                    bubble.Position -= new Vector2(Main.LocalPlayer.Center.X * bubble.paralax, 0); 
+                    bubble.Position -= new Vector2(Main.LocalPlayer.Center.X * bubble.paralax, 0);
                     if (bubbles.Count < 500)
                     {
                         bubbles.Add(bubble);
@@ -155,16 +155,16 @@ namespace EEMod
                 bubble.flash++;
                 bubble.Position -= new Vector2((float)Math.Sin(bubble.flash / (bubble.Velocity.X * 30)), bubble.Velocity.X);
             }
-            if(Vector2.DistanceSquared(Main.LocalPlayer.Center, EESubWorlds.SpirePosition*16) < 700* 700)
+            if (Vector2.DistanceSquared(Main.LocalPlayer.Center, EESubWorlds.SpirePosition * 16) < 700 * 700)
             {
                 HasVisitedSpire = true;
             }
-            if(HasVisitedSpire && SpireCutscene<200)
+            if (HasVisitedSpire && SpireCutscene < 200)
             {
-                FixateCameraOn(EESubWorlds.SpirePosition * 16 + new Vector2(0,-13*16), 64f, false, true, 0);
+                FixateCameraOn(EESubWorlds.SpirePosition * 16 + new Vector2(0, -13 * 16), 64f, false, true, 0);
                 SpireCutscene++;
             }
-            if(SpireCutscene == 200)
+            if (SpireCutscene == 200)
             {
                 HasVisitedSpire = true;
                 SpireCutscene++;

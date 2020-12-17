@@ -30,12 +30,12 @@ namespace EEMod.Items.Armor.Aquamarine
 
         public override void UpdateEquip(Player player)
         {
-            
+
         }
 
         public override void UpdateArmorSet(Player player)
         {
-            
+
         }
     }
 }

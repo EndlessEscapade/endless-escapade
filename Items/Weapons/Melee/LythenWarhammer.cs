@@ -48,7 +48,7 @@ namespace EEMod.Items.Weapons.Melee
 
         public override bool CanUseItem(Player player)
         {
-            if(player.ownedProjectileCounts[ModContent.ProjectileType<LythenWarhammerProjectile>()] >= 1)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<LythenWarhammerProjectile>()] >= 1)
             {
                 return false;
             }

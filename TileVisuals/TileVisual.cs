@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod
 {
-    public class TileObjVisual : Entity,IComponent
+    public class TileObjVisual : Entity, IComponent
     {
         public float scale { get; set; }
         public float alpha;
@@ -39,8 +39,8 @@ namespace EEMod
         }
         public void Update()
         {
-            if(WithinDistance)
-            PreAI();
+            if (WithinDistance)
+                PreAI();
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -63,7 +63,7 @@ namespace EEMod
         int rand;
         int i => (int)position.X / 16;
         int j => (int)position.Y / 16;
-        public Leaf(Vector2 position, string TexturePath, float rotation,Color colour, bool isFlipped) : base(position, TexturePath,rotation, colour)
+        public Leaf(Vector2 position, string TexturePath, float rotation, Color colour, bool isFlipped) : base(position, TexturePath, rotation, colour)
         {
             this.position = position;
             this.TexturePath = TexturePath;
@@ -72,14 +72,14 @@ namespace EEMod
             this.colour = colour;
             this.isFlipped = isFlipped;
             RandRot = Main.rand.Next(30, 80);
-            if(isFlipped)
+            if (isFlipped)
             {
                 SE = SpriteEffects.FlipHorizontally;
             }
         }
         public override void PreAI()
         {
-            if(timer > 0)
+            if (timer > 0)
             {
                 timer--;
             }
@@ -98,10 +98,10 @@ namespace EEMod
                     for (int g = 0; g < 5; g++)
                     {
                         EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
-                        EEMod.Particles.Get("Main").SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), new Vector2(0, Main.rand.NextFloat(-Math.Abs(Main.LocalPlayer.velocity.X) * 2, 0f)), leaft, 20, 1, Lighting.GetColor((int)position.X/16, (int)position.Y / 16), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SlowDown(0.9f), new SetFrame(leaft.Bounds), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new AddVelocity(new Vector2(0, 0.002f)), new SimpleBrownianMotion(0.2f));
+                        EEMod.Particles.Get("Main").SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), new Vector2(0, Main.rand.NextFloat(-Math.Abs(Main.LocalPlayer.velocity.X) * 2, 0f)), leaft, 20, 1, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SlowDown(0.9f), new SetFrame(leaft.Bounds), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new AddVelocity(new Vector2(0, 0.002f)), new SimpleBrownianMotion(0.2f));
                     }
                     rand = Main.rand.Next(30, 60);
-                    gottenVel = Math.Min(1,Math.Abs(Main.LocalPlayer.velocity.X / 25f));
+                    gottenVel = Math.Min(1, Math.Abs(Main.LocalPlayer.velocity.X / 25f));
                     timer = rand;
                 }
                 else if (DeltaRight && timer == 0)
@@ -118,21 +118,21 @@ namespace EEMod
             }
             if (timer != 0)
             {
-                additive = (float)Math.Sin(timer * 3.14f /Math.Abs(rand))*-gottenVel;
+                additive = (float)Math.Sin(timer * 3.14f / Math.Abs(rand)) * -gottenVel;
             }
             else
             {
                 additive += -additive / 65f;
             }
-            Origin = new Vector2(0,Texture.Height);
+            Origin = new Vector2(0, Texture.Height);
             rotation = (float)Math.Sin(Main.GameUpdateCount / RandRot) * 0.2f + additive;
             CenterBuffer = Main.LocalPlayer.Center;
         }
         public override bool PreDraw()
         {
-            Main.spriteBatch.Draw(Texture, position.ForDraw(), Texture.Bounds, colour.MultiplyRGB(Lighting.GetColor(i,j)), rotation, Origin, scale, SE, 0);
+            Main.spriteBatch.Draw(Texture, position.ForDraw(), Texture.Bounds, colour.MultiplyRGB(Lighting.GetColor(i, j)), rotation, Origin, scale, SE, 0);
             return false;
         }
     }
- 
+
 }

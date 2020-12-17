@@ -38,11 +38,11 @@ namespace EEMod.Projectiles.Melee
         {
 
             Player player = Main.player[projectile.owner];
-            if(projectile.ai[1] == 0)
+            if (projectile.ai[1] == 0)
             {
                 EEMod.Particles.AppendSpawnModule("Main", new SpawnRandomly(1f));
-                for (int i = 0; i<5; i++)
-                EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, null,3, Main.hslToRgb((projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f), new Spew(6.14f, 1f, Vector2.One, 0.95f), new RotateVelocity(Main.rand.NextFloat(-0.03f,0.03f)),new AfterImageTrail(1.5f));
+                for (int i = 0; i < 5; i++)
+                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, null, 3, Main.hslToRgb((projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f), new Spew(6.14f, 1f, Vector2.One, 0.95f), new RotateVelocity(Main.rand.NextFloat(-0.03f, 0.03f)), new AfterImageTrail(1.5f));
             }
             projectile.ai[1] = (Main.GameUpdateCount / 60f * 6.28f) + projectile.ai[0];
             if (!projectile.friendly)
@@ -83,20 +83,20 @@ namespace EEMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             alpha += 0.05f;
-                 Main.spriteBatch.End();
-                      Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                 Color shadeColor = Main.hslToRgb((projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f);
-                 EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
-                 EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
-                 EEMod.PrismShader.Parameters["tentacle"].SetValue(EEMod.instance.GetTexture("ShaderAssets/PrismDaggerLightMap"));
-                 EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
-                 EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3());
-                 EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);
-                 EEMod.PrismShader.CurrentTechnique.Passes[0].Apply();
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            Color shadeColor = Main.hslToRgb((projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f);
+            EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
+            EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
+            EEMod.PrismShader.Parameters["tentacle"].SetValue(EEMod.instance.GetTexture("ShaderAssets/PrismDaggerLightMap"));
+            EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
+            EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3());
+            EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);
+            EEMod.PrismShader.CurrentTechnique.Passes[0].Apply();
             Vector2 drawOrigin = new Vector2(projectile.width / 2, projectile.height / 2);
-                Vector2 drawPos = projectile.position - Main.screenPosition;
+            Vector2 drawPos = projectile.position - Main.screenPosition;
             shadeColor.A = 150;
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos + drawOrigin, null, shadeColor, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos + drawOrigin, null, shadeColor, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return false;

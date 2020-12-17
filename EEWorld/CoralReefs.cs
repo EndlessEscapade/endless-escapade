@@ -146,24 +146,24 @@ namespace EEMod.EEWorld
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (-sizeY / 5)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (sizeY / 5)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (sizeY / 5)), tile2);
-                    CreateNoise(!ensureNoise, Main.rand.Next(20, 60), Main.rand.Next(50, 100), 0.3f);
-                    CreateNoise(!ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), 0.3f);
+                    CreateNoise(!ensureNoise, Main.rand.Next(20, 50), Main.rand.Next(20, 50), 0.3f);
+                    CreateNoise(!ensureNoise, Main.rand.Next(20, 50), Main.rand.Next(20, 50), 0.3f);
                     break;
 
                 case 1:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX-50, sizeY- 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX+ 50, sizeY+ 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    CreateNoise(!ensureNoise, 20, 200, 0.4f);
-                    CreateNoise(!ensureNoise, 20, 200, 0.4f);
+                    MakeJaggedOval(sizeX - 50, sizeY - 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX + 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    CreateNoise(!ensureNoise, 50, 50, 0.4f);
+                    CreateNoise(!ensureNoise, 20, 20, 0.4f);
                     break;
 
                 case 2:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    CreateNoise(!ensureNoise, 100, 50, 0.3f);
-                    CreateNoise(!ensureNoise, 50, 100, 0.3f);
+                    CreateNoise(!ensureNoise, 40, 40, 0.4f);
+                    CreateNoise(!ensureNoise, 40, 40, 0.4f);
                     break;
 
                 case 3:
@@ -251,24 +251,24 @@ namespace EEMod.EEWorld
                     for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                     {
                         for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
-                          {
+                        {
 
                             if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(19) == 1)
+                            {
+                                if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
                                 {
-                                    if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
+                                    EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                                }
+                                else
+                                {
+                                    Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
+                                    if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
                                     {
-                                      EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
-                                    }
-                                    else
-                                    {
-                                        Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
-                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
-                                        {
-                                          EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
-                                        }
+                                        EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
                                     }
                                 }
                             }
+                        }
                     }
                     EESubWorlds.SpirePosition = new Vector2(xPos, yPos);
                     break;
@@ -363,9 +363,9 @@ namespace EEMod.EEWorld
                             }
                             float MakingMyWayDownTown = -1;
                             int WalkingFast = -1;
-                            for(int a = 0; a< BufferLengths.Count; a++)
+                            for (int a = 0; a < BufferLengths.Count; a++)
                             {
-                                if(BufferLengths[a] < MakingMyWayDownTown || MakingMyWayDownTown == -1)
+                                if (BufferLengths[a] < MakingMyWayDownTown || MakingMyWayDownTown == -1)
                                 {
                                     MakingMyWayDownTown = BufferLengths[a];
                                     WalkingFast = BufferMinibiome[a];
@@ -623,7 +623,7 @@ namespace EEMod.EEWorld
                                     {
                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                     }
-                                    else if(TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(38))
+                                    else if (TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(38))
                                     {
                                         VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
                                     }
@@ -914,7 +914,7 @@ namespace EEMod.EEWorld
                                                             break;
                                                         case 4:
                                                             ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralHang1", "ShaderAssets/CrystalLightMapHang2");
-   
+
                                                             break;
                                                         case 5:
                                                             ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralHang2", "ShaderAssets/CrystalLightMapHang2");

@@ -48,13 +48,13 @@ namespace EEMod.Projectiles.Melee
             {
                 projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1, 1));
             }
-           /* if (projectile.timeLeft % 2 == 0)
-            {
-                Dust dust = Dust.NewDustPerfect(projectile.Center, 226);
-                dust.noGravity = true;
-                dust.scale = (float)Math.Sqrt(projectile.timeLeft) / 4;
-                dust.velocity = Vector2.Zero;
-            }*/
+            /* if (projectile.timeLeft % 2 == 0)
+             {
+                 Dust dust = Dust.NewDustPerfect(projectile.Center, 226);
+                 dust.noGravity = true;
+                 dust.scale = (float)Math.Sqrt(projectile.timeLeft) / 4;
+                 dust.velocity = Vector2.Zero;
+             }*/
             DrawPos = projectile.position;
         }
     }

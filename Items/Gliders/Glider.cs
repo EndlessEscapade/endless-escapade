@@ -35,9 +35,9 @@ namespace EEMod.Items.Gliders
         }
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-            
+
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(2));
-            EEMod.Particles.Get("Main").SpawnParticles(position,null);
+            EEMod.Particles.Get("Main").SpawnParticles(position, null);
         }
         public override void HoldStyle(Player player)
         {

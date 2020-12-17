@@ -423,9 +423,12 @@ namespace EEMod
                 importantCutscene = false;
                 speedOfPan = 0;
                 subTextAlpha = 0;
-                SeamapPlayerShip.localship.position = new Vector2(1700, 900);
+                if (SeamapPlayerShip.localship != null)
+                {
+                    SeamapPlayerShip.localship.position = new Vector2(1700, 900);
+                    SeamapPlayerShip.localship.shipHelth = SeamapPlayerShip.ShipHelthMax;
+                }
                 SeaObject.Clear();
-                SeamapPlayerShip.localship.shipHelth = SeamapPlayerShip.ShipHelthMax;
                 MoralFirstFrame();
                 displacmentX = 0;
                 displacmentY = 0;

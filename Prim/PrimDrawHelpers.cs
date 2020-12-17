@@ -156,7 +156,7 @@ namespace EEMod.Prim
             {
                 if (i == 0)
                 {
-                  
+
                     Vector2 normalAhead = CurveNormal(_points, i + 1);
                     Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                     Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;

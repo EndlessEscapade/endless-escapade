@@ -28,7 +28,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f,0.8f);
+            Helpers.DrawAdditiveFunky(EEMod.instance.GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f, 0.8f);
             alpha += 0.05f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -158,12 +158,12 @@ namespace EEMod.NPCs.CoralReefs
                     otherPhase = false;
                 }
             }
-            else if(!flag)
+            else if (!flag)
             {
                 flag = true;
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
             }
-            
+
 
             if (Helpers.isCollidingWithWall(npc))
             {
@@ -186,7 +186,7 @@ namespace EEMod.NPCs.CoralReefs
                 isPicking = Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
 
             }
-         }
+        }
         bool a;
         public override void NPCLoot()
         {

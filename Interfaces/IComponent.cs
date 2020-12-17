@@ -8,7 +8,7 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public interface IComponent : IDrawable,IUpdateable
+    public interface IComponent : IDrawable, IUpdateable
     {
 
     }

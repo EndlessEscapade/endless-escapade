@@ -58,13 +58,13 @@ namespace EEMod.NPCs.CoralReefs
             Texture2D LowerLegTex = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/KelpSpiderLegLower");
             Texture2D KelpSpiderBody = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/KelpSpiderBody");
             float rotation = (player.Center - npc.Center).ToRotation() + (float)Math.PI;
-            bool cond = (rotation > 0 && rotation < Math.PI/2f) || rotation > (float)Math.PI*1.5f;
+            bool cond = (rotation > 0 && rotation < Math.PI / 2f) || rotation > (float)Math.PI * 1.5f;
             for (int i = 0; i < numberOfLegs; i++)
             {
 
-                Main.spriteBatch.Draw(UpperLegTex,((SpiderBodyPosition + jointPoints[i]) / 2f).ForDraw(), UpperLegTex.Bounds, drawColour, (SpiderBodyPosition - jointPoints[i]).ToRotation()+(float)Math.PI/2f,UpperLegTex.TextureCenter(),1f,SpriteEffects.None,0f);
+                Main.spriteBatch.Draw(UpperLegTex, ((SpiderBodyPosition + jointPoints[i]) / 2f).ForDraw(), UpperLegTex.Bounds, drawColour, (SpiderBodyPosition - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, UpperLegTex.TextureCenter(), 1f, SpriteEffects.None, 0f);
                 Main.spriteBatch.Draw(KelpSpiderBody, SpiderBodyPosition.ForDraw(), KelpSpiderBody.Bounds, drawColour, rotation, KelpSpiderBody.TextureCenter(), 1f, !cond ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(LowerLegTex, ((jointPoints[i] + legPoints[i])/2f).ForDraw(), LowerLegTex.Bounds, drawColour, (legPoints[i] - jointPoints[i]).ToRotation() + (float)Math.PI/2f, LowerLegTex.TextureCenter(), 0.9f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(LowerLegTex, ((jointPoints[i] + legPoints[i]) / 2f).ForDraw(), LowerLegTex.Bounds, drawColour, (legPoints[i] - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, LowerLegTex.TextureCenter(), 0.9f, SpriteEffects.None, 0f);
             }
         }
         public void UpdateSpiderPort()
@@ -97,9 +97,9 @@ namespace EEMod.NPCs.CoralReefs
             for (int i = 0; i < numberOfLegs; i++)
             {
 
-                    jointPoints[i] = CorrectLeg(SpiderBodyPosition, jointPoints[i])[1];
-                    jointPoints[i] = CorrectLeg(legPoints[i], jointPoints[i])[1];
-                    jointPoints[i].Y -= jointElevation;
+                jointPoints[i] = CorrectLeg(SpiderBodyPosition, jointPoints[i])[1];
+                jointPoints[i] = CorrectLeg(legPoints[i], jointPoints[i])[1];
+                jointPoints[i].Y -= jointElevation;
 
                 float dx = legPoints[i].X - jointPoints[i].X;
                 float dy = legPoints[i].Y - jointPoints[i].Y;
@@ -118,8 +118,8 @@ namespace EEMod.NPCs.CoralReefs
                     }
                     while ((!Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] || !Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).active()) && Pogger < 32)
                     {
-                        if(CanJump)
-                        SpiderBodyPosition.Y += 0.005f;
+                        if (CanJump)
+                            SpiderBodyPosition.Y += 0.005f;
                         TrueY++;
                         Pogger++;
                     }
@@ -222,9 +222,9 @@ namespace EEMod.NPCs.CoralReefs
         {
             for (int i = 0; i < numberOfLegs; i++)
             {
-                legPoints[i].Y += VertVel + (float)Math.Sin(npc.ai[1] / 10f)*0.8f;
+                legPoints[i].Y += VertVel + (float)Math.Sin(npc.ai[1] / 10f) * 0.8f;
                 jointPoints[i].Y += VertVel + (float)Math.Cos(npc.ai[1] / 10f) * 0.8f;
-                legPoints[i].X += velocityOfSpider + (float)Math.Cos(npc.ai[1] / 7f + i)*1.2f;
+                legPoints[i].X += velocityOfSpider + (float)Math.Cos(npc.ai[1] / 7f + i) * 1.2f;
                 jointPoints[i].X += velocityOfSpider;
             }
         }
@@ -235,7 +235,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
-            if(npc.ai[0] == 0)
+            if (npc.ai[0] == 0)
             {
                 SpiderBodyPosition = npc.Center;
                 npc.ai[0] = 1;
@@ -250,14 +250,14 @@ namespace EEMod.NPCs.CoralReefs
             UpdateSpiderPort();
             if (npc.ai[1] % ChanceToJump <= 5f && !ifAbove && ifPlayerAbove)
             {
-                Jump(0.3f * (4 - (npc.ai[1] % ChanceToJump) /5f),Helpers.Clamp(player.Center.X - npc.Center.X,-0.6f,0.6f));
+                Jump(0.3f * (4 - (npc.ai[1] % ChanceToJump) / 5f), Helpers.Clamp(player.Center.X - npc.Center.X, -0.6f, 0.6f));
                 CanJump = false;
             }
-            else if(npc.ai[1] % ChanceToJump <= (ChanceToJump - 60) && !CanJump && npc.ai[1] % 300 >= 7)
+            else if (npc.ai[1] % ChanceToJump <= (ChanceToJump - 60) && !CanJump && npc.ai[1] % 300 >= 7)
             {
                 MakeJointsFollowVerticalDisplacement();
             }
-            if(OnGround)
+            if (OnGround)
             {
                 CanJump = true;
             }

@@ -37,7 +37,7 @@ namespace EEMod.Projectiles
               y3 * Math.Pow(t, 3)
               );
         }
-     
+
         protected Player projOwner => Main.player[projectile.owner];
 
         public virtual List<int> exclude => new List<int> { };
@@ -111,7 +111,7 @@ namespace EEMod.Projectiles
         {
             float timeForSwingSin = (float)Math.Sin(timeForSwing * 3.14f) + 0.2f;
 
-            
+
             if (!Main.LocalPlayer.controlUseItem)
             {
                 if (!flag)

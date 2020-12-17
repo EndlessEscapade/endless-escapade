@@ -9,7 +9,7 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class ComponentManager<T> where T : Entity,IComponent
+    public class ComponentManager<T> where T : Entity, IComponent
     {
         List<T> Objects = new List<T>();
         public void Update()

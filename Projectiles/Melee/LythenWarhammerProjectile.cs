@@ -121,7 +121,7 @@ namespace EEMod.Projectiles.Melee
                 {
                     projectile.active = false;
                 }
-                else 
+                else
                 {
                     EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.4f));
                     EEMod.Particles.Get("Main").SpawnParticles(projectile.Center + (projectile.velocity * 5), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
@@ -177,7 +177,7 @@ namespace EEMod.Projectiles.Melee
                 return false;
             }
             return true;
-       }
+        }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.ai[0] >= chargeTime)
@@ -195,7 +195,7 @@ namespace EEMod.Projectiles.Melee
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (projectile.ai[1] == 1 && projectile.ai[0] >= chargeTime)
-            { 
+            {
                 DoTheThing(projectile.position);
             }
         }
@@ -214,7 +214,7 @@ namespace EEMod.Projectiles.Melee
             {
                 for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
                 {
-                     int lightningproj = Projectile.NewProjectile(pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    int lightningproj = Projectile.NewProjectile(pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
                     if (Main.netMode != NetmodeID.Server)
                     {
                         EEMod.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));

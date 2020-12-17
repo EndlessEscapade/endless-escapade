@@ -63,7 +63,7 @@ namespace EEMod.Tiles.Furniture
                 //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 1;
                 ArrowsUIState.OceanArrowVisible = true;
 
-                if(EEMod.Inspect.Current && EEWorld.EEWorld.shipComplete)
+                if (EEMod.Inspect.Current && EEWorld.EEWorld.shipComplete)
                 {
 
                     player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;

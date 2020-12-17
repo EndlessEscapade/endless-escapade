@@ -323,7 +323,7 @@ namespace EEMod.VerletIntegration
                             Vector2 mid = p1 * 0.5f + p2 * 0.5f;
                             if (stickPoints[i].LightMap != null)
                             {
-                                Helpers.DrawAdditive(stickPoints[i].LightMap, mid.ForDraw(), Color.Yellow*0.6f, 1.2f, (p1 - p2).ToRotation());
+                                Helpers.DrawAdditive(stickPoints[i].LightMap, mid.ForDraw(), Color.Yellow * 0.6f, 1.2f, (p1 - p2).ToRotation());
                             }
 
                             Main.spriteBatch.Draw(stickPoints[i].tex, mid.ForDraw(), stickPoints[i].tex.Bounds, Lighting.GetColor((int)mid.X / 16, (int)mid.Y / 16), (p1 - p2).ToRotation(), stickPoints[i].tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);

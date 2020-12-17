@@ -20,7 +20,7 @@ namespace EEMod.Seamap.SeamapContent
         {
             Vector2 position = SeamapPlayerShip.localship.position;
 
-            float intenstityLightning =SeamapPlayerShip.localship.intenstityLightning;
+            float intenstityLightning = SeamapPlayerShip.localship.intenstityLightning;
             Vector2 currentLightningPos = SeamapPlayerShip.localship.currentLightningPos;
             Vector2 velocity = SeamapPlayerShip.localship.velocity;
 

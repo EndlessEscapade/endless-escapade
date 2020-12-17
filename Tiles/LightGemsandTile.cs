@@ -71,7 +71,7 @@ namespace EEMod.Tiles
         {
             if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick())
             {
-                    PlaceGroundGrass(i, j);
+                PlaceGroundGrass(i, j);
             }
             return true;
         }

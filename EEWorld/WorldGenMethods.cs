@@ -1498,7 +1498,7 @@ namespace EEMod.EEWorld
                 Vector2 currentPos = new Vector2(position1.X + (perc * (position2.X - position1.X)), position1.Y + (perc * (position2.Y - position1.Y)));
                 WorldGen.TileRunner((int)currentPos.X,
                     (int)currentPos.Y,
-                    WorldGen.genRand.Next(5 + sizeAddon / 2 + (int)(i* expansionRate), 10 + sizeAddon + (int)(i * expansionRate)),
+                    WorldGen.genRand.Next(5 + sizeAddon / 2 + (int)(i * expansionRate), 10 + sizeAddon + (int)(i * expansionRate)),
                     WorldGen.genRand.Next((int)stepBounds.X, (int)stepBounds.Y),
                     type,
                     true,

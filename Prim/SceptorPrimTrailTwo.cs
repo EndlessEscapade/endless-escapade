@@ -31,7 +31,7 @@ namespace EEMod.Prim
             _cap = 80;
             color = Main.hslToRgb(Main.rand.NextFloat(0.46f, 0.83f), 1f, 0.6f);
         }
-        
+
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
             /*if (_noOfPoints <= 1) return; //for easier, but less customizable, drawing

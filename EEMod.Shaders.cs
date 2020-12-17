@@ -23,7 +23,7 @@ namespace EEMod
         internal static void ShaderLoading()
         {
             SolidOutline = instance.GetEffect("Effects/WhiteOutlineSolid");
-            RadialField = instance.GetEffect("Effects/RadialSurfacing"); 
+            RadialField = instance.GetEffect("Effects/RadialSurfacing");
             PrismShader = instance.GetEffect("Effects/PrismShader");
             Noise2DShift = instance.GetEffect("Effects/Noise2DShift");
             ReflectionShader = instance.GetEffect("Effects/ReflectionShader");

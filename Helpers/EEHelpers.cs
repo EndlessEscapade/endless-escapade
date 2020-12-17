@@ -188,7 +188,7 @@ namespace EEMod
         public static bool InRange<T>(IComparable<T> value, T min, T max) where T : IComparable<T> => value.CompareTo(min) > 0 && value.CompareTo(max) < 0;
 
         public static bool InRange<T>(T value, T min, T max, IComparer<T> comparer) => comparer.Compare(value, min) > 0 && comparer.Compare(value, max) < 0;
-        
+
         public static bool VectorInRange(Vector2 from, Vector2 to, float MaxRange) => Vector2.DistanceSquared(from, to) <= MaxRange * MaxRange;
 
         public static bool PointInRectangle(Vector2 point, Vector4 rectangle) => PointInRectangle(point.X, point.Y, rectangle.X, rectangle.Y, rectangle.W, rectangle.Z);

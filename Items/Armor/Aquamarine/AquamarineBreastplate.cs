@@ -25,7 +25,7 @@ namespace EEMod.Items.Armor.Aquamarine
 
         public override void UpdateEquip(Player player)
         {
-            
+
         }
     }
 }

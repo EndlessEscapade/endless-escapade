@@ -30,7 +30,7 @@ namespace EEMod.Projectiles.Mage
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            
+
             projectile.rotation = 3.14f;
             Vector2 posToBe = new Vector2(projectile.ai[0], projectile.ai[1]);
             Vector2 direction = posToBe - projectile.position;
