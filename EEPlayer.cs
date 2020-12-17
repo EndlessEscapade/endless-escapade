@@ -28,6 +28,7 @@ namespace EEMod
 {
     public partial class EEPlayer : ModPlayer
     {
+        public int Shake = 0;
         public bool importantCutscene;
         public static bool startingText;
         public bool godMode = false;
@@ -501,6 +502,10 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
+            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
+            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
+            if (Shake > 0) { Shake--; }
+            
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
