@@ -289,6 +289,20 @@ namespace EEMod
                 }
             }
         }
+        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, Color color, float spawnChance = 1f,Vector2 velocity = default, params IParticleModule[] modules)
+        {
+            for (float i = 0; i <= 1; i += chainsPerUse)
+            {
+                if (i != 0)
+                {
+                    float x = X(i, startingPos.X, c1.X, endPoints.X);
+                    float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
+
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(spawnChance));
+                    EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x, y), velocity, 2, color, modules);
+                }
+            }
+        }
         public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0)
         {
             //USE IN PROPER HOOK PLZ THX

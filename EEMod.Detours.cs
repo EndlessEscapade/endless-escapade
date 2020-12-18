@@ -416,7 +416,6 @@ namespace EEMod
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             //UpdateLight();
-
             ModContent.GetInstance<EEMod>().TVH.Update();
             ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
             verlet.GlobalRenderPoints();
@@ -950,8 +949,8 @@ namespace EEMod
 
         private void Lighting_AddLight_int_int_float_float_float(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int i, int j, float R, float G, float B)
         {
-            //LightPoints.Add(new Vector2(d + 0.5f,e + 0.5f));
-            //ColourPoints.Add(new Color(a, b, c));
+            _lightPoints.Add(new Vector2(i + 0.5f,j + 0.5f));
+            _colorPoints.Add(new Color(R, G, B));
 
             orig(i, j, R, G, B);
         }

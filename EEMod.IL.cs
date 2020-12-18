@@ -321,7 +321,7 @@ namespace EEMod
             }
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public void DrawLensFlares()
@@ -453,7 +453,8 @@ namespace EEMod
 
                 if (i < maxNumberOfLights)
                 {
-                    Filters.Scene[$"EEMod:LightSource{i}"].GetShader().UseImageOffset(listTransformable[i]).UseIntensity(0.0045f).UseColor(_colorPoints[i]);
+                    Helpers.DrawAdditive(instance.GetTexture("Masks/RadialGradient"),(_lightPoints[i] * 16).ForDraw(), _colorPoints[i]*0.2f, 0.5f);
+                    //Filters.Scene[$"EEMod:LightSource{i}"].GetShader().UseImageOffset(listTransformable[i]).UseIntensity(0.0045f).UseColor(_colorPoints[i]);
                 }
             }
 
