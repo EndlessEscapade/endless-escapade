@@ -16,12 +16,12 @@ namespace EEMod.Items.Weapons.Melee
         {
             item.damage = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 70;
-            item.useTime = 24;
-            item.shootSpeed = 4;
+            item.useAnimation = 180;
+            item.useTime = 180;
+            item.shootSpeed = 0;
             item.knockBack = 6.5f;
-            item.width = 32;
-            item.height = 32;
+            item.width = 46;
+            item.height = 48;
             item.scale = 1f;
             item.rare = ItemRarityID.Purple;
             item.value = Item.sellPrice(silver: 10);
@@ -29,9 +29,11 @@ namespace EEMod.Items.Weapons.Melee
             item.melee = true;
             item.noMelee = true;
             item.noUseGraphic = true;
-            item.autoReuse = true;
+            item.autoReuse = false;
+            item.channel = true;
 
             item.UseSound = SoundID.Item1;
+            item.shoot = ModContent.ProjectileType<BubbleStrikerProjectile>();
         }
     }
 }

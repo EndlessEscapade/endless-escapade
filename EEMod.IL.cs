@@ -531,8 +531,8 @@ namespace EEMod
                 }
                 case 2:
                 {
-                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/GlisteningReefs/Nautilus");
-                    _screenframes = 4;
+                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/Seahorse");
+                    _screenframes = 5;
                     _screenframeSpeed = 5;
                     break;
                 }

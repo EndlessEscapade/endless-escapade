@@ -15,18 +15,19 @@ namespace EEMod.Items.Materials
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 0, 18, 0);
-            item.rare = ItemRarityID.Pink;
-            item.useAnimation = 15;
-            item.useTime = 10;
+            item.width = 20; //
+            item.height = 20; //
+            item.maxStack = 999; //
+            item.value = Item.buyPrice(0, 0, 18, 0); //
+            item.rare = ItemRarityID.Pink; //
+            item.useAnimation = 15; //
+            item.useTime = 10; //
             item.autoReuse = true;
             item.consumable = true;
             item.material = true;
-            item.placeStyle = 10;
             item.createTile = ModContent.TileType<AquamarineTile>();
+            item.useStyle = ItemUseStyleID.SwingThrow;
+            item.useTurn = true;
         }
     }
 }

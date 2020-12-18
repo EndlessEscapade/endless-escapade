@@ -524,6 +524,8 @@ namespace EEMod
             orig(self);
         }
 
+        private int osSucksAtBedwars;
+        private float textPositionLeft;
         private void Main_Draw(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
@@ -580,6 +582,8 @@ namespace EEMod
                     loadingChoose = Main.rand.Next(68);
                     loadingChooseImage = Main.rand.Next(5);
                     loadingFlag = false;
+                    osSucksAtBedwars = 0;
+                    textPositionLeft = 0;
                 }
 
                 switch (loadingChoose)
@@ -872,7 +876,22 @@ namespace EEMod
                         Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage, new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                     }
 
-                    float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
+                    osSucksAtBedwars++;
+                    if (osSucksAtBedwars % 600 == 0)
+                    {
+                        loadingChoose = Main.rand.Next(68);
+                        textPositionLeft = -textSize.X / 2;
+                    }
+                    else if (osSucksAtBedwars % 600 > 0 && osSucksAtBedwars % 600 <= 540)
+                    {
+                        textPositionLeft += ((Main.screenWidth / 2) - (textSize.X / 2) - textPositionLeft) / 25f;
+                    }
+                    else if (osSucksAtBedwars % 600 > 540 && osSucksAtBedwars % 600 < 600)
+                    {
+                        textPositionLeft += ((Main.screenWidth + (textSize.X / 2)) - textPositionLeft) / 25f;
+                    }
+                    alpha = 1 - (Math.Abs((Main.screenWidth / 2) - (textSize.X / 2) - textPositionLeft) / (Main.screenWidth / 2f));
+
 
                     Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                 }

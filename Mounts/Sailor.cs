@@ -1,4 +1,4 @@
-/*using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -6,7 +6,7 @@ using Terraria.Localization;
 using System;
 using EEMod.Items.Placeables.Furniture;
 
-namespace EEMod.NPCs.Friendly
+namespace EEMod.NPCs
 {
     [AutoloadHead]
     public class Sailor : ModNPC
@@ -91,7 +91,7 @@ namespace EEMod.NPCs.Friendly
             }
         }
 
-        
+        /* 
 		// Consider using this alternate approach to choosing a random thing. Very useful for a variety of use cases.
 		// The WeightedRandom class needs "using Terraria.Utilities;" to use
 		public override string GetChat()
@@ -109,7 +109,7 @@ namespace EEMod.NPCs.Friendly
 			chat.Add("This message has a weight of 0.1, meaning it appears 10 times as rare.", 0.1);
 			return chat; // chat is implicitly cast to a string. You can also do "return chat.Get();" if that makes you feel better
 		}
-		
+		*/
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
@@ -151,7 +151,7 @@ namespace EEMod.NPCs.Friendly
         {
             projType = ProjectileID.Anchor;
             attackDelay = 1;
-        }
+        }*/
 
         public override void TownNPCAttackProjSpeed(ref float multiplier, ref float gravityCorrection, ref float randomOffset)
         {
@@ -159,4 +159,4 @@ namespace EEMod.NPCs.Friendly
             randomOffset = 2f;
         }
     }
-}*/
+}

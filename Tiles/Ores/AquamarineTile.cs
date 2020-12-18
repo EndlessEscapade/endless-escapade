@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Ores;
+using EEMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -15,7 +15,7 @@ namespace EEMod.Tiles.Ores
             Main.tileValue[Type] = 410; // Metal Detector value
             Main.tileShine2[Type] = true; // Modifies the draw color slightly.
             Main.tileShine[Type] = 1100; // How often tiny dust appear off this tile. Larger is less frequently
-            Main.tileMergeDirt[Type] = true;
+            Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = true;
             Main.tileBlockLight[Type] = true;
 
@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Ores
             AddMapEntry(new Color(152, 171, 198), name);
 
             dustType = 84;
-            //drop = ModContent.ItemType<HydriteOre>();
+            drop = ModContent.ItemType<Aquamarine>();
             soundType = SoundID.Tink;
             soundStyle = 1;
             mineResist = 1f;

@@ -6,9 +6,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using EEMod.Prim;
 
-//TODO:
-//Make it explode
-//Finish sound effects
 namespace EEMod.Projectiles.Melee
 {
     public class LythenWarhammerProjectile : ModProjectile
