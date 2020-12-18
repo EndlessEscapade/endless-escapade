@@ -51,8 +51,10 @@ namespace EEMod.Tiles.Furniture.Coral.HangingCoral
         {
             Tile tile = Main.tile[i, j];
 
+            Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.003f));
-            EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), mod.GetTexture("Particles/Cross"), 30, 2, Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.7f));
+            EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), mod.GetTexture("Particles/SmallCircle"), 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.instance.GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.2f));
+
 
             if (tile != null && tile.active() && tile.type == Type)
             {
