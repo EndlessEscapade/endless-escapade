@@ -1536,13 +1536,13 @@ namespace EEMod.EEWorld
                         {
                             Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(MathHelper.PiOver2 + Main.rand.NextFloat(-0.3f, 0.3f));
                             //int ChanceForRecursion = Main.rand.Next(0, 4);
-                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 10, true, new Vector2(0, 5), 2, 5, true, 50, (int)(lengthOfBranches * 0.5f));
+                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 20, true, new Vector2(0, 20), 2, 5, true, 50, (int)(lengthOfBranches * 0.5f));
                         }
                         if (Side == 1)
                         {
                             Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(-MathHelper.PiOver2);
                             //int ChanceForRecursion = Main.rand.Next(0, 4);
-                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 10, true, new Vector2(0, 5), 7, 5, true, 50, (int)(lengthOfBranches * 0.5f));
+                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 20, true, new Vector2(0,20), 7, 5, true, 50, (int)(lengthOfBranches * 0.5f));
                         }
                     }
                 }

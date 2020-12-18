@@ -178,13 +178,14 @@ namespace EEMod.EEWorld
                     bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
                     Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                     Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2;
-                    Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.3f);
-                    Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.7f);
+                    Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.1f);
+                    Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.9f);
                     float rot = (ChainConneccPos - LastChainConneccPos).ToRotation();
                     if (Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid &&
                         !Main.tile[(int)Mid.X / 16, (int)Mid.Y / 16].active()
                         && !Main.tile[(int)lerp1.X / 16, (int)lerp1.Y / 16].active()
-                        && !Main.tile[(int)lerp2.X / 16, (int)lerp2.Y / 16].active())
+                        && !Main.tile[(int)lerp2.X / 16, (int)lerp2.Y / 16].active()
+                        && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
                     {
                         Texture2D a = EEMod.instance.GetTexture("Projectiles/CrystalVineThin");
                         Texture2D b = EEMod.instance.GetTexture("Projectiles/CrystalVineDangleThick");

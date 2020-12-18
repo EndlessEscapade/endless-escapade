@@ -129,18 +129,34 @@ namespace EEMod.EEWorld
             switch (type) //Creating the formation of the room(the shape)
             {
                 case -1:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (sizeY / 5 - sizeY / 6)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (sizeY / 5 - sizeY / 6)), tile2);
+                    for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
+                    {
+                        for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
+                        {
+                            if (TileCheckVertical(i, j + 1, 1, 200) - (j + 1) <= 50 && TileCheck2(i, j) == 1)
+                            {
+                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - (j + 1); a++)
+                                {
+                                    if (Main.rand.Next(4) == 1)
+                                    {
+                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                    }
+                                }
+                            }
+                        }
+                    }
                     break;
 
                 case 0:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX + 50, sizeY - 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX - 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+                    MakeJaggedOval(sizeX + 50, sizeY - 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+                    MakeJaggedOval(sizeX - 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (-sizeY / 5)), tile2);
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (-sizeY / 5)), tile2);
@@ -148,18 +164,50 @@ namespace EEMod.EEWorld
                     MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (sizeY / 5)), tile2);
                     CreateNoise(!ensureNoise, Main.rand.Next(20, 50), Main.rand.Next(20, 50), 0.3f);
                     CreateNoise(!ensureNoise, Main.rand.Next(20, 50), Main.rand.Next(20, 50), 0.3f);
+                    for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
+                    {
+                        for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
+                        {
+                            if (TileCheckVertical(i, j + 1, 1, 200) - (j + 1) <= 50 && TileCheck2(i, j) == 1)
+                            {
+                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - (j + 1); a++)
+                                {
+                                    if (Main.rand.Next(4) == 1)
+                                    {
+                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                    }
+                                }
+                            }
+                        }
+                    }
                     break;
 
                 case 1:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX - 50, sizeY - 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX + 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+                    MakeJaggedOval(sizeX - 50, sizeY - 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+                    MakeJaggedOval(sizeX + 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     CreateNoise(!ensureNoise, 50, 50, 0.4f);
                     CreateNoise(!ensureNoise, 20, 20, 0.4f);
+                    for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
+                    {
+                        for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
+                        {
+                            if (TileCheckVertical(i, j + 1, 1, 200) - (j + 1) <= 50 && TileCheck2(i, j) == 1)
+                            {
+                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - (j + 1); a++)
+                                {
+                                    if (Main.rand.Next(4) == 1)
+                                    {
+                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                    }
+                                }
+                            }
+                        }
+                    }
                     break;
-
                 case 2:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+
                     for (int i = 0; i < 20; i++)
                     {
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
@@ -210,18 +258,50 @@ namespace EEMod.EEWorld
                             }
                         }
                     }
+                    for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
+                    {
+                        for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
+                        {
+                            if (TileCheckVertical(i, j, 1, 200) - (j) <= 50 && TileCheck2(i, j) == 1)
+                            {
+                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - j; a++)
+                                {
+                                    if (Main.rand.Next(4) == 1)
+                                    {
+                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                    }
+                                }
+                            }
+                        }
+                    }
                     break;
+
                 case 3:
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+                    MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+                    MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     MakeWavyChasm3(new Vector2(TL.X - 50 + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X - 50 + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
                     MakeWavyChasm3(new Vector2(TL.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), new Vector2(BR.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
                     MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
                     MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-100, 100), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
                     MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-100, 100), yPos - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
+                    for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
+                    {
+                        for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
+                        {
+                            if (TileCheckVertical(i, j + 1, 1, 200) - (j + 1) <= 50 && TileCheck2(i,j) == 1)
+                            {
+                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - (j + 1); a++)
+                                {
+                                    if (Main.rand.Next(4) == 1)
+                                    {
+                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                    }
+                                }
+                            }
+                        }
+                    }
                     break;
-
                 case 4:
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
@@ -250,6 +330,7 @@ namespace EEMod.EEWorld
                         for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                         {
                             if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(19) == 1)
+                            if ((TileCheck2(i, j) != 0) && Main.rand.Next(3) == 1)
                             {
                                 if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
                                 {
@@ -619,7 +700,7 @@ namespace EEMod.EEWorld
                                     {
                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
                                     }
-                                    else if (TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(38))
+                                    else if (TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(41))
                                     {
                                         VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
                                     }

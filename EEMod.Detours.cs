@@ -93,7 +93,7 @@ namespace EEMod
                      Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, null, 200, 1, null, new CircularMotionSinSpin(1, 1, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));*/
                 }
 
-                ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
+                
             }
             //Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradientSlit"), Main.LocalPlayer.Center.ForDraw() + Main.LocalPlayer.velocity/3f, Color.White * (0.9f * Main.LocalPlayer.velocity.Length()/5f), (0.8f * Main.LocalPlayer.velocity.Length() / 10f), Main.LocalPlayer.velocity.ToRotation() + 3.14f);
         }
@@ -418,7 +418,7 @@ namespace EEMod
             //UpdateLight();
 
             ModContent.GetInstance<EEMod>().TVH.Update();
-
+            ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
             verlet.GlobalRenderPoints();
             DrawNoiseSurfacing();
             DrawLensFlares();

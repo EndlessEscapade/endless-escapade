@@ -96,7 +96,8 @@ namespace EEMod
             int[] roomGen = Helpers.FillPseudoRandomUniform<int>(4);
             int[] roomGen2 = Helpers.FillPseudoRandomUniform<int>(4);
 
-
+            //Placing water and etc
+            KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             try
             {
                 //Making chasms
@@ -354,8 +355,7 @@ namespace EEMod
                 #endregion
 
                 #region Remaining generation
-                //Placing water and etc
-                KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+
 
 
 
@@ -376,7 +376,23 @@ namespace EEMod
                         }
                     }
                 }
-
+                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.4f);
+                int[,] perlinNoiseFunction2 = perlinNoise.perlinBinary;
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                {
+                    for (int j = (Main.maxTilesY / 10); j < Main.maxTilesY - 42; j++)
+                    {
+                        if (perlinNoiseFunction2[i, j - (Main.maxTilesY / 10)] == 1)
+                        {
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<LightGemsandstoneTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<LightGemsandTileMoss>();
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<GemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<GemsandTileMoss>();
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<DarkGemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<DarkGemsandTileMoss>();
+                        }
+                    }
+                }
                 //Final polishing
                 EEMod.progressMessage = "Placing Corals";
                 PlaceCoral();
