@@ -14,9 +14,11 @@ namespace EEMod
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
         public Texture2D texture;
+        public Texture2D PresetNoiseMask;
         public Texture2D mask;
         public float paralax;
-
+        public Vector3 lightingColor;
+        public float lightingIntensity = 0;
         int RENDERDISTANCE => 2000;
         public float varScale;
         public float scale { get; set; }
@@ -55,7 +57,9 @@ namespace EEMod
             this.colour = colour ?? Color.White;
             TrailLength = 18;
             Frame = new Rectangle(0, 0, 1, 1);
-            mask = masks;
+            PresetNoiseMask = masks;
+            lightingColor = new Vector3(0,0,0);
+            lightingIntensity = 0;
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]);
         }
 
@@ -85,7 +89,10 @@ namespace EEMod
             {
                 active = false;
             }
-
+            if(lightingIntensity > 0)
+            {
+                Lighting.AddLight(position, lightingColor*lightingIntensity*varScale);
+            }
             foreach (IParticleModule Module in Modules)
             {
                 Module.Update(this);
@@ -100,8 +107,10 @@ namespace EEMod
             }
             Vector2 positionDraw = position.ForDraw();
             Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), Frame, colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
+            if (PresetNoiseMask != null)
+                Helpers.DrawAdditiveFunky(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
             if (mask != null)
-                Helpers.DrawAdditiveFunky(mask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
+                Helpers.DrawAdditive(mask, positionDraw.ParalaxX(paralax), colour * varScale*0.25f, 0.1f * varScale, 0.5f);
             OnDraw();
         }
     }
@@ -259,7 +268,22 @@ namespace EEMod
         }
         public void Draw(in Particle particle) {; }
     }
-
+    class SetLighting : IParticleModule
+    {
+        Vector3 color;
+        float intensity;
+        public SetLighting(Vector3 color, float intensity)
+        {
+            this.color = color;
+            this.intensity = intensity;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.lightingColor = color;
+            particle.lightingIntensity = intensity;
+        }
+        public void Draw(in Particle particle) {; }
+    }
     class SetFrame : IParticleModule
     {
         Rectangle frame;
@@ -270,6 +294,19 @@ namespace EEMod
         public void Update(in Particle particle)
         {
             particle.Frame = frame;
+        }
+        public void Draw(in Particle particle) {; }
+    }
+    class SetPresetNoiseMask : IParticleModule
+    {
+        Texture2D tex;
+        public SetPresetNoiseMask(Texture2D bounds)
+        {
+            tex = bounds;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.PresetNoiseMask = tex;
         }
         public void Draw(in Particle particle) {; }
     }
