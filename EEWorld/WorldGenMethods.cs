@@ -764,10 +764,10 @@ namespace EEMod.EEWorld
 
         public static void PlaceShipyard(int x, int y)
         {
-            PlaceAnyBuilding(x, y, FrontOfPier);
-            PlaceAnyBuilding(x + 6, y, MidPier1);
-            PlaceAnyBuilding(x + 6 + 16, y, MidPier1);
-            PlaceAnyBuilding(x + 6 + 16 + 16, y, EndOfPier);
+            PlaceStructure(x, y, FrontOfPier);
+            PlaceStructure(x + FrontOfPier.GetLength(1), y, MidPier1);
+            PlaceStructure(x + FrontOfPier.GetLength(1) + MidPier1.GetLength(1), y, MidPier2);
+            PlaceStructure(x + FrontOfPier.GetLength(1) + MidPier1.GetLength(1) + MidPier2.GetLength(1), y, EndOfPier);
         }
 
         public static int TileCheckWater(int positionX)
@@ -1897,6 +1897,7 @@ namespace EEMod.EEWorld
                 Debug.WriteLine("Chest Placed");
             }
         }
+
         public static void Island(int islandWidth, int islandHeight, int posY)
         {
             MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, posY), ModContent.TileType<CoralSandTile>());
