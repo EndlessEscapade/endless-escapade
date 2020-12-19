@@ -4,11 +4,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Furniture.Paintings
 {
-    public class ASailorsTale : ModItem
+    public class Murdog : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("A Sailor's Tale");
+            DisplayName.SetDefault("Portrait of a Dog");
         }
 
         public override void SetDefaults()
@@ -22,8 +22,9 @@ namespace EEMod.Items.Placeables.Furniture.Paintings
             item.consumable = true;
             item.width = 12;
             item.height = 12;
+            item.rare = ItemRarityID.Cyan;
 
-            item.createTile = ModContent.TileType<MoonTile>();
+            item.createTile = ModContent.TileType<MurdogTile>();
         }
     }
 }

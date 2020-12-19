@@ -331,7 +331,7 @@ namespace EEMod
                 #endregion
 
                 #region Shipwrecks
-                /*EEMod.progressMessage = "Generating Shipwrecks";
+                EEMod.progressMessage = "Generating Shipwrecks";
                 int mlem = 0;
                 while (mlem < 5)
                 {
@@ -343,7 +343,7 @@ namespace EEMod
 
                         mlem++;
                     }
-                }*/
+                }
                 #endregion
 
                 #region Remaining generation
