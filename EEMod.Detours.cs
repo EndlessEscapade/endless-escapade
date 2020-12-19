@@ -889,10 +889,11 @@ namespace EEMod
                     {
                         textPositionLeft += ((Main.screenWidth + (textSize.X / 2)) - textPositionLeft) / 25f;
                     }
-                    alpha = 1 - (Math.Abs((Main.screenWidth / 2) - (textSize.X / 2) - textPositionLeft) / (Main.screenWidth / 2f));
+                    float tempAlpha = alpha;
+                    tempAlpha = 1 - (Math.Abs((Main.screenWidth / 2) - (textSize.X / 2) - textPositionLeft) / (Main.screenWidth / 2f));
 
 
-                    Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                    Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * tempAlpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                 }
 
                 Main.spriteBatch.End();

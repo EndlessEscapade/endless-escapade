@@ -384,39 +384,41 @@ namespace EEMod.EEWorld
                     {
                         if (TileCheck2(i, j) == 2 && WorldGen.InWorld(i, j) && !Main.rand.NextBool(6)) //Surface Reefs
                         {
-                            int selection = WorldGen.genRand.Next(8);
+                            int selection = WorldGen.genRand.Next(11);
                             switch (selection)
                             {
                                 case 0:
                                     WorldGen.PlaceTile(i, j - 1, 324);
                                     break;
-
                                 case 1:
                                     WorldGen.PlaceTile(i, j - 1, 324, style: 2);
                                     break;
-
                                 case 2:
                                     WorldGen.PlaceTile(i, j - 1, TileID.Coral);
                                     break;
-
                                 case 3:
                                     WorldGen.PlaceTile(i, j - 3, ModContent.TileType<Floor3x3Coral>(), style: WorldGen.genRand.Next(2));
                                     break;
-
                                 case 4:
                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor1x2Coral>(), style: WorldGen.genRand.Next(7));
                                     break;
-
                                 case 5:
                                     WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Floor1x1Coral>(), style: WorldGen.genRand.Next(3));
                                     break;
-
                                 case 6:
                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor2x2Coral>(), style: WorldGen.genRand.Next(5));
                                     break;
-
                                 case 7:
                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor2x1Coral>(), style: WorldGen.genRand.Next(5));
+                                    break;
+                                case 8:
+                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral1>());
+                                    break;
+                                case 9:
+                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral2>());
+                                    break;
+                                case 10:
+                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral3>());
                                     break;
                             }
                         }

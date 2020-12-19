@@ -75,14 +75,13 @@ namespace EEMod
             FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3), ModContent.TileType<GemsandTile>());
 
             EEMod.progressMessage = "Generating Lower layer base";
-            FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3 * 2), ModContent.TileType<DarkGemsandTile>());
+            FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, (Main.maxTilesY / 3) * 2), ModContent.TileType<DarkGemsandTile>());
 
             EEMod.progressMessage = "Clearing Upper Region";
             ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
 
             EEMod.progressMessage = "Generating Coral Sand";
             FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
-
             #endregion
 
             #region Finding suitable chasm positions and room positions
@@ -315,7 +314,7 @@ namespace EEMod
                 EEMod.progressMessage = "Generating Ores";
                 //Generating ores
                 int barrier = 800;
-                for (int j = 0; j < barrier; j++)
+                for (int j = Main.maxTilesY / 10; j < barrier; j++)
                 {
                     for (int i = 0; i < Main.maxTilesX; i++)
                     {
@@ -332,26 +331,19 @@ namespace EEMod
                 #endregion
 
                 #region Shipwrecks
-                EEMod.progressMessage = "Generating Ruins";
+                /*EEMod.progressMessage = "Generating Shipwrecks";
                 int mlem = 0;
                 while (mlem < 5)
                 {
-                    int tileX = WorldGen.genRand.Next(100, 1400);
-                    int tileY = WorldGen.genRand.Next(200, 700);
-                    if (!Main.tile[tileX, tileY].active())
+                    int tileX = WorldGen.genRand.Next(0, Main.maxTilesY/20);
+                    int tileY = WorldGen.genRand.Next(200, Main.maxTilesX-200);
+                    if (Main.tile[tileX, tileY].active() && Main.tile[tileX, tileY].type == ModContent.TileType<CoralSandTile>() && !Main.tile[tileX, tileY - EEWorld.Ship1.Ship1Array.Length].active())
                     {
-                        if (WorldGen.genRand.NextBool())
-                        {
-                            PlaceAnyBuilding(tileX, tileY, ReefRuins1);
-                        }
-                        else
-                        {
-                            PlaceAnyBuilding(tileX, tileY, ReefRuins2);
-                        }
+                        PlaceAnyBuilding(tileX, tileY - EEWorld.Ship1.Ship1Array.Length, EEWorld.Ship1.Ship1Array);
 
                         mlem++;
                     }
-                }
+                }*/
                 #endregion
 
                 #region Remaining generation
