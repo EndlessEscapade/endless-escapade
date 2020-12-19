@@ -290,9 +290,6 @@ namespace EEMod
                     {
                         Verlet.Points[index].point = Main.LocalPlayer.Center;
                     }
-
-
-                    Lighting.AddLight(vec, new Vector3(235, 166, 0) / 255f);
                 }
             }
 

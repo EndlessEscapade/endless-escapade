@@ -139,13 +139,24 @@ namespace EEMod.EEWorld
                     {
                         for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
                         {
-                            if (TileCheckVertical(i, j + 1, 1, 200) - (j + 1) <= 50 && TileCheck2(i, j) == 1)
+                            int buffer = 0;
+                            for(int a = 0; a < 20; a++)
                             {
-                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - (j + 1); a++)
+                                if(Main.tile[i,j-a].active())
                                 {
-                                    if (Main.rand.Next(4) == 1)
+                                    buffer++;
+                                }
+                            }
+                            if (buffer < 17 && buffer > 3)
+                            {
+                                if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
+                                {
+                                    for (int a = 0; a < TileCheckVertical(i, j + 1, 1) - (j + 1); a++)
                                     {
-                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        if (Main.rand.Next(2) == 1)
+                                        {
+                                            WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        }
                                     }
                                 }
                             }
@@ -168,13 +179,25 @@ namespace EEMod.EEWorld
                     {
                         for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
                         {
-                            if (TileCheckVertical(i, j + 1, 1, 200) - (j + 1) <= 50 && TileCheck2(i, j) == 1)
+                            int buffer = 0;
+                            for (int a = 0; a < 14; a++)
                             {
-                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - (j + 1); a++)
+                                if(WorldGen.InWorld(i, j - a,10))
+                                if (Main.tile[i, j - a].active())
                                 {
-                                    if (Main.rand.Next(4) == 1)
+                                    buffer++;
+                                }
+                            }
+                            if (buffer < 7)
+                            {
+                                if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
+                                {
+                                    for (int a = 0; a < 50; a++)
                                     {
-                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        if (Main.rand.Next(4) == 1)
+                                        {
+                                            WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        }
                                     }
                                 }
                             }
@@ -192,13 +215,25 @@ namespace EEMod.EEWorld
                     {
                         for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
                         {
-                            if (TileCheckVertical(i, j + 1, 1, 200) - (j + 1) <= 50 && TileCheck2(i, j) == 1)
+                            int buffer = 0;
+                            for (int a = 0; a < 14; a++)
                             {
-                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - (j + 1); a++)
+                                if (WorldGen.InWorld(i, j - a, 10))
+                                if (Main.tile[i, j - a].active())
                                 {
-                                    if (Main.rand.Next(4) == 1)
+                                    buffer++;
+                                }
+                            }
+                            if (buffer < 7)
+                            {
+                                if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
+                                {
+                                    for (int a = 0; a < 50; a++)
                                     {
-                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        if (Main.rand.Next(4) == 1)
+                                        {
+                                            WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        }
                                     }
                                 }
                             }
@@ -262,13 +297,25 @@ namespace EEMod.EEWorld
                     {
                         for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
                         {
-                            if (TileCheckVertical(i, j, 1, 200) - (j) <= 50 && TileCheck2(i, j) == 1)
+                            int buffer = 0;
+                            for (int a = 0; a < 20; a++)
                             {
-                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - j; a++)
+                                if (WorldGen.InWorld(i, j - a, 10))
+                                if (Main.tile[i, j - a].active())
                                 {
-                                    if (Main.rand.Next(4) == 1)
+                                    buffer++;
+                                }
+                            }
+                            if (buffer < 17 && buffer > 3)
+                            {
+                                if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
+                                {
+                                    for (int a = 0; a < TileCheckVertical(i, j + 1, 1) - (j + 1); a++)
                                     {
-                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        if (Main.rand.Next(2) == 1)
+                                        {
+                                            WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        }
                                     }
                                 }
                             }
@@ -289,13 +336,25 @@ namespace EEMod.EEWorld
                     {
                         for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
                         {
-                            if (TileCheckVertical(i, j + 1, 1, 200) - (j + 1) <= 50 && TileCheck2(i,j) == 1)
+                            int buffer = 0;
+                            for (int a = 0; a < 14; a++)
                             {
-                                for (int a = 0; a < TileCheckVertical(i, j, 1, 200) - (j + 1); a++)
+                                if (WorldGen.InWorld(i, j - a, 10))
+                                if (Main.tile[i, j - a].active())
                                 {
-                                    if (Main.rand.Next(4) == 1)
+                                    buffer++;
+                                }
+                            }
+                            if (buffer < 7)
+                            {
+                                if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
+                                {
+                                    for (int a = 0; a < 50; a++)
                                     {
-                                        WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        if (Main.rand.Next(4) == 1)
+                                        {
+                                            WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
+                                        }
                                     }
                                 }
                             }

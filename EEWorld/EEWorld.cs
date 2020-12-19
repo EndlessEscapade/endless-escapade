@@ -159,7 +159,7 @@ namespace EEMod.EEWorld
                         Color chosen = Color.Lerp(Color.Yellow, Color.LightGoldenrodYellow, Main.rand.NextFloat(1f));
                         Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/Vine"), Color.White, ChainConneccPos, LastChainConneccPos, Mid, 0.6f, MathHelper.PiOver2, true);
                         Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/VineLight"), Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2,true);
-                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/VineLightGlow"), Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2);
+                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/VineLightGlow"), Color.White * Math.Abs((float)Math.Sin(Main.GameUpdateCount/200f + ChainConneccPos.X)), ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2);
                         Helpers.DrawParticlesAlongBezier(LastChainConneccPos + addOn, ChainConneccPos + addOn, Mid + addOn, 1/8f, chosen,0.005f,(Vector2.UnitY).RotatedBy(Main.rand.NextFloat(6.24f)), new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(EEMod.instance.GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.12f, 0.12f)), new SetLighting(chosen.ToVector3(), 0.3f), new ZigzagMotion(40f,3f));
                     }
                 }

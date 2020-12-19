@@ -1585,6 +1585,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
+                    if(Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != ModContent.WallType<GemsandWallTile>())
                     WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                 }
             }
@@ -1759,7 +1760,7 @@ namespace EEMod.EEWorld
                     {
                         Tile tile = Framing.GetTileSafely(k, l);
 
-                        if (shape[y, x, 0] != 0)
+                        if (shape[y, x, 0] != 0 || shape[y, x, 1] != 0)
                         {
                             if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
                             {
@@ -1776,9 +1777,15 @@ namespace EEMod.EEWorld
 
                             if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
                             {
-                                tile.type = (ushort)shape[y, x, 0];
-                                tile.active(true);
-                                tile.wall = (ushort)shape[y, x, 1];
+                                if (shape[y, x, 0] != 0)
+                                {
+                                    tile.type = (ushort)shape[y, x, 0];
+                                    tile.active(true);
+                                }
+                                if (shape[y, x, 1] != 0)
+                                {
+                                    tile.wall = (ushort)shape[y, x, 1];
+                                }
                                 tile.color((byte)shape[y, x, 2]);
                                 tile.slope((byte)shape[y, x, 3]);
                                 tile.wallColor((byte)shape[y, x, 4]);
@@ -1814,7 +1821,82 @@ namespace EEMod.EEWorld
                 Debug.WriteLine("Chest Placed");
             }
         }
+        public static void PlaceStructure(int i, int j, int[,,] shape)
+        {
+            ChestPos = Vector2.Zero;
+            for (int y = 0; y < shape.GetLength(0); y++)
+            {
+                for (int x = 0; x < shape.GetLength(1); x++)
+                {
+                    int k = i - 3 + x;
+                    int l = j - 6 + y;
+                    if (WorldGen.InWorld(k, l, 30))
+                    {
+                        Tile tile = Framing.GetTileSafely(k, l);
 
+                        if (shape[y, x, 0] != 0 || shape[y, x, 1] != 0)
+                        {
+                            if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
+                            {
+                                ChestPos = new Vector2(k, l);
+                                for (int u = k; u < k + 2; u++)
+                                {
+                                    for (int p = l; p < l + 2; p++)
+                                    {
+                                        tile.type = 0;
+                                        tile.active(false);
+                                    }
+                                }
+                            }
+
+                            if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
+                            {
+                                if (shape[y, x, 0] != 0)
+                                {
+                                    tile.type = (ushort)shape[y, x, 0];
+                                    tile.active(true);
+                                }
+                                if (shape[y, x, 1] != 0)
+                                {
+                                    tile.wall = (ushort)shape[y, x, 1];
+                                }
+                                tile.color((byte)shape[y, x, 2]);
+                                tile.slope((byte)shape[y, x, 3]);
+                                tile.wallColor((byte)shape[y, x, 4]);
+                                if ((byte)shape[y, x, 5] == 1)
+                                {
+                                    tile.inActive(true);
+                                }
+                                else
+                                {
+                                    tile.inActive(false);
+                                }
+                                if ((byte)shape[y, x, 6] > 0)
+                                {
+                                    tile.liquid = (byte)shape[y, x, 6];
+                                    tile.liquidType((byte)shape[y, x, 7]);
+                                }
+                                tile.frameX = (byte)shape[y, x, 8];
+                                tile.frameY = (byte)shape[y, x, 9];
+                                tile.wallFrameX((byte)shape[y, x, 10]);
+                                tile.wallFrameY((byte)shape[y, x, 11]);
+                            }
+
+                            /*Debug.WriteLine("saifnaskdlfjnasldfjnalkdsfjnfalksjdfnalksjdnfalkdjnflaksdjfnalkdjfnakldjfnakldjfnalkjsdnflajsdnflakjsdnfklajsndf");
+                            WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GemsandChestTile>());*/
+                        }
+
+
+
+                    }
+                }
+            }
+            if (ChestPos != Vector2.Zero)
+            {
+                WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y, 21);
+                Debug.WriteLine("Chest Placed");
+            }
+        }
         public static void Island(int islandWidth, int islandHeight, int posY)
         {
             MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, posY), ModContent.TileType<CoralSandTile>());

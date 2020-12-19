@@ -97,7 +97,7 @@ namespace EEMod
             int[] roomGen2 = Helpers.FillPseudoRandomUniform<int>(4);
 
             //Placing water and etc
-            KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
+           
             try
             {
                 //Making chasms
@@ -505,7 +505,7 @@ namespace EEMod
                 #endregion
 
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
-
+                KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
                 #region Placing the boat
                 PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
                 PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
