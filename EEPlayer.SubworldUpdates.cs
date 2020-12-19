@@ -116,45 +116,6 @@ namespace EEMod
 
             markerPlacer++;
 
-            if (Main.GameUpdateCount % 200 == 0)
-            {
-                _bubbleRoots.Add(Main.rand.Next(Main.screenWidth) + player.Center.X - Main.screenWidth / 2);
-            }
-
-            if (Main.GameUpdateCount % 100 == 0)
-            {
-                for (int i = 0; i < _bubbleRoots.Count; i++)
-                {
-                    Vector2 BubblePos = new Vector2(_bubbleRoots[i], player.Center.Y + 1300);
-                    float scalpha = Main.rand.NextFloat(.2f, .9f);
-                    BubbleClass bubble = new BubbleClass
-                    {
-                        scale = scalpha,
-                        alpha = scalpha,
-                        Position = BubblePos,
-                        flash = Main.rand.NextFloat(0, 100),
-                        Velocity = new Vector2(Main.rand.NextFloat(0.5f, 1), 0),
-                        paralax = (1 - scalpha) * 0.7f
-                    };
-                    bubble.Position -= new Vector2(Main.LocalPlayer.Center.X * bubble.paralax, 0);
-                    if (bubbles.Count < 500)
-                    {
-                        bubbles.Add(bubble);
-                    }
-                }
-
-                if (bubbles.Count >= 500)
-                {
-                    bubbles.RemoveAt(0);
-                }
-
-            }
-
-            foreach (BubbleClass bubble in bubbles)
-            {
-                bubble.flash++;
-                bubble.Position -= new Vector2((float)Math.Sin(bubble.flash / (bubble.Velocity.X * 30)), bubble.Velocity.X);
-            }
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, EESubWorlds.SpirePosition * 16) < 700 * 700)
             {
                 HasVisitedSpire = true;

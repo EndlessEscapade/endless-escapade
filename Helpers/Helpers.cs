@@ -323,7 +323,12 @@ namespace EEMod
             float y = Y(t, startingPos.Y, c1.Y, c2.Y, endPoints.Y);
             return new Vector2(x, y);
         }
-
+        public static Vector2 TraverseBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float t)
+        {
+            float x = X(t, startingPos.X, c1.X, endPoints.X);
+            float y = Y(t, startingPos.Y, c1.Y, endPoints.Y);
+            return new Vector2(x, y);
+        }
         public static void DrawBezier(SpriteBatch spriteBatch, Texture2D headTexture, string glowMaskTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float chainsPerUse, float rotDis, Rectangle source)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)

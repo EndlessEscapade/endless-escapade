@@ -44,10 +44,10 @@ namespace EEMod.Tiles
                 }
                 float pos = i * 16 + (i + j * a + a * 7) % 16;
                 if ((i + j * a * 2) % 2 != 0)
-                    ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos, j * 16), Chosen, 0f, Color.Lerp(Color.Yellow, Color.LightYellow, ((i + j + a * 3) % 4) / 4f), false));
+                    ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos, j * 16), Chosen, 0f, Color.Lerp(Color.Yellow, Color.LightYellow, ((i + j + a * 3) % 4) / 4f), false, true, true));
                 else
                 {
-                    ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos - EEMod.instance.GetTexture(Chosen).Width, j * 16), Chosen, 0f, Color.Lerp(Color.Yellow, Color.LightYellow, ((i + j + a * 3) % 4) / 4f), true));
+                    ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos - EEMod.instance.GetTexture(Chosen).Width, j * 16), Chosen, 0f, Color.Lerp(Color.Yellow, Color.LightYellow, ((i + j + a * 3) % 4) / 4f), true, true, true));
                 }
             }
         }

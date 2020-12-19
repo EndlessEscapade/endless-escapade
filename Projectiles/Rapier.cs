@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.Projectiles.Melee;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -106,6 +107,7 @@ namespace EEMod.Projectiles
         bool flag;
         float rotations;
         float rotation;
+        float projLerp;
         Vector2 ppostodraw => projOwner.Center.ForDraw();
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -114,13 +116,17 @@ namespace EEMod.Projectiles
 
             if (!Main.LocalPlayer.controlUseItem)
             {
+                int lightningproj = 0;
+                projLerp = 0;
                 if (!flag)
                 {
+                    lightningproj = Projectile.NewProjectile(firstClickPos,Vector2.Zero, ModContent.ProjectileType<RapierProj>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    (Main.projectile[lightningproj].modProjectile as RapierProj).mid = midPoint;
+                    (Main.projectile[lightningproj].modProjectile as RapierProj).start = firstClickPos;
+                    (Main.projectile[lightningproj].modProjectile as RapierProj).end = lastClickPos;
                     flag = true;
                     EEMod.primitives.CreateTrail(new Prim.RapierPrimTrail(projectile, lastClickPos, midPoint, firstClickPos));
                 }
-
-
                 //Helpers.DrawLine(fClickToDraw, lClickToDraw);
                 //Helpers.DrawLine(fClickToDraw, mClickToDraw);
                 //Helpers.DrawLine(mClickToDraw, lClickToDraw);
