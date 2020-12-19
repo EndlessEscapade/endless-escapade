@@ -18,6 +18,7 @@ namespace EEMod
         public string TexturePath;
         public Vector2 Origin = Vector2.Zero;
         public SpriteEffects SE = SpriteEffects.None;
+        public bool alphaBlend;
         private int RENDERDISTANCE => 2000;
         internal bool WithinDistance => Vector2.DistanceSquared(position, Main.LocalPlayer.position) < RENDERDISTANCE * RENDERDISTANCE;
         public Texture2D Texture => ModContent.GetInstance<EEMod>().GetTexture(TexturePath);
@@ -47,7 +48,7 @@ namespace EEMod
             if (WithinDistance)
             {
                 if (PreDraw())
-                    spriteBatch.Draw(Texture, position.ForDraw(), Texture.Bounds, colour, rotation, Origin, scale, SE, 0);
+                    spriteBatch.Draw(Texture, position.ForDraw(), Texture.Bounds, alphaBlend ? Color.White : colour, rotation, Origin, scale, SE, 0);
             }
         }
     }
@@ -63,7 +64,7 @@ namespace EEMod
         int rand;
         int i => (int)position.X / 16;
         int j => (int)position.Y / 16;
-        public Leaf(Vector2 position, string TexturePath, float rotation, Color colour, bool isFlipped) : base(position, TexturePath, rotation, colour)
+        public Leaf(Vector2 position, string TexturePath, float rotation, Color colour, bool isFlipped, bool alphaBlend = false) : base(position, TexturePath, rotation, colour)
         {
             this.position = position;
             this.TexturePath = TexturePath;
@@ -72,6 +73,7 @@ namespace EEMod
             this.colour = colour;
             this.isFlipped = isFlipped;
             RandRot = Main.rand.Next(30, 80);
+            this.alphaBlend = alphaBlend;
             if (isFlipped)
             {
                 SE = SpriteEffects.FlipHorizontally;
@@ -130,7 +132,7 @@ namespace EEMod
         }
         public override bool PreDraw()
         {
-            Main.spriteBatch.Draw(Texture, position.ForDraw(), Texture.Bounds, colour.MultiplyRGB(Lighting.GetColor(i, j)), rotation, Origin, scale, SE, 0);
+            Main.spriteBatch.Draw(Texture, position.ForDraw(), Texture.Bounds, alphaBlend ? Color.White : colour.MultiplyRGB(Lighting.GetColor(i, j)), rotation, Origin, scale, SE, 0);
             return false;
         }
     }
