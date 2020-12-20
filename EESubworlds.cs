@@ -376,9 +376,9 @@ namespace EEMod
                         if (perlinNoiseFunction2[i, j - (Main.maxTilesY / 10)] == 1)
                         {
                             if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<LightGemsandstoneTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<LightGemsandTileMoss>();
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<KelpMossTile>();
                             if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<GemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<GemsandTileMoss>();
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<ThermalMossTile>();
                             if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<DarkGemsandTile>())
                                 Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<DarkGemsandTileMoss>();
                         }
