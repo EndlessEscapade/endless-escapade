@@ -19,17 +19,36 @@ namespace EEMod.Prim
     public class PrimTrailManager
     {
         public List<PrimTrail> _trails = new List<PrimTrail>();
-        public void DrawTrails(SpriteBatch spriteBatch)
+        public void DrawTrailsAboveTiles()
         {
             foreach (PrimTrail trail in _trails.ToArray())
             {
+                if (!trail.behindTiles)
+                    trail.Draw();
+            }
+
+        }
+        public void DrawTrailsBehindTiles()
+        {
+            foreach (PrimTrail trail in _trails.ToArray())
+            {
+                if(trail.behindTiles)
                 trail.Draw();
             }
         }
-        public void UpdateTrails()
+        public void UpdateTrailsBehindTiles()
         {
             foreach (PrimTrail trail in _trails.ToArray())
             {
+                if (trail.behindTiles)
+                trail.Update();
+            }
+        }
+        public void UpdateTrailsAboveTiles()
+        {
+            foreach (PrimTrail trail in _trails.ToArray())
+            {
+                if (!trail.behindTiles)
                 trail.Update();
             }
         }
@@ -48,11 +67,11 @@ namespace EEMod.Prim
         protected int _noOfPoints;
         protected List<Vector2> _points = new List<Vector2>();
         protected bool _destroyed = false;
-
+        public bool behindTiles = false;
         protected GraphicsDevice _device;
         protected Effect _effect;
         protected BasicEffect _basicEffect;
-
+        protected int RENDERDISTANCE => 2000;
         protected VertexPositionColorTexture[] vertices;
         protected int currentIndex;
         public PrimTrail(Projectile projectile)

@@ -24,6 +24,7 @@ using Terraria.DataStructures;
 using EEMod.Tiles.EmptyTileArrays;
 using System.Linq;
 using EEMod.VerletIntegration;
+using EEMod.Prim;
 
 namespace EEMod.EEWorld
 {
@@ -399,6 +400,12 @@ namespace EEMod.EEWorld
             tag.TryGetListRef("OrbPositions", ref EESubWorlds.OrbPositions);
             tag.TryGetListRef("AquamarineZiplineLocations", ref EESubWorlds.AquamarineZiplineLocations);
             tag.TryGetListRef("BulbousTreePosition", ref EESubWorlds.BulbousTreePosition);
+            tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions);
+            foreach (Vector2 vec in EESubWorlds.WebPositions)
+            {
+                for (int i = 0; i < 12; i++)
+                    EEMod.primitives.CreateTrail(new WebPrimTrail(null,vec*16, i));
+            }
             if (tag.TryGetListRef("SwingableVines", ref VerletHelpers.SwingableVines))
             {
                 if (VerletHelpers.SwingableVines.Count != 0)
@@ -455,6 +462,7 @@ namespace EEMod.EEWorld
                 tag["AquamarineZiplineLocations"] = EESubWorlds.AquamarineZiplineLocations;
                 tag["OrbPositions"] = EESubWorlds.OrbPositions;
                 tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
+                tag["WebPositions"] = EESubWorlds.WebPositions;
                 tag["SwingableVines"] = VerletHelpers.SwingableVines;
                 tag["LightStates"] = LightStates;
                 tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;

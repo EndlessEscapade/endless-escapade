@@ -268,9 +268,74 @@ namespace EEMod
                         Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
                     }
+
                     Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
                     headTexture.Bounds, ifBlack ? Color.Black : Color.Lerp((alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor), Color.White, cDist * lerpIntensity), TrueRotation ? 0 : projTrueRotation,
                     new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1), SpriteEffects.None, 0);
+                }
+            }
+        }
+        public static void DrawBezierAdditive(Texture2D headTexture, Color drawColor, Vector2 endPoints, Vector2 startingPos, Vector2 c1, float addonPerUse, float rotDis = 0f, bool alphaBlend = false, float scale = 1, bool emitsDust = false, bool fadeScale = false, float lerpIntensity = 0, bool TrueRotation = false, bool HasFunny = false)
+        {
+            float c = (Main.GameUpdateCount / (60f + endPoints.X % 20)) % 4 - 2;
+            float width = headTexture.Width;
+            float length = (startingPos - endPoints).Length();
+            float chainsPerUse = (width / length) * addonPerUse;
+            for (float i = 0; i <= 1; i += chainsPerUse)
+            {
+                Vector2 distBetween;
+                float projTrueRotation;
+                if (i != 0)
+                {
+                    float x = X(i, startingPos.X, c1.X, endPoints.X);
+                    float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
+                    if (emitsDust)
+                    {
+                        if (Main.rand.Next(50) == 0)
+                        {
+                            if (!Main.tile[(int)x / 16, (int)y / 16].active())
+                            {
+                                Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
+                                dust.fadeIn = 1f;
+                                dust.scale = 0.1f;
+                                dust.noGravity = true;
+                                dust.velocity *= 0.25f;
+                            }
+                        }
+                    }
+                    bool ifBlack = Lighting.GetColor((int)(x / 16), (int)(y / 16)) == Color.Black;
+                    float cDist = 0.5f - Math.Abs(i - c) * 2;
+                    float cDist2 = 2 - Math.Abs(i - c) * 2;
+                    if (cDist < 0)
+                        cDist = 0;
+                    if (cDist2 < 0)
+                        cDist2 = 0;
+                    distBetween = new Vector2(x -
+                    X(i - chainsPerUse, startingPos.X, c1.X, endPoints.X),
+                    y -
+                    Y(i - chainsPerUse, startingPos.Y, c1.Y, endPoints.Y));
+                    projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
+                    if (HasFunny)
+                    {
+                        DrawAdditiveFunky(headTexture, new Vector2(x, y).ForDraw(), Color.White, 1.1f + cDist2, cDist2 / 6f, i * 1000);
+                        Main.spriteBatch.End();
+                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                        EEMod.SolidOutline.CurrentTechnique.Passes[0].Apply();
+                        EEMod.SolidOutline.Parameters["alpha"].SetValue(cDist * 0.5f);
+                        Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
+                    headTexture.Bounds, ifBlack ? Color.Black : Color.White, TrueRotation ? 0 : projTrueRotation,
+                    new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1) * 1.07f, SpriteEffects.None, 0);
+                        Main.spriteBatch.End();
+                        Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+                    }
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                    Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
+                    headTexture.Bounds, ifBlack ? Color.Black : Color.Lerp((alphaBlend ? Lighting.GetColor((int)(x / 16), (int)(y / 16)) : drawColor), Color.White, cDist * lerpIntensity), TrueRotation ? 0 : projTrueRotation,
+                    new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1), SpriteEffects.None, 0);
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
                 }
             }
         }

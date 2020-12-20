@@ -9,6 +9,11 @@ sampler spotSampler = sampler_state
 {
 	Texture = (spotTexture);
 };
+texture polkaTexture;
+sampler polkaSampler = sampler_state
+{
+	Texture = (polkaTexture);
+};
 struct VertexShaderInput
 {
 	float2 TextureCoordinates : TEXCOORD0;
@@ -49,7 +54,17 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
     return output;
 }
-
+float4 SideFallOff(VertexShaderOutput input) : COLOR
+{
+	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
+}
+float4 Web(VertexShaderOutput input) : COLOR
+{
+	float2 coords = float2((input.TextureCoordinates.x*3) % 1,input.TextureCoordinates.y);
+	float polkaColor = tex2D(polkaSampler, coords).r;
+	input.Color *= polkaColor;
+	return input.Color;
+}
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
 	input.Color.r += sin(input.TextureCoordinates.x * 4 + progress);
@@ -133,6 +148,14 @@ technique BasicColorDrawing
 	pass AquaLightPass
 	{
 		PixelShader = compile ps_2_0 MainPSA();
+	}
+	pass WebPass
+	{
+		PixelShader = compile ps_2_0 Web();
+	}
+	pass SideFallOff
+	{
+		PixelShader = compile ps_2_0 SideFallOff();
 	}
 	pass BasicImagePass
 	{

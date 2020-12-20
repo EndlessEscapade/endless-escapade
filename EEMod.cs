@@ -267,7 +267,7 @@ namespace EEMod
             {
                 trailManager.UpdateTrails();
                 prims.UpdateTrails();
-                primitives.UpdateTrails();
+                primitives.UpdateTrailsAboveTiles();
             }
             EEPlayer.UpdateOceanMapElements();
             Seamap.SeamapContent.Seamap.UpdateShipMovement();
