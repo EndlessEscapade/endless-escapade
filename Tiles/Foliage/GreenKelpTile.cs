@@ -17,9 +17,9 @@ namespace EEMod.Tiles.Foliage
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = false;
-            Main.tileBlendAll[Type] = true;
+            Main.tileBlendAll[Type] = false;
             Main.tileSolidTop[Type] = false;
-            Main.tileNoAttach[Type] = false;
+            Main.tileNoAttach[Type] = true;
             AddMapEntry(new Color(68, 89, 195));
             //Main.tileCut[Type] = true;
             dustType = 154;

@@ -331,7 +331,7 @@ namespace EEMod
                 #endregion
 
                 #region Shipwrecks
-                EEMod.progressMessage = "Generating Shipwrecks";
+                /*EEMod.progressMessage = "Generating Shipwrecks";
                 int mlem = 0;
                 while (mlem < 5)
                 {
@@ -340,10 +340,9 @@ namespace EEMod
                     if (Main.tile[tileX, tileY].active() && Main.tile[tileX, tileY].type == ModContent.TileType<CoralSandTile>() && !Main.tile[tileX, tileY - EEWorld.Ship1.Ship1Array.Length].active())
                     {
                         PlaceAnyBuilding(tileX, tileY - EEWorld.Ship1.Ship1Array.Length, EEWorld.Ship1.Ship1Array);
-
                         mlem++;
                     }
-                }
+                }*/
                 #endregion
 
                 #region Remaining generation
@@ -368,7 +367,7 @@ namespace EEMod
                         }
                     }
                 }
-                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.4f);
+                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.8f);
                 int[,] perlinNoiseFunction2 = perlinNoise.perlinBinary;
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
