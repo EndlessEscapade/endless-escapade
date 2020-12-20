@@ -24,7 +24,7 @@ namespace EEMod
         [FieldInit] public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
         [FieldInit] public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
         [FieldInit] public static IList<Vector2> AquamarineZiplineLocations = new List<Vector2>();
-
+        [FieldInit] public static IList<Vector2> WebPositions = new List<Vector2>();
         public static Vector2 CoralBoatPos;
         public static Vector2 SpirePosition;
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
@@ -419,6 +419,26 @@ namespace EEMod
                             if (noOfTiles == 0)
                             {
                                 OrbPositions.Add(new Vector2(i, j));
+                            }
+                            if(noOfTiles <= 30)
+                            {
+                                int dist = 0;
+                                for (int m = 0; m < OrbPositions.Count; m++)
+                                {
+                                    if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
+                                    {
+                                        dist++;
+                                    }
+                                }
+                                for (int m = 0; m < WebPositions.Count; m++)
+                                {
+                                    if (Vector2.DistanceSquared(new Vector2(i, j), WebPositions[m]) < 200 * 200)
+                                    {
+                                        dist++;
+                                    }
+                                }
+                                if (dist == 0)
+                                WebPositions.Add(new Vector2(i, j));
                             }
                         }
                         int ifa = 0;

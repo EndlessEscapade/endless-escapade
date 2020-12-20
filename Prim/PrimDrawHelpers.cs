@@ -70,6 +70,7 @@ namespace EEMod.Prim
             effects.Parameters["WorldViewProjection"].SetValue(view * projection);
             effects.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("Noise/noise"));
             effects.Parameters["spotTexture"].SetValue(EEMod.instance.GetTexture("Noise/Spot"));
+            effects.Parameters["polkaTexture"].SetValue(EEMod.instance.GetTexture("Noise/RandomPolkaDots"));
             _trailShader.ApplyShader(effects, this, _points, PassName, progress);
         }
         protected void PrepareShader(Effect effects)

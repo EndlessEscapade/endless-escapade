@@ -1554,15 +1554,22 @@ namespace EEMod.EEWorld
             for (int i = positionY; i < Main.maxTilesY || i > 0; i += step)
             {
                 a++;
-                Tile tile = Framing.GetTileSafely(positionX, i);
-                if (a == maxIterations)
+                if (WorldGen.InWorld(positionX, i,15))
+                {
+                    Tile tile = Framing.GetTileSafely(positionX, i);
+                    if (a == maxIterations)
+                    {
+                        return 0;
+                    }
+                    if (tile.active() && Main.tileSolid[tile.type])
+                    {
+                        return i;
+                    }
+                }
+                else
                 {
                     return 0;
-                }
-                if (tile.active() && Main.tileSolid[tile.type])
-                {
-                    return i;
-                }
+                }    
             }
             return 0;
         }
