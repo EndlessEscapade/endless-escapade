@@ -56,7 +56,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             EmptyTileEntityCache.EmptyTileEntityPairs.Remove(position);
             try
             {
-                foreach (var item in EmptyTileEntityCache.EmptyTilePairs.Where(kvp => kvp.Value == position)) // Turning into a list is not needed
+                foreach (var item in EmptyTileEntityCache.EmptyTilePairs.Where(kvp => kvp.Value == position).ToList()) // Turning into a list is needed because if the collection is modified while it's looping an exception will be thrown
                 {
                     if (Main.tile[(int)item.Key.X, (int)item.Key.Y].active())
                         WorldGen.KillTile((int)item.Key.X, (int)item.Key.Y);
@@ -138,7 +138,7 @@ namespace EEMod.Tiles.EmptyTileArrays
 
         public static void Update()
         {
-            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values)
+            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values.ToList()) // List because if the collection is modified an exception will be thrown
             {
                 if (ETE != null)
                     ETE.Update();
@@ -146,7 +146,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         }
         public static void Draw()
         {
-            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values)
+            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values.ToList())
             {
                 if (ETE != null)
                     ETE.Draw();
