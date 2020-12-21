@@ -563,7 +563,7 @@ namespace EEMod
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
                 Seamap.SeamapContent.Seamap.Render();
-                Seamap.SeamapContent.SeamapPlayerShip.localship.DrawSubText();
+                SeamapPlayerShip.localship.DrawSubText();
                 Main.spriteBatch.End();
             }
             orig(self);

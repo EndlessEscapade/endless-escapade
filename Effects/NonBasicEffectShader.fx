@@ -54,16 +54,23 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
 
     return output;
 }
+float GetHeight(float2 Coord)
+{
+	return tex2D(noiseSampler, Coord).r;
+}
 float4 SideFallOff(VertexShaderOutput input) : COLOR
 {
 	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
 }
 float4 Web(VertexShaderOutput input) : COLOR
 {
-	float2 coords = float2((input.TextureCoordinates.x*3) % 1,input.TextureCoordinates.y);
+	float2 coords2 = float2(input.TextureCoordinates.x/3 + 0.1f,(input.TextureCoordinates.y/15) + 0.1f);
+	float2 coords = float2(input.TextureCoordinates.x / 2, (input.TextureCoordinates.y / 10));
 	float polkaColor = tex2D(polkaSampler, coords).r;
+	float polkaColor2 = tex2D(polkaSampler, coords2).r;
 	input.Color *= polkaColor;
-	return input.Color;
+	input.Color *= polkaColor2;
+	return input.Color * sin(GetHeight(input.TextureCoordinates.y)) * sin(input.TextureCoordinates.y * 5);
 }
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
@@ -100,10 +107,7 @@ float4 MainPS3(VertexShaderOutput input) : COLOR
 	input.Color.r += sin(input.TextureCoordinates.x * 5);
 	return input.Color;
 }
-float GetHeight(float2 Coord)
-{
-	return tex2D(noiseSampler, Coord).r;
-}
+
 float4 Basic(VertexShaderOutput input) : COLOR
 {
 	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
