@@ -93,6 +93,7 @@ namespace EEMod.Prim
         }
         public override void OnUpdate()
         {
+
             _counter++;
             _noOfPoints = _points.Count() * 6;
             if (_cap < _noOfPoints / 6)

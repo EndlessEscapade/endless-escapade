@@ -51,23 +51,24 @@ namespace EEMod.Prim
 		public override void SetDefaults()
 		{
 			_alphaValue = 1f;
-			_width = 10f;
+			_width = 3f;
 			_cap = 20;
 		}
 
 		public override void PrimStructure(SpriteBatch spriteBatch)
 		{
 			if (!(Vector2.DistanceSquared(Main.LocalPlayer.Center, position) < (float)(base.RENDERDISTANCE * base.RENDERDISTANCE)) || _noOfPoints <= 6)
-			{
 				return;
-			}
-			Math.Sin((float)_counter / 3f);
+
+			Math.Sin(_counter / 3f);
 			for (int i = 0; i < _points.Count; i++)
 			{
 				Color _color = (isDoable ? Color.White : (Color.White * 0f));
 				if (i == 0)
 				{
-					float widthVar = _width;
+					float widthVar = 0;
+					if (web <= 5)
+				    widthVar = _width;
 					Vector2 normal2 = PrimTrail.CurveNormal(_points, i);
 					Vector2 normalAhead2 = PrimTrail.CurveNormal(_points, i + 1);
 					Vector2 firstUp2 = _points[i] - normal2 * widthVar;
@@ -83,19 +84,25 @@ namespace EEMod.Prim
 				}
 				else if (i != _points.Count - 1)
 				{
-					float widthVar = _width;
-					Vector2 normal = PrimTrail.CurveNormal(_points, i);
-					Vector2 normalAhead = PrimTrail.CurveNormal(_points, i + 1);
+					float widthVar = 0;
+					if (web <= 5)
+						widthVar = _width * (1 + ((i/ (float)_points.Count)* (i / (float)_points.Count) * (i / (float)_points.Count)) * 4f);
+					else
+                    {
+						widthVar = _width;
+					}
+					Vector2 normal = CurveNormal(_points, i);
+					Vector2 normalAhead = CurveNormal(_points, i + 1);
 					Vector2 firstUp = _points[i] - normal * widthVar;
 					Vector2 firstDown = _points[i] + normal * widthVar;
 					Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
 					Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-					AddVertex(firstDown, _color * _alphaValue, new Vector2((float)i / (float)_cap, 1f));
-					AddVertex(firstUp, _color * _alphaValue, new Vector2((float)i / (float)_cap, 0f));
-					AddVertex(secondDown, _color * _alphaValue, new Vector2((float)(i + 1) / (float)_cap, 1f));
-					AddVertex(secondUp, _color * _alphaValue, new Vector2((float)(i + 1) / (float)_cap, 0f));
-					AddVertex(secondDown, _color * _alphaValue, new Vector2((float)(i + 1) / (float)_cap, 1f));
-					AddVertex(firstUp, _color * _alphaValue, new Vector2((float)i / (float)_cap, 0f));
+					AddVertex(firstDown, _color * _alphaValue, new Vector2(i / (float)_cap, 1f));
+					AddVertex(firstUp, _color * _alphaValue, new Vector2(i / (float)_cap, 0f));
+					AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1f));
+					AddVertex(secondUp, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 0f));
+					AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1f));
+					AddVertex(firstUp, _color * _alphaValue, new Vector2(i / (float)_cap, 0f));
 				}
 			}
 		}
@@ -298,7 +305,7 @@ namespace EEMod.Prim
 			_counter++;
 			for (int i = 0; i < _cap; i++)
 			{
-				pointCache[i] = Helpers.TraverseBezier(end, start, mid, (float)i / ((float)_cap - 1f));
+				pointCache[i] = Helpers.TraverseBezier(end, start, mid, i / ((float)_cap - 1f));
 			}
 			_points = pointCache.ToList();
 			_noOfPoints = _points.Count() * 6;
