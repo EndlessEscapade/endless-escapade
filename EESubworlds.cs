@@ -333,14 +333,18 @@ namespace EEMod
                 #region Shipwrecks
                 /*EEMod.progressMessage = "Generating Shipwrecks";
                 int mlem = 0;
-                while (mlem < 5)
+                while (mlem < 3)
                 {
-                    int tileX = WorldGen.genRand.Next(0, Main.maxTilesY/20);
-                    int tileY = WorldGen.genRand.Next(200, Main.maxTilesX-200);
-                    if (Main.tile[tileX, tileY].active() && Main.tile[tileX, tileY].type == ModContent.TileType<CoralSandTile>() && !Main.tile[tileX, tileY - EEWorld.Ship1.Ship1Array.Length].active())
+                    int tileX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                    int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>());
+                    if (Math.Abs(TileCheck(tileX + Ship1.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2)
                     {
-                        PlaceAnyBuilding(tileX, tileY - EEWorld.Ship1.Ship1Array.Length, EEWorld.Ship1.Ship1Array);
+                        PlaceStructure(tileX, tileY - Ship1.Length, Ship1);
                         mlem++;
+                    }
+                    else
+                    {
+                        break;
                     }
                 }*/
                 #endregion
