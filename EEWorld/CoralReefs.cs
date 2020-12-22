@@ -79,7 +79,7 @@ namespace EEMod.EEWorld
             {
                 tile2 = (ushort)ModContent.TileType<DarkGemsandTile>();
             }
-            if (TL.Y < Main.maxTilesY / 10)
+            if (TL.Y < Main.maxTilesY / 20)
             {
                 tile2 = (ushort)ModContent.TileType<CoralSandTile>();
             }
@@ -113,7 +113,7 @@ namespace EEMod.EEWorld
                                             tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                         }
 
-                                        if (j < Main.maxTilesY / 10)
+                                        if (j < Main.maxTilesY / 20)
                                         {
                                             tile.type = (ushort)ModContent.TileType<CoralSandTile>();
                                         }
@@ -439,7 +439,7 @@ namespace EEMod.EEWorld
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
                     #region Surface Reefs
-                    if (j < Main.maxTilesY / 10)
+                    if (j < Main.maxTilesY / 20)
                     {
                         if (TileCheck2(i, j) == 2 && WorldGen.InWorld(i, j) && !Main.rand.NextBool(6)) //Surface Reefs
                         {

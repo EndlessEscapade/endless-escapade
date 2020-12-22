@@ -657,7 +657,7 @@ namespace EEMod
                 switch (loadingChoose)
                 {
                     case 0:
-                        screenMessageText = "Europium Phosphorus Iodine Cabon Chromium Oxygen Tungsten Nitrogen Potassium Indium Gadolinium";
+                        screenMessageText = "All good idiocy done by EpicCrownKing";
                         break;
 
                     case 1:
@@ -741,7 +741,7 @@ namespace EEMod
                         break;
 
                     case 21:
-                        screenMessageText = "caramel popcorn and celeste";
+                        screenMessageText = "All good sprires made by Doodle";
                         break;
 
                     case 22:
@@ -773,7 +773,7 @@ namespace EEMod
                         break;
 
                     case 29:
-                        screenMessageText = "When\n\nBottomText";
+                        screenMessageText = "When\nBottomText";
                         break;
 
                     case 30:
@@ -781,7 +781,7 @@ namespace EEMod
                         break;
 
                     case 31:
-                        screenMessageText = "All good concept art made by phanta";
+                        screenMessageText = "All good art made by phanta";
                         break;
 
                     case 32:
