@@ -69,13 +69,13 @@ namespace EEMod
             //Placing initial blocks
             #region Initial block placement
             EEMod.progressMessage = "Generating Upper layer base";
-            FillRegion(Main.maxTilesX, (Main.maxTilesY / 3), Vector2.Zero, ModContent.TileType<LightGemsandTile>());
+            FillRegion(Main.maxTilesX, (Main.maxTilesY / 5) * 2, Vector2.Zero, ModContent.TileType<LightGemsandTile>());
 
             EEMod.progressMessage = "Generating Mid layer base";
-            FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, Main.maxTilesY / 3), ModContent.TileType<GemsandTile>());
+            FillRegion(Main.maxTilesX, (Main.maxTilesY / 5) * 2, new Vector2(0, (Main.maxTilesY / 5) * 2), ModContent.TileType<GemsandTile>());
 
             EEMod.progressMessage = "Generating Lower layer base";
-            FillRegion(Main.maxTilesX, Main.maxTilesY / 3, new Vector2(0, (Main.maxTilesY / 3) * 2), ModContent.TileType<DarkGemsandTile>());
+            FillRegion(Main.maxTilesX, Main.maxTilesY / 5, new Vector2(0, (Main.maxTilesY / 5) * 4), ModContent.TileType<DarkGemsandTile>());
 
             EEMod.progressMessage = "Clearing Upper Region";
             ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
