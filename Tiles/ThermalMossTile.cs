@@ -26,7 +26,7 @@ namespace EEMod.Tiles
         }
         void PlaceGroundGrass(int i, int j)
         {
-            int noOfGrassBlades = (int)(((i + j) % 16) * 0.4f);
+            int noOfGrassBlades = (int)(((i + j) % 16) * 0.2f);
             string tex = "Tiles/Foliage/KelpGrassStubbedMoss2";
             string Chosen = tex;
 
@@ -43,7 +43,7 @@ namespace EEMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick())
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick() && Main.GameUpdateCount % 500 == 0)
             {
                 PlaceGroundGrass(i, j);
             }
@@ -55,7 +55,7 @@ namespace EEMod.Tiles
             int frameX = Main.tile[i, j].frameX;
             int frameY = Main.tile[i, j].frameY;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-            if(Main.rand.Next(4) == 1 && !Framing.GetTileSafely(i,j-1).active())
+            if(Main.rand.Next(4) == 1 && !Framing.GetTileSafely(i,j-1).active() )
             {
                 Color chosen = Color.Lerp(Color.Crimson, Color.White, Main.rand.NextFloat(1f));
                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));

@@ -116,6 +116,7 @@ float4 Basic(VertexShaderOutput input) : COLOR
 	input.Color *= 1 + coords.x * abs(sin(input.TextureCoordinates.y * 20))*5;
 	input.Color *= sin(input.TextureCoordinates.y * 3.14f); 
 	input.Color.rgb -= float3(1 + spotColor.r, 1 - spotColor.g, spotColor.b);
+	input.Color *= 5 - distance(float2(1,0.5f),input.TextureCoordinates)*4;
 	return input.Color;
 }
 float4 WaterPogPass(VertexShaderOutput input) : COLOR

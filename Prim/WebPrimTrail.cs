@@ -133,16 +133,22 @@ namespace EEMod.Prim
 			int up3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, -1, 50);
 			Vector2 p1 = new Vector2(tilePos.X * 16f, down * 16);
 			Vector2 p1Mid = Helpers.TraverseBezier(p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 2f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.5f);
+			Vector2 p1MidB = Helpers.TraverseBezier(p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 2f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.3f);
 			Vector2 p2 = new Vector2(tilePos.X * 16f, up * 16);
 			Vector2 p2Mid = Helpers.TraverseBezier(p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 1.1f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.5f);
-			Vector2 p3 = new Vector2((tilePos.X - (float)spread) * 16f, down2 * 16);
+			Vector2 p2MidB = Helpers.TraverseBezier(p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 1.1f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.3f);
+			Vector2 p3 = new Vector2((tilePos.X - spread) * 16f, down2 * 16);
 			Vector2 p3Mid = Helpers.TraverseBezier(p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.2f) * yield * 2f), 0.5f);
-			Vector2 p4 = new Vector2((tilePos.X - (float)spread) * 16f, up2 * 16);
+			Vector2 p3MidB = Helpers.TraverseBezier(p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.2f) * yield * 2f), 0.3f);
+			Vector2 p4 = new Vector2((tilePos.X - spread) * 16f, up2 * 16);
 			Vector2 p4Mid = Helpers.TraverseBezier(p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.8f) * yield * 2f), 0.5f);
-			Vector2 p5 = new Vector2((tilePos.X + (float)spread) * 16f, down3 * 16);
+			Vector2 p4MidB = Helpers.TraverseBezier(p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.8f) * yield * 2f), 0.3f);
+			Vector2 p5 = new Vector2((tilePos.X + spread) * 16f, down3 * 16);
 			Vector2 p5Mid = Helpers.TraverseBezier(p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.9f) * yield * 2f), 0.5f);
-			Vector2 p6 = new Vector2((tilePos.X + (float)spread) * 16f, up3 * 16);
+			Vector2 p5MidB = Helpers.TraverseBezier(p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.9f) * yield * 2f), 0.3f);
+			Vector2 p6 = new Vector2((tilePos.X + spread) * 16f, up3 * 16);
 			Vector2 p6Mid = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 2.2f) * yield * 2f), 0.5f);
+			Vector2 p6MidB = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 2.2f) * yield * 2f), 0.3f);
 			switch (web)
 			{
 				case 0:
@@ -294,6 +300,84 @@ namespace EEMod.Prim
 						start = p3Mid;
 						end = p1Mid;
 						mid = Vector2.Lerp(p3Mid, p1Mid, 0.5f) + new Vector2(0f, -40f + (float)Math.Sin(sineInt * 4f) * yield * 2f);
+						isDoable = true;
+					}
+					else
+					{
+						isDoable = false;
+					}
+					break;
+				case 12:
+					if (p1.Y >= 1f && p5.Y >= 1f)
+					{
+						start = p1MidB;
+						end = p5MidB;
+						mid = Vector2.Lerp(p1MidB, p5MidB, 0.5f) + new Vector2(0f, -40f + (float)Math.Sin(sineInt * 3f) * yield * 2f);
+						isDoable = true;
+					}
+					else
+					{
+						isDoable = false;
+					}
+					break;
+				case 13:
+					if (p5.Y >= 1f && p6.Y >= 1f)
+					{
+						start = p5MidB;
+						end = p6MidB;
+						mid = Vector2.Lerp(p5MidB, p6MidB, 0.5f) + new Vector2(-40f + (float)Math.Sin(sineInt * 4f) * yield * 2f, 0f);
+						isDoable = true;
+					}
+					else
+					{
+						isDoable = false;
+					}
+					break;
+				case 14:
+					if (p6.Y >= 1f && p2.Y >= 1f)
+					{
+						start = p6MidB;
+						end = p2MidB;
+						mid = Vector2.Lerp(p6MidB, p2MidB, 0.5f) + new Vector2(0f, 40f + (float)Math.Sin(sineInt * 3f) * yield * 2f);
+						isDoable = true;
+					}
+					else
+					{
+						isDoable = false;
+					}
+					break;
+				case 15:
+					if (p2.Y >= 1f && p4.Y >= 1f)
+					{
+						start = p2MidB;
+						end = p4MidB;
+						mid = Vector2.Lerp(p2MidB, p4MidB, 0.5f) + new Vector2(0f, 40f + (float)Math.Sin(sineInt * 4f) * yield * 2f);
+						isDoable = true;
+					}
+					else
+					{
+						isDoable = false;
+					}
+					break;
+				case 16:
+					if (p4.Y >= 1f && p3.Y >= 1f)
+					{
+						start = p4MidB;
+						end = p3MidB;
+						mid = Vector2.Lerp(p4MidB, p3MidB, 0.5f) + new Vector2(40f + (float)Math.Sin(sineInt * 3f) * yield * 2f, 0f);
+						isDoable = true;
+					}
+					else
+					{
+						isDoable = false;
+					}
+					break;
+				case 17:
+					if (p3.Y >= 1f && p1.Y >= 1f)
+					{
+						start = p3MidB;
+						end = p1MidB;
+						mid = Vector2.Lerp(p3MidB, p1MidB, 0.5f) + new Vector2(0f, -40f + (float)Math.Sin(sineInt * 4f) * yield * 2f);
 						isDoable = true;
 					}
 					else

@@ -19,7 +19,10 @@ namespace EEMod
         public float paralax;
         public Vector3 lightingColor;
         public float lightingIntensity = 0;
-        int RENDERDISTANCE => 2000;
+        public float shrinkSpeed;
+        public bool LightingBlend;
+        protected int RENDERDISTANCE => 2000;
+        internal bool WithinDistance => Vector2.DistanceSquared(position, Main.LocalPlayer.position) < RENDERDISTANCE * RENDERDISTANCE;
         public float varScale;
         public float scale { get; set; }
         public float alpha;
@@ -27,6 +30,7 @@ namespace EEMod
         public float rotation;
         int TrailLength;
         public Rectangle Frame;
+        public Vector2 PARALAXPOSITION => position.ParalaxX(paralax);
         public List<Vector2> PositionCache = new List<Vector2>();
         public void UpdatePositionCache()
         {
@@ -54,12 +58,14 @@ namespace EEMod
             active = true;
             this.scale = scale;
             alpha = 1;
+            shrinkSpeed = 0.99f;
             this.colour = colour ?? Color.White;
             TrailLength = 18;
             Frame = new Rectangle(0, 0, 1, 1);
             PresetNoiseMask = masks;
             lightingColor = new Vector3(0,0,0);
             lightingIntensity = 0;
+            LightingBlend = false;
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]);
         }
 
@@ -75,8 +81,8 @@ namespace EEMod
                 timeLeft--;
             if (timeLeft == 1)
             {
-                varScale *= 0.99f;
-                if (varScale < 0.01f)
+                varScale *= shrinkSpeed;
+                if (varScale < 0.2f)
                 {
                     timeLeft--;
                 }
@@ -106,7 +112,7 @@ namespace EEMod
                 Module.Draw(this);
             }
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), Frame, colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), Frame, LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X/16,(int)PARALAXPOSITION.Y/16)*alpha : colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
             if (PresetNoiseMask != null)
                 Helpers.DrawAdditiveFunky(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
             if (mask != null)
@@ -214,6 +220,78 @@ namespace EEMod
             }
         }
         public void Update(in Particle particle) {; }
+    }
+    class SetTimeLeft : IParticleModule
+    {
+        float timeLeft;
+        bool initial;
+        public SetTimeLeft(float timeLeft)
+        {
+            this.timeLeft = timeLeft;
+        }
+        public void Update(in Particle particle)
+        {
+            if (!initial)
+            {
+                initial = true;
+                particle.timeLeft = timeLeft;
+            }
+        }
+        public void Draw(in Particle particle) {; }
+    }
+    class SetLightingBlend : IParticleModule
+    {
+        bool LightingBlend;
+        bool initial;
+        public SetLightingBlend(bool LightingBlend)
+        {
+            this.LightingBlend = LightingBlend;
+        }
+        public void Update(in Particle particle)
+        {
+            if (!initial)
+            {
+                initial = true;
+                particle.LightingBlend = LightingBlend;
+            }
+        }
+        public void Draw(in Particle particle) {; }
+    }
+    class SetShrinkSize : IParticleModule
+    {
+        float shrinkSize;
+        bool initial;
+        public SetShrinkSize(float shrinkSize)
+        {
+            this.shrinkSize = shrinkSize;
+        }
+        public void Update(in Particle particle)
+        {
+            if (!initial)
+            {
+                initial = true;
+                particle.shrinkSpeed = shrinkSize;
+            }
+        }
+        public void Draw(in Particle particle) {; }
+    }
+    class SetParalax : IParticleModule
+    {
+        float paralax;
+        bool initial;
+        public SetParalax(float paralax)
+        {
+            this.paralax = paralax;
+        }
+        public void Update(in Particle particle)
+        {
+            if (!initial)
+            {
+                initial = true;
+                particle.paralax = paralax;
+            }
+        }
+        public void Draw(in Particle particle) {; }
     }
     class Spew : IParticleModule
     {

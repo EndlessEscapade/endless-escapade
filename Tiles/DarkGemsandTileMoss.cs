@@ -76,7 +76,7 @@ namespace EEMod.Tiles
                 zero = Vector2.Zero;
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
-            Texture2D texture = EEMod.instance.GetTexture("Tiles/LightGemsandTileMossGlow");
+            Texture2D texture = EEMod.instance.GetTexture("Tiles/KelpMossTileGlow");
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i,j), 0f, default, 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);

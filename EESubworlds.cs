@@ -371,7 +371,7 @@ namespace EEMod
                         }
                     }
                 }
-                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.8f);
+                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.5f);
                 int[,] perlinNoiseFunction2 = perlinNoise.perlinBinary;
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {

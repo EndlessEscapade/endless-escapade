@@ -26,7 +26,7 @@ namespace EEMod.Tiles
         }
         void PlaceGroundGrass(int i, int j)
         {
-            int noOfGrassBlades = (int)(((i + j) % 16) * 0.4f);
+            int noOfGrassBlades = (int)(((i + j) % 16) * 0.2f);
             string tex = "Tiles/Foliage/KelpGrassShortMoss";
             string tex2 = "Tiles/Foliage/KelpGrassStubbedMoss";
             string Chosen = tex;
@@ -53,7 +53,7 @@ namespace EEMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick())
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick() && Main.GameUpdateCount % 500 == 0)
             {
                 PlaceGroundGrass(i, j);
             }
