@@ -135,7 +135,6 @@ namespace EEMod.Projectiles
                 //Helpers.Draw(Main.magicPixel, mClickToDraw, Color.White, 1f, new Rectangle(0, 0, 3, 3));
                 //Helpers.Draw(Main.magicPixel, lClickToDraw, Color.White, 1f, new Rectangle(0, 0, 3, 3));
             }
-            Main.NewText(rotations);
             rotations += (rotation - rotations) / 12f;
             float length = 30;
             Helpers.DrawLine(ppostodraw, ppostodraw + new Vector2(1, 0).RotatedBy(rotations) * length);

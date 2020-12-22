@@ -403,7 +403,7 @@ namespace EEMod.EEWorld
             tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions);
             foreach (Vector2 vec in EESubWorlds.WebPositions)
             {
-                for (int i = 0; i < 12; i++)
+                for (int i = 0; i < 18; i++)
                     EEMod.primitives.CreateTrail(new WebPrimTrail(null,vec*16, i));
             }
             if (tag.TryGetListRef("SwingableVines", ref VerletHelpers.SwingableVines))
