@@ -752,7 +752,14 @@ namespace EEMod.EEWorld
                                                     break;
 
                                                 case 4:
-                                                    WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
+                                                    if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && TileCheck2(i + 2, j) == 2)
+                                                    {
+                                                        WorldGen.PlaceTile(i, j - 8, ModContent.TileType<GroundGlowCoral4>());
+                                                    }
+                                                    else
+                                                    {
+                                                        WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
+                                                    }
                                                     break;
                                             }
                                         }
