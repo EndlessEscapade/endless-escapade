@@ -484,11 +484,11 @@ namespace EEMod
                 Vector2 pos1 = new Vector2(SpirePosition.X + 10, SpirePosition.Y - 150 / 2);
                 Vector2 pos2 = new Vector2(SpirePosition.X + 10, SpirePosition.Y + 150 / 2);
                 int tile2 = 0;
-                if (pos1.Y < Main.maxTilesY * 0.33f)
+                if (pos1.Y < Main.maxTilesY * 0.4f)
                 {
                     tile2 = (ushort)ModContent.TileType<LightGemsandTile>();
                 }
-                else if (pos1.Y < Main.maxTilesY * 0.66f)
+                else if (pos1.Y < Main.maxTilesY * 0.8f)
                 {
                     tile2 = (ushort)ModContent.TileType<GemsandTile>();
                 }

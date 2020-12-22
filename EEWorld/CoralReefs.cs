@@ -67,11 +67,11 @@ namespace EEMod.EEWorld
 
             Vector2 startingPoint = new Vector2(xPos - sizeX, yPos - sizeY);
             int tile2;
-            if (TL.Y < Main.maxTilesY * 0.33f)
+            if (TL.Y < Main.maxTilesY * 0.4f)
             {
                 tile2 = (ushort)ModContent.TileType<LightGemsandTile>();
             }
-            else if (TL.Y < Main.maxTilesY * 0.66f)
+            else if (TL.Y < Main.maxTilesY * 0.8f)
             {
                 tile2 = (ushort)ModContent.TileType<GemsandTile>();
             }
@@ -100,15 +100,15 @@ namespace EEMod.EEWorld
                                     if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
                                     {
                                         Tile tile = Framing.GetTileSafely(i, j);
-                                        if (j < Main.maxTilesY * 0.33f)
+                                        if (j < Main.maxTilesY * 0.4f)
                                         {
                                             tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
                                         }
-                                        else if (j < Main.maxTilesY * 0.66f)
+                                        else if (j < Main.maxTilesY * 0.8f)
                                         {
                                             tile.type = (ushort)ModContent.TileType<GemsandTile>();
                                         }
-                                        else if (j > Main.maxTilesY * 0.66f)
+                                        else if (j >= Main.maxTilesY * 0.8f)
                                         {
                                             tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
                                         }
