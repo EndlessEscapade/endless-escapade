@@ -55,7 +55,7 @@ namespace EEMod.Projectiles.Ranged
                     {
                         EEMod.primitives.CreateTrail(new BubbleBlitzerPrimTrail(proj));
                     }
-                    proj.damage = (int)(proj.damage * 1.21f);
+                    proj.damage = (int)(proj.damage * 1.71f);
                 }
             }
 

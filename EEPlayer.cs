@@ -711,7 +711,10 @@ namespace EEMod
                 EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.08f));
             if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
-                EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, GetInstance<EEMod>().GetTexture("ForegroundParticles/Leaf"), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)),new RotateTexture(0.03f),new SetLightingBlend(true));
+            {
+                float gottenParalax = Main.rand.NextFloat(1, 1.5f);
+                EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, GetInstance<EEMod>().GetTexture("ForegroundParticles/KelpLeaf"), gottenParalax, 1 - (gottenParalax - 1)/1.2f, new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new RotateTexture(0.03f), new SetLightingBlend(true), new SetAnimData(6, 5));
+            }
             if (playingGame)
             {
                 player.velocity = Vector2.Zero;

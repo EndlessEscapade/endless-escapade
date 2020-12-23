@@ -30,6 +30,9 @@ namespace EEMod
         public float rotation;
         int TrailLength;
         public Rectangle Frame;
+        public int noOfFrames;
+        public int AnimSpeedPerTick;
+        public int CurrentFrame => (int)(Main.GameUpdateCount / AnimSpeedPerTick) % noOfFrames;
         public Vector2 PARALAXPOSITION => position.ParalaxX(paralax);
         public List<Vector2> PositionCache = new List<Vector2>();
         public void UpdatePositionCache()
@@ -49,7 +52,7 @@ namespace EEMod
         {
 
         }
-        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2? velocity = null, int scale = 1, Color? colour = null, Texture2D masks = null, params IParticleModule[] StartingModule)
+        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2? velocity = null, float scale = 1, Color? colour = null, Texture2D masks = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
             this.position = position;
@@ -66,6 +69,8 @@ namespace EEMod
             lightingColor = new Vector3(0,0,0);
             lightingIntensity = 0;
             LightingBlend = false;
+            AnimSpeedPerTick = 1;
+            noOfFrames = 1;
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]);
         }
 
@@ -112,7 +117,7 @@ namespace EEMod
                 Module.Draw(this);
             }
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), Frame, LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X/16,(int)PARALAXPOSITION.Y/16)*alpha : colour * alpha, rotation, new Rectangle(0, 0, 1, 1).Size() / 2, varScale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), new Rectangle(0, CurrentFrame*(Frame.Height / noOfFrames), Frame.Width,Frame.Height / noOfFrames), LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X/16,(int)PARALAXPOSITION.Y/16)*alpha : colour * alpha, rotation, Frame.Size() / 2, varScale, SpriteEffects.None, 0f);
             if (PresetNoiseMask != null)
                 Helpers.DrawAdditiveFunky(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
             if (mask != null)
@@ -169,6 +174,22 @@ namespace EEMod
         }
         public void Draw(in Particle particle) {; }
     }
+    class SetAnimData : IParticleModule
+    {
+        int AnimSpeedPerTick;
+        int noOfFrames;
+        public SetAnimData(int AnimSpeedPerTick, int noOfFrames)
+        {
+            this.AnimSpeedPerTick = AnimSpeedPerTick;
+            this.noOfFrames = noOfFrames;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.AnimSpeedPerTick = AnimSpeedPerTick;
+            particle.noOfFrames = noOfFrames;
+        }
+        public void Draw(in Particle particle) {; }
+    }
     class SimpleBrownianMotion : IParticleModule
     {
         float intensity;
@@ -216,7 +237,7 @@ namespace EEMod
             for (int i = 0; i < particle.PositionCache.Count; i++)
             {
                 float globalFallOff = 1 - (i / (float)(particle.PositionCache.Count - 1)) * alphaFallOff;
-                Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw().ParalaxX(particle.paralax), new Rectangle(0, 0, 1, 1), particle.colour * particle.alpha * globalFallOff, particle.rotation, new Rectangle(0, 0, 1, 1).Size() / 2, particle.varScale * globalFallOff, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw().ParalaxX(particle.paralax), new Rectangle(0, particle.CurrentFrame * (particle.Frame.Height / particle.noOfFrames), particle.Frame.Width, particle.Frame.Height / particle.noOfFrames), particle.colour * particle.alpha * globalFallOff, particle.rotation, new Rectangle(0, particle.CurrentFrame * (particle.Frame.Height / particle.noOfFrames), particle.Frame.Width, particle.Frame.Height / particle.noOfFrames).Size() / 2, particle.varScale * globalFallOff, SpriteEffects.None, 0f);
             }
         }
         public void Update(in Particle particle) {; }

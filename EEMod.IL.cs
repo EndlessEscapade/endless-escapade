@@ -467,33 +467,38 @@ namespace EEMod
         public void DrawNoiseSurfacing()
         {
             Vector2 mouseTilePos = Main.MouseWorld / 16;
-            Tile tile = Framing.GetTileSafely((int)mouseTilePos.X, (int)mouseTilePos.Y);
-
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = Vector2.Zero;
-
-            if (tile.active() && tile.type == ModContent.TileType<OrbHolder>())
+            if (WorldGen.InWorld((int)mouseTilePos.X, (int)mouseTilePos.Y, 10) )
             {
-                speed += 0.002f;
+                Tile tile = Framing.GetTileSafely((int)mouseTilePos.X, (int)mouseTilePos.Y);
 
-                if (speed % 0.5f < 0.002f)
+                Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = Vector2.Zero;
+                if (tile != null)
                 {
-                    seed = Main.rand.NextFloat(0, 1);
+                    if (tile.active() && tile.type == ModContent.TileType<OrbHolder>())
+                    {
+                        speed += 0.002f;
+
+                        if (speed % 0.5f < 0.002f)
+                        {
+                            seed = Main.rand.NextFloat(0, 1);
+                        }
+
+                        Main.spriteBatch.End();
+                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                        NoiseSurfacing.Parameters["yCoord"].SetValue(seed);
+                        NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (speed % 0.5f))) * 4);
+                        NoiseSurfacing.Parameters["xDis"].SetValue(speed % 0.5f);
+                        NoiseSurfacing.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
+                        NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
+
+                        Vector2 position = new Vector2((int)mouseTilePos.X * 16, (int)mouseTilePos.Y * 16) - new Vector2(tile.frameX / 18 * 16, tile.frameY / 18 * 16);
+
+                        Main.spriteBatch.Draw(EEMod.instance.GetTexture("NoiseSurfacingTest"), position.ForDraw() + new Vector2(15, -20), Color.Purple);
+                        Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = position;
+                        Main.spriteBatch.End();
+                        Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                    }
                 }
-
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                NoiseSurfacing.Parameters["yCoord"].SetValue(seed);
-                NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (speed % 0.5f))) * 4);
-                NoiseSurfacing.Parameters["xDis"].SetValue(speed % 0.5f);
-                NoiseSurfacing.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
-                NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
-
-                Vector2 position = new Vector2((int)mouseTilePos.X * 16, (int)mouseTilePos.Y * 16) - new Vector2(tile.frameX / 18 * 16, tile.frameY / 18 * 16);
-
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("NoiseSurfacingTest"), position.ForDraw() + new Vector2(15, -20), Color.Purple);
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = position;
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
         }
         int screenLerp;

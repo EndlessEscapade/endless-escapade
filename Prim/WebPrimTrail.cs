@@ -35,6 +35,30 @@ namespace EEMod.Prim
 
 		private Vector2[] pointCache = new Vector2[20];
 
+		int down;
+		int up;
+		int down2;
+		int up2;
+		int down3;
+		int up3;
+		Vector2 p1;
+		Vector2 p1Mid;
+		Vector2 p1MidB;
+		Vector2 p2;
+		Vector2 p2Mid;
+		Vector2 p2MidB;
+		Vector2 p3;
+		Vector2 p3Mid;
+		Vector2 p3MidB;
+		Vector2 p4;
+		Vector2 p4Mid;
+		Vector2 p4MidB;
+		Vector2 p5;
+		Vector2 p5Mid;
+		Vector2 p5MidB;
+		Vector2 p6;
+		Vector2 p6Mid;
+		Vector2 p6MidB;
 		public WebPrimTrail(Projectile projectile, Vector2 position, int web)
 			: base(projectile)
 		{
@@ -125,30 +149,34 @@ namespace EEMod.Prim
 			Vector2 tilePos = position / 16f;
 			int spread = 13;
 			float yield = 5f;
-			int down = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + ((int)tilePos.Y % 5 - 2), (int)tilePos.Y, 1, 50);
-			int up = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + ((int)tilePos.X % 5 - 2), (int)tilePos.Y, -1, 50);
-			int down2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, 1, 50);
-			int up2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, -1, 50);
-			int down3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, 1, 50);
-			int up3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, -1, 50);
-			Vector2 p1 = new Vector2(tilePos.X * 16f, down * 16);
-			Vector2 p1Mid = Helpers.TraverseBezier(p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 2f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.5f);
-			Vector2 p1MidB = Helpers.TraverseBezier(p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 2f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.3f);
-			Vector2 p2 = new Vector2(tilePos.X * 16f, up * 16);
-			Vector2 p2Mid = Helpers.TraverseBezier(p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 1.1f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.5f);
-			Vector2 p2MidB = Helpers.TraverseBezier(p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 1.1f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.3f);
-			Vector2 p3 = new Vector2((tilePos.X - spread) * 16f, down2 * 16);
-			Vector2 p3Mid = Helpers.TraverseBezier(p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.2f) * yield * 2f), 0.5f);
-			Vector2 p3MidB = Helpers.TraverseBezier(p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.2f) * yield * 2f), 0.3f);
-			Vector2 p4 = new Vector2((tilePos.X - spread) * 16f, up2 * 16);
-			Vector2 p4Mid = Helpers.TraverseBezier(p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.8f) * yield * 2f), 0.5f);
-			Vector2 p4MidB = Helpers.TraverseBezier(p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.8f) * yield * 2f), 0.3f);
-			Vector2 p5 = new Vector2((tilePos.X + spread) * 16f, down3 * 16);
-			Vector2 p5Mid = Helpers.TraverseBezier(p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.9f) * yield * 2f), 0.5f);
-			Vector2 p5MidB = Helpers.TraverseBezier(p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.9f) * yield * 2f), 0.3f);
-			Vector2 p6 = new Vector2((tilePos.X + spread) * 16f, up3 * 16);
-			Vector2 p6Mid = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 2.2f) * yield * 2f), 0.5f);
-			Vector2 p6MidB = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 2.2f) * yield * 2f), 0.3f);
+			if (Main.GameUpdateCount % 100 == 0)
+			{
+				down = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + ((int)tilePos.Y % 5 - 2), (int)tilePos.Y, 1, 50);
+				up = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + ((int)tilePos.X % 5 - 2), (int)tilePos.Y, -1, 50);
+				down2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, 1, 50);
+				up2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, -1, 50);
+				down3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, 1, 50);
+				up3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, -1, 50);
+				p1 = new Vector2(tilePos.X * 16f, down * 16);
+				
+			}
+			p1Mid = Helpers.TraverseBezier(p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 2f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.5f);
+			p1MidB = Helpers.TraverseBezier(p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 2f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.3f);
+			p2 = new Vector2(tilePos.X * 16f, up * 16);
+			p2Mid = Helpers.TraverseBezier(p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 1.1f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.5f);
+			p2MidB = Helpers.TraverseBezier(p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2((float)Math.Cos(sineInt * 1.1f) * yield * 2f, 50f + (float)Math.Sin(sineInt * 2f) * 40f), 0.3f);
+			p3 = new Vector2((tilePos.X - spread) * 16f, down2 * 16);
+			p3Mid = Helpers.TraverseBezier(p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.2f) * yield * 2f), 0.5f);
+			p3MidB = Helpers.TraverseBezier(p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.2f) * yield * 2f), 0.3f);
+			p4 = new Vector2((tilePos.X - spread) * 16f, up2 * 16);
+			p4Mid = Helpers.TraverseBezier(p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.8f) * yield * 2f), 0.5f);
+			p4MidB = Helpers.TraverseBezier(p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.8f) * yield * 2f), 0.3f);
+			p5 = new Vector2((tilePos.X + spread) * 16f, down3 * 16);
+			p5Mid = Helpers.TraverseBezier(p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.9f) * yield * 2f), 0.5f);
+			p5MidB = Helpers.TraverseBezier(p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 1.9f) * yield * 2f), 0.3f);
+			p6 = new Vector2((tilePos.X + spread) * 16f, up3 * 16);
+			p6Mid = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 2.2f) * yield * 2f), 0.5f);
+			p6MidB = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0f, 50f + (float)Math.Sin(sineInt * 2.2f) * yield * 2f), 0.3f);
 			switch (web)
 			{
 				case 0:
