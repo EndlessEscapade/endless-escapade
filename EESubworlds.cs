@@ -13,6 +13,7 @@ using Terraria.ModLoader;
 using Terraria.World.Generation;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Autoloading;
+using EEMod.ID;
 
 namespace EEMod
 {
@@ -78,10 +79,10 @@ namespace EEMod
             FillRegion(Main.maxTilesX, Main.maxTilesY / 5, new Vector2(0, (Main.maxTilesY / 5) * 4), ModContent.TileType<DarkGemsandTile>());
 
             EEMod.progressMessage = "Clearing Upper Region";
-            ClearRegion(Main.maxTilesX, Main.maxTilesY / 20, Vector2.Zero);
+            ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
 
             EEMod.progressMessage = "Generating Coral Sand";
-            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, Main.maxTilesY / 40), ModContent.TileType<CoralSandTile>());
+            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
             #endregion
 
             #region Finding suitable chasm positions and room positions
@@ -89,7 +90,7 @@ namespace EEMod
             EEMod.progressMessage = "Finding Suitable Chasm Positions";
 
 
-            Vector2 size = new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 40);
+            Vector2 size = new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20);
             NoiseGenWave(new Vector2(300, 80), size, new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
             NoiseGenWave(new Vector2(300, 60), size, new Vector2(50, 50), TileID.StoneSlab, 0.6f);
             int[] roomGen = Helpers.FillPseudoRandomUniform<int>(4);
@@ -119,7 +120,7 @@ namespace EEMod
                             breakLoop++;
                             score = 0;
                             randPosX = WorldGen.genRand.Next(Helpers.Clamp((int)roomsUp[i - 1].X - distance, 200, Main.maxTilesX - 200), Helpers.Clamp((int)roomsUp[i - 1].X + distance, 200, Main.maxTilesX - 200));
-                            randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsUp[i - 1].Y - distance, (int)roomsUp[i - 1].Y + distance), Main.maxTilesY / 20, Main.maxTilesY);
+                            randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsUp[i - 1].Y - distance, (int)roomsUp[i - 1].Y + distance), Main.maxTilesY / 10, Main.maxTilesY);
                             float f = sizeOfChasm * 1.4f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
@@ -182,7 +183,7 @@ namespace EEMod
                             breakLoop++;
                             score = 0;
                             randPosX = WorldGen.genRand.Next(Helpers.Clamp((int)roomsDown[i - 1].X - distance, 200, Main.maxTilesX - 200), Helpers.Clamp((int)roomsDown[i - 1].X + distance, 200, Main.maxTilesX - 200));
-                            randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsDown[i - 1].Y - distance, (int)roomsDown[i - 1].Y + distance), Main.maxTilesY / 20, Main.maxTilesY);
+                            randPosY = MathHelper.Clamp(WorldGen.genRand.Next((int)roomsDown[i - 1].Y - distance, (int)roomsDown[i - 1].Y + distance), Main.maxTilesY / 10, Main.maxTilesY);
                             float f = sizeOfChasm * 1.4f;
                             float ff = f * f;
                             for (int k = 0; k < i; k++)
@@ -314,7 +315,7 @@ namespace EEMod
                 EEMod.progressMessage = "Generating Ores";
                 //Generating ores
                 int barrier = 800;
-                for (int j = Main.maxTilesY / 20; j < barrier; j++)
+                for (int j = Main.maxTilesY / 10; j < barrier; j++)
                 {
                     for (int i = 0; i < Main.maxTilesX; i++)
                     {
@@ -358,33 +359,60 @@ namespace EEMod
                 int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    for (int j = (Main.maxTilesY / 20); j < Main.maxTilesY - 42; j++)
+                    for (int j = (Main.maxTilesY / 10); j < Main.maxTilesY - 42; j++)
                     {
-                        if (perlinNoiseFunction[i, j - (Main.maxTilesY / 20)] == 1)
+                        if (perlinNoiseFunction[i, j - (Main.maxTilesY / 10)] == 1)
                         {
-                            if (Main.tile[i, j - (Main.maxTilesY / 20)].type == ModContent.TileType<LightGemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 20)].type = (ushort)ModContent.TileType<LightGemsandstoneTile>();
-                            if (Main.tile[i, j - (Main.maxTilesY / 20)].type == ModContent.TileType<GemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 20)].type = (ushort)ModContent.TileType<GemsandstoneTile>();
-                            if (Main.tile[i, j - (Main.maxTilesY / 20)].type == ModContent.TileType<DarkGemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 20)].type = (ushort)ModContent.TileType<DarkGemsandstoneTile>();
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<LightGemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<LightGemsandstoneTile>();
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<GemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<DarkGemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<DarkGemsandstoneTile>();
                         }
                     }
                 }
-                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.95f), 50, 50, 0.5f);
+                
+                //BLOODY DREAD AY MATE? BISCUITS AND CRUMPETS AND BLOODY TEA!! (hi os)
+
+                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.8f);
                 int[,] perlinNoiseFunction2 = perlinNoise.perlinBinary;
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    for (int j = (Main.maxTilesY / 20); j < Main.maxTilesY - 42; j++)
+                    for (int j = (Main.maxTilesY / 10); j < Main.maxTilesY - 42; j++)
                     {
-                        if (perlinNoiseFunction2[i, j - (Main.maxTilesY / 20)] == 1)
+                        if (perlinNoiseFunction2[i, j - (Main.maxTilesY / 10)] == 1)
                         {
-                            if (Main.tile[i, j - (Main.maxTilesY / 20)].type == ModContent.TileType<LightGemsandstoneTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 20)].type = (ushort)ModContent.TileType<KelpMossTile>();
-                            if (Main.tile[i, j - (Main.maxTilesY / 20)].type == ModContent.TileType<GemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 20)].type = (ushort)ModContent.TileType<ThermalMossTile>();
-                            if (Main.tile[i, j - (Main.maxTilesY / 20)].type == ModContent.TileType<DarkGemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 20)].type = (ushort)ModContent.TileType<DarkGemsandTileMoss>();
+                            int minibiome = 0;
+                            List<float> BufferLengths = new List<float>();
+                            List<int> BufferMinibiome = new List<int>();
+                            for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
+                            {
+                                if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)) < (180 * 180) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                                {
+                                    BufferLengths.Add(Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)));
+                                    BufferMinibiome.Add((int)EESubWorlds.MinibiomeLocations[k].Z);
+                                }
+                            }
+                            float MakingMyWayDownTown = -1;
+                            int WalkingFast = -1;
+                            for (int a = 0; a < BufferLengths.Count; a++)
+                            {
+                                if (BufferLengths[a] < MakingMyWayDownTown || MakingMyWayDownTown == -1)
+                                {
+                                    MakingMyWayDownTown = BufferLengths[a];
+                                    WalkingFast = BufferMinibiome[a];
+                                }
+                            }
+                            if (WalkingFast != -1) minibiome = WalkingFast;
+
+
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest)
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<KelpMossTile>();
+                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<ThermalMossTile>();
+                            /*if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<DarkGemsandTile>())
+                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<DarkGemsandTileMoss>();*/
                         }
                     }
                 }
@@ -461,7 +489,7 @@ namespace EEMod
                         }
                         if (ifa == 0)
                         {
-                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool() /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 20)
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool() /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 10)
                             {
                                 if (ChainConnections.Count == 0)
                                 {
@@ -496,7 +524,7 @@ namespace EEMod
                 {
                     tile2 = (ushort)ModContent.TileType<DarkGemsandTile>();
                 }
-                if (pos1.Y < Main.maxTilesY / 20)
+                if (pos1.Y < Main.maxTilesY / 10)
                 {
                     tile2 = (ushort)ModContent.TileType<CoralSandTile>();
                 }

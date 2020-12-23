@@ -741,7 +741,7 @@ namespace EEMod
                         break;
 
                     case 21:
-                        screenMessageText = "All good sprires made by Doodle";
+                        screenMessageText = "All bad sprites made by Doodle";
                         break;
 
                     case 22:

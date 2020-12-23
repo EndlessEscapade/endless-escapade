@@ -230,6 +230,46 @@ namespace EEMod.EEWorld
             }
         }
 
+        private float HeartBeat;
+        public override void PostDrawTiles()
+        {
+            for (int i = (int)Main.screenPosition.X / 16; i < (Main.screenPosition.X + Main.screenWidth)/16; i++)
+            {
+                for (int j = (int)Main.screenPosition.Y / 16; j < (Main.screenPosition.Y + Main.screenHeight) / 16; j++)
+                {
+                    if (Main.tile[i, j].type == ModContent.TileType<AquamarineLamp1>())
+                    {
+                        int frameX = Main.tile[i, j].frameX;
+                        int frameY = Main.tile[i, j].frameY;
+                        if (frameX == 0 && frameY == 0)
+                        {
+                            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+                            if (Main.drawToScreen)
+                            {
+                                zero = Vector2.Zero;
+                            }
+                            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, (j - 1) * 16 - (int)Main.screenPosition.Y) + zero;
+                            Texture2D texture = EEMod.instance.GetTexture("Tiles/Furniture/Coral/AquamarineLamp1Glow");
+
+                            float timeBetween = 70;
+                            float bigTimeBetween = 200;
+                            if (Main.GameUpdateCount % 200 < timeBetween)
+                            {
+                                HeartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
+                            }
+                            else
+                            {
+                                HeartBeat = 0;
+                            }
+                            Main.spriteBatch.Begin();
+                            Main.spriteBatch.Draw(texture, position + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10) - 4), texture.Bounds, Color.White * ((HeartBeat / 2) + 0.5f), 0f, default, 1f, SpriteEffects.None, 0f);
+                            Main.spriteBatch.End();
+                        }
+                    }
+                }
+            }
+        }
+
         public override void PostUpdate()
         {
             if (NPC.downedBoss1)
