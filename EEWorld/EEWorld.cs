@@ -230,7 +230,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        private float HeartBeat;
+        /*private float HeartBeat;
         public override void PostDrawTiles()
         {
             for (int i = (int)Main.screenPosition.X / 16; i < (Main.screenPosition.X + Main.screenWidth)/16; i++)
@@ -268,7 +268,7 @@ namespace EEMod.EEWorld
                     }
                 }
             }
-        }
+        }*/
 
         public override void PostUpdate()
         {

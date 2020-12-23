@@ -121,7 +121,7 @@ namespace EEMod
             if (PresetNoiseMask != null)
                 Helpers.DrawAdditiveFunky(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
             if (mask != null)
-                Helpers.DrawAdditive(mask, positionDraw.ParalaxX(paralax), colour * varScale*0.25f, 0.1f * varScale, 0.5f);
+                Helpers.DrawAdditive(mask, positionDraw.ParalaxX(paralax), colour * varScale * 0.25f, 0.1f * varScale, 0.5f);
             OnDraw();
         }
     }

@@ -9,6 +9,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles.Furniture.Coral;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -52,6 +53,8 @@ namespace EEMod.NPCs.CoralReefs
         {
             return false;
         }
+
+
         float HeartBeat;
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -66,7 +69,34 @@ namespace EEMod.NPCs.CoralReefs
                 HeartBeat = 0;
             }
             Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireGlow"), npc.Center.ForDraw() + new Vector2(0, 5), npc.frame, Color.White * HeartBeat, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+
+            /*for (int i = (int)Main.screenPosition.X / 16; i < (Main.screenPosition.X + Main.screenWidth) / 16; i++)
+            {
+                for (int j = (int)Main.screenPosition.Y / 16; j < (Main.screenPosition.Y + Main.screenHeight) / 16; j++)
+                {
+                    if (Main.tile[i, j].type == ModContent.TileType<AquamarineLamp1>())
+                    {
+                        int frameX = Main.tile[i, j].frameX;
+                        int frameY = Main.tile[i, j].frameY;
+                        if (frameX == 0 && frameY == 0)
+                        {
+                            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+                            if (Main.drawToScreen)
+                            {
+                                zero = Vector2.Zero;
+                            }
+
+                            Texture2D tex = EEMod.instance.GetTexture("Tiles/Furniture/Coral/AquamarineLamp1Glow");
+                            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, (j - 1) * 16 - (int)Main.screenPosition.Y) + zero;
+                            Main.spriteBatch.Draw(tex, position + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), tex.Bounds, Color.White * ((HeartBeat / 2) + 0.5f), 0f, default, 1f, SpriteEffects.None, 1f);
+                        }
+                    }
+                }
+            }*/
+
+            Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/SmoothFadeOut"), npc.position.ForDraw(), Color.White, 1f);
         }
+
         public override void AI()
         {
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.18f));
