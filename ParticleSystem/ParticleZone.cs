@@ -20,7 +20,7 @@ namespace EEMod
         public bool CanSpawn { get; set; }
         public int zoneTimer;
         int MAXDRAWDISTANCE => 2000;
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, int scale = 1, Color? colour = null, Texture2D masks = null, float paralax = 0, params IParticleModule[] CustomBaseZoneModule)
+        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, Texture2D masks = null, float paralax = 0, params IParticleModule[] CustomBaseZoneModule)
         {
             if (!Main.gamePaused)
             {
@@ -64,7 +64,7 @@ namespace EEMod
             }
             return -1;
         }
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, int scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
+        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
         {
             if (!Main.gamePaused)
             {
@@ -110,7 +110,9 @@ namespace EEMod
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, Texture2D mask, params IParticleModule[] modules) =>
             SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 3, col, mask, 0.6f, modules);
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, params IParticleModule[] modules) =>
-          SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 2, null, null, 0.7f, modules);
+          SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 1, null, null, 0.6f, modules);
+        public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex,float scale, float paralaxFactor, params IParticleModule[] modules) =>
+          SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, scale, null, null, paralaxFactor, modules);
 
         public int SpawnParticles(Vector2 position, Vector2? velocity = null, params IParticleModule[] CustomBaseZoneModule)
         {
