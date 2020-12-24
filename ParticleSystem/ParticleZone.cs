@@ -109,6 +109,8 @@ namespace EEMod
 
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, Texture2D mask, params IParticleModule[] modules) =>
             SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 3, col, mask, 0.6f, modules);
+        public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, params IParticleModule[] modules) =>
+            SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 2, col, null, 0.6f, modules);
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, params IParticleModule[] modules) =>
           SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 1, null, null, 0.6f, modules);
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex,float scale, float paralaxFactor, params IParticleModule[] modules) =>
@@ -230,6 +232,7 @@ namespace EEMod
                     }
                 }
             }
+
             zoneTimer++;
         }
         public void Draw()
@@ -249,15 +252,25 @@ namespace EEMod
     class SpawnPeriodically : IParticleSpawner
     {
         int spawnRate;
-        public SpawnPeriodically(int spawnRate)
+        bool ForTiles;
+        public SpawnPeriodically(int spawnRate, bool ForTiles = false)
         {
             this.spawnRate = spawnRate;
+            this.ForTiles = ForTiles;
         }
 
         public void CanSpawn(in ParticleZone pz)
         {
-            if (pz.zoneTimer % spawnRate == 0)
-                pz.CanSpawn = true;
+            if (!ForTiles)
+            {
+                if (pz.zoneTimer % spawnRate == 0)
+                    pz.CanSpawn = true;
+            }
+            else
+            {
+                if ((pz.zoneTimer/5) % spawnRate == 0)
+                    pz.CanSpawn = true;
+            }
         }
     }
     class SpawnRandomly : IParticleSpawner

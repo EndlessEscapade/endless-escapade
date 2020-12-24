@@ -279,7 +279,7 @@ namespace EEMod
         public override void PreUpdateEntities()
         {
             base.PreUpdateEntities();
-            Particles.Update();
+
         }
         public RenderTarget2D playerTarget;
         public ComponentManager<TileObjVisual> TVH;

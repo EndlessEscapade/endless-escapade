@@ -339,7 +339,7 @@ namespace EEMod
                 }
             }
         }
-
+        public static ParticleZone Particles => EEMod.Particles.Get("Main");
         public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, Color color, float spawnChance = 1f, params IParticleModule[] modules)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
