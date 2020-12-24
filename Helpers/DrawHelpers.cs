@@ -12,6 +12,8 @@ namespace EEMod
         {
             Main.spriteBatch.Draw(tex, position, frame == default ? tex.Bounds : frame, colour, 0f, frame == default ? tex.TextureCenter() : frame.Center(), scale, SpriteEffects.None, 0f);
         }
+
+        public static Texture2D RadialMask => EEMod.instance.GetTexture("Masks/RadialGradient");
         public static void DrawAdditive(Texture2D tex, Vector2 position, Color colour, float scale)
         {
             Main.spriteBatch.End();

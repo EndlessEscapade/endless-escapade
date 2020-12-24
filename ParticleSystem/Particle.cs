@@ -21,6 +21,7 @@ namespace EEMod
         public float lightingIntensity = 0;
         public float shrinkSpeed;
         public bool LightingBlend;
+        public float MaskAlpha = 0.25f;
         protected int RENDERDISTANCE => 2000;
         internal bool WithinDistance => Vector2.DistanceSquared(position, Main.LocalPlayer.position) < RENDERDISTANCE * RENDERDISTANCE;
         public float varScale;
@@ -119,9 +120,9 @@ namespace EEMod
             Vector2 positionDraw = position.ForDraw();
             Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), new Rectangle(0, CurrentFrame*(Frame.Height / noOfFrames), Frame.Width,Frame.Height / noOfFrames), LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X/16,(int)PARALAXPOSITION.Y/16)*alpha : colour * alpha, rotation, Frame.Size() / 2, varScale, SpriteEffects.None, 0f);
             if (PresetNoiseMask != null)
-                Helpers.DrawAdditiveFunky(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.5f);
+                Helpers.DrawAdditiveFunky(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.34f);
             if (mask != null)
-                Helpers.DrawAdditive(mask, positionDraw.ParalaxX(paralax), colour * varScale * 0.25f, 0.1f * varScale, 0.5f);
+                Helpers.DrawAdditive(mask, positionDraw.ParalaxX(paralax), colour * varScale * MaskAlpha, 0.1f * varScale, 0.5f);
             OnDraw();
         }
     }
@@ -412,13 +413,16 @@ namespace EEMod
     class SetMask : IParticleModule
     {
         Texture2D tex;
-        public SetMask(Texture2D bounds)
+        float MaskAlpha;
+        public SetMask(Texture2D bounds, float MaskAlpha = 0.25f)
         {
             tex = bounds;
+            this.MaskAlpha = MaskAlpha;
         }
         public void Update(in Particle particle)
         {
             particle.mask = tex;
+            particle.MaskAlpha = MaskAlpha;
         }
         public void Draw(in Particle particle) {; }
     }

@@ -50,8 +50,12 @@ namespace EEMod.Tiles.Foliage.Coral
         {
             int frameX = Main.tile[i, j].frameX;
             int frameY = Main.tile[i, j].frameY;
-            if (frameX == 0 && frameY == 0)
+
+            if (frameX == 18 && frameY == 18)
             {
+                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(8,true));
+                Vector2 part = new Vector2((i + 1) * 16 - 18, (j * 16) - 18 - 4) + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4);
+                EEMod.Particles.Get("Main").SpawnParticles(part, null, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
                 float timeBetween = 70;
                 float bigTimeBetween = 200;
                 if (Main.GameUpdateCount % 200 < timeBetween)
@@ -68,25 +72,21 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     zero = Vector2.Zero;
                 }
-
-                Texture2D tex = EEMod.instance.GetTexture("Tiles/Foliage/Coral/AquamarineLamp1Glow");
+                Texture2D tex = EEMod.instance.GetTexture("Tiles/Furniture/Coral/AquamarineLamp1Glow");
                 Texture2D mask = EEMod.instance.GetTexture("Masks/SmoothFadeOut");
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, (j - 1) * 16 - (int)Main.screenPosition.Y) + zero;
 
-                Lighting.AddLight(position, new Vector3(1, 1, 1) * 4f);
-
+                Lighting.AddLight(new Vector2(i * 16, (j ) * 16) + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f + i*j))).ToVector3());
+                float sineAdd = (float)Math.Sin(Main.GameUpdateCount/20f) + 2.5f;
+                    Main.spriteBatch.Draw(mask, new Vector2((i + 1) * 16 - (int)Main.screenPosition.X - 25 - 18, (j * 16) - (int)Main.screenPosition.Y - 30 - 18) + zero + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), null, new Color(sineAdd, sineAdd, sineAdd, 0)*0.2f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 //mask
                 //Helpers.DrawAdditive(tex, position + new Vector2(15, 10) + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), Color.White * 0.25f * HeartBeat, 1.5f);
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-                Main.spriteBatch.Draw(mask, position, mask.Bounds, Color.White, 0f, mask.TextureCenter(), 1f, SpriteEffects.None, 0f);
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-                
+
                 //diamond
-                Main.spriteBatch.Draw(tex, position + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), tex.Bounds, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), 0f, default, 1f, SpriteEffects.None, 1f);
-                Main.spriteBatch.Draw(tex, position + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), tex.Bounds, Color.White * HeartBeat, 0f, default, 1f, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(tex, position + new Vector2(2 - 18, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4 - 18), tex.Bounds, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(tex, position + new Vector2(2-18, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4 - 18), tex.Bounds, Color.White * HeartBeat, 0f, default, 1f, SpriteEffects.None, 1f);
             }
         }
+
     }
 }
