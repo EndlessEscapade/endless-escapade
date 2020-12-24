@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Furniture.Coral
+namespace EEMod.Tiles.Foliage.Coral
 {
     public class ThermalVent1x3Tile2 : ModTile
     {
@@ -81,7 +81,7 @@ namespace EEMod.Tiles.Furniture.Coral
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/ThermalVent1x3Glow2"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Foliage/Coral/ThermalVent1x3Glow2"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }

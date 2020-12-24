@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Furniture.Coral.HangingCoral
+namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 {
     public class Hanging2x4Coral : ModTile
     {

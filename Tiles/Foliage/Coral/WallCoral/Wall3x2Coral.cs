@@ -6,7 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Furniture.Coral.WallCoral
+namespace EEMod.Tiles.Foliage.Coral.WallCoral
 {
     public class Wall3x2CoralL : ModTile
     {

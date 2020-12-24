@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Furniture.Coral
+namespace EEMod.Tiles.Foliage.Coral
 {
     public class GroundGlowCoral : ModTile
     {
@@ -72,7 +72,7 @@ namespace EEMod.Tiles.Furniture.Coral
                 color *= (float)Math.Sin(Main.GameUpdateCount / 60f + i + j) * 0.5f + 0.5f;
                 for (int k = 0; k < 7; k++)
                 {
-                    Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/GroundGlowCoralGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Foliage/Coral/GroundGlowCoralGlow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
                 }
             }
         }

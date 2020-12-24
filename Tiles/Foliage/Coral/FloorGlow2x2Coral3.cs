@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Furniture.Coral
+namespace EEMod.Tiles.Foliage.Coral
 {
     public class FloorGlow2x2Coral3 : ModTile
     {
@@ -58,7 +58,7 @@ namespace EEMod.Tiles.Furniture.Coral
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
             for (int k = 0; k < 7; k++)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Furniture/Coral/FloorGlow2x2Coral3Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Foliage/Coral/FloorGlow2x2Coral3Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }

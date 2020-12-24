@@ -6,9 +6,9 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Furniture.Coral.WallCoral
+namespace EEMod.Tiles.Foliage.Coral.WallCoral
 {
-    public class Wall5x3CoralL : ModTile
+    public class Wall6x3CoralL : ModTile
     {
         public override void SetDefaults()
         {
@@ -18,7 +18,7 @@ namespace EEMod.Tiles.Furniture.Coral.WallCoral
             Main.tileSolidTop[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Height = 3;
-            TileObjectData.newTile.Width = 5;
+            TileObjectData.newTile.Width = 6;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.Origin = new Point16(0, 0);
@@ -30,7 +30,7 @@ namespace EEMod.Tiles.Furniture.Coral.WallCoral
         }
     }
 
-    public class Wall5x3CoralR : ModTile
+    public class Wall6x3CoralR : ModTile
     {
         public override void SetDefaults()
         {
@@ -40,7 +40,7 @@ namespace EEMod.Tiles.Furniture.Coral.WallCoral
             Main.tileSolidTop[Type] = true;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Height = 3;
-            TileObjectData.newTile.Width = 5;
+            TileObjectData.newTile.Width = 6;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.Origin = new Point16(0, 0);
