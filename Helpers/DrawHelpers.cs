@@ -59,5 +59,10 @@ namespace EEMod
         }
         public static Vector2 TextureCenter(this Texture2D texture) => new Vector2(texture.Width / 2, texture.Height / 2);
         public static Vector2 Size(this Texture2D texture) => new Vector2(texture.Width, texture.Height);
+
+        public static void DrawTileGlowmask(Texture2D tex, Vector2 tilePos, Color color)
+        {
+            Main.spriteBatch.Draw(tex, (tilePos * 16) - Main.screenPosition, color);
+        }
     }
 }
