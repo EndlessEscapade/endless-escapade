@@ -56,10 +56,8 @@ namespace EEMod.Tiles.Foliage.Coral
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero;
             Rectangle rect = new Rectangle(frameX, frameY, width, height);
-            for (int k = 0; k < 7; k++)
-            {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Foliage/Coral/FloorGlow2x2Coral2Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
-            }
+
+            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Foliage/Coral/FloorGlow2x2Coral2Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }
 }
