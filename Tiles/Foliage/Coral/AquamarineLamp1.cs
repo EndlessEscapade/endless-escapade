@@ -72,7 +72,7 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     zero = Vector2.Zero;
                 }
-                Texture2D tex = EEMod.instance.GetTexture("Tiles/Furniture/Coral/AquamarineLamp1Glow");
+                Texture2D tex = EEMod.instance.GetTexture("Tiles/Foliage/Coral/AquamarineLamp1Glow");
                 Texture2D mask = EEMod.instance.GetTexture("Masks/SmoothFadeOut");
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, (j - 1) * 16 - (int)Main.screenPosition.Y) + zero;
 

@@ -57,7 +57,6 @@ namespace EEMod.Tiles.Furniture
 
             if (Main.time % 5 == 0)
             {
-                Main.NewText("mmyes");
                 if (opening && height < 4)
                     height++;
                 if (!opening && height > 0)

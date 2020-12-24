@@ -62,9 +62,38 @@ namespace EEMod
         public static Vector2 TextureCenter(this Texture2D texture) => new Vector2(texture.Width / 2, texture.Height / 2);
         public static Vector2 Size(this Texture2D texture) => new Vector2(texture.Width, texture.Height);
 
-        public static void DrawTileGlowmask(Texture2D tex, Vector2 tilePos, Color color)
+        public static void DrawTileGlowmask(Texture2D texture, int i, int j)
         {
-            Main.spriteBatch.Draw(tex, (tilePos * 16) - Main.screenPosition, color);
+            int frameX = Main.tile[i, j].frameX;
+            int frameY = Main.tile[i, j].frameY;
+
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+
+            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
+            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+
+            Main.spriteBatch.Draw(texture, position, rect, Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
+        }
+
+        public static void DrawTileGlowmask(Texture2D texture, int i, int j, Color color)
+        {
+            int frameX = Main.tile[i, j].frameX;
+            int frameY = Main.tile[i, j].frameY;
+
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+
+            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
+            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+
+            Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }
 }
