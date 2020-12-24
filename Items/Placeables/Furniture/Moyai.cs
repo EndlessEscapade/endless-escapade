@@ -1,7 +1,7 @@
 using EEMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Furniture.Coral;
+using EEMod.Tiles.Foliage.Coral;
 
 namespace EEMod.Items.Placeables.Furniture
 {

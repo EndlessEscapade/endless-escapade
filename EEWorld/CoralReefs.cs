@@ -1,7 +1,7 @@
 ﻿using EEMod.ID;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
-using EEMod.Tiles.Furniture.Coral;
+using EEMod.Tiles.Foliage.Coral;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
 using Microsoft.Xna.Framework;
@@ -13,8 +13,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.World.Generation;
-using EEMod.Tiles.Furniture.Coral.HangingCoral;
-using EEMod.Tiles.Furniture.Coral.WallCoral;
+using EEMod.Tiles.Foliage.Coral.HangingCoral;
+using EEMod.Tiles.Foliage.Coral.WallCoral;
 using System.Diagnostics;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.VerletIntegration;
@@ -661,7 +661,7 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 7:
-                                                        WorldGen.PlaceTile(i + 1, j, ModContent.TileType<Wall5x3CoralL>());
+                                                        WorldGen.PlaceTile(i + 1, j, ModContent.TileType<Wall6x3CoralL>());
                                                         break;
                                                 }
                                                 break;
@@ -699,7 +699,7 @@ namespace EEMod.EEWorld
                                                         break;
 
                                                     case 7:
-                                                        WorldGen.PlaceTile(i - 5, j, ModContent.TileType<Wall5x3CoralR>());
+                                                        WorldGen.PlaceTile(i - 5, j, ModContent.TileType<Wall6x3CoralR>());
                                                         break;
                                                 }
                                                 break;

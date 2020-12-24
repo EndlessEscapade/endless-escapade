@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
 
-namespace EEMod.Tiles.Furniture.Coral
+namespace EEMod.Tiles.Foliage.Coral
 {
     public class AquamarineLamp1 : ModTile
     {

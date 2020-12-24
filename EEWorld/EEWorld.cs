@@ -14,7 +14,7 @@ using EEMod.Tiles.Furniture;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 using EEMod.ID;
-using EEMod.Tiles.Furniture.Coral;
+using EEMod.Tiles.Foliage.Coral;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
 using Terraria.GameContent.Events;

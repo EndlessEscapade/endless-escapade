@@ -9,7 +9,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Furniture.Coral;
+using EEMod.Tiles.Foliage.Coral;
 
 namespace EEMod.NPCs.CoralReefs
 {

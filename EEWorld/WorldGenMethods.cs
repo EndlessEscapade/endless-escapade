@@ -1,7 +1,6 @@
 ﻿using EEMod.ID;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
-using EEMod.Tiles.Furniture.Coral;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
 using Microsoft.Xna.Framework;
@@ -21,6 +20,7 @@ using EEMod.Tiles.EmptyTileArrays;
 using System.Linq;
 using EEMod.VerletIntegration;
 using EEMod.Tiles.Furniture.Chests;
+using EEMod.Tiles.Foliage.Coral;
 
 namespace EEMod.EEWorld
 {
