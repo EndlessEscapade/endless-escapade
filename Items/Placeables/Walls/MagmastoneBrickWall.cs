@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables.Walls
             item.useTurn = true;
             item.autoReuse = true;
             item.maxStack = 999;
-            item.createWall = ModContent.WallType<MagmastoneBrickWallTile>();
+            item.createWall = ModContent.WallType<KelpForestLeafyWall>();
         }
     }
 }
