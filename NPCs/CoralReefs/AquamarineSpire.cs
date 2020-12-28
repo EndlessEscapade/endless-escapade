@@ -38,6 +38,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.damage = 0;
             npc.behindTiles = true;
         }
+
         float alpha;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -51,15 +52,17 @@ namespace EEMod.NPCs.CoralReefs
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return true;
         }
+
         public override bool CheckActive()
         {
             return false;
         }
 
-        public bool awake = true;
+        public bool awake = false;
         float HeartBeat;
         int blinkTime = 0;
         bool blinking = false;
+        int playerHits = 0;
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -71,7 +74,7 @@ namespace EEMod.NPCs.CoralReefs
             {
                 Vector2 eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime);
 
-                if (!blinking && Main.rand.NextBool(180) && blinkTime <= 0)
+                if (!blinking && Main.rand.NextBool(240) && blinkTime <= 0)
                     blinking = true;
                 if (!blinking && blinkTime > 0)
                     blinkTime--;
@@ -82,13 +85,25 @@ namespace EEMod.NPCs.CoralReefs
 
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
 
-                timeBetween = 70;
-                bigTimeBetween = 200;
+                timeBetween = 35;
+                bigTimeBetween = 100;
             }
             else
             {
-                timeBetween = 35;
-                bigTimeBetween = 100;
+                Vector2 eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * playerHits);
+
+                if (!blinking && Main.rand.NextBool(180) && blinkTime <= 0)
+                    blinking = true;
+                if (!blinking && blinkTime > 0)
+                    blinkTime--;
+                if (blinkTime == 8)
+                    blinking = false;
+                if (blinking && blinkTime < 8)
+                    blinkTime++;
+
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.Lerp(Color.White, Color.Pink, playerHits/5), npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
+                timeBetween = 70;
+                bigTimeBetween = 200;
             }
 
             if (Main.GameUpdateCount % 200 < timeBetween)
@@ -104,6 +119,8 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
+            Player target = Main.LocalPlayer;
+
             if (!awake)
             {
                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.18f));
@@ -117,11 +134,23 @@ namespace EEMod.NPCs.CoralReefs
                 EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
                 EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
                 EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+
+
+                npc.ai[1]--;
+                if(target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)
+                {
+                    playerHits++;
+                    npc.ai[1] = 60;
+                    Main.PlaySound(SoundID.DD2_CrystalCartImpact, npc.Center);
+                }
+                if(playerHits >= 5)
+                {
+                    awake = true;
+                    Main.PlaySound(SoundID.DD2_BetsyScream, npc.Center);
+                }
             }
             else
             {
-                Player target = Main.LocalPlayer;
-
                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.25f));
                 Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
                 Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
