@@ -32,12 +32,13 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
-            Tile currentTile = Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.X / 16)];
-            if (currentTile != null && currentTile.active() && currentTile.type == ModContent.TileType<EmptyTile>())
+            Tile currentTile = Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)];
+            if (currentTile != null && currentTile.active() && currentTile.type == ModContent.TileType<EmptyTile>() && projectile.ai[0] == 0)
             {
-                projectile.velocity *= -1;
+                projectile.velocity *= -2;
                 projectile.timeLeft = 250;
                 projectile.ai[0] = 1;
+                Main.NewText("CRUMPETS!");
             }
         }
     }
