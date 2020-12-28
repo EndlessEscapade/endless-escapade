@@ -241,6 +241,10 @@ namespace EEMod
                 {
                     opac = 0;
                 }
+
+                for (int i = 0; i < reefMinibiome.Length; i++)
+                    reefMinibiome[i] = false;
+
                 //	Filters.Scene.Deactivate("EEMod:CR");
             }
         }

@@ -635,5 +635,14 @@ namespace EEMod
             recipe.SetResult(ItemID.SlimeStaff, 1);
             recipe.AddRecipe();
         }*/
+
+        public override void UpdateMusic(ref int music, ref MusicPriority priority)
+        {
+            /*if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[(int)MinibiomeID.KelpForest] == true)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
+                priority = MusicPriority.BiomeHigh;
+            }*/
+        }
     }
 }

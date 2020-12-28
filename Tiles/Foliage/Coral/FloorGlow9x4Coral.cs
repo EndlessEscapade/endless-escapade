@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using System;
 
 namespace EEMod.Tiles.Foliage.Coral
 {
@@ -44,9 +45,11 @@ namespace EEMod.Tiles.Foliage.Coral
             b = 0.9f;
         }
 
+        private float alpha;
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/FloorGlow9x4CoralGlow"), i, j);
+            alpha = (((float)Math.Sin((Main.GameUpdateCount + i - j) / 20f)) / 2f) + 0.5f;
+            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/FloorGlow9x4CoralGlow"), i, j, Color.White * alpha);
         }
     }
 }
