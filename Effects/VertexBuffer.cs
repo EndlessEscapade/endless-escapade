@@ -40,10 +40,10 @@ namespace EEMod.Effects
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 10f, 250f);
             }
-            if (projectile.type == ModContent.ProjectileType<HydrofluoricStaffProjectile>())
+            /*if (projectile.type == ModContent.ProjectileType<HydrofluoricStaffProjectile>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(111, 235, 124)), new RoundCap(), new SleepingStarTrailPosition(), 12f, 400f);
-            }
+            }*/
             if (projectile.type == ModContent.ProjectileType<WaterDragonsBubble>() || projectile.type == ModContent.ProjectileType<BubblingWatersBubbleSmall>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 128f);

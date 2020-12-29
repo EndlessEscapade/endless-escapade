@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Prim;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -42,8 +43,16 @@ namespace EEMod.Items.Weapons.Mage
             Vector2 vector = Vector2.Normalize(new Vector2(speedX, speedY));
             position += vector * 60;
             vector *= 3;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, vector.Y, vector.X);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, -vector.Y, -vector.X);
+            int proj1 = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, vector.Y, vector.X);
+            if (Main.netMode != NetmodeID.Server)
+            {
+                EEMod.primitives.CreateTrail(new MemePrimTrail(Main.projectile[proj1]));
+            }
+            int proj2 = Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<HydrofluoricStaffProjectile>(), damage, 1, Main.myPlayer, -vector.Y, -vector.X);
+            if (Main.netMode != NetmodeID.Server)
+            {
+                EEMod.primitives.CreateTrail(new MemePrimTrail(Main.projectile[proj2]));
+            }
             return false;
         }
 
