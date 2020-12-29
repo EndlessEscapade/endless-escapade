@@ -125,6 +125,11 @@ namespace EEMod
             AutoloadingManager.UnloadManager(this);
             instance = null;
             Noise2DShift = null;
+            Main.logo2Texture = ModContent.GetTexture("Terraria/Logo2");
+            Main.logoTexture = ModContent.GetTexture("Terraria/Logo");
+            Main.sun2Texture = ModContent.GetTexture("Terraria/Sun2");
+            Main.sun3Texture = ModContent.GetTexture("Terraria/Sun3");
+            Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
         }
 
 
