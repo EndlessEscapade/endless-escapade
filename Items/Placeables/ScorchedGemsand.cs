@@ -5,11 +5,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables
 {
-    public class Scorialite : ModItem
+    public class ScorchedGemsand : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Scorialite");
+            DisplayName.SetDefault("Scorched Gemsand");
         }
 
         public override void SetDefaults()
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.autoReuse = true;
             item.maxStack = 999;
             item.placeStyle = 10;
-            item.createTile = ModContent.TileType<ScorialiteTile>();
+            item.createTile = ModContent.TileType<ScorchedGemsandTile>();
         }
     }
 }

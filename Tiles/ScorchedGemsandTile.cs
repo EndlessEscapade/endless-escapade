@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class ScorialiteTile : ModTile
+    public class ScorchedGemsandTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -16,7 +16,7 @@ namespace EEMod.Tiles
             AddMapEntry(new Color(204, 51, 0));
 
             dustType = 154;
-            drop = ModContent.ItemType<Scorialite>();
+            drop = ModContent.ItemType<ScorchedGemsand>();
             soundStyle = 1;
             mineResist = 1f;
             minPick = 0;
