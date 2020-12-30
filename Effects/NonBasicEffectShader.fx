@@ -102,9 +102,17 @@ float4 MainPSA(VertexShaderOutput input) : COLOR
 	input.Color *= hslToRgb(0.64f + (0.18f * (float)sin((input.TextureCoordinates.y * 4) + progress)), 1, 0.7f);
 	return input.Color;
 }
+
 float4 MainPS3(VertexShaderOutput input) : COLOR
 {
 	input.Color.r += sin(input.TextureCoordinates.x * 5);
+	return input.Color;
+}
+
+float4 AlphaFadeOff(VertexShaderOutput input) : COLOR
+{
+	input.Color *= input.TextureCoordinates.x;
+	input.Color *= (1 + (abs((input.TextureCoordinates.y - 0.5f) * 2) * -1));
 	return input.Color;
 }
 
@@ -138,6 +146,10 @@ float4 BasicImage(VertexShaderOutput input) : COLOR
 
 technique BasicColorDrawing
 {
+	pass AlphaFadeOff
+	{
+		PixelShader = compile ps_2_0 AlphaFadeOff();
+	}
 	pass DefaultPass
 	{
 		VertexShader = compile vs_2_0 MainVS();

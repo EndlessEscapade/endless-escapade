@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage.Coral
 {
-    public class ThermalVent1x1Tile2 : ModTile
+    public class ThermalVent1x2 : ModTile
     {
         public override void SetDefaults()
         {
@@ -16,14 +16,17 @@ namespace EEMod.Tiles.Foliage.Coral
             Main.tileFrameImportant[Type] = true;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.newTile.Height = 1;
+            TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Width = 1;
             TileObjectData.newTile.LavaDeath = true;
+            TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.CoordinateHeights = new int[]
             {
+                16,
                 16
             };
             TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.newTile.RandomStyleRange = 2;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Thermal Vent");
@@ -41,7 +44,7 @@ namespace EEMod.Tiles.Foliage.Coral
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/ThermalVent1x1Glow2"), i, j);
+            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/ThermalVent1x2Glow"), i, j);
         }
     }
 }

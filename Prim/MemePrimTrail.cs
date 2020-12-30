@@ -18,8 +18,8 @@ namespace EEMod.Prim
         {
             _color = new Color(100, 255, 0); //Setting the color of the prims
             _alphaValue = 0.5f; //Setting the alpha of the prims
-            _width = 1; //The width of the prims(aka the amount the normalized vector is multiplied by)
-            _cap = 10; //IDK (Max amount of points/max length of the trail?)
+            _width = 0; //The width of the prims(aka the amount the normalized vector is multiplied by)
+            _cap = 10; //Max amount of points
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -61,14 +61,14 @@ namespace EEMod.Prim
 
 
                         //Creates a triangle between the vector above and below the current point and the vector below the next point
-                        AddVertex(firstDown, _color * _alphaValue, new Vector2((i / _cap), 1));
-                        AddVertex(firstUp, _color * _alphaValue, new Vector2((i / _cap), 0));
-                        AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                        AddVertex(firstDown, _color * _alphaValue, new Vector2((i / (float)_cap), 1));
+                        AddVertex(firstUp, _color * _alphaValue, new Vector2((i / (float)_cap), 0));
+                        AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
 
                         //Creates a triangle between the vector above and below the next point and the vector above the next current point
-                        AddVertex(secondUp, _color * _alphaValue, new Vector2((i + 1) / _cap, 0));
-                        AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / _cap, 1));
-                        AddVertex(firstUp, _color * _alphaValue, new Vector2((i / _cap), 0));
+                        AddVertex(secondUp, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 0));
+                        AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
+                        AddVertex(firstUp, _color * _alphaValue, new Vector2((i / (float)_cap), 0));
 
                         widthVar++;
                     }
@@ -82,7 +82,7 @@ namespace EEMod.Prim
 
         public override void SetShaders()
         {
-            PrepareBasicShader(); //Applying shaders to the prims(none here?)
+            PrepareShader(EEMod.TrailPractice, "AlphaFadeOff"); //Applying shaders to the prims(none here?)
         }
 
         public override void OnUpdate()
