@@ -1258,7 +1258,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void MakeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
+        public static void MakeIsland(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {
