@@ -205,7 +205,7 @@ namespace EEMod.EEWorld
                     }
                     break;
 
-                case (int)MinibiomeID.KelpForest:
+                case (int)MinibiomeID.KelpForest: //A normally shaped room cut out with noise
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     MakeJaggedOval(sizeX - 50, sizeY - 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     MakeJaggedOval(sizeX + 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
@@ -241,7 +241,7 @@ namespace EEMod.EEWorld
                     }
                     break;
 
-                case (int)MinibiomeID.BulbousGrove:
+                case (int)MinibiomeID.BulbousGrove: //One medium-sized open room completely covered in bulbous blocks
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
 
                     for (int i = 0; i < 20; i++)
@@ -324,7 +324,7 @@ namespace EEMod.EEWorld
                     }
                     break;
 
-                case (int)MinibiomeID.JellyfishCaverns:
+                case (int)MinibiomeID.JellyfishCaverns: //Many small ovular rooms that are interconnected in a random shape
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
@@ -363,7 +363,7 @@ namespace EEMod.EEWorld
                     }
                     break;
 
-                case (int)MinibiomeID.Halocline:
+                case (int)MinibiomeID.Halocline: //Unknown
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
@@ -371,7 +371,7 @@ namespace EEMod.EEWorld
                     CreateNoise(!ensureNoise, 40, 40, 0.4f);
                     break;
 
-                case (int)MinibiomeID.ThermalVents:
+                case (int)MinibiomeID.ThermalVents: //A wide-open room with floating platforms that hold abandoned ashen houses with huge chasms in between
                     MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true, 50);
                     MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
                     MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
@@ -381,7 +381,7 @@ namespace EEMod.EEWorld
                     }
                     break;
 
-                case (int)MinibiomeID.CrystallineCaves:
+                case (int)MinibiomeID.CrystallineCaves: //Massive caves made with noise surrounding a central large room(where the spire is, if there's a spire)
                     MakeJaggedOval((int)(sizeX * 1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
                     CreateNoise(true, 100, 20, 0.3f);
                     CreateNoise(true, 20, 100, 0.4f);
