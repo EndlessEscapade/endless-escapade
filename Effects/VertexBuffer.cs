@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using EEMod.Projectiles.CoralReefs;
 
 namespace EEMod.Effects
 {
@@ -47,6 +48,10 @@ namespace EEMod.Effects
             if (projectile.type == ModContent.ProjectileType<WaterDragonsBubble>() || projectile.type == ModContent.ProjectileType<BubblingWatersBubbleSmall>())
             {
                 CreateTrail(projectile, new StandardColorTrail(new Color(97, 215, 248)), new RoundCap(), new SleepingStarTrailPosition(), 8f, 128f);
+            }
+            if (projectile.type == ModContent.ProjectileType<ThermalMagma>())
+            {
+                CreateTrail(projectile, new StandardColorTrail(new Color(255, 171, 82)), new RoundCap(), new SleepingStarTrailPosition(), 50f * projectile.scale, 90f * projectile.scale);
             }
         }
 

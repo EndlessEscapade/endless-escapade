@@ -167,8 +167,8 @@ namespace EEMod.NPCs.CoralReefs
 
                 if(npc.ai[0] % 60 == 0)
                 {
-                    Projectile projectile = Projectile.NewProjectileDirect(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f);
-                    EEMod.primitives.CreateTrail(new SceptorPrimTrail(projectile));
+                    Projectile projectile = Projectile.NewProjectileDirect(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 1, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f);
+                    EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile));
                 }
             }
         }

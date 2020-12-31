@@ -71,6 +71,7 @@ namespace EEMod.Prim
             effects.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("Noise/noise"));
             effects.Parameters["spotTexture"].SetValue(EEMod.instance.GetTexture("Noise/Spot"));
             effects.Parameters["polkaTexture"].SetValue(EEMod.instance.GetTexture("Noise/RandomPolkaDots"));
+            effects.Parameters["Voronoi"].SetValue(EEMod.instance.GetTexture("Noise/VoronoiNoise"));
             _trailShader.ApplyShader(effects, this, _points, PassName, progress);
         }
         protected void PrepareShader(Effect effects)

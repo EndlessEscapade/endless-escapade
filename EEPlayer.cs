@@ -1261,6 +1261,7 @@ namespace EEMod
 
         public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
         {
+           
             if (!Main.gameMenu)
             {
                 if (player.wet)

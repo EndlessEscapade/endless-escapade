@@ -20,7 +20,7 @@ namespace EEMod.Projectiles.Enemy
         {
             projectile.width = 12;
             projectile.height = 12;
-            projectile.timeLeft = 250;
+            projectile.timeLeft = 30000;
             projectile.ignoreWater = true;
             projectile.hostile = true;
             projectile.friendly = false;
@@ -29,7 +29,27 @@ namespace EEMod.Projectiles.Enemy
             projectile.hide = true;
             projectile.tileCollide = true;
         }
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Bounce(projectile.modProjectile, oldVelocity);
+            return false;
+        }
 
+        private static Vector2 SavedVel;
+
+        public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
+        {
+            Projectile projectile = modProj.projectile;
+            if (projectile.velocity.X != oldVelocity.X)
+            {
+                projectile.velocity.X = -oldVelocity.X * bouncyness;
+            }
+
+            if (projectile.velocity.Y != oldVelocity.Y)
+            {
+                projectile.velocity.Y = -oldVelocity.Y * bouncyness;
+            }
+        }
         public override void AI()
         {
             Tile currentTile = Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)];

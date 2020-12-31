@@ -26,6 +26,7 @@ using EEMod.MachineLearning;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Items.Dyes;
 using EEMod.Prim;
+using Terraria.DataStructures;
 
 namespace EEMod
 {
@@ -283,6 +284,49 @@ namespace EEMod
         UIManager UI;
         public override void PreUpdateEntities()
         {
+            Main.graphics.GraphicsDevice.SetRenderTarget(playerDrawData);
+            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+            Main.spriteBatch.Begin();
+            for (int i = 0; i <= Main.playerDrawData.Count; i++)
+            {
+                int num = -1;
+                if (num != 0)
+                    {
+                        Main.pixelShader.CurrentTechnique.Passes[0].Apply();
+                        num = 0;
+                    }
+                
+                if (i != Main.playerDrawData.Count)
+                {
+                    DrawData value = Main.playerDrawData[i];
+                    if (value.shader >= 0)
+                    {
+                        GameShaders.Hair.Apply(0, Main.LocalPlayer, value);
+                        GameShaders.Armor.Apply(value.shader, Main.LocalPlayer, value);
+                    }
+                    else if (Main.LocalPlayer.head == 0)
+                    {
+                        GameShaders.Hair.Apply(0, Main.LocalPlayer, value);
+                        GameShaders.Armor.Apply(Main.LocalPlayer.cHead, Main.LocalPlayer, value);
+                    }
+                    else
+                    {
+                        GameShaders.Armor.Apply(0, Main.LocalPlayer, value);
+                        GameShaders.Hair.Apply((short)(-value.shader), Main.LocalPlayer, value);
+                    }
+                    if (!value.sourceRect.HasValue)
+                    {
+                        value.sourceRect = value.texture.Frame();
+                    }
+                    num = value.shader;
+                    if (value.texture != null)
+                    {
+                        Main.spriteBatch.Draw(value.texture, value.position - Main.LocalPlayer.position.ForDraw() + playerDrawData.TextureCenter()/2, value.sourceRect, Color.White, value.rotation, value.origin, value.scale, value.effect, 0f);
+                    }
+                }
+            }
+            Main.spriteBatch.End();
+            Main.graphics.GraphicsDevice.SetRenderTarget(null);
             base.PreUpdateEntities();
 
         }
@@ -290,6 +334,7 @@ namespace EEMod
         public ComponentManager<TileObjVisual> TVH;
         public override void Load()
         {
+            playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
             TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
@@ -352,7 +397,7 @@ namespace EEMod
         public static int loadingChoose;
         public static int loadingChooseImage;
         public static bool loadingFlag = true;
-
+        public RenderTarget2D playerDrawData;
         public static ModHotKey RuneActivator;
         public static ModHotKey RuneSpecial;
         public static ModHotKey Inspect;

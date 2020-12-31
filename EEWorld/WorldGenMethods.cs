@@ -1203,7 +1203,24 @@ namespace EEMod.EEWorld
                 }
             }
         }
-
+        public static void MakeOvalFlatTop(int width, int height, Vector2 Middle, int type)
+        {
+            PerlinNoiseFunction PN = new PerlinNoiseFunction(width * 2, height * 2, 10, 10, 0.5f);
+            for (int i = -width; i < width; i++)
+            {
+                for (int j = -height; j < height; j++)
+                {
+                    if (j > 0)
+                    {
+                        float Param = PN.perlin2[i + width, j + height] * 15;
+                        if (OvalCheck((int)Middle.X, (int)Middle.Y, (int)Middle.X + i, (int)Middle.Y + j, width, height + (int)Param))
+                        {
+                            WorldGen.PlaceTile(i + (int)Middle.X, j + (int)Middle.Y, type, false, true);
+                        }
+                    }
+                }
+            }
+        }
         public static void MakeOvalJaggedBottom(int width, int height, Vector2 startingPoint, int type, bool overwrite = false)
         {
             int steps = 0;

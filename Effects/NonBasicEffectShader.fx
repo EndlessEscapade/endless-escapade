@@ -14,6 +14,11 @@ sampler polkaSampler = sampler_state
 {
 	Texture = (polkaTexture);
 };
+texture Voronoi;
+sampler VoronoiSampler = sampler_state
+{
+	Texture = (Voronoi);
+};
 struct VertexShaderInput
 {
 	float2 TextureCoordinates : TEXCOORD0;
@@ -47,7 +52,7 @@ VertexShaderOutput MainVS(in VertexShaderInput input)
     VertexShaderOutput output = (VertexShaderOutput)0;
     float4 pos = mul(input.Position, WorldViewProjection);
     output.Position = pos;
-    
+
     output.Color = input.Color;
 
 	output.TextureCoordinates = input.TextureCoordinates;
@@ -91,9 +96,9 @@ float4 hslToRgb(float h, float s, float l){
     float r, g, b;
         float q = l < 0.5 ? l * (1 + s) : (l + s) - (l * s);
         float p = (2 * l) - q;
-        r = hue2rgb(p, q, h + 0.33f); 
+        r = hue2rgb(p, q, h + 0.33f);
         g = hue2rgb(p, q, h);
-        b = hue2rgb(p, q, h - 0.33f); 
+        b = hue2rgb(p, q, h - 0.33f);
 	return float4(r,g,b,1);
 }
 
@@ -102,21 +107,37 @@ float4 MainPSA(VertexShaderOutput input) : COLOR
 	input.Color *= hslToRgb(0.64f + (0.18f * (float)sin((input.TextureCoordinates.y * 4) + progress)), 1, 0.7f);
 	return input.Color;
 }
+
 float4 MainPS3(VertexShaderOutput input) : COLOR
 {
 	input.Color.r += sin(input.TextureCoordinates.x * 5);
 	return input.Color;
 }
-
+float4 Laser(VertexShaderOutput input) : COLOR
+{
+	float rand = GetHeight(float2(0.5f,(input.TextureCoordinates.x/2 + sin(progress / 40)*0.5f)) % 1);
+	float sineInterp = (1000 * abs(rand));
+	input.Color *= pow(sin(input.TextureCoordinates.y * 3.14159265),sineInterp*(1 + abs(rand)));
+	input.Color.rgb *= 1 + max(0,(abs(progress / 15 % 4 - 2 - input.TextureCoordinates.x)));
+	input.Color *= 1 + abs(rand)* abs(rand);
+	return input.Color;
+}
+float4 AlphaFadeOff(VertexShaderOutput input) : COLOR
+{
+	input.Color *= input.TextureCoordinates.x;
+	input.Color *= (1 + (abs((input.TextureCoordinates.y - 0.5f) * 2) * -1));
+	return input.Color;
+}
 float4 Basic(VertexShaderOutput input) : COLOR
 {
 	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
 	float4 spotColor = tex2D(spotSampler, coords).r;
 	input.Color *= GetHeight(coords/2 + float2(sin(progress)/5 + 0.5f,cos(progress)/5 + 0.5f))*3;
 	input.Color *= 1 + coords.x * abs(sin(input.TextureCoordinates.y * 20))*5;
-	input.Color *= sin(input.TextureCoordinates.y * 3.14f); 
+	input.Color *= sin(input.TextureCoordinates.y * 3.14f);
 	input.Color.rgb -= float3(1 + spotColor.r, 1 - spotColor.g, spotColor.b);
 	input.Color *= 5 - distance(float2(1,0.5f),input.TextureCoordinates)*4;
+
 	return input.Color;
 }
 float4 WaterPogPass(VertexShaderOutput input) : COLOR
@@ -138,6 +159,10 @@ float4 BasicImage(VertexShaderOutput input) : COLOR
 
 technique BasicColorDrawing
 {
+	pass AlphaFadeOff
+	{
+		PixelShader = compile ps_2_0 AlphaFadeOff();
+	}
 	pass DefaultPass
 	{
 		VertexShader = compile vs_2_0 MainVS();
@@ -161,6 +186,10 @@ technique BasicColorDrawing
 	pass SideFallOff
 	{
 		PixelShader = compile ps_2_0 SideFallOff();
+	}
+	pass Lazor
+	{
+		PixelShader = compile ps_2_0 Laser();
 	}
 	pass BasicImagePass
 	{
