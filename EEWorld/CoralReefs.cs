@@ -67,22 +67,7 @@ namespace EEMod.EEWorld
 
             Vector2 startingPoint = new Vector2(xPos - sizeX, yPos - sizeY);
             int tile2;
-            if (TL.Y < Main.maxTilesY * 0.4f)
-            {
-                tile2 = (ushort)ModContent.TileType<LightGemsandTile>();
-            }
-            else if (TL.Y < Main.maxTilesY * 0.8f)
-            {
-                tile2 = (ushort)ModContent.TileType<GemsandTile>();
-            }
-            else
-            {
-                tile2 = (ushort)ModContent.TileType<DarkGemsandTile>();
-            }
-            if (TL.Y < Main.maxTilesY / 10)
-            {
-                tile2 = (ushort)ModContent.TileType<CoralSandTile>();
-            }
+            tile2 = (ushort)GetGemsandType((int)TL.Y);
             void CreateNoise(bool ensureN, int width, int height, float thresh)
             {
                 perlinNoise = new PerlinNoiseFunction(1000, 1000, width, height, thresh);
@@ -100,23 +85,7 @@ namespace EEMod.EEWorld
                                     if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
                                     {
                                         Tile tile = Framing.GetTileSafely(i, j);
-                                        if (j < Main.maxTilesY * 0.4f)
-                                        {
-                                            tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
-                                        }
-                                        else if (j < Main.maxTilesY * 0.8f)
-                                        {
-                                            tile.type = (ushort)ModContent.TileType<GemsandTile>();
-                                        }
-                                        else if (j >= Main.maxTilesY * 0.8f)
-                                        {
-                                            tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
-                                        }
-
-                                        if (j < Main.maxTilesY / 10)
-                                        {
-                                            tile.type = (ushort)ModContent.TileType<CoralSandTile>();
-                                        }
+                                        tile.type = (ushort)GetGemsandType(j);
                                     }
                                 }
                             }
@@ -372,44 +341,17 @@ namespace EEMod.EEWorld
                     break;
 
                 case (int)MinibiomeID.ThermalVents: //A wide-open room with floating platforms that hold abandoned ashen houses with huge chasms in between
-                    MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true, 50);
-
-                    MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
-
-                    MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
+                    MakeJaggedOval(sizeX, (int)(sizeY * 1.5f), new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true, 50);
 
                     for (int i = 0; i < 30; i++)
                     {
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY * 2)), TileID.StoneSlab, true);
                     }
 
-
-                    /*perlinNoise = new PerlinNoiseFunction(1000, 1000, 50, 50, 0.8f);
-                    int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
-                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                    for (int i = 0; i < 5; i++)
                     {
-                        for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
-                        {
-                            if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
-                            {
-                                if (i - (int)startingPoint.X < 1000 && j - (int)startingPoint.Y < 1000)
-                                {
-                                    if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
-                                    {
-                                        Tile tile = Framing.GetTileSafely(i, j);
-                                        if (j < Main.maxTilesY * 0.4f)
-                                            tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
-                                        else if (j < Main.maxTilesY * 0.8f)
-                                            tile.type = (ushort)ModContent.TileType<GemsandTile>();
-                                        else if (j >= Main.maxTilesY * 0.8f)
-                                            tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
-                                    }
-                                }
-                            }
-                        }
-                    }*/
-
-
+                        MakeOvalJaggedTop(WorldGen.genRand.Next(25, 50), WorldGen.genRand.Next(10, 30), new Vector2(TL.X + WorldGen.genRand.Next((int)(sizeX * 0.25f), (int)(sizeX * 0.75f)), TL.X + WorldGen.genRand.Next((int)(sizeY * 0.25f * 1.5f), (int)(sizeY * 0.75f * 1.5f))), ModContent.TileType<GemsandTile>());
+                    }
                     break;
 
                 case (int)MinibiomeID.CrystallineCaves: //Massive caves made with noise surrounding a central large room(where the spire is, if there's a spire)

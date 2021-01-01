@@ -319,8 +319,7 @@ namespace EEMod
                 {
                     for (int i = 0; i < Main.maxTilesX; i++)
                     {
-                        Tile tile = Main.tile[i, j];
-                        if (tile.type == ModContent.TileType<DarkGemsandTile>() || tile.type == ModContent.TileType<GemsandTile>() || tile.type == ModContent.TileType<LightGemsandTile>())
+                        if (GemsandCheck(i, j))
                         {
                             if (WorldGen.genRand.NextBool(2000))
                             {
@@ -512,22 +511,7 @@ namespace EEMod
                 Vector2 pos1 = new Vector2(SpirePosition.X + 10, SpirePosition.Y - 150 / 2);
                 Vector2 pos2 = new Vector2(SpirePosition.X + 10, SpirePosition.Y + 150 / 2);
                 int tile2 = 0;
-                if (pos1.Y < Main.maxTilesY * 0.4f)
-                {
-                    tile2 = (ushort)ModContent.TileType<LightGemsandTile>();
-                }
-                else if (pos1.Y < Main.maxTilesY * 0.8f)
-                {
-                    tile2 = (ushort)ModContent.TileType<GemsandTile>();
-                }
-                else
-                {
-                    tile2 = (ushort)ModContent.TileType<DarkGemsandTile>();
-                }
-                if (pos1.Y < Main.maxTilesY / 10)
-                {
-                    tile2 = (ushort)ModContent.TileType<CoralSandTile>();
-                }
+                tile2 = GetGemsandType((int)pos1.Y);
                 MakeExpandingChasm(pos1, pos2, tile2, 100, -2, true, new Vector2(20, 30), .5f);
                 MakeExpandingChasm(pos2, pos1, tile2, 100, -2, true, new Vector2(20, 30), .5f);
                 ClearRegion(46, 26, new Vector2(SpirePosition.X + 10 - 24, SpirePosition.Y - 26));

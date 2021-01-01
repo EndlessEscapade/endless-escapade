@@ -1379,22 +1379,7 @@ namespace EEMod.EEWorld
                     if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
                     {
                         WorldGen.PlaceTile(i, j, type);
-                        if (j < Main.maxTilesY * 0.33f)
-                        {
-                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<LightGemsandTile>());
-                        }
-                        else if (j < Main.maxTilesY * 0.66f)
-                        {
-                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<GemsandTile>());
-                        }
-                        else if (j > Main.maxTilesY * 0.66f)
-                        {
-                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<DarkGemsandTile>());
-                        }
-                        if (j < Main.maxTilesY / 10)
-                        {
-                            WorldGen.PlaceTile(i, j, (ushort)ModContent.TileType<CoralSandTile>());
-                        }
+                        WorldGen.PlaceTile(i, j, (ushort)GetGemsandType(j));
                     }
                 }
             }
@@ -1920,6 +1905,20 @@ namespace EEMod.EEWorld
                 WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y, 21);
                 Debug.WriteLine("Chest Placed");
             }
+        }
+
+        public static int GetGemsandType(int height)
+        {
+            if (height < Main.maxTilesY * 0.4f)
+                return ModContent.TileType<LightGemsandTile>();
+            else if (height < Main.maxTilesY * 0.8f)
+                return ModContent.TileType<GemsandTile>();
+            else if (height > Main.maxTilesY * 0.8f)
+                return ModContent.TileType<DarkGemsandTile>();
+            if (height < Main.maxTilesY / 10)
+                return ModContent.TileType<CoralSandTile>();
+            else
+                return 0;
         }
 
         public static void Island(int islandWidth, int islandHeight, int posY)
