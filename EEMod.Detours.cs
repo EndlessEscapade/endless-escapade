@@ -247,7 +247,6 @@ namespace EEMod
 
         public void DrawKelpTarzanVines()
         {
-
             foreach (int index in VerletHelpers.EndPointChains)
             {
                 var vec = Verlet.Points[index].point;
@@ -292,6 +291,7 @@ namespace EEMod
                         Verlet.Points[index].point = Main.LocalPlayer.Center;
                     }
                 }
+                Lighting.AddLight(vec, new Vector3(235, 166, 0) / 255);
             }
 
             #region Spawning particles

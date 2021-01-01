@@ -407,10 +407,10 @@ namespace EEMod
                             if (WalkingFast != -1) minibiome = WalkingFast;
 
 
-                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest)
-                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<KelpMossTile>();
-                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
-                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<ThermalMossTile>();
+                            if (Main.tile[i, j].type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest)
+                                Main.tile[i, j].type = (ushort)ModContent.TileType<KelpMossTile>();
+                            if (Main.tile[i, j].type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
+                                Main.tile[i, j].type = (ushort)ModContent.TileType<ThermalMossTile>();
                             /*if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<DarkGemsandTile>())
                                 Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<DarkGemsandTileMoss>();*/
                         }
