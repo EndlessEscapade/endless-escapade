@@ -88,7 +88,7 @@ namespace EEMod.Tiles.Foliage
             Vector2 end = pos - sprout;
             Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
             float dist = (end - pos).Length();
-            Texture2D tex = EEMod.instance.GetTexture("Tiles/Foliage/BlueKelpTile");
+            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/BlueKelpTile");
 
 
             int noOfFrames = 10;

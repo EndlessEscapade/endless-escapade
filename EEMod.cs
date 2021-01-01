@@ -631,8 +631,8 @@ namespace EEMod
                 text = "Tropical Island";
                 color = Color.GreenYellow * alpha;
             }
-            Texture2D Outline = EEMod.instance.GetTexture("UI/Outline");
-            Texture2D OceanScreen = EEMod.instance.GetTexture("Seamap/SeamapAssets/OceanScreen");
+            Texture2D Outline = ModContent.GetInstance<EEMod>().GetTexture("UI/Outline");
+            Texture2D OceanScreen = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/OceanScreen");
             Vector2 textSize = Main.fontDeathText.MeasureString(text);
             float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
             float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;

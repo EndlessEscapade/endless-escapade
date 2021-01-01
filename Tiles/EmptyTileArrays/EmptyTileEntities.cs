@@ -30,7 +30,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         public virtual string Tex { get; set; }
 
         public bool CanActivate { get; set; }
-        public Texture2D texture => EEMod.instance.GetTexture(Tex);
+        public Texture2D texture => ModContent.GetInstance<EEMod>().GetTexture(Tex);
         public EmptyTileDrawEntity(Vector2 position, string text)
         {
             this.position = position;
@@ -160,7 +160,7 @@ namespace EEMod.Tiles.EmptyTileArrays
     public class Crystal : EmptyTileDrawEntity
     {
         public float speed;
-        public Texture2D glow => EEMod.instance.GetTexture(glowPath);
+        public Texture2D glow => ModContent.GetInstance<EEMod>().GetTexture(glowPath);
         public string glowPath;
         public float shaderLerp;
         public float lerp;
@@ -227,7 +227,7 @@ namespace EEMod.Tiles.EmptyTileArrays
     public class BigCrystal : EmptyTileDrawEntity
     {
         public float speed;
-        public Texture2D glow => EEMod.instance.GetTexture(glowPath);
+        public Texture2D glow => ModContent.GetInstance<EEMod>().GetTexture(glowPath);
         public string glowPath;
         public float shaderLerp;
         public float lerp;

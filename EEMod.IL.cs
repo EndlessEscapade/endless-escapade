@@ -309,7 +309,7 @@ namespace EEMod
                 num10 = Math.Pow((Main.time / 54000.0 - 0.5) * 2.0, 2.0);
             }
 
-            Rectangle[] rects = { new Rectangle(0, 0, EEMod.instance.GetTexture("ShaderAssets/SunRing").Width, EEMod.instance.GetTexture("ShaderAssets/SunRing").Height), new Rectangle(0, 0, EEMod.instance.GetTexture("ShaderAssets/LensFlare").Width, EEMod.instance.GetTexture("ShaderAssets/LensFlare").Height) };
+            Rectangle[] rects = { new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SunRing").Width, ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SunRing").Height), new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare").Width, ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare").Height) };
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
@@ -317,8 +317,8 @@ namespace EEMod
             if (EEModConfigClient.Instance.BetterLighting)
             {
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), _sunPos - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * .5f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 540f), new Vector2(87), 10f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("ShaderAssets/LensFlare"), _sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * _globalAlpha * _intensityFunction, (float)Math.Sin(Main.time / 540f), rects[1].Size() / 2, 1.3f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("ShaderAssets/SunRing"), _sunPos - Main.screenPosition + new Vector2(0, 37 + (float)num10 * 250), rects[0], Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), rects[0].Size() / 2, 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare"), _sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * _globalAlpha * _intensityFunction, (float)Math.Sin(Main.time / 540f), rects[1].Size() / 2, 1.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SunRing"), _sunPos - Main.screenPosition + new Vector2(0, 37 + (float)num10 * 250), rects[0], Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), rects[0].Size() / 2, 1f, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();
@@ -332,8 +332,8 @@ namespace EEMod
 
             if (EEModConfigClient.Instance.BetterLighting && Main.worldName != KeyID.CoralReefs)
             {
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("ShaderAssets/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("ShaderAssets/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();
@@ -410,9 +410,9 @@ namespace EEMod
             float scale = 1.5f;
             Vector2 traverseFunction = new Vector2(4000, 1000);
             Vector2 traverse = new Vector2(-Main.LocalPlayer.Center.X / (Main.maxTilesX * 16) * traverseFunction.X, -Main.LocalPlayer.Center.Y / (Main.maxTilesY * 16) * traverseFunction.Y);
-            Texture2D CB1 = EEMod.instance.GetTexture("Backgrounds/CoralReefsSurfaceFar"); //instance.GetTexture("Backgrounds /CoralReefsSurfaceFar");
-            Texture2D CB2 = EEMod.instance.GetTexture("Backgrounds/CoralReefsSurfaceMid"); //instance.GetTexture("Backgrounds /CoralReefsSurfaceMid");
-            Texture2D CB3 = EEMod.instance.GetTexture("Backgrounds/CoralReefsSurfaceClose");
+            Texture2D CB1 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar"); //instance.GetTexture("Backgrounds /CoralReefsSurfaceFar");
+            Texture2D CB2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid"); //instance.GetTexture("Backgrounds /CoralReefsSurfaceMid");
+            Texture2D CB3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
             Rectangle GlobalRect = new Rectangle(0, 0, (int)(CB1.Width * scale), (int)(CB1.Height * scale));
             Rectangle GlobalRectUnscaled = new Rectangle(0, 0, CB1.Width, CB1.Height);
 
@@ -488,12 +488,12 @@ namespace EEMod
                         NoiseSurfacing.Parameters["yCoord"].SetValue(seed);
                         NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (speed % 0.5f))) * 4);
                         NoiseSurfacing.Parameters["xDis"].SetValue(speed % 0.5f);
-                        NoiseSurfacing.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("noise"));
+                        NoiseSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("noise"));
                         NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
 
                         Vector2 position = new Vector2((int)mouseTilePos.X * 16, (int)mouseTilePos.Y * 16) - new Vector2(tile.frameX / 18 * 16, tile.frameY / 18 * 16);
 
-                        Main.spriteBatch.Draw(EEMod.instance.GetTexture("NoiseSurfacingTest"), position.ForDraw() + new Vector2(15, -20), Color.Purple);
+                        Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NoiseSurfacingTest"), position.ForDraw() + new Vector2(15, -20), Color.Purple);
                         Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = position;
                         Main.spriteBatch.End();
                         Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

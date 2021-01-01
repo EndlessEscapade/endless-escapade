@@ -40,7 +40,7 @@ namespace EEMod.Tiles.Ores
         {
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.005f));
             Color chosen = Color.Lerp(Color.DarkCyan, Color.White, Main.rand.NextFloat(1f));
-            EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i, j) * 16, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)) * 2, 2, chosen, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.75f), new SetMask(EEMod.instance.GetTexture("Masks/RadialGradient")), new SetLighting(chosen.ToVector3(), 0.2f));
+            EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i, j) * 16, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)) * 2, 2, chosen, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.75f), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new SetLighting(chosen.ToVector3(), 0.2f));
         }
     }
 }

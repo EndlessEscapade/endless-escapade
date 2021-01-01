@@ -158,10 +158,10 @@ namespace EEMod.EEWorld
                     if (MidNorm.Y > 100 * 16 && Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 40 * 16 * 40 * 16 && Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
                     {
                         Color chosen = Color.Lerp(Color.Yellow, Color.LightGoldenrodYellow, Main.rand.NextFloat(1f));
-                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/Vine"), Color.White, ChainConneccPos, LastChainConneccPos, Mid, 0.6f, MathHelper.PiOver2, true);
-                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/VineLight"), Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2,true);
-                        Helpers.DrawBezier(EEMod.instance.GetTexture("Projectiles/VineLightGlow"), Color.White * Math.Abs((float)Math.Sin(Main.GameUpdateCount/200f + ChainConneccPos.X)), ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2);
-                        Helpers.DrawParticlesAlongBezier(LastChainConneccPos + addOn, ChainConneccPos + addOn, Mid + addOn, 1/8f, chosen,0.005f,(Vector2.UnitY).RotatedBy(Main.rand.NextFloat(6.24f)), new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(EEMod.instance.GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.12f, 0.12f)), new SetLighting(chosen.ToVector3(), 0.3f), new ZigzagMotion(40f,3f));
+                        Helpers.DrawBezier(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Vine"), Color.White, ChainConneccPos, LastChainConneccPos, Mid, 0.6f, MathHelper.PiOver2, true);
+                        Helpers.DrawBezier(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/VineLight"), Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2,true);
+                        Helpers.DrawBezier(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/VineLightGlow"), Color.White * Math.Abs((float)Math.Sin(Main.GameUpdateCount/200f + ChainConneccPos.X)), ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2);
+                        Helpers.DrawParticlesAlongBezier(LastChainConneccPos + addOn, ChainConneccPos + addOn, Mid + addOn, 1/8f, chosen,0.005f,(Vector2.UnitY).RotatedBy(Main.rand.NextFloat(6.24f)), new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.12f, 0.12f)), new SetLighting(chosen.ToVector3(), 0.3f), new ZigzagMotion(40f,3f));
                     }
                 }
             }
@@ -191,11 +191,11 @@ namespace EEMod.EEWorld
                         && !Main.tile[(int)lerp2.X / 16, (int)lerp2.Y / 16].active()
                         && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
                     {
-                        Texture2D a = EEMod.instance.GetTexture("Projectiles/CrystalVineThin");
-                        Texture2D b = EEMod.instance.GetTexture("Projectiles/CrystalVineDangleThick");
-                        Texture2D bO = EEMod.instance.GetTexture("Projectiles/CrystalVineDangleThickOutline");
-                        Texture2D c = EEMod.instance.GetTexture("Projectiles/CrystalVineDangleThin");
-                        Texture2D d = EEMod.instance.GetTexture("Projectiles/CrystalVineDangleMid");
+                        Texture2D a = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalVineThin");
+                        Texture2D b = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalVineDangleThick");
+                        Texture2D bO = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalVineDangleThickOutline");
+                        Texture2D c = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalVineDangleThin");
+                        Texture2D d = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalVineDangleMid");
                         Vector2 addonB = new Vector2(0, b.Height / 2 * (float)Math.Cos(rot));
                         Vector2 addonC = new Vector2(0, c.Height / 2 * (float)Math.Cos(rot));
                         Vector2 addonD = new Vector2(0, d.Height / 2 * (float)Math.Cos(rot));
@@ -249,7 +249,7 @@ namespace EEMod.EEWorld
                                 zero = Vector2.Zero;
                             }
                             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, (j - 1) * 16 - (int)Main.screenPosition.Y) + zero;
-                            Texture2D texture = EEMod.instance.GetTexture("Tiles/Furniture/Coral/AquamarineLamp1Glow");
+                            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Furniture/Coral/AquamarineLamp1Glow");
 
                             float timeBetween = 70;
                             float bigTimeBetween = 200;
@@ -370,7 +370,7 @@ namespace EEMod.EEWorld
                                 expectedType = 0;
                                 if (tile.type != expectedType)
                                 {
-                                    missingShipTilesItems.Add(EEMod.instance.GetTexture("Empty"));
+                                    missingShipTilesItems.Add(ModContent.GetInstance<EEMod>().GetTexture("Empty"));
                                     missingShipTilesRespectedPos.Add(new Vector2(i, j));
                                 }
                                 break;

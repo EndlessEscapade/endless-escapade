@@ -291,8 +291,8 @@ namespace EEMod.NPCs
         {
             Main.spriteBatch.Draw(Main.magicPixel, tilePos - Main.screenPosition, new Rectangle(0, 0, 16, 16), drawColor * alpha, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             // Mod mod = ModLoader.GetMod("EEMod");
-            Texture2D texture = EEMod.instance.GetTexture("NPCs/DuneShambler");
-            Texture2D texture2 = EEMod.instance.GetTexture("NPCs/DuneShambler")Dig;
+            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/DuneShambler");
+            Texture2D texture2 = ModContent.GetInstance<EEMod>().GetTexture("NPCs/DuneShambler")Dig;
             Player player = Main.player[npc.target];
             //Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             if (player.Center.X - npc.Center.X > 0)

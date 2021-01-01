@@ -101,7 +101,7 @@ namespace EEMod.Projectiles.Melee
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(4 * sineAdd), (int)(2 * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(4 * sineAdd), (int)(2 * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
             return base.PreDraw(spriteBatch, lightColor);
         }
     }

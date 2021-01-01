@@ -94,7 +94,7 @@ namespace EEMod
             bool DeltaLeft = CenterBuffer.X > position.X && Main.LocalPlayer.Center.X < position.X;
             bool DeltaRight = CenterBuffer.X < position.X && Main.LocalPlayer.Center.X > position.X;
             bool isColliding = new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y, 32, 48).Intersects(new Rectangle((int)position.X, (int)position.Y - Texture.Height, Texture.Width, Texture.Height));
-            Texture2D leaft = EEMod.instance.GetTexture("ForegroundParticles/Leaf");
+            Texture2D leaft = ModContent.GetInstance<EEMod>().GetTexture("ForegroundParticles/Leaf");
             float vel = Main.LocalPlayer.velocity.X;
             if (isColliding)
             {
@@ -102,7 +102,7 @@ namespace EEMod
                 {
                     Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
                     EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(vel / 300f));
-                    EEMod.Particles.Get("Main").SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), -Vector2.UnitY * vel / 2f, 3, chosen, new SlowDown(0.92f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(EEMod.instance.GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.1f));
+                    EEMod.Particles.Get("Main").SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), -Vector2.UnitY * vel / 2f, 3, chosen, new SlowDown(0.92f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.1f));
                 }
                 if (DeltaLeft && timer == 0)
                 {

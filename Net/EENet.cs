@@ -27,7 +27,7 @@ namespace EEMod.Net
 
         public static ModPacket WriteToPacket(EEMessageType msg, params object[] param)
         {
-            ModPacket packet = EEMod.instance.GetPacket();
+            ModPacket packet = ModContent.GetInstance<EEMod>().GetPacket();
             packet.Write((byte)msg);
 
             for (int m = 0; m < param.Length; m++)

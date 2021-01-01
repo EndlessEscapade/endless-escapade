@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace EEMod
 {
@@ -200,7 +201,7 @@ namespace EEMod
                     }
                     if (centerOfElement.Y - Main.LocalPlayer.Center.Y >= 300 && collides == true)
                     {
-                        EEMod.instance.simpleGame.LoseLife();
+                        ModContent.GetInstance<EEMod>().simpleGame.LoseLife();
                         elementActive = false;
                         collides = false;
                     }

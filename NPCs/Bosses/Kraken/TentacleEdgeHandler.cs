@@ -104,7 +104,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         coolDownForCollision = cooldown;
                         npc.netUpdate = true;
                     }
-                    Helpers.DrawBezier(Main.spriteBatch, EEMod.instance.GetTexture("NPCs/Bosses/Kraken/TentacleChain"), "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, MathHelper.PiOver2);
+                    Helpers.DrawBezier(Main.spriteBatch, ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Kraken/TentacleChain"), "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, MathHelper.PiOver2);
                     /*if (npc.ai[1] % 8 == 0)
                     {
                         Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].Center.X, (int)Main.player[npc.target].Center.Y, Main.player[npc.target].width, Main.player[npc.target].height);

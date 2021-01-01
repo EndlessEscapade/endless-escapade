@@ -119,8 +119,8 @@ namespace EEMod.Projectiles.Mage
                 return false;
             }
             Texture2D projectileTexture = Main.projectileTexture[projectile.type];
-            Texture2D beamTexture = EEMod.instance.GetTexture("Projectiles/Mage/DruidsVin_Beam");
-            Texture2D beamEndTexture = EEMod.instance.GetTexture("Projectiles/Mage/DruidsVin_End");
+            Texture2D beamTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Mage/DruidsVin_Beam");
+            Texture2D beamEndTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Mage/DruidsVin_End");
             float laserLength = LaserLength;
             Color color44 = Color.White * 0.8f;
             Texture2D projectileTexture2 = projectileTexture;

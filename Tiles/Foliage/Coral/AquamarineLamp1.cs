@@ -72,8 +72,8 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     zero = Vector2.Zero;
                 }
-                Texture2D tex = EEMod.instance.GetTexture("Tiles/Foliage/Coral/AquamarineLamp1Glow");
-                Texture2D mask = EEMod.instance.GetTexture("Masks/SmoothFadeOut");
+                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/AquamarineLamp1Glow");
+                Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Masks/SmoothFadeOut");
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, (j - 1) * 16 - (int)Main.screenPosition.Y) + zero;
 
                 Lighting.AddLight(new Vector2(i * 16, (j ) * 16) + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f + i*j))).ToVector3());

@@ -256,7 +256,7 @@ namespace EEMod
             #region Warp cutscene
             if (importantCutscene)
             {
-                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("Noise/noise"));
+                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/noise"));
                 Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
 
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
@@ -415,7 +415,7 @@ namespace EEMod
             #region Placing red marks on the map
             /*if (markerPlacer % 40 == 0)
             {
-                Projectile.NewProjectile(Main.screenPosition + EEMod.instance.position, Vector2.Zero, ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.instance.velocity.X, EEMod.instance.velocity.Y);
+                Projectile.NewProjectile(Main.screenPosition + ModContent.GetInstance<EEMod>().position, Vector2.Zero, ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, ModContent.GetInstance<EEMod>().velocity.X, ModContent.GetInstance<EEMod>().velocity.Y);
             }*/
             #endregion
         }

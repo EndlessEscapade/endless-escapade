@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
+using Terraria.ModLoader;
 
 namespace EEMod
 {
@@ -39,7 +40,7 @@ namespace EEMod
             Ref<Effect> screenRef7 = new Ref<Effect>(instance.GetEffect("Effects/SeaOpening"));
             Ref<Effect> screenRef8 = new Ref<Effect>(instance.GetEffect("Effects/LightSource"));
             Ref<Effect> screenRef9 = new Ref<Effect>(instance.GetEffect("Effects/ReflectionShader"));
-            instance.GetEffect("Effects/Noise2D").Parameters["noiseTexture"].SetValue(EEMod.instance.GetTexture("Noise/noise"));
+            instance.GetEffect("Effects/Noise2D").Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/noise"));
             Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:Boom"] = new Filter(new ScreenShaderData(screenRef, "DeathAnimation"), EffectPriority.VeryHigh);
             Filters.Scene["EEMod:Shockwave"] = new Filter(new ScreenShaderData(screenRef2, "Shockwave"), EffectPriority.VeryHigh);

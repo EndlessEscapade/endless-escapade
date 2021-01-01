@@ -70,11 +70,11 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = EEMod.instance.GetTexture("NPCs/CoralReefs/ToxicPufferSmall");
+            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/ToxicPufferSmall");
             Vector2 offset = Vector2.Zero;
             if (big)
             {
-                texture = EEMod.instance.GetTexture("NPCs/CoralReefs/ToxicPuffer");
+                texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/ToxicPuffer");
                 Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + offset, new Rectangle(0, 0, 62, 48), drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             }
             if (!big)

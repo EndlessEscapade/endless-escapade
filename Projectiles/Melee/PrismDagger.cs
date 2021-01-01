@@ -88,7 +88,7 @@ namespace EEMod.Projectiles.Melee
             Color shadeColor = Main.hslToRgb((projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f);
             EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.PrismShader.Parameters["tentacle"].SetValue(EEMod.instance.GetTexture("ShaderAssets/PrismDaggerLightMap"));
+            EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/PrismDaggerLightMap"));
             EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
             EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3());
             EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);

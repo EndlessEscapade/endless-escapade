@@ -99,7 +99,7 @@ namespace EEMod.Projectiles
                 Leaves[i].Velocity = new Vector2(3f * Leaves[i].scale, (float)Math.Sin(Leaves[i].flash * 0.5f / Leaves[i].alpha));
                 Leaves[i].rotation += Leaves[i].Velocity.X / 50f;
                 Leaves[i].Position += Leaves[i].Velocity;
-                spriteBatch.Draw(EEMod.instance.GetTexture("ForegroundParticles/Leaf"), Leaves[i].Position - Main.screenPosition, null, Color.White, Leaves[i].Velocity.ToRotation() + Leaves[i].rotation, Vector2.Zero, Leaves[i].scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ForegroundParticles/Leaf"), Leaves[i].Position - Main.screenPosition, null, Color.White, Leaves[i].Velocity.ToRotation() + Leaves[i].rotation, Vector2.Zero, Leaves[i].scale, SpriteEffects.None, 0);
             }
             return false;
         }

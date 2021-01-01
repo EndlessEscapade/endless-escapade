@@ -644,11 +644,11 @@ namespace EEMod
 
                 Seamap.SeamapContent.SeamapPlayerShip.localship.velocity = Vector2.Zero;
                 Main.numClouds = 0;
-                Main.logo2Texture = EEMod.instance.GetTexture("Empty");
-                Main.logoTexture = EEMod.instance.GetTexture("Empty");
-                Main.sun2Texture = EEMod.instance.GetTexture("Empty");
-                Main.sun3Texture = EEMod.instance.GetTexture("Empty");
-                Main.sunTexture = EEMod.instance.GetTexture("Empty");
+                Main.logo2Texture = ModContent.GetInstance<EEMod>().GetTexture("Empty");
+                Main.logoTexture = ModContent.GetInstance<EEMod>().GetTexture("Empty");
+                Main.sun2Texture = ModContent.GetInstance<EEMod>().GetTexture("Empty");
+                Main.sun3Texture = ModContent.GetInstance<EEMod>().GetTexture("Empty");
+                Main.sunTexture = ModContent.GetInstance<EEMod>().GetTexture("Empty");
 
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null)
                 {
@@ -1022,7 +1022,7 @@ namespace EEMod
                 Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
             }
 
-            Main.sunTexture = EEMod.instance.GetTexture("Empty");
+            Main.sunTexture = ModContent.GetInstance<EEMod>().GetTexture("Empty");
 
             orig(self, gameTime);
         }

@@ -180,7 +180,7 @@ namespace EEMod.Projectiles.Melee
             if (projectile.ai[0] >= chargeTime)
             {
                 float sineAdd = (float)Math.Sin(alphaCounter) + 2.5f;
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
             }
             if (projectile.ai[1] != 0)
             {

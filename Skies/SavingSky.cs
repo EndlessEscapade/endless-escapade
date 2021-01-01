@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
+using Terraria.ModLoader;
 
 namespace EEMod.Skies
 {
@@ -36,23 +37,23 @@ namespace EEMod.Skies
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
                     break;
                 case 1:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen2");
+                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen2");
                     break;
                 case 2:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
+                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen4");
+                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen4");
                     break;
             }
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
                 {
-                    texture = EEMod.instance.GetTexture("NPCs/DuneShambler");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/DuneShambler");
                     frames = 6;
                     frameSpeed = 15;
                     break;
@@ -60,28 +61,28 @@ namespace EEMod.Skies
 
                 case 1:
                 {
-                    texture = EEMod.instance.GetTexture("LoadingScreenImages/GiantSquid");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/GiantSquid");
                     frames = 3;
                     frameSpeed = 30;
                     break;
                 }
                 case 2:
                 {
-                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Clam");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/Clam");
                     frames = 3;
                     frameSpeed = 30;
                     break;
                 }
                 case 3:
                 {
-                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Hydros");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/Hydros");
                     frames = 8;
                     frameSpeed = 25;
                     break;
                 }
                 case 4:
                 {
-                    texture = EEMod.instance.GetTexture("LoadingScreenImages/Seahorse");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/Seahorse");
                     frames = 5;
                     frameSpeed = 20;
                     break;
@@ -106,23 +107,23 @@ namespace EEMod.Skies
             switch (Main.rand.Next(3))
             {
                 case 0:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
                     break;
                 case 1:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen2");
+                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen2");
                     break;
                 case 2:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen3");
+                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    texture2 = EEMod.instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
                     break;
             }
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
                 {
-                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/SeaDragon");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/SeaDragon");
                     frames = 4;
                     frameSpeed = 10;
                     break;
@@ -130,28 +131,28 @@ namespace EEMod.Skies
 
                 case 1:
                 {
-                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/Grebyser");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/Grebyser");
                     frames = 3;
                     frameSpeed = 15;
                     break;
                 }
                 case 2:
                 {
-                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/CrescentJelly");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/CrescentJelly");
                     frames = 9;
                     frameSpeed = 5;
                     break;
                 }
                 case 3:
                 {
-                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
                     frames = 8;
                     frameSpeed = 10;
                     break;
                 }
                 case 4:
                 {
-                    texture = EEMod.instance.GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
+                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
                     frames = 6;
                     frameSpeed = 10;
                     break;

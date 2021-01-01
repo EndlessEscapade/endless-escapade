@@ -127,8 +127,8 @@ namespace EEMod.NPCs.Bosses.Hydros
                 return false;
             }
             Texture2D projectileTexture = Main.projectileTexture[projectile.type];
-            Texture2D beamTexture = EEMod.instance.GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
-            Texture2D beamEndTexture = EEMod.instance.GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
+            Texture2D beamTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
+            Texture2D beamEndTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
             float laserLength = LaserLength;
             Color color44 = Color.White * 0.8f;
             Texture2D projectileTexture2 = projectileTexture;

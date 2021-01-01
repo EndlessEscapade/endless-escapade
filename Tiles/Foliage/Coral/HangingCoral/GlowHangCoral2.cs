@@ -70,7 +70,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
                 Rectangle rect = new Rectangle(frameX, frameY, width, height);
                 color *= (float)Math.Sin(Main.GameUpdateCount / 60f + i + j) * 0.5f + 0.5f;
 
-                Main.spriteBatch.Draw(EEMod.instance.GetTexture("Tiles/Foliage/Coral/HangingCoral/GlowHangCoral2Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/HangingCoral/GlowHangCoral2Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }

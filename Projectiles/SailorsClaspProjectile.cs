@@ -83,7 +83,7 @@ namespace EEMod.Projectiles
                 Color drawColor = lightColor;
 
                 //Draw chain
-                spriteBatch.Draw(EEMod.instance.GetTexture("Projectiles/SailorsClaspChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/SailorsClaspChain"), new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
                     new Rectangle(0, 0, 16, 6), drawColor, projRotation,
                     new Vector2(Main.chain30Texture.Width * 0.5f, Main.chain30Texture.Height * 0.5f), 1f, SpriteEffects.None, 0f);
             }

@@ -33,7 +33,7 @@ namespace EEMod.Tiles.Walls
             { 
                 for (int b = 0; b < 4; b++)
                 {
-                    Helpers.Draw(EEMod.instance.GetTexture("ForegroundParticles/Leaf"), pos.ForDraw() + zero + new Vector2(a*6 + ((randParam*a + a)%8 - 4) ,b*6 - 4 + ((randParam * b + b) % 8 )), Color.White, 0.7f);
+                    Helpers.Draw(ModContent.GetInstance<EEMod>().GetTexture("ForegroundParticles/Leaf"), pos.ForDraw() + zero + new Vector2(a*6 + ((randParam*a + a)%8 - 4) ,b*6 - 4 + ((randParam * b + b) % 8 )), Color.White, 0.7f);
                 }
             }
         }
