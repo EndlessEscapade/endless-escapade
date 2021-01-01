@@ -688,11 +688,16 @@ namespace EEMod
 
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
-            /*if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[(int)MinibiomeID.KelpForest] == true)
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[(int)MinibiomeID.KelpForest] == true)
             {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
                 priority = MusicPriority.BiomeHigh;
-            }*/
+            }
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome[(int)MinibiomeID.CrystallineCaves] == true)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
+                priority = MusicPriority.BiomeHigh;
+            }
         }
     }
 }

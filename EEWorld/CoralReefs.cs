@@ -373,12 +373,43 @@ namespace EEMod.EEWorld
 
                 case (int)MinibiomeID.ThermalVents: //A wide-open room with floating platforms that hold abandoned ashen houses with huge chasms in between
                     MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true, 50);
+
                     MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
+
                     MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
+
                     for (int i = 0; i < 30; i++)
                     {
                         MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY * 2)), TileID.StoneSlab, true);
                     }
+
+
+                    /*perlinNoise = new PerlinNoiseFunction(1000, 1000, 50, 50, 0.8f);
+                    int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                    {
+                        for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                        {
+                            if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
+                            {
+                                if (i - (int)startingPoint.X < 1000 && j - (int)startingPoint.Y < 1000)
+                                {
+                                    if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
+                                    {
+                                        Tile tile = Framing.GetTileSafely(i, j);
+                                        if (j < Main.maxTilesY * 0.4f)
+                                            tile.type = (ushort)ModContent.TileType<LightGemsandTile>();
+                                        else if (j < Main.maxTilesY * 0.8f)
+                                            tile.type = (ushort)ModContent.TileType<GemsandTile>();
+                                        else if (j >= Main.maxTilesY * 0.8f)
+                                            tile.type = (ushort)ModContent.TileType<DarkGemsandTile>();
+                                    }
+                                }
+                            }
+                        }
+                    }*/
+
+
                     break;
 
                 case (int)MinibiomeID.CrystallineCaves: //Massive caves made with noise surrounding a central large room(where the spire is, if there's a spire)
@@ -391,7 +422,7 @@ namespace EEMod.EEWorld
                         for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                         {
                             //if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(8) == 1)
-                            if ((TileCheck2(i, j) != 0) && Main.rand.NextBool(15))
+                            if ((TileCheck2(i, j) != 0) && Main.rand.NextBool(12))
                             {
                                 if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
                                 {
