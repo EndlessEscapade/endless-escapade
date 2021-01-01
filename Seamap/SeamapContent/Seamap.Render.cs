@@ -27,8 +27,8 @@ namespace EEMod.Seamap.SeamapContent
             int frames = 12;
             Rectangle frame = SeamapPlayerShip.localship.frame;
             int frameNum = 0;
-            Texture2D texture3 = instance.GetTexture("Seamap/SeamapAssets/ShipHelthSheet");
-            Texture2D texture = instance.GetTexture("Seamap/SeamapAssets/ShipMount");
+            Texture2D texture3 = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/ShipHelthSheet");
+            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/ShipMount");
             Player player = Main.LocalPlayer;
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
@@ -165,7 +165,7 @@ namespace EEMod.Seamap.SeamapContent
                 var element = modPlayer.seagulls[i];
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
-                element.Draw(instance.GetTexture("Seamap/SeamapAssets/Seagull"), 9, 5);
+                element.Draw(ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/Seagull"), 9, 5);
             }
             #endregion
         }
@@ -243,16 +243,16 @@ namespace EEMod.Seamap.SeamapContent
         static void RenderWater()
         {
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            Texture2D waterTexture = instance.GetTexture("Seamap/SeamapAssets/WaterBg");
+            Texture2D waterTexture = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/WaterBg");
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             Vector2 pos = Main.screenPosition;
             Vector2 toScreen = pos.ForDraw();
             Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
             Color SeaColour = new Color(0.1568f, 0.6549f, 0.7607f).MultiplyRGB(colour);
-            WaterShader.Parameters["noise"].SetValue(instance.GetTexture("Noise/WormNoisePixelated"));
-            WaterShader.Parameters["noiseN"].SetValue(instance.GetTexture("Noise/WormNoisePixelated"));
-            WaterShader.Parameters["water"].SetValue(instance.GetTexture("ShaderAssets/WaterShaderLightMap"));
+            WaterShader.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/WormNoisePixelated"));
+            WaterShader.Parameters["noiseN"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/WormNoisePixelated"));
+            WaterShader.Parameters["water"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/WaterShaderLightMap"));
             WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 2000f) * 0.2f);
             WaterShader.Parameters["Colour"].SetValue(SeaColour.ToVector3());

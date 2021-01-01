@@ -454,7 +454,7 @@ namespace EEMod
 
                 if (i < maxNumberOfLights)
                 {
-                    Helpers.DrawAdditive(instance.GetTexture("Masks/RadialGradient"),(_lightPoints[i] * 16).ForDraw(), _colorPoints[i]*0.2f, 0.5f);
+                    Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient"),(_lightPoints[i] * 16).ForDraw(), _colorPoints[i]*0.2f, 0.5f);
                     //Filters.Scene[$"EEMod:LightSource{i}"].GetShader().UseImageOffset(listTransformable[i]).UseIntensity(0.0045f).UseColor(_colorPoints[i]);
                 }
             }
@@ -507,23 +507,23 @@ namespace EEMod
             switch (loadingChooseImage)
             {
                 case 0:
-                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen1");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
                     break;
                 case 1:
-                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen2");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen2");
                     break;
                 case 2:
-                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen3");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    _texture2 = instance.GetTexture("LoadingScreenImages/LoadingScreen4");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen4");
                     break;
             }
             switch (loadingChooseImage)
             {
                 case 0:
                 {
-                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/SeaDragon");
+                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/SeaDragon");
                     _screenframes = 4;
                     _screenframeSpeed = 10;
                     break;
@@ -531,28 +531,28 @@ namespace EEMod
 
                 case 1:
                 {
-                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/Grebyser");
+                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/Grebyser");
                     _screenframes = 3;
                     _screenframeSpeed = 15;
                     break;
                 }
                 case 2:
                 {
-                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/Seahorse");
+                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/Seahorse");
                     _screenframes = 5;
                     _screenframeSpeed = 5;
                     break;
                 }
                 case 3:
                 {
-                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
+                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
                     _screenframes = 8;
                     _screenframeSpeed = 10;
                     break;
                 }
                 case 4:
                 {
-                    _screenTexture = instance.GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
+                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
                     _screenframes = 6;
                     _screenframeSpeed = 10;
                     break;

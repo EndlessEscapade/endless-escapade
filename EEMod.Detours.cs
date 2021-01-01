@@ -170,7 +170,7 @@ namespace EEMod
             {
                 Vector2 pos = Bubbles[i].Position + new Vector2(Main.LocalPlayer.Center.X * Bubbles[i].paralax, 0);
                 Color drawColour = Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16).MultiplyRGB(new Color(Bubbles[i].alpha, Bubbles[i].alpha, Bubbles[i].alpha));
-                Main.spriteBatch.Draw(instance.GetTexture("ForegroundParticles/Bob1"), pos.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ForegroundParticles/Bob1"), pos.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
             }
         }
         private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int snapPointIndex)
@@ -239,7 +239,7 @@ namespace EEMod
 
         void HandleCrystalDraw(Vector2 position)
         {
-            Texture2D tex = instance.GetTexture("Tiles/EmptyTileArrays/CoralCrystal");
+            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/EmptyTileArrays/CoralCrystal");
             Rectangle mouseBox = new Rectangle((int)Main.MouseScreen.X, (int)Main.MouseScreen.Y, 3, 3);
             Rectangle crystalBox = new Rectangle((int)position.X, (int)position.Y, tex.Width, tex.Height);
             Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y, tex.Width, tex.Height), new Rectangle(0, 0, tex.Width, tex.Height), Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
@@ -363,8 +363,8 @@ namespace EEMod
             Vector2 p5Mid = Helpers.TraverseBezier(p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.9f) * 40), 0.5f);
             Vector2 p6 = new Vector2((tilePos.X + spread) * 16, up3 * 16);
             Vector2 p6Mid = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), 0.5f);
-            Texture2D BlueLight = instance.GetTexture("Projectiles/LightBlue");
-            Texture2D vineTexture = instance.GetTexture("Projectiles/GlowingWeb");
+            Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/LightBlue");
+            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/GlowingWeb");
             float cockandbol = 0.8f;
             if (p1.Y >= 1)
             {
@@ -422,8 +422,8 @@ namespace EEMod
             Vector2 p4 = new Vector2((tilePos.X - spread) * 16, up2 * 16);
             Vector2 p5 = new Vector2((tilePos.X + spread) * 16, down3 * 16);
             Vector2 p6 = new Vector2((tilePos.X + spread) * 16, up3 * 16);
-            Texture2D BlueLight = instance.GetTexture("Projectiles/LightBlue");
-            Texture2D vineTexture = instance.GetTexture("Projectiles/BigVine");
+            Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/LightBlue");
+            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/BigVine");
             float Addon = 10;
             float cockandbol = 0.8f;
             float bolandcock = 7f;
@@ -459,8 +459,8 @@ namespace EEMod
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            Noise2DShift.Parameters["noiseTexture"].SetValue(instance.GetTexture("Noise/noise"));
-            Noise2DShift.Parameters["tentacle"].SetValue(instance.GetTexture("Noise/WormNoisePixelated"));
+            Noise2DShift.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/noise"));
+            Noise2DShift.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/WormNoisePixelated"));
             Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt) * 0.2f);
             Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt) * 0.2f);
 
@@ -468,7 +468,7 @@ namespace EEMod
 
 
             Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
-            Texture2D tex = instance.GetTexture("ShaderAssets/BulbousBall");
+            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/BulbousBall");
 
             Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y + (int)(Math.Sin(sineInt * 4) * 10), tex.Width + (int)(Math.Sin(sineInt) * 10), tex.Height + (int)Math.Cos(sineInt) * 10), new Rectangle(0, 0, tex.Width + (int)Math.Sin(sineInt) * 10, tex.Height + (int)Math.Cos(sineInt) * 10), Color.White * 0, (float)Math.Sin(sineInt), tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
             Main.spriteBatch.End();

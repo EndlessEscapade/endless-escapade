@@ -32,8 +32,6 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
-        public static EEMod instance;
-
         public override void PostSetupContent()
         {
         }
@@ -124,7 +122,6 @@ namespace EEMod
             UnloadDetours();
             UnloadUI();
             AutoloadingManager.UnloadManager(this);
-            instance = null;
             Noise2DShift = null;
             Main.logo2Texture = ModContent.GetTexture("Terraria/Logo2");
             Main.logoTexture = ModContent.GetTexture("Terraria/Logo");
@@ -345,7 +342,6 @@ namespace EEMod
             Noise2D = GetEffect("Effects/Noise2D");
             primitives = new PrimTrailManager();
             //HandwritingCNN = new Handwriting();
-            instance = this;
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
             Inspect = RegisterHotKey("Inspect", "E");
