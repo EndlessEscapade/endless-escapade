@@ -1203,7 +1203,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void MakeOvalFlatTop(int width, int height, Vector2 Middle, int type)
+        public static void MakeIsland(int width, int height, Vector2 Middle, int type)
         {
             PerlinNoiseFunction PN = new PerlinNoiseFunction(width * 2, height * 2, 10, 10, 0.5f);
             for (int i = -width; i < width; i++)
@@ -1258,7 +1258,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void MakeIsland(int width, int height, Vector2 startingPoint, int type)
+        public static void MakeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
             {

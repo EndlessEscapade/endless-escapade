@@ -26,7 +26,7 @@ float4 White(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 colour = tex2D(uImage0, coords);
     float4 colour2 = tex2D(tent, coords);
-    float diag = (coords.y / 2) * ((colour2.r - 0.5f) * (colour2.r - 0.5f) * 2);
+    float diag = (coords.y / 2) * ((colour2.r) * (colour2.r) * 1.2f);
     float4 colour3 = tex2D(headTextureSampler, float2((coords.x - XPROG) * Scaling.x + 0.3f + diag, 0.3f - ((coords.y + YPROG) * Scaling.y)));
     float pos = alpha - coords.x;
     float4 white = float4(1, 1, 1,1);
