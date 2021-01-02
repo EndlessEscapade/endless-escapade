@@ -18,38 +18,12 @@ using EEMod.Tiles.Foliage.Coral.WallCoral;
 using System.Diagnostics;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.VerletIntegration;
-//using Microsoft.Office.Interop.Excel;
 using EEMod.Tiles.Foliage;
 
 namespace EEMod.EEWorld
 {
     public partial class EEWorld
     {
-        /*public static void MakeKramkenArena(int xPos, int yPos, int size)
-        {
-            int maxTiles = (int)(Main.maxTilesX * Main.maxTilesY * 9E-04);
-            for (int k = 0; k < maxTiles * 60; k++)
-            {
-                int x = WorldGen.genRand.Next(xPos - (size * 2), xPos + (size * 2));
-                int y = WorldGen.genRand.Next(yPos - (size * 2), yPos + (size * 2));
-                if (OvalCheck(xPos, yPos, x, y, size * 2, size))
-                {
-                    WorldGen.TileRunner(x, y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), TileID.StoneSlab, true, 0f, 0f, true, true);
-                }
-            }
-            for (int i = 0; i < Main.maxTilesX; i++)
-            {
-                for (int j = 0; j < Main.maxTilesY; j++)
-                {
-                    Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile.type == TileID.StoneSlab)
-                    {
-                        WorldGen.KillTile(i, j);
-                    }
-                }
-            }
-        }*/
-
         public static PerlinNoiseFunction perlinNoise;
 
         public static bool GemsandCheck(int i, int j)

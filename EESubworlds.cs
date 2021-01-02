@@ -410,8 +410,6 @@ namespace EEMod
                                 Main.tile[i, j].type = (ushort)ModContent.TileType<KelpMossTile>();
                             if (Main.tile[i, j].type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
                                 Main.tile[i, j].type = (ushort)ModContent.TileType<ThermalMossTile>();
-                            /*if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<DarkGemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<DarkGemsandTileMoss>();*/
                         }
                     }
                 }
