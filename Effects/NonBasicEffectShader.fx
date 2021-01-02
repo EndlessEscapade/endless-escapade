@@ -140,6 +140,15 @@ float4 Basic(VertexShaderOutput input) : COLOR
 
 	return input.Color;
 }
+float4 Basic2(VertexShaderOutput input) : COLOR
+{
+	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
+	float4 spotColor = tex2D(spotSampler, coords).r;
+	float lerper = pow(sin(input.TextureCoordinates.y * 3.14f - 1.2f),50 + GetHeight(input.TextureCoordinates.x)*50 - 25) + pow(sin(input.TextureCoordinates.x * 3.14f - 1.2f + (progress/3* progress/3)), 30 + GetHeight(input.TextureCoordinates.y/2 + progress) * 50 - 25);
+	input.Color *= lerp(float4(0,0,0,0),float4(0.2f, 0.8f,1,0)*10, lerper);
+	input.Color *= sin(input.TextureCoordinates.x * 3.14f);
+	return input.Color;
+}
 float4 WaterPogPass(VertexShaderOutput input) : COLOR
 {
 	float2 coords = float2(input.TextureCoordinates.x,input.TextureCoordinates.y);
@@ -174,6 +183,10 @@ technique BasicColorDrawing
 	pass Edge
 	{
 		PixelShader = compile ps_2_0 Basic();
+	}
+	pass Edge2
+	{
+		PixelShader = compile ps_2_0 Basic2();
 	}
 	pass AquaLightPass
 	{

@@ -21,9 +21,18 @@ using System.Linq;
 using EEMod.VerletIntegration;
 using EEMod.Tiles.Furniture.Chests;
 using EEMod.Tiles.Foliage.Coral;
+using Terraria.ObjectData;
 
 namespace EEMod.EEWorld
 {
+    public enum TileSpacing
+    {
+        None,
+        Bottom,
+        Top,
+        Right,
+        Left
+    }
     public partial class EEWorld
     {
         private static void StartSandstorm()
@@ -1258,6 +1267,46 @@ namespace EEMod.EEWorld
             }
         }
 
+        public static void TilePopulate(int[] types, Rectangle bounds)
+        {
+            for(int i = bounds.X; i<bounds.Width; i++)
+            {
+                for (int j = bounds.Y; j < bounds.Height; j++)
+                {
+                    int chosen = WorldGen.genRand.Next(types.Length);
+                    int tile = types[chosen];
+                    TileObjectData TOD = TileObjectData.GetTileData(tile, 0);
+                    if (TOD.AnchorTop != AnchorData.Empty)
+                    {
+                        if(TileCheck2(i, j) == (int)TileSpacing.Bottom)
+                        {
+                            WorldGen.PlaceTile(i, j + 1, tile);
+                        }
+                    }
+                    else if(TOD.AnchorBottom != AnchorData.Empty)
+                    {
+                        if (TileCheck2(i, j) == (int)TileSpacing.Top)
+                        {
+                            WorldGen.PlaceTile(i, j - TOD.Height, tile);
+                        }
+                    }
+                    else if (TOD.AnchorLeft != AnchorData.Empty)
+                    {
+                        if (TileCheck2(i, j) == (int)TileSpacing.Right)
+                        {
+                            WorldGen.PlaceTile(i + 1, j , tile);
+                        }
+                    }
+                    else if (TOD.AnchorRight != AnchorData.Empty)
+                    {
+                        if (TileCheck2(i, j) == (int)TileSpacing.Left)
+                        {
+                            WorldGen.PlaceTile(i + TOD.Width, j , tile);
+                        }
+                    }
+                }
+            }
+        }
         public static void MakeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
