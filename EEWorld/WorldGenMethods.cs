@@ -1950,20 +1950,6 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static int GetGemsandType(int height)
-        {
-            if (height < Main.maxTilesY * 0.4f)
-                return ModContent.TileType<LightGemsandTile>();
-            else if (height < Main.maxTilesY * 0.8f)
-                return ModContent.TileType<GemsandTile>();
-            else if (height > Main.maxTilesY * 0.8f)
-                return ModContent.TileType<DarkGemsandTile>();
-            if (height < Main.maxTilesY / 10)
-                return ModContent.TileType<CoralSandTile>();
-            else
-                return 0;
-        }
-
         public static void Island(int islandWidth, int islandHeight, int posY)
         {
             MakeOvalJaggedBottom(islandWidth, islandHeight, new Vector2((Main.maxTilesX / 2) - islandWidth / 2, posY), ModContent.TileType<CoralSandTile>());

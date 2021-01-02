@@ -414,6 +414,18 @@ namespace EEMod
                     }
                 }
                 //Final polishing
+                EEMod.progressMessage = "Tidying the world";
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                {
+                    for (int j = 42; j < Main.maxTilesY - 42; j++)
+                    {
+                        if(!Main.tile[i, j + 1].active() && !Main.tile[i, j - 1].active() && !Main.tile[i + 1, j].active() && !Main.tile[i - 1, j].active())
+                        {
+                            WorldGen.KillTile(i, j);
+                        }
+                    }
+                }
+
                 EEMod.progressMessage = "Placing Corals";
                 PlaceCoral();
                 #endregion

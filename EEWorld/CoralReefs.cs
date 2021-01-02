@@ -381,6 +381,20 @@ namespace EEMod.EEWorld
             }
         }
 
+        public static int GetGemsandType(int height)
+        {
+            if (height < Main.maxTilesY * 0.4f)
+                return ModContent.TileType<LightGemsandTile>();
+            else if (height < Main.maxTilesY * 0.8f)
+                return ModContent.TileType<GemsandTile>();
+            else if (height > Main.maxTilesY * 0.8f)
+                return ModContent.TileType<DarkGemsandTile>();
+            if (height < Main.maxTilesY / 10)
+                return ModContent.TileType<CoralSandTile>();
+            else
+                return 0;
+        }
+
         public static void PlaceCoral()
         {
             #region Surface Reefs
@@ -394,14 +408,23 @@ namespace EEMod.EEWorld
 
             new int[] { ModContent.TileType<Floor2x1Coral>(),
             ModContent.TileType<Floor1x1Coral>(),
-            ModContent.TileType<Floor2x2Coral>(),
+            ModContent.TileType<Floor1x2Coral>(),
             ModContent.TileType<Floor2x1Coral>(),
+            ModContent.TileType<Floor2x2Coral>(),
             ModContent.TileType<FloorGlow2x2Coral>(),
+            ModContent.TileType<FloorGlow2x2Coral>(),
+            ModContent.TileType<Floor2x6Coral>(),
             ModContent.TileType<Floor3x2Coral>(),
+            ModContent.TileType<Floor3x3Coral>(),
             ModContent.TileType<Floor4x2Coral>(),
-            ModContent.TileType<Floor9x9Coral>(),
+            ModContent.TileType<Floor4x3Coral>(),
             ModContent.TileType<Floor7x6Coral>(),
-            ModContent.TileType<FloorGlow9x4Coral>() },
+            ModContent.TileType<Floor7x7Coral>(),
+            ModContent.TileType<Floor8x7Coral>(),
+            ModContent.TileType<Floor8x9Coral>(),
+            ModContent.TileType<FloorGlow9x4Coral>(),
+            ModContent.TileType<Floor9x9Coral>(),
+            ModContent.TileType<Floor11x11Coral>(), },
 
             new int[] { ModContent.TileType<Wall2x2CoralL>(),
             ModContent.TileType<Wall3x2CoralL>(),
@@ -891,7 +914,7 @@ namespace EEMod.EEWorld
                                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ThermalVent2x2>(), style: WorldGen.genRand.Next(2));
                                                     break;
                                                 case 5:
-                                                    int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(1, 4);
+                                                    int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(2, 5);
                                                     MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 3, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, true);
                                                     break;
                                             }
