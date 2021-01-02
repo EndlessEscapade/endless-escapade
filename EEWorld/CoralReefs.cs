@@ -32,7 +32,7 @@ namespace EEMod.EEWorld
             return ecksdee == ModContent.TileType<LightGemsandTile>() || ecksdee == ModContent.TileType<LightGemsandstoneTile>() || ecksdee == ModContent.TileType<GemsandTile>() || ecksdee == ModContent.TileType<GemsandstoneTile>() || ecksdee == ModContent.TileType<DarkGemsandTile>() || ecksdee == ModContent.TileType<DarkGemsandstoneTile>();
         }
 
-        public static void MakeCoralRoom(int xPos, int yPos, int size, int type, int minibiome, bool ensureNoise = false)
+        public static void MakeCoralRoom(int xPos, int yPos, int size, int type, bool ensureNoise = false)
         {
             int sizeX = size;
             int sizeY = size / 2;

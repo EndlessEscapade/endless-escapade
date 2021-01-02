@@ -1385,7 +1385,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false, int wallType = 0)
+        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, int wallType = 0, bool pointingUp = true)
         {
             int initialStartingPosX = (int)startingPoint.X;
             int initialWidth = width;
@@ -1404,31 +1404,32 @@ namespace EEMod.EEWorld
                 width -= 2;
                 j += slope - 1;
             }
-            int topRight = (int)startingPoint.Y - height;
-            if (hasChasm)
-            {
-                MakeChasm((int)(startingPoint.X + width / 2), topRight + (height / (slope * 10)), height - 30, TileID.StoneSlab, 0, 10, 20);
+        }
 
-                for (int i = 0; i < Main.maxTilesX; i++)
+        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int tileType = -1, int wallType = -1, bool pointingUp = true, int randFactor = 0)
+        {
+            int dir = 0;
+
+            if (pointingUp) dir = 1;
+            else dir = -1;
+
+            int j = 0;
+
+            while (j < height * dir)
+            {
+                for (int k = 0; k < slope + Main.rand.Next(-randFactor, randFactor + 1); k++)
                 {
-                    for (int j = 0; j < Main.maxTilesY; j++)
+                    for (int i = 0; i < width; i++)
                     {
-                        Tile tile = Framing.GetTileSafely(i, j);
-                        if (tile.type == TileID.StoneSlab)
-                        {
-                            WorldGen.KillTile(i, j);
-                            if (wallType != 0)
-                            {
-                                tile.wall = (ushort)wallType;
-                            }
-                        }
+                        if (tileType == -1)
+                            WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), tileType);
+                        if (wallType != -1)
+                            WorldGen.PlaceWall(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), wallType);
                     }
                 }
-            }
-            if (isFlat)
-            {
-                ClearRegion(initialWidth, height / 5, new Vector2(initialStartingPosX, topRight - 5));
-                KillWall(initialWidth, height / 5, new Vector2(initialStartingPosX, topRight - 5));
+                startingPoint.X += 1;
+                width -= 2;
+                j += slope * dir;
             }
         }
 

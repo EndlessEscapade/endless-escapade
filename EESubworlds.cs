@@ -146,7 +146,7 @@ namespace EEMod
 
                         void PlaceRoom(int biome)
                         {
-                            MakeCoralRoom((int)roomsUp[i].X + sizeOfChasm / 2, (int)roomsUp[i].Y + sizeOfChasm / 4, sizeOfChasm, biome, biome);
+                            MakeCoralRoom((int)roomsUp[i].X + sizeOfChasm / 2, (int)roomsUp[i].Y + sizeOfChasm / 4, sizeOfChasm, biome);
                             MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X + sizeOfChasm / 2, (int)roomsUp[i].Y + sizeOfChasm / 4, biome));
                             if (i != 0)
                             {
@@ -209,7 +209,7 @@ namespace EEMod
 
                         void PlaceRoom(int biome)
                         {
-                            MakeCoralRoom((int)roomsDown[i].X + sizeOfChasm / 2, (int)roomsDown[i].Y + sizeOfChasm / 4, sizeOfChasm, biome, biome);
+                            MakeCoralRoom((int)roomsDown[i].X + sizeOfChasm / 2, (int)roomsDown[i].Y + sizeOfChasm / 4, sizeOfChasm, biome);
                             MinibiomeLocations.Add(new Vector3((int)roomsDown[i].X + sizeOfChasm / 2, (int)roomsDown[i].Y + sizeOfChasm / 4, biome));
                             if (i != 0)
                             {
@@ -235,9 +235,9 @@ namespace EEMod
                 EEMod.progressMessage = "Genning Rooms";
 
 
-                MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, 0, WorldGen.genRand.Next(4), true);
+                MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2, 400, WorldGen.genRand.Next(4), true);
                 MinibiomeLocations.Add(new Vector3(Main.maxTilesX / 2, Main.maxTilesY / 2, 0));
-                MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400, 400, 0, 0, false);
+                MakeCoralRoom(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400, 400, 0, false);
                 MinibiomeLocations.Add(new Vector3(Main.maxTilesX / 2, Main.maxTilesY / 2 + 400, 0));
 
 
@@ -504,8 +504,8 @@ namespace EEMod
                         }
                     }
                 }
-
                 #endregion
+
                 Vector2 pos1 = new Vector2(SpirePosition.X + 10, SpirePosition.Y - 150 / 2);
                 Vector2 pos2 = new Vector2(SpirePosition.X + 10, SpirePosition.Y + 150 / 2);
                 int tile2 = 0;
@@ -733,7 +733,7 @@ namespace EEMod
 
             RemoveWaterFromRegion(60, 630, new Vector2(570, 170));
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            MakeTriangle(new Vector2(300, 895), 600, 1000, 3, ModContent.TileType<VolcanicAshTile>(), true, true, ModContent.WallType<VolcanicAshWallTile>());
+            MakeTriangle(new Vector2(300, 895), 600, 1000, 3, ModContent.TileType<VolcanicAshTile>(), ModContent.WallType<VolcanicAshWallTile>());
             EEWorld.EEWorld.Island(800, 400, 290);
             FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 400), ModContent.TileType<CoralSandTile>());
 
