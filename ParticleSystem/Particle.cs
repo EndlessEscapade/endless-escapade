@@ -21,6 +21,7 @@ namespace EEMod
         public float lightingIntensity = 0;
         public float shrinkSpeed;
         public bool LightingBlend;
+        public float alphaFade = 14f;
         public float MaskAlpha = 0.25f;
         protected int RENDERDISTANCE => 2000;
         internal bool WithinDistance => Vector2.DistanceSquared(position, Main.LocalPlayer.position) < RENDERDISTANCE * RENDERDISTANCE;

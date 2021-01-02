@@ -125,7 +125,7 @@ namespace EEMod.Projectiles
                     (Main.projectile[lightningproj].modProjectile as RapierProj).start = firstClickPos;
                     (Main.projectile[lightningproj].modProjectile as RapierProj).end = lastClickPos;
                     flag = true;
-                    EEMod.primitives.CreateTrail(new Prim.RapierPrimTrail(projectile, lastClickPos, midPoint, firstClickPos));
+                    EEMod.primitives.CreateTrail(new Prim.SwordPrimTrail(projectile, lastClickPos, midPoint, firstClickPos));
                 }
                 //Helpers.DrawLine(fClickToDraw, lClickToDraw);
                 //Helpers.DrawLine(fClickToDraw, mClickToDraw);
