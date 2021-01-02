@@ -1267,46 +1267,39 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void TilePopulate(int[] types, Rectangle bounds)
+        public static void TilePopulate(int[][] types, Rectangle bounds, int rarity)
         {
-            for(int i = bounds.X; i<bounds.Width; i++)
+            for (int i = bounds.X; i < bounds.Width; i++)
             {
                 for (int j = bounds.Y; j < bounds.Height; j++)
                 {
-                    int chosen = WorldGen.genRand.Next(types.Length);
-                    int tile = types[chosen];
-                    TileObjectData TOD = TileObjectData.GetTileData(tile, 0);
-                    if (TOD.AnchorTop != AnchorData.Empty)
+                    if (!Main.rand.NextBool(rarity))
                     {
-                        if(TileCheck2(i, j) == (int)TileSpacing.Bottom)
+                        int dir = TileCheck2(i, j);
+                        if (dir != 0)
                         {
-                            WorldGen.PlaceTile(i, j + 1, tile);
-                        }
-                    }
-                    else if(TOD.AnchorBottom != AnchorData.Empty)
-                    {
-                        if (TileCheck2(i, j) == (int)TileSpacing.Top)
-                        {
-                            WorldGen.PlaceTile(i, j - TOD.Height, tile);
-                        }
-                    }
-                    else if (TOD.AnchorLeft != AnchorData.Empty)
-                    {
-                        if (TileCheck2(i, j) == (int)TileSpacing.Right)
-                        {
-                            WorldGen.PlaceTile(i + 1, j , tile);
-                        }
-                    }
-                    else if (TOD.AnchorRight != AnchorData.Empty)
-                    {
-                        if (TileCheck2(i, j) == (int)TileSpacing.Left)
-                        {
-                            WorldGen.PlaceTile(i + TOD.Width, j , tile);
+                            int chosen = types[dir - 1][Main.rand.Next(types[dir - 1].Length)];
+
+                            TileObjectData TOD = TileObjectData.GetTileData(chosen, 0);
+
+                            int style = 0;
+                            if (TOD.RandomStyleRange != 0)
+                                style = Main.rand.Next(0, TOD.RandomStyleRange);
+
+                            if (TOD.AnchorTop != AnchorData.Empty)
+                                WorldGen.PlaceTile(i, j + 1, chosen, style: style);
+                            else if (TOD.AnchorBottom != AnchorData.Empty)
+                                WorldGen.PlaceTile(i, j - TOD.Height, chosen, style: style);
+                            else if (TOD.AnchorLeft != AnchorData.Empty)
+                                WorldGen.PlaceTile(i + 1, j, chosen, style: style);
+                            else if (TOD.AnchorRight != AnchorData.Empty)
+                                WorldGen.PlaceTile(i + TOD.Width, j, chosen, style: style);
                         }
                     }
                 }
             }
         }
+
         public static void MakeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)

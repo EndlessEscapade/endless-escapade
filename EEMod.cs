@@ -704,7 +704,7 @@ namespace EEMod
                     if (Main.LocalPlayer.Center.Y / 16 < Main.maxTilesY / 10 && Main.worldName == KeyID.CoralReefs)
                     {
                         music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
-                        priority = MusicPriority.Event;
+                        priority = MusicPriority.Environment;
                     }
                 }
             }
