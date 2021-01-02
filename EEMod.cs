@@ -701,6 +701,11 @@ namespace EEMod
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
                             priority = MusicPriority.BiomeHigh;
                         }
+                    if (Main.LocalPlayer.Center.X / 16 < Main.maxTilesY && Main.worldName == KeyID.CoralReefs)
+                    {
+                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
+                        priority = MusicPriority.Event;
+                    }
                 }
             }
         }

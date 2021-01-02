@@ -848,7 +848,7 @@ namespace EEMod.EEWorld
                                         switch (TileCheck2(i, j))
                                         {
                                             case 1:
-                                                selection = WorldGen.genRand.Next(5);
+                                                selection = WorldGen.genRand.Next(6);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -870,10 +870,15 @@ namespace EEMod.EEWorld
                                                     case 4:
                                                         WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
                                                         break;
+
+                                                    case 5:
+                                                        int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(1, 4);
+                                                        MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 3, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, false);
+                                                        break;
                                                 }
                                                 break;
                                             case 2:
-                                                selection = WorldGen.genRand.Next(5);
+                                                selection = WorldGen.genRand.Next(6);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -890,6 +895,10 @@ namespace EEMod.EEWorld
                                                         break;
                                                     case 4:
                                                         WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ThermalVent2x2>(), style: WorldGen.genRand.Next(2));
+                                                        break;
+                                                    case 5:
+                                                        int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(1, 4);
+                                                        MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 3, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, true);
                                                         break;
                                                 }
                                                 break;

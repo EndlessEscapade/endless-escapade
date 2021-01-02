@@ -733,7 +733,7 @@ namespace EEMod
 
             RemoveWaterFromRegion(60, 630, new Vector2(570, 170));
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            MakeTriangle(new Vector2(300, 895), 600, 1000, 3, ModContent.TileType<VolcanicAshTile>(), ModContent.WallType<VolcanicAshWallTile>());
+            //MakeTriangle(new Vector2(300, 895), 600, 1000, 3, ModContent.TileType<VolcanicAshTile>(), ModContent.WallType<VolcanicAshWallTile>());
             EEWorld.EEWorld.Island(800, 400, 290);
             FillRegion(Main.maxTilesX, Main.maxTilesY - 190, new Vector2(0, 400), ModContent.TileType<CoralSandTile>());
 
