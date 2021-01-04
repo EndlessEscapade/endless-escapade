@@ -914,8 +914,8 @@ namespace EEMod.EEWorld
                                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ThermalVent2x2>(), style: WorldGen.genRand.Next(2));
                                                     break;
                                                 case 5:
-                                                    int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(2, 5);
-                                                    MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 3, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, true);
+                                                    int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(3, 6);
+                                                    MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 3, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, true, 1);
                                                     break;
                                             }
                                             break;
