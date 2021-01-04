@@ -889,8 +889,8 @@ namespace EEMod.EEWorld
                                                     break;
 
                                                 case 5:
-                                                    int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(1, 4);
-                                                    MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 3, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, false);
+                                                    int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(3, 6);
+                                                    MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 3, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, false, 1);
                                                     break;
                                             }
                                             break;
@@ -915,7 +915,7 @@ namespace EEMod.EEWorld
                                                     break;
                                                 case 5:
                                                     int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(3, 6);
-                                                    MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 3, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, true, 1);
+                                                    MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 4, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, true, 1);
                                                     break;
                                             }
                                             break;
