@@ -385,12 +385,12 @@ namespace EEMod
                             int minibiome = 0;
                             List<float> BufferLengths = new List<float>();
                             List<int> BufferMinibiome = new List<int>();
-                            for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
+                            for (int k = 0; k < MinibiomeLocations.Count; k++)
                             {
-                                if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)) < (180 * 180) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                                if (Vector2.DistanceSquared(new Vector2(MinibiomeLocations[k].X, MinibiomeLocations[k].Y), new Vector2(i, j)) < (180 * 180) && MinibiomeLocations[k].Z != 0)
                                 {
-                                    BufferLengths.Add(Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)));
-                                    BufferMinibiome.Add((int)EESubWorlds.MinibiomeLocations[k].Z);
+                                    BufferLengths.Add(Vector2.DistanceSquared(new Vector2(MinibiomeLocations[k].X, MinibiomeLocations[k].Y), new Vector2(i, j)));
+                                    BufferMinibiome.Add((int)MinibiomeLocations[k].Z);
                                 }
                             }
                             float MakingMyWayDownTown = -1;
@@ -529,6 +529,7 @@ namespace EEMod
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
 
                 #region Smoothing
+                EEMod.progressMessage = "Smoothing";
                 for (int i = 2; i < Main.maxTilesX - 2; i++)
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
@@ -541,6 +542,7 @@ namespace EEMod
                 }
                 #endregion
 
+                EEMod.progressMessage = "Final touches";
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
                 KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
                 #region Placing the boat
