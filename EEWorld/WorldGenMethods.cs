@@ -1267,46 +1267,39 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void TilePopulate(int[] types, Rectangle bounds)
+        public static void TilePopulate(int[][] types, Rectangle bounds, int rarity)
         {
-            for(int i = bounds.X; i<bounds.Width; i++)
+            for (int i = bounds.X; i < bounds.Width; i++)
             {
                 for (int j = bounds.Y; j < bounds.Height; j++)
                 {
-                    int chosen = WorldGen.genRand.Next(types.Length);
-                    int tile = types[chosen];
-                    TileObjectData TOD = TileObjectData.GetTileData(tile, 0);
-                    if (TOD.AnchorTop != AnchorData.Empty)
+                    if (!Main.rand.NextBool(rarity))
                     {
-                        if(TileCheck2(i, j) == (int)TileSpacing.Bottom)
+                        int dir = TileCheck2(i, j);
+                        if (dir != 0)
                         {
-                            WorldGen.PlaceTile(i, j + 1, tile);
-                        }
-                    }
-                    else if(TOD.AnchorBottom != AnchorData.Empty)
-                    {
-                        if (TileCheck2(i, j) == (int)TileSpacing.Top)
-                        {
-                            WorldGen.PlaceTile(i, j - TOD.Height, tile);
-                        }
-                    }
-                    else if (TOD.AnchorLeft != AnchorData.Empty)
-                    {
-                        if (TileCheck2(i, j) == (int)TileSpacing.Right)
-                        {
-                            WorldGen.PlaceTile(i + 1, j , tile);
-                        }
-                    }
-                    else if (TOD.AnchorRight != AnchorData.Empty)
-                    {
-                        if (TileCheck2(i, j) == (int)TileSpacing.Left)
-                        {
-                            WorldGen.PlaceTile(i + TOD.Width, j , tile);
+                            int chosen = types[dir - 1][Main.rand.Next(types[dir - 1].Length)];
+
+                            TileObjectData TOD = TileObjectData.GetTileData(chosen, 0);
+
+                            int style = 0;
+                            if (TOD.RandomStyleRange != 0)
+                                style = Main.rand.Next(0, TOD.RandomStyleRange);
+
+                            if (TOD.AnchorTop != AnchorData.Empty)
+                                WorldGen.PlaceTile(i, j + 1, chosen, style: style);
+                            else if (TOD.AnchorBottom != AnchorData.Empty)
+                                WorldGen.PlaceTile(i, j - TOD.Height, chosen, style: style);
+                            else if (TOD.AnchorLeft != AnchorData.Empty)
+                                WorldGen.PlaceTile(i + 1, j, chosen, style: style);
+                            else if (TOD.AnchorRight != AnchorData.Empty)
+                                WorldGen.PlaceTile(i + TOD.Width, j, chosen, style: style);
                         }
                     }
                 }
             }
         }
+
         public static void MakeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
@@ -1434,7 +1427,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, bool isFlat = false, bool hasChasm = false, int wallType = 0)
+        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int type, int wallType = 0, bool pointingUp = true)
         {
             int initialStartingPosX = (int)startingPoint.X;
             int initialWidth = width;
@@ -1453,31 +1446,32 @@ namespace EEMod.EEWorld
                 width -= 2;
                 j += slope - 1;
             }
-            int topRight = (int)startingPoint.Y - height;
-            if (hasChasm)
-            {
-                MakeChasm((int)(startingPoint.X + width / 2), topRight + (height / (slope * 10)), height - 30, TileID.StoneSlab, 0, 10, 20);
+        }
 
-                for (int i = 0; i < Main.maxTilesX; i++)
+        public static void MakeTriangle(Vector2 startingPoint, int width, int height, int slope, int tileType = -1, int wallType = -1, bool pointingUp = true, int randFactor = 0)
+        {
+            int dir = 0;
+
+            if (pointingUp) dir = 1;
+            else dir = -1;
+
+            int j = 0;
+
+            while (j < height * dir)
+            {
+                for (int k = 0; k < slope + Main.rand.Next(-randFactor, randFactor + 1); k++)
                 {
-                    for (int j = 0; j < Main.maxTilesY; j++)
+                    for (int i = 0; i < width; i++)
                     {
-                        Tile tile = Framing.GetTileSafely(i, j);
-                        if (tile.type == TileID.StoneSlab)
-                        {
-                            WorldGen.KillTile(i, j);
-                            if (wallType != 0)
-                            {
-                                tile.wall = (ushort)wallType;
-                            }
-                        }
+                        if (tileType == -1)
+                            WorldGen.PlaceTile(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), tileType);
+                        if (wallType != -1)
+                            WorldGen.PlaceWall(i + (int)startingPoint.X, (int)startingPoint.Y - (j + k), wallType);
                     }
                 }
-            }
-            if (isFlat)
-            {
-                ClearRegion(initialWidth, height / 5, new Vector2(initialStartingPosX, topRight - 5));
-                KillWall(initialWidth, height / 5, new Vector2(initialStartingPosX, topRight - 5));
+                startingPoint.X += 1;
+                width -= 2;
+                j += slope * dir;
             }
         }
 
@@ -1954,20 +1948,6 @@ namespace EEMod.EEWorld
                 WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y, 21);
                 Debug.WriteLine("Chest Placed");
             }
-        }
-
-        public static int GetGemsandType(int height)
-        {
-            if (height < Main.maxTilesY * 0.4f)
-                return ModContent.TileType<LightGemsandTile>();
-            else if (height < Main.maxTilesY * 0.8f)
-                return ModContent.TileType<GemsandTile>();
-            else if (height > Main.maxTilesY * 0.8f)
-                return ModContent.TileType<DarkGemsandTile>();
-            if (height < Main.maxTilesY / 10)
-                return ModContent.TileType<CoralSandTile>();
-            else
-                return 0;
         }
 
         public static void Island(int islandWidth, int islandHeight, int posY)
