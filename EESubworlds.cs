@@ -566,6 +566,17 @@ namespace EEMod
             EEMod.progressMessage = null;
         }
 
+
+
+
+
+
+
+
+
+
+
+
         public static void Island(int seed, GenerationProgress customProgressObject = null)
         {
             Main.maxTilesX = 1000;
