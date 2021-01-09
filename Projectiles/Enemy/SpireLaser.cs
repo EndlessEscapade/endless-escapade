@@ -26,18 +26,19 @@ namespace EEMod.Projectiles.Enemy
             projectile.friendly = false;
             projectile.penetrate = -1;
             projectile.extraUpdates = 12;
-            projectile.hide = true;
+            projectile.hide = false;
             projectile.tileCollide = true;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Bounce(projectile.modProjectile, oldVelocity);
             return false;
         }
 
-        private static Vector2 SavedVel;
+        //private static Vector2 SavedVel;
 
-        public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
+        public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1.5f)
         {
             Projectile projectile = modProj.projectile;
             if (projectile.velocity.X != oldVelocity.X)

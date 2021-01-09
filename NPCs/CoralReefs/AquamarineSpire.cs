@@ -140,7 +140,7 @@ namespace EEMod.NPCs.CoralReefs
                 if(target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)
                 {
                     playerHits++;
-                    npc.ai[1] = 60;
+                    npc.ai[1] = 30;
                     Main.PlaySound(SoundID.DD2_CrystalCartImpact, npc.Center);
                 }
                 if(playerHits >= 5)
@@ -165,10 +165,10 @@ namespace EEMod.NPCs.CoralReefs
 
                 npc.ai[0]++;
 
-                if(npc.ai[0] % 60 == 0)
+                if(npc.ai[0] % 120 == 0)
                 {
-                    Projectile projectile = Projectile.NewProjectileDirect(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 1, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f);
-                    EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile));
+                    Projectile projectile = Projectile.NewProjectileDirect(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f);
+                    EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, 40));
                 }
             }
         }

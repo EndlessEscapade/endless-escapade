@@ -406,7 +406,7 @@ namespace EEMod
                             if (WalkingFast != -1) minibiome = WalkingFast;
 
 
-                            if (Main.tile[i, j].type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest)
+                            if (Main.tile[i, j].type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest && Main.tile[i, j].active() == false)
                                 Main.tile[i, j].type = (ushort)ModContent.TileType<KelpMossTile>();
                             if (Main.tile[i, j].type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
                                 Main.tile[i, j].type = (ushort)ModContent.TileType<ThermalMossTile>();
@@ -414,7 +414,7 @@ namespace EEMod
                     }
                 }
                 //Final polishing
-                EEMod.progressMessage = "Tidying the world";
+                /*EEMod.progressMessage = "Tidying the world";
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
                     for (int j = 42; j < Main.maxTilesY - 42; j++)
@@ -424,7 +424,7 @@ namespace EEMod
                             WorldGen.KillTile(i, j);
                         }
                     }
-                }
+                }*/
 
                 EEMod.progressMessage = "Placing Corals";
                 PlaceCoral();
@@ -534,9 +534,13 @@ namespace EEMod
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
                     {
-                        if (WorldGen.genRand.NextBool(2))
+                        if (/*WorldGen.genRand.NextBool(2)*/ Main.tile[i, j].type != ModContent.TileType<BulbousBlockTile>())
                         {
                             Tile.SmoothSlope(i, j);
+                        }
+                        if (!Main.tile[i, j + 1].active() && !Main.tile[i, j - 1].active() && !Main.tile[i + 1, j].active() && !Main.tile[i - 1, j].active())
+                        {
+                            WorldGen.KillTile(i, j);
                         }
                     }
                 }
