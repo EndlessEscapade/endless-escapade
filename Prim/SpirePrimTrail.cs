@@ -19,17 +19,17 @@ namespace EEMod.Prim
 {
     class SpirePrimTrail : PrimTrail
     {
-        public SpirePrimTrail(Projectile projectile, int width = 40) : base(projectile)
+        public SpirePrimTrail(Projectile projectile, Color _color, int width = 40) : base(projectile)
         {
             _projectile = projectile;
             _width = width;
+            color = _color;
         }
         private Color color;
         public override void SetDefaults()
         {
             _alphaValue = 0.8f;
             _cap = 80;
-            color = Main.hslToRgb(Main.rand.NextFloat(0.46f, 0.83f), 1f, 0.6f);
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)

@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Prim;
 using EEMod.Tiles;
+using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Projectiles.Enemy
 {
@@ -26,17 +27,23 @@ namespace EEMod.Projectiles.Enemy
             projectile.friendly = false;
             projectile.penetrate = -1;
             projectile.extraUpdates = 12;
-            projectile.hide = false;
+            projectile.hide = true;
             projectile.tileCollide = true;
         }
 
-        public override bool OnTileCollide(Vector2 oldVelocity)
+        /*public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(projectile.modProjectile, oldVelocity);
+            Tile currentTile = Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)];
+            if (currentTile != null && currentTile.active() && currentTile.type == ModContent.TileType<EmptyTile>())
+            {
+                Bounce(projectile.modProjectile, oldVelocity);
+            }
+            else
+            {
+                projectile.Kill();
+            }
             return false;
-        }
-
-        //private static Vector2 SavedVel;
+        }*/
 
         public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1.5f)
         {
@@ -50,16 +57,38 @@ namespace EEMod.Projectiles.Enemy
             {
                 projectile.velocity.Y = -oldVelocity.Y * bouncyness;
             }
+            Main.PlaySound(SoundID.DD2_WitherBeastDeath, projectile.Center);
+            projectile.ai[0]++;
         }
+
         public override void AI()
         {
-            Tile currentTile = Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)];
-            if (currentTile != null && currentTile.active() && currentTile.type == ModContent.TileType<EmptyTile>() && projectile.ai[0] == 0)
+            NPC spire = null;
+            for(int i = 0; i < Main.npc.Length - 1; i++)
             {
-                projectile.velocity *= -2;
-                projectile.timeLeft = 250;
-                projectile.ai[0] = 1;
-                Main.NewText("CRUMPETS!");
+                if(Main.npc[i].type == ModContent.NPCType<AquamarineSpire>())
+                {
+                    spire = Main.npc[i];
+                }
+            }
+
+            if (spire != null)
+            {
+                if (Vector2.DistanceSquared(spire.Center, projectile.Center) <= 12 * 12 && projectile.ai[0] > 1)
+                {
+                    projectile.Kill();
+                }
+            }
+
+
+            Tile currentTile = Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)];
+            if (currentTile != null && currentTile.active() && currentTile.type == ModContent.TileType<EmptyTile>())
+            {
+                Bounce(projectile.modProjectile, projectile.oldVelocity);
+            }
+            else if (currentTile != null && currentTile.active() && currentTile.type != ModContent.TileType<EmptyTile>())
+            {
+                projectile.Kill();
             }
         }
     }

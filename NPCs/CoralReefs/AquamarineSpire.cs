@@ -63,6 +63,7 @@ namespace EEMod.NPCs.CoralReefs
         int blinkTime = 0;
         bool blinking = false;
         int playerHits = 0;
+        private int chargeTime = 0;
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -72,7 +73,19 @@ namespace EEMod.NPCs.CoralReefs
             float bigTimeBetween;
             if (awake)
             {
-                Vector2 eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime);
+                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.25f));
+                Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+                Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+                Vector2 three = new Vector2(Main.rand.Next(-8, 8), 8).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+                Vector2 four = new Vector2(Main.rand.Next(-8, 8), -8).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+                Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + HeartBeat / 60f);
+                int scale = 4;
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+
+
 
                 if (!blinking && Main.rand.NextBool(240) && blinkTime <= 0)
                     blinking = true;
@@ -83,13 +96,44 @@ namespace EEMod.NPCs.CoralReefs
                 if (blinking && blinkTime < 8)
                     blinkTime++;
 
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
+                Color addColor = Color.White;
+                switch (npc.ai[1])
+                {
+                    case 0: //Navy laser
+                        addColor = Color.Navy;
+                        break;
+                    case 1: //Cyan laser
+                        addColor = Color.Cyan;
+                        break;
+                    case 2: //Pink laser
+                        addColor = Color.Magenta;
+                        break;
+                }
+                Color color = Color.Lerp(Color.White, addColor, 5 / npc.ai[3]);
+
+                Vector2 eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (npc.ai[3] / 20));
+
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
 
                 timeBetween = 35;
                 bigTimeBetween = 100;
             }
             else
             {
+                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.18f));
+                Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+                Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+                Vector2 three = new Vector2(Main.rand.Next(-8, 8), 8).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+                Vector2 four = new Vector2(Main.rand.Next(-8, 8), -8).RotatedBy(1.57f / 2f + HeartBeat / 60f);
+                Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + HeartBeat / 60f);
+                int scale = 4;
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+
+
+
                 Vector2 eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * playerHits);
 
                 if (!blinking && Main.rand.NextBool(180) && blinkTime <= 0)
@@ -121,54 +165,77 @@ namespace EEMod.NPCs.CoralReefs
         {
             Player target = Main.LocalPlayer;
 
-            if (!awake)
-            {
-                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.18f));
-                Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
-                Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
-                Vector2 three = new Vector2(Main.rand.Next(-8, 8), 8).RotatedBy(1.57f / 2f + HeartBeat / 60f);
-                Vector2 four = new Vector2(Main.rand.Next(-8, 8), -8).RotatedBy(1.57f / 2f + HeartBeat / 60f);
-                Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + HeartBeat / 60f);
-                int scale = 4;
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
 
+            if (awake)
+            { 
+                playerHits--;
 
-                npc.ai[1]--;
-                if(target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)
+                if (npc.ai[2] == 1)
                 {
-                    playerHits++;
-                    npc.ai[1] = 30;
-                    Main.PlaySound(SoundID.DD2_CrystalCartImpact, npc.Center);
+                    npc.ai[0]++;
+                    npc.ai[3] += 2;
                 }
-                if(playerHits >= 5)
+
+                if(npc.ai[0] >= 60)
                 {
-                    awake = true;
-                    Main.PlaySound(SoundID.DD2_BetsyScream, npc.Center);
+                    npc.ai[1] = Main.rand.Next(3);
+                    npc.ai[0] = 0;
+                    npc.ai[2] = 0;
+                    switch (npc.ai[1])
+                    {
+                        case 0: //Navy laser
+                            npc.ai[3] = 120;
+                            break;
+                        case 1: //Cyan laser
+                            npc.ai[3] = 90;
+                            break;
+                        case 2: //Pink laser
+                            npc.ai[3] = 90;
+                            break;
+                    }
+                }
+
+                if (npc.ai[2] == 0) npc.ai[3]--;
+                if(npc.ai[3] <= 0)
+                {
+                    switch (npc.ai[1])
+                    {
+                        case 0: //Navy laser
+                            Projectile projectile = Projectile.NewProjectileDirect(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage, 0f);
+                            EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, Color.Navy, 80));
+                            Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                            break;
+                        case 1: //Cyan laser
+                            Projectile projectile2 = Projectile.NewProjectileDirect(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f);
+                            EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Cyan, 40));
+                            Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                            break;
+                        case 2: //Pink laser
+                            for(int i = -1; i < 2; i++)
+                            {
+                                Projectile projectile3 = Projectile.NewProjectileDirect(npc.Center, (Vector2.Normalize(target.Center - npc.Center)).RotatedBy(i / 4f) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f);
+                                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile3, Color.Magenta, 30));
+                            }
+                            Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                            break;
+                    }
+
+                    npc.ai[2] = 1;
                 }
             }
             else
             {
-                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.25f));
-                Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
-                Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + HeartBeat / 60f);
-                Vector2 three = new Vector2(Main.rand.Next(-8, 8), 8).RotatedBy(1.57f / 2f + HeartBeat / 60f);
-                Vector2 four = new Vector2(Main.rand.Next(-8, 8), -8).RotatedBy(1.57f / 2f + HeartBeat / 60f);
-                Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + HeartBeat / 60f);
-                int scale = 4;
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-
-                npc.ai[0]++;
-
-                if(npc.ai[0] % 120 == 0)
+                npc.ai[1]--;
+                if (target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)
                 {
-                    Projectile projectile = Projectile.NewProjectileDirect(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f);
-                    EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, 40));
+                    playerHits++;
+                    npc.ai[1] = target.HeldItem.useTime;
+                    Main.PlaySound(SoundID.DD2_CrystalCartImpact, npc.Center);
+                }
+                if (playerHits >= 5)
+                {
+                    awake = true;
+                    Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, npc.Center);
                 }
             }
         }
