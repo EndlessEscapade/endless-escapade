@@ -192,9 +192,16 @@ namespace EEMod.Autoloading
                                 field.SetValue(null, subtypeinst);
                             }
                         }
-                        // if u have a subtype it probably wouldn't be assignable through attribute values
-                        //
-                        //
+                    }
+                    break;
+                }
+
+                case FieldInitType.ArrayMultipleLengths:
+                {
+                    Type fieldtype = field.FieldType;
+                    if(fieldtype.IsArray && attribute.InitInfo1 is int[] arrayLengths)
+                    {
+                        field.SetValue(null, Array.CreateInstance(fieldtype.GetElementType(), arrayLengths));
                     }
                     break;
                 }

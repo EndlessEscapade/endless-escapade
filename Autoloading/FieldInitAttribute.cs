@@ -36,6 +36,10 @@ namespace EEMod.Autoloading
         {
         }
 
+        public FieldInitAttribute(FieldInitType initType, params int[] arrayLengths) : this(initType, initInfo1: arrayLengths)
+        {
+        }
+
         public FieldInitAttribute(FieldInitType initType, Type subtype, FieldInitType subInitType) : this(initType, initInfo1: subtype, initInfo2: subInitType)
         {
         }
@@ -76,6 +80,8 @@ namespace EEMod.Autoloading
         /// [FieldInitAttribute(FieldInitType.SubType, typeof(B), FieldInitType.DefaultConstructor)] <br />
         /// static A field;</c>
         /// </summary>
-        SubType
+        SubType,
+
+        ArrayMultipleLengths,
     }
 }

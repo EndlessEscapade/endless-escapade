@@ -168,6 +168,7 @@ namespace EEMod
         }
 
         float counter;
+        [FieldInit(FieldInitType.ArrayMultipleLengths, arrayLengths: new int[] { 3, 200, 2})]
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
 
 
@@ -688,19 +689,23 @@ namespace EEMod
             {
                 if (Main.LocalPlayer?.GetModPlayer<EEPlayer>() != null)
                 {
-                    int l = Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome.Length;
-                    if ((int)MinibiomeID.KelpForest < l)
-                        if (Main.LocalPlayer?.GetModPlayer<EEPlayer>()?.reefMinibiome[(int)MinibiomeID.KelpForest] == true)
+                    var eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+                    int length = eeplayer.reefMinibiome.Length;
+
+                    if ((int)MinibiomeID.KelpForest < length)
+                        if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
                             priority = MusicPriority.BiomeHigh;
                         }
-                    if ((int)MinibiomeID.CrystallineCaves < l)
-                        if (Main.LocalPlayer?.GetModPlayer<EEPlayer>()?.reefMinibiome[(int)MinibiomeID.CrystallineCaves] == true)
+
+                    if ((int)MinibiomeID.CrystallineCaves < length)
+                        if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
                             priority = MusicPriority.BiomeHigh;
                         }
+
                     if (Main.LocalPlayer.Center.Y / 16 < Main.maxTilesY / 10 && Main.worldName == KeyID.CoralReefs)
                     {
                         music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
