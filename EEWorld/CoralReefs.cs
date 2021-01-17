@@ -990,7 +990,7 @@ namespace EEMod.EEWorld
                                                 }
                                                 break;
                                             case 2:
-                                                selection = WorldGen.genRand.Next(7);
+                                                selection = WorldGen.genRand.Next(8);
                                                 switch (selection)
                                                 {
                                                     case 0:
@@ -1012,13 +1012,42 @@ namespace EEMod.EEWorld
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround6, "Tiles/EmptyTileArrays/LuminantCoralGround6", "ShaderAssets/CrystalLightMapGround6");
                                                         break;
                                                     case 6:
+                                                        ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround7, "Tiles/EmptyTileArrays/LuminantCoralGround7", "ShaderAssets/CrystalLightMapGround7");
+                                                        break;
+                                                    case 7:
                                                         WorldGen.PlaceTile(i, j - 3, ModContent.TileType<AquamarineLamp1>());
                                                         break;
                                                 }
                                                 break;
                                             case 3:
+                                                selection = WorldGen.genRand.Next(3);
+                                                switch (selection)
+                                                {
+                                                    case 1:
+                                                        ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Left, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang1, "Tiles/EmptyTileArrays/LuminantCoralSideLeft1", "ShaderAssets/CrystalLightMapWallLeft1");
+                                                        break;
+                                                    case 2:
+                                                        ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Left, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang2, "Tiles/EmptyTileArrays/LuminantCoralSideLeft2", "ShaderAssets/CrystalLightMapWallLeft2");
+                                                        break;
+                                                    case 3:
+                                                        ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Left, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralSideLeft3", "ShaderAssets/CrystalLightMapWallLeft3");
+                                                        break;
+                                                }
                                                 break;
                                             case 4:
+                                                selection = WorldGen.genRand.Next(3);
+                                                switch (selection)
+                                                {
+                                                    case 1:
+                                                        ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Right, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang1, "Tiles/EmptyTileArrays/LuminantCoralSideRight1", "ShaderAssets/CrystalLightMapWallRight1");
+                                                        break;
+                                                    case 2:
+                                                        ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Right, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang2, "Tiles/EmptyTileArrays/LuminantCoralSideRight2", "ShaderAssets/CrystalLightMapWallRight2");
+                                                        break;
+                                                    case 3:
+                                                        ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Right, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralSideRight3", "ShaderAssets/CrystalLightMapWallRight3");
+                                                        break;
+                                                }
                                                 break;
                                         }
                                     }

@@ -425,9 +425,6 @@ namespace EEMod
                         }
                     }
                 }*/
-
-                EEMod.progressMessage = "Placing Corals";
-                PlaceCoral();
                 #endregion
 
                 #region Implementing dynamic objects
@@ -527,6 +524,9 @@ namespace EEMod
                 ClearRegion(46, 26, new Vector2(SpirePosition.X + 10 - 24, SpirePosition.Y - 26));
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y - 26), new Vector2(SpirePosition.X + 25, SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
+
+                EEMod.progressMessage = "Placing Corals";
+                PlaceCoral();
 
                 #region Smoothing
                 EEMod.progressMessage = "Smoothing";

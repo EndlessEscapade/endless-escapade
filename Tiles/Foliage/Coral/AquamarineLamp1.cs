@@ -88,12 +88,16 @@ namespace EEMod.Tiles.Foliage.Coral
                 //Helpers.DrawAdditive(tex, position + new Vector2(15, 10) + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), Color.White * 0.25f * HeartBeat, 1.5f);
 
                 frameTimer++;
-                if (frameTimer >= 2) frame++;
+                if (frameTimer >= 6)
+                {
+                    frame++;
+                    frameTimer = 0;
+                }
                 if (frame >= 8) frame = 0;
 
                 //diamond
-                Main.spriteBatch.Draw(tex, position + new Vector2(2 - 18, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4 - 18), new Rectangle(0, frame, 22, 24), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 1f);
-                Main.spriteBatch.Draw(tex, position + new Vector2(2 - 18, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4 - 18), new Rectangle(0, frame, 22, 24), Color.White * HeartBeat, 0f, default, 1f, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(tex, position + new Vector2(-12, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4 - 18), new Rectangle(0, frame * 24, 22, 24), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(tex, position + new Vector2(-12, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4 - 18), new Rectangle(0, frame * 24, 22, 24), Color.White * HeartBeat, 0f, default, 1f, SpriteEffects.None, 1f);
             }
         }
     }
