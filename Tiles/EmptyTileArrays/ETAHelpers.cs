@@ -22,6 +22,8 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             Bottom,
             Top,
+            Left,
+            Right,
             BottomLeft,
             BottomRight,
             TopLeft,
@@ -55,7 +57,32 @@ namespace EEMod.Tiles.EmptyTileArrays
                         }
                     }
                     break;
+                case ETAAnchor.Left:
+                    if (CheckRangeDown(i, j, height))
+                    {
+                        if (!Framing.GetTileSafely(i - 1, j).active() && !Framing.GetTileSafely(i + 1 + width, j + height).active())
+                        {
+                            EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i + 1, j), CrystalTexture, CrystalGlow), new Vector2(i + 1, j), array);
+                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i + 1, j));
+                        }
+                    }
+                    break;
+                case ETAAnchor.Right:
+                    if (CheckRangeDown(i, j, height))
+                    {
+                        if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - width - 1, j + height).active())
+                        {
+                            EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i - width, j), CrystalTexture, CrystalGlow), new Vector2(i - width, j), array);
+                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i - width, j));
+                        }
+                    }
+                    break;
             }
+        }
+
+        public static void PlaceComplexCrystal()
+        {
+
         }
     }
 }

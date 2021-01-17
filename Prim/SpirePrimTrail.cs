@@ -29,7 +29,7 @@ namespace EEMod.Prim
         public override void SetDefaults()
         {
             _alphaValue = 0.8f;
-            _cap = 80;
+            _cap = 60;
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -60,8 +60,7 @@ namespace EEMod.Prim
                     if (i != _points.Count - 1)
                     {
                         widthVar = _width * (float)Math.Sin(i/(float)_points.Count * 3.14f);
-                        Color base1 = new Color(7, 86, 122);
-                        Color base2 = new Color(255, 244, 173);
+
                         Color c = color;
                         Color CBT = color;
                         Vector2 normal = CurveNormal(_points, i);

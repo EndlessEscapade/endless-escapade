@@ -55,7 +55,12 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
+            if(projectile.ai[0] >= 3)
+            {
+                projectile.Kill();
+            }
 
+            Collision.AnyCollision(projectile.Center, projectile.velocity, 16, 16, true);
         }
     }
 }
