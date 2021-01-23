@@ -312,7 +312,7 @@ namespace EEMod.NPCs.CoralReefs
                     {
                         Projectile laser = Main.projectile[i];
 
-                        if (Vector2.Distance(laser.Center, npc.Center) <= 56 && laser.ai[0] > 0 && laser.active)
+                        if (Vector2.Distance(laser.Center, npc.Center) <= 40 && laser.ai[0] > 0 && laser.active)
                         {
                             TakeDamage(laser);
                             Main.PlaySound(SoundID.NPCDeath56, npc.Center);

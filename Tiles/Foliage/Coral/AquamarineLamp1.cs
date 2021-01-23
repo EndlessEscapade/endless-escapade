@@ -112,8 +112,9 @@ namespace EEMod.Tiles.Foliage.Coral
                             {
                                 Projectile laser = Main.projectile[i];
 
-                                if (Vector2.Distance(laser.Center, projectile.Center) <= 32 && laser.ai[0] > 0 && laser.active)
+                                if (Vector2.Distance(laser.Center, projectile.Center) <= 40 && laser.ai[0] > 0 && laser.active)
                                 {
+                                    Main.NewText("a");
                                     switch (laser.ai[1])
                                     {
                                         case 0:
