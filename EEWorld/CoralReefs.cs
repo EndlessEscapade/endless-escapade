@@ -925,7 +925,7 @@ namespace EEMod.EEWorld
                             #endregion
 
                             #region Crystalline Caves
-                            case MinibiomeID.CrystallineCaves: //Crystalline Caves(Thinner, taller coral, crystals)
+                            case MinibiomeID.CrystallineCaves:
                                 if (!WorldGen.genRand.NextBool(5))
                                 {
                                     if (WorldGen.genRand.NextBool(200) && Main.tile[i, j].active() && Main.tile[i, j].type != ModContent.TileType<AquamarineTile>())
@@ -936,6 +936,7 @@ namespace EEMod.EEWorld
                                     {
                                         if (Main.tileSolid[Framing.GetTileSafely(i, j).type])
                                         {
+                                            #region spawning nomis crystal
                                             int width = 18;
                                             int height = 18;
                                             int widthOfLedge = 5;
@@ -967,6 +968,19 @@ namespace EEMod.EEWorld
                                                         EmptyTileEntityCache.AddPair(new BigCrystal(TopLeft, "Tiles/EmptyTileArrays/LuminantCoralCrystalBigTopLeft", "ShaderAssets/LuminantCoralCrystalBigTopLeftLightMap"), TopLeft, EmptyTileArrays.LuminantCoralCrystalBigTopLeft);
                                                     }
                                                     EESubWorlds.CoralCrystalPosition.Add(TopLeft);
+                                                }
+                                            }
+                                            #endregion
+
+                                            if (Main.tile[i, j - 1].active())
+                                            {
+                                                if(Main.tile[i + 1, j].active())
+                                                {
+
+                                                }
+                                                if (Main.tile[i - 1, j].active())
+                                                {
+
                                                 }
                                             }
                                         }

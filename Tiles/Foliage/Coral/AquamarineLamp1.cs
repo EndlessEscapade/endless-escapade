@@ -6,6 +6,11 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
+using EEMod.NPCs.CoralReefs;
+using EEMod.Projectiles.Enemy;
+using EEMod.Extensions;
+using Terraria.ID;
+using EEMod.Prim;
 
 namespace EEMod.Tiles.Foliage.Coral
 {
@@ -33,11 +38,6 @@ namespace EEMod.Tiles.Foliage.Coral
             AddMapEntry(new Color(120, 85, 60));
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
-        {
-
-        }
-
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             r = 0.9f;
@@ -45,60 +45,172 @@ namespace EEMod.Tiles.Foliage.Coral
             b = 0.9f;
         }
 
-        float HeartBeat;
-        private int frame;
-        private int frameTimer;
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
 
-            if (frameX == 18 && frameY == 18)
+        }
+    }
+
+    public class AquamarineLamp1Glow : ModProjectile
+    {
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Aquamarine Lamp");
+        }
+
+        public override string Texture => Helpers.EmptyTexture;
+
+        public override void SetDefaults()
+        {
+            projectile.width = 22;
+            projectile.height = 24;
+            projectile.timeLeft = 999999999;
+            projectile.ignoreWater = true;
+            projectile.hostile = false;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.extraUpdates = 12;
+            projectile.hide = false;
+            projectile.tileCollide = false;
+        }
+
+        private NPC spire = null;
+        private int timer = 240;
+        private Vector2 origin;
+        private bool inactive = false;
+        public override void AI()
+        {
+            projectile.timeLeft = 999999999;
+            if (spire == null)
             {
-                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(8, true));
-                Vector2 part = new Vector2((i + 1) * 16 - 18, (j * 16) - 18 - 4) + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4);
-                EEMod.Particles.Get("Main").SpawnParticles(part, null, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
-                float timeBetween = 70;
-                float bigTimeBetween = 200;
-                if (Main.GameUpdateCount % 200 < timeBetween)
+                for (int k = 0; k < Main.npc.Length - 1; k++)
                 {
-                    HeartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
+                    if (Main.npc[k].type == ModContent.NPCType<AquamarineSpire>())
+                    {
+                        spire = Main.npc[k];
+                    }
+                }
+            }
+
+            if (spire != null)
+            {
+                Vector2 desiredVector = (spire.Center + new Vector2(-12, -8)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 48;
+
+                if (spire.ai[0] <= 20 && spire.ai[0] > 0 && !inactive)
+                {
+                    if (timer > 0) timer--;
+                    projectile.Center = Vector2.Lerp(origin, desiredVector, (240 - timer) / 240f);
+
+                    for (int i = 0; i < Main.projectile.Length - 1; i++)
+                    {
+                        if (Main.projectile[i].type == ModContent.ProjectileType<SpireLaser>())
+                        {
+                            Projectile laser = Main.projectile[i];
+
+                            Main.NewText("Found proj");
+                            if (Vector2.Distance(laser.Center, projectile.Center) <= 64 && laser.ai[0] > 0 && laser.active)
+                            {
+                                Main.NewText("Shield down!");
+                                switch (laser.ai[1])
+                                {
+                                    case 0:
+                                        break;
+                                    case 1: //Blue
+                                        strikeColor = Color.Blue;
+                                        break;
+                                    case 2: //Cyan
+                                        strikeColor = Color.Cyan;
+                                        break;
+                                    case 3: //Pink
+                                        strikeColor = Color.Magenta;
+                                        break;
+                                    case 4: //Purple
+                                        strikeColor = Color.Purple;
+                                        break;
+                                }
+                                strikeTime = 60;
+
+                                inactive = true;
+                                laser.Kill();
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    HeartBeat = 0;
-                }
+                    if (timer < 240) timer++;
 
-                Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-                if (Main.drawToScreen)
-                {
-                    zero = Vector2.Zero;
+                    if (origin == default)
+                        origin = projectile.Center;
+                    else
+                    {
+                        if (inactive)
+                            projectile.Center = Vector2.Lerp(desiredVector, origin, (240 - timer) / 240f);
+                        else
+                            projectile.Center = origin;
+                    }
+
+                    if(spire.ai[0] <= 0)
+                    {
+                        inactive = false;
+                    }
                 }
+            }
+        }
+        
+
+        float HeartBeat;
+        private int frame;
+        private int frameTimer;
+        private int frameSpeed = 0;
+
+        private int cooldown = 240;
+        private Color strikeColor;
+        private int strikeTime;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            if (spire != null)
+            {
+                HeartBeat = spire.ai[3];
 
                 Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/AquamarineLamp1Glow");
                 Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Masks/SmoothFadeOut");
 
-                Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, (j - 1) * 16 - (int)Main.screenPosition.Y) + zero;
-
-                Lighting.AddLight(new Vector2(i * 16, (j) * 16) + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f + i * j))).ToVector3());
                 float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;
-                Main.spriteBatch.Draw(mask, new Vector2((i + 1) * 16 - (int)Main.screenPosition.X - 25 - 18, (j * 16) - (int)Main.screenPosition.Y - 30 - 18) + zero + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), null, new Color(sineAdd, sineAdd, sineAdd, 0) * 0.2f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(mask, projectile.position, null, new Color(sineAdd, sineAdd, sineAdd, 0) * 0.2f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
 
-                //mask
-                //Helpers.DrawAdditive(tex, position + new Vector2(15, 10) + new Vector2(0, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4), Color.White * 0.25f * HeartBeat, 1.5f);
-
-                frameTimer++;
-                if (frameTimer >= 6)
+                frameSpeed = 3 + (int)(Math.Sin(Main.GameUpdateCount / 60f) * 2);
+                if (frameSpeed > 0)
                 {
-                    frame++;
-                    frameTimer = 0;
+                    frameTimer++;
+                    if (frameTimer >= frameSpeed)
+                    {
+                        frame++;
+                        frameTimer = 0;
+                    }
+                    if (frame >= 8) frame = 0;
                 }
-                if (frame >= 8) frame = 0;
 
-                //diamond
-                Main.spriteBatch.Draw(tex, position + new Vector2(-12, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4 - 18), new Rectangle(0, frame * 24, 22, 24), Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 1f);
-                Main.spriteBatch.Draw(tex, position + new Vector2(-12, 2 * (float)Math.Sin(Main.GameUpdateCount / 10f) - 4 - 18), new Rectangle(0, frame * 24, 22, 24), Color.White * HeartBeat, 0f, default, 1f, SpriteEffects.None, 1f);
+                Vector2 diamondPos;
+                if (spire.ai[0] <= 20 && spire.ai[0] > 0 && !inactive)
+                    diamondPos = projectile.Center;
+
+                else
+                {
+                    diamondPos = projectile.Center + new Vector2(-11, (4 * (float)Math.Sin(Main.GameUpdateCount / 10f)) - 24);
+
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(8, true));
+                    Vector2 part = projectile.Center + new Vector2(0, -12);
+                    EEMod.Particles.Get("Main").SpawnParticles(part, null, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
+
+                    Lighting.AddLight(projectile.Center, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f))).ToVector3());
+                }
+
+                strikeTime--;
+                Main.spriteBatch.Draw(tex, diamondPos.ForDraw(), new Rectangle(0, frame * 24, 22, 24), Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)), 0f, default, 1f, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(tex, diamondPos.ForDraw(), new Rectangle(0, frame * 24, 22, 24), Color.Lerp(Color.White * HeartBeat, strikeColor, strikeTime / 60f), 0f, default, 1f, SpriteEffects.None, 1f);
             }
+            return false;
         }
     }
 }

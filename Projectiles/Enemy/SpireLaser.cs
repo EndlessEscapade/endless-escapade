@@ -60,7 +60,11 @@ namespace EEMod.Projectiles.Enemy
                 projectile.Kill();
             }
 
-            Collision.AnyCollision(projectile.Center, projectile.velocity, 16, 16, true);
+            if(Main.tile[(int)(projectile.Center.X/16), (int)(projectile.Center.Y / 16)].type == ModContent.TileType<EmptyTile>())
+            {
+                Bounce(projectile.modProjectile, projectile.oldVelocity);
+                projectile.ai[0]++;
+            }
         }
     }
 }

@@ -475,7 +475,9 @@ namespace EEMod
                                     }
                                 }
                                 if (dist == 0)
-                                WebPositions.Add(new Vector2(i, j));
+                                {
+                                    //WebPositions.Add(new Vector2(i, j));
+                                }
                             }
                         }
                         int ifa = 0;
