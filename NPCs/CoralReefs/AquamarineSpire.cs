@@ -116,7 +116,7 @@ namespace EEMod.NPCs.CoralReefs
                 Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 128);
 
                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.12f * (timer2 / 40f)));
-                EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 3, ModContent.GetTexture("EEMod/Particles/Crystal"), 8, 3f, addColor, new SlowDown(0.98f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.8f));
+                EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 3, ModContent.GetTexture("EEMod/Particles/Crystal"), 7, 3f, addColor, new SlowDown(0.98f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.8f));
 
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
                 #endregion
@@ -343,7 +343,7 @@ namespace EEMod.NPCs.CoralReefs
                         {
                             if (Main.tile[i, j].type == ModContent.TileType<AquamarineLamp1>() && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
                             {
-                                Projectile proj = Projectile.NewProjectileDirect(new Vector2((i * 16) + 16, (j * 16)), Vector2.Zero, ModContent.ProjectileType<AquamarineLamp1Glow>(), 0, 0, default, 0, 0);
+                                Projectile proj = Projectile.NewProjectileDirect(new Vector2((i * 16) + 16, (j * 16) - 12), Vector2.Zero, ModContent.ProjectileType<AquamarineLamp1Glow>(), 0, 0, default, 0, 0);
                                 shields.Add(proj);
                             }
                         }

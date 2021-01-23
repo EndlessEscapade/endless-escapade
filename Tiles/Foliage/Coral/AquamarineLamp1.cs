@@ -78,6 +78,8 @@ namespace EEMod.Tiles.Foliage.Coral
         private int timer = 240;
         private Vector2 origin;
         private bool inactive = false;
+        private bool firstFrame = true;
+
         public override void AI()
         {
             projectile.timeLeft = 999999999;
@@ -92,46 +94,48 @@ namespace EEMod.Tiles.Foliage.Coral
                 }
             }
 
+
             if (spire != null)
             {
-                Vector2 desiredVector = (spire.Center + new Vector2(-12, -8)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 48;
+                Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 48;
 
-                if (spire.ai[0] <= 20 && spire.ai[0] > 0 && !inactive)
+                if (!inactive)
                 {
-                    if (timer > 0) timer--;
-                    projectile.Center = Vector2.Lerp(origin, desiredVector, (240 - timer) / 240f);
-
-                    for (int i = 0; i < Main.projectile.Length - 1; i++)
+                    if (spire.ai[0] <= 20 && spire.ai[0] > 0) //If in second phase and projectile is not inactive
                     {
-                        if (Main.projectile[i].type == ModContent.ProjectileType<SpireLaser>())
+                        if (timer > 0) timer--;
+                        projectile.Center = Vector2.Lerp(origin, desiredVector, (240 - timer) / 240f);
+
+                        for (int i = 0; i < Main.projectile.Length - 1; i++)
                         {
-                            Projectile laser = Main.projectile[i];
-
-                            Main.NewText("Found proj");
-                            if (Vector2.Distance(laser.Center, projectile.Center) <= 64 && laser.ai[0] > 0 && laser.active)
+                            if (Main.projectile[i].type == ModContent.ProjectileType<SpireLaser>())
                             {
-                                Main.NewText("Shield down!");
-                                switch (laser.ai[1])
-                                {
-                                    case 0:
-                                        break;
-                                    case 1: //Blue
-                                        strikeColor = Color.Blue;
-                                        break;
-                                    case 2: //Cyan
-                                        strikeColor = Color.Cyan;
-                                        break;
-                                    case 3: //Pink
-                                        strikeColor = Color.Magenta;
-                                        break;
-                                    case 4: //Purple
-                                        strikeColor = Color.Purple;
-                                        break;
-                                }
-                                strikeTime = 60;
+                                Projectile laser = Main.projectile[i];
 
-                                inactive = true;
-                                laser.Kill();
+                                if (Vector2.Distance(laser.Center, projectile.Center) <= 32 && laser.ai[0] > 0 && laser.active)
+                                {
+                                    switch (laser.ai[1])
+                                    {
+                                        case 0:
+                                            break;
+                                        case 1: //Blue
+                                            strikeColor = Color.Blue;
+                                            break;
+                                        case 2: //Cyan
+                                            strikeColor = Color.Cyan;
+                                            break;
+                                        case 3: //Pink
+                                            strikeColor = Color.Magenta;
+                                            break;
+                                        case 4: //Purple
+                                            strikeColor = Color.Purple;
+                                            break;
+                                    }
+                                    strikeTime = 60;
+
+                                    inactive = true;
+                                    laser.Kill();
+                                }
                             }
                         }
                     }
@@ -140,21 +144,24 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     if (timer < 240) timer++;
 
-                    if (origin == default)
-                        origin = projectile.Center;
-                    else
-                    {
-                        if (inactive)
-                            projectile.Center = Vector2.Lerp(desiredVector, origin, (240 - timer) / 240f);
-                        else
-                            projectile.Center = origin;
-                    }
-
-                    if(spire.ai[0] <= 0)
-                    {
-                        inactive = false;
-                    }
+                    projectile.Center = Vector2.Lerp(desiredVector, origin, 1 - ((240 - timer) / 240f));
                 }
+
+                if(spire.ai[0] <= 0 && origin != default)
+                {
+                    projectile.Center = origin;
+                }
+
+                if(spire.ai[0] == 40)
+                {
+                    inactive = false;
+                }
+            }
+
+            if (firstFrame)
+            {
+                origin = projectile.Center;
+                firstFrame = false;
             }
         }
         
@@ -193,20 +200,23 @@ namespace EEMod.Tiles.Foliage.Coral
 
                 Vector2 diamondPos;
                 if (spire.ai[0] <= 20 && spire.ai[0] > 0 && !inactive)
-                    diamondPos = projectile.Center;
+                    diamondPos = projectile.Center + new Vector2(-11, -12);
 
                 else
                 {
-                    diamondPos = projectile.Center + new Vector2(-11, (4 * (float)Math.Sin(Main.GameUpdateCount / 10f)) - 24);
+                    diamondPos = projectile.Center + new Vector2(-11, (4 * (float)Math.Sin(Main.GameUpdateCount / 10f)) - 12);
 
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(8, true));
-                    Vector2 part = projectile.Center + new Vector2(0, -12);
-                    EEMod.Particles.Get("Main").SpawnParticles(part, null, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
+                    if (timer >= 240)
+                    {
+                        EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(8, true));
+                        Vector2 part = projectile.Center + new Vector2(0, 0);
+                        EEMod.Particles.Get("Main").SpawnParticles(part, null, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
 
-                    Lighting.AddLight(projectile.Center, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f))).ToVector3());
+                        Lighting.AddLight(projectile.Center, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f))).ToVector3());
+                    }
                 }
 
-                strikeTime--;
+                if(strikeTime > 0) strikeTime--;
                 Main.spriteBatch.Draw(tex, diamondPos.ForDraw(), new Rectangle(0, frame * 24, 22, 24), Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)), 0f, default, 1f, SpriteEffects.None, 1f);
                 Main.spriteBatch.Draw(tex, diamondPos.ForDraw(), new Rectangle(0, frame * 24, 22, 24), Color.Lerp(Color.White * HeartBeat, strikeColor, strikeTime / 60f), 0f, default, 1f, SpriteEffects.None, 1f);
             }
