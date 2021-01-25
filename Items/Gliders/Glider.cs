@@ -37,7 +37,7 @@ namespace EEMod.Items.Gliders
         {
 
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(2));
-            EEMod.Particles.Get("Main").SpawnParticles(position, null);
+            EEMod.Particles.Get("Main").SpawnParticles(position, default);
         }
         public override void HoldStyle(Player player)
         {
