@@ -50,7 +50,6 @@ namespace EEMod.NPCs.CoralReefs
         public bool awake = false;
         int blinkTime = 0;
         bool blinking = false;
-        int playerHits = 0;
         private int strikeTime = 0;
         private Color strikeColor = Color.White;
         private float eyeAlpha = 1f;
@@ -58,14 +57,12 @@ namespace EEMod.NPCs.CoralReefs
         private bool firstAwakening = true;
         private int cyanLaserShots;
         private int timer1;
-        private int timer2;
 
-        //npc.ai[0] : Health
+        //npc.ai[0] : Player hits on spire / Health
         //npc.ai[1] : Laser color
         //npc.ai[2] : Timer stuffens?
         //npc.ai[3] : Heartbeat
         //Timer1 : Manages cooldowns - recharge time and laser shot cooldown
-        //Timer2 : Second timer?
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -106,16 +103,16 @@ namespace EEMod.NPCs.CoralReefs
                 }
                 Color color = addColor;
 
-                if(timer2 != 0)
-                    color = Color.Lerp(Color.White, addColor, 5 / timer2);
+                if(timer1 != 0)
+                    color = Color.Lerp(Color.White, addColor, 5 / timer1);
                 #endregion
 
                 #region Drawing the eye and eye particles
-                eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer2 / 20f));
+                eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer1 / 20f));
 
                 Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 128);
 
-                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.12f * (timer2 / 40f)));
+                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.12f * (timer1 / 40f)));
                 EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 3, ModContent.GetTexture("EEMod/Particles/Crystal"), 7, 3f, addColor, new SlowDown(0.98f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.8f));
 
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
@@ -124,6 +121,7 @@ namespace EEMod.NPCs.CoralReefs
                 timeBetween = 35;
                 bigTimeBetween = 100;
             }
+
             else
             {
                 if (timer1 < 300 * 60) //If recharging
@@ -146,7 +144,7 @@ namespace EEMod.NPCs.CoralReefs
                     #region Recharging eye
                     if (npc.ai[2] == 0)
                     {
-                        if (eyeAlpha > 0 && playerHits == 0) eyeAlpha -= 0.02f;
+                        if (eyeAlpha > 0 && npc.ai[0] == 0) eyeAlpha -= 0.02f;
                         if (blinkTime < 8) blinkTime++;
                         if (eyeAlpha <= 0) npc.ai[2] = 1;
                     }
@@ -173,7 +171,7 @@ namespace EEMod.NPCs.CoralReefs
                 }
 
                 #region Drawing eye
-                eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * playerHits);
+                eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * npc.ai[0]);
 
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White * eyeAlpha, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
                 #endregion
@@ -202,26 +200,18 @@ namespace EEMod.NPCs.CoralReefs
         private List<Projectile> shields = new List<Projectile>();
         public override void AI()
         {
-            Player target = Main.LocalPlayer;
+            Player target = Main.player[Helpers.GetNearestAlivePlayer(npc)];
 
             npc.velocity = Vector2.Zero;
 
             if (awake)
             {
                 #region Backend stuff
-                playerHits--;
+                npc.ai[2]++;
 
-                if (npc.ai[2] == 1)
-                {
-                    timer1++;
-                    timer2 += 2;
-                }
-
-                if (timer1 >= 60)
+                if (npc.ai[2] >= 60)
                 {
                     npc.ai[1] = Main.rand.Next(4);
-                    timer1 = 0;
-                    npc.ai[2] = 0;
                     cyanLaserShots = 0;
 
                     if (npc.ai[0] > 20)
@@ -229,16 +219,16 @@ namespace EEMod.NPCs.CoralReefs
                         switch (npc.ai[1])
                         {
                             case 0: //Blue laser
-                                timer2 = 120;
+                                npc.ai[2] = -120;
                                 break;
                             case 1: //Cyan laser
-                                timer2 = 180;
+                                npc.ai[2] = -180;
                                 break;
                             case 2: //Pink laser
-                                timer2 = 180;
+                                npc.ai[2] = -180;
                                 break;
                             case 3: //Purple laser
-                                timer2 = 150;
+                                npc.ai[2] = -150;
                                 break;
                         }
                     }
@@ -247,25 +237,31 @@ namespace EEMod.NPCs.CoralReefs
                         switch (npc.ai[1])
                         {
                             case 0: //Blue laser
-                                timer2 = 90;
+                                npc.ai[2] = -90;
                                 break;
                             case 1: //Cyan laser
-                                timer2 = 120;
+                                npc.ai[2] = -120;
                                 break;
                             case 2: //Pink laser
-                                timer2 = 120;
+                                npc.ai[2] = -120;
                                 break;
                             case 3: //Purple laser
-                                timer2 = 90;
+                                npc.ai[2] = -90;
                                 break;
                         }
                     }
+                    timer1 = -(int)npc.ai[2];
                 }
+                
+                if(npc.ai[2] < 0)
+                    timer1--;
+
+                if(npc.ai[2] >= 0 && npc.ai[2] < 60)
+                    timer1 += 3;
                 #endregion
 
                 #region Shooting lasers
-                if (npc.ai[2] == 0) timer2--;
-                if (timer2 <= 0 && npc.ai[2] == 0 && cyanLaserShots < 3)
+                if (npc.ai[2] == 0 && cyanLaserShots < 3)
                 {
                     switch (npc.ai[1])
                     {
@@ -273,13 +269,13 @@ namespace EEMod.NPCs.CoralReefs
                             Projectile projectile = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage, 0f, default, 0, 1);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, Color.Blue, 80));
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-                            npc.ai[2] = 1;
                             break;
                         case 1: //Cyan laser
                             Projectile projectile2 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f, default, 0, 2);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Cyan, 40));
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-                            timer2 = 20;
+
+                            npc.ai[2] = -20;
                             cyanLaserShots++;
                             if (cyanLaserShots >= 3) npc.ai[2] = 1;
                             break;
@@ -290,7 +286,6 @@ namespace EEMod.NPCs.CoralReefs
                                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile3, Color.Magenta, 30));
                             }
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-                            npc.ai[2] = 1;
                             break;
                         case 3: //Purple laser
                             for (int i = -1; i < 2; i += 2)
@@ -299,7 +294,6 @@ namespace EEMod.NPCs.CoralReefs
                                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Purple, 30));
                             }
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-                            npc.ai[2] = 1;
                             break;
                     }
                 }
@@ -360,14 +354,14 @@ namespace EEMod.NPCs.CoralReefs
 
                 if (timer1 >= 300 * 60)
                 {
+                    npc.ai[1] = target.HeldItem.useTime;
                     npc.ai[1]--;
                     if (target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)
                     {
-                        playerHits++;
-                        npc.ai[1] = target.HeldItem.useTime;
+                        npc.ai[0]++;
                         Main.PlaySound(SoundID.DD2_CrystalCartImpact, npc.Center);
                     }
-                    if (playerHits >= 5)
+                    if (npc.ai[0] >= 5)
                     {
                         WakeUp();
                         Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, npc.Center);
@@ -412,18 +406,16 @@ namespace EEMod.NPCs.CoralReefs
             timer1 = 0;
             npc.ai[1] = 0;
             npc.ai[2] = 0;
-            timer2 = 180;
         } //Called on spire awakening
 
         private void Die()
         {
             awake = false;
-            playerHits = 0;
+            npc.ai[0] = 0;
             npc.ai[0] = 0;
             timer1 = 0;
             npc.ai[1] = 0;
             npc.ai[2] = 0;
-            timer2 = 0;
         } //Called on spire death
     }
 }
