@@ -174,25 +174,6 @@ namespace EEMod
 
         public void UpdateGame(GameTime gameTime)
         {
-            /*if (Inspect.JustReleased)
-            {
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight = !Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight;
-                Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
-                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
-                {
-                    for (int i = 0; i < 20; i++)
-                    {
-                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, new Vector2(0, 5).RotatedBy(Main.rand.NextFloat(6.28f)), ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 50, 1, null, new SlowDown(0.8f), new SimpleBrownianMotion(0.1f), new AfterImageTrail(1f), new RotateVelocity(0.01f));
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < 40; i++)
-                    {
-                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, 100).RotatedBy(Main.rand.NextFloat(6.28f)),null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 50, 2, null, new FollowEntity(Main.LocalPlayer), new SimpleBrownianMotion(0.1f), new AfterImageTrail(1f), new RotateVelocity(0.01f));
-                    }
-                }
-            }*/
             lerps++;
             if (delays > 0)
             {

@@ -37,7 +37,10 @@ namespace EEMod
         public bool ZoneCoralReefs;
         public bool HasVisitedSpire;
         public bool[] reefMinibiome = new bool[7];
+        public bool aquamarineSetBonus = true;
+        public int aquamarineCooldown;
         public bool isLight;
+        public Vector2 aquamarineVel;
         public bool ZoneTropicalIsland;
 
         //Equipment booleans
@@ -459,6 +462,7 @@ namespace EEMod
             hydriteSet = false;
             hydrofluoricSet = false;
             isWearingCape = false;
+            aquamarineSetBonus = false;
         }
 
         public void ReturnHome()
@@ -513,6 +517,7 @@ namespace EEMod
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
+
             if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
             {
                 if (markerPlacer < 120 * 8)
@@ -697,6 +702,39 @@ namespace EEMod
         public float seamapLightColor;
         public override void UpdateBiomeVisuals()
         {
+            if (aquamarineSetBonus)
+            {
+                if (isLight)
+                {
+                    player.gravity = 0;
+
+                    if (Math.Abs(player.velocity.X) <= 0.01) aquamarineVel.X = -aquamarineVel.X * 1.25f;
+
+                    if (Math.Abs(player.velocity.Y) <= 0.01) aquamarineVel.Y = -aquamarineVel.Y * 1.25f;
+
+                    player.velocity = aquamarineVel;
+
+                    aquamarineCooldown++;
+                    if (aquamarineCooldown >= 600 || (player.controlUp && aquamarineCooldown >= 30))
+                    {
+                        isLight = false;
+                        aquamarineCooldown = 30;
+                        player.gravity = 1;
+                    }
+                }
+                else
+                {
+                    aquamarineCooldown--;
+                    if(player.controlUp && aquamarineCooldown <= 0)
+                    {
+                        isLight = true;
+
+                        aquamarineVel = Vector2.Normalize(Main.MouseWorld - player.Center) * 24;
+                    }
+                }
+            }
+
+
             seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2 / 3f) + brightness, 0.333f, 2f);
             /*
             int minibiome = 0;
@@ -1261,7 +1299,6 @@ namespace EEMod
 
         public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
         {
-           
             if (!Main.gameMenu)
             {
                 if (player.wet)
@@ -1278,6 +1315,29 @@ namespace EEMod
                         }
                     }
                 }
+            }
+        }
+
+        public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        {
+            if (isLight)
+            {
+                for (int i = 0; i < layers.Count; i++)
+                {
+                    layers[i].visible = false;
+                }
+            }
+        }
+
+        public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
+        {
+            if (isLight)
+            {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center.ForDraw(), new Rectangle(0, 0, 174, 174), Color.White * 0.75f, Main.GameUpdateCount / 300f, new Rectangle(0, 0, 174, 174).Size() / 2, 0.5f, SpriteEffects.None, default);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             }
         }
     }

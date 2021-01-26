@@ -35,7 +35,7 @@ namespace EEMod.Items.Armor.Aquamarine
 
         public override void UpdateArmorSet(Player player)
         {
-
+            player.GetModPlayer<EEPlayer>().aquamarineSetBonus = true;
         }
     }
 }
