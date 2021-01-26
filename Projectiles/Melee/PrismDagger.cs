@@ -42,7 +42,7 @@ namespace EEMod.Projectiles.Melee
             {
                 EEMod.Particles.AppendSpawnModule("Main", new SpawnRandomly(1f));
                 for (int i = 0; i < 5; i++)
-                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, null, 3, Main.hslToRgb((projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f), new Spew(6.14f, 1f, Vector2.One, 0.95f), new RotateVelocity(Main.rand.NextFloat(-0.03f, 0.03f)), new AfterImageTrail(1.5f));
+                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, default, 3, Main.hslToRgb((projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f), new Spew(6.14f, 1f, Vector2.One, 0.95f), new RotateVelocity(Main.rand.NextFloat(-0.03f, 0.03f)), new AfterImageTrail(1.5f));
             }
             projectile.ai[1] = (Main.GameUpdateCount / 60f * 6.28f) + projectile.ai[0];
             if (!projectile.friendly)

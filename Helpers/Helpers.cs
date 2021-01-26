@@ -350,7 +350,7 @@ namespace EEMod
                     float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
 
                     EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(spawnChance));
-                    EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x, y), null, 2, color, modules);
+                    EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x, y), default, 2, color, modules);
                 }
             }
         }

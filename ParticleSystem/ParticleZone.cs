@@ -20,7 +20,7 @@ namespace EEMod
         public bool CanSpawn { get; set; }
         public int zoneTimer;
         int MAXDRAWDISTANCE => 2000;
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, Texture2D masks = null, float paralax = 0, params IParticleModule[] CustomBaseZoneModule)
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, Texture2D masks = null, float paralax = 0, params IParticleModule[] CustomBaseZoneModule)
         {
             if (!Main.gamePaused)
             {
@@ -64,7 +64,7 @@ namespace EEMod
             }
             return -1;
         }
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
         {
             if (!Main.gamePaused)
             {
@@ -116,7 +116,7 @@ namespace EEMod
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex,float scale, float paralaxFactor, params IParticleModule[] modules) =>
           SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, scale, null, null, paralaxFactor, modules);
 
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, params IParticleModule[] CustomBaseZoneModule)
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, params IParticleModule[] CustomBaseZoneModule)
         {
             if (!Main.gamePaused)
             {
@@ -150,7 +150,7 @@ namespace EEMod
             }
             return -1;
         }
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, int scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, int scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
         {
             if (!Main.gamePaused)
             {
@@ -184,7 +184,7 @@ namespace EEMod
             }
             return -1;
         }
-        public int SpawnParticles(Vector2 position, Vector2? velocity = null, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
         {
             if (!Main.gamePaused)
             {

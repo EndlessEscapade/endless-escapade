@@ -211,7 +211,7 @@ namespace EEMod.Tiles.Foliage.Coral
                     {
                         EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(8, true));
                         Vector2 part = projectile.Center + new Vector2(0, 0);
-                        EEMod.Particles.Get("Main").SpawnParticles(part, null, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
+                        EEMod.Particles.Get("Main").SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
 
                         Lighting.AddLight(projectile.Center, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f))).ToVector3());
                     }

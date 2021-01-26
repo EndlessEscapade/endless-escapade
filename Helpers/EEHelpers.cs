@@ -17,6 +17,10 @@ namespace EEMod
 
         public static sbyte Clamp(sbyte value, sbyte minValue, sbyte maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
 
+        public static short Clamp(short value, short minValue, short maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
+        public static ushort Clamp(ushort value, ushort minValue, ushort maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
+
         public static int Clamp(int value, int minValue, int maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
 
         public static uint Clamp(uint value, uint minValue, uint maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
@@ -54,6 +58,30 @@ namespace EEMod
         }
 
         public static void Clamp(ref sbyte value, sbyte min, sbyte max)
+        {
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
+        }
+
+        public static void Clamp(ref short value, short min, short max)
+        {
+            if (value < min)
+            {
+                value = min;
+            }
+            else if (value > max)
+            {
+                value = max;
+            }
+        }
+
+        public static void Clamp(ref ushort value, ushort min, ushort max)
         {
             if (value < min)
             {
@@ -213,6 +241,74 @@ namespace EEMod
             pointY >= rectangleY &&
             pointX >= rectangleX && pointX <= rectangleX + width &&
             pointY <= rectangleY + height;
+
+        public static Vector2 DirectionTowardsClampLength(Vector2 from, Vector2 to, double? min = null, double? max = null)
+        {
+            double val2;
+            double x = from.X - to.X;
+            double y = from.Y - to.Y;
+            double lengthSQ;
+            if (min != null)
+            {
+                val2 = (double)min;
+                if ((lengthSQ = x * x + y * y) < val2 * val2)
+                {
+                    val2 /= Math.Sqrt(lengthSQ);
+                    x *= val2;
+                    y *= val2;
+                }
+            }
+            if (max != null)
+            {
+                val2 = (double)max;
+                if ((lengthSQ = x * x + y * y) > val2 * val2)
+                {
+                    val2 /= Math.Sqrt(lengthSQ);
+                    x *= val2;
+                    y *= val2;
+                }
+            }
+            return new Vector2((float)x, (float)y);
+        }
+
+        public static Vector2 DirectionTowards(Vector2 from, Vector2 to, double length = 1)
+        {
+            double x = from.X - to.X;
+            double y = from.Y - to.Y;
+            double val = length / Math.Sqrt(x * x + y * y); // Normalization consists on vector = vector * (newlength / currentlength)
+            return new Vector2((float)(val * x), (float)(val * y));
+        }
+
+        public static Vector2 ClampLength(Vector2 vector, double? min = null, double? max = null)
+        {
+            double lengthSQ = vector.X * vector.X + vector.Y * vector.Y;
+            double val;
+            if (min != null)
+            {
+                val = (double)min;
+                if (lengthSQ < val * val)
+                {
+                    val /= Math.Sqrt(lengthSQ);
+                    return new Vector2((float)(vector.X * val), (float)(vector.Y * val));
+                }
+            }
+            if (max != null)
+            {
+                val = (double)max;
+                if (lengthSQ > val * val)
+                {
+                    val /= Math.Sqrt(lengthSQ);
+                    return new Vector2((float)(vector.X * val), (float)(vector.Y * val));
+                }
+            }
+            return vector;
+        }
+
+        public static Vector2 ChangeLength(Vector2 vector, double newlength = 1)
+        {
+            double val = newlength / Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+            return new Vector2((float)(vector.X * val), (float)(vector.Y * val));
+        }
 
         public static IEnumerable<NPC> NPCForeach
         {
