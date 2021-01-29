@@ -55,15 +55,25 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
-            if(projectile.ai[0] >= 3)
+            if (projectile.ai[1] != 5)
             {
-                projectile.Kill();
-            }
+                if (projectile.ai[0] >= 3)
+                {
+                    projectile.Kill();
+                }
 
-            if(Main.tile[(int)(projectile.Center.X/16), (int)(projectile.Center.Y / 16)].type == ModContent.TileType<EmptyTile>())
+                if (Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)].type == ModContent.TileType<EmptyTile>())
+                {
+                    Bounce(projectile.modProjectile, projectile.oldVelocity);
+                    projectile.ai[0]++;
+                }
+            }
+            else
             {
-                Bounce(projectile.modProjectile, projectile.oldVelocity);
-                projectile.ai[0]++;
+                if (Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)].type == ModContent.TileType<EmptyTile>())
+                {
+                    projectile.Kill();
+                }
             }
         }
     }

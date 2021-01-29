@@ -14,6 +14,8 @@ using EEMod.Projectiles.Enemy;
 using EEMod.Prim;
 using EEMod.Items.Weapons.Melee;
 using System.Collections.Generic;
+using EEMod.Tiles.EmptyTileArrays;
+using EEMod.Tiles;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -55,8 +57,9 @@ namespace EEMod.NPCs.CoralReefs
         private float eyeAlpha = 1f;
         private Vector2 eyePos;
         private bool firstAwakening = true;
-        private int cyanLaserShots;
+        private int specialLaserShots;
         private int timer1;
+        private float eyeRecoil;
 
         //npc.ai[0] : Player hits on spire / Health
         //npc.ai[1] : Laser color
@@ -107,8 +110,11 @@ namespace EEMod.NPCs.CoralReefs
                     color = Color.Lerp(Color.White, addColor, 5 / timer1);
                 #endregion
 
+
+                if(eyeRecoil <= 1) eyeRecoil += 0.05f;
+
                 #region Drawing the eye and eye particles
-                eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer1 / 20f));
+                eyePos = (Vector2.Normalize(target.Center - npc.Center) * (3 * eyeRecoil)) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer1 / 20f));
 
                 Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 128);
 
@@ -212,7 +218,7 @@ namespace EEMod.NPCs.CoralReefs
                 if (npc.ai[2] >= 60)
                 {
                     npc.ai[1] = Main.rand.Next(4);
-                    cyanLaserShots = 0;
+                    specialLaserShots = 0;
 
                     if (npc.ai[0] > 20)
                     {
@@ -261,7 +267,7 @@ namespace EEMod.NPCs.CoralReefs
                 #endregion
 
                 #region Shooting lasers
-                if (npc.ai[2] == 0 && cyanLaserShots < 3)
+                if (npc.ai[2] == 0 && ((specialLaserShots < 3 && npc.ai[1] == 1) || (specialLaserShots < 120 && npc.ai[1] == 4)))
                 {
                     switch (npc.ai[1])
                     {
@@ -269,6 +275,7 @@ namespace EEMod.NPCs.CoralReefs
                             Projectile projectile = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage, 0f, default, 0, 1);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, Color.Blue, 80));
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                            eyeRecoil = 0;
                             break;
                         case 1: //Cyan laser
                             Projectile projectile2 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f, default, 0, 2);
@@ -276,9 +283,11 @@ namespace EEMod.NPCs.CoralReefs
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
 
                             npc.ai[2] = -20;
-                            cyanLaserShots++;
-                            if (cyanLaserShots >= 3) npc.ai[2] = 1;
-                            break;
+                            eyeRecoil = 0;
+                            timer1 = 20;
+                            specialLaserShots++;
+                            if (specialLaserShots >= 3) npc.ai[2] = 1;
+                                break;
                         case 2: //Pink laser
                             for (int i = -1; i < 2; i++)
                             {
@@ -286,6 +295,7 @@ namespace EEMod.NPCs.CoralReefs
                                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile3, Color.Magenta, 30));
                             }
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                            eyeRecoil = 0;
                             break;
                         case 3: //Purple laser
                             for (int i = -1; i < 2; i += 2)
@@ -294,6 +304,38 @@ namespace EEMod.NPCs.CoralReefs
                                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Purple, 30));
                             }
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                            eyeRecoil = 0;
+                            break;
+                        case 4: //White laser/Laser chisel
+                            Vector2 nearestCrystal = Vector2.Zero;
+
+                            if (specialLaserShots == 0)
+                            {
+                                for (int i = ((int)(npc.Center.X) / 16) - 50; i < ((int)(npc.Center.X) / 16) + 50; i++)
+                                {
+                                    for (int j = ((int)(npc.Center.Y) / 16) - 50; j < ((int)(npc.Center.Y) / 16) + 50; j++)
+                                    {
+                                        if (Main.tile[i, j].type == ModContent.TileType<EmptyTile>() && Main.rand.NextBool(5))
+                                        {
+                                            nearestCrystal = new Vector2(i, j) * 16 + new Vector2(8, 8);
+                                        }
+                                    }
+                                }
+
+                                Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                            }
+
+                            if(nearestCrystal == Vector2.Zero)
+                            {
+                                Main.NewText("BLAME CROWN");
+                                npc.ai[2] = 1;
+                            }
+
+                            Projectile projectile5 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(nearestCrystal - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), 0, 0f, default, 0, 5);
+                            EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile5, Color.White, 40));
+
+                            npc.ai[2] = -1;
+                            specialLaserShots++;
                             break;
                     }
                 }
@@ -331,34 +373,17 @@ namespace EEMod.NPCs.CoralReefs
                 if (firstAwakening)
                 {
                     timer1 = 300 * 60;
-                    for(int i = 0; i < Main.maxTilesX; i++)
-                    {
-                        for (int j = 0; j < Main.maxTilesY; j++)
-                        {
-                            if (Main.tile[i, j].type == ModContent.TileType<AquamarineLamp1>() && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
-                            {
-                                Projectile proj = Projectile.NewProjectileDirect(new Vector2((i * 16) + 16, (j * 16) - 12), Vector2.Zero, ModContent.ProjectileType<AquamarineLamp1Glow>(), 0, 0, default, 0, 0);
-                                shields.Add(proj);
-                            }
-                        }
-                    }
-
-                    for (int i = 0; i < shields.Count; i++)
-                    {
-                        shields[i].ai[0] = shields.Count;
-                        shields[i].ai[1] = i;
-                    }
 
                     firstAwakening = false;
                 }
 
                 if (timer1 >= 300 * 60)
                 {
-                    npc.ai[1] = target.HeldItem.useTime;
                     npc.ai[1]--;
                     if (target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)
                     {
                         npc.ai[0]++;
+                        npc.ai[1] = target.HeldItem.useTime;
                         Main.PlaySound(SoundID.DD2_CrystalCartImpact, npc.Center);
                     }
                     if (npc.ai[0] >= 5)
@@ -373,28 +398,36 @@ namespace EEMod.NPCs.CoralReefs
 
         private void TakeDamage(Projectile proj)
         {
-            switch (proj.ai[1])
+            if (proj.type == ModContent.ProjectileType<SpireLaser>())
             {
-                case 0:
-                    break;
-                case 1: //Blue
-                    npc.ai[0] -= 3;
-                    strikeColor = Color.Blue;
-                    break;
-                case 2: //Cyan
-                    npc.ai[0] -= 2;
-                    strikeColor = Color.Cyan;
-                    break;
-                case 3: //Pink
-                    npc.ai[0] -= 1;
-                    strikeColor = Color.Magenta;
-                    break;
-                case 4: //Purple
-                    npc.ai[0] -= 2;
-                    strikeColor = Color.Purple;
-                    break;
+                switch (proj.ai[1])
+                {
+                    case 0:
+                        break;
+                    case 1: //Blue
+                        npc.ai[0] -= 3;
+                        strikeColor = Color.Blue;
+                        break;
+                    case 2: //Cyan
+                        npc.ai[0] -= 2;
+                        strikeColor = Color.Cyan;
+                        break;
+                    case 3: //Pink
+                        npc.ai[0] -= 1;
+                        strikeColor = Color.Magenta;
+                        break;
+                    case 4: //Purple
+                        npc.ai[0] -= 2;
+                        strikeColor = Color.Purple;
+                        break;
+                }
+                strikeTime = 60;
             }
-            strikeTime = 60;
+            else
+            {
+                npc.ai[0] -= 3;
+                strikeColor = Color.White;
+            }
 
             proj.Kill();
         } //Called when spire takes damage
@@ -403,7 +436,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             awake = true;
             npc.ai[0] = 40;
-            timer1 = 0;
+            timer1 = 180;
             npc.ai[1] = 0;
             npc.ai[2] = 0;
         } //Called on spire awakening
