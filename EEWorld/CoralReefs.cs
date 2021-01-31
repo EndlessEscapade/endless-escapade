@@ -338,7 +338,7 @@ namespace EEMod.EEWorld
                         for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                         {
                             //if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(8) == 1)
-                            if ((TileCheck2(i, j) != 0) && Main.rand.NextBool(12))
+                            if ((TileCheck2(i, j) != 0) && Main.rand.NextBool(8))
                             {
                                 if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
                                 {
@@ -972,11 +972,11 @@ namespace EEMod.EEWorld
                                             }
                                             #endregion
 
-                                            if (Main.tile[i, j - 1].active())
+                                            if (!Main.tile[i, j - 1].active())
                                             {
-                                                if(Main.tile[i + 1, j].active())
+                                                if(!Main.tile[i + 1, j].active())
                                                 {
-
+                                                    ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.BottomLeft, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalDiagTopRight1, "Tiles/EmptyTileArrays/LuminantCoralCrystalDiagTopRight1", "ShaderAssets/CrystalLightMapDiagTopRight1");
                                                 }
                                                 if (Main.tile[i - 1, j].active())
                                                 {

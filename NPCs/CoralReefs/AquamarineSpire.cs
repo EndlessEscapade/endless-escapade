@@ -119,7 +119,7 @@ namespace EEMod.NPCs.CoralReefs
                 Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 128);
 
                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.12f * (timer1 / 40f)));
-                EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 3, ModContent.GetTexture("EEMod/Particles/Crystal"), 7, 3f, addColor, new SlowDown(0.98f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.8f));
+                EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.GetTexture("EEMod/Particles/Crystal"), 7, 4f, addColor, new SlowDown(0.96f), new AfterImageTrail(0.8f), new SetMask(Helpers.RadialMask, 0.7f));
 
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
                 #endregion
@@ -161,6 +161,9 @@ namespace EEMod.NPCs.CoralReefs
 
                     blinkTime = (8 - (timer1 / (300 * 60)) * 8);
                     #endregion
+
+                    strikeTime = 61;
+                    strikeColor = Color.Gray;
                 }
                 else
                 {
@@ -174,6 +177,8 @@ namespace EEMod.NPCs.CoralReefs
                     if (blinking && blinkTime < 8)
                         blinkTime++;
                     #endregion
+
+                    eyeAlpha = npc.ai[0] / 5f;
                 }
 
                 #region Drawing eye
@@ -267,7 +272,7 @@ namespace EEMod.NPCs.CoralReefs
                 #endregion
 
                 #region Shooting lasers
-                if (npc.ai[2] == 0 && ((specialLaserShots < 3 && npc.ai[1] == 1) || (specialLaserShots < 120 && npc.ai[1] == 4)))
+                if (npc.ai[2] == 0 && ((specialLaserShots < 3 && npc.ai[1] == 1) || (specialLaserShots < 120 && npc.ai[1] == 4) || (npc.ai[1] != 4 && npc.ai[1] != 1)))
                 {
                     switch (npc.ai[1])
                     {
@@ -306,7 +311,7 @@ namespace EEMod.NPCs.CoralReefs
                             Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
                             eyeRecoil = 0;
                             break;
-                        case 4: //White laser/Laser chisel
+                        /*case 4: //White laser/Laser chisel
                             Vector2 nearestCrystal = Vector2.Zero;
 
                             if (specialLaserShots == 0)
@@ -336,7 +341,7 @@ namespace EEMod.NPCs.CoralReefs
 
                             npc.ai[2] = -1;
                             specialLaserShots++;
-                            break;
+                            break;*/
                     }
                 }
                 #endregion
@@ -365,6 +370,17 @@ namespace EEMod.NPCs.CoralReefs
                     }
                 }
                 #endregion
+
+                #region Managing shields
+                if (npc.ai[0] <= 20)
+                {
+                    for (int i = 0; i < shields.Count; i++)
+                    {
+                        shields[i].ai[0] = shields.Count;
+                        shields[i].ai[1] = i;
+                    }
+                }
+                #endregion
             }
 
             else
@@ -373,6 +389,21 @@ namespace EEMod.NPCs.CoralReefs
                 if (firstAwakening)
                 {
                     timer1 = 300 * 60;
+
+                    for (int i = 0; i < Main.maxTilesX; i++)
+                    {
+                        for (int j = 0; j < Main.maxTilesY; j++)
+                        {
+                            if (Main.tile[i, j].type == ModContent.TileType<AquamarineLamp1>() && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+                            {
+                                Projectile proj = Projectile.NewProjectileDirect(new Vector2((i * 16) + 16, (j * 16) - 12), Vector2.Zero, ModContent.ProjectileType<AquamarineLamp1Glow>(), 0, 0, default, 0, 0);
+                                if (shields.Count < 10)
+                                {
+                                    shields.Add(proj);
+                                }
+                            }
+                        }
+                    }
 
                     firstAwakening = false;
                 }

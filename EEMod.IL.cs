@@ -523,24 +523,24 @@ namespace EEMod
             {
                 case 0:
                 {
-                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/SeaDragon");
+                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoconutCrab");
                     _screenframes = 4;
-                    _screenframeSpeed = 10;
+                    _screenframeSpeed = 5;
                     break;
                 }
 
                 case 1:
                 {
-                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/Grebyser");
-                    _screenframes = 3;
-                    _screenframeSpeed = 15;
+                    _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/HermitCrab");
+                    _screenframes = 4;
+                    _screenframeSpeed = 5;
                     break;
                 }
                 case 2:
                 {
                     _screenTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/Seahorse");
-                    _screenframes = 5;
-                    _screenframeSpeed = 5;
+                    _screenframes = 7;
+                    _screenframeSpeed = 4;
                     break;
                 }
                 case 3:
@@ -580,7 +580,15 @@ namespace EEMod
                 width = Main.screenWidth;
                 height *= (Main.screenWidth / _texture2.Width);
             }
-            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, width, height), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(width / 2, height / 2), SpriteEffects.None, 0);
+
+            if (height < Main.screenHeight)
+            {
+                height = Main.screenHeight;
+                width *= (Main.screenHeight / _texture2.Height);
+            }
+
+            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, width, height), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
+
             Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(0, 0, 0), 0, new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
 
