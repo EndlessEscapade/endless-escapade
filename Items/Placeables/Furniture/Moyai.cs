@@ -19,13 +19,13 @@ namespace EEMod.Items.Placeables.Furniture
             item.useAnimation = 15;
             item.useTime = 10;
             item.autoReuse = true;
-            item.maxStack = 1;
+            item.maxStack = 999;
             item.consumable = true;
             item.width = 12;
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<AquamarineLamp1>();
+            item.createTile = ModContent.TileType<GroundSaltCrystal3x3>();
         }
     }
 }

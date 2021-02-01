@@ -14,5 +14,9 @@ namespace EEMod.Extensions
         public static float ToRadians(this double num) => (float)(num * (Math.PI / 180f));
 
         public static float ToRadians(this int num) => num * (float)(Math.PI / 180f);
+
+        public static float PositiveSin(this float num) => (num / 2f) + 0.5f;
+
+        public static float PositiveSin(this double num) => (float)(num / 2f) + 0.5f;
     }
 }

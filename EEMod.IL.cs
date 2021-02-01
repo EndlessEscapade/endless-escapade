@@ -572,22 +572,22 @@ namespace EEMod
 
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
 
-            int width = _texture2.Width;
-            int height = _texture2.Height;
+            float width = _texture2.Width;
+            float height = _texture2.Height;
 
             if (width < Main.screenWidth)
             {
                 width = Main.screenWidth;
                 height *= (Main.screenWidth / _texture2.Width);
+
+                if (height < Main.screenHeight)
+                {
+                    width *= (Main.screenHeight / height);
+                    height = Main.screenHeight;
+                }
             }
 
-            if (height < Main.screenHeight)
-            {
-                height = Main.screenHeight;
-                width *= (Main.screenHeight / _texture2.Height);
-            }
-
-            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, width, height), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, (int)width, (int)height), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
 
             Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(0, 0, 0), 0, new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }
