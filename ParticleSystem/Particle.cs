@@ -622,12 +622,12 @@ namespace EEMod
                 timer = 0;
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(in Particle particle) { ; }
     }
     class BaseModule : IParticleModule
     {
-        public void Update(in Particle particle) {; }
-        public void Draw(in Particle particle) {; }
+        public void Update(in Particle particle) { ; }
+        public void Draw(in Particle particle) { ; }
     }
     public interface IParticleModule
     {

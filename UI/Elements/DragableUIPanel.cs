@@ -22,7 +22,6 @@ namespace EEMod.UI.Elements
                 Recalculate();
             }
         }
-
         public override void MouseDown(UIMouseEvent evt)
         {
             base.MouseDown(evt);
