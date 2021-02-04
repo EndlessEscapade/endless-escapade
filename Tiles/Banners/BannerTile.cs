@@ -63,6 +63,18 @@ namespace EEMod.Tiles.Banners
                     item = "SmallClamBanner";
                     break;
 
+                case 7:
+                    item = "SeahorseBanner";
+                    break;
+
+                case 8:
+                    item = "CoconutSpiderBanner";
+                    break;
+
+                case 9:
+                    item = "CoconutCrabBanner";
+                    break;
+
                 default:
                     return;
             }
@@ -100,6 +112,22 @@ namespace EEMod.Tiles.Banners
 
                     case 5:
                         type = "GiantSquid";
+                        break;
+
+                    case 6:
+                        type = "SmallClam";
+                        break;
+
+                    case 7:
+                        type = "Seahorse";
+                        break;
+
+                    case 8:
+                        type = "CoconutSpider";
+                        break;
+
+                    case 9:
+                        type = "CoconutCrab";
                         break;
 
                     default:

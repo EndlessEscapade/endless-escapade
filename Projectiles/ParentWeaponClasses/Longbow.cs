@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using EEMod.Prim;
 
 namespace EEMod.Projectiles
 {
@@ -14,6 +15,9 @@ namespace EEMod.Projectiles
         public virtual int newProj => ModContent.ProjectileType<CoralArrowProjectileLongbow>();
         public virtual float minGrav => 2;
         public virtual float ropeThickness => 32f;
+        public virtual bool showDots => true;
+        public virtual int projCount => 1;
+        public virtual float projSpread => 0;
         protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         protected Player projOwner => Main.player[projectile.owner];
 
@@ -34,7 +38,12 @@ namespace EEMod.Projectiles
             if (!projOwner.controlUseItem)
             {
                 projectile.Kill();
-                Projectile.NewProjectile(projOwner.Center, (Main.MouseWorld - projOwner.Center) / Max * speed, newProj, 10, 10f, Main.myPlayer, gravAccel / Max * 2 * speed * speed, projectile.ai[1]);
+
+                Vector2 comedy = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
+                for (float i = 0; i < projCount; i++)
+                {
+                    Projectile projectile2 = Projectile.NewProjectileDirect(projOwner.Center, comedy.RotatedBy(-(projCount / 2) + i) / Max * speed, newProj, 10, 10f, Main.myPlayer);
+                }
             }
             if (Math.Abs(gravAccel - minGrav) < 0.3f && !vanillaFlag)
             {
@@ -58,24 +67,27 @@ namespace EEMod.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            yeet++;
-            if (yeet > 100)
+            if (showDots)
             {
-                yeet = -100;
-            }
-            float grav = 0;
-            gravAccel += (minGrav - gravAccel) / ropeThickness;
-            for (int i = 0; i < Max; i++)
-            {
-                float diff = 1 - (Math.Abs(i - yeet) / 50f);
-                if (diff < 0)
+                yeet++;
+                if (yeet > 100)
                 {
-                    diff = 0;
+                    yeet = -100;
                 }
+                float grav = 0;
+                gravAccel += (minGrav - gravAccel) / ropeThickness;
+                for (int i = 0; i < Max; i++)
+                {
+                    float diff = 1 - (Math.Abs(i - yeet) / 50f);
+                    if (diff < 0)
+                    {
+                        diff = 0;
+                    }
 
-                grav += gravAccel;
-                Vector2 intendedPath = projOwner.Center + (Main.MouseWorld - projOwner.Center + new Vector2(0, grav)) * (i / Max);
-                spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * diff, 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
+                    grav += gravAccel;
+                    Vector2 intendedPath = projOwner.Center + (Main.MouseWorld - projOwner.Center + new Vector2(0, grav)) * (i / Max);
+                    spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * diff, 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
+                }
             }
             return true;
         }

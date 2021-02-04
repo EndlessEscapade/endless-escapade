@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
+using EEMod.Items.Placeables.Banners;
 
 namespace EEMod.NPCs.CoralReefs
 {

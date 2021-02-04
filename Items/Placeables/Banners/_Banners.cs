@@ -39,4 +39,10 @@ namespace EEMod.Items.Placeables.Banners
     public class GiantSquidBanner : BannerItem { }
 
     public class SmallClamBanner : BannerItem { }
+
+    public class SeahorseBanner : BannerItem { }
+
+    public class CoconutCrabBanner : BannerItem { }
+
+    public class CoconutSpiderBanner : BannerItem { }
 }
