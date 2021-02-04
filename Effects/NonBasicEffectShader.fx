@@ -79,10 +79,10 @@ float4 Web(VertexShaderOutput input) : COLOR
 }
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	input.Color.r += sin(input.TextureCoordinates.x * 4 + progress);
-	input.Color.g -= cos(input.TextureCoordinates.x * 4 + progress);
-	input.Color.b += cos(input.TextureCoordinates.x * 4 + progress);
-	return input.Color * sin(input.TextureCoordinates.y * 3.14159265);
+	input.Color.r = lerp(0.917f, 0.412f, sin(((progress / 2) + 0.5f) + input.TextureCoordinates.x * 4));
+	input.Color.g = lerp(0.156f, 0.890f, sin(((progress / 2) + 0.5f) + input.TextureCoordinates.x * 4));
+	input.Color.b = lerp(0.643f, 0.855f, sin(((progress / 2) + 0.5f) + input.TextureCoordinates.x * 4));
+	return input.Color;
 }
 float hue2rgb(float p, float q, float t){
             if(t < 0) t += 1;

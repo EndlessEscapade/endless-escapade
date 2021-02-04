@@ -22,6 +22,8 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             Bottom,
             Top,
+            Left,
+            Right,
             BottomLeft,
             BottomRight,
             TopLeft,
@@ -55,7 +57,73 @@ namespace EEMod.Tiles.EmptyTileArrays
                         }
                     }
                     break;
+                case ETAAnchor.Left:
+                    if (CheckRangeDown(i, j, height))
+                    {
+                        if (!Framing.GetTileSafely(i - 1, j).active() && !Framing.GetTileSafely(i + 1 + width, j + height).active())
+                        {
+                            EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i + 1, j), CrystalTexture, CrystalGlow), new Vector2(i + 1, j), array);
+                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i + 1, j));
+                        }
+                    }
+                    break;
+                case ETAAnchor.Right:
+                    if (CheckRangeDown(i, j, height))
+                    {
+                        if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - width - 1, j + height).active())
+                        {
+                            EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i - width, j), CrystalTexture, CrystalGlow), new Vector2(i - width, j), array);
+                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i - width, j));
+                        }
+                    }
+                    break;
+                case ETAAnchor.BottomLeft:
+                    if (CheckRangeDown(i - height, j, height) && CheckRangeRight(i, j, width))
+                    {
+                        if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i, j - 1).active())
+                        {
+                            EmptyTileEntityCache.AddPair(new Crystal(new Vector2(i, j - height), CrystalTexture, CrystalGlow), new Vector2(i, j - height), array);
+                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
+                        }
+                    }
+                    break;
             }
         }
+
+        /*public static void PlaceComplexCrystal(int width, int heihgt, int widthOfLedge, int heightOfLedge, int vert, int hori, bool dir, byte[,,] array)
+        {
+            int width = 18;
+            int height = 18;
+            int widthOfLedge = 5;
+            int heightOfLedge = 6;
+            int Vert = -5;
+            int Hori = -6;
+            Vector2 TopLeft = new Vector2(i - Hori - width, j - height - Vert);
+            byte[,,] array = EmptyTileArrays.LuminantCoralCrystalBigTopLeft;
+            if (CheckRangeRight(i, j, widthOfLedge) && CheckRangeDown(i, j, heightOfLedge))
+            {
+                for (int a = 0; a < array.GetLength(1); a++)
+                {
+                    for (int b = 0; b < array.GetLength(0); b++)
+                    {
+                        if (array[b, a, 0] == 1)
+                        {
+                            if (Main.tileSolid[Framing.GetTileSafely((int)TopLeft.X + a, (int)TopLeft.Y + b).type] && Framing.GetTileSafely((int)TopLeft.X + a, (int)TopLeft.Y + b).active())
+                            {
+                                check++;
+                            }
+                        }
+                    }
+                }
+                if (check <= 11)
+                {
+                    if (!Framing.GetTileSafely((int)TopLeft.X, (int)TopLeft.Y).active() && !Framing.GetTileSafely((int)TopLeft.X + width + Vert, (int)TopLeft.Y + height + Hori).active())
+                    {
+                        EmptyTileEntityCache.AddPair(new BigCrystal(TopLeft, "Tiles/EmptyTileArrays/LuminantCoralCrystalBigTopLeft", "ShaderAssets/LuminantCoralCrystalBigTopLeftLightMap"), TopLeft, EmptyTileArrays.LuminantCoralCrystalBigTopLeft);
+                    }
+                    EESubWorlds.CoralCrystalPosition.Add(TopLeft);
+                }
+            }
+        }*/
     }
 }

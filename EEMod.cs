@@ -168,30 +168,12 @@ namespace EEMod
         }
 
         float counter;
+        [FieldInit(FieldInitType.ArrayMultipleLengths, arrayLengths: new int[] { 3, 200, 2})]
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
 
 
         public void UpdateGame(GameTime gameTime)
         {
-            /*if (Inspect.JustReleased)
-            {
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight = !Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight;
-                Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
-                if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
-                {
-                    for (int i = 0; i < 20; i++)
-                    {
-                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, new Vector2(0, 5).RotatedBy(Main.rand.NextFloat(6.28f)), ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 50, 1, null, new SlowDown(0.8f), new SimpleBrownianMotion(0.1f), new AfterImageTrail(1f), new RotateVelocity(0.01f));
-                    }
-                }
-                else
-                {
-                    for (int i = 0; i < 40; i++)
-                    {
-                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, 100).RotatedBy(Main.rand.NextFloat(6.28f)),null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 50, 2, null, new FollowEntity(Main.LocalPlayer), new SimpleBrownianMotion(0.1f), new AfterImageTrail(1f), new RotateVelocity(0.01f));
-                    }
-                }
-            }*/
             lerps++;
             if (delays > 0)
             {
@@ -688,19 +670,23 @@ namespace EEMod
             {
                 if (Main.LocalPlayer?.GetModPlayer<EEPlayer>() != null)
                 {
-                    int l = Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome.Length;
-                    if ((int)MinibiomeID.KelpForest < l)
-                        if (Main.LocalPlayer?.GetModPlayer<EEPlayer>()?.reefMinibiome[(int)MinibiomeID.KelpForest] == true)
+                    var eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+                    int length = eeplayer.reefMinibiome.Length;
+
+                    if ((int)MinibiomeID.KelpForest < length)
+                        if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
                             priority = MusicPriority.BiomeHigh;
                         }
-                    if ((int)MinibiomeID.CrystallineCaves < l)
-                        if (Main.LocalPlayer?.GetModPlayer<EEPlayer>()?.reefMinibiome[(int)MinibiomeID.CrystallineCaves] == true)
+
+                    if ((int)MinibiomeID.CrystallineCaves < length)
+                        if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
                             priority = MusicPriority.BiomeHigh;
                         }
+
                     if (Main.LocalPlayer.Center.Y / 16 < Main.maxTilesY / 10 && Main.worldName == KeyID.CoralReefs)
                     {
                         music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");

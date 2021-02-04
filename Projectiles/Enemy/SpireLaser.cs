@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Prim;
 using EEMod.Tiles;
+using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Projectiles.Enemy
 {
@@ -29,15 +30,15 @@ namespace EEMod.Projectiles.Enemy
             projectile.hide = true;
             projectile.tileCollide = true;
         }
+
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Bounce(projectile.modProjectile, oldVelocity);
+            projectile.ai[0]++;
             return false;
         }
 
-        private static Vector2 SavedVel;
-
-        public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1f)
+        public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1.5f)
         {
             Projectile projectile = modProj.projectile;
             if (projectile.velocity.X != oldVelocity.X)
@@ -49,16 +50,30 @@ namespace EEMod.Projectiles.Enemy
             {
                 projectile.velocity.Y = -oldVelocity.Y * bouncyness;
             }
+            Main.PlaySound(SoundID.DD2_WitherBeastDeath, projectile.Center);
         }
+
         public override void AI()
         {
-            Tile currentTile = Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)];
-            if (currentTile != null && currentTile.active() && currentTile.type == ModContent.TileType<EmptyTile>() && projectile.ai[0] == 0)
+            if (projectile.ai[1] != 5)
             {
-                projectile.velocity *= -2;
-                projectile.timeLeft = 250;
-                projectile.ai[0] = 1;
-                Main.NewText("CRUMPETS!");
+                if (projectile.ai[0] >= 3)
+                {
+                    projectile.Kill();
+                }
+
+                if (Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)].type == ModContent.TileType<EmptyTile>())
+                {
+                    Bounce(projectile.modProjectile, projectile.oldVelocity);
+                    projectile.ai[0]++;
+                }
+            }
+            else
+            {
+                if (Main.tile[(int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)].type == ModContent.TileType<EmptyTile>())
+                {
+                    projectile.Kill();
+                }
             }
         }
     }

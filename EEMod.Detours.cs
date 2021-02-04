@@ -302,7 +302,7 @@ namespace EEMod
                     Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
                     for (int i = 0; i < 20; i++)
                     {
-                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, 1, Color.White, new Spew(6.14f, 1f, Vector2.One / 2f, 0.98f));
+                        Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, default, 1, Color.White, new Spew(6.14f, 1f, Vector2.One / 2f, 0.98f));
                     }
                 }
                 if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
@@ -477,6 +477,16 @@ namespace EEMod
 
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
+            UpdateLight();
+            /*try
+            {
+                    Main.spriteBatch.Draw(playerDrawData, Main.MouseWorld.ForDraw(),Color.White);
+            }
+            catch
+            {
+
+            }*/
+
             Particles.Update();
             ModContent.GetInstance<EEMod>().TVH.Update();
             primitives.DrawTrailsBehindTiles();
@@ -569,6 +579,9 @@ namespace EEMod
             }
             orig(self);
 
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
+            Particles.Draw();
+            Main.spriteBatch.End();
 
         }
 

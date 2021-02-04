@@ -23,15 +23,15 @@ namespace EEMod.Items.Weapons.Melee
         {
             item.melee = true;
             item.rare = ItemRarityID.Green;
-            item.autoReuse = false;
+            item.autoReuse = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f; // 5 and 1/4
-            item.useTime = 25;
-            item.useAnimation = 25;
+            item.knockBack = 5f; // 5 and 1/4
+            item.useTime = 45;
+            item.useAnimation = 45;
             item.value = Item.buyPrice(0, 0, 30, 0);
             item.damage = 50;
-            item.width = 30;
-            item.height = 30;
+            item.width = 54;
+            item.height = 54;
             item.UseSound = SoundID.Item1;
         }
         int swordsActive = 0;
@@ -40,23 +40,27 @@ namespace EEMod.Items.Weapons.Melee
         {
             return true;
         }
+
         public override bool UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
-                for (int i = 0; i < swordsActive; i++)
+                if (swordArray[0] != default)
                 {
-                    if (Main.projectile[swordArray[i]].active)
+                    for (int i = 0; i < swordsActive; i++)
                     {
-                        Main.projectile[swordArray[i]].friendly = true;
-                        if (Main.netMode != NetmodeID.Server)
+                        if (Main.projectile[swordArray[i]].active)
                         {
-                            EEMod.prims.CreateTrail(Main.projectile[swordArray[i]]);
+                            Main.projectile[swordArray[i]].friendly = true;
+                            if (Main.netMode != NetmodeID.Server)
+                            {
+                                EEMod.prims.CreateTrail(Main.projectile[swordArray[i]]);
+                            }
                         }
+                        swordArray[i] = 0;
                     }
-                    swordArray[i] = 0;
+                    swordsActive = 0;
                 }
-                swordsActive = 0;
             }
             return base.UseItem(player);
         }
@@ -67,7 +71,7 @@ namespace EEMod.Items.Weapons.Melee
             {
                 damage2 = target.lifeMax;
             }
-            if (target.life <= 0 && swordsActive < 9)
+            if (swordsActive < 9 && Main.rand.NextBool())
             {
                 float angle = (float)(swordsActive * 0.7f);
                 swordArray[swordsActive] = Projectile.NewProjectile(target.position, Vector2.Zero, ModContent.ProjectileType<PrismDagger>(), damage2, 0, player.whoAmI, angle);

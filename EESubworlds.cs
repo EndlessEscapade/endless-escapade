@@ -385,12 +385,12 @@ namespace EEMod
                             int minibiome = 0;
                             List<float> BufferLengths = new List<float>();
                             List<int> BufferMinibiome = new List<int>();
-                            for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
+                            for (int k = 0; k < MinibiomeLocations.Count; k++)
                             {
-                                if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)) < (180 * 180) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                                if (Vector2.DistanceSquared(new Vector2(MinibiomeLocations[k].X, MinibiomeLocations[k].Y), new Vector2(i, j)) < (180 * 180) && MinibiomeLocations[k].Z != 0)
                                 {
-                                    BufferLengths.Add(Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), new Vector2(i, j)));
-                                    BufferMinibiome.Add((int)EESubWorlds.MinibiomeLocations[k].Z);
+                                    BufferLengths.Add(Vector2.DistanceSquared(new Vector2(MinibiomeLocations[k].X, MinibiomeLocations[k].Y), new Vector2(i, j)));
+                                    BufferMinibiome.Add((int)MinibiomeLocations[k].Z);
                                 }
                             }
                             float MakingMyWayDownTown = -1;
@@ -406,7 +406,7 @@ namespace EEMod
                             if (WalkingFast != -1) minibiome = WalkingFast;
 
 
-                            if (Main.tile[i, j].type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest)
+                            if (Main.tile[i, j].type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest && Main.tile[i, j].active() == false)
                                 Main.tile[i, j].type = (ushort)ModContent.TileType<KelpMossTile>();
                             if (Main.tile[i, j].type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
                                 Main.tile[i, j].type = (ushort)ModContent.TileType<ThermalMossTile>();
@@ -414,7 +414,7 @@ namespace EEMod
                     }
                 }
                 //Final polishing
-                EEMod.progressMessage = "Tidying the world";
+                /*EEMod.progressMessage = "Tidying the world";
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
                     for (int j = 42; j < Main.maxTilesY - 42; j++)
@@ -424,10 +424,7 @@ namespace EEMod
                             WorldGen.KillTile(i, j);
                         }
                     }
-                }
-
-                EEMod.progressMessage = "Placing Corals";
-                PlaceCoral();
+                }*/
                 #endregion
 
                 #region Implementing dynamic objects
@@ -478,7 +475,9 @@ namespace EEMod
                                     }
                                 }
                                 if (dist == 0)
-                                WebPositions.Add(new Vector2(i, j));
+                                {
+                                    //WebPositions.Add(new Vector2(i, j));
+                                }
                             }
                         }
                         int ifa = 0;
@@ -528,19 +527,28 @@ namespace EEMod
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y - 26), new Vector2(SpirePosition.X + 25, SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
 
+                EEMod.progressMessage = "Placing Corals";
+                PlaceCoral();
+
                 #region Smoothing
+                EEMod.progressMessage = "Smoothing";
                 for (int i = 2; i < Main.maxTilesX - 2; i++)
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
                     {
-                        if (WorldGen.genRand.NextBool(2))
+                        if (/*WorldGen.genRand.NextBool(2)*/ Main.tile[i, j].type != ModContent.TileType<BulbousBlockTile>())
                         {
                             Tile.SmoothSlope(i, j);
+                        }
+                        if (!Main.tile[i, j + 1].active() && !Main.tile[i, j - 1].active() && !Main.tile[i + 1, j].active() && !Main.tile[i - 1, j].active())
+                        {
+                            WorldGen.KillTile(i, j);
                         }
                     }
                 }
                 #endregion
 
+                EEMod.progressMessage = "Final touches";
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
                 KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
                 #region Placing the boat
@@ -563,6 +571,17 @@ namespace EEMod
             Main.spawnTileY = TileCheckWater(boatPos) - 22;
             EEMod.progressMessage = null;
         }
+
+
+
+
+
+
+
+
+
+
+
 
         public static void Island(int seed, GenerationProgress customProgressObject = null)
         {

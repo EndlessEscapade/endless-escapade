@@ -34,7 +34,7 @@ namespace EEMod.Skies
 
         public void DrawSky()
         {
-            switch (Main.rand.Next(3))
+            /*switch (Main.rand.Next(3))
             {
                 case 0:
                     texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
@@ -100,11 +100,12 @@ namespace EEMod.Skies
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
             Main.spriteBatch.Draw(texture2, Vector2.Zero, new Color(204, 204, 204));
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames), new Color(15, 15, 15), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
+            */
         }
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            switch (Main.rand.Next(3))
+            /*switch (Main.rand.Next(3))
             {
                 case 0:
                     texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
@@ -170,6 +171,7 @@ namespace EEMod.Skies
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
             Main.spriteBatch.Draw(texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, texture2.Width, texture2.Height), texture2.Bounds, new Color(204, 204, 204), 0, origin: new Vector2(texture2.Width / 2, texture2.Height / 2), SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames), new Color(0, 0, 0), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
+        */
         }
 
         public override float GetCloudAlpha()

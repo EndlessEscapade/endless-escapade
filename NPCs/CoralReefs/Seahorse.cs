@@ -10,7 +10,7 @@ namespace EEMod.NPCs.CoralReefs
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcFrameCount[npc.type] = 7;
         }
 
         private int frameNumber = 0;
@@ -26,7 +26,7 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     frameNumber = 0;
                 }
-                npc.frame.Y = frameNumber * 118;
+                npc.frame.Y = frameNumber * (504 / 7);
             }
         }
 

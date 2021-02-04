@@ -1,5 +1,6 @@
 using EEMod.Items.Materials;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,6 +35,12 @@ namespace EEMod.Tiles.Ores
         public override bool CanExplode(int i, int j)
         {
             return NPC.downedMechBossAny;
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.0025f));
+            EEMod.Particles.Get("Main").SpawnParticles(new Vector2(Main.rand.Next(i * 16, (i + 1) * 16), Main.rand.Next(j * 16, (j + 1) * 16)), new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetTexture("EEMod/Particles/Cross"), 90, 1f, Color.White, new SlowDown(0.98f), new RotateTexture(0.01f), new SetMask(Helpers.RadialMask, 0.4f));
         }
     }
 }

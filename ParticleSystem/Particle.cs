@@ -54,11 +54,11 @@ namespace EEMod
         {
 
         }
-        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2? velocity = null, float scale = 1, Color? colour = null, Texture2D masks = null, params IParticleModule[] StartingModule)
+        public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2 velocity = default, float scale = 1, Color? colour = null, Texture2D masks = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
             this.position = position;
-            this.velocity = velocity ?? Vector2.Zero;
+            this.velocity = velocity;
             this.texture = texture;
             active = true;
             this.scale = scale;
