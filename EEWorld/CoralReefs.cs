@@ -182,6 +182,35 @@ namespace EEMod.EEWorld
                             }
                         }
                     }
+
+                    TilePopulate(new int[4][] {
+                    new int[] { ModContent.TileType<GlowHangCoral1>() },
+
+                    new int[] { ModContent.TileType<GroundGlowCoral>(),
+                    ModContent.TileType<GroundGlowCoral2>(),
+                    ModContent.TileType<GroundGlowCoral3>(),
+                    ModContent.TileType<GroundGlowCoral4>(), },
+
+                    new int[] { ModContent.TileType<Wall4x3CoralL>() },
+
+                    new int[] { ModContent.TileType<Wall4x3CoralR>() } },
+                    new Rectangle((int)TL.X, (int)TL.Y, sizeX, sizeY), 6);
+
+                    for (int i = (int)TL.X; i < (int)BR.X; i++)
+                    {
+                        for (int j = (int)TL.Y; j < (int)BR.Y; j++)
+                        {
+                            if (TileCheck2(i, j) == 1 && Main.rand.NextBool(20))
+                            {
+                                VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
+                            }
+                            if(TileCheck2(i, j) == 2 && Main.rand.NextBool(3))
+                            {
+                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
+                            }
+                        }
+                    }
+
                     break;
 
                 case (int)MinibiomeID.BulbousGrove: //One medium-sized open room completely covered in bulbous blocks
@@ -655,73 +684,6 @@ namespace EEMod.EEWorld
                                 break;
                             #endregion
 
-                            #region Kelp Forest
-                            case MinibiomeID.KelpForest: //Kelp Forest (Glowing Kelp/Greencoral)
-                                if (TileCheck2(i, j) == 2 && !WorldGen.genRand.NextBool(6))
-                                {
-                                    if (!WorldGen.genRand.NextBool(4))
-                                    {
-                                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
-                                    }
-                                    else if (!Main.rand.NextBool(6))
-                                    {
-                                        selection = WorldGen.genRand.Next(4);
-                                        switch (selection)
-                                        {
-                                            case 0:
-                                                WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor1x2Coral>(), style: WorldGen.genRand.Next(7));
-                                                break;
-
-                                            case 1:
-                                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<Floor1x1Coral>(), style: WorldGen.genRand.Next(3));
-                                                break;
-
-                                            case 2:
-                                                if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && TileCheck2(i + 2, j) == 2)
-                                                {
-                                                    WorldGen.PlaceTile(i, j - 13, ModContent.TileType<GroundGlowCoral>());
-                                                }
-                                                else
-                                                {
-                                                    WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
-                                                }
-                                                break;
-
-                                            case 3:
-                                                if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && TileCheck2(i + 2, j) == 2)
-                                                {
-                                                    WorldGen.PlaceTile(i, j - 5, ModContent.TileType<GroundGlowCoral2>());
-                                                }
-                                                else
-                                                {
-                                                    WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
-                                                }
-                                                break;
-
-                                            case 4:
-                                                if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && TileCheck2(i + 2, j) == 2)
-                                                {
-                                                    WorldGen.PlaceTile(i, j - 8, ModContent.TileType<GroundGlowCoral4>());
-                                                }
-                                                else
-                                                {
-                                                    WorldGen.PlaceTile(i, j - 4, ModContent.TileType<GroundGlowCoral3>());
-                                                }
-                                                break;
-                                        }
-                                    }
-                                }
-                                if (TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(6))
-                                {
-                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<GlowHangCoral1>());
-                                }
-                                else if (TileCheck2(i, j) == 1 && WorldGen.genRand.NextBool(41))
-                                {
-                                    VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
-                                }
-                                break;
-                            #endregion
-
                             #region Bulbous Grove
                             case MinibiomeID.BulbousGrove:
                                 if (WorldGen.genRand.NextBool())
@@ -787,7 +749,7 @@ namespace EEMod.EEWorld
                                                     WorldGen.PlaceTile(i, j - 1, ModContent.TileType<FloorGlow2x1Coral>());
                                                     break;
                                             }*/
-                                            break;
+                    break;
                                     }
                                 }
                                 break;

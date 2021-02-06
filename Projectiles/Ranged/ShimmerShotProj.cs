@@ -66,7 +66,14 @@ namespace EEMod.Projectiles.Ranged
                 }
             }
 
-            if (whiteFlash > 0) whiteFlash -= 0.2f;
+            if (whiteFlash > 0) { whiteFlash -= 0.2f; }
+            if(whiteFlash <= 0.25f && whiteFlash >= 0.1f) { projectile.ai[1] = 1; }
+
+            if (projectile.ai[1] == 1)
+            {
+                whiteFlash = 0.25f + ((float)Math.Sin(Main.GameUpdateCount / 5f) / 8f);
+            }
+
 
             Player projOwner = Main.player[projectile.owner];
             float progression = projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
@@ -78,9 +85,10 @@ namespace EEMod.Projectiles.Ranged
             projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
             float speed = speedOfArrow;
             projOwner.bodyFrame.Y = 56 * (6 + (int)(gravAccel - minGrav));
-            if (!projOwner.controlUseItem)
+            if (!projOwner.controlUseItem && projectile.ai[0] == 0)
             {
-                projectile.Kill();
+                projectile.timeLeft = 16;
+                projectile.ai[0] = 1;
 
                 if (projectile.frame >= 3)
                 {
@@ -104,6 +112,20 @@ namespace EEMod.Projectiles.Ranged
             if(projOwner.HeldItem.type != ModContent.ItemType<ShimmerShot>())
             {
                 projectile.Kill();
+            }
+            
+            if(projectile.ai[0] == 1)
+            {
+                projectile.alpha += 16;
+            }
+
+            if(Main.MouseWorld.X <= projOwner.Center.X)
+            {
+                projOwner.direction = -1;
+            }
+            else
+            {
+                projOwner.direction = 1;
             }
         }
 

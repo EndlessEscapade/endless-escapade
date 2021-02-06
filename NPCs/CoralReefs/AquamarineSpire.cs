@@ -372,13 +372,10 @@ namespace EEMod.NPCs.CoralReefs
                 #endregion
 
                 #region Managing shields
-                if (npc.ai[0] <= 20)
+                for (int i = 0; i < shields.Count; i++)
                 {
-                    for (int i = 0; i < shields.Count; i++)
-                    {
-                        shields[i].ai[0] = shields.Count;
-                        shields[i].ai[1] = i;
-                    }
+                    shields[i].ai[0] = shields.Count;
+                    shields[i].ai[1] = i;
                 }
                 #endregion
             }
@@ -470,6 +467,7 @@ namespace EEMod.NPCs.CoralReefs
             timer1 = 180;
             npc.ai[1] = 0;
             npc.ai[2] = 0;
+            CombatText.NewText(new Rectangle((int)npc.Center.X, (int)npc.Center.Y, 0, 0), Color.Red, "ok kid ur gonna have a bad time", true);
         } //Called on spire awakening
 
         private void Die()

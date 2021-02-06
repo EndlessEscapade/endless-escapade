@@ -79,6 +79,8 @@ namespace EEMod.Tiles.Foliage.Coral
         private Vector2 origin;
         private bool inactive = false;
         private bool firstFrame = true;
+        private Player target = null;
+        private int radius;
 
         public override void AI()
         {
@@ -97,12 +99,12 @@ namespace EEMod.Tiles.Foliage.Coral
 
             if (spire != null)
             {
-                Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 48;
-
                 if (!inactive)
                 {
-                    if (spire.ai[0] <= 20 && spire.ai[0] > 0) //If in second phase and projectile is not inactive
+                    if (spire.ai[0] <= 40 && spire.ai[0] > 20) //If in first phase and projectile is not inactive
                     {
+                        Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 48;
+
                         if (timer > 0) timer--;
                         projectile.Center = Vector2.Lerp(origin, desiredVector, (240 - timer) / 240f);
 
@@ -140,12 +142,19 @@ namespace EEMod.Tiles.Foliage.Coral
                             }
                         }
                     }
+                    if (spire.ai[0] <= 20 && spire.ai[0] > 0) //If in second phase and projectile is not inactive
+                    {
+                        Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 48;
+
+                        if (timer > 0) timer--;
+                        projectile.Center = Vector2.Lerp(origin, desiredVector, (240 - timer) / 240f);
+                    }
                 }
                 else
                 {
                     if (timer < 240) timer++;
 
-                    projectile.Center = Vector2.Lerp(desiredVector, origin, 1 - ((240 - timer) / 240f));
+                    projectile.Center = Vector2.Lerp(projectile.Center, origin, 1 - ((240 - timer) / 240f));
                 }
 
                 if(spire.ai[0] <= 0 && origin != default)
@@ -156,6 +165,7 @@ namespace EEMod.Tiles.Foliage.Coral
                 if(spire.ai[0] == 40)
                 {
                     inactive = false;
+                    target = Main.player[Helpers.GetNearestAlivePlayer(spire)];
                 }
             }
 
