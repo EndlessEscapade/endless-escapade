@@ -31,21 +31,24 @@ namespace EEMod.Items.Gliders
         int lerpage;
         public override void UpdateInventory(Player player)
         {
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider = false;
+            player.GetModPlayer<EEPlayer>().isHoldingGlider = false;
         }
+
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
         {
-
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(2));
             EEMod.Particles.Get("Main").SpawnParticles(position, default);
         }
+
         public override void HoldStyle(Player player)
         {
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().isHoldingGlider = true;
+            player.GetModPlayer<EEPlayer>().isHoldingGlider = true;
             player.itemLocation += new Vector2(-100 * player.direction, 0);
+
             if (Main.rand.Next(4) == 0)
                 Dust.NewDust(player.position + new Vector2(-30 * player.direction, -5), 2, 2, 91, 0, 0, 0, default, Math.Abs(player.velocity.X) / 40f);
-            Tile tile = Main.tile[(int)player.position.X / 16, (int)player.position.Y / 16 + 3];
+
+            Tile tile = Framing.GetTileSafely((int)player.position.X / 16, (int)player.position.Y / 16 + 3);
             if (tile.active()
                 && Main.tileSolid[tile.type]
                 && Math.Abs(player.fullRotation) > 0.01f)

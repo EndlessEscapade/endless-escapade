@@ -61,17 +61,17 @@ namespace EEMod.Items
             EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
             if (averageSizeFish.Contains(item.type))
             {
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(12, 33) * (1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 32);
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(12, 33) * (1 + player.fishingSkill / 100), 0, 32);
             }
 
             if (smallSizeFish.Contains(item.type))
             {
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(8, 17) * (1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 16);
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(8, 17) * (1 + player.fishingSkill / 100), 0, 16);
             }
 
             if (bigSizeFish.Contains(item.type))
             {
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(18, 45) * (1 + Main.player[Main.myPlayer].fishingSkill / 100), 0, 44);
+                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(18, 45) * (1 + player.fishingSkill / 100), 0, 44);
             }
 
             return true;

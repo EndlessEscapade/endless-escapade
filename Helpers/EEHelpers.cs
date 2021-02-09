@@ -189,6 +189,18 @@ namespace EEMod
             }
         }
 
+        /// <summary>
+        /// The opposite of <see cref="MathHelper.Lerp(float, float, float)"/>
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static double InverseLerp(double value, double min, double max) => (value - min) / (max - min);
+
+        public static double LerpByInverseLerp(double value1, double value2, double ammountval, double min, double max) => value1 + value2 * ((ammountval - min) / (max - min));
+        
+
         // HALF CHANCE - Basically a coin flip.
         public static T ChooseRandom<T>(T obj1, T obj2) => Main.rand.NextBool(2) ? obj1 : obj2;
 
