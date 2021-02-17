@@ -32,8 +32,12 @@ using Terraria.DataStructures;
 
 namespace EEMod
 {
+    internal delegate void MechanicDrawDelegate(SpriteBatch spriteBatch);
     public partial class EEMod
     {
+        internal event MechanicDrawDelegate BeforeTiles;
+
+        public List<IComponent> Updatables = new List<IComponent>();
         private void LoadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float += Lighting_AddLight_int_int_float_float_float;
@@ -478,14 +482,10 @@ namespace EEMod
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             UpdateLight();
-            /*try
-            {
-                    Main.spriteBatch.Draw(playerDrawData, Main.MouseWorld.ForDraw(),Color.White);
-            }
-            catch
-            {
-
-            }*/
+            foreach (IComponent Updateable in Updatables)
+                Updateable.Update();
+            if(BeforeTiles != null)
+            BeforeTiles.Invoke(Main.spriteBatch);
 
             Particles.Update();
             ModContent.GetInstance<EEMod>().TVH.Update();
@@ -611,7 +611,6 @@ namespace EEMod
         private void Main_Draw(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
             orig(self, gameTime);
-
             if (EEModConfigClient.Instance.EEDebug)
             {
                 Main.spriteBatch.Begin();

@@ -314,6 +314,7 @@ namespace EEMod
         public ComponentManager<TileObjVisual> TVH;
         public override void Load()
         {
+            AutoLoadMechanics.Load();
             playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
             TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
