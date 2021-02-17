@@ -692,6 +692,19 @@ namespace EEMod
                         music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
                         priority = MusicPriority.Environment;
                     }
+
+                    for (int i = 0; i < Main.maxNPCs; i++)
+                    {
+                        NPC npc = Main.npc[i];
+                        if (npc.modNPC is AquamarineSpire spire)
+                        {
+                            if (spire.awake)
+                            {
+                                music = GetSoundSlot(SoundType.Music, "Sounds/Music/AquamarineSpire");
+                                priority = MusicPriority.BossLow;
+                            }
+                        }
+                    }
                 }
             }
         }

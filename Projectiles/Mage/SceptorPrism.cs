@@ -6,6 +6,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System.Linq;
+using EEMod.Prim;
+using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Projectiles.Mage
 {
@@ -31,7 +34,7 @@ namespace EEMod.Projectiles.Mage
         {
             Player player = Main.player[projectile.owner];
 
-            projectile.rotation = 3.14f;
+            projectile.rotation = Vector2.Normalize(player.Center - projectile.Center).ToRotation();
             Vector2 posToBe = new Vector2(projectile.ai[0], projectile.ai[1]);
             Vector2 direction = posToBe - projectile.position;
             float speed = (float)Math.Sqrt(direction.Length()) / 2;
@@ -45,7 +48,22 @@ namespace EEMod.Projectiles.Mage
             {
                 projectile.velocity = Vector2.Zero;
             }
+
+            var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+            foreach (var proj in list)
+            {
+                if (proj.type == ModContent.ProjectileType<SceptorPrism>() && proj.active && proj.ai[1] == 0)
+                {
+                    for (float i = -0.6f; i <= 0.6f; i += 0.3f)
+                    {
+                        int proj2 = Projectile.NewProjectile(proj.Center - (Vector2.UnitY.RotatedBy((double)i + projectile.rotation) * 60), 5 * Vector2.UnitY.RotatedBy((double)i + projectile.rotation), ModContent.ProjectileType<ShimmerShotProj1>(), projectile.damage, projectile.knockBack, projectile.owner, 0, 1);
+                        EEMod.primitives.CreateTrail(new SceptorPrimTrailTwo(Main.projectile[proj2]));
+                    }
+                    projectile.timeLeft = 6;
+                }
+            }
         }
+
         private float alpha;
         float colorcounter = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

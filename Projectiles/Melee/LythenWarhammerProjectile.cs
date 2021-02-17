@@ -31,6 +31,7 @@ namespace EEMod.Projectiles.Melee
             projectile.damage = 20;
             projectile.knockBack = 3.5f;
         }
+
         double radians = 0;
         int flickerTime = 0;
         float alphaCounter = 0;

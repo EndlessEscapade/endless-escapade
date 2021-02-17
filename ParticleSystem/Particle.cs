@@ -230,6 +230,7 @@ namespace EEMod
     class AfterImageTrail : IParticleModule
     {
         float alphaFallOff;
+        bool fadeToWhite = false;
         public AfterImageTrail(float alphaFallOff)
         {
             this.alphaFallOff = alphaFallOff;

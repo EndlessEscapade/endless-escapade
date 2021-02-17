@@ -194,6 +194,7 @@ namespace EEMod.EEWorld
                     new int[] { ModContent.TileType<Wall4x3CoralL>() },
 
                     new int[] { ModContent.TileType<Wall4x3CoralR>() } },
+
                     new Rectangle((int)TL.X, (int)TL.Y, sizeX, sizeY), 6);
 
                     for (int i = (int)TL.X; i < (int)BR.X; i++)
@@ -492,6 +493,7 @@ namespace EEMod.EEWorld
                                 BufferMinibiome.Add((int)EESubWorlds.MinibiomeLocations[k].Z);
                             }
                         }
+
                         float MakingMyWayDownTown = -1;
                         int WalkingFast = -1;
                         for (int a = 0; a < BufferLengths.Count; a++)

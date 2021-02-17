@@ -477,7 +477,7 @@ namespace EEMod
 
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
-            UpdateLight();
+            //UpdateLight();
             /*try
             {
                     Main.spriteBatch.Draw(playerDrawData, Main.MouseWorld.ForDraw(),Color.White);

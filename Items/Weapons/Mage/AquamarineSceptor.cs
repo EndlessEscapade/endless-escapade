@@ -8,6 +8,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Prim;
+using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Mage
 {
@@ -15,7 +16,7 @@ namespace EEMod.Items.Weapons.Mage
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Aquamarine Sceptor");
+            DisplayName.SetDefault("Aquamarine Sceptre");
             Item.staff[item.type] = true;
         }
 
@@ -50,19 +51,21 @@ namespace EEMod.Items.Weapons.Mage
             //Helpers.TexToDust("thonk",Main.MouseWorld,5,1,100);
             if (player.altFunctionUse == 0)
             {
-                Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
-                if (Main.netMode != NetmodeID.Server)
-                {
-                    EEMod.primitives.CreateTrail(new SceptorPrimTrail(projectile));
-                }
+                Vector2 comedy = Vector2.Normalize(Main.MouseWorld - player.Center);
+                Projectile projectile2 = Projectile.NewProjectileDirect(player.Center, comedy, ModContent.ProjectileType<ShimmerShotProj1>(), 10, 10f, Main.myPlayer);
+
+                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 40));
             }
             if (player.altFunctionUse == 2)
             {
                 type = ModContent.ProjectileType<SceptorPrism>();
-                position = Main.MouseWorld;
-                speedX = 0;
-                speedY = 0;
-                Projectile projectile = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, position.X, position.Y);
+                if (player.ownedProjectileCounts[ModContent.ProjectileType<SceptorPrism>()] < 1)
+                {
+                    position = Main.MouseWorld;
+                    speedX = 0;
+                    speedY = 0;
+                    Projectile projectile = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, position.X, position.Y);
+                }
             }
             return false;
         }

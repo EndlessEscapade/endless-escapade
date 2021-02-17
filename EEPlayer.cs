@@ -1297,7 +1297,7 @@ namespace EEMod
             }
         }
 
-        public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
+        /*public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)
         {
             if (!Main.gameMenu)
             {
@@ -1316,7 +1316,7 @@ namespace EEMod
                     }
                 }
             }
-        }
+        }*/
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {

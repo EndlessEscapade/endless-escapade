@@ -122,6 +122,15 @@ float4 Laser(VertexShaderOutput input) : COLOR
 	input.Color *= 1 + abs(rand)* abs(rand);
 	return input.Color;
 }
+float4 LaserAlt(VertexShaderOutput input) : COLOR
+{
+	float rand = GetHeight(float2(0.5f,(input.TextureCoordinates.x / 2 + sin(progress / 40)*0.5f)) % 1);
+	float sineInterp = (1000 * abs(rand));
+	input.Color *= pow(sin(input.TextureCoordinates.y * 3.14159265),sineInterp*(1 + abs(rand)));
+	input.Color.rgb *= 1 + max(0,(abs(progress / 15 % 4 - 2 - input.TextureCoordinates.x)));
+	input.Color *= 1 + abs(rand)* abs(rand);
+	return input.Color;
+}
 float4 AlphaFadeOff(VertexShaderOutput input) : COLOR
 {
 	input.Color *= input.TextureCoordinates.x;
@@ -203,6 +212,10 @@ technique BasicColorDrawing
 	pass Lazor
 	{
 		PixelShader = compile ps_2_0 Laser();
+	}
+	pass SpireBigLaser
+	{
+		PixelShader = compile ps_2_0 LaserAlt();
 	}
 	pass BasicImagePass
 	{

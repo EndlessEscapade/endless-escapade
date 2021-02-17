@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles;
 
+
 namespace EEMod.NPCs.CoralReefs
 {
     public class AquamarineSpire : ModNPC
@@ -42,6 +43,8 @@ namespace EEMod.NPCs.CoralReefs
             npc.damage = 0;
             npc.behindTiles = true;
             npc.ai[0] = 40;
+
+            musicPriority = MusicPriority.BossLow;
         }
 
         public override bool CheckActive()
@@ -60,6 +63,7 @@ namespace EEMod.NPCs.CoralReefs
         private int specialLaserShots;
         private int timer1;
         private float eyeRecoil;
+        private bool phase2Transition = false;
 
         //npc.ai[0] : Player hits on spire / Health
         //npc.ai[1] : Laser color
@@ -107,21 +111,39 @@ namespace EEMod.NPCs.CoralReefs
                 Color color = addColor;
 
                 if(timer1 != 0)
-                    color = Color.Lerp(Color.White, addColor, 5 / timer1);
+                    color = Color.Lerp(Color.White, addColor, 10 / timer1);
                 #endregion
 
 
                 if(eyeRecoil <= 1) eyeRecoil += 0.05f;
 
                 #region Drawing the eye and eye particles
-                eyePos = (Vector2.Normalize(target.Center - npc.Center) * (3 * eyeRecoil)) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer1 / 20f));
+                if (npc.ai[0] <= 20 && !phase2Transition)
+                {
+                    blinkTime = 0;
+                    eyePos += (Vector2.Normalize(new Vector2(0, -1) * 6) + npc.Center + new Vector2(-2, 2) + (new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * npc.ai[2])) - (eyePos);
 
-                Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 128);
+                    color = Color.White;
 
-                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.12f * (timer1 / 40f)));
-                EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.GetTexture("EEMod/Particles/Crystal"), 7, 4f, addColor, new SlowDown(0.96f), new AfterImageTrail(0.8f), new SetMask(Helpers.RadialMask, 0.7f));
+                    if (specialLaserShots <= 0)
+                    {
+                        Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 144);
 
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
+                        EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.12f * ((timer1 - 10) / 20f), 0, 1)));
+                        EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 8, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, Color.White, new SlowDown(0.94f), new AfterImageTrail(0.7f), new SetMask(Helpers.RadialMask, 0.9f));
+                    }
+                }
+                else
+                {
+                    eyePos = (Vector2.Normalize(target.Center - npc.Center) * (3 * eyeRecoil)) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer1 / 20f));
+
+                    Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 128);
+
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.12f * ((timer1 - 10) / 40f), 0, 1)));
+                    EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 7, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, addColor, new SlowDown(0.941f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, 0.9f));
+                }
+
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 1f);
                 #endregion
 
                 timeBetween = 35;
@@ -130,6 +152,7 @@ namespace EEMod.NPCs.CoralReefs
 
             else
             {
+                music = -1;
                 if (timer1 < 300 * 60) //If recharging
                 {
                     #region Recharging particles
@@ -182,7 +205,7 @@ namespace EEMod.NPCs.CoralReefs
                 }
 
                 #region Drawing eye
-                eyePos = (Vector2.Normalize(target.Center - npc.Center) * 3) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * npc.ai[0]);
+                eyePos = (new Vector2(0, 1) * 3) + npc.Center + new Vector2(-2, 2) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * npc.ai[0]);
 
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White * eyeAlpha, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
                 #endregion
@@ -217,167 +240,179 @@ namespace EEMod.NPCs.CoralReefs
 
             if (awake)
             {
-                #region Backend stuff
-                npc.ai[2]++;
-
-                if (npc.ai[2] >= 60)
+                if (npc.ai[0] <= 20 && !phase2Transition)
                 {
-                    npc.ai[1] = Main.rand.Next(4);
-                    specialLaserShots = 0;
-
-                    if (npc.ai[0] > 20)
+                    if (eyePos == (Vector2.Normalize(new Vector2(0, -1) * 6) + npc.Center + new Vector2(-2, 2)))
                     {
-                        switch (npc.ai[1])
+                        if(npc.ai[2] == 0)
                         {
-                            case 0: //Blue laser
-                                npc.ai[2] = -120;
-                                break;
-                            case 1: //Cyan laser
-                                npc.ai[2] = -180;
-                                break;
-                            case 2: //Pink laser
-                                npc.ai[2] = -180;
-                                break;
-                            case 3: //Purple laser
-                                npc.ai[2] = -150;
-                                break;
+                            Projectile proj = Projectile.NewProjectileDirect(eyePos + new Vector2(0, 56), new Vector2(0, -1), ModContent.ProjectileType<WideSpireLaser>(), 200, 6f);
+                            EEMod.primitives.CreateTrail(new SpirePrimTrail2(proj, Color.White, 16));
                         }
+                        npc.ai[2]++;
                     }
                     else
                     {
+                        npc.ai[2] = 0;
+                    }
+                }
+                else
+                {
+                    #region Choosing attack cooldowns
+
+                    npc.ai[2]++;
+
+                    if (npc.ai[2] >= 1)
+                    {
+                        npc.ai[1] = Main.rand.Next(4);
+                        specialLaserShots = 0;
+
+                        if (npc.ai[0] > 20)
+                        {
+                            switch (npc.ai[1])
+                            {
+                                case 0: //Blue laser
+                                    npc.ai[2] = -120;
+                                    break;
+                                case 1: //Cyan laser
+                                    npc.ai[2] = -180;
+                                    break;
+                                case 2: //Pink laser
+                                    npc.ai[2] = -180;
+                                    break;
+                                case 3: //Purple laser
+                                    npc.ai[2] = -150;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (npc.ai[1])
+                            {
+                                case 0: //Blue laser
+                                    npc.ai[2] = -90;
+                                    break;
+                                case 1: //Cyan laser
+                                    npc.ai[2] = -120;
+                                    break;
+                                case 2: //Pink laser
+                                    npc.ai[2] = -120;
+                                    break;
+                                case 3: //Purple laser
+                                    npc.ai[2] = -90;
+                                    break;
+                            }
+                        }
+                        timer1 = -(int)npc.ai[2];
+                    }
+
+                    if (npc.ai[2] < 0)
+                        timer1--;
+
+                    if (npc.ai[2] >= 0 && npc.ai[2] < 60)
+                        timer1 += 3;
+                    #endregion
+
+                    #region Shooting lasers
+                    if (npc.ai[2] == 0 && ((specialLaserShots < 3 && npc.ai[1] == 1) || (specialLaserShots < 120 && npc.ai[1] == 4) || (npc.ai[1] != 4 && npc.ai[1] != 1)))
+                    {
                         switch (npc.ai[1])
                         {
                             case 0: //Blue laser
-                                npc.ai[2] = -90;
+                                Projectile projectile = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 3, ModContent.ProjectileType<SpireLaser>(), npc.damage, 0f, default, 0, 1);
+                                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, Color.Blue, 80));
+                                Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                                eyeRecoil = 0;
                                 break;
                             case 1: //Cyan laser
-                                npc.ai[2] = -120;
+                                Projectile projectile2 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 3, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f, default, 0, 2);
+                                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Cyan, 40));
+                                Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+
+                                npc.ai[2] = -20;
+                                eyeRecoil = 0;
+                                timer1 = 20;
+                                specialLaserShots++;
+                                if (specialLaserShots >= 3) npc.ai[2] = 1;
                                 break;
                             case 2: //Pink laser
-                                npc.ai[2] = -120;
+                                for (int i = -1; i < 2; i++)
+                                {
+                                    Projectile projectile3 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - npc.Center)).RotatedBy(i / 4f) * 3, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f, default, 0, 3);
+                                    EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile3, Color.Magenta, 30));
+                                }
+                                Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                                eyeRecoil = 0;
                                 break;
                             case 3: //Purple laser
-                                npc.ai[2] = -90;
-                                break;
-                        }
-                    }
-                    timer1 = -(int)npc.ai[2];
-                }
-                
-                if(npc.ai[2] < 0)
-                    timer1--;
-
-                if(npc.ai[2] >= 0 && npc.ai[2] < 60)
-                    timer1 += 3;
-                #endregion
-
-                #region Shooting lasers
-                if (npc.ai[2] == 0 && ((specialLaserShots < 3 && npc.ai[1] == 1) || (specialLaserShots < 120 && npc.ai[1] == 4) || (npc.ai[1] != 4 && npc.ai[1] != 1)))
-                {
-                    switch (npc.ai[1])
-                    {
-                        case 0: //Blue laser
-                            Projectile projectile = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage, 0f, default, 0, 1);
-                            EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, Color.Blue, 80));
-                            Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-                            eyeRecoil = 0;
-                            break;
-                        case 1: //Cyan laser
-                            Projectile projectile2 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f, default, 0, 2);
-                            EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Cyan, 40));
-                            Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-
-                            npc.ai[2] = -20;
-                            eyeRecoil = 0;
-                            timer1 = 20;
-                            specialLaserShots++;
-                            if (specialLaserShots >= 3) npc.ai[2] = 1;
-                                break;
-                        case 2: //Pink laser
-                            for (int i = -1; i < 2; i++)
-                            {
-                                Projectile projectile3 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - npc.Center)).RotatedBy(i / 4f) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f, default, 0, 3);
-                                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile3, Color.Magenta, 30));
-                            }
-                            Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-                            eyeRecoil = 0;
-                            break;
-                        case 3: //Purple laser
-                            for (int i = -1; i < 2; i += 2)
-                            {
-                                Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - npc.Center)).RotatedBy(i / 6f) * 4, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f, default, 0, 4);
-                                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Purple, 30));
-                            }
-                            Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-                            eyeRecoil = 0;
-                            break;
-                        /*case 4: //White laser/Laser chisel
-                            Vector2 nearestCrystal = Vector2.Zero;
-
-                            if (specialLaserShots == 0)
-                            {
-                                for (int i = ((int)(npc.Center.X) / 16) - 50; i < ((int)(npc.Center.X) / 16) + 50; i++)
+                                for (int i = -1; i < 2; i += 2)
                                 {
-                                    for (int j = ((int)(npc.Center.Y) / 16) - 50; j < ((int)(npc.Center.Y) / 16) + 50; j++)
-                                    {
-                                        if (Main.tile[i, j].type == ModContent.TileType<EmptyTile>() && Main.rand.NextBool(5))
-                                        {
-                                            nearestCrystal = new Vector2(i, j) * 16 + new Vector2(8, 8);
-                                        }
-                                    }
+                                    Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - npc.Center)).RotatedBy(i / 6f) * 3, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f, default, 0, 4);
+                                    EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Purple, 30));
                                 }
-
                                 Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
-                            }
+                                eyeRecoil = 0;
+                                break;
+                                /*case 4: //White laser/Laser chisel
+                                    Vector2 nearestCrystal = Vector2.Zero;
 
-                            if(nearestCrystal == Vector2.Zero)
-                            {
-                                Main.NewText("BLAME CROWN");
-                                npc.ai[2] = 1;
-                            }
+                                    if (specialLaserShots == 0)
+                                    {
+                                        for (int i = ((int)(npc.Center.X) / 16) - 50; i < ((int)(npc.Center.X) / 16) + 50; i++)
+                                        {
+                                            for (int j = ((int)(npc.Center.Y) / 16) - 50; j < ((int)(npc.Center.Y) / 16) + 50; j++)
+                                            {
+                                                if (Main.tile[i, j].type == ModContent.TileType<EmptyTile>() && Main.rand.NextBool(5))
+                                                {
+                                                    nearestCrystal = new Vector2(i, j) * 16 + new Vector2(8, 8);
+                                                }
+                                            }
+                                        }
 
-                            Projectile projectile5 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(nearestCrystal - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), 0, 0f, default, 0, 5);
-                            EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile5, Color.White, 40));
+                                        Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                                    }
 
-                            npc.ai[2] = -1;
-                            specialLaserShots++;
-                            break;*/
-                    }
-                }
-                #endregion
+                                    if(nearestCrystal == Vector2.Zero)
+                                    {
+                                        Main.NewText("BLAME CROWN");
+                                        npc.ai[2] = 1;
+                                    }
 
-                #region Taking damage
-                for (int i = 0; i < Main.projectile.Length - 1; i++)
-                {
-                    if (Main.projectile[i].type == ModContent.ProjectileType<SpireLaser>())
-                    {
-                        Projectile laser = Main.projectile[i];
+                                    Projectile projectile5 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(nearestCrystal - npc.Center) * 4, ModContent.ProjectileType<SpireLaser>(), 0, 0f, default, 0, 5);
+                                    EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile5, Color.White, 40));
 
-                        if (Vector2.Distance(laser.Center, npc.Center) <= 40 && laser.ai[0] > 0 && laser.active)
-                        {
-                            TakeDamage(laser);
-                            Main.PlaySound(SoundID.NPCDeath56, npc.Center);
-
-                            if (npc.ai[0] <= 0)
-                            {
-                                Die();
-
-                                int item = Item.NewItem(new Rectangle((int)eyePos.X, (int)eyePos.Y, 0, 0), ModContent.ItemType<PrismaticBlade>());
-                                Main.item[item].velocity = laser.velocity;
-                            }
-                            break;
+                                    npc.ai[2] = -1;
+                                    specialLaserShots++;
+                                    break;*/
                         }
                     }
-                }
-                #endregion
+                    #endregion
 
-                #region Managing shields
-                for (int i = 0; i < shields.Count; i++)
-                {
-                    shields[i].ai[0] = shields.Count;
-                    shields[i].ai[1] = i;
+                    #region Taking damage
+                    for (int i = 0; i < Main.projectile.Length - 1; i++)
+                    {
+                        if (Main.projectile[i].type == ModContent.ProjectileType<SpireLaser>())
+                        {
+                            Projectile laser = Main.projectile[i];
+
+                            if (Vector2.Distance(laser.Center, npc.Center) <= 56 && laser.ai[0] > 0 && laser.active)
+                            {
+                                TakeDamage(laser);
+                                Main.PlaySound(SoundID.NPCDeath56, npc.Center);
+
+                                if (npc.ai[0] <= 0)
+                                {
+                                    Die();
+
+                                    int item = Item.NewItem(new Rectangle((int)eyePos.X, (int)eyePos.Y, 0, 0), ModContent.ItemType<PrismaticBlade>());
+                                    Main.item[item].velocity = laser.velocity;
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    #endregion
                 }
-                #endregion
             }
 
             else
@@ -413,6 +448,7 @@ namespace EEMod.NPCs.CoralReefs
                         npc.ai[0]++;
                         npc.ai[1] = target.HeldItem.useTime;
                         Main.PlaySound(SoundID.DD2_CrystalCartImpact, npc.Center);
+                        CombatText.NewText(new Rectangle((int)npc.Center.X, (int)npc.Center.Y, 0, 0), Color.Orange, "wake up", true);
                     }
                     if (npc.ai[0] >= 5)
                     {
@@ -420,7 +456,14 @@ namespace EEMod.NPCs.CoralReefs
                         Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, npc.Center);
                     }
                 }
+
                 #endregion
+            }
+
+            for (int i = 0; i < shields.Count; i++)
+            {
+                shields[i].ai[0] = shields.Count;
+                shields[i].ai[1] = i;
             }
         }
 
@@ -468,6 +511,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.ai[1] = 0;
             npc.ai[2] = 0;
             CombatText.NewText(new Rectangle((int)npc.Center.X, (int)npc.Center.Y, 0, 0), Color.Red, "ok kid ur gonna have a bad time", true);
+            phase2Transition = false;
         } //Called on spire awakening
 
         private void Die()

@@ -136,7 +136,7 @@ namespace EEMod.Projectiles.Ranged
             if(whiteFlash > 0)
             {
                 Rectangle rect = new Rectangle(0, 0, 46, 72);
-                Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Ranged/ShimmerShotProjGlow"), new Rectangle((int)projectile.Center.ForDraw().X, (int)projectile.Center.ForDraw().Y, 46, 72), rect, Color.White * whiteFlash, projectile.rotation, rect.Size() / 2f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Ranged/ShimmerShotProjGlow"), new Rectangle((int)projectile.Center.ForDraw().X, (int)projectile.Center.ForDraw().Y, 46, 72), rect, Color.White * whiteFlash * ((255 - projectile.alpha) / 255f), projectile.rotation, rect.Size() / 2f, SpriteEffects.None, 0f);
             }
         }
     }

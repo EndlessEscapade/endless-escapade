@@ -21,7 +21,7 @@ namespace EEMod.Projectiles.Enemy
         {
             projectile.width = 12;
             projectile.height = 12;
-            projectile.timeLeft = 30000;
+            projectile.timeLeft = 1200;
             projectile.ignoreWater = true;
             projectile.hostile = true;
             projectile.friendly = false;
