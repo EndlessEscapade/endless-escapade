@@ -54,7 +54,7 @@ namespace EEMod
         }
         public override void OnDraw()
         {
-           
+            DrawNoiseSurfacing();
         }
 
         public override void OnUpdate()

@@ -247,13 +247,11 @@ namespace EEMod
             if(BeforeTiles != null)
             BeforeTiles.Invoke(Main.spriteBatch);
 
-            DrawNoiseSurfacing();
             DrawLensFlares();
 
             if (Main.worldName == KeyID.CoralReefs)
             {
                 EEWorld.EEWorld.instance.DrawVines();
-                EEWorld.EEWorld.instance.DrawAquamarineZiplines();
                 DrawCR();
                 DrawCoralReefsBg();
                 EmptyTileEntityCache.Update();
@@ -768,8 +766,8 @@ namespace EEMod
 
         private void Lighting_AddLight_int_int_float_float_float(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int i, int j, float R, float G, float B)
         {
-            LightingMasks.Instance._lightPoints.Add(new Vector2(i + 0.5f,j + 0.5f));
-            LightingMasks.Instance._colorPoints.Add(new Color(R, G, B));
+            //LightingMasks.Instance._lightPoints.Add(new Vector2(i + 0.5f,j + 0.5f));
+            //LightingMasks.Instance._colorPoints.Add(new Color(R, G, B));
             orig(i, j, R, G, B);
         }
 

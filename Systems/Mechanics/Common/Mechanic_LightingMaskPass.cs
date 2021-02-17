@@ -20,7 +20,7 @@ namespace EEMod
 
         internal static LightingMasks Instance;
         public void UpdateLight()
-        {
+        {/*
             for (int i = 0; i < EEMod.maxNumberOfLights; i++)
             {
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:LightSource{i}"].IsActive())
@@ -52,16 +52,16 @@ namespace EEMod
 
             _lightPoints.Clear();
             _colorPoints.Clear();
-            listTransformable.Clear();
+            listTransformable.Clear();*/
         }
         public override void OnDraw()
         {
-            ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
+           // ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
         }
 
         public override void OnUpdate()
         {
-            UpdateLight();
+           // UpdateLight();
         }
 
         public override void OnLoad()

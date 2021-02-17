@@ -42,6 +42,7 @@ namespace EEMod
                 case Layer.AboveTiles:
                     break;
             }
+            OnLoad();
         }
         public Mechanic() { Load(); }
     }
