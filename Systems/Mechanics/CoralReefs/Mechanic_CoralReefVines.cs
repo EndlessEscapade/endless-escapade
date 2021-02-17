@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.ID;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -27,7 +28,7 @@ namespace EEMod
                     Tile LastTile = Main.tile[(int)EESubWorlds.ChainConnections[i - 1].X, (int)EESubWorlds.ChainConnections[i - 1].Y];
                     bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
                     Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
-                    Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2 + new Vector2(0, 50 + (float)(Math.Sin(ElapsedTicks/10f + ChainConneccPos.X) * 30));
+                    Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2 + new Vector2(0, 50 + (float)(Math.Sin(ElapsedTicks/60f + ChainConneccPos.X) * 30));
                     Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.2f);
                     Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.8f);
                     if (MidNorm.Y > 100 * 16 && Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 40 * 16 * 40 * 16 && Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
@@ -43,6 +44,7 @@ namespace EEMod
         }
         public override void OnDraw()
         {
+            if(Main.worldName == KeyID.CoralReefs)
             DrawVines();
         }
     }
