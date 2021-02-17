@@ -513,7 +513,7 @@ namespace EEMod
             Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
-            
+
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();

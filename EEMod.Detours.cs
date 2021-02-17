@@ -251,11 +251,8 @@ namespace EEMod
 
             if (Main.worldName == KeyID.CoralReefs)
             {
-                EEWorld.EEWorld.instance.DrawVines();
                 DrawCR();
                 DrawCoralReefsBg();
-                EmptyTileEntityCache.Update();
-                EmptyTileEntityCache.Draw();
             }
 
             //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);

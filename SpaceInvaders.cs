@@ -177,7 +177,7 @@ namespace EEMod
 
                     elementArray[bolt].BindElementToGame(this);
                     elementArray[bolt].AttachCollisionComponents(false, true, false);
-                    elementArray[bolt].BindElementToTexture(ModContent.GetInstance<EEMod>().GetTexture("EEGameAssets/SABolt"));
+                    elementArray[bolt].BindElementToTexture(ModContent.GetInstance<EEMod>().GetTexture("UI/EEGameAssets/SABolt"));
                     elementArray[bolt].velocity = new Vector2(0, -16);
                     elementArray[bolt].lifetime = 45;
                     elementArray[bolt].friction = 1;

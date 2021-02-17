@@ -30,9 +30,9 @@ namespace EEMod.Tiles
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             if (fail)
-                EmptyTileEntityCache.Invoke(new Vector2(i, j));
-            else if (EmptyTileEntityCache.EmptyTileEntityPairs.ContainsKey(EmptyTileEntityCache.Convert(new Vector2(i, j))))
-                EmptyTileEntityCache.Remove(new Vector2(i, j));
+                EmptyTileEntities.Instance.Invoke(new Vector2(i, j));
+            else if (EmptyTileEntities.Instance.EmptyTileEntityPairs.ContainsKey(EmptyTileEntities.Instance.Convert(new Vector2(i, j))))
+                EmptyTileEntities.Instance.Remove(new Vector2(i, j));
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {

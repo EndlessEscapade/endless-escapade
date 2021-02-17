@@ -53,10 +53,10 @@ namespace EEMod.Tiles.EmptyTileArrays
         public void Destroy()
         {
             OnDestroy();
-            EmptyTileEntityCache.EmptyTileEntityPairs.Remove(position);
+            EmptyTileEntities.Instance.EmptyTileEntityPairs.Remove(position);
             try
             {
-                foreach (var item in EmptyTileEntityCache.EmptyTilePairs.Where(kvp => kvp.Value == position).ToList()) // Turning into a list is needed because if the collection is modified while it's looping an exception will be thrown
+                foreach (var item in EmptyTileEntities.Instance.EmptyTilePairs.Where(kvp => kvp.Value == position).ToList()) // Turning into a list is needed because if the collection is modified while it's looping an exception will be thrown
                 {
                     if (Main.tile[(int)item.Key.X, (int)item.Key.Y].active())
                         WorldGen.KillTile((int)item.Key.X, (int)item.Key.Y);
@@ -67,7 +67,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 Main.NewText("TileNotFound");
             }
 
-            EmptyTileEntityCache.EmptyTilePairs.Remove(position);
+            EmptyTileEntities.Instance.EmptyTilePairs.Remove(position);
         }
         public virtual void OnDestroy()
         {
@@ -99,62 +99,6 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
                 Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(0, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f, SpriteEffects.None, 0f);
-        }
-    }
-    public static class EmptyTileEntityCache
-    {
-        static internal Dictionary<Vector2, Vector2> EmptyTilePairs = new Dictionary<Vector2, Vector2>();
-        static internal Dictionary<Vector2, EmptyTileDrawEntity> EmptyTileEntityPairs = new Dictionary<Vector2, EmptyTileDrawEntity>();
-
-        public static void AddPair(EmptyTileDrawEntity ETE, Vector2 position, byte[,,] array)
-        {
-            if (!EmptyTileEntityPairs.ContainsKey(position))
-                EmptyTileEntityPairs.Add(position, ETE);
-            for (int i = 0; i < array.GetLength(1); i++)
-            {
-                for (int j = 0; j < array.GetLength(0); j++)
-                {
-                    if (array[j, i, 0] == 1)
-                    {
-                        if (!EmptyTilePairs.ContainsKey(position + new Vector2(i, j)))
-                            EmptyTilePairs.Add(position + new Vector2(i, j), position);
-                    }
-                }
-            }
-            EEWorld.EEWorld.CreateInvisibleTiles(array, position);
-        }
-        public static void Remove(Vector2 position) =>
-            EmptyTileEntityPairs[Convert(position)].Destroy();
-
-        public static Vector2 Convert(Vector2 position) => EmptyTilePairs.TryGetValue(position, out var val) ? val : Vector2.Zero;
-        //{
-        //    if (EmptyTilePairs.ContainsKey(position))
-        //        return EmptyTilePairs[position];
-        //    else
-        //    {
-        //        return Vector2.Zero;
-        //    }
-        //}
-
-        public static void Update()
-        {
-            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values.ToList()) // List because if the collection is modified an exception will be thrown
-            {
-                if (ETE != null)
-                    ETE.Update();
-            }
-        }
-        public static void Draw()
-        {
-            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values.ToList())
-            {
-                if (ETE != null)
-                    ETE.Draw();
-            }
-        }
-        public static void Invoke(Vector2 position)
-        {
-            EmptyTileEntityPairs[Convert(position)].Activiate();
         }
     }
     public class Crystal : EmptyTileDrawEntity

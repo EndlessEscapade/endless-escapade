@@ -138,34 +138,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public void DrawVines()
-        {
-            if (EESubWorlds.ChainConnections.Count > 0)
-            {
-                for (int i = 1; i < EESubWorlds.ChainConnections.Count - 2; i++)
-                {
-                    sinDis[i].Y += sinDis[i].X;
-                    Vector2 addOn = new Vector2(0, 8);
-                    Vector2 ChainConneccPos = EESubWorlds.ChainConnections[i] * 16;
-                    Vector2 LastChainConneccPos = EESubWorlds.ChainConnections[i - 1] * 16;
-                    Tile CurrentTile = Main.tile[(int)EESubWorlds.ChainConnections[i].X, (int)EESubWorlds.ChainConnections[i].Y];
-                    Tile LastTile = Main.tile[(int)EESubWorlds.ChainConnections[i - 1].X, (int)EESubWorlds.ChainConnections[i - 1].Y];
-                    bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
-                    Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
-                    Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2 + new Vector2(0, 50 + (float)(Math.Sin(sinDis[i].Y) * 30));
-                    Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.2f);
-                    Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.8f);
-                    if (MidNorm.Y > 100 * 16 && Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 40 * 16 * 40 * 16 && Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
-                    {
-                        Color chosen = Color.Lerp(Color.Yellow, Color.LightGoldenrodYellow, Main.rand.NextFloat(1f));
-                        Helpers.DrawBezier(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Vine"), Color.White, ChainConneccPos, LastChainConneccPos, Mid, 0.6f, MathHelper.PiOver2, true);
-                        Helpers.DrawBezier(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/VineLight"), Color.White, ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2,true);
-                        Helpers.DrawBezier(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/VineLightGlow"), Color.White * Math.Abs((float)Math.Sin(Main.GameUpdateCount/200f + ChainConneccPos.X)), ChainConneccPos + addOn, LastChainConneccPos + addOn, Mid + addOn, 8f, MathHelper.PiOver2);
-                        Helpers.DrawParticlesAlongBezier(LastChainConneccPos + addOn, ChainConneccPos + addOn, Mid + addOn, 1/8f, chosen,0.005f,(Vector2.UnitY).RotatedBy(Main.rand.NextFloat(6.24f)), new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.12f, 0.12f)), new SetLighting(chosen.ToVector3(), 0.3f), new ZigzagMotion(40f,3f));
-                    }
-                }
-            }
-        }
+        
         
 
         /*private float HeartBeat;
@@ -396,12 +369,12 @@ namespace EEMod.EEWorld
             }
             if (tag.TryGetList<Vector2>("EmptyTileVectorMain", out IList<Vector2> vecMains) && tag.TryGetList<Vector2>("EmptyTileVectorSub", out IList<Vector2> list2))
             {
-                EmptyTileEntityCache.EmptyTilePairs = vecMains.Zip(list2, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+                EmptyTileEntities.Instance.EmptyTilePairs = vecMains.Zip(list2, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
 
             }
             if (tag.TryGetList<Vector2>("EmptyTileVectorEntities", out var VecMains) && tag.TryGetList<EmptyTileDrawEntity>("EmptyTileEntities", out var VecSubs))
             {
-                EmptyTileEntityCache.EmptyTileEntityPairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+                EmptyTileEntities.Instance.EmptyTileEntityPairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
             }
             if (tag.TryGetListRef<Vector2>("CoralCrystalPosition", ref EESubWorlds.CoralCrystalPosition))
             {
@@ -445,10 +418,10 @@ namespace EEMod.EEWorld
                 tag["LightStates"] = LightStates;
                 tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;
                 tag["SpirePosition"] = EESubWorlds.SpirePosition;
-                tag["EmptyTileVectorMain"] = EmptyTileEntityCache.EmptyTilePairs.Keys.ToList();
-                tag["EmptyTileVectorSub"] = EmptyTileEntityCache.EmptyTilePairs.Values.ToList();
-                tag["EmptyTileVectorEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Keys.ToList();
-                tag["EmptyTileEntities"] = EmptyTileEntityCache.EmptyTileEntityPairs.Values.ToList();
+                tag["EmptyTileVectorMain"] = EmptyTileEntities.Instance.EmptyTilePairs.Keys.ToList();
+                tag["EmptyTileVectorSub"] = EmptyTileEntities.Instance.EmptyTilePairs.Values.ToList();
+                tag["EmptyTileVectorEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairs.Keys.ToList();
+                tag["EmptyTileEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairs.Values.ToList();
 
                 if (EESubWorlds.MinibiomeLocations.Count > 0)
                 {
