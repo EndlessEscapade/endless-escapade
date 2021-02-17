@@ -21,6 +21,7 @@ namespace EEMod
         public static void Load()
         {
             Type[] Mechanics = GetInheritedClasses(typeof(Mechanic));
+            Main.NewText(Mechanics);
             foreach (Type type in Mechanics)
                 Activator.CreateInstance(type);
         }

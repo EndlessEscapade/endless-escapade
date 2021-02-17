@@ -63,15 +63,10 @@ namespace EEMod
                 }
                 Lighting.AddLight(vec, new Vector3(235, 166, 0) / 255);
             }
-            Main.NewText("Drawing");
-
-
-
         }
 
         public override void OnUpdate()
         {
-            Main.NewText("Updating");
             #region Spawning particles
             if (bufferVariable != Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
             {

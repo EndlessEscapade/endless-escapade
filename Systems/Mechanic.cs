@@ -15,7 +15,8 @@ namespace EEMod
     }
     public class Mechanic : IComponent
     {
-        public EEMod SingleTon => ModContent.GetInstance<EEMod>();
+        public EEMod Singleton => ModContent.GetInstance<EEMod>();
+        public float ElapsedTicks => Main.GameUpdateCount;
         protected virtual Layer DrawLayering => Layer.BehindTiles;
         public virtual void OnDraw() { }
         public virtual void OnUpdate() { }
@@ -23,19 +24,20 @@ namespace EEMod
 
         public void Draw(SpriteBatch spritebatch)
         {
+            OnDraw();
         }
 
         public void Update()
         {
-
+            OnUpdate();
         }
         public void Load()
         {
-            SingleTon.Updatables.Add(this);
+            Singleton.Updatables.Add(this);
             switch(DrawLayering)
             {
                 case Layer.BehindTiles:
-                    SingleTon.BeforeTiles += Draw;
+                    Singleton.BeforeTiles += Draw;
                     break;
                 case Layer.AboveTiles:
                     break;
