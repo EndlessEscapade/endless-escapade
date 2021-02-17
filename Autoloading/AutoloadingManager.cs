@@ -36,7 +36,7 @@ namespace EEMod.Autoloading
 
             Type[] types = assembly.GetTypesSafe();
             List<MethodInfo> methods = new List<MethodInfo>();
-            List<MethodInfo> TypeListenersByReflection = new List<MethodInfo>();
+            //List<MethodInfo> TypeListenersByReflection = new List<MethodInfo>();
             foreach (var type in types)
             {
                 // InitializingFields
@@ -199,7 +199,7 @@ namespace EEMod.Autoloading
                 case FieldInitType.ArrayMultipleLengths:
                 {
                     Type fieldtype = field.FieldType;
-                    if(fieldtype.IsArray && attribute.InitInfo1 is int[] arrayLengths)
+                    if (fieldtype.IsArray && attribute.InitInfo1 is int[] arrayLengths)
                     {
                         field.SetValue(null, Array.CreateInstance(fieldtype.GetElementType(), arrayLengths));
                     }
@@ -227,22 +227,30 @@ namespace EEMod.Autoloading
                 method.Invoke(null, null);
             }
 
-            foreach (var field in types.SelectMany(i => i.GetFields(FLAGS_STATIC)))
+            Type iunload = typeof(IOnUnload);
+            foreach (Type type in types)
             {
-                if (field.IsInitOnly || field.IsLiteral)
+                foreach (FieldInfo field in type.GetFields(FLAGS_STATIC))
                 {
-                    continue;
-                }
+                    if (field.IsLiteral // ignore constants
+                        || type.IsGenericType && !type.IsConstructedGenericType) // fields in generic types can't be accessed unless they're constructed (someClass<Type> is valid, while someClass<> is)
+                    {
+                        continue;
+                    }
 
-                Type fieldtype = field.FieldType;
-                if (fieldtype.IsValueType && Nullable.GetUnderlyingType(fieldtype) == null) // ignore structs and non nullables
-                {
-                    continue;
-                }
+                    Type fieldtype = field.FieldType;
+                    if (iunload.IsAssignableFrom(fieldtype)) // if it's IOnUnload call the method
+                        ((IOnUnload)field.GetValue(null)).Unloading(field, type);
 
-                if (field.GetCustomAttribute<UnloadIgnoreAttribute>() == null)
-                {
-                    field.SetValue(null, null);
+                    if (fieldtype.IsValueType && Nullable.GetUnderlyingType(fieldtype) == null) // ignore structs and non nullables
+                    {
+                        continue;
+                    }
+
+                    if (field.GetCustomAttribute<UnloadIgnoreAttribute>() == null)
+                    {
+                        field.SetValue(null, null);
+                    }
                 }
             }
         }

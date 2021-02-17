@@ -1005,13 +1005,16 @@ namespace EEMod
                             Main.NewText("rune equipped");
                             for (int j = 0; j < Main.npc.Length - 1; j++)
                             {
-                                if (Vector2.Distance(Main.npc[j].Center, player.Center) <= 256)
+                                NPC npc = Main.npc[j];
+                                if (!npc.active)
+                                    continue;
+                                if (Vector2.Distance(npc.Center, player.Center) <= 256)
                                 {
-                                    Main.npc[j].AddBuff(BuffID.Slow, 30);
+                                    npc.AddBuff(BuffID.Slow, 30);
 
                                     Texture2D tex = mod.GetTexture("EEMod/Projectiles/Runes/PermafrostSnowflake");
                                     Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                                    Main.spriteBatch.Draw(tex, new Vector2(Main.npc[j].Center.X, Main.npc[j].Center.Y - (Main.npc[j].height / 2) - 32), tex.Bounds, Color.White, 0, tex.Bounds.Size() / 2, 1, SpriteEffects.None, 0);
+                                    Main.spriteBatch.Draw(tex, new Vector2(npc.Center.X, npc.Center.Y - npc.height / 2 - 32), tex.Bounds, Color.White, 0, tex.Bounds.Size() / 2, 1, SpriteEffects.None, 0);
                                     Main.spriteBatch.End();
                                 }
                             }

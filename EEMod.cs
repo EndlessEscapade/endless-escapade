@@ -168,7 +168,7 @@ namespace EEMod
         }
 
         float counter;
-        [FieldInit(FieldInitType.ArrayMultipleLengths, arrayLengths: new int[] { 3, 200, 2})]
+        [FieldInit(FieldInitType.ArrayMultipleLengths, arrayLengths: new int[] { 3, 200, 2 })]
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
 
 
@@ -263,6 +263,7 @@ namespace EEMod
         UIManager UI;
         public override void PreUpdateEntities()
         {
+            RenderTargetBinding[] oldtargets = Main.graphics.GraphicsDevice.GetRenderTargets();
             Main.graphics.GraphicsDevice.SetRenderTarget(playerDrawData);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
             Main.spriteBatch.Begin();
@@ -270,11 +271,11 @@ namespace EEMod
             {
                 int num = -1;
                 if (num != 0)
-                    {
-                        Main.pixelShader.CurrentTechnique.Passes[0].Apply();
-                        num = 0;
-                    }
-                
+                {
+                    Main.pixelShader.CurrentTechnique.Passes[0].Apply();
+                    num = 0;
+                }
+
                 if (i != Main.playerDrawData.Count)
                 {
                     DrawData value = Main.playerDrawData[i];
@@ -300,12 +301,12 @@ namespace EEMod
                     num = value.shader;
                     if (value.texture != null)
                     {
-                        Main.spriteBatch.Draw(value.texture, value.position - Main.LocalPlayer.position.ForDraw() + playerDrawData.TextureCenter()/2, value.sourceRect, Color.White, value.rotation, value.origin, value.scale, value.effect, 0f);
+                        Main.spriteBatch.Draw(value.texture, value.position - Main.LocalPlayer.position.ForDraw() + playerDrawData.TextureCenter() / 2, value.sourceRect, Color.White, value.rotation, value.origin, value.scale, value.effect, 0f);
                     }
                 }
             }
             Main.spriteBatch.End();
-            Main.graphics.GraphicsDevice.SetRenderTarget(null);
+            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets);
             base.PreUpdateEntities();
 
         }
@@ -499,7 +500,7 @@ namespace EEMod
 
         private void Ascension()
         {
-            float seperation = 400;
+            const float seperation = 400;
             // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             if (EEPlayer.startingText)
             {
@@ -674,18 +675,22 @@ namespace EEMod
                     int length = eeplayer.reefMinibiome.Length;
 
                     if ((int)MinibiomeID.KelpForest < length)
+                    {
                         if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
                             priority = MusicPriority.BiomeHigh;
                         }
+                    }
 
                     if ((int)MinibiomeID.CrystallineCaves < length)
+                    {
                         if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
                             priority = MusicPriority.BiomeHigh;
                         }
+                    }
 
                     if (Main.LocalPlayer.Center.Y / 16 < Main.maxTilesY / 10 && Main.worldName == KeyID.CoralReefs)
                     {
