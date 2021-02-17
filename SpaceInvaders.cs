@@ -11,7 +11,7 @@ namespace EEMod
 {
     public class SpaceInvaders : EEGame
     {
-        public override Texture2D tex => ModContent.GetInstance<EEMod>().GetTexture("EEGameAssets/ArcadeBG");
+        public override Texture2D tex => ModContent.GetInstance<EEMod>().GetTexture("UI/EEGameAssets/ArcadeBG");
         public override Vector2 sizeOfMainCanvas => new Vector2(600, 800);
         public override Vector2 centerOfMainCanvas => Main.LocalPlayer.Center;
         public override Color colourOfMainCanvas => Color.White;
@@ -62,7 +62,7 @@ namespace EEMod
         public int[] lifeImages = new int[3];
         public override void Initialize()
         {
-            Texture2D SAPlayer = ModContent.GetInstance<EEMod>().GetTexture("EEGameAssets/SAPlayer");
+            Texture2D SAPlayer = ModContent.GetInstance<EEMod>().GetTexture("UI/EEGameAssets/SAPlayer");
             player = AddUIElement(new Vector2(30, 48), Color.White, centerOfMainCanvas + new Vector2(0, 300));
             //elementArray[puck].AttatchToMouse(16f, i);
             elementArray[player].BindElementToGame(this);
@@ -99,7 +99,7 @@ namespace EEMod
 
                         elementArray[enemy].BindElementToGame(this);
                         elementArray[enemy].AttachCollisionComponents(false, true, false, 1);
-                        elementArray[enemy].BindElementToTexture(ModContent.GetInstance<EEMod>().GetTexture("EEGameAssets/SAEnemy"));
+                        elementArray[enemy].BindElementToTexture(ModContent.GetInstance<EEMod>().GetTexture("UI/EEGameAssets/SAEnemy"));
                         elementArray[enemy].speedOfStartUp = 8;
                         elementArray[enemy].AttachTag("SAEnemy");
                         elementArray[enemy].velocity.X = 1.5f;

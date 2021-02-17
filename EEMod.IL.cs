@@ -434,16 +434,16 @@ namespace EEMod
             switch (loadingChooseImage)
             {
                 case 0:
-                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("UI/LoadingScreenImages/LoadingScreen1");
                     break;
                 case 1:
-                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen2");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("UI/LoadingScreenImages/LoadingScreen2");
                     break;
                 case 2:
-                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen3");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("UI/LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen4");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("UI/LoadingScreenImages/LoadingScreen4");
                     break;
             }
             switch (loadingChooseImage)
