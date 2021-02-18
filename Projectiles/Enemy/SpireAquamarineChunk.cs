@@ -40,12 +40,12 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
-            
+            projectile.rotation += projectile.velocity.Y / 32f;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Enemy/SpireAquamarineChunkGlow"), projectile.Center.ForDraw(), Color.White * projectile.ai[0]);
+            
         }
     }
 }
