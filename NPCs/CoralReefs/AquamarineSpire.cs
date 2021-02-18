@@ -240,7 +240,7 @@ namespace EEMod.NPCs.CoralReefs
 
             if (awake)
             {
-                if (npc.ai[0] <= 20 && !phase2Transition)
+                /*if (npc.ai[0] <= 20 && !phase2Transition)
                 {
                     if (eyePos == (Vector2.Normalize(new Vector2(0, -1) * 6) + npc.Center + new Vector2(-2, 2)))
                     {
@@ -257,7 +257,7 @@ namespace EEMod.NPCs.CoralReefs
                     }
                 }
                 else
-                {
+                {*/
                     #region Choosing attack cooldowns
 
                     npc.ai[2]++;
@@ -412,7 +412,6 @@ namespace EEMod.NPCs.CoralReefs
                         }
                     }
                     #endregion
-                }
             }
 
             else
