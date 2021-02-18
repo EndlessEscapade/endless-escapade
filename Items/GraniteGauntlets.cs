@@ -1,11 +1,11 @@
-﻿using EEMod.Buffs.Buffs;
+﻿/*using EEMod.Buffs.Buffs;
 using EEMod.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Tools
+namespace EEMod.Items
 {
     public class GraniteGauntlets : ModItem
     {
@@ -42,4 +42,4 @@ namespace EEMod.Items.Tools
             base.UseItemHitbox(player, ref hitbox, ref noHitbox);
         }
     }
-}
+}*/

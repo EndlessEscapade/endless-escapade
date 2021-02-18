@@ -5,39 +5,28 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.FishingPoles
+namespace EEMod.Projectiles.FishingBobbers
 {
-    public class FishingPoleOfTheSevenSeasBobber : ModProjectile
+    public class SailorsPoleBobber : ModProjectile
     {
         private bool initialized = false;
         private Color fishingLineColor;
-        public Color PossibleLineColors = new Color(255, 215, 0);
+        public Color PossibleLineColors = Color.White;
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Atlantean Bobber");
+            DisplayName.SetDefault("Sailor's Bobber");
         }
 
         public override void SetDefaults()
         {
             //These are copied through the CloneDefaults method
-            //projectile.width = 14;
-            //projectile.height = 14;
             //projectile.aiStyle = 61;
             //projectile.bobber = true;
             //projectile.penetrate = -1;
             projectile.CloneDefaults(ProjectileID.BobberWooden);
-        }
-
-        //What if we want to randomize the line color
-        public override void AI()
-        {
-            if (!initialized)
-            {
-                //Decide color of the pole by randomizing the array
-                fishingLineColor = PossibleLineColors;
-                initialized = true;
-            }
+            projectile.width = 10;
+            projectile.height = 22;
         }
 
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
@@ -96,7 +85,7 @@ namespace EEMod.Items.FishingPoles
             {
                 float height = 12f;
                 float positionMagnitude = lineOrigin.Length();
-                if (float.IsNaN(positionMagnitude) || float.IsNaN(positionMagnitude))
+                if (float.IsNaN(positionMagnitude))
                 {
                     break;
                 }

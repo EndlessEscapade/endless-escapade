@@ -33,14 +33,5 @@ namespace EEMod.Items.Consumables
             Main.LocalPlayer.GetModPlayer<EEPlayer>().SM.SaveAndQuit(KeyID.CoralReefs);
             return true;
         }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<OrangeJuice>(), 1);
-            recipe.AddTile(TileID.Kegs);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
     }
 }
