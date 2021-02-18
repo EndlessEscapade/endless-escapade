@@ -35,7 +35,7 @@ namespace EEMod
             float Addon = 10;
             float cockandbol = 0.8f;
             float bolandcock = 7f;
-            float sineInt = ElapsedTicks;
+            float sineInt = ElapsedTicks/100f;
             if (p1.Y >= 1)
             {
                 Helpers.DrawBezier(vineTexture, Color.White, p1, position + new Vector2(0, 65), 
@@ -82,16 +82,16 @@ namespace EEMod
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             EEMod.Noise2DShift.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/noise"));
             EEMod.Noise2DShift.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/WormNoisePixelated"));
-            EEMod.Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(ElapsedTicks) * 0.2f);
-            EEMod.Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(ElapsedTicks) * 0.2f);
+            EEMod.Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt) * 0.2f);
+            EEMod.Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt) * 0.2f);
 
             EEMod.Noise2DShift.CurrentTechnique.Passes[0].Apply();
 
 
             EEMod.Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
             Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/BulbousBall");
-            int SineTicks = (int)(Math.Sin(ElapsedTicks * 4) * 10);
-            int CosTicks = (int)(Math.Cos(ElapsedTicks * 4) * 10);
+            int SineTicks = (int)(Math.Sin(sineInt * 4) * 10);
+            int CosTicks = (int)(Math.Cos(sineInt * 4) * 10);
             Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y + SineTicks, tex.Width + SineTicks, tex.Height + CosTicks), new Rectangle(0, 0, tex.Width + CosTicks, tex.Height + CosTicks), Color.White * 0, SineTicks, tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

@@ -497,7 +497,7 @@ namespace EEMod
                         }
                         if (ifa == 0)
                         {
-                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool() /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 10)
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.Next(3) == 0 /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 10)
                             {
                                 if (ChainConnections.Count == 0)
                                 {

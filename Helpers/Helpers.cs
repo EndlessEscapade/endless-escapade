@@ -354,6 +354,19 @@ namespace EEMod
                 }
             }
         }
+        public static void DrawParticlesAlongLine(Vector2 endPoints, Vector2 startingPos, float chainsPerUse, Color color, float spawnChance = 1f, params IParticleModule[] modules)
+        {
+            for (float i = 0; i <= 1; i += chainsPerUse)
+            {
+                if (i != 0)
+                {
+                    Vector2 pos = Vector2.Lerp(startingPos, endPoints,i);
+
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(spawnChance));
+                    EEMod.Particles.Get("Main").SpawnParticles(pos, default, 2, color, modules);
+                }
+            }
+        }
         public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, Color color, float spawnChance = 1f,Vector2 velocity = default, params IParticleModule[] modules)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
@@ -381,7 +394,19 @@ namespace EEMod
                 Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
-
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0,float per = 1)
+        {
+            //USE IN PROPER HOOK PLZ THX
+            float width = tex.Width;
+            float length = (p1 - p2).Length();
+            float rotation = (p1 - p2).ToRotation();
+            Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
+            for (float i = 0; i < 1; i += (width / length)*per)
+            {
+                Vector2 lerp = p1 + (p2 - p1) * i;
+                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
+            }
+        }
         public static Vector2 TraverseBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float t)
         {
             float x = X(t, startingPos.X, c1.X, c2.X, endPoints.X);

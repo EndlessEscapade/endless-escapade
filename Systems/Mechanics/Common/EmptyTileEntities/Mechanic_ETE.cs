@@ -19,54 +19,68 @@ namespace EEMod
     public class EmptyTileEntities : Mechanic
     {
         public static EmptyTileEntities Instance;
-        internal Dictionary<Vector2, Vector2> EmptyTilePairs = new Dictionary<Vector2, Vector2>();
-        internal Dictionary<Vector2, EmptyTileDrawEntity> EmptyTileEntityPairs = new Dictionary<Vector2, EmptyTileDrawEntity>();
-
-        public void AddPair(EmptyTileDrawEntity ETE, Vector2 position, byte[,,] array)
+        internal Dictionary<Vector2, Vector2> EmptyTilePairsCache = new Dictionary<Vector2, Vector2>();
+        internal Dictionary<Vector2, EmptyTileEntity> EmptyTileEntityPairsCache = new Dictionary<Vector2, EmptyTileEntity>();
+        //Hash set cause I wanna be a douchebag :v
+        internal HashSet<EmptyTileEntity> ETES = new HashSet<EmptyTileEntity>();
+        public void AddPair(EmptyTileEntity ETE, Vector2 position, byte[,,] array)
         {
-            if (!EmptyTileEntityPairs.ContainsKey(position))
-                EmptyTileEntityPairs.Add(position, ETE);
+            ETES.Add(ETE);
+            if (!EmptyTileEntityPairsCache.ContainsKey(position))
+                EmptyTileEntityPairsCache.Add(position, ETE);
+
             for (int i = 0; i < array.GetLength(1); i++)
             {
                 for (int j = 0; j < array.GetLength(0); j++)
                 {
                     if (array[j, i, 0] == 1)
                     {
-                        if (!EmptyTilePairs.ContainsKey(position + new Vector2(i, j)))
-                            EmptyTilePairs.Add(position + new Vector2(i, j), position);
+                        if (!EmptyTilePairsCache.ContainsKey(position + new Vector2(i, j)))
+                            EmptyTilePairsCache.Add(position + new Vector2(i, j), position);
                     }
                 }
             }
+
             EEWorld.EEWorld.CreateInvisibleTiles(array, position);
         }
-        public void Remove(Vector2 position) =>
-            EmptyTileEntityPairs[Convert(position)].Destroy();
+        public void Remove(Vector2 position) => EmptyTileEntityPairsCache[Convert(position)].Destroy();
 
-        public Vector2 Convert(Vector2 position) => EmptyTilePairs.TryGetValue(position, out var val) ? val : Vector2.Zero;
+        public Vector2 Convert(Vector2 position) => EmptyTilePairsCache.TryGetValue(position, out var val) ? val : Vector2.Zero;
         public override void OnUpdate()
         {
-            if(Main.worldName == KeyID.CoralReefs)
-            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values.ToList()) // List because if the collection is modified an exception will be thrown
+            Main.NewText(ETES.Count);
+            if (Main.worldName == KeyID.CoralReefs)
             {
-                if (ETE != null)
-                    ETE.Update();
+                foreach (EmptyTileEntity ETE in ETES) // List because if the collection is modified an exception will be thrown
+                {
+                    if (ETE != null)
+                        ETE.Update();
+                }
             }
         }
         public override void OnDraw()
         {
-            if(Main.worldName == KeyID.CoralReefs)
-            foreach (EmptyTileDrawEntity ETE in EmptyTileEntityPairs.Values.ToList())
+            if (Main.worldName == KeyID.CoralReefs)
             {
-                if (ETE != null)
-                    ETE.Draw();
+                foreach (EmptyTileEntity ETE in ETES)
+                {
+                    if (ETE != null)
+                        ETE.Draw();
+                }
             }
         }
         public void Invoke(Vector2 position)
         {
-            EmptyTileEntityPairs[Convert(position)].Activiate();
+            EmptyTileEntityPairsCache[Convert(position)].Activiate();
         }
         public override void OnLoad()
         {
+            ETES.Clear();
+            List<EmptyTileEntity> emptyTileEntities = EmptyTileEntityPairsCache.Values.ToList();
+            foreach(EmptyTileEntity ETEnt in emptyTileEntities)
+            {
+                ETES.Add(ETEnt);
+            }
             Instance = this;
         }
         protected override Layer DrawLayering => Layer.BehindTiles;

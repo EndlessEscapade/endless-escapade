@@ -16,7 +16,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.EmptyTileArrays
 {
-    public class EmptyTileDrawEntity
+    public class EmptyTileEntity
     {
         public Vector2 position;
         public int activeTime;
@@ -31,7 +31,7 @@ namespace EEMod.Tiles.EmptyTileArrays
 
         public bool CanActivate { get; set; }
         public Texture2D texture => ModContent.GetInstance<EEMod>().GetTexture(Tex);
-        public EmptyTileDrawEntity(Vector2 position, string text)
+        public EmptyTileEntity(Vector2 position, string text)
         {
             this.position = position;
             Tex = text;
@@ -53,10 +53,10 @@ namespace EEMod.Tiles.EmptyTileArrays
         public void Destroy()
         {
             OnDestroy();
-            EmptyTileEntities.Instance.EmptyTileEntityPairs.Remove(position);
+            EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Remove(position);
             try
             {
-                foreach (var item in EmptyTileEntities.Instance.EmptyTilePairs.Where(kvp => kvp.Value == position).ToList()) // Turning into a list is needed because if the collection is modified while it's looping an exception will be thrown
+                foreach (var item in EmptyTileEntities.Instance.EmptyTilePairsCache.Where(kvp => kvp.Value == position).ToList()) // Turning into a list is needed because if the collection is modified while it's looping an exception will be thrown
                 {
                     if (Main.tile[(int)item.Key.X, (int)item.Key.Y].active())
                         WorldGen.KillTile((int)item.Key.X, (int)item.Key.Y);
@@ -67,7 +67,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 Main.NewText("TileNotFound");
             }
 
-            EmptyTileEntities.Instance.EmptyTilePairs.Remove(position);
+            EmptyTileEntities.Instance.EmptyTilePairsCache.Remove(position);
         }
         public virtual void OnDestroy()
         {
@@ -79,7 +79,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         }
         public void Update()
         {
-            if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
+            if ((ScreenPosition - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
             {
                 OnUpdate();
                 if (activeTime > 0)
@@ -95,13 +95,18 @@ namespace EEMod.Tiles.EmptyTileArrays
                 }
             }
         }
-        public virtual void Draw()
+        public void Draw()
         {
-            if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
-                Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(0, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f, SpriteEffects.None, 0f);
+            if ((ScreenPosition - Main.LocalPlayer.Center).LengthSquared() > RENDERDISTANCE * RENDERDISTANCE)
+                return;
+                OnDraw();
+        }
+        public virtual void OnDraw()
+        {
+            Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(0, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f, SpriteEffects.None, 0f);
         }
     }
-    public class Crystal : EmptyTileDrawEntity
+    public class Crystal : EmptyTileEntity
     {
         public float speed;
         public Texture2D glow => ModContent.GetInstance<EEMod>().GetTexture(glowPath);
@@ -142,33 +147,32 @@ namespace EEMod.Tiles.EmptyTileArrays
             colour = Lighting.GetColor((int)position.X, (int)position.Y);
         }
 
-        public override void Draw()
+        public override void OnDraw()
         {
-            Player myPlayer = Main.LocalPlayer;
-            Vector2 DrawPos = position * 16;
-            Vector2 Scaling = new Vector2(texture.Width / (float)Helpers.playerTexture.Width, texture.Height / (float)Helpers.playerTexture.Height);
-            float percX = (myPlayer.Center.X - DrawPos.X) / texture.Width;
-            float percY = (myPlayer.Center.Y - DrawPos.Y) / texture.Height;
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-            EEMod.ReflectionShader.Parameters["alpha"].SetValue(lerp * 2 % 6);
-            EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.ReflectionShader.Parameters["lightColour"].SetValue(colour.ToVector3());
-            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(glow);
-            EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(shaderLerp / 3f);
-            EEMod.ReflectionShader.Parameters["headTexture"].SetValue(Helpers.playerTexture);
-            EEMod.ReflectionShader.Parameters["XPROG"].SetValue(percX);
-            EEMod.ReflectionShader.Parameters["YPROG"].SetValue(percY);
-            EEMod.ReflectionShader.Parameters["Scaling"].SetValue(Scaling);
-            EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
-            if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
+                Player myPlayer = Main.LocalPlayer;
+                Vector2 DrawPos = position * 16;
+                Vector2 Scaling = new Vector2(texture.Width / (float)Helpers.playerTexture.Width, texture.Height / (float)Helpers.playerTexture.Height);
+                float percX = (myPlayer.Center.X - DrawPos.X) / texture.Width;
+                float percY = (myPlayer.Center.Y - DrawPos.Y) / texture.Height;
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                EEMod.ReflectionShader.Parameters["alpha"].SetValue(lerp * 2 % 6);
+                EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
+                EEMod.ReflectionShader.Parameters["lightColour"].SetValue(colour.ToVector3());
+                EEMod.ReflectionShader.Parameters["tentacle"].SetValue(glow);
+                EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(shaderLerp / 3f);
+                EEMod.ReflectionShader.Parameters["headTexture"].SetValue(Helpers.playerTexture);
+                EEMod.ReflectionShader.Parameters["XPROG"].SetValue(percX);
+                EEMod.ReflectionShader.Parameters["YPROG"].SetValue(percY);
+                EEMod.ReflectionShader.Parameters["Scaling"].SetValue(Scaling);
+                EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
                 Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(0, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, new Vector2(0, texture.Height), 1f, SpriteEffects.None, 0f);
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
     }
-    public class BigCrystal : EmptyTileDrawEntity
+    public class BigCrystal : EmptyTileEntity
     {
         public float speed;
         public Texture2D glow => ModContent.GetInstance<EEMod>().GetTexture(glowPath);
@@ -210,7 +214,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             colour = Lighting.GetColor((int)position.X, (int)position.Y);
         }
 
-        public override void Draw()
+        public override void OnDraw()
         {
             Player myPlayer = Main.LocalPlayer;
             Vector2 DrawPos = position * 16;
@@ -230,8 +234,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             EEMod.ReflectionShader.Parameters["YPROG"].SetValue(percY);
             EEMod.ReflectionShader.Parameters["Scaling"].SetValue(Scaling);
             EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
-            if ((position * 16 - Main.LocalPlayer.Center).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
-                Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(texture.Width, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(texture.Width, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, origin, 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }

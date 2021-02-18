@@ -31,7 +31,7 @@ namespace EEMod.Tiles
         {
             if (fail)
                 EmptyTileEntities.Instance.Invoke(new Vector2(i, j));
-            else if (EmptyTileEntities.Instance.EmptyTileEntityPairs.ContainsKey(EmptyTileEntities.Instance.Convert(new Vector2(i, j))))
+            else if (EmptyTileEntities.Instance.EmptyTileEntityPairsCache.ContainsKey(EmptyTileEntities.Instance.Convert(new Vector2(i, j))))
                 EmptyTileEntities.Instance.Remove(new Vector2(i, j));
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)

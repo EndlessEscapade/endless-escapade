@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.ID;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -52,26 +53,13 @@ namespace EEMod
                         Vector2 addonDR = new Vector2(0, d.Height / 2 * (float)Math.Cos(rot + 3.14f));
                         if (i % 2 == 0)
                         {
-                            Helpers.DrawBezier(b, Color.White, ChainConneccPos + addonB, LastChainConneccPos + addonB, Mid + addonB, 10.7f, MathHelper.PiOver2, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(b, Color.White, ChainConneccPos + addonBR, LastChainConneccPos + addonBR, Mid + addonBR, 13, MathHelper.PiOver2 + 3.14f, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(c, Color.White, ChainConneccPos + addonCR, LastChainConneccPos + addonCR, Mid + addonCR, 8, MathHelper.PiOver2 + 3.14f, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(c, Color.White, ChainConneccPos + addonCR, LastChainConneccPos + addonCR, Mid + addonCR, 9, MathHelper.PiOver2 + 3.14f, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(d, Color.White, ChainConneccPos + addonDR, LastChainConneccPos + addonDR, Mid + addonDR, 5, MathHelper.PiOver2 + 3.14f, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(d, Color.White, ChainConneccPos + addonDR, LastChainConneccPos + addonDR, Mid + addonDR, 10, MathHelper.PiOver2 + 3.14f, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(a, Color.White, ChainConneccPos, LastChainConneccPos, Mid, 1, MathHelper.PiOver2, true, 1, false, false, 1);
-                            Helpers.DrawParticlesAlongBezier(LastChainConneccPos, ChainConneccPos, Mid, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
+                            Helpers.DrawChain(b,ChainConneccPos + addonB, LastChainConneccPos + addonB,0,2);
+                            Helpers.DrawParticlesAlongLine(LastChainConneccPos, ChainConneccPos, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
                         }
                         else
                         {
-
-                            Helpers.DrawBezier(b, Color.White, ChainConneccPos + addonBR, LastChainConneccPos + addonBR, Mid + addonBR, 10, MathHelper.PiOver2 + 3.14f, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(b, Color.White, ChainConneccPos + addonB, LastChainConneccPos + addonB, Mid + addonB, 7, MathHelper.PiOver2, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(c, Color.White, ChainConneccPos + addonC, LastChainConneccPos + addonC, Mid + addonC, 9, MathHelper.PiOver2, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(c, Color.White, ChainConneccPos + addonC, LastChainConneccPos + addonC, Mid + addonC, 7, MathHelper.PiOver2, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(d, Color.White, ChainConneccPos + addonD, LastChainConneccPos + addonD, Mid + addonD, 5, MathHelper.PiOver2, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(d, Color.White, ChainConneccPos + addonD, LastChainConneccPos + addonD, Mid + addonD, 10, MathHelper.PiOver2, true, 1, false, false, 1, false, true);
-                            Helpers.DrawBezier(a, Color.White, ChainConneccPos, LastChainConneccPos, Mid, 1, MathHelper.PiOver2, true, 1, false, false, 1);
-                            Helpers.DrawParticlesAlongBezier(LastChainConneccPos, ChainConneccPos, Mid, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
+                            Helpers.DrawChain(b, ChainConneccPos + addonB, LastChainConneccPos + addonB, 0, 2);
+                            Helpers.DrawParticlesAlongLine(LastChainConneccPos, ChainConneccPos, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
                         }
                     }
                 }
@@ -79,6 +67,7 @@ namespace EEMod
         }
         public override void OnDraw()
         {
+            if(Main.worldName == KeyID.CoralReefs)
             DrawAquamarineZiplines();
         }
     }

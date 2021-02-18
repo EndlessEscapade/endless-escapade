@@ -81,7 +81,7 @@ namespace EEMod.Prim
 
 		public override void PrimStructure(SpriteBatch spriteBatch)
 		{
-			if (!(Vector2.DistanceSquared(Main.LocalPlayer.Center, position) < (float)(base.RENDERDISTANCE * base.RENDERDISTANCE)) || _noOfPoints <= 6)
+			if (!(Vector2.DistanceSquared(Main.LocalPlayer.Center, position) < (RENDERDISTANCE * RENDERDISTANCE)) || _noOfPoints <= 6)
 				return;
 
 			Math.Sin(_counter / 3f);
@@ -133,7 +133,7 @@ namespace EEMod.Prim
 
 		public override void SetShaders()
 		{
-			if (Vector2.DistanceSquared(Main.LocalPlayer.Center, position) < (float)(base.RENDERDISTANCE * base.RENDERDISTANCE))
+			if (Vector2.DistanceSquared(Main.LocalPlayer.Center, position) < (RENDERDISTANCE * RENDERDISTANCE))
 			{
 				PrepareShader(EEMod.TrailPractice, "WebPass");
 			}
@@ -141,7 +141,7 @@ namespace EEMod.Prim
 
 		public override void OnUpdate()
 		{
-			if (!(Vector2.DistanceSquared(Main.LocalPlayer.Center, position) < (float)(base.RENDERDISTANCE * base.RENDERDISTANCE)))
+			if ((Vector2.DistanceSquared(Main.LocalPlayer.Center, position) > (RENDERDISTANCE * RENDERDISTANCE)))
 			{
 				return;
 			}

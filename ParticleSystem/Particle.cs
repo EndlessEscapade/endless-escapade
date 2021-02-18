@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod
 {
-    public class Particle : Entity
+    public class Particle : Entity,IDrawAdditive
     {
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
@@ -74,6 +74,7 @@ namespace EEMod
             AnimSpeedPerTick = 1;
             noOfFrames = 1;
             SetModules(StartingModule.ToArray() ?? new IParticleModule[0]);
+            AdditiveCalls.Instance.LoadObject(this);
         }
 
         public void AddModule(IParticleModule Module) => Modules.Add(Module);
@@ -101,8 +102,9 @@ namespace EEMod
             if (timeLeft == 0)
             {
                 active = false;
+                AdditiveCalls.Instance.DisposeObject(this);
             }
-            if(lightingIntensity > 0)
+            if (lightingIntensity > 0)
             {
                 Lighting.AddLight(position, lightingColor*lightingIntensity*varScale);
             }
@@ -111,7 +113,7 @@ namespace EEMod
                 Module.Update(this);
             }
         }
-
+        
         public void Draw()
         {
             foreach (IParticleModule Module in Modules)
@@ -122,9 +124,14 @@ namespace EEMod
             Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), new Rectangle(0, CurrentFrame*(Frame.Height / noOfFrames), Frame.Width,Frame.Height / noOfFrames), LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X/16,(int)PARALAXPOSITION.Y/16)*alpha : colour * alpha, rotation, Frame.Size() / 2, varScale, SpriteEffects.None, 0f);
             if (PresetNoiseMask != null)
                 Helpers.DrawAdditiveFunky(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.34f);
-            if (mask != null)
-                Helpers.DrawAdditive(mask, positionDraw.ParalaxX(paralax), colour * varScale * MaskAlpha, 0.1f * varScale, 0.5f);
             OnDraw();
+        }
+
+        public void AdditiveCall(SpriteBatch spriteBatch)
+        {
+            Vector2 positionDraw = position.ForDraw();
+            if (mask != null)
+                spriteBatch.Draw(mask, positionDraw.ParalaxX(paralax), mask.Bounds, colour * varScale * MaskAlpha, 0f, mask.TextureCenter(), 0.1f * varScale, SpriteEffects.None, 0f);
         }
     }
     class TestModule : IParticleModule

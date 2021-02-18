@@ -369,12 +369,18 @@ namespace EEMod.EEWorld
             }
             if (tag.TryGetList<Vector2>("EmptyTileVectorMain", out IList<Vector2> vecMains) && tag.TryGetList<Vector2>("EmptyTileVectorSub", out IList<Vector2> list2))
             {
-                EmptyTileEntities.Instance.EmptyTilePairs = vecMains.Zip(list2, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+                EmptyTileEntities.Instance.EmptyTilePairsCache = vecMains.Zip(list2, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
 
             }
-            if (tag.TryGetList<Vector2>("EmptyTileVectorEntities", out var VecMains) && tag.TryGetList<EmptyTileDrawEntity>("EmptyTileEntities", out var VecSubs))
+            if (tag.TryGetList<Vector2>("EmptyTileVectorEntities", out var VecMains) && tag.TryGetList<EmptyTileEntity>("EmptyTileEntities", out var VecSubs))
             {
-                EmptyTileEntities.Instance.EmptyTileEntityPairs = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+                EmptyTileEntities.Instance.EmptyTileEntityPairsCache = VecMains.Zip(VecSubs, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
+                IList<EmptyTileEntity> emptyTileEntities = VecSubs;
+                EmptyTileEntities.Instance.ETES.Clear();
+                foreach (EmptyTileEntity ETEnt in emptyTileEntities)
+                {
+                    EmptyTileEntities.Instance.ETES.Add(ETEnt);
+                }
             }
             if (tag.TryGetListRef<Vector2>("CoralCrystalPosition", ref EESubWorlds.CoralCrystalPosition))
             {
@@ -418,10 +424,10 @@ namespace EEMod.EEWorld
                 tag["LightStates"] = LightStates;
                 tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;
                 tag["SpirePosition"] = EESubWorlds.SpirePosition;
-                tag["EmptyTileVectorMain"] = EmptyTileEntities.Instance.EmptyTilePairs.Keys.ToList();
-                tag["EmptyTileVectorSub"] = EmptyTileEntities.Instance.EmptyTilePairs.Values.ToList();
-                tag["EmptyTileVectorEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairs.Keys.ToList();
-                tag["EmptyTileEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairs.Values.ToList();
+                tag["EmptyTileVectorMain"] = EmptyTileEntities.Instance.EmptyTilePairsCache.Keys.ToList();
+                tag["EmptyTileVectorSub"] = EmptyTileEntities.Instance.EmptyTilePairsCache.Values.ToList();
+                tag["EmptyTileVectorEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Keys.ToList();
+                tag["EmptyTileEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Values.ToList();
 
                 if (EESubWorlds.MinibiomeLocations.Count > 0)
                 {
