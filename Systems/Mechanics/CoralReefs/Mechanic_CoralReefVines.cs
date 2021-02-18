@@ -50,8 +50,7 @@ namespace EEMod
         }
         public override void OnDraw()
         {
-            if(Main.worldName == KeyID.CoralReefs)
-            DrawVines();
+            if(Main.worldName == KeyID.CoralReefs) DrawVines();
         }
     }
 }
