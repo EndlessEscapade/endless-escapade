@@ -1,4 +1,3 @@
-using EEMod.Items.Materials.Fruit;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

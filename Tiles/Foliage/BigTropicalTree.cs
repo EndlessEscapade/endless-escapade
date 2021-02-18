@@ -1,4 +1,5 @@
-﻿using EEMod.Items.Materials;
+﻿/*using EEMod.Items.Materials;
+using EEMod.Items.Materials;
 using EEMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,7 +12,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage
 {
-    public class TropicalTree : ModTile
+    public class BigTropicalTree : ModTile
     {
         public override void SetDefaults()
         {
@@ -53,4 +54,4 @@ namespace EEMod.Tiles.Foliage
                 Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/TropicalTreeLeaves"), new Vector2((i * 16) + 150, (j * 16) + 120) - Main.screenPosition, new Rectangle(0, 0, 120, 100), Lighting.GetColor(i, j));
         }
     }
-}
+}*/

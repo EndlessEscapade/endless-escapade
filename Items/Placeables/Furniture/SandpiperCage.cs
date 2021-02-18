@@ -1,4 +1,4 @@
-using EEMod.Tiles.Furniture;
+/*using EEMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -27,4 +27,4 @@ namespace EEMod.Items.Placeables.Furniture
             item.createTile = ModContent.TileType<SandpiperCageTile>();
         }
     }
-}
+}*/
