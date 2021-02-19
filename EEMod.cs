@@ -99,10 +99,6 @@ namespace EEMod
             Main.spriteBatch.End();
         }
 
-        public void TestParticleSystem()
-        {
-
-        }
 
         public override void Unload()
         {
@@ -415,10 +411,9 @@ namespace EEMod
                     if (lastGameTime != null)
                     {
                         UI.Draw(lastGameTime);
-                        Particles.Draw();
-                        TestParticleSystem();
                         //UpdateNet();
                         UpdateGame(lastGameTime);
+                        AfterTiles?.Invoke(Main.spriteBatch);
                         //UpdateSpiderPort();
                         //   UpdateJellyfishTesting();
                         UpdateVerlet();

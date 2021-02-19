@@ -37,6 +37,8 @@ namespace EEMod
     {
         internal event MechanicDrawDelegate BeforeTiles;
 
+        internal event MechanicDrawDelegate AfterTiles;
+
         public List<IComponent> Updatables = new List<IComponent>();
         private void LoadDetours()
         {
@@ -47,6 +49,8 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
+            On.Terraria.Main.DrawTiles += Main_DrawTiles;
+
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
             On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
             //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
@@ -57,6 +61,11 @@ namespace EEMod
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
+        }
+
+        private void Main_DrawTiles(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidOnly, int waterStyleOverride)
+        {
+            orig(self, solidOnly, waterStyleOverride);
         }
 
         private void UnloadDetours()
@@ -71,6 +80,8 @@ namespace EEMod
             On.Terraria.Main.DrawBG -= Main_DrawBG;
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
+            On.Terraria.Main.DrawTiles -= Main_DrawTiles;
+
             //On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             //On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
@@ -311,11 +322,6 @@ namespace EEMod
                 Main.spriteBatch.End();
             }
             orig(self);
-
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.TransformationMatrix);
-            Particles.Draw();
-            Main.spriteBatch.End();
-
         }
 
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)

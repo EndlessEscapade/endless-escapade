@@ -40,6 +40,7 @@ namespace EEMod
                     Singleton.BeforeTiles += Draw;
                     break;
                 case Layer.AboveTiles:
+                    Singleton.AfterTiles += Draw;
                     break;
             }
             OnLoad();
