@@ -603,13 +603,13 @@ namespace EEMod
                 };
                 void DrawJelly(int noOfPoints)
                 {
-                    JellyfishPlatform1 ja = (npc.modNPC as JellyfishPlatform1);
-                    Cap = ja.cap;
+                    Jellyfish ja = (npc.modNPC as Jellyfish);
+                    Cap = ja._cap;
                     List<List<List<Vector2>>> tentacle = new List<List<List<Vector2>>>();
                     for (int b = 0; b < 2; b++)
                     {
                         List<List<Vector2>> tempTentA = new List<List<Vector2>>();
-                        for (int a = 0; a < ja.noOfTentacles / 2; a++)
+                        for (int a = 0; a < ja._noOfTentacles / 2; a++)
                         {
                             List<Vector2> tempTent = new List<Vector2>();
                             for (int i = 0; i < Cap; i++)
@@ -935,9 +935,9 @@ namespace EEMod
                 }
                 if (npc != null)
                 {
-                    if (npc.type == NPCType<JellyfishPlatform1>())
+                    if (npc.type == NPCType<Jellyfish>())
                     {
-                        DrawJelly(((int)Cap * 6 - 12) * (npc.modNPC as JellyfishPlatform1).noOfTentacles);
+                        DrawJelly(((int)Cap * 6 - 12) * (npc.modNPC as Jellyfish)._noOfTentacles);
                     }
                 }
                 GliderPrims.Invoke((int)Cap * 6 - 12);

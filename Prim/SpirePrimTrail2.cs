@@ -60,7 +60,7 @@ namespace EEMod.Prim
                 {
                     if (i != _points.Count - 1)
                     {
-                        widthVar = Helpers.Clamp(i * 4, 0, 100);
+                        widthVar = Helpers.Clamp((i * 4) + _width, 0, 100);
 
                         Color c = color;
                         Color CBT = color;

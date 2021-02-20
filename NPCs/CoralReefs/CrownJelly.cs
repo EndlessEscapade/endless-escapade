@@ -4,12 +4,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class CrownJelly : ModNPC
+    public class CrownJelly : Jellyfish
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Crown Jelly");
-            //bannerItem = ModContent.ItemType<Items.Banners.LunaJellyBanner>();
         }
 
         public override void SetDefaults()
@@ -33,36 +32,11 @@ namespace EEMod.NPCs.CoralReefs
             npc.lavaImmune = false;
             npc.noTileCollide = false;
         }
+        /*         protected int cap = 15;
+        protected int noOfTentacles = 8;
+        protected Color drawColour;*/
 
-        public override void AI()
-        {
-            Lighting.AddLight(npc.Center, 0.2f, 0.4f, 1.4f);
-            npc.TargetClosest();
-            Player target = Main.player[npc.target];
-
-            npc.ai[0]++;
-            if (target.Center.Y > npc.Center.Y)
-            {
-                if (npc.velocity.Y < 2)
-                {
-                    npc.velocity.Y *= 1.01f;
-                }
-
-                if (npc.velocity.Y <= 0)
-                {
-                    npc.velocity.Y += 0.5f;
-                }
-            }
-            else
-            {
-                if (npc.ai[0] >= 120)
-                {
-                    npc.velocity.Y -= 2;
-                    npc.velocity.X += Helpers.Clamp((target.Center.X - npc.Center.X) / 10, -2, 2);
-                    npc.ai[0] = 0;
-                }
-                npc.velocity *= 0.97f;
-            }
-        }
+        public override int _cap => 15;
+        public override int _noOfTentacles => 2;
     }
 }
