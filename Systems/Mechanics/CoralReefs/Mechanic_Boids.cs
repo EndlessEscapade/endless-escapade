@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.ID;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace EEMod
         public override void OnUpdate()
         {
             flock.Update();
-            if (ElapsedTicks % 200 == 0)
+            if (ElapsedTicks % 200 == 0 && Main.worldName == KeyID.CoralReefs)
             {
                 int corner = Main.rand.Next(4);
                 switch (corner)
