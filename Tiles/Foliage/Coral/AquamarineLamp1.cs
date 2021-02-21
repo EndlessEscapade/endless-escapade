@@ -291,8 +291,9 @@ namespace EEMod.Tiles.Foliage.Coral
 
                 Helpers.DrawAdditive(mask, projectile.Center.ForDraw(), Color.White * (0.5f + (HeartBeat / 2f)), projectile.scale, projectile.rotation);
 
-                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), new Rectangle(0, frame * 24, 22, 24), lightColor, 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), new Rectangle(0, frame * 24, 22, 24), Color.Lerp(Color.White * HeartBeat, strikeColor, strikeTime / 60f), 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
+                Rectangle rect = new Rectangle(0, frame * 24, 22, 24);
+                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), rect, lightColor, 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), rect, Color.Lerp(Color.White * HeartBeat, strikeColor, strikeTime / 60f), 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
