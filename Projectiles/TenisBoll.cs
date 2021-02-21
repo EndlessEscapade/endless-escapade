@@ -117,7 +117,7 @@ namespace EEMod.Projectiles
                 if (k != 0)
                 {
                     Vector2 drawPos = projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                    //Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
+                    Color color = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
                     spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), new Color(255, 255, 255, 10), projectile.rotation, drawOrigin, projectile.scale * (1 - (k / (float)projectile.oldPos.Length)) * (velocitylength * 0.06f), SpriteEffects.None, 0f);
                 }
             }

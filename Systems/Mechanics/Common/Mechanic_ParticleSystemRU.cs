@@ -14,6 +14,7 @@ namespace EEMod
     {
         public override void OnDraw()
         {
+            EEMod.Particles.Draw();
         }
 
         public override void OnUpdate()
@@ -25,6 +26,6 @@ namespace EEMod
         {
            
         }
-        protected override Layer DrawLayering => Layer.BehindTiles;
+        protected override Layer DrawLayering => Layer.AboveTiles;
     }
 }

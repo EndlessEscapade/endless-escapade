@@ -62,11 +62,15 @@ namespace EEMod
         {
             if (Main.worldName == KeyID.CoralReefs)
             {
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                 foreach (EmptyTileEntity ETE in ETES)
                 {
                     if (ETE != null)
                         ETE.Draw();
                 }
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
         }
         public void Invoke(Vector2 position)

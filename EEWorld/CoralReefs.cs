@@ -31,7 +31,45 @@ namespace EEMod.EEWorld
             int ecksdee = Main.tile[i, j].type;
             return ecksdee == ModContent.TileType<LightGemsandTile>() || ecksdee == ModContent.TileType<LightGemsandstoneTile>() || ecksdee == ModContent.TileType<GemsandTile>() || ecksdee == ModContent.TileType<GemsandstoneTile>() || ecksdee == ModContent.TileType<DarkGemsandTile>() || ecksdee == ModContent.TileType<DarkGemsandstoneTile>();
         }
+        internal static void PlaceWallGrass()
+        {
+            /*for (int i = 10; i < Main.maxTilesX - 10; i++)
+            {
+                for (int j = 10; j < Main.maxTilesY - 10; j++)
+                {
+                    int X = i;
+                    int Y = j;
+                    switch (TileCheck2(X, Y))
+                    {
+                        case (int)TileSpacing.Top:
+                        {
+                            for (int a = 0; a < WorldGen.genRand.Next(11); a++)
+                                WorldGen.PlaceWall(X, Y - a, ModContent.WallType<KelpForestLeafyWall>());
+                            break;
+                        }
+                        case (int)TileSpacing.Bottom:
+                        {
+                            for (int a = 0; a < WorldGen.genRand.Next(11); a++)
+                                WorldGen.PlaceWall(X, Y + a, ModContent.WallType<KelpForestLeafyWall>());
+                            break;
+                        }
+                        case (int)TileSpacing.Left:
+                        {
+                            for (int a = 0; a < WorldGen.genRand.Next(11); a++)
+                                WorldGen.PlaceWall(X - a, Y, ModContent.WallType<KelpForestLeafyWall>());
+                            break;
+                        }
+                        case (int)TileSpacing.Right:
+                        {
+                            for (int a = 0; a < WorldGen.genRand.Next(11); a++)
+                                WorldGen.PlaceWall(X + a, Y, ModContent.WallType<KelpForestLeafyWall>());
+                            break;
+                        }
+                    }
+                }
+            }*/
 
+        }
         public static void MakeCoralRoom(int xPos, int yPos, int size, int type, bool ensureNoise = false)
         {
             int sizeX = size;
@@ -183,18 +221,15 @@ namespace EEMod.EEWorld
                         }
                     }
 
-                    TilePopulate(new int[4][] {
-                    new int[] { ModContent.TileType<GlowHangCoral1>() },
-
-                    new int[] { ModContent.TileType<GroundGlowCoral>(),
+                    TilePopulate(new int[] {
+                    ModContent.TileType<GlowHangCoral1>(),
+                    ModContent.TileType<GroundGlowCoral>(),
                     ModContent.TileType<GroundGlowCoral2>(),
                     ModContent.TileType<GroundGlowCoral3>(),
-                    ModContent.TileType<GroundGlowCoral4>(), },
-
-                    new int[] { ModContent.TileType<Wall4x3CoralL>() },
-
-                    new int[] { ModContent.TileType<Wall4x3CoralR>() } },
-                    new Rectangle((int)TL.X, (int)TL.Y, sizeX, sizeY), 6);
+                    ModContent.TileType<GroundGlowCoral4>(),
+                    ModContent.TileType<Wall4x3CoralL>(),
+                    ModContent.TileType<Wall4x3CoralR>() },
+                    new Rectangle((int)TL.X, (int)TL.Y, sizeX*2, sizeY*2));
 
                     for (int i = (int)TL.X; i < (int)BR.X; i++)
                     {
@@ -427,15 +462,15 @@ namespace EEMod.EEWorld
         public static void PlaceCoral()
         {
             #region Surface Reefs
-            TilePopulate(new int[4][] {
+            TilePopulate(
             new int[] { ModContent.TileType<Hanging1x2Coral>(),
             ModContent.TileType<Hanging1x3Coral>(),
             ModContent.TileType<Hanging2x3Coral>(),
             ModContent.TileType<Hanging2x4Coral>(),
             ModContent.TileType<GlowHangCoral2>(),
-            ModContent.TileType<Hanging1x4Coral>() },
+            ModContent.TileType<Hanging1x4Coral>(),
 
-            new int[] { ModContent.TileType<Floor2x1Coral>(),
+            ModContent.TileType<Floor2x1Coral>(),
             ModContent.TileType<Floor1x1Coral>(),
             ModContent.TileType<Floor1x2Coral>(),
             ModContent.TileType<Floor2x1Coral>(),
@@ -453,26 +488,26 @@ namespace EEMod.EEWorld
             ModContent.TileType<Floor8x9Coral>(),
             ModContent.TileType<FloorGlow9x4Coral>(),
             ModContent.TileType<Floor9x9Coral>(),
-            ModContent.TileType<Floor11x11Coral>(), },
+            ModContent.TileType<Floor11x11Coral>(),
 
-            new int[] { ModContent.TileType<Wall2x2CoralL>(),
+            ModContent.TileType<Wall2x2CoralL>(),
             ModContent.TileType<Wall3x2CoralL>(),
             ModContent.TileType<Wall4x2CoralL>(),
             ModContent.TileType<Wall4x3CoralL>(),
             ModContent.TileType<Wall2x2NonsolidCoralL>(),
             ModContent.TileType<Wall3x2NonsolidCoralL>(),
             ModContent.TileType<Wall5x2NonsolidCoralL>(),
-            ModContent.TileType<Wall6x3CoralL>() },
+            ModContent.TileType<Wall6x3CoralL>(),
 
-            new int[] { ModContent.TileType<Wall2x2CoralR>(),
+            ModContent.TileType<Wall2x2CoralR>(),
             ModContent.TileType<Wall3x2CoralR>(),
             ModContent.TileType<Wall4x2CoralR>(),
             ModContent.TileType<Wall4x3CoralR>(),
             ModContent.TileType<Wall2x2NonsolidCoralR>(),
             ModContent.TileType<Wall3x2NonsolidCoralR>(),
             ModContent.TileType<Wall5x2NonsolidCoralR>(),
-            ModContent.TileType<Wall6x3CoralR>() } },
-            new Rectangle(42, 42, Main.maxTilesX - 84, Main.maxTilesY / 10), 6);
+            ModContent.TileType<Wall6x3CoralR>() },
+            new Rectangle(42, 42, Main.maxTilesX - 84, Main.maxTilesY / 10));
             #endregion
 
             for (int i = 42; i < Main.maxTilesX - 42; i++)

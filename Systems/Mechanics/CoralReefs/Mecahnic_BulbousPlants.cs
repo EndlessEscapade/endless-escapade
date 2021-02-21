@@ -12,7 +12,6 @@ namespace EEMod
 {
     public class BulbousPlants : Mechanic
     {
-
         private void HandleBulbDraw(Vector2 position)
         {
             Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
@@ -91,8 +90,9 @@ namespace EEMod
             EEMod.Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
             Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/BulbousBall");
             int SineTicks = (int)(Math.Sin(sineInt * 4) * 10);
+            float SineTicksF = (float)(Math.Sin(sineInt /2f) * 10);
             int CosTicks = (int)(Math.Cos(sineInt * 4) * 10);
-            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y + SineTicks, tex.Width + SineTicks, tex.Height + CosTicks), new Rectangle(0, 0, tex.Width + CosTicks, tex.Height + CosTicks), Color.White * 0, SineTicks, tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, new Rectangle((int)position.ForDraw().X, (int)position.ForDraw().Y + SineTicks, tex.Width + SineTicks, tex.Height + CosTicks), new Rectangle(0, 0, tex.Width + CosTicks, tex.Height + CosTicks), Color.White * 0, SineTicksF, tex.Bounds.Size() / 2, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }

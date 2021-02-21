@@ -15,7 +15,10 @@ namespace EEMod
         {
             Main.spriteBatch.Draw(tex, position, frame == default ? tex.Bounds : frame, colour, 0f, frame == default ? tex.TextureCenter() : frame.Center(), scale, SpriteEffects.None, 0f);
         }
-
+        public static void Draw(Texture2D tex, Vector2 position, Color colour, float scale, Rectangle frame = default, float rotation = 0f)
+        {
+            Main.spriteBatch.Draw(tex, position, frame == default ? tex.Bounds : frame, colour, rotation, frame == default ? tex.TextureCenter() : frame.Center(), scale, SpriteEffects.None, 0f);
+        }
         public static Texture2D RadialMask => ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient");
         public static void DrawAdditive(Texture2D tex, Vector2 position, Color colour, float scale)
         {
@@ -53,6 +56,15 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
+        }
+        public static void DrawAdditiveFunkyNoBatch(Texture2D tex, Vector2 position, Color colour, float scale, float intensity, float offset = 0)
+        {
+            EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
+            EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+            EEMod.RadialField.Parameters["alpha"].SetValue(intensity);
+            EEMod.RadialField.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/noise"));
+            EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
+            Main.spriteBatch.Draw(tex, position, tex.Bounds, colour, 0f, tex.TextureCenter(), scale, SpriteEffects.None, 0f);
         }
         public static void DrawAdditive(Texture2D tex, Vector2 position, Color colour, float scale, float rotation)
         {
