@@ -109,6 +109,7 @@ namespace EEMod
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             //HandwritingCNN = null;
             PrismShader = null;
+            SpireShader = null;
             Noise2D = null;
             RuneActivator = null;
             Inspect = null;
@@ -347,6 +348,8 @@ namespace EEMod
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
                 Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
                 Filters.Scene["EEMod:MyTestShader"].Load();
+
+                GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/SpireShine")), "SpireHeartbeat").UseImage("Noise/WormNoisePixelated");
 
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
                 NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");

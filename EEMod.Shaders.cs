@@ -17,6 +17,7 @@ namespace EEMod
         public static Effect ReflectionShader;
         public static Effect WaterShader;
         public static Effect PrismShader;
+        public static Effect SpireShader;
         public static Effect TrailPractice;
         public static Effect RadialField;
         public static Effect SolidOutline;
@@ -26,6 +27,7 @@ namespace EEMod
             SolidOutline = ModContent.GetInstance<EEMod>().GetEffect("Effects/WhiteOutlineSolid");
             RadialField = ModContent.GetInstance<EEMod>().GetEffect("Effects/RadialSurfacing");
             PrismShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/PrismShader");
+            SpireShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/SpireShine");
             Noise2DShift = ModContent.GetInstance<EEMod>().GetEffect("Effects/Noise2DShift");
             ReflectionShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/ReflectionShader");
             WaterShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/WaterShader");

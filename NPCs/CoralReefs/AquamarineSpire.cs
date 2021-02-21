@@ -63,13 +63,35 @@ namespace EEMod.NPCs.CoralReefs
         private int specialLaserShots;
         private int timer1;
         private float eyeRecoil;
-        private bool phase2Transition = false;
+        public bool phase2Transition = false;
 
         //npc.ai[0] : Player hits on spire / Health
         //npc.ai[1] : Laser color
         //npc.ai[2] : Timer stuffens?
         //npc.ai[3] : Heartbeat
         //Timer1 : Manages cooldowns - recharge time and laser shot cooldown
+
+        private float alpha;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            alpha += 0.05f;
+
+            EEMod.SpireShader.Parameters["alpha"].SetValue((!phase2Transition && npc.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
+            EEMod.SpireShader.Parameters["shineSpeed"].SetValue((!phase2Transition && npc.ai[0] <= 20 && awake) ? 1f : (awake ? 0.6f : 0.4f));
+            EEMod.SpireShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SpireLightMap"));
+            EEMod.SpireShader.Parameters["shaderLerp"].SetValue(1f);
+            EEMod.SpireShader.Parameters["lightColor"].SetValue(drawColor.ToVector3());
+            EEMod.SpireShader.CurrentTechnique.Passes[0].Apply();
+
+            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, 4), Main.npcTexture[npc.type].Bounds, drawColor, npc.rotation, Main.npcTexture[npc.type].Size() / 2f, npc.scale, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            return false;
+        }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -121,26 +143,23 @@ namespace EEMod.NPCs.CoralReefs
                 if (npc.ai[0] <= 20 && !phase2Transition)
                 {
                     blinkTime = 0;
-                    eyePos += (Vector2.Normalize(new Vector2(0, -1) * 6) + npc.Center + new Vector2(-2, 2)) - (eyePos);
+                    eyePos = npc.Center + new Vector2(-2, 2) + (new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 3);
 
                     color = Color.White;
 
-                    if (specialLaserShots <= 0)
-                    {
-                        Vector2 obesegru = (eyePos + (new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * npc.ai[2])) + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 144);
+                    Vector2 obesegru = eyePos + new Vector2(0, 32) + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 32);
 
-                        EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.15f * ((timer1 - 10) / 10f), 0, 1)));
-                        EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 8, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, Color.White, new SlowDown(0.94f), new AfterImageTrail(0.7f), new SetMask(Helpers.RadialMask, 0.9f));
-                    }
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.25f));
+                    EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 6, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, Color.White, new SlowDown(0.94f), new AfterImageTrail(0.7f), new SetMask(Helpers.RadialMask, 0.9f), new AddVelocity(new Vector2(0, -1)));
                 }
                 else
                 {
                     eyePos = (Vector2.Normalize(target.Center - npc.Center) * (3 * eyeRecoil)) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer1 / 20f));
 
-                    Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 128);
+                    Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 96);
 
                     EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.12f * ((timer1 - 10) / 40f), 0, 1)));
-                    EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 7, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, addColor, new SlowDown(0.941f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, 0.9f));
+                    EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, addColor, new SlowDown(0.943f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, 0.9f));
                 }
 
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 1f);
@@ -155,21 +174,6 @@ namespace EEMod.NPCs.CoralReefs
                 music = -1;
                 if (timer1 < 300 * 60) //If recharging
                 {
-                    #region Recharging particles
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.18f));
-                    Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
-                    Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
-                    Vector2 three = new Vector2(Main.rand.Next(-8, 8), 8).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
-                    Vector2 four = new Vector2(Main.rand.Next(-8, 8), -8).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
-                    Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + npc.ai[3] / 60f);
-
-                    int scale = 4;
-                    EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                    EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                    EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                    EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                    #endregion
-
                     #region Recharging eye
                     if (npc.ai[2] == 0)
                     {
@@ -203,6 +207,21 @@ namespace EEMod.NPCs.CoralReefs
 
                     eyeAlpha = npc.ai[0] / 5f;
                 }
+
+                #region Recharging particles
+                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.18f));
+                Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
+                Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
+                Vector2 three = new Vector2(Main.rand.Next(-8, 8), 8).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
+                Vector2 four = new Vector2(Main.rand.Next(-8, 8), -8).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
+                Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + npc.ai[3] / 60f);
+
+                int scale = 4;
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.Particles.Get("Main").SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/Crystal"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                #endregion
 
                 #region Drawing eye
                 eyePos = (new Vector2(0, 1) * 3) + npc.Center + new Vector2(-2, 2) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * npc.ai[0]);
@@ -242,18 +261,25 @@ namespace EEMod.NPCs.CoralReefs
             {
                 if (npc.ai[0] <= 20 && !phase2Transition)
                 {
-                    if (eyePos == (Vector2.Normalize(new Vector2(0, -1) * 6) + npc.Center + new Vector2(-2, 2)))
+                    if (npc.ai[2] < 0) npc.ai[2] = 0;
+                    npc.ai[2]++;
+
+                    //Screenshake
+
+                    if (npc.ai[2] % 3 == 0 && npc.ai[2] >= 120)
                     {
-                        if (npc.ai[2] == 0)
+                        Vector2 comedygru = target.Center + new Vector2(Main.rand.NextFloat(-Main.screenHeight / 2f, Main.screenHeight / 2f), (Main.screenHeight / 2f));
+                        while (Main.tile[(int)comedygru.X / 16, (int)comedygru.Y / 16].active() == true)
                         {
-                            Projectile proj = Projectile.NewProjectileDirect(eyePos + new Vector2(0, 24), new Vector2(0, -1), ModContent.ProjectileType<WideSpireLaser>(), 200, 6f);
-                            EEMod.primitives.CreateTrail(new SpirePrimTrail2(proj, Color.White, 8));
+                            comedygru = target.Center + new Vector2(Main.rand.NextFloat(-Main.screenWidth / 3f, Main.screenWidth / 3f), (-Main.screenHeight / 2f));
                         }
-                        npc.ai[2]++;
+
+                        Projectile.NewProjectile(comedygru, new Vector2(0, 1), ModContent.ProjectileType<SpireAquamarineChunk>(), 50, 2f);
                     }
-                    else
+
+                    if (npc.ai[2] >= 420)
                     {
-                        npc.ai[2] = 0;
+                        phase2Transition = true;
                     }
                 }
                 else
@@ -412,6 +438,11 @@ namespace EEMod.NPCs.CoralReefs
                 if (timer1 >= 300 * 60)
                 {
                     npc.ai[1]--;
+                    if (npc.ai[1] <= -60 * 15)
+                    {
+                        if(npc.ai[0] > 0) npc.ai[0]--;
+                    }
+
                     if (target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)
                     {
                         npc.ai[0]++;

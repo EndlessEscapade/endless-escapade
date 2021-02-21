@@ -106,7 +106,9 @@ namespace EEMod.Tiles.Foliage.Coral
 
                 if (active)
                 {
-                    if (spire.ai[0] <= 40 && spire.ai[0] > 20 && !dead) //If in first phase and projectile is not inactive
+                    AquamarineSpire spirespire = spire.modNPC as AquamarineSpire;
+
+                    if ((spire.ai[0] <= 40 && spire.ai[0] > 20 && !dead)) //If in first phase and projectile is not inactive
                     {
                         Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 48;
 
@@ -143,7 +145,7 @@ namespace EEMod.Tiles.Foliage.Coral
                         }
                     }
 
-                    if (spire.ai[0] <= 20 && spire.ai[0] > 0) //If in second phase and projectile is not inactive
+                    if (spire.ai[0] <= 20 && spire.ai[0] > 0 && spirespire.phase2Transition) //If in second phase and projectile is not inactive
                     {
                         Player target = Main.player[Helpers.GetNearestAlivePlayer(spire)];
 
@@ -207,7 +209,6 @@ namespace EEMod.Tiles.Foliage.Coral
         private int frameTimer;
         private int frameSpeed = 0;
 
-        private int cooldown = 240;
         private Color strikeColor;
         private int strikeTime;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -215,7 +216,7 @@ namespace EEMod.Tiles.Foliage.Coral
             if (spire != null)
             {
                 HeartBeat = spire.ai[3];
-                projectile.scale = 1f + (HeartBeat / 10f);
+                projectile.scale = 1f + (HeartBeat / 5f);
 
                 Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/AquamarineLamp1Glow");
                 Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Masks/SmoothFadeOut");
@@ -235,30 +236,33 @@ namespace EEMod.Tiles.Foliage.Coral
                     if (frame >= 8) frame = 0;
                 }
 
-                if (spire.ai[0] <= 40 && spire.ai[0] > 20 && !dead)
+                AquamarineSpire spirespire = spire.modNPC as AquamarineSpire; 
+                //(spire.ai[0] <= 20 && spire.ai[0] > 0 && active && !spirespire.phase2Transition)
+                if ((spire.ai[0] <= 40 && spire.ai[0] > 20 && !dead))
                 {
-                    AquamarineSpire spirespire = spire.modNPC as AquamarineSpire;
-
                     int tempint = (int)projectile.ai[1] + 1;
 
                     if ((projectile.ai[1] + 1) > spirespire.shields.Count - 1) tempint = 0;
 
                     if (!(spirespire.shields[tempint].modProjectile as AquamarineLamp1Glow).dead)
                     {
-                        Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * tempint) + Main.GameUpdateCount * 2)) * 48;
+                        Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * (projectile.ai[1] + 1)) + Main.GameUpdateCount * 2)) * 48;
 
-                        float n = 1 / (desiredVector - projectile.Center).Length();
-
-                        for (float k = 0; k < 1; k += n)
+                        if (Vector2.Distance(spire.Center, projectile.Center) <= 52)
                         {
-                            Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f)), (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                            float n = 1 / (desiredVector - projectile.Center).Length();
+
+                            for (float k = 0; k < 1; k += n)
+                            {
+                                Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f)), (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                            }
                         }
                     }
 
                     frame = 0;
                 }
                 
-                if (spire.ai[0] <= 20 && spire.ai[0] > 0 && active) //If in second phase and projectile is not inactive
+                if (spire.ai[0] <= 20 && spire.ai[0] > 0 && active && spirespire.phase2Transition) //If in second phase and projectile is not inactive
                 {
                     Vector2 desiredVector = desiredTarget + Vector2.UnitX.RotatedBy(speen + MathHelper.ToRadians((360f / projectile.ai[0]) * (projectile.ai[1] + 1))) * 128;
 
@@ -274,7 +278,7 @@ namespace EEMod.Tiles.Foliage.Coral
 
                 Vector2 diamondPos = projectile.Center + new Vector2(4 * (float)Math.Sin(Main.GameUpdateCount / 10f));
 
-                if (!active && !dead)
+                if (!active && !dead && Vector2.Distance(projectile.Center, origin) == 0)
                 {
                     EEMod.Particles.Get("Main").SetSpawningModules(new SpawnPeriodically(8, true));
                     Vector2 part = projectile.Center;
@@ -284,7 +288,10 @@ namespace EEMod.Tiles.Foliage.Coral
                 }
 
                 if(strikeTime > 0) strikeTime--;
-                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), new Rectangle(0, frame * 24, 22, 24), Lighting.GetColor((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)), 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
+
+                Helpers.DrawAdditive(mask, projectile.Center.ForDraw(), Color.White * (0.5f + (HeartBeat / 2f)), projectile.scale, projectile.rotation);
+
+                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), new Rectangle(0, frame * 24, 22, 24), lightColor, 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
                 Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), new Rectangle(0, frame * 24, 22, 24), Color.Lerp(Color.White * HeartBeat, strikeColor, strikeTime / 60f), 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
             }
             return false;

@@ -21,8 +21,8 @@ namespace EEMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 40;
+            projectile.width = 18;
+            projectile.height = 36;
             projectile.timeLeft = 30000;
             projectile.ignoreWater = true;
             projectile.hostile = true;
@@ -40,12 +40,13 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
-            
+            projectile.velocity.Y *= 1.003f;
+            projectile.rotation += projectile.velocity.Y / 128f;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.spriteBatch.Draw(mod.GetTexture("Projectiles/Enemy/SpireAquamarineChunkGlow"), projectile.Center.ForDraw(), Color.White * projectile.ai[0]);
+
         }
     }
 }

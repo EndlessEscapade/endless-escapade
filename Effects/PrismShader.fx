@@ -19,7 +19,7 @@ float4 White(float2 coords : TEXCOORD0) : COLOR0
     float4 white = float4(1, 1, 1,1);
     if (colour.a > 0)
     {
-        float clamper = clamp(0.8f - distance(alpha* shineSpeed, coords.x)*2,0,1)* colour2.r;
+        float clamper = clamp(0.8f - distance(alpha * shineSpeed, coords.x)*2,0,1)* colour2.r;
         colour.rgb = lerp(colour,white, clamper);
         colour.rgb *= shaderLerp;
     }
