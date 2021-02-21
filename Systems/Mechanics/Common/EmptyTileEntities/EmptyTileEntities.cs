@@ -154,8 +154,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 Vector2 Scaling = new Vector2(texture.Width / (float)Helpers.playerTexture.Width, texture.Height / (float)Helpers.playerTexture.Height);
                 float percX = (myPlayer.Center.X - DrawPos.X) / texture.Width;
                 float percY = (myPlayer.Center.Y - DrawPos.Y) / texture.Height;
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
                 EEMod.ReflectionShader.Parameters["alpha"].SetValue(lerp * 2 % 6);
                 EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
                 EEMod.ReflectionShader.Parameters["lightColour"].SetValue(colour.ToVector3());
@@ -167,8 +166,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 EEMod.ReflectionShader.Parameters["Scaling"].SetValue(Scaling);
                 EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
                 Main.spriteBatch.Draw(texture, (position * 16).ForDraw() + new Vector2(0, texture.Height), new Rectangle(0, 0, texture.Width, texture.Height), colour * alpha, rotation, new Vector2(0, texture.Height), 1f, SpriteEffects.None, 0f);
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
         }
 
     }

@@ -22,7 +22,7 @@ namespace EEMod
         public float shrinkSpeed;
         public bool LightingBlend;
         public float alphaFade = 14f;
-        public float MaskAlpha = 0.25f;
+        public float MaskAlpha = 0.5f;
         protected int RENDERDISTANCE => 2000;
         internal bool WithinDistance => Vector2.DistanceSquared(position, Main.LocalPlayer.position) < RENDERDISTANCE * RENDERDISTANCE;
         public float varScale;
@@ -65,7 +65,7 @@ namespace EEMod
             alpha = 1;
             shrinkSpeed = 0.99f;
             this.colour = colour ?? Color.White;
-            TrailLength = 18;
+            TrailLength = 8;
             Frame = new Rectangle(0, 0, 1, 1);
             PresetNoiseMask = masks;
             lightingColor = new Vector3(0,0,0);
@@ -122,14 +122,15 @@ namespace EEMod
             }
             Vector2 positionDraw = position.ForDraw();
             Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), new Rectangle(0, CurrentFrame*(Frame.Height / noOfFrames), Frame.Width,Frame.Height / noOfFrames), LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X/16,(int)PARALAXPOSITION.Y/16)*alpha : colour * alpha, rotation, Frame.Size() / 2, varScale, SpriteEffects.None, 0f);
-            if (PresetNoiseMask != null)
-                Helpers.DrawAdditiveFunky(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.3f, 0.34f);
+           
             OnDraw();
         }
 
         public void AdditiveCall(SpriteBatch spriteBatch)
         {
             Vector2 positionDraw = position.ForDraw();
+            if (PresetNoiseMask != null)
+                Helpers.DrawAdditiveFunkyNoBatch(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.4f, 0.34f);
             if (mask != null)
                 spriteBatch.Draw(mask, positionDraw.ParalaxX(paralax), mask.Bounds, colour * varScale * MaskAlpha, 0f, mask.TextureCenter(), 0.1f * varScale, SpriteEffects.None, 0f);
         }

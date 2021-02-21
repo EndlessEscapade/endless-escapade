@@ -11,18 +11,23 @@ namespace EEMod
 {
     public class ComponentManager<T> where T : Entity, IComponent
     {
-        List<T> Objects = new List<T>();
+        protected List<T> Objects = new List<T>();
+
+        protected virtual void OnUpdate() { }
         public void Update()
         {
-            foreach (T TV in Objects)
+            OnUpdate();
+            foreach (T TV in Objects.ToArray())
             {
-                TV.Update();
+                if (TV != null)
+                    TV.Update();
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (T TV in Objects)
+            foreach (T TV in Objects.ToArray())
             {
+                if(TV != null)
                 TV.Draw(spriteBatch);
             }
         }
