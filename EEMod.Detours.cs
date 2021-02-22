@@ -186,7 +186,7 @@ namespace EEMod
             {
                 Vector2 pos = Bubbles[i].Position + new Vector2(Main.LocalPlayer.Center.X * Bubbles[i].paralax, 0);
                 Color drawColour = Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16).MultiplyRGB(new Color(Bubbles[i].alpha, Bubbles[i].alpha, Bubbles[i].alpha));
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ForegroundParticles/Bob1"), pos.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Particles/ForegroundParticles/Bob1"), pos.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
             }
         }
 

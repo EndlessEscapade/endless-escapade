@@ -94,7 +94,7 @@ namespace EEMod
             bool DeltaLeft = CenterBuffer.X > position.X && Main.LocalPlayer.Center.X < position.X;
             bool DeltaRight = CenterBuffer.X < position.X && Main.LocalPlayer.Center.X > position.X;
             bool isColliding = new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y, 32, 48).Intersects(new Rectangle((int)position.X, (int)position.Y - Texture.Height, Texture.Width, Texture.Height));
-            Texture2D leaft = ModContent.GetInstance<EEMod>().GetTexture("ForegroundParticles/Leaf");
+            Texture2D leaft = ModContent.GetInstance<EEMod>().GetTexture("Particles/ForegroundParticles/Leaf");
             float vel = Main.LocalPlayer.velocity.X;
             if (isColliding)
             {
