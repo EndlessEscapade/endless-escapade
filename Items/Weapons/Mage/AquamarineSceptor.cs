@@ -36,7 +36,7 @@ namespace EEMod.Items.Weapons.Mage
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SceptorLaser>();
-            item.shootSpeed = 12f;
+            item.shootSpeed = 6f;
             item.UseSound = SoundID.Item115;
         }
 
@@ -50,8 +50,8 @@ namespace EEMod.Items.Weapons.Mage
             //Helpers.TexToDust("thonk",Main.MouseWorld,5,1,100);
             if (player.altFunctionUse == 0)
             {
-                Vector2 comedy = Vector2.Normalize(Main.MouseWorld - player.Center);
-                Projectile projectile2 = Projectile.NewProjectileDirect(player.Center, comedy, ModContent.ProjectileType<ShimmerShotProj1>(), 10, 10f, Main.myPlayer);
+                Vector2 comedy = Vector2.Normalize(Main.MouseWorld - player.Center) * 2;
+                Projectile projectile2 = Projectile.NewProjectileDirect(player.Center, comedy, ModContent.ProjectileType<SceptorLaser>(), 10, 10f, Main.myPlayer);
 
                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 40));
             }
@@ -66,9 +66,6 @@ namespace EEMod.Items.Weapons.Mage
                     Projectile projectile = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, position.X, position.Y);
                 }
             }
-
-            float STDev = 4f;
-            float gaussian = ((1 / (MathHelper.TwoPi * (STDev * STDev))) * MathHelper.E) -(((x * x) + (y * y)) / (2 * (STDev * STDev)));
 
             return false;
 

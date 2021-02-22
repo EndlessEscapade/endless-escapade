@@ -19,7 +19,7 @@ namespace EEMod.Projectiles.Mage
         {
             projectile.width = 12;
             projectile.height = 12;
-            projectile.timeLeft = 250;
+            projectile.timeLeft = 600;
             projectile.ignoreWater = true;
             projectile.hostile = false;
             projectile.friendly = true;

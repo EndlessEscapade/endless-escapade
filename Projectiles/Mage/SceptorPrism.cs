@@ -21,8 +21,8 @@ namespace EEMod.Projectiles.Mage
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
+            projectile.width = 30;
+            projectile.height = 38;
             projectile.timeLeft = 1200;
             projectile.ignoreWater = true;
             projectile.hostile = false;
@@ -49,18 +49,26 @@ namespace EEMod.Projectiles.Mage
                 projectile.velocity = Vector2.Zero;
             }
 
-            var list = Main.projectile.Where(x => Vector2.Distance(projectile.Center, x.Center) <= 24);
-            foreach (var proj in list)
+            if (projectile.timeLeft > 32)
             {
-                if (proj.type == ModContent.ProjectileType<SceptorLaser>() && proj.active && proj.ai[0] == 0)
+                var list = Main.projectile.Where(x => Vector2.Distance(projectile.Center, x.Center) <= 24);
+                foreach (var proj in list)
                 {
-                    for (float i = -0.6f; i <= 0.6f; i += 0.3f)
+                    if (proj.type == ModContent.ProjectileType<SceptorLaser>() && proj.active && proj.ai[0] == 0)
                     {
-                        int proj2 = Projectile.NewProjectile(proj.Center - (Vector2.UnitY.RotatedBy((double)i + projectile.rotation) * 60), 5 * Vector2.UnitY.RotatedBy((double)i + projectile.rotation), ModContent.ProjectileType<ShimmerShotProj1>(), projectile.damage, projectile.knockBack, projectile.owner, 0, 1);
-                        EEMod.primitives.CreateTrail(new SceptorPrimTrailTwo(Main.projectile[proj2]));
+                        for (float i = -0.6f; i <= 0.6f; i += 0.4f)
+                        {
+                            Projectile proj2 = Projectile.NewProjectileDirect(proj.Center - (Vector2.UnitY.RotatedBy((i + Math.PI) + projectile.rotation) * 60), 3 * Vector2.UnitY.RotatedBy((i + Math.PI) + projectile.rotation), ModContent.ProjectileType<ShimmerShotProj1>(), projectile.damage, projectile.knockBack, projectile.owner, 0, 1);
+                            EEMod.primitives.CreateTrail(new SpirePrimTrail(proj2, Color.Lerp(Color.Cyan, Color.Magenta, i / ((i + 0.6f) / 1.2f)), 40));
+                        }
+                        proj.Kill();
+                        projectile.timeLeft = 32;
                     }
-                    projectile.timeLeft = 6;
                 }
+            }
+            else
+            {
+                projectile.alpha += 8;
             }
         }
 
@@ -80,8 +88,8 @@ namespace EEMod.Projectiles.Mage
             EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
             EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/PrismLightMap"));
-            EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
-            EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3());
+            EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3() * (1 / (1 + projectile.alpha)));
+            EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3() * (1 / (1 + projectile.alpha)));
             EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.PrismShader.CurrentTechnique.Passes[0].Apply();
             Vector2 drawOrigin = new Vector2(projectile.width / 2, projectile.height / 2);
