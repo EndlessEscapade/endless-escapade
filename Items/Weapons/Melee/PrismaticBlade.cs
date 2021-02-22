@@ -25,9 +25,9 @@ namespace EEMod.Items.Weapons.Melee
             item.rare = ItemRarityID.Green;
             item.autoReuse = true;
             item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 5f; // 5 and 1/4
-            item.useTime = 45;
-            item.useAnimation = 45;
+            item.knockBack = 4f; // 5 and 1/4
+            item.useTime = 35;
+            item.useAnimation = 35;
             item.value = Item.buyPrice(0, 0, 30, 0);
             item.damage = 50;
             item.width = 54;
@@ -45,6 +45,9 @@ namespace EEMod.Items.Weapons.Melee
         {
             if (player.altFunctionUse == 2)
             {
+                item.useStyle = ItemUseStyleID.Stabbing;
+                item.useAnimation = 15;
+                item.noMelee = true;
                 if (swordArray[0] != default)
                 {
                     for (int i = 0; i < swordsActive; i++)
@@ -61,6 +64,12 @@ namespace EEMod.Items.Weapons.Melee
                     }
                     swordsActive = 0;
                 }
+            }
+            else
+            {
+                item.useStyle = ItemUseStyleID.SwingThrow;
+                item.useAnimation = 35;
+                item.noMelee = false;
             }
             return base.UseItem(player);
         }

@@ -28,46 +28,35 @@ namespace EEMod.Projectiles.Mage
             projectile.hide = true;
         }
 
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            Bounce(projectile.modProjectile, oldVelocity);
+            projectile.ai[0]++;
+            return false;
+        }
+
+        public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1.5f)
+        {
+            Projectile projectile = modProj.projectile;
+            if (projectile.velocity.X != oldVelocity.X)
+            {
+                projectile.velocity.X = -oldVelocity.X * bouncyness;
+            }
+
+            if (projectile.velocity.Y != oldVelocity.Y)
+            {
+                projectile.velocity.Y = -oldVelocity.Y * bouncyness;
+            }
+            Main.PlaySound(SoundID.DD2_WitherBeastDeath, projectile.Center);
+        }
+
         public override void AI()
         {
-            if (projectile.timeLeft > 6)
+            if (projectile.ai[0] >= 3)
             {
-                var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-                foreach (var proj in list)
-                {
-                    if (proj.type == ModContent.ProjectileType<SceptorPrism>() && proj.active)
-                    {
-                        for (float i = -0.6f; i <= 0.6f; i += 0.3f)
-                        {
-                            int proj2 = Projectile.NewProjectile(proj.Center - (Vector2.UnitY.RotatedBy((double)i) * 60), 5 * Vector2.UnitY.RotatedBy((double)i), ModContent.ProjectileType<SceptorLaserTwo>(), projectile.damage, projectile.knockBack, projectile.owner);
-                            EEMod.primitives.CreateTrail(new SceptorPrimTrailTwo(Main.projectile[proj2]));
-                        }
-                        projectile.timeLeft = 6;
-                    }
-                }
+                projectile.Kill();
             }
         }
 
-    }
-    public class SceptorLaserTwo : ModProjectile
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Aquamarine Laser");
-        }
-
-        public override void SetDefaults()
-        {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.timeLeft = 120;
-            projectile.ignoreWater = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 12;
-            projectile.tileCollide = false;
-            projectile.hide = true;
-        }
     }
 }

@@ -213,7 +213,7 @@ namespace EEMod.Tiles.Foliage.Coral
         private int strikeTime;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (spire != null)
+            if (spire != null && Vector2.DistanceSquared(Main.LocalPlayer.Center, projectile.Center) <= (192 * 16) * (192 * 16))
             {
                 HeartBeat = spire.ai[3];
                 projectile.scale = 1f + (HeartBeat / 5f);

@@ -16,7 +16,7 @@ namespace EEMod.Projectiles.Mage
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sceptor Prism");
+            DisplayName.SetDefault("Aquamarine Prism");
         }
 
         public override void SetDefaults()
@@ -34,7 +34,7 @@ namespace EEMod.Projectiles.Mage
         {
             Player player = Main.player[projectile.owner];
 
-            projectile.rotation = Vector2.Normalize(player.Center - projectile.Center).ToRotation();
+            projectile.rotation = Vector2.Normalize(player.Center - projectile.Center).ToRotation() - MathHelper.PiOver2;
             Vector2 posToBe = new Vector2(projectile.ai[0], projectile.ai[1]);
             Vector2 direction = posToBe - projectile.position;
             float speed = (float)Math.Sqrt(direction.Length()) / 2;
@@ -49,10 +49,10 @@ namespace EEMod.Projectiles.Mage
                 projectile.velocity = Vector2.Zero;
             }
 
-            var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
+            var list = Main.projectile.Where(x => Vector2.Distance(projectile.Center, x.Center) <= 24);
             foreach (var proj in list)
             {
-                if (proj.type == ModContent.ProjectileType<SceptorPrism>() && proj.active && proj.ai[1] == 0)
+                if (proj.type == ModContent.ProjectileType<SceptorLaser>() && proj.active && proj.ai[0] == 0)
                 {
                     for (float i = -0.6f; i <= 0.6f; i += 0.3f)
                     {

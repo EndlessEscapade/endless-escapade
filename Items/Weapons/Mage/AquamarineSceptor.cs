@@ -27,17 +27,16 @@ namespace EEMod.Items.Weapons.Mage
             item.noMelee = true;
             item.knockBack = 1f;
             item.value = Item.sellPrice(0, 0, 21);
-            item.mana = 7;
-            item.shootSpeed = 4f;
-            item.useTime = 35;
-            item.useAnimation = 35;
+            item.mana = 15;
+            item.useTime = 45;
+            item.useAnimation = 45;
             item.rare = ItemRarityID.Orange;
             item.width = 20;
             item.height = 20;
             item.useStyle = ItemUseStyleID.HoldingOut;
             item.autoReuse = true;
             item.shoot = ModContent.ProjectileType<SceptorLaser>();
-            item.shootSpeed = 5;
+            item.shootSpeed = 12f;
             item.UseSound = SoundID.Item115;
         }
 
@@ -67,7 +66,12 @@ namespace EEMod.Items.Weapons.Mage
                     Projectile projectile = Projectile.NewProjectileDirect(player.Center, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI, position.X, position.Y);
                 }
             }
+
+            float STDev = 4f;
+            float gaussian = ((1 / (MathHelper.TwoPi * (STDev * STDev))) * MathHelper.E) -(((x * x) + (y * y)) / (2 * (STDev * STDev)));
+
             return false;
+
         }
 
         public override bool AltFunctionUse(Player player)
