@@ -215,7 +215,7 @@ namespace EEMod
             acceleration += Allignment(50) * 1f;
             acceleration += Cohesion(50) * 1f;
             acceleration += AvoidHooman(50) * 4f;
-            //acceleration += AvoidTiles(50) * 2.5f;
+            acceleration += AvoidTiles(50) * 2.5f;
             ApplyForces();
         }
     }

@@ -53,12 +53,12 @@ namespace EEMod
                         Vector2 addonDR = new Vector2(0, d.Height / 2 * (float)Math.Cos(rot + 3.14f));
                         if (i % 2 == 0)
                         {
-                            Helpers.DrawChain(b,ChainConneccPos + addonB, LastChainConneccPos + addonB,0,2);
+                            Helpers.DrawChain(a,ChainConneccPos + addonB, LastChainConneccPos + addonB,0,2);
                             Helpers.DrawParticlesAlongLine(LastChainConneccPos, ChainConneccPos, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
                         }
                         else
                         {
-                            Helpers.DrawChain(b, ChainConneccPos + addonB, LastChainConneccPos + addonB, 0, 2);
+                            Helpers.DrawChain(c, ChainConneccPos + addonB, LastChainConneccPos + addonB, 0, 2);
                             Helpers.DrawParticlesAlongLine(LastChainConneccPos, ChainConneccPos, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
                         }
                     }
