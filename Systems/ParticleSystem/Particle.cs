@@ -130,9 +130,9 @@ namespace EEMod
         {
             Vector2 positionDraw = position.ForDraw();
             if (PresetNoiseMask != null)
-                Helpers.DrawAdditiveFunkyNoBatch(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.4f, 0.34f);
+                Helpers.DrawAdditiveFunkyNoBatch(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha * 2f, 0.4f, 0.34f);
             if (mask != null)
-                spriteBatch.Draw(mask, positionDraw.ParalaxX(paralax), mask.Bounds, colour * varScale * MaskAlpha, 0f, mask.TextureCenter(), 0.1f * varScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(mask, positionDraw.ParalaxX(paralax), mask.Bounds, colour * varScale * MaskAlpha * 2f, 0f, mask.TextureCenter(), 0.1f * varScale, SpriteEffects.None, 0f);
         }
     }
     class TestModule : IParticleModule

@@ -424,7 +424,7 @@ namespace EEMod
                     }
 
                     return true;
-                }, InterfaceScaleType.UI);
+                }, InterfaceScaleType.Game);
                 layers.Insert(mouseTextIndex, EEInterfaceLayer);
             }
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
