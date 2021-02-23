@@ -31,14 +31,5 @@ namespace EEMod.Items.Consumables
             player.AddBuff(BuffID.Swiftness, 60 * 60);
             return true;
         }
-
-        public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<OrangeJuice>(), 1);
-            recipe.AddTile(TileID.Kegs);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
-        }
     }
 }

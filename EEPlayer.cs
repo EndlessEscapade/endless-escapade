@@ -513,7 +513,7 @@ namespace EEMod
             Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
             if (Shake > 0) { Shake--; }
-            
+
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
@@ -755,7 +755,7 @@ namespace EEMod
             if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
             {
                 float gottenParalax = Main.rand.NextFloat(1, 1.5f);
-                EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, GetInstance<EEMod>().GetTexture("ForegroundParticles/KelpLeaf"), gottenParalax, 1 - (gottenParalax - 1)/1.2f, new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new RotateTexture(0.03f), new SetLightingBlend(true), new SetAnimData(6, 5));
+                EEMod.Particles.Get("Main").SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, GetInstance<EEMod>().GetTexture("Particles/ForegroundParticles/KelpLeaf"), gottenParalax, 1 - (gottenParalax - 1)/1.2f, new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new RotateTexture(0.03f), new SetLightingBlend(true), new SetAnimData(6, 5));
             }
             if (playingGame)
             {

@@ -99,10 +99,6 @@ namespace EEMod
             Main.spriteBatch.End();
         }
 
-        public void TestParticleSystem()
-        {
-
-        }
 
         public override void Unload()
         {
@@ -315,6 +311,7 @@ namespace EEMod
         public ComponentManager<TileObjVisual> TVH;
         public override void Load()
         {
+            AutoLoadMechanics.Load();
             playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
             TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
@@ -417,10 +414,9 @@ namespace EEMod
                     if (lastGameTime != null)
                     {
                         UI.Draw(lastGameTime);
-                        Particles.Draw();
-                        TestParticleSystem();
                         //UpdateNet();
                         UpdateGame(lastGameTime);
+                        AfterTiles?.Invoke(Main.spriteBatch);
                         //UpdateSpiderPort();
                         //   UpdateJellyfishTesting();
                         UpdateVerlet();
@@ -431,7 +427,7 @@ namespace EEMod
                     }
 
                     return true;
-                }, InterfaceScaleType.UI);
+                }, InterfaceScaleType.Game);
                 layers.Insert(mouseTextIndex, EEInterfaceLayer);
             }
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)

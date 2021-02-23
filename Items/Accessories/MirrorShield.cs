@@ -1,4 +1,4 @@
-﻿using Terraria.ID;
+﻿/*using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Items.Accessories
@@ -8,7 +8,6 @@ namespace EEMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mirror Shield");
-            //Tooltip.SetDefault("The power of an ancient dragon stirs within you\nReminds you of Lake Floria");
         }
 
         public override void SetDefaults()
@@ -19,4 +18,4 @@ namespace EEMod.Items.Accessories
             item.height = 34;
         }
     }
-}
+}*/

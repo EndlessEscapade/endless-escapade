@@ -1,4 +1,4 @@
-using EEMod.Items.Materials.Fruit;
+using EEMod.Items.Materials;
 using EEMod.Projectiles.Ranged;
 using Terraria;
 using Terraria.ID;
