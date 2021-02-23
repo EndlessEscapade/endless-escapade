@@ -1,5 +1,4 @@
 ﻿using EEMod.Items.Materials;
-using EEMod.Items.Materials.Fruit;
 using EEMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;

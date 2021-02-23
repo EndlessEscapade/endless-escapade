@@ -1,4 +1,4 @@
-﻿using Terraria.ID;
+﻿/*using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Items.Accessories
@@ -20,4 +20,4 @@ namespace EEMod.Items.Accessories
             item.height = 34;
         }
     }
-}
+}*/

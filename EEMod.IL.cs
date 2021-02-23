@@ -34,8 +34,7 @@ namespace EEMod
     {
         //private delegate void D(ref VertexColors colors);
 
-        private readonly List<Vector2> _lightPoints = new List<Vector2>();
-        private readonly List<Color> _colorPoints = new List<Color>();
+
         private float _alphaBG;
         private Vector2 _sunPos;
         private float _globalAlpha;
@@ -428,95 +427,23 @@ namespace EEMod
             }
         }
 
-        public void UpdateLight()
-        {
-            for (int i = 0; i < maxNumberOfLights; i++)
-            {
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:LightSource{i}"].IsActive())
-                {
-                    Filters.Scene.Deactivate($"EEMod:LightSource{i}");
-                }
-            }
-
-            for (int i = 0; i < maxNumberOfLights; i++)
-            {
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:LightSource{i}"].IsActive())
-                {
-                    Filters.Scene.Activate($"EEMod:LightSource{i}", Vector2.Zero).GetShader().UseIntensity(0f);
-                }
-            }
-
-            List<Vector2> listTransformable = new List<Vector2>();
-
-            for (int i = 0; i < _lightPoints.Count; i++)
-            {
-                listTransformable.Add((_lightPoints[i] * 16 - Main.screenPosition) / new Vector2(Main.screenWidth, Main.screenHeight));
-
-                if (i < maxNumberOfLights)
-                {
-                    Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient"),(_lightPoints[i] * 16).ForDraw(), _colorPoints[i]*0.2f, 0.5f);
-                    //Filters.Scene[$"EEMod:LightSource{i}"].GetShader().UseImageOffset(listTransformable[i]).UseIntensity(0.0045f).UseColor(_colorPoints[i]);
-                }
-            }
-
-            _lightPoints.Clear();
-            _colorPoints.Clear();
-            listTransformable.Clear();
-        }
-
-        public void DrawNoiseSurfacing()
-        {
-            Vector2 mouseTilePos = Main.MouseWorld / 16;
-            if (WorldGen.InWorld((int)mouseTilePos.X, (int)mouseTilePos.Y, 10) )
-            {
-                Tile tile = Framing.GetTileSafely((int)mouseTilePos.X, (int)mouseTilePos.Y);
-
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = Vector2.Zero;
-                if (tile != null)
-                {
-                    if (tile.active() && tile.type == ModContent.TileType<OrbHolder>())
-                    {
-                        speed += 0.002f;
-
-                        if (speed % 0.5f < 0.002f)
-                        {
-                            seed = Main.rand.NextFloat(0, 1);
-                        }
-
-                        Main.spriteBatch.End();
-                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-                        NoiseSurfacing.Parameters["yCoord"].SetValue(seed);
-                        NoiseSurfacing.Parameters["t"].SetValue((0.25f - Math.Abs(0.25f - (speed % 0.5f))) * 4);
-                        NoiseSurfacing.Parameters["xDis"].SetValue(speed % 0.5f);
-                        NoiseSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("noise"));
-                        NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
-
-                        Vector2 position = new Vector2((int)mouseTilePos.X * 16, (int)mouseTilePos.Y * 16) - new Vector2(tile.frameX / 18 * 16, tile.frameY / 18 * 16);
-
-                        Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NoiseSurfacingTest"), position.ForDraw() + new Vector2(15, -20), Color.Purple);
-                        Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = position;
-                        Main.spriteBatch.End();
-                        Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-                    }
-                }
-            }
-        }
+        
         int screenLerp;
         public void DrawSky()
         {
             switch (loadingChooseImage)
             {
                 case 0:
-                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("UI/LoadingScreenImages/LoadingScreen1");
                     break;
                 case 1:
-                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen2");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("UI/LoadingScreenImages/LoadingScreen2");
                     break;
                 case 2:
-                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen3");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("UI/LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen4");
+                    _texture2 = ModContent.GetInstance<EEMod>().GetTexture("UI/LoadingScreenImages/LoadingScreen4");
                     break;
             }
             switch (loadingChooseImage)

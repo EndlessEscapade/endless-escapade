@@ -1,4 +1,3 @@
-using EEMod.Items.Materials.Fruit;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,7 +39,7 @@ namespace EEMod.Items.Consumables
         public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.Bass, 1);
+            recipe.AddIngredient(ModContent.ItemType<OrangeJuice>(), 1);
             recipe.AddIngredient(ModContent.ItemType<Kelp>(), 10);
             recipe.AddTile(TileID.CookingPots);
             recipe.SetResult(this);
