@@ -158,7 +158,7 @@ namespace EEMod.NPCs.CoralReefs
 
                     Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 96);
 
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.12f * ((timer1 - 10) / 40f), 0, 1)));
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.25f * ((timer1 - 10) / 40f), 0, 1)));
                     EEMod.Particles.Get("Main").SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, addColor, new SlowDown(0.943f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, 0.9f));
                 }
 
@@ -347,13 +347,13 @@ namespace EEMod.NPCs.CoralReefs
                             case 0: //Blue laser
                                 Projectile projectile = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage, 0f, default, 0, 1);
                                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, Color.Blue, 80));
-                                Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), npc.Center);
                                 eyeRecoil = 0;
                                 break;
                             case 1: //Cyan laser
                                 Projectile projectile2 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f, default, 0, 2);
                                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Cyan, 40));
-                                Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), npc.Center);
 
                                 npc.ai[2] = -20;
                                 eyeRecoil = 0;
@@ -367,7 +367,7 @@ namespace EEMod.NPCs.CoralReefs
                                     Projectile projectile3 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - npc.Center)).RotatedBy(i / 4f) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f, default, 0, 3);
                                     EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile3, Color.Magenta, 30));
                                 }
-                                Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), npc.Center);
                                 eyeRecoil = 0;
                                 break;
                             case 3: //Purple laser
@@ -376,7 +376,7 @@ namespace EEMod.NPCs.CoralReefs
                                     Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - npc.Center)).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f, default, 0, 4);
                                     EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Purple, 30));
                                 }
-                                Main.PlaySound(SoundID.DD2_LightningBugDeath.SoundId, npc.Center, 2);
+                                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot").WithVolume(1f).WithPitchVariance(0f), npc.Center);
                                 eyeRecoil = 0;
                                 break;
                         }

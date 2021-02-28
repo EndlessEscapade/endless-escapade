@@ -17,11 +17,11 @@ float4 White(float2 coords : TEXCOORD0) : COLOR0
 
 	float4 colour2 = tex2D(tent, coords);
 	float pos = alpha - coords.y;
-	float4 white = float4(1, 1, 1, 1);
+	float4 white = float4(1, 1, 1, 0.7f);
 
 	if (colour.a > 0)
 	{
-		float clamper = clamp(0.4f - distance(alpha * shineSpeed, coords.y), 0 ,1) * colour2.r;
+		float clamper = clamp(0.3f - distance(alpha * shineSpeed, coords.y), 0, 1.3) * colour2.r;
 		colour.rgb = lerp(colour, white, clamper);
 		colour.rgb *= shaderLerp;
 	}

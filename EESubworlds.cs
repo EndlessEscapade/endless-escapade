@@ -643,11 +643,11 @@ namespace EEMod
             PlaceShipWalls(50, 145, ShipWalls);
             WorldGen.AddTrees();
 
-            PlaceAnyBuilding(100, 100, IceShrine);
+            /*PlaceAnyBuilding(100, 100, IceShrine);
             PlaceAnyBuilding(200, 100, FireShrine);
             PlaceAnyBuilding(300, 100, DesertShrine);
             PlaceAnyBuilding(400, 100, WaterShrine);
-            PlaceAnyBuilding(500, 100, LeafShrine);
+            PlaceAnyBuilding(500, 100, LeafShrine);*/
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;

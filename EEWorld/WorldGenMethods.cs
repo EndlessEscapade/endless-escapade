@@ -766,17 +766,33 @@ namespace EEMod.EEWorld
         {
             PlaceShipWalls(100, TileCheckWater(100) - 22, ShipWalls);
             PlaceShip(100, TileCheckWater(100) - 22, ShipTiles);
-            ree = new Vector2(100, TileCheckWater(100) - 22);
 
-            PlaceShipyard(140, TileCheckWater(100) - 22);
+            for(int i = 140; i < 300; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i, j);
+                    if (tile.liquid > 64)
+                    {
+                        break;
+                    }
+                    else if (tile.active())
+                    {
+                        PlaceShipyard(i, j - 11);
+                        return;
+                    }
+                }
+            }
         }
 
         public static void PlaceShipyard(int x, int y)
         {
-            PlaceStructure(x, y, FrontOfPier);
-            PlaceStructure(x + FrontOfPier.GetLength(1), y, MidPier1);
-            PlaceStructure(x + FrontOfPier.GetLength(1) + MidPier1.GetLength(1), y, MidPier2);
-            PlaceStructure(x + FrontOfPier.GetLength(1) + MidPier1.GetLength(1) + MidPier2.GetLength(1), y, EndOfPier);
+            PlaceStructure(x + EndOfPier.GetLength(1), y - 13, SailorHouse);
+
+            PlaceStructure(x, y, EndOfPier);
+            PlaceStructure(x - MidPier1.GetLength(1), y, MidPier1);
+            PlaceStructure(x - MidPier1.GetLength(1) - MidPier2.GetLength(1), y, MidPier2);
+            PlaceStructure(x - MidPier1.GetLength(1) - MidPier2.GetLength(1) - FrontOfPier.GetLength(1), y, FrontOfPier);
         }
 
         public static int TileCheckWater(int positionX)
@@ -1805,11 +1821,8 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static Vector2 ChestPos = Vector2.Zero;
-
-        public static void PlaceAnyBuilding(int i, int j, int[,,] shape)
+        /*public static void PlaceAnyBuilding(int i, int j, int[,,] shape)
         {
-            ChestPos = Vector2.Zero;
             for (int y = 0; y < shape.GetLength(0); y++)
             {
                 for (int x = 0; x < shape.GetLength(1); x++)
@@ -1866,8 +1879,8 @@ namespace EEMod.EEWorld
                                 tile.frameY = (byte)shape[y, x, 9];
                             }
 
-                            /*Debug.WriteLine("saifnaskdlfjnasldfjnalkdsfjnfalksjdfnalksjdnfalkdjnflaksdjfnalkdjfnakldjfnakldjfnalkjsdnflajsdnflakjsdnfklajsndf");
-                            WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GemsandChestTile>());*/
+                            Debug.WriteLine("saifnaskdlfjnasldfjnalkdsfjnfalksjdfnalksjdnfalkdjnflaksdjfnalkdjfnakldjfnakldjfnalkjsdnflajsdnflakjsdnfklajsndf");
+                            WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GemsandChestTile>());
                         }
 
 
@@ -1880,10 +1893,10 @@ namespace EEMod.EEWorld
                 WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y, 21);
                 Debug.WriteLine("Chest Placed");
             }
-        }
+        }*/
+
         public static void PlaceStructure(int i, int j, int[,,] shape)
         {
-            ChestPos = Vector2.Zero;
             for (int y = 0; y < shape.GetLength(0); y++)
             {
                 for (int x = 0; x < shape.GetLength(1); x++)
@@ -1896,16 +1909,13 @@ namespace EEMod.EEWorld
 
                         if (shape[y, x, 0] != 0 || shape[y, x, 1] != 0)
                         {
-                            if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() && ChestPos == Vector2.Zero)
+                            if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>()) //Make sure the tiles are empty
                             {
-                                ChestPos = new Vector2(k, l);
-                                for (int u = k; u < k + 2; u++)
+                                int chestID = WorldGen.PlaceChest(i, j, (ushort)ModContent.TileType<GemsandChestTile>(), false, 1);
+                                if (chestID != -1)
                                 {
-                                    for (int p = l; p < l + 2; p++)
-                                    {
-                                        tile.type = 0;
-                                        tile.active(false);
-                                    }
+                                    Chest chest = Main.chest[chestID];
+                                    chest.item[0].SetDefaults(ItemID.Actuator);
                                 }
                             }
 
@@ -1950,11 +1960,6 @@ namespace EEMod.EEWorld
 
                     }
                 }
-            }
-            if (ChestPos != Vector2.Zero)
-            {
-                WorldGen.PlaceChest((int)ChestPos.X, (int)ChestPos.Y, 21);
-                Debug.WriteLine("Chest Placed");
             }
         }
 

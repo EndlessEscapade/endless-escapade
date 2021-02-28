@@ -1,4 +1,4 @@
-using static EEMod.EEWorld.EEWorld. EndOfPierVals;
+using static EEMod.EEWorld.EEWorld.EndOfPierVals;
 using System;
 using System.Collections.Generic;
 using System.Linq;

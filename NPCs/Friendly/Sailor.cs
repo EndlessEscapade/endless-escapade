@@ -1,4 +1,4 @@
-/*using Terraria;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -69,47 +69,28 @@ namespace EEMod.NPCs.Friendly
 
         public override string GetChat()
         {
-            int partyGirl = NPC.FindFirstNPC(NPCID.PartyGirl);
-            if (partyGirl >= 0 && Main.rand.NextBool(4))
+            int angler = NPC.FindFirstNPC(NPCID.Angler);
+            if (angler >= 0)
             {
-                return "Can you please tell " + Main.npc[partyGirl].GivenName + " to stop decorating my house with colors?";
+                return "I'm overjoyed to hear that " + Main.npc[angler].GivenName + " is safe! I thought I lost him when that storm hit...";
             }
-            switch (Main.rand.Next(4))
+            else
             {
-                case 0:
-                    return "Sometimes I feel like I'm different from everyone else here.";
-                case 1:
-                    return "What's your favorite color? My favorite colors are white and black.";
-                case 2:
+                switch (Main.rand.Next(4))
                 {
-                    // Main.npcChatCornerItem shows a single item in the corner, like the Angler Quest chat.
-                    Main.npcChatCornerItem = ItemID.HiveBackpack;
-                    return $"Hey, if you find a [i:{ItemID.HiveBackpack}], I can upgrade it for you.";
+                    case 0:
+                        return "";
+                    case 1:
+                        return "My son... lost to the waves, so long ago...";
+                    case 2:
+                        return "I wonder if my son's alive...";
+                    case 3:
+                        return "The sound of the ocean is really soothing. You should stay here for a while, enjoy the sound of the tides against the Shipyard.";
+                    default:
+                        return "You say you want to sail the seas? I'd give you my boat if I had the materials to repair it... and maybe some money too.";
                 }
-                default:
-                    return "What? I don't have any arms or legs? Oh, don't be ridiculous!";
             }
         }
-
-        
-		// Consider using this alternate approach to choosing a random thing. Very useful for a variety of use cases.
-		// The WeightedRandom class needs "using Terraria.Utilities;" to use
-		public override string GetChat()
-		{
-			WeightedRandom<string> chat = new WeightedRandom<string>();
-			int partyGirl = NPC.FindFirstNPC(NPCID.PartyGirl);
-			if (partyGirl >= 0 && Main.rand.NextBool(4))
-			{
-				chat.Add("Can you please tell " + Main.npc[partyGirl].GivenName + " to stop decorating my house with colors?");
-			}
-			chat.Add("Sometimes I feel like I'm different from everyone else here.");
-			chat.Add("What's your favorite color? My favorite colors are white and black.");
-			chat.Add("What? I don't have any arms or legs? Oh, don't be ridiculous!");
-			chat.Add("This message has a weight of 5, meaning it appears 5 times more often.", 5.0);
-			chat.Add("This message has a weight of 0.1, meaning it appears 10 times as rare.", 0.1);
-			return chat; // chat is implicitly cast to a string. You can also do "return chat.Get();" if that makes you feel better
-		}
-		
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
@@ -147,7 +128,7 @@ namespace EEMod.NPCs.Friendly
             randExtraCooldown = 30;
         }
 
-        /*public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
+        public override void TownNPCAttackProj(ref int projType, ref int attackDelay)
         {
             projType = ProjectileID.Anchor;
             attackDelay = 1;
@@ -159,4 +140,4 @@ namespace EEMod.NPCs.Friendly
             randomOffset = 2f;
         }
     }
-}*/
+}
