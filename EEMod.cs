@@ -305,7 +305,6 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets);
             base.PreUpdateEntities();
-
         }
         public RenderTarget2D playerTarget;
         public ComponentManager<TileObjVisual> TVH;

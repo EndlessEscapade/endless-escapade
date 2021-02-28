@@ -192,10 +192,20 @@ namespace EEMod.EEWorld
                     MakeJaggedOval(sizeX + 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                     CreateNoise(!ensureNoise, 50, 50, 0.4f);
                     CreateNoise(!ensureNoise, 20, 20, 0.4f);
+                    RemoveStoneSlabs();
                     for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
                     {
                         for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
                         {
+                            bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Bottom;
+                            if (CorrectSpacing && Framing.GetTileSafely(i, j).type != ModContent.TileType<KelpVine>() && WorldGen.genRand.Next(2) == 0)
+                            {
+                                for (int a = 0; a < WorldGen.genRand.Next(5, 15); a++)
+                                {
+                                    if (!Framing.GetTileSafely(i, j + a).active())
+                                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>());
+                                }
+                            }
                             int buffer = 0;
                             for (int a = 0; a < 14; a++)
                             {
@@ -229,17 +239,26 @@ namespace EEMod.EEWorld
                     ModContent.TileType<GroundGlowCoral4>(),
                     ModContent.TileType<Wall4x3CoralL>(),
                     ModContent.TileType<Wall4x3CoralR>() },
-                    new Rectangle((int)TL.X, (int)TL.Y, sizeX*2, sizeY*2));
+                    new Rectangle((int)TL.X, (int)TL.Y, (int)TL.X + sizeX * 2, (int)TL.Y + sizeY * 2));
 
                     for (int i = (int)TL.X; i < (int)BR.X; i++)
                     {
                         for (int j = (int)TL.Y; j < (int)BR.Y; j++)
                         {
+                            bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Bottom;
+                            if (CorrectSpacing && Framing.GetTileSafely(i, j).type != ModContent.TileType<KelpVine>() && WorldGen.genRand.Next(2) == 0)
+                            {
+                                for (int a = 0; a < WorldGen.genRand.Next(5, 15); a++)
+                                {
+                                    if (!Framing.GetTileSafely(i, j + a).active())
+                                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>());
+                                }
+                            }
                             if (TileCheck2(i, j) == 1 && Main.rand.NextBool(20))
                             {
                                 VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
                             }
-                            if(TileCheck2(i, j) == 2 && Main.rand.NextBool(3))
+                            if (TileCheck2(i, j) == 2 && Main.rand.NextBool(3))
                             {
                                 WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
                             }
@@ -744,7 +763,7 @@ namespace EEMod.EEWorld
                                             }
                                             break;
                                         case 2:
-                                            if(WorldGen.genRand.NextBool(20))
+                                            if (WorldGen.genRand.NextBool(20))
                                                 WorldGen.TileRunner(i, j, WorldGen.genRand.Next(2, 10), 1, ModContent.TileType<BulbousBlockTile>(), true);
                                             /*selection = WorldGen.genRand.Next(9);
                                             switch (selection)
@@ -785,7 +804,7 @@ namespace EEMod.EEWorld
                                                     WorldGen.PlaceTile(i, j - 1, ModContent.TileType<FloorGlow2x1Coral>());
                                                     break;
                                             }*/
-                    break;
+                                            break;
                                     }
                                 }
                                 break;
@@ -972,7 +991,7 @@ namespace EEMod.EEWorld
 
                                             if (!Main.tile[i, j - 1].active())
                                             {
-                                                if(!Main.tile[i + 1, j].active())
+                                                if (!Main.tile[i + 1, j].active())
                                                 {
                                                     ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.BottomLeft, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalDiagTopRight1, "Tiles/EmptyTileArrays/LuminantCoralCrystalDiagTopRight1", "ShaderAssets/CrystalLightMapDiagTopRight1");
                                                 }
