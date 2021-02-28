@@ -48,7 +48,6 @@ namespace EEMod
         public Vector2 Convert(Vector2 position) => EmptyTilePairsCache.TryGetValue(position, out var val) ? val : Vector2.Zero;
         public override void OnUpdate()
         {
-            Main.NewText(ETES.Count);
             if (Main.worldName == KeyID.CoralReefs)
             {
                 foreach (EmptyTileEntity ETE in ETES) // List because if the collection is modified an exception will be thrown
