@@ -70,6 +70,7 @@ namespace EEMod.EEWorld
             }*/
 
         }
+
         public static void MakeCoralRoom(int xPos, int yPos, int size, int type, bool ensureNoise = false)
         {
             int sizeX = size;
@@ -261,6 +262,31 @@ namespace EEMod.EEWorld
                             if (TileCheck2(i, j) == 2 && Main.rand.NextBool(3))
                             {
                                 WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
+                            }
+                        }
+                    }
+
+                    for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                    {
+                        for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                        {
+                            if (WorldGen.InWorld(i, j))
+                            {
+                                if (TileCheck2(i, j) != 0 && Main.rand.NextBool(8))
+                                {
+                                    if (EESubWorlds.GiantKelpRoots.Count == 0)
+                                    {
+                                        EESubWorlds.GiantKelpRoots.Add(new Vector2(i, j));
+                                    }
+                                    else
+                                    {
+                                        Vector2 lastPos = EESubWorlds.GiantKelpRoots[EESubWorlds.GiantKelpRoots.Count - 1];
+                                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
+                                        {
+                                            EESubWorlds.GiantKelpRoots.Add(new Vector2(i, j));
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

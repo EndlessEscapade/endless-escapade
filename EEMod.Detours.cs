@@ -525,7 +525,7 @@ namespace EEMod
                         break;
 
                     case 29:
-                        screenMessageText = "When\nBottomText";
+                        screenMessageText = "slight smile";
                         break;
 
                     case 30:
@@ -533,7 +533,7 @@ namespace EEMod
                         break;
 
                     case 31:
-                        screenMessageText = "All good art made by phanta";
+                        screenMessageText = "when the fruit salad is \nis yummy yummy";
                         break;
 
                     case 32:
@@ -565,7 +565,7 @@ namespace EEMod
                         break;
 
                     case 39:
-                        screenMessageText = "All good sprites made by Zarn";
+                        screenMessageText = "All good sprites made by Pyxis";
                         break;
 
                     case 40:
@@ -585,7 +585,7 @@ namespace EEMod
                         break;
 
                     case 44:
-                        screenMessageText = "All good weapons made by Graydee";
+                        screenMessageText = "janding restart!";
                         break;
 
                     case 45:
@@ -637,7 +637,7 @@ namespace EEMod
                         break;
 
                     case 57:
-                        screenMessageText = "owo";
+                        screenMessageText = "full moon with face";
                         break;
 
                     case 58:
@@ -673,7 +673,7 @@ namespace EEMod
                         break;
 
                     case 66:
-                        screenMessageText = "Tomato? Tomato.";
+                        screenMessageText = "When the impostor is Velma?!?!?";
                         break;
 
                     case 67:

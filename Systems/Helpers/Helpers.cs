@@ -407,6 +407,20 @@ namespace EEMod
                 Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
+        public static void DrawChain(Texture2D tex, int frameSize, int frameNum, Vector2 p1, Vector2 p2, float rotOffset = 0, float per = 1, Color color = default)
+        {
+            //USE IN PROPER HOOK PLZ THX
+            float width = tex.Width;
+            float length = (p1 - p2).Length();
+            float rotation = (p1 - p2).ToRotation();
+            Rectangle rect = new Rectangle(0, frameNum * frameSize, (int)width, frameSize);
+
+            for (float i = 0; i < 1; i += (width / length) * per)
+            {
+                Vector2 lerp = p1 + (p2 - p1) * i;
+                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, color, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
+            }
+        }
         public static Vector2 TraverseBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float t)
         {
             float x = X(t, startingPos.X, c1.X, c2.X, endPoints.X);
