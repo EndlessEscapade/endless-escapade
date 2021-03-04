@@ -266,9 +266,9 @@ namespace EEMod.EEWorld
                         }
                     }
 
-                    for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                     {
-                        for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                        for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
                         {
                             if (WorldGen.InWorld(i, j))
                             {
