@@ -34,7 +34,6 @@ namespace EEMod.Projectiles.Enemy
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             Bounce(projectile.modProjectile, oldVelocity);
-            projectile.ai[0]++;
             return false;
         }
 
@@ -44,7 +43,7 @@ namespace EEMod.Projectiles.Enemy
 
             for (int i = -1; i < 2; i += 1)
             {
-                Projectile projectile4 = Projectile.NewProjectileDirect(projectile.Center, (-oldVelocity).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), projectile.damage / 3, 0f, default, 0, 4);
+                Projectile projectile4 = Projectile.NewProjectileDirect(projectile.Center, (-oldVelocity).RotatedBy(i / 6f) * 2 * bouncyness, ModContent.ProjectileType<SpireLaser>(), projectile.damage / 3, 0f, default, 0, 4);
                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.Cyan, Color.Pink, (i + 1) / 2), 30));
             }
 
