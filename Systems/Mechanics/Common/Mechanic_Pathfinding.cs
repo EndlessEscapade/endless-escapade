@@ -37,7 +37,8 @@ namespace EEMod
         {
             try
             {
-                if (!(!Framing.GetTileSafely(a).active() || !Main.tileSolid[Framing.GetTileSafely(a).type]))
+                if(WorldGen.InWorld(a.X,a.Y,10))
+                  if (!(!Framing.GetTileSafely(a).active() || !Main.tileSolid[Framing.GetTileSafely(a).type]))
                     return new Point[] { a };
                 List<Point> pointCache = new List<Point>();
                 Point CurrentTilePos = a;
@@ -56,9 +57,11 @@ namespace EEMod
 
                 bool Valid(Point tile)
                 {
-                    Tile T = Framing.GetTileSafely(tile);
                     if (WorldGen.InWorld(tile.X, tile.Y, 10))
+                    {
+                        Tile T = Framing.GetTileSafely(tile);
                         return !ClosedList.ContainsKey(tile) && !T.active() || !Main.tileSolid[T.type] || TileID.Sets.Platforms[T.type];
+                    }
 
                     return false;
                 }
@@ -139,7 +142,9 @@ namespace EEMod
                         AddToOpenList(CurrentTilePos, TR, 1f);
 
                     CurrentTilePos = LowestPoint();
+                    if(!ClosedList.ContainsKey(CurrentTilePos))
                     ClosedList.Add(CurrentTilePos, OpenList[CurrentTilePos]);
+                    if (!OpenList.ContainsKey(CurrentTilePos))
                     OpenList.Remove(CurrentTilePos);
                     pointCache.Add(CurrentTilePos);
                 }

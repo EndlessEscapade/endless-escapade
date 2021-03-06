@@ -103,6 +103,28 @@ namespace EEMod.EEWorld
                 }
             });
 
+            BoundClause((int i, int j) =>
+                   {
+                       if (WorldGen.InWorld(i, j))
+                       {
+                           if (TileCheck2(i, j) != 0 && Main.rand.NextBool(8))
+                           {
+                               if (EESubWorlds.GiantKelpRoots.Count == 0)
+                               {
+                                   EESubWorlds.GiantKelpRoots.Add(new Vector2(i, j));
+                               }
+                               else
+                               {
+                                   Vector2 lastPos = EESubWorlds.GiantKelpRoots[EESubWorlds.GiantKelpRoots.Count - 1];
+                                   if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
+                                   {
+                                       EESubWorlds.GiantKelpRoots.Add(new Vector2(i, j));
+                                   }
+                               }
+                           }
+                       }
+                   });
+
             TilePopulate(new int[] {
                     ModContent.TileType<GlowHangCoral1>(),
                     ModContent.TileType<GroundGlowCoral>(),
@@ -113,20 +135,18 @@ namespace EEMod.EEWorld
                     ModContent.TileType<Wall4x3CoralR>() },
             new Rectangle(TL.X, TL.Y, TL.X + Size.X, TL.Y + Size.Y));
 
-            for (int i = TL.X; i < BR.X; i++)
+            BoundClause((int i, int j) =>
             {
-                for (int j = TL.Y; j < BR.Y; j++)
+                Tile tile = Framing.GetTileSafely(i, j - 1);
+                if (TileCheck2(i, j) == 1 && Main.rand.NextBool(20))
                 {
-                    if (TileCheck2(i, j) == 1 && Main.rand.NextBool(20))
-                    {
-                        VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
-                    }
-                    if (TileCheck2(i, j) == 2 && Main.rand.NextBool(3))
-                    {
-                        WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
-                    }
+                    VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
                 }
-            }
+                if ((!tile.active() || !Main.tileSolid[tile.type]) && TileCheck2(i, j) == 2)
+                {
+                    WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
+                }
+            });
         }
     }
 }

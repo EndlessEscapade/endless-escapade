@@ -75,7 +75,6 @@ namespace EEMod.Tiles
         {
             offsetY = 100000;
         }
-
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick() && Main.GameUpdateCount % 10 == 0)
@@ -94,16 +93,23 @@ namespace EEMod.Tiles
             Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/KelpLeafTile");
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Point tp = Main.LocalPlayer.position.ToTileCoordinates();
-            if (tp.Y > j - 4 && tp.Y < j && tp.X > i - 2 && tp.X < i + 1)
+            if (tp.Y > j - 4 && tp.Y < j && tp.X > i - 1 && tp.X < i + 1)
             {
-                float scaleY = 0.8f;
-                Tile tile = Framing.GetTileSafely(i, j);
-                tile.slope(5);
+                float scaleY = 1f;
+                Main.spriteBatch.Draw(texture, position + new Vector2(0, 16 * (1 - scaleY)), rect, color, 0f, default, new Vector2(1f, scaleY), SpriteEffects.None, 0f);
+            }
+            else if (tp.Y > j - 4 && tp.Y < j && tp.X > i - 2 && tp.X < i + 2)
+            {
+                float scaleY = 1.2f;
+                Main.spriteBatch.Draw(texture, position + new Vector2(0, 16 * (1 - scaleY)), rect, color, 0f, default, new Vector2(1f, scaleY), SpriteEffects.None, 0f);
+            }
+            else if(!Framing.GetTileSafely(i,j - 1).active() || !Main.tileSolid[Framing.GetTileSafely(i, j - 1).type])
+            {
+                float scaleY = 1.35f;
                 Main.spriteBatch.Draw(texture, position + new Vector2(0, 16 * (1 - scaleY)), rect, color, 0f, default, new Vector2(1f, scaleY), SpriteEffects.None, 0f);
             }
             else
             {
-                Main.tile[i, j].slope(0);
                 Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, new Vector2(1f, 1f), SpriteEffects.None, 0f);
             }
         }

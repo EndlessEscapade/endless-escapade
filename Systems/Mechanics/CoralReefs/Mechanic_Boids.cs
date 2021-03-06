@@ -18,33 +18,34 @@ namespace EEMod
 
         public override void OnDraw()
         {
-            /*foreach(Flock fishflock in fishflocks)
+            foreach(Flock fishflock in fishflocks)
             {
                 fishflock.Draw(Main.spriteBatch);
-            }*/
+            }
         }
 
         public override void OnUpdate()
         {
-            /*foreach (Flock fishflock in fishflocks)
+            foreach (Flock fishflock in fishflocks)
             {
                 fishflock.Update();
             }
 
-            if (ElapsedTicks % 200 == 0 && Main.worldName == KeyID.CoralReefs)
+            if (ElapsedTicks % 150 == 0 && Main.worldName == KeyID.CoralReefs)
             {
                 int randInt = Main.rand.Next(0, fishflocks.Count);
-
-                fishflocks[randInt].Populate(Main.LocalPlayer.Center, 40, 50f);
-            }*/
+                Vector2 rand = new Vector2(Main.rand.Next(-1800, 1800), Main.rand.Next(-1800, 1800));
+                if(rand.LengthSquared() > 700 * 700)
+                fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, 40, 50f);
+            }
         }
 
         public override void OnLoad()
         {
-            //fishflocks.Add(new Flock("Particles/Fish"));
-            //fishflocks.Add(new Flock("Particles/BetaFish"));
-            //fishflocks.Add(new Flock("Particles/Clownfish"));
-            //fishflocks.Add(new Flock("Particles/StripedBass"));
+            fishflocks.Add(new Flock("Particles/Fish"));
+            fishflocks.Add(new Flock("Particles/BetaFish"));
+            fishflocks.Add(new Flock("Particles/Clownfish"));
+            fishflocks.Add(new Flock("Particles/StripedBass"));
         }
 
         protected override Layer DrawLayering => Layer.BehindTiles;
@@ -213,9 +214,9 @@ namespace EEMod
         public void Draw(SpriteBatch spritebatch)
         {
             Point point = position.ParalaxX(-0f).ToTileCoordinates();
-            //Color lightColour = Lighting.GetColor(point.X, point.Y);
+            Color lightColour = Lighting.GetColor(point.X, point.Y);
             Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture(parent.flockTex);
-            spritebatch.Draw(texture, position.ForDraw().ParalaxX(-0f), texture.Bounds, Color.White, velocity.ToRotation(), Vector2.Zero, 0.5f, SpriteEffects.FlipHorizontally, 0f);
+            spritebatch.Draw(texture, position.ForDraw().ParalaxX(-0f), texture.Bounds, lightColour, velocity.ToRotation(), Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
         }
 
         public void ApplyForces()
@@ -244,7 +245,7 @@ namespace EEMod
 
         public Flock(string tex)
         {
-            tex = flockTex;
+            flockTex = tex;
         }
 
         internal void Populate(Vector2 position, int amount, float spread)
@@ -280,7 +281,7 @@ namespace EEMod
                             }
                         }
                     }
-                    if (Vector2.DistanceSquared(fish.position.ParalaxX(-0f), Main.LocalPlayer.Center) > 2000 * 2000)
+                    if (Vector2.DistanceSquared(fish.position.ParalaxX(-0f), Main.LocalPlayer.Center) > 3000 * 3000)
                         Objects.Remove(fish);
                 }
             }
