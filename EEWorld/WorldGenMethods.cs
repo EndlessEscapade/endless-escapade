@@ -22,6 +22,8 @@ using EEMod.VerletIntegration;
 using EEMod.Tiles.Furniture.Chests;
 using EEMod.Tiles.Foliage.Coral;
 using Terraria.ObjectData;
+using Microsoft.Xna.Framework.Graphics;
+using EEMod.Extensions;
 
 namespace EEMod.EEWorld
 {
