@@ -1,2 +1,0 @@
-c:\Users\user\Documents\My Games\Terraria\ModLoader\Mod Sources\Ruin\Projectiles\GraniteCaneProjectile.cs(61,81) : error CS0103: The name 'QwertyMethods' does not exist in the current context
-

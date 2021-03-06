@@ -1,4 +1,4 @@
-/*using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using System;
 using System.Linq;
 using Terraria;
@@ -31,21 +31,24 @@ namespace EEMod.Projectiles.Enemy
             projectile.tileCollide = true;
         }
 
-        private bool hitTile;
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.velocity = Vector2.Zero;
-            hitTile = true;
+            Bounce(projectile.modProjectile, oldVelocity);
+            projectile.ai[0]++;
             return false;
         }
 
-        public override void AI()
+        public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1.5f)
         {
-            if (hitTile)
+            Main.PlaySound(SoundID.DD2_WitherBeastDeath, projectile.Center);
+
+            for (int i = -1; i < 2; i += 1)
             {
-                projectile.ai[0]++;
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
+                Projectile projectile4 = Projectile.NewProjectileDirect(projectile.Center, (-oldVelocity).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), projectile.damage / 3, 0f, default, 0, 4);
+                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.Cyan, Color.Pink, (i + 1) / 2), 30));
             }
+
+            projectile.Kill();
         }
     }
-}*/
+}

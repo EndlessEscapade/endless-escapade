@@ -1,4 +1,4 @@
-using EEMod.Config;
+/*using EEMod.Config;
 using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -123,4 +123,4 @@ namespace EEMod.Projectiles
             //Main.spriteBatch.Draw(GetScreenTex(), Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
         }
     }
-}
+}*/

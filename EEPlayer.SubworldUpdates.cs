@@ -254,13 +254,13 @@ namespace EEMod
                 NPC.NewNPC(207 * 16, (120 - 30) * 16, NPCType<GreenSlimeGoBurr>());
             }
 
-            if (markerPlacer > 120 * 8)
+            /*if (markerPlacer > 120 * 8)
             {
                 if (markerPlacer == 5 && EEModConfigClient.Instance.ParticleEffects)
                 {
                     Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<EEParticle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), Main.rand.Next(100, 180));
                 }
-            }
+            }*/
         }
 
         public void UpdateWorld()
@@ -331,10 +331,10 @@ namespace EEMod
                     player.ClearBuff(BuffID.Cursed);
                 }
             }
-            if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
+            /*if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
             {
                 Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<EEParticle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), player.whoAmI);
-            }
+            }*/
             baseWorldName = Main.ActiveWorldFileData.Name;
             if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
             {
