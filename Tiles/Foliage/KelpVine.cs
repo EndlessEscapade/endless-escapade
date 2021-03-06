@@ -1,4 +1,5 @@
 
+using EEMod.Extensions;
 using EEMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -37,15 +38,14 @@ namespace EEMod.Tiles.Foliage
         {
             Tile tileAbove = Framing.GetTileSafely(i, j - 1);
             int type = -1;
-            if (tileAbove.active() && !tileAbove.bottomSlope())
+            if (tileAbove.active())
             {
                 type = tileAbove.type;
             }
 
-            if (type == ModContent.TileType<GemsandstoneTile>() || type == Type || type == ModContent.TileType<LightGemsandstoneTile>())
-            {
+           
                 return true;
-            }
+            
 
             WorldGen.KillTile(i, j);
             return true;
@@ -86,9 +86,31 @@ namespace EEMod.Tiles.Foliage
             }
         }
 
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            Color color = Color.White;
+            int frameX = Main.tile[i, j].frameX;
+            int frameY = Main.tile[i, j].frameY;
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+            int step = 0;
+            Tile tile = Framing.GetTileSafely(i, j);
+            while(tile.type == Type)
+            {
+                step++;
+                tile = Framing.GetTileSafely(i,j - step);
+            }
+            Vector2 position = new Vector2(i * 16 + (float)Math.Sin(Main.GameUpdateCount/(90f + i%10) + i)*(step * step * 0.1f), j * 16).ForDraw() + zero;
+            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpVine");
+            Texture2D texture2 = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpVineGlowmask");
+            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture2, position, rect, color * (float)Math.Sin(Main.GameUpdateCount / 90f + i + j), 0f, default, 1f, SpriteEffects.None, 0f);
 
+            return false;
         }
     }
 }

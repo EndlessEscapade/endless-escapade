@@ -37,9 +37,9 @@ namespace EEMod.Tiles.Foliage.Coral
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.9f;
-            g = 0.9f;
-            b = 0.9f;
+            r = 0.3f;
+            g = 0.3f;
+            b = 0.3f;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

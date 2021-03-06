@@ -1155,11 +1155,15 @@ namespace EEMod.EEWorld
             Tile tile7 = Framing.GetTileSafely(i - 2, j);
             Tile tile8 = Framing.GetTileSafely(i + 1, j);
             Tile tile9 = Framing.GetTileSafely(i + 2, j);
+            bool IsSolid(Tile tile)
+            {
+                return tile.active() || Main.tileSolid[tile.type];
+            }
             if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active())
             {
                 return 1;
             }
-            if (tile1.active() && !tile2.active() && !tile3.active() && tile4.active() && tile5.active())
+            if (tile1.active() && !IsSolid(tile2) && !IsSolid(tile3) && tile4.active() && tile5.active())
             {
                 return 2;
             }
@@ -1275,12 +1279,15 @@ namespace EEMod.EEWorld
                 {
                     int chosen = WorldGen.genRand.Next(types.Length);
                     int tile = types[chosen];
+
                     TileObjectData TOD = TileObjectData.GetTileData(tile, 0);
                     if (TOD.AnchorTop != AnchorData.Empty)
                     {
                         if (TileCheck2(i, j) == (int)TileSpacing.Bottom)
                         {
                             WorldGen.PlaceTile(i, j + 1, tile);
+                            for(int a = 0; a<TOD.Width; a++)
+                            Main.tile[i + a, j].slope(0);
                         }
                     }
                     else if (TOD.AnchorBottom != AnchorData.Empty)
@@ -1288,6 +1295,8 @@ namespace EEMod.EEWorld
                         if (TileCheck2(i, j) == (int)TileSpacing.Top)
                         {
                             WorldGen.PlaceTile(i, j - TOD.Height, tile);
+                            for (int a = 0; a < TOD.Width; a++)
+                            Main.tile[i + a, j].slope(0);
                         }
                     }
                     else if (TOD.AnchorLeft != AnchorData.Empty)
@@ -1362,14 +1371,40 @@ namespace EEMod.EEWorld
                 }
             }
         }
-
+        public static void CreateNoise(bool ensureN, Point position, Point size, int width, int height, float thresh)
+        {
+            perlinNoise = new PerlinNoiseFunction(2000, 2000, width, height, thresh);
+            Point Center = new Point(position.X + size.X / 2, position.Y + size.Y / 2);
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+            if (ensureN)
+            {
+                for (int i = position.X - width; i < position.X + size.X + width; i++)
+                {
+                    for (int j = position.Y - height; j < position.Y + size.Y + height; j++)
+                    {
+                        if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
+                        {
+                            if (i - (int)position.X < 1000 && j - (int)position.Y < 1000)
+                            {
+                                if (perlinNoiseFunction[i - position.X + width, j - position.Y + width] == 1 && OvalCheck(Center.X, Center.Y, i, j, size.X, size.Y) && WorldGen.InWorld(i, j))
+                                {
+                                    Tile tile = Framing.GetTileSafely(i, j);
+                                    tile.type = (ushort)GetGemsandType(j);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         public static void MakeJaggedOval(int width, int height, Vector2 startingPoint, int type, bool forced = false, int chance = 1)
         {
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (OvalCheck((int)(startingPoint.X + width / 2), (int)(startingPoint.Y + height / 2), i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)) && Main.rand.Next(chance) <= 1)
+                    Point Center = new Point((int)startingPoint.X + width / 2,(int)startingPoint.Y + height / 2);
+                    if (OvalCheck(Center.X, Center.Y, i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)) && Main.rand.Next(chance) <= 1)
                     {
                         WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
                     }
@@ -1381,7 +1416,24 @@ namespace EEMod.EEWorld
                 }
             }
         }
-
+        public static void MakeNoiseOval(int width, int height, Vector2 startingPoint, int type, bool forced = false, int chance = 1)
+        {
+            perlinNoise = new PerlinNoiseFunction(2000, 2000, 50, 50, 0.5f);
+            float[,] pFunction = perlinNoise.perlin2;
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    Point Center = new Point((int)startingPoint.X + width / 2, (int)startingPoint.Y + height / 2);
+                    int W = (int)(width * .5f + pFunction[i, j] * width*.5f);
+                    int H = (int)(height * .5f + pFunction[i, j] * height*.5f);
+                    if (OvalCheck(Center.X, Center.Y, i + (int)startingPoint.X, j + (int)startingPoint.Y, W, H) && Main.rand.Next(chance) <= 1)
+                    {
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
+                    }
+                }
+            }
+        }
         public static void RemoveStoneSlabs()
         {
             for (int i = 0; i < Main.maxTilesX; i++)

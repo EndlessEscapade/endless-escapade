@@ -1,42 +1,37 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EEMod.Tiles;
-using Terraria.ModLoader;
-using System.Threading.Tasks;
 using Terraria.ID;
+
 namespace EEMod.EEWorld
 {
     public partial class Boat2
     {
-        static readonly int A = 0;
-        static readonly int B = TileID.WoodBlock;
-        static readonly int C = TileID.PalmWood;
-        static readonly int D = TileID.Ebonwood;
-        static readonly int E = TileID.SpookyWood;
-        static readonly int F = TileID.Chain;
-        static readonly int G = TileID.RichMahogany;
-        static readonly int H = TileID.Rope;
-        static readonly int I = TileID.Platforms;
-        static readonly int J = TileID.DynastyWood;
-        static readonly int K = TileID.Glass;
-        static readonly int L = TileID.WoodenBeam;
-        static readonly int M = TileID.MinecartTrack;
-        static readonly int A0 = 0;
-        static readonly int B1 = WallID.ShadewoodFence;
-        static readonly int C2 = WallID.PalmWoodFence;
-        static readonly int D3 = WallID.RichMahoganyFence;
-        static readonly int E4 = WallID.Planked;
-        static readonly int F5 = WallID.RichMaogany;
-        static readonly int G6 = WallID.Sail;
-        static readonly int H7 = WallID.Wood;
-        static readonly int I8 = WallID.SpookyWood;
-        static readonly int J9 = WallID.PalmWood;
-        static readonly int K10 = WallID.BlueDungeonSlab;
-        static readonly int L11 = WallID.BorealWoodFence;
-        static readonly int M12 = WallID.Glass;
-        static readonly int[] Zero = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private static readonly int A = 0;
+        private static readonly int B = TileID.WoodBlock;
+        private static readonly int C = TileID.PalmWood;
+        private static readonly int D = TileID.Ebonwood;
+        private static readonly int E = TileID.SpookyWood;
+        private static readonly int F = TileID.Chain;
+        private static readonly int G = TileID.RichMahogany;
+        private static readonly int H = TileID.Rope;
+        private static readonly int I = TileID.Platforms;
+        private static readonly int J = TileID.DynastyWood;
+        private static readonly int K = TileID.Glass;
+        private static readonly int L = TileID.WoodenBeam;
+        private static readonly int M = TileID.MinecartTrack;
+        private static readonly int A0 = 0;
+        private static readonly int B1 = WallID.ShadewoodFence;
+        private static readonly int C2 = WallID.PalmWoodFence;
+        private static readonly int D3 = WallID.RichMahoganyFence;
+        private static readonly int E4 = WallID.Planked;
+        private static readonly int F5 = WallID.RichMaogany;
+        private static readonly int G6 = WallID.Sail;
+        private static readonly int H7 = WallID.Wood;
+        private static readonly int I8 = WallID.SpookyWood;
+        private static readonly int J9 = WallID.PalmWood;
+        private static readonly int K10 = WallID.BlueDungeonSlab;
+        private static readonly int L11 = WallID.BorealWoodFence;
+        private static readonly int M12 = WallID.Glass;
+        private static readonly int[] Zero = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
         public static int[,,] Boat2Array => new int[,,]
         {
         {{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{A,A0,0,0,0,0,0,0,0,0},{E,A0,28,0,0,0,0,0,72,54},{C,A0,28,0,0,0,0,0,18,0},{B,A0,0,0,0,0,0,0,90,54},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1},{A,A0,0,0,0,0,0,0,-1,-1}},

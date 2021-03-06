@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class CoralsandstoneTile : ModTile
+    public class KelpRockTile : ModTile
     {
         public override void SetDefaults()
         {
@@ -13,10 +13,10 @@ namespace EEMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
 
-            AddMapEntry(new Color(26, 13, 0));
+            AddMapEntry(new Color(48, 200, 135));
 
             dustType = 154;
-            drop = ModContent.ItemType<Coralsandstone>();
+            drop = ModContent.ItemType<Gemsandstone>();
             soundStyle = 1;
             mineResist = 1f;
             minPick = 0;

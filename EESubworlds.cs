@@ -535,7 +535,7 @@ namespace EEMod
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
                     {
-                        if (/*WorldGen.genRand.NextBool(2)*/ Main.tile[i, j].type != ModContent.TileType<BulbousBlockTile>())
+                        if (WorldGen.genRand.NextBool(4) && Main.tile[i, j].type != ModContent.TileType<BulbousBlockTile>())
                         {
                             Tile.SmoothSlope(i, j);
                         }

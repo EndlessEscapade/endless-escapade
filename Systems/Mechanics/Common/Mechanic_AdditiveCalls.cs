@@ -26,7 +26,7 @@ namespace EEMod
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(
-                SpriteSortMode.Immediate, 
+                SpriteSortMode.Deferred, 
                 BlendState.Additive, null, null, null, null, 
                 Main.GameViewMatrix.TransformationMatrix);
             foreach (IDrawAdditive IDA in Additives)
@@ -51,6 +51,6 @@ namespace EEMod
             Instance = this;
             base.OnLoad();
         }
-        protected override Layer DrawLayering => base.DrawLayering;
+        protected override Layer DrawLayering => Layer.AboveTiles;
     }
 }

@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables
             item.consumable = true;
             item.autoReuse = true;
             item.maxStack = 999;
-
+            
             item.createTile = ModContent.TileType<CoralsandstoneTile>();
         }
     }

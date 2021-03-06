@@ -32,17 +32,55 @@ namespace EEMod.VerletIntegration
 
         public static void AddStickChain(ref Verlet verlet, Vector2 position, int numberOfChains, float lengthOfChains)
         {
-            Vector2 TP = (position + new Vector2(0, lengthOfChains * (numberOfChains - 1)))/16;
-            if (!Main.tile[(int)TP.X, (int)TP.Y].active())
+            Point p = position.ToTileCoordinates();
+            if (Framing.GetTileSafely(p).active())
+            {
+                Vector2 TP = (position + new Vector2(0, lengthOfChains * (numberOfChains - 1))) / 16;
+                if (!Main.tile[(int)TP.X, (int)TP.Y].active())
+                {
+                    for (int i = 0; i < numberOfChains; i++)
+                    {
+                        EEMod eemood = ModContent.GetInstance<EEMod>();
+                        int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
+                        if (i == 0)
+                        {
+                            SwingableVines.Add(position);
+                        }
+                        if (i > 1)
+                        {
+                            int vineRand = Main.rand.Next(0, 7);
+                            if (vineRand != 0 && vineRand != 3)
+                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Map"));
+                            else
+                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand));
+                        }
+                        if (i == 1)
+                        {
+                            int vineRand = Main.rand.Next(0, 3);
+                            if (vineRand != 0)
+                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Map"));
+                            else
+                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand));
+                        }
+
+                        if (i == numberOfChains - 1)
+                        {
+                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine2"), eemood.GetTexture("Projectiles/Vines/Vine2Glow"), eemood.GetTexture("Projectiles/Vines/Vine2Map"));
+                            EndPointChains.Add(a);
+                        }
+                    }
+                }
+            }
+        }
+        public static void AddStickChainNoAdd(ref Verlet verlet, Vector2 position, int numberOfChains, float lengthOfChains)
+        {
+            Point p = position.ToTileCoordinates();
+            if (Framing.GetTileSafely(p).active())
             {
                 for (int i = 0; i < numberOfChains; i++)
                 {
                     EEMod eemood = ModContent.GetInstance<EEMod>();
                     int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
-                    if (i == 0)
-                    {
-                        SwingableVines.Add(position);
-                    }
                     if (i > 1)
                     {
                         int vineRand = Main.rand.Next(0, 7);
@@ -65,36 +103,6 @@ namespace EEMod.VerletIntegration
                         verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine2"), eemood.GetTexture("Projectiles/Vines/Vine2Glow"), eemood.GetTexture("Projectiles/Vines/Vine2Map"));
                         EndPointChains.Add(a);
                     }
-                }
-            }
-        }
-        public static void AddStickChainNoAdd(ref Verlet verlet, Vector2 position, int numberOfChains, float lengthOfChains)
-        {
-            for (int i = 0; i < numberOfChains; i++)
-            {
-                EEMod eemood = ModContent.GetInstance<EEMod>();
-                int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
-                if (i > 1)
-                {
-                    int vineRand = Main.rand.Next(0, 7);
-                    if (vineRand != 0 && vineRand != 3)
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Map"));
-                    else
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand));
-                }
-                if (i == 1)
-                {
-                    int vineRand = Main.rand.Next(0, 3);
-                    if (vineRand != 0)
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Map"));
-                    else
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand));
-                }
-
-                if (i == numberOfChains - 1)
-                {
-                    verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine2"), eemood.GetTexture("Projectiles/Vines/Vine2Glow"), eemood.GetTexture("Projectiles/Vines/Vine2Map"));
-                    EndPointChains.Add(a);
                 }
             }
         }

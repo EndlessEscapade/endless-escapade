@@ -1,24 +1,17 @@
 ﻿using EEMod.ID;
 using EEMod.Tiles;
-using EEMod.Tiles.Furniture;
+using EEMod.Tiles.EmptyTileArrays;
+using EEMod.Tiles.Foliage;
 using EEMod.Tiles.Foliage.Coral;
+using EEMod.Tiles.Foliage.Coral.HangingCoral;
+using EEMod.Tiles.Foliage.Coral.WallCoral;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
 using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.World.Generation;
-using EEMod.Tiles.Foliage.Coral.HangingCoral;
-using EEMod.Tiles.Foliage.Coral.WallCoral;
-using System.Diagnostics;
-using EEMod.Tiles.EmptyTileArrays;
-using EEMod.VerletIntegration;
-using EEMod.Tiles.Foliage;
 
 namespace EEMod.EEWorld
 {
@@ -31,6 +24,7 @@ namespace EEMod.EEWorld
             int ecksdee = Main.tile[i, j].type;
             return ecksdee == ModContent.TileType<LightGemsandTile>() || ecksdee == ModContent.TileType<LightGemsandstoneTile>() || ecksdee == ModContent.TileType<GemsandTile>() || ecksdee == ModContent.TileType<GemsandstoneTile>() || ecksdee == ModContent.TileType<DarkGemsandTile>() || ecksdee == ModContent.TileType<DarkGemsandstoneTile>();
         }
+
         internal static void PlaceWallGrass()
         {
             /*for (int i = 10; i < Main.maxTilesX - 10; i++)
@@ -68,8 +62,8 @@ namespace EEMod.EEWorld
                     }
                 }
             }*/
-
         }
+
         public static void MakeCoralRoom(int xPos, int yPos, int size, int type, bool ensureNoise = false)
         {
             int sizeX = size;
@@ -187,167 +181,23 @@ namespace EEMod.EEWorld
                     break;
 
                 case (int)MinibiomeID.KelpForest: //A normally shaped room cut out with noise
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
-                    MakeJaggedOval(sizeX - 50, sizeY - 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
-                    MakeJaggedOval(sizeX + 50, sizeY + 50, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
-                    CreateNoise(!ensureNoise, 50, 50, 0.4f);
-                    CreateNoise(!ensureNoise, 20, 20, 0.4f);
-                    RemoveStoneSlabs();
-                    for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
+                    KelpForest kelpForest = new KelpForest
                     {
-                        for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
-                        {
-                            bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Bottom;
-                            if (CorrectSpacing && Framing.GetTileSafely(i, j).type != ModContent.TileType<KelpVine>() && WorldGen.genRand.Next(2) == 0)
-                            {
-                                for (int a = 0; a < WorldGen.genRand.Next(5, 15); a++)
-                                {
-                                    if (!Framing.GetTileSafely(i, j + a).active())
-                                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>());
-                                }
-                            }
-                            int buffer = 0;
-                            for (int a = 0; a < 14; a++)
-                            {
-                                if (WorldGen.InWorld(i, j - a, 10))
-                                    if (Main.tile[i, j - a].active())
-                                    {
-                                        buffer++;
-                                    }
-                            }
-                            if (buffer < 7)
-                            {
-                                if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
-                                {
-                                    for (int a = 0; a < 50; a++)
-                                    {
-                                        if (Main.rand.Next(4) == 1)
-                                        {
-                                            WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    TilePopulate(new int[] {
-                    ModContent.TileType<GlowHangCoral1>(),
-                    ModContent.TileType<GroundGlowCoral>(),
-                    ModContent.TileType<GroundGlowCoral2>(),
-                    ModContent.TileType<GroundGlowCoral3>(),
-                    ModContent.TileType<GroundGlowCoral4>(),
-                    ModContent.TileType<Wall4x3CoralL>(),
-                    ModContent.TileType<Wall4x3CoralR>() },
-                    new Rectangle((int)TL.X, (int)TL.Y, (int)TL.X + sizeX * 2, (int)TL.Y + sizeY * 2));
-
-                    for (int i = (int)TL.X; i < (int)BR.X; i++)
-                    {
-                        for (int j = (int)TL.Y; j < (int)BR.Y; j++)
-                        {
-                            bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Bottom;
-                            if (CorrectSpacing && Framing.GetTileSafely(i, j).type != ModContent.TileType<KelpVine>() && WorldGen.genRand.Next(2) == 0)
-                            {
-                                for (int a = 0; a < WorldGen.genRand.Next(5, 15); a++)
-                                {
-                                    if (!Framing.GetTileSafely(i, j + a).active())
-                                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>());
-                                }
-                            }
-                            if (TileCheck2(i, j) == 1 && Main.rand.NextBool(20))
-                            {
-                                VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
-                            }
-                            if (TileCheck2(i, j) == 2 && Main.rand.NextBool(3))
-                            {
-                                WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
-                            }
-                        }
-                    }
-
+                        Position = TL.ToPoint(),
+                        Size = new Point(sizeX * 2, sizeY * 2),
+                        EnsureNoise = ensureNoise
+                    };
+                    kelpForest.StructureStep();
                     break;
 
                 case (int)MinibiomeID.BulbousGrove: //One medium-sized open room completely covered in bulbous blocks
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
-
-                    for (int i = 0; i < 20; i++)
+                    BulbousGrove bulbousGrove = new BulbousGrove
                     {
-                        MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), TL.Y + WorldGen.genRand.Next(sizeY)), tile2, true);
-                    }
-                    RemoveStoneSlabs();
-                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
-                    {
-                        for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
-                        {
-
-                            int noOfTiles = 0;
-                            for (int k = -5; k < 5; k++)
-                            {
-                                for (int l = -5; l < 5; l++)
-                                {
-                                    if (WorldGen.InWorld(i + k, j + l, 10))
-                                    {
-                                        if (Main.tile[i + k, j + l].active() && Main.tileSolid[Main.tile[i + k, j + l].type])
-                                        {
-                                            noOfTiles++;
-                                        }
-                                    }
-                                }
-                            }
-                            if (EESubWorlds.BulbousTreePosition.Count > 0)
-                            {
-                                for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
-                                {
-                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 45 * 45)
-                                    {
-                                        noOfTiles += 5;
-                                    }
-                                }
-                            }
-                            if (EESubWorlds.OrbPositions.Count > 0)
-                            {
-                                for (int m = 0; m < EESubWorlds.OrbPositions.Count; m++)
-                                {
-                                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 20 * 20)
-                                    {
-                                        noOfTiles += 5;
-                                    }
-                                }
-                            }
-                            if (noOfTiles < 3)
-                            {
-                                EESubWorlds.BulbousTreePosition.Add(new Vector2(i, j));
-                            }
-                        }
-                    }
-                    for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
-                    {
-                        for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
-                        {
-                            int buffer = 0;
-                            for (int a = 0; a < 20; a++)
-                            {
-                                if (WorldGen.InWorld(i, j - a, 10))
-                                    if (Main.tile[i, j - a].active())
-                                    {
-                                        buffer++;
-                                    }
-                            }
-                            if (buffer < 17 && buffer > 3)
-                            {
-                                if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
-                                {
-                                    for (int a = 0; a < TileCheckVertical(i, j + 1, 1) - (j + 1); a++)
-                                    {
-                                        if (Main.rand.Next(2) == 1)
-                                        {
-                                            WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                        Position = TL.ToPoint(),
+                        Size = new Point(sizeX * 2, sizeY * 2),
+                        EnsureNoise = ensureNoise
+                    };
+                    bulbousGrove.StructureStep();
                     break;
 
                 case (int)MinibiomeID.JellyfishCaverns: //Many small ovular rooms that are interconnected in a random shape
@@ -421,7 +271,7 @@ namespace EEMod.EEWorld
                         for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
                         {
                             //if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(8) == 1)
-                            if ((TileCheck2(i, j) != 0) && Main.rand.NextBool(8))
+                            if ((TileCheck2(i, j) != 0) && Main.rand.NextBool(10))
                             {
                                 if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
                                 {
@@ -430,7 +280,29 @@ namespace EEMod.EEWorld
                                 else
                                 {
                                     Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
-                                    if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
+                                    if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 210 * 210) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
+                                    {
+                                        EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                    {
+                        for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                           {
+                            //if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.Next(8) == 1)
+                            if ((TileCheck2(i, j) != 0) && Main.rand.NextBool(10))
+                            {
+                                if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
+                                {
+                                    EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                                }
+                                else
+                                {
+                                    Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
+                                    if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 210 * 210) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
                                     {
                                         EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
                                     }
@@ -443,9 +315,6 @@ namespace EEMod.EEWorld
             }
             CreateNoise(ensureNoise, Main.rand.Next(30, 50), Main.rand.Next(20, 40), Main.rand.NextFloat(0.3f, 0.6f));
         }
-
-
-
 
         public static void MakeCrystal(int xPos, int yPos, int length, int width, int vertDir, int horDir, int type)
         {
@@ -481,6 +350,7 @@ namespace EEMod.EEWorld
         public static void PlaceCoral()
         {
             #region Surface Reefs
+
             TilePopulate(
             new int[] { ModContent.TileType<Hanging1x2Coral>(),
             ModContent.TileType<Hanging1x3Coral>(),
@@ -527,7 +397,8 @@ namespace EEMod.EEWorld
             ModContent.TileType<Wall5x2NonsolidCoralR>(),
             ModContent.TileType<Wall6x3CoralR>() },
             new Rectangle(42, 42, Main.maxTilesX - 84, Main.maxTilesY / 10));
-            #endregion
+
+            #endregion Surface Reefs
 
             for (int i = 42; i < Main.maxTilesX - 42; i++)
             {
@@ -562,6 +433,7 @@ namespace EEMod.EEWorld
                         switch ((MinibiomeID)minibiome)
                         {
                             #region Default
+
                             case MinibiomeID.None: //Default
                                 if (!WorldGen.genRand.NextBool(6))
                                 {
@@ -596,6 +468,7 @@ namespace EEMod.EEWorld
                                                     break;
                                             }
                                             break;
+
                                         case 2:
                                         {
                                             selection = WorldGen.genRand.Next(15);
@@ -737,9 +610,11 @@ namespace EEMod.EEWorld
                                     }
                                 }
                                 break;
-                            #endregion
+
+                            #endregion Default
 
                             #region Bulbous Grove
+
                             case MinibiomeID.BulbousGrove:
                                 if (WorldGen.genRand.NextBool())
                                 {
@@ -762,6 +637,7 @@ namespace EEMod.EEWorld
                                                     break;
                                             }
                                             break;
+
                                         case 2:
                                             if (WorldGen.genRand.NextBool(20))
                                                 WorldGen.TileRunner(i, j, WorldGen.genRand.Next(2, 10), 1, ModContent.TileType<BulbousBlockTile>(), true);
@@ -808,9 +684,11 @@ namespace EEMod.EEWorld
                                     }
                                 }
                                 break;
-                            #endregion
+
+                            #endregion Bulbous Grove
 
                             #region Jellyfish Caverns
+
                             case MinibiomeID.JellyfishCaverns: //Jellyfish Caverns(More hanging coral/longer hanging coral)
                                 if (!WorldGen.genRand.NextBool(6))
                                 {
@@ -841,6 +719,7 @@ namespace EEMod.EEWorld
                                                     break;
                                             }
                                             break;
+
                                         case 2:
                                             selection = WorldGen.genRand.Next(3);
                                             switch (selection)
@@ -848,9 +727,11 @@ namespace EEMod.EEWorld
                                                 case 0:
                                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor1x2Coral>(), style: WorldGen.genRand.Next(7));
                                                     break;
+
                                                 case 1:
                                                     WorldGen.PlaceTile(i, j - 6, ModContent.TileType<Floor2x6Coral>(), style: WorldGen.genRand.Next(2));
                                                     break;
+
                                                 case 2:
                                                     WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor6x8Coral>());
                                                     break;
@@ -868,14 +749,18 @@ namespace EEMod.EEWorld
                                     break;
                                 }
                                 break;
-                            #endregion
+
+                            #endregion Jellyfish Caverns
 
                             #region Halocline
+
                             case MinibiomeID.Halocline:
                                 break;
-                            #endregion
+
+                            #endregion Halocline
 
                             #region Thermal Vents
+
                             case MinibiomeID.ThermalVents: //Thermal Vents(Thermal Vents-Thermal Vents and larger coral, more coral stacks)
                                 if (!WorldGen.genRand.NextBool(6))
                                 {
@@ -911,6 +796,7 @@ namespace EEMod.EEWorld
                                                     break;
                                             }
                                             break;
+
                                         case 2:
                                             selection = WorldGen.genRand.Next(6);
                                             switch (selection)
@@ -918,18 +804,23 @@ namespace EEMod.EEWorld
                                                 case 0:
                                                     WorldGen.PlaceTile(i, j - 1, ModContent.TileType<ThermalVent1x1>(), style: WorldGen.genRand.Next(2));
                                                     break;
+
                                                 case 1:
                                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ThermalVent1x2>(), style: WorldGen.genRand.Next(2));
                                                     break;
+
                                                 case 2:
                                                     WorldGen.PlaceTile(i, j - 3, ModContent.TileType<ThermalVent1x3>(), style: WorldGen.genRand.Next(2));
                                                     break;
+
                                                 case 3:
                                                     WorldGen.PlaceTile(i, j - 1, ModContent.TileType<ThermalVent2x1>());
                                                     break;
+
                                                 case 4:
                                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<ThermalVent2x2>(), style: WorldGen.genRand.Next(2));
                                                     break;
+
                                                 case 5:
                                                     int helloFutureProgrammersGetDabbedOn = WorldGen.genRand.Next(3, 6);
                                                     MakeTriangle(new Vector2(i, j), helloFutureProgrammersGetDabbedOn, helloFutureProgrammersGetDabbedOn * 4, 3, ModContent.TileType<ScorchedGemsandTile>(), -1, true, 1);
@@ -939,9 +830,11 @@ namespace EEMod.EEWorld
                                     }
                                 }
                                 break;
-                            #endregion
+
+                            #endregion Thermal Vents
 
                             #region Crystalline Caves
+
                             case MinibiomeID.CrystallineCaves:
                                 if (!WorldGen.genRand.NextBool(5))
                                 {
@@ -954,6 +847,7 @@ namespace EEMod.EEWorld
                                         if (Main.tileSolid[Framing.GetTileSafely(i, j).type])
                                         {
                                             #region spawning nomis crystal
+
                                             int width = 18;
                                             int height = 18;
                                             int widthOfLedge = 5;
@@ -987,7 +881,8 @@ namespace EEMod.EEWorld
                                                     EESubWorlds.CoralCrystalPosition.Add(TopLeft);
                                                 }
                                             }
-                                            #endregion
+
+                                            #endregion spawning nomis crystal
 
                                             if (!Main.tile[i, j - 1].active())
                                             {
@@ -997,7 +892,6 @@ namespace EEMod.EEWorld
                                                 }
                                                 if (Main.tile[i - 1, j].active())
                                                 {
-
                                                 }
                                             }
                                         }
@@ -1005,6 +899,7 @@ namespace EEMod.EEWorld
                                         {
                                             case 0:
                                                 break;
+
                                             case 1:
                                                 selection = WorldGen.genRand.Next(3);
                                                 switch (selection)
@@ -1012,14 +907,17 @@ namespace EEMod.EEWorld
                                                     case 1:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang1, "Tiles/EmptyTileArrays/LuminantCoralHang1", "ShaderAssets/CrystalLightMapHang1");
                                                         break;
+
                                                     case 2:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang2, "Tiles/EmptyTileArrays/LuminantCoralHang2", "ShaderAssets/CrystalLightMapHang2");
                                                         break;
+
                                                     case 3:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralHang3", "ShaderAssets/CrystalLightMapHang3");
                                                         break;
                                                 }
                                                 break;
+
                                             case 2:
                                                 selection = WorldGen.genRand.Next(8);
                                                 switch (selection)
@@ -1027,29 +925,37 @@ namespace EEMod.EEWorld
                                                     case 0:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround1, "Tiles/EmptyTileArrays/LuminantCoralGround1", "ShaderAssets/CrystalLightMapGround1");
                                                         break;
+
                                                     case 1:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround2, "Tiles/EmptyTileArrays/LuminantCoralGround2", "ShaderAssets/CrystalLightMapGround2");
                                                         break;
+
                                                     case 2:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround3, "Tiles/EmptyTileArrays/LuminantCoralGround3", "ShaderAssets/CrystalLightMapGround3");
                                                         break;
+
                                                     case 3:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround4, "Tiles/EmptyTileArrays/LuminantCoralGround4", "ShaderAssets/CrystalLightMapGround4");
                                                         break;
+
                                                     case 4:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround5, "Tiles/EmptyTileArrays/LuminantCoralGround5", "ShaderAssets/CrystalLightMapGround5");
                                                         break;
+
                                                     case 5:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround6, "Tiles/EmptyTileArrays/LuminantCoralGround6", "ShaderAssets/CrystalLightMapGround6");
                                                         break;
+
                                                     case 6:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Bottom, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround7, "Tiles/EmptyTileArrays/LuminantCoralGround7", "ShaderAssets/CrystalLightMapGround7");
                                                         break;
+
                                                     case 7:
                                                         WorldGen.PlaceTile(i, j - 3, ModContent.TileType<AquamarineLamp1>());
                                                         break;
                                                 }
                                                 break;
+
                                             case 3:
                                                 selection = WorldGen.genRand.Next(3);
                                                 switch (selection)
@@ -1057,14 +963,17 @@ namespace EEMod.EEWorld
                                                     case 1:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Left, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang1, "Tiles/EmptyTileArrays/LuminantCoralSideLeft1", "ShaderAssets/CrystalLightMapWallLeft1");
                                                         break;
+
                                                     case 2:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Left, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang2, "Tiles/EmptyTileArrays/LuminantCoralSideLeft2", "ShaderAssets/CrystalLightMapWallLeft2");
                                                         break;
+
                                                     case 3:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Left, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralSideLeft3", "ShaderAssets/CrystalLightMapWallLeft3");
                                                         break;
                                                 }
                                                 break;
+
                                             case 4:
                                                 selection = WorldGen.genRand.Next(3);
                                                 switch (selection)
@@ -1072,9 +981,11 @@ namespace EEMod.EEWorld
                                                     case 1:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Right, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang1, "Tiles/EmptyTileArrays/LuminantCoralSideRight1", "ShaderAssets/CrystalLightMapWallRight1");
                                                         break;
+
                                                     case 2:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Right, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang2, "Tiles/EmptyTileArrays/LuminantCoralSideRight2", "ShaderAssets/CrystalLightMapWallRight2");
                                                         break;
+
                                                     case 3:
                                                         ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Right, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/LuminantCoralSideRight3", "ShaderAssets/CrystalLightMapWallRight3");
                                                         break;
@@ -1085,7 +996,8 @@ namespace EEMod.EEWorld
                                     break;
                                 }
                                 break;
-                                #endregion
+
+                                #endregion Crystalline Caves
                         }
                     }
                 }
