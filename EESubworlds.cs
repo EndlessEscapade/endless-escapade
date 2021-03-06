@@ -25,6 +25,7 @@ namespace EEMod
         [FieldInit] public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
         [FieldInit] public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
         [FieldInit] public static IList<Vector2> AquamarineZiplineLocations = new List<Vector2>();
+        [FieldInit] public static IList<Vector2> GiantKelpRoots = new List<Vector2>();
         [FieldInit] public static IList<Vector2> WebPositions = new List<Vector2>();
         public static Vector2 CoralBoatPos;
         public static Vector2 SpirePosition;
@@ -480,6 +481,7 @@ namespace EEMod
                                 }
                             }
                         }
+
                         int ifa = 0;
                         for (int m = 0; m < BulbousTreePosition.Count; m++)
                         {
@@ -491,6 +493,13 @@ namespace EEMod
                         for (int m = 0; m < AquamarineZiplineLocations.Count; m++)
                         {
                             if (Vector2.DistanceSquared(new Vector2(i, j), AquamarineZiplineLocations[m]) < 50 * 50)
+                            {
+                                ifa++;
+                            }
+                        }
+                        for (int m = 0; m < GiantKelpRoots.Count; m++)
+                        {
+                            if (Vector2.DistanceSquared(new Vector2(i, j), GiantKelpRoots[m]) < 50 * 50)
                             {
                                 ifa++;
                             }
@@ -517,6 +526,7 @@ namespace EEMod
                 }
                 #endregion
 
+                EEMod.progressMessage = "Inserting foes";
                 Vector2 pos1 = new Vector2(SpirePosition.X + 10, SpirePosition.Y - 150 / 2);
                 Vector2 pos2 = new Vector2(SpirePosition.X + 10, SpirePosition.Y + 150 / 2);
                 int tile2 = 0;
@@ -526,6 +536,7 @@ namespace EEMod
                 ClearRegion(46, 26, new Vector2(SpirePosition.X + 10 - 24, SpirePosition.Y - 26));
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y - 26), new Vector2(SpirePosition.X + 25, SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
                 MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
+
                 EEMod.progressMessage = "Placing Corals";
                 PlaceCoral();
 
@@ -643,11 +654,11 @@ namespace EEMod
             PlaceShipWalls(50, 145, ShipWalls);
             WorldGen.AddTrees();
 
-            PlaceAnyBuilding(100, 100, IceShrine);
+            /*PlaceAnyBuilding(100, 100, IceShrine);
             PlaceAnyBuilding(200, 100, FireShrine);
             PlaceAnyBuilding(300, 100, DesertShrine);
             PlaceAnyBuilding(400, 100, WaterShrine);
-            PlaceAnyBuilding(500, 100, LeafShrine);
+            PlaceAnyBuilding(500, 100, LeafShrine);*/
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;

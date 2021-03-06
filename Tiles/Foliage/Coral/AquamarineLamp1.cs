@@ -254,7 +254,11 @@ namespace EEMod.Tiles.Foliage.Coral
 
                             for (float k = 0; k < 1; k += n)
                             {
-                                Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f)), (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                                Color drawColor = Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f));
+
+                                Helpers.DrawAdditive(mask, projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, drawColor, 0.2f, 0);
+
+                                Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
                             }
                         }
                     }
@@ -292,8 +296,8 @@ namespace EEMod.Tiles.Foliage.Coral
                 Helpers.DrawAdditive(mask, projectile.Center.ForDraw(), Color.White * (0.5f + (HeartBeat / 2f)), projectile.scale, projectile.rotation);
 
                 Rectangle rect = new Rectangle(0, frame * 24, 22, 24);
-                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), rect, lightColor, 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), rect, Color.Lerp(Color.White * HeartBeat, strikeColor, strikeTime / 60f), 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), rect, lightColor, 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), rect, Color.Lerp(Color.White * HeartBeat, strikeColor, strikeTime / 60f), 0f, new Vector2(11, 12), projectile.scale, SpriteEffects.None, 1f);
             }
             return false;
         }
