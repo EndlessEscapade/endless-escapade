@@ -18,27 +18,6 @@ namespace EEMod.Projectiles
         Vector2 midPoint = new Vector2();
         Vector2 lastClickPos = new Vector2();
         List<Vector2> positionBuffer = new List<Vector2>();
-        float X(float t,
-          float x0, float x1, float x2, float x3)
-        {
-            return (float)(
-              x0 * Math.Pow((1 - t), 3) +
-              x1 * 3 * t * Math.Pow((1 - t), 2) +
-              x2 * 3 * Math.Pow(t, 2) * (1 - t) +
-              x3 * Math.Pow(t, 3)
-              );
-        }
-        float Y(float t,
-          float y0, float y1, float y2, float y3)
-        {
-            return (float)(
-              y0 * Math.Pow((1 - t), 3) +
-              y1 * 3 * t * Math.Pow((1 - t), 2) +
-              y2 * 3 * Math.Pow(t, 2) * (1 - t) +
-              y3 * Math.Pow(t, 3)
-              );
-        }
-
         protected Player projOwner => Main.player[projectile.owner];
 
         public virtual List<int> exclude => new List<int> { };
@@ -95,8 +74,8 @@ namespace EEMod.Projectiles
                 Vector2 fClickToDraw = firstClickPos.ForDraw();
                 Vector2 lClickToDraw = lastClickPos.ForDraw();
 
-                float x = X(timeForSwing, fClickToDraw.X, mClickToDraw.X, mClickToDraw.X, lClickToDraw.X);
-                float y = Y(timeForSwing, fClickToDraw.Y, mClickToDraw.Y, mClickToDraw.Y, lClickToDraw.Y);
+                float x = Helpers.X(timeForSwing, fClickToDraw.X, mClickToDraw.X, mClickToDraw.X, lClickToDraw.X);
+                float y = Helpers.Y(timeForSwing, fClickToDraw.Y, mClickToDraw.Y, mClickToDraw.Y, lClickToDraw.Y);
                 float distX = x - ppostodraw.X;
                 float distY = y - ppostodraw.Y;
 

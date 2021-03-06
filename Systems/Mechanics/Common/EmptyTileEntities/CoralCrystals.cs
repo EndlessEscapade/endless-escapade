@@ -1,17 +1,17 @@
 namespace EEMod.Tiles.EmptyTileArrays
 {
+    public enum Slope
+    {
+        Solid,
+        DownLeft,
+        DownRight,
+        UpLeft,
+        UpRight,
+        HalfBrick
+    }
+
     public class EmptyTileArrays
     {
-        public enum Slope
-        {
-            Solid,
-            DownLeft,
-            DownRight,
-            UpLeft,
-            UpRight,
-            HalfBrick
-        }
-
         #region Ground crystals
         public static byte[,,] LuminantCoralCrystalGround1 = new byte[,,]
         {

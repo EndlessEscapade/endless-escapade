@@ -45,15 +45,9 @@ namespace EEMod
                 PositionCache.RemoveAt(PositionCache.Count - 1);
             }
         }
-        public virtual void OnUpdate()
-        {
+        public virtual void OnUpdate() { }
 
-        }
-
-        public virtual void OnDraw()
-        {
-
-        }
+        public virtual void OnDraw() { }
         public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2 velocity = default, float scale = 1, Color? colour = null, Texture2D masks = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
@@ -130,9 +124,9 @@ namespace EEMod
         {
             Vector2 positionDraw = position.ForDraw();
             if (PresetNoiseMask != null)
-                Helpers.DrawAdditiveFunkyNoBatch(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha * 2f, 0.4f, 0.34f);
+                Helpers.DrawAdditiveFunkyNoBatch(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.4f, 0.14f);
             if (mask != null)
-                spriteBatch.Draw(mask, positionDraw.ParalaxX(paralax), mask.Bounds, colour * varScale * MaskAlpha * 2f, 0f, mask.TextureCenter(), 0.1f * varScale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(mask, positionDraw.ParalaxX(paralax), mask.Bounds, colour * varScale * MaskAlpha, 0f, mask.TextureCenter(), 0.1f * varScale, SpriteEffects.None, 0f);
         }
     }
     class TestModule : IParticleModule

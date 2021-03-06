@@ -68,7 +68,7 @@ namespace EEMod.Tiles.Foliage.Coral
                 Color color = Color.White;
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero + new Vector2(2, 0);
                 Rectangle rect = new Rectangle(frameX, frameY, width, height);
-                color *= (float)Math.Sin(Main.GameUpdateCount / 60f + i + j) * 0.5f + 0.5f;
+                color *= (float)Math.Sin(Main.GameUpdateCount / 60f + (i - frameX/16) + (j - frameY / 16)) * 0.5f + 0.5f;
 
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/GroundGlowCoralGlow4"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }

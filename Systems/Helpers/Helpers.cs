@@ -30,44 +30,44 @@ namespace EEMod
         public const float DegreeInRadians = (float)(Math.PI / 180);
         public const float RadianInDegrees = (float)(180 / Math.PI);
 
-        private static float X(float t,
+        public static float X(float t,
     float x0, float x1, float x2, float x3)
         {
             return (float)(
-                x0 * Math.Pow(1 - t, 3) +
-                x1 * 3 * t * Math.Pow(1 - t, 2) +
-                x2 * 3 * Math.Pow(t, 2) * (1 - t) +
-                x3 * Math.Pow(t, 3)
+                x0 * (1 - t)* (1 - t)* (1 - t) +
+                x1 * 3 * t * (1 - t) * (1 - t) +
+                x2 * 3 * t*t * (1 - t) +
+                x3 * t * t * t
             );
         }
 
-        private static float Y(float t,
+        public static float Y(float t,
             float y0, float y1, float y2, float y3)
         {
             return (float)(
-                 y0 * Math.Pow(1 - t, 3) +
-                 y1 * 3 * t * Math.Pow(1 - t, 2) +
-                 y2 * 3 * Math.Pow(t, 2) * (1 - t) +
-                 y3 * Math.Pow(t, 3)
+                 y0 * (1 - t)* (1 - t)* (1 - t) +
+                 y1 * 3 * t * (1 - t) * (1 - t) +
+                 y2 * 3 * t * t * (1 - t) +
+                 y3 * t * t * t
              );
         }
         private static float X(float t,
    float x0, float x1, float x2)
         {
             return (float)(
-                x0 * Math.Pow(1 - t, 2) +
+                x0 * (1 - t) * (1 - t) +
                 x1 * 2 * t * (1 - t) +
-                x2 * Math.Pow(t, 2)
+                x2 * t * t
             );
         }
 
-        private static float Y(float t,
+        public static float Y(float t,
             float y0, float y1, float y2)
         {
             return (float)(
-                y0 * Math.Pow(1 - t, 2) +
+                y0 * (1 - t) * (1 - t) +
                 y1 * 2 * t * (1 - t) +
-                y2 * Math.Pow(t, 2)
+                y2 * t * t
             );
         }
         public static int[,] ConvertTexToBitmap(string tex, int thresh)
@@ -407,18 +407,17 @@ namespace EEMod
                 Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
-        public static void DrawChain(Texture2D tex, int frameSize, int frameNum, Vector2 p1, Vector2 p2, float rotOffset = 0, float per = 1, Color color = default)
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0, float per = 1, Func<float, float> rotAct = null, Func<float, Vector2> posAct = null)
         {
             //USE IN PROPER HOOK PLZ THX
             float width = tex.Width;
             float length = (p1 - p2).Length();
             float rotation = (p1 - p2).ToRotation();
-            Rectangle rect = new Rectangle(0, frameNum * frameSize, (int)width, frameSize);
-
+            Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
             for (float i = 0; i < 1; i += (width / length) * per)
             {
                 Vector2 lerp = p1 + (p2 - p1) * i;
-                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, color, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, lerp.ForDraw() + posAct.Invoke(i), rect, Color.White, rotation + rotOffset + rotAct.Invoke(i), rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
         public static Vector2 TraverseBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, Vector2 c2, float t)
