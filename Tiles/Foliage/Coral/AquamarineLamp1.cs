@@ -256,8 +256,6 @@ namespace EEMod.Tiles.Foliage.Coral
                             {
                                 Color drawColor = Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f));
 
-                                Helpers.DrawAdditive(mask, projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, drawColor, 0.2f, 0);
-
                                 Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
                             }
                         }
@@ -274,7 +272,9 @@ namespace EEMod.Tiles.Foliage.Coral
 
                     for (float k = 0; k < 1; k += n)
                     {
-                        Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f)), (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                        Color drawColor = Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f));
+
+                        Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
                     }
 
                     frame = 0;
