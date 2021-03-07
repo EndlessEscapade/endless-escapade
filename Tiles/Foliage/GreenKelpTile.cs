@@ -76,7 +76,8 @@ namespace EEMod.Tiles.Foliage
                     && tile.type != ModContent.TileType<DarkGemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandstoneTile>()
                     && tile.type != ModContent.TileType<GemsandstoneTile>()
-                    && tile.type != ModContent.TileType<DarkGemsandstoneTile>())
+                    && tile.type != ModContent.TileType<DarkGemsandstoneTile>()
+                    && tile.type != ModContent.TileType<KelpLeafTile>())
                 {
                     WorldGen.KillTile(i, j);
                 }

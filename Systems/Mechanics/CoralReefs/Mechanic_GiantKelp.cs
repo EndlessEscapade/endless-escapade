@@ -43,7 +43,7 @@ namespace EEMod
                     {
                         Texture2D GiantKelp = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/GiantKelpColumn");
 
-                        Helpers.DrawChain(GiantKelp, ChainConneccPos, LastChainConneccPos, new Rectangle(0, ((int)(Main.GameUpdateCount / 8)) % 9, 72, 58), Lighting.GetColor((int)EESubWorlds.GiantKelpRoots[i].X, (int)EESubWorlds.GiantKelpRoots[i].Y), 0, 1);
+                        Helpers.DrawChain(GiantKelp, 58, ((int)(Main.GameUpdateCount / 8)) % 9, ChainConneccPos, LastChainConneccPos, 0, 1, Lighting.GetColor((int)EESubWorlds.GiantKelpRoots[i].X, (int)EESubWorlds.GiantKelpRoots[i].Y));
                     }
                 }
             }
