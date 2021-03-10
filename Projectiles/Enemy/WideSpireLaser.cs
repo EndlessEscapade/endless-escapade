@@ -37,14 +37,14 @@ namespace EEMod.Projectiles.Enemy
             return false;
         }
 
-        public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1.5f)
+        public void Bounce(ModProjectile modProj, Vector2 oldVelocity)
         {
             Main.PlaySound(SoundID.DD2_WitherBeastDeath, projectile.Center);
 
-            for (int i = -1; i < 2; i += 1)
+            for (int i = -1; i < 2; i++)
             {
-                Projectile projectile4 = Projectile.NewProjectileDirect(projectile.Center, (-oldVelocity).RotatedBy(i / 6f) * 2 * bouncyness, ModContent.ProjectileType<SpireLaser>(), projectile.damage / 3, 0f, default, 0, 4);
-                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.Cyan, Color.Pink, (i + 1) / 2), 30));
+                Projectile projectile4 = Projectile.NewProjectileDirect(projectile.Center, Vector2.Normalize(projectile.Center - Main.LocalPlayer.Center).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), projectile.damage / 3, 0f, default, 1, 4);
+                EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.Cyan, Color.Magenta, (i + 1) / 2f), 30));
             }
 
             projectile.Kill();

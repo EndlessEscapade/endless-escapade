@@ -1963,9 +1963,11 @@ namespace EEMod.EEWorld
 
                         if (shape[y, x, 0] != 0 || shape[y, x, 1] != 0)
                         {
-                            if (shape[y, x, 0] == ModContent.TileType<GemsandChestTile>()) //Make sure the tiles are empty
+                            bool isChest = shape[y, x, 0] == ModContent.TileType<GemsandChestTile>() || shape[y, x, 0] == ModContent.TileType<CoralChestTile>();
+
+                            if (isChest) //Make sure the tiles are empty
                             {
-                                int chestID = WorldGen.PlaceChest(i, j, (ushort)ModContent.TileType<GemsandChestTile>(), false, 1);
+                                int chestID = WorldGen.PlaceChest(i, j, (ushort)shape[y, x, 0], false, 1);
                                 if (chestID != -1)
                                 {
                                     Chest chest = Main.chest[chestID];
@@ -1973,7 +1975,7 @@ namespace EEMod.EEWorld
                                 }
                             }
 
-                            if (shape[y, x, 0] != ModContent.TileType<GemsandChestTile>())
+                            if (isChest)
                             {
                                 if (shape[y, x, 0] != 0)
                                 {
@@ -2005,13 +2007,7 @@ namespace EEMod.EEWorld
                                 tile.wallFrameX((byte)shape[y, x, 10]);
                                 tile.wallFrameY((byte)shape[y, x, 11]);
                             }
-
-                            /*Debug.WriteLine("saifnaskdlfjnasldfjnalkdsfjnfalksjdfnalksjdnfalkdjnflaksdjfnalkdjfnakldjfnakldjfnalkjsdnflajsdnflakjsdnfklajsndf");
-                            WorldGen.PlaceChest(k, l, (ushort)ModContent.TileType<GemsandChestTile>());*/
                         }
-
-
-
                     }
                 }
             }

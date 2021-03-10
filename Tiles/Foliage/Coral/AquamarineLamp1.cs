@@ -143,9 +143,17 @@ namespace EEMod.Tiles.Foliage.Coral
                             dead = true;
                             laser.Kill();
                         }
+
+                        if(((projectile.ai[0] * 120) + Main.GameUpdateCount) % projectile.ai[1] == 0)
+                        {
+                            Player target = Main.player[Helpers.GetNearestAlivePlayer(spire)];
+
+                            Projectile projectile2 = Projectile.NewProjectileDirect(projectile.Center, Vector2.Normalize(target.Center - projectile.Center) * 2, ModContent.ProjectileType<SpireLaser>(), (int)(Main.npc[spire.whoAmI].damage / 5f), 0f, default, 0, 1);
+                            EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 30));
+                        }
                     }
 
-                    if (spire.ai[0] <= 20 && spire.ai[0] > 0 && spirespire.phase2Transition) //If in second phase and projectile is not inactive
+                    if (spire.ai[0] <= 20 && spire.ai[0] > 0) //If in second phase and projectile is not inactive
                     {
                         Player target = Main.player[Helpers.GetNearestAlivePlayer(spire)];
 
@@ -248,7 +256,7 @@ namespace EEMod.Tiles.Foliage.Coral
                     {
                         Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * (projectile.ai[1] + 1)) + Main.GameUpdateCount * 2)) * 48;
 
-                        if (Vector2.Distance(spire.Center, projectile.Center) <= 52)
+                        if (Vector2.Distance(desiredVector, projectile.Center) <= 10)
                         {
                             float n = 1 / (desiredVector - projectile.Center).Length();
 
@@ -264,17 +272,20 @@ namespace EEMod.Tiles.Foliage.Coral
                     frame = 0;
                 }
                 
-                if (spire.ai[0] <= 20 && spire.ai[0] > 0 && active && spirespire.phase2Transition) //If in second phase and projectile is not inactive
+                if (spire.ai[0] <= 20 && spire.ai[0] > 0 && active) //If in second phase and projectile is not inactive
                 {
                     Vector2 desiredVector = desiredTarget + Vector2.UnitX.RotatedBy(speen + MathHelper.ToRadians((360f / projectile.ai[0]) * (projectile.ai[1] + 1))) * 128;
 
-                    float n = 1 / (desiredVector - projectile.Center).Length();
-
-                    for (float k = 0; k < 1; k += n)
+                    if (Vector2.Distance(desiredVector, projectile.Center) <= 10)
                     {
-                        Color drawColor = Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f));
+                        float n = 1 / (desiredVector - projectile.Center).Length();
 
-                        Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                        for (float k = 0; k < 1; k += n)
+                        {
+                            Color drawColor = Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f));
+
+                            Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), drawColor, (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                        }
                     }
 
                     frame = 0;
