@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles.Furniture;
 
 namespace EEMod.EEWorld
 {
@@ -625,7 +626,7 @@ namespace EEMod.EEWorld
                                             switch (selection)
                                             {
                                                 case 0:
-                                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<HangingCoral7>());
+                                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<KelpberryPlaced>());
                                                     break;
 
                                                 case 1:

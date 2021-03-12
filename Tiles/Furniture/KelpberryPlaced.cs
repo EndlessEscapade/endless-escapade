@@ -6,36 +6,36 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework.Graphics;
+using EEMod.Items.Materials;
 
-namespace EEMod.Tiles.Foliage.Coral.HangingCoral
+namespace EEMod.Tiles.Furniture
 {
-    public class HangingCoral7 : ModTile
+    public class KelpberryPlaced : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = true;
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style2xX);
-            TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 1, 1);
-            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
+
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.Height = 1;
             TileObjectData.newTile.Width = 1;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinateHeights = new int[]
+            { 16 };
+
+            TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 1, 1);
+            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
+            TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.UsesCustomCanPlace = true;
             TileObjectData.newTile.LavaDeath = true;
-            TileObjectData.newTile.CoordinateHeights = new int[]
-            {
-                16
-            };
-
             TileObjectData.addTile(Type);
+
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Coral Lamp");
-            AddMapEntry(new Color(0, 100, 200), name);
-            dustType = DustID.Dirt;
+            AddMapEntry(new Color(100, 100, 0), name);
+
+            dustType = DustID.AmberBolt;
+            drop = ModContent.ItemType<Kelpberries>();
         }
 
 
@@ -57,7 +57,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
                 zero = Vector2.Zero;
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/HangingCoral/HangingCoral7Glow");
+            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Furniture/KelpberryPlacedGlow");
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
