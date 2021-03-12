@@ -7,87 +7,10 @@ using Terraria.ModLoader;
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Extensions;
+using EEMod;
 
 namespace EEMod.Projectiles.Mage
 {
-    public class AncientBubbleSmall : ModProjectile
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Ancient Bubble");
-        }
-
-        public override void SetDefaults()
-        {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 720;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.magic = true;
-        }
-
-        public override void AI()
-        {
-            var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-            foreach (var proj in list)
-            {
-                if(proj.type == ModContent.ProjectileType<AncientBubbleSmall>() && proj.whoAmI != projectile.whoAmI)
-                {
-                    Projectile.NewProjectile((projectile.Center + proj.Center) / 2f, projectile.velocity, ModContent.ProjectileType<AncientBubbleMedium>(), (int)(projectile.damage * 1.5f), 1f);
-                    proj.Kill();
-                    projectile.Kill();
-                }
-            }
-            projectile.velocity.Y -= 0.1f;
-
-            projectile.rotation = projectile.velocity.X / 16f;
-        }
-    }
-
-    public class AncientBubbleMedium : ModProjectile
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("Ancient Bubble");
-        }
-
-        public override void SetDefaults()
-        {
-            projectile.width = 38;
-            projectile.height = 38;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 720;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.magic = true;
-        }
-
-        public override void AI()
-        {
-            var list = Main.projectile.Where(x => x.Hitbox.Intersects(projectile.Hitbox));
-            foreach (var proj in list)
-            {
-                if (proj.type == ModContent.ProjectileType<AncientBubbleMedium>() && proj.whoAmI != projectile.whoAmI)
-                {
-                    Projectile.NewProjectile((projectile.Center + proj.Center) / 2f, projectile.velocity, ModContent.ProjectileType<AncientBubbleLarge>(), (int)(projectile.damage * 1.5f), 1f);
-                    proj.Kill();
-                    projectile.Kill();
-                }
-            }
-            projectile.velocity.Y -= 0.1f;
-
-            projectile.rotation = projectile.velocity.X / 16f;
-        }
-    }
-
     public class AncientBubbleLarge : ModProjectile
     {
         public override void SetStaticDefaults()
@@ -100,8 +23,8 @@ namespace EEMod.Projectiles.Mage
             projectile.width = 74;
             projectile.height = 74;
             projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 720;
+            projectile.penetrate = 1;
+            projectile.timeLeft = 120 + 128;
             projectile.tileCollide = true;
             projectile.ignoreWater = true;
             projectile.friendly = true;
@@ -111,20 +34,79 @@ namespace EEMod.Projectiles.Mage
 
         public override void AI()
         {
-            if(projectile.Hitbox.Contains(Main.MouseWorld.ToPoint()) && Main.LocalPlayer.controlUseItem)
+            Player owner = Main.player[projectile.owner];
+            if (projectile.ai[0] < 120)
             {
-                Main.NewText("trolled!");
-                CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100), "Pop!");
-                projectile.Kill();
-            }
-            projectile.velocity.Y -= 0.1f;
+                if (owner.controlUseItem)
+                {
+                    projectile.Center = new Vector2(owner.Center.X + owner.DirectionTo(Main.MouseWorld).X * 32, owner.Center.Y - 24);
+                    projectile.ai[0]++;
 
-            projectile.rotation = projectile.velocity.X / 16f;
+                    owner.direction = projectile.Center.X - owner.Center.X <= 0 ? -1 : 1;
+                }
+                else
+                    projectile.Kill();
+            }
+            else if(projectile.ai[0] == 120)
+            {
+                projectile.velocity += owner.DirectionTo(Main.MouseWorld) * 12;
+                projectile.ai[0]++;
+
+                owner.direction = projectile.Center.X - owner.Center.X <= 0 ? -1 : 1;
+            }
+            else
+            {
+                if (projectile.Hitbox.Contains(Main.MouseWorld.ToPoint()) && Main.LocalPlayer.controlUseTile)
+                {
+                    CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100), "Pop!");
+                    Explode();
+                }
+
+                projectile.velocity.Y -= 0.05f;
+
+                projectile.rotation = projectile.velocity.X / 16f;
+
+                projectile.alpha += 2;
+            }
+
+            projectile.scale = Helpers.Clamp(0.75f + (projectile.ai[0] / 480f), 0.75f, 1f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            spriteBatch.Draw(mod.GetTexture("Projectiles/Mage/AncientBubbleLargeFlash"), projectile.Center.ForDraw(), projectile.getRect(), Color.White * Math.Sin(Main.GameUpdateCount / 20f).PositiveSin(), projectile.rotation, projectile.getRect().Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            if (projectile.ai[0] >= 120)
+            {
+                Texture2D tex = mod.GetTexture("Projectiles/Mage/AncientBubbleLargeFlash");
+                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White * Math.Sin(Main.GameUpdateCount / 5f).PositiveSin() * (1 - (projectile.alpha / 255)), projectile.rotation, tex.Frame().Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            }
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i < 40; i++)
+            {
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 165, 0f, -2f, 0, default(Color), 2f);
+                Main.dust[num].noGravity = true;
+                Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
+                Main.dust[num].scale *= .4f;
+                if (Main.dust[num].position != projectile.Center)
+                    Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 8f;
+            }
+        }
+
+        private void Explode()
+        {
+            var list = Main.npc.Where(x => Vector2.Distance(x.Center, projectile.Center) <= 144);
+
+            foreach (var enemy in list)
+            {
+                if (enemy.friendly == false) enemy.StrikeNPC(projectile.damage, 0f, projectile.Center.X - enemy.Center.X <= 0 ? -1 : 1);
+            }
+
+            projectile.Kill();
+
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().Shake = 10;
         }
     }
 }

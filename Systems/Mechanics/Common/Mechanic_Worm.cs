@@ -18,11 +18,11 @@ namespace EEMod
         ExampleWorm EEWorm;
         public override void OnDraw()
         {
-            EEWorm.Draw(Main.spriteBatch);
+            //EEWorm.Draw(Main.spriteBatch);
         }
         public override void OnUpdate()
         {
-            EEWorm.Update();
+            //EEWorm.Update();
         }
         public override void OnLoad()
         {
