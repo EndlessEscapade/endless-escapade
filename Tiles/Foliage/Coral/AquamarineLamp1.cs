@@ -278,7 +278,7 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     Vector2 desiredVector = desiredTarget + Vector2.UnitX.RotatedBy(speen + MathHelper.ToRadians((360f / projectile.ai[0]) * (projectile.ai[1] + 1))) * 128;
 
-                    Vector2 desiredPos = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * (projectile.ai[1])) + Main.GameUpdateCount * 2)) * 48;
+                    Vector2 desiredPos = desiredTarget + Vector2.UnitX.RotatedBy(speen + MathHelper.ToRadians((360f / projectile.ai[0]) * projectile.ai[1])) * 128;
 
                     if (Vector2.Distance(desiredPos, projectile.Center) <= 10)
                     {

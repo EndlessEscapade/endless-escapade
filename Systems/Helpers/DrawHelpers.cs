@@ -111,5 +111,16 @@ namespace EEMod
 
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
+
+        public static Vector2 GetTileDrawZero ()
+        {
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+
+            return zero;
+        }
     }
 }
