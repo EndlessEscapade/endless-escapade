@@ -40,7 +40,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.lavaImmune = true;
             npc.noTileCollide = true;
             npc.dontTakeDamage = true;
-            npc.damage = 0;
+            npc.damage = 60;
             npc.behindTiles = true;
             npc.ai[0] = 40;
 

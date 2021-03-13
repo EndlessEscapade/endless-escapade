@@ -144,11 +144,11 @@ namespace EEMod.Tiles.Foliage.Coral
                             laser.Kill();
                         }
 
-                        if(((projectile.ai[0] * 120) + Main.GameUpdateCount) % projectile.ai[1] == 0)
+                        if(((projectile.ai[0] + projectile.ai[1]) * 120) % Main.GameUpdateCount == 0)
                         {
                             Player target = Main.player[Helpers.GetNearestAlivePlayer(spire)];
 
-                            Projectile projectile2 = Projectile.NewProjectileDirect(projectile.Center, Vector2.Normalize(target.Center - projectile.Center) * 2, ModContent.ProjectileType<SpireLaser>(), (int)(Main.npc[spire.whoAmI].damage / 5f), 0f, default, 0, 1);
+                            Projectile projectile2 = Projectile.NewProjectileDirect(projectile.Center, Vector2.Normalize(target.Center - projectile.Center) * 2, ModContent.ProjectileType<SpireLaserAlt>(), (int)(Main.npc[spire.whoAmI].damage / 5f), 0f, default, 0, 1);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 30));
                         }
                     }
@@ -221,7 +221,7 @@ namespace EEMod.Tiles.Foliage.Coral
         private int strikeTime;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (spire != null && Vector2.DistanceSquared(Main.LocalPlayer.Center, projectile.Center) <= (192 * 16) * (192 * 16))
+            if (spire.active == true && Vector2.DistanceSquared(Main.LocalPlayer.Center, projectile.Center) <= (192 * 16) * (192 * 16))
             {
                 HeartBeat = spire.ai[3];
                 projectile.scale = 1f + (HeartBeat / 5f);
@@ -250,13 +250,15 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     int tempint = (int)projectile.ai[1] + 1;
 
-                    if ((projectile.ai[1] + 1) > spirespire.shields.Count - 1) tempint = 0;
+                    if ((tempint) > spirespire.shields.Count - 1) tempint = 0;
 
                     if (!(spirespire.shields[tempint].modProjectile as AquamarineLamp1Glow).dead)
                     {
                         Vector2 desiredVector = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * (projectile.ai[1] + 1)) + Main.GameUpdateCount * 2)) * 48;
 
-                        if (Vector2.Distance(desiredVector, projectile.Center) <= 10)
+                        Vector2 desiredPos = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * (projectile.ai[1])) + Main.GameUpdateCount * 2)) * 48;
+
+                        if (Vector2.Distance(desiredPos, projectile.Center) <= 10)
                         {
                             float n = 1 / (desiredVector - projectile.Center).Length();
 
@@ -276,7 +278,9 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     Vector2 desiredVector = desiredTarget + Vector2.UnitX.RotatedBy(speen + MathHelper.ToRadians((360f / projectile.ai[0]) * (projectile.ai[1] + 1))) * 128;
 
-                    if (Vector2.Distance(desiredVector, projectile.Center) <= 10)
+                    Vector2 desiredPos = (spire.Center + new Vector2(-2, 2)) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * (projectile.ai[1])) + Main.GameUpdateCount * 2)) * 48;
+
+                    if (Vector2.Distance(desiredPos, projectile.Center) <= 10)
                     {
                         float n = 1 / (desiredVector - projectile.Center).Length();
 

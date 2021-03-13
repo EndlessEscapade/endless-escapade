@@ -55,7 +55,7 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
-            if (projectile.ai[1] != 5)
+            if (projectile.ai[1] < 5)
             {
                 if (projectile.ai[0] >= 3)
                 {
