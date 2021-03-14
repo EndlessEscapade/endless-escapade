@@ -74,13 +74,13 @@ namespace EEMod.EEWorld
             OreAmount = (int)(maxTiles * 0.00008);
             for (int k = 0; k < OreAmount; k++)
             {
-                int x = WorldGen.genRand.Next(0, Main.maxTilesX);
+                /*int x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 int y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
                 WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<HydrofluoricOreTile>());
 
                 x = WorldGen.genRand.Next(0, Main.maxTilesX);
                 y = WorldGen.genRand.Next(rockLayerLow, Main.maxTilesY);
-                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<DalantiniumOreTile>());
+                WorldGen.TileRunner(x, y, WorldGen.genRand.Next(3, 7), WorldGen.genRand.Next(5, 7), ModContent.TileType<DalantiniumOreTile>());*/
             }
         }
 
