@@ -421,6 +421,19 @@ namespace EEMod
                 Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset, float per, Color color)
+        {
+            //USE IN PROPER HOOK PLZ THX
+            float width = tex.Width;
+            float length = (p1 - p2).Length();
+            float rotation = (p1 - p2).ToRotation();
+            Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
+            for (float i = 0; i < 1; i += (width / length) * per)
+            {
+                Vector2 lerp = p1 + (p2 - p1) * i;
+                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, color, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
+            }
+        }
         public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0, float per = 1, Func<float, float> rotAct = null, Func<float, Vector2> posAct = null)
         {
             //USE IN PROPER HOOK PLZ THX
@@ -432,6 +445,19 @@ namespace EEMod
             {
                 Vector2 lerp = p1 + (p2 - p1) * i;
                 Main.spriteBatch.Draw(tex, lerp.ForDraw() + posAct.Invoke(i), rect, Color.White, rotation + rotOffset + rotAct.Invoke(i), rect.Size() / 2, 1f, SpriteEffects.None, 0f);
+            }
+        }
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset, float per, Func<float, float> rotAct, Func<float, Vector2> posAct, Color color)
+        {
+            //USE IN PROPER HOOK PLZ THX
+            float width = tex.Width;
+            float length = (p1 - p2).Length();
+            float rotation = (p1 - p2).ToRotation();
+            Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
+            for (float i = 0; i < 1; i += (width / length) * per)
+            {
+                Vector2 lerp = p1 + (p2 - p1) * i;
+                Main.spriteBatch.Draw(tex, lerp.ForDraw() + posAct.Invoke(i), rect, color, rotation + rotOffset + rotAct.Invoke(i), rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
         public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, Rectangle rect, Color color, float rotOffset = 0, float per = 1, Func<float, float> rotAct = null, Func<float, Vector2> posAct = null)

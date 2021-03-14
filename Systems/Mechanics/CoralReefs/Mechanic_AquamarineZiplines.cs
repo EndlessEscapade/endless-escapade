@@ -68,16 +68,16 @@ namespace EEMod
                         }
                         if (i % 2 == 0)
                         {
-                            Helpers.DrawChain(c, ChainConneccPos, LastChainConneccPos, 0, 2, RandRotationFunc, AddonC);
-                            Helpers.DrawChain(d, ChainConneccPos, LastChainConneccPos, (float)Math.PI, 1.5f, RandRotationFunc, AddonD);
-                            Helpers.DrawChain(a,ChainConneccPos, LastChainConneccPos,0,1);
+                            Helpers.DrawChain(c, ChainConneccPos, LastChainConneccPos, 0, 2, RandRotationFunc, AddonC, Lighting.GetColor((int)(ChainConneccPos.X / 16), (int)(ChainConneccPos.Y / 16)));
+                            Helpers.DrawChain(d, ChainConneccPos, LastChainConneccPos, (float)Math.PI, 1.5f, RandRotationFunc, AddonD, Lighting.GetColor((int)(ChainConneccPos.X / 16), (int)(ChainConneccPos.Y / 16)));
+                            Helpers.DrawChain(a,ChainConneccPos, LastChainConneccPos, 0, 1, Lighting.GetColor((int)(ChainConneccPos.X / 16), (int)(ChainConneccPos.Y / 16)));
                             Helpers.DrawParticlesAlongLine(LastChainConneccPos, ChainConneccPos, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
                         }
                         else
                         {
-                            Helpers.DrawChain(b, ChainConneccPos, LastChainConneccPos, (float)Math.PI, 3.5f, RandRotationFunc, AddonB);
-                            Helpers.DrawChain(c, ChainConneccPos, LastChainConneccPos, 0, 2f, RandRotationFunc, AddonC);
-                            Helpers.DrawChain(a, ChainConneccPos, LastChainConneccPos, 0, 1);
+                            Helpers.DrawChain(b, ChainConneccPos, LastChainConneccPos, (float)Math.PI, 3.5f, RandRotationFunc, AddonB, Lighting.GetColor((int)(ChainConneccPos.X / 16), (int)(ChainConneccPos.Y / 16)));
+                            Helpers.DrawChain(c, ChainConneccPos, LastChainConneccPos, 0, 2f, RandRotationFunc, AddonC, Lighting.GetColor((int)(ChainConneccPos.X / 16), (int)(ChainConneccPos.Y / 16)));
+                            Helpers.DrawChain(a, ChainConneccPos, LastChainConneccPos, 0, 1, Lighting.GetColor((int)(ChainConneccPos.X / 16), (int)(ChainConneccPos.Y / 16)));
                             Helpers.DrawParticlesAlongLine(LastChainConneccPos, ChainConneccPos, 0.04f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), 0.0005f, new Spew(6.14f, 1f, Vector2.One / 4f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f), new SimpleBrownianMotion(0.1f));
                         }
                     }

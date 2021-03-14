@@ -287,6 +287,30 @@ namespace EEMod
                 pz.CanSpawn = true;
         }
     }
+    /*class Lightning : IParticleSpawner
+    {
+        float sizeMin;
+        float sizeMax;
+        float intervalMin;
+        float intervalMax;
+        int frequency;
+        public Lightning(float sizeMin, float sizeMax, float intervalMin, float intervalMax, int frequency)
+        {
+            this.sizeMin = sizeMin;
+            this.sizeMax = sizeMax;
+            this.intervalMin = intervalMin;
+            this.intervalMax = intervalMax;
+            this.frequency = frequency;
+        }
+
+        public void CanSpawn(in ParticleZone pz)
+        {
+            foreach(Particle particle in pz.particles)
+            {
+                particle.position = 
+            }
+        }
+    }*/
     public interface IParticleSpawner
     {
         void CanSpawn(in ParticleZone pz);
