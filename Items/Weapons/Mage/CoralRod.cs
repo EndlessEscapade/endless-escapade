@@ -27,7 +27,7 @@ namespace EEMod.Items.Weapons.Mage
             item.crit = 4;
             item.noMelee = true;
             item.magic = true;
-            item.shoot = ModContent.ProjectileType<Snowball>();
+            //item.shoot = ModContent.ProjectileType<Snowball>();
             item.shootSpeed = 16f;
             item.mana = 2;
             item.UseSound = SoundID.DD2_MonkStaffSwing;

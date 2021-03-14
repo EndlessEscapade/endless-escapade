@@ -233,14 +233,14 @@ namespace EEMod
 
         public void UpdateInnerVolcano()
         {
-            player.ClearBuff(BuffID.Cursed);
+            /*player.ClearBuff(BuffID.Cursed);
 
             if (firstFrameVolcano)
             {
                 NPC.NewNPC(200, TileCheck(200, TileType<MagmastoneTile>()), NPCType<Akumo>());
 
                 firstFrameVolcano = false;
-            }
+            }*/
         }
 
         public void UpdateCutscene()

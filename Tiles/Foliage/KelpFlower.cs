@@ -13,7 +13,7 @@ using EEMod.EEWorld;
 using EEMod.UI.States;
 using EEMod;
 
-namespace EEMod.Tiles.Furniture
+namespace EEMod.Tiles.Foliage
 {
     public class KelpFlower : ModTile
     {

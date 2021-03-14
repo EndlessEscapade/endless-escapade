@@ -32,7 +32,7 @@ namespace EEMod.Items.TreasureBags
 
         public override void RightClick(Player player)
         {
-            switch (Main.rand.Next(5))
+            /*switch (Main.rand.Next(5))
             {
                 case 0:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<HydrosEye>(), 1);
@@ -53,7 +53,7 @@ namespace EEMod.Items.TreasureBags
                 case 4:
                     Main.LocalPlayer.QuickSpawnItem(ItemType<EnchantedCoral>(), 1);
                     break;
-            }
+            }*/
             Main.LocalPlayer.QuickSpawnItem(ItemType<HydrosScales>(), Main.rand.Next(42, 68));
             Main.LocalPlayer.QuickSpawnItem(ItemType<WaterDragonsScale>(), 1);
         }

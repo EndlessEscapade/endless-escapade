@@ -18,8 +18,8 @@ namespace EEMod.EEWorld
             internal const ushort G = TileID.ObsidianBrick;
             internal const ushort H = TileID.LavaDrip;
             internal const byte I = WallID.Stone;
-            internal static int J => ModContent.TileType<MagmastoneSlabTile>();
-            internal static int K => ModContent.TileType<MagmastoneTile>();
+            internal static int J => TileID.Ash;
+            internal static int K => TileID.ObsidianBrick;
         }
 
         public static int[,,] FireShrine => new int[,,]

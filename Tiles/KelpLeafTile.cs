@@ -19,7 +19,6 @@ namespace EEMod.Tiles
             AddMapEntry(new Color(40, 200, 0));
 
             dustType = 154;
-            drop = ModContent.ItemType<VolcanicAsh>();
             soundStyle = 1;
             mineResist = 1f;
             minPick = 0;

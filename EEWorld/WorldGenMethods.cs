@@ -1040,7 +1040,7 @@ namespace EEMod.EEWorld
 
         public static void MakeVolcanoEntrance(int i, int j, int[,] shape)
         {
-            for (int y = 0; y < shape.GetLength(0); y++)
+            /*for (int y = 0; y < shape.GetLength(0); y++)
             {
                 for (int x = 0; x < shape.GetLength(1); x++)
                 {
@@ -1066,7 +1066,7 @@ namespace EEMod.EEWorld
                         }
                     }
                 }
-            }
+            }*/
         }
 
         public static void GenerateLuminite()

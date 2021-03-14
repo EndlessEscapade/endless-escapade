@@ -81,7 +81,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                         break;
 
                     case 3:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
+                        //Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Hydroshot>(), 1);
                         break;
 
                     case 4:

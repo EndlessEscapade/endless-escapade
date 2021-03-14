@@ -738,7 +738,7 @@ namespace EEMod
             Main.maxTilesY = 400;
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
-            FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<VolcanicAshTile>());
+            /*FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<VolcanicAshTile>());
             MakeLayer(200, 100, 90, 1, ModContent.TileType<VolcanicAshTile>());
             MakeOvalFlatTop(40, 10, new Vector2(200 - 20, 100), ModContent.TileType<VolcanicAshTile>());
             MakeChasm(200, 140, 110, ModContent.TileType<GemsandTile>(), 0, 5, 0);
@@ -754,7 +754,7 @@ namespace EEMod
                 }
             }
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());
+            FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());*/
             SubworldManager.SettleLiquids();
             EEMod.isSaving = false;
             Main.spawnTileX = 200;
@@ -800,7 +800,7 @@ namespace EEMod
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<MagmastoneTile>());
+            /*FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<MagmastoneTile>());
             for (int i = 0; i < Main.maxTilesX; i++)
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
@@ -825,7 +825,7 @@ namespace EEMod
             }
             MakeOvalJaggedTop(80, 60, new Vector2(160, 170), ModContent.TileType<MagmastoneTile>());
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
-            FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());
+            FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());*/
         }
     }
 }

@@ -17,7 +17,7 @@ namespace EEMod.Tiles.Walls
 
             Main.wallHouse[Type] = true;
             dustType = 154;
-            drop = ModContent.ItemType<MagmastoneSlabWall>();
+            drop = ModContent.ItemType<LightGemsandWall>();
             soundStyle = 1;
         }
 
