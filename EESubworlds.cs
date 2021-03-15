@@ -98,7 +98,7 @@ namespace EEMod
             int[] roomGen2 = Helpers.FillPseudoRandomUniform<int>(4);
 
             //Placing water and etc
-           
+
             try
             {
                 //Making chasms
@@ -145,23 +145,17 @@ namespace EEMod
                         || Vector2.DistanceSquared(new Vector2(randPosX, randPosY), new Vector2(Main.maxTilesX / 2, Main.maxTilesY / 2 - 400)) < 300 * 300);
                         roomsUp[i] = new Vector2(Helpers.Clamp(randPosX, 200, Main.maxTilesX - 200), randPosY);
 
-                        void PlaceRoom(int biome)
+                        int biome = i > 3 ? roomGen2[i % 4] : roomGen[i];
+
+                        // Place room
+
+                        MakeCoralRoom((int)roomsUp[i].X + sizeOfChasm / 2, (int)roomsUp[i].Y + sizeOfChasm / 4, sizeOfChasm, biome);
+                        MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X + sizeOfChasm / 2, (int)roomsUp[i].Y + sizeOfChasm / 4, biome));
+                        if (i != 0)
                         {
-                            MakeCoralRoom((int)roomsUp[i].X + sizeOfChasm / 2, (int)roomsUp[i].Y + sizeOfChasm / 4, sizeOfChasm, biome);
-                            MinibiomeLocations.Add(new Vector3((int)roomsUp[i].X + sizeOfChasm / 2, (int)roomsUp[i].Y + sizeOfChasm / 4, biome));
-                            if (i != 0)
-                            {
-                                MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
-                            }
+                            MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                         }
-                        if (i > 3)
-                        {
-                            PlaceRoom(roomGen2[i % 4]);
-                        }
-                        else
-                        {
-                            PlaceRoom(roomGen[i]);
-                        }
+
                     }
                 }
 
@@ -363,16 +357,17 @@ namespace EEMod
                     {
                         if (perlinNoiseFunction[i, j - (Main.maxTilesY / 10)] == 1)
                         {
-                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<LightGemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<LightGemsandstoneTile>();
-                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<GemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<GemsandstoneTile>();
-                            if (Main.tile[i, j - (Main.maxTilesY / 10)].type == ModContent.TileType<DarkGemsandTile>())
-                                Main.tile[i, j - (Main.maxTilesY / 10)].type = (ushort)ModContent.TileType<DarkGemsandstoneTile>();
+                            Tile tile = Framing.GetTileSafely(i, j - (Main.maxTilesY / 10));
+                            if (tile.type == ModContent.TileType<LightGemsandTile>())
+                                tile.type = (ushort)ModContent.TileType<LightGemsandstoneTile>();
+                            else if (tile.type == ModContent.TileType<GemsandTile>())
+                                tile.type = (ushort)ModContent.TileType<GemsandstoneTile>();
+                            else if (tile.type == ModContent.TileType<DarkGemsandTile>())
+                                tile.type = (ushort)ModContent.TileType<DarkGemsandstoneTile>();
                         }
                     }
                 }
-                
+
                 //BLOODY DREAD AY MATE? BISCUITS AND CRUMPETS AND BLOODY TEA!! (hi os)
 
                 perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.8f);
@@ -407,10 +402,10 @@ namespace EEMod
                             if (WalkingFast != -1) minibiome = WalkingFast;
 
 
-                            if (Main.tile[i, j].type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest && Main.tile[i, j].active() == false)
-                                Main.tile[i, j].type = (ushort)ModContent.TileType<KelpMossTile>();
-                            if (Main.tile[i, j].type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
-                                Main.tile[i, j].type = (ushort)ModContent.TileType<ThermalMossTile>();
+                            if (Framing.GetTileSafely(i, j).type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest && Framing.GetTileSafely(i, j).active() == false)
+                                Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<KelpMossTile>();
+                            if (Framing.GetTileSafely(i, j).type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
+                                Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<ThermalMossTile>();
                         }
                     }
                 }
@@ -420,7 +415,7 @@ namespace EEMod
                 {
                     for (int j = 42; j < Main.maxTilesY - 42; j++)
                     {
-                        if(!Main.tile[i, j + 1].active() && !Main.tile[i, j - 1].active() && !Main.tile[i + 1, j].active() && !Main.tile[i - 1, j].active())
+                        if(!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i, j - 1).active() && !Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active())
                         {
                             WorldGen.KillTile(i, j);
                         }
@@ -441,7 +436,7 @@ namespace EEMod
                             {
                                 for (int l = -11; l < 11; l++)
                                 {
-                                    if (Main.tile[i + k, j + l].active())
+                                    if (Framing.GetTileSafely(i + k, j + l).active())
                                     {
                                         noOfTiles++;
                                     }
@@ -458,7 +453,7 @@ namespace EEMod
                             {
                                 OrbPositions.Add(new Vector2(i, j));
                             }
-                            if(noOfTiles <= 30)
+                            if (noOfTiles <= 30)
                             {
                                 int dist = 0;
                                 for (int m = 0; m < OrbPositions.Count; m++)
@@ -546,11 +541,11 @@ namespace EEMod
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
                     {
-                        if (WorldGen.genRand.NextBool(4) && Main.tile[i, j].type != ModContent.TileType<BulbousBlockTile>())
+                        if (WorldGen.genRand.NextBool(4) && Framing.GetTileSafely(i, j).type != ModContent.TileType<BulbousBlockTile>())
                         {
                             Tile.SmoothSlope(i, j);
                         }
-                        if (!Main.tile[i, j + 1].active() && !Main.tile[i, j - 1].active() && !Main.tile[i + 1, j].active() && !Main.tile[i - 1, j].active())
+                        if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i, j - 1).active() && !Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active())
                         {
                             WorldGen.KillTile(i, j);
                         }

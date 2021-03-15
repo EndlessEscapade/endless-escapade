@@ -1,5 +1,6 @@
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Systems;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -24,8 +25,8 @@ namespace EEMod
                     Vector2 ChainConneccPos = EESubWorlds.GiantKelpRoots[i] * 16;
                     Vector2 LastChainConneccPos = EESubWorlds.GiantKelpRoots[i - 1] * 16;
 
-                    Tile CurrentTile = Main.tile[(int)EESubWorlds.GiantKelpRoots[i].X, (int)EESubWorlds.GiantKelpRoots[i].Y];
-                    Tile LastTile = Main.tile[(int)EESubWorlds.GiantKelpRoots[i - 1].X, (int)EESubWorlds.GiantKelpRoots[i - 1].Y];
+                    Tile CurrentTile = Framing.GetTileSafely((int)EESubWorlds.GiantKelpRoots[i].X, (int)EESubWorlds.GiantKelpRoots[i].Y);
+                    Tile LastTile = Framing.GetTileSafely((int)EESubWorlds.GiantKelpRoots[i - 1].X, (int)EESubWorlds.GiantKelpRoots[i - 1].Y);
 
                     bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
 
@@ -36,9 +37,9 @@ namespace EEMod
                     float rot = (ChainConneccPos - LastChainConneccPos).ToRotation();
 
                     if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Mid) < 2000 * 2000 && isValid &&
-                        !Main.tile[(int)Mid.X / 16, (int)Mid.Y / 16].active()
-                        && !Main.tile[(int)lerp1.X / 16, (int)lerp1.Y / 16].active()
-                        && !Main.tile[(int)lerp2.X / 16, (int)lerp2.Y / 16].active()
+                        !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).active()
+                        && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).active()
+                        && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).active()
                         && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
                     {
                         Texture2D GiantKelp = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/GiantKelpColumn");
@@ -49,7 +50,7 @@ namespace EEMod
             }
         }
 
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             if(Main.worldName == KeyID.CoralReefs) DrawGiantKelp();
         }

@@ -1,5 +1,6 @@
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Systems;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -26,8 +27,8 @@ namespace EEMod
                     Vector2 LastChainConneccPos = EESubWorlds.ChainConnections[i - 1] * 16;
                     if (Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 40 * 16 * 40 * 16)
                     {
-                        Tile CurrentTile = Main.tile[(int)EESubWorlds.ChainConnections[i].X, (int)EESubWorlds.ChainConnections[i].Y];
-                        Tile LastTile = Main.tile[(int)EESubWorlds.ChainConnections[i - 1].X, (int)EESubWorlds.ChainConnections[i - 1].Y];
+                        Tile CurrentTile = Framing.GetTileSafely((int)EESubWorlds.ChainConnections[i].X, (int)EESubWorlds.ChainConnections[i].Y);
+                        Tile LastTile = Framing.GetTileSafely((int)EESubWorlds.ChainConnections[i - 1].X, (int)EESubWorlds.ChainConnections[i - 1].Y);
                         bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
                         Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                         if (MidNorm.Y > 100 * 16 && Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000)
@@ -48,7 +49,7 @@ namespace EEMod
                 }
             }
         }
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             if(Main.worldName == KeyID.CoralReefs) DrawVines();
         }

@@ -1,5 +1,6 @@
 using EEMod.Extensions;
 using EEMod.Prim;
+using EEMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -11,12 +12,12 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-   
+
 
     public class Worm : Mechanic
     {
         ExampleWorm EEWorm;
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             //EEWorm.Draw(Main.spriteBatch);
         }

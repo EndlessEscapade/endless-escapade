@@ -62,8 +62,8 @@ namespace EEMod.Tiles
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Color color = Color.White*Math.Abs((float)Math.Sin(Main.GameUpdateCount/200f));
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
+            int frameX = Framing.GetTileSafely(i, j).frameX;
+            int frameY = Framing.GetTileSafely(i, j).frameY;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if(Main.rand.Next(4) == 1 && !Framing.GetTileSafely(i,j-1).active())
             {

@@ -1,3 +1,4 @@
+using EEMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Drawing;
@@ -10,9 +11,9 @@ namespace EEMod
 {
     public class MechanicStructure : Mechanic
     {
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
-            base.OnDraw();
+            base.OnDraw(spriteBatch);
         }
 
         public override void OnUpdate()

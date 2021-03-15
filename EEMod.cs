@@ -229,7 +229,7 @@ namespace EEMod
                         simpleGame.EndGame();
                         break;
                     }
-                    if (Inspect.JustPressed && Main.tile[(int)player.Center.X / 16, (int)player.Center.Y / 16].type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
+                    if (Inspect.JustPressed && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
                     {
                         simpleGame = new SpaceInvaders();
                         Main.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
@@ -310,7 +310,6 @@ namespace EEMod
         public ComponentManager<TileObjVisual> TVH;
         public override void Load()
         {
-            AutoLoadMechanics.Load();
             playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
             TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();

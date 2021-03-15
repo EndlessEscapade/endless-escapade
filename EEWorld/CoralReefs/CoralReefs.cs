@@ -22,7 +22,7 @@ namespace EEMod.EEWorld
 
         public static bool GemsandCheck(int i, int j)
         {
-            int ecksdee = Main.tile[i, j].type;
+            int ecksdee = Framing.GetTileSafely(i, j).type;
             return ecksdee == ModContent.TileType<LightGemsandTile>() || ecksdee == ModContent.TileType<LightGemsandstoneTile>() || ecksdee == ModContent.TileType<GemsandTile>() || ecksdee == ModContent.TileType<GemsandstoneTile>() || ecksdee == ModContent.TileType<DarkGemsandTile>() || ecksdee == ModContent.TileType<DarkGemsandstoneTile>();
         }
 
@@ -118,7 +118,7 @@ namespace EEMod.EEWorld
                             int buffer = 0;
                             for (int a = 0; a < 20; a++)
                             {
-                                if (Main.tile[i, j - a].active())
+                                if (Framing.GetTileSafely(i, j - a).active())
                                 {
                                     buffer++;
                                 }
@@ -159,7 +159,7 @@ namespace EEMod.EEWorld
                             for (int a = 0; a < 14; a++)
                             {
                                 if (WorldGen.InWorld(i, j - a, 10))
-                                    if (Main.tile[i, j - a].active())
+                                    if (Framing.GetTileSafely(i, j - a).active())
                                     {
                                         buffer++;
                                     }
@@ -218,7 +218,7 @@ namespace EEMod.EEWorld
                             for (int a = 0; a < 14; a++)
                             {
                                 if (WorldGen.InWorld(i, j - a, 10))
-                                    if (Main.tile[i, j - a].active())
+                                    if (Framing.GetTileSafely(i, j - a).active())
                                     {
                                         buffer++;
                                     }
@@ -325,7 +325,7 @@ namespace EEMod.EEWorld
                 {
                     for (int j = 0; j < width; j++)
                     {
-                        if (!Main.tile[i, j].active())
+                        if (!Framing.GetTileSafely(i, j).active())
                         {
                             WorldGen.TileRunner(i + xPos + (a * horDir), j + yPos + (a * vertDir), Main.rand.Next(2, 3), Main.rand.Next(1, 2), type, true, 0, 0, false, false);
                         }
@@ -839,7 +839,7 @@ namespace EEMod.EEWorld
                             case MinibiomeID.CrystallineCaves:
                                 if (!WorldGen.genRand.NextBool(5))
                                 {
-                                    if (WorldGen.genRand.NextBool(200) && Main.tile[i, j].active() && Main.tile[i, j].type != ModContent.TileType<AquamarineTile>())
+                                    if (WorldGen.genRand.NextBool(200) && Framing.GetTileSafely(i, j).active() && Framing.GetTileSafely(i, j).type != ModContent.TileType<AquamarineTile>())
                                     {
                                         MakeCrystal(i, j, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(2, 5), WorldGen.genRand.NextBool().ToDirectionInt(), WorldGen.genRand.NextBool().ToDirectionInt(), ModContent.TileType<AquamarineTile>());
                                     }
@@ -885,13 +885,13 @@ namespace EEMod.EEWorld
 
                                             #endregion spawning nomis crystal
 
-                                            if (!Main.tile[i, j - 1].active())
+                                            if (!Framing.GetTileSafely(i, j - 1).active())
                                             {
-                                                if (!Main.tile[i + 1, j].active())
+                                                if (!Framing.GetTileSafely(i + 1, j).active())
                                                 {
                                                     ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.BottomLeft, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalDiagTopRight1, "Tiles/EmptyTileArrays/LuminantCoralCrystalDiagTopRight1", "ShaderAssets/CrystalLightMapDiagTopRight1");
                                                 }
-                                                if (Main.tile[i - 1, j].active())
+                                                if (Framing.GetTileSafely(i - 1, j).active())
                                                 {
                                                 }
                                             }

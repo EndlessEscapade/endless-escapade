@@ -1,5 +1,6 @@
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Systems;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -57,19 +58,19 @@ namespace EEMod
                 }
             }
         }
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             if (Main.worldName == KeyID.CoralReefs)
             {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                 foreach (EmptyTileEntity ETE in ETES)
                 {
                     if (ETE != null)
                         ETE.Draw();
                 }
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
         }
         public void Invoke(Vector2 position)

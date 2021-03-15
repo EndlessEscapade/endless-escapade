@@ -52,7 +52,7 @@ namespace EEMod.EEWorld
                     {
                         if (WorldGen.InWorld(i + k, j + l, 10))
                         {
-                            if (Main.tile[i + k, j + l].active() && Main.tileSolid[Main.tile[i + k, j + l].type])
+                            if (Framing.GetTileSafely(i + k, j + l).active() && Main.tileSolid[Framing.GetTileSafely(i + k, j + l).type])
                             {
                                 noOfTiles++;
                             }
@@ -90,7 +90,7 @@ namespace EEMod.EEWorld
                 for (int a = 0; a < 20; a++)
                 {
                     if (WorldGen.InWorld(i, j - a, 10))
-                        if (Main.tile[i, j - a].active())
+                        if (Framing.GetTileSafely(i, j - a).active())
                         {
                             buffer++;
                         }

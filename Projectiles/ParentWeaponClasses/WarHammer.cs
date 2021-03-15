@@ -45,11 +45,11 @@ namespace EEMod.Projectiles
             }
             if (canCrash)
             {
-                Tile tile = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3];
-                Tile tile2 = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4];
-                if ((!Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3].active() &&
+                Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
+                Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
+                if ((!Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
                     (!Main.tileSolid[tile.type] || !Main.tileSolidTop[tile.type]) &&
-                    !Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4].active() &&
+                    !Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
                     (!Main.tileSolid[tile2.type] || !Main.tileSolidTop[tile2.type]) ||
                     tile.type == TileID.Trees ||
                     tile2.type == TileID.Trees) && projectile.ai[1] == 0)
@@ -104,11 +104,11 @@ namespace EEMod.Projectiles
             }
             if (projOwner.itemAnimation <= 1 && damageMultiplier == 1)
             {
-                Tile tile = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3];
-                Tile tile2 = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4];
-                if (Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3].active() &&
+                Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
+                Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
+                if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
                     (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]) ||
-                    Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4].active() &&
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
                     (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type]) &&
                     tile.type != TileID.Trees &&
                     tile2.type != TileID.Trees)

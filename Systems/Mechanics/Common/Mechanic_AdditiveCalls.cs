@@ -1,3 +1,4 @@
+using EEMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod
 {
@@ -22,23 +25,18 @@ namespace EEMod
         =>
             Additives.Remove(IDA);
 
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(
-                SpriteSortMode.Deferred, 
-                BlendState.Additive, null, null, null, null, 
-                Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
             foreach (IDrawAdditive IDA in Additives)
             {
                 IDA.AdditiveCall(Main.spriteBatch);
             }
-            Main.spriteBatch.End();
-            Main.spriteBatch.Begin(
-                SpriteSortMode.Deferred, 
-                null, null, null, null, null, 
-                Main.GameViewMatrix.TransformationMatrix);
 
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
         public override void OnUpdate()
@@ -51,6 +49,7 @@ namespace EEMod
             Instance = this;
             base.OnLoad();
         }
+
         protected override Layer DrawLayering => Layer.AboveTiles;
     }
 }

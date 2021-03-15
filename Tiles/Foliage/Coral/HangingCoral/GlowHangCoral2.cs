@@ -38,7 +38,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
             if (tile.frameX < 18)
             {
                 r = 0.05f;
@@ -49,7 +49,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
 
             if (tile != null && tile.active() && tile.type == Type)
             {

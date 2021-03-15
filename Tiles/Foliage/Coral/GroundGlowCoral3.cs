@@ -37,7 +37,7 @@ namespace EEMod.Tiles.Foliage.Coral
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
             if (tile.frameX < 18)
             {
                 r = 0.05f;
@@ -48,7 +48,7 @@ namespace EEMod.Tiles.Foliage.Coral
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
 
             Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
             EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.003f));

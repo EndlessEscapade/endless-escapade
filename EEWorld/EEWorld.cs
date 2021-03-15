@@ -262,11 +262,11 @@ namespace EEMod.EEWorld
             {
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
                 {
-                    if (Main.tile[i, j].active() == true)
+                    if (Framing.GetTileSafely(i, j).active() == true)
                     {
                         numberOfTiles++;
                     }
-                    if (Main.tile[i, j].type == ModContent.TileType<WoodenShipsWheelTile>())
+                    if (Framing.GetTileSafely(i, j).type == ModContent.TileType<WoodenShipsWheelTile>())
                     {
                         hasSteeringWheel = true;
                     }

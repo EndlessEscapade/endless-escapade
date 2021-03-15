@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.Systems;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -54,7 +55,7 @@ namespace EEMod
             _colorPoints.Clear();
             listTransformable.Clear();*/
         }
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
            // ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
         }

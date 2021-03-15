@@ -541,9 +541,9 @@ namespace EEMod.EEWorld
         {
             if (water)
             {
-                Main.tile[(int)startingPos.X - 1, (int)startingPos.Y - 3].liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
-                Main.tile[(int)startingPos.X - 1, (int)startingPos.Y - 3].liquid = 255; // set liquid ammount
-                Main.tile[(int)startingPos.X - 1, (int)startingPos.Y - 4].liquid = 255;
+                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 3).liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
+                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 3).liquid = 255; // set liquid ammount
+                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 4).liquid = 255;
                 WorldGen.SquareTileFrame((int)startingPos.X - 1, (int)startingPos.Y - 3, true); // soemthing for astatic voiding the liquid from being static
                 if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                 {
@@ -769,7 +769,7 @@ namespace EEMod.EEWorld
             PlaceShipWalls(100, TileCheckWater(100) - 22, ShipWalls);
             PlaceShip(100, TileCheckWater(100) - 22, ShipTiles);
 
-            for(int i = 140; i < 300; i++)
+            for (int i = 140; i < 300; i++)
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
                 {
@@ -1007,8 +1007,8 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
-                    Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid = 255; // set liquid ammount
+                    Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
+                    Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid = 255; // set liquid ammount
                     WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
                     if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                     {
@@ -1026,8 +1026,8 @@ namespace EEMod.EEWorld
                 {
                     if (WorldGen.InWorld(i + (int)startingPoint.X, j + (int)startingPoint.Y))
                     {
-                        Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType(1); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
-                        Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid = 255; // set liquid ammount
+                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType(1); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
+                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid = 255; // set liquid ammount
                         WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                         {
@@ -1093,9 +1093,9 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquidType() == 0 && Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].liquid > 64)
+                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType() == 0 && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid > 64)
                     {
-                        Main.tile[i + (int)startingPoint.X, j + (int)startingPoint.Y].ClearEverything();
+                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).ClearEverything();
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                         {
                             NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
@@ -1107,28 +1107,28 @@ namespace EEMod.EEWorld
 
         public static int TileCheck2(int i, int j)
         {
-            Tile tile1 = Framing.GetTileSafely(i, j);
-            Tile tile2 = Framing.GetTileSafely(i, j - 1);
-            Tile tile3 = Framing.GetTileSafely(i, j - 2);
-            Tile tile4 = Framing.GetTileSafely(i, j + 1);
-            Tile tile5 = Framing.GetTileSafely(i, j + 2);
-            Tile tile6 = Framing.GetTileSafely(i - 1, j);
-            Tile tile7 = Framing.GetTileSafely(i - 2, j);
-            Tile tile8 = Framing.GetTileSafely(i + 1, j);
-            Tile tile9 = Framing.GetTileSafely(i + 2, j);
-            if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active() && tile1.slope() == 0)
+            Tile tile = Framing.GetTileSafely(i, j);
+            Tile tileBelow = Framing.GetTileSafely(i, j - 1);
+            Tile tileBelow2 = Framing.GetTileSafely(i, j - 2);
+            Tile tileAbove = Framing.GetTileSafely(i, j + 1);
+            Tile tileAbove2 = Framing.GetTileSafely(i, j + 2);
+            Tile TileLeft = Framing.GetTileSafely(i - 1, j);
+            Tile tileLeft2 = Framing.GetTileSafely(i - 2, j);
+            Tile tileRight = Framing.GetTileSafely(i + 1, j);
+            Tile tileRight2 = Framing.GetTileSafely(i + 2, j);
+            if (tile.active() && tileBelow.active() && tileBelow2.active() && !tileAbove.active() && !tileAbove2.active() && tile.slope() == 0)
             {
                 return 1;
             }
-            if (tile1.active() && !tile2.active() && !tile3.active() && tile4.active() && tile5.active() && tile1.slope() == 0)
+            if (tile.active() && !tileBelow.active() && !tileBelow2.active() && tileAbove.active() && tileAbove2.active() && tile.slope() == 0)
             {
                 return 2;
             }
-            if (tile1.active() && tile6.active() && tile7.active() && !tile8.active() && !tile9.active())
+            if (tile.active() && TileLeft.active() && tileLeft2.active() && !tileRight.active() && !tileRight2.active())
             {
                 return 3;
             }
-            if (tile1.active() && !tile6.active() && !tile7.active() && tile8.active() && tile9.active())
+            if (tile.active() && !TileLeft.active() && !tileLeft2.active() && tileRight.active() && tileRight2.active())
             {
                 return 4;
             }
@@ -1165,31 +1165,31 @@ namespace EEMod.EEWorld
         public static int WaterCheck(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);
-            Tile tile2 = Framing.GetTileSafely(i, j - 1);
-            Tile tile3 = Framing.GetTileSafely(i, j - 2);
-            Tile tile4 = Framing.GetTileSafely(i, j + 1);
-            Tile tile5 = Framing.GetTileSafely(i, j + 2);
-            Tile tile6 = Framing.GetTileSafely(i - 1, j);
-            Tile tile7 = Framing.GetTileSafely(i - 2, j);
-            Tile tile8 = Framing.GetTileSafely(i + 1, j);
-            Tile tile9 = Framing.GetTileSafely(i + 2, j);
+            Tile tileBelow = Framing.GetTileSafely(i, j - 1);
+            Tile tileBelow2 = Framing.GetTileSafely(i, j - 2);
+            Tile tileAbove = Framing.GetTileSafely(i, j + 1);
+            Tile tileAbove2 = Framing.GetTileSafely(i, j + 2);
+            Tile tileLeft = Framing.GetTileSafely(i - 1, j);
+            Tile tileLeft2 = Framing.GetTileSafely(i - 2, j);
+            Tile tileRight = Framing.GetTileSafely(i + 1, j);
+            Tile tileRight2 = Framing.GetTileSafely(i + 2, j);
             bool IsSolid(Tile tile)
             {
                 return tile.active() || Main.tileSolid[tile.type];
             }
-            if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active())
+            if (tile1.active() && tileBelow.active() && tileBelow2.active() && !tileAbove.active() && !tileAbove2.active())
             {
                 return 1;
             }
-            if (tile1.active() && !IsSolid(tile2) && !IsSolid(tile3) && tile4.active() && tile5.active())
+            if (tile1.active() && !IsSolid(tileBelow) && !IsSolid(tileBelow2) && tileAbove.active() && tileAbove2.active())
             {
                 return 2;
             }
-            if (tile1.active() && tile6.active() && tile7.active() && !tile8.active() && !tile9.active())
+            if (tile1.active() && tileLeft.active() && tileLeft2.active() && !tileRight.active() && !tileRight2.active())
             {
                 return 3;
             }
-            if (tile1.active() && !tile6.active() && !tile7.active() && tile8.active() && tile9.active())
+            if (tile1.active() && !tileLeft.active() && !tileLeft2.active() && tileRight.active() && tileRight2.active())
             {
                 return 4;
             }
@@ -1304,8 +1304,8 @@ namespace EEMod.EEWorld
                         if (TileCheck2(i, j) == (int)TileSpacing.Bottom)
                         {
                             WorldGen.PlaceTile(i, j + 1, tile);
-                            for(int a = 0; a<TOD.Width; a++)
-                            Main.tile[i + a, j].slope(0);
+                            for (int a = 0; a < TOD.Width; a++)
+                                Framing.GetTileSafely(i + a, j).slope(0);
                         }
                     }
                     else if (TOD.AnchorBottom != AnchorData.Empty)
@@ -1314,7 +1314,7 @@ namespace EEMod.EEWorld
                         {
                             WorldGen.PlaceTile(i, j - TOD.Height, tile);
                             for (int a = 0; a < TOD.Width; a++)
-                            Main.tile[i + a, j].slope(0);
+                                Framing.GetTileSafely(i + a, j).slope(0);
                         }
                     }
                     else if (TOD.AnchorLeft != AnchorData.Empty)
@@ -1421,7 +1421,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    Point Center = new Point((int)startingPoint.X + width / 2,(int)startingPoint.Y + height / 2);
+                    Point Center = new Point((int)startingPoint.X + width / 2, (int)startingPoint.Y + height / 2);
                     if (OvalCheck(Center.X, Center.Y, i + (int)startingPoint.X, j + (int)startingPoint.Y, (int)(width * .5f), (int)(height * .5f)) && Main.rand.Next(chance) <= 1)
                     {
                         WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
@@ -1443,8 +1443,8 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     Point Center = new Point((int)startingPoint.X + width / 2, (int)startingPoint.Y + height / 2);
-                    int W = (int)(width * .5f + pFunction[i, j] * width*.5f);
-                    int H = (int)(height * .5f + pFunction[i, j] * height*.5f);
+                    int W = (int)(width * .5f + pFunction[i, j] * width * .5f);
+                    int H = (int)(height * .5f + pFunction[i, j] * height * .5f);
                     if (OvalCheck(Center.X, Center.Y, i + (int)startingPoint.X, j + (int)startingPoint.Y, W, H) && Main.rand.Next(chance) <= 1)
                     {
                         WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
@@ -1628,8 +1628,7 @@ namespace EEMod.EEWorld
                     0f,
                     0f,
                     true,
-                    Override)
-                    ;
+                    Override);
             }
         }
         public static void MakeWavyChasm3(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds, int waveInvolvment = 0, float frequency = 5, bool withBranches = false, int branchFrequency = 0, int lengthOfBranches = 0)
@@ -1648,8 +1647,7 @@ namespace EEMod.EEWorld
                     0f,
                     0f,
                     true,
-                    Override)
-                    ;
+                    Override);
                 if (withBranches)
                 {
                     if (i % branchFrequency == 0 && WorldGen.genRand.Next(2) == 0)
@@ -1665,7 +1663,7 @@ namespace EEMod.EEWorld
                         {
                             Vector2 NormalizedGradVec = Vector2.Normalize(position2 - position1).RotatedBy(-MathHelper.PiOver2);
                             //int ChanceForRecursion = Main.rand.Next(0, 4);
-                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 20, true, new Vector2(0,20), 7, 5, true, 50, (int)(lengthOfBranches * 0.5f));
+                            MakeWavyChasm3(currentPos, currentPos + NormalizedGradVec * lengthOfBranches, type, 100, 20, true, new Vector2(0, 20), 7, 5, true, 50, (int)(lengthOfBranches * 0.5f));
                         }
                     }
                 }
@@ -1677,7 +1675,7 @@ namespace EEMod.EEWorld
             for (int i = positionY; i < Main.maxTilesY || i > 0; i += step)
             {
                 a++;
-                if (WorldGen.InWorld(positionX, i,15))
+                if (WorldGen.InWorld(positionX, i, 15))
                 {
                     Tile tile = Framing.GetTileSafely(positionX, i);
                     if (a == maxIterations)
@@ -1692,7 +1690,7 @@ namespace EEMod.EEWorld
                 else
                 {
                     return 0;
-                }    
+                }
             }
             return 0;
         }
@@ -1715,8 +1713,8 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if(Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != ModContent.WallType<GemsandWallTile>())
-                    WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != ModContent.WallType<GemsandWallTile>())
+                        WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                 }
             }
         }

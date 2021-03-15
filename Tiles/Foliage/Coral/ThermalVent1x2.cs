@@ -46,7 +46,7 @@ namespace EEMod.Tiles.Foliage.Coral
         {
             Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/ThermalVent1x2Glow"), i, j);
 
-            if (Main.tile[i, j].frameY == 0)
+            if (Framing.GetTileSafely(i, j).frameY == 0)
             {
                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.005f));
                 EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i * 16 + Main.rand.Next(4, 12), j * 16), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.25f, -0.75f)), mod.GetTexture("Projectiles/WaterDragonsBubble"), 90, Main.rand.NextFloat(0.5f, 0.75f), Color.White, new SlowDown(0.99f), new RotateTexture(0.003f));

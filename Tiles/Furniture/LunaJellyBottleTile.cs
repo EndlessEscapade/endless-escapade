@@ -62,7 +62,7 @@ namespace EEMod.Tiles.Furniture
 
             if (frame >= 2) frame = 0;
 
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
 
             Texture2D tex = mod.GetTexture("Tiles/Furniture/LunaJellyBottleTile");
             Main.spriteBatch.Draw(tex, new Rectangle((i * 16) - (int)Main.screenPosition.X + (int)Helpers.GetTileDrawZero().X, (j * 16) - (int)Main.screenPosition.Y + (int)Helpers.GetTileDrawZero().Y, 18, 18), new Rectangle(tile.frameX, tile.frameY + (frame * 54), 18, 18), Lighting.GetColor(i, j));

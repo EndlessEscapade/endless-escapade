@@ -36,7 +36,7 @@ namespace EEMod.VerletIntegration
             if (Framing.GetTileSafely(p).active())
             {
                 Vector2 TP = (position + new Vector2(0, lengthOfChains * (numberOfChains - 1))) / 16;
-                if (!Main.tile[(int)TP.X, (int)TP.Y].active())
+                if (!Framing.GetTileSafely((int)TP.X, (int)TP.Y).active())
                 {
                     for (int i = 0; i < numberOfChains; i++)
                     {

@@ -26,7 +26,7 @@ namespace EEMod.Tiles.Ores
 
         public override bool Drop(int i, int j)
         {
-            Tile t = Main.tile[i, j];
+            Tile t = Framing.GetTileSafely(i, j);
             int style = t.frameX / 18;
             if (style == 0) // It can be useful to share a single tile with multiple styles. This code will let you drop the appropriate bar if you had multiple.
             {

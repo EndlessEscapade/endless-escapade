@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Foliage.Coral
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Main.tile[i, j].frameY == 0 && Main.rand.Next(3) == 0)
+            if (Framing.GetTileSafely(i, j).frameY == 0 && Main.rand.Next(3) == 0)
             {
                 int num = Dust.NewDust(new Vector2(i * 16 + 4, j * 16), 1, 1, DustID.Smoke, 0, 1);
                 Main.dust[num].velocity = new Vector2(Main.rand.NextFloat(-0.3f, 0.3f), -1f);

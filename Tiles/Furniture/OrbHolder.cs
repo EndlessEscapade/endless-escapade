@@ -18,7 +18,7 @@ namespace EEMod.Tiles.Furniture
 
             public override bool ValidTile(int i, int j)
             {
-                Tile tile = Main.tile[i, j];
+                Tile tile = Framing.GetTileSafely(i, j);
                 return tile.active();
             }
 
@@ -86,7 +86,7 @@ namespace EEMod.Tiles.Furniture
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
 
             int x = i - tile.frameX / 18 % 9;
             int y = j - tile.frameY / 18 % 10;

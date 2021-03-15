@@ -142,9 +142,9 @@ namespace EEMod.NPCs.Bosses.Hydros
                 int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
                 for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
                 {
-                    if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && Main.tile[tpTileX, tpY].nactive())
+                    if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && Framing.GetTileSafely(tpTileX, tpY).nactive())
                     {
-                        if (Main.tileSolid[Main.tile[tpTileX, tpY].type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
+                        if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
                         {
                             Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f, Main.myPlayer, .3f, 140);
                             hasTeleportPoint = true;

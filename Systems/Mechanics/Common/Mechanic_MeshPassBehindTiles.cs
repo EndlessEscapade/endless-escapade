@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.Systems;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,7 +13,7 @@ namespace EEMod
 {
     public class MeshBehindTiles : Mechanic
     {
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             EEMod.primitives.DrawTrailsBehindTiles();
         }

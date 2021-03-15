@@ -1,3 +1,4 @@
+using EEMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -11,9 +12,9 @@ namespace EEMod
 {
     public class GaussianBlur : Mechanic
     {
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
-            base.OnDraw();
+            base.OnDraw(spriteBatch);
         }
 
         public override void OnUpdate()

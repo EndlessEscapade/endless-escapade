@@ -199,7 +199,7 @@ namespace EEMod
         public static double InverseLerp(double value, double min, double max) => (value - min) / (max - min);
 
         public static double LerpByInverseLerp(double value1, double value2, double ammountval, double min, double max) => value1 + value2 * ((ammountval - min) / (max - min));
-        
+
 
         // HALF CHANCE - Basically a coin flip.
         public static T ChooseRandom<T>(T obj1, T obj2) => Main.rand.NextBool(2) ? obj1 : obj2;
@@ -378,6 +378,8 @@ namespace EEMod
             }
             return npcindex;
         }
+
+        public static Vector2 VectorFromRotation(double radians, double length = 1) => new Vector2((float)(Math.Sin(radians) * length), (float)(Math.Cos(radians) * length));
 
         public static float RotationTo(this Vector2 from, Vector2 to) => (float)Math.Atan2(from.Y - to.Y, from.X - to.X);
 

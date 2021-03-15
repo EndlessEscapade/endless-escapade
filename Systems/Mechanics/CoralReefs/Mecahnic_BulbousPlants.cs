@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.Systems;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -96,7 +97,7 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
             {

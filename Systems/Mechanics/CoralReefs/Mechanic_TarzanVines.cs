@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.Systems;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +16,7 @@ namespace EEMod
         public bool bufferVariable;
         public float rotGoto;
         public float rotationBuffer;
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             foreach (int index in VerletHelpers.EndPointChains)
             {

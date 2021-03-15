@@ -109,13 +109,13 @@ namespace EEMod.Projectiles
                 else
                 {
                     Vector2 tilePos = projOwner.position / 16f;
-                    Tile tile = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3];
-                    Tile tile2 = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4];
+                    Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
+                    Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
                     xDis += (-4 - xDis) / 16f;
                     projectile.position.Y -= xDis;
-                    if (Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3].active() &&
+                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
                     (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
-                    Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4].active() &&
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
                     (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) &&
                     tile.type != TileID.Trees &&
                     tile2.type != TileID.Trees)
@@ -181,13 +181,13 @@ namespace EEMod.Projectiles
                 else if (perc < 0.5f)
                 {
                     Vector2 tilePos = projOwner.position / 16f;
-                    Tile tile = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3];
-                    Tile tile2 = Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4];
+                    Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
+                    Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
                     projOwner.velocity.Y += 2f;
                     projectile.rotation += (-MathHelper.Pi / 4 - projectile.rotation) / 4f;
-                    if (Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3].active() &&
+                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
                     (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
-                    Main.tile[(int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4].active() &&
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
                     (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) &&
                     tile.type != TileID.Trees &&
                     tile2.type != TileID.Trees)

@@ -86,7 +86,7 @@ namespace EEMod.Tiles.Banners
             if (closer)
             {
                 Player player = Main.LocalPlayer;
-                int style = Main.tile[i, j].frameX / 18;
+                int style = Framing.GetTileSafely(i, j).frameX / 18;
                 string type;
                 switch (style)
                 {

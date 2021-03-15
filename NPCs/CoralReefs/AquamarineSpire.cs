@@ -401,7 +401,7 @@ namespace EEMod.NPCs.CoralReefs
                     {
                         for (int j = (int)(npc.Center.Y / 16) - 150; j < (int)(npc.Center.Y / 16) + 150; j++)
                         {
-                            if (WorldGen.InWorld(i, j) && Main.tile[i, j].type == ModContent.TileType<AquamarineLamp1>() && Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+                            if (WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).type == ModContent.TileType<AquamarineLamp1>() && Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
                             {
                                 Projectile proj = Projectile.NewProjectileDirect(new Vector2((i * 16) + 16, (j * 16) - 12), Vector2.Zero, ModContent.ProjectileType<AquamarineLamp1Glow>(), 0, 0, default, 0, 0);
                                 if (shields.Count < 10)

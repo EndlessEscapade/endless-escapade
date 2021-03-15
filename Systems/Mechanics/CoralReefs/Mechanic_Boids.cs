@@ -1,5 +1,6 @@
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Systems;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,11 +17,11 @@ namespace EEMod
     {
         internal List<Flock> fishflocks = new List<Flock>();
 
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             foreach(Flock fishflock in fishflocks)
             {
-                fishflock.Draw(Main.spriteBatch);
+                fishflock.Draw(spriteBatch);
             }
         }
 

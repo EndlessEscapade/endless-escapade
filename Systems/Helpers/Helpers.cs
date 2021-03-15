@@ -112,7 +112,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Main.tile[(int)x / 16, (int)y / 16].active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -152,7 +152,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Main.tile[(int)x / 16, (int)y / 16].active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.BlueCrystalShard);
                                 dust.fadeIn = 1f;
@@ -193,7 +193,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Main.tile[(int)x / 16, (int)y / 16].active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -232,7 +232,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Main.tile[(int)x / 16, (int)y / 16].active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -293,7 +293,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Main.tile[(int)x / 16, (int)y / 16].active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;

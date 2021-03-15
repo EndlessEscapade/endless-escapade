@@ -50,8 +50,8 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Color color = Color.White;
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
+            int frameX = Framing.GetTileSafely(i, j).frameX;
+            int frameY = Framing.GetTileSafely(i, j).frameY;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {

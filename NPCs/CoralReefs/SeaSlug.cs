@@ -45,7 +45,7 @@ namespace EEMod.NPCs.CoralReefs
             try
             {
                 var npcCenter = npc.Center.ToTileCoordinates();
-                Tile tile = Main.tile[npcCenter.X, npcCenter.Y];
+                Tile tile = Framing.GetTileSafely(npcCenter.X, npcCenter.Y);
                 if (!WorldGen.SolidTile(npcCenter.X, npcCenter.Y) && tile.liquid == 0)
                 {
                     tile.liquid = (byte)Main.rand.Next(50, 150);

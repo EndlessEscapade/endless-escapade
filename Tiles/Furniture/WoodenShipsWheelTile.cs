@@ -49,8 +49,8 @@ namespace EEMod.Tiles.Furniture
         private bool isIntersecting;
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
-            //int frameX = Main.tile[i, j].frameX;
-            //int frameY = Main.tile[i, j].frameY;
+            //int frameX = Framing.GetTileSafely(i, j).frameX;
+            //int frameY = Framing.GetTileSafely(i, j).frameY;
             Player player = Main.LocalPlayer;
             if (new Rectangle((int)player.position.X / 16, (int)player.position.Y / 16, 1, 2).Intersects(new Rectangle(i, j, 1, 1)) && !isIntersecting)
                 isIntersecting = true;

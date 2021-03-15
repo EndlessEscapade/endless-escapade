@@ -1,4 +1,5 @@
 using EEMod.Extensions;
+using EEMod.Systems;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -52,7 +53,7 @@ namespace EEMod
                 }
             }
         }
-        public override void OnDraw()
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             DrawNoiseSurfacing();
         }

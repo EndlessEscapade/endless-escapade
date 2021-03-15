@@ -58,7 +58,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             {
                 foreach (var item in EmptyTileEntities.Instance.EmptyTilePairsCache.Where(kvp => kvp.Value == position).ToList()) // Turning into a list is needed because if the collection is modified while it's looping an exception will be thrown
                 {
-                    if (Main.tile[(int)item.Key.X, (int)item.Key.Y].active())
+                    if (Framing.GetTileSafely((int)item.Key.X, (int)item.Key.Y).active())
                         WorldGen.KillTile((int)item.Key.X, (int)item.Key.Y);
                 }
             }
@@ -130,7 +130,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         }
         public override void OnUpdate()
         {
-            Tile tile = Main.tile[(int)position.X, (int)position.Y];
+            Tile tile = Framing.GetTileSafely((int)position.X, (int)position.Y);
             lerp += speed;
             if (tile.type != ModContent.TileType<EmptyTile>() && tile.active())
             {
@@ -196,7 +196,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         public override void OnUpdate()
         {
             lerp += speed;
-            Tile tile = Main.tile[(int)position.X, (int)position.Y];
+            Tile tile = Framing.GetTileSafely((int)position.X, (int)position.Y);
             if (tile.type != ModContent.TileType<EmptyTile>() && tile.active())
             {
                 Destroy();

@@ -80,8 +80,8 @@ namespace EEMod
 
         public static void DrawTileGlowmask(Texture2D texture, int i, int j)
         {
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
+            int frameX = Framing.GetTileSafely(i, j).frameX;
+            int frameY = Framing.GetTileSafely(i, j).frameY;
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
@@ -97,8 +97,8 @@ namespace EEMod
 
         public static void DrawTileGlowmask(Texture2D texture, int i, int j, Color color)
         {
-            int frameX = Main.tile[i, j].frameX;
-            int frameY = Main.tile[i, j].frameY;
+            int frameX = Framing.GetTileSafely(i, j).frameX;
+            int frameY = Framing.GetTileSafely(i, j).frameY;
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)

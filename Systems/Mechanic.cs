@@ -5,26 +5,28 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using EEMod.Autoloading;
+using EEMod.Autoloading.AutoloadTypes;
 
-namespace EEMod
+namespace EEMod.Systems
 {
     public enum Layer
     {
         BehindTiles,
         AboveTiles
     }
-    public class Mechanic : IComponent
+    public class Mechanic : IComponent, IAutoloadType
     {
         public EEMod Singleton => ModContent.GetInstance<EEMod>();
         public float ElapsedTicks => Main.GameUpdateCount;
         protected virtual Layer DrawLayering => Layer.BehindTiles;
-        public virtual void OnDraw() { }
+        public virtual void OnDraw(SpriteBatch spriteBatch) { }
         public virtual void OnUpdate() { }
         public virtual void OnLoad() { }
 
         public void Draw(SpriteBatch spritebatch)
         {
-            OnDraw();
+            OnDraw(spritebatch);
         }
 
         public void Update()
@@ -34,7 +36,7 @@ namespace EEMod
         public void Load()
         {
             Singleton.Updatables.Add(this);
-            switch(DrawLayering)
+            switch (DrawLayering)
             {
                 case Layer.BehindTiles:
                     Singleton.BeforeTiles += Draw;
@@ -45,6 +47,9 @@ namespace EEMod
             }
             OnLoad();
         }
-        public Mechanic() { Load(); }
+        public Mechanic()
+        {
+            // Loaded in MechanicManager
+        }
     }
 }

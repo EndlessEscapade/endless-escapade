@@ -1,4 +1,6 @@
-﻿namespace EEMod.Extensions
+﻿using System;
+
+namespace EEMod.Extensions
 {
     public static class ArrayExtensions
     {
@@ -15,6 +17,11 @@
             }
         }
 
+        /// <summary>
+        /// Initializes elements that are null
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="t"></param>
         public static void InitializeNulls<T>(this T[] t) where T : class, new()
         {
             for (int i = 0; i < t.Length; i++)
@@ -32,6 +39,16 @@
             {
                 t[i] = default;
             }
+        }
+
+        public static Array CloneAndCopy(this Array array)
+        {
+            int[] lengths = new int[array.Rank];
+            for (int i = 0; i < array.Rank; i++)
+                lengths[i] = array.GetLength(i);
+            Array copy = Array.CreateInstance(array.GetType().GetElementType(), lengths);
+            Array.Copy(array, copy, array.Length);
+            return copy;
         }
     }
 }

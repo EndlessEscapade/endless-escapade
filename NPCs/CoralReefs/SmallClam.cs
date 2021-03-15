@@ -70,7 +70,7 @@ namespace EEMod.NPCs.CoralReefs
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
-                    Tile tile = Main.tile[i, j];
+                    Tile tile = Framing.GetTileSafely(i, j);
                     if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         tilePos.X = i * 16f;

@@ -891,8 +891,9 @@ namespace EEMod
                 int tracker = 0;
                 if (i != 0)
                 {
-                    while ((Main.tile[(int)arrayPoints[i].X / 16, (int)arrayPoints[i].Y / 16].active() &&
-                            Main.tileSolid[Main.tile[(int)arrayPoints[i].X / 16, (int)arrayPoints[i].Y / 16].type])
+                    Tile tile = Framing.GetTileSafely((int)arrayPoints[i].X / 16, (int)arrayPoints[i].Y / 16);
+                    while (tile.active() &&
+                            Main.tileSolid[tile.type]
                            || !Collision.CanHit(new Vector2(arrayPoints[i].X, arrayPoints[i].Y), 1, 1, new Vector2(arrayPoints[i - 1].X, arrayPoints[i - 1].Y), 1, 1))
                     {
                         arrayPoints[i].Y--;

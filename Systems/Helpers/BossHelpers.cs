@@ -386,7 +386,7 @@ namespace EEMod
             {
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
-                    Tile tile = Main.tile[i, j];
+                    Tile tile = Framing.GetTileSafely(i, j);
                     if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         tilePos.X = i * 16;
@@ -431,7 +431,7 @@ namespace EEMod
             {
                 for (int j = minTilePosY; j < maxTilePosY; ++j)
                 {
-                    Tile tile = Main.tile[i, j];
+                    Tile tile = Framing.GetTileSafely(i, j);
                     if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         Vector2 vector2;
