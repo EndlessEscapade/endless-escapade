@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<AquamarineLamp2>();
+            item.createTile = ModContent.TileType<MoyaiTile>();
         }
     }
 }

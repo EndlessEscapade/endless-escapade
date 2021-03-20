@@ -9,7 +9,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Foliage.Coral;
+using EEMod.Tiles.Foliage.Aquamarine;
 using EEMod.Projectiles.Enemy;
 using EEMod.Prim;
 using EEMod.Items.Weapons.Melee;

@@ -13,7 +13,7 @@ using Terraria.ID;
 using EEMod.Prim;
 using System.Linq;
 
-namespace EEMod.Tiles.Foliage.Coral
+namespace EEMod.Tiles.Foliage.Aquamarine
 {
     public class AquamarineLamp2 : ModTile
     {

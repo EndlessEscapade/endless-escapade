@@ -6,7 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Foliage.Coral
+namespace EEMod.Tiles.Foliage.SeahorseShoals
 {
     public class TeslaCoral : ModTile
     {

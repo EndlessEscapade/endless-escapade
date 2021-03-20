@@ -6,7 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Foliage.Coral.WallCoral
+namespace EEMod.Tiles.Foliage.KelpForest
 {
     public class Wall4x3CoralL : ModTile
     {

@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Foliage.Coral
+namespace EEMod.Tiles.Foliage.KelpForest
 {
 
 

@@ -1,8 +1,6 @@
 ﻿using EEMod.Tiles;
 using EEMod.Tiles.Foliage;
-using EEMod.Tiles.Foliage.Coral;
-using EEMod.Tiles.Foliage.Coral.HangingCoral;
-using EEMod.Tiles.Foliage.Coral.WallCoral;
+using EEMod.Tiles.Foliage.KelpForest;
 using EEMod.Tiles.Walls;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;

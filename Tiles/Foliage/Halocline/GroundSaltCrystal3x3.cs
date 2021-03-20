@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 using EEMod.Extensions;
 using System;
 
-namespace EEMod.Tiles.Foliage.Coral
+namespace EEMod.Tiles.Foliage.Halocline
 {
     public class GroundSaltCrystal3x3 : ModTile
     {

@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Foliage.Coral.HangingCoral
+namespace EEMod.Tiles.Foliage.KelpForest
 {
 
     public class GlowHangCoral1 : ModTile
