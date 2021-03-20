@@ -212,11 +212,21 @@ namespace EEMod.Projectiles.Melee
             {
                 for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
                 {
-                    int lightningproj = Projectile.NewProjectile(pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    /*int lightningproj = Projectile.NewProjectile(pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), projectile.damage, projectile.knockBack, projectile.owner);
                     if (Main.netMode != NetmodeID.Server)
                     {
                         EEMod.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
-                    }
+                    }*/
+
+                    int lightningproj = Projectile.NewProjectile(pos, Vector2.One, ModContent.ProjectileType<TeslaCoral>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    /*if (Main.netMode != NetmodeID.Server)
+                    {
+                        EEMod.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
+                    }*/
+
+                    TeslaCoral zappy = Main.projectile[lightningproj].modProjectile as TeslaCoral;
+
+                    zappy.target = Main.LocalPlayer.Center;
                 }
                 projectile.ai[1] = 2;
             }

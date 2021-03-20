@@ -23,6 +23,7 @@ using Terraria.ModLoader.IO;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.SeamapContent;
+using Terraria.DataStructures;
 
 namespace EEMod
 {
@@ -555,9 +556,10 @@ namespace EEMod
                             //  Filters.Scene.Activate("EEMod:WhiteFlash", player.Center).GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                         }
 
-                        Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+                        /*Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
                         Main.spriteBatch.Draw(GetTexture("EEMod/Projectiles/Nice"), player.Center.ForDraw(), new Rectangle(0, 0, 174, 174), Color.White * (markerPlacer - ((120 * 8) + 1400)) * 0.05f, (markerPlacer - ((120 * 8) + 1400)) / 10, new Rectangle(0, 0, 174, 174).Size() / 2, markerPlacer - ((120 * 8) + 1400), SpriteEffects.None, 0);
-                        Main.spriteBatch.End();
+                        Main.spriteBatch.End();*/
+
                         //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                     }
                     if (markerPlacer >= (120 * 8) + 1800)
@@ -1322,6 +1324,50 @@ namespace EEMod
             }
         }*/
 
+        /*private Vector2 leftClickPos;
+        private Vector2 rightClickPos;
+        public static readonly PlayerLayer CubicBezier = new PlayerLayer("EEMod", "CubicBezier", PlayerLayer.MiscEffectsBack, delegate (PlayerDrawInfo drawInfo) 
+        {
+            if (drawInfo.shadow != 0f)
+            {
+                return;
+            }
+
+            Player player = drawInfo.drawPlayer;
+
+            Vector2 leftClickPos = player.GetModPlayer<EEPlayer>().leftClickPos;
+            Vector2 rightClickPos = player.GetModPlayer<EEPlayer>().rightClickPos;
+
+            if (leftClickPos != Vector2.Zero && rightClickPos != Vector2.Zero)
+            {
+                DrawData clown1 = new DrawData(GetTexture("EEMod/Particles/Clownfish"), leftClickPos - Main.screenPosition, new Rectangle(0, 0, 48, 32), Color.White, 0, new Rectangle(0, 0, 48, 32).Size() / 2f, 1f, SpriteEffects.None, default);
+                Main.playerDrawData.Add(clown1);
+                DrawData clown2 = new DrawData(GetTexture("EEMod/Particles/Clownfish"), rightClickPos - Main.screenPosition, new Rectangle(0, 0, 48, 32), Color.White, 0, new Rectangle(0, 0, 48, 32).Size() / 2f, 1f, SpriteEffects.None, default);
+                Main.playerDrawData.Add(clown2);
+
+                for (float lerpVal = 0; lerpVal < 1; lerpVal += 0.05f)
+                {
+                    Vector2 origin = player.Center;
+                    Vector2 cp1 = leftClickPos;
+                    Vector2 cp2 = rightClickPos;
+                    Vector2 end = Main.MouseWorld;
+
+                    Vector2 p1 = Vector2.Lerp(origin, cp1, lerpVal);
+                    Vector2 p2 = Vector2.Lerp(cp1, cp2, lerpVal);
+                    Vector2 p3 = Vector2.Lerp(cp2, end, lerpVal);
+
+                    Vector2 s1 = Vector2.Lerp(p1, p2, lerpVal);
+                    Vector2 s2 = Vector2.Lerp(p2, p3, lerpVal);
+
+                    Vector2 finalPos = Vector2.Lerp(s1, s2, lerpVal);
+
+                    DrawData data = new DrawData(GetTexture("EEMod/Particles/Fish"), finalPos - Main.screenPosition, new Rectangle(0, 0, 36, 22), Color.White, 0, new Rectangle(0, 0, 36, 22).Size() / 2f, 1f, SpriteEffects.None, default);
+                    Main.playerDrawData.Add(data);
+                }
+            }
+        });*/
+
+
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
         {
             if (isLight)
@@ -1331,6 +1377,20 @@ namespace EEMod
                     layers[i].visible = false;
                 }
             }
+
+            /*CubicBezier.visible = true;
+            layers.Insert(0, CubicBezier);
+
+            if (player.controlUseItem)
+            {
+                leftClickPos = Main.MouseWorld;
+                Main.NewText("Left click");
+            }
+            if (player.controlUseTile)
+            {
+                rightClickPos = Main.MouseWorld;
+                Main.NewText("Right click");
+            }*/
         }
 
         public override void DrawEffects(PlayerDrawInfo drawInfo, ref float r, ref float g, ref float b, ref float a, ref bool fullBright)
