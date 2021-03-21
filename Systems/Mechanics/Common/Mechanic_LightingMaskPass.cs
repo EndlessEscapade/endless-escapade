@@ -14,61 +14,61 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class LightingMasks : Mechanic
+    public class LightingBuffer : Mechanic
     {
         internal readonly List<Vector2> _lightPoints = new List<Vector2>();
         internal readonly List<Color> _colorPoints = new List<Color>();
 
-        internal static LightingMasks Instance;
-        public void UpdateLight()
-        {/*
-            for (int i = 0; i < EEMod.maxNumberOfLights; i++)
-            {
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:LightSource{i}"].IsActive())
-                {
-                    Filters.Scene.Deactivate($"EEMod:LightSource{i}");
-                }
-            }
+        internal static LightingBuffer Instance;
 
-            for (int i = 0; i < EEMod.maxNumberOfLights; i++)
-            {
-                if (Main.netMode != NetmodeID.Server && !Filters.Scene[$"EEMod:LightSource{i}"].IsActive())
-                {
-                    Filters.Scene.Activate($"EEMod:LightSource{i}", Vector2.Zero).GetShader().UseIntensity(0f);
-                }
-            }
 
-            List<Vector2> listTransformable = new List<Vector2>();
-
-            for (int i = 0; i < _lightPoints.Count; i++)
-            {
-                listTransformable.Add((_lightPoints[i] * 16 - Main.screenPosition) / new Vector2(Main.screenWidth, Main.screenHeight));
-
-                if (i < EEMod.maxNumberOfLights)
-                {
-                    Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), (_lightPoints[i] * 16).ForDraw(), _colorPoints[i] * 0.2f, 0.5f);
-                    //Filters.Scene[$"EEMod:LightSource{i}"].GetShader().UseImageOffset(listTransformable[i]).UseIntensity(0.0045f).UseColor(_colorPoints[i]);
-                }
-            }
-
-            _lightPoints.Clear();
-            _colorPoints.Clear();
-            listTransformable.Clear();*/
-        }
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public static void DrawBGs()
         {
-           // ModContent.GetInstance<EEMod>().TVH.Draw(Main.spriteBatch);
+
+        }
+        public void UpdateLight()
+        {
+            if (_lightPoints.Count > 0)
+            {
+                _lightPoints.Clear();
+                _colorPoints.Clear();
+            }
+        }
+<<<<<<< Updated upstream
+        public override void OnDraw(SpriteBatch spriteBatch)
+=======
+
+        public event Action BufferCalls;
+        public override void OnDraw()
+>>>>>>> Stashed changes
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            BufferCalls?.Invoke();
+            BufferCalls = null;
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
+        public void DrawWithBuffer(Texture2D texture, Vector2 position)
+        {
+            BufferCalls += () =>
+            {
+                EEMod.LightingBufferEffect.Parameters["screenPosition"].SetValue(position.ForDraw());
+                EEMod.LightingBufferEffect.Parameters["texSize"].SetValue(texture.Bounds.Size());
+                EEMod.LightingBufferEffect.CurrentTechnique.Passes[0].Apply();
+                Main.spriteBatch.Draw(texture, position.ForDraw(), Color.White);
+            };
+        }
         public override void OnUpdate()
         {
-           // UpdateLight();
+            UpdateLight();
         }
 
         public override void OnLoad()
         {
             Instance = this;
         }
-        protected override Layer DrawLayering => Layer.BehindTiles;
+        protected override Layer DrawLayering => Layer.None;
     }
 }

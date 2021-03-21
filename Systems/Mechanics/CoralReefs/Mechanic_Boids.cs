@@ -253,7 +253,7 @@ namespace EEMod
         {
             for(int i = 0; i<amount; i++)
             {
-                if (Objects.Count < 250)
+                if (Objects.Count < 100)
                 {
                     Fish fish = new Fish(this)
                     {
@@ -282,7 +282,7 @@ namespace EEMod
                             }
                         }
                     }
-                    if (Vector2.DistanceSquared(fish.position.ParalaxX(-0f), Main.LocalPlayer.Center) > 3000 * 3000)
+                    if (Vector2.DistanceSquared(fish.position.ParalaxX(-0f), Main.LocalPlayer.Center) > 2200 * 2200)
                         Objects.Remove(fish);
                 }
             }

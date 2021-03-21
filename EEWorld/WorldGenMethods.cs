@@ -974,15 +974,62 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    tile.ClearTile();
-                    WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    EEMod.progressMessage = messageBefore;
-                    EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    if (WorldGen.InWorld(i + (int)startingPoint.X, j + (int)startingPoint.Y, 2))
+                    {
+                        Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                        tile.ClearTile();
+                        WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                        EEMod.progressMessage = messageBefore;
+                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    }
                 }
             }
         }
+        public static Vector2 FindClosest(Vector2 pos, Vector2[] List)
+        {
+            Vector2 closest = Vector2.Zero;
+            for (int i = 0; i < List.Length; i++)
+            {
+                if (closest == Vector2.Zero || Vector2.DistanceSquared(pos, List[i]) < Vector2.DistanceSquared(pos, closest) && Vector2.DistanceSquared(pos, List[i]) > 5)
+                {
+                    closest = List[i];
+                }
+            }
+            return closest;
+        }
+        public static Vector2[] MakeDistantLocations(int number, float distance, Rectangle Bounds, int maxIterations = 100)
+        {
+            List<Vector2> Points = new List<Vector2>();
+            for (int k = 0; k < number; k++)
+            {
+                Vector2 chosen = Vector2.Zero;
+                if (Points.Count != 0)
+                {
+                    int count = -1;
+                    int iterations = 0;
 
+                    while ((count == -1 || count != 0) && iterations < maxIterations)
+                    {
+                        chosen = new Vector2(WorldGen.genRand.NextFloat(Bounds.Left, Bounds.Right), WorldGen.genRand.NextFloat(Bounds.Top, Bounds.Bottom));
+                        count = 0;
+                        for (int i = 0; i < Points.Count; i++)
+                        {
+                            if (Vector2.DistanceSquared(chosen, Points[i]) < distance * distance)
+                            {
+                                count++;
+                            }
+                        }
+                        iterations++;
+                    }
+                    Points.Add(chosen);
+                }
+                else
+                {
+                    Points.Add(Bounds.Center.ToVector2());
+                }
+            }
+            return Points.ToArray();
+        }
         public static void ClearRegionSafely(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;
@@ -1107,6 +1154,7 @@ namespace EEMod.EEWorld
 
         public static int TileCheck2(int i, int j)
         {
+<<<<<<< Updated upstream
             Tile tile = Framing.GetTileSafely(i, j);
             Tile tileBelow = Framing.GetTileSafely(i, j - 1);
             Tile tileBelow2 = Framing.GetTileSafely(i, j - 2);
@@ -1135,7 +1183,42 @@ namespace EEMod.EEWorld
             else
             {
                 return 0;
+=======
+            if (WorldGen.InWorld(i, j, 4))
+            {
+                Tile tile1 = Framing.GetTileSafely(i, j);
+                Tile tile2 = Framing.GetTileSafely(i, j - 1);
+                Tile tile3 = Framing.GetTileSafely(i, j - 2);
+                Tile tile4 = Framing.GetTileSafely(i, j + 1);
+                Tile tile5 = Framing.GetTileSafely(i, j + 2);
+                Tile tile6 = Framing.GetTileSafely(i - 1, j);
+                Tile tile7 = Framing.GetTileSafely(i - 2, j);
+                Tile tile8 = Framing.GetTileSafely(i + 1, j);
+                Tile tile9 = Framing.GetTileSafely(i + 2, j);
+
+                if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active() && tile1.slope() == 0)
+                {
+                    return 1;
+                }
+                if (tile1.active() && !tile2.active() && !tile3.active() && tile4.active() && tile5.active() && tile1.slope() == 0)
+                {
+                    return 2;
+                }
+                if (tile1.active() && tile6.active() && tile7.active() && !tile8.active() && !tile9.active())
+                {
+                    return 3;
+                }
+                if (tile1.active() && !tile6.active() && !tile7.active() && tile8.active() && tile9.active())
+                {
+                    return 4;
+                }
+                else
+                {
+                    return 0;
+                }
+>>>>>>> Stashed changes
             }
+            return 0;
         }
         public static bool CheckRangeRight(int i, int j, int length, bool opposite = false)
         {
@@ -1374,7 +1457,21 @@ namespace EEMod.EEWorld
                 }
             }
         }
-
+        public static void MakeCircleFromCenter(int size, Vector2 Center, int type, bool forced)
+        {
+            Vector2 startingPoint = new Vector2(Center.X - size * .5f, Center.Y - size * .5f);
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    float f = size * 0.5f;
+                    if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
+                    {
+                        WorldGen.PlaceTile(i + (int)startingPoint.X, j + (int)startingPoint.Y, type, false, forced);
+                    }
+                }
+            }
+        }
         public static void MakeCircle(int size, Vector2 startingPoint, int type, bool forced)
         {
             for (int i = 0; i < size; i++)

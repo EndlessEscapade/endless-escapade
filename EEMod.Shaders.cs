@@ -1,5 +1,6 @@
 ﻿using EEMod.Autoloading;
 using EEMod.NPCs.Bosses.Akumo;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Effects;
@@ -21,9 +22,11 @@ namespace EEMod
         public static Effect TrailPractice;
         public static Effect RadialField;
         public static Effect SolidOutline;
+        public static Effect LightingBufferEffect;
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
+            LightingBufferEffect = ModContent.GetInstance<EEMod>().GetEffect("Effects/LightingBuffer");
             SolidOutline = ModContent.GetInstance<EEMod>().GetEffect("Effects/WhiteOutlineSolid");
             RadialField = ModContent.GetInstance<EEMod>().GetEffect("Effects/RadialSurfacing");
             PrismShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/PrismShader");
@@ -32,6 +35,9 @@ namespace EEMod
             ReflectionShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/ReflectionShader");
             WaterShader = ModContent.GetInstance<EEMod>().GetEffect("Effects/WaterShader");
             TrailPractice = ModContent.GetInstance<EEMod>().GetEffect("Effects/NonBasicEffectShader");
+
+            LightingBufferEffect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
+
             //ModContent.GetInstance<EEMod>() is a static field and this method is still inside the mod class
             Ref<Effect> screenRef = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/PracticeEffect"));
             Ref<Effect> screenRef2 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/Shockwave"));

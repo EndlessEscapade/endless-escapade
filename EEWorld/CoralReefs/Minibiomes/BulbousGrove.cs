@@ -1,5 +1,6 @@
 ﻿using EEMod.Tiles.Walls;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -28,6 +29,21 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        
+        public void MakeStraightChasm(Vector2 pos1, Vector2 pos2, int width)
+        {
+            Vector2 Perpendicular = Vector2.Normalize((pos1 - pos2).RotatedBy(1.57f));
+            for (float i = 0; i < 1; i += 1 / pos1.Length())
+            {
+                Vector2 lerp = Vector2.Lerp(pos1, pos2, i);
+                WorldGen.KillTile((int)lerp.X, (int)lerp.Y);
+                for (int j = -width; j < width; j++)
+                {
+                    Vector2 altP1 = lerp + Perpendicular * j;
+                    WorldGen.KillTile((int)altP1.X, (int)altP1.Y);
+                }
+            }
+        }
 
         public override void StructureStep()
         {
@@ -36,11 +52,22 @@ namespace EEMod.EEWorld
             int tile2;
             tile2 = (ushort)GetGemsandType((int)TL.Y);
 
-            MakeJaggedOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
-
-            for (int i = 0; i < 20; i++)
+            Vector2[] poses = MakeDistantLocations(20,30,Bounds);
+            //FillRegion(Bounds.Width, Bounds.Height, Position.ToVector2(), TileID.Dirt);
+            for (int i = 0; i < poses.Length; i++)
             {
-                MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(Size.X), TL.Y + WorldGen.genRand.Next(Size.Y)), tile2, true);
+                if (i != 0)
+                {
+                    MakeCircleFromCenter(WorldGen.genRand.Next(20, 30), poses[i], TileID.StoneSlab, true);
+                    if (WorldGen.genRand.Next(2) == 0)
+                    {
+                        MakeStraightChasm(poses[0], poses[i], WorldGen.genRand.Next(3, 5));
+                    }
+                    Vector2 c = FindClosest(poses[i], poses);
+                    MakeStraightChasm(c, poses[i], WorldGen.genRand.Next(3, 5));
+                }
+                else
+                    MakeCircleFromCenter(WorldGen.genRand.Next(40, 50), poses[i], TileID.StoneSlab, true);
             }
             RemoveStoneSlabs();
             BoundClause((int i, int j) =>

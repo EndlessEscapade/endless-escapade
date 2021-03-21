@@ -6,6 +6,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.EmptyTileArrays;
+using System;
+
 namespace EEMod.Tiles
 {
     public class KelpLeafTile : ModTile
@@ -68,6 +70,27 @@ namespace EEMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            Point tp = Main.LocalPlayer.position.ToTileCoordinates();
+            if (tp.Y > j - 4 && tp.Y < j && tp.X > i - 1 && tp.X < i + 1)
+            {
+                Color chosen = Color.Lerp(Color.Yellow, Color.LightGoldenrodYellow, Main.rand.NextFloat(1f));
+                if (Math.Abs(Main.LocalPlayer.velocity.X) > 0.1f)
+                {
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.6f));
+                    EEMod.Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, Main.LocalPlayer.height / 2),
+                        -Main.LocalPlayer.velocity / 5f + new Vector2(0,-0.5f), null, 20, 2f,
+                        chosen,
+                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.04f, .04f)), new SetMask(Helpers.RadialMask, 0.15f));
+                }
+                if(Main.LocalPlayer.velocity.Y > 3f)
+                {
+                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.6f));
+                    EEMod.Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, Main.LocalPlayer.height / 2),
+                        -Main.LocalPlayer.velocity / 5f + new Vector2(0, -0.5f), null, 20, 2f,
+                        chosen,
+                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.05f, .05f)), new SetMask(Helpers.RadialMask, 0.15f), new Spew(6.14f,1f,Vector2.One,0.9f));
+                }
+            }
             return true;
         }
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
