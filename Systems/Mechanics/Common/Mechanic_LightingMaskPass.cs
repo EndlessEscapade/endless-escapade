@@ -34,13 +34,9 @@ namespace EEMod
                 _colorPoints.Clear();
             }
         }
-<<<<<<< Updated upstream
-        public override void OnDraw(SpriteBatch spriteBatch)
-=======
-
         public event Action BufferCalls;
-        public override void OnDraw()
->>>>>>> Stashed changes
+
+        public override void OnDraw(SpriteBatch spriteBatch)
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
