@@ -1154,7 +1154,6 @@ namespace EEMod.EEWorld
 
         public static int TileCheck2(int i, int j)
         {
-<<<<<<< Updated upstream
             Tile tile = Framing.GetTileSafely(i, j);
             Tile tileBelow = Framing.GetTileSafely(i, j - 1);
             Tile tileBelow2 = Framing.GetTileSafely(i, j - 2);
@@ -1183,7 +1182,7 @@ namespace EEMod.EEWorld
             else
             {
                 return 0;
-=======
+            }
             if (WorldGen.InWorld(i, j, 4))
             {
                 Tile tile1 = Framing.GetTileSafely(i, j);
@@ -1216,7 +1215,6 @@ namespace EEMod.EEWorld
                 {
                     return 0;
                 }
->>>>>>> Stashed changes
             }
             return 0;
         }

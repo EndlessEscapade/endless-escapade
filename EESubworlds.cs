@@ -98,9 +98,6 @@ namespace EEMod
             int[] roomGen2 = Helpers.FillPseudoRandomUniform<int>(4);
 
             //Placing water and etc
-<<<<<<< Updated upstream
-
-=======
             Vector2[] Rooms = MakeDistantLocations(roomCount, 150, new Rectangle(200, 100, Main.maxTilesX - 400, Main.maxTilesY / 2 - 100), 1000);
             List<Vector2> Buffer = new List<Vector2>();
 
@@ -139,7 +136,7 @@ namespace EEMod
                     MakeWavyChasm3(roomsUp[i], closest, TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                 }
             }
->>>>>>> Stashed changes
+            
             try
             {
                 //Making chasms
@@ -213,17 +210,14 @@ namespace EEMod
                             PlaceRoom(roomGen2[i % 4]);
                         }
                         else
->>>>>>> Stashed changes
                         {
                             MakeWavyChasm3(roomsUp[i], roomsUp[i - 1], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(20, 40), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                         }
-<<<<<<< Updated upstream
 
                     }
-=======
                     }*/
->>>>>>> Stashed changes
                 }
+                
 
                 for (int i = 0; i < roomsDown.Length; i++)
                 {
