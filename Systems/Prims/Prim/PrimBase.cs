@@ -23,7 +23,7 @@ namespace EEMod.Prim
         {
             foreach (PrimTrail trail in _trails.ToArray())
             {
-                if (!trail.behindTiles)
+                if (!trail.behindTiles && !trail.ManualDraw)
                     trail.Draw();
             }
 
@@ -32,7 +32,7 @@ namespace EEMod.Prim
         {
             foreach (PrimTrail trail in _trails.ToArray())
             {
-                if(trail.behindTiles)
+                if(trail.behindTiles && !trail.ManualDraw)
                 trail.Draw();
             }
         }
@@ -74,6 +74,8 @@ namespace EEMod.Prim
         protected int RENDERDISTANCE => 2000;
         protected VertexPositionColorTexture[] vertices;
         protected int currentIndex;
+
+        public bool ManualDraw;
         public PrimTrail(Projectile projectile)
         {
             _trailShader = new DefaultShader();

@@ -260,7 +260,27 @@ namespace EEMod
         UIManager UI;
         public override void PreUpdateEntities()
         {
-            RenderTargetBinding[] oldtargets = Main.graphics.GraphicsDevice.GetRenderTargets();
+            RenderTargetBinding[] oldtargets1 = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+            Main.graphics.GraphicsDevice.SetRenderTarget(lightingTarget);
+            Main.graphics.GraphicsDevice.Clear(Color.Black);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
+            int Width = Main.screenWidth;
+            int Height = Main.screenHeight;
+            for (int i = 0; i < Width/16; i++)
+            {
+                for (int j = 0; j < Height / 16; j++)
+                {
+                    Vector2 SP = Main.screenPosition/16;
+                    Point p = new Point((int)SP.X + i, (int)SP.Y + j);
+                    Color c = Lighting.GetColor(p.X,p.Y);
+                    Main.spriteBatch.Draw(Main.magicPixel, new Rectangle(i, j,1,1), c);
+                }
+            }
+            Main.spriteBatch.End();
+            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
+            LightingBufferEffect.Parameters["buffer"].SetValue(lightingTarget);
+            RenderTargetBinding[] oldtargets2 = Main.graphics.GraphicsDevice.GetRenderTargets();
             Main.graphics.GraphicsDevice.SetRenderTarget(playerDrawData);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
             Main.spriteBatch.Begin();
@@ -303,14 +323,16 @@ namespace EEMod
                 }
             }
             Main.spriteBatch.End();
-            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets);
+            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets2);
             base.PreUpdateEntities();
         }
         public RenderTarget2D playerTarget;
+        public RenderTarget2D lightingTarget;
         public ComponentManager<TileObjVisual> TVH;
         public override void Load()
         {
             playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
+            lightingTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth/16, Main.screenHeight/16);
             TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());

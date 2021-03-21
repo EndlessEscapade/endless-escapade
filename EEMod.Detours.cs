@@ -40,6 +40,8 @@ namespace EEMod
         internal event MechanicDrawDelegate AfterTiles;
 
         public List<IComponent> Updatables = new List<IComponent>();
+
+        WaterPrimitive WP;
         private void LoadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float += Lighting_AddLight_int_int_float_float_float;
@@ -49,8 +51,10 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
             On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
+            On.Terraria.Main.DrawWalls += Main_DrawWalls;
             On.Terraria.Main.DrawTiles += Main_DrawTiles;
-
+            On.Terraria.Main.DrawWater += Main_DrawWater1;
+            On.Terraria.Main.DrawBackground += Main_DrawBackground1;
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
             On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
             //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
@@ -61,6 +65,25 @@ namespace EEMod
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
+            WP = new WaterPrimitive(null);
+            primitives.CreateTrail(WP);
+        }
+
+        private void Main_DrawBackground1(On.Terraria.Main.orig_DrawBackground orig, Main self)
+        {
+
+            orig(self);
+        }
+
+        private void Main_DrawWalls(On.Terraria.Main.orig_DrawWalls orig, Main self)
+        {
+
+            orig(self);
+        }
+
+        private void Main_DrawWater1(On.Terraria.Main.orig_DrawWater orig, Main self, bool bg, int Style, float Alpha)
+        {
+            orig(self, bg, Style, Alpha);
         }
 
         private void Main_DrawTiles(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidOnly, int waterStyleOverride)
@@ -72,6 +95,7 @@ namespace EEMod
         {
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= LiquidRenderer_InternalDraw;
             //On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
+            On.Terraria.Main.DrawBackground -= Main_DrawBackground1;
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
             On.Terraria.Main.DoUpdate -= Main_DoUpdate;
             On.Terraria.Main.DrawNPC -= Main_DrawNPC;
@@ -81,7 +105,8 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
             On.Terraria.Main.DrawTiles -= Main_DrawTiles;
-
+            On.Terraria.Main.DrawWater -= Main_DrawWater1;
+            On.Terraria.Main.DrawWalls -= Main_DrawWalls;
             //On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             //On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
             On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
@@ -255,11 +280,40 @@ namespace EEMod
         }
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
+            
+                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar");
+                Texture2D tex2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid");
+                Texture2D tex3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
+                LightingBuffer.Instance.Draw(Main.spriteBatch);
+
+                Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(-0.5f, 0)) /tex.Size();
+                Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(-0.5f, 0)) / tex2.Size();
+                Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(-0.5f, 0)) / tex3.Size();
+            for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
+                for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
+                    LightingBuffer.Instance.DrawWithBuffer(
+                    tex3,
+                    new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.5f, 0)));
+            for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
+                for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
+                    LightingBuffer.Instance.DrawWithBuffer(
+                    tex,
+                    new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.5f, 0)));
+
+                for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
+                    for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
+                        LightingBuffer.Instance.DrawWithBuffer(
+                        tex2,
+                        new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.5f, 0)));
+
+            
+
             foreach (IComponent Updateable in Updatables)
                 Updateable.Update();
             if(BeforeTiles != null)
             BeforeTiles.Invoke(Main.spriteBatch);
-
+            Vector2 v = Main.LocalPlayer.Center.ForDraw() - new Vector2(Main.screenWidth/2,Main.screenHeight/2);
+            Main.spriteBatch.Draw(lightingTarget, new Rectangle((int)v.X + 50,(int)v.Y + 50, Main.screenWidth/5, Main.screenHeight / 5), Color.White);
             DrawLensFlares();
 
             if (Main.worldName == KeyID.CoralReefs)
@@ -304,7 +358,7 @@ namespace EEMod
                     }
                 }
             }
-
+            //WP.Draw();
             orig(self);
         }
 
@@ -771,8 +825,9 @@ namespace EEMod
 
         private void Lighting_AddLight_int_int_float_float_float(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int i, int j, float R, float G, float B)
         {
-            //LightingMasks.Instance._lightPoints.Add(new Vector2(i + 0.5f,j + 0.5f));
-            //LightingMasks.Instance._colorPoints.Add(new Color(R, G, B));
+            global::EEMod.LightingBuffer.Instance._lightPoints.Add(new Vector2(i + 0.5f, j + 0.5f));
+            global::EEMod.LightingBuffer.Instance._colorPoints.Add(new Color(R, G, B));
+
             orig(i, j, R, G, B);
         }
 

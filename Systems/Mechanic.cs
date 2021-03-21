@@ -12,6 +12,7 @@ namespace EEMod.Systems
 {
     public enum Layer
     {
+        None,
         BehindTiles,
         AboveTiles
     }
