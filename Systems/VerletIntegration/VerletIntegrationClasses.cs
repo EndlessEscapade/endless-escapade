@@ -98,12 +98,12 @@ namespace EEMod.VerletIntegration
         }
         public void Update()
         {
-            UpdatePoints();
-            ConstrainToWorld();
+            //UpdatePoints();
+            //ConstrainToWorld();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
-                UpdateSticks();
+                //UpdateSticks();
                 //ConstrainPoints();
             }
 
@@ -305,11 +305,12 @@ namespace EEMod.VerletIntegration
                 Vector2 p1 = Points[stickPoints[i].a].point;
                 Vector2 p2 = Points[stickPoints[i].b].point;
                 Vector2 mid = p1 * 0.5f + p2 * 0.5f;
-                var tp1 = p1.ToTileCoordinates();
 
                 if ((Main.LocalPlayer.Center - mid).LengthSquared() < RENDERDISTANCE * RENDERDISTANCE)
                 {
                     
+                    var tp1 = p1.ToTileCoordinates();
+                    float rot = (p1 - p2).ToRotation();
                     if (stickPoints[i].isVisible)
                     {
                         float Dist = Vector2.Distance(p1, p2);
@@ -317,20 +318,22 @@ namespace EEMod.VerletIntegration
                         {
                             for (float j = 0; j < 1; j += 1 / Dist)
                             {
-                                Vector2 Lerped = p1 + j * (p2 - p1);
+                                //Vector2 Lerped = p1 + j * (p2 - p1);
 
-                                Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), stickPoints[i].color, 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
+                                //Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), stickPoints[i].color, 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
                             }
                         }
                         else
                         {
-                            Main.spriteBatch.Draw(stickPoints[i].tex, mid.ForDraw(), stickPoints[i].tex.Bounds, Lighting.GetColor((int)mid.X / 16, (int)mid.Y / 16), (p1 - p2).ToRotation(), stickPoints[i].tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
+                            Main.spriteBatch.Draw(stickPoints[i].tex, mid.ForDraw(), stickPoints[i].tex.Bounds, Lighting.GetColor((int)mid.X / 16, (int)mid.Y / 16), rot, stickPoints[i].tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
                             if (stickPoints[i].glowmask != null)
                             {
 
-                                Main.spriteBatch.Draw(stickPoints[i].glowmask, mid.ForDraw(), stickPoints[i].glowmask.Bounds, Color.White * (float)Math.Sin(Main.GameUpdateCount/60f +i), (p1 - p2).ToRotation(), stickPoints[i].glowmask.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
+                                Main.spriteBatch.Draw(stickPoints[i].glowmask, mid.ForDraw(), stickPoints[i].glowmask.Bounds, Color.White, (p1 - p2).ToRotation(), stickPoints[i].glowmask.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
                                 EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.0005f));
-                                EEMod.Particles.Get("Main").SpawnParticles(mid, new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 30, 2, Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.7f));
+                                EEMod.Particles.Get("Main").SpawnParticles(mid, 
+                                    new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 30, 1, 
+                                    Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.9f), new SetMask(Helpers.RadialMask), new SetTrailLength(15));
                             }
                         }
                     }

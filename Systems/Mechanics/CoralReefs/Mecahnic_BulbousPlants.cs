@@ -99,12 +99,12 @@ namespace EEMod
         }
         public override void OnDraw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
-            {
-                Vector2 pos = EESubWorlds.BulbousTreePosition[i] * 16;
-                if (pos.ForDraw().LengthSquared() < 2000 * 2000)
-                    HandleBulbDraw(pos);
-            }
+            //for (int i = 0; i < EESubWorlds.BulbousTreePosition.Count; i++)
+           // {
+           //     Vector2 pos = EESubWorlds.BulbousTreePosition[i] * 16;
+           //     if (pos.ForDraw().LengthSquared() < 2000 * 2000)
+           //         HandleBulbDraw(pos);
+           // }
         }
 
         public override void OnUpdate()

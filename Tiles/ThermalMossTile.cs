@@ -58,8 +58,8 @@ namespace EEMod.Tiles
             if(Main.rand.Next(4) == 1 && !Framing.GetTileSafely(i,j-1).active() )
             {
                 Color chosen = Color.Lerp(Color.Crimson, Color.White, Main.rand.NextFloat(1f));
-                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
-                EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i*16,j*16), -Vector2.UnitY, 4, chosen, new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.03f,0.03f)), new SetLighting(chosen.ToVector3(),0.1f));
+                //EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
+                //EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i*16,j*16), -Vector2.UnitY, 4, chosen, new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.03f,0.03f)), new SetLighting(chosen.ToVector3(),0.1f));
             }
             if (Main.drawToScreen)
             {
@@ -68,8 +68,8 @@ namespace EEMod.Tiles
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
             Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/ThermalMossTileGlow");
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
-            Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i,j), 0f, default, 1f, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+            //Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i,j), 0f, default, 1f, SpriteEffects.None, 0f);
+            //Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }
 }

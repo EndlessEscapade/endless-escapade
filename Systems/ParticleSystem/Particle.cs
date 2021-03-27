@@ -30,7 +30,7 @@ namespace EEMod
         public float alpha;
         public Color colour;
         public float rotation;
-        int TrailLength;
+        public int TrailLength;
         public Rectangle Frame;
         public int noOfFrames;
         public int AnimSpeedPerTick;
@@ -262,6 +262,20 @@ namespace EEMod
                 initial = true;
                 particle.timeLeft = timeLeft;
             }
+        }
+        public void Draw(in Particle particle) {; }
+    }
+
+    class SetTrailLength : IParticleModule
+    {
+        int traillength;
+        public SetTrailLength(int traillength)
+        {
+            this.traillength = traillength;
+        }
+        public void Update(in Particle particle)
+        {
+            particle.TrailLength = traillength;
         }
         public void Draw(in Particle particle) {; }
     }

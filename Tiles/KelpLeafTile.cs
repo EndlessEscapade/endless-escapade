@@ -80,7 +80,7 @@ namespace EEMod.Tiles
                     EEMod.Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, Main.LocalPlayer.height / 2),
                         -Main.LocalPlayer.velocity / 5f + new Vector2(0,-0.5f), null, 20, 2f,
                         chosen,
-                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.04f, .04f)), new SetMask(Helpers.RadialMask, 0.15f));
+                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.04f, .04f)), new SetMask(Helpers.RadialMask, 0.15f), new AfterImageTrail(0.96f));
                 }
                 if(Main.LocalPlayer.velocity.Y > 3f)
                 {
@@ -88,7 +88,8 @@ namespace EEMod.Tiles
                     EEMod.Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, Main.LocalPlayer.height / 2),
                         -Main.LocalPlayer.velocity / 5f + new Vector2(0, -0.5f), null, 20, 2f,
                         chosen,
-                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.05f, .05f)), new SetMask(Helpers.RadialMask, 0.15f), new Spew(6.14f,1f,Vector2.One,0.9f));
+                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.05f, .05f)), new SetMask(Helpers.RadialMask, 0.15f), new Spew(6.14f,1f,Vector2.One,0.9f)
+                        , new AfterImageTrail(0.96f));
                 }
             }
             return true;

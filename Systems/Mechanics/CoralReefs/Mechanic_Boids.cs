@@ -37,7 +37,7 @@ namespace EEMod
                 int randInt = Main.rand.Next(0, fishflocks.Count);
                 Vector2 rand = new Vector2(Main.rand.Next(-1800, 1800), Main.rand.Next(-1800, 1800));
                 if(rand.LengthSquared() > 700 * 700)
-                fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, 40, 50f);
+                fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, 20, 50f);
             }
         }
 
@@ -253,7 +253,7 @@ namespace EEMod
         {
             for(int i = 0; i<amount; i++)
             {
-                if (Objects.Count < 100)
+                if (Objects.Count < 60)
                 {
                     Fish fish = new Fish(this)
                     {

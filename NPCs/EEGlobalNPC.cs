@@ -25,14 +25,11 @@ namespace EEMod.NPCs
                 pool.Add(ModContent.NPCType<SeaSlug>(), 5f);
                 pool.Add(ModContent.NPCType<Seahorse>(), 5f);
             }
-            else if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneCoralReefs && spawnInfo.player.Center.Y > 12800)
+
+            if (spawnInfo.player.GetModPlayer<EEPlayer>().ZoneCoralReefs)
             {
                 pool[0] = 0f;
-                pool.Add(ModContent.NPCType<Clam>(), 0.5f);
-                pool.Add(ModContent.NPCType<Ball>(), 0.5f);
-                pool.Add(ModContent.NPCType<GiantSquid>(), 0.5f);
-                pool.Add(ModContent.NPCType<SeaSlug>(), 0.5f);
-                pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
+                pool.Add(ModContent.NPCType<GlowingKelpSpider>(), 0.5f);
             }
 
 

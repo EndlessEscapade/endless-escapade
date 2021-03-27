@@ -541,28 +541,20 @@ namespace EEMod
                         int ifa = 0;
                         for (int m = 0; m < BulbousTreePosition.Count; m++)
                         {
-                            if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 50 * 50)
+                            if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 20 * 20)
                             {
                                 ifa++;
                             }
                         }
                         for (int m = 0; m < AquamarineZiplineLocations.Count; m++)
                         {
-                            if (Vector2.DistanceSquared(new Vector2(i, j), AquamarineZiplineLocations[m]) < 50 * 50)
+                            if (Vector2.DistanceSquared(new Vector2(i, j), AquamarineZiplineLocations[m]) < 20 * 20)
                             {
                                 ifa++;
                             }
                         }
-                        for (int m = 0; m < GiantKelpRoots.Count; m++)
-                        {
-                            if (Vector2.DistanceSquared(new Vector2(i, j), GiantKelpRoots[m]) < 50 * 50)
-                            {
-                                ifa++;
-                            }
-                        }
-                        if (ifa == 0)
-                        {
-                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.Next(3) == 0 /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 10)
+                        
+                            if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.Next(2) == 0 /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 10)
                             {
                                 if (ChainConnections.Count == 0)
                                 {
@@ -571,13 +563,15 @@ namespace EEMod
                                 else
                                 {
                                     Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
-                                    if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 35 * 35 || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 500 * 500 && Math.Abs(lastPos.X - i) > 3)
+                                    if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 && 
+                                        Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 55 * 55 || 
+                                        Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 150 * 150)
                                     {
                                         ChainConnections.Add(new Vector2(i, j));
                                     }
                                 }
                             }
-                        }
+                        
                     }
                 }
                 #endregion

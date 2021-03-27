@@ -25,7 +25,7 @@ namespace EEMod
                     Vector2 addOn = new Vector2(0, 8);
                     Vector2 ChainConneccPos = EESubWorlds.ChainConnections[i] * 16;
                     Vector2 LastChainConneccPos = EESubWorlds.ChainConnections[i - 1] * 16;
-                    if (Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 40 * 16 * 40 * 16)
+                    if (Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 100 * 16 * 100 * 16)
                     {
                         Tile CurrentTile = Framing.GetTileSafely((int)EESubWorlds.ChainConnections[i].X, (int)EESubWorlds.ChainConnections[i].Y);
                         Tile LastTile = Framing.GetTileSafely((int)EESubWorlds.ChainConnections[i - 1].X, (int)EESubWorlds.ChainConnections[i - 1].Y);
