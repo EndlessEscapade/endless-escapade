@@ -514,7 +514,7 @@ namespace EEMod
                 }
             }
 
-            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, (int)width, (int)height), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, (int)width + 8, (int)height + 8), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
 
             Main.spriteBatch.Draw(_screenTexture, position, new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes), new Color(0, 0, 0), 0, new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes).Size() / 2, 1, SpriteEffects.None, 0);
         }

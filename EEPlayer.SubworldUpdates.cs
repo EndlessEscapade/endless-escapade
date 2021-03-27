@@ -31,6 +31,8 @@ namespace EEMod
 
         public float quickOpeningFloat = 5f;
 
+        public bool jellyfishMigration;
+
         public void UpdatePyramids()
         {
             if (noU)
@@ -80,20 +82,14 @@ namespace EEMod
                 Filters.Scene.Deactivate(shad2);
             }
         }
+
         int SpireCutscene;
         public void UpdateCR()
         {
-            if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
+            /*if (player.position.Y >= 800 * 16 && !player.accDivingHelm)
             {
                 player.AddBuff(BuffType<WaterPressure>(), 60);
-            }
-
-            if (HydrosCheck())
-            {
-                NPC.NewNPC((int)position.X * 16, (int)position.Y * 16 - 400, NPCType<Hydros>());
-
-                EEWorld.EEWorld.instance.minionsKilled = 0;
-            }
+            }*/
 
             if (noU)
             {
@@ -120,17 +116,20 @@ namespace EEMod
             {
                 HasVisitedSpire = true;
             }
+
             if (HasVisitedSpire && SpireCutscene < 200)
             {
                 FixateCameraOn(EESubWorlds.SpirePosition * 16 + new Vector2(0, -13 * 16), 64f, false, true, 0);
                 SpireCutscene++;
             }
+
             if (SpireCutscene == 200)
             {
                 HasVisitedSpire = true;
                 SpireCutscene++;
                 TurnCameraFixationsOff();
             }
+
             if (!arrowFlag)
             {
                 for (int i = 0; i < EESubWorlds.OrbPositions.Count; i++)
@@ -174,8 +173,16 @@ namespace EEMod
                     ArrowsUIState.OceanArrowVisible = false;
                 }
             }
-            catch
+            catch { }
+
+            if (Main.moonType == 4 && !Main.dayTime && !jellyfishMigration)
             {
+                Main.NewText("Jellyfish are migrating on the surface!", new Color(50, 255, 130));
+                jellyfishMigration = true;
+            }
+            if (jellyfishMigration && Main.dayTime)
+            {
+                jellyfishMigration = false;
             }
         }
 
