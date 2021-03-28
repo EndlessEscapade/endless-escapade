@@ -53,6 +53,26 @@ namespace EEMod.NPCs
                     pool.Add(ModContent.NPCType<SeaSlug>(), 0.5f);
                     pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
                 }
+
+                if (spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome[(int)MinibiomeID.KelpForest])
+                {
+                    pool[0] = 0f;
+                    pool.Add(ModContent.NPCType<GlowingKelpSpider>(), 0.5f);
+                }
+            }
+
+
+
+            if (Main.ActiveWorldFileData.Name == KeyID.Island || Main.ActiveWorldFileData.Name == KeyID.Island2)
+            {
+                pool[0] = 0f;
+                pool.Add(ModContent.NPCType<CoconutCrab>(), 0.5f);
+                pool.Add(ModContent.NPCType<Cococritter>(), 0.5f);
+            }
+            if (Main.ActiveWorldFileData.Name == KeyID.Island || Main.ActiveWorldFileData.Name == KeyID.Island2 && !Main.dayTime)
+            {
+                pool[0] = 0f;
+                pool.Add(ModContent.NPCType<CoconutSpider>(), 0.5f);
             }
         }
     }

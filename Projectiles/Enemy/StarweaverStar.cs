@@ -34,9 +34,9 @@ namespace EEMod.Projectiles.Enemy
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (Main.projectile[projectile.whoAmI + 1] != null)
+            if (Main.projectile[(int)projectile.ai[0]] != null && projectile.ai[0] > 0)
             {
-                Vector2 vec = Main.projectile[projectile.whoAmI + 1].Center;
+                Vector2 vec = Main.projectile[(int)projectile.ai[0]].Center;
 
                 Texture2D starChain = mod.GetTexture("Projectiles/Enemy/StarweaverStarChain");
 
@@ -44,7 +44,7 @@ namespace EEMod.Projectiles.Enemy
 
                 for (float k = 0; k < 1; k += n)
                 {
-                    spriteBatch.Draw(starChain, projectile.Center + (vec - projectile.Center) * k - Main.screenPosition, starChain.Frame(), Color.DarkGoldenrod * 0.5f, (Main.projectile[projectile.whoAmI + 1].Center - projectile.Center).ToRotation(), starChain.Frame().Size() / 2f, 0.5f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(starChain, projectile.Center + (vec - projectile.Center) * k - Main.screenPosition, starChain.Frame(), Color.Gold * (0.4f + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 10f)), (Main.projectile[(int)projectile.ai[0]].Center - projectile.Center).ToRotation(), starChain.Frame().Size() / 2f, 0.5f + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 5f), SpriteEffects.None, 0f);
                 }
             }
 
@@ -58,5 +58,15 @@ namespace EEMod.Projectiles.Enemy
             spriteBatch.Draw(star, projectile.Center - Main.screenPosition, star.Frame(), Color.Yellow, projectile.rotation, star.Frame().Size() / 2f, projectile.scale + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 10f), SpriteEffects.None, 0f);
             return false;
         }
+
+        /*public override void AI()
+        {
+            projectile.ai[1]++;
+
+            if(projectile.ai[1] == 120)
+            {
+                projectile.velocity = Vector2.Normalize();
+            }
+        }*/
     }
 }

@@ -4,22 +4,24 @@ using Terraria;
 using Terraria.ModLoader;
 using EEMod.ID;
 using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles
 {
     public class EEGlobalTile : GlobalTile
     {
-        /*public override void ModifyLight(int i, int j, int type, ref float r, ref float g, ref float b)
+        public override void PostDraw(int i, int j, int type, SpriteBatch spriteBatch)
         {
-            if(Main.ActiveWorldFileData.Name == KeyID.CoralReefs && j < Main.maxTilesY / 10 && TileID.Water)
+            if(Main.tile[i, j].type == TileID.LivingMahoganyLeaves)
             {
-                if (r < 0.1f)
-                    r = 0.1f;
-                if (g < 0.1f)
-                    g = 0.1f;
-                if (b < 0.1f)
-                    b = 0.1f;
+                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.001f));
+                EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), 0.5f), mod.GetTexture("Particles/MahoganyLeaf"), 60, Main.rand.NextFloat(0.8f, 1.1f), Lighting.GetColor(i, j), new RotateTexture(0.02f), new SlowDown(0.99f));
             }
-        }*/
+            if (Main.tile[i, j].type == TileID.LeafBlock)
+            {
+                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.001f));
+                EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), 0.5f), mod.GetTexture("Particles/LivingLeaf"), 60, Main.rand.NextFloat(0.8f, 1.1f), Lighting.GetColor(i, j), new RotateTexture(0.02f), new SlowDown(0.99f));
+            }
+        }
     }
 }
