@@ -44,6 +44,7 @@ namespace EEMod.VerletIntegration
                         int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
                         if (i == 0)
                         {
+                            if(!SwingableVines.Contains(position))
                             SwingableVines.Add(position);
                         }
                         if (i > 1)

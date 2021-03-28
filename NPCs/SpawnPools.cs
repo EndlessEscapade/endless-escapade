@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs
 {
-    public partial class EEGlobalNPC : GlobalNPC
+    public class SpawnPools : GlobalNPC
     {
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
