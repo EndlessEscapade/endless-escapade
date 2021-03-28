@@ -13,6 +13,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.Furniture;
+using EEMod.Tiles.Foliage.ThermalVents;
+using EEMod.Tiles.Foliage.KelpForest;
+using EEMod.Tiles.Foliage.Aquamarine;
 
 namespace EEMod.EEWorld
 {
