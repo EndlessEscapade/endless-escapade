@@ -345,7 +345,7 @@ namespace EEMod.EEWorld
                 return ModContent.TileType<GemsandTile>();
             else if (height > Main.maxTilesY * 0.8f)
                 return ModContent.TileType<DarkGemsandTile>();
-            if (height < Main.maxTilesY / 10)
+            if (height < Main.maxTilesY / 20)
                 return ModContent.TileType<CoralSandTile>();
             else
                 return 0;
@@ -400,7 +400,7 @@ namespace EEMod.EEWorld
             ModContent.TileType<Wall3x2NonsolidCoralR>(),
             ModContent.TileType<Wall5x2NonsolidCoralR>(),
             ModContent.TileType<Wall6x3CoralR>() },
-            new Rectangle(42, 42, Main.maxTilesX - 84, Main.maxTilesY / 10));
+            new Rectangle(42, 42, Main.maxTilesX - 84, Main.maxTilesY / 20));
 
             #endregion Surface Reefs
 
