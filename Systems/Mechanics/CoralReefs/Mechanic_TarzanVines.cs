@@ -54,7 +54,7 @@ namespace EEMod
                     }
                     else
                     {
-                        Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49"), vec.ForDraw(), Color.Green * lerp, lerp * 0.2f);
+                        Helpers.DrawAdditive(Helpers.RadialMask, vec.ForDraw(), Color.Green * lerp, lerp * 0.2f);
                         Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine = false;
                     }
                     if (Main.LocalPlayer.controlUseItem)

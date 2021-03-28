@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs
 {
-    public partial class EEGlobalNPC : GlobalNPC
+    public class EEGlobalNPC : GlobalNPC
     {
         public override void NPCLoot(NPC npc)
         {

@@ -71,7 +71,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 Rectangle rect = new Rectangle(frameX, frameY, width, height);
                 color *= (float)Math.Sin(Main.GameUpdateCount / 60f + i + j) * 0.5f + 0.5f;
 
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/GroundGlowCoralGlow3"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpForest/GroundGlowCoralGlow3"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }
