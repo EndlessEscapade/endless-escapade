@@ -284,39 +284,43 @@ namespace EEMod
         {
             if (Main.worldName == KeyID.CoralReefs)
             {
-                if(Main.LocalPlayer.Center.Y > 3000)
+                if (Main.LocalPlayer.Center.Y >= (Main.maxTilesY / 20f) * 16)
                 {
-                    bgAlpha += (1 - bgAlpha) / 32f;
+                    if (Main.LocalPlayer.Center.Y > 3000)
+                    {
+                        bgAlpha += (1 - bgAlpha) / 32f;
+                    }
+                    else
+                    {
+                        bgAlpha += -bgAlpha / 32f;
+                    }
+
+                    Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar");
+                    Texture2D tex2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid");
+                    Texture2D tex3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
+                    LightingBuffer.Instance.Draw(Main.spriteBatch);
+
+                    Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
+                    Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
+                    Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
+
+
+                    for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
+                        for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
+                            LightingBuffer.Instance.DrawWithBuffer(
+                            tex,
+                            new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)));
+                    for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
+                        for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
+                            LightingBuffer.Instance.DrawWithBuffer(
+                            tex2,
+                            new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)));
+                    for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
+                        for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
+                            LightingBuffer.Instance.DrawWithBuffer(
+                            tex3,
+                            new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)));
                 }
-                else
-                {
-                    bgAlpha += -bgAlpha/ 32f;
-                }
-                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar");
-                Texture2D tex2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid");
-                Texture2D tex3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
-                LightingBuffer.Instance.Draw(Main.spriteBatch);
-
-                Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
-                Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
-                Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
-
-
-                for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
-                    for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
-                        LightingBuffer.Instance.DrawWithBuffer(
-                        tex,
-                        new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)));
-                for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
-                    for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
-                        LightingBuffer.Instance.DrawWithBuffer(
-                        tex2,
-                        new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)));
-                for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
-                    for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
-                        LightingBuffer.Instance.DrawWithBuffer(
-                        tex3,
-                        new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)));
             }
 
 
@@ -332,7 +336,13 @@ namespace EEMod
             if (Main.worldName == KeyID.CoralReefs)
             {
                 DrawCR();
-                DrawCoralReefsBg();
+                if (Main.LocalPlayer.Center.Y >= (Main.maxTilesY / 20f) * 16)
+                {
+                    DrawCoralReefsBg();
+                    Main.NewText("trollge");
+                    Main.NewText(Main.LocalPlayer.Center.Y);
+                    Main.NewText(Main.maxTilesY / 20f);
+                }
             }
 
             //Main.spriteBatch.Draw(Main.magicPixel, ChangingPoints.ForDraw(), Color.Red);

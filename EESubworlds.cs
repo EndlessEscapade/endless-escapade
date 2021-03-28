@@ -80,10 +80,10 @@ namespace EEMod
             FillRegion(Main.maxTilesX, Main.maxTilesY / 5, new Vector2(0, (Main.maxTilesY / 5) * 4), ModContent.TileType<DarkGemsandTile>());
 
             EEMod.progressMessage = "Clearing Upper Region";
-            ClearRegion(Main.maxTilesX, Main.maxTilesY / 10, Vector2.Zero);
+            ClearRegion(Main.maxTilesX, (Main.maxTilesY / 20) + (Main.maxTilesY / 40), Vector2.Zero);
 
             EEMod.progressMessage = "Generating Coral Sand";
-            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 20, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
+            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, Main.maxTilesY / 20), ModContent.TileType<CoralSandTile>());
             #endregion
 
             #region Finding suitable chasm positions and room positions
@@ -92,8 +92,8 @@ namespace EEMod
 
 
             Vector2 size = new Vector2(Main.maxTilesX - 300, Main.maxTilesY / 20);
-            NoiseGenWave(new Vector2(300, 80), size, new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
-            NoiseGenWave(new Vector2(300, 60), size, new Vector2(50, 50), TileID.StoneSlab, 0.6f);
+            //NoiseGenWave(new Vector2(300, 80), size, new Vector2(20, 100), (ushort)ModContent.TileType<CoralSandTile>(), 0.5f);
+            //NoiseGenWave(new Vector2(300, 60), size, new Vector2(50, 50), TileID.StoneSlab, 0.6f);
             int[] roomGen = Helpers.FillPseudoRandomUniform<int>(4);
             int[] roomGen2 = Helpers.FillPseudoRandomUniform<int>(4);
 
@@ -604,6 +604,11 @@ namespace EEMod
                         {
                             WorldGen.KillTile(i, j);
                         }
+
+                        if (Framing.GetTileSafely(i, j).wall == WallID.Dirt)
+                        {
+                            Framing.GetTileSafely(i, j).wall = 0;
+                        }
                     }
                 }
                 #endregion
@@ -611,10 +616,13 @@ namespace EEMod
                 EEMod.progressMessage = "Final touches";
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
                 PlaceWallGrass();
+
                 #region Placing the boat
+
                 PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
                 PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
                 CoralBoatPos = new Vector2(boatPos, TileCheckWater(boatPos) - 22);
+
                 #endregion
             }
             catch (Exception e)
