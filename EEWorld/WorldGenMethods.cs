@@ -2107,7 +2107,7 @@ namespace EEMod.EEWorld
                                 }
                             }
 
-                            if (!isChest)
+                            if (isChest)
                             {
                                 if (shape[y, x, 0] != 0)
                                 {
