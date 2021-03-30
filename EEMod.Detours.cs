@@ -284,7 +284,7 @@ namespace EEMod
         {
             if (Main.worldName == KeyID.CoralReefs)
             {
-                if (Main.LocalPlayer.Center.Y >= (Main.maxTilesY / 20f) * 16)
+                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 20) + (Main.maxTilesY / 40)) * 16)
                 {
                     if (Main.LocalPlayer.Center.Y > 3000)
                     {
@@ -321,6 +321,11 @@ namespace EEMod
                             tex3,
                             new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)));
                 }
+                else
+                {
+                    int a = 2;
+                    SurfaceBgStyleLoader.ChooseStyle(ref a);
+                }
             }
 
 
@@ -339,9 +344,6 @@ namespace EEMod
                 if (Main.LocalPlayer.Center.Y >= (Main.maxTilesY / 20f) * 16)
                 {
                     DrawCoralReefsBg();
-                    Main.NewText("trollge");
-                    Main.NewText(Main.LocalPlayer.Center.Y);
-                    Main.NewText(Main.maxTilesY / 20f);
                 }
             }
 

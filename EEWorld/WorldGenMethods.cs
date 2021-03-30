@@ -142,10 +142,11 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void FillRegionNoEditWithNoise(int width, int height, Vector2 startingPoint, int type)
+
+        public static void FillRegionNoEditWithNoise(int width, int height, Vector2 startingPoint, int type, int amplitude)
         {
             string messageBefore = EEMod.progressMessage;
-            float[] PerlinStrip = PerlinArray(width, 1000, 15, new Vector2(60, 200));
+            float[] PerlinStrip = PerlinArray(width, 1000, amplitude, new Vector2(60, 200));
             for (int i = 0; i < width; i++)
             {
                 for (int j = (int)PerlinStrip[i]; j < height; j++)
@@ -155,6 +156,26 @@ namespace EEMod.EEWorld
                     tile.active(true);
                     EEMod.progressMessage = messageBefore;
                     EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                }
+            }
+            EEMod.progressMessage = messageBefore;
+        }
+
+        public static void FillRegionEditWithNoise(int width, int height, Vector2 startingPoint, int type, int amplitude)
+        {
+            string messageBefore = EEMod.progressMessage;
+            float[] PerlinStrip = PerlinArray(width, 1000, amplitude, new Vector2(60, 200));
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = (int)PerlinStrip[i]; j < height; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    if (tile.active())
+                    {
+                        tile.type = (ushort)type;
+                        EEMod.progressMessage = messageBefore;
+                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    }
                 }
             }
             EEMod.progressMessage = messageBefore;
@@ -1384,7 +1405,7 @@ namespace EEMod.EEWorld
                     {
                         if (TileCheck2(i, j) == (int)TileSpacing.Bottom)
                         {
-                            WorldGen.PlaceTile(i, j + 1, tile);
+                            WorldGen.PlaceTile(i, j + 1, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                             for (int a = 0; a < TOD.Width; a++)
                                 Framing.GetTileSafely(i + a, j).slope(0);
                         }
@@ -1393,7 +1414,7 @@ namespace EEMod.EEWorld
                     {
                         if (TileCheck2(i, j) == (int)TileSpacing.Top)
                         {
-                            WorldGen.PlaceTile(i, j - TOD.Height, tile);
+                            WorldGen.PlaceTile(i, j - TOD.Height, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                             for (int a = 0; a < TOD.Width; a++)
                                 Framing.GetTileSafely(i + a, j).slope(0);
                         }
@@ -1402,14 +1423,14 @@ namespace EEMod.EEWorld
                     {
                         if (TileCheck2(i, j) == (int)TileSpacing.Right)
                         {
-                            WorldGen.PlaceTile(i + 1, j, tile);
+                            WorldGen.PlaceTile(i + 1, j, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                         }
                     }
                     else if (TOD.AnchorRight != AnchorData.Empty)
                     {
                         if (TileCheck2(i, j) == (int)TileSpacing.Left)
                         {
-                            WorldGen.PlaceTile(i + TOD.Width, j, tile);
+                            WorldGen.PlaceTile(i + TOD.Width, j, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                         }
                     }
                 }
@@ -1470,6 +1491,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeCircle(int size, Vector2 startingPoint, int type, bool forced)
         {
             for (int i = 0; i < size; i++)
@@ -1484,6 +1506,22 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
+        public static void MakeWallCircle(int size, Vector2 startingPoint, int type, bool forced)
+        {
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    float f = size * 0.5f;
+                    if (Vector2.DistanceSquared(new Vector2(i + (int)startingPoint.X, j + (int)startingPoint.Y), startingPoint + new Vector2(size * 0.5f, size * 0.5f)) < f * f)
+                    {
+                        WorldGen.PlaceWall(i + (int)startingPoint.X, j + (int)startingPoint.Y, type);
+                    }
+                }
+            }
+        }
+
         public static void CreateNoise(bool ensureN, Point position, Point size, int width, int height, float thresh)
         {
             perlinNoise = new PerlinNoiseFunction(2000, 2000, width, height, thresh);
@@ -1726,6 +1764,7 @@ namespace EEMod.EEWorld
                     Override);
             }
         }
+
         public static void MakeWavyChasm3(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds, int waveInvolvment = 0, float frequency = 5, bool withBranches = false, int branchFrequency = 0, int lengthOfBranches = 0)
         {
             for (int i = 0; i < accuracy; i++)
@@ -2068,7 +2107,7 @@ namespace EEMod.EEWorld
                                 }
                             }
 
-                            if (isChest)
+                            if (!isChest)
                             {
                                 if (shape[y, x, 0] != 0)
                                 {
