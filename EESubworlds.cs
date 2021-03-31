@@ -447,7 +447,7 @@ namespace EEMod
                     int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>());
                     if (Math.Abs(TileCheck(tileX + Ship1.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2)
                     {
-                        PlaceStructure(tileX, tileY - Ship1.Length, Ship1);
+                        PlaceStructure(tileX, tileY - Ship1.GetLength(0), Ship1);
                         mlem++;
                     }
                     else
