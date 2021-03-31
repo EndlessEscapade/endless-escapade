@@ -693,28 +693,54 @@ namespace EEMod
                     var eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
                     int length = eeplayer.reefMinibiome.Length;
 
-                    if ((int)MinibiomeID.KelpForest < length)
-                    {
-                        if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
-                        {
-                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
-                            priority = MusicPriority.BiomeHigh;
-                        }
-                    }
 
-                    if ((int)MinibiomeID.CrystallineCaves < length)
+                    if (Main.worldName == KeyID.CoralReefs)
                     {
-                        if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+                        Main.NewText("fake");
+                        if (Main.LocalPlayer.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 40)) * 16)
                         {
-                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
-                            priority = MusicPriority.BiomeHigh;
+                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
+                            priority = MusicPriority.Environment;
                         }
-                    }
 
-                    if (Main.LocalPlayer.Center.Y / 16 < Main.maxTilesY / 10 && Main.worldName == KeyID.CoralReefs)
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
-                        priority = MusicPriority.Environment;
+                        if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 40)) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 4 * 16)
+                        {
+                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs");
+                            priority = MusicPriority.Environment;
+                        }
+
+                        if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 10) * 4) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 7 * 16)
+                        {
+                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs");
+                            priority = MusicPriority.Environment;
+                        }
+
+                        if ((int)MinibiomeID.KelpForest < length)
+                        {
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
+                            {
+                                music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
+                                priority = MusicPriority.BiomeHigh;
+                            }
+                        }
+
+                        if ((int)MinibiomeID.CrystallineCaves < length)
+                        {
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+                            {
+                                music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
+                                priority = MusicPriority.BiomeHigh;
+                            }
+                        }
+
+                        if ((int)MinibiomeID.BulbousGrove < length)
+                        {
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+                            {
+                                music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlowshroomGrotto");
+                                priority = MusicPriority.BiomeHigh;
+                            }
+                        }
                     }
 
                     for (int i = 0; i < Main.maxNPCs; i++)

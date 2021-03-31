@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework;
 using Terraria.Localization;
 using System;
 using EEMod.Items.Placeables.Furniture;
+using System.Collections.Generic;
+using Terraria.Utilities;
 
 namespace EEMod.NPCs.Friendly
 {
@@ -22,7 +24,7 @@ namespace EEMod.NPCs.Friendly
         public override void SetStaticDefaults()
         {
             // DisplayName automatically assigned from .lang files, but the commented line below is the normal approach.
-            // DisplayName.SetDefault("Example Person");
+            DisplayName.SetDefault("Sailor");
             //Main.npcFrameCount[npc.type] = 25;
             //NPCID.Sets.ExtraFramesCount[npc.type] = 9;
             //NPCID.Sets.AttackFrameCount[npc.type] = 4;
@@ -64,37 +66,88 @@ namespace EEMod.NPCs.Friendly
 
         public override string TownNPCName()
         {
-            return "Skipper";
+            switch (WorldGen.genRand.Next(8))
+            {
+                case 0:
+                    return "James";
+                case 1:
+                    return "Peter";
+                case 2:
+                    return "Francis";
+                case 3:
+                    return "John";
+                case 4:
+                    return "Ferdinand";
+                case 5:
+                    return "Herman";
+                case 6:
+                    return "Christopher";
+                case 7:
+                    return "Jack";
+                default:
+                    return "Popeye";
+            }
         }
 
         public override string GetChat()
         {
-            int angler = NPC.FindFirstNPC(NPCID.Angler);
-            if (angler >= 0)
+            WeightedRandom<string> chat = new WeightedRandom<string>();
+
+            int steampunker = NPC.FindFirstNPC(NPCID.Steampunker);
+            if (steampunker >= 0)
             {
-                return "I'm overjoyed to hear that " + Main.npc[angler].GivenName + " is safe! I thought I lost him when that storm hit...";
+                chat.Add("Me and " + Main.npc[steampunker].GivenName + " have a lot in common - we both love ships!");
+            }
+
+            int pirate = NPC.FindFirstNPC(NPCID.Pirate);
+            if (pirate >= 0)
+            {
+                chat.Add(Main.npc[pirate].GivenName  + "? Oh, he's an old rival.");
+            }
+
+            if(Main.dayTime)
+            {
+                chat.Add("I always love stepping out on the pier at the crack of dawn.");
+                chat.Add("The ocean's so enticing today, don't ya think?");
+                chat.Add("The sharks seem excited today.");
             }
             else
             {
-                switch (Main.rand.Next(4))
-                {
-                    case 0:
-                        return "";
-                    case 1:
-                        return "My son... lost to the waves, so long ago...";
-                    case 2:
-                        return "I wonder if my son's alive...";
-                    case 3:
-                        return "The sound of the ocean is really soothing. You should stay here for a while, enjoy the sound of the tides against the Shipyard.";
-                    default:
-                        return "You say you want to sail the seas? I'd give you my boat if I had the materials to repair it... and maybe some money too.";
-                }
+                chat.Add("The ocean waves are always so calm at nighttime.");
+                chat.Add("The moon looks so beautiful on the water.");
+                chat.Add("I love the glow of the jellies.");
+
+                if(Main.moonType == 4)
+                    chat.Add("The new moon is a sign that the jellyfish over the Coral Reefs are on the move.");
             }
+
+            if (Main.raining)
+            {
+                chat.Add("I hope this rain doesn't mean a hurricane's coming!");
+                chat.Add("I lost my rain slicker in a windy day a few years ago. Wish I had another one.");
+            }
+
+            return chat;
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
         {
             button = Language.GetTextValue("LegacyInterface.28");
+            button2 = "Ship";
+        }
+
+        public override void OnChatButtonClicked(bool firstButton, ref bool shop)
+        {
+            if (firstButton)
+            {
+                shop = true;
+            }
+            else
+            {
+                Main.playerInventory = true;
+                // remove the chat window...
+                Main.npcChatText = $"The old ship sitting broken in the Shipyard used to be my old vessel. I'm past my days of sailing, but you look like you want to see the seven seas. If you brought me [c/E4A214:{"150 Wood"}] [i:{ItemID.Wood}] and [c/E4A214:{"20 Silk"}] [i:{ItemID.Silk}] along with a solid payment of [c/E4A214:{"5 gold coins"}], I'd get her fixed right up for you.";
+            }
         }
 
         public override void SetupShop(Chest shop, ref int nextSlot)
@@ -116,7 +169,7 @@ namespace EEMod.NPCs.Friendly
             return true;
         }
 
-        public override void TownNPCAttackStrength(ref int damage, ref float knockback)
+        /*public override void TownNPCAttackStrength(ref int damage, ref float knockback)
         {
             damage = 20;
             knockback = 4f;
@@ -138,6 +191,6 @@ namespace EEMod.NPCs.Friendly
         {
             multiplier = 12f;
             randomOffset = 2f;
-        }
+        }*/
     }
 }

@@ -226,7 +226,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 HeartBeat = spire.ai[3];
                 projectile.scale = 1f + (HeartBeat / 5f);
 
-                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/AquamarineLamp1Glow");
+                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp1Glow");
                 Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Masks/SmoothFadeOut");
 
                 float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;

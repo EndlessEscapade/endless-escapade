@@ -284,7 +284,7 @@ namespace EEMod
         {
             if (Main.worldName == KeyID.CoralReefs)
             {
-                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 20) + (Main.maxTilesY / 40)) * 16)
+                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 40)) * 16)
                 {
                     if (Main.LocalPlayer.Center.Y > 3000)
                     {
