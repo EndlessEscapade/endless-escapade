@@ -2083,6 +2083,8 @@ namespace EEMod.EEWorld
 
         public static void PlaceStructure(int i, int j, int[,,] shape)
         {
+            List<(Point, ushort)> chestPlacements = new List<(Point, ushort)>();
+
             for (int y = 0; y < shape.GetLength(0); y++)
             {
                 for (int x = 0; x < shape.GetLength(1); x++)
@@ -2099,24 +2101,28 @@ namespace EEMod.EEWorld
 
                             if (isChest) //Make sure the tiles are empty
                             {
-                                int chestID = WorldGen.PlaceChest(i, j, (ushort)shape[y, x, 0], false, 1);
-                                if (chestID != -1)
-                                {
-                                    Chest chest = Main.chest[chestID];
-                                    chest.item[0].SetDefaults(ItemID.Actuator);
-                                }
-                            }
+                                if (shape[y, x, 8] != 0 || shape[y, x, 9] != 0)
+                                    continue;
 
-                            if (isChest)
+                                Framing.GetTileSafely(k, l).active(false);
+                                Framing.GetTileSafely(k + 1, l).active(false);
+                                Framing.GetTileSafely(k, l + 1).active(false);
+                                Framing.GetTileSafely(k + 1, l + 1).active(false);
+
+                                chestPlacements.Add((new Point(k, l), (ushort)shape[y, x, 0]));
+                            }
+                            else
                             {
-                                if (shape[y, x, 0] != 0)
+                                if (shape[y, x, 0] > 0)
                                 {
                                     tile.type = (ushort)shape[y, x, 0];
                                     tile.active(true);
+                                    WorldGen.SquareTileFrame(k, l);
                                 }
-                                if (shape[y, x, 1] != 0)
+                                if (shape[y, x, 1] > 0)
                                 {
                                     tile.wall = (ushort)shape[y, x, 1];
+                                    WorldGen.SquareWallFrame(k, l);
                                 }
                                 tile.color((byte)shape[y, x, 2]);
                                 tile.slope((byte)shape[y, x, 3]);
@@ -2143,6 +2149,9 @@ namespace EEMod.EEWorld
                     }
                 }
             }
+
+            foreach ((Point pos, ushort type) in chestPlacements)
+                WorldGen.PlaceChest(pos.X, pos.Y, type);
         }
 
         public static void Island(int islandWidth, int islandHeight, int posY)

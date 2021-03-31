@@ -82,6 +82,9 @@ namespace EEMod.EEWorld
                 }
             }
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
+
+            // TODO: initialize the rest of the structures when needed
+            InitializeShip1Structure();
         }
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
@@ -93,6 +96,7 @@ namespace EEMod.EEWorld
             }
             int MicroBiomes = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
             int LivingTreesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Living Trees"));
+
             /*if (LivingTreesIndex != -1)
             {
                 tasks.Insert(LivingTreesIndex + 1, new PassLegacy("Post Terrain", delegate (GenerationProgress progress)
@@ -253,8 +257,11 @@ namespace EEMod.EEWorld
 
             //int? nullableReeX = (int)ree.X; // not a null value
             //int? nullableReeY = (int)ree.Y;
-            int ShipTilePosX = (int)ree.X;// ?? 100;
-            int ShipTilePosY = (int)ree.Y;// ?? TileCheckWater(100) - 22;
+            Vector2 revisedRee = new Vector2(ree.X == 0 ? 100 : ree.X,
+                                             ree.Y == 0 ? TileCheckWater(100) - 22 : ree.Y);
+
+            int ShipTilePosX = (int)revisedRee.X;// ?? 100;
+            int ShipTilePosY = (int)revisedRee.Y;// ?? TileCheckWater(100) - 22;
 
             bool hasSteeringWheel = false;
             int numberOfTiles = 0;
