@@ -131,12 +131,12 @@ namespace EEMod.NPCs.CoralReefs
                 }
                 Color color = addColor;
 
-                if(timer1 != 0)
+                if (timer1 != 0)
                     color = Color.Lerp(Color.White, addColor, 10 / timer1);
                 #endregion
 
 
-                if(eyeRecoil <= 1) eyeRecoil += 0.05f;
+                if (eyeRecoil <= 1) eyeRecoil += 0.05f;
 
                 #region Drawing the eye and eye particles
                 blinkTime = 0;
@@ -384,10 +384,13 @@ namespace EEMod.NPCs.CoralReefs
                 }
                 #endregion
 
-                foreach (Player player in Main.player)
+                for (int i = 0; i < Main.player.Length - 1; i++)
                 {
-                    player.AddBuff(BuffID.NoBuilding, 60, true);
+                    Player player = Main.player[i];
+                    if (player.IsAlive())
+                        player.AddBuff(BuffID.NoBuilding, 60, true);
                 }
+
             }
 
             else
@@ -420,7 +423,7 @@ namespace EEMod.NPCs.CoralReefs
                     npc.ai[1]--;
                     if (npc.ai[1] <= -60 * 15)
                     {
-                        if(npc.ai[0] > 0) npc.ai[0]--;
+                        if (npc.ai[0] > 0) npc.ai[0]--;
                     }
 
                     if (target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)

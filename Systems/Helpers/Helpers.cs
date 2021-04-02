@@ -310,10 +310,8 @@ namespace EEMod
                         cDist = 0;
                     if (cDist2 < 0)
                         cDist2 = 0;
-                    distBetween = new Vector2(x -
-                    X(i - chainsPerUse, startingPos.X, c1.X, endPoints.X),
-                    y -
-                    Y(i - chainsPerUse, startingPos.Y, c1.Y, endPoints.Y));
+                    distBetween = new Vector2(x - X(i - chainsPerUse, startingPos.X, c1.X, endPoints.X),
+                    y - Y(i - chainsPerUse, startingPos.Y, c1.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
                     if (HasFunny)
                     {

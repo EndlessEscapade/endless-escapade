@@ -15,7 +15,7 @@ namespace EEMod
     {
         public override void OnDraw(SpriteBatch spriteBatch)
         {
-            EEMod.Particles.Draw();
+            EEMod.Particles.Draw(spriteBatch);
         }
 
         public override void OnUpdate()

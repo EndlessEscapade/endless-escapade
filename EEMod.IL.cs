@@ -63,20 +63,12 @@ namespace EEMod
             //IL.Terraria.Main.DrawBackground += Main_DrawBackground;
             //IL.Terraria.Main.DrawWater += Main_DrawWater;
             //IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
-            IL.Terraria.NPC.AI_001_Slimes += Practice;
+            //IL.Terraria.NPC.AI_001_Slimes += Practice;
             //IL.Terraria.Main.oldDrawWater += Main_oldDrawWater;
 
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
 
-            if (Main.netMode != NetmodeID.Server)
-            {
-                trailManager = new TrailManager(this);
-                prims = new Prims(this);
-                primitives.CreateTrail(new RainbowLightTrail(null));
 
-                //primitives.CreateTrail(new RainbowLightTrail(null));
-                prims.CreateVerlet();
-            }
         }
 
         private void LiquidRenderer_InternalDraw1(ILContext il)

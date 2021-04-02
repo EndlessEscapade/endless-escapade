@@ -85,13 +85,11 @@ namespace EEMod.Projectiles.Mage
         {
             for (int i = 0; i < 40; i++)
             {
-                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 165, 0f, -2f, 0, default(Color), 2f);
-                Main.dust[num].noGravity = true;
-                Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
-                Main.dust[num].scale *= .4f;
-                if (Main.dust[num].position != projectile.Center)
-                    Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 8f;
+                Vector2 position = projectile.position + new Vector2(Main.rand.Next(-50, 51) * .05f - 1.5f, Main.rand.Next(-50, 51) * .05f - 1.5f);
+                Dust dust = Main.dust[Dust.NewDust(position, projectile.width, projectile.height, 165, 0f, -2f, 0, default(Color), 2f * .4f)];
+                dust.noGravity = true;
+                if (dust.position != projectile.Center)
+                    dust.velocity = projectile.DirectionTo(dust.position) * 8f;
             }
         }
 

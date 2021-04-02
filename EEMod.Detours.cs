@@ -310,11 +310,13 @@ namespace EEMod
                             LightingBuffer.Instance.DrawWithBuffer(
                             tex,
                             new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)));
+
                     for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
                         for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
                             LightingBuffer.Instance.DrawWithBuffer(
                             tex2,
                             new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)));
+
                     for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
                         for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
                             LightingBuffer.Instance.DrawWithBuffer(
