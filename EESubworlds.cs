@@ -463,8 +463,10 @@ namespace EEMod
                             if (WalkingFast != -1) minibiome = WalkingFast;
 
 
-                            if (Framing.GetTileSafely(i, j).type == ModContent.TileType<LightGemsandstoneTile>() && (MinibiomeID)minibiome == MinibiomeID.KelpForest && Framing.GetTileSafely(i, j).active() == false)
-                                Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<KelpMossTile>();
+                           /* if ((Framing.GetTileSafely(i, j).type == ModContent.TileType<LightGemsandstoneTile>()
+                                || Framing.GetTileSafely(i, j).type == ModContent.TileType<KelpLeafTile>()) &&
+                                (MinibiomeID)minibiome == MinibiomeID.KelpForest && WorldGen.genRand.Next(4) == 0)
+                                Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<KelpMossTile>();*/
                             if (Framing.GetTileSafely(i, j).type == ModContent.TileType<GemsandTile>() && (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
                                 Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<ThermalMossTile>();
                         }

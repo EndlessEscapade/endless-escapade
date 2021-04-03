@@ -72,13 +72,12 @@ namespace EEMod.Tiles.Foliage
             {
                 if (!tile.active()
                     || (tile.type != ModContent.TileType<GemsandTile>()
-                    || tile.type != ModContent.TileType<LightGemsandTile>()
-                    || tile.type != ModContent.TileType<DarkGemsandTile>()
-                    || tile.type != ModContent.TileType<LightGemsandstoneTile>()
-                    || tile.type != ModContent.TileType<GemsandstoneTile>()
-                    || tile.type != ModContent.TileType<DarkGemsandstoneTile>()
-                    || tile.type != ModContent.TileType<KelpLeafTile>()
-                    || tile.type != ModContent.TileType<KelpMossTile>()))
+                    && tile.type != ModContent.TileType<LightGemsandTile>()
+                    && tile.type != ModContent.TileType<DarkGemsandTile>()
+                    && tile.type != ModContent.TileType<LightGemsandstoneTile>()
+                    && tile.type != ModContent.TileType<GemsandstoneTile>()
+                    && tile.type != ModContent.TileType<DarkGemsandstoneTile>()
+                    && tile.type != ModContent.TileType<KelpLeafTile>()))
                 {
                     WorldGen.KillTile(i, j);
                 }

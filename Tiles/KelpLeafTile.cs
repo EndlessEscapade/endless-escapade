@@ -25,9 +25,14 @@ namespace EEMod.Tiles
             mineResist = 1f;
             minPick = 0;
         }
+        public override void RandomUpdate(int i, int j)
+        {
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick())
+                PlaceGroundGrass(i, j);
+        }
         void PlaceGroundGrass(int i, int j)
         {
-            int noOfGrassBlades = (int)(((i + j) % 16) * 0.1f);
+            int noOfGrassBlades = (int)(((i + j) % 16) * 0.2f);
             string tex = "Tiles/Foliage/KelpGrassLong";
             string tex3 = "Tiles/Foliage/KelpGrassShort";
             string tex4 = "Tiles/Foliage/KelpGrassStubbed";
@@ -100,10 +105,7 @@ namespace EEMod.Tiles
         }
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick() && Main.GameUpdateCount % 10 == 0)
-            {
-                PlaceGroundGrass(i, j);
-            }
+            
             Color color = Lighting.GetColor(i, j);
             int frameX = Framing.GetTileSafely(i, j).frameX;
             int frameY = Framing.GetTileSafely(i, j).frameY;

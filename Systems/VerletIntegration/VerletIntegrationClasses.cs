@@ -98,12 +98,12 @@ namespace EEMod.VerletIntegration
         }
         public void Update()
         {
-            //UpdatePoints();
+            UpdatePoints();
             //ConstrainToWorld();
 
             for (int i = 0; i < 2; i++)
             {
-                //UpdateSticks();
+                UpdateSticks();
                 //ConstrainPoints();
             }
 

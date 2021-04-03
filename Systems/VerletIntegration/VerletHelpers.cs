@@ -32,7 +32,14 @@ namespace EEMod.VerletIntegration
 
         public static void AddStickChain(ref Verlet verlet, Vector2 position, int numberOfChains, float lengthOfChains)
         {
+            int SpacialTolerance = 0;
+
+            foreach (Vector2 pos in SwingableVines) if(Vector2.DistanceSquared(pos,position) < 100){ SpacialTolerance++; }
+
+            if (SpacialTolerance > 0) return;
+
             Point p = position.ToTileCoordinates();
+
             if (Framing.GetTileSafely(p).active())
             {
                 Vector2 TP = (position + new Vector2(0, lengthOfChains * (numberOfChains - 1))) / 16;
@@ -75,6 +82,12 @@ namespace EEMod.VerletIntegration
         }
         public static void AddStickChainNoAdd(ref Verlet verlet, Vector2 position, int numberOfChains, float lengthOfChains)
         {
+            int SpacialTolerance = 0;
+
+            foreach (Vector2 pos in SwingableVines) if (Vector2.DistanceSquared(pos, position) < 100) { SpacialTolerance++; }
+
+            if (SpacialTolerance > 1) return;
+
             Point p = position.ToTileCoordinates();
             if (Framing.GetTileSafely(p).active())
             {

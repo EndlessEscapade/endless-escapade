@@ -21,13 +21,13 @@ namespace EEMod
             foreach (int index in VerletHelpers.EndPointChains)
             {
                 var vec = Verlet.Points[index].point;
-                if ((vec - Main.LocalPlayer.Center).LengthSquared() < 100 * 100)
+                if ((vec - Main.LocalPlayer.Center).LengthSquared() < 40 * 40)
                 {
-                    float lerp = 1f - (vec - Main.LocalPlayer.Center).LengthSquared() / (100 * 100);
+                    float lerp = 1f - (vec - Main.LocalPlayer.Center).LengthSquared() / (40 * 40);
 
                     if (EEMod.Inspect.Current)
                     {
-                        if ((vec - Main.LocalPlayer.Center).LengthSquared() < 20 * 20)
+                        if ((vec - Main.LocalPlayer.Center).LengthSquared() < 10 * 10)
                         {
                             if (Main.LocalPlayer.fullRotation != 0)
                             {

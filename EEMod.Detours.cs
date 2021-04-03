@@ -39,6 +39,8 @@ namespace EEMod
 
         internal event MechanicDrawDelegate AfterTiles;
 
+        internal event MechanicDrawDelegate BeforeNPCCache;
+
         public List<IComponent> Updatables = new List<IComponent>();
 
         WaterPrimitive WP;
@@ -55,6 +57,7 @@ namespace EEMod
             On.Terraria.Main.DrawTiles += Main_DrawTiles;
             On.Terraria.Main.DrawWater += Main_DrawWater1;
             On.Terraria.Main.DrawBackground += Main_DrawBackground1;
+            On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
             On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
             //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
@@ -67,6 +70,48 @@ namespace EEMod
             On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
             WP = new WaterPrimitive(null);
             primitives.CreateTrail(WP);
+        }
+
+        private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
+        {
+            if (Main.worldName == KeyID.CoralReefs)
+            {
+                if (Main.LocalPlayer.Center.Y > 3000)
+                {
+                    bgAlpha += (1 - bgAlpha) / 32f;
+                }
+                else
+                {
+                    bgAlpha += -bgAlpha / 32f;
+                }
+                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar");
+                Texture2D tex2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid");
+                Texture2D tex3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
+                LightingBuffer.Instance.Draw(Main.spriteBatch);
+
+                Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
+                Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
+                Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
+
+
+                for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
+                    for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
+                        LightingBuffer.Instance.DrawWithBuffer(
+                        tex,
+                        new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)));
+                for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
+                    for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
+                        LightingBuffer.Instance.DrawWithBuffer(
+                        tex2,
+                        new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)));
+                for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
+                    for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
+                        LightingBuffer.Instance.DrawWithBuffer(
+                        tex3,
+                        new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)));
+            }
+            BeforeNPCCache?.Invoke(Main.spriteBatch);
+            orig(self);
         }
 
         private void Main_DrawBackground1(On.Terraria.Main.orig_DrawBackground orig, Main self)
@@ -106,6 +151,7 @@ namespace EEMod
             On.Terraria.Main.DrawWoF -= Main_DrawWoF;
             On.Terraria.Main.DrawTiles -= Main_DrawTiles;
             On.Terraria.Main.DrawWater -= Main_DrawWater1;
+            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
             On.Terraria.Main.DrawWalls -= Main_DrawWalls;
             //On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             //On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
@@ -282,49 +328,15 @@ namespace EEMod
         float bgAlpha;
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
-            if (Main.worldName == KeyID.CoralReefs)
-            {
-                if(Main.LocalPlayer.Center.Y > 3000)
-                {
-                    bgAlpha += (1 - bgAlpha) / 32f;
-                }
-                else
-                {
-                    bgAlpha += -bgAlpha/ 32f;
-                }
-                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar");
-                Texture2D tex2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid");
-                Texture2D tex3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
-                LightingBuffer.Instance.Draw(Main.spriteBatch);
 
-                Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
-                Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
-                Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
-
-
-                for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
-                    for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
-                        LightingBuffer.Instance.DrawWithBuffer(
-                        tex,
-                        new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)));
-                for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
-                    for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
-                        LightingBuffer.Instance.DrawWithBuffer(
-                        tex2,
-                        new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)));
-                for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
-                    for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
-                        LightingBuffer.Instance.DrawWithBuffer(
-                        tex3,
-                        new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)));
-            }
 
 
 
             foreach (IComponent Updateable in Updatables)
                 Updateable.Update();
-            if(BeforeTiles != null)
-            BeforeTiles.Invoke(Main.spriteBatch);
+
+            BeforeTiles?.Invoke(Main.spriteBatch);
+
             Vector2 v = Main.LocalPlayer.Center.ForDraw() - new Vector2(Main.screenWidth/2,Main.screenHeight/2);
             Main.spriteBatch.Draw(lightingTarget, new Rectangle((int)v.X + 50,(int)v.Y + 50, Main.screenWidth/5, Main.screenHeight / 5), Color.White);
             DrawLensFlares();

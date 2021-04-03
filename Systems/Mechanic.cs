@@ -14,7 +14,8 @@ namespace EEMod.Systems
     {
         None,
         BehindTiles,
-        AboveTiles
+        AboveTiles,
+        NPCCache
     }
     public class Mechanic : IComponent, IAutoloadType
     {
@@ -44,6 +45,9 @@ namespace EEMod.Systems
                     break;
                 case Layer.AboveTiles:
                     Singleton.AfterTiles += Draw;
+                    break;
+                case Layer.NPCCache:
+                    Singleton.BeforeNPCCache += Draw;
                     break;
             }
             OnLoad();

@@ -26,7 +26,7 @@ namespace EEMod.Tiles
         }
         void PlaceGroundGrass(int i, int j)
         {
-            int noOfGrassBlades = (int)(((i + j) % 16) * 0.5f);
+            int noOfGrassBlades = (int)(((i + j) % 16) * 0.2f);
             string tex = "Tiles/Foliage/KelpGrassShortMoss";
             string tex2 = "Tiles/Foliage/KelpGrassStubbedMoss";
             string Chosen = tex;
