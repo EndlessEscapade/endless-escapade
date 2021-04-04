@@ -72,8 +72,8 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 int timeBetween = 70;
                 float heartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
 
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Coral/AquamarineLamp2Glow"), position, rect, Lighting.GetColor(i + 1, j + 1), 0f, default, 1f, SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Coral/AquamarineLamp2Glow"), position, rect, Color.White * heartBeat, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Lighting.GetColor(i + 1, j + 1), 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Color.White * heartBeat, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }

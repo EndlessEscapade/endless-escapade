@@ -18,8 +18,6 @@ namespace EEMod
         protected override Layer DrawLayering => Layer.BehindTiles;
         public void DrawGiantKelp()
         {
-            Main.NewText(EESubWorlds.GiantKelpRoots.Count);
-            Main.NewText(EESubWorlds.ChainConnections.Count);
             if (EESubWorlds.GiantKelpRoots.Count > 0)
             {
                 for (int i = 1; i < EESubWorlds.GiantKelpRoots.Count - 2; i++)

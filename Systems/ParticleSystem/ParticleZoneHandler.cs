@@ -34,11 +34,11 @@ namespace EEMod
                 PZ.Update();
             }
         }
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
             foreach (ParticleZone PZ in particleZones.Values)
             {
-                PZ.Draw();
+                PZ.Draw(spriteBatch);
             }
         }
     }

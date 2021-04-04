@@ -235,7 +235,7 @@ namespace EEMod
 
             zoneTimer++;
         }
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch)
         {
             for (int k = 0; k < particles.Length; k++)
             {
@@ -243,7 +243,7 @@ namespace EEMod
                 {
                     if (particles[k].active)
                     {
-                        particles[k]?.Draw();
+                        particles[k]?.Draw(spriteBatch);
                     }
                 }
             }

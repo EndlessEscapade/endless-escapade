@@ -1101,10 +1101,11 @@ namespace EEMod
 
         public void UpdateZipLines()
         {
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            EEPlayer eEPlayer = this; //Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            if (eEPlayer.ridingZipline)
             {
-                Vector2 begin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
-                Vector2 end = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
+                Vector2 begin = eEPlayer.PylonBegin;
+                Vector2 end = eEPlayer.PylonEnd;
                 Main.LocalPlayer.velocity = Vector2.Normalize(end - begin) * zipMultiplier;
                 Main.LocalPlayer.gravity = 0;
                 Main.LocalPlayer.AddBuff(BuffID.Cursed, 2, true);
@@ -1113,12 +1114,12 @@ namespace EEMod
                     zipMultiplier *= 1.02f;
                 }
             }
-            if (Vector2.DistanceSquared(Main.LocalPlayer.position, Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd) <= 32 * 32 && Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            if (Vector2.DistanceSquared(Main.LocalPlayer.position, eEPlayer.PylonEnd) <= 32 * 32 && eEPlayer.ridingZipline)
             {
                 int i;
                 for (i = 0; i <= 100; i++)
                 {
-                    if (i < 99 && EEWorld.EEWorld.PylonEnd[i] == EEWorld.EEWorld.PylonBegin[i + 1] && EEWorld.EEWorld.PylonEnd[i + 1] != default && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin == EEWorld.EEWorld.PylonBegin[i] && Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd == EEWorld.EEWorld.PylonEnd[i])
+                    if (i < 99 && EEWorld.EEWorld.PylonEnd[i] == EEWorld.EEWorld.PylonBegin[i + 1] && EEWorld.EEWorld.PylonEnd[i + 1] != default && eEPlayer.PylonBegin == EEWorld.EEWorld.PylonBegin[i] && eEPlayer.PylonEnd == EEWorld.EEWorld.PylonEnd[i])
                     {
                         break;
                     }
@@ -1127,17 +1128,17 @@ namespace EEMod
                 if (i >= 99)
                 {
                     //Leaving zipline
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = default;
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = default;
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = false;
+                    eEPlayer.PylonBegin = default;
+                    eEPlayer.PylonEnd = default;
+                    eEPlayer.ridingZipline = false;
                     zipMultiplier = 1;
                 }
                 else
                 {
                     //Continue on zipline
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin = EEWorld.EEWorld.PylonEnd[i];
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd = EEWorld.EEWorld.PylonEnd[i + 1];
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline = true;
+                    eEPlayer.PylonBegin = EEWorld.EEWorld.PylonEnd[i];
+                    eEPlayer.PylonEnd = EEWorld.EEWorld.PylonEnd[i + 1];
+                    eEPlayer.ridingZipline = true;
                 }
             }
         }

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod
 {
-    public class Particle : Entity,IDrawAdditive
+    public class Particle : Entity, IDrawAdditive
     {
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
@@ -47,7 +47,7 @@ namespace EEMod
         }
         public virtual void OnUpdate() { }
 
-        public virtual void OnDraw() { }
+        public virtual void OnDraw(SpriteBatch spriteBatch) { }
         public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2 velocity = default, float scale = 1, Color? colour = null, Texture2D masks = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
@@ -62,7 +62,7 @@ namespace EEMod
             TrailLength = 8;
             Frame = new Rectangle(0, 0, 1, 1);
             PresetNoiseMask = masks;
-            lightingColor = new Vector3(0,0,0);
+            lightingColor = new Vector3(0, 0, 0);
             lightingIntensity = 0;
             LightingBlend = false;
             AnimSpeedPerTick = 1;
@@ -100,24 +100,24 @@ namespace EEMod
             }
             if (lightingIntensity > 0)
             {
-                Lighting.AddLight(position, lightingColor*lightingIntensity*varScale);
+                Lighting.AddLight(position, lightingColor * lightingIntensity * varScale);
             }
             foreach (IParticleModule Module in Modules)
             {
                 Module.Update(this);
             }
         }
-        
-        public void Draw()
+
+        public void Draw(SpriteBatch spriteBatch)
         {
             foreach (IParticleModule Module in Modules)
             {
                 Module.Draw(this);
             }
             Vector2 positionDraw = position.ForDraw();
-            Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), new Rectangle(0, CurrentFrame*(Frame.Height / noOfFrames), Frame.Width,Frame.Height / noOfFrames), LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X/16,(int)PARALAXPOSITION.Y/16)*alpha : colour * alpha, rotation, Frame.Size() / 2, varScale, SpriteEffects.None, 0f);
-           
-            OnDraw();
+            spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), new Rectangle(0, CurrentFrame * (Frame.Height / noOfFrames), Frame.Width, Frame.Height / noOfFrames), LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X / 16, (int)PARALAXPOSITION.Y / 16) * alpha : colour * alpha, rotation, Frame.Size() / 2, varScale, SpriteEffects.None, 0f);
+
+            OnDraw(spriteBatch);
         }
 
         public void AdditiveCall(SpriteBatch spriteBatch)
@@ -639,12 +639,12 @@ namespace EEMod
                 timer = 0;
             }
         }
-        public void Draw(in Particle particle) { ; }
+        public void Draw(in Particle particle) {; }
     }
     class BaseModule : IParticleModule
     {
-        public void Update(in Particle particle) { ; }
-        public void Draw(in Particle particle) { ; }
+        public void Update(in Particle particle) {; }
+        public void Draw(in Particle particle) {; }
     }
     public interface IParticleModule
     {

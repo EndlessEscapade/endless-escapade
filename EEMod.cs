@@ -1,4 +1,5 @@
 ﻿using EEMod.Autoloading;
+using EEMod.Effects;
 using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Net;
@@ -32,73 +33,113 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
+        public static bool isSaving = false;
+        public static int loadingChoose;
+        public static int loadingChooseImage;
+        public static bool loadingFlag = true;
+        public static ModHotKey RuneActivator;
+        public static ModHotKey RuneSpecial;
+        public static ModHotKey Inspect;
+        public static ModHotKey ActivateVerletEngine;
+        public static ModHotKey Train;
+        public static Effect Noise2D;
+        public static Effect White;
+        public static ParticleZoneHandler Particles;
+        internal static ParticleZone MainParticles;
+        private GameTime lastGameTime;
+        public UserInterface EEInterface;
+        UIManager UI;
+        public RenderTarget2D playerDrawData;
+        public RenderTarget2D playerTarget;
+        public RenderTarget2D lightingTarget;
+        public ComponentManager<TileObjVisual> TVH;
+
         public override void PostSetupContent()
         {
         }
 
-        public static Texture2D ScTex;
-
-        public static double worldSurface;
-
-        public static double worldSurfaceLow;
-
-        public static double worldSurfaceHigh;
-
-        public static double rockLayer;
-
-        public static double rockLayerLow;
-
-        public static double rockLayerHigh;
-
-        public static int _lastSeed;
-        public static ParticleZoneHandler Particles;
-        //public Handwriting HandwritingCNN;
-        public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
+        public override void Load()
         {
-            switch (key)
+            TVH = new ComponentManager<TileObjVisual>();
+            verlet = new Verlet();
+            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
+            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
+            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());
+            if (!Main.dedServ)
             {
-                case nameof(EESubWorlds.CoralReefs):
-                    EESubWorlds.CoralReefs(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Cutscene1):
-                    EESubWorlds.Cutscene1(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Island):
-                    EESubWorlds.Island(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Island2):
-                    EESubWorlds.Island2(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Pyramids):
-                    EESubWorlds.Pyramids(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Sea):
-                    EESubWorlds.Sea(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.VolcanoInside):
-                    EESubWorlds.VolcanoInside(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.VolcanoIsland):
-                    EESubWorlds.VolcanoIsland(seed, customProgressObject);
-                    break;
-                default:
-                    typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
-                    break;
+                playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
+                lightingTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 16, Main.screenHeight / 16);
+                playerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 100, 100);
+                UI = new UIManager();
+                Noise2D = GetEffect("Effects/Noise2D");
+                primitives = new PrimTrailManager();
+            }
+            //HandwritingCNN = new Handwriting();
+
+            RuneActivator = RegisterHotKey("Rune UI", "Z");
+            RuneSpecial = RegisterHotKey("Activate Runes", "V");
+            Inspect = RegisterHotKey("Inspect", "E");
+            ActivateVerletEngine = RegisterHotKey("Activate VerletEngine", "N");
+            Train = RegisterHotKey("Train Neural Network", "P");
+
+            AutoloadingManager.LoadManager(this);
+
+            //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
+            if (!Main.dedServ)
+            {
+                Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Ripple"));
+                Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/SeaTrans"));
+                Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/SunThroughWalls"));
+                Ref<Effect> MyTestShader = new Ref<Effect>(GetEffect("Effects/MyTestShader"));
+                Filters.Scene["EEMod:Ripple"] = new Filter(new ScreenShaderData(screenRef3, "Ripple"), EffectPriority.High);
+                Filters.Scene["EEMod:Ripple"].Load();
+                Filters.Scene["EEMod:SeaTrans"] = new Filter(new ScreenShaderData(screenRef2, "SeaTrans"), EffectPriority.High);
+                Filters.Scene["EEMod:SeaTrans"].Load();
+                Filters.Scene["EEMod:SunThroughWalls"] = new Filter(new ScreenShaderData(screenRef, "SunThroughWalls"), EffectPriority.High);
+                Filters.Scene["EEMod:SunThroughWalls"].Load();
+                Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
+                Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
+                Filters.Scene["EEMod:MyTestShader"].Load();
+
+                GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/SpireShine")), "SpireHeartbeat").UseImage("Noise/WormNoisePixelated");
+
+                SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
+                NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
+                White = GetEffect("Effects/WhiteOutline");
+
+
+                Ref<Effect> hydrosDye = new Ref<Effect>(GetEffect("Effects/HydrosDye"));
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
+                Ref<Effect> aquamarineDye = new Ref<Effect>(GetEffect("Effects/AquamarineDye"));
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
+
+                /*
+                  SpeedrunnTimer = new UserInterface();
+                  //RunUI.Activate();
+                  RunUI = new RunninUI();
+                  SpeedrunnTimer.SetState(RunUI);
+                */
+
+                if (Main.netMode != NetmodeID.Server)
+                {
+                    trailManager = new TrailManager(this);
+                    prims = new Prims(this);
+                    primitives.CreateTrail(new RainbowLightTrail(null));
+
+                    //primitives.CreateTrail(new RainbowLightTrail(null));
+                    prims.CreateVerlet();
+                }
+                LoadUI();
+            }
+            LoadIL();
+            LoadDetours();
+            if (!Main.dedServ)
+            {
+                Particles = new ParticleZoneHandler();
+                Particles.AddZone("Main", 40000);
+                MainParticles = Particles.Get("Main");
             }
         }
-
-        public static Effect NoiseSurfacing;
-
-        public void DrawZipline()
-        {
-            Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
-            Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
-            Main.spriteBatch.Begin();
-            Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier2"), Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
-            Main.spriteBatch.Draw(GetTexture("EEMod/Items/ZipCarrier"), Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
-            Main.spriteBatch.End();
-        }
-
 
         public override void Unload()
         {
@@ -127,121 +168,10 @@ namespace EEMod
             Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
         }
 
-
-        private int delay;
-        private float pauseShaderTImer;
-        public SpaceInvaders simpleGame;
-
-        public ModPacket GetPacket(EEMessageType type, int capacity)
-        {
-            ModPacket packet = GetPacket(capacity + 1);
-            packet.Write((byte)type);
-            return packet;
-        }
-
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
             EENet.ReceievePacket(reader, whoAmI);
         }
-
-        public int lerps;
-        private float alphas;
-        private int delays;
-        public Verlet verlet;
-        private bool mode = true;
-        bool bufferVariable;
-        private float rotationBuffer;
-        private float rotGoto;
-
-        public void UpdateVerlet()
-        {
-            ScTex = Main.screenTarget;
-            if (ActivateVerletEngine.JustPressed)
-                mode = !mode;
-            if (mode)
-                verlet.Update();
-            if (delays > 0)
-                delays--;
-        }
-
-        float counter;
-        [FieldInit(FieldInitType.ArrayMultipleLengths, arrayLengths: new int[] { 3, 200, 2 })]
-        public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
-
-
-        public void UpdateGame(GameTime gameTime)
-        {
-            lerps++;
-            if (delays > 0)
-            {
-                delays--;
-            }
-            float lerpLol = Math.Abs((float)Math.Sin(lerps / 50f));
-            for (int i = 0; i < Main.npc.Length; i++)
-            {
-                NPC npc = Main.npc[i];
-                if ((npc.type == ModContent.NPCType<OrbCollection>() || npc.type == ModContent.NPCType<SpikyOrb>()) && npc.active)
-                {
-                    float Dist = Vector2.Distance(npc.Center, Main.LocalPlayer.Center);
-                    if (Dist < 1000)
-                    {
-                        if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isPickingUp)
-                        {
-                            UIText("Pick Up?", Color.White * alphas, new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 - 50), 1);
-                        }
-                        if (Dist < 100)
-                        {
-                            if (alphas < 1)
-                            {
-                                alphas += 0.01f;
-                            }
-
-                            if (Inspect.JustPressed && delays == 0)
-                            {
-                                var modp = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-                                if (!modp.isPickingUp)
-                                    npc.ai[1] = Main.myPlayer;
-                                modp.isPickingUp = !modp.isPickingUp;
-                                delays = 120;
-                            }
-                        }
-                        else
-                        {
-                            if (alphas > 0)
-                            {
-                                alphas -= 0.01f;
-                            }
-                        }
-                    }
-                }
-            }
-            simpleGame = simpleGame ?? new SpaceInvaders();
-            simpleGame.Update(gameTime);
-            for (int i = 0; i < Main.player.Length; i++)
-            {
-                Player player = Main.player[i];
-                if (player.active && !player.dead)
-                {
-                    if (Inspect.JustPressed && player.GetModPlayer<EEPlayer>().playingGame == true)
-                    {
-                        player.GetModPlayer<EEPlayer>().playingGame = false;
-                        player.webbed = false;
-                        simpleGame.EndGame();
-                        break;
-                    }
-                    if (Inspect.JustPressed && Framing.GetTileSafely((int)player.Center.X / 16, (int)player.Center.Y / 16).type == ModContent.TileType<BlueArcadeMachineTile>() && player.GetModPlayer<EEPlayer>().playingGame == false && PlayerExtensions.GetSavings(player) >= 2500)
-                    {
-                        simpleGame = new SpaceInvaders();
-                        Main.PlaySound(SoundID.CoinPickup, Main.LocalPlayer.Center);
-                        player.BuyItem(2500);
-                        simpleGame.StartGame(i);
-                        player.GetModPlayer<EEPlayer>().playingGame = true;
-                        break;
-                    }
-                }
-            }
-        }
-
 
         public override void MidUpdateProjectileItem()
         {
@@ -255,9 +185,6 @@ namespace EEMod
             Seamap.SeamapContent.Seamap.UpdateShipMovement();
         }
 
-        public static Effect Noise2D;
-        public static Effect White;
-        UIManager UI;
         public override void PreUpdateEntities()
         {
             RenderTargetBinding[] oldtargets1 = Main.graphics.GraphicsDevice.GetRenderTargets();
@@ -267,14 +194,14 @@ namespace EEMod
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
             int Width = Main.screenWidth;
             int Height = Main.screenHeight;
-            for (int i = 0; i < Width/16; i++)
+            for (int i = 0; i < Width / 16; i++)
             {
                 for (int j = 0; j < Height / 16; j++)
                 {
-                    Vector2 SP = Main.screenPosition/16;
+                    Vector2 SP = Main.screenPosition / 16;
                     Point p = new Point((int)SP.X + i, (int)SP.Y + j);
-                    Color c = Lighting.GetColor(p.X,p.Y);
-                    Main.spriteBatch.Draw(Main.magicPixel, new Rectangle(i, j,1,1), c);
+                    Color c = Lighting.GetColor(p.X, p.Y);
+                    Main.spriteBatch.Draw(Main.magicPixel, new Rectangle(i, j, 1, 1), c);
                 }
             }
             Main.spriteBatch.End();
@@ -326,110 +253,14 @@ namespace EEMod
             Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets2);
             base.PreUpdateEntities();
         }
-        public RenderTarget2D playerTarget;
-        public RenderTarget2D lightingTarget;
-        public ComponentManager<TileObjVisual> TVH;
-        public override void Load()
-        {
-            playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
-            lightingTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth/16, Main.screenHeight/16);
-            TVH = new ComponentManager<TileObjVisual>();
-            verlet = new Verlet();
-            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
-            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
-            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());
-            playerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 100, 100);
-            UI = new UIManager();
-            Noise2D = GetEffect("Effects/Noise2D");
-            primitives = new PrimTrailManager();
-            //HandwritingCNN = new Handwriting();
-            RuneActivator = RegisterHotKey("Rune UI", "Z");
-            RuneSpecial = RegisterHotKey("Activate Runes", "V");
-            Inspect = RegisterHotKey("Inspect", "E");
-            ActivateVerletEngine = RegisterHotKey("Activate VerletEngine", "N");
-            Train = RegisterHotKey("Train Neural Network", "P");
-            AutoloadingManager.LoadManager(this);
-            //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
-            if (!Main.dedServ)
-            {
-                Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Ripple"));
-                Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/SeaTrans"));
-                Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/SunThroughWalls"));
-                Ref<Effect> MyTestShader = new Ref<Effect>(GetEffect("Effects/MyTestShader"));
-                Filters.Scene["EEMod:Ripple"] = new Filter(new ScreenShaderData(screenRef3, "Ripple"), EffectPriority.High);
-                Filters.Scene["EEMod:Ripple"].Load();
-                Filters.Scene["EEMod:SeaTrans"] = new Filter(new ScreenShaderData(screenRef2, "SeaTrans"), EffectPriority.High);
-                Filters.Scene["EEMod:SeaTrans"].Load();
-                Filters.Scene["EEMod:SunThroughWalls"] = new Filter(new ScreenShaderData(screenRef, "SunThroughWalls"), EffectPriority.High);
-                Filters.Scene["EEMod:SunThroughWalls"].Load();
-                Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
-                Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
-                Filters.Scene["EEMod:MyTestShader"].Load();
 
-                GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/SpireShine")), "SpireHeartbeat").UseImage("Noise/WormNoisePixelated");
-
-                SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
-                NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
-                White = GetEffect("Effects/WhiteOutline");
-
-
-                Ref<Effect> hydrosDye = new Ref<Effect>(GetEffect("Effects/HydrosDye"));
-                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
-                Ref<Effect> aquamarineDye = new Ref<Effect>(GetEffect("Effects/AquamarineDye"));
-                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
-
-                /*
-          SpeedrunnTimer = new UserInterface();
-          //RunUI.Activate();
-          RunUI = new RunninUI();
-          SpeedrunnTimer.SetState(RunUI);
-                */
-            }
-            LoadUI();
-            LoadIL();
-            LoadDetours();
-            Particles = new ParticleZoneHandler();
-            Particles.AddZone("Main", 40000);
-        }
-
-        public static bool isSaving = false;
-        public static int loadingChoose;
-        public static int loadingChooseImage;
-        public static bool loadingFlag = true;
-        public RenderTarget2D playerDrawData;
-        public static ModHotKey RuneActivator;
-        public static ModHotKey RuneSpecial;
-        public static ModHotKey Inspect;
-        public static ModHotKey ActivateVerletEngine;
-        public static ModHotKey Train;
-        private GameTime lastGameTime;
-        public UserInterface EEInterface;
-        float sineInt;
-        bool IsTraining;
-        void UpdateNet()
-        {
-            //HandwritingCNN.Draw();
-            if (Train.JustPressed)
-            {
-                IsTraining = !IsTraining;
-            }
-            if (IsTraining)
-            {
-                //UIText(HandwritingCNN.ERROR.ToString(), Color.White, Main.screenPosition.ForDraw() + new Vector2(50,400), 1);
-                for (int i = 0; i < 60; i++)
-                {
-                    //HandwritingCNN.Update();
-                }
-            }
-        }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             sineInt += 0.003f;
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             if (mouseTextIndex != -1)
             {
-                LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface",
-                delegate
+                LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
                 {
                     if (lastGameTime != null)
                     {
@@ -472,8 +303,7 @@ namespace EEMod
             var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
             if (textLayer != -1)
             {
-                var computerState = new LegacyGameInterfaceLayer("EE: UI",
-                delegate
+                var computerState = new LegacyGameInterfaceLayer("EE: UI", delegate
                 {
                     Ascension();
                     if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
@@ -499,154 +329,6 @@ namespace EEMod
 		        },
 		        InterfaceScaleType.UI));
 		    }*/
-        }
-
-        public string text;
-        public static int AscentionHandler;
-        public static int startingTextHandler;
-        public static bool isAscending;
-
-        public static void UIText(string text, Color colour, Vector2 position, int style)
-        {
-            DynamicSpriteFont font = style == 0 ? Main.fontDeathText : Main.fontMouseText;
-            Vector2 textSize = font.MeasureString(text);
-            float textPositionLeft = position.X - textSize.X / 2;
-            //float textPositionRight = position.X + textSize.X / 2;
-            Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-        }
-
-
-
-        private void Ascension()
-        {
-            const float seperation = 400;
-            // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            if (EEPlayer.startingText)
-            {
-                float alpha;
-                startingTextHandler++;
-                if (startingTextHandler % seperation <= (seperation / 2) && startingTextHandler > seperation)
-                {
-                    alpha = (float)Math.Sin(startingTextHandler % seperation / (seperation / 2) * Math.PI);
-                }
-                else
-                {
-                    alpha = 0;
-                }
-                Color color = Color.White;
-                if (startingTextHandler < seperation * 2)
-                {
-                    text = "Im too weak";
-                }
-                else if (startingTextHandler < seperation * 3)
-                {
-                    text = "Haha Funny Sans Go Burr";
-                }
-                else if (startingTextHandler < seperation * 4)
-                {
-                    text = "Sans Slime was too much";
-                }
-                else
-                {
-                    text = "Go to the world and avenge me ples ok? Thx bye";
-                }
-                color *= alpha;
-                Vector2 textSize = Main.fontDeathText.MeasureString(text);
-                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-                //float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-            }
-            // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            if (isAscending)
-            {
-                float alpha;
-                AscentionHandler++;
-                if (AscentionHandler % seperation <= (seperation / 2) && AscentionHandler > seperation)
-                {
-                    alpha = (float)Math.Sin(AscentionHandler % seperation / (seperation / 2) * Math.PI);
-                }
-                else
-                {
-                    alpha = 0;
-                }
-                Color color = Color.Black;
-                if (AscentionHandler < seperation * 2)
-                {
-                    text = "You have discovered your first rune";
-                }
-                else if (AscentionHandler < seperation * 3)
-                {
-                    text = "Be wary, many more remain";
-                }
-                else if (AscentionHandler < seperation * 4)
-                {
-                    text = "Once you collect them all, you will be able to make synergies"; //"Collect runes for synergies" This is technically wrong since you can only get synergies after collecting them all
-                }
-                else
-                {
-                    text = "Good luck.";
-                }
-                color *= alpha;
-                Vector2 textSize = Main.fontDeathText.MeasureString(text);
-                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-                //float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-            }
-        }
-
-        private void DrawText()
-        {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            float alpha = modPlayer.titleText;
-            Color color = Color.White * alpha;
-            /*if (Main.worldName == KeyID.Sea)
-            {
-                text = "The Ocean";
-                color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
-            }*/
-            if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
-            {
-                text = "The Pyramids";
-                color = Color.Yellow * alpha;
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
-            {
-                text = "The Coral Reefs";
-                color = Color.Blue * alpha;
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoIsland)
-            {
-                text = "The Volcano";
-                color = Color.OrangeRed * alpha;
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
-            {
-                text = "The Volcano's Core";
-                color = Color.Red * alpha;
-            }
-            if (Main.ActiveWorldFileData.Name == KeyID.Island)
-            {
-                text = "Tropical Island";
-                color = Color.GreenYellow * alpha;
-            }
-            Texture2D Outline = ModContent.GetInstance<EEMod>().GetTexture("UI/Outline");
-            Texture2D OceanScreen = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/OceanScreen");
-            Vector2 textSize = Main.fontDeathText.MeasureString(text);
-            float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-            float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-            Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
-            if (Main.worldName == KeyID.Sea)
-                Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
-            if (Main.worldName == KeyID.Sea)
-            {
-                Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
-            }
-            else
-            {
-                Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(Outline, new Vector2(textPositionLeft - 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(Outline, new Vector2(textPositionRight + 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.FlipHorizontally, 0);
-            }
         }
 
         public override void AddRecipeGroups()
@@ -688,33 +370,59 @@ namespace EEMod
         {
             if (!Main.gameMenu)
             {
-                if (Main.LocalPlayer?.GetModPlayer<EEPlayer>() != null)
+                Player player = Main.LocalPlayer;
+                EEPlayer eeplayer = player?.GetModPlayer<EEPlayer>();
+                if (eeplayer != null)
                 {
-                    var eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
                     int length = eeplayer.reefMinibiome.Length;
 
-                    if ((int)MinibiomeID.KelpForest < length)
+                    if (Main.worldName == KeyID.CoralReefs)
                     {
-                        if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
+                        Main.NewText("fake");
+                        if (Main.LocalPlayer.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 40)) * 16)
                         {
-                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
-                            priority = MusicPriority.BiomeHigh;
+                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
+                            priority = MusicPriority.Environment;
                         }
-                    }
 
-                    if ((int)MinibiomeID.CrystallineCaves < length)
-                    {
-                        if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+                        if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 40)) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 4 * 16)
                         {
-                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
-                            priority = MusicPriority.BiomeHigh;
+                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs");
+                            priority = MusicPriority.Environment;
                         }
-                    }
 
-                    if (Main.LocalPlayer.Center.Y / 16 < Main.maxTilesY / 10 && Main.worldName == KeyID.CoralReefs)
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
-                        priority = MusicPriority.Environment;
+                        if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 10) * 4) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 7 * 16)
+                        {
+                            music = GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs");
+                            priority = MusicPriority.Environment;
+                        }
+
+                        if ((int)MinibiomeID.KelpForest < length)
+                        {
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
+                            {
+                                music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
+                                priority = MusicPriority.BiomeHigh;
+                            }
+                        }
+
+                        if ((int)MinibiomeID.CrystallineCaves < length)
+                        {
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+                            {
+                                music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
+                                priority = MusicPriority.BiomeHigh;
+                            }
+                        }
+
+                        if ((int)MinibiomeID.BulbousGrove < length)
+                        {
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+                            {
+                                music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlowshroomGrotto");
+                                priority = MusicPriority.BiomeHigh;
+                            }
+                        }
                     }
 
                     for (int i = 0; i < Main.maxNPCs; i++)

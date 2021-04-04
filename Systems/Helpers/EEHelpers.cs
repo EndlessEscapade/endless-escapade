@@ -602,6 +602,8 @@ namespace EEMod
             return false;
         }
 
+        public static Vector2 DirectionTo(this Entity entity, Vector2 pos, float length) => Vector2.Normalize(entity.position - pos) * length;
+
         public static Vector2 MoveTowardsNPC(float speed, float currentX, float currentY, NPC npc, Vector2 issue, int direction)
         {
             Vector2 vector3 = new Vector2(issue.X + (direction * 20), issue.Y + 6f);
