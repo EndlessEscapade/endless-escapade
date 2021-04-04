@@ -20,7 +20,7 @@ namespace EEMod.NPCs
             Player spawnplayer = spawnInfo.player;
             if (spawnplayer.GetModPlayer<EEPlayer>().ZoneCoralReefs) {
                 pool[0] = 0f;
-                if (spawnInfo.player.Center.Y < 1200)
+                if (spawnInfo.player.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                 {
                     if (!spawnplayer.GetModPlayer<EEPlayer>().jellyfishMigration)
                     {
@@ -38,7 +38,7 @@ namespace EEMod.NPCs
                         pool.Add(ModContent.NPCType<OlvinicSnail>(), 5f);
                     }
                 }
-                else if (spawnplayer.Center.Y <= 12800 && spawnInfo.player.Center.Y >= 1200)
+                else if (spawnplayer.Center.Y <= 12800 && spawnInfo.player.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                 {
                     pool.Add(ModContent.NPCType<Clam>(), 5f);
                     pool.Add(ModContent.NPCType<LunaJelly>(), 5f);

@@ -36,6 +36,12 @@ namespace EEMod
 
         //Biome checks
         public bool ZoneCoralReefs;
+
+        public bool ZoneSurfaceReefs;
+        public bool ZoneUpperReefs;
+        public bool ZoneLowerReefs;
+        public bool ZoneReefDepths;
+
         public bool HasVisitedSpire;
         public bool[] reefMinibiome = new bool[7];
         public bool aquamarineSetBonus = true;
@@ -358,41 +364,7 @@ namespace EEMod
             ZoneCoralReefs = flags[0];
         }
 
-        private void MoralFirstFrame()
-        {
-            switch (player.name)
-            {
-                case "OS":
-                case "EpicCrownKing":
-                case "Coolo109":
-                case "Pyxis":
-                case "phanta":
-                case "cynik":
-                case "daimgamer":
-                case "Thecherrynuke":
-                case "Vadim":
-                case "Exitium":
-                case "Chkylis":
-                case "LolXD87":
-                case "Nomis":
-                case "A44":
-                case "Stevie":
-                    initialMoralScore += 1000;
-                    break;
-            }
-        }
         public bool isHangingOnVine;
-        private void Moral()
-        {
-            moralScore = 0;
-            moralScore += initialMoralScore;
-            moralScore -= WorldGen.totalEvil * 30;
-            if (WorldGen.totalEvil == 0)
-            {
-                moralScore += 1000;
-            }
-            //Main.NewText(moralScore);
-        }
 
         public override void Initialize()
         {
@@ -438,7 +410,6 @@ namespace EEMod
                     SeamapPlayerShip.localship.shipHelth = SeamapPlayerShip.ShipHelthMax;
                 }
                 SeaObject.Clear();
-                MoralFirstFrame();
                 displacmentX = 0;
                 displacmentY = 0;
                 startingText = false;
@@ -518,6 +489,8 @@ namespace EEMod
             int clamp = 80;
             float disSpeed = .4f;
             base.ModifyScreenPosition();
+
+            EEMod.UpdateAmbience();
 
             if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
             {
@@ -794,7 +767,6 @@ namespace EEMod
                 }
                 dur--;
             }
-            Moral();
 
             EEMod.isSaving = false;
             if (Main.worldName != KeyID.Sea)

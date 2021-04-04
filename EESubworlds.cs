@@ -79,14 +79,14 @@ namespace EEMod
 
             FillRegion(Main.maxTilesX, (Main.maxTilesY / 10) * 3, new Vector2(0, (Main.maxTilesY / 10) * 7), ModContent.TileType<DarkGemsandTile>());
 
-            ClearRegion(Main.maxTilesX, (Main.maxTilesY / 20) + (Main.maxTilesY / 40) + (Main.maxTilesY / 60), Vector2.Zero);
+            ClearRegion(Main.maxTilesX, (Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60), Vector2.Zero);
 
-            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 60, new Vector2(0, (Main.maxTilesY / 40) + (Main.maxTilesY / 20)), ModContent.TileType<CoralSandTile>(), 20);
-            FillRegionEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 60) - (Main.maxTilesY / 120), new Vector2(0, (Main.maxTilesY / 40) + (Main.maxTilesY / 20) + 20), ModContent.TileType<CoralsandstoneTile>(), 20);
+            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 60, new Vector2(0, (Main.maxTilesY / 60) + (Main.maxTilesY / 20)), ModContent.TileType<CoralSandTile>(), 20);
+            FillRegionEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 60) - (Main.maxTilesY / 120), new Vector2(0, (Main.maxTilesY / 60) + (Main.maxTilesY / 20) + 20), ModContent.TileType<CoralsandstoneTile>(), 20);
 
-            FillRegionEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 60) - (Main.maxTilesY / 120), new Vector2(0, (Main.maxTilesY / 40) + (Main.maxTilesY / 20) + 40), ModContent.TileType<LightGemsandTile>(), 20);
+            FillRegionEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 60) - (Main.maxTilesY / 120), new Vector2(0, (Main.maxTilesY / 60) + (Main.maxTilesY / 20) + 40), ModContent.TileType<LightGemsandTile>(), 20);
 
-            List<Vector3> vecs = new List<Vector3>();
+            /*List<Vector3> vecs = new List<Vector3>();
 
             for (int i = 50; i < Main.maxTilesX - 50; i++)
             {
@@ -134,7 +134,7 @@ namespace EEMod
                         MakeCircle((int)(finalVecs[i].Z + k * (finalVecs[i + 1].Z - finalVecs[i].Z)), Vector2.Lerp(new Vector2(finalVecs[i].X, finalVecs[i].Y), new Vector2(finalVecs[i + 1].X, finalVecs[i + 1].Y), k), TileID.StoneSlab, true);
                     }
                 }
-            }
+            }*/
 
             #endregion
 
@@ -682,6 +682,8 @@ namespace EEMod
                 PlaceShipWalls(boatPos, TileCheckWater(boatPos) - 22, ShipWalls);
                 PlaceShip(boatPos, TileCheckWater(boatPos) - 22, ShipTiles);
                 CoralBoatPos = new Vector2(boatPos, TileCheckWater(boatPos) - 22);
+
+                RemoveWaterFromRegion(ShipTiles.GetLength(1), ShipTiles.GetLength(0), new Vector2(boatPos, TileCheckWater(boatPos) - 22));
 
                 #endregion
             }

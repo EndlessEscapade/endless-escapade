@@ -194,62 +194,24 @@ namespace EEMod.EEWorld
                     kelpForest.StructureStep();
                     break;
 
-                case (int)MinibiomeID.BulbousGrove: //One medium-sized open room completely covered in bulbous blocks
-                    BulbousGrove bulbousGrove = new BulbousGrove
+
+                case (int)MinibiomeID.GlowshroomGrotto: //One medium-sized open room completely covered in bulbous blocks
+                    GlowshroomGrotto GlowshroomGrotto = new GlowshroomGrotto
                     {
                         Position = TL.ToPoint(),
                         Size = new Point(sizeX * 2, sizeY * 2),
                         EnsureNoise = ensureNoise
                     };
-                    bulbousGrove.StructureStep();
+                    GlowshroomGrotto.StructureStep();
                     break;
 
-                case (int)MinibiomeID.JellyfishCaverns: //Many small ovular rooms that are interconnected in a random shape
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
-                    MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
-                    MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
-                    MakeWavyChasm3(new Vector2(TL.X - 50 + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X - 50 + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), new Vector2(BR.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-100, 100), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-100, 100), yPos - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                    for (int i = (int)startingPoint.X + 20; i < (int)startingPoint.X + sizeX * 2 - 20; i++)
-                    {
-                        for (int j = (int)startingPoint.Y + 20; j < (int)startingPoint.Y + sizeY * 2 - 20; j++)
-                        {
-                            int buffer = 0;
-                            for (int a = 0; a < 14; a++)
-                            {
-                                if (WorldGen.InWorld(i, j - a, 10))
-                                    if (Framing.GetTileSafely(i, j - a).active())
-                                    {
-                                        buffer++;
-                                    }
-                            }
-                            if (buffer < 7)
-                            {
-                                if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
-                                {
-                                    for (int a = 0; a < 50; a++)
-                                    {
-                                        if (Main.rand.Next(4) == 1)
-                                        {
-                                            WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    break;
-
-                case (int)MinibiomeID.Halocline: //Unknown
+                /*case (int)MinibiomeID.Halocline: //Unknown
                     MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
                     CreateNoise(!ensureNoise, 40, 40, 0.4f);
                     CreateNoise(!ensureNoise, 40, 40, 0.4f);
-                    break;
+                    break;*/
 
                 case (int)MinibiomeID.ThermalVents: //A wide-open room with floating platforms that hold abandoned ashen houses with huge chasms in between
                     MakeJaggedOval(sizeX, (int)(sizeY * 1.5f), new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true, 50);
@@ -349,6 +311,11 @@ namespace EEMod.EEWorld
                 return ModContent.TileType<CoralSandTile>();
             else
                 return 0;
+        }
+
+        public static void MakeCoralStack()
+        {
+
         }
 
         public static void PlaceCoral()
@@ -608,7 +575,7 @@ namespace EEMod.EEWorld
 
                             #region Bulbous Grove
 
-                            case MinibiomeID.BulbousGrove:
+                            case MinibiomeID.GlowshroomGrotto:
                                 if (WorldGen.genRand.NextBool())
                                 {
                                     switch (TileCheck2(i, j))
@@ -679,78 +646,6 @@ namespace EEMod.EEWorld
                                 break;
 
                             #endregion Bulbous Grove
-
-                            #region Jellyfish Caverns
-
-                            case MinibiomeID.JellyfishCaverns: //Jellyfish Caverns(More hanging coral/longer hanging coral)
-                                if (!WorldGen.genRand.NextBool(6))
-                                {
-                                    switch (TileCheck2(i, j))
-                                    {
-                                        case 1:
-                                            selection = WorldGen.genRand.Next(5);
-                                            switch (selection)
-                                            {
-                                                case 0:
-                                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x2Coral>());
-                                                    break;
-
-                                                case 1:
-                                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x3Coral>(), style: WorldGen.genRand.Next(2));
-                                                    break;
-
-                                                case 2:
-                                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x3Coral>(), style: WorldGen.genRand.Next(2));
-                                                    break;
-
-                                                case 3:
-                                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging2x4Coral>(), style: WorldGen.genRand.Next(2));
-                                                    break;
-
-                                                case 4:
-                                                    WorldGen.PlaceTile(i, j + 1, ModContent.TileType<Hanging1x4Coral>());
-                                                    break;
-                                            }
-                                            break;
-
-                                        case 2:
-                                            selection = WorldGen.genRand.Next(3);
-                                            switch (selection)
-                                            {
-                                                case 0:
-                                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<Floor1x2Coral>(), style: WorldGen.genRand.Next(7));
-                                                    break;
-
-                                                case 1:
-                                                    WorldGen.PlaceTile(i, j - 6, ModContent.TileType<Floor2x6Coral>(), style: WorldGen.genRand.Next(2));
-                                                    break;
-
-                                                case 2:
-                                                    WorldGen.PlaceTile(i, j - 8, ModContent.TileType<Floor6x8Coral>());
-                                                    break;
-                                            }
-                                            break;
-
-                                        case 3:
-                                            WorldGen.PlaceTile(i + 1, j, ModContent.TileType<WallGlow2x3NonsolidCoralL>());
-                                            break;
-
-                                        case 4:
-                                            WorldGen.PlaceTile(i - 2, j, ModContent.TileType<WallGlow2x3NonsolidCoralR>());
-                                            break;
-                                    }
-                                    break;
-                                }
-                                break;
-
-                            #endregion Jellyfish Caverns
-
-                            #region Halocline
-
-                            case MinibiomeID.Halocline:
-                                break;
-
-                            #endregion Halocline
 
                             #region Thermal Vents
 

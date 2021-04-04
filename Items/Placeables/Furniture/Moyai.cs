@@ -1,7 +1,7 @@
 using EEMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
-using EEMod.Tiles.Foliage.Coral;
+using EEMod.Tiles.Foliage.ThermalVents;
 
 namespace EEMod.Items.Placeables.Furniture
 {
@@ -25,7 +25,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<MoyaiTile>();
+            item.createTile = ModContent.TileType<ThermalVent6x6>();
         }
     }
 }

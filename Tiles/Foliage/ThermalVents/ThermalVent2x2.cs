@@ -25,26 +25,22 @@ namespace EEMod.Tiles.Foliage.ThermalVents
                 16
             };
             TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.newTile.RandomStyleRange = 2;
+            TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Thermal Vent");
             AddMapEntry(new Color(0, 100, 200), name);
             dustType = DustID.Dirt;
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
-        }
-
-        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
-        {
-            r = 0.9f;
-            g = 0.3f;
-            b = 0.2f;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/ThermalVents/ThermalVent2x2Glow"), i, j);
+            if (Main.rand.NextBool(600))
+            {
+                int sussy = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<Amogus>());
+                Main.npc[sussy].velocity = new Vector2(2, -5);
+            }
         }
     }
 }

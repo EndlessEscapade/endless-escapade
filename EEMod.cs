@@ -139,6 +139,8 @@ namespace EEMod
                 Particles.AddZone("Main", 40000);
                 MainParticles = Particles.Get("Main");
             }
+
+            InitializeAmbience();
         }
 
         public override void Unload()
@@ -378,14 +380,13 @@ namespace EEMod
 
                     if (Main.worldName == KeyID.CoralReefs)
                     {
-                        Main.NewText("fake");
-                        if (Main.LocalPlayer.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 40)) * 16)
+                        if (Main.LocalPlayer.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
                             priority = MusicPriority.Environment;
                         }
 
-                        if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 40)) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 4 * 16)
+                        if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 4 * 16)
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs");
                             priority = MusicPriority.Environment;
@@ -415,14 +416,23 @@ namespace EEMod
                             }
                         }
 
-                        if ((int)MinibiomeID.BulbousGrove < length)
+                        if ((int)MinibiomeID.GlowshroomGrotto < length)
                         {
-                            if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.GlowshroomGrotto])
                             {
                                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlowshroomGrotto");
                                 priority = MusicPriority.BiomeHigh;
                             }
                         }
+
+                        /*if ((int)MinibiomeID.ThermalVents < length)
+                        {
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.ThermalVents])
+                            {
+                                music = GetSoundSlot(SoundType.Music, "Sounds/Music/ThermalVents");
+                                priority = MusicPriority.BiomeHigh;
+                            }
+                        }*/
                     }
 
                     for (int i = 0; i < Main.maxNPCs; i++)
@@ -437,6 +447,12 @@ namespace EEMod
                             }
                         }
                     }
+                }
+
+                if (Main.worldName == KeyID.Sea)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Seamap");
+                    priority = MusicPriority.BiomeHigh;
                 }
             }
         }

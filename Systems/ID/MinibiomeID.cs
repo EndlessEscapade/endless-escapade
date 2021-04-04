@@ -4,9 +4,7 @@ namespace EEMod.ID
     {
         None,
         KelpForest,
-        BulbousGrove,
-        JellyfishCaverns,
-        Halocline,
+        GlowshroomGrotto,
         ThermalVents,
         CrystallineCaves,
     }
