@@ -205,14 +205,6 @@ namespace EEMod.EEWorld
                     GlowshroomGrotto.StructureStep();
                     break;
 
-                /*case (int)MinibiomeID.Halocline: //Unknown
-                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX + 10, sizeY - 30, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    MakeJaggedOval(sizeX + 20, sizeY + 20, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 150);
-                    CreateNoise(!ensureNoise, 40, 40, 0.4f);
-                    CreateNoise(!ensureNoise, 40, 40, 0.4f);
-                    break;*/
-
                 case (int)MinibiomeID.ThermalVents: //A wide-open room with floating platforms that hold abandoned ashen houses with huge chasms in between
                     MakeJaggedOval(sizeX, (int)(sizeY * 1.5f), new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true, 50);
 
