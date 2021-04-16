@@ -5,6 +5,10 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using System;
+using Terraria.ID;
+using EEMod.Prim;
+using EEMod.Projectiles.CoralReefs;
 
 namespace EEMod.Tiles.Foliage.SeahorseShoals
 {
@@ -26,6 +30,39 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
             //TileObjectData.newTile.RandomStyleRange = 6;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
+        }
+
+        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            {
+                if (Main.rand.NextBool(20))
+                {
+                    for (int k = -20; k < 20; k++)
+                    {
+                        for (int l = -20; l < 20; l++)
+                        {
+                            if (WorldGen.InWorld(i + k, j + l) && Main.tile[i + k, j + l].active() && Main.tile[i + k, j + l].type == ModContent.TileType<TeslaCoral>() && Main.tile[i + k, j + l].frameX == 0 && Main.tile[i + k, j + l].frameY == 0)
+                            {
+                                int lightningproj = Projectile.NewProjectile(new Vector2((i * 16) + 16, (j * 16) + 16), Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
+
+                                if (Main.netMode != NetmodeID.Server)
+                                {
+                                    EEMod.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
+                                }
+
+                                TeslaCoralProj zappy = Main.projectile[lightningproj].modProjectile as TeslaCoralProj;
+
+                                zappy.target = new Vector2(((i + k) * 16) + 16, ((j + l) * 16) + 16);
+
+                                Main.NewText("Zap!");
+
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

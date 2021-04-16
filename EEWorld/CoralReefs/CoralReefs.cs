@@ -352,7 +352,7 @@ namespace EEMod.EEWorld
 
             #endregion Surface Reefs
 
-            for (int i = 42; i < Main.maxTilesX - 42; i++)
+            /*for (int i = 42; i < Main.maxTilesX - 42; i++)
             {
                 for (int j = 42; j < Main.maxTilesY - 42; j++)
                 {
@@ -604,8 +604,7 @@ namespace EEMod.EEWorld
                                                     WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral1>());
                                                     break;
 
-                                                case 2:
-                                                    WorldGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral2>());
+                                                case 2:ewdGen.PlaceTile(i, j - 2, ModContent.TileType<FloorGlow2x2Coral2>());
                                                     break;
 
                                                 case 3:
@@ -631,7 +630,7 @@ namespace EEMod.EEWorld
                                                 case 8:
                                                     WorldGen.PlaceTile(i, j - 1, ModContent.TileType<FloorGlow2x1Coral>());
                                                     break;
-                                            }*/
+                                            }
                                             break;
                                     }
                                 }
@@ -678,7 +677,7 @@ namespace EEMod.EEWorld
                                             break;
 
                                         case 2:
-                                            selection = WorldGen.genRand.Next(6);
+                                            /*selection = WorldGen.genRand.Next(6);
                                             switch (selection)
                                             {
                                                 case 0:
@@ -881,7 +880,7 @@ namespace EEMod.EEWorld
                         }
                     }
                 }
-            }
+            }*/
         }
     }
 }

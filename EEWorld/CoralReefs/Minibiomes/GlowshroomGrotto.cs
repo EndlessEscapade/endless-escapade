@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Tiles.Foliage.GlowshroomGrotto;
 using static EEMod.EEWorld.EEWorld;
 
 namespace EEMod.EEWorld
@@ -112,6 +113,15 @@ namespace EEMod.EEWorld
                     EESubWorlds.BulbousTreePosition.Add(new Vector2(i, j));
                 }
             });
+
+            TilePopulate(new int[] {
+                    ModContent.TileType<OrangeMushroom1x1>(),
+                    ModContent.TileType<OrangeMushroom2x2>(),
+                    ModContent.TileType<OrangeMushroom3x5>(),
+                    ModContent.TileType<OrangeMushroom5x7>(),
+                    ModContent.TileType<OrangeMushroom8x11>(), },
+            new Rectangle(TL.X, TL.Y, TL.X + Size.X, TL.Y + Size.Y));
+
             BoundClause((int i, int j) =>
             {
                 int buffer = 0;

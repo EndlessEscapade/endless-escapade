@@ -28,7 +28,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.newTile.RandomStyleRange = 2;
+            TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
         }
@@ -40,7 +40,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom1x1Cap"), i, j, Color.White);
+            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom1x1Cap"), i, j, Color.White * (float)(0.75f + (Math.Sin(i + j + Main.GameUpdateCount / 20f) / 4f)));
         }
     }
 }

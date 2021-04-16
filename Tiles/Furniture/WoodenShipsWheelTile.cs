@@ -60,9 +60,8 @@ namespace EEMod.Tiles.Furniture
             if (isIntersecting)
             {
                 //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 1;
-                ArrowsUIState.OceanArrowVisible = true;
 
-                if (EEMod.Inspect.Current && EEWorld.EEWorld.shipComplete)
+                if (EEMod.Inspect.Current)
                 {
 
                     player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
@@ -77,7 +76,6 @@ namespace EEMod.Tiles.Furniture
             else
             {
                 //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 0;
-                ArrowsUIState.OceanArrowVisible = false;
             }
         }
     }

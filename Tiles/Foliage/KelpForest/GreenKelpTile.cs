@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace EEMod.Tiles.Foliage
+namespace EEMod.Tiles.Foliage.KelpForest
 {
     public class GreenKelpTile : ModTile
     {
@@ -89,7 +89,7 @@ namespace EEMod.Tiles.Foliage
             Vector2 end = pos - sprout;
             Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
             float dist = (end - pos).Length();
-            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/GreenKelpTile");
+            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpForest/GreenKelpTile");
 
 
             int noOfFrames = 10;

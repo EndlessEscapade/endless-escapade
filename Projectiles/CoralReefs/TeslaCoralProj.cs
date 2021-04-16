@@ -6,9 +6,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System;
 
-namespace EEMod.Projectiles.Melee
+namespace EEMod.Projectiles.CoralReefs
 {
-    public class TeslaCoral : ModProjectile
+    public class TeslaCoralProj : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -26,35 +26,34 @@ namespace EEMod.Projectiles.Melee
             projectile.friendly = true;
             projectile.tileCollide = false;
             projectile.damage = 0;
-            projectile.timeLeft = 120;
+            projectile.timeLeft = iterations;
             projectile.alpha = 0;
+            projectile.hide = true;
         }
 
         public Vector2 target = Vector2.Zero;
         public int iterations = 8;
-        public int distance = 24;
+        public float distance = 24;
 
         public override void AI()
         {
-            projectile.ai[0]++;
-
             if (projectile.ai[0] < iterations)
             {
                 Vector2 dir = target - projectile.Center;
 
+                distance = dir.Length() / 16f;
+
                 Vector2 desiredPoint = dir * (projectile.ai[0] / iterations);
 
-                Vector2 desiredVector = desiredPoint + (Vector2.Normalize(dir - projectile.Center).RotatedBy(MathHelper.PiOver2) * distance);
+                Vector2 desiredVector = desiredPoint + (Vector2.Normalize(dir - projectile.Center).RotatedBy(Main.rand.NextFloat(-1.5f, 1.5f)) * distance);
 
-                projectile.Center = desiredVector;
+                projectile.Center += desiredVector;
 
-                Main.NewText("Moving!");
+                projectile.ai[0]++;
             }
             else
             {
                 projectile.Center = target;
-
-                Main.NewText("Stopped!");
             }
         }
     }

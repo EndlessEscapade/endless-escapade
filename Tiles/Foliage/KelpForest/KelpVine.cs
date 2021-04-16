@@ -1,4 +1,3 @@
-
 using EEMod.Extensions;
 using EEMod.Tiles;
 using Microsoft.Xna.Framework;
@@ -8,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Tiles.Foliage
+namespace EEMod.Tiles.Foliage.KelpForest
 {
     public class KelpVine : ModTile
     {
@@ -104,8 +103,8 @@ namespace EEMod.Tiles.Foliage
                 tile = Framing.GetTileSafely(i,j - step);
             }
             Vector2 position = new Vector2(i * 16 + (float)Math.Sin(Main.GameUpdateCount/(90f + i%10) + i)*(step * step * 0.1f), j * 16).ForDraw() + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpVine");
-            Texture2D texture2 = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpVineGlowmask");
+            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpForest/KelpVine");
+            Texture2D texture2 = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpForest/KelpVineGlowmask");
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(texture2, position, rect, color * (float)Math.Sin(Main.GameUpdateCount / 90f + i + j), 0f, default, 1f, SpriteEffects.None, 0f);

@@ -1,4 +1,4 @@
-using EEMod.Extensions;
+/*using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -37,4 +37,4 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             npc.knockBackResist = 0f;
         }
     }
-}
+}*/

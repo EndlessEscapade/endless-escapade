@@ -53,7 +53,7 @@ namespace EEMod
 
         public static void UpdateAmbience()
         {
-            if (Main.gameMenu) return;
+            /*if (Main.gameMenu) return;
 
             Player player = Main.LocalPlayer;
 
@@ -62,25 +62,26 @@ namespace EEMod
             if (player.GetModPlayer<EEPlayer>().ZoneCoralReefs && player.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
             {
                 loader.WavesInstance.Volume = Main.ambientVolume;
+
+                if (loader.WavesInstance.State != SoundState.Playing) { loader.WavesInstance.Play(); }
+
+                if (Main.rand.NextBool(1800))
+                {
+                    loader.SeagullsInstance.Play();
+                }
+                else if (Main.rand.NextBool(1800))
+                {
+                    loader.Seagulls2Instance.Play();
+                }
+                else if (Main.rand.NextBool(1800))
+                {
+                    loader.DolphinsInstance.Play();
+                }
             }
             else
             {
                 loader.WavesInstance.Volume = 0;
-            }
-            if(loader.WavesInstance.State != SoundState.Playing) { loader.WavesInstance.Play(); }
-
-            if (Main.rand.NextBool(1800))
-            {
-                loader.SeagullsInstance.Play();
-            }
-            else if (Main.rand.NextBool(1800))
-            {
-                loader.Seagulls2Instance.Play();
-            }
-            else if (Main.rand.NextBool(1800))
-            {
-                loader.DolphinsInstance.Play();
-            }
+            }*/
         }
     }
 }

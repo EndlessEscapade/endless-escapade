@@ -129,6 +129,7 @@ namespace EEMod.EEWorld
                     ModContent.TileType<GroundGlowCoral2>(),
                     ModContent.TileType<GroundGlowCoral3>(),
                     ModContent.TileType<GroundGlowCoral4>(),
+                    ModContent.TileType<KelpFlower>(),
                     ModContent.TileType<Wall4x3CoralL>(),
                     ModContent.TileType<Wall4x3CoralR>() },
             new Rectangle(TL.X, TL.Y, TL.X + Size.X, TL.Y + Size.Y));

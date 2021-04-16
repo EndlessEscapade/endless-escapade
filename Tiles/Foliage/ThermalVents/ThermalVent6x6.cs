@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+/*using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -69,4 +69,4 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             frame2 = frame;
         }
     }
-}
+}*/

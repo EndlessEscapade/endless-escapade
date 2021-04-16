@@ -36,11 +36,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Main.rand.NextBool(600))
-            {
-                int sussy = NPC.NewNPC(i * 16, j * 16, ModContent.NPCType<Amogus>());
-                Main.npc[sussy].velocity = new Vector2(2, -5);
-            }
+            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/ThermalVents/ThermalVent2x2Glow"), i, j);
         }
     }
 }

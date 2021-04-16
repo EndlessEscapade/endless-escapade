@@ -658,6 +658,11 @@ namespace EEMod
                         {
                             WorldGen.KillTile(i, j);
                         }
+
+                        if(i > Main.maxTilesY * 0.95f)
+                        {
+                            WorldGen.SquareTileFrame(i, j);
+                        }
                     }
                 }
                 #endregion

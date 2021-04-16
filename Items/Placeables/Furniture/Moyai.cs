@@ -2,6 +2,8 @@ using EEMod.Tiles.Furniture;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.Foliage.ThermalVents;
+using EEMod.Tiles.Foliage.SeahorseShoals;
+using EEMod.Tiles.Foliage.KelpForest;
 
 namespace EEMod.Items.Placeables.Furniture
 {
@@ -25,7 +27,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<ThermalVent6x6>();
+            item.createTile = ModContent.TileType<KelpFlower>();
         }
     }
 }
