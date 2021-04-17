@@ -1,5 +1,5 @@
 ﻿using EEMod.Buffs.Buffs;
-using EEMod.Projectiles;
+using EEMod.Projectiles.Hooks;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -11,15 +11,37 @@ namespace EEMod.Items
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Kelpvine Cannon");
+            DisplayName.SetDefault("Kelpvine Cannon");
         }
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 32;
-            item.rare = ItemRarityID.LightRed;
-            item.value = Item.sellPrice(silver: 20);
+            item.useStyle = ItemUseStyleID.HoldingOut;
+
+            item.useAnimation = 24;
+            item.useTime = 24;
+
+            item.shootSpeed = 8f;
+            item.width = 44;
+            item.height = 26;
+
+            item.rare = ItemRarityID.Green;
+
+            item.shoot = ModContent.ProjectileType<KelpHookProj>();
+
+            item.autoReuse = false; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
+
+            item.UseSound = SoundID.Item11;
+        }
+
+        public override bool CanUseItem(Player player)
+        {
+            return player.ownedProjectileCounts[item.shoot] < 1;
+        }
+
+        public override bool AltFunctionUse(Player player)
+        {
+            return true;
         }
     }
 }

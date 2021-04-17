@@ -26,6 +26,7 @@ namespace EEMod.Projectiles.CoralReefs
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
+            projectile.timeLeft = 1000000000;
         }
 
         private bool funi;
@@ -82,7 +83,7 @@ namespace EEMod.Projectiles.CoralReefs
             {
                 alpha += 0.03f;
 
-                Helpers.DrawAdditive(mod.GetTexture("Projectiles/Nice"), pos, Color.Gold * (Helpers.Clamp(alpha / 2f, 0f, 0.7f) + (float)(Math.Sin(Main.GameUpdateCount / 30f) / 20f)), 0.5f + (float)(Math.Sin(Main.GameUpdateCount / 40f) / 30f), (alpha / 3f));
+                Helpers.DrawAdditive(mod.GetTexture("Projectiles/Nice"), pos, (Color.Gold * (Helpers.Clamp(alpha / 2f, 0f, 0.7f) + (float)(Math.Sin(Main.GameUpdateCount / 30f) / 20f))), 0.5f + (float)(Math.Sin(Main.GameUpdateCount / 40f) / 30f), (alpha / 3f));
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -90,7 +91,7 @@ namespace EEMod.Projectiles.CoralReefs
                 EEMod.White.CurrentTechnique.Passes[0].Apply();
                 EEMod.White.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
                 EEMod.White.Parameters["color"].SetValue(new Vector3(1, 1, 0));
-                Main.spriteBatch.Draw(tex, pos, tex.Bounds, Color.White, projectile.rotation, tex.Bounds.Size() / 2f, projectile.scale * 1.05f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(tex, pos, tex.Bounds, Color.White, projectile.rotation, tex.Bounds.Size() / 2f, projectile.scale * 1.1f, SpriteEffects.None, 0);
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

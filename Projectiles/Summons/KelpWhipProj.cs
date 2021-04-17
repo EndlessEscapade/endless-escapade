@@ -1,0 +1,45 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using Terraria;
+using Terraria.ModLoader;
+
+namespace EEMod.Projectiles.Summons
+{
+    public class KelpWhipProj : Whip
+    {
+        public override int segments => 30;
+        public override float rangeMult => 1f;
+        public override int summonTagDamage => 3;
+        public override int summonTagCrit => 10;
+        public override int buffGivenToPlayer => -1;
+        public override int buffTime => 120;
+        public override Color stringColor => Color.Gold;
+        public override string texture => "EEMod/Projectiles/Summons/KelpWhipProj";
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Kelp Whip");
+        }
+
+        public override void SafeSetDefaults()
+        {
+            projectile.width = 18;
+            projectile.height = 18;
+            projectile.aiStyle = -1;
+            projectile.friendly = true;
+            projectile.penetrate = -1;
+            projectile.tileCollide = false;
+            projectile.scale = 1f;
+            projectile.ownerHitCheck = true;
+            projectile.extraUpdates = 1;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
+        }
+
+        public override void NpcEffects(NPC target, int damage, float knockback, bool crit)
+        {
+            
+        }
+    }
+}

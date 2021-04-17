@@ -189,6 +189,28 @@ namespace EEMod
             }
         }
 
+        public static float FloatLerp(float from, float to, float t, bool clamped = false)
+        {
+            if (clamped)
+            {
+                if (from < to)
+                {
+                    if (t < from)
+                        return 0f;
+                    if (t > to)
+                        return 1f;
+                }
+                else
+                {
+                    if (t < to)
+                        return 1f;
+                    if (t > from)
+                        return 0f;
+                }
+            }
+            return (t - from) / (to - from);
+        }
+
         /// <summary>
         /// The opposite of <see cref="MathHelper.Lerp(float, float, float)"/>
         /// </summary>

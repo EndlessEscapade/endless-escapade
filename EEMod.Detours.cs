@@ -67,7 +67,6 @@ namespace EEMod
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
-            On.Terraria.WorldGen.SmashAltar += WorldGen_SmashAltar;
             WP = new WaterPrimitive(null);
             primitives.CreateTrail(WP);
         }
@@ -159,7 +158,6 @@ namespace EEMod
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
-            On.Terraria.WorldGen.SmashAltar -= WorldGen_SmashAltar;
         }
 
         /*private void LiquidRenderer_InternalDraw(On.Terraria.GameContent.Liquid.LiquidRenderer.orig_InternalDraw orig, Terraria.GameContent.Liquid.LiquidRenderer self, SpriteBatch spriteBatch, Vector2 drawOffset, int waterStyle, float globalAlpha, bool isBackgroundDraw)
@@ -198,14 +196,6 @@ namespace EEMod
         {
             orig(self, iNPCIndex, behindTiles);
         }*/
-
-        private void WorldGen_SmashAltar(On.Terraria.WorldGen.orig_SmashAltar orig, int i, int j)
-        {
-            orig(i, j);
-
-            EEPlayer.moralScore -= 50;
-            Main.NewText(EEPlayer.moralScore);
-        }
 
         private void WorldGen_SaveAndQuitCallBack(On.Terraria.WorldGen.orig_SaveAndQuitCallBack orig, object threadContext)
         {

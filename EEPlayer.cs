@@ -73,9 +73,9 @@ namespace EEMod
         public byte[] inPossesion = new byte[7];
         public int bubbleRuneBubble = 0;
 
-        //Morality
-        public static int moralScore;
-        public int initialMoralScore;
+        //Whips
+        public int summonTagDamage;
+        public int summonTagCrit;
 
         public readonly SubworldManager SM = new SubworldManager();
         public int rippleCount = 3;
@@ -1145,7 +1145,6 @@ namespace EEMod
             return new TagCompound
             {
                 ["hasGottenRuneBefore"] = hasGottenRuneBefore,
-                ["moral"] = moralScore,
                 ["baseworldname"] = baseWorldName,
                 ["importantCutscene"] = importantCutscene,
                 ["swiftSail"] = boatSpeed,
@@ -1163,7 +1162,6 @@ namespace EEMod
         public override void Load(TagCompound tag)
         {
             tag.TryGetByteArrayRef("hasGottenRuneBefore", ref hasGottenRuneBefore);
-            tag.TryGetRef("moral", ref moralScore);
             tag.TryGetRef("baseworldname", ref baseWorldName);
             tag.TryGetRef("importantCutscene", ref importantCutscene);
             tag.TryGetRef("swiftSail", ref boatSpeed);

@@ -14,6 +14,7 @@ using EEMod.UI.States;
 using EEMod;
 using EEMod.Items;
 using EEMod.Projectiles.CoralReefs;
+using EEMod.Items.Weapons.Melee;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
@@ -161,7 +162,11 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
         private int ChooseItem()
         {
-            return ModContent.ItemType<KelpvineCannon>();
+            int choice = Main.rand.Next(2);
+
+            if (choice == 0) return ModContent.ItemType<KelpvineCannon>();
+            else if (choice == 1) return ModContent.ItemType<KelpFlail>();
+            else return ItemID.DirtBlock;
         }
     }
 }
