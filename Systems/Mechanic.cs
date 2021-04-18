@@ -19,7 +19,7 @@ namespace EEMod.Systems
     }
     public class Mechanic : IComponent, IAutoloadType
     {
-        public EEMod Singleton => ModContent.GetInstance<EEMod>();
+        public EEMod Mod => ModContent.GetInstance<EEMod>();
         public float ElapsedTicks => Main.GameUpdateCount;
         protected virtual Layer DrawLayering => Layer.BehindTiles;
         public virtual void OnDraw(SpriteBatch spriteBatch) { }
@@ -37,21 +37,50 @@ namespace EEMod.Systems
         }
         public void Load()
         {
-            Singleton.Updatables.Add(this);
+            Mod.Updatables.Add(this);
             switch (DrawLayering)
             {
                 case Layer.BehindTiles:
-                    Singleton.BeforeTiles += Draw;
+                    Mod.BeforeTiles += Draw;
                     break;
                 case Layer.AboveTiles:
-                    Singleton.AfterTiles += Draw;
+                    Mod.AfterTiles += Draw;
                     break;
                 case Layer.NPCCache:
-                    Singleton.BeforeNPCCache += Draw;
+                    Mod.BeforeNPCCache += Draw;
                     break;
             }
             OnLoad();
         }
+
+        public virtual void PostUpdateWorld() { }
+
+        /// <summary>
+        /// Called in <seealso cref="MechanicWorld.PostDrawTiles"/><br />
+        /// Spritebatch must begin and end in this method.
+        /// </summary>
+        public virtual void PostDrawTiles() { }
+
+        /// <summary>
+        /// Basically PostUpdateProjectiles and PreUpdateItems
+        /// </summary>
+        public virtual void MidUpdateProjectileItem() { }
+
+        /// <summary>
+        /// PostUpdateNPCs and PreUpdateGore
+        /// </summary>
+        public virtual void MidUpdateNPCGore() { }
+
+        public virtual void MidUpdateDustTime() { }
+
+        public virtual void PreDrawNPCs() { }
+
+        public virtual void PostDrawNPCs() { }
+
+        public virtual void PreDrawProjectiles() { }
+
+        public virtual void PostDrawProjectiles() { }
+
         public Mechanic()
         {
             // Loaded in MechanicManager

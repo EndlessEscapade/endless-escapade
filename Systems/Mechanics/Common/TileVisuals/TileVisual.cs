@@ -101,15 +101,15 @@ namespace EEMod
                 void SpawnGrass()
                 {
                     Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(vel / 300f));
-                    EEMod.Particles.Get("Main").SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), -Vector2.UnitY * vel / 2f, 3, chosen, new SlowDown(0.92f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.1f));
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(vel / 300f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), -Vector2.UnitY * vel / 2f, 3, chosen, new SlowDown(0.92f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.1f));
                 }
                 if (DeltaLeft && timer == 0)
                 {
                     for (int g = 0; g < 5; g++)
                     {
-                            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
-                            EEMod.Particles.Get("Main").SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), new Vector2(0, Main.rand.NextFloat(-Math.Abs(Main.LocalPlayer.velocity.X) * 2, 0f)), leaft, 20, 1, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SlowDown(0.9f), new SetFrame(leaft.Bounds), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new AddVelocity(new Vector2(0, 0.002f)), new SimpleBrownianMotion(0.2f));
+                            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
+                            EEMod.MainParticles.SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), new Vector2(0, Main.rand.NextFloat(-Math.Abs(Main.LocalPlayer.velocity.X) * 2, 0f)), leaft, 20, 1, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SlowDown(0.9f), new SetFrame(leaft.Bounds), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new AddVelocity(new Vector2(0, 0.002f)), new SimpleBrownianMotion(0.2f));
                         if(onMoss)
                         {
                             SpawnGrass();
@@ -124,8 +124,8 @@ namespace EEMod
 
                     for (int g = 0; g < 5; g++)
                     {
-                        EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
-                        EEMod.Particles.Get("Main").SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), new Vector2(0, Main.rand.NextFloat(-Math.Abs(Main.LocalPlayer.velocity.X) * 2, 0f)), leaft, 20, 1, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SlowDown(0.9f), new SetFrame(leaft.Bounds), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SimpleBrownianMotion(0.2f));
+                        EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
+                        EEMod.MainParticles.SpawnParticles(new Vector2(position.X + Main.rand.NextFloat(-1f, 1f), position.Y + 2 + Main.rand.NextFloat(-Texture.Height, 0)), new Vector2(0, Main.rand.NextFloat(-Math.Abs(Main.LocalPlayer.velocity.X) * 2, 0f)), leaft, 20, 1, Lighting.GetColor((int)position.X / 16, (int)position.Y / 16), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SlowDown(0.9f), new SetFrame(leaft.Bounds), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SimpleBrownianMotion(0.2f));
                         if (onMoss)
                         {
                             SpawnGrass();

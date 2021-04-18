@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0)
+            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
             {
                 if (Main.rand.NextBool(20))
                 {

@@ -22,7 +22,7 @@ namespace EEMod
             {
                 for (int i = 1; i < EESubWorlds.AquamarineZiplineLocations.Count - 2; i++)
                 {
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.004f));
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.004f));
 
                     Vector2 addOn = new Vector2(0, 8);
                     Vector2 ChainConneccPos = EESubWorlds.AquamarineZiplineLocations[i] * 16;

@@ -44,7 +44,7 @@ namespace EEMod.Projectiles.Melee
         {
             alphaCounter += 0.08f;
             Player player = Main.player[projectile.owner];
-            EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.4f));
+            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.4f));
             if (projectile.ai[1] == 0)
             {
                 projectile.scale = MathHelper.Clamp(projectile.ai[0] / 10, 0, 1);
@@ -84,8 +84,8 @@ namespace EEMod.Projectiles.Melee
                 }
                 else
                 {
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.1f));
-                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.1f));
+                    EEMod.MainParticles.SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
                 }
                 Vector2 direction = Main.MouseWorld - player.position;
                 direction.Normalize();
@@ -121,8 +121,8 @@ namespace EEMod.Projectiles.Melee
                 }
                 else
                 {
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.4f));
-                    EEMod.Particles.Get("Main").SpawnParticles(projectile.Center + (projectile.velocity * 5), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.4f));
+                    EEMod.MainParticles.SpawnParticles(projectile.Center + (projectile.velocity * 5), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
                     projectile.rotation = projectile.velocity.ToRotation() + 0.78f;
                 }
                 if (projectile.timeLeft == 450)

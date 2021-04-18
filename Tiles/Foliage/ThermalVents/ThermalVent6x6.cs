@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
             Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/Foliage/ThermalVents/ThermalVent6x6Vent"), new Vector2(i * 16, j * 16) - Main.screenPosition, new Rectangle(tile.frameX, tile.frameY + (frame2 * 96), 16, 16), Color.White);
 
             if (tile.frameX == 48 && tile.frameY == 32 && frame2 >= 4 && !sus)

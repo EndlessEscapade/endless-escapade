@@ -430,6 +430,7 @@ namespace EEMod
         {
             trailManager.DrawTrails(Main.spriteBatch);
             prims.DrawProjectileTrails();
+            MechanicManager.PreDrawProjectiles();
 
             primitives.DrawTrailsAboveTiles();
             if (Main.worldName == KeyID.Sea)
@@ -440,12 +441,15 @@ namespace EEMod
                 Main.spriteBatch.End();
             }
             orig(self);
+            MechanicManager.PostDrawProjectiles();
         }
 
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)
         {
             prims.DrawTrails(Main.spriteBatch);
+            MechanicManager.PreDrawNPCs();
             orig(self, iNPCTiles, behindTiles);
+            MechanicManager.PostDrawNPCs();
         }
 
         private void Main_DrawBG(On.Terraria.Main.orig_DrawBG orig, Main self)

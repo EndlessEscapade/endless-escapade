@@ -15,10 +15,16 @@ namespace EEMod
     {
         public override void OnDraw(SpriteBatch spriteBatch)
         {
-            EEMod.Particles.Draw(spriteBatch);
+        }
+        public override void PostDrawProjectiles()
+        {
+            EEMod.Particles.Draw(Main.spriteBatch);
         }
 
         public override void OnUpdate()
+        {
+        }
+        public override void MidUpdateProjectileItem()
         {
             EEMod.Particles.Update();
         }

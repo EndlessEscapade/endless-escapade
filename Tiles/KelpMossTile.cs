@@ -68,8 +68,8 @@ namespace EEMod.Tiles
             if(Main.rand.Next(4) == 1 && !Framing.GetTileSafely(i,j-1).active())
             {
                 Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
-                EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.03f));
-                EEMod.Particles.Get("Main").SpawnParticles(new Vector2(i*16,j*16), -Vector2.UnitY,3, chosen, new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.02f,0.02f)), new SetLighting(chosen.ToVector3(),0.1f));
+                EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
+                EEMod.MainParticles.SpawnParticles(new Vector2(i*16,j*16), -Vector2.UnitY,3, chosen, new SlowDown(0.98f), new RotateTexture(Main.rand.NextFloat(-0.03f, 0.03f)), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.02f,0.02f)), new SetLighting(chosen.ToVector3(),0.1f));
             }    
             if (Main.drawToScreen)
             {

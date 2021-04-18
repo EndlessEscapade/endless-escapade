@@ -73,10 +73,10 @@ namespace EEMod
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)
                 {
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(1f));
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(1f));
                     for (int i = 0; i < 20; i++)
                     {
-                        EEMod.Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, default, 1, Color.White, new Spew(6.14f, 1f, Vector2.One / 2f, 0.98f));
+                        EEMod.MainParticles.SpawnParticles(Main.LocalPlayer.Center, default, 1, Color.White, new Spew(6.14f, 1f, Vector2.One / 2f, 0.98f));
                     }
                 }
                 if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine)

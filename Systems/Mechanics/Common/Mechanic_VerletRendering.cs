@@ -15,7 +15,7 @@ namespace EEMod
     {
         public override void OnDraw(SpriteBatch spriteBatch)
         {
-            Singleton.verlet.GlobalRenderPoints();
+            Mod.verlet.GlobalRenderPoints();
         }
 
         protected override Layer DrawLayering => Layer.BehindTiles;

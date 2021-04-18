@@ -337,7 +337,7 @@ namespace EEMod
                 }
             }
         }
-        public static ParticleZone Particles => EEMod.Particles.Get("Main");
+        public static ParticleZone Particles => EEMod.MainParticles;
         public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, Color color, float spawnChance = 1f, params IParticleModule[] modules)
         {
             for (float i = 0; i <= 1; i += chainsPerUse)
@@ -347,8 +347,8 @@ namespace EEMod
                     float x = X(i, startingPos.X, c1.X, endPoints.X);
                     float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
 
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(spawnChance));
-                    EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x, y), default, 2, color, modules);
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(x, y), default, 2, color, modules);
                 }
             }
         }
@@ -360,8 +360,8 @@ namespace EEMod
                 {
                     Vector2 pos = Vector2.Lerp(startingPos, endPoints,i);
 
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(spawnChance));
-                    EEMod.Particles.Get("Main").SpawnParticles(pos, default, 2, color, modules);
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
+                    EEMod.MainParticles.SpawnParticles(pos, default, 2, color, modules);
                 }
             }
         }
@@ -374,8 +374,8 @@ namespace EEMod
                     float x = X(i, startingPos.X, c1.X, endPoints.X);
                     float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
 
-                    EEMod.Particles.Get("Main").SetSpawningModules(new SpawnRandomly(spawnChance));
-                    EEMod.Particles.Get("Main").SpawnParticles(new Vector2(x, y), velocity, 2, color, modules);
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(x, y), velocity, 2, color, modules);
                 }
             }
         }

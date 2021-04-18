@@ -14,17 +14,35 @@ namespace EEMod
         {
             particles = new Particle[MaxLength];
         }
+
         internal readonly Particle[] particles;
-        private List<IParticleModule> BaseZoneModules = new List<IParticleModule>();
         private readonly List<IParticleSpawner> SpawningModules = new List<IParticleSpawner>();
+        private List<IParticleModule> BaseZoneModules = new List<IParticleModule>();
         public bool CanSpawn { get; set; }
         public int zoneTimer;
         int MAXDRAWDISTANCE => 2000;
-        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, Texture2D masks = null, float paralax = 0, params IParticleModule[] CustomBaseZoneModule)
+
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, params IParticleModule[] CustomBaseZoneModule) =>
+            _SpawnParticles(position, velocity, CustomBaseZoneModule: CustomBaseZoneModule);
+
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)=>
+            _SpawnParticles(position, velocity, colour: colour, CustomBaseZoneModule: CustomBaseZoneModule);
+
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, float scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)=>
+            _SpawnParticles(position, velocity, scale: scale, colour: colour, CustomBaseZoneModule: CustomBaseZoneModule);
+
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)=>
+            _SpawnParticles(position, velocity, texture, timeLeft, scale, colour, CustomBaseZoneModule: CustomBaseZoneModule);
+        
+        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, Texture2D masks = null, float paralax = 0, params IParticleModule[] CustomBaseZoneModule) =>
+            _SpawnParticles(position, velocity, texture, timeLeft, scale, colour, masks, paralax, CustomBaseZoneModule);
+
+        // different method so the it doesn't confuse overloads when doing paramname: param
+        private int _SpawnParticles(Vector2 position, Vector2 velocity = default, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, Texture2D masks = null, float paralax = 0, params IParticleModule[] CustomBaseZoneModule)
         {
             if (!Main.gamePaused)
             {
-                if ((position - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
+                if (Vector2.DistanceSquared(position, Main.LocalPlayer.Center) < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
                 {
                     CanSpawn = false;
                     foreach (IParticleSpawner Module in SpawningModules)
@@ -36,69 +54,13 @@ namespace EEMod
 
                     for (int i = 0; i < particles.Length; i++)
                     {
-                        if (particles[i] != null)
+                        Particle particle = particles[i];
+                        if (particle == null || !particle.active)
                         {
-                            if (!particles[i].active)
-                            {
-                                particles[i] = new Particle(position + new Vector2(Main.LocalPlayer.Center.X * paralax, Main.LocalPlayer.Center.Y * paralax), timeLeft, texture ?? Main.magicPixel, velocity, scale, colour ?? Color.White, masks, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
-                                if (texture != null)
-                                {
-                                    particles[i].Frame = texture.Bounds;
-                                }
-                                particles[i].paralax = paralax;
-                                return i;
-                            }
-                        }
-                        else
-                        {
-                            particles[i] = new Particle(position + new Vector2(Main.LocalPlayer.Center.X * paralax, Main.LocalPlayer.Center.Y * paralax), timeLeft, texture ?? Main.magicPixel, velocity, scale, colour ?? Color.White, masks, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
+                            particles[i] = particle = new Particle(position + Main.LocalPlayer.Center * paralax, timeLeft, texture ?? Main.magicPixel, velocity, scale, colour ?? Color.White, masks, (CustomBaseZoneModule?.Length ?? 0) > 0 ? CustomBaseZoneModule : BaseZoneModules.ToArray());
                             if (texture != null)
-                            {
-                                particles[i].Frame = texture.Bounds;
-                            }
-                            particles[i].paralax = paralax;
-                            return i;
-                        }
-                    }
-                }
-            }
-            return -1;
-        }
-        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Texture2D texture = null, int timeLeft = 60, float scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
-        {
-            if (!Main.gamePaused)
-            {
-                if ((position - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
-                {
-                    CanSpawn = false;
-                    foreach (IParticleSpawner Module in SpawningModules)
-                    {
-                        Module.CanSpawn(this);
-                    }
-
-                    if (!CanSpawn) return -1;
-
-                    for (int i = 0; i < particles.Length; i++)
-                    {
-                        if (particles[i] != null)
-                        {
-                            if (!particles[i].active)
-                            {
-                                particles[i] = new Particle(position, timeLeft, texture ?? Main.magicPixel, velocity, scale, colour ?? Color.White, null, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
-                                if (texture != null)
-                                {
-                                    particles[i].Frame = texture.Bounds;
-                                }
-                                return i;
-                            }
-                        }
-                        else
-                        {
-                            particles[i] = new Particle(position, timeLeft, texture ?? Main.magicPixel, velocity, scale, colour ?? Color.White, null, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
-                            if (texture != null)
-                            {
-                                particles[i].Frame = texture.Bounds;
-                            }
+                                particle.Frame = texture.Bounds;
+                            particle.paralax = paralax;
                             return i;
                         }
                     }
@@ -109,146 +71,55 @@ namespace EEMod
 
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, Texture2D mask, params IParticleModule[] modules) =>
             SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 3, col, mask, 0.6f, modules);
+
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, params IParticleModule[] modules) =>
             SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 2, col, null, 0.6f, modules);
+
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, params IParticleModule[] modules) =>
-          SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 1, null, null, 0.6f, modules);
-        public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex,float scale, float paralaxFactor, params IParticleModule[] modules) =>
-          SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, scale, null, null, paralaxFactor, modules);
+            SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 1, null, null, 0.6f, modules);
 
-        public int SpawnParticles(Vector2 position, Vector2 velocity = default, params IParticleModule[] CustomBaseZoneModule)
-        {
-            if (!Main.gamePaused)
-            {
-                if ((position - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
-                {
-                    CanSpawn = false;
-                    foreach (IParticleSpawner Module in SpawningModules)
-                    {
-                        Module.CanSpawn(this);
-                    }
+        public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, float scale, float paralaxFactor, params IParticleModule[] modules) =>
+            SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, scale, null, null, paralaxFactor, modules);
 
-                    if (!CanSpawn) return -1;
-
-                    for (int i = 0; i < particles.Length; i++)
-                    {
-                        if (particles[i] != null)
-                        {
-                            if (!particles[i].active)
-                            {
-                                particles[i] = new Particle(position, 60, Main.magicPixel, Vector2.Zero, 1, Color.White, null, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
-                                return i;
-                            }
-                        }
-                        else
-                        {
-                            particles[i] = new Particle(position, 60, Main.magicPixel, velocity, 1, Color.White, null, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
-                            return i;
-                        }
-                    }
-                }
-            }
-            return -1;
+        public void SetModules(params IParticleModule[] Module) 
+        { 
+            BaseZoneModules.Clear(); 
+            BaseZoneModules.AddRange(Module);
         }
-        public int SpawnParticles(Vector2 position, Vector2 velocity = default, int scale = 1, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
-        {
-            if (!Main.gamePaused)
-            {
-                if ((position - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
-                {
-                    CanSpawn = false;
-                    foreach (IParticleSpawner Module in SpawningModules)
-                    {
-                        Module.CanSpawn(this);
-                    }
 
-                    if (!CanSpawn) return -1;
-
-                    for (int i = 0; i < particles.Length; i++)
-                    {
-                        if (particles[i] != null)
-                        {
-                            if (!particles[i].active)
-                            {
-                                particles[i] = new Particle(position, 60, Main.magicPixel, velocity, scale, colour ?? Color.White, null, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
-                                return i;
-                            }
-                        }
-                        else
-                        {
-                            particles[i] = new Particle(position, 60, Main.magicPixel, velocity, scale, colour ?? Color.White, null, CustomBaseZoneModule.ToArray().Length == 0 ? BaseZoneModules.ToArray() : CustomBaseZoneModule);
-                            return i;
-                        }
-                    }
-                }
-            }
-            return -1;
+        public void SetSpawningModules(IParticleSpawner Module) 
+        { 
+            SpawningModules.Clear(); 
+            SpawningModules.Add(Module); 
         }
-        public int SpawnParticles(Vector2 position, Vector2 velocity = default, Color? colour = null, params IParticleModule[] CustomBaseZoneModule)
-        {
-            if (!Main.gamePaused)
-            {
-                if ((position - Main.LocalPlayer.Center).LengthSquared() < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
-                {
-                    CanSpawn = false;
-                    foreach (IParticleSpawner Module in SpawningModules)
-                    {
-                        Module.CanSpawn(this);
-                    }
 
-                    if (!CanSpawn) return -1;
-
-                    for (int i = 0; i < particles.Length; i++)
-                    {
-                        if (particles[i] != null)
-                        {
-                            if (!particles[i].active)
-                            {
-                                particles[i] = new Particle(position, 60, Main.magicPixel, velocity, 1, colour ?? Color.White, null, CustomBaseZoneModule.ToArray() ?? BaseZoneModules.ToArray());
-                                return i;
-                            }
-                        }
-                        else
-                        {
-                            particles[i] = new Particle(position, 60, Main.magicPixel, velocity, 1, colour ?? Color.White, null, CustomBaseZoneModule.ToArray().Length == 0 ? BaseZoneModules.ToArray() : CustomBaseZoneModule);
-                            return i;
-                        }
-                    }
-                }
-            }
-            return -1;
-        }
-        public void SetModules(params IParticleModule[] Module) { BaseZoneModules.Clear(); BaseZoneModules = Module.ToList(); }
-        public void SetSpawningModules(IParticleSpawner Module) { SpawningModules.Clear(); SpawningModules.Add(Module); }
         public void Update()
         {
             for (int k = 0; k < particles.Length; k++)
             {
-                if (particles[k] != null)
+                Particle particle = particles[k];
+                if (particle != null && particle.active)
                 {
-                    if (particles[k].active)
-                    {
-                        particles[k]?.Update();
-                    }
+                    particle.Update();
                 }
             }
 
             zoneTimer++;
         }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int k = 0; k < particles.Length; k++)
             {
-                if (particles[k] != null)
+                Particle particle = particles[k];
+                if (particle != null && particle.active)
                 {
-                    if (particles[k].active)
-                    {
-                        particles[k]?.Draw(spriteBatch);
-                    }
+                    particle.Draw(spriteBatch);
                 }
             }
         }
     }
+
     class SpawnPeriodically : IParticleSpawner
     {
         int spawnRate;
@@ -259,7 +130,7 @@ namespace EEMod
             this.ForTiles = ForTiles;
         }
 
-        public void CanSpawn(in ParticleZone pz)
+        public void CanSpawn(ParticleZone pz)
         {
             if (!ForTiles)
             {
@@ -268,11 +139,12 @@ namespace EEMod
             }
             else
             {
-                if ((pz.zoneTimer/5) % spawnRate == 0)
+                if ((pz.zoneTimer / 5) % spawnRate == 0)
                     pz.CanSpawn = true;
             }
         }
     }
+
     class SpawnRandomly : IParticleSpawner
     {
         float chance;
@@ -281,14 +153,15 @@ namespace EEMod
             this.chance = chance;
         }
 
-        public void CanSpawn(in ParticleZone pz)
+        public void CanSpawn(ParticleZone pz)
         {
             if (Main.rand.NextFloat(1f) < chance)
                 pz.CanSpawn = true;
         }
     }
+
     public interface IParticleSpawner
     {
-        void CanSpawn(in ParticleZone pz);
+        void CanSpawn(ParticleZone pz);
     }
 }

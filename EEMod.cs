@@ -183,8 +183,17 @@ namespace EEMod
                 prims.UpdateTrails();
                 primitives.UpdateTrailsAboveTiles();
             }
+            MechanicManager.MidUpdateProjectileItem();
             EEPlayer.UpdateOceanMapElements();
             Seamap.SeamapContent.Seamap.UpdateShipMovement();
+        }
+        public override void MidUpdateNPCGore()
+        {
+            MechanicManager.MidUpdateNPCGore();
+        }
+        public override void MidUpdateDustTime()
+        {
+            MechanicManager.MidUpdateDustTime();
         }
 
         public override void PreUpdateEntities()
