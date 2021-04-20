@@ -1,12 +1,22 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
+using EEMod.Systems;
+using EEMod.Config;
 
-namespace EEMod.Projectiles
+namespace EEMod.Systems
 {
-    public class BetterLighting : ModProjectile
+    public class BetterLighting : Mechanic
     {
-        public override void SetStaticDefaults()
+        public override void PostDrawProjectiles()
+        {
+            if (!EEModConfigClient.Instance.BetterLighting)
+                return;
+
+        }
+    }
+}
+        /*public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("WhiteBlock");
         }
@@ -29,6 +39,4 @@ namespace EEMod.Projectiles
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-        }
-    }
-}
+        }*/

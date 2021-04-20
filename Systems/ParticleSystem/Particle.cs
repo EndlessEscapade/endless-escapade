@@ -67,7 +67,7 @@ namespace EEMod
             LightingBlend = false;
             AnimSpeedPerTick = 1;
             noOfFrames = 1;
-            SetModules(StartingModule.ToArray() ?? new IParticleModule[0]);
+            SetModules(StartingModule ?? new IParticleModule[0]);
             AdditiveCalls.Instance.LoadObject(this);
         }
 
@@ -489,6 +489,7 @@ namespace EEMod
             this.rotation = rotation;
             this.intensity = intensity;
             this.disapearFromBack = disapearFromBack;
+            this.period = period;
         }
         public void Update(in Particle particle)
         {

@@ -1,11 +1,4 @@
 using static EEMod.EEWorld.EEWorld.EndOfPierVals;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EEMod.Tiles;
-using Terraria.ModLoader;
-using System.Threading.Tasks;
 using Terraria.ID;
 namespace EEMod.EEWorld
 {
@@ -32,7 +25,7 @@ internal const ushort E4 = WallID.EbonwoodFence;
 internal const ushort F5 = WallID.RichMaogany;
 internal const ushort G6 = WallID.PalmWoodFence;
 }
-public static int[,,] EndOfPier = new int[,,]
+public static int[,,] EndOfPier => new int[,,]
 {
 {{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{E,0,0,0,0,0,0,0,144,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0}},
 {{B,B1,0,0,0,0,0,0,126,72,252,144},{B,B1,0,0,0,0,0,0,144,72,36,0},{E,B1,0,0,0,0,0,0,162,0,72,0},{D,E4,28,0,0,0,0,0,18,36,180,108},{E,0,0,1,0,0,0,0,216,18,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0}},

@@ -53,6 +53,9 @@ namespace EEMod.Systems
             OnLoad();
         }
 
+        /// <summary>
+        /// Called in <seealso cref="MechanicWorld.PostUpdate"/>
+        /// </summary>
         public virtual void PostUpdateWorld() { }
 
         /// <summary>
@@ -62,15 +65,21 @@ namespace EEMod.Systems
         public virtual void PostDrawTiles() { }
 
         /// <summary>
+        /// Called in <seealso cref="EEMod.MidUpdateProjectileItem"/><br />
         /// Basically PostUpdateProjectiles and PreUpdateItems
         /// </summary>
         public virtual void MidUpdateProjectileItem() { }
 
         /// <summary>
-        /// PostUpdateNPCs and PreUpdateGore
+        /// Called in <seealso cref="EEMod.MidUpdateNPCGore"/><br />
+        /// Basically PostUpdateNPCs and PreUpdateGore
         /// </summary>
         public virtual void MidUpdateNPCGore() { }
 
+        /// <summary>
+        /// Called in <seealso cref="EEMod.MidUpdateDustTime"/><br />
+        /// Basically PostUpdateDust and PreUpdateTime
+        /// </summary>
         public virtual void MidUpdateDustTime() { }
 
         public virtual void PreDrawNPCs() { }

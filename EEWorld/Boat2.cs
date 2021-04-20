@@ -4,33 +4,33 @@ namespace EEMod.EEWorld
 {
     public partial class Boat2
     {
-        private static readonly int A = 0;
-        private static readonly int B = TileID.WoodBlock;
-        private static readonly int C = TileID.PalmWood;
-        private static readonly int D = TileID.Ebonwood;
-        private static readonly int E = TileID.SpookyWood;
-        private static readonly int F = TileID.Chain;
-        private static readonly int G = TileID.RichMahogany;
-        private static readonly int H = TileID.Rope;
-        private static readonly int I = TileID.Platforms;
-        private static readonly int J = TileID.DynastyWood;
-        private static readonly int K = TileID.Glass;
-        private static readonly int L = TileID.WoodenBeam;
-        private static readonly int M = TileID.MinecartTrack;
-        private static readonly int A0 = 0;
-        private static readonly int B1 = WallID.ShadewoodFence;
-        private static readonly int C2 = WallID.PalmWoodFence;
-        private static readonly int D3 = WallID.RichMahoganyFence;
-        private static readonly int E4 = WallID.Planked;
-        private static readonly int F5 = WallID.RichMaogany;
-        private static readonly int G6 = WallID.Sail;
-        private static readonly int H7 = WallID.Wood;
-        private static readonly int I8 = WallID.SpookyWood;
-        private static readonly int J9 = WallID.PalmWood;
-        private static readonly int K10 = WallID.BlueDungeonSlab;
-        private static readonly int L11 = WallID.BorealWoodFence;
-        private static readonly int M12 = WallID.Glass;
-        private static readonly int[] Zero = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private const int A = 0;
+        private const int B = TileID.WoodBlock;
+        private const int C = TileID.PalmWood;
+        private const int D = TileID.Ebonwood;
+        private const int E = TileID.SpookyWood;
+        private const int F = TileID.Chain;
+        private const int G = TileID.RichMahogany;
+        private const int H = TileID.Rope;
+        private const int I = TileID.Platforms;
+        private const int J = TileID.DynastyWood;
+        private const int K = TileID.Glass;
+        private const int L = TileID.WoodenBeam;
+        private const int M = TileID.MinecartTrack;
+        private const int A0 = 0;
+        private const int B1 = WallID.ShadewoodFence;
+        private const int C2 = WallID.PalmWoodFence;
+        private const int D3 = WallID.RichMahoganyFence;
+        private const int E4 = WallID.Planked;
+        private const int F5 = WallID.RichMaogany;
+        private const int G6 = WallID.Sail;
+        private const int H7 = WallID.Wood;
+        private const int I8 = WallID.SpookyWood;
+        private const int J9 = WallID.PalmWood;
+        private const int K10 = WallID.BlueDungeonSlab;
+        private const int L11 = WallID.BorealWoodFence;
+        private const int M12 = WallID.Glass;
+        //private static readonly int[] Zero = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
         public static int[,,] Boat2Array => new int[,,]
         {

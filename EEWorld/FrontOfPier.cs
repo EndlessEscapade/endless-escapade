@@ -31,7 +31,7 @@ internal const ushort E4 = WallID.EbonwoodFence;
 internal const ushort F5 = WallID.RichMahoganyFence;
 internal const ushort G6 = WallID.ShadewoodFence;
 }
-public static int[,,] FrontOfPier = new int[,,]
+public static int[,,] FrontOfPier => new int[,,]
 {
 {{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{C,0,0,0,0,0,0,0,144,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0}},
 {{0,0,0,0,0,0,0,0,0,0,0,0},{C,0,0,2,0,0,0,0,162,18,0,0},{B,D3,28,0,0,0,0,0,36,36,144,108},{C,D3,0,0,0,0,0,0,216,0,72,0},{I,D3,0,0,0,0,0,0,126,72,108,0},{I,D3,0,0,0,0,0,0,108,72,216,144}},

@@ -352,10 +352,10 @@ namespace EEMod
             titleText2 = 0;
             if (!arrowFlag)
             {
-                if (EEModConfigClient.Instance.BetterLighting)
+                /*if (EEModConfigClient.Instance.BetterLighting)
                 {
                     Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BetterLighting>(), 0, 0f, Main.myPlayer, 0, player.whoAmI);
-                }
+                }*/
 
                 player.ClearBuff(BuffID.Cursed);
 
