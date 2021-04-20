@@ -86,8 +86,14 @@ namespace EEMod.Systems
 
         public virtual void PostDrawNPCs() { }
 
+        /// <summary>
+        /// Spritebatch must begin and end in this method
+        /// </summary>
         public virtual void PreDrawProjectiles() { }
 
+        /// <summary>
+        /// Spritebatch must begin and end in this method.
+        /// </summary>
         public virtual void PostDrawProjectiles() { }
 
         public Mechanic()
