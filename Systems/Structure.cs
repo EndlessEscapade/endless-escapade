@@ -315,7 +315,7 @@ namespace EEMod.Systems
 								if (tileObjectData != null)
 								{
 									Point16 tileObjectDataOrigin = tileObjectData.Origin;
-									Point tileTopLeft = TileUtils.GetTileTopLeft(i, j);
+									Point tileTopLeft = GetTileTopLeft(i, j);
 									Point tileOrigin = new Point(tileObjectDataOrigin.X + tileTopLeft.X, tileObjectDataOrigin.Y + tileTopLeft.Y);
 
 									if (tileOrigin == new Point(i, j))
