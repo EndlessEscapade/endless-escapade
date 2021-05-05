@@ -15,11 +15,17 @@ namespace EEMod.Items
 
         public override void SetDefaults()
         {
+            item.useStyle = ItemUseStyleID.HoldingUp;
             item.width = 20;
             item.height = 20;
             item.maxStack = 1;
             item.value = Item.buyPrice(0, 0, 18, 0);
             item.rare = ItemRarityID.Orange;
+        }
+        public override bool UseItem(Player player)
+        {
+            EEMod.UI.SetState("EEInterfacee", "FishermansLogUI");
+            return true;
         }
     }
 }

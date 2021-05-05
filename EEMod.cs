@@ -45,10 +45,11 @@ namespace EEMod
         public static Effect Noise2D;
         public static Effect White;
         public static ParticleZoneHandler Particles;
+        public static UIManager UI;
         internal static ParticleZone MainParticles;
         private GameTime lastGameTime;
         public UserInterface EEInterface;
-        UIManager UI;
+        public FishermansLogUI FishermansLogUI;
         public RenderTarget2D playerDrawData;
         public RenderTarget2D playerTarget;
         public RenderTarget2D lightingTarget;
@@ -71,6 +72,10 @@ namespace EEMod
                 lightingTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 16, Main.screenHeight / 16);
                 playerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 100, 100);
                 UI = new UIManager();
+                FishermansLogUI = new FishermansLogUI();
+                FishermansLogUI.Activate();
+                UI.AddInterface("EEInterfacee");
+                UI.AddUIState("FishermansLogUI", FishermansLogUI);
                 Noise2D = GetEffect("Effects/Noise2D");
                 primitives = new PrimTrailManager();
             }

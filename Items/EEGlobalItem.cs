@@ -2,6 +2,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using System;
 
 namespace EEMod.Items
 {
@@ -12,6 +13,7 @@ namespace EEMod.Items
 
         //public override bool CloneNewInstances => true;
 
+        public bool caught;
         public int fishLength = 0;
         private readonly int[] averageSizeFish = { ItemID.ArmoredCavefish, ItemID.AtlanticCod, ItemID.Bass, ItemID.CrimsonTigerfish, ItemID.Ebonkoi, ItemID.Obsidifish, ItemID.SpecularFish, ItemID.Stinkfish, ItemID.Tuna };
         private readonly int[] smallSizeFish = { ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.Hemopiranha, ItemID.NeonTetra, ItemID.PrincessFish, ItemID.RedSnapper, /*ItemID.RockLobster, */ ItemID.Salmon, ItemID.Trout };
@@ -58,22 +60,28 @@ namespace EEMod.Items
 
         public override bool OnPickup(Item item, Player player)
         {
-            EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
-            if (averageSizeFish.Contains(item.type))
+            if (!caught)
             {
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(12, 33) * (1 + player.fishingSkill / 100), 0, 32);
+                EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
+                int current = 0;
+                if (modPlayer.fishLengths.ContainsKey(item.type))
+                {
+                    current = modPlayer.fishLengths[item.type];
+                }
+                if (averageSizeFish.Contains(item.type))
+                {
+                    modPlayer.fishLengths[item.type] = Math.Max(Helpers.Clamp(Main.rand.Next(12, 33) * (1 + player.fishingSkill / 100), 0, 32), current);
+                }
+                if (smallSizeFish.Contains(item.type))
+                {
+                    modPlayer.fishLengths[item.type] = Math.Max(Helpers.Clamp(Main.rand.Next(8, 17) * (1 + player.fishingSkill / 100), 0, 16), current);
+                }
+                if (bigSizeFish.Contains(item.type))
+                {
+                    modPlayer.fishLengths[item.type] = Math.Max(Helpers.Clamp(Main.rand.Next(18, 45) * (1 + player.fishingSkill / 100), 0, 44), current);
+                }
+                caught = true;
             }
-
-            if (smallSizeFish.Contains(item.type))
-            {
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(8, 17) * (1 + player.fishingSkill / 100), 0, 16);
-            }
-
-            if (bigSizeFish.Contains(item.type))
-            {
-                modPlayer.fishLengths[item.type] = Helpers.Clamp(Main.rand.Next(18, 45) * (1 + player.fishingSkill / 100), 0, 44);
-            }
-
             return true;
         }
 

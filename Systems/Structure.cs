@@ -667,7 +667,7 @@ namespace EEMod.Systems
 
 					ushort? type = ModLoader.GetMod(parts[0])?.GetTile(parts[1]).Type;
 					if (type == null)
-						throw new LibvaxyException($"Attempted to generate structure that depends on modded tile '{tileName}' but it was not loaded");
+						throw new System.Exception($"Attempted to generate structure that depends on modded tile '{tileName}' but it was not loaded");
 
 					entryMap[index] = type.Value;
 				}
@@ -682,7 +682,7 @@ namespace EEMod.Systems
 
 					ushort? type = ModLoader.GetMod(parts[0])?.GetWall(parts[1]).Type;
 					if (type == null)
-						throw new LibvaxyException($"Attempted to generate structure that depends on modded wall '{tileName}' but it was not loaded");
+						throw new System.Exception($"Attempted to generate structure that depends on modded wall '{tileName}' but it was not loaded");
 
 					entryMap[index] = type.Value;
 				}
@@ -726,7 +726,7 @@ namespace EEMod.Systems
 
 		private static Point GetTileTopLeft(int i, int j)
 		{
-			if (WorldGenUtils.SafeCoordinates(i, j))
+			if (SafeCoordinates(i, j))
 			{
 				Tile tile = Main.tile[i, j];
 
@@ -749,5 +749,6 @@ namespace EEMod.Systems
 
 			return new Point(-1, -1);
 		}
+		private static bool SafeCoordinates(int i, int j) => i >= 0 && i < Main.maxTilesX && j >= 0 && j < Main.maxTilesY;
 	}
 }
