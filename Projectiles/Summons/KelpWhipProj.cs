@@ -8,8 +8,8 @@ namespace EEMod.Projectiles.Summons
 {
     public class KelpWhipProj : Whip
     {
-        public override int segments => 30;
-        public override float rangeMult => 1f;
+        public override int segments => 24;
+        public override float rangeMult => 0.8f;
         public override int summonTagDamage => 3;
         public override int summonTagCrit => 10;
         public override int buffGivenToPlayer => -1;
@@ -24,10 +24,9 @@ namespace EEMod.Projectiles.Summons
 
         public override void SafeSetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
+            projectile.width = 0;
+            projectile.height = 0;
             projectile.aiStyle = -1;
-            projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.scale = 1f;

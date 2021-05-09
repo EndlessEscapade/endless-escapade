@@ -42,7 +42,7 @@ namespace EEMod.Projectiles.CoralReefs
             {
                 if (!funi)
                 {
-                    projectile.velocity.Y *= 0.95f;
+                    projectile.velocity.Y *= 0.92f;
             
                     if (projectile.velocity.Y <= 0.03f)
                     {

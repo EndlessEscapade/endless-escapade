@@ -70,14 +70,15 @@ namespace EEMod.Tiles.Foliage.KelpForest
             Tile tile = Framing.GetTileSafely(i, j + 1);
             if (WorldGen.InWorld(i, j))
             {
-                if (!tile.active()
-                    || tile.type != ModContent.TileType<GemsandTile>()
+                if (tile.type != ModContent.TileType<GemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandTile>()
                     && tile.type != ModContent.TileType<DarkGemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandstoneTile>()
                     && tile.type != ModContent.TileType<GemsandstoneTile>()
                     && tile.type != ModContent.TileType<DarkGemsandstoneTile>()
-                    && tile.type != ModContent.TileType<KelpLeafTile>())
+                    && tile.type != ModContent.TileType<KelpLeafTile>()
+                    && tile.type != ModContent.TileType<GreenKelpTile>()
+                    && tile.type != ModContent.TileType<KelpMossTile>())
                 {
                     WorldGen.KillTile(i, j);
                 }

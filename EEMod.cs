@@ -44,6 +44,7 @@ namespace EEMod
         public static ModHotKey Train;
         public static Effect Noise2D;
         public static Effect White;
+        public static Effect Colorify;
         public static ParticleZoneHandler Particles;
         internal static ParticleZone MainParticles;
         private GameTime lastGameTime;
@@ -106,6 +107,7 @@ namespace EEMod
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
                 NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
                 White = GetEffect("Effects/WhiteOutline");
+                Colorify = GetEffect("Effects/Colorify");
 
 
                 Ref<Effect> hydrosDye = new Ref<Effect>(GetEffect("Effects/HydrosDye"));
@@ -158,6 +160,7 @@ namespace EEMod
             Train = null;
             NoiseSurfacing = null;
             White = null;
+            Colorify = null;
             UnloadIL();
             UnloadDetours();
             UnloadUI();

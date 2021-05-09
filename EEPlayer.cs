@@ -220,6 +220,7 @@ namespace EEMod
         public override void UpdateBiomes()
         {
             ZoneCoralReefs = Main.ActiveWorldFileData.Name == KeyID.CoralReefs;
+
             if (ZoneCoralReefs)
             {
                 opac++;
@@ -229,7 +230,7 @@ namespace EEMod
                 }
                 //Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
 
-                int minibiome = 0;
+                /*int minibiome = 0;
                 for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
                 {
                     if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), player.Center / 16) < (160 * 160) && EESubWorlds.MinibiomeLocations[k].Z != 0)
@@ -242,7 +243,7 @@ namespace EEMod
                 for (int i = 0; i < reefMinibiome.Length; i++)
                     reefMinibiome[i] = false;
 
-                reefMinibiome[minibiome] = true;
+                reefMinibiome[minibiome] = true;*/
             }
             else
             {
@@ -252,8 +253,8 @@ namespace EEMod
                     opac = 0;
                 }
 
-                for (int i = 0; i < reefMinibiome.Length; i++)
-                    reefMinibiome[i] = false;
+                /*for (int i = 0; i < reefMinibiome.Length; i++)
+                    reefMinibiome[i] = false;*/
 
                 //	Filters.Scene.Deactivate("EEMod:CR");
             }

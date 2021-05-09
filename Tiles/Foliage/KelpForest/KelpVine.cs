@@ -42,11 +42,6 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 type = tileAbove.type;
             }
 
-           
-                return true;
-            
-
-            WorldGen.KillTile(i, j);
             return true;
         }
 

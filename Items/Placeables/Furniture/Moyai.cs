@@ -4,6 +4,7 @@ using Terraria.ModLoader;
 using EEMod.Tiles.Foliage.ThermalVents;
 using EEMod.Tiles.Foliage.SeahorseShoals;
 using EEMod.Tiles.Foliage.KelpForest;
+using EEMod.Tiles.Furniture.NautilusPuzzle;
 
 namespace EEMod.Items.Placeables.Furniture
 {
@@ -27,7 +28,7 @@ namespace EEMod.Items.Placeables.Furniture
             item.height = 12;
             item.rare = ItemRarityID.White;
 
-            item.createTile = ModContent.TileType<KelpFlower>();
+            item.createTile = ModContent.TileType<NautilusPuzzle>();
         }
     }
 }

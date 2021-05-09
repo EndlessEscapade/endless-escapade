@@ -136,12 +136,21 @@ namespace EEMod.EEWorld
 
             BoundClause((int i, int j) =>
             {
-                Tile tile = Framing.GetTileSafely(i, j - 1);
-                if (TileCheck2(i, j) == 1 && Main.rand.NextBool(20))
-                {
-                    VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
-                }
-                if ((!tile.active() || !Main.tileSolid[tile.type]) && TileCheck2(i, j) == 2)
+            Tile tile = Framing.GetTileSafely(i, j);
+            if (TileCheck2(i, j) == 1 && Main.rand.NextBool(20))
+            {
+                VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 15), 27);
+            }
+
+            if (tile.active() && !Framing.GetTileSafely(i, j - 1).active() && (
+                tile.type == ModContent.TileType<GemsandTile>()
+                || tile.type == ModContent.TileType<LightGemsandTile>()
+                || tile.type == ModContent.TileType<DarkGemsandTile>()
+                || tile.type == ModContent.TileType<LightGemsandstoneTile>()
+                || tile.type == ModContent.TileType<GemsandstoneTile>()
+                || tile.type == ModContent.TileType<DarkGemsandstoneTile>()
+                || tile.type == ModContent.TileType<KelpLeafTile>()
+                || tile.type == ModContent.TileType<KelpMossTile>()))
                 {
                     WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
                 }

@@ -33,14 +33,6 @@ namespace EEMod.Projectiles
         private float rangeMultiplier;
         private float timeToFlyOut;
 
-        /*public int segments = 20;
-        public float rangeMult = 1f;
-        public int summonTagDamage = 0;
-        public int summonTagCrit = 0;
-        public int buffGivenToPlayer = -1;
-        public int buffTime = 120;
-        public Color stringColor = Color.White;*/
-
         public virtual int segments => 20;
         public virtual float rangeMult => 1f;
         public virtual int summonTagDamage => 0;
@@ -60,10 +52,9 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
+            projectile.width = 0;
+            projectile.height = 0;
             projectile.aiStyle = -1;
-            projectile.friendly = true;
             projectile.penetrate = -1;
             projectile.tileCollide = false;
             projectile.scale = 1f;
@@ -231,13 +222,10 @@ namespace EEMod.Projectiles
             Vector2 value = Main.OffsetsPlayerOnhand[targetSearchResults.bodyFrame.Y / 56] * 2f;
 
             if (targetSearchResults.direction != 1)
-            {
                 value.X = targetSearchResults.bodyFrame.Width - value.X;
-            }
+
             if (targetSearchResults.gravDir != 1f)
-            {
                 value.Y = targetSearchResults.bodyFrame.Height - value.Y;
-            }
 
             value -= new Vector2(targetSearchResults.bodyFrame.Width - targetSearchResults.width, targetSearchResults.bodyFrame.Height - 42) / 2f;
 

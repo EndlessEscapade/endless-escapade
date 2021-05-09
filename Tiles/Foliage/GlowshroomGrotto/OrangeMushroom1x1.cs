@@ -40,6 +40,11 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
+            Color chosen = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(1f));
+
+            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.01f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), mod.GetTexture("Particles/SmallCircle"), 60, 1, chosen, new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.2f));
+
             Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom1x1Cap"), i, j, Color.White * (float)(0.75f + (Math.Sin(i + j + Main.GameUpdateCount / 20f) / 4f)));
         }
     }

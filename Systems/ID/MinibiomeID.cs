@@ -6,6 +6,6 @@ namespace EEMod.ID
         KelpForest,
         GlowshroomGrotto,
         ThermalVents,
-        CrystallineCaves,
+        CrystallineCaves
     }
 }

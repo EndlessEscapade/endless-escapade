@@ -15,6 +15,7 @@ using EEMod;
 using EEMod.Items;
 using EEMod.Projectiles.CoralReefs;
 using EEMod.Items.Weapons.Melee;
+using EEMod.Items.Weapons.Summon;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
@@ -119,7 +120,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             if(isOpen && (myItem == null || myItem.active == false) && !itemDeployed && isOpening)
             {
-                myItem = Projectile.NewProjectileDirect(new Vector2((Position.X * 16) + 32, Position.Y * 16), new Vector2(0, -3), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f, default, ChooseItem());
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/KelpFlowerOpen"));
+                myItem = Projectile.NewProjectileDirect(new Vector2((Position.X * 16) + 32, Position.Y * 16), new Vector2(0, -2.5f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f, default, ChooseItem());
                 itemDeployed = true;
             }
 
@@ -162,10 +164,11 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
         private int ChooseItem()
         {
-            int choice = Main.rand.Next(2);
+            int choice = Main.rand.Next(3);
 
             if (choice == 0) return ModContent.ItemType<KelpvineCannon>();
             else if (choice == 1) return ModContent.ItemType<KelpFlail>();
+            else if (choice == 2) return ModContent.ItemType<KelpWhip>();
             else return ItemID.DirtBlock;
         }
     }

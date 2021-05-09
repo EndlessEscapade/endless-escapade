@@ -390,7 +390,7 @@ namespace EEMod
             for (float i = 0; i < 1; i += (width / length) * per)
             {
                 Vector2 lerp = p1 + (p2 - p1) * i;
-                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, color, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Lighting.GetColor((int)(lerp.X / 16), (int)(lerp.Y / 16)), rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
         public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0)

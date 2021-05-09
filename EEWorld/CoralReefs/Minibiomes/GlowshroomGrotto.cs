@@ -72,47 +72,6 @@ namespace EEMod.EEWorld
                     MakeCircleFromCenter(WorldGen.genRand.Next(40, 50), poses[i], TileID.StoneSlab, true);
             }
             RemoveStoneSlabs();
-            BoundClause((int i, int j) =>
-            {
-                int noOfTiles = 0;
-                for (int k = -5; k < 5; k++)
-                {
-                    for (int l = -5; l < 5; l++)
-                    {
-                        if (WorldGen.InWorld(i + k, j + l, 10))
-                        {
-                            if (Framing.GetTileSafely(i + k, j + l).active() && Main.tileSolid[Framing.GetTileSafely(i + k, j + l).type])
-                            {
-                                noOfTiles++;
-                            }
-                        }
-                    }
-                }
-                if (EESubWorlds.BulbousTreePosition.Count > 0)
-                {
-                    for (int m = 0; m < EESubWorlds.BulbousTreePosition.Count; m++)
-                    {
-                        if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.BulbousTreePosition[m]) < 45 * 45)
-                        {
-                            noOfTiles += 5;
-                        }
-                    }
-                }
-                if (EESubWorlds.OrbPositions.Count > 0)
-                {
-                    for (int m = 0; m < EESubWorlds.OrbPositions.Count; m++)
-                    {
-                        if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.OrbPositions[m]) < 20 * 20)
-                        {
-                            noOfTiles += 5;
-                        }
-                    }
-                }
-                if (noOfTiles < 3)
-                {
-                    EESubWorlds.BulbousTreePosition.Add(new Vector2(i, j));
-                }
-            });
 
             TilePopulate(new int[] {
                     ModContent.TileType<OrangeMushroom1x1>(),
@@ -148,6 +107,19 @@ namespace EEMod.EEWorld
                 }
             }
             );
+
+            BoundClause((int i, int j) =>
+            {
+                bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Bottom;
+                if (CorrectSpacing && Framing.GetTileSafely(i, j).type != ModContent.TileType<GlowshroomVines>() && WorldGen.genRand.Next(4) == 0)
+                {
+                    for (int a = 0; a < WorldGen.genRand.Next(4, 15); a++)
+                    {
+                        if (!Framing.GetTileSafely(i, j + a).active())
+                            WorldGen.PlaceTile(i, j + a, ModContent.TileType<GlowshroomVines>());
+                    }
+                }
+            });
         }
     }
 }
