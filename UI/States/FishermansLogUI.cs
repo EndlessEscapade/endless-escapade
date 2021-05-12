@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -12,10 +13,12 @@ namespace EEMod.UI.States
 {
     public class FishermansLogUI : UIState
     {
+        public static UIText Description = new UIText("");
         public UIImage Background = new UIImage(ModContent.GetTexture("EEMod/UI/FishermansLogUI"));
+        public UIElement RightStuff = new UIElement();
         public UIPanel FishPanel = new UIPanel();
         public UIGrid FishGrid = new UIGrid();
-        FixedUIScrollbar ScrollBar = new FixedUIScrollbar();
+        public FixedUIScrollbar ScrollBar = new FixedUIScrollbar();
         public override void OnInitialize()
         {
             Background.HAlign = 0.5f;
@@ -43,6 +46,15 @@ namespace EEMod.UI.States
             FishGrid.SetScrollbar(ScrollBar);
             FishPanel.Append(FishGrid);
 
+            RightStuff.Width.Set(376, 0f);
+            RightStuff.Height.Set(436, 0f);
+            RightStuff.HAlign = 1f;
+            Background.Append(RightStuff);
+
+            Description.HAlign = 0.5f;
+            Description.VAlign = 0.65f;
+            RightStuff.Append(Description);
+
             Append(Background);
             LoadAllFish();
         }
@@ -50,47 +62,62 @@ namespace EEMod.UI.States
         {
             Main.LocalPlayer.ScrollHotbar(Terraria.GameInput.PlayerInput.ScrollWheelDelta / 120);
         }
-        public UIPanel LoadFish(int itemType)
-        {
-            UIPanel panel = new UIPanel();
-            panel.Width.Set(50, 0f);
-            panel.Height.Set(58, 0f);
-            panel.BackgroundColor = new Color();
-
-            FishElement fish = new FishElement(itemType);
-            fish.HAlign = -0.25f;
-            panel.Append(fish);
-
-            return panel;
-        }
         public void LoadAllFish()
         {
-            FishGrid.Add(LoadFish(ItemID.Bass));
-            FishGrid.Add(LoadFish(ItemID.AtlanticCod));
-            FishGrid.Add(LoadFish(ItemID.Ebonkoi));
+            FishGrid.Add(new FishElement(ItemID.Bass, "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "purity|underground|snow|ug ice|a lot"));
+            FishGrid.Add(new FishElement(ItemID.AtlanticCod, "Na cat", "snow|ug ice"));
+            FishGrid.Add(new FishElement(ItemID.Ebonkoi, "Mayb cat", "corruption|ug corruption"));
         }
     }
-    public class FishElement : UIElement 
+    public class FishElement : UIImageButton 
     {
+        public Texture2D borderTexture = ModContent.GetTexture("EEMod/UI/FishBorder");
         public int itemType;
-        public int npcType;
-        public string habitat;
         public string description;
-        public FishElement(int itemType)
+        public string habitat;
+        public Texture2D swimmingAnimation;
+        public int frameHeight;
+        public int frameWidth;
+
+        /// <param name="itemType">The type of the item that'll be used as the selection sprite.</param>
+        /// <param name="habitat">Will determine what background and water to use on the display, if multiple, put a "|" between each and they'll cycle.</param>
+        /// <param name="swimmingAnimation">The sprite sheet used to make the fish swim in the display, if left null, the item sprite will be used instead.</param>
+        public FishElement(int itemType, string description, string habitat, Texture2D swimmingAnimation = null, int frameHeight = 0, int frameWidth = 0) : base(ModContent.GetTexture("EEMod/UI/FishBorder"))
         {
             this.itemType = itemType;
+            this.description = description;
+            this.habitat = habitat;
+            this.swimmingAnimation = swimmingAnimation ?? swimmingAnimation;
+            this.frameHeight = frameHeight;
+            this.frameWidth = frameWidth;
         }
         public override void Click(UIMouseEvent evt)
         {
             base.Click(evt);
+            string formattedDescription = "";
+            int lineBreakPoint = 0;
+            for (int i = 0; i < description.Length; i++)
+            {
+                //TODO: include a check for if the amount of chars until a space is higher than the amount left for a line break
+                if (lineBreakPoint >= 32)
+                {
+                    lineBreakPoint = 0;
+                    formattedDescription += "\n";
+                }
+                formattedDescription += description[i];
+                lineBreakPoint++;
+            }
+            FishermansLogUI.Description.SetText(formattedDescription);
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
+            base.DrawSelf(spriteBatch);
             CalculatedStyle dimensions = GetDimensions();
             Texture2D texture = Main.itemTexture[itemType];
-            int x = (int)(dimensions.X + texture.Size().X);
-            int y = (int)(dimensions.Y + texture.Size().Y);
-            spriteBatch.Draw(texture, new Vector2(x, y), null, Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths.ContainsKey(itemType) ? Color.White : Color.Black, 0f, texture.Size(), 1f, SpriteEffects.None, 0f);
+            int x = (int)(dimensions.X + (texture.Size().X + borderTexture.Size().Y) / 2);
+            int y = (int)(dimensions.Y + (texture.Size().Y + borderTexture.Size().Y) / 2);
+            float transparency = IsMouseHovering ? 1f : 0.4f;
+            spriteBatch.Draw(texture, new Vector2(x, y), null, (Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths.ContainsKey(itemType) ? Color.White : Color.Black) * transparency, 0f, texture.Size(), 1f, SpriteEffects.None, 0f);
         }
     }
     public class FixedUIScrollbar : UIScrollbar
