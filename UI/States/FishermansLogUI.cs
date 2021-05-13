@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -8,6 +9,8 @@ using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
+using EEMod.Items;
+using EEMod.Extensions;
 
 namespace EEMod.UI.States
 {
@@ -19,6 +22,7 @@ namespace EEMod.UI.States
         public UIPanel FishPanel = new UIPanel();
         public UIGrid FishGrid = new UIGrid();
         public FixedUIScrollbar ScrollBar = new FixedUIScrollbar();
+        public List<UIElement> FullList = new List<UIElement>();
         public override void OnInitialize()
         {
             Background.HAlign = 0.5f;
@@ -62,16 +66,23 @@ namespace EEMod.UI.States
         {
             Main.LocalPlayer.ScrollHotbar(Terraria.GameInput.PlayerInput.ScrollWheelDelta / 120);
         }
+        public void LoadFilters(string[] filters)
+        {
+            FishGrid._items = FullList.FindAll(e => filters.Any((e as FishElement).description.Contains));
+        }
         public void LoadAllFish()
         {
             FishGrid.Add(new FishElement(ItemID.Bass, "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "purity|underground|snow|ug ice|a lot"));
             FishGrid.Add(new FishElement(ItemID.AtlanticCod, "Na cat", "snow|ug ice"));
             FishGrid.Add(new FishElement(ItemID.Ebonkoi, "Mayb cat", "corruption|ug corruption"));
+            FullList = FishGrid._items;
         }
     }
     public class FishElement : UIImageButton 
     {
         public Texture2D borderTexture = ModContent.GetTexture("EEMod/UI/FishBorder");
+        public bool caught;
+        public int maxSize;
         public int itemType;
         public string description;
         public string habitat;
@@ -90,24 +101,41 @@ namespace EEMod.UI.States
             this.swimmingAnimation = swimmingAnimation ?? swimmingAnimation;
             this.frameHeight = frameHeight;
             this.frameWidth = frameWidth;
+            EEGlobalItem eeGlobalItem = new EEGlobalItem();
+            if (eeGlobalItem.smallSizeFish.Contains(itemType))
+            {
+                maxSize = 16;
+            }
+            else if (eeGlobalItem.averageSizeFish.Contains(itemType))
+            {
+                maxSize = 32;
+            }
+            else if (eeGlobalItem.bigSizeFish.Contains(itemType))
+            {
+                maxSize = 44;
+            }
+        }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            caught = Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths.ContainsKey(itemType);
+            if (caught)
+            {
+                SetImage(Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[itemType] == maxSize ? ModContent.GetTexture("EEMod/UI/FishBorderGold") : ModContent.GetTexture("EEMod/UI/FishBorder"));
+            }
         }
         public override void Click(UIMouseEvent evt)
         {
             base.Click(evt);
-            string formattedDescription = "";
-            int lineBreakPoint = 0;
-            for (int i = 0; i < description.Length; i++)
+            if (caught)
             {
-                //TODO: include a check for if the amount of chars until a space is higher than the amount left for a line break
-                if (lineBreakPoint >= 32)
-                {
-                    lineBreakPoint = 0;
-                    formattedDescription += "\n";
-                }
-                formattedDescription += description[i];
-                lineBreakPoint++;
+
+                FishermansLogUI.Description.SetText(description.FormatString(32));
             }
-            FishermansLogUI.Description.SetText(formattedDescription);
+            else
+            {
+                FishermansLogUI.Description.SetText("???");
+            }
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
@@ -117,7 +145,7 @@ namespace EEMod.UI.States
             int x = (int)(dimensions.X + (texture.Size().X + borderTexture.Size().Y) / 2);
             int y = (int)(dimensions.Y + (texture.Size().Y + borderTexture.Size().Y) / 2);
             float transparency = IsMouseHovering ? 1f : 0.4f;
-            spriteBatch.Draw(texture, new Vector2(x, y), null, (Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths.ContainsKey(itemType) ? Color.White : Color.Black) * transparency, 0f, texture.Size(), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, new Vector2(x, y), null, (caught ? Color.White : Color.Black) * transparency, 0f, texture.Size(), 1f, SpriteEffects.None, 0f);
         }
     }
     public class FixedUIScrollbar : UIScrollbar

@@ -503,7 +503,7 @@ namespace EEMod
                 wasDoingWorldGen = false;
             }
 
-            if ((isSaving && Main.gameMenu) || wasDoingWorldGen)
+            if ((isSaving && Main.gameMenu)) // || wasDoingWorldGen for some reason after a few reloads this ended up causing https://canary.discord.com/channels/707422488468127746/707627954691244063/842439577037832212
             {
                 alpha += 0.01f;
                 if (lerp != 1)
