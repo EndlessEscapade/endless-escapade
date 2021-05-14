@@ -16,7 +16,8 @@ namespace EEMod.UI.States
 {
     public class FishermansLogUI : UIState
     {
-        public static UIText Description = new UIText("");
+        public static UIText Description => new UIText("");
+
         public UIImage Background = new UIImage(ModContent.GetTexture("EEMod/UI/FishermansLogUI"));
         public UIElement RightStuff = new UIElement();
         public UIPanel FishPanel = new UIPanel();

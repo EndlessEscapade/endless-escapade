@@ -503,7 +503,7 @@ namespace EEMod
                 wasDoingWorldGen = false;
             }
 
-            if ((isSaving && Main.gameMenu)) // || wasDoingWorldGen for some reason after a few reloads this ended up causing https://canary.discord.com/channels/707422488468127746/707627954691244063/842439577037832212
+            if ((isSaving && Main.gameMenu) || Main.menuMode == 10 || Main.MenuUI.CurrentState is UIWorldLoad)
             {
                 alpha += 0.01f;
                 if (lerp != 1)
