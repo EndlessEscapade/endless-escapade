@@ -17,7 +17,7 @@ namespace EEMod.Extensions
             {
                 if (lineBreakPoint >= breakPoint)
                 {
-                    if (!char.IsWhiteSpace(text[i]))
+                    if (!char.IsWhiteSpace(text[i]) && i != text.Length - 1 && !char.IsWhiteSpace(text[i + 1]))
                     {
                         int failsafe = 1;
                         string yeaCat = "";

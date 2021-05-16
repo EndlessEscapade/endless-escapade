@@ -503,7 +503,7 @@ namespace EEMod
                 wasDoingWorldGen = false;
             }
 
-            if ((isSaving && Main.gameMenu) || Main.menuMode == 10 || Main.MenuUI.CurrentState is UIWorldLoad)
+            if ((isSaving && Main.gameMenu) || Main.MenuUI.CurrentState is UIWorldLoad)
             {
                 alpha += 0.01f;
                 if (lerp != 1)

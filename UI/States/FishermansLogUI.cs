@@ -9,6 +9,7 @@ using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
+using Terraria.ModLoader.IO;
 using EEMod.Items;
 using EEMod.Extensions;
 
@@ -16,21 +17,23 @@ namespace EEMod.UI.States
 {
     public class FishermansLogUI : UIState
     {
-        public static UIText Description => new UIText("");
-
+        public UIText Name;
+        public UIText ExtraInfo;
+        public UIText Description;
         public UIImage Background = new UIImage(ModContent.GetTexture("EEMod/UI/FishermansLogUI"));
         public UIElement RightStuff = new UIElement();
         public UIPanel FishPanel = new UIPanel();
         public UIGrid FishGrid = new UIGrid();
         public FixedUIScrollbar ScrollBar = new FixedUIScrollbar();
         public List<UIElement> FullList = new List<UIElement>();
+        public UIElement SelectedFish;
         public override void OnInitialize()
         {
             Background.HAlign = 0.5f;
             Background.VAlign = 0.5f;
 
             FishPanel.Width.Set(344, 0f);
-            FishPanel.Height.Set(356, 0f);
+            FishPanel.Height.Set(416, 0f);
             FishPanel.HAlign = 0.05f;
             FishPanel.VAlign = 0.80f;
             FishPanel.BackgroundColor = new Color();
@@ -43,7 +46,7 @@ namespace EEMod.UI.States
             FishPanel.Append(ScrollBar);
 
             FishGrid.Width.Set(344, 0f);
-            FishGrid.Height.Set(356, 0f);
+            FishGrid.Height.Set(416, 0f);
             FishGrid.HAlign = 0.5f;
             FishGrid.VAlign = 0.80f;
             FishGrid.ListPadding = 9f;
@@ -52,16 +55,31 @@ namespace EEMod.UI.States
             FishPanel.Append(FishGrid);
 
             RightStuff.Width.Set(376, 0f);
-            RightStuff.Height.Set(436, 0f);
+            RightStuff.Height.Set(496, 0f);
             RightStuff.HAlign = 1f;
             Background.Append(RightStuff);
 
+            Name = new UIText("");
+            Name.HAlign = 0.5f;
+            Name.VAlign = 0.475f;
+            RightStuff.Append(Name);
+
+            ExtraInfo = new UIText("");
+            ExtraInfo.HAlign = 0.5f;
+            ExtraInfo.VAlign = 0.575f;
+            RightStuff.Append(ExtraInfo);
+
+            Description = new UIText("");
             Description.HAlign = 0.5f;
-            Description.VAlign = 0.65f;
+            Description.VAlign = 0.8f;
             RightStuff.Append(Description);
 
             Append(Background);
             LoadAllFish();
+        }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
         }
         internal static void OnScrollWheel_FixHotbarScroll(UIScrollWheelEvent evt, UIElement listeningElement)
         {
@@ -69,7 +87,7 @@ namespace EEMod.UI.States
         }
         public void LoadFilters(string[] filters)
         {
-            FishGrid._items = FullList.FindAll(e => filters.Any((e as FishElement).description.Contains));
+            FishGrid._items = FullList.FindAll(e => filters.Any((e as FishElement).habitat.Contains));
         }
         public void LoadAllFish()
         {
@@ -81,9 +99,11 @@ namespace EEMod.UI.States
     }
     public class FishElement : UIImageButton 
     {
+        public FishermansLogUI LogUI;
         public Texture2D borderTexture = ModContent.GetTexture("EEMod/UI/FishBorder");
         public bool caught;
         public int maxSize;
+        public enum maxSizes { Small = 16, Medium = 32, Big = 44 }
         public int itemType;
         public string description;
         public string habitat;
@@ -116,6 +136,10 @@ namespace EEMod.UI.States
                 maxSize = 44;
             }
         }
+        public override void OnInitialize()
+        {
+            LogUI = (Parent.Parent.Parent.Parent.Parent as FishermansLogUI);
+        }
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
@@ -130,13 +154,17 @@ namespace EEMod.UI.States
             base.Click(evt);
             if (caught)
             {
-
-                FishermansLogUI.Description.SetText(description.FormatString(32));
+                LogUI.Name.SetText(Lang.GetItemNameValue(itemType));
+                LogUI.ExtraInfo.SetText($"Habitat: {"habitat"}\nSize: {Enum.GetName(typeof(maxSizes), maxSize)}\nBiggest Catch: {Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[itemType]}");
+                LogUI.Description.SetText(description.FormatString(32));
             }
             else
             {
-                FishermansLogUI.Description.SetText("???");
+                LogUI.Name.SetText("???");
+                LogUI.ExtraInfo.SetText("Habitat: ???\nSize: ???\nBiggest Catch: ???");
+                LogUI.Description.SetText("???");
             }
+            LogUI.SelectedFish = this;
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
@@ -145,7 +173,8 @@ namespace EEMod.UI.States
             Texture2D texture = Main.itemTexture[itemType];
             int x = (int)(dimensions.X + (texture.Size().X + borderTexture.Size().Y) / 2);
             int y = (int)(dimensions.Y + (texture.Size().Y + borderTexture.Size().Y) / 2);
-            float transparency = IsMouseHovering ? 1f : 0.4f;
+            float transparency = IsMouseHovering || LogUI.SelectedFish == this ? 1f : 0.4f;
+            SetVisibility(1f, transparency);
             spriteBatch.Draw(texture, new Vector2(x, y), null, (caught ? Color.White : Color.Black) * transparency, 0f, texture.Size(), 1f, SpriteEffects.None, 0f);
         }
     }

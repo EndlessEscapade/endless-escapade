@@ -3,6 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.ModLoader.IO;
+using System.IO;
 
 namespace EEMod.Items
 {
@@ -93,5 +95,27 @@ namespace EEMod.Items
             }
             return base.Shoot(item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }*/
+        public override bool NeedsSaving(Item item)
+        {
+            return true;
+        }
+        public override TagCompound Save(Item item)
+        {
+            return new TagCompound { 
+                ["caught"] = caught
+            };
+        }
+        public override void Load(Item item, TagCompound tag)
+        {
+            tag.TryGetRef("caught", ref caught);
+        }
+        public override void NetSend(Item item, BinaryWriter writer)
+        {
+            writer.Write(caught);
+        }
+        public override void NetReceive(Item item, BinaryReader reader)
+        {
+            caught = reader.ReadBoolean();
+        }
     }
 }

@@ -16,6 +16,8 @@ namespace EEMod.Items
         public override void SetDefaults()
         {
             item.useStyle = ItemUseStyleID.HoldingUp;
+            item.useTime = 20;
+            item.useAnimation = 20;
             item.width = 20;
             item.height = 20;
             item.maxStack = 1;
@@ -24,7 +26,14 @@ namespace EEMod.Items
         }
         public override bool UseItem(Player player)
         {
-            EEMod.UI.SetState("EEInterfacee", "FishermansLogUI");
+            if (EEMod.UI.IsActive("EEInterfacee"))
+            {
+                EEMod.UI.RemoveState("EEInterfacee");
+            }
+            else
+            {
+                EEMod.UI.SetState("EEInterfacee", "FishermansLogUI");
+            }
             return true;
         }
     }
