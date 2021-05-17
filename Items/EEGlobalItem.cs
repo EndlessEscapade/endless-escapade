@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using System;
 using Terraria.ModLoader.IO;
 using System.IO;
+using Microsoft.Xna.Framework;
 
 namespace EEMod.Items
 {
@@ -66,21 +67,40 @@ namespace EEMod.Items
             {
                 EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
                 int current = 0;
+                int length = 0;
                 if (modPlayer.fishLengths.ContainsKey(item.type))
                 {
                     current = modPlayer.fishLengths[item.type];
                 }
                 if (averageSizeFish.Contains(item.type))
                 {
-                    modPlayer.fishLengths[item.type] = Math.Max(Helpers.Clamp(Main.rand.Next(12, 33) * (1 + player.fishingSkill / 100), 0, 32), current);
+                    length = Helpers.Clamp(Main.rand.Next(12, 33) * (1 + player.fishingSkill / 100), 0, 32);
+                    modPlayer.fishLengths[item.type] = Math.Max(length, current);
+
+                    if (length > current && current != 0)
+                        CombatText.NewText(player.getRect(), Color.Yellow, $"New Record! {length} cm", true);
+                    else
+                        CombatText.NewText(player.getRect(), Color.Cyan, $"Length: {length} cm");
                 }
                 if (smallSizeFish.Contains(item.type))
                 {
-                    modPlayer.fishLengths[item.type] = Math.Max(Helpers.Clamp(Main.rand.Next(8, 17) * (1 + player.fishingSkill / 100), 0, 16), current);
+                    length = Helpers.Clamp(Main.rand.Next(8, 17) * (1 + player.fishingSkill / 100), 0, 16);
+                    modPlayer.fishLengths[item.type] = Math.Max(length, current);
+
+                    if (length > current && current != 0)
+                        CombatText.NewText(player.getRect(), Color.Yellow, $"New Record! {length} cm", true);
+                    else
+                        CombatText.NewText(player.getRect(), Color.Cyan, $"Length: {length} cm");
                 }
                 if (bigSizeFish.Contains(item.type))
                 {
-                    modPlayer.fishLengths[item.type] = Math.Max(Helpers.Clamp(Main.rand.Next(18, 45) * (1 + player.fishingSkill / 100), 0, 44), current);
+                    length = Helpers.Clamp(Main.rand.Next(18, 45) * (1 + player.fishingSkill / 100), 0, 44);
+                    modPlayer.fishLengths[item.type] = Math.Max(length, current);
+
+                    if (length > current && current != 0)
+                        CombatText.NewText(player.getRect(), Color.Yellow, $"New Record! {length} cm", true);
+                    else
+                        CombatText.NewText(player.getRect(), Color.Cyan, $"Length: {length} cm");
                 }
                 caught = true;
             }

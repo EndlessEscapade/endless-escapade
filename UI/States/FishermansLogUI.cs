@@ -27,10 +27,12 @@ namespace EEMod.UI.States
         public FixedUIScrollbar ScrollBar = new FixedUIScrollbar();
         public List<UIElement> FullList = new List<UIElement>();
         public UIElement SelectedFish;
+        public bool ClosingUI;
+        public int SlideTimer = 0;
         public override void OnInitialize()
         {
             Background.HAlign = 0.5f;
-            Background.VAlign = 0.5f;
+            Background.VAlign = 2f;
 
             FishPanel.Width.Set(344, 0f);
             FishPanel.Height.Set(416, 0f);
@@ -77,9 +79,29 @@ namespace EEMod.UI.States
             Append(Background);
             LoadAllFish();
         }
+        public override void OnActivate()
+        {
+            base.OnActivate();
+            ClosingUI = false;
+            Background.VAlign = 2f;
+            SlideTimer = 0;
+        }
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            if (Background.IsMouseHovering)
+            {
+                Main.LocalPlayer.mouseInterface = true;
+            }
+            if (SlideTimer < 10)
+            {
+                Background.VAlign = MathHelper.Lerp(ClosingUI ? 0.5f : 2f, ClosingUI ? 2f : 0.5f, SlideTimer / 9f);
+                SlideTimer++;
+                if (SlideTimer == 10 && ClosingUI)
+                {
+                    EEMod.UI.RemoveState("EEInterfacee");
+                }
+            }
         }
         internal static void OnScrollWheel_FixHotbarScroll(UIScrollWheelEvent evt, UIElement listeningElement)
         {
@@ -155,7 +177,7 @@ namespace EEMod.UI.States
             if (caught)
             {
                 LogUI.Name.SetText(Lang.GetItemNameValue(itemType));
-                LogUI.ExtraInfo.SetText($"Habitat: {"habitat"}\nSize: {Enum.GetName(typeof(maxSizes), maxSize)}\nBiggest Catch: {Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[itemType]}");
+                LogUI.ExtraInfo.SetText($"Habitat: {"habitat"}\nSize: {Enum.GetName(typeof(maxSizes), maxSize)}\nBiggest Catch: {Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[itemType]} cm");
                 LogUI.Description.SetText(description.FormatString(32));
             }
             else
