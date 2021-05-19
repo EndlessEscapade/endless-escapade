@@ -471,7 +471,7 @@ namespace EEMod
         private float textPositionLeft;
         private void Main_Draw(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
-            orig(self, gameTime);
+           orig(self, gameTime);
             if (EEModConfigClient.Instance.EEDebug)
             {
                 Main.spriteBatch.Begin();

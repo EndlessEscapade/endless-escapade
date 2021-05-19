@@ -77,28 +77,6 @@ namespace EEMod.EEWorld
                             WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>());
                     }
                 }
-                int buffer = 0;
-                for (int a = 0; a < 14; a++)
-                {
-                    if (WorldGen.InWorld(i, j - a, 10))
-                        if (Framing.GetTileSafely(i, j - a).active())
-                        {
-                            buffer++;
-                        }
-                }
-                if (buffer < 7)
-                {
-                    if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
-                    {
-                        for (int a = 0; a < 50; a++)
-                        {
-                            if (Main.rand.Next(4) == 1)
-                            {
-                                WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
-                            }
-                        }
-                    }
-                }
             });
 
             BoundClause((int i, int j) =>

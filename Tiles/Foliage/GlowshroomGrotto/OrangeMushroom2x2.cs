@@ -40,7 +40,35 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom2x2Cap"), i, j, Color.White);
+            Color chosen = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(1f));
+
+            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0075f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), mod.GetTexture("Particles/SmallCircle"), 60, 0.75f, chosen, new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), 0.5f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.2f));
+
+            Tile tile = Framing.GetTileSafely(i, j);
+            int frameX = tile.frameX;
+            int frameY = tile.frameY;
+
+            int styleOffset = (tile.frameY > 16 ? 32 : 0);
+
+            float lerpVal = (i - (tile.frameX / 16f)) + (j - (tile.frameY / 16f));
+
+            Color color = Color.White * (float)(0.8f + (Math.Sin(lerpVal + Main.GameUpdateCount / 20f) / 5f));
+
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+
+            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
+            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+
+            Vector2 offsetOrig = new Vector2(16 - frameX, 32 - frameY + styleOffset);
+
+            Texture2D tex = mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom2x2Cap");
+
+            Main.spriteBatch.Draw(tex, position + offsetOrig, rect, color, (float)Math.Sin((Main.GameUpdateCount / 35f) + lerpVal) / 5f, offsetOrig, 1f, SpriteEffects.None, 0f);
         }
     }
 }
