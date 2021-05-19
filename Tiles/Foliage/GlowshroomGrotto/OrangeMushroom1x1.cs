@@ -64,6 +64,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 
             Texture2D tex = mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom1x1Cap");
 
+            Main.spriteBatch.Draw(tex, position + new Vector2(8, 16), rect, Lighting.GetColor(i, j), (float)Math.Sin((Main.GameUpdateCount / 35f) + lerpVal) / 3f, new Vector2(8, 16), 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(tex, position + new Vector2(8, 16), rect, color, (float)Math.Sin((Main.GameUpdateCount / 35f) + lerpVal) / 3f, new Vector2(8, 16), 1f, SpriteEffects.None, 0f);
         }
     }

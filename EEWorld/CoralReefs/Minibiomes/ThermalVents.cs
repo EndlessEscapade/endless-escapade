@@ -56,10 +56,12 @@ namespace EEMod.EEWorld
                 for (int a = 0; a < 14; a++)
                 {
                     if (WorldGen.InWorld(i, j - a, 10))
+                    {
                         if (Framing.GetTileSafely(i, j - a).active())
                         {
                             buffer++;
                         }
+                    }
                 }
                 if (buffer < 7)
                 {
