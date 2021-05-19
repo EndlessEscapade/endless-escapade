@@ -1,3 +1,4 @@
+using EEMod.UI.States;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -16,6 +17,8 @@ namespace EEMod.Items
         public override void SetDefaults()
         {
             item.useStyle = ItemUseStyleID.HoldingUp;
+            item.useTime = 22;
+            item.useAnimation = 22;
             item.width = 20;
             item.height = 20;
             item.maxStack = 1;
@@ -24,7 +27,17 @@ namespace EEMod.Items
         }
         public override bool UseItem(Player player)
         {
-            EEMod.UI.SetState("EEInterfacee", "FishermansLogUI");
+            if (EEMod.UI.IsActive("EEInterfacee"))
+            {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/FishermansLogClose"));
+                (EEMod.UI.GetState("EEInterfacee") as FishermansLogUI).ClosingUI = true;
+                (EEMod.UI.GetState("EEInterfacee") as FishermansLogUI).SlideTimer = 0;
+            }
+            else
+            {
+                Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/FishermansLogOpen"));
+                EEMod.UI.SetState("EEInterfacee", "FishermansLogUI");
+            }
             return true;
         }
     }

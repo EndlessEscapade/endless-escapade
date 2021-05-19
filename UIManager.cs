@@ -92,6 +92,17 @@ namespace EEMod
                 return new UserInterface();
             }
         }
+        public UIState GetState(string UIInterfaceName)
+        {
+            if (UIInterfaces.ContainsKey(UIInterfaceName))
+            {
+                return UIInterfaces[UIInterfaceName].CurrentState;
+            }
+            else
+            {
+                return new UIState();
+            }
+        }
         public bool IsActive(string UIInterfaceName) => UIInterfaces[UIInterfaceName].CurrentState != null;
 
         public bool IsBinded(string UIInterfaceName) => UIInterfaces.ContainsKey(UIInterfaceName) && Binds.ContainsKey(UIInterfaces[UIInterfaceName]);

@@ -29,6 +29,7 @@ using EEMod.Seamap.SeamapContent;
 using EEMod.Seamap.SeamapAssets;
 using Terraria.Graphics.Shaders;
 using Terraria.DataStructures;
+using Terraria.GameContent.UI.States;
 
 namespace EEMod
 {
@@ -469,6 +470,7 @@ namespace EEMod
 
         private int osSucksAtBedwars;
         private float textPositionLeft;
+        private bool wasDoingWorldGen = false;
         private void Main_Draw(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
            orig(self, gameTime);
@@ -492,7 +494,16 @@ namespace EEMod
                 Main.spriteBatch.End();
             }
 
-            if (isSaving && Main.gameMenu)
+            if (Main.menuMode == 10)
+            {
+                wasDoingWorldGen = true;
+            }
+            else if (!(Main.MenuUI.CurrentState is UIWorldLoad))
+            {
+                wasDoingWorldGen = false;
+            }
+
+            if ((isSaving && Main.gameMenu) || Main.MenuUI.CurrentState is UIWorldLoad)
             {
                 alpha += 0.01f;
                 if (lerp != 1)
@@ -837,6 +848,16 @@ namespace EEMod
 
 
                     Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * tempAlpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                }
+
+                try
+                {
+                    if (Main.MenuUI.CurrentState is UIWorldLoad worldLoadUI)
+                        worldLoadUI.Draw(Main.spriteBatch);
+                }
+                catch
+                {
+                    // ignore
                 }
 
                 Main.spriteBatch.End();
