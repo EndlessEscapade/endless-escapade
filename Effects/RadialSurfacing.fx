@@ -13,6 +13,7 @@ float t;
 float2 pos;
 float progress;
 float alpha;
+float4 color;
 float GetHeight(float2 pos)
 {
     return tex2D(noiseSampler, pos).r;
@@ -25,7 +26,7 @@ float4 NoiseSurfacing(float2 coords : TEXCOORD0) : COLOR0
     float angles = angle - progress;
     float2 circularSample = float2(0.5f + sin(angles)/5, 0.5f + cos(angles) / 5);
     colour *= (1 -distance(coords,float2(0.5f,0.5f))*GetHeight(circularSample - float2(cos(pos.x), cos(pos.y))/10)*5) * alpha;
-    return colour;
+    return colour * color;
 }
 
 technique BasicColorDrawing

@@ -1018,6 +1018,7 @@ namespace EEMod.EEWorld
             }
             return closest;
         }
+
         public static Vector2[] MakeDistantLocations(int number, float distance, Rectangle Bounds, int maxIterations = 100)
         {
             List<Vector2> Points = new List<Vector2>();
@@ -1051,6 +1052,7 @@ namespace EEMod.EEWorld
             }
             return Points.ToArray();
         }
+
         public static void ClearRegionSafely(int width, int height, Vector2 startingPoint, int type)
         {
             string messageBefore = EEMod.progressMessage;

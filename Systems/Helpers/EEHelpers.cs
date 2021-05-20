@@ -678,6 +678,23 @@ namespace EEMod
             return numbers;
         }
 
+        public static int[] FillUniformArray(int size, int min, int max)
+        {
+            int[] numbers = new int[size];
+
+            int k = min;
+            for(int i = 0; i < size; i++)
+            {
+                if (k >= max) k = min;
+
+                numbers[i] = k;
+
+                k++;
+            }
+
+            return numbers;
+        }
+
         public static int[] FillPseudoRandomUniform2(int size) => FillPseudoRandomUniform2(Main.rand, size);
 
         public static Color ColorSmoothStep(Color value1, Color value2, float ammount) => Color.Lerp(value1, value2, ammount * ammount * (3f - 2f * ammount));

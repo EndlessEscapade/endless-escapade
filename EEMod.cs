@@ -84,7 +84,7 @@ namespace EEMod
 
             RuneActivator = RegisterHotKey("Rune UI", "Z");
             RuneSpecial = RegisterHotKey("Activate Runes", "V");
-            Inspect = RegisterHotKey("Inspect", "E");
+            Inspect = RegisterHotKey("Inspect", "]");
             ActivateVerletEngine = RegisterHotKey("Activate VerletEngine", "N");
             Train = RegisterHotKey("Train Neural Network", "P");
 

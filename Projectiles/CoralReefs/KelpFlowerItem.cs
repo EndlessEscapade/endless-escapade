@@ -83,15 +83,22 @@ namespace EEMod.Projectiles.CoralReefs
             {
                 alpha += 0.03f;
 
-                Helpers.DrawAdditive(mod.GetTexture("Projectiles/Nice"), pos, (Color.Gold * (Helpers.Clamp(alpha / 2f, 0f, 0.7f) + (float)(Math.Sin(Main.GameUpdateCount / 30f) / 20f))), 0.5f + (float)(Math.Sin(Main.GameUpdateCount / 40f) / 30f), (alpha / 3f));
+                Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradientWide"), projectile.Center.ForDraw(), Color.Gold * alpha, 0.9f, 0.8f);
+
+                Vector2 position = new Vector2(projectile.width / 2, projectile.height - tex.Height * 0.5f + 2f);
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
                 EEMod.White.CurrentTechnique.Passes[0].Apply();
-                EEMod.White.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
-                EEMod.White.Parameters["color"].SetValue(new Vector3(1, 1, 0));
-                Main.spriteBatch.Draw(tex, pos, tex.Bounds, Color.White, projectile.rotation, tex.Bounds.Size() / 2f, projectile.scale * 1.1f, SpriteEffects.None, 0);
+                EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f));
+                EEMod.White.Parameters["color"].SetValue((new Vector3(Color.Gold.R, Color.Gold.G, Color.Gold.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f));
+
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * 2;
+                    spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha, projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                }
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
