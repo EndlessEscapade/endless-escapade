@@ -5,7 +5,7 @@ using EEMod.ID;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Prim;
 using EEMod.Projectiles;
-using EEMod.Projectiles.Mage;
+using EEMod.Items.Weapons.Mage;
 using EEMod.Tiles;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.VerletIntegration;
@@ -74,7 +74,7 @@ namespace EEMod
 
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
         {
-            if (Main.worldName == KeyID.CoralReefs)
+            /*if (Main.worldName == KeyID.CoralReefs)
             {
                 if (Main.LocalPlayer.Center.Y > 3000)
                 {
@@ -87,7 +87,7 @@ namespace EEMod
                 Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar");
                 Texture2D tex2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid");
                 Texture2D tex3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
-                LightingBuffer.Instance.Draw(Main.spriteBatch);
+                //LightingBuffer.Instance.Draw(Main.spriteBatch);
 
                 Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
                 Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
@@ -110,7 +110,7 @@ namespace EEMod
                         tex3,
                         new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)));
             }
-            BeforeNPCCache?.Invoke(Main.spriteBatch);
+            BeforeNPCCache?.Invoke(Main.spriteBatch);*/
             orig(self);
         }
 
@@ -907,7 +907,7 @@ namespace EEMod
                 Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
             }
 
-            Main.sunTexture = ModContent.GetInstance<EEMod>().GetTexture("Empty");
+            Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
 
             orig(self, gameTime);
         }

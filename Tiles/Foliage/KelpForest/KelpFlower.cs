@@ -14,8 +14,8 @@ using EEMod.UI.States;
 using EEMod;
 using EEMod.Items;
 using EEMod.Projectiles.CoralReefs;
-using EEMod.Items.Weapons.Melee;
-using EEMod.Items.Weapons.Summon;
+using EEMod.Items.Weapons.Melee.Flails;
+using EEMod.Items.Weapons.Summon.Whips;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {

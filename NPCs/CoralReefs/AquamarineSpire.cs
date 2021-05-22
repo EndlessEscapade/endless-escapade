@@ -12,7 +12,7 @@ using Terraria.ModLoader;
 using EEMod.Tiles.Foliage.Aquamarine;
 using EEMod.Projectiles.Enemy;
 using EEMod.Prim;
-using EEMod.Items.Weapons.Melee;
+using EEMod.Items.Weapons.Melee.Swords;
 using System.Collections.Generic;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles;

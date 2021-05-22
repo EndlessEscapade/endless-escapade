@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Items.Weapons.Combo;
 
-namespace EEMod.Projectiles
+namespace EEMod.Items.Weapons.Classes
 {
     public abstract class ComboWeaponItem : ModItem
     {

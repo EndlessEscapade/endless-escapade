@@ -1,4 +1,4 @@
-using EEMod.Projectiles.Summons;
+using EEMod.Items.Weapons.Summon.Minions;
 using Terraria;
 using Terraria.ModLoader;
 

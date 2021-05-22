@@ -1,9 +1,10 @@
 using EEMod.Items.Materials;
 using EEMod.Items.TreasureBags;
 using EEMod.Items.Weapons.Mage;
+using EEMod.Items.Weapons.Summon.Minions;
 using EEMod.Items.Weapons.Melee;
-using EEMod.Items.Weapons.Ranger;
-using EEMod.Items.Weapons.Summon;
+using EEMod.Items.Weapons.Ranger.Guns;
+using EEMod.Items.Weapons.Melee.Yoyos;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;

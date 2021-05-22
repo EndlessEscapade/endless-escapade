@@ -1,6 +1,6 @@
 using EEMod.Extensions;
 using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Mage;
+using EEMod.Items.Weapons.Mage;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,7 +8,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Prim;
-using EEMod.Projectiles.Ranged;
 
 namespace EEMod.Items.Weapons.Mage
 {

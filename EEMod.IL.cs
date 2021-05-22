@@ -4,7 +4,6 @@ using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.NPCs.Bosses.Kraken;
 using EEMod.Projectiles;
-using EEMod.Projectiles.Mage;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using Microsoft.Xna.Framework;

@@ -1,4 +1,4 @@
-using EEMod.Projectiles;
+using EEMod.Projectiles.Hooks;
 using Terraria.ID;
 using Terraria.ModLoader;
 

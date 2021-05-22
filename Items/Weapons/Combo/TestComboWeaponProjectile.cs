@@ -1,5 +1,4 @@
-using EEMod.Projectiles;
-using EEMod.Projectiles.Mage;
+using EEMod.Items.Weapons.Classes;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

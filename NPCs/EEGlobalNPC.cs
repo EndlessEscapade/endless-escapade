@@ -3,7 +3,7 @@ using EEMod.Items.Materials;
 using EEMod.Items.Weapons.Mage;
 using EEMod.Items.Weapons.Melee;
 using EEMod.Items.Weapons.Ranger;
-using EEMod.Items.Weapons.Summon;
+using EEMod.Items.Weapons.Summon.Minions;
 using EEMod.NPCs.CoralReefs;
 using EEMod.NPCs.CoralReefs.MechanicalReefs;
 using System.Collections.Generic;

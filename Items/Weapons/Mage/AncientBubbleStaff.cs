@@ -1,5 +1,4 @@
 using EEMod.Buffs.Buffs;
-using EEMod.Projectiles.Mage;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

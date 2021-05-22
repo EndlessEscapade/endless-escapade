@@ -1,9 +1,9 @@
 using EEMod.Extensions;
 using EEMod.Projectiles;
-using EEMod.Projectiles.Mage;
-using EEMod.Projectiles.Melee;
+using EEMod.Items.Weapons.Mage;
+using EEMod.Items.Weapons.Melee;
 using EEMod.Projectiles.Runes;
-using EEMod.Projectiles.Summons;
+using EEMod.Items.Weapons.Summon.Minions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -12,6 +12,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 using EEMod.Projectiles.CoralReefs;
+using EEMod.Items.Weapons.Melee.Boomerangs;
 
 namespace EEMod.Effects
 {

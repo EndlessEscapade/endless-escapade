@@ -42,38 +42,27 @@ namespace EEMod.EEWorld
             CreateNoise(!EnsureNoise, Position, Size, 50, 50, 0.4f);
             CreateNoise(!EnsureNoise, Position, Size, 20, 20, 0.4f);
             RemoveStoneSlabs();
+
             BoundClause((int i, int j) =>
             {
                 if (WorldGen.genRand.Next(100) == 0)
                 {
-                    WorldGen.TileRunner(i, j, Main.rand.Next(10, 20), Main.rand.Next(10, 20), ModContent.TileType<ScorchedGemsandTile>(), false, 0, 0, false, true);
+                    WorldGen.TileRunner(i, j, Main.rand.Next(10, 20), Main.rand.Next(10, 20), ModContent.TileType<BasaltTile>(), false, 0, 0, false, true);
                 }
             });
 
             BoundClause((int i, int j) =>
             {
-                int buffer = 0;
-                for (int a = 0; a < 14; a++)
+                bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Top;
+                if (CorrectSpacing)
                 {
-                    if (WorldGen.InWorld(i, j - a, 10))
+                    for (int a = 5; a < 5 + Main.rand.Next(1, 4); a++)
                     {
-                        if (Framing.GetTileSafely(i, j - a).active())
-                        {
-                            buffer++;
-                        }
+                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<ScorchedGemsandTile>(), false, true);
                     }
-                }
-                if (buffer < 7)
-                {
-                    if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
+                    for (int a = 0; a < Main.rand.Next(1, 4); a++)
                     {
-                        for (int a = 0; a < 50; a++)
-                        {
-                            if (Main.rand.Next(4) == 1)
-                            {
-                                WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
-                            }
-                        }
+                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<ScorchedGemsandTile>(), false, true);
                     }
                 }
             });

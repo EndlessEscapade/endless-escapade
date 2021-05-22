@@ -1,5 +1,5 @@
 using EEMod.Items.Placeables.Ores;
-using EEMod.Projectiles.Mage;
+using EEMod.Items.Weapons.Mage;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;

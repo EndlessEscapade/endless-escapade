@@ -1,4 +1,4 @@
-using EEMod.Projectiles.Mage;
+using EEMod.Items.Weapons.Mage;
 using Terraria.ID;
 using Terraria.ModLoader;
 

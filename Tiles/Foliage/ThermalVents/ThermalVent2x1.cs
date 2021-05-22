@@ -23,6 +23,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             {
                 16
             };
+            TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.newTile.StyleHorizontal = true;

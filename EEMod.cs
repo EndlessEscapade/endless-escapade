@@ -424,9 +424,9 @@ namespace EEMod
                             }
                         }
 
-                        if ((int)MinibiomeID.CrystallineCaves < length)
+                        if ((int)MinibiomeID.AquamarineCaverns < length)
                         {
-                            if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+                            if (eeplayer.reefMinibiome[(int)MinibiomeID.AquamarineCaverns])
                             {
                                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
                                 priority = MusicPriority.BiomeHigh;

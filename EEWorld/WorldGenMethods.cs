@@ -1032,7 +1032,7 @@ namespace EEMod.EEWorld
 
                     while ((count == -1 || count != 0) && iterations < maxIterations)
                     {
-                        chosen = new Vector2(WorldGen.genRand.NextFloat(Bounds.Left, Bounds.Right), WorldGen.genRand.NextFloat(Bounds.Top, Bounds.Bottom));
+                        chosen = new Vector2(WorldGen.genRand.Next(Bounds.Left, Bounds.Right), WorldGen.genRand.Next(Bounds.Top, Bounds.Bottom));
                         count = 0;
                         for (int i = 0; i < Points.Count; i++)
                         {

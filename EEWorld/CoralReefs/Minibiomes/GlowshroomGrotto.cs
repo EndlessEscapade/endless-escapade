@@ -83,33 +83,6 @@ namespace EEMod.EEWorld
 
             BoundClause((int i, int j) =>
             {
-                int buffer = 0;
-                for (int a = 0; a < 20; a++)
-                {
-                    if (WorldGen.InWorld(i, j - a, 10))
-                        if (Framing.GetTileSafely(i, j - a).active())
-                        {
-                            buffer++;
-                        }
-                }
-                if (buffer < 17 && buffer > 3)
-                {
-                    if (TileCheck2(i, j) == 1 && TileCheckVertical(i, j + 1, 1) - (j + 1) <= 50)
-                    {
-                        for (int a = 0; a < TileCheckVertical(i, j + 1, 1) - (j + 1); a++)
-                        {
-                            if (Main.rand.Next(2) == 1)
-                            {
-                                WorldGen.PlaceWall(i, j + a, ModContent.WallType<GemsandstoneWallTile>());
-                            }
-                        }
-                    }
-                }
-            }
-            );
-
-            BoundClause((int i, int j) =>
-            {
                 bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Bottom;
                 if (CorrectSpacing && Framing.GetTileSafely(i, j).type != ModContent.TileType<GlowshroomVines>() && WorldGen.genRand.Next(4) == 0)
                 {

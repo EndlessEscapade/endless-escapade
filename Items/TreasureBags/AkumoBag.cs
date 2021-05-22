@@ -1,10 +1,11 @@
 using EEMod.Items.Weapons.Mage;
-using EEMod.Items.Weapons.Melee;
+using EEMod.Items.Weapons.Melee.Boomerangs;
 using EEMod.Items.Weapons.Ranger;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static Terraria.ModLoader.ModContent;
+using EEMod.Items.Weapons.Ranger.Launchers;
 
 namespace EEMod.Items.TreasureBags
 {

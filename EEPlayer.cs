@@ -6,7 +6,7 @@ using EEMod.ID;
 using EEMod.Items.Fish;
 using EEMod.Projectiles;
 using EEMod.Projectiles.Armor;
-using EEMod.Projectiles.Mage;
+using EEMod.Items.Weapons.Mage;
 using EEMod.Projectiles.Runes;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -723,10 +723,12 @@ namespace EEMod
                 }
             }*/
             // Main.NewText(minibiome);
+
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
             EEPlayer eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            if (eeplayer.reefMinibiome[(int)MinibiomeID.CrystallineCaves])
+            if (eeplayer.reefMinibiome[(int)MinibiomeID.AquamarineCaverns])
                 EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
+
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.08f));
             if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
             {

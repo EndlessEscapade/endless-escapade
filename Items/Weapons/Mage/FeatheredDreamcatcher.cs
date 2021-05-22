@@ -1,4 +1,3 @@
-using EEMod.Projectiles.Mage;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
