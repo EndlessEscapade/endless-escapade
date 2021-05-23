@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 using static EEMod.EEWorld.EEWorld;
+
 namespace EEMod.Tiles.EmptyTileArrays
 {
     public static class ETAHelpers

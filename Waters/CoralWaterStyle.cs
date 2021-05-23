@@ -21,9 +21,9 @@ namespace EEMod.Waters
 
         public override void LightColorMultiplier(ref float r, ref float g, ref float b)
         {
-            r = 1.07f;
-            g = 1.07f;
-            b = 1.07f;
+            r = 1.09f;
+            g = 1.09f;
+            b = 1.09f;
         }
     }
 }
