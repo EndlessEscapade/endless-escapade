@@ -41,9 +41,9 @@ namespace EEMod.Tiles.Foliage.KelpForest
             Tile tile = Framing.GetTileSafely(i, j);
             if (tile.frameX < 18)
             {
-                r = 0.05f;
-                g = 0.05f;
-                b = 0.05f;
+                r = 0.25f;
+                g = 0.2f;
+                b = 0f;
             }
         }
 

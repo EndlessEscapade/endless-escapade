@@ -8,13 +8,14 @@ namespace EEMod.Tiles
 {
     public class GemsandTile : ModTile
     {
-
         public override void SetDefaults()
         {
-
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
+
+            Main.tileLighted[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             AddMapEntry(new Color(48, 115, 135));
 

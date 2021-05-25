@@ -161,6 +161,27 @@ namespace EEMod.EEWorld
             EEMod.progressMessage = messageBefore;
         }
 
+        public static void FillRegionNoChangeWithNoise(int width, int height, Vector2 startingPoint, int type, int amplitude)
+        {
+            string messageBefore = EEMod.progressMessage;
+            float[] PerlinStrip = PerlinArray(width, 1000, amplitude, new Vector2(60, 200));
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = (int)PerlinStrip[i]; j < height; j++)
+                {
+                    Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    if (tile.active() == false)
+                    {
+                        tile.type = (ushort)type;
+                        tile.active(true);
+                        EEMod.progressMessage = messageBefore;
+                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                    }
+                }
+            }
+            EEMod.progressMessage = messageBefore;
+        }
+
         public static void FillRegionEditWithNoise(int width, int height, Vector2 startingPoint, int type, int amplitude)
         {
             string messageBefore = EEMod.progressMessage;
@@ -1060,7 +1081,8 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).type == type)
+                    Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                    if (tile.type == type && Main.tileSolid[tile.type])
                     {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                         //WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);

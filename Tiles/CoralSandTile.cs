@@ -13,6 +13,9 @@ namespace EEMod.Tiles
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
 
+            Main.tileLighted[Type] = true;
+            Main.tileBlockLight[Type] = true;
+
             AddMapEntry(new Color(253, 247, 173));
 
             dustType = 154;

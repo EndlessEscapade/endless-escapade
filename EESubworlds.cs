@@ -91,9 +91,40 @@ namespace EEMod
             #region Surface reefs
             EEMod.progressMessage = "Making the surface";
 
-            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 60, new Vector2(0, (Main.maxTilesY / 60) + (Main.maxTilesY / 20)), ModContent.TileType<CoralSandTile>(), 10);
-            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 60, new Vector2(0, (Main.maxTilesY / 60) + (Main.maxTilesY / 20) + 10), ModContent.TileType<CoralsandstoneTile>(), 10);
-            FillRegionEditWithNoise(Main.maxTilesX, (Main.maxTilesY / 60) - (Main.maxTilesY / 120), new Vector2(0, (Main.maxTilesY / 60) + (Main.maxTilesY / 20) + 30), ModContent.TileType<LightGemsandTile>(), 10);
+            NoiseGenWave(new Vector2(0, 130), new Vector2(Main.maxTilesX, Main.maxTilesY / 20), new Vector2(20, 100), (ushort)ModContent.TileType<CoralsandstoneTile>(), 0.5f);
+            NoiseGenWave(new Vector2(0, 110), new Vector2(Main.maxTilesX, Main.maxTilesY / 20), new Vector2(50, 50), TileID.StoneSlab, 0.6f);
+
+            RemoveStoneSlabs();
+
+            //Plateaus
+            FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 120), ModContent.TileType<CoralSandTile>(), 8);
+            FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 120, new Vector2(0, 155), ModContent.TileType<CoralsandstoneTile>(), 8);
+
+            //Ground
+            FillRegionNoEditWithNoise(Main.maxTilesX, Main.maxTilesY / 80, new Vector2(0, 170), ModContent.TileType<CoralsandstoneTile>(), 5);
+            FillRegionNoChangeWithNoise(Main.maxTilesX, Main.maxTilesY / 80, new Vector2(0, 165), ModContent.TileType<CoralSandTile>(), 8);
+
+            FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 190), ModContent.TileType<LightGemsandTile>(), 10);
+
+            for(int i = 50; i < Main.maxTilesX - 100; i++)
+            {
+                if(WorldGen.genRand.NextBool(200))
+                {
+                    MakeOvalJaggedTop(50, 25, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
+
+                    MakeOval(40, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
+
+                    for (int k = i; k < i + 25; k++)
+                    {
+                        for (int l = depth - 15; l < depth + 10; l++)
+                        {
+                            WorldGen.SpreadGrass(k, l);
+                        }
+                    }
+
+                    i += 50;
+                }
+            }
 
             #endregion
 
@@ -210,8 +241,8 @@ namespace EEMod
             {
                 MakeCoralRoom((int)depthsRoomPositions[k].X, (int)depthsRoomPositions[k].Y, 200, 100, 0);
             }
-
-            #endregion  
+            
+            #endregion
 
             RemoveStoneSlabs();
 
@@ -219,14 +250,50 @@ namespace EEMod
             {
                 #region Shipwrecks
                 EEMod.progressMessage = "Wrecking ships";
+
+                int maxIt = 0;
                 int mlem = 0;
-                while (mlem < 3)
+                while (mlem < 2 && maxIt < 300)
                 {
-                    int tileX = WorldGen.genRand.Next(100, Main.maxTilesX - 100);
+                    int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 50);
                     int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>());
-                    if (Math.Abs(TileCheck(tileX + Ship1.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2)
+                    if (Math.Abs(TileCheck(tileX + Ship1.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship1.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3)
                     {
-                        PlaceStructure(tileX, tileY - Ship1.GetLength(0), Ship1);
+                        PlaceStructure(tileX, tileY - Ship1.GetLength(0) + 7, Ship1);
+                        mlem++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                maxIt = 0;
+                mlem = 0;
+                while (mlem < 2 && maxIt < 300)
+                {
+                    int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 50);
+                    int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>());
+                    if (Math.Abs(TileCheck(tileX + Ship2.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship2.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3)
+                    {
+                        PlaceStructure(tileX, tileY - Ship2.GetLength(0) + 7, Ship2);
+                        mlem++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                maxIt = 0;
+                mlem = 0;
+                while (mlem < 2 && maxIt < 300)
+                {
+                    int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 100);
+                    int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>());
+                    if (Math.Abs(TileCheck(tileX + Ship3.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship3.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3)
+                    {
+                        PlaceStructure(tileX, tileY - Ship3.GetLength(0) + 7, Ship3);
                         mlem++;
                     }
                     else
@@ -286,23 +353,12 @@ namespace EEMod
                 #region Implementing dynamic objects
                 EEMod.progressMessage = "Adding Dynamics";
 
-                for (int j = 42; j < Main.maxTilesY - 42; j += 5)
+                for (int j = 42; j < Main.maxTilesY - 42; j += 1)
                 {
-                    for (int i = 42; i < Main.maxTilesX - 42; i += 5)
+                    for (int i = 42; i < Main.maxTilesX - 42; i += 1)
                     {
-                        int noOfTiles = 0;
                         if (j > 200)
                         {
-                            for (int k = -11; k < 11; k++)
-                            {
-                                for (int l = -11; l < 11; l++)
-                                {
-                                    if (Framing.GetTileSafely(i + k, j + l).active())
-                                    {
-                                        noOfTiles++;
-                                    }
-                                }
-                            }
                             /*for (int m = 0; m < OrbPositions.Count; m++)
                             {
                                 if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
@@ -338,7 +394,6 @@ namespace EEMod
                             }*/
                         }
 
-                        int ifa = 0;
                         /*for (int m = 0; m < BulbousTreePosition.Count; m++)
                         {
                             if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 20 * 20)
@@ -347,15 +402,7 @@ namespace EEMod
                             }
                         }*/
 
-                        for (int m = 0; m < AquamarineZiplineLocations.Count; m++)
-                        {
-                            if (Vector2.DistanceSquared(new Vector2(i, j), AquamarineZiplineLocations[m]) < 20 * 20)
-                            {
-                                ifa++;
-                            }
-                        }
-
-                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.Next(2) == 0 /*&& GemsandCheck(i, j)*/ && j > Main.maxTilesY / 10)
+                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2))
                         {
                             if (ChainConnections.Count == 0)
                             {

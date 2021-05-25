@@ -7,16 +7,14 @@ namespace EEMod.Tiles
 {
     public class RustyPipeTile : ModTile
     {
-        /*public override void ChangeWaterfallStyle(ref int style)
-        {
-            style = mod.GetWaterfallStyleSlot("Surfacebg");
-        }*/
-
         public override void SetDefaults()
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = true;
             Main.tileBlendAll[Type] = true;
+
+            Main.tileLighted[Type] = true;
+            Main.tileBlockLight[Type] = true;
 
             AddMapEntry(new Color(48, 115, 135));
 

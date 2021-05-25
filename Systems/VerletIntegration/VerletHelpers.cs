@@ -56,7 +56,7 @@ namespace EEMod.VerletIntegration
                         }
                         if (i > 1)
                         {
-                            int vineRand = Main.rand.Next(0, 7);
+                            int vineRand = Main.rand.Next(0, 6);
                             if (vineRand != 0 && vineRand != 3)
                                 verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Map"));
                             else
@@ -73,7 +73,7 @@ namespace EEMod.VerletIntegration
 
                         if (i == numberOfChains - 1)
                         {
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine2"), eemood.GetTexture("Projectiles/Vines/Vine2Glow"), eemood.GetTexture("Projectiles/Vines/Vine2Map"));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineCap"), eemood.GetTexture("Projectiles/Vines/VineCapGlow"), eemood.GetTexture("Projectiles/Vines/VineCapMap"));
                             EndPointChains.Add(a);
                         }
                     }
@@ -97,7 +97,7 @@ namespace EEMod.VerletIntegration
                     int a = verlet.CreateVerletPoint(position + new Vector2(0, lengthOfChains * i), i == 0 ? true : false);
                     if (i > 1)
                     {
-                        int vineRand = Main.rand.Next(0, 7);
+                        int vineRand = Main.rand.Next(0, 6);
                         if (vineRand != 0 && vineRand != 3)
                             verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Map"));
                         else
@@ -114,7 +114,7 @@ namespace EEMod.VerletIntegration
 
                     if (i == numberOfChains - 1)
                     {
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine2"), eemood.GetTexture("Projectiles/Vines/Vine2Glow"), eemood.GetTexture("Projectiles/Vines/Vine2Map"));
+                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineCap"), eemood.GetTexture("Projectiles/Vines/VineCapGlow"), eemood.GetTexture("Projectiles/Vines/VineCapMap"));
                         EndPointChains.Add(a);
                     }
                 }

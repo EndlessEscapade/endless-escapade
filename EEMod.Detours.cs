@@ -365,6 +365,13 @@ namespace EEMod
                     int a = 2;
                     SurfaceBgStyleLoader.ChooseStyle(ref a);
                 }
+
+                for (int i = 0; i < EESubWorlds.WebPositions.Count; i++)
+                {
+                    Vector2 pos = EESubWorlds.WebPositions[i] * 16;
+                    // if (pos.ForDraw().LengthSquared() < 2000 * 2000)
+                    //HandleWebDraw(pos);
+                }
             }
 
 

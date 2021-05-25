@@ -322,7 +322,7 @@ namespace EEMod.EEWorld
                 {
                     foreach (Vector2 vec in VerletHelpers.SwingableVines)
                     {
-                        VerletHelpers.AddStickChainNoAdd(ref ModContent.GetInstance<EEMod>().verlet, vec, Main.rand.Next(5, 15), 27);
+                        VerletHelpers.AddStickChainNoAdd(ref ModContent.GetInstance<EEMod>().verlet, vec, Main.rand.Next(5, 10), 27);
                     }
                 }
             }
