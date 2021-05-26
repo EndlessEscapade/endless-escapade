@@ -22,6 +22,7 @@ namespace EEMod.UI.States
         public UIText Description;
         public UIImage Background = new UIImage(ModContent.GetTexture("EEMod/UI/FishermansLogUI"));
         public UIElement RightStuff = new UIElement();
+        public FishDisplay Display = new FishDisplay();
         public UIPanel FishPanel = new UIPanel();
         public UIGrid FishGrid = new UIGrid();
         public FixedUIScrollbar ScrollBar = new FixedUIScrollbar();
@@ -60,6 +61,10 @@ namespace EEMod.UI.States
             RightStuff.Height.Set(496, 0f);
             RightStuff.HAlign = 1f;
             Background.Append(RightStuff);
+
+            Display.HAlign = 0.5f;
+            Display.VAlign = 0.125f;
+            RightStuff.Append(Display);
 
             Name = new UIText("");
             Name.HAlign = 0.5f;
@@ -109,11 +114,11 @@ namespace EEMod.UI.States
         }
         public void LoadFilters(string[] filters)
         {
-            FishGrid._items = FullList.FindAll(e => filters.Any((e as FishElement).habitat.Contains));
+            FishGrid._items = FullList.Where(e => (e as FishElement).Habitats.Intersect(filters).Any()).ToList();
         }
         public void LoadAllFish()
         {
-            FishGrid.Add(new FishElement(ItemID.Bass, "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "purity|underground|snow|ug ice|a lot"));
+            FishGrid.Add(new FishElement(ItemID.Bass, "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "Purity|Underground|Snow|Tundra|a lot"));
             FishGrid.Add(new FishElement(ItemID.AtlanticCod, "Na cat", "snow|ug ice"));
             FishGrid.Add(new FishElement(ItemID.Ebonkoi, "Mayb cat", "corruption|ug corruption"));
             FullList = FishGrid._items;
@@ -122,40 +127,44 @@ namespace EEMod.UI.States
     public class FishElement : UIImageButton 
     {
         public FishermansLogUI LogUI;
-        public Texture2D borderTexture = ModContent.GetTexture("EEMod/UI/FishBorder");
-        public bool caught;
-        public int maxSize;
-        public enum maxSizes { Small = 16, Medium = 32, Big = 44 }
-        public int itemType;
-        public string description;
-        public string habitat;
-        public Texture2D swimmingAnimation;
-        public int frameHeight;
-        public int frameWidth;
+        public Texture2D BorderTexture = ModContent.GetTexture("EEMod/UI/FishBorder");
+        public bool Caught;
+        public int MaxSize;
+        public enum MaxSizes { Small = 16, Medium = 32, Big = 44 }
+        public int ItemType;
+        public string Description;
+        public List<string> Habitats = new List<string>();
+        public int SwimSpeed;
+        public int AnimSpeed;
+        public bool IsSpriteFacingRight;
+        public Texture2D SwimmingAnimation;
+        public int FrameCount;
 
         /// <param name="itemType">The type of the item that'll be used as the selection sprite.</param>
         /// <param name="habitat">Will determine what background and water to use on the display, if multiple, put a "|" between each and they'll cycle.</param>
         /// <param name="swimmingAnimation">The sprite sheet used to make the fish swim in the display, if left null, the item sprite will be used instead.</param>
-        public FishElement(int itemType, string description, string habitat, Texture2D swimmingAnimation = null, int frameHeight = 0, int frameWidth = 0) : base(ModContent.GetTexture("EEMod/UI/FishBorder"))
+        public FishElement(int itemType, string description, string habitat, int swimSpeed = 7, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.GetTexture("EEMod/UI/FishBorder"))
         {
-            this.itemType = itemType;
-            this.description = description;
-            this.habitat = habitat;
-            this.swimmingAnimation = swimmingAnimation ?? swimmingAnimation;
-            this.frameHeight = frameHeight;
-            this.frameWidth = frameWidth;
+            ItemType = itemType;
+            Description = description;
+            Habitats = habitat.Split('|').ToList();
+            SwimSpeed = swimSpeed;
+            AnimSpeed = animSpeed;
+            IsSpriteFacingRight = isSpriteFacingRight;
+            SwimmingAnimation = swimmingAnimation ?? swimmingAnimation;
+            FrameCount = frameCount;
             EEGlobalItem eeGlobalItem = new EEGlobalItem();
             if (eeGlobalItem.smallSizeFish.Contains(itemType))
             {
-                maxSize = 16;
+                MaxSize = 16;
             }
             else if (eeGlobalItem.averageSizeFish.Contains(itemType))
             {
-                maxSize = 32;
+                MaxSize = 32;
             }
             else if (eeGlobalItem.bigSizeFish.Contains(itemType))
             {
-                maxSize = 44;
+                MaxSize = 44;
             }
         }
         public override void OnInitialize()
@@ -165,26 +174,28 @@ namespace EEMod.UI.States
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            caught = Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths.ContainsKey(itemType);
-            if (caught)
+            Caught = Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths.ContainsKey(ItemType);
+            if (Caught)
             {
-                SetImage(Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[itemType] == maxSize ? ModContent.GetTexture("EEMod/UI/FishBorderGold") : ModContent.GetTexture("EEMod/UI/FishBorder"));
+                SetImage(Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[ItemType] == MaxSize ? ModContent.GetTexture("EEMod/UI/FishBorderGold") : ModContent.GetTexture("EEMod/UI/FishBorder"));
             }
         }
         public override void Click(UIMouseEvent evt)
         {
             base.Click(evt);
-            if (caught)
+            if (Caught)
             {
-                LogUI.Name.SetText(Lang.GetItemNameValue(itemType));
-                LogUI.ExtraInfo.SetText($"Habitat: {"habitat"}\nSize: {Enum.GetName(typeof(maxSizes), maxSize)}\nBiggest Catch: {Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[itemType]} cm");
-                LogUI.Description.SetText(description.FormatString(32));
+                LogUI.Name.SetText(Lang.GetItemNameValue(ItemType));
+                LogUI.ExtraInfo.SetText($"Habitat: {Habitats[0]}\nSize: {Enum.GetName(typeof(MaxSizes), MaxSize)}\nBiggest Catch: {Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[ItemType]} cm");
+                LogUI.Description.SetText(Description.FormatString(32));
+                (LogUI.Display as FishDisplay).UpdateDisplay(ItemType, IsSpriteFacingRight, Habitats, SwimSpeed, AnimSpeed, SwimmingAnimation, FrameCount);
             }
             else
             {
                 LogUI.Name.SetText("???");
                 LogUI.ExtraInfo.SetText("Habitat: ???\nSize: ???\nBiggest Catch: ???");
                 LogUI.Description.SetText("???");
+                (LogUI.Display as FishDisplay).ShouldDraw = false;
             }
             LogUI.SelectedFish = this;
         }
@@ -192,12 +203,95 @@ namespace EEMod.UI.States
         {
             base.DrawSelf(spriteBatch);
             CalculatedStyle dimensions = GetDimensions();
-            Texture2D texture = Main.itemTexture[itemType];
-            int x = (int)(dimensions.X + (texture.Size().X + borderTexture.Size().Y) / 2);
-            int y = (int)(dimensions.Y + (texture.Size().Y + borderTexture.Size().Y) / 2);
+            Texture2D texture = Main.itemTexture[ItemType];
+            int x = (int)(dimensions.X + (texture.Size().X + BorderTexture.Size().Y) / 2);
+            int y = (int)(dimensions.Y + (texture.Size().Y + BorderTexture.Size().Y) / 2);
             float transparency = IsMouseHovering || LogUI.SelectedFish == this ? 1f : 0.4f;
             SetVisibility(1f, transparency);
-            spriteBatch.Draw(texture, new Vector2(x, y), null, (caught ? Color.White : Color.Black) * transparency, 0f, texture.Size(), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(texture, new Vector2(x, y), null, (Caught ? Color.White : Color.Black) * transparency, 0f, texture.Size(), 1f, SpriteEffects.None, 0f);
+        }
+    }
+    public class FishDisplay : UIImage
+    {
+        public Texture2D BackgroundTexture = ModContent.GetTexture("EEMod/UI/DisplayBorder");
+        public bool ShouldDraw;
+        public bool IsSpriteFacingRight;
+        public string CurrentHabitat;
+        public List<string> Habitats = new List<string>(); 
+        public float SwimSpeed;
+        public int AnimSpeed;
+        public Texture2D SwimmingAnimation;
+        public int FrameCount;
+        public bool GoingToLeft = true;
+        public int HabitatTimer;
+        public int SwimTimer;
+        public bool IsUsingItemTexture;
+        public Rectangle Frame;
+        public int FrameCounter;
+        public FishDisplay() : base(ModContent.GetTexture("EEMod/UI/DisplayBorder")) { }
+        public void UpdateDisplay(int itemType, bool isSpriteFacingRight, List<string> habitats, int swimSpeed, int animSpeed, Texture2D swimmingAnimation, int frameCount)
+        {
+            ShouldDraw = true;
+            Habitats = habitats;
+            CurrentHabitat = Habitats[0];
+            SwimSpeed = swimSpeed * 10;
+            AnimSpeed = animSpeed;
+            if (swimmingAnimation == null)
+            {
+                IsUsingItemTexture = true;
+                SwimmingAnimation = Main.itemTexture[itemType];
+                FrameCount = 1;
+                IsSpriteFacingRight = true;
+            }
+            else
+            {
+                IsSpriteFacingRight = isSpriteFacingRight;
+                SwimmingAnimation = swimmingAnimation;
+                FrameCount = frameCount;
+            }
+        }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (ShouldDraw && ++HabitatTimer >= 60)
+            {
+                HabitatTimer = 0;
+                var oldIndex = Habitats.IndexOf(CurrentHabitat);
+                var index = oldIndex + 1;
+                if (index >= Habitats.Count) index = 0;
+                CurrentHabitat = Habitats[index];
+                (Parent.Parent.Parent as FishermansLogUI).ExtraInfo.SetText((Parent.Parent.Parent as FishermansLogUI).ExtraInfo.Text.Replace(Habitats[oldIndex], CurrentHabitat));
+            }
+        }
+        protected override void DrawSelf(SpriteBatch spriteBatch)
+        {
+            base.DrawSelf(spriteBatch);
+            if (ShouldDraw)
+            {
+                var goingToLeft = IsSpriteFacingRight ? !GoingToLeft : GoingToLeft;
+                var spriteEffects = goingToLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                CalculatedStyle dimensions = GetDimensions();
+                if (++SwimTimer >= SwimSpeed)
+                {
+                    GoingToLeft = !GoingToLeft;
+                    SwimTimer = 0;
+                }
+                int x = (int)(dimensions.X + (SwimmingAnimation.Size().X + BackgroundTexture.Size().X) / 2 + MathHelper.Lerp(GoingToLeft ? 50 : -75, GoingToLeft ? -75 : 50, SwimTimer / SwimSpeed));
+                int y = (int)(dimensions.Y + (SwimmingAnimation.Size().Y + BackgroundTexture.Size().Y) / 2) + 34;
+                if (FrameCounter >= AnimSpeed)
+                {
+                    FrameCounter = 0;
+                    Frame.Y += SwimmingAnimation.Height / FrameCount;
+                }
+                if (Frame.Y >= SwimmingAnimation.Height / FrameCount * (FrameCount - 1))
+                {
+                    Frame.Y = 0;
+                }
+                FrameCounter++;
+                //TODO: Fix broken rotation when using item texture and going right
+                spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), null, Color.White, IsUsingItemTexture ? goingToLeft ? 0.6f : -0.6f : 0f, SwimmingAnimation.Size(), 1f, spriteEffects, 0f);
+                //spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), new Rectangle(0, Frame.Y, SwimmingAnimation.Width, SwimmingAnimation.Height / FrameCount), new Color(0, 0, 0), 0, new Rectangle(0, Frame.Y, SwimmingAnimation.Width, SwimmingAnimation.Height / FrameCounter).Size() / 2, 1f, SpriteEffects.None, 0f);
+            }
         }
     }
     public class FixedUIScrollbar : UIScrollbar
@@ -209,7 +303,7 @@ namespace EEMod.UI.States
             base.DrawSelf(spriteBatch);
             UserInterface.ActiveInstance = temp;
         }
-
+        
         public override void MouseDown(UIMouseEvent evt)
         {
             UserInterface temp = UserInterface.ActiveInstance;
