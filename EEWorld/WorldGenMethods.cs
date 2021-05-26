@@ -24,6 +24,7 @@ using EEMod.Tiles.Foliage.Coral;
 using Terraria.ObjectData;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Extensions;
+using EEMod.Systems.Noise;
 
 namespace EEMod.EEWorld
 {

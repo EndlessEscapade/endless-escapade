@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.UI;
 using Terraria.ModLoader;
 
-namespace EEMod
+namespace EEMod.Systems.EEGame
 {
     public class SpaceInvaders : EEGame
     {

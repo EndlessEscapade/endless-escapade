@@ -97,8 +97,12 @@ namespace EEMod.Projectiles
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Player chosenPlayer = Main.player[GetPlayer(projectile.Center)];
-            Texture2D volleyArrow = mod.GetTexture("Projectiles/VolleyballArrow");
-            Main.spriteBatch.Draw(volleyArrow, projectile.Center - Main.screenPosition, new Rectangle(0, volleyArrow.Height / frames * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            Texture2D outline = mod.GetTexture("Projectiles/VolleyballArrowOutline");
+            Texture2D fill = mod.GetTexture("Projectiles/VolleyballArrowFill");
+
+            Main.spriteBatch.Draw(outline, projectile.Center - Main.screenPosition, new Rectangle(0, 0, outline.Width, outline.Height), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, outline.Width, outline.Height).Size() / 2, 1, SpriteEffects.None, 0);
+
+            Main.spriteBatch.Draw(fill, projectile.Center - Main.screenPosition, new Rectangle(0, fill.Height / frames * (11 - frame), fill.Width, fill.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, fill.Width, fill.Height).Size() / 2, 1, SpriteEffects.None, 0);
             return true;
         }
 

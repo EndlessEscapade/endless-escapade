@@ -21,6 +21,7 @@ using EEMod.NPCs;
 using EEMod.NPCs.CoralReefs;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
+using EEMod.Systems.EEGame;
 
 namespace EEMod
 {

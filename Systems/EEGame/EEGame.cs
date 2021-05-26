@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 
-namespace EEMod
+namespace EEMod.Systems.EEGame
 {
     public class EEGame
     {

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework;
 using System;
 using Terraria;
 
-namespace EEMod
+namespace EEMod.Systems.Noise
 {
     public class PerlinNoiseFunction
     {

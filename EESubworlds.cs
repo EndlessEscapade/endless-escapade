@@ -17,6 +17,7 @@ using EEMod.ID;
 using EEMod.Tiles.Foliage.Coral;
 using EEMod.Tiles.Foliage.Coral.HangingCoral;
 using EEMod.Tiles.Foliage.Coral.WallCoral;
+using EEMod.Systems.Noise;
 
 namespace EEMod
 {

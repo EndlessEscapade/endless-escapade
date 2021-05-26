@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod
+namespace EEMod.Systems.EEGame
 {
     public class GameElement
     {

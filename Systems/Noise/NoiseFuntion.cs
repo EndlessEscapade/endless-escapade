@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace EEMod
+namespace EEMod.Systems.Noise
 {
     public class NoiseFunction
     {

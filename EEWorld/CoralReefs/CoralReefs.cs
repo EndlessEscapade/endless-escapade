@@ -16,6 +16,7 @@ using EEMod.Tiles.Furniture;
 using EEMod.Tiles.Foliage.ThermalVents;
 using EEMod.Tiles.Foliage.KelpForest;
 using EEMod.Tiles.Foliage.Aquamarine;
+using EEMod.Systems.Noise;
 
 namespace EEMod.EEWorld
 {
