@@ -316,6 +316,19 @@ namespace EEMod.EEWorld
             tag.TryGetListRef("AquamarineZiplineLocations", ref EESubWorlds.AquamarineZiplineLocations);
             tag.TryGetListRef("BulbousTreePosition", ref EESubWorlds.BulbousTreePosition);
             tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions);
+
+            /*if (tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions))
+            {
+                if (EESubWorlds.WebPositions.Count != 0)
+                {
+                    foreach (Vector2 vec in EESubWorlds.WebPositions)
+                    {
+                        for (int i = 0; i < 12; i++)
+                            EEMod.primitives.CreateTrail(new WebPrimTrail(null, vec * 16, i));
+                    }
+                }
+            }*/
+
             if (tag.TryGetListRef("SwingableVines", ref VerletHelpers.SwingableVines))
             {
                 if (VerletHelpers.SwingableVines.Count != 0)

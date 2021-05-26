@@ -1,4 +1,4 @@
-using Terraria;
+/*using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,9 +34,9 @@ namespace EEMod.NPCs.CoralReefs
         }
         /*         protected int cap = 15;
         protected int noOfTentacles = 8;
-        protected Color drawColour;*/
+        protected Color drawColour;
 
         public override int _cap => 15;
         public override int _noOfTentacles => 2;
     }
-}
+}*/

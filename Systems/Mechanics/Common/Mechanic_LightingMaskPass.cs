@@ -46,12 +46,13 @@ namespace EEMod
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
 
-        public void DrawWithBuffer(Texture2D texture, Vector2 position)
+        public void DrawWithBuffer(Texture2D texture, Vector2 position, float alpha)
         {
             BufferCalls += () =>
             {
                 EEMod.LightingBufferEffect.Parameters["screenPosition"].SetValue(position.ForDraw());
                 EEMod.LightingBufferEffect.Parameters["texSize"].SetValue(texture.Bounds.Size());
+                EEMod.LightingBufferEffect.Parameters["alpha"].SetValue(alpha);
                 EEMod.LightingBufferEffect.CurrentTechnique.Passes[0].Apply();
                 Main.spriteBatch.Draw(texture, position.ForDraw(), Color.White);
             };

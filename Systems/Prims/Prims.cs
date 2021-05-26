@@ -602,15 +602,17 @@ namespace EEMod
                     AddVertex(leftMostPoint, Color.LightBlue * (float)Math.Sin(lerper / 20f), new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                     device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, noOfPoints / 3);
                 };
+
                 void DrawJelly(int noOfPoints)
                 {
                     Jellyfish ja = (npc.modNPC as Jellyfish);
-                    Cap = ja._cap;
+                    Cap = ja.cap;
                     List<List<List<Vector2>>> tentacle = new List<List<List<Vector2>>>();
+
                     for (int b = 0; b < 2; b++)
                     {
                         List<List<Vector2>> tempTentA = new List<List<Vector2>>();
-                        for (int a = 0; a < ja._noOfTentacles / 2; a++)
+                        for (int a = 0; a < ja.noOfTentacles / 2; a++)
                         {
                             List<Vector2> tempTent = new List<Vector2>();
                             for (int i = 0; i < Cap; i++)
@@ -621,8 +623,10 @@ namespace EEMod
                         }
                         tentacle.Add(tempTentA);
                     }
+
                     List<VertexPositionColorTexture[]> vertices2 = new List<VertexPositionColorTexture[]>();
                     vertices = new VertexPositionColorTexture[noOfPoints];
+
                     float width = 2;
                     float alphaValue = 0.8f;
                     for (int b = 0; b < tentacle.Count; b++)
@@ -633,23 +637,25 @@ namespace EEMod
                             {
                                 if (i == 0)
                                 {
+
                                 }
                                 else
                                 {
-
                                     if (i != tentacle[b][a].Count - 1)
                                     {
-                                        //7,86,122
-                                        //255,244,173
                                         Color base1 = new Color(7, 86, 122);
                                         Color base2 = new Color(255, 244, 173);
+
                                         Color drawColour = Lighting.GetColor((int)npc.Center.X / 16, (int)npc.Center.Y / 16);
                                         Color c = Color.Lerp(Color.DarkCyan, base2, i / Cap).MultiplyRGB(drawColour);
                                         Color c1 = Color.Lerp(Color.DarkCyan, base2, (i + 1) / Cap).MultiplyRGB(drawColour);
+
                                         Vector2 normal = CurveNormal(tentacle[b][a], i);
                                         Vector2 normalAhead = CurveNormal(tentacle[b][a], i + 1);
+
                                         float j = (Cap - (i * 0.9f)) / Cap;
                                         width = (i / Cap) * 3;
+
                                         Vector2 firstUp = tentacle[b][a][i] - normal * width;
                                         Vector2 firstDown = tentacle[b][a][i] + normal * width;
                                         Vector2 secondUp = tentacle[b][a][i + 1] - normalAhead * width;
@@ -676,6 +682,7 @@ namespace EEMod
                         }
                     }
                 }
+
                 DrawPrimDelegate DalantiniumPrims = (int noOfPoints) =>
                 {
                     vertices = new VertexPositionColorTexture[noOfPoints];
@@ -686,9 +693,11 @@ namespace EEMod
                         if (i == 0)
                         {
                             Color c = Color.Lerp(Color.Red, Color.DarkRed, i / Cap);
+
                             Vector2 normalAhead = CurveNormal(_points, i + 1);
                             Vector2 secondUp = _points[i + 1] - normalAhead * width;
                             Vector2 secondDown = _points[i + 1] + normalAhead * width;
+
                             AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                             AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
                             AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
@@ -938,7 +947,7 @@ namespace EEMod
                 {
                     if (npc.type == NPCType<Jellyfish>())
                     {
-                        DrawJelly(((int)Cap * 6 - 12) * (npc.modNPC as Jellyfish)._noOfTentacles);
+                        DrawJelly(((int)Cap * 6 - 12) * (npc.modNPC as Jellyfish).noOfTentacles);
                     }
                 }
                 GliderPrims.Invoke((int)Cap * 6 - 12);

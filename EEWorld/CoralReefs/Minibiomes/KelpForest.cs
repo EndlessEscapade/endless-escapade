@@ -101,6 +101,22 @@ namespace EEMod.EEWorld
                        }
                    });
 
+            BoundClause((int i, int j) =>
+            {
+                int websClose = 0;
+                for (int m = 0; m < EESubWorlds.WebPositions.Count; m++)
+                {
+                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.WebPositions[m]) < 200 * 200)
+                    {
+                        websClose++;
+                    }
+                }
+                if (websClose == 0)
+                {
+                    EESubWorlds.WebPositions.Add(new Vector2(i, j));
+                }
+            });
+
             TilePopulate(new int[] {
                     ModContent.TileType<GlowHangCoral1>(),
                     ModContent.TileType<GroundGlowCoral>(),

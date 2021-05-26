@@ -5,6 +5,8 @@ float2 screenPosition;
 float2 screenSize;
 float2 texSize;
 
+float alpha;
+
 texture buffer;
 sampler light = sampler_state
 {
@@ -22,7 +24,9 @@ float4 White(float2 coords : TEXCOORD0) : COLOR0
 	float2 alteredCoords = float2(coords.x * percX + screenPercentage.x, coords.y * percY + screenPercentage.y);
 	float4 lightColor = tex2D(light, alteredCoords);
 
-	return texColor * lightColor;
+	float4 finalColor = texColor * lightColor;
+
+	return float4(finalColor.r, finalColor.g, finalColor.b, alpha);
 }
 
 technique BasicColorDrawing

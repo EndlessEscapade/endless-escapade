@@ -33,8 +33,8 @@ namespace EEMod.NPCs
                     else
                     {
                         pool.Add(ModContent.NPCType<FlowerHatJelly>(), 5f);
-                        pool.Add(ModContent.NPCType<CombJelly>(), 5f);
-                        pool.Add(ModContent.NPCType<CrownJelly>(), 5f);
+                        //pool.Add(ModContent.NPCType<CombJelly>(), 5f);
+                        //pool.Add(ModContent.NPCType<CrownJelly>(), 5f);
                         pool.Add(ModContent.NPCType<OlvinicSnail>(), 5f);
                     }
                 }

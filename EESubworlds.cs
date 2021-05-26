@@ -353,10 +353,11 @@ namespace EEMod
                 #region Implementing dynamic objects
                 EEMod.progressMessage = "Adding Dynamics";
 
-                for (int j = 42; j < Main.maxTilesY - 42; j += 1)
+                for (int j = 42; j < Main.maxTilesY - 42; j += 2)
                 {
-                    for (int i = 42; i < Main.maxTilesX - 42; i += 1)
+                    for (int i = 42; i < Main.maxTilesX - 42; i += 2)
                     {
+                        int noOfTiles = 0;
                         if (j > 200)
                         {
                             /*for (int m = 0; m < OrbPositions.Count; m++)
@@ -370,26 +371,12 @@ namespace EEMod
                             {
                                 OrbPositions.Add(new Vector2(i, j));
                             }
-                            if (noOfTiles <= 30)
+                            int funnyDist = 0;
+                            /*for (int m = 0; m < OrbPositions.Count; m++)
                             {
-                                int dist = 0;
-                                for (int m = 0; m < OrbPositions.Count; m++)
+                                if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
                                 {
-                                    if (Vector2.DistanceSquared(new Vector2(i, j), OrbPositions[m]) < 200 * 200)
-                                    {
-                                        dist++;
-                                    }
-                                }
-                                for (int m = 0; m < WebPositions.Count; m++)
-                                {
-                                    if (Vector2.DistanceSquared(new Vector2(i, j), WebPositions[m]) < 200 * 200)
-                                    {
-                                        dist++;
-                                    }
-                                }
-                                if (dist == 0)
-                                {
-                                    //WebPositions.Add(new Vector2(i, j));
+                                    funnyDist++;
                                 }
                             }*/
                         }
@@ -402,7 +389,7 @@ namespace EEMod
                             }
                         }*/
 
-                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(2))
+                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(5))
                         {
                             if (ChainConnections.Count == 0)
                             {
@@ -419,7 +406,6 @@ namespace EEMod
                                 }
                             }
                         }
-
                     }
                 }
                 #endregion
