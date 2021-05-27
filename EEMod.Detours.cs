@@ -30,6 +30,7 @@ using EEMod.Seamap.SeamapAssets;
 using Terraria.Graphics.Shaders;
 using Terraria.DataStructures;
 using Terraria.GameContent.UI.States;
+using Terraria.UI.Chat;
 
 namespace EEMod
 {
@@ -316,74 +317,6 @@ namespace EEMod
             return index;
         }
 
-        void HandleWebDraw(Vector2 position)
-        {
-            Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
-            Vector2 tilePos = position / 16;
-            int spread = 13;
-            int down = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, 1, 50);
-            int up = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X, (int)tilePos.Y, -1, 50);
-            int down2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, 1, 50);
-            int up2 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X - spread, (int)tilePos.Y, -1, 50);
-            int down3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, 1, 50);
-            int up3 = EEWorld.EEWorld.TileCheckVertical((int)tilePos.X + spread, (int)tilePos.Y, -1, 50);
-
-            Vector2 p1 = new Vector2(tilePos.X * 16, down * 16);
-            Vector2 p1Mid = Helpers.TraverseBezier(p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2) * 40), 0.5f);
-            Vector2 p2 = new Vector2(tilePos.X * 16, up * 16);
-            Vector2 p2Mid = Helpers.TraverseBezier(p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.5f) * 40), 0.5f);
-            Vector2 p3 = new Vector2((tilePos.X - spread) * 16, down2 * 16);
-            Vector2 p3Mid = Helpers.TraverseBezier(p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.2f) * 40), 0.5f);
-            Vector2 p4 = new Vector2((tilePos.X - spread) * 16, up2 * 16);
-            Vector2 p4Mid = Helpers.TraverseBezier(p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.8f) * 40), 0.5f);
-            Vector2 p5 = new Vector2((tilePos.X + spread) * 16, down3 * 16);
-            Vector2 p5Mid = Helpers.TraverseBezier(p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.9f) * 40), 0.5f);
-            Vector2 p6 = new Vector2((tilePos.X + spread) * 16, up3 * 16);
-            Vector2 p6Mid = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), 0.5f);
-
-            Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/LightBlue");
-            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/GlowingWeb");
-
-            float cockandbol = 0.8f;
-            if (p1.Y >= 1)
-            {
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-
-            }
-            if (p2.Y >= 1)
-            {
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.5f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-            }
-            if (p3.Y >= 1)
-            {
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.2f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-            }
-            if (p4.Y >= 1)
-            {
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.8f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-            }
-            if (p5.Y >= 1)
-            {
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.9f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-            }
-            if (p6.Y >= 1)
-            {
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-            }
-            if (p1.Y >= 1 && p5.Y >= 1)
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p1Mid, p5Mid, Vector2.Lerp(p1Mid, p5Mid, 0.5f) + new Vector2(0, -40 + (float)Math.Sin(sineInt * 3) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-            if (p5.Y >= 1 && p6.Y >= 1)
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p5Mid, p6Mid, Vector2.Lerp(p5Mid, p6Mid, 0.5f) + new Vector2(-40 + (float)Math.Sin(sineInt * 4) * 40, 0), cockandbol, (float)Math.PI / 2, false, 1, false);
-            if (p6.Y >= 1 && p2.Y >= 1)
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p6Mid, p2Mid, Vector2.Lerp(p6Mid, p2Mid, 0.5f) + new Vector2(0, 40 + (float)Math.Sin(sineInt * 3) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-            if (p2.Y >= 1 && p4.Y >= 1)
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p2Mid, p4Mid, Vector2.Lerp(p2Mid, p4Mid, 0.5f) + new Vector2(0, 40 + (float)Math.Sin(sineInt * 4) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-            if (p4.Y >= 1 && p3.Y >= 1)
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p4Mid, p3Mid, Vector2.Lerp(p4Mid, p3Mid, 0.5f) + new Vector2(40 + (float)Math.Sin(sineInt * 3) * 40, 0), cockandbol, (float)Math.PI / 2, false, 1, false);
-            if (p3.Y >= 1 && p1.Y >= 1)
-                Helpers.DrawBezierAdditive(vineTexture, Color.White, p3Mid, p1Mid, Vector2.Lerp(p3Mid, p1Mid, 0.5f) + new Vector2(0, -40 + (float)Math.Sin(sineInt * 4) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
-        }
-
         float bgAlpha;
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
@@ -435,12 +368,6 @@ namespace EEMod
                     int a = 2;
                     SurfaceBgStyleLoader.ChooseStyle(ref a);
                 }
-
-                /*for (int i = 0; i < EESubWorlds.WebPositions.Count; i++)
-                {
-                    Vector2 pos = EESubWorlds.WebPositions[i] * 16;
-                    HandleWebDraw(pos);
-                }*/
             }
 
 
@@ -900,9 +827,12 @@ namespace EEMod
                     if (progressMessage != null)
                     {
                         Vector2 textSize2 = Main.fontMouseText.MeasureString(progressMessage);
+                        textSize2 = new Vector2(textSize2.X * 1.2f, textSize2.Y);
+
                         float textPosition2Left = Main.screenWidth / 2 - textSize2.X / 2;
 
-                        Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage, new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                        //Main.spriteBatch.DrawString(Main.fontMouseText, progressMessage, new Vector2(textPosition2Left, Main.screenHeight / 2 + 200), Color.AliceBlue * alpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                        ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontMouseText, progressMessage, new Vector2(textPosition2Left, Main.screenHeight / 2 - 350), Color.White * alpha, 0f, Vector2.Zero, new Vector2(1.2f, 1.2f));
                     }
 
                     osSucksAtBedwars++;
@@ -923,13 +853,20 @@ namespace EEMod
                     tempAlpha = 1 - (Math.Abs((Main.screenWidth / 2) - (textSize.X / 2) - textPositionLeft) / (Main.screenWidth / 2f));
 
 
-                    Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), Color.White * tempAlpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                    //Main.spriteBatch.DrawString(Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 100), Color.White * tempAlpha, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                    ChatManager.DrawColorCodedStringWithShadow(Main.spriteBatch, Main.fontDeathText, screenMessageText, new Vector2(textPositionLeft, Main.screenHeight / 2 - 100), Color.White * tempAlpha, 0f, Vector2.Zero, Vector2.One);
                 }
 
                 try
                 {
                     if (Main.MenuUI.CurrentState is UIWorldLoad worldLoadUI)
+                    {
                         worldLoadUI.Draw(Main.spriteBatch);
+
+                        //var bar = typeof(Main).Assembly.GetType("Terraria.GameContent.UI.States").GetField("_progressBar", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(new UIGenProgressBar()) as UIGenProgressBar;
+
+                        //bar.SetProgress(0.5f, 0.4f);
+                    }
                 }
                 catch
                 {

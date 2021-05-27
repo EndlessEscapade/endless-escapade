@@ -56,7 +56,6 @@ namespace EEMod
         private float rotGoto;
         public string text;
         float counter;
-        float sineInt;
         bool IsTraining;
 
         public void UpdateVerlet()

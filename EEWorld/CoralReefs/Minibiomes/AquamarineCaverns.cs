@@ -90,13 +90,13 @@ namespace EEMod.EEWorld
                     switch (Main.rand.Next(3))
                     {
                         case 0:
-                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround7, "Tiles/EmptyTileArrays/AquamarineCrystalTop2x2", "Tiles/EmptyTileArrays/AquamarineCrystalTop2x2Shine");
+                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang3, "Tiles/EmptyTileArrays/AquamarineCrystalTop2x2", "Tiles/EmptyTileArrays/AquamarineCrystalTop2x2Shine");
                             break;
                         case 1:
-                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround3, "Tiles/EmptyTileArrays/AquamarineCrystalTop2x4", "Tiles/EmptyTileArrays/AquamarineCrystalTop2x4Shine");
+                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang2, "Tiles/EmptyTileArrays/AquamarineCrystalTop2x4", "Tiles/EmptyTileArrays/AquamarineCrystalTop2x4Shine");
                             break;
                         case 2:
-                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalGround2, "Tiles/EmptyTileArrays/AquamarineCrystalTop3x4", "Tiles/EmptyTileArrays/AquamarineCrystalTop3x4Shine");
+                            ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Top, new Vector2(i, j), EmptyTileArrays.LuminantCoralCrystalHang1, "Tiles/EmptyTileArrays/AquamarineCrystalTop3x4", "Tiles/EmptyTileArrays/AquamarineCrystalTop3x4Shine");
                             break;
                     }
                 }

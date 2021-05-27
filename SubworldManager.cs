@@ -111,7 +111,7 @@ namespace EEMod
 
             AddGenerationPass("Reset", delegate (GenerationProgress progress)
             {
-                progress.Message = "Resetting";
+                progress.Message = "";
 
                 Liquid.ReInit();
 

@@ -275,7 +275,6 @@ namespace EEMod
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
-            sineInt += 0.003f;
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             if (mouseTextIndex != -1)
             {
