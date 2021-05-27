@@ -258,7 +258,7 @@ namespace EEMod.UI.States
             base.Update(gameTime);
             if (ShouldDraw && ++HabitatTimer >= 60)
             {
-                HabitatTimer -= 60;
+                HabitatTimer = 0;
                 var oldIndex = Habitats.IndexOf(CurrentHabitat);
                 var index = oldIndex + 1;
                 if (index >= Habitats.Count) index = 0;
