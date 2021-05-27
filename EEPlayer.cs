@@ -228,6 +228,15 @@ namespace EEMod
                 {
                     opac = 100;
                 }
+
+                if(player.Center.Y <= 3000)
+                {
+                    player.ZoneBeach = true;
+                }
+                else
+                {
+                    player.ZoneBeach = false;
+                }
                 //Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
 
                 /*int minibiome = 0;
