@@ -213,7 +213,7 @@ namespace EEMod.UI.States
     }
     public class FishDisplay : UIImage
     {
-        public Texture2D BackgroundTexture = ModContent.GetTexture("EEMod/UI/DisplayBorder");
+        public Texture2D OutlineTexture = ModContent.GetTexture("EEMod/UI/DisplayBorder");
         public bool ShouldDraw;
         public bool IsSpriteFacingRight;
         public string CurrentHabitat;
@@ -222,7 +222,8 @@ namespace EEMod.UI.States
         public int AnimSpeed;
         public Texture2D SwimmingAnimation;
         public int FrameCount;
-        public bool GoingToLeft = true;
+        public Texture2D BackgroundTexture;
+        public bool FacingLeft = true;
         public int HabitatTimer;
         public int SwimTimer;
         public bool IsUsingItemTexture;
@@ -255,7 +256,7 @@ namespace EEMod.UI.States
             base.Update(gameTime);
             if (ShouldDraw && ++HabitatTimer >= 60)
             {
-                HabitatTimer = 0;
+                HabitatTimer -= 60;
                 var oldIndex = Habitats.IndexOf(CurrentHabitat);
                 var index = oldIndex + 1;
                 if (index >= Habitats.Count) index = 0;
@@ -268,16 +269,19 @@ namespace EEMod.UI.States
             base.DrawSelf(spriteBatch);
             if (ShouldDraw)
             {
-                var goingToLeft = IsSpriteFacingRight ? !GoingToLeft : GoingToLeft;
-                var spriteEffects = goingToLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                var facingLeft = IsSpriteFacingRight ? !FacingLeft : FacingLeft;
+                var spriteEffects = facingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                BackgroundTexture = ModContent.GetTexture("EEMod/UI/LogDisplayBGs/" + CurrentHabitat.Replace(" ", ""));
                 CalculatedStyle dimensions = GetDimensions();
                 if (++SwimTimer >= SwimSpeed)
                 {
-                    GoingToLeft = !GoingToLeft;
+                    FacingLeft = !FacingLeft;
                     SwimTimer = 0;
                 }
-                int x = (int)(dimensions.X + (SwimmingAnimation.Size().X + BackgroundTexture.Size().X) / 2 + MathHelper.Lerp(GoingToLeft ? 50 : -75, GoingToLeft ? -75 : 50, SwimTimer / SwimSpeed));
-                int y = (int)(dimensions.Y + (SwimmingAnimation.Size().Y + BackgroundTexture.Size().Y) / 2) + 34;
+                int x = (int)(dimensions.X + (SwimmingAnimation.Size().X + OutlineTexture.Size().X) / 2 + MathHelper.Lerp(FacingLeft ? 50 : -75, FacingLeft ? -75 : 50, SwimTimer / SwimSpeed));
+                int y = (int)(dimensions.Y + (SwimmingAnimation.Size().Y + OutlineTexture.Size().Y) / 2) + 34 - (IsUsingItemTexture && !facingLeft ? SwimmingAnimation.Height / 2 : 0);
+                int xB = (int)(dimensions.X + (BackgroundTexture.Size().X + OutlineTexture.Size().X) / 2);
+                int yB = (int)(dimensions.Y + (BackgroundTexture.Size().Y + OutlineTexture.Size().Y) / 2);
                 if (FrameCounter >= AnimSpeed)
                 {
                     FrameCounter = 0;
@@ -288,8 +292,8 @@ namespace EEMod.UI.States
                     Frame.Y = 0;
                 }
                 FrameCounter++;
-                //TODO: Fix broken rotation when using item texture and going right
-                spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), null, Color.White, IsUsingItemTexture ? goingToLeft ? 0.6f : -0.6f : 0f, SwimmingAnimation.Size(), 1f, spriteEffects, 0f);
+                spriteBatch.Draw(BackgroundTexture, new Vector2(xB, yB), null, Color.White, 0f, BackgroundTexture.Size(), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), null, Color.White, IsUsingItemTexture ? facingLeft ? 0.6f : -0.6f : 0f, SwimmingAnimation.Size(), 1f, spriteEffects, 0f);
                 //spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), new Rectangle(0, Frame.Y, SwimmingAnimation.Width, SwimmingAnimation.Height / FrameCount), new Color(0, 0, 0), 0, new Rectangle(0, Frame.Y, SwimmingAnimation.Width, SwimmingAnimation.Height / FrameCounter).Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
