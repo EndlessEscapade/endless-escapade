@@ -118,7 +118,7 @@ namespace EEMod.UI.States
         }
         public void LoadAllFish()
         {
-            FishGrid.Add(new FishElement(ItemID.Bass, "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "Purity|Underground|Snow|Tundra|a lot"));
+            FishGrid.Add(new FishElement(ItemID.Bass, "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "Anywhere|Surface|Underground|Tundra|Ice"));
             FishGrid.Add(new FishElement(ItemID.AtlanticCod, "Na cat", "snow|ug ice"));
             FishGrid.Add(new FishElement(ItemID.Ebonkoi, "Mayb cat", "corruption|ug corruption"));
             FullList = FishGrid._items;
@@ -142,8 +142,10 @@ namespace EEMod.UI.States
 
         /// <param name="itemType">The type of the item that'll be used as the selection sprite.</param>
         /// <param name="habitat">Will determine what background and water to use on the display, if multiple, put a "|" between each and they'll cycle.</param>
+        /// <param name="swimSpeed">How many frames the fish takes to swim from one end to the other).</param>
+        /// <param name="animSpeed">How many frames each frame of the animation lasts.</param>
         /// <param name="swimmingAnimation">The sprite sheet used to make the fish swim in the display, if left null, the item sprite will be used instead.</param>
-        public FishElement(int itemType, string description, string habitat, int swimSpeed = 7, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.GetTexture("EEMod/UI/FishBorder"))
+        public FishElement(int itemType, string description, string habitat, int swimSpeed = 70, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.GetTexture("EEMod/UI/FishBorder"))
         {
             ItemType = itemType;
             Description = description;
@@ -235,7 +237,7 @@ namespace EEMod.UI.States
             ShouldDraw = true;
             Habitats = habitats;
             CurrentHabitat = Habitats[0];
-            SwimSpeed = swimSpeed * 10;
+            SwimSpeed = swimSpeed;
             AnimSpeed = animSpeed;
             if (swimmingAnimation == null)
             {
