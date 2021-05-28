@@ -24,6 +24,7 @@ using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.SeamapContent;
 using Terraria.DataStructures;
+using System.Linq;
 
 namespace EEMod
 {
@@ -1160,8 +1161,9 @@ namespace EEMod
                 ["baseworldname"] = baseWorldName,
                 ["importantCutscene"] = importantCutscene,
                 ["swiftSail"] = boatSpeed,
-                ["cannonball"] = cannonballType//,
-                //["fishLengths"] = fishLengths
+                ["cannonball"] = cannonballType,
+                ["fishLengthsKeys"] = fishLengths.Keys.ToList(),
+                ["fishLengthsValues"] = fishLengths.Values.ToList(),
                 /*
              {"Hours", Hours},
 		     {"Minutes", Minutes},
@@ -1178,10 +1180,11 @@ namespace EEMod
             tag.TryGetRef("importantCutscene", ref importantCutscene);
             tag.TryGetRef("swiftSail", ref boatSpeed);
             tag.TryGetRef("cannonball", ref cannonballType);
-            /*if (tag.ContainsKey("fishLengths"))
-            {
-                fishLengths = tag.GetList("fishLengths");
-            }*/
+            var fishLengthsKeys = new List<int>();
+            var fishLengthsValues = new List<int>();
+            tag.TryGetRef("fishLengthsKeys", ref fishLengthsKeys);
+            tag.TryGetRef("fishLengthsValues", ref fishLengthsValues);
+            fishLengths = fishLengthsKeys.Zip(fishLengthsValues, (k, v) => new { fishLengthsKeys = k, fishLengthsValues = v }).ToDictionary(d => d.fishLengthsKeys, d => d.fishLengthsValues);
             /*
                 if (tag.ContainsKey("Hours"))
 		           Hours = tag.GetInt("Hours");
