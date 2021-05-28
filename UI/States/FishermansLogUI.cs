@@ -253,24 +253,22 @@ namespace EEMod.UI.States
                 FrameCount = frameCount;
             }
         }
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-            if (ShouldDraw && ++HabitatTimer >= 60)
-            {
-                HabitatTimer = 0;
-                var oldIndex = Habitats.IndexOf(CurrentHabitat);
-                var index = oldIndex + 1;
-                if (index >= Habitats.Count) index = 0;
-                CurrentHabitat = Habitats[index];
-                (Parent.Parent.Parent as FishermansLogUI).ExtraInfo.SetText((Parent.Parent.Parent as FishermansLogUI).ExtraInfo.Text.Replace(Habitats[oldIndex], CurrentHabitat));
-            }
-        }
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
             base.DrawSelf(spriteBatch);
             if (ShouldDraw)
             {
+                //This should be in Update() but for some reason it is VERY stubborn in being consistent. ~Exitium
+                if (++HabitatTimer >= 60)
+                {
+                    HabitatTimer = 0;
+                    var oldIndex = Habitats.IndexOf(CurrentHabitat);
+                    var index = oldIndex + 1;
+                    if (index >= Habitats.Count) index = 0;
+                    CurrentHabitat = Habitats[index];
+                    (Parent.Parent.Parent as FishermansLogUI).ExtraInfo.SetText((Parent.Parent.Parent as FishermansLogUI).ExtraInfo.Text.Replace(Habitats[oldIndex], CurrentHabitat));
+                }
+
                 var facingLeft = IsSpriteFacingRight ? !FacingLeft : FacingLeft;
                 var spriteEffects = facingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
                 BackgroundTexture = ModContent.GetTexture("EEMod/UI/LogDisplayBGs/" + CurrentHabitat.Replace(" ", ""));
