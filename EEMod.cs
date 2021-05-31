@@ -28,6 +28,7 @@ using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Items.Dyes;
 using EEMod.Prim;
 using Terraria.DataStructures;
+using EEMod.Systems;
 
 namespace EEMod
 {
@@ -412,6 +413,7 @@ namespace EEMod
                         {
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs");
                             priority = MusicPriority.Environment;
+                            LayeredMusic.ShouldJumpToPoint = true;
                         }
 
                         if ((int)MinibiomeID.KelpForest < length)
