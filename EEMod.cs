@@ -394,26 +394,27 @@ namespace EEMod
                 if (eeplayer != null)
                 {
                     int length = eeplayer.reefMinibiome.Length;
-
                     if (Main.worldName == KeyID.CoralReefs)
                     {
                         if (Main.LocalPlayer.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                         {
+                            LayeredMusic.ShouldLayerMusic = true;
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
                             priority = MusicPriority.Environment;
                         }
 
                         if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 4 * 16)
                         {
+                            LayeredMusic.ShouldLayerMusic = true;
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs");
                             priority = MusicPriority.Environment;
                         }
 
                         if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 10) * 4) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 7 * 16)
                         {
+                            LayeredMusic.ShouldLayerMusic = true;
                             music = GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs");
                             priority = MusicPriority.Environment;
-                            LayeredMusic.ShouldJumpToPoint = true;
                         }
 
                         if ((int)MinibiomeID.KelpForest < length)

@@ -118,9 +118,9 @@ namespace EEMod.UI.States
         }
         public void LoadAllFish()
         {
-            FishGrid.Add(new FishElement(ItemID.Bass, "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "Anywhere|Surface|Underground|Tundra|Ice"));
-            FishGrid.Add(new FishElement(ItemID.AtlanticCod, "Na cat", "snow|ug ice"));
-            FishGrid.Add(new FishElement(ItemID.Ebonkoi, "Mayb cat", "corruption|ug corruption"));
+            FishGrid.Add(new FishElement(ItemID.Bass, "Plentiful", "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "Anywhere")); //All except Desert in 1.4.
+            FishGrid.Add(new FishElement(ItemID.AtlanticCod, "Common", "Na cat", "snow|ug ice"));
+            FishGrid.Add(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
             FullList = FishGrid._items;
         }
     }
@@ -130,8 +130,8 @@ namespace EEMod.UI.States
         public Texture2D BorderTexture = ModContent.GetTexture("EEMod/UI/FishBorder");
         public bool Caught;
         public int MaxSize;
-        public enum MaxSizes { Small = 16, Medium = 32, Big = 44 }
         public int ItemType;
+        public string Rarity;
         public string Description;
         public List<string> Habitats = new List<string>();
         public int SwimSpeed;
@@ -141,13 +141,15 @@ namespace EEMod.UI.States
         public int FrameCount;
 
         /// <param name="itemType">The type of the item that'll be used as the selection sprite.</param>
+        /// <param name="rarity">Check "Catch Quality" on the wiki.</param>
         /// <param name="habitat">Will determine what background and water to use on the display, if multiple, put a "|" between each and they'll cycle.</param>
         /// <param name="swimSpeed">How many frames the fish takes to swim from one end to the other).</param>
         /// <param name="animSpeed">How many frames each frame of the animation lasts.</param>
         /// <param name="swimmingAnimation">The sprite sheet used to make the fish swim in the display, if left null, the item sprite will be used instead.</param>
-        public FishElement(int itemType, string description, string habitat, int swimSpeed = 70, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.GetTexture("EEMod/UI/FishBorder"))
+        public FishElement(int itemType, string rarity, string description, string habitat, int swimSpeed = 70, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.GetTexture("EEMod/UI/FishBorder"))
         {
             ItemType = itemType;
+            Rarity = rarity;
             Description = description;
             Habitats = habitat.Split('|').ToList();
             SwimSpeed = swimSpeed;
@@ -188,14 +190,14 @@ namespace EEMod.UI.States
             if (Caught)
             {
                 LogUI.Name.SetText(Lang.GetItemNameValue(ItemType));
-                LogUI.ExtraInfo.SetText($"Habitat: {Habitats[0]}\nSize: {Enum.GetName(typeof(MaxSizes), MaxSize)}\nBiggest Catch: {Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[ItemType]} cm");
+                LogUI.ExtraInfo.SetText($"Habitat: {Habitats[0]}\nRarity: {Rarity}\nBiggest Catch: {Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[ItemType]} cm");
                 LogUI.Description.SetText(Description.FormatString(32));
                 (LogUI.Display as FishDisplay).UpdateDisplay(ItemType, IsSpriteFacingRight, Habitats, SwimSpeed, AnimSpeed, SwimmingAnimation, FrameCount);
             }
             else
             {
                 LogUI.Name.SetText("???");
-                LogUI.ExtraInfo.SetText("Habitat: ???\nSize: ???\nBiggest Catch: ???");
+                LogUI.ExtraInfo.SetText("Habitat: ???\nRarity: ???\nBiggest Catch: ???");
                 LogUI.Description.SetText("???");
                 (LogUI.Display as FishDisplay).ShouldDraw = false;
             }
