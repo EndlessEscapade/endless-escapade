@@ -2,7 +2,6 @@ using EEMod.UI.States;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-//using JohnSnail.SubworldLibrary;
 
 namespace EEMod.Items
 {
