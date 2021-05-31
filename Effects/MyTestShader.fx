@@ -24,7 +24,13 @@ float2 uZoom;
 float4 MyTestShaderFlot(float2 coords : TEXCOORD0) : COLOR0
 {
 	float4 colour = tex2D(uImage0, coords);
-	return colour + (float4(sin(coords.y), sin(coords.y + 1.5f), sin(coords.y + 3), 0) / (sin(coords.x * 4) + 1)) / 2;
+	
+
+	float outputRed = (colour.r * .393) + (colour.g *.769) + (colour.b * .189);
+	float outputGreen = (colour.r  * .349) + (colour.g *.686) + (colour.b * .168);
+	float outputBlue = (colour.r  * .272) + (colour.g *.534) + (colour.b * .131);
+
+	return float4(outputRed, outputGreen, outputBlue, colour.a);
 }
 
 technique MyTestShader

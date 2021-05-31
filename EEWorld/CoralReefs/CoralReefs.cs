@@ -94,6 +94,9 @@ namespace EEMod.EEWorld
             Vector2 TL = new Vector2(xPos - (sizeX / 2f), yPos - (sizeY / 2f));
             Vector2 BR = new Vector2(xPos + (sizeX / 2f), yPos + (sizeY / 2f));
 
+            sizeX *= 2;
+            sizeY *= 2;
+
             int tile2;
             tile2 = (ushort)GetGemsandType(yPos);
 
@@ -148,10 +151,10 @@ namespace EEMod.EEWorld
                     break;
 
                 case 0:
-                    switch (Main.rand.Next(5))
+                    switch (Main.rand.Next(2))
                     {
                         case 0:
-                            MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
+                            MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
                             MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
                             MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
                             MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
@@ -168,17 +171,8 @@ namespace EEMod.EEWorld
                             MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (sizeY / 5)), tile2);
                             //CreateNoise(!ensureNoise, 100, 10, 0.45f);
                             break;
-
-                        case 2:
-                            MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                            MakeWavyChasm3(new Vector2(TL.X - 50 + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X - 50 + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            MakeWavyChasm3(new Vector2(TL.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), new Vector2(BR.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-100, 100), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-100, 100), yPos - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            break;
                             
-                        case 3:
+                        /*case 2:
                             MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true);
                             MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
                             MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
@@ -186,18 +180,7 @@ namespace EEMod.EEWorld
                             {
                                 MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY * 2)), TileID.StoneSlab, true);
                             }
-
-                            break;
-
-                        case 4:
-                            MakeJaggedOval((int)(sizeX * 1.3f), sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
-                            MakeWavyChasm3(new Vector2(TL.X - 50 + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X - 50 + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            MakeWavyChasm3(new Vector2(TL.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), new Vector2(BR.X + 50 + WorldGen.genRand.Next(-30, 30), yPos + 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-30, 30), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-100, 100), TL.Y - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            MakeWavyChasm3(new Vector2(TL.X + WorldGen.genRand.Next(-100, 100), yPos - 10), new Vector2(BR.X + WorldGen.genRand.Next(-30, 30), BR.Y - 10), tile2, 100, 4, true, new Vector2(10, 13), 50, 20);
-                            //CreateNoise(true, 100, 20, 0.2f);
-                            break;
+                            break;*/
                     }
 
                     TilePopulate(
@@ -242,7 +225,7 @@ namespace EEMod.EEWorld
                     KelpForest kelpForest = new KelpForest
                     {
                         Position = TL.ToPoint(),
-                        Size = new Point(sizeX * 2, sizeY * 2),
+                        Size = new Point(sizeX, sizeY),
                         EnsureNoise = ensureNoise
                     };
                     kelpForest.StructureStep();
@@ -253,7 +236,7 @@ namespace EEMod.EEWorld
                     GlowshroomGrotto GlowshroomGrotto = new GlowshroomGrotto
                     {
                         Position = TL.ToPoint(),
-                        Size = new Point(sizeX * 2, sizeY * 2),
+                        Size = new Point(sizeX, sizeY),
                         EnsureNoise = ensureNoise
                     };
                     GlowshroomGrotto.StructureStep();
@@ -263,7 +246,7 @@ namespace EEMod.EEWorld
                     ThermalVents ThermalVents = new ThermalVents
                     {
                         Position = TL.ToPoint(),
-                        Size = new Point(sizeX * 2, sizeY * 2),
+                        Size = new Point(sizeX, sizeY),
                         EnsureNoise = ensureNoise
                     };
                     ThermalVents.StructureStep();
@@ -273,7 +256,7 @@ namespace EEMod.EEWorld
                     AquamarineCaverns AquamarineCaverns = new AquamarineCaverns
                     {
                         Position = TL.ToPoint(),
-                        Size = new Point(sizeX * 2, sizeY * 2),
+                        Size = new Point(sizeX, sizeY),
                         EnsureNoise = ensureNoise
                     };
                     AquamarineCaverns.StructureStep();
@@ -302,12 +285,10 @@ namespace EEMod.EEWorld
         {
             if (height < Main.maxTilesY * 0.4f)
                 return ModContent.TileType<LightGemsandTile>();
-            else if (height < Main.maxTilesY * 0.8f)
+            else if (height < Main.maxTilesY * 0.7f)
                 return ModContent.TileType<GemsandTile>();
-            else if (height > Main.maxTilesY * 0.8f)
+            else if (height > Main.maxTilesY * 0.7f)
                 return ModContent.TileType<DarkGemsandTile>();
-            if (height < Main.maxTilesY / 20)
-                return ModContent.TileType<CoralSandTile>();
             else
                 return 0;
         }

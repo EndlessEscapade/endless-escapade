@@ -483,10 +483,10 @@ namespace EEMod
                     Filters.Scene.Deactivate(shad3);
                 }
             }
-            /*if(Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:MyTestShader"].IsActive())
+            if(Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:MyTestShader"].IsActive())
             {
                 Filters.Scene.Activate("EEMod:MyTestShader", player.Center).GetShader().UseColor(Color.Red).UseTargetPosition(player.Center);
-            }*/
+            }
             if (timerForCutscene >= 1400)
             {
                 Initialize();

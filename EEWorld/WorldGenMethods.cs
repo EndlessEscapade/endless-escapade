@@ -1069,7 +1069,7 @@ namespace EEMod.EEWorld
                 }
                 else
                 {
-                    Points.Add(Bounds.Center.ToVector2());
+                    Points.Add(new Vector2(WorldGen.genRand.Next(Bounds.Left, Bounds.Right), WorldGen.genRand.Next(Bounds.Top, Bounds.Bottom)));
                 }
             }
             return Points.ToArray();

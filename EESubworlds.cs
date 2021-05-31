@@ -18,21 +18,26 @@ using EEMod.Tiles.Foliage.Coral;
 using EEMod.Tiles.Foliage.Coral.HangingCoral;
 using EEMod.Tiles.Foliage.Coral.WallCoral;
 using EEMod.Systems.Noise;
+using EEMod.VerletIntegration;
 
 namespace EEMod
 {
     public class EESubWorlds
     {
-        [FieldInit] public static IList<Vector2> ChainConnections = new List<Vector2>();
+        [FieldInit] public static IList<Vector2> CoralReefVineLocations = new List<Vector2>();
         [FieldInit] public static IList<Vector3> MinibiomeLocations = new List<Vector3>();
         [FieldInit] public static IList<Vector2> OrbPositions = new List<Vector2>();
         [FieldInit] public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
+
         [FieldInit] public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
         [FieldInit] public static IList<Vector2> AquamarineZiplineLocations = new List<Vector2>();
+        [FieldInit] public static IList<Vector2> ThinCrystalBambooLocations = new List<Vector2>();
+
         [FieldInit] public static IList<Vector2> GiantKelpRoots = new List<Vector2>();
         [FieldInit] public static IList<Vector2> WebPositions = new List<Vector2>();
+
         public static Vector2 CoralBoatPos;
-        public static Vector2 SpirePosition;
+        public static Vector2 SpirePosition = Vector2.Zero;
 
         public static void Pyramids(int seed, GenerationProgress customProgressObject = null)
         {
@@ -72,6 +77,8 @@ namespace EEMod
 
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
+
+            VerletHelpers.SwingableVines.Clear();
 
             //Placing initial blocks
             #region Initial block placement
@@ -134,16 +141,16 @@ namespace EEMod
 
             int[] biomes = Helpers.FillUniformArray(roomsPerLayer * 2, 0, 3);
 
-            Vector2[] upperRoomPositions = MakeDistantLocations(roomsPerLayer, 200, new Rectangle(200, 300, Main.maxTilesX - 400, ((Main.maxTilesY / 10) * 4) - 600), 1000);
-            Vector2[] lowerRoomPositions = MakeDistantLocations(roomsPerLayer, 200, new Rectangle(200, (Main.maxTilesY / 10) * 4, Main.maxTilesX - 400, (Main.maxTilesY / 10) * 3), 1000);
-            Vector2[] depthsRoomPositions = MakeDistantLocations(roomsPerLayer / 2, 250, new Rectangle(300, (Main.maxTilesY / 10) * 7, Main.maxTilesX - 600, ((Main.maxTilesY / 10) * 3) - 300), 1000);
+            Vector2[] upperRoomPositions = MakeDistantLocations(roomsPerLayer, 150, new Rectangle(200, 265, Main.maxTilesX - 400, ((Main.maxTilesY / 10) * 4) - (265 + 100)), 5000);
+            Vector2[] lowerRoomPositions = MakeDistantLocations(roomsPerLayer, 150, new Rectangle(200, (Main.maxTilesY / 10) * 4, Main.maxTilesX - 400, (Main.maxTilesY / 10) * 3), 5000);
+            Vector2[] depthsRoomPositions = MakeDistantLocations(roomsPerLayer / 2, 200, new Rectangle(300, (Main.maxTilesY / 10) * 7, Main.maxTilesX - 600, ((Main.maxTilesY / 10) * 3) - 300), 5000);
 
             #endregion
 
             #region Generating chasms
             EEMod.progressMessage = "Generating chasms";
 
-            int highestUpperRoom = 0;
+            /*int highestUpperRoom = 0;
             int lowestUpperRoom = 0;
             for (int i = 0; i < upperRoomPositions.Length; i++)
             {
@@ -176,10 +183,11 @@ namespace EEMod
                         MakeWavyChasm3(upperRoomPositions[i], upperRoomPositions[j], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                     }
                 }
-            }
+            }*/
 
             RemoveStoneSlabs();
 
+            EEMod.progressMessage = "Placing chasm coral";
             TilePopulate(
                 new int[] { ModContent.TileType<Hanging1x2Coral>(),
                 ModContent.TileType<Hanging1x3Coral>(),
@@ -214,33 +222,31 @@ namespace EEMod
                 ModContent.TileType<Wall3x2NonsolidCoralR>(),
                 ModContent.TileType<Wall5x2NonsolidCoralR>(),
                 ModContent.TileType<Wall6x3CoralR>() },
-            new Rectangle(42, 42, Main.maxTilesX - 42, Main.maxTilesY - 42));
+            new Rectangle(42, depth, Main.maxTilesX - 42, Main.maxTilesY - depth - 42));
 
             #endregion
 
             #region Spawning rooms
-            EEMod.progressMessage = "Generating rooms pt. 1";
 
             for (int i = 0; i < upperRoomPositions.Length; i++)
             {
-                MakeCoralRoom((int)upperRoomPositions[i].X, (int)upperRoomPositions[i].Y, 150, 75, biomes[i]);
+                EEMod.progressMessage = "Generating rooms pt. 1 " + (int)(i * 100 / upperRoomPositions.Length) + "%";
+                MakeCoralRoom((int)upperRoomPositions[i].X, (int)upperRoomPositions[i].Y, 100, 50, biomes[i]);
             }
-
-            EEMod.progressMessage = "Generating rooms pt. 2";
 
             for (int j = 0; j < lowerRoomPositions.Length; j++)
             {
                 int biome = biomes[j + (upperRoomPositions.Length - 1)];
                 if (biome > 0) biome += 2;
 
-                MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 150, 75, biome);
+                EEMod.progressMessage = "Generating rooms pt. 2 " + (int)(j * 100 / lowerRoomPositions.Length) + "%";
+                MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 100, 50, biome);
             }
-
-            EEMod.progressMessage = "Generating rooms pt. 3";
 
             for (int k = 0; k < depthsRoomPositions.Length; k++)
             {
-                MakeCoralRoom((int)depthsRoomPositions[k].X, (int)depthsRoomPositions[k].Y, 200, 100, 0);
+                EEMod.progressMessage = "Generating rooms pt. 3 " + (int)(k * 100 / depthsRoomPositions.Length) + "%";
+                MakeCoralRoom((int)depthsRoomPositions[k].X, (int)depthsRoomPositions[k].Y, 150, 75, 0);
             }
             
             #endregion
@@ -354,11 +360,11 @@ namespace EEMod
                 #region Implementing dynamic objects
                 EEMod.progressMessage = "Adding Dynamics";
 
-                for (int j = 42; j < Main.maxTilesY - 42; j += 2)
+                for (int j = 42; j < ((Main.maxTilesY / 10f) * 4f); j += 2)
                 {
                     for (int i = 42; i < Main.maxTilesX - 42; i += 2)
                     {
-                        int noOfTiles = 0;
+                        /*int noOfTiles = 0;
                         if (j > 200)
                         {
                             /*for (int m = 0; m < OrbPositions.Count; m++)
@@ -379,8 +385,8 @@ namespace EEMod
                                 {
                                     funnyDist++;
                                 }
-                            }*/
-                        }
+                            }
+                        }*/
 
                         /*for (int m = 0; m < BulbousTreePosition.Count; m++)
                         {
@@ -390,39 +396,25 @@ namespace EEMod
                             }
                         }*/
 
-                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(5))
+                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(3))
                         {
-                            if (ChainConnections.Count == 0)
+                            if (CoralReefVineLocations.Count == 0)
                             {
-                                ChainConnections.Add(new Vector2(i, j));
+                                CoralReefVineLocations.Add(new Vector2(i, j));
                             }
                             else
                             {
-                                Vector2 lastPos = ChainConnections[ChainConnections.Count - 1];
+                                Vector2 lastPos = CoralReefVineLocations[CoralReefVineLocations.Count - 1];
                                 if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 &&
                                     Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 55 * 55 ||
                                     Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 150 * 150)
                                 {
-                                    ChainConnections.Add(new Vector2(i, j));
+                                    CoralReefVineLocations.Add(new Vector2(i, j));
                                 }
                             }
                         }
                     }
                 }
-                #endregion
-
-                #region Placing spire
-                EEMod.progressMessage = "Inserting foes";
-
-                Vector2 pos1 = new Vector2(SpirePosition.X + 10, SpirePosition.Y - 150 / 2);
-                Vector2 pos2 = new Vector2(SpirePosition.X + 10, SpirePosition.Y + 150 / 2);
-                int tile2 = 0;
-                tile2 = GetGemsandType((int)pos1.Y);
-                MakeExpandingChasm(pos1, pos2, tile2, 100, -2, true, new Vector2(20, 30), .5f);
-                MakeExpandingChasm(pos2, pos1, tile2, 100, -2, true, new Vector2(20, 30), .5f);
-                ClearRegion(46, 26, new Vector2(SpirePosition.X + 10 - 24, SpirePosition.Y - 26));
-                MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y - 26), new Vector2(SpirePosition.X + 25, SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
-                MakeWavyChasm3(new Vector2(SpirePosition.X - 5, SpirePosition.Y), new Vector2(SpirePosition.X + 25, SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
                 #endregion
 
                 #region Smoothing

@@ -311,9 +311,10 @@ namespace EEMod.EEWorld
             tag.TryGetRef("yes", ref yes);
             tag.TryGetRef("ree", ref ree);
             tag.TryGetRef("SpirePosition", ref EESubWorlds.SpirePosition);
-            tag.TryGetListRef("ChainConnections", ref EESubWorlds.ChainConnections);
+            tag.TryGetListRef("CoralReefVineLocations", ref EESubWorlds.CoralReefVineLocations);
             tag.TryGetListRef("OrbPositions", ref EESubWorlds.OrbPositions);
             tag.TryGetListRef("AquamarineZiplineLocations", ref EESubWorlds.AquamarineZiplineLocations);
+            tag.TryGetListRef("ThinCrystalBambooLocations", ref EESubWorlds.ThinCrystalBambooLocations);
             tag.TryGetListRef("BulbousTreePosition", ref EESubWorlds.BulbousTreePosition);
             tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions);
 
@@ -329,6 +330,7 @@ namespace EEMod.EEWorld
                 }
             }*/
 
+            VerletHelpers.SwingableVines.Clear();
             if (tag.TryGetListRef("SwingableVines", ref VerletHelpers.SwingableVines))
             {
                 if (VerletHelpers.SwingableVines.Count != 0)
@@ -342,7 +344,6 @@ namespace EEMod.EEWorld
             if (tag.TryGetList<Vector2>("EmptyTileVectorMain", out IList<Vector2> vecMains) && tag.TryGetList<Vector2>("EmptyTileVectorSub", out IList<Vector2> list2))
             {
                 EmptyTileEntities.Instance.EmptyTilePairsCache = vecMains.Zip(list2, (k, v) => new { Key = k, Value = v }).ToDictionary(x => x.Key, x => x.Value);
-
             }
             if (tag.TryGetList<Vector2>("EmptyTileVectorEntities", out var VecMains) && tag.TryGetList<EmptyTileEntity>("EmptyTileEntities", out var VecSubs))
             {
@@ -387,8 +388,9 @@ namespace EEMod.EEWorld
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
                 tag["CoralBoatPos"] = EESubWorlds.CoralBoatPos;
-                tag["ChainConnections"] = EESubWorlds.ChainConnections;
+                tag["CoralReefVineLocations"] = EESubWorlds.CoralReefVineLocations;
                 tag["AquamarineZiplineLocations"] = EESubWorlds.AquamarineZiplineLocations;
+                tag["ThinCrystalBambooLocations"] = EESubWorlds.ThinCrystalBambooLocations;
                 tag["OrbPositions"] = EESubWorlds.OrbPositions;
                 tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
                 tag["WebPositions"] = EESubWorlds.WebPositions;

@@ -53,7 +53,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
             Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.003f));
-            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), mod.GetTexture("Particles/SmallCircle"), 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.2f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), mod.GetTexture("Particles/SmallCircle"), 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient")), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.2f));
 
 
             if (tile != null && tile.active() && tile.type == Type)

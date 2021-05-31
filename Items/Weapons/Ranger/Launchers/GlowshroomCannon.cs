@@ -57,6 +57,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
             projectile.ranged = true;
             projectile.timeLeft = 26;
             projectile.hostile = false;
+            projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -71,7 +72,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
             if (projectile.ai[0] == 0)
             {
-                Projectile.NewProjectile(owner.Center + new Vector2(owner.direction * 24, -16), new Vector2(projectile.spriteDirection * 3, -12f), ModContent.ProjectileType<GlowshroomCannonProj>(), projectile.damage, projectile.knockBack);
+                Projectile.NewProjectile(owner.Center + new Vector2(owner.direction * 24, -16), new Vector2(projectile.spriteDirection * 3, -12f) + owner.velocity, ModContent.ProjectileType<GlowshroomCannonProj>(), projectile.damage, projectile.knockBack);
                 projectile.ai[0]++;
             }
         }

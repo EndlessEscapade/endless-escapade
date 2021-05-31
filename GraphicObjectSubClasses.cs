@@ -11,11 +11,6 @@ namespace EEMod
 
     }
 
-    public class LeafClass : GraphicObject
-    {
-
-    }
-
     public class BubbleClass : GraphicObject
     {
 

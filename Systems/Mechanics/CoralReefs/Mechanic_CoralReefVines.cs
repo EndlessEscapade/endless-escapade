@@ -18,17 +18,17 @@ namespace EEMod
         protected override Layer DrawLayering => Layer.BehindTiles;
         public void DrawVines()
         {
-            if (EESubWorlds.ChainConnections.Count > 0)
+            if (EESubWorlds.CoralReefVineLocations.Count > 0)
             {
-                for (int i = 1; i < EESubWorlds.ChainConnections.Count - 2; i++)
+                for (int i = 1; i < EESubWorlds.CoralReefVineLocations.Count - 2; i++)
                 {
                     Vector2 addOn = new Vector2(0, 8);
-                    Vector2 ChainConneccPos = EESubWorlds.ChainConnections[i] * 16;
-                    Vector2 LastChainConneccPos = EESubWorlds.ChainConnections[i - 1] * 16;
+                    Vector2 ChainConneccPos = EESubWorlds.CoralReefVineLocations[i] * 16;
+                    Vector2 LastChainConneccPos = EESubWorlds.CoralReefVineLocations[i - 1] * 16;
                     if (Vector2.DistanceSquared(ChainConneccPos, LastChainConneccPos) < 100 * 16 * 100 * 16)
                     {
-                        Tile CurrentTile = Framing.GetTileSafely((int)EESubWorlds.ChainConnections[i].X, (int)EESubWorlds.ChainConnections[i].Y);
-                        Tile LastTile = Framing.GetTileSafely((int)EESubWorlds.ChainConnections[i - 1].X, (int)EESubWorlds.ChainConnections[i - 1].Y);
+                        Tile CurrentTile = Framing.GetTileSafely((int)EESubWorlds.CoralReefVineLocations[i].X, (int)EESubWorlds.CoralReefVineLocations[i].Y);
+                        Tile LastTile = Framing.GetTileSafely((int)EESubWorlds.CoralReefVineLocations[i - 1].X, (int)EESubWorlds.CoralReefVineLocations[i - 1].Y);
                         bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
                         Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                         if (MidNorm.Y > 100 * 16 && Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000)

@@ -102,6 +102,11 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
 
+                        Color chosen = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(1f));
+
+            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.005f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), mod.GetTexture("Particles/SmallCircle"), 60, 0.75f, chosen, new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
+
             return false;
         }
     }

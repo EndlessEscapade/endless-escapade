@@ -54,7 +54,9 @@ namespace EEMod.EEWorld
             int tile2;
             tile2 = (ushort)GetGemsandType((int)TL.Y);
 
-            Vector2[] poses = MakeDistantLocations(20,30,Bounds);
+            Vector2[] poses = MakeDistantLocations(20, 30, Bounds);
+            poses[0] = new Point((TL.X + BR.X) / 2, (TL.Y + BR.Y) / 2).ToVector2();
+
             //FillRegion(Bounds.Width, Bounds.Height, Position.ToVector2(), TileID.Dirt);
             for (int i = 0; i < poses.Length; i++)
             {
