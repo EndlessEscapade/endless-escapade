@@ -32,6 +32,10 @@ namespace EEMod.Systems
 			PlaceWallRepeated,
 			PlaceEmptyWall,
 			PlaceEmptyWallRepeated,
+			PlaceSlope,
+			PlaceSlopeRepeated,
+			PlaceHalfBrick,
+			PlaceHalfBrickRepeated
 		}
 
 		private struct PlacementAction
@@ -40,7 +44,7 @@ namespace EEMod.Systems
 			public ushort EntryData;
 			public ushort RepetitionData;
 			public byte LiquidData;
-			public byte StyleData;
+			public byte StyleData; // also used by slopes for slope type
 			public byte AlternateStyleData;
 
 			public PlacementAction(PlacementActionType actionType, ushort entryData, ushort repetitionData, byte liquidData, byte styleData, byte altData)
@@ -86,6 +90,14 @@ namespace EEMod.Systems
 			public static PlacementAction PlaceWallRepeated(ushort entry, ushort count) => new PlacementAction(PlacementActionType.PlaceWallRepeated, entry, count, 0, 0, 0);
 
 			public static PlacementAction PlaceEmptyWallRepeated(ushort count) => new PlacementAction(PlacementActionType.PlaceEmptyWallRepeated, 0, count, 0, 0, 0);
+
+			public static PlacementAction PlaceSlope(byte slope, ushort entry) => new PlacementAction(PlacementActionType.PlaceSlope, entry, 0, 0, slope, 0);
+
+			public static PlacementAction PlaceSlopeRepeated(ushort count, byte slope, ushort entry) => new PlacementAction(PlacementActionType.PlaceSlopeRepeated, entry, count, 0, slope, 0);
+
+			public static PlacementAction PlaceHalfBrick(ushort entry) => new PlacementAction(PlacementActionType.PlaceHalfBrick, entry, 0, 0, 0, 0);
+
+			public static PlacementAction PlaceHalfBrickRepeated(ushort count, ushort entry) => new PlacementAction(PlacementActionType.PlaceHalfBrickRepeated, entry, count, 0, 0, 0);
 		}
 
 		public readonly int Width;
@@ -112,7 +124,11 @@ namespace EEMod.Systems
 		private const ushort RepeatedWallFlag = 0xFFF3;
 		private const ushort EmptyWallFlag = 0xFFF2;
 		private const ushort RepeatedEmptyWallFlag = 0xFFF1;
-		private const ushort EndOfTilesDataFlag = 0xFFF0;
+		private const ushort PlaceTileWithSlopeFlag = 0xFFF0;
+		private const ushort RepeatedTileWithSlopeFlag = 0xFFEF;
+		private const ushort PlaceHalfBrickFlag = 0xFFEE;
+		private const ushort RepeatedHalfBrickFlag = 0xFFED;
+		private const ushort EndOfTilesDataFlag = 0xFFEC;
 
 		private const byte StructureFileFormatVersion = 0;
 
@@ -249,6 +265,36 @@ namespace EEMod.Systems
 
 					i += action.RepetitionData;
 				}
+				else if (action.Type == PlacementActionType.PlaceSlope)
+				{
+					if (PlaceTile(i, j, EntryToTileID[action.EntryData], true))
+						Main.tile[i, j].slope(action.StyleData);
+
+					i++;
+				}
+				else if (action.Type == PlacementActionType.PlaceSlopeRepeated)
+				{
+					for (int z = i; z < i + action.RepetitionData; z++)
+						if (PlaceTile(z, j, EntryToTileID[action.EntryData], true))
+							Main.tile[z, j].slope(action.StyleData);
+
+					i += action.RepetitionData;
+				}
+				else if (action.Type == PlacementActionType.PlaceHalfBrick)
+				{
+					if (PlaceTile(i, j, EntryToTileID[action.EntryData]))
+						Main.tile[i, j].halfBrick(true);
+
+					i++;
+				}
+				else if (action.Type == PlacementActionType.PlaceHalfBrickRepeated)
+				{
+					for (int z = i; z < i + action.RepetitionData; z++)
+						if (PlaceTile(z, j, EntryToTileID[action.EntryData], true))
+							Main.tile[z, j].halfBrick(true);
+
+					i += action.RepetitionData;
+				}
 
 				if (i >= x + Width)
 				{
@@ -348,16 +394,68 @@ namespace EEMod.Systems
 									else
 										writer.Write(AirTile);
 								}
+								else if (tile.halfBrick())
+								{
+									Tile nextTile = Framing.GetTileSafely(i + 1, j);
+
+									if (i + 1 < endX && nextTile.type == tile.type && nextTile.halfBrick())
+									{
+										ushort identicalHalfBricks = 0;
+
+										while (i < endX && nextTile.type == tile.type && nextTile.halfBrick())
+										{
+											identicalHalfBricks++;
+											nextTile = Framing.GetTileSafely(++i, j);
+										}
+
+										i--;
+
+										writer.Write(RepeatedHalfBrickFlag);
+										writer.Write(identicalHalfBricks);
+									}
+									else
+										writer.Write(PlaceHalfBrickFlag);
+
+									writer.Write(indexInMap);
+								}
+								else if (tile.slope() != 0)
+								{
+									Tile nextTile = Framing.GetTileSafely(i + 1, j);
+									byte tileSlope = tile.slope();
+
+									if (i + 1 < endX && nextTile.type == tile.type && nextTile.active() && nextTile.slope() == tileSlope)
+									{
+										ushort identicalSlopes = 0;
+
+										while (i < endX && nextTile.type == tile.type && nextTile.active() && nextTile.slope() == tileSlope)
+										{
+											identicalSlopes++;
+											nextTile = Framing.GetTileSafely(++i, j);
+										}
+
+										i--;
+
+										writer.Write(RepeatedTileWithSlopeFlag);
+										writer.Write(identicalSlopes);
+									}
+									else
+										writer.Write(PlaceTileWithSlopeFlag);
+
+									writer.Write(tileSlope);
+									writer.Write(indexInMap);
+								}
 								else
 								{
-									if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).type == tile.type)
+									Tile nextTile = Framing.GetTileSafely(i + 1, j);
+
+									if (i + 1 < endX && nextTile.type == tile.type && nextTile.slope() == 0 && !nextTile.halfBrick())
 									{
 										ushort identicalTiles = 0;
 
-										while (i < endX && Framing.GetTileSafely(i, j).type == tile.type)
+										while (i < endX && nextTile.type == tile.type && nextTile.slope() == 0 && !nextTile.halfBrick())
 										{
 											identicalTiles++;
-											i++;
+											nextTile = Framing.GetTileSafely(++i, j);
 										}
 
 										i--;
@@ -537,6 +635,14 @@ namespace EEMod.Systems
 							placementActions.Add(PlacementAction.PlaceMultitileWithStyle(reader.ReadByte(), reader.ReadUInt16()));
 						else if (action == PlaceMultitileWithAlternateStyleFlag)
 							placementActions.Add(PlacementAction.PlaceMultitileWithAlternateStyle(reader.ReadByte(), reader.ReadByte(), reader.ReadUInt16()));
+						else if (action == PlaceTileWithSlopeFlag)
+							placementActions.Add(PlacementAction.PlaceSlope(reader.ReadByte(), reader.ReadUInt16()));
+						else if (action == RepeatedTileWithSlopeFlag)
+							placementActions.Add(PlacementAction.PlaceSlopeRepeated(reader.ReadUInt16(), reader.ReadByte(), reader.ReadUInt16()));
+						else if (action == PlaceHalfBrickFlag)
+							placementActions.Add(PlacementAction.PlaceHalfBrick(reader.ReadUInt16()));
+						else if (action == RepeatedHalfBrickFlag)
+							placementActions.Add(PlacementAction.PlaceHalfBrickRepeated(reader.ReadUInt16(), reader.ReadUInt16()));
 						else if (action == EndOfTilesDataFlag)
 							break;
 						else
