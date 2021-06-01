@@ -12,37 +12,15 @@ namespace EEMod.Systems.Structurizer
 {
     public class Structure
     {
-        public int Width { get; }
+        public virtual int Width { get; }
 
-        public int Height { get; }
+        public virtual int Height { get; }
 
-        public Dictionary<ushort, ushort> EntryToTileID { get; }
+        public virtual Dictionary<ushort, ushort> EntryToTileID { get; }
 
-        public Dictionary<ushort, ushort> EntryToWallID { get; }
+        public virtual Dictionary<ushort, ushort> EntryToWallID { get; }
 
-        public PlacementAction[] PlacementActions { get; }
-
-        public const ushort RepeatedAirFlag = 0xFFFF;
-        public const ushort AirTile = 0xFFFE;
-        public const ushort RepeatedTileFlag = 0xFFFD;
-        public const ushort PlaceMultitileFlag = 0xFFFC;
-        public const ushort PlaceWaterFlag = 0xFFFB;
-        public const ushort PlaceLavaFlag = 0xFFFA;
-        public const ushort PlaceHoneyFlag = 0xFFF9;
-        public const ushort RepeatedWaterFlag = 0xFFF8;
-        public const ushort RepeatedLavaFlag = 0xFFF7;
-        public const ushort RepeatedHoneyFlag = 0xFFF6;
-        public const ushort PlaceMultitileWithStyleFlag = 0xFFF5;
-        public const ushort PlaceMultitileWithAlternateStyleFlag = 0xFFF4;
-        public const ushort RepeatedWallFlag = 0xFFF3;
-        public const ushort EmptyWallFlag = 0xFFF2;
-        public const ushort RepeatedEmptyWallFlag = 0xFFF1;
-        public const ushort PlaceTileWithSlopeFlag = 0xFFF0;
-        public const ushort RepeatedTileWithSlopeFlag = 0xFFEF;
-        public const ushort PlaceHalfBrickFlag = 0xFFEE;
-        public const ushort RepeatedHalfBrickFlag = 0xFFED;
-        public const ushort EndOfTilesDataFlag = 0xFFEC;
-        public const byte StructureFileFormatVersion = 0;
+        public virtual PlacementAction[] PlacementActions { get; }
 
         private Structure(int width, int height, Dictionary<ushort, ushort> tileMap, Dictionary<ushort, ushort> wallMap,
             PlacementAction[] placementActions)
@@ -54,7 +32,7 @@ namespace EEMod.Systems.Structurizer
             PlacementActions = placementActions;
         }
 
-        public void PlaceAt(int x, int y)
+        public virtual void PlaceAt(int x, int y)
         {
             int i = x;
             int j = y;
@@ -271,6 +249,39 @@ namespace EEMod.Systems.Structurizer
             FinalizeArea(x, y);
         }
 
+        public virtual void PrepareAreaForStructure(int x, int y)
+        {
+            for (int a = y; a < y + Height; a++)
+            {
+                for (int b = x; b < x + Width; b++)
+                {
+                    int chestID = Chest.FindChest(b, a);
+                    if (chestID != -1)
+                    {
+                        Chest chest = Main.chest[chestID];
+                        for (int z = 0; z < chest.item.Length; z++)
+                            chest.item[z].TurnToAir();
+
+                        WorldGen.KillTile(b, a, false, noItem: true);
+                    }
+
+                    Framing.GetTileSafely(b, a).liquid = 0;
+                }
+            }
+        }
+
+        public virtual void FinalizeArea(int x, int y)
+        {
+            for (int a = y; a < y + Height; a++)
+            {
+                for (int b = x; b < x + Width; b++)
+                {
+                    WorldGen.SquareTileFrame(b, a);
+                    WorldGen.SquareWallFrame(b, a);
+                }
+            }
+        }
+
         public static void SaveWorldStructureTo(int x, int y, int width, int height, string outputPath)
         {
             if (!Path.HasExtension(outputPath))
@@ -287,7 +298,7 @@ namespace EEMod.Systems.Structurizer
             {
                 using (BinaryWriter writer = new BinaryWriter(stream))
                 {
-                    writer.Write(StructureFileFormatVersion);
+                    writer.Write(StructureConstants.StructureFileFormatVersion);
                     writer.Write((ushort) width);
                     writer.Write((ushort) height);
 
@@ -328,23 +339,23 @@ namespace EEMod.Systems.Structurizer
                                         {
                                             if (alternate == 0)
                                             {
-                                                writer.Write(PlaceMultitileWithStyleFlag);
+                                                writer.Write(StructureConstants.PlaceMultitileWithStyleFlag);
                                                 writer.Write((byte) style);
                                             }
                                             else
                                             {
-                                                writer.Write(PlaceMultitileWithAlternateStyleFlag);
+                                                writer.Write(StructureConstants.PlaceMultitileWithAlternateStyleFlag);
                                                 writer.Write((byte) style);
                                                 writer.Write((byte) alternate);
                                             }
                                         }
                                         else
-                                            writer.Write(PlaceMultitileFlag);
+                                            writer.Write(StructureConstants.PlaceMultitileFlag);
 
                                         writer.Write(indexInMap);
                                     }
                                     else
-                                        writer.Write(AirTile);
+                                        writer.Write(StructureConstants.AirTile);
                                 }
                                 else if (tile.halfBrick())
                                 {
@@ -362,11 +373,11 @@ namespace EEMod.Systems.Structurizer
 
                                         i--;
 
-                                        writer.Write(RepeatedHalfBrickFlag);
+                                        writer.Write(StructureConstants.RepeatedHalfBrickFlag);
                                         writer.Write(identicalHalfBricks);
                                     }
                                     else
-                                        writer.Write(PlaceHalfBrickFlag);
+                                        writer.Write(StructureConstants.PlaceHalfBrickFlag);
 
                                     writer.Write(indexInMap);
                                 }
@@ -389,11 +400,11 @@ namespace EEMod.Systems.Structurizer
 
                                         i--;
 
-                                        writer.Write(RepeatedTileWithSlopeFlag);
+                                        writer.Write(StructureConstants.RepeatedTileWithSlopeFlag);
                                         writer.Write(identicalSlopes);
                                     }
                                     else
-                                        writer.Write(PlaceTileWithSlopeFlag);
+                                        writer.Write(StructureConstants.PlaceTileWithSlopeFlag);
 
                                     writer.Write(tileSlope);
                                     writer.Write(indexInMap);
@@ -416,7 +427,7 @@ namespace EEMod.Systems.Structurizer
 
                                         i--;
 
-                                        writer.Write(RepeatedTileFlag);
+                                        writer.Write(StructureConstants.RepeatedTileFlag);
                                         writer.Write(indexInMap);
                                         writer.Write(identicalTiles);
                                         continue;
@@ -444,15 +455,15 @@ namespace EEMod.Systems.Structurizer
                                     switch (liquidType)
                                     {
                                         case 0:
-                                            writer.Write(RepeatedWaterFlag);
+                                            writer.Write(StructureConstants.RepeatedWaterFlag);
                                             break;
                                         case 1:
 
-                                            writer.Write(RepeatedLavaFlag);
+                                            writer.Write(StructureConstants.RepeatedLavaFlag);
                                             break;
                                         case 2:
 
-                                            writer.Write(RepeatedHoneyFlag);
+                                            writer.Write(StructureConstants.RepeatedHoneyFlag);
                                             break;
                                     }
 
@@ -463,15 +474,15 @@ namespace EEMod.Systems.Structurizer
                                     switch (liquidType)
                                     {
                                         case 0:
-                                            writer.Write(PlaceWaterFlag);
+                                            writer.Write(StructureConstants.PlaceWaterFlag);
                                             break;
 
                                         case 1:
-                                            writer.Write(PlaceLavaFlag);
+                                            writer.Write(StructureConstants.PlaceLavaFlag);
                                             break;
 
                                         case 2:
-                                            writer.Write(PlaceHoneyFlag);
+                                            writer.Write(StructureConstants.PlaceHoneyFlag);
                                             break;
                                     }
                                 }
@@ -492,16 +503,16 @@ namespace EEMod.Systems.Structurizer
 
                                     i--;
 
-                                    writer.Write(RepeatedAirFlag);
+                                    writer.Write(StructureConstants.RepeatedAirFlag);
                                     writer.Write(skippedTiles);
                                 }
                                 else
-                                    writer.Write(AirTile);
+                                    writer.Write(StructureConstants.AirTile);
                             }
                         }
                     }
 
-                    writer.Write(EndOfTilesDataFlag);
+                    writer.Write(StructureConstants.EndOfTilesDataFlag);
 
                     (Dictionary<ushort, ushort> vanillaWallEntryMap, Dictionary<ushort, ushort> moddedWallEntryMap) =
                         CreateAreaWallMapData(x, y, width, height);
@@ -527,11 +538,11 @@ namespace EEMod.Systems.Structurizer
 
                                     i--;
 
-                                    writer.Write(RepeatedEmptyWallFlag);
+                                    writer.Write(StructureConstants.RepeatedEmptyWallFlag);
                                     writer.Write(emptyWalls);
                                 }
                                 else
-                                    writer.Write(EmptyWallFlag);
+                                    writer.Write(StructureConstants.EmptyWallFlag);
 
                                 continue;
                             }
@@ -552,7 +563,7 @@ namespace EEMod.Systems.Structurizer
 
                                 i--;
 
-                                writer.Write(RepeatedWallFlag);
+                                writer.Write(StructureConstants.RepeatedWallFlag);
                                 writer.Write(indexInMap);
                                 writer.Write(identicalWalls);
                                 continue;
@@ -585,47 +596,47 @@ namespace EEMod.Systems.Structurizer
                     {
                         action = reader.ReadUInt16();
 
-                        if (action == RepeatedAirFlag)
+                        if (action == StructureConstants.RepeatedAirFlag)
                             placementActions.Add(PlacementAction.PlaceAirRepeated(reader.ReadUInt16()));
-                        else if (action == AirTile)
+                        else if (action == StructureConstants.AirTile)
                             placementActions.Add(PlacementAction.AirTile);
-                        else if (action == RepeatedTileFlag)
+                        else if (action == StructureConstants.RepeatedTileFlag)
                             placementActions.Add(
                                 PlacementAction.PlaceTileRepeated(reader.ReadUInt16(), reader.ReadUInt16()));
-                        else if (action == PlaceMultitileFlag)
+                        else if (action == StructureConstants.PlaceMultitileFlag)
                             placementActions.Add(PlacementAction.PlaceMultitile(reader.ReadUInt16()));
-                        else if (action == PlaceWaterFlag)
+                        else if (action == StructureConstants.PlaceWaterFlag)
                             placementActions.Add(PlacementAction.PlaceWater(reader.ReadByte()));
-                        else if (action == PlaceLavaFlag)
+                        else if (action == StructureConstants.PlaceLavaFlag)
                             placementActions.Add(PlacementAction.PlaceLava(reader.ReadByte()));
-                        else if (action == PlaceHoneyFlag)
+                        else if (action == StructureConstants.PlaceHoneyFlag)
                             placementActions.Add(PlacementAction.PlaceHoney(reader.ReadByte()));
-                        else if (action == RepeatedWaterFlag)
+                        else if (action == StructureConstants.RepeatedWaterFlag)
                             placementActions.Add(
                                 PlacementAction.PlaceWaterRepeated(reader.ReadUInt16(), reader.ReadByte()));
-                        else if (action == RepeatedLavaFlag)
+                        else if (action == StructureConstants.RepeatedLavaFlag)
                             placementActions.Add(
                                 PlacementAction.PlaceLavaRepeated(reader.ReadUInt16(), reader.ReadByte()));
-                        else if (action == RepeatedHoneyFlag)
+                        else if (action == StructureConstants.RepeatedHoneyFlag)
                             placementActions.Add(
                                 PlacementAction.PlaceHoneyRepeated(reader.ReadUInt16(), reader.ReadByte()));
-                        else if (action == PlaceMultitileWithStyleFlag)
+                        else if (action == StructureConstants.PlaceMultitileWithStyleFlag)
                             placementActions.Add(
                                 PlacementAction.PlaceMultitileWithStyle(reader.ReadByte(), reader.ReadUInt16()));
-                        else if (action == PlaceMultitileWithAlternateStyleFlag)
+                        else if (action == StructureConstants.PlaceMultitileWithAlternateStyleFlag)
                             placementActions.Add(PlacementAction.PlaceMultitileWithAlternateStyle(reader.ReadByte(),
                                 reader.ReadByte(), reader.ReadUInt16()));
-                        else if (action == PlaceTileWithSlopeFlag)
+                        else if (action == StructureConstants.PlaceTileWithSlopeFlag)
                             placementActions.Add(PlacementAction.PlaceSlope(reader.ReadByte(), reader.ReadUInt16()));
-                        else if (action == RepeatedTileWithSlopeFlag)
+                        else if (action == StructureConstants.RepeatedTileWithSlopeFlag)
                             placementActions.Add(PlacementAction.PlaceSlopeRepeated(reader.ReadUInt16(),
                                 reader.ReadByte(), reader.ReadUInt16()));
-                        else if (action == PlaceHalfBrickFlag)
+                        else if (action == StructureConstants.PlaceHalfBrickFlag)
                             placementActions.Add(PlacementAction.PlaceHalfBrick(reader.ReadUInt16()));
-                        else if (action == RepeatedHalfBrickFlag)
+                        else if (action == StructureConstants.RepeatedHalfBrickFlag)
                             placementActions.Add(
                                 PlacementAction.PlaceHalfBrickRepeated(reader.ReadUInt16(), reader.ReadUInt16()));
-                        else if (action == EndOfTilesDataFlag)
+                        else if (action == StructureConstants.EndOfTilesDataFlag)
                             break;
                         else
                             placementActions.Add(PlacementAction.PlaceTile(action));
@@ -639,16 +650,16 @@ namespace EEMod.Systems.Structurizer
 
                         switch (action)
                         {
-                            case RepeatedWallFlag:
+                            case StructureConstants.RepeatedWallFlag:
                                 placementActions.Add(
                                     PlacementAction.PlaceWallRepeated(reader.ReadUInt16(), reader.ReadUInt16()));
                                 break;
 
-                            case EmptyWallFlag:
+                            case StructureConstants.EmptyWallFlag:
                                 placementActions.Add(PlacementAction.EmptyWall);
                                 break;
 
-                            case RepeatedEmptyWallFlag:
+                            case StructureConstants.RepeatedEmptyWallFlag:
                                 placementActions.Add(PlacementAction.PlaceEmptyWallRepeated(reader.ReadUInt16()));
                                 break;
 
@@ -663,7 +674,7 @@ namespace EEMod.Systems.Structurizer
             }
         }
 
-        private static (Dictionary<ushort, ushort>, Dictionary<ushort, ushort>) CreateAreaTileMapData(int x, int y,
+        public static (Dictionary<ushort, ushort>, Dictionary<ushort, ushort>) CreateAreaTileMapData(int x, int y,
             int width, int height)
         {
             Dictionary<ushort, ushort> vanillaEntryMap = new Dictionary<ushort, ushort>();
@@ -695,7 +706,7 @@ namespace EEMod.Systems.Structurizer
             return (vanillaEntryMap, moddedEntryMap);
         }
 
-        private static (Dictionary<ushort, ushort>, Dictionary<ushort, ushort>) CreateAreaWallMapData(int x, int y,
+        public static (Dictionary<ushort, ushort>, Dictionary<ushort, ushort>) CreateAreaWallMapData(int x, int y,
             int width, int height)
         {
             Dictionary<ushort, ushort> vanillaEntryMap = new Dictionary<ushort, ushort>();
@@ -727,7 +738,7 @@ namespace EEMod.Systems.Structurizer
             return (vanillaEntryMap, moddedEntryMap);
         }
 
-        private static void WriteMapData(Dictionary<ushort, ushort> vanillaEntryMap,
+        public static void WriteMapData(Dictionary<ushort, ushort> vanillaEntryMap,
             Dictionary<ushort, ushort> moddedEntryMap, bool isWalls, BinaryWriter writer)
         {
             writer.Write((ushort) vanillaEntryMap.Count);
@@ -761,7 +772,7 @@ namespace EEMod.Systems.Structurizer
             }
         }
 
-        private static Dictionary<ushort, ushort> ReadMapData(bool isWalls, BinaryReader reader)
+        public static Dictionary<ushort, ushort> ReadMapData(bool isWalls, BinaryReader reader)
         {
             Dictionary<ushort, ushort> entryMap = new Dictionary<ushort, ushort>();
 
@@ -807,40 +818,7 @@ namespace EEMod.Systems.Structurizer
             return entryMap;
         }
 
-        private void PrepareAreaForStructure(int x, int y)
-        {
-            for (int a = y; a < y + Height; a++)
-            {
-                for (int b = x; b < x + Width; b++)
-                {
-                    int chestID = Chest.FindChest(b, a);
-                    if (chestID != -1)
-                    {
-                        Chest chest = Main.chest[chestID];
-                        for (int z = 0; z < chest.item.Length; z++)
-                            chest.item[z].TurnToAir();
-
-                        WorldGen.KillTile(b, a, false, noItem: true);
-                    }
-
-                    Framing.GetTileSafely(b, a).liquid = 0;
-                }
-            }
-        }
-
-        private void FinalizeArea(int x, int y)
-        {
-            for (int a = y; a < y + Height; a++)
-            {
-                for (int b = x; b < x + Width; b++)
-                {
-                    WorldGen.SquareTileFrame(b, a);
-                    WorldGen.SquareWallFrame(b, a);
-                }
-            }
-        }
-
-        private static Point GetTileTopLeft(int i, int j)
+        public static Point GetTileTopLeft(int i, int j)
         {
             if (i < 0 || i >= Main.maxTilesX || j < 0 || j >= Main.maxTilesY)
                 return new Point(-1, -1);
