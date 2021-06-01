@@ -6,7 +6,7 @@
         {
         }
 
-        public override ushort Flag { get; }
+        public override ushort Flag => 0xFFF1;
 
         public override EmptyWallAction PlacementAction => new EmptyWallAction();
     }

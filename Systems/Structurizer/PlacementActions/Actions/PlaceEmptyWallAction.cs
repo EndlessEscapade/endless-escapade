@@ -2,7 +2,7 @@
 {
     public class EmptyWallAction : BasePlacementAction
     {
-        public override ushort Flag { get; }
+        public override ushort Flag => 0xFFF2;
 
         public override void Place()
         {

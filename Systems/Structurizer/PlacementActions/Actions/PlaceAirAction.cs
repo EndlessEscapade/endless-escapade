@@ -2,7 +2,7 @@
 {
     public class AirTileAction : BasePlacementAction
     {
-        public override ushort Flag { get; }
+        public override ushort Flag => 0xFFFE;
 
         public override void Place()
         {

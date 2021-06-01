@@ -6,7 +6,7 @@
         {
         }
 
-        public override ushort Flag { get; }
+        public override ushort Flag => 0xFFF7;
 
         public override PlaceLavaAction PlacementAction => new PlaceLavaAction(LiquidData);
     }

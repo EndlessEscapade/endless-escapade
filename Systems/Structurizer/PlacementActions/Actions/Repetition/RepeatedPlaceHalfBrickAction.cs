@@ -6,7 +6,7 @@
         {
         }
 
-        public override ushort Flag { get; }
+        public override ushort Flag => 0xFFED;
 
         public override PlaceHalfBrickAction PlacementAction => new PlaceHalfBrickAction(EntryData);
     }

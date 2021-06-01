@@ -6,7 +6,7 @@
         {
         }
 
-        public override ushort Flag { get; }
+        public override ushort Flag => 0xFFFF;
 
         public override AirTileAction PlacementAction => new AirTileAction();
     }

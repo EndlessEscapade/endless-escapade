@@ -1,13 +1,13 @@
 ﻿namespace EEMod.Systems.Structurizer.PlacementActions.Actions.Repetition
 {
-    public class RepeatedPlaceSlopeAction : BaseRepeatedPlacementActionWithEntryAndStyle<PlaceSlopAction>
+    public class RepeatedPlaceSlopeAction : BaseRepeatedPlacementActionWithEntryAndStyle<PlaceSlopeAction>
     {
         public RepeatedPlaceSlopeAction(byte repetitionCount, ushort entryData, byte slop) : base(repetitionCount, entryData, slop)
         {
         }
 
-        public override ushort Flag { get; }
+        public override ushort Flag => 0xFFEF;
 
-        public override PlaceSlopAction PlacementAction => new PlaceSlopAction(EntryData, StyleData);
+        public override PlaceSlopeAction PlacementAction => new PlaceSlopeAction(EntryData, StyleData);
     }
 }
