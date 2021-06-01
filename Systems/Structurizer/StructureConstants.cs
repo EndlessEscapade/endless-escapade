@@ -3,7 +3,7 @@
     public static class StructureConstants
     {
         public const ushort RepeatedAirFlag = 0xFFFF;
-        public const ushort AirTile = 0xFFFE;
+        public const ushort AirTileFlag = 0xFFFE;
         public const ushort RepeatedTileFlag = 0xFFFD;
         public const ushort PlaceMultitileFlag = 0xFFFC;
         public const ushort PlaceWaterFlag = 0xFFFB;
@@ -22,6 +22,7 @@
         public const ushort PlaceHalfBrickFlag = 0xFFEE;
         public const ushort RepeatedHalfBrickFlag = 0xFFED;
         public const ushort EndOfTilesDataFlag = 0xFFEC;
+
         public const byte StructureFileFormatVersion = 0;
     }
 }

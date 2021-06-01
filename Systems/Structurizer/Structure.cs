@@ -355,7 +355,7 @@ namespace EEMod.Systems.Structurizer
                                         writer.Write(indexInMap);
                                     }
                                     else
-                                        writer.Write(StructureConstants.AirTile);
+                                        writer.Write(StructureConstants.AirTileFlag);
                                 }
                                 else if (tile.halfBrick())
                                 {
@@ -507,7 +507,7 @@ namespace EEMod.Systems.Structurizer
                                     writer.Write(skippedTiles);
                                 }
                                 else
-                                    writer.Write(StructureConstants.AirTile);
+                                    writer.Write(StructureConstants.AirTileFlag);
                             }
                         }
                     }
@@ -598,7 +598,7 @@ namespace EEMod.Systems.Structurizer
 
                         if (action == StructureConstants.RepeatedAirFlag)
                             placementActions.Add(PlacementAction.PlaceAirRepeated(reader.ReadUInt16()));
-                        else if (action == StructureConstants.AirTile)
+                        else if (action == StructureConstants.AirTileFlag)
                             placementActions.Add(PlacementAction.AirTile);
                         else if (action == StructureConstants.RepeatedTileFlag)
                             placementActions.Add(
