@@ -26,6 +26,9 @@ using Terraria.Social;
 using Terraria.UI;
 using EEMod.Prim;
 using EEMod.Seamap.SeamapContent;
+using MonoMod.RuntimeDetour.HookGen;
+using Terraria.ModLoader.Audio;
+using EEMod.Systems;
 
 namespace EEMod
 {
@@ -67,6 +70,7 @@ namespace EEMod
 
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
 
+            HookEndpointManager.Modify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
 
         }
 
@@ -122,7 +126,7 @@ namespace EEMod
             IL.Terraria.NPC.AI_001_Slimes -= Practice;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
-
+            HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
             screenMessageText = null;
             trailManager = null;
             progressMessage = null;
