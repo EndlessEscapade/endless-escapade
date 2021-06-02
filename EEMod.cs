@@ -217,16 +217,6 @@ namespace EEMod
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
             int Width = Main.screenWidth;
             int Height = Main.screenHeight;
-            for (int i = 0; i < Width / 16; i++)
-            {
-                for (int j = 0; j < Height / 16; j++)
-                {
-                    Vector2 SP = Main.screenPosition / 16;
-                    Point p = new Point((int)SP.X + i, (int)SP.Y + j);
-                    Color c = Lighting.GetColor(p.X, p.Y);
-                    Main.spriteBatch.Draw(Main.magicPixel, new Rectangle(i, j, 1, 1), c);
-                }
-            }
             Main.spriteBatch.End();
             Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
             LightingBufferEffect.Parameters["buffer"].SetValue(lightingTarget);

@@ -21,11 +21,6 @@ namespace EEMod
 
         internal static LightingBuffer Instance;
 
-
-        public static void DrawBGs()
-        {
-
-        }
         public void UpdateLight()
         {
             if (_lightPoints.Count > 0)
