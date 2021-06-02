@@ -47,6 +47,7 @@ namespace EEMod
         public List<IComponent> Updatables = new List<IComponent>();
 
         WaterPrimitive WP;
+
         private void LoadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float += Lighting_AddLight_int_int_float_float_float;
@@ -112,7 +113,8 @@ namespace EEMod
                         tex3,
                         new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)));
             }
-            BeforeNPCCache?.Invoke(Main.spriteBatch);*/
+
+            BeforeNPCCache?.Invoke(Main.spriteBatch);
             orig(self);
         }
 

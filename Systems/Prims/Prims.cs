@@ -20,6 +20,8 @@ namespace EEMod
 {
     public class Prims
     {
+        //Obsolete
+
         //Global.graphics.GraphicsDevice for future referencea
         public interface ITrailShader
         {
