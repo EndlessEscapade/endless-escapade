@@ -420,7 +420,7 @@ namespace EEMod.Systems.Structurizer
                     List<IPlacementAction> placementActions = new List<IPlacementAction>();
                     Dictionary<ushort, ushort> tileEntryMap = ReadMapData(false, reader);
 
-                    ushort action = 0;
+                    ushort action;
                     while (stream.Position < stream.Length)
                     {
                         action = reader.ReadUInt16();
