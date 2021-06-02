@@ -16,12 +16,11 @@ using EEMod.Systems;
 
 namespace EEMod
 {
-
     public class MechanicManager : AutoloadTypeManager<Mechanic>
     {
-        public static MechanicManager Instance => AutoloadTypeManager.GetManager<MechanicManager>();
+        public static MechanicManager Instance => GetManager<MechanicManager>();
 
-        static IList<Mechanic> Instances;
+        internal static IList<Mechanic> Instances;
 
         public override void Initialize()
         {
@@ -32,7 +31,6 @@ namespace EEMod
         {
             if (type.CouldBeInstantiated() && type.TryCreateInstance(out Mechanic mechanic))
             {
-                //Main.NewText(mechanic); // ?
                 ContentInstance.Register(mechanic);
                 mechanic.Load();
                 Instances.Add(mechanic);
@@ -50,6 +48,13 @@ namespace EEMod
             if (Instances != null)
                 foreach (Mechanic instance in Instances)
                     instance.PostUpdateWorld();
+        }
+
+        public static void PreUpdateEntities()
+        {
+            if (Instances != null)
+                foreach (Mechanic instance in Instances)
+                    instance.PreUpdateEntities();
         }
 
         public static void PostDrawTiles()

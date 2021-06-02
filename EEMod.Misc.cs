@@ -70,37 +70,6 @@ namespace EEMod
                 delays--;
         }
 
-
-        //public Handwriting HandwritingCNN;
-        public static void GenerateWorld(string key, int seed, GenerationProgress customProgressObject = null)
-        {
-            switch (key)
-            {
-                case nameof(EESubWorlds.Cutscene1):
-                    EESubWorlds.Cutscene1(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Island):
-                    EESubWorlds.Island(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Island2):
-                    EESubWorlds.Island2(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Pyramids):
-                    EESubWorlds.Pyramids(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.VolcanoInside):
-                    EESubWorlds.VolcanoInside(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.VolcanoIsland):
-                    EESubWorlds.VolcanoIsland(seed, customProgressObject);
-                    break;
-                default:
-                    typeof(EESubWorlds).GetMethod(key).Invoke(null, new object[] { seed, customProgressObject });
-                    break;
-            }
-        }
-
-        //MechanicPort
         public void DrawZipline()
         {
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
@@ -111,7 +80,7 @@ namespace EEMod
             Main.spriteBatch.End();
         }
 
-        //ew why did I write this at all
+        //This needs to be fixed. 
         public void UpdateGame(GameTime gameTime)
         {
             lerps++;

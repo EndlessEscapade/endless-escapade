@@ -53,9 +53,6 @@ namespace EEMod
         private GameTime lastGameTime;
         public UserInterface EEInterface;
         public FishermansLogUI FishermansLogUI;
-        public RenderTarget2D playerDrawData;
-        public RenderTarget2D playerTarget;
-        public RenderTarget2D lightingTarget;
         public ComponentManager<TileObjVisual> TVH;
 
         public override void PostSetupContent()
@@ -72,9 +69,6 @@ namespace EEMod
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());
             if (!Main.dedServ)
             {
-                playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
-                lightingTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 16, Main.screenHeight / 16);
-                playerTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, 100, 100);
                 UI = new UIManager();
                 FishermansLogUI = new FishermansLogUI();
                 FishermansLogUI.Activate();
@@ -135,8 +129,6 @@ namespace EEMod
                     trailManager = new TrailManager(this);
                     prims = new Prims(this);
                     primitives.CreateTrail(new RainbowLightTrail(null));
-
-                    //primitives.CreateTrail(new RainbowLightTrail(null));
                     prims.CreateVerlet();
                 }
                 LoadUI();
@@ -210,60 +202,9 @@ namespace EEMod
         //Mechanic Port
         public override void PreUpdateEntities()
         {
-            RenderTargetBinding[] oldtargets1 = Main.graphics.GraphicsDevice.GetRenderTargets();
+            MechanicManager.PreUpdateEntities();
 
-            Main.graphics.GraphicsDevice.SetRenderTarget(lightingTarget);
-            Main.graphics.GraphicsDevice.Clear(Color.Black);
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
-            int Width = Main.screenWidth;
-            int Height = Main.screenHeight;
-            Main.spriteBatch.End();
-            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
-            LightingBufferEffect.Parameters["buffer"].SetValue(lightingTarget);
-            RenderTargetBinding[] oldtargets2 = Main.graphics.GraphicsDevice.GetRenderTargets();
-            Main.graphics.GraphicsDevice.SetRenderTarget(playerDrawData);
-            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
-            Main.spriteBatch.Begin();
-            for (int i = 0; i <= Main.playerDrawData.Count; i++)
-            {
-                int num = -1;
-                if (num != 0)
-                {
-                    Main.pixelShader.CurrentTechnique.Passes[0].Apply();
-                    num = 0;
-                }
-
-                if (i != Main.playerDrawData.Count)
-                {
-                    DrawData value = Main.playerDrawData[i];
-                    if (value.shader >= 0)
-                    {
-                        GameShaders.Hair.Apply(0, Main.LocalPlayer, value);
-                        GameShaders.Armor.Apply(value.shader, Main.LocalPlayer, value);
-                    }
-                    else if (Main.LocalPlayer.head == 0)
-                    {
-                        GameShaders.Hair.Apply(0, Main.LocalPlayer, value);
-                        GameShaders.Armor.Apply(Main.LocalPlayer.cHead, Main.LocalPlayer, value);
-                    }
-                    else
-                    {
-                        GameShaders.Armor.Apply(0, Main.LocalPlayer, value);
-                        GameShaders.Hair.Apply((short)(-value.shader), Main.LocalPlayer, value);
-                    }
-                    if (!value.sourceRect.HasValue)
-                    {
-                        value.sourceRect = value.texture.Frame();
-                    }
-                    num = value.shader;
-                    if (value.texture != null)
-                    {
-                        Main.spriteBatch.Draw(value.texture, value.position - Main.LocalPlayer.position.ForDraw() + playerDrawData.TextureCenter() / 2, value.sourceRect, Color.White, value.rotation, value.origin, value.scale, value.effect, 0f);
-                    }
-                }
-            }
-            Main.spriteBatch.End();
-            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets2);
+           
             base.PreUpdateEntities();
         }
 
@@ -277,11 +218,8 @@ namespace EEMod
                     if (lastGameTime != null)
                     {
                         UI.Draw(lastGameTime);
-                        //UpdateNet();
                         UpdateGame(lastGameTime);
                         AfterTiles?.Invoke(Main.spriteBatch);
-                        //UpdateSpiderPort();
-                        //   UpdateJellyfishTesting();
                         UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {
@@ -298,20 +236,6 @@ namespace EEMod
                 DrawZipline();
             }
 
-            /*if (Main.worldName == KeyID.Sea)
-            {
-                for (int i = 0; i < layers.Count; i++)
-                {
-                    var layer = layers[i];
-                    //Remove Resource bars
-                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap") || layer.Name.Contains("Vanilla: Inventory"))
-                    {
-                        layers.RemoveAt(i);
-                    }
-                }
-            }*/
-
-            // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
             if (textLayer != -1)
             {
