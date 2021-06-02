@@ -382,7 +382,6 @@ namespace EEMod
             BeforeTiles?.Invoke(Main.spriteBatch);
 
             Vector2 v = Main.LocalPlayer.Center.ForDraw() - new Vector2(Main.screenWidth/2,Main.screenHeight/2);
-            Main.spriteBatch.Draw(lightingTarget, new Rectangle((int)v.X + 50,(int)v.Y + 50, Main.screenWidth/5, Main.screenHeight / 5), Color.White);
             DrawLensFlares();
 
             if (Main.worldName == KeyID.CoralReefs)
