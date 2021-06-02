@@ -266,10 +266,10 @@ namespace EEMod.Seamap.SeamapContent
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Vector2 pos = Main.screenPosition;
+            Vector2 pos = Vector2.Zero;
             Vector2 toScreen = pos.ForDraw();
 
-            Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
+            Color colour = Lighting.GetColor((int)(Main.screenPosition.X / 16), (int)(Main.screenPosition.Y / 16));
             Color SeaColour = new Color(0.1568f, 0.6549f, 0.7607f).MultiplyRGB(colour);
 
             WaterShader.Parameters["noise"].SetValue(ModContent.GetTexture("EEMod/Noise/WormNoisePixelated"));
@@ -282,7 +282,7 @@ namespace EEMod.Seamap.SeamapContent
             WaterShader.Parameters["waveSpeed"].SetValue(3);
             WaterShader.CurrentTechnique.Passes[0].Apply();
 
-            Main.spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, Main.screenWidth, Main.screenWidth), colour);
+            Main.spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, Main.screenWidth*5, Main.screenWidth*5), colour);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }

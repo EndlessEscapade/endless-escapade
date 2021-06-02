@@ -55,10 +55,6 @@ namespace EEMod
         public FishermansLogUI FishermansLogUI;
         public ComponentManager<TileObjVisual> TVH;
 
-        public override void PostSetupContent()
-        {
-        }
-
         public override void Load()
         {
             TVH = new ComponentManager<TileObjVisual>();
