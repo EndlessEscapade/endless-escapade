@@ -153,7 +153,7 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
             //    Main.spriteBatch.Draw(TextureCache.GradientEffect, projectile.Center - Main.screenPosition, new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Width, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Height), LerpColour * 0.4f, projectile.rotation, new Rectangle(0, 0, TextureCache.GradientEffect.Width, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Height).Size() / 2, projectile.ai[1] * 0.5f, SpriteEffects.None, 0);
             //  AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[projectile.type], 0, projectile, 1.5f, 1f, 6, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49"), projectile.Center - Main.screenPosition, null, new Color(LerpColour.R, LerpColour.G, LerpColour.B, 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/Extra_49"), projectile.Center - Main.screenPosition, null, new Color(LerpColour.R, LerpColour.G, LerpColour.B, 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
             return true;
         }
 

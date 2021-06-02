@@ -192,9 +192,8 @@ namespace EEMod
                 prims.UpdateTrails();
                 primitives.UpdateTrailsAboveTiles();
             }
-            MechanicManager.MidUpdateProjectileItem();
-            EEPlayer.UpdateOceanMapElements();
-            Seamap.SeamapContent.Seamap.UpdateShipMovement();
+
+            Seamap.SeamapContent.Seamap.UpdateSeamap();
         }
         public override void MidUpdateNPCGore()
         {
@@ -305,7 +304,7 @@ namespace EEMod
                 DrawZipline();
             }
 
-            if (Main.worldName == KeyID.Sea)
+            /*if (Main.worldName == KeyID.Sea)
             {
                 for (int i = 0; i < layers.Count; i++)
                 {
@@ -316,7 +315,7 @@ namespace EEMod
                         layers.RemoveAt(i);
                     }
                 }
-            }
+            }*/
 
             // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));

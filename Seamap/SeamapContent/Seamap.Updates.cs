@@ -14,42 +14,43 @@ namespace EEMod.Seamap.SeamapContent
             Player player = Main.LocalPlayer;
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             //TODO: Refactor integrating lighting system into Islands
-            for (int i = 0; i < eePlayer.SeaObject.Count; i++)
+            for (int i = 0; i < SeamapObjects.IslandEntities.Count; i++)
             {
                 if (i != 5 && i != 4 && i != 6 && i != 7 && i != 0 && i != 2 && i != 1 && i != 7 && i != 8)
                 {
-                    Lighting.AddLight(eePlayer.SeaObject[i].posToScreen, .4f, .4f, .4f);
+                    Lighting.AddLight(SeamapObjects.IslandEntities[i].posToScreen, .4f, .4f, .4f);
                 }
 
                 if (i == 1)
                 {
-                    Lighting.AddLight(eePlayer.SeaObject[i].posToScreen, .15f, .15f, .15f);
+                    Lighting.AddLight(SeamapObjects.IslandEntities[i].posToScreen, .15f, .15f, .15f);
                 }
 
                 if (i == 2)
                 {
-                    Lighting.AddLight(eePlayer.SeaObject[i].posToScreen, .4f, .4f, .4f);
+                    Lighting.AddLight(SeamapObjects.IslandEntities[i].posToScreen, .4f, .4f, .4f);
                 }
 
                 if (i == 4)
                 {
-                    Lighting.AddLight(eePlayer.SeaObject[i].posToScreen, .15f, .15f, .15f);
+                    Lighting.AddLight(SeamapObjects.IslandEntities[i].posToScreen, .15f, .15f, .15f);
                 }
 
                 if (i == 7)
                 {
-                    Lighting.AddLight(eePlayer.SeaObject[i].posToScreen, .4f, .4f, .4f);
+                    Lighting.AddLight(SeamapObjects.IslandEntities[i].posToScreen, .4f, .4f, .4f);
                 }
 
                 if (i == 0)
                 {
-                    Lighting.AddLight(eePlayer.SeaObject[i].posToScreen, .4f, .4f, .4f);
+                    Lighting.AddLight(SeamapObjects.IslandEntities[i].posToScreen, .4f, .4f, .4f);
                 }
             }
             SeamapPlayerShip ship = SeamapPlayerShip.localship;
+
             #region Clamp in screen
-            ship.position.X = MathHelper.Clamp(ship.position.X, Main.screenWidth * 0.6f, Main.screenWidth);
-            ship.position.Y = MathHelper.Clamp(ship.position.Y, 0, Main.screenHeight);
+            //ship.position.X = MathHelper.Clamp(ship.position.X, Main.screenWidth * 0.6f, Main.screenWidth);
+            //ship.position.Y = MathHelper.Clamp(ship.position.Y, 0, Main.screenHeight);
             #endregion
 
             #region Player controls(movement and shooting)
@@ -102,7 +103,7 @@ namespace EEMod.Seamap.SeamapContent
                 ship.cannonDelay--;
             }
 
-            Vector2 v = new Vector2(eePlayer.boatSpeed);
+            Vector2 v = new Vector2(eePlayer.boatSpeed * 4);
             ship.velocity = Vector2.Clamp(ship.velocity, -v, v);
             //ship.velocity.X = Helpers.Clamp(ship.velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
             //ship.velocity.Y = Helpers.Clamp(ship.velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
@@ -118,6 +119,13 @@ namespace EEMod.Seamap.SeamapContent
             {
                 ship.flash = 10;
             }
+        }
+
+        public static void UpdateSeamap()
+        {
+            MechanicManager.MidUpdateProjectileItem();
+            EEPlayer.UpdateOceanMapElements();
+            UpdateShipMovement();
         }
     }
 }

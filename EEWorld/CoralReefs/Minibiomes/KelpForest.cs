@@ -117,13 +117,21 @@ namespace EEMod.EEWorld
                 }
             });
 
+            BoundClause((int i, int j) =>
+            {
+                if (TileCheck2(i, j) == 2 && Main.rand.NextBool(20))
+                {
+                    WorldGen.PlaceTile(i, j - 4, ModContent.TileType<KelpFlower>(), default, default, default, default);
+                    ModTileEntity.PlaceEntityNet(i, j - 4, ModContent.TileEntityType<KelpFlowerTE>());
+                }
+            });
+
             TilePopulate(new int[] {
                     ModContent.TileType<GlowHangCoral1>(),
                     ModContent.TileType<GroundGlowCoral>(),
                     ModContent.TileType<GroundGlowCoral2>(),
                     ModContent.TileType<GroundGlowCoral3>(),
                     ModContent.TileType<GroundGlowCoral4>(),
-                    ModContent.TileType<KelpFlower>(),
                     ModContent.TileType<Wall4x3CoralL>(),
                     ModContent.TileType<Wall4x3CoralR>() },
             new Rectangle(TL.X, TL.Y, TL.X + Size.X, TL.Y + Size.Y));
@@ -131,11 +139,23 @@ namespace EEMod.EEWorld
             BoundClause((int i, int j) =>
             {
                 Tile tile = Framing.GetTileSafely(i, j);
-                if (TileCheck2(i, j) == 1 && Main.rand.NextBool(30))
+                if (TileCheck2(i, j) == 1 && Main.rand.NextBool(30) && (
+                    tile.type == ModContent.TileType<GemsandTile>()
+                    || tile.type == ModContent.TileType<LightGemsandTile>()
+                    || tile.type == ModContent.TileType<DarkGemsandTile>()
+                    || tile.type == ModContent.TileType<LightGemsandstoneTile>()
+                    || tile.type == ModContent.TileType<GemsandstoneTile>()
+                    || tile.type == ModContent.TileType<DarkGemsandstoneTile>()
+                    || tile.type == ModContent.TileType<KelpLeafTile>()
+                    || tile.type == ModContent.TileType<KelpMossTile>()))
                 {
-                    VerletHelpers.AddStickChain(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 10), 27);
+                    VerletHelpers.AddStickChainNoAdd(ref ModContent.GetInstance<EEMod>().verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 10), 27);
                 }
+            });
 
+            BoundClause((int i, int j) =>
+            {
+                Tile tile = Framing.GetTileSafely(i, j);
                 if (tile.active() && !Framing.GetTileSafely(i, j - 1).active() && (
                     tile.type == ModContent.TileType<GemsandTile>()
                     || tile.type == ModContent.TileType<LightGemsandTile>()

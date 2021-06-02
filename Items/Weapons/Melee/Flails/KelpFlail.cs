@@ -22,8 +22,8 @@ namespace EEMod.Items.Weapons.Melee.Flails
             item.useAnimation = 40;
             item.value = Item.buyPrice(0, 0, 30, 0);
             item.damage = 55;
-            item.width = 64;
-            item.height = 64;
+            item.width = 44;
+            item.height = 50;
             item.UseSound = SoundID.Item1;
         }
     }

@@ -28,7 +28,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f, 0.8f);
+            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), npc.Center.ForDraw(), new Color(48, 25, 52), 1.4f, 0.8f);
             alpha += 0.05f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -42,7 +42,7 @@ namespace EEMod.NPCs.CoralReefs
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
             EEMod.ReflectionShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SpikyOrbLightMap"));
+            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/SpikyOrbLightMap"));
             EEMod.ReflectionShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
             EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();

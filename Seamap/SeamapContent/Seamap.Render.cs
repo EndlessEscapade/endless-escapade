@@ -6,7 +6,9 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod;
 using static EEMod.EEMod;
+
 namespace EEMod.Seamap.SeamapContent
 {
     public partial class Seamap
@@ -18,7 +20,7 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void RenderShip()
         {
-            Vector2 position = SeamapPlayerShip.localship.position;
+            Vector2 position = SeamapPlayerShip.localship.position.ForDraw();
 
             float intenstityLightning = SeamapPlayerShip.localship.intenstityLightning;
             Vector2 currentLightningPos = SeamapPlayerShip.localship.currentLightningPos;
@@ -27,8 +29,8 @@ namespace EEMod.Seamap.SeamapContent
             int frames = 12;
             Rectangle frame = SeamapPlayerShip.localship.frame;
             int frameNum = 0;
-            Texture2D texture3 = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/ShipHelthSheet");
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/ShipMount");
+            Texture2D texture3 = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/ShipHelthSheet");
+            Texture2D playerShipTexture = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/ShipMount");
             Player player = Main.LocalPlayer;
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
@@ -110,7 +112,7 @@ namespace EEMod.Seamap.SeamapContent
                 {
                     Color drawColour = Lighting.GetColor((int)((Main.screenPosition.X + position.X) / 16f), (int)((Main.screenPosition.Y + position.Y) / 16f)) * eePlayer.seamapLightColor;
                     drawColour.A = 255;
-                    Main.spriteBatch.Draw(texture, position, new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), velocity.X / 10, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                    Main.spriteBatch.Draw(playerShipTexture, position, new Rectangle(0, frameNum * 52, playerShipTexture.Width, playerShipTexture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), velocity.X / 10, new Rectangle(0, frame.Y, playerShipTexture.Width, playerShipTexture.Height / frames).Size() / 2, 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                 }
                 else
                 {
@@ -124,7 +126,7 @@ namespace EEMod.Seamap.SeamapContent
                         {
                             Color drawColour = Lighting.GetColor((int)(EEServerVariableCache.OtherBoatPos[j].X / 16f), (int)(EEServerVariableCache.OtherBoatPos[j].Y / 16f)) * eePlayer.seamapLightColor;
                             drawColour.A = 255;
-                            Main.spriteBatch.Draw(texture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, texture.Width, texture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), EEServerVariableCache.OtherRot[j] / 10f, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, EEServerVariableCache.OtherRot[j] < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                            Main.spriteBatch.Draw(playerShipTexture, EEServerVariableCache.OtherBoatPos[j], new Rectangle(0, frameNum * 52, playerShipTexture.Width, playerShipTexture.Height / frames), drawColour * (1 - (eePlayer.cutSceneTriggerTimer / 180f)), EEServerVariableCache.OtherRot[j] / 10f, new Rectangle(0, frame.Y, playerShipTexture.Width, playerShipTexture.Height / frames).Size() / 2, 1, EEServerVariableCache.OtherRot[j] < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
                         }
                     }
                 }
@@ -134,15 +136,17 @@ namespace EEMod.Seamap.SeamapContent
             #region Drawing the ship healthbar
             //float quotient = ShipHelth / ShipHelthMax; // unused
             Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * SeamapPlayerShip.localship.shipHelth), texture3.Width, texture3.Height / 8);
-            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50).ForDraw(), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
             #endregion
         }
 
         static int frame = 0;
+
         public static void Render()
         {
+            SpriteBatch spriteBatch = Main.spriteBatch;
             RenderWater(); //Layer 0
-            RenderIslands(); //Layer 1
+            RenderIslands(spriteBatch); //Layer 1
             RenderShip(); //Layer 2
             RenderClouds(); //Layer 3
         }
@@ -152,9 +156,9 @@ namespace EEMod.Seamap.SeamapContent
             frame++;
 
             #region Drawing elements from the OceanMapElements array
-            for (int i = 0; i < EEPlayer.OceanMapElements.Count; i++)
+            for (int i = 0; i < SeamapObjects.OceanMapElements.Count; i++)
             {
-                var element = EEPlayer.OceanMapElements[i];
+                var element = SeamapObjects.OceanMapElements[i];
                 element.Draw(Main.spriteBatch);
             }
             #endregion
@@ -165,100 +169,119 @@ namespace EEMod.Seamap.SeamapContent
                 var element = modPlayer.seagulls[i];
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
-                element.Draw(ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/Seagull"), 9, 5);
+                element.Draw(ModContent.GetTexture("EEMod/Seamap/SeamapAssets/Seagull"), 9, 5);
             }
             #endregion
+
+            for (int asdasdasd = 0; asdasdasd < SeamapObjects.SeamapEntities.Length; asdasdasd++)
+            {
+                if (SeamapObjects.SeamapEntities[asdasdasd] != null)
+                {
+                    SeamapObjects.SeamapEntities[asdasdasd].Update();
+
+                    SeamapObjects.SeamapEntities[asdasdasd].Draw(Main.spriteBatch);
+                    SeamapObjects.SeamapEntities[asdasdasd].PostDraw(Main.spriteBatch);
+                }
+            }
         }
 
-        static void RenderIslands()
+        static void RenderIslands(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < modPlayer.SeaObject.Count; i++)
+            for(int i = 0; i < SeamapObjects.IslandEntities.Count; i++)
             {
-                EEPlayer.SeaEntity current = modPlayer.SeaObject[i];
-
-                Vector2 currentPos = current.posToScreen.ForDraw();
-                Color drawColour = Lighting.GetColor((int)(current.posToScreen.X / 16f), (int)(current.posToScreen.Y / 16f)) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
-                drawColour.A = 255;
-
-                #region Making the anchor move if the object can be departed to
-                if (current.isColliding)
-                {
-                    if (SeamapPlayerShip.localship.anchorLerp[i] < 1)
-                        SeamapPlayerShip.localship.anchorLerp[i] += 0.02f;
-                }
-                else
-                {
-                    if (SeamapPlayerShip.localship.anchorLerp[i] > 0)
-                        SeamapPlayerShip.localship.anchorLerp[i] -= 0.02f;
-                }
-                #endregion
-
-                //Main.spriteBatch.Draw(instance.GetTexture("Seamap/SeamapAssets/Anchor"), currentPos + new Vector2(0, (float)Math.Sin(instance.markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - instance.GetTexture("Seamap/SeamapAssets/Anchor").Width / 2f, -80), drawColour * instance.anchorLerp[i]);
-
-                #region Incrementing the frame of the object
-                if (current.frameSpeed > 0)
-                {
-                    if (frame % current.frameSpeed == 0)
-                    {
-                        modPlayer.SeaObjectFrames[i]++;
-                        if (modPlayer.SeaObjectFrames[i] > current.frames - 1)
-                            modPlayer.SeaObjectFrames[i] = 0;
-                    }
-                }
-                #endregion
-
-                #region Drawing the object
-                if (modPlayer.quickOpeningFloat > 0.01f)
-                {
-                    float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
-                    if (i > 4 && i < 8 || i == 11)
-                    {
-                        float score = currentPos.X + currentPos.Y;
-                        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + SeamapPlayerShip.localship.markerPlacer / 40f)) * 4;
-                        Main.spriteBatch.Draw(current.texture, new Rectangle((int)pos.X, (int)pos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * lerp);
-                    }
-                    else
-                    {
-                        Main.spriteBatch.Draw(current.texture, new Rectangle((int)currentPos.X, (int)currentPos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * lerp);
-                    }
-                }
-                else
-                {
-                    if (i > 4 && i < 8 || i == 11)
-                    {
-                        float score = currentPos.X + currentPos.Y;
-                        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + SeamapPlayerShip.localship.markerPlacer / 40f)) * 4;
-                        Main.spriteBatch.Draw(current.texture, new Rectangle((int)pos.X, (int)pos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
-                    }
-                    else
-                    {
-                        Main.spriteBatch.Draw(current.texture, new Rectangle((int)currentPos.X, (int)currentPos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, modPlayer.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
-                    }
-                }
-                #endregion
+                var current = SeamapObjects.IslandEntities[i];
+                current.Draw(spriteBatch);
+                current.Update();
             }
+            //for (int i = 0; i < SeamapObjects.SeaObject.Count; i++)
+            //{
+                //var current = SeamapObjects.SeaObject[i];
+
+
+                //#region Making the anchor move if the object can be departed to
+                //if (current.isColliding)
+                //{
+                //    if (SeamapPlayerShip.localship.anchorLerp[i] < 1)
+                //        SeamapPlayerShip.localship.anchorLerp[i] += 0.02f;
+                //}
+                //else
+                //{
+                //    if (SeamapPlayerShip.localship.anchorLerp[i] > 0)
+                //        SeamapPlayerShip.localship.anchorLerp[i] -= 0.02f;
+                //}
+                //#endregion
+
+                ////Main.spriteBatch.Draw(instance.GetTexture("Seamap/SeamapAssets/Anchor"), currentPos + new Vector2(0, (float)Math.Sin(instance.markerPlacer / 20f)) * 4 + new Vector2(current.texture.Width / 2f - instance.GetTexture("Seamap/SeamapAssets/Anchor").Width / 2f, -80), drawColour * instance.anchorLerp[i]);
+
+                //#region Incrementing the frame of the object
+                //if (current.frameSpeed > 0)
+                //{
+                //    if (frame % current.frameSpeed == 0)
+                //    {
+                //        SeamapObjects.SeaObjectFrames[i]++;
+                //        if (SeamapObjects.SeaObjectFrames[i] > current.frames - 1)
+                //            SeamapObjects.SeaObjectFrames[i] = 0;
+                //    }
+                //}
+                //#endregion
+
+                //#region Drawing the object
+                //if (modPlayer.quickOpeningFloat > 0.01f)
+                //{
+                //    float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
+                //    if (i > 4 && i < 8 || i == 11)
+                //    {
+                //        float score = currentPos.X + currentPos.Y;
+                //        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + SeamapPlayerShip.localship.markerPlacer / 40f)) * 4;
+                //        Main.spriteBatch.Draw(current.texture, new Rectangle((int)pos.X, (int)pos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, SeamapObjects.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * lerp);
+                //    }
+                //    else
+                //    {
+                //        Main.spriteBatch.Draw(current.texture, new Rectangle((int)currentPos.X, (int)currentPos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, SeamapObjects.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * lerp);
+                //    }
+                //}
+                //else
+                //{
+                //    if (i > 4 && i < 8 || i == 11)
+                //    {
+                //        float score = currentPos.X + currentPos.Y;
+                //        Vector2 pos = currentPos + new Vector2(0, (float)Math.Sin(score + SeamapPlayerShip.localship.markerPlacer / 40f)) * 4;
+                //        Main.spriteBatch.Draw(current.texture, new Rectangle((int)pos.X, (int)pos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, SeamapObjects.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
+                //    }
+                //    else
+                //    {
+                //        Main.spriteBatch.Draw(current.texture, new Rectangle((int)currentPos.X, (int)currentPos.Y, current.texture.Width, current.texture.Height / current.frames), new Rectangle(0, SeamapObjects.SeaObjectFrames[i] * (current.texture.Height / current.frames), current.texture.Width, (current.texture.Height / current.frames)), drawColour * (1 - (modPlayer.cutSceneTriggerTimer / 180f)));
+                //    }
+                //}
+                //#endregion
+            //}
         }
 
         #region Seamap water
         static void RenderWater()
         {
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            Texture2D waterTexture = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/WaterBg");
+            Texture2D waterTexture = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/WaterBg");
+
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
             Vector2 pos = Main.screenPosition;
             Vector2 toScreen = pos.ForDraw();
+
             Color colour = Lighting.GetColor((int)(pos.X / 16), (int)(pos.Y / 16));
             Color SeaColour = new Color(0.1568f, 0.6549f, 0.7607f).MultiplyRGB(colour);
-            WaterShader.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/WormNoisePixelated"));
-            WaterShader.Parameters["noiseN"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/WormNoisePixelated"));
-            WaterShader.Parameters["water"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/WaterShaderLightMap"));
+
+            WaterShader.Parameters["noise"].SetValue(ModContent.GetTexture("EEMod/Noise/WormNoisePixelated"));
+            WaterShader.Parameters["noiseN"].SetValue(ModContent.GetTexture("EEMod/Noise/WormNoisePixelated"));
+            WaterShader.Parameters["water"].SetValue(ModContent.GetTexture("EEMod/Textures/WaterShaderLightMap"));
             WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
-            WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 2000f) * 0.2f);
+            WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["Colour"].SetValue(SeaColour.ToVector3());
             WaterShader.Parameters["LightColour"].SetValue(colour.ToVector3());
-            WaterShader.Parameters["waveSpeed"].SetValue(6);
+            WaterShader.Parameters["waveSpeed"].SetValue(3);
             WaterShader.CurrentTechnique.Passes[0].Apply();
+
             Main.spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, Main.screenWidth, Main.screenWidth), colour);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

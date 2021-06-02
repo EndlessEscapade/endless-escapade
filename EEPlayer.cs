@@ -415,17 +415,19 @@ namespace EEMod
                 importantCutscene = false;
                 speedOfPan = 0;
                 subTextAlpha = 0;
+
                 if (SeamapPlayerShip.localship != null)
                 {
                     SeamapPlayerShip.localship.position = new Vector2(1700, 900);
                     SeamapPlayerShip.localship.shipHelth = SeamapPlayerShip.ShipHelthMax;
                 }
-                SeaObject.Clear();
+
+                SeamapObjects.IslandEntities.Clear();
                 displacmentX = 0;
                 displacmentY = 0;
                 startingText = false;
                 Particles.Clear();
-                OceanMapElements.Clear();
+                SeamapObjects.OceanMapElements.Clear();
                 isCameraFixating = false;
             }
         }
@@ -595,7 +597,8 @@ namespace EEMod
                 player.position = player.oldPosition;
                 if (markerPlacer > 1)
                 {
-                    Main.screenPosition += new Vector2(0, offSea);
+                    //Main.screenPosition += new Vector2(0, offSea);
+                    SeamapPlayerShip.localship.ModifyScreenPosition(ref Main.screenPosition);
                 }
             }
             if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
@@ -737,7 +740,7 @@ namespace EEMod
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
             EEPlayer eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             if (eeplayer.reefMinibiome[(int)MinibiomeID.AquamarineCaverns])
-                EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Masks/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
+                EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.08f));
             if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])

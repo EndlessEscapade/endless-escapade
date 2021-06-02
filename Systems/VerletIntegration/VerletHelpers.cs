@@ -84,7 +84,7 @@ namespace EEMod.VerletIntegration
         {
             int SpacialTolerance = 0;
 
-            foreach (Vector2 pos in SwingableVines) if (Vector2.DistanceSquared(pos, position) < 100) { SpacialTolerance++; }
+            foreach (Vector2 pos in SwingableVines) if (Vector2.DistanceSquared(pos, position) < 30) { SpacialTolerance++; }
 
             if (SpacialTolerance > 1) return;
 

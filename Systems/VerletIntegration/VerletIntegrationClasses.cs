@@ -329,6 +329,9 @@ namespace EEMod.VerletIntegration
                             if (stickPoints[i].glowmask != null)
                             {
                                 Main.spriteBatch.Draw(stickPoints[i].glowmask, mid.ForDraw(), stickPoints[i].glowmask.Bounds, Color.White, (p1 - p2).ToRotation(), stickPoints[i].glowmask.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
+
+                                Helpers.DrawAdditive(stickPoints[i].LightMap, mid.ForDraw(), Color.Goldenrod * 0.5f, 1f, MathHelper.PiOver2);
+
                                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0005f));
                                 EEMod.MainParticles.SpawnParticles(mid,
                                     new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 30, 1,
