@@ -46,13 +46,10 @@ namespace EEMod
         public int markerPlacer;
         public Vector2 position;
         public Vector2 velocity;
-        public List<SeaEntity> SeaObject = new List<SeaEntity>(); //List 1
-        public List<int> SeaObjectFrames = new List<int>();
-        public Dictionary<string, SeaEntity> Islands = new Dictionary<string, SeaEntity>(); //List 3
+
         public string baseWorldName;
 
-        [FieldInit]
-        internal static List<ISeamapEntity> OceanMapElements = new List<ISeamapEntity>(); //List 4
+
 
 
         public void UpdateSea()
@@ -125,27 +122,27 @@ namespace EEMod
 
             markerPlacer++;
 
-            #region Placing islands
+            #region Placing SeamapObjects.Islands
             if (markerPlacer == 1)
             {
-                SeaObject.Add(new SeaEntity(new Vector2(500, 500), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland", 16, 10, true));
-                SeaObject.Add(new SeaEntity(new Vector2(-1200, -400), GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), "VolcanoIsland", 16, 10, true));
-                SeaObject.Add(new SeaEntity(new Vector2(-700, -300), GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland2", 16, 10, true));
-                SeaObject.Add(new SeaEntity(new Vector2(-500, -200), GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse"), null, 1, 0));
-                SeaObject.Add(new SeaEntity(new Vector2(-400, -100), GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), null, 16, 10));
-                SeaObject.Add(new SeaEntity(new Vector2(-800, -150), GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), null, 16, 10));
-                SeaObject.Add(new SeaEntity(new Vector2(-200, -300), GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), null, 16, 10));
-                SeaObject.Add(new SeaEntity(new Vector2(-209, -55), GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), "MainIsland", 1, 0, true));
-                SeaObject.Add(new SeaEntity(new Vector2(-200, -600), GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), "CoralReefsEntrance", 16, 10, true));
-                SeaObject.Add(new SeaEntity(new Vector2(-450, -650), GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), "MoyaiIsland", 16, 10, true));
-                SeaObject.Add(new SeaEntity(new Vector2(-300, -250), GetTexture("EEMod/Seamap/SeamapAssets/Rock4"), null, 16, 10));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(500, 500) * 4, GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland", 16, 10, true));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(1200, 400) * 4, GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), "VolcanoIsland", 16, 10, true));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(700, 300) * 4, GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland2", 16, 10, true));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(500, 200) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse"), null, 1, 0));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(400, 100) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), null, 16, 10));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(800, 150) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), null, 16, 10));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(200, 300) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), null, 16, 10));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(209, 55) * 4, GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), "MainIsland", 1, 0, true));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(200, 600) * 4, GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), "CoralReefsEntrance", 16, 10, true));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(450, 650) * 4, GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), "MoyaiIsland", 16, 10, true));
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(300, 250) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock4"), null, 16, 10));
 
-                if (SeaObjectFrames.Count != SeaObject.Count)
+                if (SeamapObjects.SeaObjectFrames.Count != SeamapObjects.IslandEntities.Count)
                 {
-                    SeaObjectFrames.Capacity = SeaObject.Count;
-                    for (int i = 0; i < SeaObject.Count; i++)
+                    SeamapObjects.SeaObjectFrames.Capacity = SeamapObjects.IslandEntities.Count;
+                    for (int i = 0; i < SeamapObjects.IslandEntities.Count; i++)
                     {
-                        SeaObjectFrames.Add(0);
+                        SeamapObjects.SeaObjectFrames.Add(0);
                     }
                 }
 
@@ -171,7 +168,7 @@ namespace EEMod
                                 break;
                         }
 
-                        OceanMapElements.Add(new DarkCloud(CloudPos, cloudTexture, Main.rand.NextFloat(.6f, 1), Main.rand.NextFloat(60, 180)));
+                        SeamapObjects.OceanMapElements.Add(new DarkCloud(CloudPos, cloudTexture, Main.rand.NextFloat(.6f, 1), Main.rand.NextFloat(60, 180)));
                     }
                 }
                 //upgrade, pirates, radial
@@ -196,10 +193,10 @@ namespace EEMod
             }
             #endregion
 
-            #region Warping to islands
+            #region Warping to SeamapObjects.Islands
             if (markerPlacer > 10)
             {
-                if (Islands["VolcanoIsland"].isColliding)
+                if (SeamapObjects.IslandsDict["VolcanoIsland"].isColliding)
                 {
                     /*if (EEMod.Inspect.JustPressed)
                     {
@@ -209,7 +206,7 @@ namespace EEMod
                         prevKey = KeyID.VolcanoIsland;
                     }*/
                 }
-                else if (Islands["MainIsland"].isColliding)
+                else if (SeamapObjects.IslandsDict["MainIsland"].isColliding)
                 {
                     if (EEMod.Inspect.JustPressed)
                     {
@@ -217,7 +214,7 @@ namespace EEMod
                         prevKey = KeyID.Sea;
                     }
                 }
-                else if (Islands["CoralReefsEntrance"].isColliding)
+                else if (SeamapObjects.IslandsDict["CoralReefsEntrance"].isColliding)
                 {
                     if (EEMod.Inspect.JustPressed)
                     {
@@ -240,7 +237,7 @@ namespace EEMod
                 arrowFlag = true;
             }
 
-            foreach (SeaEntity island in Islands.Values)
+            foreach (var island in SeamapObjects.IslandsDict.Values)
             {
                 if (island.isColliding)
                 {
@@ -256,7 +253,7 @@ namespace EEMod
             #region Warp cutscene
             if (importantCutscene)
             {
-                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/noise"));
+                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(ModContent.GetTexture("EEMod/Noise/noise"));
                 Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
 
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
@@ -277,9 +274,9 @@ namespace EEMod
 
             //THIS NEEDS CHANGING
             #region Updating entities
-            for (int j = 0; j < 450; j++)
+            for (int j = 0; j < 400; j++)
             {
-                if (Main.projectile[j].type == ProjectileType<PirateShip>() || Main.projectile[j].type == ProjectileType<RedDutchman>() || Main.projectile[j].type == ProjectileType<EnemyCannonball>())
+                if (Main.projectile[j].type == ProjectileType<RedDutchman>() || Main.projectile[j].type == ProjectileType<EnemyCannonball>())
                 {
                     if ((Main.projectile[j].Center - SeamapPlayerShip.localship.position.ForDraw()).Length() < 40 && Main.projectile[j].type != ProjectileType<EnemyCannonball>())
                     {
@@ -293,11 +290,11 @@ namespace EEMod
                         SeamapPlayerShip.localship.velocity += Main.projectile[j].velocity;
                     }
                 }
-                if (Main.projectile[j].type == ProjectileType<Crate>())
+                /*if (SeamapObjects.SeamapEntities[j] is Crate)
                 {
-                    Crate a = (Crate)Main.projectile[j].modProjectile;
+                    Crate a = SeamapObjects.SeamapEntities[j] as Crate;
 
-                    if ((Main.projectile[j].Center - SeamapPlayerShip.localship.position.ForDraw()).Length() < 40 && !a.sinking)
+                    if ((a.Center - SeamapPlayerShip.localship.position.ForDraw()).Length() < 40 && !a.sinking)
                     {
                         //Crate loot tables go here
                         if (Main.rand.NextBool())
@@ -321,12 +318,8 @@ namespace EEMod
                         player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(0, 2));
                         player.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(0, 100));
                         player.QuickSpawnItem(ItemID.CopperCoin, Main.rand.Next(0, 100));
-
-                        a.sinking = true;
-
-                        a.Sink();
                     }
-                }
+                }*/
             }
             #endregion
 
@@ -339,10 +332,9 @@ namespace EEMod
 
             //THIS NEEDS CHANGING
             #region Spawning entities
-            if (markerPlacer % 600 == 0)
+            if (markerPlacer % 200 == 0)
             {
-                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
-                Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<PirateShip>(), 0, 0f, Main.myPlayer, 0, 0);
+                SeamapObjects.NewSeamapObject(new PirateShip(new Vector2(1000, 1000), Vector2.Zero));
             }
 
             if (markerPlacer % 2400 == 0)
@@ -355,9 +347,9 @@ namespace EEMod
                 Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
             }
 
-            if (markerPlacer % 800 == 0)
+            if (markerPlacer % 200 == 0)
             {
-                Projectile.NewProjectile(Main.screenPosition + new Vector2(-200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<Crate>(), 0, 0f, Main.myPlayer, 0, 0);
+                SeamapObjects.NewSeamapObject(new Crate(new Vector2(1000, 1000), Vector2.Zero));
             }
 
             if (markerPlacer % 200 == 0)
@@ -389,7 +381,7 @@ namespace EEMod
                     case 1:
                     {
                         cloud = new MCloud(GetTexture("EEMod/Seamap/SeamapAssets/Cloud6"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 144, 42, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                        OceanMapElements.Add(cloud);
+                        SeamapObjects.OceanMapElements.Add(cloud);
                         break;
                     }
                     case 2:
@@ -399,13 +391,13 @@ namespace EEMod
                     case 3:
                     {
                         cloud = new MCloud(GetTexture("EEMod/Seamap/SeamapAssets/Cloud4"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 100, 48, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                        OceanMapElements.Add(cloud);
+                        SeamapObjects.OceanMapElements.Add(cloud);
                         break;
                     }
                     case 4:
                     {
                         cloud = new MCloud(GetTexture("EEMod/Seamap/SeamapAssets/Cloud5"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 96, 36, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
-                        OceanMapElements.Add(cloud);
+                        SeamapObjects.OceanMapElements.Add(cloud);
                         break;
                     }
                 }
@@ -415,16 +407,16 @@ namespace EEMod
             #region Placing red marks on the map
             /*if (markerPlacer % 40 == 0)
             {
-                Projectile.NewProjectile(Main.screenPosition + ModContent.GetInstance<EEMod>().position, Vector2.Zero, ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, ModContent.GetInstance<EEMod>().velocity.X, ModContent.GetInstance<EEMod>().velocity.Y);
+                Projectile.NewProjectile(Main.screenPosition + EEMod.instance.position, Vector2.Zero, ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.instance.velocity.X, EEMod.instance.velocity.Y);
             }*/
             #endregion
         }
 
         internal static void UpdateOceanMapElements()
         {
-            for (int i = 0; i < OceanMapElements.Count; i++)
+            for (int i = 0; i < SeamapObjects.OceanMapElements.Count; i++)
             {
-                OceanMapElements[i].Update();
+                SeamapObjects.OceanMapElements[i].Update();
             }
         }
 
@@ -483,10 +475,10 @@ namespace EEMod
                     Filters.Scene.Deactivate(shad3);
                 }
             }
-            if(Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:MyTestShader"].IsActive())
+            /*if(Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:MyTestShader"].IsActive())
             {
                 Filters.Scene.Activate("EEMod:MyTestShader", player.Center).GetShader().UseColor(Color.Red).UseTargetPosition(player.Center);
-            }
+            }*/
             if (timerForCutscene >= 1400)
             {
                 Initialize();
@@ -505,190 +497,6 @@ namespace EEMod
         }
         #endregion
 
-        public struct SeaEntity
-        {
-            EEPlayer player => Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            public SeaEntity(Vector2 pos, Texture2D tex, string NameOfIsland, int frameCount = 1, int frameSpid = 2, bool canCollide = false, int startingFrame = 0)
-            {
-                posX = (int)pos.X;
-                posY = (int)pos.Y;
-                texture = tex;
-                frames = frameCount;
-                frameSpeed = frameSpid;
-                currentFrame = startingFrame;
-                this.canCollide = canCollide;
-                if (NameOfIsland != null)
-                {
-                    if (!player.Islands.ContainsKey(NameOfIsland))
-                    {
-                        player.Islands.Add(NameOfIsland, this);
-                    }
-                }
-            }
-
-            private readonly int posX;
-            private readonly int posY;
-            public int frames;
-            public int currentFrame;
-            public int frameSpeed;
-            public bool canCollide;
-
-            public int posXToScreen
-            {
-                get => posX + (int)Main.screenPosition.X + Main.screenWidth;
-            }
-
-            public int posYToScreen
-            {
-                get => posY + (int)Main.screenPosition.Y + Main.screenHeight;
-            }
-
-            public Texture2D texture;
-            public Vector2 posToScreen => new Vector2(posXToScreen - texture.Width / 2, posYToScreen - texture.Height / (2 * frames));
-            public Rectangle hitBox => new Rectangle((int)posToScreen.X, (int)posToScreen.Y - texture.Height / (frames * 2), texture.Width, texture.Height / (frames));
-            private Rectangle ShipHitBox => new Rectangle((int)Main.screenPosition.X + (int)SeamapPlayerShip.localship.position.X - 30, (int)Main.screenPosition.Y + (int)SeamapPlayerShip.localship.position.Y - 30, 30, 30);
-            public bool isColliding => hitBox.Intersects(ShipHitBox) && canCollide;
-
-            public void Update()
-            {
-
-            }
-        }
-
-        public class DarkCloud : ISeamapEntity
-        {
-            public Vector2 pos;
-            public float flash;
-
-            public int posXToScreen
-            {
-                get => (int)(pos.X + Main.screenPosition.X);
-            }
-
-            public int posYToScreen
-            {
-                get => (int)(pos.Y + Main.screenPosition.Y);
-            }
-
-            public Texture2D texture;
-            public float scale, alpha;
-            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-
-            public DarkCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
-            {
-                flash += 0.01f;
-                this.pos = pos;
-                texture = tex;
-                this.scale = scale;
-                this.alpha = alpha;
-                flash = Main.rand.NextFloat(0, 4);
-            }
-
-            public void Draw(SpriteBatch spriteBatch)
-            {
-                flash += 0.003f;
-                Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16) * modPlayer.seamapLightColor;
-                drawcolor.A = (byte)alpha;
-                if (modPlayer.quickOpeningFloat > 0.01f)
-                {
-                    float lerp = 1 - (modPlayer.quickOpeningFloat / 10f);
-                    spriteBatch.Draw(texture, p, null, drawcolor * lerp, 0f, default, scale, SpriteEffects.None, 0f);
-                    return;
-                }
-                spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
-            }
-
-            public void Update()
-            {
-
-            }
-        }
-
-        public class MovingCloud : ISeamapEntity
-        {
-            public Vector2 pos;
-            public float flash;
-
-            public int posXToScreen
-            {
-                get => (int)(pos.X + Main.screenPosition.X);
-            }
-
-            public int posYToScreen
-            {
-                get => (int)(pos.Y + Main.screenPosition.Y);
-            }
-
-            public Texture2D texture;
-            public float scale, alpha;
-            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-
-            public MovingCloud(Vector2 pos, Texture2D tex, float scale, float alpha)
-            {
-                this.pos = pos;
-                texture = tex;
-                this.scale = scale;
-                this.alpha = alpha;
-                flash = Main.rand.NextFloat(0, 4);
-            }
-
-            public void Draw(SpriteBatch spriteBatch)
-            {
-                flash += 0.003f;
-                Vector2 p = new Vector2(posXToScreen + (float)Math.Sin(flash) * 10, posYToScreen - 1000).ForDraw();
-                Color drawcolor = Lighting.GetColor(posXToScreen / 16, (posYToScreen - 1000) / 16) * modPlayer.brightness * (modPlayer.isStorming ? 2 / 3f : 1);
-                drawcolor.A = (byte)alpha;
-                spriteBatch.Draw(texture, p, null, drawcolor * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, default, scale, SpriteEffects.None, 0f);
-            }
-
-            public void Update()
-            {
-
-            }
-        }
-
-        public class MCloud : ISeamapEntity
-        {
-            private Vector2 position;
-            private readonly int width, height;
-            private readonly float alpha, scale;
-            private readonly Texture2D texture;
-            private readonly EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            private Vector2 Center => new Vector2(position.X + width / 2f, position.Y + height / 2f);
-
-            public MCloud(Texture2D texture, Vector2 position, int width, int height, float scale, float alpha)
-            {
-                //scale = projectile.ai[0];
-                //alpha = (int)projectile.ai[1];
-                this.scale = scale;
-                this.alpha = alpha;
-                this.texture = texture;
-                this.position = position;
-                this.width = width;
-                this.height = height;
-            }
-
-            public void Draw(SpriteBatch spriteBatch)
-            {
-                Vector2 newPos = Center + Main.screenPosition;
-                Rectangle rect = new Rectangle(0, 0, width, height);
-                Color lightColour = Lighting.GetColor((int)newPos.X / 16, (int)newPos.Y / 16) * modPlayer.brightness * (modPlayer.isStorming ? 2 / 3f : 1);
-                spriteBatch.Draw(texture, Center, rect, lightColour * (alpha / 255f) * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, rect.Size() / 2, scale, SpriteEffects.None, 0f);
-            }
-
-            public void Update()
-            {
-                position.X -= 0.3f;
-            }
-        }
-
-        internal interface ISeamapEntity
-        {
-            void Update();
-
-            void Draw(SpriteBatch spriteBatch);
-        }
     }
 
     public partial class EEMod : Mod

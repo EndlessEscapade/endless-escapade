@@ -441,8 +441,10 @@ namespace EEMod
             if (Main.worldName == KeyID.Sea)
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
                 Seamap.SeamapContent.Seamap.Render();
                 SeamapPlayerShip.localship.DrawSubText();
+
                 Main.spriteBatch.End();
             }
             orig(self);

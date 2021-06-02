@@ -21,8 +21,8 @@ namespace EEMod.Items.Weapons.Summon.Whips
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useAnimation = 40;
             item.useTime = 30;
-            item.width = 30;
-            item.height = 40;
+            item.width = 58;
+            item.height = 44;
             item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/WhipUse");
             item.noMelee = true;
             item.summon = true;

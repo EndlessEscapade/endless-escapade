@@ -80,7 +80,7 @@ namespace EEMod.NPCs.CoralReefs
 
             EEMod.SpireShader.Parameters["alpha"].SetValue((npc.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
             EEMod.SpireShader.Parameters["shineSpeed"].SetValue(npc.ai[0] <= 20 ? 0.4f : 0.2f);
-            EEMod.SpireShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SpireLightMap"));
+            EEMod.SpireShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/SpireLightMap"));
             EEMod.SpireShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.SpireShader.Parameters["lightColor"].SetValue(drawColor.ToVector3());
             EEMod.SpireShader.CurrentTechnique.Passes[0].Apply();

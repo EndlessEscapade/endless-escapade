@@ -227,7 +227,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 projectile.scale = 1f + (HeartBeat / 5f);
 
                 Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp1Glow");
-                Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Masks/SmoothFadeOut");
+                Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
 
                 float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;
                 Main.spriteBatch.Draw(mask, projectile.position, null, new Color(sineAdd, sineAdd, sineAdd, 0) * 0.2f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);

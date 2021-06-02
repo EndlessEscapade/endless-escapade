@@ -1,51 +1,53 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
+using EEMod.Seamap.SeamapContent;
+using Terraria;
 
 namespace EEMod.Seamap.SeamapAssets
 {
-    public class Crate : ModProjectile
+    public class Crate : SeamapObject
     {
-        public override void SetStaticDefaults()
+        public override void OnSpawn()
         {
-            DisplayName.SetDefault("Crate");
+            texture = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/Crate");
+
+            width = 16;
+            height = 18;
         }
 
-        public override void SetDefaults()
-        {
-            projectile.width = 16;
-            projectile.height = 18;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1f;
-        }
+        public Crate(Vector2 pos, Vector2 vel) : base(pos, vel) { }
 
-        public bool sinking;
+        //public bool sinking = false;
 
-        public override void AI()
+        public override void Update()
         {
-            if (!sinking)
+            base.Update();
+            velocity = new Vector2(0.5f, 0);
+            /*if (!sinking)
             {
-                projectile.velocity = new Vector2(0.5f, 0);
+                velocity = new Vector2(0.5f, 0);
             }
             else
             {
                 Sink();
-            }
+            }*/
+            //velocity = new Vector2(0.5f, 0);
         }
 
-        private int sinkTimer = 32;
+        /*private int sinkTimer = 32;
 
         public void Sink()
         {
-            projectile.velocity.X = 0;
-            projectile.velocity.Y = 0.5f;
-            projectile.alpha += 8;
+            velocity.X = 0;
+            velocity.Y = 0.5f;
+            alpha += 8;
             sinkTimer--;
+
             if (sinkTimer <= 0)
             {
-                projectile.Kill();
+                //Kill();
             }
-        }
+        }*/
     }
 }

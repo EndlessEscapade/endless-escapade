@@ -44,7 +44,7 @@ namespace EEMod.Projectiles.CoralReefs
                 {
                     projectile.velocity.Y *= 0.92f;
             
-                    if (projectile.velocity.Y <= 0.03f)
+                    if (projectile.velocity.Y <= 0.05f)
                     {
                         projectile.velocity.Y = 0;
                         funi = true;
@@ -73,7 +73,7 @@ namespace EEMod.Projectiles.CoralReefs
             }
         }
 
-        private float alpha;
+        private float alpha = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.itemTexture[(int)projectile.ai[0]];
@@ -83,7 +83,9 @@ namespace EEMod.Projectiles.CoralReefs
             {
                 alpha += 0.03f;
 
-                Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradientWide"), projectile.Center.ForDraw(), Color.Gold * alpha, 0.9f, 0.8f);
+                alpha = MathHelper.Clamp(alpha, 0f, 1f);
+
+                Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), projectile.Center.ForDraw(), Color.Gold * alpha, 0.9f, 0.8f);
 
                 Vector2 position = new Vector2(projectile.width / 2, projectile.height - tex.Height * 0.5f + 2f);
 
@@ -96,7 +98,7 @@ namespace EEMod.Projectiles.CoralReefs
 
                 for (int i = 0; i < 4; i++)
                 {
-                    Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * 2;
+                    Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha / 1));
                     spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha, projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
                 }
 
@@ -107,6 +109,17 @@ namespace EEMod.Projectiles.CoralReefs
             Main.spriteBatch.Draw(tex, pos, tex.Bounds, Color.White, 0f, tex.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
 
             return false;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Item chungu = new Item();
+            chungu.SetDefaults((int)projectile.ai[0]);
+
+            if ((new Rectangle((int)projectile.position.X + (projectile.width - chungu.width), (int)projectile.position.Y + (projectile.height - chungu.height), chungu.width, chungu.height)).Contains(Main.MouseWorld.ToPoint()))
+            {
+                Utils.DrawBorderString(Main.spriteBatch, chungu.Name, Main.MouseWorld.ForDraw() + new Vector2(16, 16), Color.Lerp(Color.Goldenrod, Color.LightYellow, (float)Math.Sin(Main.GameUpdateCount / 30f)));
+            }
         }
     }
 }

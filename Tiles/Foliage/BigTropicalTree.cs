@@ -1,5 +1,4 @@
-﻿/*using EEMod.Items.Materials;
-using EEMod.Items.Materials;
+﻿using EEMod.Items.Materials;
 using EEMod.NPCs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,11 +20,11 @@ namespace EEMod.Tiles.Foliage
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style6x3);
-            TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.Height = 11;
+            TileObjectData.newTile.Width = 4;
+            TileObjectData.newTile.Height = 6;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 24 };
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16, 16, 20 };
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
@@ -48,10 +47,20 @@ namespace EEMod.Tiles.Foliage
             Item.NewItem(new Vector2(i, j), ModContent.ItemType<Coconut>(), Main.rand.Next(3, 5));
         }
 
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/TropicalTreeLeaves"), new Vector2((i * 16) + 150, (j * 16) + 120) - Main.screenPosition, new Rectangle(0, 0, 120, 100), Lighting.GetColor(i, j));
+            Tile t = Main.tile[i, j];
+            if (t.frameX == 0 && t.frameY == 0)
+            {
+                Main.specX[nextSpecialDrawIndex] = i;
+                Main.specY[nextSpecialDrawIndex] = j;
+                nextSpecialDrawIndex++;
+            }
+        }
+
+        public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/BigTropicalTreeLeaves"), new Vector2((i * 16) + 144, (j * 16) + 96) - Main.screenPosition, new Rectangle(0, 0, 164, 172), Lighting.GetColor(i, j));
         }
     }
-}*/
+}

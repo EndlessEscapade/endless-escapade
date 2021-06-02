@@ -69,6 +69,39 @@ namespace EEMod.EEWorld
 
             BoundClause((int i, int j) =>
             {
+                if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.NextBool(10))
+                {
+                    if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
+                    {
+                        EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                    }
+                    else
+                    {
+                        Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
+                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 210 * 210) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
+                        {
+                            EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                        }
+                    }
+                }
+            });
+
+            BoundClause((int i, int j) =>
+            {
+                if ((TileCheck2(i, j) == 2) && Main.rand.NextBool(3))
+                {
+                    EESubWorlds.ThinCrystalBambooLocations.Add(new Vector2(i, j));
+
+                    Vector2 lastPos = EESubWorlds.ThinCrystalBambooLocations[EESubWorlds.ThinCrystalBambooLocations.Count - 1];
+
+                    int length = Main.rand.Next(1, 6);
+                    Vector2 rotVec = new Vector2(length, 0).RotatedBy(Main.rand.NextFloat((MathHelper.PiOver2 * 3) - 0.2f, (MathHelper.PiOver2 * 3) + 0.2f));
+                    EESubWorlds.ThinCrystalBambooLocations.Add(lastPos + rotVec);
+                }
+            });
+
+            BoundClause((int i, int j) =>
+            {
                 if (TileCheck2(i, j) == 1)
                 {
                     switch (Main.rand.Next(3))
@@ -140,39 +173,6 @@ namespace EEMod.EEWorld
                             ETAHelpers.PlaceCrystal(ETAHelpers.ETAAnchor.Right, new Vector2(i, j), EmptyTileArrays.LuminantCoralSideLeft3, "Tiles/EmptyTileArrays/AquamarineCrystalRight5x3", "Tiles/EmptyTileArrays/AquamarineCrystalRight5x3Shine");
                             break;
                     }
-                }
-            });
-
-            BoundClause((int i, int j) =>
-            {
-                if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.NextBool(10))
-                {
-                    if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
-                    {
-                        EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
-                    }
-                    else
-                    {
-                        Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
-                        if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 210 * 210) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
-                        {
-                            EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
-                        }
-                    }
-                }
-            });
-
-            BoundClause((int i, int j) =>
-            {
-                if ((TileCheck2(i, j) == 2) && Main.rand.NextBool(5))
-                {
-                    EESubWorlds.ThinCrystalBambooLocations.Add(new Vector2(i, j));
-
-                    Vector2 lastPos = EESubWorlds.ThinCrystalBambooLocations[EESubWorlds.ThinCrystalBambooLocations.Count - 1];
-
-                    int length = Main.rand.Next(1, 6);
-                    Vector2 rotVec = new Vector2(length, 0).RotatedBy(Main.rand.NextFloat(4.5f, 4.9f));
-                    EESubWorlds.ThinCrystalBambooLocations.Add(lastPos + rotVec);
                 }
             });
         }

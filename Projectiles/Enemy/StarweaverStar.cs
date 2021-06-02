@@ -48,7 +48,7 @@ namespace EEMod.Projectiles.Enemy
                 }
             }
 
-            Texture2D mask = mod.GetTexture("Masks/SmoothFadeOut");
+            Texture2D mask = mod.GetTexture("Textures/SmoothFadeOut");
             Helpers.DrawAdditive(mask, projectile.Center - Main.screenPosition, Color.Yellow * 0.3f, projectile.scale + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 3f), projectile.rotation);
 
             Texture2D star2 = mod.GetTexture("Projectiles/Enemy/StarweaverStarGlow");

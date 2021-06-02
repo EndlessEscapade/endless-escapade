@@ -23,6 +23,8 @@ namespace EEMod.Seamap.SeamapContent
         public static float ShipHelthMax = 7;
         public float shipHelth = 7;
         public Vector2 position;
+        public float width;
+        public float height;
         public Vector2 velocity;
         public int cannonDelay = 60;
         public Vector2 otherBoatPos;
@@ -31,6 +33,12 @@ namespace EEMod.Seamap.SeamapContent
 
         public float flash = 0;
         public float markerPlacer = 0;
+
+        public void ModifyScreenPosition(ref Vector2 position)
+        {
+            position = this.position - new Vector2(Main.screenWidth / 2, Main.screenHeight / 2);
+        }
+
         #region Drawing "Disembark" text
         internal void DrawSubText()
         {
@@ -43,7 +51,7 @@ namespace EEMod.Seamap.SeamapContent
                 color *= alpha;
                 Vector2 textSize = Main.fontMouseText.MeasureString(text);
                 float textPositionLeft = position.X - textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20), color * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20) - Main.screenPosition, color * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
             }
         }
         #endregion

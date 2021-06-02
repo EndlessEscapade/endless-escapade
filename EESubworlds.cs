@@ -19,6 +19,7 @@ using EEMod.Tiles.Foliage.Coral.HangingCoral;
 using EEMod.Tiles.Foliage.Coral.WallCoral;
 using EEMod.Systems.Noise;
 using EEMod.VerletIntegration;
+using EEMod.Tiles.Foliage;
 
 namespace EEMod
 {
@@ -116,11 +117,15 @@ namespace EEMod
 
             for(int i = 50; i < Main.maxTilesX - 100; i++)
             {
+                if (i >= boatPos - 60 && i <= boatPos + ShipTiles.GetLength(1)) i += 50;
+
                 if(WorldGen.genRand.NextBool(200))
                 {
-                    MakeOvalJaggedTop(50, 25, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
+                    int width = Main.rand.Next(40, 60);
+                    int height = Main.rand.Next(20, 25);
+                    MakeOvalJaggedTop(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
 
-                    MakeOval(40, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
+                    MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
 
                     for (int k = i; k < i + 25; k++)
                     {
@@ -224,13 +229,18 @@ namespace EEMod
                 ModContent.TileType<Wall6x3CoralR>() },
             new Rectangle(42, depth, Main.maxTilesX - 42, Main.maxTilesY - depth - 42));
 
+            TilePopulate(
+                new int[] { ModContent.TileType<BigTropicalTree>(),
+                ModContent.TileType<TropicalTree>(), },
+            new Rectangle(42, 42, Main.maxTilesX - 42, depth), 3);
+
             #endregion
 
             #region Spawning rooms
 
             for (int i = 0; i < upperRoomPositions.Length; i++)
             {
-                EEMod.progressMessage = "Generating rooms pt. 1 " + (int)(i * 100 / upperRoomPositions.Length) + "%";
+                EEMod.progressMessage = "Generating rooms pt. 1 " + (i * 100 / upperRoomPositions.Length) + "%";
                 MakeCoralRoom((int)upperRoomPositions[i].X, (int)upperRoomPositions[i].Y, 100, 50, biomes[i]);
             }
 
@@ -239,15 +249,15 @@ namespace EEMod
                 int biome = biomes[j + (upperRoomPositions.Length - 1)];
                 if (biome > 0) biome += 2;
 
-                EEMod.progressMessage = "Generating rooms pt. 2 " + (int)(j * 100 / lowerRoomPositions.Length) + "%";
+                EEMod.progressMessage = "Generating rooms pt. 2 " + (j * 100 / lowerRoomPositions.Length) + "%";
                 MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 100, 50, biome);
             }
 
-            for (int k = 0; k < depthsRoomPositions.Length; k++)
+            /*for (int k = 0; k < depthsRoomPositions.Length; k++)
             {
-                EEMod.progressMessage = "Generating rooms pt. 3 " + (int)(k * 100 / depthsRoomPositions.Length) + "%";
+                EEMod.progressMessage = "Generating rooms pt. 3 " + (k * 100 / depthsRoomPositions.Length) + "%";
                 MakeCoralRoom((int)depthsRoomPositions[k].X, (int)depthsRoomPositions[k].Y, 150, 75, 0);
-            }
+            }*/
             
             #endregion
 
@@ -264,7 +274,7 @@ namespace EEMod
                 {
                     int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 50);
                     int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>());
-                    if (Math.Abs(TileCheck(tileX + Ship1.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship1.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3)
+                    if (Math.Abs(TileCheck(tileX + Ship1.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship1.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3 && tileY > depth + 10)
                     {
                         PlaceStructure(tileX, tileY - Ship1.GetLength(0) + 7, Ship1);
                         mlem++;
@@ -281,7 +291,7 @@ namespace EEMod
                 {
                     int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 50);
                     int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>());
-                    if (Math.Abs(TileCheck(tileX + Ship2.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship2.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3)
+                    if (Math.Abs(TileCheck(tileX + Ship2.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship2.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3 && tileY > depth + 10)
                     {
                         PlaceStructure(tileX, tileY - Ship2.GetLength(0) + 7, Ship2);
                         mlem++;
@@ -298,7 +308,7 @@ namespace EEMod
                 {
                     int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 100);
                     int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>());
-                    if (Math.Abs(TileCheck(tileX + Ship3.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship3.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3)
+                    if (Math.Abs(TileCheck(tileX + Ship3.GetLength(1), ModContent.TileType<CoralSandTile>()) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship3.GetLength(1) / 2), ModContent.TileType<CoralSandTile>()) - tileY) <= 3 && tileY > depth + 10)
                     {
                         PlaceStructure(tileX, tileY - Ship3.GetLength(0) + 7, Ship3);
                         mlem++;

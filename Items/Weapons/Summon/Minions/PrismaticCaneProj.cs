@@ -87,7 +87,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             projectile.scale = 1f + (heartBeat / 5f);
 
             Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Summons/PrismaticCaneProj");
-            Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Masks/SmoothFadeOut");
+            Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
 
             float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;
 

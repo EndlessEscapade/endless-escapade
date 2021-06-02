@@ -1462,6 +1462,55 @@ namespace EEMod.EEWorld
             }
         }
 
+        public static void TilePopulate(int[] types, Rectangle bounds, int chance)
+        {
+            for (int i = bounds.X; i < bounds.Width; i++)
+            {
+                for (int j = bounds.Y; j < bounds.Height; j++)
+                {
+                    if (WorldGen.genRand.NextBool(chance))
+                    {
+                        int chosen = WorldGen.genRand.Next(types.Length);
+                        int tile = types[chosen];
+
+                        TileObjectData TOD = TileObjectData.GetTileData(tile, 0);
+                        if (TOD.AnchorTop != AnchorData.Empty)
+                        {
+                            if (TileCheck2(i, j) == (int)TileSpacing.Bottom)
+                            {
+                                WorldGen.PlaceTile(i, j + 1, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                for (int a = 0; a < TOD.Width; a++)
+                                    Framing.GetTileSafely(i + a, j).slope(0);
+                            }
+                        }
+                        else if (TOD.AnchorBottom != AnchorData.Empty)
+                        {
+                            if (TileCheck2(i, j) == (int)TileSpacing.Top)
+                            {
+                                WorldGen.PlaceTile(i, j - TOD.Height, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                                for (int a = 0; a < TOD.Width; a++)
+                                    Framing.GetTileSafely(i + a, j).slope(0);
+                            }
+                        }
+                        else if (TOD.AnchorLeft != AnchorData.Empty)
+                        {
+                            if (TileCheck2(i, j) == (int)TileSpacing.Right)
+                            {
+                                WorldGen.PlaceTile(i + 1, j, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                            }
+                        }
+                        else if (TOD.AnchorRight != AnchorData.Empty)
+                        {
+                            if (TileCheck2(i, j) == (int)TileSpacing.Left)
+                            {
+                                WorldGen.PlaceTile(i + TOD.Width, j, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public static void MakeOvalFlatTop(int width, int height, Vector2 startingPoint, int type)
         {
             for (int i = 0; i < width; i++)
