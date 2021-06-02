@@ -1,8 +1,6 @@
 ﻿namespace EEMod.Systems.Structurizer.PlacementActions
 {
-    public abstract class
-        BaseRepeatedPlacementActionWithEntry<TPlacementAction> : BaseRepeatedPlacementAction<TPlacementAction>
-        where TPlacementAction : IPlacementAction
+    public abstract class BaseRepeatedPlacementActionWithEntry : BaseRepeatedPlacementAction
     {
         public override ushort EntryData { get; }
 

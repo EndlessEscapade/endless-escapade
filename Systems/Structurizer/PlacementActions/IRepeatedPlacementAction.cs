@@ -1,10 +1,7 @@
 ﻿namespace EEMod.Systems.Structurizer.PlacementActions
 {
-    public interface IRepeatedPlacementAction<out TPlacementAction> : IPlacementAction
-        where TPlacementAction : IPlacementAction
+    public interface IRepeatedPlacementAction
     {
         ushort RepetitionCount { get; }
-
-        TPlacementAction PlacementAction { get; }
     }
 }

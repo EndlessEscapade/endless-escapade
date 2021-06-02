@@ -1,9 +1,6 @@
 ﻿namespace EEMod.Systems.Structurizer.PlacementActions
 {
-    public abstract class
-        BaseRepeatedPlacementActionWithEntryAndStyle<TPlacementAction> : BaseRepeatedPlacementActionWithEntry<
-            TPlacementAction>
-        where TPlacementAction : IPlacementAction
+    public abstract class BaseRepeatedPlacementActionWithEntryAndStyle : BaseRepeatedPlacementActionWithEntry
     {
         public override byte StyleData { get; }
 

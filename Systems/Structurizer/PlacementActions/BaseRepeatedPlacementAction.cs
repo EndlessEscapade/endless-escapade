@@ -3,8 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace EEMod.Systems.Structurizer.PlacementActions
 {
-    public abstract class BaseRepeatedPlacementAction<TPlacementAction> : IRepeatedPlacementAction<TPlacementAction>
-        where TPlacementAction : IPlacementAction
+    public abstract class BaseRepeatedPlacementAction : IRepeatedPlacementAction
     {
         public abstract ushort Flag { get; }
 
@@ -22,8 +21,6 @@ namespace EEMod.Systems.Structurizer.PlacementActions
 
             set => InternalRepetitionCount = value;
         }
-
-        public abstract TPlacementAction PlacementAction { get; }
 
         protected BaseRepeatedPlacementAction(ushort repetitionCount)
         {
