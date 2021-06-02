@@ -1,4 +1,7 @@
-﻿namespace EEMod.Systems.Structurizer.PlacementActions
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+
+namespace EEMod.Systems.Structurizer.PlacementActions
 {
     public abstract class BaseRepeatedPlacementAction<TPlacementAction> : IRepeatedPlacementAction<TPlacementAction>
         where TPlacementAction : IPlacementAction
@@ -27,6 +30,7 @@
             InternalRepetitionCount = repetitionCount;
         }
 
-        public abstract void Place(ref int x, ref int y);
+        public abstract void Place(ref int i, ref int j, Structure structure,
+            ref List<(Point, ushort, ushort, ushort)> deferredMultitiles);
     }
 }

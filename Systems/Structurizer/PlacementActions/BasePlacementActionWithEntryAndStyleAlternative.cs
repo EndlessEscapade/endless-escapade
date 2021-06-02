@@ -4,7 +4,8 @@
     {
         public override byte AlternateStyleData { get; }
 
-        protected BasePlacementActionWithEntryAndStyleAlternative(ushort entry, byte styleData, byte alternateStyleData) : base(entry, styleData)
+        protected BasePlacementActionWithEntryAndStyleAlternative(ushort entry, byte styleData, byte alternateStyleData)
+            : base(entry, styleData)
         {
             AlternateStyleData = alternateStyleData;
         }

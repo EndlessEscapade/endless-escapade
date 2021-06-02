@@ -1,4 +1,7 @@
-﻿namespace EEMod.Systems.Structurizer.PlacementActions.Actions
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+
+namespace EEMod.Systems.Structurizer.PlacementActions.Actions
 {
     public class PlaceMultitileWithStyle : BasePlacementActionWithEntryAndStyle
     {
@@ -8,9 +11,11 @@
 
         public override ushort Flag => 0xFFF5;
 
-        public override void Place(ref int i, ref int j)
+        public override void Place(ref int i, ref int j, Structure structure,
+            ref List<(Point, ushort, ushort, ushort)> deferredMultitiles)
         {
-
+            deferredMultitiles.Add((new Point(i, j), structure.EntryToTileID[EntryData], StyleData, 0));
+            i++;
         }
     }
 }

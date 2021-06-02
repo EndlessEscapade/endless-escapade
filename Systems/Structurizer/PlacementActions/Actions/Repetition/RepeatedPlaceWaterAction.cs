@@ -1,4 +1,8 @@
-﻿namespace EEMod.Systems.Structurizer.PlacementActions.Actions.Repetition
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
+
+namespace EEMod.Systems.Structurizer.PlacementActions.Actions.Repetition
 {
     public class RepeatedPlaceWaterAction : BaseRepeatedPlacementActionWithLiquid<PlaceWaterAction>
     {
@@ -10,9 +14,17 @@
 
         public override PlaceWaterAction PlacementAction => new PlaceWaterAction(LiquidData);
 
-        public override void Place(ref int i, ref int j)
+        public override void Place(ref int i, ref int j, Structure structure,
+            ref List<(Point, ushort, ushort, ushort)> deferredMultitiles)
         {
+            for (int z = i; z < i + RepetitionCount; z++)
+            {
+                Tile tile = Framing.GetTileSafely(z, j);
+                tile.liquidType(0);
+                tile.liquid = LiquidData;
+            }
 
+            i += RepetitionCount;
         }
     }
 }

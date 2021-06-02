@@ -1,6 +1,8 @@
 ﻿namespace EEMod.Systems.Structurizer.PlacementActions
 {
-    public abstract class BaseRepeatedPlacementActionWithLiquid<TPlacementAction> : BaseRepeatedPlacementAction<TPlacementAction>, ILiquidData
+    public abstract class
+        BaseRepeatedPlacementActionWithLiquid<TPlacementAction> : BaseRepeatedPlacementAction<TPlacementAction>,
+            ILiquidData
         where TPlacementAction : IPlacementAction
     {
         public virtual byte LiquidData { get; }
