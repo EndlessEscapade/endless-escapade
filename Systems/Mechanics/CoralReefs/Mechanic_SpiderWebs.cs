@@ -1,5 +1,6 @@
 using EEMod.Extensions;
 using EEMod.Systems;
+using EEMod.Systems.Subworlds.EESubworlds;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,12 +16,12 @@ namespace EEMod
     {
         public override void OnDraw(SpriteBatch spriteBatch)
         {
-            if (EESubWorlds.WebPositions.Count > 0)
+            if (CoralReefs.WebPositions.Count > 0)
             {
                 sineInt = Main.GameUpdateCount * 0.003f;
-                for (int i = 0; i < EESubWorlds.WebPositions.Count; i++)
+                for (int i = 0; i < CoralReefs.WebPositions.Count; i++)
                 {
-                    Vector2 pos = EESubWorlds.WebPositions[i] * 16;
+                    Vector2 pos = CoralReefs.WebPositions[i] * 16;
                     HandleWebDraw(pos);
                 }
             }

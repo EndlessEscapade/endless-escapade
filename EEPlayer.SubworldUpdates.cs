@@ -21,6 +21,7 @@ using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.SeamapContent;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod
 {
@@ -112,14 +113,14 @@ namespace EEMod
 
             markerPlacer++;
 
-            if (Vector2.DistanceSquared(Main.LocalPlayer.Center, EESubWorlds.SpirePosition * 16) < 700 * 700)
+            if (Vector2.DistanceSquared(Main.LocalPlayer.Center, CoralReefs.SpirePosition * 16) < 700 * 700)
             {
                 HasVisitedSpire = true;
             }
 
             if (HasVisitedSpire && SpireCutscene < 200)
             {
-                FixateCameraOn(EESubWorlds.SpirePosition * 16 + new Vector2(0, -13 * 16), 64f, false, true, 0);
+                FixateCameraOn(CoralReefs.SpirePosition * 16 + new Vector2(0, -13 * 16), 64f, false, true, 0);
                 SpireCutscene++;
             }
 
@@ -132,11 +133,11 @@ namespace EEMod
 
             if (!arrowFlag)
             {
-                for (int i = 0; i < EESubWorlds.OrbPositions.Count; i++)
+                for (int i = 0; i < CoralReefs.OrbPositions.Count; i++)
                 {
-                    NPC.NewNPC((int)EESubWorlds.OrbPositions[i].X * 16, (int)EESubWorlds.OrbPositions[i].Y * 16, NPCType<SpikyOrb>());
+                    NPC.NewNPC((int)CoralReefs.OrbPositions[i].X * 16, (int)CoralReefs.OrbPositions[i].Y * 16, NPCType<SpikyOrb>());
                 }
-                NPC.NewNPC((int)EESubWorlds.SpirePosition.X * 16 + 160 - 8, (int)EESubWorlds.SpirePosition.Y * 16, NPCType<AquamarineSpire>());
+                NPC.NewNPC((int)CoralReefs.SpirePosition.X * 16 + 160 - 8, (int)CoralReefs.SpirePosition.Y * 16, NPCType<AquamarineSpire>());
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
@@ -146,16 +147,16 @@ namespace EEMod
                 arrowFlag = true;
             }
 
-            if (EESubWorlds.CoralBoatPos == Vector2.Zero)
+            if (CoralReefs.CoralBoatPos == Vector2.Zero)
             {
-                EESubWorlds.CoralBoatPos = new Vector2(200, 48);
+                CoralReefs.CoralBoatPos = new Vector2(200, 48);
             }
 
             try
             {
                 //Projectile oceanarrow = Main.projectile[Arrow2];
 
-                if (Helpers.PointInRectangle(player.Center / 16, EESubWorlds.CoralBoatPos.X, EESubWorlds.CoralBoatPos.Y + 12, 4, 4))
+                if (Helpers.PointInRectangle(player.Center / 16, CoralReefs.CoralBoatPos.X, CoralReefs.CoralBoatPos.Y + 12, 4, 4))
                 {
                     if (player.controlUp)
                     {
@@ -163,7 +164,7 @@ namespace EEMod
 
                         SeamapPlayerShip.localship.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
 
-                        SM.SaveAndQuit(KeyID.Sea);
+                        SubworldManager.EnterSubworld<Sea>();
                     }
 
                     ArrowsUIState.OceanArrowVisible = true;
@@ -225,7 +226,7 @@ namespace EEMod
                 if (player.controlUp)
                 {
                     Initialize();
-                    SM.SaveAndQuit(KeyID.VolcanoInside);
+                    SubworldManager.EnterSubworld<CoralReefs>();
                 }
 
                 //voclanoarrow.visible = true;

@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.EmptyTileArrays;
 using System;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.EEWorld
 {
@@ -46,12 +47,12 @@ namespace EEMod.EEWorld
             CreateNoise(!EnsureNoise, Position, Size, 20, 20, 0.4f);
             RemoveStoneSlabs();
 
-            if (EESubWorlds.SpirePosition == Vector2.Zero)
+            if (CoralReefs.SpirePosition == Vector2.Zero)
             {
-                EESubWorlds.SpirePosition = new Vector2(TL.X + BR.X, TL.Y + BR.Y) / 2f;
+                CoralReefs.SpirePosition = new Vector2(TL.X + BR.X, TL.Y + BR.Y) / 2f;
 
-                Vector2 pos1 = new Vector2(EESubWorlds.SpirePosition.X + 10, EESubWorlds.SpirePosition.Y - 150 / 2);
-                Vector2 pos2 = new Vector2(EESubWorlds.SpirePosition.X + 10, EESubWorlds.SpirePosition.Y + 150 / 2);
+                Vector2 pos1 = new Vector2(CoralReefs.SpirePosition.X + 10, CoralReefs.SpirePosition.Y - 150 / 2);
+                Vector2 pos2 = new Vector2(CoralReefs.SpirePosition.X + 10, CoralReefs.SpirePosition.Y + 150 / 2);
 
                 int tile2 = 0;
                 tile2 = GetGemsandType((int)pos1.Y);
@@ -59,10 +60,10 @@ namespace EEMod.EEWorld
                 MakeExpandingChasm(pos1, pos2, tile2, 100, -2, true, new Vector2(20, 30), .5f);
                 MakeExpandingChasm(pos2, pos1, tile2, 100, -2, true, new Vector2(20, 30), .5f);
 
-                ClearRegion(46, 26, new Vector2(EESubWorlds.SpirePosition.X + 10 - 24, EESubWorlds.SpirePosition.Y - 26));
+                ClearRegion(46, 26, new Vector2(CoralReefs.SpirePosition.X + 10 - 24, CoralReefs.SpirePosition.Y - 26));
 
-                MakeWavyChasm3(new Vector2(EESubWorlds.SpirePosition.X - 5, EESubWorlds.SpirePosition.Y - 26), new Vector2(EESubWorlds.SpirePosition.X + 25, EESubWorlds.SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
-                MakeWavyChasm3(new Vector2(EESubWorlds.SpirePosition.X - 5, EESubWorlds.SpirePosition.Y), new Vector2(EESubWorlds.SpirePosition.X + 25, EESubWorlds.SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
+                MakeWavyChasm3(new Vector2(CoralReefs.SpirePosition.X - 5, CoralReefs.SpirePosition.Y - 26), new Vector2(CoralReefs.SpirePosition.X + 25, CoralReefs.SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
+                MakeWavyChasm3(new Vector2(CoralReefs.SpirePosition.X - 5, CoralReefs.SpirePosition.Y), new Vector2(CoralReefs.SpirePosition.X + 25, CoralReefs.SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
             }
 
             RemoveStoneSlabs();
@@ -71,16 +72,16 @@ namespace EEMod.EEWorld
             {
                 if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.NextBool(10))
                 {
-                    if (EESubWorlds.AquamarineZiplineLocations.Count == 0)
+                    if (CoralReefs.AquamarineZiplineLocations.Count == 0)
                     {
-                        EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                        CoralReefs.AquamarineZiplineLocations.Add(new Vector2(i, j));
                     }
                     else
                     {
-                        Vector2 lastPos = EESubWorlds.AquamarineZiplineLocations[EESubWorlds.AquamarineZiplineLocations.Count - 1];
+                        Vector2 lastPos = CoralReefs.AquamarineZiplineLocations[CoralReefs.AquamarineZiplineLocations.Count - 1];
                         if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 210 * 210) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
                         {
-                            EESubWorlds.AquamarineZiplineLocations.Add(new Vector2(i, j));
+                            CoralReefs.AquamarineZiplineLocations.Add(new Vector2(i, j));
                         }
                     }
                 }
@@ -90,13 +91,13 @@ namespace EEMod.EEWorld
             {
                 if ((TileCheck2(i, j) == 2) && Main.rand.NextBool(3))
                 {
-                    EESubWorlds.ThinCrystalBambooLocations.Add(new Vector2(i, j));
+                    CoralReefs.ThinCrystalBambooLocations.Add(new Vector2(i, j));
 
-                    Vector2 lastPos = EESubWorlds.ThinCrystalBambooLocations[EESubWorlds.ThinCrystalBambooLocations.Count - 1];
+                    Vector2 lastPos = CoralReefs.ThinCrystalBambooLocations[CoralReefs.ThinCrystalBambooLocations.Count - 1];
 
                     int length = Main.rand.Next(1, 6);
                     Vector2 rotVec = new Vector2(length, 0).RotatedBy(Main.rand.NextFloat((MathHelper.PiOver2 * 3) - 0.2f, (MathHelper.PiOver2 * 3) + 0.2f));
-                    EESubWorlds.ThinCrystalBambooLocations.Add(lastPos + rotVec);
+                    CoralReefs.ThinCrystalBambooLocations.Add(lastPos + rotVec);
                 }
             });
 

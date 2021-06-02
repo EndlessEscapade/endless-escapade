@@ -49,6 +49,7 @@ namespace EEMod
         public static ParticleZoneHandler Particles;
         public static UIManager UI;
         internal static ParticleZone MainParticles;
+        public static SubworldInstanceManager Subworlds;
         private GameTime lastGameTime;
         public UserInterface EEInterface;
         public FishermansLogUI FishermansLogUI;
@@ -65,6 +66,7 @@ namespace EEMod
         {
             TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
+            Subworlds = new SubworldInstanceManager();
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
             Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());
@@ -166,6 +168,7 @@ namespace EEMod
             Train = null;
             NoiseSurfacing = null;
             White = null;
+            Subworlds = null;
             Colorify = null;
             UnloadIL();
             UnloadDetours();
@@ -204,6 +207,7 @@ namespace EEMod
             MechanicManager.MidUpdateDustTime();
         }
 
+        //Mechanic Port
         public override void PreUpdateEntities()
         {
             RenderTargetBinding[] oldtargets1 = Main.graphics.GraphicsDevice.GetRenderTargets();
@@ -323,7 +327,6 @@ namespace EEMod
             {
                 var computerState = new LegacyGameInterfaceLayer("EE: UI", delegate
                 {
-                    Ascension();
                     if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
                     {
                         DrawText();
@@ -384,6 +387,7 @@ namespace EEMod
             recipe.AddRecipe();
         }*/
 
+        //mechanic port
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (!Main.gameMenu)

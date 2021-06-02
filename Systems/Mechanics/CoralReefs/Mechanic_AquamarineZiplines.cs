@@ -1,6 +1,7 @@
 using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Systems;
+using EEMod.Systems.Subworlds.EESubworlds;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -19,19 +20,19 @@ namespace EEMod
 
         public void DrawAquamarineZiplines()
         {
-            if (EESubWorlds.AquamarineZiplineLocations.Count > 0)
+            if (CoralReefs.AquamarineZiplineLocations.Count > 0)
             {
-                for (int i = 1; i < EESubWorlds.AquamarineZiplineLocations.Count - 2; i++)
+                for (int i = 1; i < CoralReefs.AquamarineZiplineLocations.Count - 2; i++)
                 {
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.004f));
 
                     Vector2 addOn = new Vector2(0, 8);
 
-                    Vector2 ChainConneccPos = EESubWorlds.AquamarineZiplineLocations[i] * 16;
-                    Vector2 LastChainConneccPos = EESubWorlds.AquamarineZiplineLocations[i - 1] * 16;
+                    Vector2 ChainConneccPos = CoralReefs.AquamarineZiplineLocations[i] * 16;
+                    Vector2 LastChainConneccPos = CoralReefs.AquamarineZiplineLocations[i - 1] * 16;
 
-                    Tile CurrentTile = Framing.GetTileSafely((int)EESubWorlds.AquamarineZiplineLocations[i].X, (int)EESubWorlds.AquamarineZiplineLocations[i].Y);
-                    Tile LastTile = Framing.GetTileSafely((int)EESubWorlds.AquamarineZiplineLocations[i - 1].X, (int)EESubWorlds.AquamarineZiplineLocations[i - 1].Y);
+                    Tile CurrentTile = Framing.GetTileSafely((int)CoralReefs.AquamarineZiplineLocations[i].X, (int)CoralReefs.AquamarineZiplineLocations[i].Y);
+                    Tile LastTile = Framing.GetTileSafely((int)CoralReefs.AquamarineZiplineLocations[i - 1].X, (int)CoralReefs.AquamarineZiplineLocations[i - 1].Y);
 
                     bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
 

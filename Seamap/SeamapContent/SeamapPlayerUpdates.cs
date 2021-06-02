@@ -23,6 +23,7 @@ using ReLogic.Graphics;
 using EEMod.Seamap.SeamapAssets;
 using EEMod.Seamap.SeamapContent;
 using EEMod.Autoloading;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod
 {
@@ -188,7 +189,7 @@ namespace EEMod
 
                     arrowFlag = false;
 
-                    SM.SaveAndQuit(prevKey);
+                    SM.Return(prevKey);
                 }
             }
             #endregion
@@ -267,7 +268,7 @@ namespace EEMod
                 {
                     Initialize();
                     Filters.Scene.Deactivate("EEMod:Noise2D");
-                    SM.SaveAndQuit(KeyID.CoralReefs); // coral reefs
+                    SubworldManager.EnterSubworld<CoralReefs>(); // coral reefs
                 }
             }
             #endregion
@@ -483,7 +484,7 @@ namespace EEMod
             {
                 Initialize();
                 prevKey = KeyID.BaseWorldName;
-                SM.SaveAndQuit(KeyID.Pyramids); //pyramid
+                SubworldManager.EnterSubworld<CoralReefs>();                                                      
             }
             if (cutSceneTriggerTimer > 0)
             {
@@ -491,7 +492,7 @@ namespace EEMod
                 {
                     Initialize();
                     prevKey = KeyID.BaseWorldName;
-                    SM.SaveAndQuit(KeyID.Sea); //sea
+                    SubworldManager.EnterSubworld<Sea>();
                 }
             }
         }

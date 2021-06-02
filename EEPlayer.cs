@@ -25,6 +25,7 @@ using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.SeamapContent;
 using Terraria.DataStructures;
 using System.Linq;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod
 {
@@ -453,7 +454,7 @@ namespace EEMod
         public void ReturnHome()
         {
             Initialize();
-            SM.SaveAndQuit(KeyID.BaseWorldName);
+            SM.Return(KeyID.BaseWorldName);
         }
 
         private float displacmentX = 0;
@@ -557,7 +558,7 @@ namespace EEMod
                         }
 
                         Initialize();
-                        SM.SaveAndQuit(KeyID.BaseWorldName);
+                        SM.Return(KeyID.BaseWorldName);
                     }
                 }
             }

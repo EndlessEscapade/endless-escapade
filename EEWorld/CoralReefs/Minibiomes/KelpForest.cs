@@ -1,4 +1,5 @@
-﻿using EEMod.Tiles;
+﻿using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.Tiles;
 using EEMod.Tiles.Foliage;
 using EEMod.Tiles.Foliage.KelpForest;
 using EEMod.Tiles.Walls;
@@ -85,16 +86,16 @@ namespace EEMod.EEWorld
                        {
                            if (TileCheck2(i, j) != 0 && Main.rand.NextBool(8))
                            {
-                               if (EESubWorlds.GiantKelpRoots.Count == 0)
+                               if (CoralReefs.GiantKelpRoots.Count == 0)
                                {
-                                   EESubWorlds.GiantKelpRoots.Add(new Vector2(i, j));
+                                   CoralReefs.GiantKelpRoots.Add(new Vector2(i, j));
                                }
                                else
                                {
-                                   Vector2 lastPos = EESubWorlds.GiantKelpRoots[EESubWorlds.GiantKelpRoots.Count - 1];
+                                   Vector2 lastPos = CoralReefs.GiantKelpRoots[CoralReefs.GiantKelpRoots.Count - 1];
                                    if ((Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 10 * 10 && Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 110 * 110) || Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 200 * 200)
                                    {
-                                       EESubWorlds.GiantKelpRoots.Add(new Vector2(i, j));
+                                       CoralReefs.GiantKelpRoots.Add(new Vector2(i, j));
                                    }
                                }
                            }
@@ -104,16 +105,16 @@ namespace EEMod.EEWorld
             BoundClause((int i, int j) =>
             {
                 int websClose = 0;
-                for (int m = 0; m < EESubWorlds.WebPositions.Count; m++)
+                for (int m = 0; m < CoralReefs.WebPositions.Count; m++)
                 {
-                    if (Vector2.DistanceSquared(new Vector2(i, j), EESubWorlds.WebPositions[m]) < 200 * 200)
+                    if (Vector2.DistanceSquared(new Vector2(i, j), CoralReefs.WebPositions[m]) < 200 * 200)
                     {
                         websClose++;
                     }
                 }
                 if (websClose == 0)
                 {
-                    EESubWorlds.WebPositions.Add(new Vector2(i, j));
+                    CoralReefs.WebPositions.Add(new Vector2(i, j));
                 }
             });
 

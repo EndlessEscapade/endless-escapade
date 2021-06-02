@@ -14,6 +14,7 @@ using Terraria.ID;
 using Terraria.ModLoader.IO;
 using Terraria.ObjectData;
 using static EEMod.EEWorld.EEWorld;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.Tiles.EmptyTileArrays
 {
@@ -44,7 +45,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                         if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i, j - height), CrystalTexture, CrystalGlow), new Vector2(i, j - height), array);
-                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
+                            CoralReefs.CoralCrystalPosition.Add(new Vector2(i, j - height));
                         }
                     }
                     break;
@@ -54,7 +55,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                         if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i + width, j + 1 + height).active())
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i, j + 1), CrystalTexture, CrystalGlow), new Vector2(i, j + 1), array);
-                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j + 1));
+                            CoralReefs.CoralCrystalPosition.Add(new Vector2(i, j + 1));
                         }
                     }
                     break;
@@ -64,7 +65,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                         if (!Framing.GetTileSafely(i - 1, j).active() && !Framing.GetTileSafely(i + 1 + width, j + height).active())
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i + 1, j), CrystalTexture, CrystalGlow), new Vector2(i + 1, j), array);
-                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i + 1, j));
+                            CoralReefs.CoralCrystalPosition.Add(new Vector2(i + 1, j));
                         }
                     }
                     break;
@@ -74,7 +75,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                         if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - width - 1, j + height).active())
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i - width, j), CrystalTexture, CrystalGlow), new Vector2(i - width, j), array);
-                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i - width, j));
+                            CoralReefs.CoralCrystalPosition.Add(new Vector2(i - width, j));
                         }
                     }
                     break;
@@ -84,7 +85,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                         if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i, j - 1).active())
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i, j - height), CrystalTexture, CrystalGlow), new Vector2(i, j - height), array);
-                            EESubWorlds.CoralCrystalPosition.Add(new Vector2(i, j - height));
+                            CoralReefs.CoralCrystalPosition.Add(new Vector2(i, j - height));
                         }
                     }
                     break;

@@ -25,6 +25,7 @@ namespace EEMod.Systems
         public virtual void OnDraw(SpriteBatch spriteBatch) { }
         public virtual void OnUpdate() { }
         public virtual void OnLoad() { }
+        public virtual void AddHooks() { }
 
         public void Draw(SpriteBatch spritebatch)
         {
@@ -35,9 +36,13 @@ namespace EEMod.Systems
         {
             OnUpdate();
         }
+
         public void Load()
         {
             Mod.Updatables.Add(this);
+
+            AddHooks();
+
             switch (DrawLayering)
             {
                 case Layer.BehindTiles:
@@ -52,6 +57,7 @@ namespace EEMod.Systems
             }
             OnLoad();
         }
+
 
         /// <summary>
         /// Called in <seealso cref="MechanicWorld.PostUpdate"/>

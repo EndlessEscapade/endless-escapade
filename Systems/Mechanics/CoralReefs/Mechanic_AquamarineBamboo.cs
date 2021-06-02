@@ -1,6 +1,7 @@
 using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Systems;
+using EEMod.Systems.Subworlds.EESubworlds;
 using EEMod.Tiles.Furniture;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -19,17 +20,17 @@ namespace EEMod
 
         public void DrawThinCrystalBamboo()
         {
-            if (EESubWorlds.ThinCrystalBambooLocations.Count > 0)
+            if (CoralReefs.ThinCrystalBambooLocations.Count > 0)
             {
                 Texture2D stalk = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalBambooThin");
                 Texture2D tip = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalBambooThinTip");
 
-                for (int i = 0; i < EESubWorlds.ThinCrystalBambooLocations.Count - 2; i += 2)
+                for (int i = 0; i < CoralReefs.ThinCrystalBambooLocations.Count - 2; i += 2)
                 {
-                    Vector2 begin = (EESubWorlds.ThinCrystalBambooLocations[i] * 16) + new Vector2(8, 8);
-                    Vector2 end = EESubWorlds.ThinCrystalBambooLocations[i + 1] * 16;
+                    Vector2 begin = (CoralReefs.ThinCrystalBambooLocations[i] * 16) + new Vector2(8, 8);
+                    Vector2 end = CoralReefs.ThinCrystalBambooLocations[i + 1] * 16;
 
-                    Tile root = Framing.GetTileSafely((int)EESubWorlds.ThinCrystalBambooLocations[i].X, (int)EESubWorlds.ThinCrystalBambooLocations[i].Y);
+                    Tile root = Framing.GetTileSafely((int)CoralReefs.ThinCrystalBambooLocations[i].X, (int)CoralReefs.ThinCrystalBambooLocations[i].Y);
 
                     bool isValid = root.active() && Main.tileSolid[root.type] && root.slope() == 0;
 
@@ -41,7 +42,7 @@ namespace EEMod
 
                         if (Vector2.DistanceSquared(Main.LocalPlayer.Center, Mid) < 2000 * 2000)
                         {
-                            Color color = Lighting.GetColor((int)EESubWorlds.ThinCrystalBambooLocations[i].X, (int)EESubWorlds.ThinCrystalBambooLocations[i].Y);
+                            Color color = Lighting.GetColor((int)CoralReefs.ThinCrystalBambooLocations[i].X, (int)CoralReefs.ThinCrystalBambooLocations[i].Y);
 
                             Helpers.DrawChain(stalk, end, begin, 0, 1, color);
 

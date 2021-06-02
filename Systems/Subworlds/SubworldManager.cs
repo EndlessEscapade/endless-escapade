@@ -1,4 +1,4 @@
-using EEMod.Tiles;
+
 using Microsoft.Xna.Framework;
 using System;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ using Terraria.Social;
 using Terraria.Utilities;
 using Terraria.World.Generation;
 
-namespace EEMod
+namespace EEMod.Systems.Subworlds.EESubworlds
 {
     public class SubworldManager
     {
@@ -31,7 +31,8 @@ namespace EEMod
 
         internal static EEServerState serverState = EEServerState.None;
 
-        public static Process EEServer = new Process();
+        public static Process LinuxModServer = new Process();
+
         public static int lastSeed;
 
         private static void AddGenerationPass(string name, WorldGenLegacyMethod method) => _generator.Append(new PassLegacy(name, method));
@@ -100,7 +101,6 @@ namespace EEMod
 
         public static void Reset(int seed)
         {
-            EEMod.progressMessage = "Resetting";
             Logging.Terraria.InfoFormat("Generating World: {0}", Main.ActiveWorldFileData.Name);
 
             lastSeed = seed;
@@ -111,7 +111,7 @@ namespace EEMod
 
             AddGenerationPass("Reset", delegate (GenerationProgress progress)
             {
-                progress.Message = "";
+                progress.Message = "Resetting";
 
                 Liquid.ReInit();
 
@@ -130,14 +130,9 @@ namespace EEMod
 
         public static void PostReset(GenerationProgress customProgressObject = null)
         {
-            EEMod.progressMessage = "Post Resetting";
-
             _generator.GenerateWorld(customProgressObject);
 
             Main.WorldFileMetadata = FileMetadata.FromCurrentSettings(FileType.World);
-
-            EEWorld.EEWorld.FillRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.TileType<GemsandTile>());
-            EEWorld.EEWorld.ClearRegion(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
         }
 
         internal static void PreSaveAndQuit()
@@ -150,12 +145,13 @@ namespace EEMod
             }
         }
 
-        public void SaveAndQuit(string key)
+        public static void EnterSubworld<T>() where T : Subworld, new()
         {
             Main.PlaySound(SoundID.MenuClose);
             PreSaveAndQuit();
-            ThreadPool.QueueUserWorkItem(SaveAndQuitCallBack, key);
+            ThreadPool.QueueUserWorkItem(SaveAndQuitCallBack, new T());
         }
+
 
         public static void SaveAndQuitCallBack(object threadContext)
         {
@@ -173,7 +169,7 @@ namespace EEMod
                 WorldFile.CacheSaveTime();
 
                 Main.menuMode = 10;
-                EEMod.isSaving = true;
+                EEMod.Subworlds.IsSaving = true;
             }
             else
             {
@@ -214,7 +210,11 @@ namespace EEMod
             }
             if (threadContext != null)
             {
-                EnterSub((string)threadContext);
+                if(threadContext is Subworld sub)
+                EnterSub(sub);
+
+                if (threadContext is string subN)
+                EnterSub(subN);
             }
         }
 
@@ -222,12 +222,17 @@ namespace EEMod
         {
             Main.PlaySound(SoundID.MenuOpen);
             WorldGen.clearWorld();
-            EEMod.GenerateWorld((string)threadContext, Main.ActiveWorldFileData.Seed, null);
+            GenerateWorld((Subworld)threadContext, Main.ActiveWorldFileData.Seed, null);
             WorldFile.saveWorld(Main.ActiveWorldFileData.IsCloudSave, resetTime: true);
 
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{EEPath}\{threadContext as string}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{EEPath}\{(threadContext as Subworld).Name}.wld", false);
 
             WorldGen.playWorld();
+        }
+
+        public static void GenerateWorld(Subworld subworld, int seed, GenerationProgress customProgressObject = null)
+        {
+            subworld.Generate(seed, customProgressObject);
         }
 
         public static void WorldGenCallBack(object threadContext)
@@ -242,10 +247,10 @@ namespace EEMod
             }
         }
 
-        public static void CreateNewWorld(string text)
+        public static void CreateNewWorld(Subworld subworld)
         {
             Main.rand = new UnifiedRandom(Main.ActiveWorldFileData.Seed);
-            ThreadPool.QueueUserWorkItem(WorldGenCallBack, text);
+            ThreadPool.QueueUserWorkItem(WorldGenCallBack, subworld);
         }
 
         public static string ConvertToSafeArgument(string arg) => Uri.EscapeDataString(arg);
@@ -274,50 +279,47 @@ namespace EEMod
 
             return existing;
         }
-
-        private static void OnWorldNamed(string text)
+        public static string SubworldPath => $@"{Main.SavePath}\Worlds\EESubworlds_Temp";
+        private static void OnWorldNamed(object subworld)
         {
-            if (text != Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName)
+            string Name = "";
+
+            if (subworld is Subworld sub) Name = sub.Name;
+            if (subworld is string subN) Name = subN;
+
+            if (Name != Main.LocalPlayer.GetModPlayer<SubworldPlayer>().PrimaryWorldName && subworld is Subworld Subworld)
             {
-                EEPath = $@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds";
+                Main.LocalPlayer.GetModPlayer<SubworldPlayer>().InSubworld = true;
+                Main.LocalPlayer.GetModPlayer<SubworldPlayer>().CurrentSubworld = Subworld;
+
+                EEPath = $@"{SubworldPath}\{Main.LocalPlayer.GetModPlayer<SubworldPlayer>().PrimaryWorldName}Subworlds";
 
                 if (!Directory.Exists(EEPath))
                 {
                     Directory.CreateDirectory(EEPath);
                 }
 
-                string EESubworldPath = $@"{EEPath}\{text}.wld";
+                string EESubworldPath = $@"{EEPath}\{Name}.wld";
 
                 Main.ActiveWorldFileData = WorldFile.GetAllMetadata(EESubworldPath, false);
                 Main.ActivePlayerFileData.SetAsActive();
 
-                if (!File.Exists(EESubworldPath))
+                if (!File.Exists(EESubworldPath) )
                 {
-                    CreateNewWorld(text);
+                    CreateNewWorld(Subworld);
 
-                    Main.ActiveWorldFileData = CreateSubworldMetaData(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, EESubworldPath);
-                    Main.worldName = text.Trim();
+                    Main.ActiveWorldFileData = CreateSubworldMetaData(Name, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, EESubworldPath);
+                    Main.worldName = Name.Trim();
 
                     return;
                 }
             }
             else
             {
-                Main.spawnTileX = 100;
-                Main.spawnTileY = EEWorld.EEWorld.TileCheckWater(100) - 22;
-                Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);
+                Main.LocalPlayer.GetModPlayer<SubworldPlayer>().InSubworld = false;
+                Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{EEPath}\{Name}.wld", false);
                 Main.ActivePlayerFileData.SetAsActive();
             }
-
-            /*string path = $@"{Main.SavePath}\Worlds\{text}.wld";
-
-            if (!File.Exists(path))
-            {
-                Main.ActiveWorldFileData = WorldFile.CreateMetadata(text, SocialAPI.Cloud != null && SocialAPI.Cloud.EnabledByDefault, Main.expertMode);
-                Main.worldName = text.Trim();
-                CreateNewWorld(text);
-                return;
-            }*/
 
             if (serverState == EEServerState.SinglePlayer)
             {
@@ -325,28 +327,6 @@ namespace EEMod
             }
             else
             {
-                /*EEServer.StartInfo.FileName = "tModLoaderServer.exe";
-                if (Main.libPath != "")
-                {
-                    ProcessStartInfo startInfo = EEServer.StartInfo;
-                    startInfo.Arguments = startInfo.Arguments + " -loadlib " + Main.libPath;
-                }
-                EEServer.StartInfo.UseShellExecute = false;
-                EEServer.StartInfo.CreateNoWindow = !Main.showServerConsole;
-                if (SocialAPI.Network != null)
-                {
-                    SocialAPI.Network.LaunchLocalServer(EEServer, Main.MenuServerMode);
-                }
-                else
-                {
-                    EEServer.Start();
-                }*/
-
-                //Netplay.SetRemoteIP("127.0.0.1");
-
-                //Main.autoPass = true;
-
-                //Netplay.StartTcpClient();
                 Main.clrInput();
 
                 Netplay.ServerPassword = "";
@@ -372,7 +352,19 @@ namespace EEMod
             WorldGen.playWorld();
         }
 
-        public static void EnterSub(string key) => OnWorldNamed(key);
+        public static void ReturnToBaseWorld()
+        {
+
+        }
+        public static void EnterSub(string sub)
+        {
+            OnWorldNamed(sub);
+        }
+        public static void EnterSub(Subworld subworld)
+        {
+            OnWorldNamed(subworld);
+        }
+
 
         public void Return(string baseWorldName) => ReturnOnName(baseWorldName);
     }

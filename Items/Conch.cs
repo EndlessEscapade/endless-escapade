@@ -1,4 +1,5 @@
 using EEMod.ID;
+using EEMod.Systems.Subworlds.EESubworlds;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -30,7 +31,7 @@ namespace EEMod.Items
         public override bool UseItem(Player player)
         {
             Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().SM.SaveAndQuit(KeyID.CoralReefs);
+            SubworldManager.EnterSubworld<CoralReefs>(); 
             return true;
         }
     }

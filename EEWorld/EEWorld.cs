@@ -25,6 +25,7 @@ using EEMod.Tiles.EmptyTileArrays;
 using System.Linq;
 using EEMod.VerletIntegration;
 using EEMod.Prim;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.EEWorld
 {
@@ -306,17 +307,17 @@ namespace EEMod.EEWorld
         public override void Load(TagCompound tag)
         {
             tag.TryGetListRef("EntracesPosses", ref EntracesPosses);
-            tag.TryGetRef("CoralBoatPos", ref EESubWorlds.CoralBoatPos);
+            tag.TryGetRef("CoralBoatPos", ref CoralReefs.CoralBoatPos);
             tag.TryGetRef("SubWorldSpecificVolcanoInsidePos", ref SubWorldSpecificVolcanoInsidePos);
             tag.TryGetRef("yes", ref yes);
             tag.TryGetRef("ree", ref ree);
-            tag.TryGetRef("SpirePosition", ref EESubWorlds.SpirePosition);
-            tag.TryGetListRef("CoralReefVineLocations", ref EESubWorlds.CoralReefVineLocations);
-            tag.TryGetListRef("OrbPositions", ref EESubWorlds.OrbPositions);
-            tag.TryGetListRef("AquamarineZiplineLocations", ref EESubWorlds.AquamarineZiplineLocations);
-            tag.TryGetListRef("ThinCrystalBambooLocations", ref EESubWorlds.ThinCrystalBambooLocations);
-            tag.TryGetListRef("BulbousTreePosition", ref EESubWorlds.BulbousTreePosition);
-            tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions);
+            tag.TryGetRef("SpirePosition", ref CoralReefs.SpirePosition);
+            tag.TryGetListRef("CoralReefVineLocations", ref CoralReefs.CoralReefVineLocations);
+            tag.TryGetListRef("OrbPositions", ref CoralReefs.OrbPositions);
+            tag.TryGetListRef("AquamarineZiplineLocations", ref CoralReefs.AquamarineZiplineLocations);
+            tag.TryGetListRef("ThinCrystalBambooLocations", ref CoralReefs.ThinCrystalBambooLocations);
+            tag.TryGetListRef("BulbousTreePosition", ref CoralReefs.BulbousTreePosition);
+            tag.TryGetListRef("WebPositions", ref CoralReefs.WebPositions);
 
             /*if (tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions))
             {
@@ -355,7 +356,7 @@ namespace EEMod.EEWorld
                     EmptyTileEntities.Instance.ETES.Add(ETEnt);
                 }
             }
-            if (tag.TryGetListRef<Vector2>("CoralCrystalPosition", ref EESubWorlds.CoralCrystalPosition))
+            if (tag.TryGetListRef<Vector2>("CoralCrystalPosition", ref CoralReefs.CoralCrystalPosition))
             {
                 // for (int i = 0; i < EESubWorlds.CoralCrystalPosition.Count; i++)
                 //    EmptyTileEntityCache.AddPair(new Crystal(EESubWorlds.CoralCrystalPosition[i]), EESubWorlds.CoralCrystalPosition[i], EmptyTileArrays.CoralCrystal);
@@ -368,7 +369,7 @@ namespace EEMod.EEWorld
                 {
                     templist.Add(new Vector3(list[i], types[i]));
                 }
-                EESubWorlds.MinibiomeLocations = templist;
+                CoralReefs.MinibiomeLocations = templist;
             }
             if (tag.TryGetList<string>("boolFlags", out var flags))
             {
@@ -387,30 +388,30 @@ namespace EEMod.EEWorld
             TagCompound tag = new TagCompound();
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
-                tag["CoralBoatPos"] = EESubWorlds.CoralBoatPos;
-                tag["CoralReefVineLocations"] = EESubWorlds.CoralReefVineLocations;
-                tag["AquamarineZiplineLocations"] = EESubWorlds.AquamarineZiplineLocations;
-                tag["ThinCrystalBambooLocations"] = EESubWorlds.ThinCrystalBambooLocations;
-                tag["OrbPositions"] = EESubWorlds.OrbPositions;
-                tag["BulbousTreePosition"] = EESubWorlds.BulbousTreePosition;
-                tag["WebPositions"] = EESubWorlds.WebPositions;
+                tag["CoralBoatPos"] = CoralReefs.CoralBoatPos;
+                tag["CoralReefVineLocations"] = CoralReefs.CoralReefVineLocations;
+                tag["AquamarineZiplineLocations"] = CoralReefs.AquamarineZiplineLocations;
+                tag["ThinCrystalBambooLocations"] = CoralReefs.ThinCrystalBambooLocations;
+                tag["OrbPositions"] = CoralReefs.OrbPositions;
+                tag["BulbousTreePosition"] = CoralReefs.BulbousTreePosition;
+                tag["WebPositions"] = CoralReefs.WebPositions;
                 tag["SwingableVines"] = VerletHelpers.SwingableVines;
                 tag["LightStates"] = LightStates;
-                tag["CoralCrystalPosition"] = EESubWorlds.CoralCrystalPosition;
-                tag["SpirePosition"] = EESubWorlds.SpirePosition;
+                tag["CoralCrystalPosition"] = CoralReefs.CoralCrystalPosition;
+                tag["SpirePosition"] = CoralReefs.SpirePosition;
                 tag["EmptyTileVectorMain"] = EmptyTileEntities.Instance.EmptyTilePairsCache.Keys.ToList();
                 tag["EmptyTileVectorSub"] = EmptyTileEntities.Instance.EmptyTilePairsCache.Values.ToList();
                 tag["EmptyTileVectorEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Keys.ToList();
                 tag["EmptyTileEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Values.ToList();
 
-                if (EESubWorlds.MinibiomeLocations.Count > 0)
+                if (CoralReefs.MinibiomeLocations.Count > 0)
                 {
-                    Vector2[] ReefMinibiomePositions = new Vector2[EESubWorlds.MinibiomeLocations.Count];
-                    int[] ReefMinibiomeTypes = new int[EESubWorlds.MinibiomeLocations.Count];
-                    for (int i = 0; i < EESubWorlds.MinibiomeLocations.Count; i++)
+                    Vector2[] ReefMinibiomePositions = new Vector2[CoralReefs.MinibiomeLocations.Count];
+                    int[] ReefMinibiomeTypes = new int[CoralReefs.MinibiomeLocations.Count];
+                    for (int i = 0; i < CoralReefs.MinibiomeLocations.Count; i++)
                     {
-                        ReefMinibiomePositions[i] = new Vector2(EESubWorlds.MinibiomeLocations[i].X, EESubWorlds.MinibiomeLocations[i].Y);
-                        ReefMinibiomeTypes[i] = (int)EESubWorlds.MinibiomeLocations[i].Z;
+                        ReefMinibiomePositions[i] = new Vector2(CoralReefs.MinibiomeLocations[i].X, CoralReefs.MinibiomeLocations[i].Y);
+                        ReefMinibiomeTypes[i] = (int)CoralReefs.MinibiomeLocations[i].Z;
                     }
                     tag["ReefMinibiomePositions"] = ReefMinibiomePositions.ToList();
                     tag["ReefMinibiomeTypes"] = ReefMinibiomeTypes.ToList();

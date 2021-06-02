@@ -58,6 +58,7 @@ namespace EEMod
         float counter;
         bool IsTraining;
 
+        //MechanicPort
         public void UpdateVerlet()
         {
             ScTex = Main.screenTarget;
@@ -75,9 +76,6 @@ namespace EEMod
         {
             switch (key)
             {
-                case nameof(EESubWorlds.CoralReefs):
-                    EESubWorlds.CoralReefs(seed, customProgressObject);
-                    break;
                 case nameof(EESubWorlds.Cutscene1):
                     EESubWorlds.Cutscene1(seed, customProgressObject);
                     break;
@@ -89,9 +87,6 @@ namespace EEMod
                     break;
                 case nameof(EESubWorlds.Pyramids):
                     EESubWorlds.Pyramids(seed, customProgressObject);
-                    break;
-                case nameof(EESubWorlds.Sea):
-                    EESubWorlds.Sea(seed, customProgressObject);
                     break;
                 case nameof(EESubWorlds.VolcanoInside):
                     EESubWorlds.VolcanoInside(seed, customProgressObject);
@@ -105,6 +100,7 @@ namespace EEMod
             }
         }
 
+        //MechanicPort
         public void DrawZipline()
         {
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
@@ -115,6 +111,7 @@ namespace EEMod
             Main.spriteBatch.End();
         }
 
+        //ew why did I write this at all
         public void UpdateGame(GameTime gameTime)
         {
             lerps++;
@@ -188,7 +185,7 @@ namespace EEMod
             }
         }
 
-
+        //should be in helper class
         public static void UIText(string text, Color colour, Vector2 position, int style)
         {
             var font = style == 0 ? Main.fontDeathText : Main.fontMouseText;
@@ -198,82 +195,7 @@ namespace EEMod
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
-        private void Ascension()
-        {
-            const float seperation = 400;
-            // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            if (EEPlayer.startingText)
-            {
-                float alpha;
-                startingTextHandler++;
-                if (startingTextHandler % seperation <= (seperation / 2) && startingTextHandler > seperation)
-                {
-                    alpha = (float)Math.Sin(startingTextHandler % seperation / (seperation / 2) * Math.PI);
-                }
-                else
-                {
-                    alpha = 0;
-                }
-                Color color = Color.White;
-                if (startingTextHandler < seperation * 2)
-                {
-                    text = "Im too weak";
-                }
-                else if (startingTextHandler < seperation * 3)
-                {
-                    text = "Haha Funny Sans Go Burr";
-                }
-                else if (startingTextHandler < seperation * 4)
-                {
-                    text = "Sans Slime was too much";
-                }
-                else
-                {
-                    text = "Go to the world and avenge me ples ok? Thx bye";
-                }
-                color *= alpha;
-                Vector2 textSize = Main.fontDeathText.MeasureString(text);
-                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-                //float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-            }
-            // EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            if (isAscending)
-            {
-                float alpha;
-                AscentionHandler++;
-                if (AscentionHandler % seperation <= (seperation / 2) && AscentionHandler > seperation)
-                {
-                    alpha = (float)Math.Sin(AscentionHandler % seperation / (seperation / 2) * Math.PI);
-                }
-                else
-                {
-                    alpha = 0;
-                }
-                Color color = Color.Black;
-                if (AscentionHandler < seperation * 2)
-                {
-                    text = "You have discovered your first rune";
-                }
-                else if (AscentionHandler < seperation * 3)
-                {
-                    text = "Be wary, many more remain";
-                }
-                else if (AscentionHandler < seperation * 4)
-                {
-                    text = "Once you collect them all, you will be able to make synergies"; //"Collect runes for synergies" This is technically wrong since you can only get synergies after collecting them all
-                }
-                else
-                {
-                    text = "Good luck.";
-                }
-                color *= alpha;
-                Vector2 textSize = Main.fontDeathText.MeasureString(text);
-                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-                //float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-            }
-        }
+       
 
         private void DrawText()
         {
@@ -312,46 +234,25 @@ namespace EEMod
             }
             Texture2D Outline = ModContent.GetInstance<EEMod>().GetTexture("UI/Outline");
             Texture2D OceanScreen = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/OceanScreen");
-            Vector2 textSize = Main.fontDeathText.MeasureString(text);
-            float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
-            float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
-            Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
-            if (Main.worldName == KeyID.Sea)
-                Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
-            if (Main.worldName == KeyID.Sea)
+            if (Main.fontDeathText != null)
             {
-                Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
-            }
-            else
-            {
-                Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(Outline, new Vector2(textPositionLeft - 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(Outline, new Vector2(textPositionRight + 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.FlipHorizontally, 0);
-            }
-        }
-
-        void UpdateNet()
-        {
-            //HandwritingCNN.Draw();
-            if (Train.JustPressed)
-            {
-                IsTraining = !IsTraining;
-            }
-            if (IsTraining)
-            {
-                //UIText(HandwritingCNN.ERROR.ToString(), Color.White, Main.screenPosition.ForDraw() + new Vector2(50,400), 1);
-                for (int i = 0; i < 60; i++)
+                /*Vector2 textSize = Main.fontDeathText.MeasureString(text);
+                float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
+                float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;
+                Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
+                if (Main.worldName == KeyID.Sea)
+                    Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
+                if (Main.worldName == KeyID.Sea)
                 {
-                    //HandwritingCNN.Update();
+                    Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
                 }
+                else
+                {
+                    Main.spriteBatch.DrawString(Main.fontDeathText, text, new Vector2(textPositionLeft, Main.screenHeight / 2 - 300), color, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Outline, new Vector2(textPositionLeft - 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(Outline, new Vector2(textPositionRight + 25, Main.screenHeight / 2 - 270), new Rectangle(0, 0, Outline.Width, Outline.Height), Color.White * alpha, 0, Outline.TextureCenter(), 1, SpriteEffects.FlipHorizontally, 0);
+                }*/
             }
         }
-
-        /*public ModPacket GetPacket(EEMessageType type, int capacity)
-{
-    ModPacket packet = GetPacket(capacity + 1);
-    packet.Write((byte)type);
-    return packet;
-}*/
     }
 }
