@@ -45,7 +45,7 @@ namespace EEMod.Systems.Structurizer
 
             foreach (IPlacementAction action in PlacementActions)
             {
-                action.Place(ref i, ref j, this);
+                action.Place(ref i, ref j, this, ref deferredMultitiles);
 
                 if (i >= x + Width)
                 {
