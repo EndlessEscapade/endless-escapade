@@ -1,13 +1,18 @@
 ﻿namespace EEMod.Systems.Structurizer.PlacementActions.Actions.Repetition
 {
-    public class RepeatedPlaceEmptyWallAction : BaseRepeatedPlacementAction<EmptyWallAction>
+    public class RepeatedPlaceEmptyWallAction : BaseRepeatedPlacementAction<PlaceEmptyWallAction>
     {
-        public RepeatedPlaceEmptyWallAction(byte repetitionCount) : base(repetitionCount)
+        public RepeatedPlaceEmptyWallAction(ushort repetitionCount) : base(repetitionCount)
         {
         }
 
         public override ushort Flag => 0xFFF1;
 
-        public override EmptyWallAction PlacementAction => new EmptyWallAction();
+        public override PlaceEmptyWallAction PlacementAction => new PlaceEmptyWallAction();
+
+        public override void Place(ref int i, ref int j)
+        {
+
+        }
     }
 }

@@ -2,12 +2,17 @@
 {
     public class RepeatedPlaceTileAction : BaseRepeatedPlacementActionWithEntry<PlaceTileAction>
     {
-        public RepeatedPlaceTileAction(byte repetitionCount, ushort entryData) : base(repetitionCount, entryData)
+        public RepeatedPlaceTileAction(ushort repetitionCount, ushort entryData) : base(repetitionCount, entryData)
         {
         }
 
         public override ushort Flag => 0xFFFD;
 
         public override PlaceTileAction PlacementAction => new PlaceTileAction(EntryData);
+
+        public override void Place(ref int i, ref int j)
+        {
+
+        }
     }
 }

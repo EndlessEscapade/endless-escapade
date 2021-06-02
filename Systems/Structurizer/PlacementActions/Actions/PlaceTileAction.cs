@@ -9,8 +9,9 @@
 
         public override ushort Flag { get; }
 
-        public override void Place()
+        public override void Place(ref int i, ref int j)
         {
+
         }
     }
 }

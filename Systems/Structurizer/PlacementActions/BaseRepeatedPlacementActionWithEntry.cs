@@ -5,7 +5,7 @@
     {
         public override ushort EntryData { get; }
 
-        protected BaseRepeatedPlacementActionWithEntry(byte repetitionCount, ushort entryData) : base(repetitionCount)
+        protected BaseRepeatedPlacementActionWithEntry(ushort repetitionCount, ushort entryData) : base(repetitionCount)
         {
             EntryData = entryData;
         }

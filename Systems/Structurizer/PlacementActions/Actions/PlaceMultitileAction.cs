@@ -8,8 +8,9 @@
 
         public override ushort Flag => 0xFFFC;
 
-        public override void Place()
+        public override void Place(ref int i, ref int j)
         {
+
         }
     }
 }

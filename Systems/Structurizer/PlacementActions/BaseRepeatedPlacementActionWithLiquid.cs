@@ -5,7 +5,7 @@
     {
         public virtual byte LiquidData { get; }
 
-        protected BaseRepeatedPlacementActionWithLiquid(byte repetitionCount, byte liquidData) : base(repetitionCount)
+        protected BaseRepeatedPlacementActionWithLiquid(ushort repetitionCount, byte liquidData) : base(repetitionCount)
         {
             LiquidData = liquidData;
         }

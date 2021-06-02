@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using EEMod.Systems.Structurizer.PlacementActions;
+using EEMod.Systems.Structurizer.PlacementActions.Actions;
+using EEMod.Systems.Structurizer.PlacementActions.Actions.Repetition;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -24,7 +26,7 @@ namespace EEMod.Systems.Structurizer
         public virtual IPlacementAction[] PlacementActions { get; }
 
         private Structure(int width, int height, Dictionary<ushort, ushort> tileMap, Dictionary<ushort, ushort> wallMap,
-            PlacementAction[] placementActions)
+            IPlacementAction[] placementActions)
         {
             Width = width;
             Height = height;
@@ -41,185 +43,9 @@ namespace EEMod.Systems.Structurizer
 
             PrepareAreaForStructure(x, y);
 
-            foreach (PlacementAction action in PlacementActions)
+            foreach (IPlacementAction action in PlacementActions)
             {
-                switch (action.Type)
-                {
-                    case PlacementActionType.PlaceAirRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++)
-                            WorldGen.KillTile(z, j, false, noItem: true);
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceAir:
-                        WorldGen.KillTile(i, j, false, noItem: true);
-                        i++;
-                        break;
-
-                    case PlacementActionType.PlaceTile:
-                        WorldGen.PlaceTile(i, j, EntryToTileID[action.EntryData], true, true);
-                        i++;
-                        break;
-
-                    case PlacementActionType.PlaceTileRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++)
-                            WorldGen.PlaceTile(z, j, EntryToTileID[action.EntryData], true, true);
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceMultitile:
-                        deferredMultitiles.Add((new Point(i, j), EntryToTileID[action.EntryData], 0, 0));
-                        i++;
-                        break;
-
-                    case PlacementActionType.PlaceWater:
-                    {
-                        Tile tile = Framing.GetTileSafely(i, j);
-                        tile.liquidType(0);
-                        tile.liquid = action.LiquidData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceLava:
-                    {
-                        Tile tile = Framing.GetTileSafely(i, j);
-                        tile.liquidType(1);
-                        tile.liquid = action.LiquidData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceHoney:
-                    {
-                        Tile tile = Framing.GetTileSafely(i, j);
-                        tile.liquidType(2);
-                        tile.liquid = action.LiquidData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceWaterRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++)
-                        {
-                            Tile tile = Framing.GetTileSafely(z, j);
-                            tile.liquidType(0);
-                            tile.liquid = action.LiquidData;
-                        }
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceLavaRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++)
-                        {
-                            Tile tile = Framing.GetTileSafely(z, j);
-                            tile.liquidType(1);
-                            tile.liquid = action.LiquidData;
-                        }
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceHoneyRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++)
-                        {
-                            Tile tile = Framing.GetTileSafely(z, j);
-                            tile.liquidType(2);
-                            tile.liquid = action.LiquidData;
-                        }
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceMultitileWithStyle:
-                        deferredMultitiles.Add((new Point(i, j), EntryToTileID[action.EntryData], action.StyleData, 0));
-                        i++;
-                        break;
-
-                    case PlacementActionType.PlaceMultitileWithAlternateStyle:
-                        deferredMultitiles.Add((new Point(i, j), EntryToTileID[action.EntryData], action.StyleData,
-                            action.AlternateStyleData));
-                        i++;
-                        break;
-
-                    case PlacementActionType.PlaceWall:
-                        WorldGen.PlaceWall(i, j, EntryToWallID[action.EntryData], true);
-                        i++;
-                        break;
-
-                    case PlacementActionType.PlaceWallRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++)
-                            WorldGen.PlaceWall(z, j, EntryToWallID[action.EntryData], true);
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceEmptyWall:
-                        WorldGen.KillWall(i, j, false);
-                        i++;
-                        break;
-
-                    case PlacementActionType.PlaceEmptyWallRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++) WorldGen.KillWall(z, j, false);
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceSlope:
-                    {
-                        if (WorldGen.PlaceTile(i, j, EntryToTileID[action.EntryData], true))
-                            Main.tile[i, j].slope(action.StyleData);
-
-                        i++;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceSlopeRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++)
-                            if (WorldGen.PlaceTile(z, j, EntryToTileID[action.EntryData], true))
-                                Main.tile[z, j].slope(action.StyleData);
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceHalfBrick:
-                    {
-                        if (WorldGen.PlaceTile(i, j, EntryToTileID[action.EntryData]))
-                            Main.tile[i, j].halfBrick(true);
-
-                        i++;
-                        break;
-                    }
-
-                    case PlacementActionType.PlaceHalfBrickRepeated:
-                    {
-                        for (int z = i; z < i + action.RepetitionData; z++)
-                            if (WorldGen.PlaceTile(z, j, EntryToTileID[action.EntryData], true))
-                                Main.tile[z, j].halfBrick(true);
-
-                        i += action.RepetitionData;
-                        break;
-                    }
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                action.Place(ref i, ref j);
 
                 if (i >= x + Width)
                 {
@@ -260,8 +86,9 @@ namespace EEMod.Systems.Structurizer
                     if (chestID != -1)
                     {
                         Chest chest = Main.chest[chestID];
-                        for (int z = 0; z < chest.item.Length; z++)
-                            chest.item[z].TurnToAir();
+
+                        foreach (Item item in chest.item)
+                            item.TurnToAir();
 
                         WorldGen.KillTile(b, a, false, noItem: true);
                     }
@@ -549,8 +376,9 @@ namespace EEMod.Systems.Structurizer
                             }
 
                             bool vanillaWall = tile.wall < WallID.Count;
-                            ushort indexInMap =
-                                vanillaWall ? vanillaWallEntryMap[tile.wall] : moddedWallEntryMap[tile.wall];
+                            ushort indexInMap = vanillaWall 
+                                ? vanillaWallEntryMap[tile.wall] 
+                                : moddedWallEntryMap[tile.wall];
 
                             if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).wall == tile.wall)
                             {
@@ -589,7 +417,7 @@ namespace EEMod.Systems.Structurizer
                     ushort width = reader.ReadUInt16();
                     ushort height = reader.ReadUInt16();
 
-                    List<PlacementAction> placementActions = new List<PlacementAction>();
+                    List<IPlacementAction> placementActions = new List<IPlacementAction>();
                     Dictionary<ushort, ushort> tileEntryMap = ReadMapData(false, reader);
 
                     ushort action = 0;
@@ -597,51 +425,100 @@ namespace EEMod.Systems.Structurizer
                     {
                         action = reader.ReadUInt16();
 
-                        if (action == StructureConstants.RepeatedAirFlag)
-                            placementActions.Add(PlacementAction.PlaceAirRepeated(reader.ReadUInt16()));
-                        else if (action == StructureConstants.AirTileFlag)
-                            placementActions.Add(PlacementAction.AirTile);
-                        else if (action == StructureConstants.RepeatedTileFlag)
-                            placementActions.Add(
-                                PlacementAction.PlaceTileRepeated(reader.ReadUInt16(), reader.ReadUInt16()));
-                        else if (action == StructureConstants.PlaceMultitileFlag)
-                            placementActions.Add(PlacementAction.PlaceMultitile(reader.ReadUInt16()));
-                        else if (action == StructureConstants.PlaceWaterFlag)
-                            placementActions.Add(PlacementAction.PlaceWater(reader.ReadByte()));
-                        else if (action == StructureConstants.PlaceLavaFlag)
-                            placementActions.Add(PlacementAction.PlaceLava(reader.ReadByte()));
-                        else if (action == StructureConstants.PlaceHoneyFlag)
-                            placementActions.Add(PlacementAction.PlaceHoney(reader.ReadByte()));
-                        else if (action == StructureConstants.RepeatedWaterFlag)
-                            placementActions.Add(
-                                PlacementAction.PlaceWaterRepeated(reader.ReadUInt16(), reader.ReadByte()));
-                        else if (action == StructureConstants.RepeatedLavaFlag)
-                            placementActions.Add(
-                                PlacementAction.PlaceLavaRepeated(reader.ReadUInt16(), reader.ReadByte()));
-                        else if (action == StructureConstants.RepeatedHoneyFlag)
-                            placementActions.Add(
-                                PlacementAction.PlaceHoneyRepeated(reader.ReadUInt16(), reader.ReadByte()));
-                        else if (action == StructureConstants.PlaceMultitileWithStyleFlag)
-                            placementActions.Add(
-                                PlacementAction.PlaceMultitileWithStyle(reader.ReadByte(), reader.ReadUInt16()));
-                        else if (action == StructureConstants.PlaceMultitileWithAlternateStyleFlag)
-                            placementActions.Add(PlacementAction.PlaceMultitileWithAlternateStyle(reader.ReadByte(),
-                                reader.ReadByte(), reader.ReadUInt16()));
-                        else if (action == StructureConstants.PlaceTileWithSlopeFlag)
-                            placementActions.Add(PlacementAction.PlaceSlope(reader.ReadByte(), reader.ReadUInt16()));
-                        else if (action == StructureConstants.RepeatedTileWithSlopeFlag)
-                            placementActions.Add(PlacementAction.PlaceSlopeRepeated(reader.ReadUInt16(),
-                                reader.ReadByte(), reader.ReadUInt16()));
-                        else if (action == StructureConstants.PlaceHalfBrickFlag)
-                            placementActions.Add(PlacementAction.PlaceHalfBrick(reader.ReadUInt16()));
-                        else if (action == StructureConstants.RepeatedHalfBrickFlag)
-                            placementActions.Add(
-                                PlacementAction.PlaceHalfBrickRepeated(reader.ReadUInt16(), reader.ReadUInt16()));
-                        else if (action == StructureConstants.EndOfTilesDataFlag)
-                            break;
-                        else
-                            placementActions.Add(PlacementAction.PlaceTile(action));
+                        switch (action)
+                        {
+                            case StructureConstants.RepeatedAirFlag:
+                                placementActions.Add(new RepeatedPlaceAirAction(reader.ReadUInt16()));
+                                break;
+
+                            case StructureConstants.AirTileFlag:
+                                placementActions.Add(new PlaceAirAction());
+                                break;
+
+                            case StructureConstants.RepeatedTileFlag:
+                                placementActions.Add(new RepeatedPlaceTileAction(reader.ReadUInt16(), reader.ReadUInt16()));
+                                break;
+
+                            case StructureConstants.PlaceMultitileFlag:
+                                placementActions.Add(new PlaceMultitileAction(reader.ReadUInt16()));
+                                break;
+
+                            case StructureConstants.PlaceWaterFlag:
+                                placementActions.Add(new PlaceWaterAction(reader.ReadByte()));
+                                break;
+
+                            case StructureConstants.PlaceLavaFlag:
+                                placementActions.Add(new PlaceLavaAction(reader.ReadByte()));
+                                break;
+
+                            case StructureConstants.PlaceHoneyFlag:
+                                placementActions.Add(new PlaceHoneyAction(reader.ReadByte()));
+                                break;
+
+                            case StructureConstants.RepeatedWaterFlag:
+                                placementActions.Add(new RepeatedPlaceWaterAction(reader.ReadUInt16(), reader.ReadByte()));
+                                break;
+
+                            case StructureConstants.RepeatedLavaFlag:
+                                placementActions.Add(new RepeatedPlaceLavaAction(reader.ReadUInt16(), reader.ReadByte()));
+                                break;
+
+                            case StructureConstants.RepeatedHoneyFlag:
+                                placementActions.Add(new RepeatedPlaceHoneyAction(reader.ReadUInt16(), reader.ReadByte()));
+                                break;
+
+                            case StructureConstants.PlaceMultitileWithStyleFlag:
+                            {
+                                byte style = reader.ReadByte();
+                                ushort entry = reader.ReadUInt16();
+                                placementActions.Add(new PlaceMultitileWithStyle(entry, style));
+                                break;
+                            }
+
+                            case StructureConstants.PlaceMultitileWithAlternateStyleFlag:
+                            {
+                                byte style = reader.ReadByte();
+                                byte alternate = reader.ReadByte();
+                                ushort entry = reader.ReadUInt16();
+                                placementActions.Add(new PlaceMultitileWithAlternativeStyleAction(entry, style, alternate));
+                                break;
+                            }
+
+                            case StructureConstants.PlaceTileWithSlopeFlag:
+                            {
+                                byte slope = reader.ReadByte();
+                                ushort entry = reader.ReadUInt16();
+                                placementActions.Add(new PlaceSlopeAction(entry, slope));
+                                break;
+                            }
+
+                            case StructureConstants.RepeatedTileWithSlopeFlag:
+                            {
+                                ushort count = reader.ReadUInt16();
+                                byte slope = reader.ReadByte();
+                                ushort entry = reader.ReadUInt16();
+                                placementActions.Add(new RepeatedPlaceSlopeAction(count, entry, slope));
+                                break;
+                            }
+
+                            case StructureConstants.PlaceHalfBrickFlag:
+                                placementActions.Add(new PlaceHalfBrickAction(reader.ReadUInt16()));
+                                break;
+
+                            case StructureConstants.RepeatedHalfBrickFlag:
+                                placementActions.Add(new RepeatedPlaceHalfBrickAction(reader.ReadUInt16(), reader.ReadUInt16()));
+                                break;
+
+                            case StructureConstants.EndOfTilesDataFlag:
+                                goto BreakOutOfLoop;
+
+                            default:
+                                placementActions.Add(new PlaceTileAction(action));
+                                break;
+                        }
                     }
+
+                    BreakOutOfLoop:
 
                     Dictionary<ushort, ushort> wallEntryMap = ReadMapData(true, reader);
 
@@ -652,20 +529,21 @@ namespace EEMod.Systems.Structurizer
                         switch (action)
                         {
                             case StructureConstants.RepeatedWallFlag:
-                                placementActions.Add(
-                                    PlacementAction.PlaceWallRepeated(reader.ReadUInt16(), reader.ReadUInt16()));
+                                ushort entry = reader.ReadUInt16();
+                                ushort count = reader.ReadUInt16();
+                                placementActions.Add(new RepeatedPlaceWallAction(count, entry));
                                 break;
 
                             case StructureConstants.EmptyWallFlag:
-                                placementActions.Add(PlacementAction.EmptyWall);
+                                placementActions.Add(new PlaceEmptyWallAction());
                                 break;
 
                             case StructureConstants.RepeatedEmptyWallFlag:
-                                placementActions.Add(PlacementAction.PlaceEmptyWallRepeated(reader.ReadUInt16()));
+                                placementActions.Add(new RepeatedPlaceEmptyWallAction(reader.ReadUInt16()));
                                 break;
 
                             default:
-                                placementActions.Add(PlacementAction.PlaceWall(action));
+                                placementActions.Add(new PlaceWallAction(action));
                                 break;
                         }
                     }
@@ -793,7 +671,7 @@ namespace EEMod.Systems.Structurizer
 
                     ushort? type = ModLoader.GetMod(parts[0])?.GetTile(parts[1]).Type;
                     if (type == null)
-                        throw new System.Exception(
+                        throw new Exception(
                             $"Attempted to generate structure that depends on modded tile '{tileName}' but it was not loaded");
 
                     entryMap[index] = type.Value;
@@ -809,7 +687,7 @@ namespace EEMod.Systems.Structurizer
 
                     ushort? type = ModLoader.GetMod(parts[0])?.GetWall(parts[1]).Type;
                     if (type == null)
-                        throw new System.Exception(
+                        throw new Exception(
                             $"Attempted to generate structure that depends on modded wall '{tileName}' but it was not loaded");
 
                     entryMap[index] = type.Value;

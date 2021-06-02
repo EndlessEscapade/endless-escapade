@@ -10,6 +10,6 @@
 
         public virtual byte AlternateStyleData { get; } = 0;
 
-        public abstract void Place();
+        public abstract void Place(ref int i, ref int j);
     }
 }

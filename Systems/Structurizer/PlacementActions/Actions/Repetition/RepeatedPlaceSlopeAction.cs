@@ -2,12 +2,17 @@
 {
     public class RepeatedPlaceSlopeAction : BaseRepeatedPlacementActionWithEntryAndStyle<PlaceSlopeAction>
     {
-        public RepeatedPlaceSlopeAction(byte repetitionCount, ushort entryData, byte slop) : base(repetitionCount, entryData, slop)
+        public RepeatedPlaceSlopeAction(ushort repetitionCount, ushort entryData, byte slope) : base(repetitionCount, entryData, slope)
         {
         }
 
         public override ushort Flag => 0xFFEF;
 
         public override PlaceSlopeAction PlacementAction => new PlaceSlopeAction(EntryData, StyleData);
+
+        public override void Place(ref int i, ref int j)
+        {
+
+        }
     }
 }

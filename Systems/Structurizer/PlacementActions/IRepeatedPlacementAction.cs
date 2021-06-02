@@ -5,7 +5,7 @@
     {
         ushort Flag { get; }
 
-        byte RepetitionCount { get; }
+        ushort RepetitionCount { get; }
 
         TPlacementAction PlacementAction { get; }
     }

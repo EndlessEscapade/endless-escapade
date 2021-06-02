@@ -5,7 +5,7 @@
     {
         public override byte StyleData { get; }
 
-        protected BaseRepeatedPlacementActionWithEntryAndStyle(byte repetitionCount, ushort entryData, byte styleData) : base(repetitionCount, entryData)
+        protected BaseRepeatedPlacementActionWithEntryAndStyle(ushort repetitionCount, ushort entryData, byte styleData) : base(repetitionCount, entryData)
         {
             StyleData = styleData;
         }

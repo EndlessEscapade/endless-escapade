@@ -10,6 +10,6 @@
 
         byte AlternateStyleData { get; }
 
-        void Place();
+        void Place(ref int i, ref int j);
     }
 }

@@ -1,11 +1,12 @@
 ﻿namespace EEMod.Systems.Structurizer.PlacementActions.Actions
 {
-    public class AirTileAction : BasePlacementAction
+    public class PlaceAirAction : BasePlacementAction
     {
         public override ushort Flag => 0xFFFE;
 
-        public override void Place()
+        public override void Place(ref int i, ref int j)
         {
+
         }
     }
 }

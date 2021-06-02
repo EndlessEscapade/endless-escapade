@@ -11,9 +11,9 @@
 
         public virtual byte AlternateStyleData { get; }
 
-        protected byte InternalRepetitionCount { get; set; }
+        protected ushort InternalRepetitionCount { get; set; }
 
-        public virtual byte RepetitionCount
+        public virtual ushort RepetitionCount
         {
             get => InternalRepetitionCount;
 
@@ -22,13 +22,11 @@
 
         public abstract TPlacementAction PlacementAction { get; }
 
-        protected BaseRepeatedPlacementAction(byte repetitionCount)
+        protected BaseRepeatedPlacementAction(ushort repetitionCount)
         {
             InternalRepetitionCount = repetitionCount;
         }
 
-        public virtual void Place()
-        {
-        }
+        public abstract void Place(ref int x, ref int y);
     }
 }
