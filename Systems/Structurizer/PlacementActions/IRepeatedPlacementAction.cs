@@ -1,6 +1,7 @@
 ﻿namespace EEMod.Systems.Structurizer.PlacementActions
 {
-    public interface IRepeatedPlacementAction<out TPlacementAction> where TPlacementAction : IPlacementAction
+    public interface IRepeatedPlacementAction<out TPlacementAction> : IPlacementAction
+        where TPlacementAction : IPlacementAction
     {
         ushort Flag { get; }
 

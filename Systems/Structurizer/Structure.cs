@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using EEMod.Systems.Structurizer.PlacementActions;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -20,7 +21,7 @@ namespace EEMod.Systems.Structurizer
 
         public virtual Dictionary<ushort, ushort> EntryToWallID { get; }
 
-        public virtual PlacementAction[] PlacementActions { get; }
+        public virtual IPlacementAction[] PlacementActions { get; }
 
         private Structure(int width, int height, Dictionary<ushort, ushort> tileMap, Dictionary<ushort, ushort> wallMap,
             PlacementAction[] placementActions)
