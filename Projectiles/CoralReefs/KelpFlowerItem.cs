@@ -17,9 +17,9 @@ namespace EEMod.Projectiles.CoralReefs
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
+            projectile.width = 32;
+            projectile.height = 32;
+            projectile.friendly = false;
             projectile.hostile = false;
             projectile.alpha = 0;
             projectile.scale = 1f;
@@ -28,6 +28,8 @@ namespace EEMod.Projectiles.CoralReefs
             projectile.penetrate = -1;
             projectile.timeLeft = 1000000000;
         }
+
+        public override bool? CanCutTiles() => false;
 
         private bool funi;
         public override void AI()

@@ -71,7 +71,9 @@ namespace EEMod.EEWorld
                     ModContent.TileType<ThermalVent1x1>(),
                     ModContent.TileType<ThermalVent2x1>(),
                     ModContent.TileType<ThermalVent2x2>(),
-                    ModContent.TileType<ThermalVent3x3>(), },
+                    ModContent.TileType<ThermalVent3x3>(),
+                    ModContent.TileType<ThermalVent5x4>(),
+                    ModContent.TileType<ThermalVent5x5>(),},
             new Rectangle(TL.X, TL.Y, TL.X + Size.X, TL.Y + Size.Y));
         }
     }

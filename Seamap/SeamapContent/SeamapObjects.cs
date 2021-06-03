@@ -12,11 +12,11 @@ namespace EEMod.Seamap.SeamapContent
 {
     internal static class SeamapObjects
     {
-        [FieldInit] public static List<Island> IslandEntities = new List<Island>(); //List 1
+        [FieldInit] public static List<Island> IslandEntities = new List<Island>();
 
-        [FieldInit] internal static List<ISeamapEntity> OceanMapElements = new List<ISeamapEntity>(); //List 4
+        [FieldInit] internal static List<ISeamapEntity> OceanMapElements = new List<ISeamapEntity>();
 
-        [FieldInit] internal static SeamapObject[] SeamapEntities = new SeamapObject[400]; //List 5
+        [FieldInit] internal static SeamapObject[] SeamapEntities = new SeamapObject[400];
 
         public static void NewSeamapObject(SeamapObject obj)
         {

@@ -15,6 +15,7 @@ namespace EEMod.Seamap.SeamapContent
     public class SeamapPlayerShip
     {
         public static SeamapPlayerShip localship = new SeamapPlayerShip();
+
         public static readonly Vector2 start = new Vector2(1700, 900);
         public float[] anchorLerp = new float[12];
         public Texture2D texture;
@@ -23,8 +24,8 @@ namespace EEMod.Seamap.SeamapContent
         public static float ShipHelthMax = 7;
         public float shipHelth = 7;
         public Vector2 position;
-        public int width;
-        public int height;
+        public int width = 44;
+        public int height = 52;
         public Vector2 velocity;
         public int cannonDelay = 60;
         public Vector2 otherBoatPos;
@@ -35,6 +36,8 @@ namespace EEMod.Seamap.SeamapContent
         public float markerPlacer = 0;
 
         public Rectangle rect => new Rectangle((int)position.X, (int)position.Y, width, height);
+
+        public Vector2 Center => new Vector2((int)position.X + (width / 2), (int)position.Y + (height / 2));
 
         public void ModifyScreenPosition(ref Vector2 position)
         {

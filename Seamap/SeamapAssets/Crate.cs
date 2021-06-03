@@ -22,8 +22,10 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void Update()
         {
-            base.Update();
             velocity = new Vector2(0.5f, 0);
+
+            position += velocity;
+
             /*if (!sinking)
             {
                 velocity = new Vector2(0.5f, 0);

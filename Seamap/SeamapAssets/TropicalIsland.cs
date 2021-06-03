@@ -22,4 +22,21 @@ namespace EEMod.Seamap.SeamapAssets
             
         }
     }
+
+    public class TropicalIsland2 : Island
+    {
+        public override string name => "Tropical Island";
+        public override int framecount => 16;
+        public override int framespid => 10;
+        public override bool cancollide => true;
+
+        public override Texture2D islandTex => ModContent.GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland");
+
+        public override IslandID id => IslandID.TropicalIsland2;
+
+        public TropicalIsland2(Vector2 pos) : base(pos)
+        {
+
+        }
+    }
 }

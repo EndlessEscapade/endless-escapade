@@ -8,22 +8,25 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage.ThermalVents
 {
-    public class ThermalVent2x1 : ModTile
+    public class ThermalVent5x5 : ModTile
     {
         public override void SetDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
 
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
-            TileObjectData.newTile.Height = 1;
-            TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
+            TileObjectData.newTile.Height = 5;
+            TileObjectData.newTile.Width = 5;
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.newTile.CoordinateHeights = new int[]
             {
+                16,
+                16,
+                16,
+                16,
                 16
             };
-            TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.newTile.StyleHorizontal = true;
@@ -32,7 +35,6 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             name.SetDefault("Thermal Vent");
             AddMapEntry(new Color(255, 100, 0), name);
             dustType = DustID.Dirt;
-            AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
@@ -44,7 +46,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/ThermalVents/ThermalVent2x1Glow"), i, j);
+            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/ThermalVents/ThermalVent5x5Glow"), i, j);
         }
     }
 }

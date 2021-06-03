@@ -29,7 +29,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Thermal Vent");
-            AddMapEntry(new Color(0, 100, 200), name);
+            AddMapEntry(new Color(255, 100, 0), name);
             dustType = DustID.Dirt;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }

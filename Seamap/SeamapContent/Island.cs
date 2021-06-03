@@ -29,7 +29,7 @@ namespace EEMod.Seamap.SeamapContent
             texture = islandTex;
 
             width = texture.Width;
-            height = texture.Height;
+            height = texture.Height / framecount;
         }
 
         public void AnimateIsland()

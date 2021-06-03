@@ -51,6 +51,11 @@ namespace EEMod
         public string baseWorldName;
 
 
+        public void ReturnHome()
+        {
+            Initialize();
+            SM.Return(KeyID.BaseWorldName);
+        }
 
         public void UpdateSea()
         {
@@ -112,6 +117,7 @@ namespace EEMod
             {
                 noU = true;
             }
+
             Filters.Scene[shad2].GetShader().UseOpacity(SeamapPlayerShip.localship.position.X);
 
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad2].IsActive())
@@ -125,50 +131,7 @@ namespace EEMod
             #region Placing SeamapObjects.Islands
             if (seamapUpdateCount == 1)
             {
-                SeamapObjects.IslandEntities.Add(new TropicalIsland1(new Vector2(500, 500) * 4));
-
-                /*SeamapObjects.IslandEntities.Add(new Island(new Vector2(700, 300) * 4, GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland2", 16, 10, true, IslandID.TropicalIsland2));
-
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(1200, 400) * 4, GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), "VolcanoIsland", 16, 10, true, IslandID.VolcanoIsland));
-
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(209, 55) * 4, GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), "MainIsland", 1, 0, true, IslandID.MainIsland));
-
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(200, 600) * 4, GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), "CoralReefsEntrance", 16, 10, true, IslandID.CoralReefs));
-
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(450, 650) * 4, GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), "MoyaiIsland", 16, 10, true, IslandID.MoyaiIsland));
-
-
-                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(500, 200) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse"), null, 1, 0));
-                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(400, 100) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), null, 16, 10));
-                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(800, 150) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), null, 16, 10));
-                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(200, 300) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), null, 16, 10));
-                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(300, 250) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock4"), null, 16, 10));*/
-
-                for (int i = 0; i < 300; i++)
-                {
-                    int CloudChoose = Main.rand.Next(3);
-                    Vector2 CloudPos = new Vector2(Main.rand.NextFloat(-200, Main.screenWidth * 0.7f), Main.rand.NextFloat(800, Main.screenHeight + 1000));
-                    Vector2 dist = new Vector2(Main.screenWidth, Main.screenHeight + 1000) - CloudPos;
-
-                    if (dist.Length() > 1140)
-                    {
-                        Texture2D cloudTexture;
-
-                        switch (CloudChoose)
-                        {
-                            case 0:
-                            case 1:
-                                cloudTexture = GetTexture("EEMod/Seamap/SeamapAssets/DarkCloud" + (CloudChoose + 1));
-                                break;
-
-                            default:
-                                cloudTexture = GetTexture("EEMod/Seamap/SeamapAssets/DarkCloud3");
-                                break;
-                        }
-
-                        SeamapObjects.OceanMapElements.Add(new DarkCloud(CloudPos, cloudTexture, Main.rand.NextFloat(.6f, 1), Main.rand.NextFloat(60, 180)));
-                    }
-                }
+                InitializeSeamap();
                 //upgrade, pirates, radial
             }
             #endregion
@@ -208,7 +171,7 @@ namespace EEMod
                         subTextAlpha = 1;
                     }
 
-                    if(EEMod.Inspect.JustPressed)
+                    if (EEMod.Inspect.JustPressed)
                     {
                         switch (island.id)
                         {
@@ -247,7 +210,7 @@ namespace EEMod
                 }
             }
 
-            if(!isCollidingWithAnyIsland)
+            if (!isCollidingWithAnyIsland)
             {
                 subTextAlpha -= 0.02f;
 
@@ -298,52 +261,21 @@ namespace EEMod
                         SeamapPlayerShip.localship.velocity += Main.projectile[j].velocity;
                     }
                 }
-                /*if (SeamapObjects.SeamapEntities[j] is Crate)
-                {
-                    Crate a = SeamapObjects.SeamapEntities[j] as Crate;
-
-                    if ((a.Center - SeamapPlayerShip.localship.position.ForDraw()).Length() < 40 && !a.sinking)
-                    {
-                        //Crate loot tables go here
-                        if (Main.rand.NextBool())
-                        {
-                            player.QuickSpawnItem(ItemID.GoldBar, Main.rand.Next(4, 9));
-                        }
-                        else
-                        {
-                            player.QuickSpawnItem(ItemID.PlatinumBar, Main.rand.Next(4, 9));
-                        }
-
-                        if (Main.rand.NextBool())
-                        {
-                            player.QuickSpawnItem(ItemID.ApprenticeBait, Main.rand.Next(2, 4));
-                        }
-                        else
-                        {
-                            player.QuickSpawnItem(ItemID.JourneymanBait, 1);
-                        }
-
-                        player.QuickSpawnItem(ItemID.GoldCoin, Main.rand.Next(0, 2));
-                        player.QuickSpawnItem(ItemID.SilverCoin, Main.rand.Next(0, 100));
-                        player.QuickSpawnItem(ItemID.CopperCoin, Main.rand.Next(0, 100));
-                    }
-                }*/
             }
             #endregion
 
-            #region Making actual player look normal
+            #region Hiding the player
             player.position = player.oldPosition;
             player.invis = true;
 
             player.AddBuff(BuffID.Cursed, 100000);
-            player.AddBuff(BuffID.Invisibility, 100000);
             #endregion
 
             //THIS NEEDS CHANGING
             #region Spawning entities
             if (seamapUpdateCount % 200 == 0)
             {
-                SeamapObjects.NewSeamapObject(new PirateShip(new Vector2(1000, 1000), Vector2.Zero));
+                SeamapObjects.NewSeamapObject(new PirateShip(new Vector2(1000, 1000), Vector2.One));
             }
 
             if (seamapUpdateCount % 2400 == 0)
@@ -358,7 +290,7 @@ namespace EEMod
 
             if (seamapUpdateCount % 200 == 0)
             {
-                SeamapObjects.NewSeamapObject(new Crate(new Vector2(1000, 1000), Vector2.Zero));
+                SeamapObjects.NewSeamapObject(new Crate(new Vector2(500, 550) * 4, new Vector2(0.5f, 0)));
             }
 
             if (seamapUpdateCount % 200 == 0)
@@ -427,8 +359,17 @@ namespace EEMod
             {
                 SeamapObjects.OceanMapElements[i].Update();
             }
+
+            for (int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
+            {
+                if (SeamapObjects.SeamapEntities[i] != null)
+                {
+                    SeamapObjects.SeamapEntities[i].Update();
+                }
+            }
         }
 
+        #region Syncing seamap
         public override void SendClientChanges(ModPlayer clientPlayer)
         {
             EEPlayer clone = clientPlayer as EEPlayer;
@@ -442,10 +383,7 @@ namespace EEMod
             }
         }
 
-        public override void clientClone(ModPlayer clientClone)
-        {
-
-        }
+        public override void clientClone(ModPlayer clientClone) { }
 
         public Vector2 EEPosition;
 
@@ -456,8 +394,50 @@ namespace EEMod
             packet.WriteVector2(EEPosition);
             packet.Send(toWho, fromWho);
         }
+        #endregion
 
-        #region Shifting subworlds
+        public static void InitializeSeamap()
+        {
+            SeamapObjects.IslandEntities.Add(new TropicalIsland1(new Vector2(500, 500) * 4));
+
+            SeamapObjects.IslandEntities.Add(new TropicalIsland2(new Vector2(700, 300) * 4));
+
+            SeamapObjects.IslandEntities.Add(new VolcanoIsland(new Vector2(300, 600) * 4));
+
+            SeamapObjects.IslandEntities.Add(new MoyaiIsland(new Vector2(300, 600) * 4));
+
+            SeamapObjects.IslandEntities.Add(new CoralReefsIsland(new Vector2(300, 600) * 4));
+
+            SeamapObjects.IslandEntities.Add(new MainIsland(new Vector2(1332, 1423) * 4));
+
+
+            for (int i = 0; i < 300; i++)
+            {
+                int CloudChoose = Main.rand.Next(3);
+                Vector2 CloudPos = new Vector2(Main.rand.NextFloat(-200, Main.screenWidth * 0.7f), Main.rand.NextFloat(800, Main.screenHeight + 1000));
+                Vector2 dist = new Vector2(Main.screenWidth, Main.screenHeight + 1000) - CloudPos;
+
+                if (dist.Length() > 1140)
+                {
+                    Texture2D cloudTexture;
+
+                    switch (CloudChoose)
+                    {
+                        case 0:
+                        case 1:
+                            cloudTexture = GetTexture("EEMod/Seamap/SeamapAssets/DarkCloud" + (CloudChoose + 1));
+                            break;
+
+                        default:
+                            cloudTexture = GetTexture("EEMod/Seamap/SeamapAssets/DarkCloud3");
+                            break;
+                    }
+
+                    SeamapObjects.OceanMapElements.Add(new DarkCloud(CloudPos, cloudTexture, Main.rand.NextFloat(.6f, 1), Main.rand.NextFloat(60, 180)));
+                }
+            }
+        }
+
         public void UpdateCutscenesAndTempShaders()
         {
             Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
@@ -484,10 +464,6 @@ namespace EEMod
                     Filters.Scene.Deactivate(shad3);
                 }
             }
-            /*if(Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:MyTestShader"].IsActive())
-            {
-                Filters.Scene.Activate("EEMod:MyTestShader", player.Center).GetShader().UseColor(Color.Red).UseTargetPosition(player.Center);
-            }*/
             if (timerForCutscene >= 1400)
             {
                 Initialize();
@@ -501,8 +477,6 @@ namespace EEMod
                 SubworldManager.EnterSubworld<Sea>();
             }
         }
-        #endregion
-
     }
 
     public partial class EEMod : Mod

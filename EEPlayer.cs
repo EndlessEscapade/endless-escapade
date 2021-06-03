@@ -451,12 +451,6 @@ namespace EEMod
             aquamarineSetBonus = false;
         }
 
-        public void ReturnHome()
-        {
-            Initialize();
-            SM.Return(KeyID.BaseWorldName);
-        }
-
         private float displacmentX = 0;
         private float displacmentY = 0;
         public bool isCameraFixating;

@@ -30,8 +30,15 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Thermal Vent");
-            AddMapEntry(new Color(0, 100, 200), name);
+            AddMapEntry(new Color(255, 100, 0), name);
             dustType = DustID.Dirt;
+        }
+
+        public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
+        {
+            r = 0.9f;
+            g = 0.3f;
+            b = 0.2f;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

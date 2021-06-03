@@ -141,8 +141,9 @@ namespace EEMod.Seamap.SeamapContent
             RenderWater(); //Layer 0
             RenderIslands(spriteBatch); //Layer 1
             RenderShip(); //Layer 2
-            RenderClouds(); //Layer 3
-            RenderSeamapUI();
+            RenderEntities(); //Layer 3
+            RenderClouds(); //Layer 4
+            RenderSeamapUI(); //Layer 5
         }
 
         public static void RenderSeamapUI()
@@ -154,6 +155,18 @@ namespace EEMod.Seamap.SeamapContent
             Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * SeamapPlayerShip.localship.shipHelth), texture3.Width, texture3.Height / 8);
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 200, 200), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
             #endregion
+        }
+
+        public static void RenderEntities()
+        {
+            for (int asdasdasd = 0; asdasdasd < SeamapObjects.SeamapEntities.Length; asdasdasd++)
+            {
+                if (SeamapObjects.SeamapEntities[asdasdasd] != null)
+                {
+                    SeamapObjects.SeamapEntities[asdasdasd].Draw(Main.spriteBatch);
+                    SeamapObjects.SeamapEntities[asdasdasd].PostDraw(Main.spriteBatch);
+                }
+            }
         }
 
         static void RenderClouds()
@@ -177,17 +190,6 @@ namespace EEMod.Seamap.SeamapContent
                 element.Draw(ModContent.GetTexture("EEMod/Seamap/SeamapAssets/Seagull"), 9, 5);
             }
             #endregion
-
-            for (int asdasdasd = 0; asdasdasd < SeamapObjects.SeamapEntities.Length; asdasdasd++)
-            {
-                if (SeamapObjects.SeamapEntities[asdasdasd] != null)
-                {
-                    SeamapObjects.SeamapEntities[asdasdasd].Update();
-
-                    SeamapObjects.SeamapEntities[asdasdasd].Draw(Main.spriteBatch);
-                    SeamapObjects.SeamapEntities[asdasdasd].PostDraw(Main.spriteBatch);
-                }
-            }
         }
 
         static void RenderIslands(SpriteBatch spriteBatch)
