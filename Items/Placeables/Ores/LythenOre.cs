@@ -2,6 +2,8 @@ using EEMod.Tiles.Ores;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace EEMod.Items.Placeables.Ores
 {
@@ -10,6 +12,7 @@ namespace EEMod.Items.Placeables.Ores
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lythen Ore");
+            Main.RegisterItemAnimation(item.type, new DrawAnimationVertical(6, 10));
         }
 
         public override void SetDefaults()
@@ -23,8 +26,8 @@ namespace EEMod.Items.Placeables.Ores
             item.useTime = 15;
             item.consumable = true;
             item.material = true;
+            item.autoReuse = true;
             item.maxStack = 999;
-            item.placeStyle = 10;
             item.createTile = ModContent.TileType<LythenOreTile>();
         }
     }

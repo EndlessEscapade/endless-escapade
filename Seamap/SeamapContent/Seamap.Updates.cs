@@ -48,11 +48,6 @@ namespace EEMod.Seamap.SeamapContent
             }
             SeamapPlayerShip ship = SeamapPlayerShip.localship;
 
-            #region Clamp in screen
-            //ship.position.X = MathHelper.Clamp(ship.position.X, Main.screenWidth * 0.6f, Main.screenWidth);
-            //ship.position.Y = MathHelper.Clamp(ship.position.Y, 0, Main.screenHeight);
-            #endregion
-
             #region Player controls(movement and shooting)
             if (!Main.gamePaused)
             {
@@ -105,8 +100,6 @@ namespace EEMod.Seamap.SeamapContent
 
             Vector2 v = new Vector2(eePlayer.boatSpeed * 4);
             ship.velocity = Vector2.Clamp(ship.velocity, -v, v);
-            //ship.velocity.X = Helpers.Clamp(ship.velocity.X, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
-            //ship.velocity.Y = Helpers.Clamp(ship.velocity.Y, -1 * eePlayer.boatSpeed, 1 * eePlayer.boatSpeed);
 
             if (!Main.gamePaused)
             {

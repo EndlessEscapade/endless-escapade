@@ -111,7 +111,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             AddGenerationPass("Reset", delegate (GenerationProgress progress)
             {
-                progress.Message = "Resetting";
+                progress.Message = "";
 
                 Liquid.ReInit();
 

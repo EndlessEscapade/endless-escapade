@@ -23,8 +23,8 @@ namespace EEMod.Seamap.SeamapContent
         public static float ShipHelthMax = 7;
         public float shipHelth = 7;
         public Vector2 position;
-        public float width;
-        public float height;
+        public int width;
+        public int height;
         public Vector2 velocity;
         public int cannonDelay = 60;
         public Vector2 otherBoatPos;
@@ -33,6 +33,8 @@ namespace EEMod.Seamap.SeamapContent
 
         public float flash = 0;
         public float markerPlacer = 0;
+
+        public Rectangle rect => new Rectangle((int)position.X, (int)position.Y, width, height);
 
         public void ModifyScreenPosition(ref Vector2 position)
         {

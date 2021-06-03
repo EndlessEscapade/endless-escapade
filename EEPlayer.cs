@@ -407,7 +407,7 @@ namespace EEMod
                 isSaving = false;
                 godMode = false;
                 timerForCutscene = 0;
-                markerPlacer = 0;
+                seamapUpdateCount = 0;
                 arrowFlag = false;
                 noU = false;
                 triggerSeaCutscene = false;
@@ -508,7 +508,7 @@ namespace EEMod
 
             if (Main.ActiveWorldFileData.Name == KeyID.Cutscene1)
             {
-                if (markerPlacer < 120 * 8)
+                if (seamapUpdateCount < 120 * 8)
                 {
                     displacmentX -= (displacmentX - (200 * 16)) / 32f;
                     displacmentY -= (displacmentY - (110 * 16)) / 32f;
@@ -532,7 +532,7 @@ namespace EEMod
                         timerForCutscene = 1000;
                     }
 
-                    if (markerPlacer >= (120 * 8) + 1400)
+                    if (seamapUpdateCount >= (120 * 8) + 1400)
                     {
                         if (Main.netMode != NetmodeID.Server && Filters.Scene[shad1].IsActive())
                         {
@@ -549,7 +549,7 @@ namespace EEMod
 
                         //  Filters.Scene["EEMod:WhiteFlash"].GetShader().UseOpacity(markerPlacer - ((120 * 8) + 1400));
                     }
-                    if (markerPlacer >= (120 * 8) + 1800)
+                    if (seamapUpdateCount >= (120 * 8) + 1800)
                     {
                         startingText = false;
                         if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:WhiteFlash"].IsActive())
@@ -562,6 +562,7 @@ namespace EEMod
                     }
                 }
             }
+
             if (Main.worldName != KeyID.Sea && Main.ActiveWorldFileData.Name != KeyID.Cutscene1 && EEModConfigClient.Instance.CamMoveBool)
             {
                 if (player.velocity.X > 1)
@@ -596,7 +597,7 @@ namespace EEMod
             if (Main.worldName == KeyID.Sea)
             {
                 player.position = player.oldPosition;
-                if (markerPlacer > 1)
+                if (seamapUpdateCount > 1)
                 {
                     //Main.screenPosition += new Vector2(0, offSea);
                     SeamapPlayerShip.localship.ModifyScreenPosition(ref Main.screenPosition);

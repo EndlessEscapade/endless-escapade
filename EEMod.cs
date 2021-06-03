@@ -260,6 +260,18 @@ namespace EEMod
 		        },
 		        InterfaceScaleType.UI));
 		    }*/
+            if (Main.worldName == KeyID.Sea)
+            {
+                for (int i = 0; i < layers.Count; i++)
+                {
+                    var layer = layers[i];
+                    //Remove Resource bars
+                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap") || layer.Name.Contains("Vanilla: Inventory"))
+                    {
+                        layers.RemoveAt(i);
+                    }
+                }
+            }
         }
 
         public override void AddRecipeGroups()

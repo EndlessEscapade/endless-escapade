@@ -29,7 +29,6 @@ namespace EEMod.Seamap.SeamapContent
             int frames = 12;
             Rectangle frame = SeamapPlayerShip.localship.frame;
             int frameNum = 0;
-            Texture2D texture3 = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/ShipHelthSheet");
             Texture2D playerShipTexture = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/ShipMount");
             Player player = Main.LocalPlayer;
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
@@ -132,12 +131,6 @@ namespace EEMod.Seamap.SeamapContent
                 }
             }
             #endregion
-
-            #region Drawing the ship healthbar
-            //float quotient = ShipHelth / ShipHelthMax; // unused
-            Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * SeamapPlayerShip.localship.shipHelth), texture3.Width, texture3.Height / 8);
-            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 175, 50).ForDraw(), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
-            #endregion
         }
 
         static int frame = 0;
@@ -149,6 +142,18 @@ namespace EEMod.Seamap.SeamapContent
             RenderIslands(spriteBatch); //Layer 1
             RenderShip(); //Layer 2
             RenderClouds(); //Layer 3
+            RenderSeamapUI();
+        }
+
+        public static void RenderSeamapUI()
+        {
+            Texture2D texture3 = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/ShipHelthSheet");
+
+            #region Drawing the ship healthbar
+            //float quotient = ShipHelth / ShipHelthMax; // unused
+            Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * SeamapPlayerShip.localship.shipHelth), texture3.Width, texture3.Height / 8);
+            Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 200, 200), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
+            #endregion
         }
 
         static void RenderClouds()

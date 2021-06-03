@@ -23,6 +23,8 @@ namespace EEMod.Seamap.SeamapContent
 
         public int[] ai = new int[3];
 
+        public Rectangle rect => new Rectangle((int)position.X, (int)position.Y, width, height);
+
         public SeamapObject(Vector2 pos, Vector2 vel)
         {
             position = pos;
@@ -31,7 +33,12 @@ namespace EEMod.Seamap.SeamapContent
 
         public virtual void Update()
         {
-            //position += velocity;
+            InternalUpdate();
+        }
+
+        private void InternalUpdate()
+        {
+            position += velocity;
         }
 
         public virtual bool PreDraw(SpriteBatch spriteBatch) => true;
@@ -40,8 +47,6 @@ namespace EEMod.Seamap.SeamapContent
         {
             if (PreDraw(spriteBatch))
             {
-                //Main.NewText("triv is a BIG BABY");
-                //CombatText.NewText(new Rectangle((int)position.X, (int)position.Y, 48, 48), Color.Red, "YOEOOEOEOEOOEOEOOEO");
                 Main.spriteBatch.Draw(texture, position.ForDraw(), new Rectangle(0, 0, width, height), color * alpha, rotation, texture.Bounds.Size() / 2, scale, SpriteEffects.None, 0f);
             }
         }
@@ -56,10 +61,10 @@ namespace EEMod.Seamap.SeamapContent
             
         }
 
-        /*public virtual void Kill()
+        public virtual void Kill()
         {
             active = false;
             SeamapObjects.SeamapEntities[whoAmI] = null;
-        }*/
+        }
     }
 }

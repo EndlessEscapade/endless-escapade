@@ -14,10 +14,6 @@ namespace EEMod.Seamap.SeamapContent
     {
         [FieldInit] public static List<Island> IslandEntities = new List<Island>(); //List 1
 
-        [FieldInit] public static List<int> SeaObjectFrames = new List<int>(); //List 2
-
-        [FieldInit] public static Dictionary<string, Island> IslandsDict = new Dictionary<string, Island>(); //List 3
-
         [FieldInit] internal static List<ISeamapEntity> OceanMapElements = new List<ISeamapEntity>(); //List 4
 
         [FieldInit] internal static SeamapObject[] SeamapEntities = new SeamapObject[400]; //List 5

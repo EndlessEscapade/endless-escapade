@@ -1,4 +1,4 @@
-/*using EEMod.Items.Placeables.Ores;
+using EEMod.Items.Placeables.Ores;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Localization;
@@ -35,4 +35,4 @@ namespace EEMod.Tiles.Ores
             return base.Drop(i, j);
         }
     }
-}*/
+}

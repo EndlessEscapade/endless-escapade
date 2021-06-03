@@ -2,46 +2,37 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Extensions;
+using EEMod.ID;
+using Terraria.ModLoader;
 
 namespace EEMod.Seamap.SeamapContent
 {
-    class Island : SeamapObject
+    public class Island : SeamapObject
     {
-        //Vector2 position;
-        //float width;
-        //float height;
+        public virtual string name => "Island";
+        public virtual int framecount => 1;
+        public virtual int framespid => 0;
+        public virtual bool cancollide => false;
 
-        string name;
-        Texture2D texture;
-        int framecount;
-        int framespid;
-        bool cancollide;
-        int framecounter;
-        int frame;
+        public virtual Texture2D islandTex => ModContent.GetTexture("EEMod/Empty");
+
+        public virtual IslandID id => IslandID.Default;
+
         public Vector2 posToScreen => position - Main.screenPosition;
-        public bool isColliding => IsCollidingWith(SeamapPlayerShip.localship);
-        public bool IsCollidingWith(SeamapPlayerShip playership) => new Rectangle((int)playership.position.X, (int)playership.position.Y, (int)playership.width, (int)playership.height).Intersects(new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height));
+        public bool isCollidingWithPlayer => SeamapPlayerShip.localship.rect.Intersects(this.rect);
 
-        public Island(Vector2 position, Texture2D texture, string name, int framecount = 1, int framespid = 2, bool cancollide = false) : this(position, texture.Width, texture.Height / framecount, texture, name, framecount, framespid, cancollide)
+        public int framecounter;
+        public int frame;
+
+        public Island(Vector2 pos): base(pos, Vector2.Zero)
         {
-            if (name != null)
-                if (!SeamapObjects.IslandsDict.ContainsKey(name))
-                    SeamapObjects.IslandsDict.Add(name, this);
+            texture = islandTex;
+
+            width = texture.Width;
+            height = texture.Height;
         }
 
-        public Island(Vector2 position, int width, int height, Texture2D texture, string islandname, int framecount, int framespid, bool cancollide): base(position, Vector2.Zero)
-        {
-            this.position = position;
-            this.width = width;
-            this.height = height;
-            this.texture = texture;
-            this.name = islandname;
-            this.framecount = framecount;
-            this.framespid = framespid;
-            this.cancollide = cancollide;
-        }
-
-        public void Update()
+        public void AnimateIsland()
         {
             if(++framecounter > framespid)
             {
@@ -53,12 +44,22 @@ namespace EEMod.Seamap.SeamapContent
             }
         }
 
+        public virtual void Update()
+        {
+            AnimateIsland();
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             Vector2 currentPos = position.ForDraw();
             Color drawColour = Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f)) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
             drawColour.A = 255;
             spriteBatch.Draw(texture, position.ForDraw(), new Rectangle(0, texture.Height / framecount * frame, texture.Width, texture.Height / framecount), Color.White);
+        }
+
+        public virtual void CustomDraw()
+        {
+
         }
     }
 }

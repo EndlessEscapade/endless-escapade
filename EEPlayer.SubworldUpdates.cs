@@ -111,7 +111,7 @@ namespace EEMod
                 titleText = 0;
             }
 
-            markerPlacer++;
+            seamapUpdateCount++;
 
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, CoralReefs.SpirePosition * 16) < 700 * 700)
             {
@@ -143,7 +143,6 @@ namespace EEMod
                     //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
                 }
 
-                player.ClearBuff(BuffID.Cursed);
                 arrowFlag = true;
             }
 
@@ -189,8 +188,6 @@ namespace EEMod
 
         public void UpdateIsland()
         {
-            player.ClearBuff(BuffID.Cursed);
-
             if (!arrowFlag)
             {
                 NPC.NewNPC(Main.maxTilesX / 2 * 16, 75 * 16, NPCType<AtlantisCore>());
@@ -202,8 +199,6 @@ namespace EEMod
         public void UpdateVolcano()
         {
             firstFrameVolcano = true;
-
-            player.ClearBuff(BuffID.Cursed);
 
             if (!arrowFlag)
             {
@@ -253,9 +248,9 @@ namespace EEMod
 
         public void UpdateCutscene()
         {
-            markerPlacer++;
+            seamapUpdateCount++;
 
-            if (markerPlacer == 5)
+            if (seamapUpdateCount == 5)
             {
                 player.AddBuff(BuffID.Cursed, 100000);
                 NPC.NewNPC(193 * 16, (120 - 30) * 16, NPCType<SansSlime>());
@@ -325,18 +320,17 @@ namespace EEMod
             }
             if (EEModConfigClient.Instance.ParticleEffects)
             {
-                markerPlacer++;
+                seamapUpdateCount++;
             }
             else
             {
-                markerPlacer = 0;
+                seamapUpdateCount = 0;
             }
-            if (markerPlacer == 1)
+            if (seamapUpdateCount == 1)
             {
                 if (prevKey == KeyID.Sea)
                 {
                     player.Center = new Vector2(100 * 16, (TileCheckWater(100) - 22) * 16);
-                    player.ClearBuff(BuffID.Cursed);
                 }
             }
             /*if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
@@ -357,8 +351,6 @@ namespace EEMod
                 {
                     Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<BetterLighting>(), 0, 0f, Main.myPlayer, 0, player.whoAmI);
                 }*/
-
-                player.ClearBuff(BuffID.Cursed);
 
                 //Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
                 //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, player.whoAmI);

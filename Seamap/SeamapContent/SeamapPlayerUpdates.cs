@@ -44,12 +44,11 @@ namespace EEMod
         public int cutSceneTriggerTimer;
         public float cutSceneTriggerTimer3;
         public int coralReefTrans;
-        public int markerPlacer;
+        public int seamapUpdateCount;
         public Vector2 position;
         public Vector2 velocity;
 
         public string baseWorldName;
-
 
 
 
@@ -121,31 +120,29 @@ namespace EEMod
             }
             #endregion
 
-            markerPlacer++;
+            seamapUpdateCount++;
 
             #region Placing SeamapObjects.Islands
-            if (markerPlacer == 1)
+            if (seamapUpdateCount == 1)
             {
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(500, 500) * 4, GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland", 16, 10, true));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(1200, 400) * 4, GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), "VolcanoIsland", 16, 10, true));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(700, 300) * 4, GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland2", 16, 10, true));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(500, 200) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse"), null, 1, 0));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(400, 100) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), null, 16, 10));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(800, 150) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), null, 16, 10));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(200, 300) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), null, 16, 10));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(209, 55) * 4, GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), "MainIsland", 1, 0, true));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(200, 600) * 4, GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), "CoralReefsEntrance", 16, 10, true));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(450, 650) * 4, GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), "MoyaiIsland", 16, 10, true));
-                SeamapObjects.IslandEntities.Add(new Island(new Vector2(300, 250) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock4"), null, 16, 10));
+                SeamapObjects.IslandEntities.Add(new TropicalIsland1(new Vector2(500, 500) * 4));
 
-                if (SeamapObjects.SeaObjectFrames.Count != SeamapObjects.IslandEntities.Count)
-                {
-                    SeamapObjects.SeaObjectFrames.Capacity = SeamapObjects.IslandEntities.Count;
-                    for (int i = 0; i < SeamapObjects.IslandEntities.Count; i++)
-                    {
-                        SeamapObjects.SeaObjectFrames.Add(0);
-                    }
-                }
+                /*SeamapObjects.IslandEntities.Add(new Island(new Vector2(700, 300) * 4, GetTexture("EEMod/Seamap/SeamapAssets/TropicalIsland"), "TropicalIsland2", 16, 10, true, IslandID.TropicalIsland2));
+
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(1200, 400) * 4, GetTexture("EEMod/Seamap/SeamapAssets/VolcanoIsland"), "VolcanoIsland", 16, 10, true, IslandID.VolcanoIsland));
+
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(209, 55) * 4, GetTexture("EEMod/Seamap/SeamapAssets/MainIsland"), "MainIsland", 1, 0, true, IslandID.MainIsland));
+
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(200, 600) * 4, GetTexture("EEMod/Seamap/SeamapAssets/CoralReefsEntrance"), "CoralReefsEntrance", 16, 10, true, IslandID.CoralReefs));
+
+                SeamapObjects.IslandEntities.Add(new Island(new Vector2(450, 650) * 4, GetTexture("EEMod/Seamap/SeamapAssets/MoyaiIsland"), "MoyaiIsland", 16, 10, true, IslandID.MoyaiIsland));
+
+
+                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(500, 200) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Lighthouse"), null, 1, 0));
+                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(400, 100) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock1"), null, 16, 10));
+                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(800, 150) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock2"), null, 16, 10));
+                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(200, 300) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock3"), null, 16, 10));
+                SeamapObjects.IslandEntities.Add(new SeamapObject(new Vector2(300, 250) * 4, GetTexture("EEMod/Seamap/SeamapAssets/Rock4"), null, 16, 10));*/
 
                 for (int i = 0; i < 300; i++)
                 {
@@ -194,59 +191,69 @@ namespace EEMod
             }
             #endregion
 
-            #region Warping to SeamapObjects.Islands
-            if (markerPlacer > 10)
-            {
-                if (SeamapObjects.IslandsDict["VolcanoIsland"].isColliding)
-                {
-                    /*if (EEMod.Inspect.JustPressed)
-                    {
-                        Initialize();
-                        SM.SaveAndQuit(KeyID.VolcanoIsland);
-
-                        prevKey = KeyID.VolcanoIsland;
-                    }*/
-                }
-                else if (SeamapObjects.IslandsDict["MainIsland"].isColliding)
-                {
-                    if (EEMod.Inspect.JustPressed)
-                    {
-                        ReturnHome();
-                        prevKey = KeyID.Sea;
-                    }
-                }
-                else if (SeamapObjects.IslandsDict["CoralReefsEntrance"].isColliding)
-                {
-                    if (EEMod.Inspect.JustPressed)
-                    {
-                        importantCutscene = true;
-                        prevKey = KeyID.Sea;
-                    }
-                }
-                else
-                {
-                    subTextAlpha -= 0.02f;
-
-                    if (subTextAlpha <= 0)
-                    {
-                        subTextAlpha = 0;
-                    }
-                }
-            }
+            #region Warping to islands
             if (!arrowFlag)
             {
                 arrowFlag = true;
             }
 
-            foreach (var island in SeamapObjects.IslandsDict.Values)
+            bool isCollidingWithAnyIsland = false;
+            foreach (var island in SeamapObjects.IslandEntities)
             {
-                if (island.isColliding)
+                if (island.isCollidingWithPlayer)
                 {
                     subTextAlpha += 0.02f;
                     if (subTextAlpha >= 1)
                     {
                         subTextAlpha = 1;
                     }
+
+                    if(EEMod.Inspect.JustPressed)
+                    {
+                        switch (island.id)
+                        {
+                            case IslandID.TropicalIsland1:
+                                importantCutscene = true;
+                                break;
+
+                            case IslandID.TropicalIsland2:
+                                importantCutscene = true;
+                                break;
+
+                            case IslandID.VolcanoIsland:
+                                importantCutscene = true;
+                                break;
+
+                            case IslandID.MoyaiIsland:
+                                importantCutscene = true;
+                                break;
+
+                            case IslandID.CoralReefs:
+                                importantCutscene = true;
+                                break;
+
+                            case IslandID.MainIsland:
+                                ReturnHome();
+                                break;
+                        }
+
+                        prevKey = KeyID.Sea;
+                    }
+
+                    isCollidingWithAnyIsland = true;
+
+                    player.ClearBuff(BuffID.Cursed);
+                    player.ClearBuff(BuffID.Invisibility);
+                }
+            }
+
+            if(!isCollidingWithAnyIsland)
+            {
+                subTextAlpha -= 0.02f;
+
+                if (subTextAlpha <= 0)
+                {
+                    subTextAlpha = 0;
                 }
             }
             #endregion
@@ -329,31 +336,32 @@ namespace EEMod
             player.invis = true;
 
             player.AddBuff(BuffID.Cursed, 100000);
+            player.AddBuff(BuffID.Invisibility, 100000);
             #endregion
 
             //THIS NEEDS CHANGING
             #region Spawning entities
-            if (markerPlacer % 200 == 0)
+            if (seamapUpdateCount % 200 == 0)
             {
                 SeamapObjects.NewSeamapObject(new PirateShip(new Vector2(1000, 1000), Vector2.Zero));
             }
 
-            if (markerPlacer % 2400 == 0)
+            if (seamapUpdateCount % 2400 == 0)
             {
                 NPC.NewNPC((int)Main.screenPosition.X + Main.screenWidth - 200, (int)Main.screenPosition.Y + Main.rand.Next(1000), NPCType<MerchantBoat>());
             }
 
-            if (markerPlacer % 7200 == 0)
+            if (seamapUpdateCount % 7200 == 0)
             {
                 Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
             }
 
-            if (markerPlacer % 200 == 0)
+            if (seamapUpdateCount % 200 == 0)
             {
                 SeamapObjects.NewSeamapObject(new Crate(new Vector2(1000, 1000), Vector2.Zero));
             }
 
-            if (markerPlacer % 200 == 0)
+            if (seamapUpdateCount % 200 == 0)
             {
                 if (seagulls.Count < 500)
                 {
@@ -368,7 +376,7 @@ namespace EEMod
 
             //THIS NEEDS CHANGING
             #region Spawning clouds
-            if (markerPlacer % 20 == 0)
+            if (seamapUpdateCount % 20 == 0)
             {
                 int CloudChoose = Main.rand.Next(5);
                 ISeamapEntity cloud;
@@ -405,11 +413,11 @@ namespace EEMod
             }
             #endregion
 
-            #region Placing red marks on the map
-            /*if (markerPlacer % 40 == 0)
-            {
-                Projectile.NewProjectile(Main.screenPosition + EEMod.instance.position, Vector2.Zero, ProjectileType<RedStrip>(), 0, 0f, Main.myPlayer, EEMod.instance.velocity.X, EEMod.instance.velocity.Y);
-            }*/
+            #region Moving screen position
+
+            player.position = player.oldPosition;
+
+            SeamapPlayerShip.localship.ModifyScreenPosition(ref Main.screenPosition);
             #endregion
         }
 
@@ -486,14 +494,11 @@ namespace EEMod
                 prevKey = KeyID.BaseWorldName;
                 SubworldManager.EnterSubworld<CoralReefs>();                                                      
             }
-            if (cutSceneTriggerTimer > 0)
+            if (cutSceneTriggerTimer >= 500)
             {
-                if (cutSceneTriggerTimer >= 500)
-                {
-                    Initialize();
-                    prevKey = KeyID.BaseWorldName;
-                    SubworldManager.EnterSubworld<Sea>();
-                }
+                Initialize();
+                prevKey = KeyID.BaseWorldName;
+                SubworldManager.EnterSubworld<Sea>();
             }
         }
         #endregion
