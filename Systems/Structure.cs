@@ -33,7 +33,11 @@ namespace EEMod.Systems
 			PlaceSlopeRepeated,
 			PlaceHalfBrick,
 			PlaceHalfBrickRepeated,
-			PlaceDirectFramed
+			PlaceDirectFramed,
+			PaintTile,
+			PaintTileRepeated,
+			PaintWall,
+			PaintWallRepeated
 		}
 
 		private struct PlacementAction
@@ -92,6 +96,14 @@ namespace EEMod.Systems
 			public static PlacementAction PlaceHalfBrickRepeated(ushort count, ushort entry) => new PlacementAction(PlacementActionType.PlaceHalfBrickRepeated, entry, count, 0, 0, 0);
 
 			public static PlacementAction PlaceDirectFramed(ushort entry, int frameData) => new PlacementAction(PlacementActionType.PlaceDirectFramed, entry, 0, frameData, 0, 0);
+
+			public static PlacementAction PaintTile(byte color) => new PlacementAction(PlacementActionType.PaintTile, color, 0, 0, 0, 0);
+
+			public static PlacementAction PaintTileRepeated(byte color, ushort count) => new PlacementAction(PlacementActionType.PaintTileRepeated, color, count, 0, 0, 0);
+
+			public static PlacementAction PaintWall(byte color) => new PlacementAction(PlacementActionType.PaintWall, color, 0, 0, 0, 0);
+
+			public static PlacementAction PaintWallRepeated(byte color, ushort count) => new PlacementAction(PlacementActionType.PaintWallRepeated, color, count, 0, 0, 0);
 		}
 
 		public readonly int Width;
@@ -120,7 +132,12 @@ namespace EEMod.Systems
 		private const ushort PlaceHalfBrickFlag = 0xFFF1;
 		private const ushort RepeatedHalfBrickFlag = 0xFFEE;
 		private const ushort PlaceDirectFramedFlag = 0xFFED;
-		private const ushort EndOfTilesDataFlag = 0xFFEC;
+		private const ushort EndOfTilesDataFlag = 0xFFEA;
+		private const ushort EndOfWallsDataFlag = 0xFFE9;
+
+		private const byte EndOfTilePaintDataFlag = 0x21;
+		private const byte RepeatedTilePaintFlag = 0x20;
+		private const byte RepeatedWallPaintFlag = 0x1F;
 
 		private const byte StructureFileFormatVersion = 0;
 
@@ -319,6 +336,36 @@ namespace EEMod.Systems
 
 					i++;
 				}
+				else if (action.Type == PlacementActionType.PaintTile)
+				{
+					if (InWorld(i, j))
+						Main.tile[i, j].color((byte)action.EntryData);
+
+					i++;
+				}
+				else if (action.Type == PlacementActionType.PaintTileRepeated)
+				{
+					for (int z = i; z < i + action.RepetitionData; z++)
+						if (InWorld(z, j))
+							Main.tile[z, j].color((byte)action.EntryData);
+
+					i += action.RepetitionData;
+				}
+				else if (action.Type == PlacementActionType.PaintWall)
+				{
+					if (InWorld(i, j))
+						Main.tile[i, j].wallColor((byte)action.EntryData);
+
+					i++;
+				}
+				else if (action.Type == PlacementActionType.PaintWallRepeated)
+				{
+					for (int z = i; z < i + action.RepetitionData; z++)
+						if (InWorld(z, j))
+							Main.tile[z, j].wallColor((byte)action.EntryData);
+
+					i += action.RepetitionData;
+				}
 
 				if (i >= x + Width)
 				{
@@ -347,6 +394,8 @@ namespace EEMod.Systems
 		public static byte[] SerializeFromWorld(int x, int y, int width, int height)
 		{
 			int endX = x + width;
+			bool needsTilePaint = false;
+			bool needsWallPaint = false;
 
 			using (MemoryStream stream = new MemoryStream())
 			{
@@ -364,6 +413,9 @@ namespace EEMod.Systems
 						for (int i = x; i < x + width; i++)
 						{
 							Tile tile = Framing.GetTileSafely(i, j);
+
+							if (tile.color() != 0)
+								needsTilePaint = true;
 
 							if (tile.active())
 							{
@@ -526,6 +578,9 @@ namespace EEMod.Systems
 						{
 							Tile tile = Framing.GetTileSafely(i, j);
 
+							if (tile.wallColor() != 0)
+								needsWallPaint = true;
+
 							if (tile.wall == 0)
 							{
 								if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).wall == 0)
@@ -571,6 +626,72 @@ namespace EEMod.Systems
 							}
 
 							writer.Write(indexInMap);
+						}
+					}
+
+					writer.Write(EndOfWallsDataFlag);
+
+					if (!needsTilePaint)
+						return stream.ToArray();
+
+					for (int j = y; j < y + height; j++)
+					{
+						for (int i = x; i < x + width; i++)
+						{
+							Tile tile = Framing.GetTileSafely(i, j);
+							byte color = tile.color();
+
+							if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).color() == color)
+							{
+								ushort identicalColors = 0;
+
+								while (i < endX && Framing.GetTileSafely(i, j).color() == color)
+								{
+									identicalColors++;
+									i++;
+								}
+
+								i--;
+
+								writer.Write(RepeatedTilePaintFlag);
+								writer.Write(color);
+								writer.Write(identicalColors);
+							}
+							else
+								writer.Write(color);
+						}
+					}
+
+					writer.Write(EndOfTilePaintDataFlag);
+
+					if (!needsWallPaint)
+						return stream.ToArray();
+
+					for (int j = y; j < y + height; j++)
+					{
+						for (int i = x; i < x + width; i++)
+						{
+							Tile tile = Framing.GetTileSafely(i, j);
+							byte color = tile.wallColor();
+
+							if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).wallColor() == color)
+							{
+								ushort identicalColors = 0;
+
+								while (i < endX && Framing.GetTileSafely(i, j).wallColor() == color)
+								{
+									identicalColors++;
+									i++;
+								}
+
+								i--;
+
+								writer.Write(RepeatedWallPaintFlag);
+								writer.Write(color);
+								writer.Write(identicalColors);
+							}
+							else
+								writer.Write(color);
 						}
 					}
 				}
@@ -643,8 +764,32 @@ namespace EEMod.Systems
 							placementActions.Add(PlacementAction.EmptyWall);
 						else if (action == RepeatedEmptyWallFlag)
 							placementActions.Add(PlacementAction.PlaceEmptyWallRepeated(reader.ReadUInt16()));
+						else if (action == EndOfWallsDataFlag)
+							break;
 						else
 							placementActions.Add(PlacementAction.PlaceWall(action));
+					}
+
+					while (stream.Position < stream.Length)
+					{
+						action = reader.ReadByte();
+
+						if (action == RepeatedTilePaintFlag)
+							placementActions.Add(PlacementAction.PaintTileRepeated(reader.ReadByte(), reader.ReadUInt16()));
+						else if (action == EndOfTilePaintDataFlag)
+							break;
+						else
+							placementActions.Add(PlacementAction.PaintTile((byte)action));
+					}
+
+					while (stream.Position < stream.Length)
+					{
+						action = reader.ReadByte();
+
+						if (action == RepeatedWallPaintFlag)
+							placementActions.Add(PlacementAction.PaintWallRepeated(reader.ReadByte(), reader.ReadUInt16()));
+						else
+							placementActions.Add(PlacementAction.PaintWall((byte)action));
 					}
 
 					return new Structure(width, height, tileEntryMap, wallEntryMap, placementActions.ToArray());
@@ -810,32 +955,6 @@ namespace EEMod.Systems
 					SquareWallFrame(b, a);
 				}
 			}
-		}
-
-		private static Point GetTileTopLeft(int i, int j)
-		{
-			if ((i >= 0 && i < Main.maxTilesX && j >= 0 && j < Main.maxTilesY))
-			{
-				Tile tile = Main.tile[i, j];
-
-				int fX = 0;
-				int fY = 0;
-
-				if (tile != null)
-				{
-					TileObjectData data = TileObjectData.GetTileData(tile.type, 0);
-
-					if (data != null)
-					{
-						fX = tile.frameX % (18 * data.Width) / 18;
-						fY = tile.frameY % (18 * data.Height) / 18;
-					}
-				}
-
-				return new Point(i - fX, j - fY);
-			}
-
-			return new Point(-1, -1);
 		}
 	}
 }
