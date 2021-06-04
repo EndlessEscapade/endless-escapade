@@ -144,6 +144,8 @@ namespace EEMod.Seamap.SeamapContent
             RenderEntities(); //Layer 3
             RenderClouds(); //Layer 4
             RenderSeamapUI(); //Layer 5
+
+            //EEMod.DrawText();
         }
 
         public static void RenderSeamapUI()
@@ -151,7 +153,6 @@ namespace EEMod.Seamap.SeamapContent
             Texture2D texture3 = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/ShipHelthSheet");
 
             #region Drawing the ship healthbar
-            //float quotient = ShipHelth / ShipHelthMax; // unused
             Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * SeamapPlayerShip.localship.shipHelth), texture3.Width, texture3.Height / 8);
             Main.spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 200, 200), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
             #endregion

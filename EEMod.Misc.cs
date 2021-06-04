@@ -166,7 +166,7 @@ namespace EEMod
 
        
 
-        private void DrawText()
+        public static void DrawText()
         {
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.titleText;
@@ -176,7 +176,7 @@ namespace EEMod
                 text = "The Ocean";
                 color = new Color((1 - alpha), (1 - alpha), 1) * alpha;
             }*/
-            if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
+            /*if (Main.ActiveWorldFileData.Name == KeyID.Pyramids)
             {
                 text = "The Pyramids";
                 color = Color.Yellow * alpha;
@@ -200,11 +200,21 @@ namespace EEMod
             {
                 text = "Tropical Island";
                 color = Color.GreenYellow * alpha;
-            }
+            }*/
+
             Texture2D Outline = ModContent.GetInstance<EEMod>().GetTexture("UI/Outline");
             Texture2D OceanScreen = ModContent.GetInstance<EEMod>().GetTexture("Seamap/SeamapAssets/OceanScreen");
             if (Main.fontDeathText != null)
             {
+                if (Main.worldName == KeyID.Sea)
+                {
+                    Vector2 drawpos = new Vector2(Main.screenWidth / 2, 100);
+
+                    Main.spriteBatch.Begin();
+                    Main.spriteBatch.Draw(OceanScreen, drawpos, new Rectangle(0, 0, OceanScreen.Width, OceanScreen.Height), Color.White * alpha, 0, OceanScreen.TextureCenter(), 1, SpriteEffects.None, 0);
+                    Main.spriteBatch.End();
+                }
+
                 /*Vector2 textSize = Main.fontDeathText.MeasureString(text);
                 float textPositionLeft = Main.screenWidth / 2 - textSize.X / 2;
                 float textPositionRight = Main.screenWidth / 2 + textSize.X / 2;

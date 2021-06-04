@@ -16,6 +16,7 @@ using EEMod.Items;
 using EEMod.Projectiles.CoralReefs;
 using EEMod.Items.Weapons.Melee.Flails;
 using EEMod.Items.Weapons.Summon.Whips;
+using EEMod.Items.Accessories.InterstellarKelpBud;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
@@ -166,7 +167,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             int choice = Main.rand.Next(3);
 
-            if (choice == 0) return ModContent.ItemType<KelpvineCannon>();
+            if (choice == 0) return ModContent.ItemType<InterstellarKelpBud>();
             else if (choice == 1) return ModContent.ItemType<KelpFlail>();
             else if (choice == 2) return ModContent.ItemType<KelpWhip>();
             else return ItemID.DirtBlock;
