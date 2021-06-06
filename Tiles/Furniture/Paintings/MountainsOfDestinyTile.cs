@@ -1,6 +1,7 @@
 using EEMod.Items.Placeables.Furniture.Paintings;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -17,7 +18,7 @@ namespace EEMod.Tiles.Furniture.Paintings
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("OSPainting");
             AddMapEntry(new Color(255, 168, 28), name);
-            dustType = 11;
+            dustType = DustID.Silver;
             disableSmartCursor = true;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16 };
         }

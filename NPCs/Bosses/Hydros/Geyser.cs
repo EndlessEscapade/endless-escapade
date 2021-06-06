@@ -36,7 +36,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale * 1.1f);
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Blue, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, projectile.scale * 1.1f);
                     Main.dust[num].noGravity = false;
                     Main.dust[num].velocity *= 1f;
                     Main.dust[num].noLight = false;

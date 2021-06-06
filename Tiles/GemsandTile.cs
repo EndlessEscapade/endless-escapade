@@ -19,7 +19,7 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(48, 115, 135));
 
-            dustType = 154;
+            dustType = DustID.Rain;
             drop = ModContent.ItemType<Gemsand>();
             soundStyle = 1;
             mineResist = 1f;

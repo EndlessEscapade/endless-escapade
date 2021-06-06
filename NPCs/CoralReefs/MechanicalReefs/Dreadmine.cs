@@ -37,7 +37,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
         {
             for (int i = 0; i < 30; i++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 55);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Pixie);
             }
             Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode);
             projectile.Kill();

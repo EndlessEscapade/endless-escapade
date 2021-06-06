@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
@@ -33,9 +34,9 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 {
                     if (Main.rand.Next(4) == 0)
                     {
-                        int dust = Dust.NewDust(projectile.position, 1, 1, 113, projectile.velocity.X * 1.2f, projectile.velocity.Y, 0, Color.Black, 2);
+                        int dust = Dust.NewDust(projectile.position, 1, 1, DustID.Clentaminator_Blue, projectile.velocity.X * 1.2f, projectile.velocity.Y, 0, Color.Black, 2);
                         Main.dust[dust].noGravity = true;
-                        int dust2 = Dust.NewDust(projectile.position, 1, 1, 113, projectile.velocity.X * 1.2f, projectile.velocity.Y, 9, Color.Black, 1f);
+                        int dust2 = Dust.NewDust(projectile.position, 1, 1, DustID.Clentaminator_Blue, projectile.velocity.X * 1.2f, projectile.velocity.Y, 9, Color.Black, 1f);
                         Main.dust[dust2].noGravity = true;
                     }
                 }

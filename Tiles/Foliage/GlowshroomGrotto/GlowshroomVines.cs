@@ -19,7 +19,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             Main.tileNoAttach[Type] = true;
             Main.tileLighted[Type] = false;
             soundType = SoundID.Grass;
-            dustType = 167;
+            dustType = DustID.Plantera_Green;
 
             AddMapEntry(new Color(95, 143, 65));
         }

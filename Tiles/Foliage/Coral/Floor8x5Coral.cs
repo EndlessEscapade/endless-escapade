@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -33,7 +34,7 @@ namespace EEMod.Tiles.Foliage.Coral
             name.SetDefault("Big Coral");
             AddMapEntry(new Color(20, 60, 20), name);
             disableSmartCursor = true;
-            dustType = 107;
+            dustType = DustID.TerraBlade;
         }
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)

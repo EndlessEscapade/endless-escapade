@@ -1,6 +1,7 @@
 using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.Placeables.Walls;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,7 +17,7 @@ namespace EEMod.Tiles.Walls
             AddMapEntry(new Color(67, 47, 155));
 
             Main.wallHouse[Type] = true;
-            dustType = 154;
+            dustType = DustID.Rain;
             drop = ModContent.ItemType<LightGemsandWall>();
             soundStyle = 1;
         }

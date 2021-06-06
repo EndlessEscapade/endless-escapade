@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Enemy
@@ -54,7 +55,7 @@ namespace EEMod.Projectiles.Enemy
         {
             for (int i = 0; i < 20; i++)
             {
-                int dust = Dust.NewDust(projectile.position, 0, 0, 6);
+                int dust = Dust.NewDust(projectile.position, 0, 0, DustID.Fire);
                 Main.dust[dust].velocity = projectile.velocity + new Vector2(Main.rand.NextFloat(-1, 2), Main.rand.NextFloat(-1, 2));
             }
         }

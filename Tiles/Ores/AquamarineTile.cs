@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Ores
             name.SetDefault("Aquamarine");
             AddMapEntry(new Color(152, 171, 198), name);
 
-            dustType = 84;
+            dustType = DustID.Platinum;
             drop = ModContent.ItemType<Aquamarine>();
             soundType = SoundID.Tink;
             soundStyle = 1;

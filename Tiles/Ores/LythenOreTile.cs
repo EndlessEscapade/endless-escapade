@@ -23,7 +23,7 @@ namespace EEMod.Tiles.Ores
             name.SetDefault("Lythen Ore");
             AddMapEntry(new Color(152, 171, 198), name);
 
-            dustType = 84;
+            dustType = DustID.Platinum;
             drop = ModContent.ItemType<LythenOre>();
             soundType = SoundID.Tink;
             soundStyle = 1;

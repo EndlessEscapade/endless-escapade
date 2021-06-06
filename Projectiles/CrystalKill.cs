@@ -61,7 +61,7 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
                 scale *= 0.97f;
                 for (int i = 0; i < 8; i++)    //this defines how many dust to spawn
                 {
-                    int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 64, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 0, new Color(255, 255, 153), 1);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
+                    int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.YellowTorch, projectile.velocity.X * 0.5f, projectile.velocity.Y * 0.5f, 0, new Color(255, 255, 153), 1);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
                     Main.dust[dust].noGravity = true;
                     Main.dust[dust].scale = scale;
                     //  int dust2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.BlueCrystalShard, projectile.velocity.X * 1.2f, projectile.velocity.Y * 1.2f, DustID.BlueCrystalShard, new Color(255, 255, 153), 1); //this defines the flames dust and color parcticles, like when they fall thru ground, change DustID to wat dust you want from Terraria
@@ -78,7 +78,7 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
         {
             for (var i = 0; i < 20; i++)
             {
-                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 64, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 255, 153, 255), 2f);
+                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.YellowTorch, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 255, 153, 255), 2f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].velocity *= 1.2f;
                 Main.dust[num].noLight = false;

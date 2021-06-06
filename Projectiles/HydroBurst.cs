@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
@@ -27,7 +28,7 @@ namespace EEMod.Projectiles
             projectile.knockBack = 3;
             for (int i = 0; i < 5; i++)    //this defines how many dust to spawn
             {
-                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, 16);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
+                int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Cloud);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
                 Main.dust[dust].noGravity = true;
             }
         }

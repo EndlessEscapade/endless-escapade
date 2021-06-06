@@ -35,7 +35,7 @@ namespace EEMod.Tiles.Furniture.Chests
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Gemsand Chest");
             AddMapEntry(new Color(255, 0, 0), name);
-            dustType = 0;
+            dustType = DustID.Dirt;
             disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
             chestDrop = ModContent.ItemType<GemsandChest>();

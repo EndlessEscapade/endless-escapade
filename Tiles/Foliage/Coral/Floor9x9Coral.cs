@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -30,7 +31,7 @@ namespace EEMod.Tiles.Foliage.Coral
             name.SetDefault("Big Coral");
             AddMapEntry(new Color(20, 60, 20), name);
             disableSmartCursor = true;
-            dustType = 107;
+            dustType = DustID.TerraBlade;
         }
     }
 }

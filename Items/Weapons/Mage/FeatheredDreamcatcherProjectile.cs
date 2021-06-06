@@ -47,7 +47,7 @@ namespace EEMod.Items.Weapons.Mage
                 projectile.Center = new Vector2(closestNPCPos.X, closestNPCPos.Y - 80);
                 firstFrame = false;
             }
-            Dust.NewDust(projectile.Center, 0, 0, 127);
+            Dust.NewDust(projectile.Center, 0, 0, DustID.Flare);
             if (dropTimer > 0)
             {
                 dropTimer--;
@@ -68,7 +68,7 @@ namespace EEMod.Items.Weapons.Mage
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(projectile.Center, 0, 0, 127);
+                Dust.NewDust(projectile.Center, 0, 0, DustID.Flare);
             }
             projectile.Kill();
         }

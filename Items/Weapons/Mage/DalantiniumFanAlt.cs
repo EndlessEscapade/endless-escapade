@@ -78,7 +78,7 @@ namespace EEMod.Items.Weapons.Mage
             }
             else if (projectile.ai[0] < secondPhase)
             {
-                Dust.NewDust(projectile.position, 30, 30, 219);
+                Dust.NewDust(projectile.position, 30, 30, DustID.Fireworks);
                 if (projectile.ai[0] == firstPhase)
                 {
                     Dist = dist;
@@ -95,7 +95,7 @@ namespace EEMod.Items.Weapons.Mage
             }
             else if (projectile.ai[0] < thirdPhase)
             {
-                Dust.NewDust(projectile.position, 30, 30, 123);
+                Dust.NewDust(projectile.position, 30, 30, DustID.Water_Crimson);
                 projectile.rotation = dist.ToRotation() + (float)Math.PI / 4f + (lerp - 1.57f) / 2f;
                 projectile.Center = Main.player[projectile.owner].Center + Dist.RotatedBy(lerp);
                 float traverseFunction = (float)Math.Sin((projectile.ai[0] - secondPhase) / ((thirdPhase - secondPhase) / 3.14f));
@@ -110,7 +110,7 @@ namespace EEMod.Items.Weapons.Mage
                     projectile.Kill();
                     for (var i = 0; i < 40; i++)
                     {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 219, Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-2f, -1f), 6, default, projectile.scale);
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fireworks, Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-2f, -1f), 6, default, projectile.scale);
                         Main.dust[num].noGravity = true;
                         Main.dust[num].velocity *= 2.5f;
                         Main.dust[num].noLight = false;

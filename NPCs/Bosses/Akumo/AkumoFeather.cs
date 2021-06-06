@@ -30,7 +30,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         {
             if (Main.rand.NextBool(6))
             {
-                int num25 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 35, 0f, 0f, 100, default, 1f);
+                int num25 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LavaBubbles, 0f, 0f, 100, default, 1f);
                 Main.dust[num25].velocity *= 0.3f;
                 Main.dust[num25].noGravity = true;
                 Main.dust[num25].noLight = true;
@@ -46,7 +46,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             projectile.ai[0] += 0.1f;
             if (Main.rand.NextBool(2))
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, 35, 0.0f, 0.0f, 100, new Color(), 1f);
+                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LavaBubbles, 0.0f, 0.0f, 100, new Color(), 1f);
             }
             projectile.rotation = projectile.velocity.ToRotation(); // projectile faces sprite right
             projectile.velocity.Y = speed * (float)Math.Sin(projectile.ai[0]) + 10;
@@ -69,7 +69,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, projectile.position);
             for (int i = 0; i < 20; i++)
             {
-                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 35, 0.0f, 0.0f, 100, new Color(), 1f);
+                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LavaBubbles, 0.0f, 0.0f, 100, new Color(), 1f);
                 Main.dust[index2].velocity *= 1.1f;
                 Main.dust[index2].scale *= 0.99f;
             }

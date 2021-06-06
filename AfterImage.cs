@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod
@@ -152,7 +153,7 @@ namespace EEMod
             float cr = 1f, cg = 1f, cb = 1f, ca = 1f;
             if (effects && honey && Main.rand.NextBool(30))
             {
-                int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 152, 0f, 0f, 150, default, 1f);
+                int dustID = Dust.NewDust(codable.position, codable.width, codable.height, DustID.HoneyBubbles, 0f, 0f, 150, default, 1f);
                 Main.dust[dustID].velocity.Y = 0.3f;
                 Main.dust[dustID].velocity.X *= 0.1f;
                 Main.dust[dustID].scale += Main.rand.Next(3, 4) * 0.1f;
@@ -168,7 +169,7 @@ namespace EEMod
             {
                 if (effects && Main.rand.NextBool(30))
                 {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 46, 0f, 0f, 120, default, 0.2f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, DustID.Poisoned, 0f, 0f, 120, default, 0.2f);
                     Main.dust[dustID].noGravity = true;
                     Main.dust[dustID].fadeIn = 1.9f;
                     if (codable is Player)
@@ -183,7 +184,7 @@ namespace EEMod
             {
                 if (effects && Main.rand.NextBool(10))
                 {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 171, 0f, 0f, 100, default, 0.5f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, DustID.Venom, 0f, 0f, 100, default, 0.5f);
                     Main.dust[dustID].noGravity = true;
                     Main.dust[dustID].fadeIn = 1.5f;
                     if (codable is Player)
@@ -214,7 +215,7 @@ namespace EEMod
             {
                 if (effects)
                 {
-                    int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 2f);
+                    int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, DustID.Fire, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 2f);
                     Main.dust[dustID].noGravity = true;
                     Main.dust[dustID].velocity *= 1.8f;
                     Main.dust[dustID].velocity.Y -= 0.75f;
@@ -236,7 +237,7 @@ namespace EEMod
                 {
                     if (Main.rand.Next(4) < 3)
                     {
-                        int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, 135, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
+                        int dustID = Dust.NewDust(new Vector2(codable.position.X - 2f, codable.position.Y - 2f), codable.width + 4, codable.height + 4, DustID.IceTorch, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
                         Main.dust[dustID].noGravity = true;
                         Main.dust[dustID].velocity *= 1.8f;
                         Main.dust[dustID].velocity.Y -= 0.5f;
@@ -264,7 +265,7 @@ namespace EEMod
                 {
                     if (Main.rand.Next(4) != 0)
                     {
-                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 6, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
+                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, DustID.Fire, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
                         Main.dust[dustID].noGravity = true;
                         Main.dust[dustID].velocity *= 1.8f;
                         Main.dust[dustID].velocity.Y -= 0.5f;
@@ -292,7 +293,7 @@ namespace EEMod
                 position.X -= 2f; position.Y -= 2f;
                 if (Main.rand.NextBool(2))
                 {
-                    int dustID = Dust.NewDust(position, codable.width + 4, codable.height + 2, 211, 0f, 0f, 50, default, 0.8f);
+                    int dustID = Dust.NewDust(position, codable.width + 4, codable.height + 2, DustID.Wet, 0f, 0f, 50, default, 0.8f);
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[dustID].alpha += 25;
@@ -314,7 +315,7 @@ namespace EEMod
                 }
                 else
                 {
-                    int dustID = Dust.NewDust(position, codable.width + 8, codable.height + 8, 211, 0f, 0f, 50, default, 1.1f);
+                    int dustID = Dust.NewDust(position, codable.width + 8, codable.height + 8, DustID.Wet, 0f, 0f, 50, default, 1.1f);
                     if (Main.rand.NextBool(2))
                     {
                         Main.dust[dustID].alpha += 25;
@@ -346,7 +347,7 @@ namespace EEMod
                     {
                         Vector2 position2 = codable.position;
                         position2.X -= 2f; position2.Y -= 2f;
-                        int dustID = Dust.NewDust(position2, codable.width + 4, codable.height + 2, 4, 0f, 0f, alpha, newColor, 1.4f);
+                        int dustID = Dust.NewDust(position2, codable.width + 4, codable.height + 2, DustID.t_Slime, 0f, 0f, alpha, newColor, 1.4f);
                         if (Main.rand.NextBool(2))
                         {
                             Main.dust[dustID].alpha += 25;
@@ -376,7 +377,7 @@ namespace EEMod
                 {
                     if (Main.rand.Next(4) != 0)
                     {
-                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, 75, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
+                        int dustID = Dust.NewDust(codable.position - new Vector2(2f, 2f), codable.width + 4, codable.height + 4, DustID.CursedTorch, codable.velocity.X * 0.4f, codable.velocity.Y * 0.4f, 100, default, 3.5f);
                         Main.dust[dustID].noGravity = true;
                         Main.dust[dustID].velocity *= 1.8f;
                         Main.dust[dustID].velocity.Y -= 0.5f;
@@ -413,7 +414,7 @@ namespace EEMod
                 bool dead = codable is Player player ? player.dead : codable is NPC nPC && nPC.life <= 0;
                 if (effects && !dead && Main.rand.NextBool(30))
                 {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 5, 0f, 0f, 0, default, 1f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, DustID.Blood, 0f, 0f, 0, default, 1f);
                     Main.dust[dustID].velocity.Y += 0.5f;
                     Main.dust[dustID].velocity *= 0.25f;
                     if (codable is Player)
@@ -447,7 +448,7 @@ namespace EEMod
                     Vector2 value2 = new Vector2(Main.rand.Next(-10, 11), Main.rand.Next(-10, 11));
                     value2.Normalize(); value2.X *= 0.66f; value2.Y = Math.Abs(value2.Y);
                     Vector2 vector = value2 * Main.rand.Next(3, 5) * 0.25f;
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 188, vector.X, vector.Y * 0.5f, 100, default, 1.5f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, DustID.FartInAJar, vector.X, vector.Y * 0.5f, 100, default, 1.5f);
                     Main.dust[dustID].velocity *= 0.1f;
                     Main.dust[dustID].velocity.Y -= 0.5f;
                     if (codable is Player)
@@ -469,7 +470,7 @@ namespace EEMod
             {
                 if (effects && !Main.gamePaused && Main.instance.IsActive && Main.rand.NextBool(50))
                 {
-                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, 15, 0f, 0f, 150, default, 0.8f);
+                    int dustID = Dust.NewDust(codable.position, codable.width, codable.height, DustID.MagicMirror, 0f, 0f, 150, default, 0.8f);
                     Main.dust[dustID].velocity *= 0.1f;
                     Main.dust[dustID].noLight = true;
                     if (codable is Player)

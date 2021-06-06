@@ -86,7 +86,7 @@ namespace EEMod.Items.Weapons.Mage
             for (int i = 0; i < 40; i++)
             {
                 Vector2 position = projectile.position + new Vector2(Main.rand.Next(-50, 51) * .05f - 1.5f, Main.rand.Next(-50, 51) * .05f - 1.5f);
-                Dust dust = Main.dust[Dust.NewDust(position, projectile.width, projectile.height, 165, 0f, -2f, 0, default(Color), 2f * .4f)];
+                Dust dust = Main.dust[Dust.NewDust(position, projectile.width, projectile.height, DustID.FungiHit, 0f, -2f, 0, default(Color), 2f * .4f)];
                 dust.noGravity = true;
                 if (dust.position != projectile.Center)
                     dust.velocity = projectile.DirectionTo(dust.position) * 8f;

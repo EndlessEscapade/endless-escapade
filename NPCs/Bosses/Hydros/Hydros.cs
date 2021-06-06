@@ -284,7 +284,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                                         double rad = deg * (Math.PI / 180) * 0.7f; //Convert degrees to radians
                                         if (dist1 - (i * 10) > 0)
                                         {
-                                            int num7 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, 113, 0f, 0f, 0, Color.AliceBlue, .7f);
+                                            int num7 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Clentaminator_Blue, 0f, 0f, 0, Color.AliceBlue, .7f);
                                             Main.dust[num7].position.X = potentialMinionArray[j].X - (int)(Math.Cos(rad) * (dist1 - (i * 10)));
                                             Main.dust[num7].position.Y = potentialMinionArray[j].Y - (int)(Math.Sin(rad) * (dist1 - (i * 10)));
                                             Main.dust[num7].noGravity = true;
@@ -302,7 +302,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                                         for (var a = 0; a < 50; a++)
                                         {
                                             Vector2 vector = new Vector2(0, 20).RotatedBy(Math.PI * 0.04 * a, default);
-                                            int index = Dust.NewDust(potentialMinionArray[j], 22, 22, 113, vector.X, vector.Y, 0, Color.AliceBlue, .7f);
+                                            int index = Dust.NewDust(potentialMinionArray[j], 22, 22, DustID.Clentaminator_Blue, vector.X, vector.Y, 0, Color.AliceBlue, .7f);
                                             Main.dust[index].velocity *= .5f;
                                             Main.dust[index].noGravity = true;
                                         }

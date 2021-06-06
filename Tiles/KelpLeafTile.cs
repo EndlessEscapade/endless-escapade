@@ -23,7 +23,7 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(40, 200, 0));
 
-            dustType = 154;
+            dustType = DustID.Rain;
             soundStyle = 1;
             mineResist = 1f;
             minPick = 0;

@@ -48,7 +48,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         {
             for (var a = 0; a < 2; a++)
             {
-                int index = Dust.NewDust(projectile.Center, 22, 22, 16, 0, 0);
+                int index = Dust.NewDust(projectile.Center, 22, 22, DustID.Cloud, 0, 0);
                 Main.dust[index].noGravity = true;
             }
         }

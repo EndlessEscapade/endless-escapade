@@ -1,6 +1,7 @@
 using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod.Tiles
@@ -18,7 +19,7 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(67, 47, 155));
 
-            dustType = 154;
+            dustType = DustID.Rain;
             drop = ModContent.ItemType<DarkGemsandstone>();
             soundStyle = 1;
             mineResist = 1f;

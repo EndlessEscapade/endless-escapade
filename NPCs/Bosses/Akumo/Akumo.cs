@@ -331,7 +331,7 @@ namespace EEMod.NPCs.Bosses.Akumo
                 double deg = (double)npc.ai[1] + (i * 72);
                 double rad = deg * (Math.PI / 180);
 
-                int num7 = Dust.NewDust(npc.Center, npc.width, npc.height, 63, 0f, 0f, 480 - (int)npc.ai[0], new Color(255, 255, 255, 255), (npc.ai[0] / 255) - 1);
+                int num7 = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.WhiteTorch, 0f, 0f, 480 - (int)npc.ai[0], new Color(255, 255, 255, 255), (npc.ai[0] / 255) - 1);
                 Main.dust[num7].position.X = npc.Center.X - (int)(Math.Cos(rad) * (i * 30 * (1 - npc.ai[0] % 30 / 30)));
                 Main.dust[num7].position.Y = npc.Center.Y - (int)(Math.Sin(rad) * (i * 30 * (1 - npc.ai[0] % 30 / 30)));
                 Main.dust[num7].noGravity = true;

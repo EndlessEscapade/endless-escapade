@@ -46,7 +46,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Kelpblossom");
             AddMapEntry(new Color(255, 168, 28), name);
-            dustType = 11;
+            dustType = DustID.Silver;
             disableSmartCursor = true;
             animationFrameHeight = 72;
         }

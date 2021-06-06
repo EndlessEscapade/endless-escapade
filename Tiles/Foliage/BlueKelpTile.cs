@@ -22,7 +22,7 @@ namespace EEMod.Tiles.Foliage
             Main.tileNoAttach[Type] = true;
             AddMapEntry(new Color(68, 89, 195));
             //Main.tileCut[Type] = true;
-            dustType = 154;
+            dustType = DustID.Rain;
             drop = ModContent.ItemType<Kelp>();
             soundStyle = SoundID.Grass;
             mineResist = 1f;

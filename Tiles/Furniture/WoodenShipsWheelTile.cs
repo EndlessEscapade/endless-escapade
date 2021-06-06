@@ -37,7 +37,7 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Wooden Ship's Wheel");
             AddMapEntry(new Color(255, 168, 28), name);
-            dustType = 11;
+            dustType = DustID.Silver;
             disableSmartCursor = true;
         }
 

@@ -7,6 +7,7 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using Terraria.Enums;
+using Terraria.ID;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -22,7 +23,7 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Broken Arcade Machine");
             AddMapEntry(new Color(255, 168, 28), name);
-            dustType = 11;
+            dustType = DustID.Silver;
             disableSmartCursor = true;
         }
 

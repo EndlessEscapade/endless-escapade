@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Globalization;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace EEMod
@@ -289,15 +290,15 @@ namespace EEMod
             {
                 for (int i = 0; i < 30; i++)
                 {
-                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 31, 0f, 0f, 100, default, 1.5f);
+                    int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Smoke, 0f, 0f, 100, default, 1.5f);
                     Main.dust[num].velocity *= 1.4f;
                 }
                 for (int j = 0; j < 20; j++)
                 {
-                    int num2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 3.5f);
+                    int num2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3.5f);
                     Main.dust[num2].noGravity = true;
                     Main.dust[num2].velocity *= 7f;
-                    num2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, 6, 0f, 0f, 100, default, 1.5f);
+                    num2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1.5f);
                     Main.dust[num2].velocity *= 3f;
                 }
                 for (int k = 0; k < 2; k++)

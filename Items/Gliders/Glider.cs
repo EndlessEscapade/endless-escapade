@@ -46,7 +46,7 @@ namespace EEMod.Items.Gliders
             player.itemLocation += new Vector2(-100 * player.direction, 0);
 
             if (Main.rand.Next(4) == 0)
-                Dust.NewDust(player.position + new Vector2(-30 * player.direction, -5), 2, 2, 91, 0, 0, 0, default, Math.Abs(player.velocity.X) / 40f);
+                Dust.NewDust(player.position + new Vector2(-30 * player.direction, -5), 2, 2, DustID.DiamondBolt, 0, 0, 0, default, Math.Abs(player.velocity.X) / 40f);
 
             Tile tile = Framing.GetTileSafely((int)player.position.X / 16, (int)player.position.Y / 16 + 3);
             if (tile.active()

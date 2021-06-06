@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
 
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.Center, 0, 0, 127);
+            int dust = Dust.NewDust(projectile.Center, 0, 0, DustID.Flare);
             //Main.dust[dust].velocity = -projectile.velocity;
         }
 

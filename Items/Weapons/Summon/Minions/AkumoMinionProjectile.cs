@@ -41,7 +41,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(projectile.Center, 0, 0, 127);
+                Dust.NewDust(projectile.Center, 0, 0, DustID.Flare);
             }
             projectile.Kill();
         }

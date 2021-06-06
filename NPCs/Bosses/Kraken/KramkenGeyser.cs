@@ -41,7 +41,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(-5, -2), 6, Color.Blue, projectile.scale * 1.5f);
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Blue, 0, Main.rand.NextFloat(-5, -2), 6, Color.Blue, projectile.scale * 1.5f);
                         Main.dust[num].noGravity = false;
                         Main.dust[num].velocity *= 7f;
                         Main.dust[num].velocity.X = Main.rand.NextFloat(-2, 2);
@@ -52,7 +52,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, 0, Main.rand.NextFloat(2, 5), 6, Color.Blue, projectile.scale * 1.5f);
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Blue, 0, Main.rand.NextFloat(2, 5), 6, Color.Blue, projectile.scale * 1.5f);
                         Main.dust[num].noGravity = false;
                         Main.dust[num].velocity *= 7f;
                         Main.dust[num].velocity.X = Main.rand.NextFloat(-2, 2);
@@ -63,7 +63,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, Main.rand.NextFloat(2, 5), 0, 6, Color.Blue, projectile.scale * 1.5f);
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Blue, Main.rand.NextFloat(2, 5), 0, 6, Color.Blue, projectile.scale * 1.5f);
                         Main.dust[num].noGravity = false;
                         Main.dust[num].velocity *= 7f;
                         Main.dust[num].velocity.Y = Main.rand.NextFloat(-2, 2);
@@ -74,7 +74,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                 {
                     for (int i = 0; i < 2; i++)
                     {
-                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, 113, Main.rand.NextFloat(-5, -2), 0, 6, Color.Blue, projectile.scale * 1.5f);
+                        int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Clentaminator_Blue, Main.rand.NextFloat(-5, -2), 0, 6, Color.Blue, projectile.scale * 1.5f);
                         Main.dust[num].noGravity = false;
                         Main.dust[num].velocity *= 7f;
                         Main.dust[num].velocity.Y = Main.rand.NextFloat(-2, 2);
