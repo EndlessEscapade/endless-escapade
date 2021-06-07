@@ -20,13 +20,6 @@ namespace EEMod.Extensions
                 {
                     if (!char.IsWhiteSpace(text[i]) && i != text.Length - 1 && !char.IsWhiteSpace(text[i + 1]))
                     {
-                        int charsForward = 1;
-                        StringBuilder yeaCat = new StringBuilder();
-                        while (!char.IsWhiteSpace(text[i + charsForward]) && i + charsForward < text.Length - 2)
-                        {
-                            yeaCat.Append(text[i + charsForward]);
-                            charsForward++;
-                        }
                         int charsBehind = 1;
                         StringBuilder naCat = new StringBuilder();
                         while (!char.IsWhiteSpace(text[i - charsBehind]) && i - charsBehind > -1)
