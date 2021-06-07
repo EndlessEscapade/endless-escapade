@@ -71,7 +71,6 @@ namespace EEMod
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
 
             HookEndpointManager.Modify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
-
         }
 
         private void LiquidRenderer_InternalDraw1(ILContext il)
@@ -122,8 +121,8 @@ namespace EEMod
             //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
             //IL.Terraria.Main.DrawWater -= Main_DrawWater;
             //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
-            IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
-            IL.Terraria.NPC.AI_001_Slimes -= Practice;
+            //IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
+            //IL.Terraria.NPC.AI_001_Slimes -= Practice;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
             HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);

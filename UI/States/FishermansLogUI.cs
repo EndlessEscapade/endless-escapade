@@ -20,34 +20,38 @@ namespace EEMod.UI.States
         public UIText Name;
         public UIText ExtraInfo;
         public UIText Description;
-        public UIImage Background = new UIImage(ModContent.GetTexture("EEMod/UI/FishermansLogUI"));
-        public UIElement RightStuff = new UIElement();
-        public FishDisplay Display = new FishDisplay();
-        public UIPanel FishPanel = new UIPanel();
-        public UIGrid FishGrid = new UIGrid();
-        public FixedUIScrollbar ScrollBar = new FixedUIScrollbar();
+        public UIImage Background;
+        public UIElement RightStuff;
+        public FishDisplay Display;
+        public UIPanel FishPanel;
+        public UIGrid FishGrid;
+        public FixedUIScrollbar ScrollBar;
         public List<UIElement> FullList = new List<UIElement>();
         public UIElement SelectedFish;
         public bool ClosingUI;
         public int SlideTimer = 0;
         public override void OnInitialize()
         {
+            Background = new UIImage(ModContent.GetTexture("EEMod/UI/FishermansLogUI"));
             Background.HAlign = 0.5f;
             Background.VAlign = 2f;
 
+            FishPanel = new UIPanel();
             FishPanel.Width.Set(344, 0f);
-            FishPanel.Height.Set(416, 0f);
+            FishPanel.Height.Set(470, 0f);
             FishPanel.HAlign = 0.05f;
             FishPanel.VAlign = 0.80f;
             FishPanel.BackgroundColor = new Color();
             Background.Append(FishPanel);
 
+            ScrollBar = new FixedUIScrollbar(); 
             ScrollBar.SetView(100f, 1000f);
             ScrollBar.Top.Pixels = 32f + 8f;
             ScrollBar.Height.Set(-50f - 8f, 1f);
             ScrollBar.HAlign = 1f;
             FishPanel.Append(ScrollBar);
 
+            FishGrid = new UIGrid();
             FishGrid.Width.Set(344, 0f);
             FishGrid.Height.Set(416, 0f);
             FishGrid.HAlign = 0.5f;
@@ -57,28 +61,30 @@ namespace EEMod.UI.States
             FishGrid.SetScrollbar(ScrollBar);
             FishPanel.Append(FishGrid);
 
+            RightStuff = new UIElement();
             RightStuff.Width.Set(376, 0f);
-            RightStuff.Height.Set(496, 0f);
+            RightStuff.Height.Set(550, 0f);
             RightStuff.HAlign = 1f;
             Background.Append(RightStuff);
 
+            Display = new FishDisplay();
             Display.HAlign = 0.5f;
             Display.VAlign = 0.125f;
             RightStuff.Append(Display);
 
             Name = new UIText("");
             Name.HAlign = 0.5f;
-            Name.VAlign = 0.475f;
+            Name.VAlign = 0.42775f;
             RightStuff.Append(Name);
 
             ExtraInfo = new UIText("");
             ExtraInfo.HAlign = 0.5f;
-            ExtraInfo.VAlign = 0.575f;
+            ExtraInfo.VAlign = 0.52125f;
             RightStuff.Append(ExtraInfo);
 
             Description = new UIText("");
             Description.HAlign = 0.5f;
-            Description.VAlign = 0.8f;
+            Description.VAlign = 0.725f;
             RightStuff.Append(Description);
 
             Append(Background);
@@ -118,7 +124,8 @@ namespace EEMod.UI.States
         }
         public void LoadAllFish()
         {
-            FishGrid.Add(new FishElement(ItemID.Bass, "Plentiful", "Yea cat echhh hhhhhhhhhhhdhs  uidfhafuiafaf a    a fh h monkeymonkeymonkeymonkey e", "Anywhere")); //All except Desert in 1.4.
+            FishGrid.Add(new FishElement(ItemID.Bass, "Plentiful", "Bass is a name shared by many species of fish, encompassing both freshwater and marine species, all belonging to the large order Perciformes.", 
+                "Anywhere")); //All except Desert in 1.4.
             FishGrid.Add(new FishElement(ItemID.AtlanticCod, "Common", "Na cat", "snow|ug ice"));
             FishGrid.Add(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
             FullList = FishGrid._items;
