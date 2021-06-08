@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Terraria;
 
@@ -11,7 +12,7 @@ namespace EEMod.Extensions
         /// <param name="breakPoint">The limit of characters in a single line.</param>
         public static string FormatString(this string text, int breakPoint)
         {
-            string formattedText = "";
+            StringBuilder formattedText = new StringBuilder();
             int lineBreakPoint = 0;
             for (int i = 0; i < text.Length; i++)
             {
@@ -19,29 +20,29 @@ namespace EEMod.Extensions
                 {
                     if (!char.IsWhiteSpace(text[i]) && i != text.Length - 1 && !char.IsWhiteSpace(text[i + 1]))
                     {
-                        int failsafe = 1;
-                        string yeaCat = "";
-                        while (!char.IsWhiteSpace(text[i - failsafe]))
+                        int charsBehind = 1;
+                        StringBuilder naCat = new StringBuilder();
+                        while (!char.IsWhiteSpace(text[i - charsBehind]) && i - charsBehind > -1)
                         {
-                            yeaCat += text[i - failsafe];
-                            failsafe++;
+                            naCat.Append(text[i - charsBehind]);
+                            charsBehind++;
                         }
-                        lineBreakPoint = 0;
-                        formattedText += "\n";
-                        string naCat = new string(yeaCat.Reverse().ToArray());
-                        formattedText = formattedText.Replace(" " + naCat, "");
-                        formattedText += naCat;
+                        string maybCat = new string(naCat.ToString().Reverse().ToArray());
+                        formattedText.Append("\n");
+                        lineBreakPoint = maybCat.Length;
+                        formattedText.Remove(formattedText.Length - maybCat.Length - 1, maybCat.Length);
+                        formattedText.Append(maybCat);
                     }
                     else
                     {
                         lineBreakPoint = 0;
-                        formattedText += "\n";
+                        formattedText.Append("\n");
                     }
                 }
-                formattedText += text[i];
+                formattedText.Append(text[i]);
                 lineBreakPoint++;
             }
-            return formattedText;
+            return formattedText.ToString();
         }
     }
 }
