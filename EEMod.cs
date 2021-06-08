@@ -100,7 +100,7 @@ namespace EEMod
                 Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
                 Filters.Scene["EEMod:MyTestShader"].Load();
 
-                GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/SpireShine")), "SpireHeartbeat").UseImage("Noise/WormNoisePixelated");
+                GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/SpireShine")), "SpireHeartbeat").UseImage("Textures/Noise/WormNoisePixelated");
 
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
                 NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");

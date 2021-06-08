@@ -224,7 +224,7 @@ namespace EEMod
             #region Warp cutscene
             if (importantCutscene)
             {
-                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(ModContent.GetTexture("EEMod/Noise/noise"));
+                EEMod.Noise2D.Parameters["noiseTexture"].SetValue(ModContent.GetTexture("EEMod/Textures/Noise/noise"));
                 Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
 
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())

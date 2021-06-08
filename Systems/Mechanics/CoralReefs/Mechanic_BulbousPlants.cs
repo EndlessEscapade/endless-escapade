@@ -80,8 +80,8 @@ namespace EEMod
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            EEMod.Noise2DShift.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/noise"));
-            EEMod.Noise2DShift.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Noise/WormNoisePixelated"));
+            EEMod.Noise2DShift.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/Noise/noise"));
+            EEMod.Noise2DShift.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/Noise/WormNoisePixelated"));
             EEMod.Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt) * 0.2f);
             EEMod.Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt) * 0.2f);
 

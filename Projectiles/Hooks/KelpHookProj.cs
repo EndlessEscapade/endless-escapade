@@ -58,22 +58,19 @@ namespace EEMod.Projectiles.Hooks
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (hooked)
+            Player player = Main.player[projectile.owner];
+
+            Vector2 vec = projectile.Center - player.Center;
+
+            Texture2D vine = mod.GetTexture("Projectiles/Hooks/KelpHookVine");
+
+            float n = vec.Length();
+
+            for (float k = 0; k < n; k += 16)
             {
-                Player player = Main.player[projectile.owner];
+                Rectangle rect = new Rectangle(0, 0, 16, 16);
 
-                Vector2 vec = projectile.Center - player.Center;
-
-                Texture2D vine = mod.GetTexture("Projectiles/Hooks/KelpHookVine");
-
-                float n = vec.Length();
-
-                for (float k = 0; k < n; k += 16)
-                {
-                    Rectangle rect = new Rectangle(0, 0, 16, 16);
-
-                    spriteBatch.Draw(vine, projectile.Center + (-Vector2.Normalize(vec) * k) - Main.screenPosition, rect, Color.White, vec.ToRotation() - MathHelper.PiOver2, rect.Size() / 2f, 1f, SpriteEffects.None, 0f);
-                }
+                spriteBatch.Draw(vine, projectile.Center + (-Vector2.Normalize(vec) * k) - Main.screenPosition, rect, Color.White, vec.ToRotation() - MathHelper.PiOver2, rect.Size() / 2f, 1f, SpriteEffects.None, 0f);
             }
 
             return true;

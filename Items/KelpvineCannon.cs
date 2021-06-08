@@ -36,12 +36,31 @@ namespace EEMod.Items
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[item.shoot] < 1;
+            return true; //player.ownedProjectileCounts[item.shoot] < 1;
         }
 
         public override bool AltFunctionUse(Player player)
         {
             return true;
+        }
+
+        public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
+        {
+            if(player.altFunctionUse == 0)
+                return true;
+
+            else
+            {
+                for(int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if(Main.projectile[i].type == item.shoot && Main.projectile[i].owner == player.whoAmI)
+                    {
+                        Main.projectile[i].Kill();
+                    }
+                }
+
+                return false;
+            }
         }
     }
 }

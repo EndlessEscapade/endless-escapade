@@ -25,6 +25,7 @@ using Terraria.ObjectData;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.Extensions;
 using EEMod.Systems.Noise;
+using EEMod.Systems;
 
 namespace EEMod.EEWorld
 {
@@ -832,12 +833,20 @@ namespace EEMod.EEWorld
 
         public static void PlaceShipyard(int x, int y)
         {
-            PlaceStructure(x + EndOfPier.GetLength(1), y - 13, SailorHouse);
+            /*PlaceStructure(x + EndOfPier.GetLength(1), y - 13, SailorHouse);
 
             PlaceStructure(x, y, EndOfPier);
             PlaceStructure(x - MidPier1.GetLength(1), y, MidPier1);
             PlaceStructure(x - MidPier1.GetLength(1) - MidPier2.GetLength(1), y, MidPier2);
-            PlaceStructure(x - MidPier1.GetLength(1) - MidPier2.GetLength(1) - FrontOfPier.GetLength(1), y, FrontOfPier);
+            PlaceStructure(x - MidPier1.GetLength(1) - MidPier2.GetLength(1) - FrontOfPier.GetLength(1), y, FrontOfPier);*/
+
+            EEMod eemood = ModContent.GetInstance<EEMod>();
+
+            //Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Shipyard.lcs")).PlaceAt(x + EndOfPier.GetLength(1), y - 13);
+
+            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Pier.lcs")).PlaceAt(x - 54, y);
+
+            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, y - 13);
         }
 
         public static int TileCheckWater(int positionX)

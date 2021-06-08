@@ -280,8 +280,8 @@ namespace EEMod.Seamap.SeamapContent
             Color colour = Lighting.GetColor((int)(Main.screenPosition.X / 16), (int)(Main.screenPosition.Y / 16));
             Color SeaColour = new Color(0.1568f, 0.6549f, 0.7607f).MultiplyRGB(colour);
 
-            WaterShader.Parameters["noise"].SetValue(ModContent.GetTexture("EEMod/Noise/WormNoisePixelated"));
-            WaterShader.Parameters["noiseN"].SetValue(ModContent.GetTexture("EEMod/Noise/WormNoisePixelated"));
+            WaterShader.Parameters["noise"].SetValue(ModContent.GetTexture("EEMod/Textures/Noise/WormNoisePixelated"));
+            WaterShader.Parameters["noiseN"].SetValue(ModContent.GetTexture("EEMod/Textures/Noise/WormNoisePixelated"));
             WaterShader.Parameters["water"].SetValue(ModContent.GetTexture("EEMod/Textures/WaterShaderLightMap"));
             WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 3000f) * 0.2f);
