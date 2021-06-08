@@ -28,8 +28,8 @@ namespace EEMod.Extensions
                             charsBehind++;
                         }
                         string maybCat = new string(naCat.ToString().Reverse().ToArray());
-                        formattedText.Append("\n");
                         lineBreakPoint = maybCat.Length;
+                        formattedText.Append("\n");
                         formattedText.Remove(formattedText.Length - maybCat.Length - 1, maybCat.Length);
                         formattedText.Append(maybCat);
                     }

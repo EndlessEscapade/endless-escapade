@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -9,12 +8,12 @@ using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
-using Terraria.ModLoader.IO;
 using EEMod.Items;
 using EEMod.Extensions;
 
 namespace EEMod.UI.States
 {
+    //TODO: Increase width of ExtraInfo border
     public class FishermansLogUI : UIState
     {
         public UIText Name;
@@ -23,7 +22,9 @@ namespace EEMod.UI.States
         public UIImage Background;
         public UIElement RightStuff;
         public FishDisplay Display;
-        public UIPanel FishPanel;
+        public UIElement LeftStuff;
+        public UIImageButton FiltersMenuButton;
+        public ProgressBar CaughtBar;
         public UIGrid FishGrid;
         public FixedUIScrollbar ScrollBar;
         public List<UIElement> FullList = new List<UIElement>();
@@ -36,34 +37,37 @@ namespace EEMod.UI.States
             Background.HAlign = 0.5f;
             Background.VAlign = 2f;
 
-            FishPanel = new UIPanel();
-            FishPanel.Width.Set(344, 0f);
-            FishPanel.Height.Set(470, 0f);
-            FishPanel.HAlign = 0.05f;
-            FishPanel.VAlign = 0.80f;
-            FishPanel.BackgroundColor = new Color();
-            Background.Append(FishPanel);
+            LeftStuff = new UIElement();
+            LeftStuff.Width.Set(424, 0f);
+            LeftStuff.Height.Set(474, 0f);
+            LeftStuff.HAlign = 0f;
+            LeftStuff.VAlign = 0.825f;
+            Background.Append(LeftStuff);
 
             ScrollBar = new FixedUIScrollbar(); 
             ScrollBar.SetView(100f, 1000f);
             ScrollBar.Top.Pixels = 32f + 8f;
             ScrollBar.Height.Set(-50f - 8f, 1f);
-            ScrollBar.HAlign = 1f;
-            FishPanel.Append(ScrollBar);
+            ScrollBar.HAlign = 0.95f;
+            LeftStuff.Append(ScrollBar);
 
             FishGrid = new UIGrid();
-            FishGrid.Width.Set(344, 0f);
-            FishGrid.Height.Set(416, 0f);
-            FishGrid.HAlign = 0.5f;
-            FishGrid.VAlign = 0.80f;
-            FishGrid.ListPadding = 9f;
+            FishGrid.Width.Set(392, 0f);
+            FishGrid.Height.Set(420, 0f);
+            FishGrid.HAlign = 0.85f;
+            FishGrid.VAlign = 1f;
+            FishGrid.ListPadding = 10f;
             FishGrid.OnScrollWheel += OnScrollWheel_FixHotbarScroll;
             FishGrid.SetScrollbar(ScrollBar);
-            FishPanel.Append(FishGrid);
+            LeftStuff.Append(FishGrid);
+
+            //FiltersMenuButton = new UIImageButton(ModContent.GetTexture(""));
+
+            CaughtBar = new ProgressBar();
 
             RightStuff = new UIElement();
-            RightStuff.Width.Set(376, 0f);
-            RightStuff.Height.Set(550, 0f);
+            RightStuff.Width.Set(424, 0f);
+            RightStuff.Height.Set(554, 0f);
             RightStuff.HAlign = 1f;
             Background.Append(RightStuff);
 
@@ -121,14 +125,56 @@ namespace EEMod.UI.States
         public void LoadFilters(string[] filters)
         {
             FishGrid._items = FullList.Where(e => (e as FishElement).Habitats.Intersect(filters).Any()).ToList();
+            CaughtBar.MaxCaught = FishGrid._items.Count;
+            CaughtBar.CurrentCaught = FishGrid._items.Where(e => (e as FishElement).Caught).Count();
         }
         public void LoadAllFish()
         {
-            FishGrid.Add(new FishElement(ItemID.Bass, "Plentiful", "Bass is a name shared by many species of fish, encompassing both freshwater and marine species, all belonging to the large order Perciformes.", 
+            LoadFish(new FishElement(ItemID.Bass, "Plentiful", "Bass is a name shared by many species of fish, encompassing both freshwater and marine species, all belonging to the large order Perciformes.", 
                 "Anywhere")); //All except Desert in 1.4.
-            FishGrid.Add(new FishElement(ItemID.AtlanticCod, "Common", "Na cat", "snow|ug ice"));
-            FishGrid.Add(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            FullList = FishGrid._items;
+            LoadFish(new FishElement(ItemID.ArmoredCavefish, "Uncommon", "WIP",
+                "Underground|Caverns|UG Jungle|UG Beehive|UG Corruption|UG Crimson|UG Hallow|Ice|Corrupt Ice|Crimson Ice|Hallow Ice|UG Glowing Mush|Underworld"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+            //This is done so the fish are actually in the order they were loaded in since UIGrid is kinda wack.
+            FishGrid._items = FullList;
+        }
+        internal void LoadFish(FishElement fishElement)
+        {
+            FullList.Add(fishElement);
+            FishGrid.Add(fishElement);
         }
     }
     public class FishElement : UIImageButton 
@@ -306,6 +352,21 @@ namespace EEMod.UI.States
                 //spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), new Rectangle(0, Frame.Y, SwimmingAnimation.Width, SwimmingAnimation.Height / FrameCount), new Color(0, 0, 0), 0, new Rectangle(0, Frame.Y, SwimmingAnimation.Width, SwimmingAnimation.Height / FrameCounter).Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
+    }
+    public class FiltersElement : UIElement 
+    {
+        public FiltersElement()
+        {
+        }
+    }
+    internal class FilterButton : UIImageButton
+    {
+        public FilterButton() : base(ModContent.GetTexture("EEMod/UI/Filter")) { }
+    }
+    public class ProgressBar : UIElement
+    {
+        public int MaxCaught;
+        public int CurrentCaught;
     }
     public class FixedUIScrollbar : UIScrollbar
     {
