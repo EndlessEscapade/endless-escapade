@@ -69,10 +69,6 @@ namespace EEMod.NPCs.Bosses.Hydros
                 int randVal = Main.rand.Next(5);
                 switch (randVal)
                 {
-                    case 0:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosEye>(), 1);
-                        break;
-
                     case 1:
                         Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
                         break;

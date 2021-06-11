@@ -42,11 +42,22 @@ namespace EEMod.EEWorld
             Point TL = Bounds.TopLeft().ToPoint();
             Point BR = Bounds.BottomRight().ToPoint();
 
+            //Worldgen
             MakeNoiseOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
-            CreateNoise(!EnsureNoise, Position, Size, 50, 50, 0.4f);
-            CreateNoise(!EnsureNoise, Position, Size, 20, 20, 0.4f);
+            CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
+            CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
+
+            BoundClause((int i, int j) =>
+            {
+                /*if (WorldGen.genRand.Next(100) == 0)
+                {
+                    WorldGen.TileRunner(i, j, Main.rand.Next(10, 20), Main.rand.Next(10, 20), ModContent.TileType<GemsandstoneTile>(), false, 0, 0, false, true);
+                }*/
+            });
+
             RemoveStoneSlabs();
 
+            //Placing spire
             if (CoralReefs.SpirePosition == Vector2.Zero)
             {
                 CoralReefs.SpirePosition = new Vector2(TL.X + BR.X, TL.Y + BR.Y) / 2f;
@@ -68,6 +79,7 @@ namespace EEMod.EEWorld
 
             RemoveStoneSlabs();
 
+            //Spawning crystal ziplines
             BoundClause((int i, int j) =>
             {
                 if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && Main.rand.NextBool(10))
@@ -87,6 +99,7 @@ namespace EEMod.EEWorld
                 }
             });
 
+            //Spawning crystal bamboo (TODO: replace with bamboo geodes)
             BoundClause((int i, int j) =>
             {
                 if ((TileCheck2(i, j) == 2) && Main.rand.NextBool(3))
@@ -101,6 +114,7 @@ namespace EEMod.EEWorld
                 }
             });
 
+            //Placing ETAs
             BoundClause((int i, int j) =>
             {
                 if (TileCheck2(i, j) == 1)

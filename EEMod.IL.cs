@@ -302,7 +302,7 @@ namespace EEMod
                 num10 = Math.Pow((Main.time / 54000.0 - 0.5) * 2.0, 2.0);
             }
 
-            Rectangle[] rects = { new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SunRing").Width, ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SunRing").Height), new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare").Width, ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare").Height) };
+            Rectangle[] rects = { new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("Textures/SunRing").Width, ModContent.GetInstance<EEMod>().GetTexture("Textures/SunRing").Height), new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("Textures/LensFlare").Width, ModContent.GetInstance<EEMod>().GetTexture("Textures/LensFlare").Height) };
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
@@ -310,8 +310,8 @@ namespace EEMod
             if (EEModConfigClient.Instance.BetterLighting)
             {
                 Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), _sunPos - Main.screenPosition, new Rectangle(0, 0, 174, 174), Color.White * .5f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 540f), new Vector2(87), 10f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare"), _sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * _globalAlpha * _intensityFunction, (float)Math.Sin(Main.time / 540f), rects[1].Size() / 2, 1.3f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/SunRing"), _sunPos - Main.screenPosition + new Vector2(0, 37 + (float)num10 * 250), rects[0], Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), rects[0].Size() / 2, 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/LensFlare"), _sunPos - Main.screenPosition + new Vector2(5, 28 + (float)num10 * 250), rects[1], Color.White * _globalAlpha * _intensityFunction, (float)Math.Sin(Main.time / 540f), rects[1].Size() / 2, 1.3f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/SunRing"), _sunPos - Main.screenPosition + new Vector2(0, 37 + (float)num10 * 250), rects[0], Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), (float)Math.Sin(Main.time / 5400f), rects[0].Size() / 2, 1f, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();
@@ -325,8 +325,8 @@ namespace EEMod
 
             if (EEModConfigClient.Instance.BetterLighting && Main.worldName != KeyID.CoralReefs)
             {
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-400, 400), new Rectangle(0, 0, 174, 174), Color.White * .7f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), 1f, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/LensFlare2"), _sunPos - Main.screenPosition + new Vector2(-800, 800), new Rectangle(0, 0, 174, 174), Color.White * .8f * _globalAlpha * (_intensityFunction * 0.36f), 0f, new Vector2(87), .5f, SpriteEffects.None, 0);
             }
 
             Main.spriteBatch.End();

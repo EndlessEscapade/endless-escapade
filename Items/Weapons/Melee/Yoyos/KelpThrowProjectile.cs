@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Yoyos
 {
-    public class HydrosEyeProjectile : ModProjectile
+    public class KelpThrowProjectile : ModProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -81,7 +81,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
                         int pieCut = Main.rand.Next(6, 8);
                         for (int m = 0; m < pieCut; m++)
                         {
-                            int projID = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<HydrosEyeSubProj>(), 15, 0, Main.myPlayer);
+                            int projID = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<KelpThrowBolt>(), 15, 0, Main.myPlayer);
                             Main.projectile[projID].velocity = new Vector2(0.5f, 0f).RotatedBy(m / (float)pieCut * Math.PI * 2);
                             Main.projectile[projID].netUpdate = true;
                         }
@@ -101,7 +101,8 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(4 * sineAdd), (int)(2 * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), projectile.Center - Main.screenPosition, null, new Color((int)(18f * sineAdd), (int)(12f * sineAdd), (int)(2f * sineAdd), 0), 0f, new Vector2(75, 75), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
+            
             return base.PreDraw(spriteBatch, lightColor);
         }
     }

@@ -1,4 +1,3 @@
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
@@ -215,7 +214,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 new int[] { ModContent.TileType<BigTropicalTree>(),
                 ModContent.TileType<TropicalTree>(), },
             new Rectangle(42, 42, Main.maxTilesX - 42, depth), 3);
-
             #endregion
 
             #region Spawning rooms
@@ -302,7 +300,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 }
                 #endregion
 
-                #region Placing moss
+                #region Placing moss and seagrass
                 EEMod.progressMessage = "Mossifying";
 
                 perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.8f);
@@ -344,6 +342,25 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                             if (Framing.GetTileSafely(i, j).type == ModContent.TileType<ScorchedGemsandTile>() &&
                                 (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
                                 Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<ThermalMossTile>();
+                        }
+                    }
+                }
+
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                {
+                    if (Main.rand.NextBool(4))
+                    {
+                        if (TileCheck(i, ModContent.TileType<CoralSandTile>()) > TileCheckWater(i) && !Framing.GetTileSafely(i, TileCheck(i, ModContent.TileType<CoralSandTile>()) - 1).active())
+                        {
+                            int ballfart = TileCheck(i, ModContent.TileType<CoralSandTile>());
+                            int random = Main.rand.Next(4, 15);
+
+                            for (int j = 1; j < random; j++)
+                            {
+                                if (Framing.GetTileSafely(new Point(i, ballfart - j)).active()) break;
+
+                                Framing.GetTileSafely(new Point(i, ballfart - j)).type = (ushort)ModContent.TileType<SeagrassTile>();
+                            }
                         }
                     }
                 }

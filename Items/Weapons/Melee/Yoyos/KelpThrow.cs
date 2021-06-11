@@ -4,20 +4,21 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Yoyos
 {
-    public class HydrosEye : ModItem
+    public class KelpThrow : ModItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hydros Eye");
-            Tooltip.SetDefault("Shoots bolts of water when enemies are near.");
+            DisplayName.SetDefault("Kelp Throw");
+            Tooltip.SetDefault("Releases damaging baubles when close to enemes");
         }
 
         public override void SetDefaults()
         {
             item.rare = ItemRarityID.Green;
             item.melee = true;
-            item.width = 20;
-            item.height = 20;
+            item.width = 44;
+            item.height = 50;
+
             item.useTime = 24;
             item.useAnimation = 24;
             item.knockBack = 3f;
@@ -30,7 +31,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
             item.noUseGraphic = true;
 
             item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<HydrosEyeProjectile>();
+            item.shoot = ModContent.ProjectileType<KelpThrowProjectile>();
         }
     }
 }

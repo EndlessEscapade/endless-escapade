@@ -89,7 +89,7 @@ namespace EEMod
 
 
             EEMod.Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
-            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("ShaderAssets/BulbousBall");
+            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Textures/BulbousBall");
             int SineTicks = (int)(Math.Sin(sineInt * 4) * 10);
             float SineTicksF = (float)(Math.Sin(sineInt /8f + position.X) * 10);
             int CosTicks = (int)(Math.Cos(sineInt * 4) * 10);

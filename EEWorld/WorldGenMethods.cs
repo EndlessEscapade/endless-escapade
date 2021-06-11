@@ -1631,6 +1631,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeJaggedOval(int width, int height, Vector2 startingPoint, int type, bool forced = false, int chance = 1)
         {
             for (int i = 0; i < width; i++)
@@ -1938,8 +1939,11 @@ namespace EEMod.EEWorld
 
         public static bool OvalCheck(int midX, int midY, int x, int y, int sizeX, int sizeY)
         {
-            double p = Math.Pow(x - midX, 2) / Math.Pow(sizeX, 2)
-                    + Math.Pow(y - midY, 2) / Math.Pow(sizeY, 2);
+            double a = x - midX;
+            double b = y - midY;
+
+            double p = (a * a) / (sizeX * sizeX)
+                    + (b * b) / (sizeY * sizeY);
 
             return p < 1;
         }

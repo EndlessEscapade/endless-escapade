@@ -7,13 +7,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Yoyos
 {
-    public class HydrosEyeSubProj : ModProjectile
+    public class KelpThrowBolt : ModProjectile
     {
-        public static short customGlowMask = 0;
-
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hydros Eye");
+            DisplayName.SetDefault("Kelp Throw");
         }
 
         public override void SetDefaults()
@@ -40,7 +38,12 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), new Color(4, 2, 18f, 0), projectile.rotation, new Vector2(8), 0.5f, SpriteEffects.None, 0);
+            Texture2D boltTex = ModContent.GetTexture("EEMod/Particles/MediumCircle");
+
+            Helpers.DrawAdditive(boltTex, projectile.Center - Main.screenPosition, Color.Gold, 0.2f);
+            
+            Helpers.DrawAdditive(ModContent.GetTexture("EEMod/Textures/RadialGradient"), projectile.Center - Main.screenPosition, Color.Gold, 0.1f);
+
             return false;
         }
 

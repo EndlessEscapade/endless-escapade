@@ -29,7 +29,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             minPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);
-            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<GreenKelpTile>(), ModContent.TileType<LightGemsandTile>() };
+            TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<LightGemsandTile>(), ModContent.TileType<DarkGemsandTile>(),ModContent.TileType<LightGemsandstoneTile>(), ModContent.TileType<GemsandstoneTile>(), ModContent.TileType<DarkGemsandstoneTile>(), ModContent.TileType<KelpLeafTile>(), ModContent.TileType<GreenKelpTile>(), ModContent.TileType<KelpMossTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
             animationFrameHeight = 18;
