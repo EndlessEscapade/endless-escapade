@@ -44,17 +44,18 @@ namespace EEMod.Seamap.SeamapContent
             }
         }
 
-        public virtual void Update()
+        public override void Update()
         {
             AnimateIsland();
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override bool CustomDraw(SpriteBatch spriteBatch)
         {
             Vector2 currentPos = position.ForDraw();
-            Color drawColour = Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f)) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
+            Color drawColour = Helpers.GetLightingColor(position) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
             drawColour.A = 255;
             spriteBatch.Draw(texture, position.ForDraw(), new Rectangle(0, texture.Height / framecount * frame, texture.Width, texture.Height / framecount), Color.White);
+            return true;
         }
 
         public virtual void CustomDraw()

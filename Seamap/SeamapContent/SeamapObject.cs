@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Seamap.SeamapContent
 {
-    public abstract class SeamapObject : Entity
+    public abstract class SeamapObject : Entity, ISeamapEntity
     {
         public Texture2D texture;
 
@@ -19,7 +19,7 @@ namespace EEMod.Seamap.SeamapContent
 
         public float alpha = 1f;
 
-        public int whoAmI;
+        //public int whoAmI; // from Entity
 
         public int[] ai = new int[3];
 
@@ -35,16 +35,19 @@ namespace EEMod.Seamap.SeamapContent
 
         public virtual void Update()
         {
-            
+
         }
 
         public virtual bool PreDraw(SpriteBatch spriteBatch) => true;
+
+        public virtual bool CustomDraw(SpriteBatch spriteBatch) => false;
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if (PreDraw(spriteBatch))
             {
-                Main.spriteBatch.Draw(texture, position.ForDraw(), new Rectangle(0, 0, width, height), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                if (!CustomDraw(spriteBatch))
+                    Main.spriteBatch.Draw(texture, position.ForDraw(), new Rectangle(0, 0, width, height), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             }
         }
 
@@ -55,7 +58,7 @@ namespace EEMod.Seamap.SeamapContent
 
         public virtual void OnSpawn()
         {
-            
+
         }
 
         public virtual void Kill()

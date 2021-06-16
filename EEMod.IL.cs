@@ -59,6 +59,10 @@ namespace EEMod
         public static Prims prims;
         public float seed;
         public float speed;
+        /// <summary>
+        /// Instance for adding and handling il hooks
+        /// </summary>
+        internal ILHookList hooklist;
 
         private void LoadIL()
         {
@@ -67,10 +71,12 @@ namespace EEMod
             //IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
             //IL.Terraria.NPC.AI_001_Slimes += Practice;
             //IL.Terraria.Main.oldDrawWater += Main_oldDrawWater;
+            hooklist = new ILHookList();
 
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
+            hooklist.Add(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), LayeredMusic.ILFillBuffer);
 
-            HookEndpointManager.Modify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
+            //HookEndpointManager.Modify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
         }
 
         private void LiquidRenderer_InternalDraw1(ILContext il)
@@ -125,7 +131,9 @@ namespace EEMod
             //IL.Terraria.NPC.AI_001_Slimes -= Practice;
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
-            HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
+            //HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
+            hooklist?.Dispose();
+            hooklist = null;
             screenMessageText = null;
             trailManager = null;
             progressMessage = null;
@@ -591,6 +599,107 @@ namespace EEMod
                     spritebatch.Draw(texture, position, sourcerectangle, color);
                 }
             });
+        }
+
+        public class ILHook : IDisposable
+        {
+            MethodInfo _to;
+            Delegate _manipulator;
+            bool _applied;
+            private bool disposed;
+            public ILHook(MethodInfo to, ILContext.Manipulator manipulator, bool apply = true)
+            {
+                _to = to;
+                _manipulator = manipulator;
+                if (apply)
+                    Apply();
+            }
+            public void Apply()
+            {
+                if (_applied)
+                    return;
+                if (disposed)
+                    throw new ObjectDisposedException("Cannot apply a disposed ILHook");
+
+                HookEndpointManager.Modify(_to, _manipulator);
+                _applied = true;
+                OnApply?.Invoke();
+            }
+            public void Unapply()
+            {
+                if (!_applied)
+                    return;
+                HookEndpointManager.Unmodify(_to, _manipulator);
+                _applied = false;
+                OnUnapply?.Invoke();
+            }
+            public event Action OnDispose;
+            public event Action OnApply;
+            public event Action OnUnapply;
+            public void Dispose() => Dispose(true);
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposed)
+                    return;
+
+                if (disposing)
+                {
+                    OnDispose?.Invoke();
+                }
+                Unapply();
+                _to = null;
+                _manipulator = null;
+                OnDispose = null;
+                OnApply = null;
+                OnUnapply = null;
+
+                disposed = true;
+            }
+            ~ILHook() => Dispose(false);
+        }
+        public class ILHookList : IDisposable
+        {
+            public IList<ILHook> HookList = new List<ILHook>();
+            private bool disposed;
+            public ILHook Add(MethodInfo to, ILContext.Manipulator manipulator, bool apply = true)
+            {
+                var ilhook = new ILHook(to, manipulator, apply);
+                HookList.Add(ilhook);
+                return ilhook;
+            }
+            public ILHook Add(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL, params Type[] paramTypes) => Add(targetType.GetMethod(methodname, flags, null, paramTypes, null), manipulator);
+            public ILHook Add<TType>(ILContext.Manipulator manipulator, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(typeof(TType).GetMethod(methodname, flags), manipulator);
+            public ILHook Add<T0>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0));
+            public ILHook Add<T0, T1>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0), typeof(T1));
+            public ILHook Add<T0, T1, T2>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0), typeof(T1), typeof(T2));
+            public ILHook Add<T0, T1, T2, T3>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0), typeof(T1), typeof(T2), typeof(T3));
+            public ILHook Add<T0, T1, T2, T3, T4>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0), typeof(T1), typeof(T2), typeof(T3), typeof(T4));
+            public ILHook Add<T0, T1, T2, T3, T4, T5>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5));
+            public ILHook Add<T0, T1, T2, T3, T4, T5, T6>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6));
+            public ILHook Add<T0, T1, T2, T3, T4, T5, T6, T7>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7));
+            public ILHook Add<T0, T1, T2, T3, T4, T5, T6, T7, T8>(ILContext.Manipulator manipulator, Type targetType, string methodname, BindingFlags flags = Helpers.FlagsALL) => Add(manipulator, targetType, methodname, flags, typeof(T0), typeof(T1), typeof(T2), typeof(T3), typeof(T4), typeof(T5), typeof(T6), typeof(T7), typeof(T8));
+            public void UnloadAll()
+            {
+                if (HookList == null)
+                    return;
+                foreach (var hook in HookList)
+                    hook?.Dispose();
+                HookList.Clear();
+            }
+            public void Dispose() => Dispose(true);
+            protected virtual void Dispose(bool disposing)
+            {
+                if (disposed) return;
+                if (disposing)
+                {
+
+                }
+                UnloadAll();
+                HookList?.Clear();
+                HookList = null;
+                disposed = true;
+            }
+            ~ILHookList() => Dispose(false);
         }
 
         /*private static void ILSaveWorldTiles(ILContext il)

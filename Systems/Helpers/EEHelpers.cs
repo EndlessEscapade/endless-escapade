@@ -371,6 +371,13 @@ namespace EEMod
         }
 
         /// <summary>
+        /// Shortcut for <code>Lighting.GetColor(worldCoords.X / 16, worldCoords.Y / 16)</code>.
+        /// </summary>
+        /// <param name="worldCoords"></param>
+        /// <returns></returns>
+        public static Color GetLightingColor(Vector2 worldCoords) => Lighting.GetColor((int)(worldCoords.X / 16), (int)(worldCoords.Y / 16));
+
+        /// <summary>
         /// Gets the closest NPC to a point, for specifying which npcs count, use a predicate for <paramref name="searchPredicate"/>
         /// </summary>
         /// <param name="position">The point of position</param>

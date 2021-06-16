@@ -22,11 +22,12 @@ namespace EEMod.Seamap.SeamapContent
         {
             for(int i = 0; i < SeamapEntities.Length; i++)
             {
-                if(SeamapEntities[i] == null)
+                if(SeamapEntities[i] == null || !SeamapEntities[i].active)
                 {
-                    obj.OnSpawn();
                     SeamapEntities[i] = obj;
                     SeamapEntities[i].whoAmI = i;
+                    obj.OnSpawn();
+                    break;
                 }
             }
         }

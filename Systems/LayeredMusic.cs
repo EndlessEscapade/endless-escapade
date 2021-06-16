@@ -18,9 +18,9 @@ namespace EEMod.Systems
         public static void ILFillBuffer(ILContext il)
         {
             ILCursor c = new ILCursor(il).Goto(0);
-            c.Emit(OpCodes.Ldarg_0);
-            c.Emit(OpCodes.Ldarg_0);
-            c.Emit(OpCodes.Ldfld, typeof(MusicStreamingOGG).GetField("reader", BindingFlags.NonPublic | BindingFlags.Instance));
+            c.Emit(OpCodes.Ldarg_0); // push 'this'
+            c.Emit(OpCodes.Ldarg_0); // push 'this'
+            c.Emit(OpCodes.Ldfld, typeof(MusicStreamingOGG).GetField("reader", BindingFlags.NonPublic | BindingFlags.Instance)); // load the reader field
             c.EmitDelegate<Action<MusicStreamingOGG, VorbisReader>>((musicStreamingOGG, vorbisReader) =>
             {
                 if (ShouldLayerMusic && vorbisReader.DecodedPosition == 0)

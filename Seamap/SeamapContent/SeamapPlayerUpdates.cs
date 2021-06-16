@@ -479,7 +479,7 @@ namespace EEMod
         }
     }
 
-    public partial class EEMod : Mod
+    /*public partial class EEMod : Mod
     {
         public static bool IsPlayerLocalServerOwner(int whoAmI)
         {
@@ -498,5 +498,5 @@ namespace EEMod
             }
             return false;
         }
-    }
+    }*/
 }

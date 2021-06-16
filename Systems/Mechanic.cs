@@ -27,15 +27,7 @@ namespace EEMod.Systems
         public virtual void OnLoad() { }
         public virtual void AddHooks() { }
 
-        public static T GetMechanic<T>() where T : Mechanic
-        {
-            foreach (Mechanic m in MechanicManager.Instances)
-            {
-                if (m is T) return m as T;
-            }
-
-            return null;
-        }
+        public static T GetMechanic<T>() where T : Mechanic => ModContent.GetInstance<T>();
 
         public void Draw(SpriteBatch spritebatch)
         {
@@ -103,18 +95,15 @@ namespace EEMod.Systems
         public virtual void PostDrawNPCs() { }
 
         /// <summary>
-        /// Spritebatch must begin and end in this method
+        /// In case of begining the spritebatch, it must also end.
         /// </summary>
         public virtual void PreDrawProjectiles() { }
 
         /// <summary>
-        /// Spritebatch must begin and end in this method.
+        /// In case of begining the spritebatch, it must also end.
         /// </summary>
         public virtual void PostDrawProjectiles() { }
 
-        /// <summary>
-        /// Spritebatch must begin and end in this method.
-        /// </summary>
         public virtual void PreUpdateEntities() { }
 
         public Mechanic()

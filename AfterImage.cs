@@ -145,7 +145,7 @@ namespace EEMod
 
         public static Color GetLightColor(Vector2 position)
         {
-            return Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f));
+            return Helpers.GetLightingColor(position);
         }
 
         public static Color BuffEffects(Entity codable, Color lightColor, float shadow = 0f, bool effects = true, bool poisoned = false, bool onFire = false, bool onFire2 = false, bool hunter = false, bool noItems = false, bool blind = false, bool bleed = false, bool venom = false, bool midas = false, bool ichor = false, bool onFrostBurn = false, bool burned = false, bool honey = false, bool dripping = false, bool drippingSlime = false, bool loveStruck = false, bool stinky = false)
