@@ -14,3 +14,5 @@ joe
 jo
 e
 MAMA!
+
+if you see this ping crown in #general chat
