@@ -32,6 +32,7 @@ namespace EEMod.Tiles
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
+            int tilescale = 18;
 
             int frameXOffset = (i % 3) * 72;
             int frameYOffset = (j % 3) * 90;
@@ -53,96 +54,96 @@ namespace EEMod.Tiles
 
             if (tileAbove.active() && tileBelow.active() && tileLeft.active() && tileRight.active())
             {
-                newFrameX = 18;
-                newFrameY = 18;
+                newFrameX = 1;
+                newFrameY = 1;
 
                 if (tileTopRight.active() && tileBottomRight.active())
                 {
-                    newFrameX = 18;
-                    newFrameY = 72;
+                    newFrameX = 1;
+                    newFrameY = 4;
                 }
                 if (tileTopLeft.active() && tileBottomLeft.active())
                 {
-                    newFrameX = 36;
-                    newFrameY = 72;
+                    newFrameX = 2;
+                    newFrameY = 4;
                 }
 
                 if (tileTopLeft.active() && tileTopRight.active())
                 {
-                    newFrameX = 54;
-                    newFrameY = 36;
+                    newFrameX = 3;
+                    newFrameY = 2;
                 }
                 if (tileBottomLeft.active() && tileBottomRight.active())
                 {
-                    newFrameX = 54;
-                    newFrameY = 18;
+                    newFrameX = 3;
+                    newFrameY = 1;
                 }
             }
 
             if (tileAbove.active() && tileBelow.active() && !tileLeft.active() && !tileRight.active())
             {
-                newFrameX = 18;
-                newFrameY = 54;
+                newFrameX = 1;
+                newFrameY = 3;
             }
 
             if (!tileAbove.active() && !tileBelow.active() && tileLeft.active() && tileRight.active())
             {
                 newFrameX = 0;
-                newFrameY = 54;
+                newFrameY = 3;
             }
 
             if (!tileAbove.active() && !tileBelow.active() && !tileLeft.active() && !tileRight.active())
             {
-                newFrameX = 36;
-                newFrameY = 54;
+                newFrameX = 2;
+                newFrameY = 3;
             }
 
             if (!tileAbove.active() && tileBelow.active() && tileLeft.active() && tileRight.active())
             {
-                newFrameX = 18;
+                newFrameX = 1;
                 newFrameY = 0;
             }
 
             if (tileAbove.active() && tileBelow.active() && !tileLeft.active() && tileRight.active())
             {
                 newFrameX = 0;
-                newFrameY = 18;
+                newFrameY = 1;
             }
 
             if (tileAbove.active() && !tileBelow.active() && tileLeft.active() && tileRight.active())
             {
-                newFrameX = 18;
-                newFrameY = 36;
+                newFrameX = 1;
+                newFrameY = 2;
             }
 
             if (tileAbove.active() && tileBelow.active() && tileLeft.active() && !tileRight.active())
             {
-                newFrameX = 36;
-                newFrameY = 18;
+                newFrameX = 2;
+                newFrameY = 1;
             }
 
             if (!tileAbove.active() && tileBelow.active() && !tileLeft.active() && !tileRight.active())
             {
-                newFrameX = 54;
+                newFrameX = 3;
                 newFrameY = 0;
             }
 
             if (tileAbove.active() && !tileBelow.active() && !tileLeft.active() && !tileRight.active())
             {
-                newFrameX = 54;
-                newFrameY = 54;
+                newFrameX = 3;
+                newFrameY = 3;
             }
 
             if (!tileAbove.active() && !tileBelow.active() && !tileLeft.active() && tileRight.active())
             {
                 newFrameX = 0;
-                newFrameY = 72;
+                newFrameY = 4;
             }
 
             if (!tileAbove.active() && !tileBelow.active() && tileLeft.active() && !tileRight.active())
             {
-                newFrameX = 54;
-                newFrameY = 72;
+                newFrameX = 3;
+                newFrameY = 4;
             }
 
             if (!tileAbove.active() && tileBelow.active() && !tileLeft.active() && tileRight.active())
@@ -154,26 +155,26 @@ namespace EEMod.Tiles
 
             if (!tileAbove.active() && tileBelow.active() && tileLeft.active() && !tileRight.active())
             {
-                newFrameX = 36;
+                newFrameX = 2;
                 newFrameY = 0;
             }
 
             if (tileAbove.active() && !tileBelow.active() && !tileLeft.active() && tileRight.active())
             {
                 newFrameX = 0;
-                newFrameY = 36;
+                newFrameY = 2;
             }
 
             if (tileAbove.active() && !tileBelow.active() && tileLeft.active() && !tileRight.active())
             {
-                newFrameX = 36;
-                newFrameY = 36;
+                newFrameX = 2;
+                newFrameY = 2;
             }
 
             Texture2D tex = ModContent.GetTexture("EEMod/Tiles/BrimstoneTile");
 
-            tile.frameX = (short)(newFrameX + frameXOffset);
-            tile.frameY = (short)(newFrameY + frameYOffset);
+            tile.frameX = (short)((newFrameX * tilescale) + frameXOffset);
+            tile.frameY = (short)((newFrameY * tilescale) + frameYOffset);
 
             return true;
         }
