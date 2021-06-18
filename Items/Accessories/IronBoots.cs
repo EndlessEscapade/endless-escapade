@@ -10,7 +10,7 @@ namespace EEMod.Items.Accessories
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Iron Boots");
-            Tooltip.SetDefault("You fall faster in water");
+            Tooltip.SetDefault("Extremely heavy");
         }
 
         public override void SetDefaults()
@@ -24,6 +24,7 @@ namespace EEMod.Items.Accessories
         public override void UpdateEquip(Player player)
         {
             player.ignoreWater = true;
+            player.gravity = 1.5f;
         }
     }
 }
