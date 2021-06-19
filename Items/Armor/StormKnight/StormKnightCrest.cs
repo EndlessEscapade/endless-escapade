@@ -1,4 +1,5 @@
 using EEMod.Items.Placeables.Ores;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -37,6 +38,11 @@ namespace EEMod.Items.Armor.StormKnight
         {
             player.setBonus = "Kelp erupts from the ground when enemies come near";
             player.GetModPlayer<EEPlayer>().lythenSet = true;
+        }
+
+        public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
+        {
+            base.DrawArmorColor(drawPlayer, shadow, ref color, ref glowMask, ref glowMaskColor);
         }
 
         public override void AddRecipes()
