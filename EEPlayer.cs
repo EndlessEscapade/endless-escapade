@@ -128,6 +128,14 @@ namespace EEMod
 
         public override void PostUpdate()
         {
+            if (Main.playerInventory)
+            {
+                EEMod.UI.SetState("KelpArmorAmmoInterface", "KelpArmorAmmoUI");
+            }
+            else
+            {
+                EEMod.UI.RemoveState("KelpArmorAmmoInterface");
+            }
             /*if (player.wet)
             {
                 if (player.fullRotation % MathHelper.ToRadians(-360f) < 1 && player.fullRotation % MathHelper.ToRadians(-360f) > -1 && !lerpingToRotation)

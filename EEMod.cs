@@ -53,6 +53,7 @@ namespace EEMod
         private GameTime lastGameTime;
         public UserInterface EEInterface;
         public FishermansLogUI FishermansLogUI;
+        public KelpArmorAmmoUI KelpArmorAmmoUI;
         public ComponentManager<TileObjVisual> TVH;
 
         public override void Load()
@@ -66,10 +67,17 @@ namespace EEMod
             if (!Main.dedServ)
             {
                 UI = new UIManager();
+
                 FishermansLogUI = new FishermansLogUI();
                 FishermansLogUI.Activate();
                 UI.AddInterface("EEInterfacee");
                 UI.AddUIState("FishermansLogUI", FishermansLogUI);
+
+                KelpArmorAmmoUI = new KelpArmorAmmoUI();
+                KelpArmorAmmoUI.Activate();
+                UI.AddInterface("KelpArmorAmmoInterface");
+                UI.AddUIState("KelpArmorAmmoUI", KelpArmorAmmoUI);
+
                 Noise2D = GetEffect("Effects/Noise2D");
                 primitives = new PrimTrailManager();
             }
@@ -174,7 +182,6 @@ namespace EEMod
         {
             EENet.ReceievePacket(reader, whoAmI);
         }
-
         public override void MidUpdateProjectileItem()
         {
             if (Main.netMode != NetmodeID.Server)
