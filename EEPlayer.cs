@@ -126,15 +126,23 @@ namespace EEMod
         public bool currentlyRotated, currentlyRotatedByToRotation, wasAirborn, lerpingToRotation = false;
         public int timeAirborne = 0;
 
+        public bool HasInteractedWithSlotBefore;
         public override void PostUpdate()
         {
+            //TODO: Move this to KelpweaverPlayer, not doing now to avoid merge conflict
+            //and TagCompound
             if (Main.playerInventory)
             {
+                if (!HasInteractedWithSlotBefore)
+                {
+                    EEMod.UI.SetState("IndicatorsInterface", "IndicatorsUI");
+                }
                 EEMod.UI.SetState("KelpArmorAmmoInterface", "KelpArmorAmmoUI");
             }
             else
             {
                 EEMod.UI.RemoveState("KelpArmorAmmoInterface");
+                EEMod.UI.RemoveState("IndicatorsInterface");
             }
             /*if (player.wet)
             {

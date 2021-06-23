@@ -54,6 +54,7 @@ namespace EEMod
         public UserInterface EEInterface;
         public FishermansLogUI FishermansLogUI;
         public KelpArmorAmmoUI KelpArmorAmmoUI;
+        public IndicatorsUI IndicatorsUI;
         public ComponentManager<TileObjVisual> TVH;
 
         public override void Load()
@@ -77,6 +78,11 @@ namespace EEMod
                 KelpArmorAmmoUI.Activate();
                 UI.AddInterface("KelpArmorAmmoInterface");
                 UI.AddUIState("KelpArmorAmmoUI", KelpArmorAmmoUI);
+
+                IndicatorsUI = new IndicatorsUI();
+                KelpArmorAmmoUI.Activate();
+                UI.AddInterface("IndicatorsInterface");
+                UI.AddUIState("IndicatorsUI", IndicatorsUI);
 
                 Noise2D = GetEffect("Effects/Noise2D");
                 primitives = new PrimTrailManager();
