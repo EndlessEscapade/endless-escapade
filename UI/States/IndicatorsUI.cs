@@ -27,7 +27,7 @@ namespace EEMod.UI.States
             KelpArmorAmmoArrow.Top.Set(117.5f, 0f);
             if (MoveTimer < 50)
             {
-                KelpArmorAmmoArrow.Left.Set(MathHelper.Lerp(MovingToRight ? 620f : 645f, MovingToRight ? 645f : 620f, MoveTimer / 49f), 0f);
+                KelpArmorAmmoArrow.Left.Set(MathHelper.SmoothStep(MovingToRight ? 620f : 645f, MovingToRight ? 645f : 620f, MoveTimer / 49f), 0f);
                 MoveTimer++;
             }
             else
