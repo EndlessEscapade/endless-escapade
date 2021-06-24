@@ -331,9 +331,10 @@ namespace EEMod.EEWorld
                 }
             }*/
 
-            VerletHelpers.SwingableVines.Clear();
             if (tag.TryGetListRef("SwingableVines", ref VerletHelpers.SwingableVines))
             {
+                //TODO: Confirm moving this here didn't break anything
+                VerletHelpers.SwingableVines.Clear();
                 if (VerletHelpers.SwingableVines.Count != 0)
                 {
                     foreach (Vector2 vec in VerletHelpers.SwingableVines)

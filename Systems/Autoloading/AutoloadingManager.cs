@@ -228,7 +228,7 @@ namespace EEMod.Autoloading
             }
 
             Type iunload = typeof(IOnUnload);
-            foreach (Type type in types.Where(t => t.GetCustomAttribute<System.Runtime.CompilerServices.CompilerGeneratedAttribute>() == null && t.FullName != "DMD<System.Diagnostics.StackTrace"))
+            foreach (Type type in types.Where(t => t.GetCustomAttribute<System.Runtime.CompilerServices.CompilerGeneratedAttribute>() == null))
             {
                 foreach (FieldInfo field in type.GetFields(FLAGS_STATIC))
                 {
