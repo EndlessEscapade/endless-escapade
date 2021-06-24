@@ -228,11 +228,12 @@ namespace EEMod.Autoloading
             }
 
             Type iunload = typeof(IOnUnload);
-            foreach (Type type in types)
+            foreach (Type type in types.Where(t => t.GetCustomAttribute<System.Runtime.CompilerServices.CompilerGeneratedAttribute>() == null && t.FullName != "DMD<System.Diagnostics.StackTrace"))
             {
                 foreach (FieldInfo field in type.GetFields(FLAGS_STATIC))
                 {
                     if (field.IsLiteral // ignore constants
+                        || field.IsInitOnly //ignore readonly 
                         || type.IsGenericType && !type.IsConstructedGenericType) // fields in generic types can't be accessed unless they're constructed (someClass<Type> is valid, while someClass<> is)
                     {
                         continue;
@@ -249,6 +250,7 @@ namespace EEMod.Autoloading
 
                     if (field.GetCustomAttribute<UnloadIgnoreAttribute>() == null)
                     {
+                        ModContent.GetInstance<EEMod>().Logger.Debug($"Unloaded field {type.FullName}::{field.Name} - {field.FieldType.FullName}");
                         field.SetValue(null, null);
                     }
                 }
