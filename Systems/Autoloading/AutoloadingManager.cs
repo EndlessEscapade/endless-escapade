@@ -226,7 +226,7 @@ namespace EEMod.Autoloading
 
                 method.Invoke(null, null);
             }
-
+            /*
             Type iunload = typeof(IOnUnload);
             foreach (Type type in types.Where(t => t.GetCustomAttribute<System.Runtime.CompilerServices.CompilerGeneratedAttribute>() == null))
             {
@@ -255,6 +255,7 @@ namespace EEMod.Autoloading
                     }
                 }
             }
+            */
         }
 
         private static bool ValidCurrent(LoadMode mode) => mode == LoadMode.Both || mode == LoadMode.Server == Main.dedServ;
