@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS0649 // default value
+using System;
 
 namespace EEMod.Autoloading
 {
@@ -43,7 +44,6 @@ namespace EEMod.Autoloading
         public FieldInitAttribute(FieldInitType initType, Type subtype, FieldInitType subInitType) : this(initType, initInfo1: subtype, initInfo2: subInitType)
         {
         }
-#pragma warning disable CS0649 // default value
         // TODO
         internal LoadMode loadMode; // fields instantiating and method calling
     }

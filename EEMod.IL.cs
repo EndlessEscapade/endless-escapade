@@ -35,8 +35,6 @@ namespace EEMod
     public partial class EEMod : Mod
     {
         //private delegate void D(ref VertexColors colors);
-
-
         private float _alphaBG;
         private Vector2 _sunPos;
         private float _globalAlpha;
@@ -77,6 +75,24 @@ namespace EEMod
             hooklist.Add(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), LayeredMusic.ILFillBuffer);
 
             //HookEndpointManager.Modify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
+        }
+
+        private void UnloadIL()
+        {
+            //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
+            //IL.Terraria.Main.DrawWater -= Main_DrawWater;
+            //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
+            //IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
+            //IL.Terraria.NPC.AI_001_Slimes -= Practice;
+            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
+            //HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
+            hooklist?.Dispose();
+            hooklist = null;
+            screenMessageText = null;
+            trailManager = null;
+            progressMessage = null;
+            prims = null;
         }
 
         private void LiquidRenderer_InternalDraw1(ILContext il)
@@ -122,24 +138,6 @@ namespace EEMod
             c.MarkLabel(l); // point to current instr (ldloc 12)
         }
 
-        private void UnloadIL()
-        {
-            //IL.Terraria.Main.DrawBackground -= Main_DrawBackground;
-            //IL.Terraria.Main.DrawWater -= Main_DrawWater;
-            //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
-            //IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
-            //IL.Terraria.NPC.AI_001_Slimes -= Practice;
-            IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
-            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
-            //HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
-            hooklist?.Dispose();
-            hooklist = null;
-            screenMessageText = null;
-            trailManager = null;
-            progressMessage = null;
-            prims = null;
-        }
-
         private void Main_DrawWater(ILContext il)
         {
             ILCursor c = new ILCursor(il);
@@ -158,7 +156,7 @@ namespace EEMod
             });
         }
 
-        public void DrawRef()
+        /*public void DrawRef()
         {
             RenderTarget2D buffer = Main.screenTarget;
 
@@ -174,7 +172,7 @@ namespace EEMod
 
             Main.spriteBatch.Draw(screenTex, Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White * 0.3f, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
             Main.graphics.GraphicsDevice.SetRenderTarget(Main.screenTarget);
-        }
+        }*/
 
         /*private void Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb(ILContext il)
         {
@@ -207,7 +205,7 @@ namespace EEMod
         }*/
 
         //No. Just no.
-        private void Practice(ILContext il)
+        /*private void Practice(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             if (!c.TryGotoNext(i => i.MatchLdloc(12),
@@ -226,7 +224,7 @@ namespace EEMod
             });
 
             throw new Exception("Couldn't find local variable 19 loading");
-        }
+        }*/
 
         public void UnloadShaderAssets()
         {

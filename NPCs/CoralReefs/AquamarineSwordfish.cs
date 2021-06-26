@@ -12,6 +12,8 @@ namespace EEMod.NPCs.CoralReefs
     {
         private bool attacking;
 
+        private int dashes;
+
         public override void SetStaticDefaults() => DisplayName.SetDefault("Swordfish");
 
         public override void SetDefaults()
@@ -61,7 +63,7 @@ namespace EEMod.NPCs.CoralReefs
             npc.velocity.X += npc.direction * 0.025f;
             npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -2f, 2f);
 
-            if (npc.collideX)
+            if (npc.collideX) 
             {
                 npc.velocity = Vector2.Zero;
                 npc.direction = -npc.direction;
@@ -72,13 +74,46 @@ namespace EEMod.NPCs.CoralReefs
             float sine = (float)Math.Sin(npc.ai[0] / 40f);
             npc.velocity.Y = sine;
 
-            float rotation = sine * 0.075f;
-            npc.rotation = npc.rotation.AngleLerp(rotation, 0.1f);
+            float addon = npc.spriteDirection == -1 ? MathHelper.Pi : 0f;
+            npc.rotation = npc.velocity.ToRotation() + addon;
+
+            const int cooldown = 180;
+            const float attackRange = 16f * 16f;
+
+            if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && npc.ai[0] > cooldown && player.Distance(npc.Center) < attackRange)
+            {
+                npc.ai[0] = 0;
+                attacking = true;
+            }
         }
 
         private void Attack(Player player)
         {
-            // TODO - Attack :problem:
+            npc.ai[0]++;
+
+            if (npc.ai[0] % 60 == 0)
+            {
+                int maxDashes = Main.rand.Next(1, 4);
+
+                if (dashes > maxDashes)
+                {
+                    dashes = 0;
+                    npc.ai[0] = 0;
+
+                    npc.direction = Main.rand.NextBool() ? -1 : 1;
+
+                    attacking = false;
+                    return;
+                }
+
+                dashes++;
+                npc.velocity = npc.DirectionTo(player.Center) * 16f;
+            }
+
+            float addon = npc.spriteDirection == -1 ? MathHelper.Pi : 0f;
+            npc.rotation = npc.velocity.ToRotation() + addon;
+
+            npc.velocity *= 0.98f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
