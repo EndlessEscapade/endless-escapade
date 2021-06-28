@@ -40,43 +40,33 @@ namespace EEMod.Prim
             if (_noOfPoints <= 1) return;
             float widthVar;
             float colorSin = (float)Math.Sin(_counter / 3f);
-            for (int i = 0; i < _points.Count; i++)
             {
-                if (i == 0)
-                {
-                    widthVar = _width;
-                    Vector2 normalAhead = CurveNormal(_points, i + 1);
-                    Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-                    Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-                    AddVertex(_points[i], _color * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                    AddVertex(secondUp, _color * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                    AddVertex(secondDown, _color * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                }
-                else
-                {
-                    if (i != _points.Count - 1)
-                    {
-                        widthVar = _width;
-                        Vector2 normal = CurveNormal(_points, i);
-                        Vector2 normalAhead = CurveNormal(_points, i + 1);
-                        Vector2 firstUp = _points[i] - normal * widthVar;
-                        Vector2 firstDown = _points[i] + normal * widthVar;
-                        Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-                        Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
+                widthVar = _width;
+                Vector2 normalAhead = CurveNormal(_points, 1);
+                Vector2 secondUp = _points[1] - normalAhead * widthVar;
+                Vector2 secondDown = _points[1] + normalAhead * widthVar;
+                Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
+                AddVertex(_points[0], _color * _alphaValue, v);
+                AddVertex(secondUp, _color * _alphaValue, v);
+                AddVertex(secondDown, _color * _alphaValue, v);
+            }
+            for (int i = 1; i < _points.Count - 1; i++)
+            {
+                widthVar = _width;
+                Vector2 normal = CurveNormal(_points, i);
+                Vector2 normalAhead = CurveNormal(_points, i + 1);
+                Vector2 firstUp = _points[i] - normal * widthVar;
+                Vector2 firstDown = _points[i] + normal * widthVar;
+                Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
+                Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                        AddVertex(firstDown, _color * _alphaValue, new Vector2((i / _cap), 1));
-                        AddVertex(firstUp, _color * _alphaValue, new Vector2((i / _cap), 0));
-                        AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstDown, _color * _alphaValue, new Vector2((i / _cap), 1));
+                AddVertex(firstUp, _color * _alphaValue, new Vector2((i / _cap), 0));
+                AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / _cap, 1));
 
-                        AddVertex(secondUp, _color * _alphaValue, new Vector2((i + 1) / _cap, 0));
-                        AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / _cap, 1));
-                        AddVertex(firstUp, _color * _alphaValue, new Vector2((i / _cap), 0));
-                    }
-                    else
-                    {
-
-                    }
-                }
+                AddVertex(secondUp, _color * _alphaValue, new Vector2((i + 1) / _cap, 0));
+                AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstUp, _color * _alphaValue, new Vector2((i / _cap), 0));
             }
         }
         public override void SetShaders()
@@ -103,7 +93,7 @@ namespace EEMod.Prim
         public override void OnDestroy()
         {
             _destroyed = true;
-             _points.RemoveAt(0);
+            _points.RemoveAt(0);
             if (_points.Count() <= 1)
             {
                 Dispose();

@@ -327,13 +327,14 @@ namespace EEMod
         public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Main.gameMenu)
-            return;
-            
+                return;
+
             Player player = Main.LocalPlayer;
             EEPlayer eeplayer = player?.GetModPlayer<EEPlayer>();
+
             if (eeplayer == null)
-            return;
-                
+                return;
+
             int length = eeplayer.reefMinibiome.Length;
             if (Main.worldName == KeyID.CoralReefs)
             {
@@ -407,14 +408,15 @@ namespace EEMod
                     }
                 }
             }
-        
+
 
             if (Main.worldName == KeyID.Sea)
             {
                 music = GetSoundSlot(SoundType.Music, "Sounds/Music/Seamap");
                 priority = MusicPriority.BiomeHigh;
             }
-            
+
+            MechanicManager.UpdateMusic(ref music, ref priority);
         }
     }
 }

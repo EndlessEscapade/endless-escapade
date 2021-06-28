@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Drawing;
 using System.IO;
 using Terraria;
@@ -17,11 +18,26 @@ namespace EEMod.Systems
         AboveTiles,
         NPCCache
     }
+
+    public class MechanicAutoloadOptionsAttribute : Attribute
+    {
+        public string MechanicName { get; set; }
+        public MechanicAutoloadOptionsAttribute()
+        {
+
+        }
+    }
+
     public class Mechanic : IComponent, IAutoloadType
     {
         public EEMod Mod => ModContent.GetInstance<EEMod>();
         public float ElapsedTicks => Main.GameUpdateCount;
         protected virtual Layer DrawLayering => Layer.BehindTiles;
+
+        /// <summary>
+        /// The mechanic's identifier name, by default or if null or empty it's the class name
+        /// </summary>
+        public string Name { get; set; }
         public virtual void OnDraw(SpriteBatch spriteBatch) { }
         public virtual void OnUpdate() { }
         public virtual void OnLoad() { }
@@ -105,6 +121,11 @@ namespace EEMod.Systems
         public virtual void PostDrawProjectiles() { }
 
         public virtual void PreUpdateEntities() { }
+
+        public virtual void UpdateMusic(ref int music, ref MusicPriority priority)
+        {
+
+        }
 
         public Mechanic()
         {

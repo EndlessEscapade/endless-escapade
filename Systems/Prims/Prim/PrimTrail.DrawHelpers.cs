@@ -58,6 +58,7 @@ namespace EEMod.Prim
         {
             return new Vector2(-vector.Y, vector.X);
         }
+
         public void PrepareShader(Effect effects, string PassName, float progress = 0)
         {
             int width = _device.Viewport.Width;
@@ -72,6 +73,7 @@ namespace EEMod.Prim
             effects.Parameters["Voronoi"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/Noise/VoronoiNoise"));
             _trailShader.ApplyShader(effects, this, _points, PassName, progress);
         }
+
         protected void PrepareShader(Effect effects)
         {
             int width = _device.Viewport.Width;
@@ -82,6 +84,7 @@ namespace EEMod.Prim
             effects.Parameters["WorldViewProjection"].SetValue(view * projection);
             //_trailShader.ApplyShader(effects, this, _points, "MainPS");
         }
+
         protected void PrepareBasicShader()
         {
             int width = _device.Viewport.Width;
@@ -96,11 +99,13 @@ namespace EEMod.Prim
                 pass.Apply();
             }
         }
+
         protected void AddVertex(Vector2 position, Color color, Vector2 uv)
         {
             if (currentIndex < vertices.Length)
                 vertices[currentIndex++] = new VertexPositionColorTexture(new Vector3(position.ForDraw(), 0f), color, uv);
         }
+
         protected void MakePrimHelix(int i, int Width, float alphaValue, Color baseColour = default, float fadeValue = 1, float sineFactor = 0)
         {
             float _cap = (float)this._cap;
@@ -127,6 +132,7 @@ namespace EEMod.Prim
             AddVertex(secondDown, c * alphaValue, new Vector2((i + 1) / _cap, 1));
             AddVertex(firstUp, c * alphaValue, new Vector2((i / _cap), 0));
         }
+
         protected void MakePrimMidFade(int i, int Width, float alphaValue, Color baseColour = default, float fadeValue = 1, float sineFactor = 0)
         {
             float _cap = (float)this._cap;
@@ -148,48 +154,45 @@ namespace EEMod.Prim
             AddVertex(secondDown, c * alphaValue, new Vector2((i + 1) / _cap, 1));
             AddVertex(firstUp, c * alphaValue, new Vector2((i / _cap), 0));
         }
+
         protected void DrawBasicTrail(Color c1, float widthVar)
         {
-            int currentIndex = 0;
+            //int currentIndex = 0;
             VertexPositionColorTexture[] vertices = new VertexPositionColorTexture[_noOfPoints];
-            for (int i = 0; i < _points.Count; i++)
+            Vector2 normalAhead;
+            Vector2 secondUp;
+            Vector2 secondDown;
+
+            normalAhead = CurveNormal(_points, 1);
+            secondUp = _points[1] - normalAhead * widthVar;
+            secondDown = _points[1] + normalAhead * widthVar;
+
+            Vector2 vector = new Vector2((float)Math.Sin(_counter / 20.0));
+            AddVertex(_points[0], c1 * _alphaValue, vector);
+            AddVertex(secondUp, c1 * _alphaValue, vector);
+            AddVertex(secondDown, c1 * _alphaValue, vector);
+
+
+            float sinCounterOver10 = (float)Math.Sin(_counter / 10f); // _counter doesn't seem to change within the loop so
+            for (int i = 1; i < _points.Count - 1; i++)
             {
-                if (i == 0)
-                {
+                Vector2 normal = CurveNormal(_points, i);
+                normalAhead = CurveNormal(_points, i + 1);
+                float j = (_cap + sinCounterOver10 - i * 0.1f) / _cap;
+                widthVar *= j;
+                Vector2 firstUp = _points[i] - normal * widthVar;
+                Vector2 firstDown = _points[i] + normal * widthVar;
+                secondUp = _points[i + 1] - normalAhead * widthVar;
+                secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                    Vector2 normalAhead = CurveNormal(_points, i + 1);
-                    Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-                    Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-                    AddVertex(_points[i], c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                    AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                    AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                }
-                else
-                {
-                    if (i != _points.Count - 1)
-                    {
-                        Vector2 normal = CurveNormal(_points, i);
-                        Vector2 normalAhead = CurveNormal(_points, i + 1);
-                        float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
-                        widthVar *= j;
-                        Vector2 firstUp = _points[i] - normal * widthVar;
-                        Vector2 firstDown = _points[i] + normal * widthVar;
-                        Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-                        Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
+                float p = i / (float)_cap;
+                AddVertex(firstDown, c1 * _alphaValue, new Vector2(p, 1));
+                AddVertex(firstUp, c1 * _alphaValue, new Vector2(p, 0));
+                AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1));
 
-                        AddVertex(firstDown, c1 * _alphaValue, new Vector2((i / _cap), 1));
-                        AddVertex(firstUp, c1 * _alphaValue, new Vector2((i / _cap), 0));
-                        AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1));
-
-                        AddVertex(secondUp, c1 * _alphaValue, new Vector2((i + 1) / _cap, 0));
-                        AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1));
-                        AddVertex(firstUp, c1 * _alphaValue, new Vector2((i / _cap), 0));
-                    }
-                    else
-                    {
-
-                    }
-                }
+                AddVertex(secondUp, c1 * _alphaValue, new Vector2((i + 1) / _cap, 0));
+                AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstUp, c1 * _alphaValue, new Vector2(p, 0));
             }
             PrepareBasicShader();
             _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);

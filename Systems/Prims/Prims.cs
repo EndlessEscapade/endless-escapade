@@ -106,61 +106,62 @@ namespace EEMod
         {
             for (int i = 0; i < _trails.Count; i++)
             {
-                if (_trails[i].npc != null)
+                Trail trail = _trails[i];
+                if (trail.npc != null)
                 {
-                    if (!_trails[i].npc.active)
+                    if (!trail.npc.active)
                     {
-                        _trails[i]._points.Clear();
+                        trail._points.Clear();
                         _trails.RemoveAt(i);
                     }
                 }
-                if (_trails[i]._projectile != null)
+                if (trail._projectile != null)
                 {
-                    if (!_trails[i]._projectile.active)
+                    if (trail._projectile.active)
+                        continue;
+
+                    if (trail._projectile.type != ProjectileType<DalantiniumFan>() &&
+                        trail._projectile.type != ProjectileType<DalantiniumFanAlt>() &&
+                        trail._projectile.type != ProjectileType<DalantiniumSpike>() &&
+                        trail._projectile.type != ProjectileType<AxeLightning>() &&
+                        trail._projectile.type != ProjectileType<PrismDagger>())
                     {
-                        if (_trails[i]._projectile.type != ProjectileType<DalantiniumFan>() &&
-                            _trails[i]._projectile.type != ProjectileType<DalantiniumFanAlt>() &&
-                            _trails[i]._projectile.type != ProjectileType<DalantiniumSpike>() &&
-                            _trails[i]._projectile.type != ProjectileType<AxeLightning>() &&
-                            _trails[i]._projectile.type != ProjectileType<PrismDagger>())
+                        _trails.RemoveAt(i);
+                    }
+                    if (trail.lerper > 20 && trail._projectile.type == ProjectileType<DalantiniumFan>())
+                    {
+                        _trails.RemoveAt(i);
+                    }
+                    if (trail.lerper > 20 && trail._projectile.type == ProjectileType<DalantiniumSpike>())
+                    {
+                        _trails.RemoveAt(i);
+                    }
+                    if (trail._projectile.type == ProjectileType<AxeLightning>())
+                    {
+                        trail.width *= 0.9f;
+                        if (trail.width < 0.05f)
                         {
+                            trail._points.Clear();
                             _trails.RemoveAt(i);
                         }
-                        if (_trails[i].lerper > 20 && _trails[i]._projectile.type == ProjectileType<DalantiniumFan>())
+                    }
+                    if (trail._projectile.type == ProjectileType<PrismDagger>())
+                    {
+                        trail.width *= 0.9f;
+                        if (trail.width < 0.05f)
                         {
+                            trail._points.Clear();
                             _trails.RemoveAt(i);
                         }
-                        if (_trails[i].lerper > 20 && _trails[i]._projectile.type == ProjectileType<DalantiniumSpike>())
+                    }
+                    //if (i >= 0 && i < _trails.Count)
+                    {
+                        if (trail._projectile.type == ProjectileType<DalantiniumFanAlt>())
                         {
-                            _trails.RemoveAt(i);
-                        }
-                        if (_trails[i]._projectile.type == ProjectileType<AxeLightning>())
-                        {
-                            _trails[i].width *= 0.9f;
-                            if (_trails[i].width < 0.05f)
+                            if (trail.lerper > 165)
                             {
-                                _trails[i]._points.Clear();
+                                trail._points.Clear();
                                 _trails.RemoveAt(i);
-                            }
-                        }
-                        if (_trails[i]._projectile.type == ProjectileType<PrismDagger>())
-                        {
-                            _trails[i].width *= 0.9f;
-                            if (_trails[i].width < 0.05f)
-                            {
-                                _trails[i]._points.Clear();
-                                _trails.RemoveAt(i);
-                            }
-                        }
-                        if (i >= 0 && i < _trails.Count)
-                        {
-                            if (_trails[i]._projectile.type == ProjectileType<DalantiniumFanAlt>())
-                            {
-                                if (_trails[i].lerper > 165)
-                                {
-                                    _trails[i]._points.Clear();
-                                    _trails.RemoveAt(i);
-                                }
                             }
                         }
                     }
@@ -195,83 +196,69 @@ namespace EEMod
                 {
                     vertices[currentIndex++] = new VertexPositionColor(new Vector3(position.ForDraw(), 0f), color);
                 }
-                for (int i = 0; i < pointsArray.Length; i++)
+                {
+                    AddVertex(pointsArray[0], Color.Red);
+                    AddVertex(pointsArray[1] + CurveNormal(pointsArray.ToList(), 1) * -5 * (0), Color.DarkRed);
+                    AddVertex(pointsArray[1] + CurveNormal(pointsArray.ToList(), 1) * 5 * (0), Color.DarkRed);
+                }
+                for (int i = 1; i < pointsArray.Length - 1; i++)
                 {
                     float j = (pointsArray.Length - i) / (float)pointsArray.Length;
                     float increment = i / (float)pointsArray.Length;
-                    if (i == 0)
-                    {
-                        AddVertex(pointsArray[i], Color.Red);
-                        AddVertex(pointsArray[i + 1] + CurveNormal(pointsArray.ToList(), i + 1) * -5 * (j - increment), Color.DarkRed);
-                        AddVertex(pointsArray[i + 1] + CurveNormal(pointsArray.ToList(), i + 1) * 5 * (j - increment), Color.DarkRed);
-                    }
-                    if (i > 0 && i < pointsArray.Length - 1)
-                    {
-                        Vector2 normal = CurveNormal(pointsArray.ToList(), i);
-                        Vector2 normalAhead = CurveNormal(pointsArray.ToList(), i + 1);
+                    Vector2 normal = CurveNormal(pointsArray.ToList(), i);
+                    Vector2 normalAhead = CurveNormal(pointsArray.ToList(), i + 1);
 
-                        Vector2 firstUp = pointsArray[i] - normal * 5 * j;
-                        Vector2 firstDown = pointsArray[i] + normal * 5 * j;
-                        Vector2 secondUp = pointsArray[i + 1] - (normalAhead * 5 * ((pointsArray.Length) - (i + 1)) / pointsArray.Length);
-                        Vector2 secondDown = pointsArray[i + 1] + (normalAhead * 5 * ((pointsArray.Length) - (i + 1)) / pointsArray.Length);
-                        float varLerp = Math.Abs(lerpage - increment);
+                    Vector2 firstUp = pointsArray[i] - normal * 5 * j;
+                    Vector2 firstDown = pointsArray[i] + normal * 5 * j;
+                    Vector2 secondUp = pointsArray[i + 1] - (normalAhead * 5 * ((pointsArray.Length) - (i + 1)) / pointsArray.Length);
+                    Vector2 secondDown = pointsArray[i + 1] + (normalAhead * 5 * ((pointsArray.Length) - (i + 1)) / pointsArray.Length);
+                    float varLerp = Math.Abs(lerpage - increment);
 
-                        float varLerpAhead = Math.Abs(lerpage - ((i + 1) / (float)pointsArray.Length));
-                        float addon = 0f;
-                        Color Base = Color.Red;
-                        Color Base2 = Color.DarkRed;
-                        Color varColor = new Color(Base.R + (Base2.R - Base.R) * varLerp,
-                                                   Base.G + (Base2.G - Base.G) * varLerp,
-                                                   Base.B + (Base2.B - Base.B) * varLerp);
-                        Color varColorAhead = new Color(Base.R + (Base2.R - Base.R) * varLerpAhead,
-                                                        Base.G + (Base2.G - Base.G) * varLerpAhead,
-                                                        Base.B + (Base2.B - Base.B) * varLerpAhead);
-                        if (pointsArray[i].Y - pointsArray[i - 1].Y > 3)
+                    float varLerpAhead = Math.Abs(lerpage - ((i + 1) / (float)pointsArray.Length));
+                    float addon = 0f;
+                    Color Base = Color.Red;
+                    Color Base2 = Color.DarkRed;
+                    Color varColor = new Color(Base.R + (Base2.R - Base.R) * varLerp,
+                                               Base.G + (Base2.G - Base.G) * varLerp,
+                                               Base.B + (Base2.B - Base.B) * varLerp);
+                    Color varColorAhead = new Color(Base.R + (Base2.R - Base.R) * varLerpAhead,
+                                                    Base.G + (Base2.G - Base.G) * varLerpAhead,
+                                                    Base.B + (Base2.B - Base.B) * varLerpAhead);
+                    if (pointsArray[i].Y - pointsArray[i - 1].Y > 3)
+                    {
+                        if (pointsArray[i].Y > pointsArray[i - 1].Y && pointsArray[i].Y > pointsArray[i + 1].Y)
                         {
-                            if (pointsArray[i].Y > pointsArray[i - 1].Y && pointsArray[i].Y > pointsArray[i + 1].Y)
-                            {
-                                AddVertex(firstUp, varColorAhead);
-                                AddVertex(secondUp, varColorAhead);
-                                AddVertex(firstDown, varColorAhead);
+                            AddVertex(firstUp, varColorAhead);
+                            AddVertex(secondUp, varColorAhead);
+                            AddVertex(firstDown, varColorAhead);
 
-                                AddVertex(secondUp, varColorAhead);
-                                AddVertex(secondDown, varColorAhead);
-                                AddVertex(firstDown, varColorAhead);
-                                continue;
-                            }
-                            if (pointsArray[i].Y > pointsArray[i - 1].Y)
-                            {
-                                AddVertex(firstUp, Color.DarkRed);
-                                AddVertex(secondUp, Color.DarkRed);
-                                AddVertex(firstDown, Color.DarkRed);
-
-                                AddVertex(secondUp, Color.DarkRed);
-                                AddVertex(secondDown, Color.DarkRed);
-                                AddVertex(firstDown, Color.DarkRed);
-                            }
-                            if (pointsArray[i].Y < pointsArray[i - 1].Y & pointsArray[i].Y < pointsArray[i + 1].Y)
-                            {
-                                AddVertex(firstUp, varColorAhead);
-                                AddVertex(secondUp, varColorAhead);
-                                AddVertex(firstDown, varColor);
-
-                                AddVertex(secondUp, varColorAhead);
-                                AddVertex(secondDown, varColorAhead);
-                                AddVertex(firstDown, varColor);
-                                continue;
-                            }
-                            if (pointsArray[i].Y <= pointsArray[i - 1].Y)
-                            {
-                                AddVertex(firstUp, Color.DarkRed);
-                                AddVertex(secondUp, Color.DarkRed);
-                                AddVertex(firstDown, Color.DarkRed);
-
-                                AddVertex(secondUp, Color.DarkRed);
-                                AddVertex(secondDown, Color.DarkRed);
-                                AddVertex(firstDown, Color.DarkRed);
-                            }
+                            AddVertex(secondUp, varColorAhead);
+                            AddVertex(secondDown, varColorAhead);
+                            AddVertex(firstDown, varColorAhead);
+                            continue;
                         }
-                        else
+                        if (pointsArray[i].Y > pointsArray[i - 1].Y)
+                        {
+                            AddVertex(firstUp, Color.DarkRed);
+                            AddVertex(secondUp, Color.DarkRed);
+                            AddVertex(firstDown, Color.DarkRed);
+
+                            AddVertex(secondUp, Color.DarkRed);
+                            AddVertex(secondDown, Color.DarkRed);
+                            AddVertex(firstDown, Color.DarkRed);
+                        }
+                        if (pointsArray[i].Y < pointsArray[i - 1].Y & pointsArray[i].Y < pointsArray[i + 1].Y)
+                        {
+                            AddVertex(firstUp, varColorAhead);
+                            AddVertex(secondUp, varColorAhead);
+                            AddVertex(firstDown, varColor);
+
+                            AddVertex(secondUp, varColorAhead);
+                            AddVertex(secondDown, varColorAhead);
+                            AddVertex(firstDown, varColor);
+                            continue;
+                        }
+                        if (pointsArray[i].Y <= pointsArray[i - 1].Y)
                         {
                             AddVertex(firstUp, Color.DarkRed);
                             AddVertex(secondUp, Color.DarkRed);
@@ -282,6 +269,17 @@ namespace EEMod
                             AddVertex(firstDown, Color.DarkRed);
                         }
                     }
+                    else
+                    {
+                        AddVertex(firstUp, Color.DarkRed);
+                        AddVertex(secondUp, Color.DarkRed);
+                        AddVertex(firstDown, Color.DarkRed);
+
+                        AddVertex(secondUp, Color.DarkRed);
+                        AddVertex(secondDown, Color.DarkRed);
+                        AddVertex(firstDown, Color.DarkRed);
+                    }
+
                 }
                 int width = device.Viewport.Width;
                 int height = device.Viewport.Height;
@@ -635,47 +633,34 @@ namespace EEMod
                     {
                         for (int a = 0; a < tentacle[b].Count; a++)
                         {
-                            for (int i = 0; i < tentacle[b][a].Count; i++)
+                            for (int i = 1; i < tentacle[b][a].Count - 1; i++)
                             {
-                                if (i == 0)
-                                {
 
-                                }
-                                else
-                                {
-                                    if (i != tentacle[b][a].Count - 1)
-                                    {
-                                        Color base1 = new Color(7, 86, 122);
-                                        Color base2 = new Color(255, 244, 173);
+                                Color base1 = new Color(7, 86, 122);
+                                Color base2 = new Color(255, 244, 173);
 
-                                        Color drawColour = Lighting.GetColor((int)npc.Center.X / 16, (int)npc.Center.Y / 16);
-                                        Color c = Color.Lerp(Color.DarkCyan, base2, i / Cap).MultiplyRGB(drawColour);
-                                        Color c1 = Color.Lerp(Color.DarkCyan, base2, (i + 1) / Cap).MultiplyRGB(drawColour);
+                                Color drawColour = Lighting.GetColor((int)npc.Center.X / 16, (int)npc.Center.Y / 16);
+                                Color c = Color.Lerp(Color.DarkCyan, base2, i / Cap).MultiplyRGB(drawColour);
+                                Color c1 = Color.Lerp(Color.DarkCyan, base2, (i + 1) / Cap).MultiplyRGB(drawColour);
 
-                                        Vector2 normal = CurveNormal(tentacle[b][a], i);
-                                        Vector2 normalAhead = CurveNormal(tentacle[b][a], i + 1);
+                                Vector2 normal = CurveNormal(tentacle[b][a], i);
+                                Vector2 normalAhead = CurveNormal(tentacle[b][a], i + 1);
 
-                                        float j = (Cap - (i * 0.9f)) / Cap;
-                                        width = (i / Cap) * 3;
+                                float j = (Cap - (i * 0.9f)) / Cap;
+                                width = (i / Cap) * 3;
 
-                                        Vector2 firstUp = tentacle[b][a][i] - normal * width;
-                                        Vector2 firstDown = tentacle[b][a][i] + normal * width;
-                                        Vector2 secondUp = tentacle[b][a][i + 1] - normalAhead * width;
-                                        Vector2 secondDown = tentacle[b][a][i + 1] + normalAhead * width;
+                                Vector2 firstUp = tentacle[b][a][i] - normal * width;
+                                Vector2 firstDown = tentacle[b][a][i] + normal * width;
+                                Vector2 secondUp = tentacle[b][a][i + 1] - normalAhead * width;
+                                Vector2 secondDown = tentacle[b][a][i + 1] + normalAhead * width;
 
-                                        AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                        AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                                        AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+                                AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
 
-                                        AddVertex(secondUp, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                        AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                        AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
-                                    }
-                                    else
-                                    {
-
-                                    }
-                                }
+                                AddVertex(secondUp, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+                                AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
                             }
 
                             vertices2.Add(vertices);
@@ -690,32 +675,20 @@ namespace EEMod
                     vertices = new VertexPositionColorTexture[noOfPoints];
                     width = 5;
                     float alphaValue = 0.2f;
-                    for (int i = 0; i < _points.Count; i++)
                     {
-                        if (i == 0)
-                        {
-                            Color c = Color.Lerp(Color.Red, Color.DarkRed, i / Cap);
+                        Color c = Color.Lerp(Color.Red, Color.DarkRed, 0);
 
-                            Vector2 normalAhead = CurveNormal(_points, i + 1);
-                            Vector2 secondUp = _points[i + 1] - normalAhead * width;
-                            Vector2 secondDown = _points[i + 1] + normalAhead * width;
-
-                            AddVertex(_points[i], c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                            AddVertex(secondUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                            AddVertex(secondDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
-                        }
-                        else
-                        {
-
-                            if (i != _points.Count - 1)
-                            {
-                                MakePrimMidFade(i, 5, 1f, Color.Red);
-                            }
-                            else
-                            {
-
-                            }
-                        }
+                        Vector2 normalAhead = CurveNormal(_points, 1);
+                        Vector2 secondUp = _points[1] - normalAhead * width;
+                        Vector2 secondDown = _points[1] + normalAhead * width;
+                        Vector2 v = new Vector2((float)Math.Sin(lerper / 20f));
+                        AddVertex(_points[0], c * alphaValue, v);
+                        AddVertex(secondUp, c * alphaValue, v);
+                        AddVertex(secondDown, c * alphaValue, v);
+                    }
+                    for (int i = 1; i < _points.Count - 1; i++)
+                    {
+                        MakePrimMidFade(i, 5, 1f, Color.Red);
                     }
 
                     PrepareBasicShader();

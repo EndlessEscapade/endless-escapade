@@ -27,27 +27,27 @@ namespace EEMod
 
         public static void InitializeAmbience()
         {
-            var loader = ModContent.GetInstance<EEMod>();
+            var mod = ModContent.GetInstance<EEMod>();
 
             if (!Main.dedServ)
             {
-                loader.Dolphins = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceDolphins");
-                loader.DolphinsInstance = loader.Dolphins.CreateInstance();
-                loader.Dolphins.Name = "Dolphins";
+                mod.Dolphins = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceDolphins");
+                mod.DolphinsInstance = mod.Dolphins.CreateInstance();
+                mod.Dolphins.Name = "Dolphins";
 
-                loader.Seagulls = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceSeagulls");
-                loader.SeagullsInstance = loader.Seagulls.CreateInstance();
-                loader.Seagulls.Name = "Seagulls";
+                mod.Seagulls = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceSeagulls");
+                mod.SeagullsInstance = mod.Seagulls.CreateInstance();
+                mod.Seagulls.Name = "Seagulls";
 
-                loader.Seagulls2 = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceSeagulls2");
-                loader.Seagulls2Instance = loader.Seagulls2.CreateInstance();
-                loader.Seagulls2.Name = "Seagulls2";
+                mod.Seagulls2 = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceSeagulls2");
+                mod.Seagulls2Instance = mod.Seagulls2.CreateInstance();
+                mod.Seagulls2.Name = "Seagulls2";
 
-                loader.Waves = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceWaves");
-                loader.WavesInstance = loader.Waves.CreateInstance();
-                loader.Waves.Name = "Waves";
+                mod.Waves = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceWaves");
+                mod.WavesInstance = mod.Waves.CreateInstance();
+                mod.Waves.Name = "Waves";
 
-                loader.WavesInstance.IsLooped = true;
+                mod.WavesInstance.IsLooped = true;
             }
         }
 

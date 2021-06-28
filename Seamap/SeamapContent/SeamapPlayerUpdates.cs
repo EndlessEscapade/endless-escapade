@@ -118,11 +118,11 @@ namespace EEMod
                 noU = true;
             }
 
-            Filters.Scene[shad2].GetShader().UseOpacity(SeamapPlayerShip.localship.position.X);
+            Filters.Scene[SunThroughWallsShader].GetShader().UseOpacity(SeamapPlayerShip.localship.position.X);
 
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad2].IsActive())
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene[SunThroughWallsShader].IsActive())
             {
-                Filters.Scene.Activate(shad2, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
+                Filters.Scene.Activate(SunThroughWallsShader, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
             }
             #endregion
 
@@ -440,28 +440,28 @@ namespace EEMod
 
         public void UpdateCutscenesAndTempShaders()
         {
-            Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad1].IsActive())
+            Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene[RippleShader].IsActive())
             {
-                Filters.Scene.Activate(shad1, player.Center).GetShader().UseOpacity(timerForCutscene);
+                Filters.Scene.Activate(RippleShader, player.Center).GetShader().UseOpacity(timerForCutscene);
             }
             if (!godMode)
             {
-                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad1].IsActive())
+                if (Main.netMode != NetmodeID.Server && Filters.Scene[RippleShader].IsActive())
                 {
-                    Filters.Scene.Deactivate(shad1);
+                    Filters.Scene.Deactivate(RippleShader);
                 }
             }
-            Filters.Scene[shad3].GetShader().UseOpacity(cutSceneTriggerTimer);
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad3].IsActive())
+            Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene[SeaTransShader].IsActive())
             {
-                Filters.Scene.Activate(shad3, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
+                Filters.Scene.Activate(SeaTransShader, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
             }
             if (!triggerSeaCutscene)
             {
-                if (Main.netMode != NetmodeID.Server && Filters.Scene[shad3].IsActive())
+                if (Main.netMode != NetmodeID.Server && Filters.Scene[SeaTransShader].IsActive())
                 {
-                    Filters.Scene.Deactivate(shad3);
+                    Filters.Scene.Deactivate(SeaTransShader);
                 }
             }
             if (timerForCutscene >= 1400)
