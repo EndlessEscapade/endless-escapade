@@ -294,6 +294,7 @@ namespace EEMod
         public bool isHoldingGlider;
         public Vector2 currentAltarPos;
         public bool isInSubworld;
+
         public override void UpdateVanityAccessories()
         {
             if (hydroGear || dragonScale)

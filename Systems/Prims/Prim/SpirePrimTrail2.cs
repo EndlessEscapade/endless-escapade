@@ -53,7 +53,7 @@ namespace EEMod.Prim
                 //  AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
                 // AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
             }
-            for (int i = 0; i < _points.Count; i++)
+            for (int i = 1; i < _points.Count - 1; i++)
             {
                 widthVar = Helpers.Clamp((i * 4) + _width, 0, 100);
 

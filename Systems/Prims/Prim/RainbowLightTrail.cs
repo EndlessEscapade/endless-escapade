@@ -32,7 +32,7 @@ namespace EEMod.Prim
             if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight) return;
             for (int i = 1; i < _points.Count - 1; i++)
             {
-                MakePrimHelix(i, 20, 0.8f, default, 1, 2)
+                MakePrimHelix(i, 20, 0.8f, default, 1, 2);
             }
         }
         public override void SetShaders()

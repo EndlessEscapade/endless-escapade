@@ -49,7 +49,7 @@ namespace EEMod.Prim
                 AddVertex(secondUp, c1 * _alphaValue, v);
                 AddVertex(secondDown, c1 * _alphaValue, v);
             }
-            for (int i = 0; i < _points.Count - 1; i++)
+            for (int i = 1; i < _points.Count - 1; i++)
             {
                 widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
                 Color base1 = new Color(7, 86, 122);

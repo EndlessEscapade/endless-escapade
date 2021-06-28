@@ -103,7 +103,7 @@ namespace EEMod.Prim
                 AddVertex(secondDown2, _color * _alphaValue, new Vector2(1 / _cap, 1f));
                 AddVertex(firstUp2, _color * _alphaValue, new Vector2(0, 0f));
             }
-            for (int i = 0; i < _points.Count; i++)
+            for (int i = 1; i < _points.Count - 1; i++)
             {
                 float widthVar;
                 if (web <= 5)

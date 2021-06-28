@@ -44,7 +44,7 @@ namespace EEMod.Prim
                 AddVertex(secondUp, _color * _alphaValue, v); //Adds the vector secondUp, which is the point above the current vector
                 AddVertex(secondDown, _color * _alphaValue, v); //Adds the vector secondDown, which is the point below the current vector
             }
-            for (int i = 0; i < _points.Count - 1; i++)
+            for (int i = 1; i < _points.Count - 1; i++)
             {
                 //If it's not the first point in the list
 

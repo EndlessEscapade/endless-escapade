@@ -43,7 +43,7 @@ namespace EEMod.Prim
 
             if (_noOfPoints <= 6) return;
             float widthVar;
-            for (int i = 0; i < _points.Count - 1; i++)
+            for (int i = 1; i < _points.Count - 1; i++)
             {
                 widthVar = _width * (1 - i / (float)_points.Count);
                 float widthVar2 = _width * (1 - (i + 1) / (float)_points.Count);
