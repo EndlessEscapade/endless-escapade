@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using Terraria;
@@ -31,9 +31,13 @@ namespace EEMod
         {
             if (type.CouldBeInstantiated() && type.TryCreateInstance(out Mechanic mechanic))
             {
-                ContentInstance.Register(mechanic);
+                bool hasAttribute = type.TryGetCustomAttribute(out MechanicAutoloadOptionsAttribute options);
+
+                mechanic.Name = hasAttribute && !string.IsNullOrEmpty(options.MechanicName) ? options.MechanicName : type.Name;
                 mechanic.Load();
+
                 Instances.Add(mechanic);
+                ContentInstance.Register(mechanic);
             }
         }
 
@@ -111,6 +115,13 @@ namespace EEMod
             if (Instances != null)
                 foreach (Mechanic mechanic in Instances)
                     mechanic.PostDrawProjectiles();
+        }
+
+        public static void UpdateMusic(ref int music, ref MusicPriority priority)
+        {
+            if (Instances != null)
+                foreach (Mechanic mechanic in Instances)
+                    mechanic.UpdateMusic(ref music, ref priority);
         }
     }
 

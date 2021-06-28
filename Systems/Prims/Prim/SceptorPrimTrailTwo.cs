@@ -40,50 +40,41 @@ namespace EEMod.Prim
 
             if (_noOfPoints <= 6) return;
             float widthVar;
-            for (int i = 0; i < _points.Count; i++)
             {
-                if (i == 0)
-                {
-                    widthVar = (float)Math.Sqrt(_points.Count) * _width;
-                    Color c1 = color;
-                    Vector2 normalAhead = CurveNormal(_points, i + 1);
-                    Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-                    Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-                    AddVertex(_points[i], c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                    AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                    AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                }
-                else
-                {
-                    if (i != _points.Count - 1)
-                    {
-                        widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
-                        Color base1 = new Color(7, 86, 122);
-                        Color base2 = new Color(255, 244, 173);
-                        Color c = color;
-                        Color CBT = color;
-                        Vector2 normal = CurveNormal(_points, i);
-                        Vector2 normalAhead = CurveNormal(_points, i + 1);
-                        float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
-                        widthVar *= j;
-                        Vector2 firstUp = _points[i] - normal * widthVar;
-                        Vector2 firstDown = _points[i] + normal * widthVar;
-                        Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
-                        Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
+                widthVar = (float)Math.Sqrt(_points.Count) * _width;
+                Color c1 = color;
+                Vector2 normalAhead = CurveNormal(_points, 1);
+                Vector2 secondUp = _points[1] - normalAhead * widthVar;
+                Vector2 secondDown = _points[1] + normalAhead * widthVar;
+                Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
+                AddVertex(_points[0], c1 * _alphaValue, v);
+                AddVertex(secondUp, c1 * _alphaValue, v);
+                AddVertex(secondDown, c1 * _alphaValue, v);
+            }
+            for (int i = 1; i < _points.Count - 1; i++)
+            {
+                widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
+                Color base1 = new Color(7, 86, 122);
+                Color base2 = new Color(255, 244, 173);
+                Color c = color;
+                Color CBT = color;
+                Vector2 normal = CurveNormal(_points, i);
+                Vector2 normalAhead = CurveNormal(_points, i + 1);
+                float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
+                widthVar *= j;
+                Vector2 firstUp = _points[i] - normal * widthVar;
+                Vector2 firstDown = _points[i] + normal * widthVar;
+                Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
+                Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                        AddVertex(firstDown, c * _alphaValue, new Vector2((i / _cap), 1));
-                        AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
-                        AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstDown, c * _alphaValue, new Vector2((i / _cap), 1));
+                AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
+                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
 
-                        AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / _cap, 0));
-                        AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
-                        AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
-                    }
-                    else
-                    {
+                AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / _cap, 0));
+                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
 
-                    }
-                }
             }
         }
         public override void SetShaders()

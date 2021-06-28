@@ -131,11 +131,11 @@ namespace EEMod
     }
     class TestModule : IParticleModule
     {
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.position.X++;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class MovementSin : IParticleModule
     {
@@ -145,12 +145,12 @@ namespace EEMod
         {
             this.frequency = frequency;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             counter++;
             particle.velocity *= Math.Abs((float)Math.Sin(counter * frequency));
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SlowDown : IParticleModule
     {
@@ -159,11 +159,11 @@ namespace EEMod
         {
             this.slowDownFactor = slowDownFactor;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.velocity *= slowDownFactor;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class RotateTexture : IParticleModule
     {
@@ -172,11 +172,11 @@ namespace EEMod
         {
             this.rotationSpeed = rotationSpeed;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.rotation += rotationSpeed;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SetAnimData : IParticleModule
     {
@@ -187,12 +187,12 @@ namespace EEMod
             this.AnimSpeedPerTick = AnimSpeedPerTick;
             this.noOfFrames = noOfFrames;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.AnimSpeedPerTick = AnimSpeedPerTick;
             particle.noOfFrames = noOfFrames;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SimpleBrownianMotion : IParticleModule
     {
@@ -201,12 +201,12 @@ namespace EEMod
         {
             this.intensity = intensity;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.velocity.X += Main.rand.NextFloat(-1, 1) * intensity;
             particle.velocity.Y += Main.rand.NextFloat(-1, 1) * intensity;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class AdditiveCircularMotion : IParticleModule
     {
@@ -220,14 +220,14 @@ namespace EEMod
             this.height = height;
             this.speed = speed;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             timer += speed;
             Vector2 rotVec = new Vector2((float)Math.Sin(timer) * width, (float)Math.Cos(timer) * height);
             particle.position.X += rotVec.X;
             particle.position.Y += rotVec.Y;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class AfterImageTrail : IParticleModule
     {
@@ -237,7 +237,7 @@ namespace EEMod
         {
             this.alphaFallOff = alphaFallOff;
         }
-        public void Draw(in Particle particle)
+        public void Draw(Particle particle)
         {
             for (int i = 0; i < particle.PositionCache.Count; i++)
             {
@@ -245,7 +245,7 @@ namespace EEMod
                 Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw().ParalaxX(particle.paralax), new Rectangle(0, particle.CurrentFrame * (particle.Frame.Height / particle.noOfFrames), particle.Frame.Width, particle.Frame.Height / particle.noOfFrames), particle.colour * particle.alpha * globalFallOff, particle.rotation, new Rectangle(0, particle.CurrentFrame * (particle.Frame.Height / particle.noOfFrames), particle.Frame.Width, particle.Frame.Height / particle.noOfFrames).Size() / 2, particle.varScale * globalFallOff, SpriteEffects.None, 0f);
             }
         }
-        public void Update(in Particle particle) {; }
+        public void Update(Particle particle) {; }
     }
     class SetTimeLeft : IParticleModule
     {
@@ -255,7 +255,7 @@ namespace EEMod
         {
             this.timeLeft = timeLeft;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             if (!initial)
             {
@@ -263,7 +263,7 @@ namespace EEMod
                 particle.timeLeft = timeLeft;
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
 
     class SetTrailLength : IParticleModule
@@ -273,11 +273,11 @@ namespace EEMod
         {
             this.traillength = traillength;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.TrailLength = traillength;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SetLightingBlend : IParticleModule
     {
@@ -287,7 +287,7 @@ namespace EEMod
         {
             this.LightingBlend = LightingBlend;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             if (!initial)
             {
@@ -295,7 +295,7 @@ namespace EEMod
                 particle.LightingBlend = LightingBlend;
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SetShrinkSize : IParticleModule
     {
@@ -305,7 +305,7 @@ namespace EEMod
         {
             this.shrinkSize = shrinkSize;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             if (!initial)
             {
@@ -313,7 +313,7 @@ namespace EEMod
                 particle.shrinkSpeed = shrinkSize;
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SetParalax : IParticleModule
     {
@@ -323,7 +323,7 @@ namespace EEMod
         {
             this.paralax = paralax;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             if (!initial)
             {
@@ -331,7 +331,7 @@ namespace EEMod
                 particle.paralax = paralax;
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class Spew : IParticleModule
     {
@@ -347,7 +347,7 @@ namespace EEMod
             this.initialSpeed = initialSpeed;
             this.airResistance = airResistance;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             if (!initial)
             {
@@ -358,7 +358,7 @@ namespace EEMod
             }
             particle.velocity *= airResistance;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class AddVelocity : IParticleModule
     {
@@ -367,11 +367,11 @@ namespace EEMod
         {
             this.velocity = velocity;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.velocity += velocity;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class RotateVelocity : IParticleModule
     {
@@ -380,11 +380,11 @@ namespace EEMod
         {
             this.rotFac = rotFac;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.velocity = particle.velocity.RotatedBy(rotFac);
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SetLighting : IParticleModule
     {
@@ -395,12 +395,12 @@ namespace EEMod
             this.color = color;
             this.intensity = intensity;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.lightingColor = color;
             particle.lightingIntensity = intensity;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SetFrame : IParticleModule
     {
@@ -409,11 +409,11 @@ namespace EEMod
         {
             frame = bounds;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.Frame = frame;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SetPresetNoiseMask : IParticleModule
     {
@@ -422,11 +422,11 @@ namespace EEMod
         {
             tex = bounds;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.PresetNoiseMask = tex;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class SetMask : IParticleModule
     {
@@ -437,12 +437,12 @@ namespace EEMod
             tex = bounds;
             this.MaskAlpha = MaskAlpha;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.mask = tex;
             particle.MaskAlpha = MaskAlpha;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class CircularMotion : IParticleModule
     {
@@ -460,14 +460,14 @@ namespace EEMod
             this.orbitPoint = orbitPoint;
             this.rotation = rotation;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             timer += speed;
             Vector2 rotVec = new Vector2((float)Math.Sin(timer) * width, (float)Math.Cos(timer) * height).RotatedBy(rotation);
             particle.position.X = orbitPoint.Center.X + rotVec.X;
             particle.position.Y = orbitPoint.Center.Y + rotVec.Y;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class CircularMotionSin : IParticleModule
     {
@@ -491,7 +491,7 @@ namespace EEMod
             this.disapearFromBack = disapearFromBack;
             this.period = period;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             timer += speed * (1 + (float)Math.Sin(timer * period) * intensity);
             Vector2 rotVec = new Vector2((float)Math.Sin(timer) * width, (float)Math.Cos(timer) * height).RotatedBy(rotation);
@@ -509,7 +509,7 @@ namespace EEMod
                 }
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class FollowEntity : IParticleModule
     {
@@ -523,11 +523,11 @@ namespace EEMod
             this.orbitPoint = orbitPoint;
             this.resistance = resistance;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             particle.velocity += (orbitPoint.Center - particle.position) / resistance - particle.velocity / dampen;
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class CircularMotionSinSpinC : IParticleModule
     {
@@ -553,7 +553,7 @@ namespace EEMod
             this.disapearFromBack = disapearFromBack;
             this.spinSpeed = spinSpeed;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             timer += speed * (1 + (float)Math.Sin(timer * period) * intensity);
             rot += spinSpeed;
@@ -573,7 +573,7 @@ namespace EEMod
                 }
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class CircularMotionSinSpin : IParticleModule
     {
@@ -599,7 +599,7 @@ namespace EEMod
             this.disapearFromBack = disapearFromBack;
             this.spinSpeed = spinSpeed;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             timer += speed * (1 + (float)Math.Sin(timer * period) * intensity);
             rot += spinSpeed;
@@ -619,7 +619,7 @@ namespace EEMod
                 }
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class ZigzagMotion : IParticleModule
     {
@@ -631,7 +631,7 @@ namespace EEMod
             this.interval = interval;
             this.maxDistance = maxDistance;
         }
-        public void Update(in Particle particle)
+        public void Update(Particle particle)
         {
             timer++;
             if (timer > interval)
@@ -640,16 +640,16 @@ namespace EEMod
                 timer = 0;
             }
         }
-        public void Draw(in Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     class BaseModule : IParticleModule
     {
-        public void Update(in Particle particle) {; }
-        public void Draw(in Particle particle) {; }
+        public void Update(Particle particle) {; }
+        public void Draw(Particle particle) {; }
     }
     public interface IParticleModule
     {
-        void Update(in Particle particle);
-        void Draw(in Particle particle);
+        void Update(Particle particle);
+        void Draw(Particle particle);
     }
 }

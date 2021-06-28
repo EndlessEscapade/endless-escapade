@@ -30,19 +30,9 @@ namespace EEMod.Prim
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
             if (!Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight) return;
-            for (int i = 0; i < _points.Count; i++)
+            for (int i = 1; i < _points.Count - 1; i++)
             {
-                if (i == 0)
-                {
-
-                }
-                else
-                {
-                    if (i != _points.Count - 1)
-                    {
-                        MakePrimHelix(i, 20, 0.8f, default, 1, 2);
-                    }
-                }
+                MakePrimHelix(i, 20, 0.8f, default, 1, 2)
             }
         }
         public override void SetShaders()

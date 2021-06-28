@@ -78,9 +78,9 @@ namespace EEMod
                 ArrowsUIState.DesertArrowVisible = false;
             }
 
-            if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
+            if (Main.netMode != NetmodeID.Server && Filters.Scene[SunThroughWallsShader].IsActive())
             {
-                Filters.Scene.Deactivate(shad2);
+                Filters.Scene.Deactivate(SunThroughWallsShader);
             }
         }
 
@@ -338,9 +338,9 @@ namespace EEMod
                 Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.rand.Next(2000), Main.screenHeight + 200), Vector2.Zero, ProjectileType<EEParticle>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.2f, 0.5f), player.whoAmI);
             }*/
             baseWorldName = Main.ActiveWorldFileData.Name;
-            if (Main.netMode != NetmodeID.Server && Filters.Scene[shad2].IsActive())
+            if (Main.netMode != NetmodeID.Server && Filters.Scene[SunThroughWallsShader].IsActive())
             {
-                Filters.Scene.Deactivate(shad2);
+                Filters.Scene.Deactivate(SunThroughWallsShader);
             }
             SeamapPlayerShip.localship.position = SeamapPlayerShip.start;
             SeamapPlayerShip.localship.velocity = Vector2.Zero;

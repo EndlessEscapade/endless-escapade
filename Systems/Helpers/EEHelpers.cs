@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.Utilities;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Terraria.DataStructures;
 
 namespace EEMod
 {
@@ -342,6 +343,73 @@ namespace EEMod
         {
             double val = newlength / Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
             return new Vector2((float)(vector.X * val), (float)(vector.Y * val));
+        }
+
+        public static Vector2 BezierCurve(float ammount, Vector2 a, Vector2 b, Vector2 c) => Vector2.Lerp(value1: Vector2.Lerp(a, b, ammount), value2: Vector2.Lerp(b, c, ammount), ammount);
+
+        public static Vector2 BezierCurve(float ammount, Vector2 a, Vector2 b, Vector2 c, Vector2 d)
+        {
+            Vector2 q1 = Vector2.Lerp(a, b, ammount);
+            Vector2 q2 = Vector2.Lerp(b, c, ammount);
+            Vector2 q3 = Vector2.Lerp(c, d, ammount);
+            return Vector2.Lerp(value1: Vector2.Lerp(q1, q2, ammount), value2: Vector2.Lerp(q2, q3, ammount), ammount);
+        }
+
+        public static Vector2 BezierCurve(float ammount, params Vector2[] points)
+        {
+            if (points is null)
+                return new Vector2();
+
+            switch (points.Length)
+            {
+                case 0: return new Vector2();
+                case 1: return points[0];
+                case 2: return Vector2.Lerp(points[0], points[1], ammount);
+                case 3: return BezierCurve(ammount, points[0], points[1], points[2]);
+                case 4: return BezierCurve(ammount, points[0], points[1], points[2], points[3]);
+            }
+
+            Vector2[] copy = new Vector2[points.Length - 1]; // another array so it's not needed to use recursion (smaller capacity because it will copy the first interpolations instead of the values so it's not needed to copy + interpolate)
+            /*
+             * a ,b ,c , d 
+             * would lerp a to b, b to c and c to d and save them in the previous position
+             * because a will only be used once, it's safe to store the result on it while b and c are used twice
+             * so a = lerp(a,b), a isn't used after this so the result can be saved in a
+             * then b = lerp(b,c), b won't be used anymore after this so the result can be saved in b
+             * d won't be used after first time either, so it'll just be there
+             * q1,q2,q3, d
+             * ...
+             * in the end, the first element in the array will be the result of all interpolation
+            */
+
+            int i;
+
+            for(i = 0; i < points.Length - 1; i++)
+                copy[i] = Vector2.Lerp(points[i], points[i + 1], ammount);
+
+            int n = copy.Length;
+
+            while (n --> 0)
+            {
+                for (i = 0; i < n - 1; i++)
+                    copy[i] = Vector2.Lerp(copy[i], copy[i + 1], ammount);
+                // n: 4
+                // i: 0, 1, 2
+                // [0] = lerp([0], [1]) or a = lerp(a, b)
+                // [1] = lerp([1], [2]) or b = lerp(b, c)
+                // [2] = lerp([2], [3]) or c = lerp(c, d)
+                // next one, n: 3
+                // i: 0, 1 
+                // [0] = lerp([0], [1])
+                // [1] = lerp([1], [2])
+                // next one, n: 2
+                // i: 0
+                // [0] = lerp([0], [1])
+                
+            }
+
+            return copy[0];
+            
         }
 
         public static IEnumerable<NPC> NPCForeach

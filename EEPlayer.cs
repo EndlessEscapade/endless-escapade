@@ -110,9 +110,9 @@ namespace EEMod
         public int offSea = 1000;
         private int opac;
         public int boatSpeed = 1;
-        private readonly string shad1 = "EEMod:Ripple";
-        private readonly string shad2 = "EEMod:SunThroughWalls";
-        private readonly string shad3 = "EEMod:SeaTrans";
+        private readonly string RippleShader = "EEMod:Ripple";
+        private readonly string SunThroughWallsShader = "EEMod:SunThroughWalls";
+        private readonly string SeaTransShader = "EEMod:SeaTrans";
         public bool firstFrameVolcano;
         public Vector2 PylonBegin;
         public Vector2 PylonEnd;
@@ -477,15 +477,15 @@ namespace EEMod
         private int runeCooldown = 0;
 
         private readonly Dictionary<int, bool[]> RuneData = new Dictionary<int, bool[]>()
-                                            {
-                                                {0,new []{false,false }},
-                                                {1,new []{false,false }},
-                                                {2,new []{false,false }},
-                                                {3,new []{false,false }},
-                                                {4,new []{false,false }},
-                                                {5,new []{false,false }},
-                                                {6,new []{false,false }},
-                                            };
+        {
+            {0,new []{false,false }},
+            {1,new []{false,false }},
+            {2,new []{false,false }},
+            {3,new []{false,false }},
+            {4,new []{false,false }},
+            {5,new []{false,false }},
+            {6,new []{false,false }},
+        };
 
         public void FixateCameraOn(Vector2 fixatingPointCamera, float fixatingSpeed, bool isCameraShakings, bool CameraMove, int intensity)
         {
@@ -508,7 +508,8 @@ namespace EEMod
         {
             Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
             Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
-            if (Shake > 0) { Shake--; }
+            if (Shake > 0)  
+                Shake--; 
 
             int clamp = 80;
             float disSpeed = .4f;
@@ -528,10 +529,10 @@ namespace EEMod
                 else
                 {
                     startingText = true;
-                    Filters.Scene[shad1].GetShader().UseOpacity(timerForCutscene);
-                    if (Main.netMode != NetmodeID.Server && !Filters.Scene[shad1].IsActive())
+                    Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
+                    if (Main.netMode != NetmodeID.Server && !Filters.Scene[RippleShader].IsActive())
                     {
-                        Filters.Scene.Activate(shad1, player.Center).GetShader().UseOpacity(timerForCutscene);
+                        Filters.Scene.Activate(RippleShader, player.Center).GetShader().UseOpacity(timerForCutscene);
                     }
                     Main.screenPosition += new Vector2(displacmentX - player.Center.X, displacmentY - player.Center.Y);
                     displacmentX -= (displacmentX - player.Center.X) / 16f;
@@ -544,9 +545,9 @@ namespace EEMod
 
                     if (seamapUpdateCount >= (120 * 8) + 1400)
                     {
-                        if (Main.netMode != NetmodeID.Server && Filters.Scene[shad1].IsActive())
+                        if (Main.netMode != NetmodeID.Server && Filters.Scene[RippleShader].IsActive())
                         {
-                            Filters.Scene[shad1].Deactivate();
+                            Filters.Scene[RippleShader].Deactivate();
                         }
                         if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:WhiteFlash"].IsActive())
                         {

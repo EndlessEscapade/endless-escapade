@@ -31,52 +31,47 @@ namespace EEMod.Prim
 
             widthVar = _width;
 
-            for (int i = 0; i < _points.Count; i++)
+            //if (i == 0) //If it's the first point in the list
             {
-                if (i == 0) //If it's the first point in the list
-                {
-                    widthVar = _width; //Getting the width for the local width var
-                    Vector2 normalAhead = CurveNormal(_points, i + 1); //CurveNormal normalizes the vector and rotates it 90 degrees
-                    Vector2 secondUp = _points[i + 1] - normalAhead * widthVar; //Gets the vector of the point ahead of the first point(so the second point), subtracts it from the current vector, and multiplies it by the width
-                    Vector2 secondDown = _points[i + 1] + normalAhead * widthVar; //Gets the vector of the point ahead of the first point(so the second point), adds the current vector, and multiplies it by the width
+                widthVar = _width; //Getting the width for the local width var
+                Vector2 normalAhead = CurveNormal(_points, 1); //CurveNormal normalizes the vector and rotates it 90 degrees
+                Vector2 secondUp = _points[1] - normalAhead * widthVar; //Gets the vector of the point ahead of the first point(so the second point), subtracts it from the current vector, and multiplies it by the width
+                Vector2 secondDown = _points[1] + normalAhead * widthVar; //Gets the vector of the point ahead of the first point(so the second point), adds the current vector, and multiplies it by the width
 
-                    //Creates a triangle between the first point and the vectors above and below the next point
-                    AddVertex(_points[i], _color * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f))); //Adds the vector of the first point
-                    AddVertex(secondUp, _color * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f))); //Adds the vector secondUp, which is the point above the current vector
-                    AddVertex(secondDown, _color * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f))); //Adds the vector secondDown, which is the point below the current vector
-                }
-                else //If it's not the first point in the list
-                {
-                    if (i != _points.Count - 1) //If it isn't the last point in the list
-                    {
-                        Vector2 normal = CurveNormal(_points, i); //Getting the CurveNormal(see above) of the current point
-                        Vector2 normalAhead = CurveNormal(_points, i + 1); //Getting the CurveNormal(see above) of the next point in the trail
+                //Creates a triangle between the first point and the vectors above and below the next point
+                Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
+                AddVertex(_points[0], _color * _alphaValue, v); //Adds the vector of the first point
+                AddVertex(secondUp, _color * _alphaValue, v); //Adds the vector secondUp, which is the point above the current vector
+                AddVertex(secondDown, _color * _alphaValue, v); //Adds the vector secondDown, which is the point below the current vector
+            }
+            for (int i = 0; i < _points.Count - 1; i++)
+            {
+                //If it's not the first point in the list
 
+                //If it isn't the last point in the list
 
-                        Vector2 firstUp = _points[i] - normal * widthVar; //Gets the vector above the current point
-                        Vector2 firstDown = _points[i] + normal * widthVar; //Gets the vector below the current point
-
-                        Vector2 secondUp = _points[i + 1] - normalAhead * widthVar; //Gets the vector above the next point
-                        Vector2 secondDown = _points[i + 1] + normalAhead * widthVar; //Gets the vector below the next point
+                Vector2 normal = CurveNormal(_points, i); //Getting the CurveNormal(see above) of the current point
+                Vector2 normalAhead = CurveNormal(_points, i + 1); //Getting the CurveNormal(see above) of the next point in the trail
 
 
-                        //Creates a triangle between the vector above and below the current point and the vector below the next point
-                        AddVertex(firstDown, _color * _alphaValue, new Vector2((i / (float)_cap), 1));
-                        AddVertex(firstUp, _color * _alphaValue, new Vector2((i / (float)_cap), 0));
-                        AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
+                Vector2 firstUp = _points[i] - normal * widthVar; //Gets the vector above the current point
+                Vector2 firstDown = _points[i] + normal * widthVar; //Gets the vector below the current point
 
-                        //Creates a triangle between the vector above and below the next point and the vector above the next current point
-                        AddVertex(secondUp, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 0));
-                        AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
-                        AddVertex(firstUp, _color * _alphaValue, new Vector2((i / (float)_cap), 0));
+                Vector2 secondUp = _points[i + 1] - normalAhead * widthVar; //Gets the vector above the next point
+                Vector2 secondDown = _points[i + 1] + normalAhead * widthVar; //Gets the vector below the next point
 
-                        widthVar++;
-                    }
-                    else
-                    {
 
-                    }
-                }
+                //Creates a triangle between the vector above and below the current point and the vector below the next point
+                AddVertex(firstDown, _color * _alphaValue, new Vector2((i / (float)_cap), 1));
+                AddVertex(firstUp, _color * _alphaValue, new Vector2((i / (float)_cap), 0));
+                AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
+
+                //Creates a triangle between the vector above and below the next point and the vector above the next current point
+                AddVertex(secondUp, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 0));
+                AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
+                AddVertex(firstUp, _color * _alphaValue, new Vector2((i / (float)_cap), 0));
+
+                widthVar++;
             }
         }
 
