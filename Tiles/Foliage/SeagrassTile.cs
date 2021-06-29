@@ -21,7 +21,7 @@ namespace EEMod.Tiles.Foliage
             Main.tileSolidTop[Type] = false;
             Main.tileNoAttach[Type] = true;
 
-            AddMapEntry(new Color(68, 89, 195));
+            AddMapEntry(new Color(28, 78, 47));
             //Main.tileCut[Type] = true;
             dustType = DustID.Grass;
             drop = ModContent.ItemType<Kelp>();

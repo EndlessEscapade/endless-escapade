@@ -102,8 +102,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                 if (WorldGen.genRand.NextBool(200))
                 {
-                    int width = Main.rand.Next(40, 60);
-                    int height = Main.rand.Next(20, 25);
+                    int width = WorldGen.genRand.Next(40, 60);
+                    int height = WorldGen.genRand.Next(20, 25);
                     MakeOvalJaggedTop(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
 
                     MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
@@ -144,7 +144,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 if (upperRoomPositions[i].Y > upperRoomPositions[lowestUpperRoom].Y) lowestUpperRoom = i;
             }
 
-            MakeWavyChasm3(upperRoomPositions[highestUpperRoom], new Vector2(upperRoomPositions[highestUpperRoom].X + Main.rand.Next(-100, 100), 0), TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
+            MakeWavyChasm3(upperRoomPositions[highestUpperRoom], new Vector2(upperRoomPositions[highestUpperRoom].X + WorldGen.genRand.Next(-100, 100), 0), TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
 
             float dist = 1000000;
             int closestLowerRoom = 0;
@@ -346,20 +346,44 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     }
                 }
 
+                FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
+
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    if (Main.rand.NextBool(4))
+                    if (WorldGen.genRand.NextBool(4))
                     {
-                        if (TileCheck(i, ModContent.TileType<CoralSandTile>()) > TileCheckWater(i) && !Framing.GetTileSafely(i, TileCheck(i, ModContent.TileType<CoralSandTile>()) - 1).active())
+                        if (TileCheck(i, ModContent.TileType<CoralSandTile>()) > depth)
                         {
                             int ballfart = TileCheck(i, ModContent.TileType<CoralSandTile>());
-                            int random = Main.rand.Next(4, 15);
+
+                            int random = WorldGen.genRand.Next(4, 15);
 
                             for (int j = 1; j < random; j++)
                             {
-                                if (Framing.GetTileSafely(new Point(i, ballfart - j)).active()) break;
+                                if (Framing.GetTileSafely(i, ballfart - j).active() || Framing.GetTileSafely(i, ballfart - j).liquid < 64) break;
 
-                                Framing.GetTileSafely(new Point(i, ballfart - j)).type = (ushort)ModContent.TileType<SeagrassTile>();
+                                WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>());
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                {
+                    if (WorldGen.genRand.NextBool(6))
+                    {
+                        if (!Framing.GetTileSafely(i, TileCheckWater(i) - 1).active())
+                        {
+                            int ballfart = TileCheckWater(i);
+
+                            switch (WorldGen.genRand.Next(2))
+                            {
+                                case 0:
+                                    WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadSmol>());
+                                    break;
+                                case 1:
+                                    WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadMedium>());
+                                    break;
                             }
                         }
                     }
@@ -444,8 +468,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     }
                 }
                 #endregion
-
-                FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
                 #region Removing dirt walls
                 for (int i = 2; i < Main.maxTilesX - 2; i++)

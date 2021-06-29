@@ -324,7 +324,7 @@ namespace EEMod
         float bgAlpha;
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
-            if (Main.worldName == KeyID.CoralReefs)
+            if (Main.worldName == KeyID.CoralReefs && !Main.gameMenu)
             {
                 if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                 {

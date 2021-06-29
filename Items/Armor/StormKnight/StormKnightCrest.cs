@@ -36,8 +36,7 @@ namespace EEMod.Items.Armor.StormKnight
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Kelp erupts from the ground when enemies come near";
-            player.GetModPlayer<EEPlayer>().lythenSet = true;
+            player.setBonus = "True melee hits call down a lightning strike from the sky";
         }
 
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)

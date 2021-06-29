@@ -12,6 +12,7 @@ using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ModLoader.IO;
 using EEMod.Extensions;
+using EEMod.UI.States;
 
 namespace EEMod.Items.Armor.Kelpweaver
 {
@@ -38,28 +39,28 @@ namespace EEMod.Items.Armor.Kelpweaver
             return body.type == ModContent.ItemType<KelpweaverBody>() && legs.type == ModContent.ItemType<KelpweaverLegs>();
         }
 
-        public override void UpdateEquip(Player player)
-        {
-            player.minionDamage += 0.02f;
-        }
-
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "+1 max minions";
-            player.maxMinions++;
-
             player.GetModPlayer<KelpweaverPlayer>().kelpweaverSet = true;
         }
     }
 
     public class KelpweaverPlayer : ModPlayer
     {
-        public bool kelpweaverSet;
+        public bool kelpweaverSet = false;
 
-        private static float gun1rot = 5.49f;
-        private static float gun2rot = 0.79f;
+        private static float gun1rot = 0.79f;
+        private static float gun2rot = 2.36f;
         private static float gun3rot = 3.92f;
-        private static float gun4rot = 2.36f;
+        private static float gun4rot = 5.49f;
+
+        private static Vector2 currentGunPos = Vector2.Zero;
+
+        private static float Approach(ref float val, float desiredVal, float speed)
+        {
+            if (Math.Abs(val - desiredVal) < speed) return val;
+            else return val < desiredVal ? val += speed : val -= speed;
+        }
 
         public static readonly PlayerLayer KelpweaverArms = new PlayerLayer("EEMod", "MiscEffectsBack", PlayerLayer.MiscEffectsBack, delegate (PlayerDrawInfo drawInfo) 
         {
@@ -81,50 +82,105 @@ namespace EEMod.Items.Armor.Kelpweaver
                 bool gun3 = false;
                 bool gun4 = false;
 
-                float normalRot = Vector2.Normalize(targetNPC.Center - player.Center).ToRotation();
+                float gunRot = Vector2.Normalize(targetNPC.Center - currentGunPos).ToRotation() + 3.142f;
+                float playerRot = Vector2.Normalize(targetNPC.Center - player.Center).ToRotation() + 3.142f;
 
-                if (Vector2.Distance(targetNPC.Center, player.Center) <= 320)
+                if (Vector2.Distance(targetNPC.Center, player.Center) <= 640)
                 {
-                    if (normalRot >= 0 && normalRot < 1.57f)
+                    if (playerRot >= 0 && playerRot < 1.57f)
+                    {
+                        gun4 = true;
+
+                        if (gun4rot < gunRot && gun4rot < 1.1f)
+                        {
+                            gun4rot += 0.02f;
+                        }
+
+                        if (gun4rot > gunRot && gun4rot > 0.48f)
+                        {
+                            gun4rot -= 0.02f;
+                        }
+                    }
+
+                    if (playerRot >= 1.57f && playerRot < 3.14f)
                     {
                         gun1 = true;
 
-                        /*if (gun1rot < normalRot && gun1rot < )
+                        if (gun1rot < gunRot && gun1rot < 2.67f)
                         {
                             gun1rot += 0.02f;
                         }
 
-                        if (gun1rot > normalRot)
+                        if (gun1rot > gunRot && gun1rot > 2.05f)
                         {
                             gun1rot -= 0.02f;
-                        }*/
+                        }
                     }
 
-                    if (normalRot >= 1.57f && normalRot < 3.14f)
+                    if (playerRot >= 3.14f && playerRot < 4.71f)
                     {
                         gun2 = true;
+
+                        if (gun2rot < gunRot && gun2rot < 4.24f)
+                        {
+                            gun2rot += 0.02f;
+                        }
+
+                        if (gun2rot > gunRot && gun2rot > 3.62f)
+                        {
+                            gun2rot -= 0.02f;
+                        }
                     }
 
-                    if (normalRot >= 3.14f && normalRot < 4.71f)
+                    if (playerRot >= 4.71f && playerRot < 6.29f)
                     {
                         gun3 = true;
-                    }
 
-                    if (normalRot >= 4.71f && normalRot < 6.29f)
-                    {
-                        gun4 = true;
+                        if (gun3rot < gunRot && gun3rot < 5.81f)
+                        {
+                            gun3rot += 0.02f;
+                        }
+
+                        if (gun3rot > gunRot && gun3rot > 5.19f)
+                        {
+                            gun3rot -= 0.02f;
+                        }
                     }
+                }
+
+                Main.NewText(gunRot);
+
+
+                if (!gun1)
+                {
+                    Approach(ref gun1rot, 0.79f, 0.02f);
+                }
+
+                if(!gun2)
+                {
+                    Approach(ref gun2rot, 2.36f, 0.02f);
+                }
+
+                if(!gun3)
+                {
+                    Approach(ref gun3rot, 3.92f, 0.02f);
+                }
+
+                if (!gun4)
+                {
+                    Approach(ref gun4rot, 5.49f, 0.02f);
                 }
 
                 //restrict between 0.4 and 0.6, multiply by 1.57
 
-                DrawNewLeg(player.Center, player, gun1rot, gun3, 3);
 
-                DrawNewLeg(player.Center, player, gun2rot, gun4, 4);
+                DrawNewLeg(player.Center, player, gun1rot, gun1, 0);
 
-                DrawNewLeg(player.Center, player, gun3rot, gun2, 2);
+                DrawNewLeg(player.Center, player, gun2rot, gun2, 1);
 
-                DrawNewLeg(player.Center, player, gun4rot, gun1, 1);
+                DrawNewLeg(player.Center, player, gun3rot, gun3, 2);
+
+                DrawNewLeg(player.Center, player, gun4rot, gun4, 3);
             }
         });
         
@@ -133,7 +189,6 @@ namespace EEMod.Items.Armor.Kelpweaver
             Texture2D arm = ModContent.GetTexture("EEMod/Items/Armor/Kelpweaver/KelpweaverArm");
             Texture2D glow = ModContent.GetTexture("EEMod/Items/Armor/Kelpweaver/KelpweaverArmGlow");
             Texture2D pistol = ModContent.GetTexture("EEMod/Items/Armor/Kelpweaver/KelpweaverPistol");
-
 
             Color lightColor = Lighting.GetColor((int)(player.Center.X / 16f), (int)(player.Center.Y / 16f));
             SpriteEffects dir = rot > 3.14f ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
@@ -164,9 +219,15 @@ namespace EEMod.Items.Armor.Kelpweaver
             {
                 float desiredRot = (pistolPos + new Vector2(16 * (pistolPos.X > player.Center.X ? -1 : 1), -30).RotatedBy(pistolRot)).ToRotation();
 
+                currentGunPos = pistolPos + new Vector2(16 * (pistolPos.X > player.Center.X ? -1 : 1), -30).RotatedBy(pistolRot);
+
                 if (Main.GameUpdateCount % 30 == 0)
                 {
-                    Projectile.NewProjectile(pistolPos + new Vector2(16 * (pistolPos.X > player.Center.X ? -1 : 1), -30).RotatedBy(pistolRot), new Vector2(0, -8).RotatedBy(pistolRot), ProjectileID.Bullet, 10, 2f, player.whoAmI);
+                    Item item = KelpArmorAmmoUI.Slot.Item;
+
+                    item.stack--;
+
+                    Projectile.NewProjectile(pistolPos + new Vector2(16 * (pistolPos.X > player.Center.X ? -1 : 1), -30).RotatedBy(pistolRot), new Vector2(0, -8).RotatedBy(pistolRot), item.shoot, 10, 2f, player.whoAmI);
                 }
             }
 
