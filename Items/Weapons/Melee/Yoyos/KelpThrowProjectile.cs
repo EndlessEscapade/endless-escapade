@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Extensions;
 
 namespace EEMod.Items.Weapons.Melee.Yoyos
 {
@@ -26,8 +27,8 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         public override void SetDefaults()
         {
             projectile.extraUpdates = 0;
-            projectile.width = 16;
-            projectile.height = 16;
+            projectile.width = 18;
+            projectile.height = 18;
             // aiStyle 99 is used for all yoyos, and is Extremely suggested, as yoyo are extremely difficult without them
             projectile.aiStyle = 99;
             projectile.friendly = true;
@@ -51,7 +52,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
             float step = 1 / distance;
             for (float w = 0; w < distance; w += 4)
             {
-                Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 16, Vector2.Zero, 0, default, scale).noGravity = true;
+                Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), DustID.Gold, Vector2.Zero, 0, default, scale).noGravity = true;
             }
         }
 
@@ -104,6 +105,14 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
             Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), projectile.Center - Main.screenPosition, null, new Color((int)(18f * sineAdd), (int)(12f * sineAdd), (int)(2f * sineAdd), 0), 0f, new Vector2(75, 75), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
             
             return base.PreDraw(spriteBatch, lightColor);
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+
+            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Items/Weapons/Melee/Yoyos/KelpThrowGlow");
+            Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), null, Color.White * sineAdd, projectile.rotation, tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
         }
     }
 }

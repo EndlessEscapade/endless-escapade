@@ -12,7 +12,7 @@ using EEMod.Projectiles.CoralReefs;
 
 namespace EEMod.Tiles.Foliage.SeahorseShoals
 {
-    public class TeslaCoral : ModTile
+    public class TeslaCoral2x2 : ModTile
     {
         public override void SetDefaults()
         {
@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
                     {
                         for (int l = -20; l < 20; l++)
                         {
-                            if (WorldGen.InWorld(i + k, j + l) && Main.tile[i + k, j + l].active() && Main.tile[i + k, j + l].type == ModContent.TileType<TeslaCoral>() && Main.tile[i + k, j + l].frameX == 0 && Main.tile[i + k, j + l].frameY == 0)
+                            if (WorldGen.InWorld(i + k, j + l) && Main.tile[i + k, j + l].active() && Main.tile[i + k, j + l].type == ModContent.TileType<TeslaCoral2x2>() && Main.tile[i + k, j + l].frameX == 0 && Main.tile[i + k, j + l].frameY == 0)
                             {
                                 int lightningproj = Projectile.NewProjectile(new Vector2((i * 16) + 16, (j * 16) + 16), Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
 
@@ -54,8 +54,6 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
                                 TeslaCoralProj zappy = Main.projectile[lightningproj].modProjectile as TeslaCoralProj;
 
                                 zappy.target = new Vector2(((i + k) * 16) + 16, ((j + l) * 16) + 16);
-
-                                Main.NewText("Zap!");
 
                                 return;
                             }

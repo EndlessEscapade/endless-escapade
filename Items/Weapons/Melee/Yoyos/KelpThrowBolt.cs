@@ -40,7 +40,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         {
             Texture2D boltTex = ModContent.GetTexture("EEMod/Particles/MediumCircle");
 
-            Helpers.DrawAdditive(boltTex, projectile.Center - Main.screenPosition, Color.Gold, 0.2f);
+            Helpers.DrawAdditive(boltTex, projectile.Center - Main.screenPosition, Color.Goldenrod, 0.2f);
             
             Helpers.DrawAdditive(ModContent.GetTexture("EEMod/Textures/RadialGradient"), projectile.Center - Main.screenPosition, Color.Gold, 0.1f);
 
@@ -51,7 +51,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         {
             for (var a = 0; a < 2; a++)
             {
-                int index = Dust.NewDust(projectile.Center, 22, 22, DustID.Cloud, 0, 0);
+                int index = Dust.NewDust(projectile.Center, 22, 22, DustID.Gold, 0, 0);
                 Main.dust[index].noGravity = true;
             }
         }

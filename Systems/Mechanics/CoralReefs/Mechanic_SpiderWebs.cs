@@ -74,32 +74,33 @@ namespace EEMod
 
 
             Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/LightBlue");
-            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CoralReefs/KelpFlowerItem");
+            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Vine");
+            Texture2D bigVineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/BigVine");
 
-            float cockandbol = 0.95f;
+            float cockandbol = 0.75f;
             if (p1.Y >= 1)
             {
-                Helpers.DrawBezierAdditive(vineTexture, Lighting.GetColor((int)(p1.X / 16), (int)(p1.Y / 16)), p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
+                Helpers.DrawBezierAdditive(bigVineTexture, Lighting.GetColor((int)(p1.X / 16), (int)(p1.Y / 16)), p1, position, Vector2.Lerp(p1, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
             }
             if (p2.Y >= 1)
             {
-                Helpers.DrawBezierAdditive(vineTexture, Lighting.GetColor((int)(p2.X / 16), (int)(p2.Y / 16)), p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.5f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
+                Helpers.DrawBezierAdditive(bigVineTexture, Lighting.GetColor((int)(p2.X / 16), (int)(p2.Y / 16)), p2, position, Vector2.Lerp(p2, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.5f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
             }
             if (p3.Y >= 1)
             {
-                Helpers.DrawBezierAdditive(vineTexture, Lighting.GetColor((int)(p3.X / 16), (int)(p3.Y / 16)), p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.2f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
+                Helpers.DrawBezierAdditive(bigVineTexture, Lighting.GetColor((int)(p3.X / 16), (int)(p3.Y / 16)), p3, position, Vector2.Lerp(p3, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.2f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
             }
             if (p4.Y >= 1)
             {
-                Helpers.DrawBezierAdditive(vineTexture, Lighting.GetColor((int)(p4.X / 16), (int)(p4.Y / 16)), p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.8f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
+                Helpers.DrawBezierAdditive(bigVineTexture, Lighting.GetColor((int)(p4.X / 16), (int)(p4.Y / 16)), p4, position, Vector2.Lerp(p4, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.8f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
             }
             if (p5.Y >= 1)
             {
-                Helpers.DrawBezierAdditive(vineTexture, Lighting.GetColor((int)(p5.X / 16), (int)(p5.Y / 16)), p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.9f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
+                Helpers.DrawBezierAdditive(bigVineTexture, Lighting.GetColor((int)(p5.X / 16), (int)(p5.Y / 16)), p5, position, Vector2.Lerp(p5, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 1.9f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
             }
             if (p6.Y >= 1)
             {
-                Helpers.DrawBezierAdditive(vineTexture, Lighting.GetColor((int)(p6.X / 16), (int)(p6.Y / 16)), p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
+                Helpers.DrawBezierAdditive(bigVineTexture, Lighting.GetColor((int)(p6.X / 16), (int)(p6.Y / 16)), p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
             }
 
             if (p1.Y >= 1 && p5.Y >= 1)

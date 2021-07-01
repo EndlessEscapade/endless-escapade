@@ -5,6 +5,7 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ID;
 using EEMod.Prim;
+using EEMod.Extensions;
 
 namespace EEMod.Items.Weapons.Melee
 {
@@ -85,7 +86,7 @@ namespace EEMod.Items.Weapons.Melee
                 else
                 {
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.1f));
-                    EEMod.MainParticles.SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
+                    EEMod.MainParticles.SpawnParticles(projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Gold, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
                 }
                 Vector2 direction = Main.MouseWorld - player.position;
                 direction.Normalize();
@@ -122,7 +123,7 @@ namespace EEMod.Items.Weapons.Melee
                 else
                 {
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.4f));
-                    EEMod.MainParticles.SpawnParticles(projectile.Center + (projectile.velocity * 5), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Cyan, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
+                    EEMod.MainParticles.SpawnParticles(projectile.Center + (projectile.velocity * 5), new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Gold, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.5f));
                     projectile.rotation = projectile.velocity.ToRotation() + 0.78f;
                 }
                 if (projectile.timeLeft == 450)
@@ -181,7 +182,7 @@ namespace EEMod.Items.Weapons.Melee
             if (projectile.ai[0] >= chargeTime)
             {
                 float sineAdd = (float)Math.Sin(alphaCounter) + 2.5f;
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/Extra_49"), projectile.Center - Main.screenPosition, null, new Color((int)(7.5f * sineAdd), (int)(16.5f * sineAdd), (int)(18f * sineAdd), 0), 0f, new Vector2(50, 50), 0.25f * (sineAdd + 1), SpriteEffects.None, 0f);
+                Helpers.DrawAdditive(ModContent.GetTexture("EEMod/Textures/SmoothFadeOut"), projectile.Center.ForDraw(), Color.Gold * sineAdd * 0.5f, 0.25f * (sineAdd + 1) * 2);
             }
             if (projectile.ai[1] != 0)
             {
