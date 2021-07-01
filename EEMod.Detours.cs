@@ -121,13 +121,11 @@ namespace EEMod
 
         private void Main_DrawBackground1(On.Terraria.Main.orig_DrawBackground orig, Main self)
         {
-
             orig(self);
         }
 
         private void Main_DrawWalls(On.Terraria.Main.orig_DrawWalls orig, Main self)
         {
-
             orig(self);
         }
 

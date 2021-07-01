@@ -20,7 +20,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             Main.tileBlendAll[Type] = false;
             Main.tileSolidTop[Type] = false;
             Main.tileNoAttach[Type] = true;
-            AddMapEntry(new Color(68, 89, 195));
+            AddMapEntry(new Color(95, 143, 65));
             //Main.tileCut[Type] = true;
             dustType = DustID.Rain;
             drop = ModContent.ItemType<Kelp>();
