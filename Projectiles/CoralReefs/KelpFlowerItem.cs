@@ -111,34 +111,31 @@ namespace EEMod.Projectiles.CoralReefs
 
             alpha += 0.06f;
 
-            alpha = MathHelper.Clamp(alpha, 0f, 1f);
+            alpha = MathHelper.Clamp(alpha, 0f, 0.6f);
 
             Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), projectile.Center.ForDraw(), Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f) * alpha * ((255 - projectile.alpha) / 255f), 0.9f * projectile.scale, 0.8f);
 
-            if (projectile.ai[1] >= 60)
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
+
+            EEMod.White.CurrentTechnique.Passes[0].Apply();
+            EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));
+            EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));
+
+            alpha2 += 0.03f;
+
+            alpha2 = MathHelper.Clamp(alpha2, 0f, 1f);
+
+            for (int i = 0; i < 4; i++)
             {
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-
-                Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
-
-                EEMod.White.CurrentTechnique.Passes[0].Apply();
-                EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));
-                EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));
-
-                alpha2 += 0.03f;
-
-                alpha2 = MathHelper.Clamp(alpha2, 0f, 1f);
-
-                for (int i = 0; i < 4; i++)
-                {
-                    Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha2 / 1) * ((255 - projectile.alpha) / 255f));
-                    spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - projectile.alpha) / 255f), projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
-                }
-
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha2 / 1) * ((255 - projectile.alpha) / 255f));
+                spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - projectile.alpha) / 255f), projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
             }
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             Main.spriteBatch.Draw(tex, pos, tex.Bounds, Color.White, 0f, tex.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
 

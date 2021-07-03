@@ -73,9 +73,9 @@ namespace EEMod
             Vector2 p6Mid = Helpers.TraverseBezier(p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), 0.5f);
 
 
-            Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/LightBlue");
-            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Vine");
-            Texture2D bigVineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/BigVine");
+            Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Textures/LightBlue");
+            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Textures/Vine");
+            Texture2D bigVineTexture = ModContent.GetInstance<EEMod>().GetTexture("Textures/BigVine");
 
             float cockandbol = 0.75f;
             if (p1.Y >= 1)

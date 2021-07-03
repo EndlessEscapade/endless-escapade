@@ -46,14 +46,5 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
 
             return false;
         }
-
-        public override void Kill(int timeLeft)
-        {
-            for (var a = 0; a < 2; a++)
-            {
-                int index = Dust.NewDust(projectile.Center, 22, 22, DustID.Gold, 0, 0);
-                Main.dust[index].noGravity = true;
-            }
-        }
     }
 }

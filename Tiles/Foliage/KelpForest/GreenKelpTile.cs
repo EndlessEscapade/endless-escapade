@@ -22,7 +22,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             Main.tileNoAttach[Type] = true;
             AddMapEntry(new Color(95, 143, 65));
             //Main.tileCut[Type] = true;
-            dustType = DustID.Rain;
+            dustType = DustID.Plantera_Green;
             drop = ModContent.ItemType<Kelp>();
             soundStyle = SoundID.Grass;
             mineResist = 1f;
