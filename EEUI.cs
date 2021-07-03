@@ -48,10 +48,10 @@ namespace EEMod
         }
         public override void UpdateUI(GameTime gameTime)
         {
+            base.UpdateUI(gameTime);
             UI.Update(gameTime);
             lastGameTime = gameTime;
             UIControls();
-            base.UpdateUI(gameTime);
         }
         public void UIControls()
         {
