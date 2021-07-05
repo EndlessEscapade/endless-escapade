@@ -22,10 +22,5 @@ namespace EEMod.Items.Armor.Kelpweaver
             item.rare = ItemRarityID.Orange;
             item.defense = 7;
         }
-
-        public override void UpdateEquip(Player player)
-        {
-            player.allDamage += 0.09f;
-        }
     }
 }

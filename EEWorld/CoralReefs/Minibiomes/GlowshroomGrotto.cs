@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Tiles.Foliage.GlowshroomGrotto;
+using EEMod.Tiles;
+using EEMod.EEWorld;
 using static EEMod.EEWorld.EEWorld;
 
 namespace EEMod.EEWorld
@@ -93,6 +95,14 @@ namespace EEMod.EEWorld
                         if (!Framing.GetTileSafely(i, j + a).active())
                             WorldGen.PlaceTile(i, j + a, ModContent.TileType<GlowshroomVines>());
                     }
+                }
+            });
+
+            BoundClause((int i, int j) =>
+            {
+                if(Framing.GetTileSafely(i, j).type != ModContent.TileType<LightGemsandTile>() && Framing.GetTileSafely(i, j).type != ModContent.TileType<VibrantMycelium>() && Framing.GetTileSafely(i, j).active() && !Main.tileSolid[Framing.GetTileSafely(i, j).type])
+                {
+                    EEWorld.SolidTileRunner(i, j, 3, 10, ModContent.TileType<VibrantMycelium>(), false, 0, 0, false, true);
                 }
             });
         }

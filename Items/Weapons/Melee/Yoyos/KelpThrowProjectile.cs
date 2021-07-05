@@ -4,6 +4,8 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Extensions;
+using System.Collections.Generic;
 
 namespace EEMod.Items.Weapons.Melee.Yoyos
 {
@@ -11,24 +13,18 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
     {
         public override void SetStaticDefaults()
         {
-            // The following sets are only applicable to yoyo that use aiStyle 99.
-            // YoyosLifeTimeMultiplier is how long in seconds the yoyo will stay out before automatically returning to the player.
-            // Vanilla values range from 3f(Wood) to 16f(Chik), and defaults to -1f. Leaving as -1 will make the time infinite.
             ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
-            // YoyosMaximumRange is the maximum distance the yoyo sleep away from the player.
-            // Vanilla values range from 130f(Wood) to 400f(Terrarian), and defaults to 200f
+
             ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 180f;
-            // YoyosTopSpeed is top speed of the yoyo projectile.
-            // Vanilla values range from 9f(Wood) to 17.5f(Terrarian), and defaults to 10f
+
             ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 12f;
         }
 
         public override void SetDefaults()
         {
             projectile.extraUpdates = 0;
-            projectile.width = 16;
-            projectile.height = 16;
-            // aiStyle 99 is used for all yoyos, and is Extremely suggested, as yoyo are extremely difficult without them
+            projectile.width = 18;
+            projectile.height = 18;
             projectile.aiStyle = 99;
             projectile.friendly = true;
             projectile.penetrate = -1;
@@ -43,17 +39,8 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         // ai[0] is -1f once YoyosLifeTimeMultiplier is reached, when the player is stoned/frozen, when the yoyo is too far away, or the player is no longer clicking the shoot button.
         // ai[0] being negative makes the yoyo move back towards the player
         // Any AI method can be used for dust, spawning projectiles, etc specific to your yoyo.
-        private Vector2 closestNPCPos;
 
-        private void Trail(Vector2 from, Vector2 to, float scale)
-        {
-            float distance = Vector2.Distance(from, to);
-            float step = 1 / distance;
-            for (float w = 0; w < distance; w += 4)
-            {
-                Dust.NewDustPerfect(Vector2.Lerp(from, to, w * step), 16, Vector2.Zero, 0, default, scale).noGravity = true;
-            }
-        }
+        private Vector2 closestNPCPos;
 
         private Vector2 center;
 
@@ -72,10 +59,6 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
                 projectile.ai[1] = 1 - Vector2.Distance(projectile.Center, closestNPCPos) / 200f;
                 if (Main.myPlayer == projectile.owner)
                 {
-                    if (center != Vector2.Zero)
-                    {
-                        Trail(center, projectile.Center, 1 - Vector2.Distance(projectile.Center, closestNPCPos) / 200f);
-                    }
                     if (alphaCounter % 3 <= 0.04f)
                     {
                         int pieCut = Main.rand.Next(6, 8);
@@ -85,6 +68,8 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
                             Main.projectile[projID].velocity = new Vector2(0.5f, 0f).RotatedBy(m / (float)pieCut * Math.PI * 2);
                             Main.projectile[projID].netUpdate = true;
                         }
+
+                        rings.Add(new KelpRing(projectile.Center));
                     }
                 }
             }
@@ -102,8 +87,67 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
             Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), projectile.Center - Main.screenPosition, null, new Color((int)(18f * sineAdd), (int)(12f * sineAdd), (int)(2f * sineAdd), 0), 0f, new Vector2(75, 75), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
-            
+
+            DrawRings(spriteBatch);
+
             return base.PreDraw(spriteBatch, lightColor);
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            float sineAdd = (float)Math.Sin(alphaCounter) + 3;
+
+            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Items/Weapons/Melee/Yoyos/KelpThrowGlow");
+            Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), null, Color.White * sineAdd, projectile.rotation, tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
+        }
+
+        private readonly List<KelpRing> rings = new List<KelpRing>();
+
+        private void DrawRings(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < rings.Count; i++)
+            {
+                KelpRing ring = rings[i];
+
+                ring.Update();
+                ring.Draw(spriteBatch);
+
+                rings[i] = ring;
+
+                if (ring.Alpha <= 0f)
+                {
+                    rings.RemoveAt(i);
+                }
+            }
+        }
+
+        private struct KelpRing
+        {
+            public Vector2 Position;
+
+            public float Scale;
+
+            public float Alpha;
+
+            public KelpRing(Vector2 position)
+            {
+                Position = position;
+                Scale = 0f;
+                Alpha = 1f;
+            }
+
+            public void Update()
+            {
+                Scale += 0.02f;
+                Alpha -= 0.01f;
+            }
+
+            public void Draw(SpriteBatch spriteBatch)
+            {
+                Texture2D ring = ModContent.GetTexture("EEMod/Textures/inverseradial");
+
+                Helpers.DrawAdditive(ring, Position.ForDraw(), Color.Gold * Alpha, Scale);
+            }
         }
     }
 }

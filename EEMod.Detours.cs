@@ -121,13 +121,11 @@ namespace EEMod
 
         private void Main_DrawBackground1(On.Terraria.Main.orig_DrawBackground orig, Main self)
         {
-
             orig(self);
         }
 
         private void Main_DrawWalls(On.Terraria.Main.orig_DrawWalls orig, Main self)
         {
-
             orig(self);
         }
 
@@ -324,7 +322,7 @@ namespace EEMod
         float bgAlpha;
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
-            if (Main.worldName == KeyID.CoralReefs)
+            if (Main.worldName == KeyID.CoralReefs && !Main.gameMenu)
             {
                 if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                 {

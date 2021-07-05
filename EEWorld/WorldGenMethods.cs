@@ -2255,5 +2255,213 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
+        public static void SolidTileRunner(int i, int j, double strength, int steps, int type, bool addTile = false, float speedX = 0f, float speedY = 0f, bool noYChange = false, bool overRide = true, int ignoreTileType = -1)
+        {
+            double num = strength;
+            float num2 = steps;
+
+            Vector2 vector = default(Vector2);
+            vector.X = i;
+            vector.Y = j;
+
+            Vector2 vector2 = default(Vector2);
+            vector2.X = (float)WorldGen.genRand.Next(-10, 11) * 0.1f;
+            vector2.Y = (float)WorldGen.genRand.Next(-10, 11) * 0.1f;
+
+            if (speedX != 0f || speedY != 0f)
+            {
+                vector2.X = speedX;
+                vector2.Y = speedY;
+            }
+
+            while (num > 0.0 && num2 > 0f)
+            {
+                if (vector.Y < 0f && num2 > 0f && type == 59)
+                {
+                    num2 = 0f;
+                }
+                num = strength * (double)(num2 / (float)steps);
+                num2 -= 1f;
+                int num3 = (int)((double)vector.X - num * 0.5);
+                int num4 = (int)((double)vector.X + num * 0.5);
+                int num5 = (int)((double)vector.Y - num * 0.5);
+                int num6 = (int)((double)vector.Y + num * 0.5);
+                if (num3 < 1)
+                {
+                    num3 = 1;
+                }
+                if (num4 > Main.maxTilesX - 1)
+                {
+                    num4 = Main.maxTilesX - 1;
+                }
+                if (num5 < 1)
+                {
+                    num5 = 1;
+                }
+                if (num6 > Main.maxTilesY - 1)
+                {
+                    num6 = Main.maxTilesY - 1;
+                }
+                for (int k = num3; k < num4; k++)
+                {
+                    for (int l = num5; l < num6; l++)
+                    {
+                        if (overRide || !Main.tile[k, l].active())
+                        {
+                            if (Main.tileSolid[Main.tile[k, l].type] == true)
+                            {
+                                Main.tile[k, l].type = (ushort)type;
+                            }
+                        }
+                        if (addTile)
+                        {
+                            Main.tile[k, l].active(active: true);
+                            Main.tile[k, l].liquid = 0;
+                            Main.tile[k, l].lava(lava: false);
+                        }
+                    }
+                }
+                vector += vector2;
+
+                if ((WorldGen.genRand.NextBool(3)) && num > 50.0)
+                {
+                    vector += vector2;
+                    num2 -= 1f;
+                    vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                    vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                    if (num > 100.0)
+                    {
+                        vector += vector2;
+                        num2 -= 1f;
+                        vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                        vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                        if (num > 150.0)
+                        {
+                            vector += vector2;
+                            num2 -= 1f;
+                            vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                            vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                            if (num > 200.0)
+                            {
+                                vector += vector2;
+                                num2 -= 1f;
+                                vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                if (num > 250.0)
+                                {
+                                    vector += vector2;
+                                    num2 -= 1f;
+                                    vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                    vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                    if (num > 300.0)
+                                    {
+                                        vector += vector2;
+                                        num2 -= 1f;
+                                        vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                        vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                        if (num > 400.0)
+                                        {
+                                            vector += vector2;
+                                            num2 -= 1f;
+                                            vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                            vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                            if (num > 500.0)
+                                            {
+                                                vector += vector2;
+                                                num2 -= 1f;
+                                                vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                if (num > 600.0)
+                                                {
+                                                    vector += vector2;
+                                                    num2 -= 1f;
+                                                    vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                    vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                    if (num > 700.0)
+                                                    {
+                                                        vector += vector2;
+                                                        num2 -= 1f;
+                                                        vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                        vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                        if (num > 800.0)
+                                                        {
+                                                            vector += vector2;
+                                                            num2 -= 1f;
+                                                            vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                            vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                            if (num > 900.0)
+                                                            {
+                                                                vector += vector2;
+                                                                num2 -= 1f;
+                                                                vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                                vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                vector2.X += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+
+                if (vector2.X > 1f)
+                {
+                    vector2.X = 1f;
+                }
+                if (vector2.X < -1f)
+                {
+                    vector2.X = -1f;
+                }
+                if (!noYChange)
+                {
+                    vector2.Y += (float)WorldGen.genRand.Next(-10, 11) * 0.05f;
+                    if (vector2.Y > 1f)
+                    {
+                        vector2.Y = 1f;
+                    }
+                    if (vector2.Y < -1f)
+                    {
+                        vector2.Y = -1f;
+                    }
+                }
+                else if (type != 59 && num < 3.0)
+                {
+                    if (vector2.Y > 1f)
+                    {
+                        vector2.Y = 1f;
+                    }
+                    if (vector2.Y < -1f)
+                    {
+                        vector2.Y = -1f;
+                    }
+                }
+                if (type == 59 && !noYChange)
+                {
+                    if ((double)vector2.Y > 0.5)
+                    {
+                        vector2.Y = 0.5f;
+                    }
+                    if ((double)vector2.Y < -0.5)
+                    {
+                        vector2.Y = -0.5f;
+                    }
+                    if ((double)vector.Y < Main.rockLayer + 100.0)
+                    {
+                        vector2.Y = 1f;
+                    }
+                    if (vector.Y > (float)(Main.maxTilesY - 300))
+                    {
+                        vector2.Y = -1f;
+                    }
+                }
+            }
+        }
     }
 }

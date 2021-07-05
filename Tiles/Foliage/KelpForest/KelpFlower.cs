@@ -31,13 +31,13 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
 
-            TileObjectData.newTile.Width = 4;
+            TileObjectData.newTile.Width = 5;
             TileObjectData.newTile.Height = 4;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 18 };
             TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
+            TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<KelpFlowerTE>().Hook_AfterPlacement, -1, 0, true);
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.LavaDeath = false;
@@ -45,23 +45,40 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Kelpblossom");
-            AddMapEntry(new Color(255, 168, 28), name);
-            dustType = DustID.Silver;
+            AddMapEntry(Color.DarkMagenta, name);
+            dustType = DustID.PurpleTorch;
             disableSmartCursor = true;
-            animationFrameHeight = 72;
+            animationFrameHeight = 66;
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            int x = i - tile.frameX / 18 % 4;
-            int y = j - tile.frameY / 18 % 4;
+            int x = i - tile.frameX / 16 % 5;
+            int y = j - tile.frameY / 16 % 4;
 
             int targetTe = ModContent.GetInstance<KelpFlowerTE>().Find(x, y);
             if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE TE)
             {
                 frameYOffset = (animationFrameHeight * TE._frame);
+            }
+
+            if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE kelpFlowerEntity)
+            {
+                if (kelpFlowerEntity._frame > 6 && !kelpFlowerEntity.isOpen)
+                {
+                    Color chosen = Color.Lerp(Color.Gold, Color.LightYellow, Main.rand.NextFloat(1f));
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.25f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.075f, 0.075f), Main.rand.NextFloat(-1f, -3f)), mod.GetTexture("Particles/SmallCircle"), 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                }
+
+                if (kelpFlowerEntity.isOpen)
+                {
+                    Color chosen = Color.Lerp(Color.Gold, Color.LightYellow, Main.rand.NextFloat(1f));
+                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0075f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.05f, 0.05f), Main.rand.NextFloat(-0.5f, -1f)), mod.GetTexture("Particles/SmallCircle"), 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                }
             }
         }
 
@@ -74,13 +91,14 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            int x = i - tile.frameX / 18 % 4;
-            int y = j - tile.frameY / 18 % 4;
+            int x = i - tile.frameX / 16 % 4;
+            int y = j - tile.frameY / 16 % 4;
 
             int targetTe = ModContent.GetInstance<KelpFlowerTE>().Find(x, y);
             if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE TE)
             {
-                TE.isOpening = true;
+                if(TE._frame == 0)
+                    TE.isOpening = true;
             }
 
             return true;
@@ -119,10 +137,10 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
         public override void Update()
         {
-            if(isOpen && (myItem == null || myItem.active == false) && !itemDeployed && isOpening)
+            if(isOpening && (myItem == null || myItem.active == false) && !itemDeployed && _frame > 5)
             {
                 Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/KelpFlowerOpen"));
-                myItem = Projectile.NewProjectileDirect(new Vector2((Position.X * 16) + 32, Position.Y * 16), new Vector2(0, -2.5f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f, default, ChooseItem());
+                myItem = Projectile.NewProjectileDirect(new Vector2((Position.X * 16) + 32, (Position.Y * 16) + 24), new Vector2(0, -2.5f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f, default, ChooseItem());
                 itemDeployed = true;
             }
 
@@ -135,7 +153,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             if (isOpening && !isOpen)
             {
                 _frameCounter++;
-                if (_frame < 3 && _frameCounter > 4)
+                if (_frame < 10 && _frameCounter > 4)
                 {
                     _frame++;
                     _frameCounter = 0;
@@ -152,7 +170,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 }
             }
 
-            if (_frame == 3)
+            if (_frame == 10)
             {
                isOpen = true;
             }

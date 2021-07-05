@@ -30,7 +30,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Lamp");
-            AddMapEntry(new Color(0, 100, 200), name);
+            AddMapEntry(new Color(95, 143, 65), name);
             dustType = DustID.Dirt;
         }
 

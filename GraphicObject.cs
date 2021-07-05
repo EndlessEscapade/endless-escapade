@@ -47,7 +47,7 @@ namespace EEMod
 
         public static void LazyAppendInBoids<T>(ref List<T> sea, int maxBoidCount) where T : GraphicObject, new()
         {
-            Vector2 Pos = new Vector2(Main.rand.Next(Main.screenWidth), 1200);
+            Vector2 Pos = new Vector2(Main.rand.Next(Main.screenWidth), Main.screenPosition.Y + Main.screenHeight);
             List<Vector2> PosBuffer = new List<Vector2>();
             for (int i = 0; i < maxBoidCount; i++)
             {
