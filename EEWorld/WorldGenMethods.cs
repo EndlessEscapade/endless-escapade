@@ -107,7 +107,7 @@ namespace EEMod.EEWorld
 
         public static float[] PerlinArray(int width, int seedVar, float amplitude, Vector2 res)
         {
-            PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f);
+            PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f, WorldGen.genRand);
             int rand = Main.rand.Next(0, seedVar);
             float[] PerlinStrip = new float[width];
             for (int i = 0; i < width; i++)
@@ -119,7 +119,7 @@ namespace EEMod.EEWorld
 
         public static float[] PerlinArrayNoZero(int width, float amplitude, Vector2 res, int seedVar = 1000)
         {
-            PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f);
+            PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f,WorldGen.genRand);
             int rand = Main.rand.Next(0, seedVar);
             float[] PerlinStrip = new float[width];
             for (int i = 0; i < width; i++)
@@ -1372,7 +1372,7 @@ namespace EEMod.EEWorld
         }
         public static void MakeIsland(int width, int height, Vector2 Middle, int type)
         {
-            PerlinNoiseFunction PN = new PerlinNoiseFunction(width * 2, height * 2, 10, 10, 0.5f);
+            PerlinNoiseFunction PN = new PerlinNoiseFunction(width * 2, height * 2, 10, 10, 0.5f, WorldGen.genRand);
             for (int i = -width; i < width; i++)
             {
                 for (int j = -height; j < height; j++)
@@ -1653,7 +1653,7 @@ namespace EEMod.EEWorld
         }
         public static void MakeNoiseOval(int width, int height, Vector2 startingPoint, int type, bool forced = false, int chance = 1)
         {
-            perlinNoise = new PerlinNoiseFunction(2000, 2000, 50, 50, 0.5f);
+            perlinNoise = new PerlinNoiseFunction(2000, 2000, 50, 50, 0.5f, WorldGen.genRand);
             float[,] pFunction = perlinNoise.perlin2;
             for (int i = 0; i < width; i++)
             {
@@ -1688,7 +1688,7 @@ namespace EEMod.EEWorld
 
         public static void NoiseGen(Vector2 topLeft, Vector2 size, Vector2 dimensions, float thresh, ushort type, NoiseConditions noiseFilter = null)
         {
-            perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
+            perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh, WorldGen.genRand);
             int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
             for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
             {
@@ -1705,7 +1705,7 @@ namespace EEMod.EEWorld
 
         public static void NoiseGenWave(Vector2 topLeft, Vector2 size, Vector2 dimensions, ushort type, float thresh, NoiseConditions noiseFilter = null)
         {
-            PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh);
+            PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh, WorldGen.genRand);
             int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
             float[] disp = PerlinArrayNoZero((int)size.X, size.Y * 0.5f, new Vector2(50, 100));
             for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)

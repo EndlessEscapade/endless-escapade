@@ -1,6 +1,6 @@
 ﻿namespace EEMod
 {
-    partial class Helpers
+    partial class Helpers // these methods were for getting obejects from a object[] array similar to calls
     {
         public static bool GetArgsOrDefault<T>(object[] args, out T val) => TryGetFromArray(args, 0, out val);
 

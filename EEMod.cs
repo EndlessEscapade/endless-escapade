@@ -2,11 +2,17 @@
 using EEMod.Effects;
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Items.Dyes;
+using EEMod.MachineLearning;
 using EEMod.Net;
 using EEMod.NPCs.CoralReefs;
+using EEMod.Prim;
+using EEMod.Seamap.SeamapContent;
 using EEMod.Skies;
-using EEMod.UI.States;
+using EEMod.Systems;
+using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles.Furniture;
+using EEMod.UI.States;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,20 +21,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
-using Terraria.Localization;
+using Terraria.Localization; // :sadge:
 using Terraria.ModLoader;
-using Terraria.UI;
+using Terraria.UI;// l a g
 using Terraria.World.Generation;
-using EEMod.Seamap.SeamapContent;
-using EEMod.MachineLearning;
-using EEMod.Tiles.EmptyTileArrays;
-using EEMod.Items.Dyes;
-using EEMod.Prim;
-using Terraria.DataStructures;
-using EEMod.Systems;
 
 namespace EEMod
 {
@@ -43,7 +43,7 @@ namespace EEMod
         public static ModHotKey Inspect;
         public static ModHotKey ActivateVerletEngine;
         public static ModHotKey Train;
-        public static Effect Noise2D;
+        public static Noise2D Noise2D;
         public static Effect White;
         public static Effect Colorify;
         public static ParticleZoneHandler Particles;
@@ -84,7 +84,7 @@ namespace EEMod
                 UI.AddInterface("IndicatorsInterface");
                 UI.AddUIState("IndicatorsUI", IndicatorsUI);
 
-                Noise2D = GetEffect("Effects/Noise2D");
+                Noise2D = new Noise2D(GetEffect("Effects/Noise2D"));
                 primitives = new PrimTrailManager();
             }
             //HandwritingCNN = new Handwriting();
@@ -177,6 +177,7 @@ namespace EEMod
             UnloadUI();
             AutoloadingManager.UnloadManager(this);
             Noise2DShift = null;
+            //BufferPool.ClearBuffers();
             Main.logo2Texture = ModContent.GetTexture("Terraria/Logo2");
             Main.logoTexture = ModContent.GetTexture("Terraria/Logo");
             Main.sun2Texture = ModContent.GetTexture("Terraria/Sun2");
@@ -214,7 +215,8 @@ namespace EEMod
         //Mechanic Port
         public override void PreUpdateEntities()
         {
-            MechanicManager.PreUpdateEntities();
+            base.PreUpdateEntities();
+            MechanicManager.PreUpdateEntities();      
         }
 
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
@@ -228,7 +230,7 @@ namespace EEMod
                     {
                         UI.Draw(lastGameTime);
                         UpdateGame(lastGameTime);
-                        AfterTiles?.Invoke(Main.spriteBatch);
+                        AfterTiles?.Invoke(Main.spriteBatch); 
                         UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {

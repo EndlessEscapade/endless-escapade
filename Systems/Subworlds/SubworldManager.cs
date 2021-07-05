@@ -31,7 +31,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal static EEServerState serverState = EEServerState.None;
 
-        public static Process LinuxModServer = new Process();
+        //public static Process LinuxModServer = new Process();
 
         public static int lastSeed;
 
@@ -210,11 +210,11 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             }
             if (threadContext != null)
             {
-                if(threadContext is Subworld sub)
-                EnterSub(sub);
+                if (threadContext is Subworld sub)
+                    EnterSub(sub);
 
                 if (threadContext is string subN)
-                EnterSub(subN);
+                    EnterSub(subN);
             }
         }
 
@@ -279,7 +279,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             return existing;
         }
-        public static string SubworldPath => $@"{Main.SavePath}\Worlds\EESubworlds_Temp";
+        public static string SubworldPath => Path.Combine(Main.SavePath,"Worlds","EESubworlds_Temp");
         private static void OnWorldNamed(object subworld)
         {
             string Name = "";
@@ -287,24 +287,25 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             if (subworld is Subworld sub) Name = sub.Name;
             if (subworld is string subN) Name = subN;
 
-            if (Name != Main.LocalPlayer.GetModPlayer<SubworldPlayer>().PrimaryWorldName && subworld is Subworld Subworld)
+            SubworldPlayer subworldPlayer = Main.LocalPlayer.GetModPlayer<SubworldPlayer>();
+            if (Name != subworldPlayer.PrimaryWorldName && subworld is Subworld Subworld)
             {
-                Main.LocalPlayer.GetModPlayer<SubworldPlayer>().InSubworld = true;
-                Main.LocalPlayer.GetModPlayer<SubworldPlayer>().CurrentSubworld = Subworld;
+                subworldPlayer.InSubworld = true;
+                subworldPlayer.CurrentSubworld = Subworld;
 
-                EEPath = $@"{SubworldPath}\{Main.LocalPlayer.GetModPlayer<SubworldPlayer>().PrimaryWorldName}Subworlds";
+                EEPath = Path.Combine(SubworldPath, subworldPlayer.PrimaryWorldName + "Subworlds");
 
                 if (!Directory.Exists(EEPath))
                 {
                     Directory.CreateDirectory(EEPath);
                 }
 
-                string EESubworldPath = $@"{EEPath}\{Name}.wld";
+                string EESubworldPath = Path.Combine(EEPath, Name + ".wld");
 
                 Main.ActiveWorldFileData = WorldFile.GetAllMetadata(EESubworldPath, false);
                 Main.ActivePlayerFileData.SetAsActive();
 
-                if (!File.Exists(EESubworldPath) )
+                if (!File.Exists(EESubworldPath))
                 {
                     CreateNewWorld(Subworld);
 
@@ -316,8 +317,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             }
             else
             {
-                Main.LocalPlayer.GetModPlayer<SubworldPlayer>().InSubworld = false;
-                Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{EEPath}\{Name}.wld", false);
+                subworldPlayer.InSubworld = false;
+                Main.ActiveWorldFileData = WorldFile.GetAllMetadata(Path.Combine(EEPath, Name + ".wld"), false);
                 Main.ActivePlayerFileData.SetAsActive();
             }
 
@@ -348,7 +349,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         private void ReturnOnName(string text)
         {
-            Main.ActiveWorldFileData = WorldFile.GetAllMetadata($@"{Main.SavePath}\Worlds\{text}.wld", false);
+            Main.ActiveWorldFileData = WorldFile.GetAllMetadata(Path.Combine(Main.SavePath, "Worlds", text + ".wld"), false);
             WorldGen.playWorld();
         }
 

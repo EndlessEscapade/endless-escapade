@@ -56,7 +56,7 @@ namespace EEMod
             return NormalSpawn(spawnInfo) && NoBiome(spawnInfo) && NoZone(spawnInfo);
         }
 
-        #endregion Spawn helpers
+        #endregion // Spawn helpers
 
         public static Vector2 RandomPosition(Vector2 pos1, Vector2 pos2)
         {

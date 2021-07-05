@@ -122,6 +122,11 @@ namespace EEMod.Systems
 
         public virtual void PreUpdateEntities() { }
 
+        /// <summary>
+        /// Called at <see cref="EEMod.UpdateMusic(ref int, ref MusicPriority)"/>
+        /// </summary>
+        /// <param name="music"></param>
+        /// <param name="priority"></param>
         public virtual void UpdateMusic(ref int music, ref MusicPriority priority)
         {
 
