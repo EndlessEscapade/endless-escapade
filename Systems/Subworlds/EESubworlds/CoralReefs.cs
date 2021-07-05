@@ -47,6 +47,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void WorldGeneration(int seed, GenerationProgress customProgressObject = null)
         {
+            var rand = WorldGen.genRand;
             EEMod.progressMessage = "Generating Coral Reefs";
 
             //Variables and Initialization stuff
@@ -102,8 +103,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                 if (WorldGen.genRand.NextBool(200))
                 {
-                    int width = Main.rand.Next(40, 60);
-                    int height = Main.rand.Next(20, 25);
+                    int width = rand.Next(40, 60);
+                    int height = rand.Next(20, 25);
                     MakeOvalJaggedTop(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
 
                     MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
@@ -144,7 +145,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 if (upperRoomPositions[i].Y > upperRoomPositions[lowestUpperRoom].Y) lowestUpperRoom = i;
             }
 
-            MakeWavyChasm3(upperRoomPositions[highestUpperRoom], new Vector2(upperRoomPositions[highestUpperRoom].X + Main.rand.Next(-100, 100), 0), TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
+            MakeWavyChasm3(upperRoomPositions[highestUpperRoom], new Vector2(upperRoomPositions[highestUpperRoom].X + rand.Next(-100, 100), 0), TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
 
             float dist = 1000000;
             int closestLowerRoom = 0;
@@ -220,7 +221,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             for (int i = 0; i < upperRoomPositions.Length; i++)
             {
-                EEMod.progressMessage = "Generating rooms pt. 1 " + (i * 100 / upperRoomPositions.Length) + "%";
+                EEMod.progressMessage = "Generating rooms pt. 1 " + (i * 100f / upperRoomPositions.Length) + "%";
                 MakeCoralRoom((int)upperRoomPositions[i].X, (int)upperRoomPositions[i].Y, 100, 50, biomes[i]);
             }
 
@@ -229,7 +230,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 int biome = biomes[j + (upperRoomPositions.Length - 1)];
                 if (biome > 0) biome += 2;
 
-                EEMod.progressMessage = "Generating rooms pt. 2 " + (j * 100 / lowerRoomPositions.Length) + "%";
+                EEMod.progressMessage = "Generating rooms pt. 2 " + (j * 100f / lowerRoomPositions.Length) + "%";
                 MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 100, 50, biome);
             }
 
@@ -303,7 +304,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 #region Placing moss and seagrass
                 EEMod.progressMessage = "Mossifying";
 
-                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.8f);
+                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.8f, rand);
                 int[,] perlinNoiseFunction2 = perlinNoise.perlinBinary;
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
@@ -348,12 +349,12 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    if (Main.rand.NextBool(4))
+                    if (rand.NextBool(4))
                     {
                         if (TileCheck(i, ModContent.TileType<CoralSandTile>()) > TileCheckWater(i) && !Framing.GetTileSafely(i, TileCheck(i, ModContent.TileType<CoralSandTile>()) - 1).active())
                         {
                             int ballfart = TileCheck(i, ModContent.TileType<CoralSandTile>());
-                            int random = Main.rand.Next(4, 15);
+                            int random = rand.Next(4, 15);
 
                             for (int j = 1; j < random; j++)
                             {

@@ -112,6 +112,8 @@ namespace EEMod.Extensions
             return (result = default) != null;
         }
 
+        public static MethodInfo GetMethod(this Type type, string name, BindingFlags flags, Type[] types) => type.GetMethod(name, flags, null, types, null);
+
         public static ConstructorInfo DefaultConstructor(this Type type, bool nonPublic = false) => nonPublic ? type.GetConstructor(Helpers.FlagsInstance, null, Type.EmptyTypes, null) : type.GetConstructor(Type.EmptyTypes);
 
         public static bool CouldBeInstantiated(this Type type) => type.IsValueType || !type.IsAbstract && (type.IsGenericType == type.IsConstructedGenericType);
