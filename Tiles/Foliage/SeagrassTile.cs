@@ -40,11 +40,6 @@ namespace EEMod.Tiles.Foliage
             TileObjectData.addTile(Type);
         }
 
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-        {
-
-        }
-
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
             if (Main.tile[i, j + 1].type != ModContent.TileType<SeagrassTile>() && Main.tile[i, j + 1].type != ModContent.TileType<CoralSandTile>())

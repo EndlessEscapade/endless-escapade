@@ -348,46 +348,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
-                for (int i = 42; i < Main.maxTilesX - 42; i++)
-                {
-                    if (WorldGen.genRand.NextBool(4))
-                    {
-                        if (TileCheck(i, ModContent.TileType<CoralSandTile>()) > depth)
-                        {
-                            int ballfart = TileCheck(i, ModContent.TileType<CoralSandTile>());
-
-                            int random = WorldGen.genRand.Next(4, 15);
-
-                            for (int j = 1; j < random; j++)
-                            {
-                                if (Framing.GetTileSafely(i, ballfart - j).active() || Framing.GetTileSafely(i, ballfart - j).liquid < 64) break;
-
-                                WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>());
-                            }
-                        }
-                    }
-                }
-
-                for (int i = 42; i < Main.maxTilesX - 42; i++)
-                {
-                    if (WorldGen.genRand.NextBool(6))
-                    {
-                        if (!Framing.GetTileSafely(i, TileCheckWater(i) - 1).active())
-                        {
-                            int ballfart = TileCheckWater(i);
-
-                            switch (WorldGen.genRand.Next(2))
-                            {
-                                case 0:
-                                    WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadSmol>());
-                                    break;
-                                case 1:
-                                    WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadMedium>());
-                                    break;
-                            }
-                        }
-                    }
-                }
                 #endregion
 
                 #region Implementing dynamic objects
@@ -487,12 +447,54 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 #region Placing the boat
                 EEMod.progressMessage = "Placing boat";
 
-                int watercheck = TileCheckWater(boatPos) - 22;
-                RemoveWaterFromRegion(ShipTiles.GetLength(1), ShipTiles.GetLength(0), new Vector2(boatPos, watercheck));
+                int watercheck = depth - 22;
 
                 PlaceShipWalls(boatPos, watercheck, ShipWalls);
                 PlaceShip(boatPos, watercheck, ShipTiles);
                 CoralBoatPos = new Vector2(boatPos, watercheck);
+
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                {
+                    if (WorldGen.genRand.NextBool(4))
+                    {
+                        if (TileCheck(i, ModContent.TileType<CoralSandTile>()) > depth)
+                        {
+                            int ballfart = TileCheck(i, ModContent.TileType<CoralSandTile>());
+
+                            int random = WorldGen.genRand.Next(4, 15);
+
+                            for (int j = 1; j < random; j++)
+                            {
+                                if (Framing.GetTileSafely(i, ballfart - j).active() || Framing.GetTileSafely(i, ballfart - j).liquid < 64) break;
+
+                                WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>());
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                {
+                    if (WorldGen.genRand.NextBool(6))
+                    {
+                        if (!Framing.GetTileSafely(i, TileCheckWater(i) - 1).active() && !Framing.GetTileSafely(i, TileCheckWater(i)).active() && !Framing.GetTileSafely(i, TileCheckWater(i + 1)).active())
+                        {
+                            int ballfart = TileCheckWater(i);
+
+                            switch (WorldGen.genRand.Next(2))
+                            {
+                                case 0:
+                                    WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadSmol>());
+                                    break;
+                                case 1:
+                                    WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadMedium>());
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+                RemoveWaterFromRegion(ShipTiles.GetLength(1), ShipTiles.GetLength(0), new Vector2(boatPos, watercheck));
 
                 #endregion
             }
@@ -509,7 +511,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             EEMod.isSaving = false;
 
             Main.spawnTileX = boatPos;
-            Main.spawnTileY = TileCheckWater(boatPos) - 22;
+            Main.spawnTileY = depth - 22;
 
             EEMod.progressMessage = null;
         }

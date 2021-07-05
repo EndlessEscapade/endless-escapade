@@ -62,14 +62,14 @@ namespace EEMod.Items.Armor.StormKnight
     {
         public static readonly PlayerLayer StormKnightCrestGlow = new PlayerLayer("EEMod", "StormKnightCrest", PlayerLayer.Head, delegate (PlayerDrawInfo drawInfo)
         {
-            Texture2D glow = ModContent.GetTexture("EEMod/Items/Armor/StormKnight/StormKnightCrestGlow");
+            /*Texture2D glow = ModContent.GetTexture("EEMod/Items/Armor/StormKnight/StormKnightCrestGlow");
 
             Player player = drawInfo.drawPlayer;
 
             DrawData data = new DrawData(glow, player.position - Main.screenPosition, new Rectangle(0, player.headFrame.Y, 40, 56), Color.Green, player.headRotation, Vector2.Zero, 1f, player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
             Main.NewText("" + player.headFrameCounter);
-            Main.playerDrawData.Add(data);
+            Main.playerDrawData.Add(data);*/
         });
 
         public override void ModifyDrawLayers(List<PlayerLayer> layers)
