@@ -1,6 +1,9 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Extensions;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -10,13 +13,10 @@ namespace EEMod.NPCs.CoralReefs
         {
             DisplayName.SetDefault("Sea Slug");
             Main.npcCatchable[npc.type] = true;
-            Main.npcFrameCount[npc.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 67;
-
             npc.friendly = true;
 
             npc.HitSound = SoundID.NPCHit25;
@@ -26,6 +26,9 @@ namespace EEMod.NPCs.CoralReefs
 
             npc.lavaImmune = false;
             npc.noTileCollide = false;
+
+            npc.width = 32;
+            npc.height = 18;
         }
 
         public override bool? CanBeHitByItem(Player player, Item item)
@@ -41,30 +44,22 @@ namespace EEMod.NPCs.CoralReefs
         public override void OnCatchNPC(Player player, Item item)
         {
             item.stack = 2;
-
-            try
-            {
-                var npcCenter = npc.Center.ToTileCoordinates();
-                Tile tile = Framing.GetTileSafely(npcCenter.X, npcCenter.Y);
-                if (!WorldGen.SolidTile(npcCenter.X, npcCenter.Y) && tile.liquid == 0)
-                {
-                    tile.liquid = (byte)Main.rand.Next(50, 150);
-                    tile.lava(true);
-                    tile.honey(false);
-                    WorldGen.SquareTileFrame(npcCenter.X, npcCenter.Y, true);
-                }
-            }
-            catch
-            {
-                return;
-            }
         }
 
-        private readonly int variation = Main.rand.Next(3);
-
-        public override void FindFrame(int frameHeight)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            npc.frame.Y = 18 * variation;
+            Texture2D tex = ModContent.GetTexture("EEMod/NPCs/CoralReefs/SeaSlug");
+            Main.spriteBatch.Draw(tex, npc.position.ForDraw(), new Rectangle(0, variation * 18, 32, 18), Lighting.GetColor((int)(npc.Center.X / 16), (int)(npc.Center.Y / 16)), npc.rotation, Vector2.Zero, 1f, (npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 0f);
+
+            return false;
         }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Texture2D glow = ModContent.GetTexture("EEMod/NPCs/CoralReefs/SeaSlugGlow");
+            Main.spriteBatch.Draw(glow, npc.position.ForDraw(), new Rectangle(0, variation * 18, 32, 18), Color.White, npc.rotation, Vector2.Zero, 1f, (npc.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 0f);
+        }
+
+        private readonly int variation = Main.rand.Next(4);
     }
 }

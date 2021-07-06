@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Systems.Noise;
 using static EEMod.EEWorld.EEWorld;
 
 namespace EEMod.EEWorld
@@ -16,6 +17,7 @@ namespace EEMod.EEWorld
     {
         public override void FoliageStep()
         {
+
         }
 
         public delegate void InOvalEvent(int i, int j);
@@ -64,6 +66,18 @@ namespace EEMod.EEWorld
                     {
                         WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpLeafTile>(), false, true);
                     }
+                }
+            });
+
+            perlinNoise = new PerlinNoiseFunction(Bounds.Width + 1, Bounds.Height + 1, 50, 50, 0.5f);
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+
+            BoundClause((int i, int j) =>
+            {
+                if (perlinNoiseFunction[i - TL.X, j - TL.Y] == 1 && WorldGen.InWorld(i, j))
+                {
+                    if ((Framing.GetTileSafely(i, j).type == ModContent.TileType<KelpLeafTile>()))
+                        Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<KelpMossTile>();
                 }
             });
 

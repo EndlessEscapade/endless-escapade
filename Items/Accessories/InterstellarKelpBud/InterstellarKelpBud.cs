@@ -115,7 +115,7 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
 
                 float ringScale = (MathHelper.Clamp((float)Math.Sqrt((projectile.ai[0] - 180) / 60f), 0f, 1f) + ((projectile.ai[0] >= 270) ? (float)(Math.Sin(Main.GameUpdateCount / 60f) / 35f) : 0)) * MathHelper.Clamp((float)Math.Sqrt((1160 - projectile.ai[0]) / 40f), 0f, 1f);
 
-                Helpers.DrawAdditive(ringTex, projectile.Center - Main.screenPosition + ringOffset, Color.Goldenrod, ringScale);
+                Helpers.DrawAdditive(ringTex, projectile.Center - Main.screenPosition + ringOffset, Color.Goldenrod * ((0.15f * (float)Math.Sin(Main.GameUpdateCount / 60f)) + 0.85f), ringScale);
 
 
                 if (projectile.ai[0] >= 270 && projectile.ai[0] < 1160)

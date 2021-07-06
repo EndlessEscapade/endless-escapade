@@ -303,56 +303,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     }
                 }
                 #endregion
-
-                #region Placing moss and seagrass
-                EEMod.progressMessage = "Mossifying";
-
-                perlinNoise = new PerlinNoiseFunction(Main.maxTilesX, (int)(Main.maxTilesY * 0.9f), 50, 50, 0.8f, rand);
-                int[,] perlinNoiseFunction2 = perlinNoise.perlinBinary;
-                for (int i = 42; i < Main.maxTilesX - 42; i++)
-                {
-                    for (int j = (Main.maxTilesY / 10); j < Main.maxTilesY - 42; j++)
-                    {
-                        if (perlinNoiseFunction2[i, j - (Main.maxTilesY / 10)] == 1)
-                        {
-                            int minibiome = 0;
-                            List<float> BufferLengths = new List<float>();
-                            List<int> BufferMinibiome = new List<int>();
-                            for (int k = 0; k < MinibiomeLocations.Count; k++)
-                            {
-                                if (Vector2.DistanceSquared(new Vector2(MinibiomeLocations[k].X, MinibiomeLocations[k].Y), new Vector2(i, j)) < (180 * 180) && MinibiomeLocations[k].Z != 0)
-                                {
-                                    BufferLengths.Add(Vector2.DistanceSquared(new Vector2(MinibiomeLocations[k].X, MinibiomeLocations[k].Y), new Vector2(i, j)));
-                                    BufferMinibiome.Add((int)MinibiomeLocations[k].Z);
-                                }
-                            }
-                            float MakingMyWayDownTown = -1;
-                            int WalkingFast = -1;
-                            for (int a = 0; a < BufferLengths.Count; a++)
-                            {
-                                if (BufferLengths[a] < MakingMyWayDownTown || MakingMyWayDownTown == -1)
-                                {
-                                    MakingMyWayDownTown = BufferLengths[a];
-                                    WalkingFast = BufferMinibiome[a];
-                                }
-                            }
-                            if (WalkingFast != -1) minibiome = WalkingFast;
-
-
-                            if ((Framing.GetTileSafely(i, j).type == ModContent.TileType<KelpLeafTile>()) &&
-                                (MinibiomeID)minibiome == MinibiomeID.KelpForest)
-                                Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<KelpMossTile>();
-
-                            if (Framing.GetTileSafely(i, j).type == ModContent.TileType<ScorchedGemsandTile>() &&
-                                (MinibiomeID)minibiome == MinibiomeID.ThermalVents)
-                                Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<ThermalMossTile>();
-                        }
-                    }
-                }
                 
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
-
-                #endregion
 
                 #region Implementing dynamic objects
                 EEMod.progressMessage = "Adding Dynamics";
@@ -490,6 +442,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 case 0:
                                     WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadSmol>());
                                     break;
+
                                 case 1:
                                     WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadMedium>());
                                     break;
