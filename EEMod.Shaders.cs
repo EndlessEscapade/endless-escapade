@@ -23,6 +23,7 @@ namespace EEMod
         public static Effect RadialField;
         public static Effect SolidOutline;
         public static Effect LightingBufferEffect;
+
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
         {
@@ -38,7 +39,6 @@ namespace EEMod
 
             LightingBufferEffect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
 
-            //ModContent.GetInstance<EEMod>() is a static field and this method is still inside the mod class
             Ref<Effect> screenRef = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/PracticeEffect"));
             Ref<Effect> screenRef2 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/Shockwave"));
             Ref<Effect> screenRef3 = new Ref<Effect>(ModContent.GetInstance<EEMod>().GetEffect("Effects/Pause"));
@@ -70,6 +70,7 @@ namespace EEMod
             Filters.Scene["EEMod:SmoothDown2"].Load();
             Filters.Scene["EEMod:Noise2D"].Load();
             Filters.Scene["EEMod:SeaOpening"].Load();
+
             for (int i = 0; i < maxNumberOfLights; i++)
             {
                 Filters.Scene[$"EEMod:LightSource{i}"] = new Filter(new ScreenShaderData(screenRef8, "LightSource"), EffectPriority.VeryHigh);

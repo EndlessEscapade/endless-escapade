@@ -164,6 +164,8 @@ namespace EEMod
             Main.spriteBatch.DrawString(font, text, new Vector2(textPositionLeft, position.Y), colour, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
         }
 
+        internal void DoPostDrawTiles(SpriteBatch spriteBatch) => AfterTiles?.Invoke(spriteBatch);
+
        
 
         public static void DrawText()

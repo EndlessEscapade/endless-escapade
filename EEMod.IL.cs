@@ -87,6 +87,7 @@ namespace EEMod
             IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
             //HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
+            hooklist?.UnloadAll();
             hooklist?.Dispose();
             hooklist = null;
             screenMessageText = null;
