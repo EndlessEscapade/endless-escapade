@@ -134,6 +134,8 @@ namespace EEMod
         public override void PostDrawTiles()
         {
             MechanicManager.PostDrawTiles();
+
+            ModContent.GetInstance<EEMod>().DoPostDrawTiles(Main.spriteBatch);
         }
     }
 }

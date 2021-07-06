@@ -34,7 +34,11 @@ namespace EEMod.VerletIntegration
         {
             int SpacialTolerance = 0;
 
-            foreach (Vector2 pos in SwingableVines) if(Vector2.DistanceSquared(pos,position) < 100){ SpacialTolerance++; }
+            foreach (Vector2 pos in SwingableVines) 
+                if(Vector2.DistanceSquared(pos,position) < 100)
+                { 
+                    SpacialTolerance++; 
+                }
 
             if (SpacialTolerance > 0) return;
 
@@ -80,11 +84,16 @@ namespace EEMod.VerletIntegration
                 }
             }
         }
+
         public static void AddStickChainNoAdd(ref Verlet verlet, Vector2 position, int numberOfChains, float lengthOfChains)
         {
             int SpacialTolerance = 0;
 
-            foreach (Vector2 pos in SwingableVines) if (Vector2.DistanceSquared(pos, position) < 30) { SpacialTolerance++; }
+            foreach (Vector2 pos in SwingableVines) 
+                if (Vector2.DistanceSquared(pos, position) < 30) 
+                { 
+                    SpacialTolerance++; 
+                }
 
             if (SpacialTolerance > 1) return;
 
@@ -120,6 +129,7 @@ namespace EEMod.VerletIntegration
                 }
             }
         }
+
         public static void LoadVines()
         {
 

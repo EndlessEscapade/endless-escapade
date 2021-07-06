@@ -219,6 +219,11 @@ namespace EEMod
             MechanicManager.PreUpdateEntities();      
         }
 
+        public override void PostUpdateEverything()
+        {
+            UpdateVerlet();
+        }
+
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
@@ -230,8 +235,6 @@ namespace EEMod
                     {
                         UI.Draw(lastGameTime);
                         UpdateGame(lastGameTime);
-                        AfterTiles?.Invoke(Main.spriteBatch); 
-                        UpdateVerlet();
                         if (Main.worldName == KeyID.CoralReefs)
                         {
                             DrawCR();

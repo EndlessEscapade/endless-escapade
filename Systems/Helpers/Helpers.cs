@@ -34,9 +34,9 @@ namespace EEMod
     float x0, float x1, float x2, float x3)
         {
             return (float)(
-                x0 * (1 - t)* (1 - t)* (1 - t) +
+                x0 * (1 - t) * (1 - t) * (1 - t) +
                 x1 * 3 * t * (1 - t) * (1 - t) +
-                x2 * 3 * t*t * (1 - t) +
+                x2 * 3 * t * t * (1 - t) +
                 x3 * t * t * t
             );
         }
@@ -45,7 +45,7 @@ namespace EEMod
             float y0, float y1, float y2, float y3)
         {
             return (float)(
-                 y0 * (1 - t)* (1 - t)* (1 - t) +
+                 y0 * (1 - t) * (1 - t) * (1 - t) +
                  y1 * 3 * t * (1 - t) * (1 - t) +
                  y2 * 3 * t * t * (1 - t) +
                  y3 * t * t * t
@@ -320,11 +320,9 @@ namespace EEMod
                         Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                         EEMod.SolidOutline.CurrentTechnique.Passes[0].Apply();
                         EEMod.SolidOutline.Parameters["alpha"].SetValue(cDist * 0.5f);
-                        Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
-                    headTexture.Bounds, ifBlack ? Color.Black : Color.White, TrueRotation ? 0 : projTrueRotation,
-                    new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1) * 1.07f, SpriteEffects.None, 0);
-                        Main.spriteBatch.End();
-                        Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                        Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(), headTexture.Bounds, ifBlack ? Color.Black : Color.White, TrueRotation ? 0 : projTrueRotation, new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1) * 1.07f, SpriteEffects.None, 0);
+                        //Main.spriteBatch.End();
+                        //Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
                     }
                     Main.spriteBatch.End();
@@ -340,43 +338,39 @@ namespace EEMod
         public static ParticleZone Particles => EEMod.MainParticles;
         public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, Color color, float spawnChance = 1f, params IParticleModule[] modules)
         {
-            for (float i = 0; i <= 1; i += chainsPerUse)
+            for (float i = 1; i <= 1; i += chainsPerUse)
             {
-                if (i != 0)
-                {
-                    float x = X(i, startingPos.X, c1.X, endPoints.X);
-                    float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
 
-                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
-                    EEMod.MainParticles.SpawnParticles(new Vector2(x, y), default, 2, color, modules);
-                }
+                float x = X(i, startingPos.X, c1.X, endPoints.X);
+                float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
+
+                EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
+                EEMod.MainParticles.SpawnParticles(new Vector2(x, y), default, 2, color, modules);
+
             }
         }
         public static void DrawParticlesAlongLine(Vector2 endPoints, Vector2 startingPos, float chainsPerUse, Color color, float spawnChance = 1f, params IParticleModule[] modules)
         {
-            for (float i = 0; i <= 1; i += chainsPerUse)
+            for (float i = 1; i <= 1; i += chainsPerUse)
             {
-                if (i != 0)
-                {
-                    Vector2 pos = Vector2.Lerp(startingPos, endPoints,i);
+                Vector2 pos = Vector2.Lerp(startingPos, endPoints, i);
 
-                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
-                    EEMod.MainParticles.SpawnParticles(pos, default, 2, color, modules);
-                }
+                EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
+                EEMod.MainParticles.SpawnParticles(pos, default, 2, color, modules);
+
             }
         }
-        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, Color color, float spawnChance = 1f,Vector2 velocity = default, params IParticleModule[] modules)
+        public static void DrawParticlesAlongBezier(Vector2 endPoints, Vector2 startingPos, Vector2 c1, float chainsPerUse, Color color, float spawnChance = 1f, Vector2 velocity = default, params IParticleModule[] modules)
         {
-            for (float i = 0; i <= 1; i += chainsPerUse)
+            for (float i = 1; i <= 1; i += chainsPerUse)
             {
-                if (i != 0)
-                {
-                    float x = X(i, startingPos.X, c1.X, endPoints.X);
-                    float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
 
-                    EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
-                    EEMod.MainParticles.SpawnParticles(new Vector2(x, y), velocity, 2, color, modules);
-                }
+                float x = X(i, startingPos.X, c1.X, endPoints.X);
+                float y = Y(i, startingPos.Y, c1.Y, endPoints.Y);
+
+                EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(spawnChance));
+                EEMod.MainParticles.SpawnParticles(new Vector2(x, y), velocity, 2, color, modules);
+
             }
         }
         public static void DrawChain(Texture2D tex, int frameSize, int frameNum, Vector2 p1, Vector2 p2, float rotOffset = 0, float per = 1, Color color = default)
@@ -406,14 +400,14 @@ namespace EEMod
                 Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
-        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0,float per = 1)
+        public static void DrawChain(Texture2D tex, Vector2 p1, Vector2 p2, float rotOffset = 0, float per = 1)
         {
             //USE IN PROPER HOOK PLZ THX
             float width = tex.Width;
             float length = (p1 - p2).Length();
             float rotation = (p1 - p2).ToRotation();
             Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
-            for (float i = 0; i < 1; i += (width / length)*per)
+            for (float i = 0; i < 1; i += (width / length) * per)
             {
                 Vector2 lerp = p1 + (p2 - p1) * i;
                 Main.spriteBatch.Draw(tex, lerp.ForDraw(), rect, Color.White, rotation + rotOffset, rect.Size() / 2, 1f, SpriteEffects.None, 0f);

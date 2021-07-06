@@ -715,6 +715,12 @@ namespace EEMod
             return new Vector2(currentX, currentY);
         }
 
+        /// <summary>
+        /// Returns an array of the specified size with random numbers from 0 to <paramref name="size"/> without duplicates
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static T[] FillPseudoRandomUniform<T>(int size) where T : struct
         {
             int number;
@@ -730,6 +736,12 @@ namespace EEMod
             return listNumbers.ToArray() as T[];
         }
 
+        /// <summary>
+        /// Returns an array of the specified size with random numbers from 0 to <paramref name="size"/> without duplicates
+        /// </summary>
+        /// <param name="rand"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static int[] FillPseudoRandomUniform2(this UnifiedRandom rand, int size)
         {
             int[] numbers = new int[size];
