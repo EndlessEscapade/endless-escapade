@@ -40,7 +40,7 @@ namespace EEMod.Prim
             float colorSin = (float)Math.Sin(_counter / 3f);
             {
                 widthVar = (float)Math.Sqrt(_points.Count) * _width;
-                Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
+                Color c1 = Color.Lerp(Color.White, Color.Gold, colorSin);
                 Vector2 normalAhead = CurveNormal(_points, 1);
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
@@ -54,8 +54,8 @@ namespace EEMod.Prim
                 widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
                 Color base1 = new Color(7, 86, 122);
                 Color base2 = new Color(255, 244, 173);
-                Color c = Color.Lerp(Color.White, Color.Cyan, colorSin);
-                Color CBT = Color.Lerp(Color.White, Color.Cyan, colorSin);
+                Color c = Color.Lerp(Color.White, Color.Gold, colorSin);
+                Color CBT = Color.Lerp(Color.White, Color.Gold, colorSin);
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
                 float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;

@@ -12,7 +12,7 @@ namespace EEMod.UI.States
 		public static CustomItemSlot Slot;
         public override void OnInitialize()
 		{
-            CroppedTexture2D emptyTexture = new CroppedTexture2D(ModContent.GetTexture("EEMod/icon")); //placeholder
+            CroppedTexture2D emptyTexture = new CroppedTexture2D(ModContent.GetTexture("EEMod/UI/MerchantBoatSlot")); //placeholder
 
             Slot = new CustomItemSlot(0, 0.6f)
             {
@@ -28,7 +28,7 @@ namespace EEMod.UI.States
             base.Update(gameTime);
             Slot.Left.Set(571.5f, 0f);
             Slot.Top.Set(105f, 0f);
-            Recalculate();
+            //Recalculate();
         }
     }
 }

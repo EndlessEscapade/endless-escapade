@@ -21,7 +21,7 @@ namespace EEMod.Tiles.Foliage
             Main.tileSolidTop[Type] = false;
             Main.tileNoAttach[Type] = true;
 
-            AddMapEntry(new Color(68, 89, 195));
+            AddMapEntry(new Color(28, 78, 47));
             //Main.tileCut[Type] = true;
             dustType = DustID.Grass;
             drop = ModContent.ItemType<Kelp>();
@@ -38,11 +38,6 @@ namespace EEMod.Tiles.Foliage
             TileObjectData.newTile.CoordinateHeights = new int[] { 16 };
 
             TileObjectData.addTile(Type);
-        }
-
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
-        {
-
         }
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)

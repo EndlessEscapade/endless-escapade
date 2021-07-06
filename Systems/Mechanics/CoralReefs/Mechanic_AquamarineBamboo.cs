@@ -22,8 +22,8 @@ namespace EEMod
         {
             if (CoralReefs.ThinCrystalBambooLocations.Count > 0)
             {
-                Texture2D stalk = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalBambooThin");
-                Texture2D tip = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/CrystalBambooThinTip");
+                Texture2D stalk = ModContent.GetInstance<EEMod>().GetTexture("Textures/CrystalBambooThin");
+                Texture2D tip = ModContent.GetInstance<EEMod>().GetTexture("Textures/CrystalBambooThinTip");
 
                 for (int i = 0; i < CoralReefs.ThinCrystalBambooLocations.Count - 2; i += 2)
                 {

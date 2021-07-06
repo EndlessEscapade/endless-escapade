@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Microsoft.Xna.Framework.Graphics;
+using Terraria.DataStructures;
+using System.Collections.Generic;
+using EEMod.Extensions;
 
 namespace EEMod.Items.Armor.StormKnight
 {
@@ -36,8 +40,7 @@ namespace EEMod.Items.Armor.StormKnight
 
         public override void UpdateArmorSet(Player player)
         {
-            player.setBonus = "Kelp erupts from the ground when enemies come near";
-            player.GetModPlayer<EEPlayer>().lythenSet = true;
+            player.setBonus = "True melee hits call down a lightning strike from the sky";
         }
 
         public override void DrawArmorColor(Player drawPlayer, float shadow, ref Color color, ref int glowMask, ref Color glowMaskColor)
@@ -52,6 +55,27 @@ namespace EEMod.Items.Armor.StormKnight
             recipe.AddTile(TileID.Anvils);
             recipe.SetResult(this);
             recipe.AddRecipe();
+        }
+    }
+
+    public class StormKnightCrestLayer : ModPlayer
+    {
+        public static readonly PlayerLayer StormKnightCrestGlow = new PlayerLayer("EEMod", "StormKnightCrest", PlayerLayer.Head, delegate (PlayerDrawInfo drawInfo)
+        {
+            /*Texture2D glow = ModContent.GetTexture("EEMod/Items/Armor/StormKnight/StormKnightCrestGlow");
+
+            Player player = drawInfo.drawPlayer;
+
+            DrawData data = new DrawData(glow, player.position - Main.screenPosition, new Rectangle(0, player.headFrame.Y, 40, 56), Color.Green, player.headRotation, Vector2.Zero, 1f, player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+
+            Main.NewText("" + player.headFrameCounter);
+            Main.playerDrawData.Add(data);*/
+        });
+
+        public override void ModifyDrawLayers(List<PlayerLayer> layers)
+        {
+            StormKnightCrestGlow.visible = true;
+            layers.Add(StormKnightCrestGlow);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace EEMod.Projectiles.CoralReefs
             projectile.friendly = false;
             projectile.hostile = false;
             projectile.alpha = 0;
-            projectile.scale = 1f;
+            projectile.scale = 0.5f;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.penetrate = -1;
@@ -32,11 +32,16 @@ namespace EEMod.Projectiles.CoralReefs
         public override bool? CanCutTiles() => false;
 
         private bool funi;
+        private bool fadingOut;
+        private Player targetPlayer;
+
         public override void AI()
         {
+            if(projectile.scale < 1f) projectile.scale += 0.075f;
+
             projectile.ai[1]++;
             
-            if (projectile.ai[1] < 60)
+            if (projectile.ai[1] < 50)
             {
                 projectile.velocity.Y += 0.08f;
             }
@@ -54,59 +59,83 @@ namespace EEMod.Projectiles.CoralReefs
                 }
                 else
                 {
-                    projectile.velocity.Y = (float)(Math.Sin(Main.GameUpdateCount / 20f) * 0.4f);
+                    projectile.velocity.Y += (float)(Math.Sin(projectile.ai[1] / 60f * 3.14f) * 0.05f);
                 }
-            
-                for (int i = 0; i < Main.maxPlayers; i++)
-                {
-                    if (Main.player[i].active)
-                    {
-                        Player player = Main.player[i];
-                        if (Math.Abs(Vector2.Distance(player.Center, projectile.Center)) <= 64)
-                        {
-                            player.QuickSpawnItem((int)projectile.ai[0]);
 
-                            Main.NewText("Dead");
-                            projectile.Kill();
-                            break;
+                if (!fadingOut)
+                {
+                    for (int i = 0; i < Main.maxPlayers; i++)
+                    {
+                        if (Main.player[i].active)
+                        {
+                            Player player = Main.player[i];
+
+                            Item chungu = new Item();
+                            chungu.SetDefaults((int)projectile.ai[0]);
+
+                            if ((new Rectangle((int)projectile.Center.X - chungu.width / 2, (int)projectile.Center.Y - chungu.height / 2, chungu.width, chungu.height)).Intersects(player.Hitbox))
+                            {
+                                fadingOut = true;
+
+                                targetPlayer = player;
+
+                                break;
+                            }
                         }
                     }
                 }
             }
+
+            if(fadingOut)
+            {
+                projectile.alpha += 16;
+                projectile.scale -= 1 / 16f;
+
+                projectile.velocity = Vector2.Normalize(targetPlayer.Center - projectile.Center) * 2;
+            }
+
+            if(projectile.alpha >= 255)
+            {
+                targetPlayer.QuickSpawnItem((int)projectile.ai[0]);
+
+                projectile.Kill();
+            }
         }
 
         private float alpha = 0;
+        private float alpha2 = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D tex = Main.itemTexture[(int)projectile.ai[0]];
             Vector2 pos = (projectile.Center - Main.screenPosition);
 
-            if (projectile.ai[1] >= 60)
+            alpha += 0.06f;
+
+            alpha = MathHelper.Clamp(alpha, 0f, 0.6f);
+
+            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), projectile.Center.ForDraw(), Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f) * alpha * ((255 - projectile.alpha) / 255f), 0.9f * projectile.scale, 0.8f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
+
+            EEMod.White.CurrentTechnique.Passes[0].Apply();
+            EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));
+            EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));
+
+            alpha2 += 0.03f;
+
+            alpha2 = MathHelper.Clamp(alpha2, 0f, 1f);
+
+            for (int i = 0; i < 4; i++)
             {
-                alpha += 0.03f;
-
-                alpha = MathHelper.Clamp(alpha, 0f, 1f);
-
-                Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), projectile.Center.ForDraw(), Color.Gold * alpha, 0.9f, 0.8f);
-
-                Vector2 position = new Vector2(projectile.width / 2, projectile.height - tex.Height * 0.5f + 2f);
-
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-
-                EEMod.White.CurrentTechnique.Passes[0].Apply();
-                EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f));
-                EEMod.White.Parameters["color"].SetValue((new Vector3(Color.Gold.R, Color.Gold.G, Color.Gold.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f));
-
-                for (int i = 0; i < 4; i++)
-                {
-                    Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha / 1));
-                    spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha, projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
-                }
-
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha2 / 1) * ((255 - projectile.alpha) / 255f));
+                spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - projectile.alpha) / 255f), projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
             }
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             Main.spriteBatch.Draw(tex, pos, tex.Bounds, Color.White, 0f, tex.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
 
@@ -118,7 +147,7 @@ namespace EEMod.Projectiles.CoralReefs
             Item chungu = new Item();
             chungu.SetDefaults((int)projectile.ai[0]);
 
-            if ((new Rectangle((int)projectile.position.X + (projectile.width - chungu.width), (int)projectile.position.Y + (projectile.height - chungu.height), chungu.width, chungu.height)).Contains(Main.MouseWorld.ToPoint()))
+            if ((new Rectangle((int)projectile.Center.X - chungu.width / 2, (int)projectile.Center.Y - chungu.height / 2, chungu.width, chungu.height)).Contains(Main.MouseWorld.ToPoint()))
             {
                 Utils.DrawBorderString(Main.spriteBatch, chungu.Name, Main.MouseWorld.ForDraw() + new Vector2(16, 16), Color.Lerp(Color.Goldenrod, Color.LightYellow, (float)Math.Sin(Main.GameUpdateCount / 30f)));
             }

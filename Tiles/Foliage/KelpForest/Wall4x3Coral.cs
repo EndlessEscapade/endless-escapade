@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.ID;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
@@ -26,7 +27,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
             //TileObjectData.newTile.RandomStyleRange = 2;
             TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(120, 85, 60));
+            AddMapEntry(new Color(95, 143, 65));
+            dustType = DustID.Plantera_Green;
         }
     }
 

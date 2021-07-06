@@ -62,22 +62,22 @@ namespace EEMod.VerletIntegration
                         {
                             int vineRand = Main.rand.Next(0, 6);
                             if (vineRand != 0 && vineRand != 3)
-                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Map"));
+                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/Vine" + vineRand), eemood.GetTexture("Textures/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Textures/Vines/Vine" + vineRand + "Map"));
                             else
-                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand));
+                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/Vine" + vineRand));
                         }
                         if (i == 1)
                         {
                             int vineRand = Main.rand.Next(0, 3);
                             if (vineRand != 0)
-                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Map"));
+                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineBase" + vineRand), eemood.GetTexture("Textures/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Textures/Vines/VineBase" + vineRand + "Map"));
                             else
-                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand));
+                                verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineBase" + vineRand));
                         }
 
                         if (i == numberOfChains - 1)
                         {
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineCap"), eemood.GetTexture("Projectiles/Vines/VineCapGlow"), eemood.GetTexture("Projectiles/Vines/VineCapMap"));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineCap"), eemood.GetTexture("Textures/Vines/VineCapGlow"), eemood.GetTexture("Textures/Vines/VineCapMap"));
                             EndPointChains.Add(a);
                         }
                     }
@@ -108,22 +108,22 @@ namespace EEMod.VerletIntegration
                     {
                         int vineRand = Main.rand.Next(0, 6);
                         if (vineRand != 0 && vineRand != 3)
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/Vine" + vineRand + "Map"));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/Vine" + vineRand), eemood.GetTexture("Textures/Vines/Vine" + vineRand + "Glow"), eemood.GetTexture("Textures/Vines/Vine" + vineRand + "Map"));
                         else
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/Vine" + vineRand));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/Vine" + vineRand));
                     }
                     if (i == 1)
                     {
                         int vineRand = Main.rand.Next(0, 3);
                         if (vineRand != 0)
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand + "Map"));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineBase" + vineRand), eemood.GetTexture("Textures/Vines/VineBase" + vineRand + "Glow"), eemood.GetTexture("Textures/Vines/VineBase" + vineRand + "Map"));
                         else
-                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineBase" + vineRand));
+                            verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineBase" + vineRand));
                     }
 
                     if (i == numberOfChains - 1)
                     {
-                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Projectiles/Vines/VineCap"), eemood.GetTexture("Projectiles/Vines/VineCapGlow"), eemood.GetTexture("Projectiles/Vines/VineCapMap"));
+                        verlet.BindPoints(a, a - 1, true, default, eemood.GetTexture("Textures/Vines/VineCap"), eemood.GetTexture("Textures/Vines/VineCapGlow"), eemood.GetTexture("Textures/Vines/VineCapMap"));
                         EndPointChains.Add(a);
                     }
                 }
