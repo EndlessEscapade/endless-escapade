@@ -131,11 +131,16 @@ namespace EEMod
         {
             MechanicManager.PostUpdateWorld();
         }
+
         public override void PostDrawTiles()
         {
             MechanicManager.PostDrawTiles();
 
+            Main.spriteBatch.Begin(default, default, default, default, default, default, Main.GameViewMatrix.TransformationMatrix);
+
             ModContent.GetInstance<EEMod>().DoPostDrawTiles(Main.spriteBatch);
+
+            Main.spriteBatch.End();
         }
     }
 }

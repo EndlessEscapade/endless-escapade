@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using EEMod.ID;
 
 namespace EEMod.EEWorld
 {
@@ -9,12 +10,16 @@ namespace EEMod.EEWorld
         internal Point Center => new Point(Position.X + Size.X / 2, Position.Y + Size.Y / 2);
         protected Rectangle Bounds => new Rectangle(Position.X, Position.Y, Size.X, Size.Y);
 
+        public virtual MinibiomeID id { get; set; }
+
         public virtual void StructureStep()
         {
+
         }
 
         public virtual void FoliageStep()
         {
+
         }
 
         internal bool EnsureNoise;

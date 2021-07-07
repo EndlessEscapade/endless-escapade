@@ -7,6 +7,8 @@ using Terraria.ModLoader;
 using EEMod.Tiles.Foliage.GlowshroomGrotto;
 using EEMod.Tiles;
 using EEMod.EEWorld;
+using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.ID;
 using static EEMod.EEWorld.EEWorld;
 
 namespace EEMod.EEWorld
@@ -19,6 +21,8 @@ namespace EEMod.EEWorld
         }
 
         public delegate void InOvalEvent(int i, int j);
+
+        public override MinibiomeID id => MinibiomeID.GlowshroomGrotto;
 
         public void BoundClause(InOvalEvent obj)
         {
@@ -54,7 +58,7 @@ namespace EEMod.EEWorld
             Point TL = Bounds.TopLeft().ToPoint();
             Point BR = Bounds.BottomRight().ToPoint();
             int tile2;
-            tile2 = (ushort)GetGemsandType((int)TL.Y);
+            tile2 = (ushort)CoralReefs.GetGemsandType((int)TL.Y);
 
             Vector2[] poses = MakeDistantLocations(20, 30, Bounds);
             poses[0] = new Point((TL.X + BR.X) / 2, (TL.Y + BR.Y) / 2).ToVector2();

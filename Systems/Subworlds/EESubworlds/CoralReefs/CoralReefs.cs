@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 using EEMod.ID;
 using EEMod.Tiles;
 using EEMod.VerletIntegration;
-using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.Foliage.Coral.HangingCoral;
 using EEMod.Tiles.Foliage.Coral.WallCoral;
 using EEMod.Tiles.Foliage.Coral;
@@ -19,14 +18,23 @@ using EEMod.Systems.Noise;
 using System.Collections.Generic;
 using EEMod.Autoloading;
 using Terraria.World.Generation;
+using EEMod.Tiles.EmptyTileArrays;
+using EEMod.Tiles.Ores;
+using EEMod.Tiles.Walls;
+using EEMod.Tiles.Furniture;
+using EEMod.Tiles.Foliage.ThermalVents;
+using EEMod.Tiles.Foliage.KelpForest;
+using EEMod.Tiles.Foliage.Aquamarine;
+using EEMod.EEWorld;
+using static EEMod.EEWorld.EEWorld;
+
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {
     public class CoralReefs : Subworld
     {
-        [FieldInit] public static IList<Vector2> CoralReefVineLocations = new List<Vector2>();
-        [FieldInit] public static IList<Vector3> MinibiomeLocations = new List<Vector3>();
-        [FieldInit] public static IList<Vector2> OrbPositions = new List<Vector2>();
+        [FieldInit] public static IList<CoralReefMinibiome> Minibiomes = new List<CoralReefMinibiome>();
+
         [FieldInit] public static IList<Vector2> BulbousTreePosition = new List<Vector2>();
 
         [FieldInit] public static IList<Vector2> CoralCrystalPosition = new List<Vector2>();
@@ -35,13 +43,17 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         [FieldInit] public static IList<Vector2> GiantKelpRoots = new List<Vector2>();
         [FieldInit] public static IList<Vector2> WebPositions = new List<Vector2>();
+        [FieldInit] public static IList<Vector2> CoralReefVineLocations = new List<Vector2>();
 
         public static Vector2 CoralBoatPos;
         public static Vector2 SpirePosition = Vector2.Zero;
 
-        public override Point Dimensions => new Point(500,500);
+        public override Point Dimensions => new Point(1500, 2400);
 
-        public override Point SpawnTile => new Point(10,200);
+        private int depth = 120;
+        private int boatPos = 300;
+
+        public override Point SpawnTile => new Point(boatPos, depth - 22);
 
         public override string Name => "CoralReefs";
 
@@ -51,12 +63,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             EEMod.progressMessage = "Generating Coral Reefs";
 
             //Variables and Initialization stuff
-            Main.maxTilesX = 1500;
-            Main.maxTilesY = 2400;
 
             int roomsPerLayer = 10;
-            int depth = Main.maxTilesY / 20;
-            int boatPos = 300;
 
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
@@ -173,9 +181,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                         MakeWavyChasm3(upperRoomPositions[i], upperRoomPositions[j], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                     }
                 }
-            }*/
+            }
 
-            RemoveStoneSlabs();
+            RemoveStoneSlabs();*/
 
             EEMod.progressMessage = "Placing chasm coral";
             TilePopulate(
@@ -472,9 +480,374 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             EEMod.progressMessage = null;
         }
+
         internal override void PlayerUpdate(Player player)
         {
            
+        }
+
+        public static PerlinNoiseFunction perlinNoise;
+
+        internal static void PlaceWallGrass()
+        {
+            for (int i = 10; i < Main.maxTilesX - 10; i++)
+            {
+                for (int j = 10; j < Main.maxTilesY - 10; j++)
+                {
+                    int X = i;
+                    int Y = j;
+                    switch (TileCheck2(X, Y))
+                    {
+                        case (int)TileSpacing.Top:
+                        {
+                            for (int a = 0; a < WorldGen.genRand.Next(11); a++)
+                                WorldGen.PlaceWall(X, Y - a, ModContent.WallType<KelpForestLeafyWall>());
+                            break;
+                        }
+                        case (int)TileSpacing.Bottom:
+                        {
+                            for (int a = 0; a < WorldGen.genRand.Next(11); a++)
+                                WorldGen.PlaceWall(X, Y + a, ModContent.WallType<KelpForestLeafyWall>());
+                            break;
+                        }
+                        case (int)TileSpacing.Left:
+                        {
+                            for (int a = 0; a < WorldGen.genRand.Next(11); a++)
+                                WorldGen.PlaceWall(X - a, Y, ModContent.WallType<KelpForestLeafyWall>());
+                            break;
+                        }
+                        case (int)TileSpacing.Right:
+                        {
+                            for (int a = 0; a < WorldGen.genRand.Next(11); a++)
+                                WorldGen.PlaceWall(X + a, Y, ModContent.WallType<KelpForestLeafyWall>());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void CreateNoise(Vector2 startingPoint, int sizeX, int sizeY, int xPos, int yPos, bool ensureN, int width, int height, float thresh)
+        {
+            perlinNoise = new PerlinNoiseFunction(1000, 1000, width, height, thresh);
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+            if (ensureN)
+            {
+                for (int i = (int)startingPoint.X; i < (int)startingPoint.X + sizeX * 2; i++)
+                {
+                    for (int j = (int)startingPoint.Y; j < (int)startingPoint.Y + sizeY * 2; j++)
+                    {
+                        if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
+                        {
+                            if (i - (int)startingPoint.X < 1000 && j - (int)startingPoint.Y < 1000)
+                            {
+                                if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
+                                {
+                                    Tile tile = Framing.GetTileSafely(i, j);
+                                    tile.type = (ushort)GetGemsandType(j);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void MakeCoralRoom(int xPos, int yPos, int sizeX, int sizeY, int type, bool ensureNoise = false)
+        {
+            Vector2 TL = new Vector2(xPos - (sizeX / 2f), yPos - (sizeY / 2f));
+            Vector2 BR = new Vector2(xPos + (sizeX / 2f), yPos + (sizeY / 2f));
+
+            sizeX *= 2;
+            sizeY *= 2;
+
+            int tile2;
+            tile2 = (ushort)GetGemsandType(yPos);
+
+            RemoveStoneSlabs();
+
+            switch (type) //Creating the formation of the room(the shape)
+            {
+                case -1:
+                    MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (sizeY / 5 - sizeY / 6)), tile2);
+                    MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (sizeY / 5 - sizeY / 6)), tile2);
+
+                    TilePopulate(
+                        new int[] { ModContent.TileType<Hanging1x2Coral>(),
+                        ModContent.TileType<Hanging1x3Coral>(),
+                        ModContent.TileType<Hanging2x3Coral>(),
+                        ModContent.TileType<Hanging2x4Coral>(),
+                        ModContent.TileType<Hanging1x4Coral>(),
+
+                        ModContent.TileType<Floor1x1Coral>(),
+                        ModContent.TileType<Floor1x2Coral>(),
+                        ModContent.TileType<Floor2x1Coral>(),
+                        ModContent.TileType<Floor2x2Coral>(),
+                        ModContent.TileType<FloorGlow2x2Coral>(),
+                        ModContent.TileType<Floor2x6Coral>(),
+                        ModContent.TileType<Floor3x2Coral>(),
+                        ModContent.TileType<Floor3x3Coral>(),
+                        ModContent.TileType<Floor4x3Coral>(),
+                        ModContent.TileType<Floor7x7Coral>(),
+                        ModContent.TileType<Floor8x7Coral>(),
+                        ModContent.TileType<Floor8x3Coral>(),
+                        ModContent.TileType<FloorGlow9x4Coral>(),
+                        ModContent.TileType<Floor9x9Coral>(),
+                        ModContent.TileType<Floor11x11Coral>(),
+
+                        ModContent.TileType<Wall2x2CoralL>(),
+                        ModContent.TileType<Wall3x2CoralL>(),
+                        ModContent.TileType<Wall3x2NonsolidCoralL>(),
+                        ModContent.TileType<Wall5x2NonsolidCoralL>(),
+                        ModContent.TileType<Wall6x3CoralL>(),
+
+                        ModContent.TileType<Wall2x2CoralR>(),
+                        ModContent.TileType<Wall3x2CoralR>(),
+                        ModContent.TileType<Wall3x2NonsolidCoralR>(),
+                        ModContent.TileType<Wall5x2NonsolidCoralR>(),
+                        ModContent.TileType<Wall6x3CoralR>() },
+                    new Rectangle((int)TL.X, (int)TL.Y, (int)BR.X, (int)BR.Y));
+
+                    break;
+
+                case 0:
+                    switch (Main.rand.Next(2))
+                    {
+                        case 0:
+                            MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 100);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (-sizeY / 5 - sizeY / 6)), tile2);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5 - sizeX / 6), yPos + (sizeY / 5 - sizeY / 6)), tile2);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5 - sizeX / 6), yPos + (sizeY / 5 - sizeY / 6)), tile2);
+                            break;
+
+                        case 1:
+                            MakeJaggedOval(sizeX, sizeY, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + 0, yPos + 0), tile2);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (-sizeY / 5)), tile2);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (-sizeY / 5)), tile2);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (sizeX / 5), yPos + (sizeY / 5)), tile2);
+                            MakeOvalFlatTop(sizeX / 3, sizeY / 3, new Vector2(xPos + (-sizeX / 5), yPos + (sizeY / 5)), tile2);
+                            //CreateNoise(!ensureNoise, 100, 10, 0.45f);
+                            break;
+
+                            /*case 2:
+                                MakeJaggedOval(sizeX, sizeY * 2, new Vector2(TL.X, yPos - sizeY), TileID.StoneSlab, true);
+                                MakeJaggedOval((int)(sizeX * 0.8f), (int)(sizeY * 1.6f), new Vector2(xPos - sizeX * 0.4f, yPos - sizeY * 0.8f), tile2, true);
+                                MakeJaggedOval(sizeX / 10, sizeY / 5, new Vector2(xPos - sizeX / 20, yPos - sizeY / 10), TileID.StoneSlab, true);
+                                for (int i = 0; i < 30; i++)
+                                {
+                                    MakeCircle(WorldGen.genRand.Next(5, 20), new Vector2(TL.X + WorldGen.genRand.Next(sizeX), yPos - sizeY + WorldGen.genRand.Next(sizeY * 2)), TileID.StoneSlab, true);
+                                }
+                                break;*/
+                    }
+
+                    TilePopulate(
+                        new int[] { ModContent.TileType<Hanging1x2Coral>(),
+                        ModContent.TileType<Hanging1x3Coral>(),
+                        ModContent.TileType<Hanging2x3Coral>(),
+                        ModContent.TileType<Hanging2x4Coral>(),
+                        ModContent.TileType<Hanging1x4Coral>(),
+
+                        ModContent.TileType<Floor1x1Coral>(),
+                        ModContent.TileType<Floor1x2Coral>(),
+                        ModContent.TileType<Floor2x1Coral>(),
+                        ModContent.TileType<Floor2x2Coral>(),
+                        ModContent.TileType<FloorGlow2x2Coral>(),
+                        ModContent.TileType<Floor2x6Coral>(),
+                        ModContent.TileType<Floor3x2Coral>(),
+                        ModContent.TileType<Floor3x3Coral>(),
+                        ModContent.TileType<Floor4x3Coral>(),
+                        ModContent.TileType<Floor7x7Coral>(),
+                        ModContent.TileType<Floor8x7Coral>(),
+                        ModContent.TileType<Floor8x3Coral>(),
+                        ModContent.TileType<FloorGlow9x4Coral>(),
+                        ModContent.TileType<Floor9x9Coral>(),
+                        ModContent.TileType<Floor11x11Coral>(),
+
+                        ModContent.TileType<Wall2x2CoralL>(),
+                        ModContent.TileType<Wall3x2CoralL>(),
+                        ModContent.TileType<Wall3x2NonsolidCoralL>(),
+                        ModContent.TileType<Wall5x2NonsolidCoralL>(),
+                        ModContent.TileType<Wall6x3CoralL>(),
+
+                        ModContent.TileType<Wall2x2CoralR>(),
+                        ModContent.TileType<Wall3x2CoralR>(),
+                        ModContent.TileType<Wall3x2NonsolidCoralR>(),
+                        ModContent.TileType<Wall5x2NonsolidCoralR>(),
+                        ModContent.TileType<Wall6x3CoralR>() },
+                    new Rectangle((int)TL.X, (int)TL.Y, (int)BR.X, (int)BR.Y));
+
+                    break;
+
+                case (int)MinibiomeID.KelpForest: //A normally shaped room cut out with noise
+                    KelpForest kelpForest = new KelpForest
+                    {
+                        Position = TL.ToPoint(),
+                        Size = new Point(sizeX, sizeY),
+                        EnsureNoise = ensureNoise
+                    };
+                    kelpForest.StructureStep();
+
+                    Minibiomes.Add(kelpForest);
+                    break;
+
+
+                case (int)MinibiomeID.GlowshroomGrotto: //One medium-sized open room completely covered in bulbous blocks
+                    GlowshroomGrotto GlowshroomGrotto = new GlowshroomGrotto
+                    {
+                        Position = TL.ToPoint(),
+                        Size = new Point(sizeX, sizeY),
+                        EnsureNoise = ensureNoise
+                    };
+                    GlowshroomGrotto.StructureStep();
+
+                    Minibiomes.Add(GlowshroomGrotto);
+                    break;
+
+                case (int)MinibiomeID.ThermalVents: //A wide-open room with floating platforms that hold abandoned ashen houses with huge chasms in between
+                    ThermalVents ThermalVents = new ThermalVents
+                    {
+                        Position = TL.ToPoint(),
+                        Size = new Point(sizeX, sizeY),
+                        EnsureNoise = ensureNoise
+                    };
+                    ThermalVents.StructureStep();
+
+                    Minibiomes.Add(ThermalVents);
+                    break;
+
+                case (int)MinibiomeID.AquamarineCaverns: //Massive caves made with noise surrounding a central large room(where the spire is, if there's a spire)
+                    AquamarineCaverns AquamarineCaverns = new AquamarineCaverns
+                    {
+                        Position = TL.ToPoint(),
+                        Size = new Point(sizeX, sizeY),
+                        EnsureNoise = ensureNoise
+                    };
+                    AquamarineCaverns.StructureStep();
+
+                    Minibiomes.Add(AquamarineCaverns);
+                    break;
+            }
+        }
+
+        public static void MakeCrystal(int xPos, int yPos, int length, int width, int vertDir, int horDir, int type)
+        {
+            for (int a = 0; a < length; a++)
+            {
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < width; j++)
+                    {
+                        if (!Framing.GetTileSafely(i, j).active())
+                        {
+                            WorldGen.TileRunner(i + xPos + (a * horDir), j + yPos + (a * vertDir), Main.rand.Next(2, 3), Main.rand.Next(1, 2), type, true, 0, 0, false, false);
+                        }
+                    }
+                }
+            }
+        }
+
+        public static int GetGemsandType(int height)
+        {
+            if (height < Main.maxTilesY * 0.4f)
+                return ModContent.TileType<LightGemsandTile>();
+            else if (height < Main.maxTilesY * 0.7f)
+                return ModContent.TileType<GemsandTile>();
+            else if (height > Main.maxTilesY * 0.7f)
+                return ModContent.TileType<DarkGemsandTile>();
+            else
+                return 0;
+        }
+
+
+        public static void CreateNoise(bool ensureN, Point position, Point size, int width, int height, float thresh)
+        {
+            perlinNoise = new PerlinNoiseFunction(2000, 2000, width, height, thresh);
+            Point Center = new Point(position.X + size.X / 2, position.Y + size.Y / 2);
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+            if (ensureN)
+            {
+                for (int i = position.X - width; i < position.X + size.X + width; i++)
+                {
+                    for (int j = position.Y - height; j < position.Y + size.Y + height; j++)
+                    {
+                        if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
+                        {
+                            if (i - (int)position.X < 1000 && j - (int)position.Y < 1000)
+                            {
+                                if (perlinNoiseFunction[i - position.X + width, j - position.Y + width] == 1 && OvalCheck(Center.X, Center.Y, i, j, size.X, size.Y) && WorldGen.InWorld(i, j))
+                                {
+                                    Tile tile = Framing.GetTileSafely(i, j);
+                                    tile.type = (ushort)GetGemsandType(j);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void MakeNoiseOval(int width, int height, Vector2 startingPoint, int type, bool forced = false, int chance = 1)
+        {
+            perlinNoise = new PerlinNoiseFunction(2000, 2000, 50, 50, 0.5f, WorldGen.genRand);
+            float[,] pFunction = perlinNoise.perlin2;
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    Point Center = new Point((int)startingPoint.X + width / 2, (int)startingPoint.Y + height / 2);
+                    int W = (int)(width * .5f + pFunction[i, j] * width * .5f);
+                    int H = (int)(height * .5f + pFunction[i, j] * height * .5f);
+                    if (OvalCheck(Center.X, Center.Y, i + (int)startingPoint.X, j + (int)startingPoint.Y, W, H) && Main.rand.Next(chance) <= 1)
+                    {
+                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
+                    }
+                }
+            }
+        }
+
+        public delegate bool NoiseConditions(Vector2 point);
+
+        public static void NoiseGen(Vector2 topLeft, Vector2 size, Vector2 dimensions, float thresh, ushort type, NoiseConditions noiseFilter = null)
+        {
+            perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh, WorldGen.genRand);
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+            for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
+            {
+                for (int j = (int)topLeft.Y; j < (int)topLeft.Y + (int)size.Y; j++)
+                {
+                    //Tile tile = Framing.GetTileSafely(i, j);
+                    if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
+                    {
+                        WorldGen.PlaceTile(i, j, type);
+                    }
+                }
+            }
+        }
+
+        public static void NoiseGenWave(Vector2 topLeft, Vector2 size, Vector2 dimensions, ushort type, float thresh, NoiseConditions noiseFilter = null)
+        {
+            PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh, WorldGen.genRand);
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+            float[] disp = PerlinArrayNoZero((int)size.X, size.Y * 0.5f, new Vector2(50, 100));
+            for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
+            {
+                for (int j = (int)topLeft.Y + (int)disp[i - (int)topLeft.X]; j < (int)topLeft.Y + (int)size.Y; j++)
+                {
+                    //Tile tile = Framing.GetTileSafely(i, j);
+                    if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
+                    {
+                        WorldGen.PlaceTile(i, j, type);
+                        WorldGen.PlaceTile(i, j, (ushort)GetGemsandType(j));
+                    }
+                }
+            }
         }
     }
 }

@@ -339,7 +339,6 @@ namespace EEMod
             if (eeplayer == null)
                 return;
 
-            int length = eeplayer.reefMinibiome.Length;
             if (Main.worldName == KeyID.CoralReefs)
             {
                 if (Main.LocalPlayer.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
@@ -363,31 +362,22 @@ namespace EEMod
                     priority = MusicPriority.Environment;
                 }
 
-                if ((int)MinibiomeID.KelpForest < length)
+                if (eeplayer.reefMinibiome == MinibiomeID.KelpForest)
                 {
-                    if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
-                        priority = MusicPriority.BiomeHigh;
-                    }
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
+                    priority = MusicPriority.BiomeHigh;
+                }
+                
+                if (eeplayer.reefMinibiome == MinibiomeID.AquamarineCaverns)
+                {
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
+                    priority = MusicPriority.BiomeHigh;
                 }
 
-                if ((int)MinibiomeID.AquamarineCaverns < length)
+                if (eeplayer.reefMinibiome == MinibiomeID.GlowshroomGrotto)
                 {
-                    if (eeplayer.reefMinibiome[(int)MinibiomeID.AquamarineCaverns])
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
-                        priority = MusicPriority.BiomeHigh;
-                    }
-                }
-
-                if ((int)MinibiomeID.GlowshroomGrotto < length)
-                {
-                    if (eeplayer.reefMinibiome[(int)MinibiomeID.GlowshroomGrotto])
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlowshroomGrotto");
-                        priority = MusicPriority.BiomeHigh;
-                    }
+                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlowshroomGrotto");
+                    priority = MusicPriority.BiomeHigh;
                 }
 
                 /*if ((int)MinibiomeID.ThermalVents < length)

@@ -1605,33 +1605,6 @@ namespace EEMod.EEWorld
             }
         }
 
-        public static void CreateNoise(bool ensureN, Point position, Point size, int width, int height, float thresh)
-        {
-            perlinNoise = new PerlinNoiseFunction(2000, 2000, width, height, thresh);
-            Point Center = new Point(position.X + size.X / 2, position.Y + size.Y / 2);
-            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
-            if (ensureN)
-            {
-                for (int i = position.X - width; i < position.X + size.X + width; i++)
-                {
-                    for (int j = position.Y - height; j < position.Y + size.Y + height; j++)
-                    {
-                        if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
-                        {
-                            if (i - (int)position.X < 1000 && j - (int)position.Y < 1000)
-                            {
-                                if (perlinNoiseFunction[i - position.X + width, j - position.Y + width] == 1 && OvalCheck(Center.X, Center.Y, i, j, size.X, size.Y) && WorldGen.InWorld(i, j))
-                                {
-                                    Tile tile = Framing.GetTileSafely(i, j);
-                                    tile.type = (ushort)GetGemsandType(j);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         public static void MakeJaggedOval(int width, int height, Vector2 startingPoint, int type, bool forced = false, int chance = 1)
         {
             for (int i = 0; i < width; i++)
@@ -1651,24 +1624,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-        public static void MakeNoiseOval(int width, int height, Vector2 startingPoint, int type, bool forced = false, int chance = 1)
-        {
-            perlinNoise = new PerlinNoiseFunction(2000, 2000, 50, 50, 0.5f, WorldGen.genRand);
-            float[,] pFunction = perlinNoise.perlin2;
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    Point Center = new Point((int)startingPoint.X + width / 2, (int)startingPoint.Y + height / 2);
-                    int W = (int)(width * .5f + pFunction[i, j] * width * .5f);
-                    int H = (int)(height * .5f + pFunction[i, j] * height * .5f);
-                    if (OvalCheck(Center.X, Center.Y, i + (int)startingPoint.X, j + (int)startingPoint.Y, W, H) && Main.rand.Next(chance) <= 1)
-                    {
-                        WorldGen.TileRunner(i + (int)startingPoint.X, j + (int)startingPoint.Y, WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), type, true, 0f, 0f, true, true);
-                    }
-                }
-            }
-        }
+
         public static void RemoveStoneSlabs()
         {
             for (int i = 0; i < Main.maxTilesX; i++)
@@ -1679,44 +1635,6 @@ namespace EEMod.EEWorld
                     if (tile.type == TileID.StoneSlab)
                     {
                         WorldGen.KillTile(i, j);
-                    }
-                }
-            }
-        }
-
-        public delegate bool NoiseConditions(Vector2 point);
-
-        public static void NoiseGen(Vector2 topLeft, Vector2 size, Vector2 dimensions, float thresh, ushort type, NoiseConditions noiseFilter = null)
-        {
-            perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh, WorldGen.genRand);
-            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
-            for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
-            {
-                for (int j = (int)topLeft.Y; j < (int)topLeft.Y + (int)size.Y; j++)
-                {
-                    //Tile tile = Framing.GetTileSafely(i, j);
-                    if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
-                    {
-                        WorldGen.PlaceTile(i, j, type);
-                    }
-                }
-            }
-        }
-
-        public static void NoiseGenWave(Vector2 topLeft, Vector2 size, Vector2 dimensions, ushort type, float thresh, NoiseConditions noiseFilter = null)
-        {
-            PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction((int)size.X, (int)size.Y, (int)dimensions.X, (int)dimensions.Y, thresh, WorldGen.genRand);
-            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
-            float[] disp = PerlinArrayNoZero((int)size.X, size.Y * 0.5f, new Vector2(50, 100));
-            for (int i = (int)topLeft.X; i < (int)topLeft.X + (int)size.X; i++)
-            {
-                for (int j = (int)topLeft.Y + (int)disp[i - (int)topLeft.X]; j < (int)topLeft.Y + (int)size.Y; j++)
-                {
-                    //Tile tile = Framing.GetTileSafely(i, j);
-                    if (perlinNoiseFunction[i - (int)topLeft.X, j - (int)topLeft.Y] == 1)
-                    {
-                        WorldGen.PlaceTile(i, j, type);
-                        WorldGen.PlaceTile(i, j, (ushort)GetGemsandType(j));
                     }
                 }
             }

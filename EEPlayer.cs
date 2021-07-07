@@ -26,6 +26,7 @@ using EEMod.Seamap.SeamapContent;
 using Terraria.DataStructures;
 using System.Linq;
 using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.EEWorld;
 
 namespace EEMod
 {
@@ -45,7 +46,7 @@ namespace EEMod
         public bool ZoneReefDepths;
 
         public bool HasVisitedSpire;
-        public bool[] reefMinibiome = new bool[7];
+        public MinibiomeID reefMinibiome = MinibiomeID.None;
         public bool aquamarineSetBonus = true;
         public int aquamarineCooldown;
         public bool isLight;
@@ -257,20 +258,17 @@ namespace EEMod
                 }
                 //Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
 
-                /*int minibiome = 0;
-                for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
+                for (int k = 0; k < CoralReefs.Minibiomes.Count; k++)
                 {
-                    if (Vector2.DistanceSquared(new Vector2(EESubWorlds.MinibiomeLocations[k].X, EESubWorlds.MinibiomeLocations[k].Y), player.Center / 16) < (160 * 160) && EESubWorlds.MinibiomeLocations[k].Z != 0)
+                    if (Vector2.DistanceSquared(CoralReefs.Minibiomes[k].Center.ToVector2(), player.Center / 16) < (100 * 100))
                     {
-                        minibiome = (int)EESubWorlds.MinibiomeLocations[k].Z;
+                        Main.NewText("a");
+                        reefMinibiome = CoralReefs.Minibiomes[k].id;
                         break;
                     }
                 }
 
-                for (int i = 0; i < reefMinibiome.Length; i++)
-                    reefMinibiome[i] = false;
-
-                reefMinibiome[minibiome] = true;*/
+                Main.NewText(reefMinibiome);
             }
             else
             {
@@ -753,11 +751,11 @@ namespace EEMod
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
             EEPlayer eeplayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            if (eeplayer.reefMinibiome[(int)MinibiomeID.AquamarineCaverns])
+            if (eeplayer.reefMinibiome == MinibiomeID.AquamarineCaverns)
                 EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.08f));
-            if (eeplayer.reefMinibiome[(int)MinibiomeID.KelpForest])
+            if (eeplayer.reefMinibiome == MinibiomeID.KelpForest)
             {
                 float gottenParalax = Main.rand.NextFloat(1, 1.5f);
                 EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, GetInstance<EEMod>().GetTexture("Particles/ForegroundParticles/KelpLeaf"), gottenParalax, 1 - (gottenParalax - 1)/1.2f, new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new RotateTexture(0.03f), new SetLightingBlend(true), new SetAnimData(6, 5));

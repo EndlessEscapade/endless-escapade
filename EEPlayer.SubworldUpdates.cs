@@ -133,10 +133,6 @@ namespace EEMod
 
             if (!arrowFlag)
             {
-                for (int i = 0; i < CoralReefs.OrbPositions.Count; i++)
-                {
-                    NPC.NewNPC((int)CoralReefs.OrbPositions[i].X * 16, (int)CoralReefs.OrbPositions[i].Y * 16, NPCType<SpikyOrb>());
-                }
                 NPC.NewNPC((int)CoralReefs.SpirePosition.X * 16 + 160 - 8, (int)CoralReefs.SpirePosition.Y * 16, NPCType<AquamarineSpire>());
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {

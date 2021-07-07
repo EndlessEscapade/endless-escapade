@@ -54,7 +54,7 @@ namespace EEMod.NPCs
                     pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
                 }
 
-                if (spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome[(int)MinibiomeID.KelpForest])
+                if (spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
                 {
                     pool[0] = 0f;
                     pool.Add(ModContent.NPCType<GlowingKelpSpider>(), 0.5f);

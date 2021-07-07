@@ -313,7 +313,6 @@ namespace EEMod.EEWorld
             tag.TryGetRef("ree", ref ree);
             tag.TryGetRef("SpirePosition", ref CoralReefs.SpirePosition);
             tag.TryGetListRef("CoralReefVineLocations", ref CoralReefs.CoralReefVineLocations);
-            tag.TryGetListRef("OrbPositions", ref CoralReefs.OrbPositions);
             tag.TryGetListRef("AquamarineZiplineLocations", ref CoralReefs.AquamarineZiplineLocations);
             tag.TryGetListRef("ThinCrystalBambooLocations", ref CoralReefs.ThinCrystalBambooLocations);
             tag.TryGetListRef("BulbousTreePosition", ref CoralReefs.BulbousTreePosition);
@@ -363,15 +362,9 @@ namespace EEMod.EEWorld
                 //    EmptyTileEntityCache.AddPair(new Crystal(EESubWorlds.CoralCrystalPosition[i]), EESubWorlds.CoralCrystalPosition[i], EmptyTileArrays.CoralCrystal);
             }
             tag.TryGetByteArrayRef("LightStates", ref LightStates);
-            if (tag.TryGetList("ReefMinibiomePositions", out IList<Vector2> list) && tag.TryGetList("ReefMinibiomeTypes", out IList<int> types))
-            {
-                List<Vector3> templist = new List<Vector3>(list.Count);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    templist.Add(new Vector3(list[i], types[i]));
-                }
-                CoralReefs.MinibiomeLocations = templist;
-            }
+
+            
+
             if (tag.TryGetList<string>("boolFlags", out var flags))
             {
                 // Downed bosses
@@ -393,7 +386,6 @@ namespace EEMod.EEWorld
                 tag["CoralReefVineLocations"] = CoralReefs.CoralReefVineLocations;
                 tag["AquamarineZiplineLocations"] = CoralReefs.AquamarineZiplineLocations;
                 tag["ThinCrystalBambooLocations"] = CoralReefs.ThinCrystalBambooLocations;
-                tag["OrbPositions"] = CoralReefs.OrbPositions;
                 tag["BulbousTreePosition"] = CoralReefs.BulbousTreePosition;
                 tag["WebPositions"] = CoralReefs.WebPositions;
                 tag["SwingableVines"] = VerletHelpers.SwingableVines;
@@ -405,18 +397,7 @@ namespace EEMod.EEWorld
                 tag["EmptyTileVectorEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Keys.ToList();
                 tag["EmptyTileEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Values.ToList();
 
-                if (CoralReefs.MinibiomeLocations.Count > 0)
-                {
-                    Vector2[] ReefMinibiomePositions = new Vector2[CoralReefs.MinibiomeLocations.Count];
-                    int[] ReefMinibiomeTypes = new int[CoralReefs.MinibiomeLocations.Count];
-                    for (int i = 0; i < CoralReefs.MinibiomeLocations.Count; i++)
-                    {
-                        ReefMinibiomePositions[i] = new Vector2(CoralReefs.MinibiomeLocations[i].X, CoralReefs.MinibiomeLocations[i].Y);
-                        ReefMinibiomeTypes[i] = (int)CoralReefs.MinibiomeLocations[i].Z;
-                    }
-                    tag["ReefMinibiomePositions"] = ReefMinibiomePositions.ToList();
-                    tag["ReefMinibiomeTypes"] = ReefMinibiomeTypes.ToList();
-                }
+                
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {

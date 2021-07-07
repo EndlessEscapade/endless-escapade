@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Systems.Noise;
+using EEMod.ID;
 using static EEMod.EEWorld.EEWorld;
 
 namespace EEMod.EEWorld
@@ -21,6 +22,8 @@ namespace EEMod.EEWorld
         }
 
         public delegate void InOvalEvent(int i, int j);
+
+        public override MinibiomeID id => MinibiomeID.KelpForest;
 
         public void BoundClause(InOvalEvent obj)
         {
@@ -41,9 +44,9 @@ namespace EEMod.EEWorld
             Point TL = Bounds.TopLeft().ToPoint();
             Point BR = Bounds.BottomRight().ToPoint();
 
-            MakeNoiseOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
-            CreateNoise(!EnsureNoise, Position, Size, 50, 50, 0.4f);
-            CreateNoise(!EnsureNoise, Position, Size, 20, 20, 0.4f);
+            CoralReefs.MakeNoiseOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
+            CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 50, 50, 0.4f);
+            CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 20, 20, 0.4f);
             RemoveStoneSlabs();
             BoundClause((int i, int j) =>
             {
@@ -69,8 +72,8 @@ namespace EEMod.EEWorld
                 }
             });
 
-            perlinNoise = new PerlinNoiseFunction(Bounds.Width + 1, Bounds.Height + 1, 50, 50, 0.5f);
-            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+            CoralReefs.perlinNoise = new PerlinNoiseFunction(Bounds.Width + 1, Bounds.Height + 1, 50, 50, 0.5f);
+            int[,] perlinNoiseFunction = CoralReefs.perlinNoise.perlinBinary;
 
             BoundClause((int i, int j) =>
             {

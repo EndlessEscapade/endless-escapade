@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Tiles.EmptyTileArrays;
 using System;
+using EEMod.ID;
 using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.EEWorld
@@ -22,6 +23,8 @@ namespace EEMod.EEWorld
         }
 
         public delegate void InOvalEvent(int i, int j);
+
+        public override MinibiomeID id => MinibiomeID.AquamarineCaverns;
 
         public void BoundClause(InOvalEvent obj)
         {
@@ -43,9 +46,9 @@ namespace EEMod.EEWorld
             Point BR = Bounds.BottomRight().ToPoint();
 
             //Worldgen
-            MakeNoiseOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
-            CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
-            CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
+            CoralReefs.MakeNoiseOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
+            CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
+            CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
 
             BoundClause((int i, int j) =>
             {
@@ -66,7 +69,7 @@ namespace EEMod.EEWorld
                 Vector2 pos2 = new Vector2(CoralReefs.SpirePosition.X + 10, CoralReefs.SpirePosition.Y + 150 / 2);
 
                 int tile2 = 0;
-                tile2 = GetGemsandType((int)pos1.Y);
+                tile2 = CoralReefs.GetGemsandType((int)pos1.Y);
 
                 MakeExpandingChasm(pos1, pos2, tile2, 100, -2, true, new Vector2(20, 30), .5f);
                 MakeExpandingChasm(pos2, pos1, tile2, 100, -2, true, new Vector2(20, 30), .5f);

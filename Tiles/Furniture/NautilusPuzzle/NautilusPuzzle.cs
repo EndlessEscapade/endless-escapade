@@ -36,17 +36,6 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
             disableSmartCursor = true;
         }
 
-        private string path = "EEMod/Tiles/Furniture/NautilusPuzzle/";
-        private int[,] tiles = new int[,] { 
-            { 2, 8, 6 },
-            { 1, 0, 5 },
-            { 4, 7, 9 }
-        };
-
-        private int selectedVal = 0;
-        private int selectedX = 0;
-        private int selectedY = 0;
-
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile t = Main.tile[i, j];
@@ -61,6 +50,18 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
         private int cooldown = 0;
         private bool sussy;
         private float colorLerp;
+
+        private string path = "EEMod/Tiles/Furniture/NautilusPuzzle/";
+        private int[,] tiles = new int[,] {
+            { 2, 8, 6 },
+            { 1, 0, 5 },
+            { 4, 7, 9 }
+        };
+
+        private int selectedVal = 0;
+        private int selectedX = 0;
+        private int selectedY = 0;
+
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
             if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
