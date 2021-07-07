@@ -256,19 +256,26 @@ namespace EEMod
                 {
                     player.ZoneBeach = false;
                 }
-                //Filters.Scene.Activate("EEMod:CR").GetShader().UseOpacity(opac);
+
+                bool foundBiome = false;
 
                 for (int k = 0; k < CoralReefs.Minibiomes.Count; k++)
                 {
-                    if (Vector2.DistanceSquared(CoralReefs.Minibiomes[k].Center.ToVector2(), player.Center / 16) < (100 * 100))
+                    Vector2 playerPos = player.Center / 16;
+                    Vector2 minibiomePos = CoralReefs.Minibiomes[k].Center.ToVector2();
+
+                    if (OvalCheck((int)minibiomePos.X, (int)minibiomePos.Y, (int)playerPos.X, (int)playerPos.Y, CoralReefs.Minibiomes[k].Size.X / 2, CoralReefs.Minibiomes[k].Size.Y / 2))
                     {
-                        Main.NewText("a");
                         reefMinibiome = CoralReefs.Minibiomes[k].id;
+
+                        foundBiome = true;
+
+                        Main.NewText(reefMinibiome);
                         break;
                     }
                 }
 
-                Main.NewText(reefMinibiome);
+                if (!foundBiome) reefMinibiome = MinibiomeID.None;
             }
             else
             {
@@ -277,11 +284,6 @@ namespace EEMod
                 {
                     opac = 0;
                 }
-
-                /*for (int i = 0; i < reefMinibiome.Length; i++)
-                    reefMinibiome[i] = false;*/
-
-                //	Filters.Scene.Deactivate("EEMod:CR");
             }
         }
 

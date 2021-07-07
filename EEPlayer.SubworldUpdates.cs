@@ -171,7 +171,7 @@ namespace EEMod
             }
             catch { }
 
-            if (Main.moonType == 4 && !Main.dayTime && !jellyfishMigration)
+            if (Main.moonPhase == 4 && !Main.dayTime && !jellyfishMigration)
             {
                 Main.NewText("Jellyfish are migrating on the surface!", new Color(50, 255, 130));
                 jellyfishMigration = true;
