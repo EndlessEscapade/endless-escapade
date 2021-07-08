@@ -28,7 +28,6 @@ namespace EEMod.UI.States
             base.Update(gameTime);
             Slot.Left.Set(571.5f, 0f);
             Slot.Top.Set(105f, 0f);
-            //Recalculate();
         }
     }
 }

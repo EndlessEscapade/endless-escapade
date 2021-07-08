@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.UI;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
+using EEMod.Items.Armor.Kelpweaver;
 
 namespace EEMod.UI.States
 {
@@ -43,7 +44,7 @@ namespace EEMod.UI.States
             {
                 if (KelpArmorAmmoArrow.Transparency <= 0f)
                 {
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().HasInteractedWithSlotBefore = true;
+                    Main.LocalPlayer.GetModPlayer<KelpweaverPlayer>().HasInteractedWithSlotBefore = true;
                     EEMod.UI.RemoveState("IndicatorsInterface");
                 }
                 KelpArmorAmmoArrow.Transparency -= 0.05f;

@@ -48,6 +48,7 @@ namespace EEMod.Items.Armor.Kelpweaver
     public class KelpweaverPlayer : ModPlayer
     {
         public bool kelpweaverSet = false;
+        public bool HasInteractedWithSlotBefore;
 
         private static float gun1rot = 0.79f;
         private static float gun2rot = 2.36f;
@@ -244,6 +245,40 @@ namespace EEMod.Items.Armor.Kelpweaver
         {
             KelpweaverArms.visible = true;
             layers.Insert(0, KelpweaverArms);
+        }
+        public override void PostUpdate()
+        {
+            if (kelpweaverSet)
+            {
+                if (Main.playerInventory)
+                {
+                    if (!HasInteractedWithSlotBefore)
+                    {
+                        EEMod.UI.SetState("IndicatorsInterface", "IndicatorsUI");
+                    }
+                    EEMod.UI.SetState("KelpArmorAmmoInterface", "KelpArmorAmmoUI");
+                }
+                else
+                {
+                    if (!HasInteractedWithSlotBefore)
+                    {
+                        EEMod.UI.RemoveState("IndicatorsInterface");
+                    }
+                    EEMod.UI.RemoveState("KelpArmorAmmoInterface");
+                }
+            }
+        }
+        public override TagCompound Save()
+        {
+            return new TagCompound
+            {
+                ["HasInteractedWithSlotBefore"] = HasInteractedWithSlotBefore
+            };
+        }
+
+        public override void Load(TagCompound tag)
+        {
+            tag.TryGetRef("HasInteractedWithSlotBefore", ref HasInteractedWithSlotBefore);
         }
     }
 }
