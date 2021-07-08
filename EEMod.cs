@@ -151,8 +151,10 @@ namespace EEMod
                 Particles.AddZone("Main", 40000);
                 MainParticles = Particles.Get("Main");
             }
-
             InitializeAmbience();
+            //Example
+            LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
+            LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
         }
 
         public override void Unload()
