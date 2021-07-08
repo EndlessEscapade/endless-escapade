@@ -89,9 +89,11 @@ namespace EEMod.Projectiles.CoralReefs
             if(fadingOut)
             {
                 projectile.alpha += 16;
-                projectile.scale -= 1 / 16f;
+                projectile.scale -= 0.0625f;
 
-                projectile.velocity = Vector2.Normalize(targetPlayer.Center - projectile.Center) * 2;
+                projectile.velocity = Vector2.Normalize(targetPlayer.Center - projectile.Center) * 3;
+
+
             }
 
             if(projectile.alpha >= 255)
@@ -111,14 +113,12 @@ namespace EEMod.Projectiles.CoralReefs
 
             alpha += 0.06f;
 
-            alpha = MathHelper.Clamp(alpha, 0f, 0.6f);
+            Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
 
-            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), projectile.Center.ForDraw(), Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f) * alpha * ((255 - projectile.alpha) / 255f), 0.9f * projectile.scale, 0.8f);
+            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f), 0.9f * projectile.scale, 0.8f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-
-            Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
 
             EEMod.White.CurrentTechnique.Passes[0].Apply();
             EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));

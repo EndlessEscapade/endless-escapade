@@ -5,6 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Enums;
 
 namespace EEMod.Tiles.Foliage.ThermalVents
 {
@@ -15,18 +16,16 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
 
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
             TileObjectData.newTile.Height = 1;
             TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.LavaDeath = true;
+            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, 2, 0);
             TileObjectData.newTile.CoordinateHeights = new int[]
             {
                 16
             };
-            TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.newTile.RandomStyleRange = 1;
-            TileObjectData.newTile.StyleHorizontal = true;
+            TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Thermal Vent");
@@ -37,9 +36,9 @@ namespace EEMod.Tiles.Foliage.ThermalVents
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
-            r = 0.9f;
-            g = 0.3f;
-            b = 0.2f;
+            r = 0.40f;
+            g = 0.08f;
+            b = 0.13f;
         }
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)

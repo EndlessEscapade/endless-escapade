@@ -52,7 +52,7 @@ namespace EEMod.EEWorld
             {
                 if (WorldGen.genRand.Next(100) == 0)
                 {
-                    WorldGen.TileRunner(i, j, Main.rand.Next(10, 20), Main.rand.Next(10, 20), ModContent.TileType<BrimstoneTile>(), false, 0, 0, false, true);
+                    WorldGen.TileRunner(i, j, Main.rand.Next(10, 20), Main.rand.Next(10, 20), ModContent.TileType<ScorchedGemsandTile>(), false, 0, 0, false, true);
                 }
             });
 

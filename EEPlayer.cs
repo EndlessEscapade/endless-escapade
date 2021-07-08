@@ -269,8 +269,6 @@ namespace EEMod
                         reefMinibiome = CoralReefs.Minibiomes[k].id;
 
                         foundBiome = true;
-
-                        Main.NewText(reefMinibiome);
                         break;
                     }
                 }

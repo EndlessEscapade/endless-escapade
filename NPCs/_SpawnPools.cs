@@ -18,7 +18,8 @@ namespace EEMod.NPCs
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
             Player spawnplayer = spawnInfo.player;
-            if (spawnplayer.GetModPlayer<EEPlayer>().ZoneCoralReefs) {
+            if (spawnplayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
+            {
                 pool[0] = 0f;
                 if (spawnInfo.player.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
                 {
@@ -38,14 +39,16 @@ namespace EEMod.NPCs
                         pool.Add(ModContent.NPCType<OlvinicSnail>(), 5f);
                     }
                 }
-                else if (spawnplayer.Center.Y <= 12800 && spawnInfo.player.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
+
+                else if (spawnplayer.Center.Y <= 12800 && spawnInfo.player.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16 && spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.None)
                 {
                     pool.Add(ModContent.NPCType<Clam>(), 5f);
                     pool.Add(ModContent.NPCType<LunaJelly>(), 5f);
                     pool.Add(ModContent.NPCType<SeaSlug>(), 5f);
                     pool.Add(ModContent.NPCType<Seahorse>(), 5f);
                 }
-                else if (spawnplayer.Center.Y > 12800)
+
+                else if (spawnplayer.Center.Y > 12800 && spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.None)
                 {
                     pool.Add(ModContent.NPCType<Clam>(), 0.5f);
                     pool.Add(ModContent.NPCType<Ball>(), 0.5f);
@@ -57,11 +60,9 @@ namespace EEMod.NPCs
                 if (spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
                 {
                     pool[0] = 0f;
-                    pool.Add(ModContent.NPCType<GlowingKelpSpider>(), 0.5f);
+                    pool.Add(ModContent.NPCType<GlowingKelpSpider>(), 0.1f);
                 }
             }
-
-
 
             if (Main.ActiveWorldFileData.Name == KeyID.Island || Main.ActiveWorldFileData.Name == KeyID.Island2)
             {

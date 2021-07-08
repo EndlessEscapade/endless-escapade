@@ -28,6 +28,7 @@ namespace EEMod.Tiles
             mineResist = 1f;
             minPick = 0;
         }
+
         void PlaceGroundGrass(int i, int j)
         {
             int noOfGrassBlades = (int)(((i + j) % 16) * 0.2f);
