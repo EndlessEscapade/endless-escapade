@@ -146,7 +146,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             #region Generating chasms
             EEMod.progressMessage = "Generating chasms";
 
-            /*int highestUpperRoom = 0;
+            int highestUpperRoom = 0;
             int lowestUpperRoom = 0;
             for (int i = 0; i < upperRoomPositions.Length; i++)
             {
@@ -170,7 +170,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 }
             }
 
-            MakeWavyChasm3(upperRoomPositions[lowestUpperRoom], lowerRoomPositions[closestLowerRoom], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
+            MakeWavyChasm3(upperRoomPositions[lowestUpperRoom], lowerRoomPositions[closestLowerRoom], TileID.StoneSlab, 100, WorldGen.genRand.Next(7, 15), true, new Vector2(7, 15), WorldGen.genRand.Next(7, 15), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
 
             for (int i = 0; i < upperRoomPositions.Length; i++)
             {
@@ -178,12 +178,12 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     if (Vector2.DistanceSquared(upperRoomPositions[i], upperRoomPositions[j]) <= 90000)
                     {
-                        MakeWavyChasm3(upperRoomPositions[i], upperRoomPositions[j], TileID.StoneSlab, 100, WorldGen.genRand.Next(10, 20), true, new Vector2(10, 20), WorldGen.genRand.Next(10, 20), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
+                        MakeWavyChasm3(upperRoomPositions[i], upperRoomPositions[j], TileID.StoneSlab, 100, WorldGen.genRand.Next(7, 15), true, new Vector2(7, 15), WorldGen.genRand.Next(7, 15), WorldGen.genRand.Next(5, 10), true, 51, WorldGen.genRand.Next(80, 120));
                     }
                 }
             }
 
-            RemoveStoneSlabs();*/
+            RemoveStoneSlabs();
 
             EEMod.progressMessage = "Placing chasm coral";
             TilePopulate(

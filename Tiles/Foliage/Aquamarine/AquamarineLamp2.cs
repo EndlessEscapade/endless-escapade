@@ -65,12 +65,14 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                     zero = Vector2.Zero;
                 }
 
-                Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + 20, j * 16 - (int)Main.screenPosition.Y + 26) + zero;
+                Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + 18, j * 16 - (int)Main.screenPosition.Y + 24) + zero;
                 Rectangle rect = new Rectangle(0, frame * 16, 14, 16);
 
                 int bigTimeBetween = 200;
                 int timeBetween = 70;
                 float heartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
+
+                Helpers.DrawAdditiveFunky(mod.GetTexture("Textures/RadialGradient"), position + new Vector2(5, 5), Color.Lerp(Color.Cyan, Color.Magenta, Math.Sin(Main.GameUpdateCount / 20f).PositiveSin()), 1f, 0.8f);
 
                 Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Lighting.GetColor(i + 1, j + 1), 0f, default, 1f, SpriteEffects.None, 0f);
                 Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Color.White * heartBeat, 0f, default, 1f, SpriteEffects.None, 0f);
