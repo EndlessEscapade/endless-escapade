@@ -231,11 +231,21 @@ namespace EEMod
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             if (mouseTextIndex != -1)
             {
-                LegacyGameInterfaceLayer EEInterfaceLayer = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
+                LegacyGameInterfaceLayer EEInterfaceLayerUI = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
                 {
                     if (lastGameTime != null)
                     {
-                        UI.Draw(lastGameTime);
+                        UI.DrawWithScaleUI(lastGameTime);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI);
+                layers.Insert(mouseTextIndex, EEInterfaceLayerUI);
+                LegacyGameInterfaceLayer EEInterfaceLayerGame = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
+                {
+                    if (lastGameTime != null)
+                    {
+                        UI.DrawWithScaleGame(lastGameTime);
                         UpdateGame(lastGameTime);
                         if (Main.worldName == KeyID.CoralReefs)
                         {
@@ -244,8 +254,8 @@ namespace EEMod
                     }
 
                     return true;
-                }, InterfaceScaleType.UI);
-                layers.Insert(mouseTextIndex, EEInterfaceLayer);
+                }, InterfaceScaleType.Game);
+                layers.Insert(mouseTextIndex, EEInterfaceLayerGame);
             }
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
             {

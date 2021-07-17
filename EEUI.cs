@@ -34,10 +34,10 @@ namespace EEMod
                 UI.AddUIState("EEUI", new EEUI());
                 UI.AddInterface("CustomResources");
                 //autobind
-                UI.AddInterface("SpeedrunnTimer", "RunUI");
-                UI.AddInterface("MerchantBoatUI", "MBUI");
-                UI.AddInterface("EEInterface", "EEUI");
-                UI.AddInterface("ArrowInterface", "ArrowUI");
+                UI.AddInterface("SpeedrunnTimer", false, "RunUI");
+                UI.AddInterface("MerchantBoatUI", false, "MBUI"); //Not sure if it's false
+                UI.AddInterface("EEInterface", true, "EEUI"); //Not sure if it's true
+                UI.AddInterface("ArrowInterface", false, "ArrowUI");
 
                 UI.SwitchBindedState("ArrowInterface");
             }
