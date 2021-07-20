@@ -17,7 +17,7 @@ namespace EEMod
         private readonly Dictionary<string, UserInterface> UIInterfaces = new Dictionary<string, UserInterface>();
         private readonly Dictionary<string, UIState> UIStates = new Dictionary<string, UIState>();
         private readonly Dictionary<UserInterface, UIState> Binds = new Dictionary<UserInterface, UIState>();
-
+        private readonly Dictionary<UserInterface, bool> ScalingTypes = new Dictionary<UserInterface, bool>();
         public void AddUIState(string UIStateName, UIState UiState)
         {
             if (UIStates.ContainsKey(UIStateName))
@@ -27,13 +27,15 @@ namespace EEMod
             UIStates.Add(UIStateName, UiState);
         }
 
-        public void AddInterface(string UIStateName, string Bind = "")
+        public void AddInterface(string UIStateName, bool IsScaledWithGame = false, string Bind = "")
         {
             if (UIInterfaces.ContainsKey(UIStateName))
             {
                 throw new InvalidOperationException("Interface name already used");
             }
-            UIInterfaces.Add(UIStateName, new UserInterface());
+            var TheInterface = new UserInterface();
+            UIInterfaces.Add(UIStateName, TheInterface);
+            ScalingTypes.Add(TheInterface, IsScaledWithGame);
             if (Bind != "")
             {
                 BindInterfaceToState(UIStateName, Bind);
@@ -148,11 +150,21 @@ namespace EEMod
             }
         }
 
-        public void Draw(GameTime gameTime)
+        public void DrawWithScaleUI(GameTime gameTime)
         {
             foreach (UserInterface item in UIInterfaces.Values)
             {
-                if (item.CurrentState != null)
+                if (item.CurrentState != null && !ScalingTypes[item])
+                {
+                    item.Draw(Main.spriteBatch, gameTime);
+                }
+            }
+        }
+        public void DrawWithScaleGame(GameTime gameTime)
+        {
+            foreach (UserInterface item in UIInterfaces.Values)
+            {
+                if (item.CurrentState != null && ScalingTypes[item])
                 {
                     item.Draw(Main.spriteBatch, gameTime);
                 }
