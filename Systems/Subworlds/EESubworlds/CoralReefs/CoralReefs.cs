@@ -441,18 +441,16 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     if (WorldGen.genRand.NextBool(6))
                     {
-                        if (!Framing.GetTileSafely(i, TileCheckWater(i) - 1).active() && !Framing.GetTileSafely(i, TileCheckWater(i)).active() && !Framing.GetTileSafely(i, TileCheckWater(i + 1)).active())
+                        if (!Framing.GetTileSafely(i, depth - 1).active() && !Framing.GetTileSafely(i, depth).active() && !Framing.GetTileSafely(i, depth + 1).active())
                         {
-                            int ballfart = TileCheckWater(i);
-
                             switch (WorldGen.genRand.Next(2))
                             {
                                 case 0:
-                                    WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadSmol>());
+                                    WorldGen.PlaceTile(i, depth - 1, ModContent.TileType<LilyPadSmol>());
                                     break;
 
                                 case 1:
-                                    WorldGen.PlaceTile(i, ballfart - 1, ModContent.TileType<LilyPadMedium>());
+                                    WorldGen.PlaceTile(i, depth - 1, ModContent.TileType<LilyPadMedium>());
                                     break;
                             }
                         }

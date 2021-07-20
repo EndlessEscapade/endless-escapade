@@ -317,6 +317,7 @@ namespace EEMod.EEWorld
             tag.TryGetListRef("ThinCrystalBambooLocations", ref CoralReefs.ThinCrystalBambooLocations);
             tag.TryGetListRef("BulbousTreePosition", ref CoralReefs.BulbousTreePosition);
             tag.TryGetListRef("WebPositions", ref CoralReefs.WebPositions);
+            //tag.TryGetListRef("CoralReefMinibiomes", ref CoralReefs.Minibiomes);
 
             /*if (tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions))
             {
@@ -388,6 +389,9 @@ namespace EEMod.EEWorld
                 tag["ThinCrystalBambooLocations"] = CoralReefs.ThinCrystalBambooLocations;
                 tag["BulbousTreePosition"] = CoralReefs.BulbousTreePosition;
                 tag["WebPositions"] = CoralReefs.WebPositions;
+
+                //tag["CoralReefMinibiomes"] = CoralReefs.Minibiomes;
+
                 tag["SwingableVines"] = VerletHelpers.SwingableVines;
                 tag["LightStates"] = LightStates;
                 tag["CoralCrystalPosition"] = CoralReefs.CoralCrystalPosition;
@@ -397,7 +401,7 @@ namespace EEMod.EEWorld
                 tag["EmptyTileVectorEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Keys.ToList();
                 tag["EmptyTileEntities"] = EmptyTileEntities.Instance.EmptyTileEntityPairsCache.Values.ToList();
 
-                
+
             }
             if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
             {

@@ -1207,6 +1207,24 @@ namespace EEMod.EEWorld
             }
         }
 
+        public static void RemoveWaterFromRegionWallsOnly(int width, int height, Vector2 startingPoint)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType() == 0 && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid > 64 && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != WallID.None)
+                    {
+                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).ClearEverything();
+                        if (Main.netMode == NetmodeID.MultiplayerClient) // sync
+                        {
+                            NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+                        }
+                    }
+                }
+            }
+        }
+
         public static int TileCheck2(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j);

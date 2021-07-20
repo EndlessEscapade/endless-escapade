@@ -21,8 +21,7 @@ namespace EEMod.Projectiles
             projectile.timeLeft = 600;
             projectile.penetrate = -1;
             projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
+            projectile.friendly = false;
             projectile.tileCollide = false;
             projectile.ignoreWater = true;
             projectile.scale *= 1;

@@ -59,7 +59,6 @@ namespace EEMod
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-
         }
         public static void DrawAdditiveFunkyNoBatch(Texture2D tex, Vector2 position, Color colour, float scale, float intensity, float offset = 0)
         {

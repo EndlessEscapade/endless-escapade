@@ -21,9 +21,6 @@ namespace EEMod.Items
             item.width = 20;
             item.shoot = ModContent.ProjectileType<Torch>();
             item.height = 20;
-            item.noMelee = true;
-            item.ranged = true;
-            item.damage = 20;
             item.useTime = 1;
             item.useAnimation = 1;
             item.value = Item.buyPrice(0, 0, 30, 0);
@@ -34,7 +31,7 @@ namespace EEMod.Items
 
         private int yeet;
         private float alpha;
-        private int proj;
+        private int proj = -1;
 
         public override void UpdateInventory(Player player)
         {
@@ -43,7 +40,7 @@ namespace EEMod.Items
 
         public override void HoldItem(Player player)
         {
-            Main.projectile[proj].ai[0] = alpha;
+            if(proj != -1) Main.projectile[proj].ai[0] = alpha;
             if (player.controlUseItem && yeet == 0)
             {
                 proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<Gradient>(), 0, 0f, player.whoAmI);
@@ -64,6 +61,7 @@ namespace EEMod.Items
                     alpha = 0;
                     yeet = 0;
                     Main.projectile[proj].Kill();
+                    proj = -1;
                 }
             }
         }
