@@ -261,7 +261,7 @@ namespace EEMod.UI.States
             base.DrawSelf(spriteBatch);
             CalculatedStyle dimensions = GetDimensions();
             Texture2D texture = Main.itemTexture[ItemType];
-            int x = (int)(dimensions.X + (texture.Size().X + BorderTexture.Size().Y) / 2);
+            int x = (int)(dimensions.X + (texture.Size().X + BorderTexture.Size().X) / 2);
             int y = (int)(dimensions.Y + (texture.Size().Y + BorderTexture.Size().Y) / 2);
             float transparency = IsMouseHovering || LogUI.SelectedFish == this ? 1f : 0.4f;
             SetVisibility(1f, transparency);
