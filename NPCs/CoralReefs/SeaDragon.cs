@@ -6,56 +6,56 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    internal class SeaDragon : ModNPC
+    internal class SeaDragon : EENPC
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         private int frameNumber = 0;
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 5)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 5)
             {
-                npc.frameCounter = 0;
+                NPC.frameCounter = 0;
                 frameNumber++;
                 if (frameNumber >= 5)
                 {
                     frameNumber = 0;
                 }
-                npc.frame.Y = frameNumber * 118;
+                NPC.frame.Y = frameNumber * 118;
             }
         }
 
         public override void SetDefaults()
         {
-            npc.lifeMax = 50;
-            npc.defense = 6;
-            npc.damage = 20;
-            npc.width = 52;
-            npc.height = 118;
-            npc.aiStyle = 0;
-            npc.knockBackResist = 10;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
-            npc.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
+            NPC.lifeMax = 50;
+            NPC.defense = 6;
+            NPC.damage = 20;
+            NPC.width = 52;
+            NPC.height = 118;
+            NPC.aiStyle = 0;
+            NPC.knockBackResist = 10;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
+            NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
         }
 
         public override void AI()
         {
-            Player target = Main.player[npc.target];
-            if (npc.wet)
+            Player target = Main.player[NPC.target];
+            if (NPC.wet)
             {
-                if (target.WithinRange(npc.Center, 6400))
+                if (target.WithinRange(NPC.Center, 6400))
                 {
-                    npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 4;
+                    NPC.velocity = Vector2.Normalize(target.Center - NPC.Center) * 4;
                 }
             }
 
-            npc.rotation = npc.velocity.X / 6;
+            NPC.rotation = NPC.velocity.X / 6;
         }
 
         public override void NPCLoot()

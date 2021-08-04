@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Ores
 {
-    public class DalantiniumBarTile : ModTile
+    public class DalantiniumBarTile : EETile
     {
         public override void SetDefaults()
         {

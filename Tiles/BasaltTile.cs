@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class BasaltTile : ModTile
+    public class BasaltTile : EETile
     {
         public override void SetDefaults()
         {

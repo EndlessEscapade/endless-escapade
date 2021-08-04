@@ -8,7 +8,7 @@ using System;
 
 namespace EEMod.Tiles
 {
-    public class ScorchedGemsandTile : ModTile
+    public class ScorchedGemsandTile : EETile
     {
         public override void SetDefaults()
         {

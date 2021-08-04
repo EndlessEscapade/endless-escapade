@@ -7,7 +7,7 @@ using EEMod.Seamap.SeamapContent;
 
 namespace EEMod.Seamap.SeamapAssets
 {
-    public class RedDutchman : ModProjectile
+    public class RedDutchman : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,12 +16,12 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 52;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1.2f;
+            Projectile.width = 44;
+            Projectile.height = 52;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 1.2f;
         }
 
         private bool sinking;
@@ -33,28 +33,28 @@ namespace EEMod.Seamap.SeamapAssets
             if (!sinking)
             {
                 Vector2 moveTo = Main.screenPosition + SeamapPlayerShip.localship.position;
-                projectile.spriteDirection = 1;
-                if (projectile.velocity.X > 0)
+                Projectile.spriteDirection = 1;
+                if (Projectile.velocity.X > 0)
                 {
-                    projectile.spriteDirection = -1;
+                    Projectile.spriteDirection = -1;
                 }
                 float speed = .5f; //a
-                Vector2 move = moveTo - projectile.Center;
+                Vector2 move = moveTo - Projectile.Center;
                 float magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                 if (magnitude > speed)
                 {
                     move *= speed / magnitude;
                 }
                 float turnResistance = 10f;
-                move = (projectile.velocity * turnResistance + move) / (turnResistance + 1f);
+                move = (Projectile.velocity * turnResistance + move) / (turnResistance + 1f);
                 magnitude = (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
                 if (magnitude > speed)
                 {
                     move *= speed / magnitude;
                 }
-                projectile.velocity = move;
+                Projectile.velocity = move;
 
-                projectile.rotation = projectile.velocity.X / 2;
+                Projectile.rotation = Projectile.velocity.X / 2;
 
                 invincTime--;
 
@@ -63,7 +63,7 @@ namespace EEMod.Seamap.SeamapAssets
                 {
                     if (Main.projectile[j].type == ModContent.ProjectileType<FriendlyCannonball>())
                     {
-                        if (Vector2.DistanceSquared(Main.projectile[j].Center, projectile.Center) < (50 * 50) && invincTime == 0)
+                        if (Vector2.DistanceSquared(Main.projectile[j].Center, Projectile.Center) < (50 * 50) && invincTime == 0)
                         {
                             invincTime = 60;
                             Main.projectile[j].Kill();
@@ -87,13 +87,13 @@ namespace EEMod.Seamap.SeamapAssets
 
         private void Sink()
         {
-            projectile.velocity.X = 0;
-            projectile.velocity.Y = 0.5f;
-            projectile.alpha += 8;
+            Projectile.velocity.X = 0;
+            Projectile.velocity.Y = 0.5f;
+            Projectile.alpha += 8;
             sinkTimer--;
             if (sinkTimer <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Akumo
 {
-    public class AkumoFeather : ModProjectile
+    public class AkumoFeather : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,21 +16,21 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 18;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.ranged = true;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 800;
+            Projectile.width = 44;
+            Projectile.height = 18;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.ranged = true;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 800;
         }
 
         public override bool PreAI()
         {
             if (Main.rand.NextBool(6))
             {
-                int num25 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LavaBubbles, 0f, 0f, 100, default, 1f);
+                int num25 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.LavaBubbles, 0f, 0f, 100, default, 1f);
                 Main.dust[num25].velocity *= 0.3f;
                 Main.dust[num25].noGravity = true;
                 Main.dust[num25].noLight = true;
@@ -43,14 +43,14 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override void AI()
         {
-            projectile.ai[0] += 0.1f;
+            Projectile.ai[0] += 0.1f;
             if (Main.rand.NextBool(2))
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LavaBubbles, 0.0f, 0.0f, 100, new Color(), 1f);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.LavaBubbles, 0.0f, 0.0f, 100, new Color(), 1f);
             }
-            projectile.rotation = projectile.velocity.ToRotation(); // projectile faces sprite right
-            projectile.velocity.Y = speed * (float)Math.Sin(projectile.ai[0]) + 10;
-            projectile.velocity.X += xAddon;
+            Projectile.rotation = Projectile.velocity.ToRotation(); // projectile faces sprite right
+            Projectile.velocity.Y = speed * (float)Math.Sin(Projectile.ai[0]) + 10;
+            Projectile.velocity.X += xAddon;
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)
@@ -60,16 +60,16 @@ namespace EEMod.NPCs.Bosses.Akumo
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Akumo/AkumoFeather");
-            AfterImage.DrawAfterimage(spriteBatch, texture, 0, projectile, 1.5f, 1f, 2, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
+            AfterImage.DrawAfterimage(spriteBatch, texture, 0, Projectile, 1.5f, 1f, 2, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
             return true;
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, projectile.position);
+            Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode, Projectile.position);
             for (int i = 0; i < 20; i++)
             {
-                int index2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.LavaBubbles, 0.0f, 0.0f, 100, new Color(), 1f);
+                int index2 = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.LavaBubbles, 0.0f, 0.0f, 100, new Color(), 1f);
                 Main.dust[index2].velocity *= 1.1f;
                 Main.dust[index2].scale *= 0.99f;
             }

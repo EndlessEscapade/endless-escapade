@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Shivs
 {
-    public abstract class Shiv : ModProjectile
+    public abstract class Shiv : EEProjectile
     {
         public virtual float rotationalCoverage => MathHelper.Pi;
         public virtual float RotationalOffset => MathHelper.PiOver2;
@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Melee.Shivs
         public virtual int shakeIntensity => 3;
         public virtual int AoE => 1000;
         public virtual bool canCrash => false;
-        protected Player projOwner => Main.player[projectile.owner];
+        protected Player projOwner => Main.player[Projectile.owner];
         public virtual float damageIncreaseOverTime => 0.01f;
         public virtual float weight => 1;
 
@@ -33,78 +33,78 @@ namespace EEMod.Items.Weapons.Melee.Shivs
             {
                 do
                 {
-                    projectile.ai[0] = Main.rand.Next(0, 7);
-                } while (exclude.Contains((int)projectile.ai[0]));
+                    Projectile.ai[0] = Main.rand.Next(0, 7);
+                } while (exclude.Contains((int)Projectile.ai[0]));
             }
-            projectile.direction = projOwner.direction;
-            projOwner.heldProj = projectile.whoAmI;
+            Projectile.direction = projOwner.direction;
+            projOwner.heldProj = Projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            if (projectile.ai[0] != 4)
+            if (Projectile.ai[0] != 4)
             {
-                projectile.position.X = projOwner.Center.X - projectile.width / 2;
-                projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
+                Projectile.position.X = projOwner.Center.X - Projectile.width / 2;
+                Projectile.position.Y = projOwner.Center.Y - Projectile.height / 2;
             }
-            if (projectile.ai[0] == 0) //schpeen
+            if (Projectile.ai[0] == 0) //schpeen
             {
-                projectile.rotation += 0.2f;
+                Projectile.rotation += 0.2f;
             }
-            if (projectile.ai[0] == 1) //schtab
+            if (Projectile.ai[0] == 1) //schtab
             {
-                projectile.rotation = MathHelper.Pi / 4 + Main.rand.NextFloat(-0.2f, 0.2f) + (Main.MouseWorld - projOwner.Center).ToRotation();
-                float percentageX = (float)Math.Sin(projectile.rotation);
-                float percentageY = (float)Math.Cos(projectile.rotation);
-                projectile.position.X += projOwner.itemAnimation % (projOwner.itemAnimationMax / 5) * percentageX;
-                projectile.position.Y += projOwner.itemAnimation % (projOwner.itemAnimationMax / 5) * percentageY;
+                Projectile.rotation = MathHelper.Pi / 4 + Main.rand.NextFloat(-0.2f, 0.2f) + (Main.MouseWorld - projOwner.Center).ToRotation();
+                float percentageX = (float)Math.Sin(Projectile.rotation);
+                float percentageY = (float)Math.Cos(Projectile.rotation);
+                Projectile.position.X += projOwner.itemAnimation % (projOwner.itemAnimationMax / 5) * percentageX;
+                Projectile.position.Y += projOwner.itemAnimation % (projOwner.itemAnimationMax / 5) * percentageY;
             }
-            if (projectile.ai[0] == 2) //dasche
+            if (Projectile.ai[0] == 2) //dasche
             {
                 if (projOwner.direction == 1)
                 {
-                    projectile.rotation += ((float)(Math.PI * .25f) - projectile.rotation) / 8f;
-                    if (Math.Abs(projectile.rotation - (float)(Math.PI * .25f)) < 0.02f)
+                    Projectile.rotation += ((float)(Math.PI * .25f) - Projectile.rotation) / 8f;
+                    if (Math.Abs(Projectile.rotation - (float)(Math.PI * .25f)) < 0.02f)
                     {
                         projOwner.velocity.X = 5 * projOwner.direction;
                         xDis += (projOwner.itemAnimationMax - projOwner.itemAnimation) * 0.04f * projOwner.direction;
-                        projectile.position.X += xDis;
+                        Projectile.position.X += xDis;
                     }
                     else
                     {
                         xDis -= (projOwner.itemAnimationMax - projOwner.itemAnimation) * 0.05f * projOwner.direction;
-                        projectile.position.X += xDis;
+                        Projectile.position.X += xDis;
                     }
                 }
                 else
                 {
-                    projectile.rotation += ((float)(Math.PI * 1.25f) - projectile.rotation) / 8f;
-                    if (Math.Abs(projectile.rotation - (float)(Math.PI * 1.25f)) < 0.02f)
+                    Projectile.rotation += ((float)(Math.PI * 1.25f) - Projectile.rotation) / 8f;
+                    if (Math.Abs(Projectile.rotation - (float)(Math.PI * 1.25f)) < 0.02f)
                     {
                         projOwner.velocity.X = 5 * projOwner.direction;
                         xDis += (projOwner.itemAnimationMax - projOwner.itemAnimation) * 0.04f * projOwner.direction;
-                        projectile.position.X += xDis;
+                        Projectile.position.X += xDis;
                     }
                     else
                     {
                         xDis -= (projOwner.itemAnimationMax - projOwner.itemAnimation) * 0.05f * projOwner.direction;
-                        projectile.position.X += xDis;
+                        Projectile.position.X += xDis;
                     }
                 }
             }
-            if (projectile.ai[0] == 3) //crasche
+            if (Projectile.ai[0] == 3) //crasche
             {
 
-                projectile.rotation = -MathHelper.Pi / 4;
+                Projectile.rotation = -MathHelper.Pi / 4;
                 if (perc > 0.9f)
                 {
-                    projectile.alpha = 255;
+                    Projectile.alpha = 255;
                 }
                 else
                 {
-                    projectile.alpha -= 3;
+                    Projectile.alpha -= 3;
                 }
                 if (perc > 0.5f)
                 {
                     xDis += (200 - xDis) / 16f;
-                    projectile.position.Y -= xDis;
+                    Projectile.position.Y -= xDis;
                 }
                 else
                 {
@@ -112,7 +112,7 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
                     Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
                     xDis += (-4 - xDis) / 16f;
-                    projectile.position.Y -= xDis;
+                    Projectile.position.Y -= xDis;
                     if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
                     (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
                     Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
@@ -120,24 +120,24 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     tile.type != TileID.Trees &&
                     tile2.type != TileID.Trees)
                     {
-                        Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 16f, true, false, (int)(shakeIntensity * damageMultiplier));
+                        Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(Projectile.Center, 16f, true, false, (int)(shakeIntensity * damageMultiplier));
                         for (var i = 0; i < 20; i++)
                         {
-                            int num = Dust.NewDust(projOwner.Center + new Vector2((i * 10) - 100, projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, -Math.Abs(i - 10), 6, default, 0.7f);
+                            int num = Dust.NewDust(projOwner.Center + new Vector2((i * 10) - 100, Projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, -Math.Abs(i - 10), 6, default, 0.7f);
                             Main.dust[num].noGravity = false;
                             Main.dust[num].velocity.X *= 0.7f;
                             Main.dust[num].noLight = false;
                         }
                         if (perc < 0.2f)
                         {
-                            projectile.width = 1000;
-                            projectile.height = 1000;
-                            projectile.alpha = 255;
+                            Projectile.width = 1000;
+                            Projectile.height = 1000;
+                            Projectile.alpha = 255;
                         }
                     }
                 }
             }
-            if (projectile.ai[0] == 4) //throe
+            if (Projectile.ai[0] == 4) //throe
             {
                 float radial = 75;
                 float inverseSpeed = 100;
@@ -159,20 +159,20 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                 {
                     goTo.Y = projOwner.Center.Y + radial;
                 }
-                if (projectile.ai[0] == 1)
+                if (Projectile.ai[0] == 1)
                 {
                     goTo = projOwner.Center + new Vector2(0, 50);
                 }
-                projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect); projectile.rotation += projectile.velocity.X / 16f;
-                projectile.rotation += projectile.velocity.X / 128f;
+                Projectile.velocity += (goTo - Projectile.Center) / inverseSpeed - (Projectile.velocity * dampeningEffect); Projectile.rotation += Projectile.velocity.X / 16f;
+                Projectile.rotation += Projectile.velocity.X / 128f;
             }
-            if (projectile.ai[0] == 5) //across da skrene
+            if (Projectile.ai[0] == 5) //across da skrene
             {
                 xDis += (6000 - xDis) / 64f;
-                projectile.position.X += -2000 + xDis;
-                projectile.rotation = MathHelper.Pi / 4;
+                Projectile.position.X += -2000 + xDis;
+                Projectile.rotation = MathHelper.Pi / 4;
             }
-            if (projectile.ai[0] == 6) //jump and smasche
+            if (Projectile.ai[0] == 6) //jump and smasche
             {
                 if (perc > 0.9f)
                 {
@@ -184,7 +184,7 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
                     Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
                     projOwner.velocity.Y += 2f;
-                    projectile.rotation += (-MathHelper.Pi / 4 - projectile.rotation) / 4f;
+                    Projectile.rotation += (-MathHelper.Pi / 4 - Projectile.rotation) / 4f;
                     if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).active() &&
                     (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
                     Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).active() &&
@@ -194,14 +194,14 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     {
                         if (perc < 0.3f)
                         {
-                            projectile.width = 1000;
-                            projectile.height = 1000;
-                            projectile.alpha = 255;
+                            Projectile.width = 1000;
+                            Projectile.height = 1000;
+                            Projectile.alpha = 255;
 
-                            Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(projectile.Center, 16f, true, false, (int)(shakeIntensity * damageMultiplier));
+                            Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(Projectile.Center, 16f, true, false, (int)(shakeIntensity * damageMultiplier));
                             for (var i = 0; i < 10; i++)
                             {
-                                int num = Dust.NewDust(projOwner.Center + new Vector2((i * 10) - 50, projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, -Math.Abs(i - 10) * 0.5f, 6, default, 0.7f);
+                                int num = Dust.NewDust(projOwner.Center + new Vector2((i * 10) - 50, Projectile.height / 2f - 16), 2, 2, DustID.Dirt, 0, -Math.Abs(i - 10) * 0.5f, 6, default, 0.7f);
                                 Main.dust[num].noGravity = false;
                                 Main.dust[num].velocity.X *= 0.7f;
                                 Main.dust[num].noLight = false;
@@ -212,7 +212,7 @@ namespace EEMod.Items.Weapons.Melee.Shivs
             }
             if (projOwner.itemAnimation <= 1)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
             }
         }

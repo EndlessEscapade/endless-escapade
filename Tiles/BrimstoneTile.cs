@@ -8,7 +8,7 @@ using System;
 
 namespace EEMod.Tiles
 {
-    public class BrimstoneTile : ModTile
+    public class BrimstoneTile : EETile
     {
         public override void SetDefaults()
         {

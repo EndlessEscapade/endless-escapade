@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Ranger.Guns
 {
-    public class LythenHandgun : ModItem
+    public class LythenHandgun : EEItem
     {
         public override void SetStaticDefaults()
         {

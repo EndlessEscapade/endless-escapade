@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs
 {
-    public class CoconutCrab : ModNPC
+    public class CoconutCrab : EENPC
     {
         public bool collision = false;
         public bool canTp = false;
@@ -19,85 +19,85 @@ namespace EEMod.NPCs
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coconut Crab");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            npc.width = 32;
-            npc.height = 58;
-            npc.damage = 12;
-            npc.defense = 4;
-            npc.lifeMax = 90;
-            npc.HitSound = SoundID.NPCHit30;
-            npc.DeathSound = SoundID.NPCDeath33;
-            npc.value = 100f;
-            npc.knockBackResist = 0.3f;
-            npc.alpha = 20;
-            npc.behindTiles = true;
+            NPC.width = 32;
+            NPC.height = 58;
+            NPC.damage = 12;
+            NPC.defense = 4;
+            NPC.lifeMax = 90;
+            NPC.HitSound = SoundID.NPCHit30;
+            NPC.DeathSound = SoundID.NPCDeath33;
+            NPC.value = 100f;
+            NPC.knockBackResist = 0.3f;
+            NPC.alpha = 20;
+            NPC.behindTiles = true;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            Player player = Main.player[npc.target];
-            if (player.Center.X - npc.Center.X > 0)
+            Player player = Main.player[NPC.target];
+            if (player.Center.X - NPC.Center.X > 0)
             {
-                npc.spriteDirection = 1;
+                NPC.spriteDirection = 1;
             }
             else
             {
-                npc.spriteDirection = -1;
+                NPC.spriteDirection = -1;
             }
 
-            if (npc.frameCounter++ > 4)
+            if (NPC.frameCounter++ > 4)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y = npc.frame.Y + frameHeight;
+                NPC.frameCounter = 0;
+                NPC.frame.Y = NPC.frame.Y + frameHeight;
             }
-            if (npc.frame.Y >= frameHeight * 4)
+            if (NPC.frame.Y >= frameHeight * 4)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
                 return;
             }
         }
 
         public override void AI()
         {
-            if (npc.ai[1] > 0)
+            if (NPC.ai[1] > 0)
             {
-                npc.ai[1]--;
+                NPC.ai[1]--;
             }
 
-            npc.TargetClosest(false);
-            Player player = Main.player[npc.target];
+            NPC.TargetClosest(false);
+            Player player = Main.player[NPC.target];
             onGround = false;
             collision = false;
-            npc.TargetClosest(true);
-            float accel2 = Math.Abs(npc.Center.X - player.Center.X) / 140;
+            NPC.TargetClosest(true);
+            float accel2 = Math.Abs(NPC.Center.X - player.Center.X) / 140;
             if (accel2 > 0.7f)
             {
                 accel2 = 0.7f;
             }
 
-            if (npc.Center.X < player.Center.X)
+            if (NPC.Center.X < player.Center.X)
             {
-                npc.velocity.X += accel * accel2;
+                NPC.velocity.X += accel * accel2;
             }
 
-            if (npc.Center.X > player.Center.X)
+            if (NPC.Center.X > player.Center.X)
             {
-                npc.velocity.X -= accel * accel2;
+                NPC.velocity.X -= accel * accel2;
             }
 
-            if (Math.Abs(npc.velocity.X) == maxSpeed)
+            if (Math.Abs(NPC.velocity.X) == maxSpeed)
             {
-                npc.velocity.X = maxSpeed * npc.spriteDirection;
+                NPC.velocity.X = maxSpeed * NPC.spriteDirection;
             }
 
-            int minTilePosX = (int)(npc.Center.X / 16.0) - 1;
-            int maxTilePosX = (int)(npc.Center.X / 16.0) + 1;
-            int minTilePosY = (int)(npc.position.Y / 16.0) - 5;
-            int maxTilePosY = (int)((npc.position.Y + npc.height) / 16.0);
+            int minTilePosX = (int)(NPC.Center.X / 16.0) - 1;
+            int maxTilePosX = (int)(NPC.Center.X / 16.0) + 1;
+            int minTilePosY = (int)(NPC.position.Y / 16.0) - 5;
+            int maxTilePosY = (int)((NPC.position.Y + NPC.height) / 16.0);
             if (minTilePosX < 0)
             {
                 minTilePosX = 0;
@@ -128,7 +128,7 @@ namespace EEMod.NPCs
                         tilePos.X = i * 16;
                         tilePos.Y = j * 16;
 
-                        if (Math.Abs(npc.Center.Y - tilePos.Y) <= 16 + (npc.height / 2))
+                        if (Math.Abs(NPC.Center.Y - tilePos.Y) <= 16 + (NPC.height / 2))
                         {
                             onGround = true;
                         }
@@ -146,20 +146,20 @@ namespace EEMod.NPCs
                         vector2.X = i * 16;
                         vector2.Y = j * 16;
 
-                        if (Math.Abs(npc.Center.X - vector2.X) <= 16 + (npc.width / 2))
+                        if (Math.Abs(NPC.Center.X - vector2.X) <= 16 + (NPC.width / 2))
                         {
                             collision = true;
                         }
                     }
                 }
             }
-            if (Math.Abs(npc.velocity.X) <= accel * 2.5f && npc.ai[1] == 0)
+            if (Math.Abs(NPC.velocity.X) <= accel * 2.5f && NPC.ai[1] == 0)
             {
                 if (onGround && Main.netMode != NetmodeID.MultiplayerClient)
                 {
-                    npc.velocity.Y -= Main.rand.NextFloat(-8f, -5f);
-                    npc.ai[1] = Main.rand.Next(80, 180);
-                    npc.netUpdate = true;
+                    NPC.velocity.Y -= Main.rand.NextFloat(-8f, -5f);
+                    NPC.ai[1] = Main.rand.Next(80, 180);
+                    NPC.netUpdate = true;
                 }
             }
         }

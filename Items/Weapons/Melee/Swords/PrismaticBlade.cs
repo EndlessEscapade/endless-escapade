@@ -12,7 +12,7 @@ using System;
 //-Sound effects
 namespace EEMod.Items.Weapons.Melee.Swords
 {
-    public class PrismaticBlade : ModItem
+    public class PrismaticBlade : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,18 +21,18 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override void SetDefaults()
         {
-            item.melee = true;
-            item.rare = ItemRarityID.Green;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 4f; // 5 and 1/4
-            item.useTime = 35;
-            item.useAnimation = 35;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.damage = 50;
-            item.width = 54;
-            item.height = 54;
-            item.UseSound = SoundID.Item1;
+            Item.melee = true;
+            Item.rare = ItemRarityID.Green;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.knockBack = 4f; // 5 and 1/4
+            Item.useTime = 35;
+            Item.useAnimation = 35;
+            Item.value = Item.buyPrice(0, 0, 30, 0);
+            Item.damage = 50;
+            Item.width = 54;
+            Item.height = 54;
+            Item.UseSound = SoundID.Item1;
         }
         int swordsActive = 0;
         int[] swordArray = new int[9];
@@ -45,9 +45,9 @@ namespace EEMod.Items.Weapons.Melee.Swords
         {
             if (player.altFunctionUse == 2)
             {
-                item.useStyle = ItemUseStyleID.Stabbing;
-                item.useAnimation = 15;
-                item.noMelee = true;
+                Item.useStyle = ItemUseStyleID.Stabbing;
+                Item.useAnimation = 15;
+                Item.noMelee = true;
                 if (swordArray[0] != default)
                 {
                     for (int i = 0; i < swordsActive; i++)
@@ -67,9 +67,9 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
             else
             {
-                item.useStyle = ItemUseStyleID.SwingThrow;
-                item.useAnimation = 35;
-                item.noMelee = false;
+                Item.useStyle = ItemUseStyleID.SwingThrow;
+                Item.useAnimation = 35;
+                Item.noMelee = false;
             }
             return base.UseItem(player);
         }

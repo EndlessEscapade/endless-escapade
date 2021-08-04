@@ -7,7 +7,7 @@ namespace EEMod.Projectiles
     /// <summary>
     /// Projectiles that are not meant to interact with anything, they're just visuals
     /// </summary>
-    public abstract class VisualProjectile : ModProjectile
+    public abstract class VisualProjectile : EEProjectile
     {
         public override bool? CanCutTiles() => false;
 

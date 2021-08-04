@@ -10,7 +10,7 @@ using EEMod.Items.Materials;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class KelpberryPlaced : ModTile
+    public class KelpberryPlaced : EETile
     {
         public override void SetDefaults()
         {

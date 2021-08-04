@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
-    public class KelpVine : ModTile
+    public class KelpVine : EETile
     {
         public override void SetDefaults()
         {

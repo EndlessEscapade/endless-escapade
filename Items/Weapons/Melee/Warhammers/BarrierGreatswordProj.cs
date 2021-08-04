@@ -12,20 +12,20 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
 
         public override void SetDefaults()
         {
-            projectile.width = 50;
-            projectile.height = 52;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.scale = 1f;
-            projectile.alpha = 0;
+            Projectile.width = 50;
+            Projectile.height = 52;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = -1;
+            Projectile.scale = 1f;
+            Projectile.alpha = 0;
 
-            projectile.hide = true;
-            projectile.ownerHitCheck = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.damage = 20;
-            projectile.knockBack = 4.5f;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.melee = true;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.damage = 20;
+            Projectile.knockBack = 4.5f;
         }
         public override float rotationalCoverage => MathHelper.Pi;
         public override float RotationalOffset => MathHelper.PiOver2;

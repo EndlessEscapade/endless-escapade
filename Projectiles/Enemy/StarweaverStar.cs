@@ -12,7 +12,7 @@ using EEMod.Extensions;
 
 namespace EEMod.Projectiles.Enemy
 {
-    public class StarweaverStar : ModProjectile
+    public class StarweaverStar : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,41 +21,41 @@ namespace EEMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.timeLeft = 1000000;
-            projectile.ignoreWater = true;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 12;
-            projectile.tileCollide = true;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.timeLeft = 1000000;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 12;
+            Projectile.tileCollide = true;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (Main.projectile[(int)projectile.ai[0]] != null && projectile.ai[0] > 0)
+            if (Main.projectile[(int)Projectile.ai[0]] != null && Projectile.ai[0] > 0)
             {
-                Vector2 vec = Main.projectile[(int)projectile.ai[0]].Center;
+                Vector2 vec = Main.projectile[(int)Projectile.ai[0]].Center;
 
                 Texture2D starChain = mod.GetTexture("Projectiles/Enemy/StarweaverStarChain");
 
-                float n = 1 / (vec - projectile.Center).Length();
+                float n = 1 / (vec - Projectile.Center).Length();
 
                 for (float k = 0; k < 1; k += n)
                 {
-                    spriteBatch.Draw(starChain, projectile.Center + (vec - projectile.Center) * k - Main.screenPosition, starChain.Frame(), Color.Gold * (0.4f + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 10f)), (Main.projectile[(int)projectile.ai[0]].Center - projectile.Center).ToRotation(), starChain.Frame().Size() / 2f, 0.5f + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 5f), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(starChain, Projectile.Center + (vec - Projectile.Center) * k - Main.screenPosition, starChain.Frame(), Color.Gold * (0.4f + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 10f)), (Main.projectile[(int)Projectile.ai[0]].Center - Projectile.Center).ToRotation(), starChain.Frame().Size() / 2f, 0.5f + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 5f), SpriteEffects.None, 0f);
                 }
             }
 
             Texture2D mask = mod.GetTexture("Textures/SmoothFadeOut");
-            Helpers.DrawAdditive(mask, projectile.Center - Main.screenPosition, Color.Yellow * 0.3f, projectile.scale + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 3f), projectile.rotation);
+            Helpers.DrawAdditive(mask, Projectile.Center - Main.screenPosition, Color.Yellow * 0.3f, Projectile.scale + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 3f), Projectile.rotation);
 
             Texture2D star2 = mod.GetTexture("Projectiles/Enemy/StarweaverStarGlow");
-            spriteBatch.Draw(star2, projectile.Center - Main.screenPosition, star2.Frame(), Color.Gold * 0.3f, projectile.rotation, star2.Frame().Size() / 2f, projectile.scale + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 5f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(star2, Projectile.Center - Main.screenPosition, star2.Frame(), Color.Gold * 0.3f, Projectile.rotation, star2.Frame().Size() / 2f, Projectile.scale + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 5f), SpriteEffects.None, 0f);
 
             Texture2D star = mod.GetTexture("Projectiles/Enemy/StarweaverStar");
-            spriteBatch.Draw(star, projectile.Center - Main.screenPosition, star.Frame(), Color.Yellow, projectile.rotation, star.Frame().Size() / 2f, projectile.scale + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 10f), SpriteEffects.None, 0f);
+            spriteBatch.Draw(star, Projectile.Center - Main.screenPosition, star.Frame(), Color.Yellow, Projectile.rotation, star.Frame().Size() / 2f, Projectile.scale + (float)(Math.Sin(Main.GameUpdateCount / 10f) / 10f), SpriteEffects.None, 0f);
             return false;
         }
 

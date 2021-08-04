@@ -9,7 +9,7 @@ using static EEMod.Tiles.Furniture.OrbHolder;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class OrbCollection : ModNPC
+    public class OrbCollection : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -23,33 +23,33 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.friendly = true;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
-            npc.alpha = 20;
-            npc.lifeMax = 1000000;
-            npc.width = 128;
-            npc.height = 130;
-            npc.noGravity = true;
-            npc.lavaImmune = true;
-            npc.noTileCollide = true;
-            npc.dontTakeDamage = true;
-            npc.damage = 0;
-            Main.npcFrameCount[npc.type] = 4;
+            NPC.aiStyle = -1;
+            NPC.friendly = true;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
+            NPC.alpha = 20;
+            NPC.lifeMax = 1000000;
+            NPC.width = 128;
+            NPC.height = 130;
+            NPC.noGravity = true;
+            NPC.lavaImmune = true;
+            NPC.noTileCollide = true;
+            NPC.dontTakeDamage = true;
+            NPC.damage = 0;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter == 6)
+            NPC.frameCounter++;
+            if (NPC.frameCounter == 6)
             {
                 //  npc.frame.Y = npc.frame.Y + frameHeight;
-                npc.frameCounter = 0;
+                NPC.frameCounter = 0;
             }
-            if (npc.frame.Y >= frameHeight * 3)
+            if (NPC.frame.Y >= frameHeight * 3)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
                 return;
             }
         }
@@ -67,39 +67,39 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
-            npc.ai[0] += 0.05f;
+            NPC.ai[0] += 0.05f;
             if (!otherPhase)
             {
-                npc.position.Y += (float)Math.Sin(npc.ai[0]) / 2f;
+                NPC.position.Y += (float)Math.Sin(NPC.ai[0]) / 2f;
             }
 
-            if (npc.life == 0)
+            if (NPC.life == 0)
             {
                 if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
                 {
                     Filters.Scene["EEMod:Shockwave"].Deactivate();
                 }
             }
-            if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
+            if (Main.player[(int)NPC.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
             {
-                npc.Center = Main.player[(int)npc.ai[1]].Center - new Vector2(0, 80);
-                if (Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
+                NPC.Center = Main.player[(int)NPC.ai[1]].Center - new Vector2(0, 80);
+                if (Main.player[(int)NPC.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
                 {
-                    Main.player[(int)npc.ai[1]].bodyFrame.Y = 56 * 5;
+                    Main.player[(int)NPC.ai[1]].bodyFrame.Y = 56 * 5;
                 }
             }
-            if (isPicking && !Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
+            if (isPicking && !Main.player[(int)NPC.ai[1]].GetModPlayer<EEPlayer>().isPickingUp)
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos == Vector2.Zero)
                 {
                     otherPhase = true;
-                    Holder[0] = npc.Center;
+                    Holder[0] = NPC.Center;
                     Holder[1] = Main.MouseWorld;
                 }
                 else
                 {
                     otherPhase2 = true;
-                    Holder[0] = npc.Center;
+                    Holder[0] = NPC.Center;
                     Holder[1] = Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos + new Vector2(70, 60);
                 }
             }
@@ -109,12 +109,12 @@ namespace EEMod.NPCs.CoralReefs
                 if (t <= 1)
                 {
                     Vector2 mid = (Holder[0] + Holder[1]) / 2;
-                    npc.Center = Helpers.TraverseBezier(Holder[1], Holder[0], mid - new Vector2(0, 300), mid - new Vector2(0, 300), t);
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, false, true, 0);
+                    NPC.Center = Helpers.TraverseBezier(Holder[1], Holder[0], mid - new Vector2(0, 300), mid - new Vector2(0, 300), t);
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(NPC.Center, 16f, false, true, 0);
                 }
                 else if (t <= 1.3f)
                 {
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, true, false, 10);
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(NPC.Center, 16f, true, false, 10);
                 }
                 else
                 {
@@ -128,12 +128,12 @@ namespace EEMod.NPCs.CoralReefs
                 if (t <= 1)
                 {
                     Vector2 mid = (Holder[0] + Holder[1]) / 2;
-                    npc.Center = Helpers.TraverseBezier(Holder[1], Holder[0], mid - new Vector2(0, 300), mid - new Vector2(0, 300), t);
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, false, true, 0);
+                    NPC.Center = Helpers.TraverseBezier(Holder[1], Holder[0], mid - new Vector2(0, 300), mid - new Vector2(0, 300), t);
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(NPC.Center, 16f, false, true, 0);
                 }
                 else if (t <= 1.3f)
                 {
-                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(npc.Center, 16f, true, false, 10);
+                    Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(NPC.Center, 16f, true, false, 10);
                 }
                 else
                 {
@@ -148,23 +148,23 @@ namespace EEMod.NPCs.CoralReefs
                     otherPhase2 = false;
                     for (int i = 0; i < 50; i++)
                     {
-                        Vector2 position = npc.Center + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / 50 * i)) * 30;
+                        Vector2 position = NPC.Center + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / 50 * i)) * 30;
                         //'position' will be a point on a circle around 'origin'.  If you're using this to spawn dust, use Dust.NewDustPerfect
                         Dust dust = Dust.NewDustPerfect(position, DustID.PurpleCrystalShard);
                         dust.noGravity = true;
-                        dust.velocity = Vector2.Normalize(dust.position - npc.Center) * 4;
+                        dust.velocity = Vector2.Normalize(dust.position - NPC.Center) * 4;
                         dust.noLight = false;
                         dust.fadeIn = 1f;
                     }
-                    npc.life = 0;
-                    npc.timeLeft = 0;
+                    NPC.life = 0;
+                    NPC.timeLeft = 0;
                 }
             }
             else
             {
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
             }
-            isPicking = Main.player[(int)npc.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
+            isPicking = Main.player[(int)NPC.ai[1]].GetModPlayer<EEPlayer>().isPickingUp;
         }
 
         public int size = 128;

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class FeatheredDreamcatcher : ModItem
+    public class FeatheredDreamcatcher : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -13,22 +13,22 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            item.magic = false;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 110;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.width = 20;
-            item.height = 20;
-            item.shootSpeed = 0;
-            item.rare = ItemRarityID.Yellow;
-            item.knockBack = 5f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item11;
-            item.mana = 7;
-            item.shoot = ModContent.ProjectileType<FeatheredDreamcatcherProjectile>();
+            Item.magic = false;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.damage = 110;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.width = 20;
+            Item.height = 20;
+            Item.shootSpeed = 0;
+            Item.rare = ItemRarityID.Yellow;
+            Item.knockBack = 5f;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.UseSound = SoundID.Item11;
+            Item.mana = 7;
+            Item.shoot = ModContent.ProjectileType<FeatheredDreamcatcherProjectile>();
         }
     }
 }

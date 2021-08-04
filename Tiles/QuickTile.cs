@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles
 {
-    public abstract class QuickTile : ModTile
+    public abstract class QuickTile : EETile
     {
         public abstract int Width
         {

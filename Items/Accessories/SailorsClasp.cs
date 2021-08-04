@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Accessories
 {
-    public class SailorsClasp : ModItem
+    public class SailorsClasp : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -13,9 +13,9 @@ namespace EEMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.AmethystHook);
-            item.shootSpeed = 18f;
-            item.shoot = ModContent.ProjectileType<SailorsClaspProjectile>();
+            Item.CloneDefaults(ItemID.AmethystHook);
+            Item.shootSpeed = 18f;
+            Item.shoot = ModContent.ProjectileType<SailorsClaspProjectile>();
         }
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
-    public class Tentacle : ModNPC
+    public class Tentacle : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -15,14 +15,14 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void SetDefaults()
         {
-            npc.width = 184;
-            npc.height = 80;
-            npc.damage = 1;
-            npc.aiStyle = -1;
-            npc.lifeMax = 5000;
-            npc.noTileCollide = true;
-            npc.noGravity = true;
-            npc.knockBackResist = 0f;
+            NPC.width = 184;
+            NPC.height = 80;
+            NPC.damage = 1;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 5000;
+            NPC.noTileCollide = true;
+            NPC.noGravity = true;
+            NPC.knockBackResist = 0f;
         }
 
         private Vector2 startingPosition;
@@ -41,66 +41,66 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void AI()
         {
-            Lighting.AddLight(npc.Center, new Vector3(0.2f, 0.2f, 0.2f));
-            npc.ai[0]++;
-            npc.TargetClosest(true);
+            Lighting.AddLight(NPC.Center, new Vector3(0.2f, 0.2f, 0.2f));
+            NPC.ai[0]++;
+            NPC.TargetClosest(true);
             //Rectangle npcHitBox = new Rectangle((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height); // unused
             //Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].position.X, (int)Main.player[npc.target].position.Y, Main.player[npc.target].width, Main.player[npc.target].height); // unused
-            if (npc.ai[3] == 0)
+            if (NPC.ai[3] == 0)
             {
-                npc.spriteDirection = -1;
+                NPC.spriteDirection = -1;
                 if (isGrabbing0 && !isRetrating)
                 {
-                    npc.damage = 0;
+                    NPC.damage = 0;
                     alpha = Math.Abs(distance.X / distanceCovered);
-                    (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).GETHIMBOIS = true;
+                    (Main.npc[(int)NPC.ai[2]].modNPC as KrakenHead).GETHIMBOIS = true;
                     if (!yeet)
                     {
-                        Main.npc[(int)npc.ai[2]].ai[0] = 0;
+                        Main.npc[(int)NPC.ai[2]].ai[0] = 0;
                         yeet = true;
                     }
-                    Main.player[npc.target].Center = npc.Center;
-                    npc.velocity *= 0.94f;
-                    if (npc.life < 1000)
+                    Main.player[NPC.target].Center = NPC.Center;
+                    NPC.velocity *= 0.94f;
+                    if (NPC.life < 1000)
                     {
                         if (!isRetrating)
                         {
-                            (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).Reset(3);
+                            (Main.npc[(int)NPC.ai[2]].modNPC as KrakenHead).Reset(3);
                             isRetrating = true;
                         }
                     }
                     if (distance.X < 0)
                     {
-                        npc.life = 0;
+                        NPC.life = 0;
                     }
                 }
                 else
                 {
-                    if (npc.ai[0] == 1)
+                    if (NPC.ai[0] == 1)
                     {
-                        startingPosition = npc.Center;
+                        startingPosition = NPC.Center;
                     }
                     if (distance.X > distanceCovered)
                     {
-                        npc.ai[1] = 1;
+                        NPC.ai[1] = 1;
                     }
-                    if (npc.ai[1] == 0)
+                    if (NPC.ai[1] == 0)
                     {
-                        npc.velocity.X = npc.ai[0] / 5;
-                        npc.velocity.Y = (Main.player[npc.target].Center.Y - npc.Center.Y) / 50f;
+                        NPC.velocity.X = NPC.ai[0] / 5;
+                        NPC.velocity.Y = (Main.player[NPC.target].Center.Y - NPC.Center.Y) / 50f;
                     }
                     else
                     {
                         isRetrating = true;
                         alpha = Math.Abs(distance.X / distanceCovered);
-                        npc.velocity.X = -5;
+                        NPC.velocity.X = -5;
                         if (distance.X < 0)
                         {
-                            npc.life = 0;
+                            NPC.life = 0;
                         }
                     }
                 }
-                if (Main.npc[(int)npc.ai[2]].ai[0] >= 278)
+                if (Main.npc[(int)NPC.ai[2]].ai[0] >= 278)
                 {
                     isRetrating = true;
                 }
@@ -108,74 +108,74 @@ namespace EEMod.NPCs.Bosses.Kraken
                 {
                     if (distance.X < 0)
                     {
-                        npc.life = 0;
+                        NPC.life = 0;
                     }
                     alpha = Math.Abs(distance.X / distanceCovered);
-                    npc.velocity.X = -5;
-                    npc.velocity.Y = (startingPosition.Y - npc.Center.Y) / 100f;
+                    NPC.velocity.X = -5;
+                    NPC.velocity.Y = (startingPosition.Y - NPC.Center.Y) / 100f;
                 }
                 else
                 {
-                    npc.velocity.Y += (float)Math.Sin(npc.ai[0] / 10f) * 0.04f;
+                    NPC.velocity.Y += (float)Math.Sin(NPC.ai[0] / 10f) * 0.04f;
                 }
-                distance = npc.Center - startingPosition;
+                distance = NPC.Center - startingPosition;
             }
-            if (npc.ai[3] == 1)
+            if (NPC.ai[3] == 1)
             {
-                npc.spriteDirection = 1;
+                NPC.spriteDirection = 1;
                 if (isGrabbing1 && !isRetrating)
                 {
-                    npc.damage = 0;
+                    NPC.damage = 0;
                     alpha = Math.Abs(distance.X / distanceCovered);
-                    (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).GETHIMBOIS = true;
+                    (Main.npc[(int)NPC.ai[2]].modNPC as KrakenHead).GETHIMBOIS = true;
                     if (!yeet)
                     {
-                        Main.npc[(int)npc.ai[2]].ai[0] = 0;
+                        Main.npc[(int)NPC.ai[2]].ai[0] = 0;
                         yeet = true;
                     }
-                    Main.player[npc.target].Center = npc.Center;
-                    npc.velocity *= 0.94f;
-                    if (npc.life < 1000)
+                    Main.player[NPC.target].Center = NPC.Center;
+                    NPC.velocity *= 0.94f;
+                    if (NPC.life < 1000)
                     {
                         if (!isRetrating)
                         {
-                            (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).Reset(3);
+                            (Main.npc[(int)NPC.ai[2]].modNPC as KrakenHead).Reset(3);
                             isRetrating = true;
                         }
                     }
                     if (distance.X > 0)
                     {
-                        npc.life = 0;
+                        NPC.life = 0;
                     }
                 }
                 else
                 {
-                    if (npc.ai[0] == 1)
+                    if (NPC.ai[0] == 1)
                     {
-                        startingPosition = npc.Center;
+                        startingPosition = NPC.Center;
                     }
                     if (distance.X < -distanceCovered)
                     {
-                        npc.ai[1] = 1;
+                        NPC.ai[1] = 1;
                     }
-                    if (npc.ai[1] == 0)
+                    if (NPC.ai[1] == 0)
                     {
-                        npc.velocity.X = -(npc.ai[0] / 5);
-                        npc.velocity.Y = (Main.player[npc.target].Center.Y - npc.Center.Y) / 50f;
+                        NPC.velocity.X = -(NPC.ai[0] / 5);
+                        NPC.velocity.Y = (Main.player[NPC.target].Center.Y - NPC.Center.Y) / 50f;
                     }
                     else
                     {
                         isRetrating = true;
                         alpha = Math.Abs(distance.X / distanceCovered);
-                        npc.velocity.X = 5;
+                        NPC.velocity.X = 5;
                         if (distance.X > 0)
                         {
-                            npc.life = 0;
+                            NPC.life = 0;
                         }
                     }
-                    distance = npc.Center - startingPosition;
+                    distance = NPC.Center - startingPosition;
                 }
-                if (Main.npc[(int)npc.ai[2]].ai[0] >= 278)
+                if (Main.npc[(int)NPC.ai[2]].ai[0] >= 278)
                 {
                     isRetrating = true;
                 }
@@ -183,31 +183,31 @@ namespace EEMod.NPCs.Bosses.Kraken
                 {
                     if (distance.X > 0)
                     {
-                        npc.life = 0;
+                        NPC.life = 0;
                     }
                     alpha = Math.Abs(distance.X / distanceCovered);
-                    npc.velocity.X = 5;
-                    npc.velocity.Y = (startingPosition.Y - npc.Center.Y) / 100f;
+                    NPC.velocity.X = 5;
+                    NPC.velocity.Y = (startingPosition.Y - NPC.Center.Y) / 100f;
                 }
                 else
                 {
-                    npc.velocity.Y += (float)Math.Sin(npc.ai[0] / 10f) * 0.04f;
+                    NPC.velocity.Y += (float)Math.Sin(NPC.ai[0] / 10f) * 0.04f;
                 }
-                distance = npc.Center - startingPosition;
+                distance = NPC.Center - startingPosition;
             }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (npc.ai[3] == 0)
+            if (NPC.ai[3] == 0)
             {
                 isGrabbing0 = true;
-                (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).isRightOrLeft = true;
+                (Main.npc[(int)NPC.ai[2]].modNPC as KrakenHead).isRightOrLeft = true;
             }
-            if (npc.ai[3] == 1)
+            if (NPC.ai[3] == 1)
             {
                 isGrabbing1 = true;
-                (Main.npc[(int)npc.ai[2]].modNPC as KrakenHead).isRightOrLeft = false;
+                (Main.npc[(int)NPC.ai[2]].modNPC as KrakenHead).isRightOrLeft = false;
             }
         }
 
@@ -215,7 +215,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         {
             Texture2D chain = mod.GetTexture("NPCs/Bosses/Kraken/ChainSmol");
             Texture2D texture2 = mod.GetTexture("NPCs/Bosses/Kraken/EndOfSmol");
-            Helpers.DrawBezier(spriteBatch, chain, "", drawColor * alpha, npc.Center, startingPosition, startingPosition + (npc.Center - startingPosition) * 0.33f + new Vector2((float)Math.Cos(npc.ai[0] / 23f) * 50, (float)Math.Sin(npc.ai[0] / 10f) * 40), startingPosition + (npc.Center - startingPosition) * 0.66f + new Vector2((float)Math.Sin(npc.ai[0] / 20f) * 50, -(float)Math.Cos(npc.ai[0] / 15f) * 55), npc.width * 0.6f / distanceCovered, MathHelper.PiOver2, texture2);
+            Helpers.DrawBezier(spriteBatch, chain, "", drawColor * alpha, NPC.Center, startingPosition, startingPosition + (NPC.Center - startingPosition) * 0.33f + new Vector2((float)Math.Cos(NPC.ai[0] / 23f) * 50, (float)Math.Sin(NPC.ai[0] / 10f) * 40), startingPosition + (NPC.Center - startingPosition) * 0.66f + new Vector2((float)Math.Sin(NPC.ai[0] / 20f) * 50, -(float)Math.Cos(NPC.ai[0] / 15f) * 55), NPC.width * 0.6f / distanceCovered, MathHelper.PiOver2, texture2);
             /*  if(npc.ai[3] == 0)
               Main.spriteBatch.Draw(texture, npc.Center + new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2 + new Vector2(70,0), new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width - (int)distance.X, 0, (int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
               if (npc.ai[3] == 1)

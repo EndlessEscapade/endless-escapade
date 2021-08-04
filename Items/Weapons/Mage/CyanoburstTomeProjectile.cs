@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class CyanoburstTomeProjectile : ModProjectile
+    public class CyanoburstTomeProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,13 +15,13 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            projectile.width = 4;
-            projectile.height = 4;
-            projectile.timeLeft = 420;
-            projectile.ignoreWater = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
+            Projectile.width = 4;
+            Projectile.height = 4;
+            Projectile.timeLeft = 420;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
         }
 
         private Vector2 firstVel;
@@ -30,17 +30,17 @@ namespace EEMod.Items.Weapons.Mage
         {
             if (firstVel == default)
             {
-                firstVel = Vector2.Normalize(projectile.velocity) * 2;
+                firstVel = Vector2.Normalize(Projectile.velocity) * 2;
             }
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            projectile.ai[0] += 11;
-            double deg = projectile.ai[0];
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.ai[0] += 11;
+            double deg = Projectile.ai[0];
             double rad = deg * (Math.PI / 180);
-            projectile.velocity.X -= (float)Math.Cos(rad) * firstVel.X;
-            projectile.velocity.Y += (float)Math.Cos(rad) * firstVel.Y;
+            Projectile.velocity.X -= (float)Math.Cos(rad) * firstVel.X;
+            Projectile.velocity.Y += (float)Math.Cos(rad) * firstVel.Y;
             for (var i = 0; i < 3; i++)
             {
-                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.GreenBlood, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(0, 255, 0, 255), 1);
+                int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GreenBlood, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(0, 255, 0, 255), 1);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].velocity *= 1.2f;
                 Main.dust[num].noLight = false;
@@ -54,11 +54,11 @@ namespace EEMod.Items.Weapons.Mage
                 float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 15);
                 float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 15);
                 Vector2 offset = new Vector2(xdist, ydist);
-                Dust dust = Dust.NewDustPerfect(projectile.Center + offset, DustID.GreenBlood, offset * 0.5f);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, DustID.GreenBlood, offset * 0.5f);
                 dust.noGravity = true;
                 dust.noLight = false;
             }
-            Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<CyanoburstTomeKelp>(), 10, 10f, Main.myPlayer);
+            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CyanoburstTomeKelp>(), 10, 10f, Main.myPlayer);
         }
     }
 }

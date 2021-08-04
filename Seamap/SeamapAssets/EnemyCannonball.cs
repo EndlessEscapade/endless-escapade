@@ -6,7 +6,7 @@ using EEMod.Seamap.SeamapContent;
 
 namespace EEMod.Seamap.SeamapAssets
 {
-    public class EnemyCannonball : ModProjectile
+    public class EnemyCannonball : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,10 +15,10 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.magic = true;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.magic = true;
         }
 
         private int killTimer = 180;
@@ -28,13 +28,13 @@ namespace EEMod.Seamap.SeamapAssets
         {
             if (!sinking)
             {
-                projectile.velocity *= 0.995f;
-                projectile.rotation = projectile.velocity.ToRotation();
+                Projectile.velocity *= 0.995f;
+                Projectile.rotation = Projectile.velocity.ToRotation();
                 killTimer--;
-                if (Vector2.DistanceSquared(SeamapPlayerShip.localship.position + Main.screenPosition, projectile.Center) < (20 * 20))
+                if (Vector2.DistanceSquared(SeamapPlayerShip.localship.position + Main.screenPosition, Projectile.Center) < (20 * 20))
                 {
                     sinking = true;
-                    projectile.Kill();
+                    Projectile.Kill();
                     Main.PlaySound(SoundID.NPCHit4);
                 }
             }
@@ -49,13 +49,13 @@ namespace EEMod.Seamap.SeamapAssets
 
         private void Sink()
         {
-            projectile.velocity.X = 0;
-            projectile.velocity.Y = 0.3f;
-            projectile.alpha += 8;
+            Projectile.velocity.X = 0;
+            Projectile.velocity.Y = 0.3f;
+            Projectile.alpha += 8;
             sinkTimer--;
             if (sinkTimer <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

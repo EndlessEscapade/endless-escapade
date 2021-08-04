@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Swords
 {
-    public class DuelistsBlade : ModItem
+    public class DuelistsBlade : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,20 +15,20 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override void SetDefaults()
         {
-            item.melee = true;
-            item.rare = ItemRarityID.LightRed;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 7f; // 5 and 1/4
-            item.useTime = 17;
-            item.useAnimation = 17;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.damage = 20;
-            item.width = 128;
-            item.height = 128;
-            item.UseSound = SoundID.Item1;
-            item.noUseGraphic = true;
-            item.shoot = ModContent.ProjectileType<DuelistBladeProj>();
+            Item.melee = true;
+            Item.rare = ItemRarityID.LightRed;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.knockBack = 7f; // 5 and 1/4
+            Item.useTime = 17;
+            Item.useAnimation = 17;
+            Item.value = Item.buyPrice(0, 0, 30, 0);
+            Item.damage = 20;
+            Item.width = 128;
+            Item.height = 128;
+            Item.UseSound = SoundID.Item1;
+            Item.noUseGraphic = true;
+            Item.shoot = ModContent.ProjectileType<DuelistBladeProj>();
         }
     }
 }

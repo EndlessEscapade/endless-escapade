@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items
 {
-    public class TorchItem : ModItem
+    public class TorchItem : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,18 +15,18 @@ namespace EEMod.Items
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shootSpeed = 1f;
-            item.rare = ItemRarityID.Orange;
-            item.width = 20;
-            item.shoot = ModContent.ProjectileType<Torch>();
-            item.height = 20;
-            item.useTime = 1;
-            item.useAnimation = 1;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.autoReuse = true;
-            item.knockBack = 6f;
-            item.crit = 1;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.shootSpeed = 1f;
+            Item.rare = ItemRarityID.Orange;
+            Item.width = 20;
+            Item.shoot = ModContent.ProjectileType<Torch>();
+            Item.height = 20;
+            Item.useTime = 1;
+            Item.useAnimation = 1;
+            Item.value = Item.buyPrice(0, 0, 30, 0);
+            Item.autoReuse = true;
+            Item.knockBack = 6f;
+            Item.crit = 1;
         }
 
         private int yeet;

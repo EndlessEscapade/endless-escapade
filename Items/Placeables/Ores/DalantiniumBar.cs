@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Ores
 {
-    public class DalantiniumBar : ModItem
+    public class DalantiniumBar : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,18 +14,18 @@ namespace EEMod.Items.Placeables.Ores
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Orange;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.placeStyle = 0;
-            item.material = true;
-            item.consumable = true;
-            item.maxStack = 99;
-            item.useTime = 15;
-            item.useAnimation = 20;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.createTile = ModContent.TileType<DalantiniumBarTile>();
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Orange;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.placeStyle = 0;
+            Item.material = true;
+            Item.consumable = true;
+            Item.maxStack = 99;
+            Item.useTime = 15;
+            Item.useAnimation = 20;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.createTile = ModContent.TileType<DalantiniumBarTile>();
         }
 
         public override void AddRecipes()

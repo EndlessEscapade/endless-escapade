@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Yoyos
 {
-    public class KelpThrow : ModItem
+    public class KelpThrow : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,24 +14,24 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
 
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Green;
-            item.melee = true;
-            item.width = 44;
-            item.height = 50;
+            Item.rare = ItemRarityID.Green;
+            Item.melee = true;
+            Item.width = 44;
+            Item.height = 50;
 
-            item.useTime = 24;
-            item.useAnimation = 24;
-            item.knockBack = 3f;
-            item.damage = 16;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.knockBack = 3f;
+            Item.damage = 16;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
 
-            item.melee = true;
-            item.channel = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
+            Item.melee = true;
+            Item.channel = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
 
-            item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<KelpThrowProjectile>();
+            Item.UseSound = SoundID.Item1;
+            Item.shoot = ModContent.ProjectileType<KelpThrowProjectile>();
         }
     }
 }

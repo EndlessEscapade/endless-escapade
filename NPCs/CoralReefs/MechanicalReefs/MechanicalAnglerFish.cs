@@ -8,122 +8,122 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
-    public class MechanicalAnglerFish : ModNPC
+    public class MechanicalAnglerFish : EENPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechanical Angler Fish");
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[NPC.type] = 3;
         }
 
         private int frameNumber = 0;
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frame.Y = frameNumber * frameHeight;
+            NPC.frame.Y = frameNumber * frameHeight;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.alpha = 0;
+            NPC.alpha = 0;
 
-            npc.lifeMax = 550;
-            npc.defense = 10;
-            npc.damage = 50;
+            NPC.lifeMax = 550;
+            NPC.defense = 10;
+            NPC.damage = 50;
 
-            npc.width = 46;
-            npc.height = 48;
+            NPC.width = 46;
+            NPC.height = 48;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.buffImmune[BuffID.Confused] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
         public override void AI()
         {
-            npc.TargetClosest();
-            Player target = Main.player[npc.target];
+            NPC.TargetClosest();
+            Player target = Main.player[NPC.target];
 
             if (frameNumber == 2)
             {
-                if (npc.ai[3] == 0)
+                if (NPC.ai[3] == 0)
                 {
-                    npc.ai[3] = Projectile.NewProjectile(npc.Center + new Vector2(-10, 0), Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), npc.damage, 0f, Owner: npc.whoAmI);
+                    NPC.ai[3] = Projectile.NewProjectile(NPC.Center + new Vector2(-10, 0), Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), NPC.damage, 0f, Owner: NPC.whoAmI);
                 }
 
-                npc.velocity = Vector2.Zero;
+                NPC.velocity = Vector2.Zero;
 
-                if (Math.Abs(target.position.X - npc.position.X) > 320)
+                if (Math.Abs(target.position.X - NPC.position.X) > 320)
                 {
-                    Main.projectile[(int)npc.ai[3]].Kill();
+                    Main.projectile[(int)NPC.ai[3]].Kill();
                     frameNumber = 0;
                 }
-                npc.rotation = 0;
-                if (Main.projectile[(int)npc.ai[3]].ai[0] == 1)
+                NPC.rotation = 0;
+                if (Main.projectile[(int)NPC.ai[3]].ai[0] == 1)
                 {
-                    Main.NewText(1 / Vector2.Distance(npc.Center, Main.projectile[(int)npc.ai[3]].Center));
-                    Lighting.AddLight(npc.Center, 10 / Vector2.Distance(npc.Center, Main.projectile[(int)npc.ai[3]].Center), 0.1f, 0.1f);
+                    Main.NewText(1 / Vector2.Distance(NPC.Center, Main.projectile[(int)NPC.ai[3]].Center));
+                    Lighting.AddLight(NPC.Center, 10 / Vector2.Distance(NPC.Center, Main.projectile[(int)NPC.ai[3]].Center), 0.1f, 0.1f);
                 }
-                npc.spriteDirection = 1;
+                NPC.spriteDirection = 1;
             }
             else
             {
-                if (Math.Abs(target.position.X - npc.position.X) < 160)
+                if (Math.Abs(target.position.X - NPC.position.X) < 160)
                 {
-                    npc.ai[2]++;
-                    if (npc.ai[2] >= 15 && frameNumber <= 2)
+                    NPC.ai[2]++;
+                    if (NPC.ai[2] >= 15 && frameNumber <= 2)
                     {
                         frameNumber++;
-                        npc.ai[2] = 0;
+                        NPC.ai[2] = 0;
                     }
                 }
-                npc.velocity = Vector2.Normalize(target.position - npc.position) * 4;
+                NPC.velocity = Vector2.Normalize(target.position - NPC.position) * 4;
 
-                if (target.position.X > npc.position.X)
+                if (target.position.X > NPC.position.X)
                 {
-                    npc.spriteDirection = -1;
+                    NPC.spriteDirection = -1;
                 }
                 else
                 {
-                    npc.spriteDirection = 1;
+                    NPC.spriteDirection = 1;
                 }
 
-                npc.rotation = npc.velocity.X / 32;
+                NPC.rotation = NPC.velocity.X / 32;
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color DrawColor)
         {
-            if (npc.ai[3] != 0)
+            if (NPC.ai[3] != 0)
             {
-                npc.TargetClosest();
-                Player player = Main.player[npc.target];
+                NPC.TargetClosest();
+                Player player = Main.player[NPC.target];
                 Texture2D LureChain = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Enemy/MechanicalLureChain");
-                float distance = Vector2.Distance(npc.Center, Main.projectile[(int)npc.ai[3]].position) / LureChain.Height;
-                Vector2 pos = npc.position - Main.screenPosition + new Vector2(x: (npc.width / 2) - (LureChain.Width / 2) - 10, y: npc.height / 2);
+                float distance = Vector2.Distance(NPC.Center, Main.projectile[(int)NPC.ai[3]].position) / LureChain.Height;
+                Vector2 pos = NPC.position - Main.screenPosition + new Vector2(x: (NPC.width / 2) - (LureChain.Width / 2) - 10, y: NPC.height / 2);
                 for (int i = 0; i < distance; i++)
                 {
                     Main.spriteBatch.Draw(LureChain, pos + new Vector2(x: 0, y: i * LureChain.Height), Color.White);
                 }
             }
-            Texture2D texture = Main.npcTexture[npc.type];
+            Texture2D texture = Main.npcTexture[NPC.type];
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-            Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, 40), npc.frame, DrawColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0, 40), NPC.frame, DrawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
 
         public override void NPCLoot()
         {
-            Main.projectile[(int)npc.ai[3]].Kill();
+            Main.projectile[(int)NPC.ai[3]].Kill();
         }
     }
 }

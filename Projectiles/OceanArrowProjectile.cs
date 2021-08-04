@@ -14,39 +14,39 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 36;       //projectile width
-            projectile.height = 46;  //projectile height
-            projectile.friendly = true;      //make that the projectile will not damage you
-            projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
-            projectile.penetrate = -1;      //how many npc will penetrate
-            projectile.alpha = 255;                               //how many time this projectile has before disepire
-            projectile.light = 0;    // projectile light
-            projectile.ignoreWater = true;
-            projectile.aiStyle = 0;
-            projectile.timeLeft = 1000000000;
+            Projectile.width = 36;       //projectile width
+            Projectile.height = 46;  //projectile height
+            Projectile.friendly = true;      //make that the projectile will not damage you
+            Projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
+            Projectile.penetrate = -1;      //how many npc will penetrate
+            Projectile.alpha = 255;                               //how many time this projectile has before disepire
+            Projectile.light = 0;    // projectile light
+            Projectile.ignoreWater = true;
+            Projectile.aiStyle = 0;
+            Projectile.timeLeft = 1000000000;
         }
 
         public override void AI()
         {
-            projectile.ai[0] += 0.1f;
-            projectile.position.X = Main.player[projectile.owner].Center.X - projectile.width / 2 + (float)Math.Sin(projectile.ai[0]) * 10 - 100;
-            projectile.position.Y = Main.player[projectile.owner].Center.Y;
-            if (projectile.ai[1] == 0)
+            Projectile.ai[0] += 0.1f;
+            Projectile.position.X = Main.player[Projectile.owner].Center.X - Projectile.width / 2 + (float)Math.Sin(Projectile.ai[0]) * 10 - 100;
+            Projectile.position.Y = Main.player[Projectile.owner].Center.Y;
+            if (Projectile.ai[1] == 0)
             {
-                projectile.alpha += 5;
+                Projectile.alpha += 5;
             }
             else
             {
-                projectile.alpha -= 5;
+                Projectile.alpha -= 5;
             }
 
-            Helpers.Clamp(ref projectile.alpha, 0, 255);
+            Helpers.Clamp(ref Projectile.alpha, 0, 255);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)  //this make the projectile sprite rotate perfectaly around the player
         {
-            Texture2D texture = Main.projectileTexture[projectile.type];
-            spriteBatch.Draw(texture, projectile.Center - Main.screenPosition, null, Color.Cyan * ((255f - projectile.alpha) / 255f), projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f, projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+            Texture2D texture = Main.projectileTexture[Projectile.type];
+            spriteBatch.Draw(texture, Projectile.Center - Main.screenPosition, null, Color.Cyan * ((255f - Projectile.alpha) / 255f), Projectile.rotation, new Vector2(texture.Width / 2, texture.Height / 2), 1f, Projectile.spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
             return false;
         }
     }

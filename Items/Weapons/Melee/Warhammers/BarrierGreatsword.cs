@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Warhammers
 {
-    public class BarrierGreatsword : ModItem
+    public class BarrierGreatsword : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,25 +14,25 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 70;
-            item.useTime = 24;
-            item.shootSpeed = 4;
-            item.knockBack = 6.5f;
-            item.width = 32;
-            item.height = 32;
-            item.scale = 1f;
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(silver: 10);
+            Item.damage = 20;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useAnimation = 70;
+            Item.useTime = 24;
+            Item.shootSpeed = 4;
+            Item.knockBack = 6.5f;
+            Item.width = 32;
+            Item.height = 32;
+            Item.scale = 1f;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(silver: 10);
 
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
+            Item.melee = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
 
-            item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<BarrierGreatswordProj>();
+            Item.UseSound = SoundID.Item1;
+            Item.shoot = ModContent.ProjectileType<BarrierGreatswordProj>();
         }
     }
 }

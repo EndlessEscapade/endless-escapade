@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Runes
 {
-    public class BubblingWatersRuneBubble : ModProjectile
+    public class BubblingWatersRuneBubble : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,23 +14,23 @@ namespace EEMod.Projectiles.Runes
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.timeLeft = 10000;
-            projectile.penetrate = -1;
-            projectile.damage = 0;
-            projectile.knockBack = 0;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 10000;
+            Projectile.penetrate = -1;
+            Projectile.damage = 0;
+            Projectile.knockBack = 0;
         }
 
         public override void AI()
         {
-            Projectile owner = Main.projectile[projectile.owner];
-            projectile.ai[1]++;
+            Projectile owner = Main.projectile[Projectile.owner];
+            Projectile.ai[1]++;
 
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
-                projectile.Center = new Vector2((float)Math.Sin(projectile.ai[1] / 20) * 60 + owner.Center.X, (float)Math.Sin(projectile.ai[1] / 40) * 60 + owner.Center.Y);
+                Projectile.Center = new Vector2((float)Math.Sin(Projectile.ai[1] / 20) * 60 + owner.Center.X, (float)Math.Sin(Projectile.ai[1] / 40) * 60 + owner.Center.Y);
                 Main.NewText("i exist");
             }
         }

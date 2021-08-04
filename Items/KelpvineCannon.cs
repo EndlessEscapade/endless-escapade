@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items
 {
-    public class KelpvineCannon : ModItem
+    public class KelpvineCannon : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,22 +16,22 @@ namespace EEMod.Items
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
 
-            item.useAnimation = 24;
-            item.useTime = 24;
+            Item.useAnimation = 24;
+            Item.useTime = 24;
 
-            item.shootSpeed = 8f;
-            item.width = 44;
-            item.height = 26;
+            Item.shootSpeed = 8f;
+            Item.width = 44;
+            Item.height = 26;
 
-            item.rare = ItemRarityID.Green;
+            Item.rare = ItemRarityID.Green;
 
-            item.shoot = ModContent.ProjectileType<KelpHookProj>();
+            Item.shoot = ModContent.ProjectileType<KelpHookProj>();
 
-            item.autoReuse = false; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
+            Item.autoReuse = false; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
-            item.UseSound = SoundID.Item11;
+            Item.UseSound = SoundID.Item11;
         }
 
         public override bool CanUseItem(Player player)
@@ -53,7 +53,7 @@ namespace EEMod.Items
             {
                 for(int i = 0; i < Main.maxProjectiles; i++)
                 {
-                    if(Main.projectile[i].type == item.shoot && Main.projectile[i].owner == player.whoAmI)
+                    if(Main.projectile[i].type == Item.shoot && Main.projectile[i].owner == player.whoAmI)
                     {
                         Main.projectile[i].Kill();
                     }

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.CoralReefs
 {
-    public class Fish : ModProjectile
+    public class Fish : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,14 +14,14 @@ namespace EEMod.Projectiles.CoralReefs
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.alpha = 0;
-            projectile.scale = 1f;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.alpha = 0;
+            Projectile.scale = 1f;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
         private readonly float detectDist = 160f;
@@ -34,22 +34,22 @@ namespace EEMod.Projectiles.CoralReefs
             List<Projectile> closeProjectiles = new List<Projectile>();
             for (int i = 0; i < Main.projectile.Length - 1; i++)
             {
-                if (Vector2.DistanceSquared(projectile.position, Main.projectile[i].position) <= detectDist * detectDist && projectile.type == ModContent.ProjectileType<Fish>() && projectile != Main.projectile[i])
+                if (Vector2.DistanceSquared(Projectile.position, Main.projectile[i].position) <= detectDist * detectDist && Projectile.type == ModContent.ProjectileType<Fish>() && Projectile != Main.projectile[i])
                 {
                     Projectile closeProj = Main.projectile[i];
                     //Flock distancing
-                    if (Vector2.DistanceSquared(projectile.position, closeProj.position) <= closeDist * closeDist)
+                    if (Vector2.DistanceSquared(Projectile.position, closeProj.position) <= closeDist * closeDist)
                     {
-                        projectile.velocity -= projectile.velocity * 2;
+                        Projectile.velocity -= Projectile.velocity * 2;
                     }
                     //Flock rotation
-                    if (projectile.rotation <= closeProj.rotation)
+                    if (Projectile.rotation <= closeProj.rotation)
                     {
-                        projectile.rotation += rotSpeed;
+                        Projectile.rotation += rotSpeed;
                     }
                     else //if (projectile.rotation > closeProj.rotation)
                     {
-                        projectile.rotation -= rotSpeed;
+                        Projectile.rotation -= rotSpeed;
                     }
 
                     closeProjectiles.Add(closeProj);
@@ -63,15 +63,15 @@ namespace EEMod.Projectiles.CoralReefs
                 {
                     averageLocation += Main.projectile[i].position;
                 }
-                projectile.velocity = Vector2.Normalize(projectile.position - (averageLocation / closeProjectiles.Count)) * moveSpeed;
+                Projectile.velocity = Vector2.Normalize(Projectile.position - (averageLocation / closeProjectiles.Count)) * moveSpeed;
             }
-            if (projectile.velocity.X >= 0)
+            if (Projectile.velocity.X >= 0)
             {
-                projectile.spriteDirection = 1;
+                Projectile.spriteDirection = 1;
             }
             else
             {
-                projectile.spriteDirection = -1;
+                Projectile.spriteDirection = -1;
             }
         }
     }

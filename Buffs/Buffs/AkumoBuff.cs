@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Buffs
 {
-    public class AkumoBuff : ModBuff
+    public class AkumoBuff : EEBuff
     {
         public override void SetDefaults()
         {

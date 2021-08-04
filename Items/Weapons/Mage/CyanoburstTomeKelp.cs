@@ -6,33 +6,33 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class CyanoburstTomeKelp : ModProjectile
+    public class CyanoburstTomeKelp : EEProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Cyanoburst Plankton");
-            Main.projFrames[projectile.type] = 8;
+            Main.projFrames[Projectile.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 58;
-            projectile.timeLeft = 420;
-            projectile.ignoreWater = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.alpha = 255;
-            projectile.damage = 100;
+            Projectile.width = 32;
+            Projectile.height = 58;
+            Projectile.timeLeft = 420;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.alpha = 255;
+            Projectile.damage = 100;
         }
 
         private NPC chosenTarget;
 
         public void DrawBehind()
         {
-            Main.spriteBatch.Draw(Main.projectileTexture[projectile.type], projectile.Center - Main.screenPosition, new Rectangle(0, projectile.height * projectile.frame, projectile.width, projectile.height), Color.White, projectile.rotation, new Rectangle(0, projectile.height * projectile.frame, projectile.width, projectile.height).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(Main.projectileTexture[Projectile.type], Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.height * Projectile.frame, Projectile.width, Projectile.height), Color.White, Projectile.rotation, new Rectangle(0, Projectile.height * Projectile.frame, Projectile.width, Projectile.height).Size() / 2, 1, SpriteEffects.None, 0);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -47,14 +47,14 @@ namespace EEMod.Items.Weapons.Mage
         {
             if (chosenTarget != null)
             {
-                chosenTarget.Center = projectile.Center + new Vector2(0, -16);
+                chosenTarget.Center = Projectile.Center + new Vector2(0, -16);
             }
-            Dust.NewDustPerfect(projectile.Center + new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 100)), DustID.GreenBlood);
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 8 && projectile.frame < 7)
+            Dust.NewDustPerfect(Projectile.Center + new Vector2(Main.rand.Next(-100, 100), Main.rand.Next(-100, 100)), DustID.GreenBlood);
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 8 && Projectile.frame < 7)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
         }
     }

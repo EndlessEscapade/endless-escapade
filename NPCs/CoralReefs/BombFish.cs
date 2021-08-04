@@ -7,38 +7,38 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class BombFish : ModNPC
+    public class BombFish : EENPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Bomb Fish");
-            Main.npcFrameCount[npc.type] = 16;
+            Main.npcFrameCount[NPC.type] = 16;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.lifeMax = 50;
-            npc.damage = 13;
-            npc.defense = 3;
+            NPC.lifeMax = 50;
+            NPC.damage = 13;
+            NPC.defense = 3;
 
-            npc.width = 40;
-            npc.height = 30;
-            npc.noGravity = true;
-            npc.knockBackResist = 0f;
-            npc.noTileCollide = true;
-            npc.npcSlots = 1f;
-            npc.buffImmune[BuffID.Confused] = true;
-            npc.lavaImmune = false;
-            banner = npc.type;
+            NPC.width = 40;
+            NPC.height = 30;
+            NPC.noGravity = true;
+            NPC.knockBackResist = 0f;
+            NPC.noTileCollide = true;
+            NPC.npcSlots = 1f;
+            NPC.buffImmune[BuffID.Confused] = true;
+            NPC.lavaImmune = false;
+            banner = NPC.type;
             //bannerItem = ModContent.ItemType<ClamBanner>();
-            npc.value = Item.sellPrice(0, 0, 0, 75);
+            NPC.value = Item.sellPrice(0, 0, 0, 75);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.22f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.22f);
         }
 
         public bool CheckIfEntityOnGround(NPC npc)
@@ -77,45 +77,45 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
-            npc.rotation = npc.velocity.ToRotation() + MathHelper.Pi;
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
-            npc.ai[1]++;
+            NPC.rotation = NPC.velocity.ToRotation() + MathHelper.Pi;
+            NPC.TargetClosest(true);
+            Player player = Main.player[NPC.target];
+            NPC.ai[1]++;
 
-            if (npc.ai[2] == 0)
+            if (NPC.ai[2] == 0)
             {
-                if (npc.ai[1] % 180 == 1 && Main.rand.Next(2) == 0)
+                if (NPC.ai[1] % 180 == 1 && Main.rand.Next(2) == 0)
                 {
                     speed = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
                 }
-                npc.velocity.X += (speed.X - npc.velocity.X) / 16f;
-                npc.velocity.Y += (speed.Y - npc.velocity.Y) / 16f;
-                if (npc.WithinRange(player.Center, 300))
+                NPC.velocity.X += (speed.X - NPC.velocity.X) / 16f;
+                NPC.velocity.Y += (speed.Y - NPC.velocity.Y) / 16f;
+                if (NPC.WithinRange(player.Center, 300))
                 {
-                    npc.ai[2] = 1;
-                    npc.ai[0] = 0;
+                    NPC.ai[2] = 1;
+                    NPC.ai[0] = 0;
                 }
             }
-            if (npc.ai[2] == 1)
+            if (NPC.ai[2] == 1)
             {
-                npc.ai[0]++;
-                if (npc.ai[0] < 120)
+                NPC.ai[0]++;
+                if (NPC.ai[0] < 120)
                 {
-                    npc.velocity += new Vector2((float)Math.Sin(npc.ai[0] / 10f) * 0.5f, -(float)Math.Cos(npc.ai[0] / 10f) * 0.5f);
+                    NPC.velocity += new Vector2((float)Math.Sin(NPC.ai[0] / 10f) * 0.5f, -(float)Math.Cos(NPC.ai[0] / 10f) * 0.5f);
                     playerPosition = player.Center;
                 }
-                else if (npc.ai[0] < 128)
+                else if (NPC.ai[0] < 128)
                 {
-                    npc.velocity += (playerPosition - npc.Center) / 500f;
+                    NPC.velocity += (playerPosition - NPC.Center) / 500f;
                 }
-                if (npc.ai[0] > 128)
+                if (NPC.ai[0] > 128)
                 {
-                    npc.velocity *= 0.98f;
+                    NPC.velocity *= 0.98f;
                 }
-                if (npc.ai[0] >= 200)
+                if (NPC.ai[0] >= 200)
                 {
-                    npc.ai[2] = 0;
-                    npc.ai[0] = 0;
+                    NPC.ai[2] = 0;
+                    NPC.ai[0] = 0;
                 }
             }
         }
@@ -126,7 +126,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/BombFishGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/BombFishGlow"), NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }

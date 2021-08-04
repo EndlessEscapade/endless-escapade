@@ -9,11 +9,11 @@ using EEMod.Items.Weapons.Classes;
 namespace EEMod.Items.Weapons.Combo
 {
     public delegate void Combo();
-    public abstract class ComboWeapon : ModProjectile, IComboProjectile
+    public abstract class ComboWeapon : EEProjectile, IComboProjectile
     {
         protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
         protected bool isFinished => progression >= 1;
-        protected Player projOwner => Main.player[projectile.owner];
+        protected Player projOwner => Main.player[Projectile.owner];
 
         private int ComboSelection;
         public void SetCombo(int CurrentCombo) => ComboSelection = CurrentCombo;
@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Combo
         }
         public override void AI()
         {
-            projOwner.heldProj = projectile.whoAmI;
+            projOwner.heldProj = Projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
             Combos[ComboSelection].Invoke();
         }

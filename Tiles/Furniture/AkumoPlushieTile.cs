@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class AkumoPlushieTile : ModTile
+    public class AkumoPlushieTile : EETile
     {
         public override void SetDefaults()
         {

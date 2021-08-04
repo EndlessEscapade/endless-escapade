@@ -8,7 +8,7 @@ using System;
 
 namespace EEMod.Items.Weapons.Melee.Shivs
 {
-    public class RapierProj : ModProjectile
+    public class RapierProj : EEProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
 
@@ -19,26 +19,26 @@ namespace EEMod.Items.Weapons.Melee.Shivs
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.aiStyle = -1;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.damage = 0;
-            projectile.timeLeft = 120;
-            projectile.alpha = 255;
-            projectile.extraUpdates = 3;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.aiStyle = -1;
+            Projectile.melee = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.damage = 0;
+            Projectile.timeLeft = 120;
+            Projectile.alpha = 255;
+            Projectile.extraUpdates = 3;
         }
         public Vector2 start;
         public Vector2 end;
         public Vector2 mid;
         public override void AI()
         {
-            projectile.ai[0] += (1 - projectile.ai[0]) / 16f;
-            projectile.Center = Helpers.TraverseBezier(end, start, mid, projectile.ai[0]);
+            Projectile.ai[0] += (1 - Projectile.ai[0]) / 16f;
+            Projectile.Center = Helpers.TraverseBezier(end, start, mid, Projectile.ai[0]);
         }
     }
 }

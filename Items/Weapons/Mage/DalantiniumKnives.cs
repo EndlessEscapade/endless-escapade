@@ -10,33 +10,33 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class DalantiniumKnives : ModItem
+    public class DalantiniumKnives : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Dalantinium Knives");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 13;
-            item.magic = true;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.sellPrice(0, 0, 21);
-            item.mana = 7;
-            item.shootSpeed = 4f;
-            item.useTime = 65;
-            item.useAnimation = 65;
-            item.rare = ItemRarityID.Orange;
-            item.width = 20;
-            item.height = 20;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shoot = ModContent.ProjectileType<DalantiniumFan>();
-            item.noUseGraphic = true;
-            item.UseSound = SoundID.Item1;
+            Item.damage = 13;
+            Item.magic = true;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = Item.sellPrice(0, 0, 21);
+            Item.mana = 7;
+            Item.shootSpeed = 4f;
+            Item.useTime = 65;
+            Item.useAnimation = 65;
+            Item.rare = ItemRarityID.Orange;
+            Item.width = 20;
+            Item.height = 20;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.shoot = ModContent.ProjectileType<DalantiniumFan>();
+            Item.noUseGraphic = true;
+            Item.UseSound = SoundID.Item1;
         }
 
         public override Vector2? HoldoutOffset()
@@ -78,7 +78,7 @@ namespace EEMod.Items.Weapons.Mage
             if (player.altFunctionUse == 0)
             {
                 type = ModContent.ProjectileType<DalantiniumFan>();
-                item.shoot = ModContent.ProjectileType<DalantiniumFan>();
+                Item.shoot = ModContent.ProjectileType<DalantiniumFan>();
                 Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 powerUp += 200;
                 (projectile.modProjectile as DalantiniumFan).boost = powerUp;
@@ -90,7 +90,7 @@ namespace EEMod.Items.Weapons.Mage
             if (player.altFunctionUse == 2)
             {
                 type = ModContent.ProjectileType<DalantiniumFanAlt>();
-                item.shoot = ModContent.ProjectileType<DalantiniumFanAlt>();
+                Item.shoot = ModContent.ProjectileType<DalantiniumFanAlt>();
                 Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 powerUp = 0;
                 if (Main.netMode != NetmodeID.Server)

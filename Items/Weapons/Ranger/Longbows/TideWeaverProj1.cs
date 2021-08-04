@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Ranger.Longbows
 {
-    public class TideWeaverProj1 : ModProjectile
+    public class TideWeaverProj1 : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -12,24 +12,24 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.alpha = 0;
-            projectile.timeLeft = 600;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.scale *= 1f;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale *= 1f;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y += projectile.ai[0];
-            projectile.rotation += projectile.velocity.X / 16f;
+            Projectile.velocity.Y += Projectile.ai[0];
+            Projectile.rotation += Projectile.velocity.X / 16f;
         }
     }
 }

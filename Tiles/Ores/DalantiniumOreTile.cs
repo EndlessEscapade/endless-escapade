@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Ores
 {
-    public class DalantiniumOreTile : ModTile
+    public class DalantiniumOreTile : EETile
     {
         public override void SetDefaults()
         {

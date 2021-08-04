@@ -10,7 +10,7 @@ using System;
 
 namespace EEMod.Tiles
 {
-    public class KelpLeafTile : ModTile
+    public class KelpLeafTile : EETile
     {
         public override void SetDefaults()
         {

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
-    public class Gradient : ModProjectile
+    public class Gradient : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,27 +15,27 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 200;
-            projectile.height = 100;
-            projectile.alpha = 0;
-            projectile.timeLeft = 600;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = false;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.scale *= 1;
+            Projectile.width = 200;
+            Projectile.height = 100;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = false;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.scale *= 1;
         }
 
         public override void AI()
         {
             float brightness = 1;
-            projectile.timeLeft = 100;
-            projectile.Center = Main.player[projectile.owner].Center + new Vector2(36, 0).RotatedBy(projectile.rotation);
-            projectile.rotation = (Main.player[projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + MathHelper.Pi;
+            Projectile.timeLeft = 100;
+            Projectile.Center = Main.player[Projectile.owner].Center + new Vector2(36, 0).RotatedBy(Projectile.rotation);
+            Projectile.rotation = (Main.player[Projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + MathHelper.Pi;
             for (int i = 0; i < 10; i++)
             {
-                Lighting.AddLight(projectile.Center + new Vector2(180 - (i * 20), 0).RotatedBy(projectile.rotation), new Vector3(projectile.ai[0] * brightness, projectile.ai[0] * brightness, projectile.ai[0] * brightness));
+                Lighting.AddLight(Projectile.Center + new Vector2(180 - (i * 20), 0).RotatedBy(Projectile.rotation), new Vector3(Projectile.ai[0] * brightness, Projectile.ai[0] * brightness, Projectile.ai[0] * brightness));
             }
         }
 
@@ -43,7 +43,7 @@ namespace EEMod.Projectiles
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Gradient"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 200, 100), Color.White * 0.5f * projectile.ai[0], projectile.rotation, new Vector2(0, 50), 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Gradient"), Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 200, 100), Color.White * 0.5f * Projectile.ai[0], Projectile.rotation, new Vector2(0, 50), 1, SpriteEffects.None, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }

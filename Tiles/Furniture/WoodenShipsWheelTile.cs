@@ -14,7 +14,7 @@ using EEMod.UI.States;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class WoodenShipsWheelTile : ModTile
+    public class WoodenShipsWheelTile : EETile
     {
         public override void SetDefaults()
         {

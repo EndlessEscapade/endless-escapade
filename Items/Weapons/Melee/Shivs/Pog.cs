@@ -15,22 +15,22 @@ namespace EEMod.Items.Weapons.Melee.Shivs
 
         public override void SetDefaults()
         {
-            projectile.width = 38;
-            projectile.height = 32;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.scale = 1f;
-            projectile.alpha = 255;
+            Projectile.width = 38;
+            Projectile.height = 32;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = -1;
+            Projectile.scale = 1f;
+            Projectile.alpha = 255;
 
-            projectile.hide = true;
-            projectile.ownerHitCheck = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.damage = 20;
-            projectile.knockBack = 4.5f;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.melee = true;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.damage = 20;
+            Projectile.knockBack = 4.5f;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

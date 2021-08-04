@@ -12,7 +12,7 @@ using EEMod.Projectiles.CoralReefs;
 
 namespace EEMod.Tiles.Foliage.SeahorseShoals
 {
-    public class TeslaCoral2x2 : ModTile
+    public class TeslaCoral2x2 : EETile
     {
         public override void SetDefaults()
         {

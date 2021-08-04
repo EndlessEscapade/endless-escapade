@@ -6,7 +6,7 @@ using EEMod.Projectiles.FishingBobbers;
 
 namespace EEMod.Items.FishingPoles
 {
-    public class SailorsPole : ModItem
+    public class SailorsPole : EEItem
     {
         // You can use vanilla textures by using the format: Terraria/Item_<ID>
         public override void SetStaticDefaults()
@@ -14,7 +14,7 @@ namespace EEMod.Items.FishingPoles
             DisplayName.SetDefault("Sailor's Pole");
             //Tooltip.SetDefault("Fires multiple lines at once. Can fish in lava.");
             //Allows the pole to fish in lava
-            ItemID.Sets.CanFishInLava[item.type] = true;
+            ItemID.Sets.CanFishInLava[Item.type] = true;
         }
 
         public override void SetDefaults()
@@ -26,10 +26,10 @@ namespace EEMod.Items.FishingPoles
             //item.width = 24;
             //item.height = 28;
             //item.UseSound = SoundID.Item1;
-            item.CloneDefaults(ItemID.WoodFishingPole);
-            item.fishingPole = 30;
-            item.shootSpeed = 14f;
-            item.shoot = ModContent.ProjectileType<SailorsPoleBobber>();
+            Item.CloneDefaults(ItemID.WoodFishingPole);
+            Item.fishingPole = 30;
+            Item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<SailorsPoleBobber>();
         }
 
         //Overrides the default shooting method to fire multiple bobbers

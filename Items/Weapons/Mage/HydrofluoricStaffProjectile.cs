@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class HydrofluoricStaffProjectile : ModProjectile
+    public class HydrofluoricStaffProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,23 +14,23 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            projectile.width = 8;
-            projectile.height = 8;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.penetrate = 2;
+            Projectile.width = 8;
+            Projectile.height = 8;
+            Projectile.friendly = true;
+            Projectile.magic = true;
+            Projectile.penetrate = 2;
         }
 
         private int progress;
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
             progress += 11;
             double deg = progress;
             double rad = deg * (Math.PI / 180);
-            projectile.velocity.X -= (float)Math.Cos(rad) * projectile.ai[0];
-            projectile.velocity.Y += (float)Math.Cos(rad) * projectile.ai[1];
+            Projectile.velocity.X -= (float)Math.Cos(rad) * Projectile.ai[0];
+            Projectile.velocity.Y += (float)Math.Cos(rad) * Projectile.ai[1];
         }
     }
 }

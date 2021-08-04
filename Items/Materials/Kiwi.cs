@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Materials
 {
-    public class Kiwi : ModItem
+    public class Kiwi : EEItem
     {
         public override void SetStaticDefaults()
         {

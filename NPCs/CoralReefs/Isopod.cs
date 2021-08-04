@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class Isopod : ModNPC
+    public class Isopod : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -22,40 +22,40 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.alpha = 20;
+            NPC.alpha = 20;
 
-            npc.lifeMax = 550;
-            npc.defense = 10;
+            NPC.lifeMax = 550;
+            NPC.defense = 10;
 
-            npc.width = 34;
-            npc.height = 134;
+            NPC.width = 34;
+            NPC.height = 134;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
 
         public override void AI()
         {
-            npc.ai[1]++;
+            NPC.ai[1]++;
 
-            npc.TargetClosest();
-            Player target = Main.player[npc.target];
-            if (npc.ai[1] % 90 == 0)
+            NPC.TargetClosest();
+            Player target = Main.player[NPC.target];
+            if (NPC.ai[1] % 90 == 0)
             {
-                npc.velocity += Vector2.Normalize(target.Center - npc.Center) * 12;
+                NPC.velocity += Vector2.Normalize(target.Center - NPC.Center) * 12;
             }
-            npc.velocity *= 0.98f;
+            NPC.velocity *= 0.98f;
 
-            npc.rotation = npc.velocity.ToRotation() + MathHelper.PiOver2;
+            NPC.rotation = NPC.velocity.ToRotation() + MathHelper.PiOver2;
         }
     }
 }

@@ -6,7 +6,7 @@ using EEMod.Projectiles.TennisRackets;
 
 namespace EEMod.Items.TennisRackets
 {
-    public class Terracket : ModItem
+    public class Terracket : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,21 +16,21 @@ namespace EEMod.Items.TennisRackets
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shootSpeed = 1f;
-            item.rare = ItemRarityID.Orange;
-            item.width = 20;
-            item.height = 20;
-            item.noMelee = false;
-            item.damage = 20;
-            item.useTime = 10;
-            item.useAnimation = 10;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.autoReuse = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item11;
-            item.crit = 1;
-            item.noUseGraphic = true;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.shootSpeed = 1f;
+            Item.rare = ItemRarityID.Orange;
+            Item.width = 20;
+            Item.height = 20;
+            Item.noMelee = false;
+            Item.damage = 20;
+            Item.useTime = 10;
+            Item.useAnimation = 10;
+            Item.value = Item.buyPrice(0, 0, 30, 0);
+            Item.autoReuse = true;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item11;
+            Item.crit = 1;
+            Item.noUseGraphic = true;
         }
 
         public int yeet;

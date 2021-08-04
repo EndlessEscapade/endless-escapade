@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class KelpMossTile : ModTile
+    public class KelpMossTile : EETile
     {
         public override void SetDefaults()
         {

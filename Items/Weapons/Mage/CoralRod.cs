@@ -6,32 +6,32 @@ using EEMod.Items.Weapons.Mage;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class CoralRod : ModItem
+    public class CoralRod : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coral Rod");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 8;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = 30;
-            item.useAnimation = 30;
-            item.knockBack = 0;
-            item.rare = ItemRarityID.Blue;
-            item.autoReuse = true;
-            item.crit = 4;
-            item.noMelee = true;
-            item.magic = true;
+            Item.damage = 8;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = 30;
+            Item.useAnimation = 30;
+            Item.knockBack = 0;
+            Item.rare = ItemRarityID.Blue;
+            Item.autoReuse = true;
+            Item.crit = 4;
+            Item.noMelee = true;
+            Item.magic = true;
             //item.shoot = ModContent.ProjectileType<Snowball>();
-            item.shootSpeed = 16f;
-            item.mana = 2;
-            item.UseSound = SoundID.DD2_MonkStaffSwing;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.shootSpeed = 16f;
+            Item.mana = 2;
+            Item.UseSound = SoundID.DD2_MonkStaffSwing;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
         }
     }
 }

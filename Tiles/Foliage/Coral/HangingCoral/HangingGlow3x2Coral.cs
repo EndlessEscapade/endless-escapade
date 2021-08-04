@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 {
-    public class HangingGlow3x2Coral : ModTile
+    public class HangingGlow3x2Coral : EETile
     {
         public override void SetDefaults()
         {

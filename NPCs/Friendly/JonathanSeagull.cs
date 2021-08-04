@@ -11,7 +11,7 @@ using EEMod.Systems;
 
 namespace EEMod.NPCs.Friendly
 {    
-    class JonathanSeagull : ModNPC
+    class JonathanSeagull : EENPC
     {
         public bool IntroductionDialogue;
         public override void SetStaticDefaults()
@@ -21,17 +21,17 @@ namespace EEMod.NPCs.Friendly
 
         public override void SetDefaults()
         {
-            npc.friendly = true;
-            npc.width = 36;
-            npc.height = 30;
-            npc.lifeMax = 1000000;
-            npc.dontTakeDamage = true;
+            NPC.friendly = true;
+            NPC.width = 36;
+            NPC.height = 30;
+            NPC.lifeMax = 1000000;
+            NPC.dontTakeDamage = true;
         }
         public override void AI()
         {
-            if (!IntroductionDialogue && Vector2.DistanceSquared(npc.position, Main.LocalPlayer.position) < 15000)
+            if (!IntroductionDialogue && Vector2.DistanceSquared(NPC.position, Main.LocalPlayer.position) < 15000)
             {
-               new JonathanSeagullIntroduction().StartDialogueRequiringNPC(npc.whoAmI);
+               new JonathanSeagullIntroduction().StartDialogueRequiringNPC(NPC.whoAmI);
             }
         }
     }

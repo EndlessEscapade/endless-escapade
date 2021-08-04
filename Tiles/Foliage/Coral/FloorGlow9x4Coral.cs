@@ -9,7 +9,7 @@ using System;
 
 namespace EEMod.Tiles.Foliage.Coral
 {
-    public class FloorGlow9x4Coral : ModTile
+    public class FloorGlow9x4Coral : EETile
     {
         public override void SetDefaults()
         {

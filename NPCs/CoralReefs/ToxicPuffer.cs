@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class ToxicPuffer : ModNPC
+    public class ToxicPuffer : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -15,21 +15,21 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.lifeMax = 38;
-            npc.defense = 2;
+            NPC.lifeMax = 38;
+            NPC.defense = 2;
 
-            npc.buffImmune[BuffID.Confused] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
 
-            npc.width = 26;
-            npc.height = 26;
+            NPC.width = 26;
+            NPC.height = 26;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.ToxicPufferBanner>();
         }
 
@@ -41,31 +41,31 @@ namespace EEMod.NPCs.CoralReefs
             for (int i = 0; i < Main.player.Length; i++)
             {
                 Player player = Main.player[i];
-                if (Vector2.Distance(npc.Center, player.Center) <= 320)
+                if (Vector2.Distance(NPC.Center, player.Center) <= 320)
                 {
                     isBig = true;
                 }
             }
 
-            npc.TargetClosest();
-            Player target = Main.player[npc.target];
+            NPC.TargetClosest();
+            Player target = Main.player[NPC.target];
 
             if (!isBig)
             {
                 big = false;
-                npc.width = 26;
-                npc.height = 26;
-                npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 2;
+                NPC.width = 26;
+                NPC.height = 26;
+                NPC.velocity = Vector2.Normalize(target.Center - NPC.Center) * 2;
             }
             if (isBig)
             {
                 big = true;
-                npc.width = 62;
-                npc.height = 48;
-                npc.velocity = Vector2.Normalize(target.Center - npc.Center) * 1;
+                NPC.width = 62;
+                NPC.height = 48;
+                NPC.velocity = Vector2.Normalize(target.Center - NPC.Center) * 1;
             }
 
-            npc.rotation = npc.velocity.X / 5;
+            NPC.rotation = NPC.velocity.X / 5;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -75,12 +75,12 @@ namespace EEMod.NPCs.CoralReefs
             if (big)
             {
                 texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/ToxicPuffer");
-                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + offset, new Rectangle(0, 0, 62, 48), drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + offset, new Rectangle(0, 0, 62, 48), drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             }
             if (!big)
             {
                 offset = new Vector2(8, 16);
-                Main.spriteBatch.Draw(texture, npc.Center - Main.screenPosition + offset, new Rectangle(0, 0, 26, 26), drawColor, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + offset, new Rectangle(0, 0, 26, 26), drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             }
             return false;
         }

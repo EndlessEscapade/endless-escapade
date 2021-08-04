@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Boomerangs
 {
-    public class FeatheredChakramProjectile : ModProjectile
+    public class FeatheredChakramProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -13,20 +13,20 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
 
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 60;
-            projectile.aiStyle = 3;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.extraUpdates = 2;
-            projectile.tileCollide = false;
+            Projectile.width = 44;
+            Projectile.height = 60;
+            Projectile.aiStyle = 3;
+            Projectile.melee = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.extraUpdates = 2;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            int dust = Dust.NewDust(projectile.Center, 0, 0, DustID.Flare);
+            int dust = Dust.NewDust(Projectile.Center, 0, 0, DustID.Flare);
             //Main.dust[dust].velocity = -projectile.velocity;
         }
 

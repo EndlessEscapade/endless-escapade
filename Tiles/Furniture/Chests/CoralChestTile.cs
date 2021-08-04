@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Chests
 {
-    public class CoralChestTile : ModTile
+    public class CoralChestTile : EETile
     {
         public override void SetDefaults()
         {

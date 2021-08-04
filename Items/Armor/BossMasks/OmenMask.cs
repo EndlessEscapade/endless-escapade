@@ -6,7 +6,7 @@ using EEMod.Items.Placeables.Ores;
 namespace EEMod.Items.Armor.BossMasks
 {
     [AutoloadEquip(EquipType.Head)]
-    public class OmenMask : ModItem
+    public class OmenMask : EEItem
     {
         public override void SetStaticDefaults()
         {

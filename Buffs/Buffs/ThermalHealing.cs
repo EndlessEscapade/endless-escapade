@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Buffs
 {
-    public class ThermalHealing : ModBuff
+    public class ThermalHealing : EEBuff
     {
         public override void SetDefaults()
         {

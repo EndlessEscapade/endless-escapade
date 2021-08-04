@@ -16,7 +16,7 @@ using EEMod;
 
 namespace EEMod.Items.Weapons.Summon.Whips
 {
-    public abstract class Whip : ModProjectile
+    public abstract class Whip : EEProjectile
     {
         public virtual string texture => "EEMod/Projectiles/Summons/KelpWhipProj";
 
@@ -52,16 +52,16 @@ namespace EEMod.Items.Weapons.Summon.Whips
 
         public override void SetDefaults()
         {
-            projectile.width = 0;
-            projectile.height = 0;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.scale = 1f;
-            projectile.ownerHitCheck = true;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 0;
+            Projectile.height = 0;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.scale = 1f;
+            Projectile.ownerHitCheck = true;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
 
             SafeSetDefaults();
         }
@@ -93,51 +93,51 @@ namespace EEMod.Items.Weapons.Summon.Whips
         private bool hasPlayedSound;
         public override void AI()
         {
-            player = Main.player[projectile.owner];
+            player = Main.player[Projectile.owner];
             modPlayer = player.GetModPlayer<EEPlayer>();
 
-            projectile.spriteDirection = projectile.direction;
+            Projectile.spriteDirection = Projectile.direction;
 
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
-                projectile.velocity *= rangeMult;
-                projectile.ai[0] = 1;
+                Projectile.velocity *= rangeMult;
+                Projectile.ai[0] = 1;
             }
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
-            projectile.ai[0] += 1f / player.meleeSpeed;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.ai[0] += 1f / player.meleeSpeed;
 
-            GetWhipSettings(projectile);
+            GetWhipSettings(Projectile);
 
-            projectile.Center = GetPlayerArmPosition(projectile) + projectile.velocity * (projectile.ai[0] - 1f);
-            projectile.spriteDirection = ((!(Vector2.Dot(projectile.velocity, Vector2.UnitX) < 0f)) ? 1 : (-1));
+            Projectile.Center = GetPlayerArmPosition(Projectile) + Projectile.velocity * (Projectile.ai[0] - 1f);
+            Projectile.spriteDirection = ((!(Vector2.Dot(Projectile.velocity, Vector2.UnitX) < 0f)) ? 1 : (-1));
 
-            if (projectile.ai[0] >= timeToFlyOut || player.itemAnimation == 0)
+            if (Projectile.ai[0] >= timeToFlyOut || player.itemAnimation == 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
                 return;
             }
 
-            player.heldProj = projectile.whoAmI;
-            player.itemAnimation = player.itemAnimationMax - (int)(projectile.ai[0] / projectile.MaxUpdates);
+            player.heldProj = Projectile.whoAmI;
+            player.itemAnimation = player.itemAnimationMax - (int)(Projectile.ai[0] / Projectile.MaxUpdates);
             player.itemTime = player.itemAnimation;
 
-            if (projectile.ai[0] >= (int)(timeToFlyOut / 2f) && !hasPlayedSound)
+            if (Projectile.ai[0] >= (int)(timeToFlyOut / 2f) && !hasPlayedSound)
             {
                 _whipPointsForCollision.Clear();
-                FillWhipControlPoints(projectile, _whipPointsForCollision);
+                FillWhipControlPoints(Projectile, _whipPointsForCollision);
                 Vector2 position = _whipPointsForCollision[_whipPointsForCollision.Count - 1];
                 Main.PlaySound(mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Sounds/WhipCrack"));
 
                 hasPlayedSound = true;
             }
 
-            float t2 = projectile.ai[0] / timeToFlyOut;
+            float t2 = Projectile.ai[0] / timeToFlyOut;
             float num2 = Helpers.FloatLerp(0.1f, 0.7f, t2, true) * Helpers.FloatLerp(0.9f, 0.7f, t2, true);
             if (num2 > 0.1f && Main.rand.NextFloat() < num2 / 2f)
             {
                 _whipPointsForCollision.Clear();
-                FillWhipControlPoints(projectile, _whipPointsForCollision);
+                FillWhipControlPoints(Projectile, _whipPointsForCollision);
                 Rectangle r2 = Utils.CenteredRectangle(_whipPointsForCollision[_whipPointsForCollision.Count - 1], new Vector2(30f, 30f));
             }
         }
@@ -235,7 +235,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             List<Vector2> controlPoints = new List<Vector2>();
-            FillWhipControlPoints(projectile, controlPoints);
+            FillWhipControlPoints(Projectile, controlPoints);
 
             Rectangle segmentRect = tex.Frame(1, 5);
             int height = segmentRect.Height;
@@ -267,7 +267,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
                     float rotation = vector4.ToRotation() - MathHelper.PiOver2;
                     Point lightPos = currentPoint.ToTileCoordinates();
 
-                    Color alpha = projectile.GetAlpha(Lighting.GetColor(lightPos.X, lightPos.Y) * 1.2f);
+                    Color alpha = Projectile.GetAlpha(Lighting.GetColor(lightPos.X, lightPos.Y) * 1.2f);
 
                     if (i < segments - 2)
                     {

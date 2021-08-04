@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Accessories
 {
-    public class HallowedDivingGear : ModItem
+    public class HallowedDivingGear : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,12 +15,12 @@ namespace EEMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Pink;
-            item.value = Item.sellPrice(0, 0, 32);
-            item.scale = 0.2f;
+            Item.accessory = true;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Pink;
+            Item.value = Item.sellPrice(0, 0, 32);
+            Item.scale = 0.2f;
         }
 
         public override void UpdateEquip(Player player)

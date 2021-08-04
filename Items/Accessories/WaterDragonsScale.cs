@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Accessories
 {
-    public class WaterDragonsScale : ModItem
+    public class WaterDragonsScale : EEItem
     {
         //commit check
         public override void SetStaticDefaults()
@@ -15,10 +15,10 @@ namespace EEMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Expert;
-            item.width = 32;
-            item.height = 34;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Expert;
+            Item.width = 32;
+            Item.height = 34;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Ores
 {
-    public class AquamarineTile : ModTile
+    public class AquamarineTile : EETile
     {
         public override void SetDefaults()
         {

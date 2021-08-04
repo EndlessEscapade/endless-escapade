@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
-    public class Torch : ModProjectile
+    public class Torch : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,23 +14,23 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 16;
-            projectile.alpha = 0;
-            projectile.timeLeft = 1;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.scale *= 1;
-            projectile.alpha = 255;
+            Projectile.width = 46;
+            Projectile.height = 16;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 1;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.magic = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.scale *= 1;
+            Projectile.alpha = 255;
         }
 
         public override void AI()
         {
-            projectile.rotation = (Main.player[projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + MathHelper.Pi;
+            Projectile.rotation = (Main.player[Projectile.owner].Center - (new Vector2(Main.mouseX, Main.mouseY) + Main.screenPosition)).ToRotation() + MathHelper.Pi;
         }
     }
 }

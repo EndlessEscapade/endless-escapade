@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace EEMod.Items.Armor.Dalantinium
 {
     [AutoloadEquip(EquipType.Body)]
-    public class DalantiniumPlatemail : ModItem
+    public class DalantiniumPlatemail : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,11 +16,11 @@ namespace EEMod.Items.Armor.Dalantinium
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 30);
-            item.rare = ItemRarityID.Orange;
-            item.defense = 7;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 30);
+            Item.rare = ItemRarityID.Orange;
+            Item.defense = 7;
         }
 
         public override void UpdateEquip(Player player)

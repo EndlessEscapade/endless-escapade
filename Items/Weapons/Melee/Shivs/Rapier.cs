@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Shivs
 {
-    public abstract class Rapier : ModProjectile
+    public abstract class Rapier : EEProjectile
     {
         int stealyourmom = 0;
         bool isClicking;
@@ -18,23 +18,23 @@ namespace EEMod.Items.Weapons.Melee.Shivs
         Vector2 midPoint = new Vector2();
         Vector2 lastClickPos = new Vector2();
         List<Vector2> positionBuffer = new List<Vector2>();
-        protected Player projOwner => Main.player[projectile.owner];
+        protected Player projOwner => Main.player[Projectile.owner];
 
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
 
         public override void AI()
         {
-            projectile.direction = projOwner.direction;
-            projOwner.heldProj = projectile.whoAmI;
+            Projectile.direction = projOwner.direction;
+            projOwner.heldProj = Projectile.whoAmI;
             projOwner.itemTime = projOwner.itemAnimation;
-            projectile.position.X = projOwner.Center.X - projectile.width / 2;
-            projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
+            Projectile.position.X = projOwner.Center.X - Projectile.width / 2;
+            Projectile.position.Y = projOwner.Center.Y - Projectile.height / 2;
 
             if (projOwner.itemAnimation <= 1 && timeForSwing > 0.999f)
             {
                 Main.NewText("f");
-                projectile.Kill();
+                Projectile.Kill();
             }
             if (Main.LocalPlayer.controlUseItem)
             {
@@ -99,12 +99,12 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                 projLerp = 0;
                 if (!flag)
                 {
-                    lightningproj = Projectile.NewProjectile(firstClickPos,Vector2.Zero, ModContent.ProjectileType<RapierProj>(), projectile.damage, projectile.knockBack, projectile.owner);
+                    lightningproj = Projectile.NewProjectile(firstClickPos,Vector2.Zero, ModContent.ProjectileType<RapierProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     (Main.projectile[lightningproj].modProjectile as RapierProj).mid = midPoint;
                     (Main.projectile[lightningproj].modProjectile as RapierProj).start = firstClickPos;
                     (Main.projectile[lightningproj].modProjectile as RapierProj).end = lastClickPos;
                     flag = true;
-                    EEMod.primitives.CreateTrail(new Prim.SwordPrimTrail(projectile, lastClickPos, midPoint, firstClickPos));
+                    EEMod.primitives.CreateTrail(new Prim.SwordPrimTrail(Projectile, lastClickPos, midPoint, firstClickPos));
                 }
                 //Helpers.DrawLine(fClickToDraw, lClickToDraw);
                 //Helpers.DrawLine(fClickToDraw, mClickToDraw);

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class ZipPylon : ModTile
+    public class ZipPylon : EETile
     {
         public override void SetDefaults()
         {

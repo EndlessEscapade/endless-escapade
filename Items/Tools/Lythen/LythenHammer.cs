@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Tools.Lythen
 {
-    public class LythenHammer : ModItem
+    public class LythenHammer : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,19 +14,19 @@ namespace EEMod.Items.Tools.Lythen
 
         public override void SetDefaults()
         {
-            item.hammer = 48;
-            item.useTime = 34;
-            item.useAnimation = 34;
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Green;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 9;
-            item.melee = true;
-            item.autoReuse = true;
-            item.UseSound = SoundID.Item1;
-            item.knockBack = 2f;
+            Item.hammer = 48;
+            Item.useTime = 34;
+            Item.useAnimation = 34;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.damage = 9;
+            Item.melee = true;
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.Item1;
+            Item.knockBack = 2f;
         }
 
         public override void AddRecipes()

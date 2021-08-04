@@ -7,50 +7,50 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
-    public class MechanicalShark : ModNPC
+    public class MechanicalShark : EENPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechanical Shark");
-            Main.npcFrameCount[npc.type] = 6;
+            Main.npcFrameCount[NPC.type] = 6;
         }
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter == 6)
+            NPC.frameCounter++;
+            if (NPC.frameCounter == 6)
             {
-                npc.frame.Y = npc.frame.Y + frameHeight;
-                npc.frameCounter = 0;
+                NPC.frame.Y = NPC.frame.Y + frameHeight;
+                NPC.frameCounter = 0;
             }
-            if (npc.frame.Y >= frameHeight * 6)
+            if (NPC.frame.Y >= frameHeight * 6)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
                 return;
             }
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.alpha = 0;
+            NPC.alpha = 0;
 
-            npc.lifeMax = 550;
-            npc.defense = 10;
+            NPC.lifeMax = 550;
+            NPC.defense = 10;
 
-            npc.width = 174;
-            npc.height = 98;
+            NPC.width = 174;
+            NPC.height = 98;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.spriteDirection = -1;
+            NPC.spriteDirection = -1;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
@@ -58,58 +58,58 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
         public override void AI()
         {
-            npc.TargetClosest();
-            if (npc.ai[0] == 0)
+            NPC.TargetClosest();
+            if (NPC.ai[0] == 0)
             {
-                npc.velocity = Vector2.Normalize(Main.player[npc.target].position - npc.Center) * 6;
+                NPC.velocity = Vector2.Normalize(Main.player[NPC.target].position - NPC.Center) * 6;
             }
-            if (npc.ai[0] == 1)
+            if (NPC.ai[0] == 1)
             {
-                npc.ai[2]++;
-                if (npc.ai[2] >= 60)
+                NPC.ai[2]++;
+                if (NPC.ai[2] >= 60)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalMissile>(), 120, 5f);
-                    npc.ai[2] = 0;
+                    Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalMissile>(), 120, 5f);
+                    NPC.ai[2] = 0;
                 }
-                npc.velocity = Vector2.Normalize(Main.player[npc.target].position - npc.Center) * 2;
+                NPC.velocity = Vector2.Normalize(Main.player[NPC.target].position - NPC.Center) * 2;
             }
-            if (npc.ai[0] == 2)
+            if (NPC.ai[0] == 2)
             {
-                if (npc.ai[1] % 120 == 0)
+                if (NPC.ai[1] % 120 == 0)
                 {
-                    oldPlayerPos = Main.player[npc.target].position;
-                    oldPlayerPos = Vector2.Normalize(oldPlayerPos - npc.Center) * 12f;
+                    oldPlayerPos = Main.player[NPC.target].position;
+                    oldPlayerPos = Vector2.Normalize(oldPlayerPos - NPC.Center) * 12f;
                 }
-                npc.velocity = oldPlayerPos;
+                NPC.velocity = oldPlayerPos;
             }
 
             float k = 0;
-            if (Main.player[npc.target].position.X <= npc.position.X)
+            if (Main.player[NPC.target].position.X <= NPC.position.X)
             {
                 k = MathHelper.Pi;
             }
-            npc.rotation = npc.velocity.ToRotation() + k;
-            npc.spriteDirection = npc.direction;
+            NPC.rotation = NPC.velocity.ToRotation() + k;
+            NPC.spriteDirection = NPC.direction;
 
-            npc.ai[1]++;
-            if (npc.ai[1] >= 360)
+            NPC.ai[1]++;
+            if (NPC.ai[1] >= 360)
             {
-                npc.ai[0] = Main.rand.Next(0, 3);
-                npc.ai[1] = 0;
-                npc.ai[2] = 0;
+                NPC.ai[0] = Main.rand.Next(0, 3);
+                NPC.ai[1] = 0;
+                NPC.ai[2] = 0;
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalSharkGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalSharkGlow"), NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if (npc.ai[0] == 2)
+            if (NPC.ai[0] == 2)
             {
-                AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[npc.type], 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+                AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[NPC.type], 0, NPC, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
             }
             return true;
         }

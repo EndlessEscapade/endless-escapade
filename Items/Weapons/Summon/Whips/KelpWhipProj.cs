@@ -25,16 +25,16 @@ namespace EEMod.Items.Weapons.Summon.Whips
 
         public override void SafeSetDefaults()
         {
-            projectile.width = 0;
-            projectile.height = 0;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.scale = 1f;
-            projectile.ownerHitCheck = true;
-            projectile.extraUpdates = 1;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
+            Projectile.width = 0;
+            Projectile.height = 0;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.scale = 1f;
+            Projectile.ownerHitCheck = true;
+            Projectile.extraUpdates = 1;
+            Projectile.usesLocalNPCImmunity = true;
+            Projectile.localNPCHitCooldown = -1;
         }
 
         public override void NpcEffects(NPC target, int damage, float knockback, bool crit)

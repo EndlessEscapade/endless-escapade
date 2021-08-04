@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class GemsandTile : ModTile
+    public class GemsandTile : EETile
     {
         public override void SetDefaults()
         {

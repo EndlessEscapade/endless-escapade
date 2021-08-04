@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage
 {
-    public class EnchantedConchTile : ModTile
+    public class EnchantedConchTile : EETile
     {
         public override void SetDefaults()
         {

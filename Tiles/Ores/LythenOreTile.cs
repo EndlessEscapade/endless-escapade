@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles.Ores
 {
-    public class LythenOreTile : ModTile
+    public class LythenOreTile : EETile
     {
         public override void SetDefaults()
         {

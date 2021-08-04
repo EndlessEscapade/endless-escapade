@@ -8,7 +8,7 @@ using EEMod.Prim;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class SceptorLaser : ModProjectile
+    public class SceptorLaser : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -17,21 +17,21 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.timeLeft = 600;
-            projectile.ignoreWater = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 12;
-            projectile.hide = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.timeLeft = 600;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 12;
+            Projectile.hide = true;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(projectile.modProjectile, oldVelocity);
-            projectile.ai[0]++;
+            Bounce(Projectile.modProjectile, oldVelocity);
+            Projectile.ai[0]++;
             return false;
         }
 
@@ -52,9 +52,9 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void AI()
         {
-            if (projectile.ai[0] >= 3)
+            if (Projectile.ai[0] >= 3)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Debuffs
 {
-    public class WaterPressure : ModBuff
+    public class WaterPressure : EEBuff
     {
         public override void SetDefaults()
         {

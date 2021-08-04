@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class ThermalMossTile : ModTile
+    public class ThermalMossTile : EETile
     {
         public override void SetDefaults()
         {

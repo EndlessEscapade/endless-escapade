@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Chests
 {
-    public class GemsandChestTile : ModTile
+    public class GemsandChestTile : EETile
     {
         public override void SetDefaults()
         {

@@ -10,7 +10,7 @@ using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Projectiles.Enemy
 {
-    public class SpireLaserAlt : ModProjectile
+    public class SpireLaserAlt : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -19,16 +19,16 @@ namespace EEMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.timeLeft = 1200;
-            projectile.ignoreWater = true;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 12;
-            projectile.hide = true;
-            projectile.tileCollide = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.timeLeft = 1200;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 12;
+            Projectile.hide = true;
+            Projectile.tileCollide = true;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

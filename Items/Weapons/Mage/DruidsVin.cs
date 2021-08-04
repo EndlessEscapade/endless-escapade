@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class DruidsVin : ModProjectile
+    public class DruidsVin : EEProjectile
     {
         public override void SetStaticDefaults()
         {

@@ -4,34 +4,34 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class Swordfish : ModNPC
+    public class Swordfish : EENPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Swordfish");
-            Main.npcCatchable[npc.type] = true;
-            Main.npcFrameCount[npc.type] = 1;
+            Main.npcCatchable[NPC.type] = true;
+            Main.npcFrameCount[NPC.type] = 1;
             //bannerItem = ModContent.ItemType<Items.Banners.LunaJellyBanner>();
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = 16;
+            NPC.aiStyle = 16;
 
-            npc.friendly = false;
+            NPC.friendly = false;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.lifeMax = 76;
+            NPC.lifeMax = 76;
 
-            npc.width = 80;
-            npc.height = 20;
+            NPC.width = 80;
+            NPC.height = 20;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
         }
     }
 }

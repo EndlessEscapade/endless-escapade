@@ -6,50 +6,50 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Summon.Minions
 {
-    public class AkumoReinforcement : ModProjectile
+    public class AkumoReinforcement : EEProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Reinforcemini");
-            Main.projFrames[projectile.type] = 4;
-            Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = false;
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = false;
+            ProjectileID.Sets.Homing[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 56;
-            projectile.height = 58;
-            projectile.penetrate = -1;
-            projectile.minion = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1;
-            projectile.friendly = true;
-            projectile.damage = 50;
-            projectile.knockBack = 4f;
-            projectile.hostile = false;
+            Projectile.width = 56;
+            Projectile.height = 58;
+            Projectile.penetrate = -1;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1;
+            Projectile.friendly = true;
+            Projectile.damage = 50;
+            Projectile.knockBack = 4f;
+            Projectile.hostile = false;
         }
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= 4)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= 4)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-                if (projectile.frame >= Main.projFrames[projectile.type])
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
 
-            NPC target = Main.npc[(int)projectile.ai[1]];
+            NPC target = Main.npc[(int)Projectile.ai[1]];
 
-            projectile.ai[0] += 0.01f;
-            projectile.Center = target.Center + Vector2.UnitY.RotatedBy(projectile.ai[0]) * target.width;
+            Projectile.ai[0] += 0.01f;
+            Projectile.Center = target.Center + Vector2.UnitY.RotatedBy(Projectile.ai[0]) * target.width;
         }
 
         /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

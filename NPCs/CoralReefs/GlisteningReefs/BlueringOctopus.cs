@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 {
-    public class BlueringOctopus : ModNPC
+    public class BlueringOctopus : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -32,59 +32,59 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.alpha = 0;
+            NPC.alpha = 0;
 
-            npc.lifeMax = 550;
-            npc.defense = 10;
+            NPC.lifeMax = 550;
+            NPC.defense = 10;
 
-            npc.width = 174;
-            npc.height = 98;
+            NPC.width = 174;
+            NPC.height = 98;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.spriteDirection = -1;
+            NPC.spriteDirection = -1;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
         public override void AI()
         {
-            npc.TargetClosest();
-            Player target = Main.player[npc.target];
-            npc.ai[1]++;
-            if (npc.ai[1] >= 60)
+            NPC.TargetClosest();
+            Player target = Main.player[NPC.target];
+            NPC.ai[1]++;
+            if (NPC.ai[1] >= 60)
             {
-                npc.ai[2]++;
-                if (npc.ai[2] >= 2)
+                NPC.ai[2]++;
+                if (NPC.ai[2] >= 2)
                 {
-                    Projectile.NewProjectile(npc.Center, Vector2.Normalize(target.Center - npc.Center) * 6, ModContent.ProjectileType<BlueRing>(), npc.damage, 0f);
-                    npc.ai[2] = 0;
+                    Projectile.NewProjectile(NPC.Center, Vector2.Normalize(target.Center - NPC.Center) * 6, ModContent.ProjectileType<BlueRing>(), NPC.damage, 0f);
+                    NPC.ai[2] = 0;
                 }
 
-                if (target.position.Y <= npc.position.Y)
+                if (target.position.Y <= NPC.position.Y)
                 {
-                    npc.velocity.Y -= 16;
-                    npc.velocity.X += Helpers.Clamp((target.Center.X - npc.Center.X) / 10, -8, 8);
+                    NPC.velocity.Y -= 16;
+                    NPC.velocity.X += Helpers.Clamp((target.Center.X - NPC.Center.X) / 10, -8, 8);
                 }
 
-                npc.ai[1] = 0;
+                NPC.ai[1] = 0;
             }
-            npc.velocity *= 0.98f;
-            npc.velocity.Y += 0.1f;
+            NPC.velocity *= 0.98f;
+            NPC.velocity.Y += 0.1f;
 
-            npc.rotation = npc.velocity.X / 18;
+            NPC.rotation = NPC.velocity.X / 18;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow"), npc.Center - Main.screenPosition + new Vector2(0, -6), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow"), NPC.Center - Main.screenPosition + new Vector2(0, -6), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

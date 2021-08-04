@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Paintings
 {
-    public class Island3Tile : ModTile
+    public class Island3Tile : EETile
     {
         public override void SetDefaults()
         {

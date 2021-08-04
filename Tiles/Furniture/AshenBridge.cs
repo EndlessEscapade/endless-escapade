@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class AshenBridge : ModProjectile
+    public class AshenBridge : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -39,7 +39,7 @@ namespace EEMod.Tiles.Furniture
         {
             if (isSupport)
             {
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/AshenBridgeSupport"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/AshenBridgeSupport"), Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -47,17 +47,17 @@ namespace EEMod.Tiles.Furniture
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.alpha = 0;
-            projectile.timeLeft = 10000;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.scale *= 1f;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 10000;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.magic = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.scale *= 1f;
         }
 
         private Vector2 endPoints = Main.LocalPlayer.Center - new Vector2(200, 200);
@@ -86,14 +86,14 @@ namespace EEMod.Tiles.Furniture
 
         public override void AI()
         {
-            Rectangle upperPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + 13, projectile.width, 3);
-            Rectangle upperPortionWholeEntityCheck = new Rectangle((int)projectile.position.X, (int)projectile.position.Y - 10 + 13, projectile.width, 13);
-            Rectangle lowerPortion = new Rectangle((int)projectile.position.X, (int)projectile.position.Y + projectile.height - 2, projectile.width, 2);
-            Rectangle playerHitBoxFeet = new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y + Main.LocalPlayer.height - (int)(Main.LocalPlayer.velocity.Y / 2) - 10, Main.LocalPlayer.width, (int)Math.Round(projectile.velocity.Y) + (int)(Main.LocalPlayer.velocity.Y / 2) + 10);
+            Rectangle upperPortion = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y + 13, Projectile.width, 3);
+            Rectangle upperPortionWholeEntityCheck = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y - 10 + 13, Projectile.width, 13);
+            Rectangle lowerPortion = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y + Projectile.height - 2, Projectile.width, 2);
+            Rectangle playerHitBoxFeet = new Rectangle((int)Main.LocalPlayer.position.X, (int)Main.LocalPlayer.position.Y + Main.LocalPlayer.height - (int)(Main.LocalPlayer.velocity.Y / 2) - 10, Main.LocalPlayer.width, (int)Math.Round(Projectile.velocity.Y) + (int)(Main.LocalPlayer.velocity.Y / 2) + 10);
             if (playerHitBoxFeet.Intersects(upperPortion) && Main.LocalPlayer.velocity.Y >= 0)
             {
                 Main.LocalPlayer.velocity.Y = 0;
-                Main.LocalPlayer.position.Y = projectile.position.Y - Main.LocalPlayer.height + 16;
+                Main.LocalPlayer.position.Y = Projectile.position.Y - Main.LocalPlayer.height + 16;
             }
             if (playerHitBoxFeet.Intersects(upperPortionWholeEntityCheck) && Main.LocalPlayer.velocity.Y >= 0)
             {
@@ -243,15 +243,15 @@ namespace EEMod.Tiles.Furniture
                     accelY = maxSpeedY;
                 }
             }
-            projectile.Center = new Vector2(X(projectile.ai[1], firstPosX, dipX, dipX, endPoints.X), Y(projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y));
-            Vector2 distBetween = new Vector2(X(projectile.ai[1], firstPosX, dipX, dipX, endPoints.X) -
-                    X(projectile.ai[1] - chainsPerUse, firstPosX, dipX, dipX, endPoints.X),
-                    Y(projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y) -
-                    Y(projectile.ai[1] - chainsPerUse, firstPosY, dipY, dipY, endPoints.Y));
+            Projectile.Center = new Vector2(X(Projectile.ai[1], firstPosX, dipX, dipX, endPoints.X), Y(Projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y));
+            Vector2 distBetween = new Vector2(X(Projectile.ai[1], firstPosX, dipX, dipX, endPoints.X) -
+                    X(Projectile.ai[1] - chainsPerUse, firstPosX, dipX, dipX, endPoints.X),
+                    Y(Projectile.ai[1], firstPosY, dipY, dipY, endPoints.Y) -
+                    Y(Projectile.ai[1] - chainsPerUse, firstPosY, dipY, dipY, endPoints.Y));
             float projTrueRotation = distBetween.ToRotation() + rotDis;
-            projectile.rotation = projTrueRotation;
-            projectile.ai[0] += 0.1f;
-            projectile.velocity.Y += (float)Math.Sin(projectile.ai[0]) * 0.1f;
+            Projectile.rotation = projTrueRotation;
+            Projectile.ai[0] += 0.1f;
+            Projectile.velocity.Y += (float)Math.Sin(Projectile.ai[0]) * 0.1f;
         }
     }
 }

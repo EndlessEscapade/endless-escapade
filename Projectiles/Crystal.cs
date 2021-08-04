@@ -5,41 +5,41 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
-    public class Crystal : ModProjectile
+    public class Crystal : EEProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.hostile = false;
-            projectile.friendly = true;  //Tells the game whether it is friendly to players/friendly npcs or not
-            projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
-            projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
-            projectile.penetrate = 1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
-            projectile.timeLeft = 125;  //The amount of time the projectile is alive for
-            projectile.tileCollide = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.hostile = false;
+            Projectile.friendly = true;  //Tells the game whether it is friendly to players/friendly npcs or not
+            Projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
+            Projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
+            Projectile.penetrate = 1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
+            Projectile.timeLeft = 125;  //The amount of time the projectile is alive for
+            Projectile.tileCollide = true;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.45f / 255f, (255 - projectile.alpha) * 0.05f / 255f);   //this is the light colors
-            if (projectile.timeLeft > 125)
+            Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * 0.45f / 255f, (255 - Projectile.alpha) * 0.05f / 255f);   //this is the light colors
+            if (Projectile.timeLeft > 125)
             {
-                projectile.timeLeft = 125;
+                Projectile.timeLeft = 125;
             }
-            if (projectile.ai[0] > 1f)  //this defines where the flames starts
+            if (Projectile.ai[0] > 1f)  //this defines where the flames starts
             {
                 for (int i = 0; i < 15; i++)    //this defines how many dust to spawn
                 {
-                    int dust = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.YellowTorch, projectile.velocity.X * 0.3f, projectile.velocity.Y * 0.3f, 0, new Color(255, 255, 153), 1);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
+                    int dust = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.YellowTorch, Projectile.velocity.X * 0.3f, Projectile.velocity.Y * 0.3f, 0, new Color(255, 255, 153), 1);   //this defines the flames dust and color, change DustID to wat dust you want from Terraria, or add mod.DustType("CustomDustName") for your custom dust
                     Main.dust[dust].noGravity = true;
                 }
             }
             else
             {
-                projectile.ai[0] += 1f;
+                Projectile.ai[0] += 1f;
             }
             return;
         }
@@ -49,18 +49,18 @@ namespace EEMod.Projectiles
             for (int i = 0; i < 4; i++)
             {
                 int projHolder = Main.rand.Next(1);
-                float speedX = -(projectile.velocity.X * Main.rand.NextFloat(-.1f, .8f) + Main.rand.NextFloat(-.4f, 2f));
-                float speedY = -(projectile.velocity.Y * Main.rand.Next(30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
+                float speedX = -(Projectile.velocity.X * Main.rand.NextFloat(-.1f, .8f) + Main.rand.NextFloat(-.4f, 2f));
+                float speedY = -(Projectile.velocity.Y * Main.rand.Next(30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
                 if (projHolder == 0 || projHolder == 1)
                 {
-                    Projectile.NewProjectile(projectile.Center.X + speedX, projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(projectile.damage * 0.7), 0f, projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(Projectile.Center.X + speedX, Projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(Projectile.damage * 0.7), 0f, Projectile.owner, 0f, 0f);
                 }
 
-                Main.PlaySound(SoundID.Item27, projectile.position);
+                Main.PlaySound(SoundID.Item27, Projectile.position);
             }
             for (var i = 0; i < 20; i++)
             {
-                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.YellowTorch, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 255, 153, 255), 2f);
+                int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.YellowTorch, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 255, 153, 255), 2f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].velocity *= 1.2f;
                 Main.dust[num].noLight = false;
@@ -94,7 +94,7 @@ namespace EEMod.Projectiles
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.Kill();
+            Projectile.Kill();
             return false;
         }
     }

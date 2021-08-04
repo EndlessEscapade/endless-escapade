@@ -13,7 +13,7 @@ using Terraria.ObjectData;
 namespace EEMod.Tiles.Foliage.KelpForest
 {
 
-    public class GroundGlowCoral3 : ModTile
+    public class GroundGlowCoral3 : EETile
     {
         public override void SetDefaults()
         {

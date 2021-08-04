@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class DalantiniumFang : ModProjectile
+    public class DalantiniumFang : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,36 +15,36 @@ namespace EEMod.Items.Weapons.Mage
         public override void SetDefaults()
         {
             //projectile.CloneDefaults(ProjectileID.PineNeedleFriendly); // CloneDefaults overrides some values
-            projectile.width = 8;
-            projectile.height = 12;
-            projectile.timeLeft = 600;
-            projectile.ignoreWater = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
+            Projectile.width = 8;
+            Projectile.height = 12;
+            Projectile.timeLeft = 600;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
             //aiType = ProjectileID.PineNeedleFriendly;
-            projectile.penetrate = 3;
+            Projectile.penetrate = 3;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Dust.NewDust(projectile.Center, 0, 0, DustID.Blood, 0, 0, 0, Color.Gray, 1);
+            Dust.NewDust(Projectile.Center, 0, 0, DustID.Blood, 0, 0, 0, Color.Gray, 1);
 
             return true;
         }
 
         public override void AI()
         {
-            projectile.ai[0]++;
-            if (projectile.ai[0] >= 20)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] >= 20)
             {
-                projectile.ai[1]++;
-                if (projectile.velocity.Y <= 24)
+                Projectile.ai[1]++;
+                if (Projectile.velocity.Y <= 24)
                 {
-                    projectile.velocity.Y += 1.75f;
+                    Projectile.velocity.Y += 1.75f;
                 }
             }
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2 + (projectile.ai[1] / 24 * projectile.velocity.Y);
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2 + (Projectile.ai[1] / 24 * Projectile.velocity.Y);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

@@ -4,49 +4,49 @@ using Terraria;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class OlvinicSnail : ModNPC
+    public class OlvinicSnail : EENPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Olvinic Snail");
-            Main.npcFrameCount[npc.type] = 4;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         private int frameNumber = 0;
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter == 6)
+            NPC.frameCounter++;
+            if (NPC.frameCounter == 6)
             {
-                npc.frame.Y = npc.frame.Y + frameHeight;
-                npc.frameCounter = 0;
+                NPC.frame.Y = NPC.frame.Y + frameHeight;
+                NPC.frameCounter = 0;
             }
-            if (npc.frame.Y >= frameHeight * 2)
+            if (NPC.frame.Y >= frameHeight * 2)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
                 return;
             }
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.lifeMax = 550;
-            npc.defense = 10;
+            NPC.lifeMax = 550;
+            NPC.defense = 10;
 
-            npc.width = 58;
-            npc.height = 28;
+            NPC.width = 58;
+            NPC.height = 28;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.buffImmune[BuffID.Confused] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Buffs
 {
-    public class LobsterbikeBuff : ModBuff
+    public class LobsterbikeBuff : EEBuff
     {
         public override void SetDefaults()
         {

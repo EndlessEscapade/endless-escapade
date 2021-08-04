@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage
 {
-    public class TropicalTree : ModTile
+    public class TropicalTree : EETile
     {
         public override void SetDefaults()
         {

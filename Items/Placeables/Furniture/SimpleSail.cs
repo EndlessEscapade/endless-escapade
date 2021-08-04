@@ -6,7 +6,7 @@ using EEMod.Tiles.Furniture;
 
 namespace EEMod.Items.Placeables.Furniture
 {
-    public class SimpleSail : ModItem
+    public class SimpleSail : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,19 +15,19 @@ namespace EEMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 10;
-            item.rare = ItemRarityID.White;
-            item.value = Item.sellPrice(0, 0, 0, 0);
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 20;
-            item.useTime = 15;
-            item.consumable = true;
-            item.autoReuse = true;
-            item.maxStack = 999;
-            item.placeStyle = 10;
-            item.useTurn = true;
-            item.createTile = ModContent.TileType<SimpleSailTile>();
+            Item.width = 10;
+            Item.height = 10;
+            Item.rare = ItemRarityID.White;
+            Item.value = Item.sellPrice(0, 0, 0, 0);
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useAnimation = 20;
+            Item.useTime = 15;
+            Item.consumable = true;
+            Item.autoReuse = true;
+            Item.maxStack = 999;
+            Item.placeStyle = 10;
+            Item.useTurn = true;
+            Item.createTile = ModContent.TileType<SimpleSailTile>();
         }
     }
 }

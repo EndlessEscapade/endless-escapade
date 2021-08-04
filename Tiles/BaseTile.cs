@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace EEMod.Tiles
 {
-    public class BaseTile : ModTile
+    public class BaseTile : EETile
     {
         protected virtual int _drop => ItemID.DirtBlock;
         protected virtual string _displayName => "Tile";

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class DalantiniumFan : ModProjectile
+    public class DalantiniumFan : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -17,17 +17,17 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            projectile.hostile = false;
-            projectile.magic = true;
-            projectile.width = 34;
-            projectile.height = 34;
-            projectile.aiStyle = -1;
-            projectile.friendly = false;
-            projectile.penetrate = 1;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 999999;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 10;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Projectile.hostile = false;
+            Projectile.magic = true;
+            Projectile.width = 34;
+            Projectile.height = 34;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.penetrate = 1;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 999999;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 10;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         private Vector2 direction = Vector2.Zero;
@@ -38,13 +38,13 @@ namespace EEMod.Items.Weapons.Mage
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             double radians = degrees.ToRadians();
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             direction.Normalize();
             Vector2 direction2 = direction * 4;
-            direction *= (float)(Math.Sin(projectile.ai[0] * 0.2f) * 3);
-            if (projectile.ai[0] % 10 == 1)
+            direction *= (float)(Math.Sin(Projectile.ai[0] * 0.2f) * 3);
+            if (Projectile.ai[0] % 10 == 1)
             {
-                Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), projectile.damage, projectile.knockBack, projectile.owner);
+                Projectile.NewProjectile(player.Center + (direction2 * 5), new Vector2((float)Math.Sin(-radians - 1.57), (float)Math.Cos(-radians - 1.57)) * 10, ModContent.ProjectileType<DalantiniumFang>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
             }
             if (boost > 2000 && boost % 1500 <= 200)
             {
@@ -54,11 +54,11 @@ namespace EEMod.Items.Weapons.Mage
                 lightColor.G = (byte)(lightColor.G + ((Color.White.G * 10) - lightColor.G) * lerp);
                 lightColor.B = (byte)(lightColor.B + ((Color.White.B * 10) - lightColor.B) * lerp);
             }
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
-            for (int k = 0; k < projectile.oldPos.Length; k++)
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[Projectile.type].Width * 0.5f, Projectile.height * 0.5f);
+            for (int k = 0; k < Projectile.oldPos.Length; k++)
             {
-                Vector2 drawPos = projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, projectile.gfxOffY);
-                Color color2 = projectile.GetAlpha(lightColor) * ((projectile.oldPos.Length - k) / (float)projectile.oldPos.Length / 2);
+                Vector2 drawPos = Projectile.oldPos[k].ForDraw() + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
+                Color color2 = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2);
                 if (boost > 2000 && boost % 4000 <= 200)
                 {
                     lerp += 0.1f;
@@ -66,7 +66,7 @@ namespace EEMod.Items.Weapons.Mage
                     color2.G = (byte)(color2.G + (Color.HotPink.G - color2.G) * lerp);
                     color2.B = (byte)(color2.B + (Color.HotPink.B - color2.B) * lerp);
                 }
-                spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos, new Rectangle(0, 0, projectile.width, projectile.height), color2 * 0.5f, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), color2 * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }
@@ -76,9 +76,9 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool PreAI()
         {
-            Player player = Main.player[projectile.owner];
-            player.heldProj = projectile.whoAmI;
-            if (projectile.ai[0] == 0)
+            Player player = Main.player[Projectile.owner];
+            player.heldProj = Projectile.whoAmI;
+            if (Projectile.ai[0] == 0)
             {
                 direction = Main.MouseWorld - (player.Center - new Vector2(4, 4));
                 direction.Normalize();
@@ -87,28 +87,28 @@ namespace EEMod.Items.Weapons.Mage
                 int chooser = Main.rand.Next(0, 2);
                 if (chooser == 0)
                 {
-                    projectile.ai[1] = Main.rand.Next(-11, -8);
+                    Projectile.ai[1] = Main.rand.Next(-11, -8);
                 }
 
                 if (chooser == 1)
                 {
-                    projectile.ai[1] = Main.rand.Next(8, 11);
+                    Projectile.ai[1] = Main.rand.Next(8, 11);
                 }
 
-                degrees -= (int)projectile.ai[1] * 8;
+                degrees -= (int)Projectile.ai[1] * 8;
 
-                projectile.netUpdate = true;
+                Projectile.netUpdate = true;
             }
-            projectile.ai[0]++;
-            if (projectile.ai[0] < 15)
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] < 15)
             {
-                degrees += (int)projectile.ai[1];
+                degrees += (int)Projectile.ai[1];
             }
             else
             {
                 player.itemAnimation = 1;
                 player.itemTime = 1;
-                projectile.active = false;
+                Projectile.active = false;
             }
             if (player.itemAnimation <= 0)
             {
@@ -116,9 +116,9 @@ namespace EEMod.Items.Weapons.Mage
                 player.itemTime = 1;
             }
 
-            DrawPos = Main.player[projectile.owner].Center + (degrees + 180).ToRadians().ToRotationVector2() * 50;
-            projectile.Center = Main.player[projectile.owner].Center + (degrees + 180).ToRadians().ToRotationVector2() * 15;
-            projectile.rotation = degrees.ToRadians() + 3.9f;
+            DrawPos = Main.player[Projectile.owner].Center + (degrees + 180).ToRadians().ToRotationVector2() * 50;
+            Projectile.Center = Main.player[Projectile.owner].Center + (degrees + 180).ToRadians().ToRotationVector2() * 15;
+            Projectile.rotation = degrees.ToRadians() + 3.9f;
             return true;
         }
     }

@@ -7,7 +7,7 @@ using EEMod.Items.TennisRackets;
 
 namespace EEMod.Projectiles.TennisRackets
 {
-    public class TennisRacketProj : ModProjectile
+    public class TennisRacketProj : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,18 +16,18 @@ namespace EEMod.Projectiles.TennisRackets
 
         public override void SetDefaults()
         {
-            projectile.width = 114;
-            projectile.height = 50;
-            projectile.timeLeft = 600;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.scale *= 1;
-            projectile.alpha = 255;
-            projectile.damage = 30;
+            Projectile.width = 114;
+            Projectile.height = 50;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.magic = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.scale *= 1;
+            Projectile.alpha = 255;
+            Projectile.damage = 30;
         }
 
         private int frame;
@@ -47,8 +47,8 @@ namespace EEMod.Projectiles.TennisRackets
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[projectile.type];
-            Main.spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames), lightColor * (1 - (projectile.alpha / 255f)), projectile.rotation, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames).Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Texture2D tex = Main.projectileTexture[Projectile.type];
+            Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames), lightColor * (1 - (Projectile.alpha / 255f)), Projectile.rotation, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames).Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
 
@@ -58,36 +58,36 @@ namespace EEMod.Projectiles.TennisRackets
 
         public override void AI()
         {
-            if (projectile.ai[1] > 0)
+            if (Projectile.ai[1] > 0)
             {
-                projectile.ai[1]--;
+                Projectile.ai[1]--;
             }
 
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             if (player.inventory[player.selectedItem].type != ModContent.ItemType<TennisRacket>())
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
-            if (projectile.alpha > 0)
+            if (Projectile.alpha > 0)
             {
-                projectile.alpha--;
+                Projectile.alpha--;
             }
             float radial = 75;
             float inverseSpeed = 100;
             float dampeningEffect = 0.07f;
-            projectile.timeLeft = 100;
-            if (Main.myPlayer == projectile.owner)
+            Projectile.timeLeft = 100;
+            if (Main.myPlayer == Projectile.owner)
             {
                 if (player.direction == 1)
                 {
-                    frame = (int)((projectile.Center.X - player.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
-                    projectile.rotation = 0;
+                    frame = (int)((Projectile.Center.X - player.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
+                    Projectile.rotation = 0;
                 }
                 else
                 {
-                    frame = (int)((player.Center.X - projectile.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
-                    projectile.rotation = MathHelper.Pi;
+                    frame = (int)((player.Center.X - Projectile.Center.X) / radial * (numOfFrames * 0.5f) + (numOfFrames * 0.5f));
+                    Projectile.rotation = MathHelper.Pi;
                 }
             }
             frame = (int)MathHelper.Clamp(frame, 0, numOfFrames - 1);
@@ -108,14 +108,14 @@ namespace EEMod.Projectiles.TennisRackets
             {
                 goTo.Y = player.Center.Y + radial;
             }
-            if (projectile.ai[0] == 1)
+            if (Projectile.ai[0] == 1)
             {
                 goTo = player.Center + new Vector2(0, 50);
             }
-            if (Main.myPlayer == projectile.owner)
+            if (Main.myPlayer == Projectile.owner)
             {
-                projectile.velocity += (goTo - projectile.Center) / inverseSpeed - (projectile.velocity * dampeningEffect);
-                projectile.netUpdate = true;
+                Projectile.velocity += (goTo - Projectile.Center) / inverseSpeed - (Projectile.velocity * dampeningEffect);
+                Projectile.netUpdate = true;
             }
         }
     }

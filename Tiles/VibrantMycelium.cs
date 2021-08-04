@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class VibrantMycelium : ModTile
+    public class VibrantMycelium : EETile
     {
         public override void SetDefaults()
         {

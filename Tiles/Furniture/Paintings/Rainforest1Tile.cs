@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Paintings
 {
-    public class Rainforest1Tile : ModTile
+    public class Rainforest1Tile : EETile
     {
         public override void SetDefaults()
         {

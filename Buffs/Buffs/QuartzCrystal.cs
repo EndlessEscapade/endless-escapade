@@ -4,7 +4,7 @@ using EEMod.Projectiles.Summons;
 
 namespace EEMod.Buffs.Buffs
 {
-    public class QuartzCrystal : ModBuff
+    public class QuartzCrystal : EEBuff
     {
         public override void SetDefaults()
         {

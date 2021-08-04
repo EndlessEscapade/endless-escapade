@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
-    public class KHole : ModNPC
+    public class KHole : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -13,22 +13,22 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void SetDefaults()
         {
-            npc.boss = true;
-            npc.lavaImmune = true;
-            npc.friendly = false;
-            npc.noGravity = true;
-            npc.aiStyle = -1;
-            npc.lifeMax = 50000;
-            npc.defense = 40;
-            npc.damage = 0;
-            npc.value = Item.buyPrice(0, 8, 0, 0);
-            npc.noTileCollide = true;
-            npc.width = 186;
-            npc.height = 444;
-            npc.dontTakeDamage = true;
-            npc.npcSlots = 24f;
-            npc.knockBackResist = 0f;
-            npc.behindTiles = true;
+            NPC.boss = true;
+            NPC.lavaImmune = true;
+            NPC.friendly = false;
+            NPC.noGravity = true;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 50000;
+            NPC.defense = 40;
+            NPC.damage = 0;
+            NPC.value = Item.buyPrice(0, 8, 0, 0);
+            NPC.noTileCollide = true;
+            NPC.width = 186;
+            NPC.height = 444;
+            NPC.dontTakeDamage = true;
+            NPC.npcSlots = 24f;
+            NPC.knockBackResist = 0f;
+            NPC.behindTiles = true;
             musicPriority = MusicPriority.BossMedium;
         }
 
@@ -39,12 +39,12 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void AI()
         {
-            npc.timeLeft = 1000;
-            npc.active = true;
-            npc.position = new Vector2(npc.ai[0], npc.ai[1]);
-            if (npc.ai[2] == 1)
+            NPC.timeLeft = 1000;
+            NPC.active = true;
+            NPC.position = new Vector2(NPC.ai[0], NPC.ai[1]);
+            if (NPC.ai[2] == 1)
             {
-                npc.spriteDirection = 1;
+                NPC.spriteDirection = 1;
             }
         }
     }

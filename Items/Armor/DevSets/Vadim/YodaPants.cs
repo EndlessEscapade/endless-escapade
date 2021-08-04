@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace EEMod.Items.Armor.DevSets.Vadim
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class YodaPants : ModItem
+    public class YodaPants : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,11 +15,11 @@ namespace EEMod.Items.Armor.DevSets.Vadim
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 30);
-            item.rare = ItemRarityID.Cyan;
-            item.defense = 11;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 30);
+            Item.rare = ItemRarityID.Cyan;
+            Item.defense = 11;
         }
     }
 }

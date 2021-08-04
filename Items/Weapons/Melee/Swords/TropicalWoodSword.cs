@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Swords
 {
-    public class TropicalWoodSword : ModItem
+    public class TropicalWoodSword : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -13,18 +13,18 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override void SetDefaults()
         {
-            item.melee = true;
-            item.rare = ItemRarityID.LightRed;
-            item.autoReuse = true;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 9f; // 5 and 1/4
-            item.useTime = 40;
-            item.useAnimation = 40;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.damage = 55;
-            item.width = 64;
-            item.height = 64;
-            item.UseSound = SoundID.Item1;
+            Item.melee = true;
+            Item.rare = ItemRarityID.LightRed;
+            Item.autoReuse = true;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.knockBack = 9f; // 5 and 1/4
+            Item.useTime = 40;
+            Item.useAnimation = 40;
+            Item.value = Item.buyPrice(0, 0, 30, 0);
+            Item.damage = 55;
+            Item.width = 64;
+            Item.height = 64;
+            Item.UseSound = SoundID.Item1;
         }
     }
 }

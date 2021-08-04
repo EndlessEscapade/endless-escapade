@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
-    public class Particles : ModProjectile
+    public class Particles : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,36 +15,36 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 0;
-            projectile.height = 0;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1.2f;
-            projectile.tileCollide = false;
-            projectile.light = 0;
-            projectile.timeLeft = 900;
+            Projectile.width = 0;
+            Projectile.height = 0;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 1.2f;
+            Projectile.tileCollide = false;
+            Projectile.light = 0;
+            Projectile.timeLeft = 900;
         }
 
         private int sinControl;
 
         public override void AI()
         {
-            projectile.scale = projectile.ai[0];
-            projectile.alpha = (int)projectile.ai[1];
-            projectile.position.Y -= 1.5f;
+            Projectile.scale = Projectile.ai[0];
+            Projectile.alpha = (int)Projectile.ai[1];
+            Projectile.position.Y -= 1.5f;
             sinControl++;
-            if (projectile.ai[1] < 140)
+            if (Projectile.ai[1] < 140)
             {
-                projectile.velocity.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 2);
+                Projectile.velocity.X += (float)Math.Sin(sinControl / (Projectile.ai[1] / 13)) / (Projectile.ai[1] / 2);
             }
-            else if (projectile.ai[1] < 160)
+            else if (Projectile.ai[1] < 160)
             {
-                projectile.position.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 4);
+                Projectile.position.X += (float)Math.Sin(sinControl / (Projectile.ai[1] / 13)) / (Projectile.ai[1] / 4);
             }
             else
             {
-                projectile.position.X -= (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / projectile.ai[1];
+                Projectile.position.X -= (float)Math.Sin(sinControl / (Projectile.ai[1] / 13)) / Projectile.ai[1];
             }
         }
 
@@ -55,7 +55,7 @@ namespace EEMod.Projectiles
             flash += 0.01f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), projectile.Center - Main.screenPosition, null, lightColor * Math.Abs((float)Math.Sin(flash)) * 2, projectile.rotation + flash, new Vector2(87), projectile.ai[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Projectile.Center - Main.screenPosition, null, lightColor * Math.Abs((float)Math.Sin(flash)) * 2, Projectile.rotation + flash, new Vector2(87), Projectile.ai[0], SpriteEffects.None, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return false;

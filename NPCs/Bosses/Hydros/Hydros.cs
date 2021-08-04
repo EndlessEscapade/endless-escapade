@@ -16,50 +16,50 @@ using static Terraria.ModLoader.ModContent;
 namespace EEMod.NPCs.Bosses.Hydros
 {
     [AutoloadBossHead]
-    public class Hydros : ModNPC
+    public class Hydros : EENPC
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[NPC.type] = 8;
         }
 
         public override void FindFrame(int frameHeight) //Frame counter
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
-            if (npc.frameCounter++ > 4)
+            NPC.TargetClosest(true);
+            Player player = Main.player[NPC.target];
+            if (NPC.frameCounter++ > 4)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y = npc.frame.Y + frameHeight;
+                NPC.frameCounter = 0;
+                NPC.frame.Y = NPC.frame.Y + frameHeight;
             }
-            if (npc.frame.Y >= frameHeight * 7)
+            if (NPC.frame.Y >= frameHeight * 7)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
                 return;
             }
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.lifeMax = 1600;
-            npc.defense = 12;
-            npc.damage = 20;
-            npc.knockBackResist = 0;
+            NPC.lifeMax = 1600;
+            NPC.defense = 12;
+            NPC.damage = 20;
+            NPC.knockBackResist = 0;
 
-            npc.value = Item.buyPrice(0, 3, 5, 0);
+            NPC.value = Item.buyPrice(0, 3, 5, 0);
 
-            npc.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
-            npc.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
+            NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
+            NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
             bossBag = ItemType<HydrosBag>();
-            npc.width = 226;
-            npc.height = 120;
+            NPC.width = 226;
+            NPC.height = 120;
 
-            npc.boss = true;
-            npc.noGravity = true;
+            NPC.boss = true;
+            NPC.noGravity = true;
 
-            npc.noTileCollide = true;
+            NPC.noTileCollide = true;
         }
 
         public override void NPCLoot()
@@ -70,11 +70,11 @@ namespace EEMod.NPCs.Bosses.Hydros
                 switch (randVal)
                 {
                     case 1:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<CyanoburstTome>(), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<CyanoburstTome>(), 1);
                         break;
 
                     case 2:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<Triggerfish>(), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<Triggerfish>(), 1);
                         break;
 
                     case 3:
@@ -82,15 +82,15 @@ namespace EEMod.NPCs.Bosses.Hydros
                         break;
 
                     case 4:
-                        Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<EnchantedCoral>(), 1);
+                        Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<EnchantedCoral>(), 1);
                         break;
                 }
-                Item.NewItem((int)npc.position.X, (int)npc.position.Y, npc.width, npc.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
+                Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
                 EEWorld.EEWorld.downedHydros = true;
             }
             else
             {
-                npc.DropBossBags();
+                NPC.DropBossBags();
             }
         }
 
@@ -100,7 +100,7 @@ namespace EEMod.NPCs.Bosses.Hydros
         {
             Vector2 moveTo = player.Center + addon;
             float speed = sped;
-            Vector2 move = moveTo - npc.Center;
+            Vector2 move = moveTo - NPC.Center;
             float magnitude = move.Length(); // (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
             if (magnitude > speed)
             {
@@ -108,26 +108,26 @@ namespace EEMod.NPCs.Bosses.Hydros
             }
             float turnResistance = TR;
 
-            move = (npc.velocity * turnResistance + move) / (turnResistance + 1f);
+            move = (NPC.velocity * turnResistance + move) / (turnResistance + 1f);
             magnitude = move.Length();
             if (magnitude > speed)
             {
                 move *= speed / magnitude;
             }
-            npc.velocity = move;
+            NPC.velocity = move;
         }
 
         public void SpawnProjectileNearPlayerOnTile(int dist)
         {
             int distFromPlayer = dist;
-            int playerTileX = (int)Main.player[npc.target].position.X / 16;
-            int playerTileY = (int)Main.player[npc.target].position.Y / 16;
-            int tileX = (int)npc.position.X / 16;
-            int tileY = (int)npc.position.Y / 16;
+            int playerTileX = (int)Main.player[NPC.target].position.X / 16;
+            int playerTileY = (int)Main.player[NPC.target].position.Y / 16;
+            int tileX = (int)NPC.position.X / 16;
+            int tileY = (int)NPC.position.Y / 16;
             int teleportCheckCount = 0;
             bool hasTeleportPoint = false;
             //player is too far away, don't teleport.
-            if (Vector2.DistanceSquared(npc.Center, Main.player[npc.target].Center) > (2000f * 2000f))
+            if (Vector2.DistanceSquared(NPC.Center, Main.player[NPC.target].Center) > (2000f * 2000f))
             {
                 teleportCheckCount = 100;
                 hasTeleportPoint = true;
@@ -145,7 +145,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                         {
                             Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f, Main.myPlayer, .3f, 140);
                             hasTeleportPoint = true;
-                            npc.netUpdate = true;
+                            NPC.netUpdate = true;
                             break;
                         }
                     }
@@ -163,52 +163,52 @@ namespace EEMod.NPCs.Bosses.Hydros
             int phaseChange = 400;
             int speed = 6;
             int TR = 40;
-            npc.ai[0]++;
+            NPC.ai[0]++;
 
             if (Main.netMode != NetmodeID.MultiplayerClient) // 1
             {
                 if (Main.netMode != NetmodeID.MultiplayerClient) // 1
                 {
                     //Idle
-                    npc.TargetClosest();
-                    Player target = Main.player[npc.target];
-                    if (npc.ai[1] != 2)
+                    NPC.TargetClosest();
+                    Player target = Main.player[NPC.target];
+                    if (NPC.ai[1] != 2)
                     {
-                        npc.rotation = npc.velocity.X / 32f;
-                        if (target.Center.X > npc.Center.X)
+                        NPC.rotation = NPC.velocity.X / 32f;
+                        if (target.Center.X > NPC.Center.X)
                         {
-                            npc.spriteDirection = 1;
+                            NPC.spriteDirection = 1;
                         }
                         else
                         {
-                            npc.spriteDirection = -1;
+                            NPC.spriteDirection = -1;
                         }
                     }
 
-                    if (npc.ai[1] == 0)
+                    if (NPC.ai[1] == 0)
                     {
                         Move(target, speed, TR, Vector2.Zero);
                     }
 
-                    if (npc.ai[0] % 400 == 0)
+                    if (NPC.ai[0] % 400 == 0)
                     {
                         for (int i = 0; i < 5; i++)
                         {
-                            npc.ai[1] = Main.rand.Next(0, 4);
+                            NPC.ai[1] = Main.rand.Next(0, 4);
                         }
 
                         prepare = 0;
-                        npc.rotation = 0;
+                        NPC.rotation = 0;
                         flaginOut = true;
-                        npc.ai[2] = 0;
+                        NPC.ai[2] = 0;
                         dist1 = 200;
                         for (int i = 0; i < 3; i++)
                         {
-                            potentialMinionArray[i] = npc.Center + new Vector2(Main.rand.Next(-500, 500), Main.rand.Next(-500, 500));
+                            potentialMinionArray[i] = NPC.Center + new Vector2(Main.rand.Next(-500, 500), Main.rand.Next(-500, 500));
                         }
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
-                    switch (npc.ai[1])
+                    switch (NPC.ai[1])
                     {
                         case 0:
                             break;
@@ -218,80 +218,80 @@ namespace EEMod.NPCs.Bosses.Hydros
                             Move(target, speed, TR, Vector2.Zero);
                             for (int i = 0; i < 10; i++)
                             {
-                                if (npc.ai[0] % 200 == 0)
+                                if (NPC.ai[0] % 200 == 0)
                                 {
                                     SpawnProjectileNearPlayerOnTile(30);
                                 }
                             }
-                            npc.velocity *= 0.98f;
+                            NPC.velocity *= 0.98f;
                             break;
                         }
                         case 2:
                         {
                             float timeToDash = 320;
-                            if (npc.ai[0] % 400 <= timeToDash - 50)
+                            if (NPC.ai[0] % 400 <= timeToDash - 50)
                             {
-                                npc.rotation = npc.velocity.X / 32f;
-                                if (target.Center.X > npc.Center.X)
+                                NPC.rotation = NPC.velocity.X / 32f;
+                                if (target.Center.X > NPC.Center.X)
                                 {
-                                    npc.spriteDirection = 1;
+                                    NPC.spriteDirection = 1;
                                 }
                                 else
                                 {
-                                    npc.spriteDirection = -1;
+                                    NPC.spriteDirection = -1;
                                 }
                                 Move(target, speed, 9, new Vector2(400, 0));
                             }
-                            else if (npc.ai[0] % 400 >= timeToDash && npc.ai[0] % 400 < phaseChange - 20)
+                            else if (NPC.ai[0] % 400 >= timeToDash && NPC.ai[0] % 400 < phaseChange - 20)
                             {
-                                npc.rotation = (target.position.X - npc.position.X) / 500f;
-                                if (npc.rotation > 1.6f) { npc.rotation = 1.6f; }
+                                NPC.rotation = (target.position.X - NPC.position.X) / 500f;
+                                if (NPC.rotation > 1.6f) { NPC.rotation = 1.6f; }
                                 //npc.rotation = npc.velocity.X / 16f;
-                                npc.velocity.Y = ((float)Math.Sin((6 * ((npc.ai[0] % phaseChange) - timeToDash) / (phaseChange - timeToDash)) + 1.57f)) * 10;
+                                NPC.velocity.Y = ((float)Math.Sin((6 * ((NPC.ai[0] % phaseChange) - timeToDash) / (phaseChange - timeToDash)) + 1.57f)) * 10;
                                 int speedOfDash = 25;
-                                npc.velocity.X = -(speedOfDash - ((npc.ai[0] % phaseChange) - timeToDash) / (float)((phaseChange - timeToDash) / speedOfDash));
+                                NPC.velocity.X = -(speedOfDash - ((NPC.ai[0] % phaseChange) - timeToDash) / (float)((phaseChange - timeToDash) / speedOfDash));
                             }
-                            else if (npc.ai[0] % 400 < phaseChange - 60)
+                            else if (NPC.ai[0] % 400 < phaseChange - 60)
                             {
-                                npc.rotation = -(prepare / 190f);
+                                NPC.rotation = -(prepare / 190f);
                                 prepare += 4;
                                 Move(target, 19, 9, new Vector2(400 + prepare, -prepare / 2));
-                                npc.velocity *= 0.99f;
+                                NPC.velocity *= 0.99f;
                             }
                             else
                             {
-                                npc.rotation -= npc.rotation / 16f;
+                                NPC.rotation -= NPC.rotation / 16f;
                             }
                             break;
                         }
                         case 3:
                         {
-                            npc.velocity *= .99f;
+                            NPC.velocity *= .99f;
                             Move(target, speed, TR, Vector2.Zero);
                             dist1 -= 1;
 
-                            if (npc.ai[0] % 400 < 200)
+                            if (NPC.ai[0] % 400 < 200)
                             {
                                 for (int j = 0; j < 3; j++)
                                 {
                                     for (int i = 0; i < 10; i++)
                                     {
-                                        double deg = (double)npc.ai[2] + (i * 36); //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
+                                        double deg = (double)NPC.ai[2] + (i * 36); //The degrees, you can multiply projectile.ai[1] to make it orbit faster, may be choppy depending on the value
                                         double rad = deg * (Math.PI / 180) * 0.7f; //Convert degrees to radians
                                         if (dist1 - (i * 10) > 0)
                                         {
-                                            int num7 = Dust.NewDust(new Vector2(npc.position.X, npc.position.Y), npc.width, npc.height, DustID.Clentaminator_Blue, 0f, 0f, 0, Color.AliceBlue, .7f);
+                                            int num7 = Dust.NewDust(new Vector2(NPC.position.X, NPC.position.Y), NPC.width, NPC.height, DustID.Clentaminator_Blue, 0f, 0f, 0, Color.AliceBlue, .7f);
                                             Main.dust[num7].position.X = potentialMinionArray[j].X - (int)(Math.Cos(rad) * (dist1 - (i * 10)));
                                             Main.dust[num7].position.Y = potentialMinionArray[j].Y - (int)(Math.Sin(rad) * (dist1 - (i * 10)));
                                             Main.dust[num7].noGravity = true;
                                         }
-                                        npc.ai[2] += 1;
+                                        NPC.ai[2] += 1;
                                     }
                                 }
                             }
                             else
                             {
-                                if (npc.ai[0] % 400 == 200)
+                                if (NPC.ai[0] % 400 == 200)
                                 {
                                     for (int j = 0; j < 3; j++)
                                     {
@@ -303,7 +303,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                                             Main.dust[index].noGravity = true;
                                         }
                                         NPC.NewNPC((int)potentialMinionArray[j].X, (int)potentialMinionArray[j].Y, NPCType<HydrosMinion>());
-                                        npc.netUpdate = true;
+                                        NPC.netUpdate = true;
                                     }
                                 }
                             }

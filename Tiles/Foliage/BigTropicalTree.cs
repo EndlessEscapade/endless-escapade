@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage
 {
-    public class BigTropicalTree : ModTile
+    public class BigTropicalTree : EETile
     {
         public override void SetDefaults()
         {

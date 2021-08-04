@@ -9,7 +9,7 @@ using EEMod.Items.Placeables.Furniture;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class SimpleSailTile : ModTile
+    public class SimpleSailTile : EETile
     {
         public override void SetDefaults()
         {

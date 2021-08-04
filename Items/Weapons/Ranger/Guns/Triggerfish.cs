@@ -6,7 +6,7 @@ using EEMod.Items.Weapons.Mage;
 
 namespace EEMod.Items.Weapons.Ranger.Guns
 {
-    public class Triggerfish : ModItem
+    public class Triggerfish : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,24 +15,24 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 
         public override void SetDefaults()
         {
-            item.damage = 40;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 24;
-            item.useTime = 24;
-            item.shootSpeed = 20f;
-            item.knockBack = 6.5f;
-            item.width = 32;
-            item.height = 32;
-            item.rare = ItemRarityID.Green;
-            item.value = Item.sellPrice(silver: 10);
+            Item.damage = 40;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useAnimation = 24;
+            Item.useTime = 24;
+            Item.shootSpeed = 20f;
+            Item.knockBack = 6.5f;
+            Item.width = 32;
+            Item.height = 32;
+            Item.rare = ItemRarityID.Green;
+            Item.value = Item.sellPrice(silver: 10);
             //item.useAmmo = AmmoID.Bullet;
-            item.shoot = ModContent.ProjectileType<CyanoburstTomeProjectile>();
+            Item.shoot = ModContent.ProjectileType<CyanoburstTomeProjectile>();
 
-            item.ranged = true;
-            item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
-            item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
+            Item.ranged = true;
+            Item.noMelee = true; // Important because the spear is actually a projectile instead of an item. This prevents the melee hitbox of this item.
+            Item.autoReuse = true; // Most spears don't autoReuse, but it's possible when used in conjunction with CanUseItem()
 
-            item.UseSound = SoundID.Item11;
+            Item.UseSound = SoundID.Item11;
         }
 
         public override Vector2? HoldoutOffset()

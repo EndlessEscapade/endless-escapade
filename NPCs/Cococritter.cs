@@ -4,49 +4,49 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs
 {
-    public class Cococritter : ModNPC
+    public class Cococritter : EENPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Coco Critter");
-            Main.npcCatchable[npc.type] = true;
-            Main.npcFrameCount[npc.type] = 5;
+            Main.npcCatchable[NPC.type] = true;
+            Main.npcFrameCount[NPC.type] = 5;
         }
 
         public override void SetDefaults()
         {
-            npc.friendly = true;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
-            npc.lifeMax = 5;
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
-            npc.height = 29;
-            npc.width = 24;
+            NPC.friendly = true;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
+            NPC.lifeMax = 5;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
+            NPC.height = 29;
+            NPC.width = 24;
         }
 
         public override void AI()
         {
             Animate(4, false);
-            npc.velocity.X = npc.ai[1];
-            if (npc.ai[0] == 0)
+            NPC.velocity.X = NPC.ai[1];
+            if (NPC.ai[0] == 0)
             {
-                npc.ai[1] = 1;
+                NPC.ai[1] = 1;
             }
 
-            npc.ai[0]++;
-            if (npc.ai[0] % 180 == 0 && Helpers.OnGround(npc))
+            NPC.ai[0]++;
+            if (NPC.ai[0] % 180 == 0 && Helpers.OnGround(NPC))
             {
-                npc.velocity.Y -= 5;
-                if (Helpers.isCollidingWithWall(npc))
+                NPC.velocity.Y -= 5;
+                if (Helpers.isCollidingWithWall(NPC))
                 {
-                    if (npc.ai[1] == -1)
+                    if (NPC.ai[1] == -1)
                     {
-                        npc.ai[1] = 1;
+                        NPC.ai[1] = 1;
                     }
                     else
                     {
-                        npc.ai[1] = -1;
+                        NPC.ai[1] = -1;
                     }
                 }
             }
@@ -68,7 +68,7 @@ namespace EEMod.NPCs
 
             try
             {
-                var npcCenter = npc.Center.ToTileCoordinates();
+                var npcCenter = NPC.Center.ToTileCoordinates();
                 Tile tile = Framing.GetTileSafely(npcCenter.X, npcCenter.Y);
                 if (!WorldGen.SolidTile(npcCenter.X, npcCenter.Y) && tile.liquid == 0)
                 {
@@ -86,26 +86,26 @@ namespace EEMod.NPCs
 
         public void Animate(int delay, bool flip)
         {
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
             if (flip)
             {
-                if (player.Center.X - npc.Center.X > 0)
+                if (player.Center.X - NPC.Center.X > 0)
                 {
-                    npc.spriteDirection = 1;
+                    NPC.spriteDirection = 1;
                 }
                 else
                 {
-                    npc.spriteDirection = -1;
+                    NPC.spriteDirection = -1;
                 }
             }
-            if (npc.frameCounter++ > delay)
+            if (NPC.frameCounter++ > delay)
             {
-                npc.frameCounter = 0;
-                npc.frame.Y = npc.frame.Y + (Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type]);
+                NPC.frameCounter = 0;
+                NPC.frame.Y = NPC.frame.Y + (Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type]);
             }
-            if (npc.frame.Y >= Main.npcTexture[npc.type].Height / Main.npcFrameCount[npc.type] * (Main.npcFrameCount[npc.type] - 1))
+            if (NPC.frame.Y >= Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] * (Main.npcFrameCount[NPC.type] - 1))
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
                 return;
             }
         }

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class LightGemsandTile : ModTile
+    public class LightGemsandTile : EETile
     {
         public override void SetDefaults()
         {

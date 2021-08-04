@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Buffs
 {
-    public class SurfboardBuff : ModBuff
+    public class SurfboardBuff : EEBuff
     {
         public override void SetDefaults()
         {

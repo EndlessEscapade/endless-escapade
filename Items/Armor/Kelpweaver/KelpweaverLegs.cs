@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace EEMod.Items.Armor.Kelpweaver
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class KelpweaverLegs : ModItem
+    public class KelpweaverLegs : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,11 +16,11 @@ namespace EEMod.Items.Armor.Kelpweaver
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 30);
-            item.rare = ItemRarityID.Orange;
-            item.defense = 4;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 30);
+            Item.rare = ItemRarityID.Orange;
+            Item.defense = 4;
         }
     }
 }

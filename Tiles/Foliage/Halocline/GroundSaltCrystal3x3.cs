@@ -10,7 +10,7 @@ using System;
 
 namespace EEMod.Tiles.Foliage.Halocline
 {
-    public class GroundSaltCrystal3x3 : ModTile
+    public class GroundSaltCrystal3x3 : EETile
     {
         public override void SetDefaults()
         {

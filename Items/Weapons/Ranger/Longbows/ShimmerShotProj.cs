@@ -12,30 +12,30 @@ using Terraria.ID;
 
 namespace EEMod.Items.Weapons.Ranger.Longbows
 {
-    public class ShimmerShotProj : ModProjectile
+    public class ShimmerShotProj : EEProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Shimmer Shot");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 46;
-            projectile.height = 72;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.scale = 1f;
-            projectile.alpha = 0;
+            Projectile.width = 46;
+            Projectile.height = 72;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = -1;
+            Projectile.scale = 1f;
+            Projectile.alpha = 0;
 
-            projectile.hide = true;
-            projectile.ownerHitCheck = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.damage = 20;
-            projectile.knockBack = 4.5f;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.melee = true;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.damage = 20;
+            Projectile.knockBack = 4.5f;
         }
 
         private float speedOfArrow = 400f;
@@ -53,44 +53,44 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
         public override void AI()
         {
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 20 && projectile.frame < 3)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 20 && Projectile.frame < 3)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
 
-                if(projectile.frame >= 3)
+                if(Projectile.frame >= 3)
                 {
                     whiteFlash = 1f;
-                    Main.PlaySound(SoundID.NPCDeath7, projectile.Center);
+                    Main.PlaySound(SoundID.NPCDeath7, Projectile.Center);
                 }
             }
 
             if (whiteFlash > 0) { whiteFlash -= 0.2f; }
-            if(whiteFlash <= 0.25f && whiteFlash >= 0.1f) { projectile.ai[1] = 1; }
+            if(whiteFlash <= 0.25f && whiteFlash >= 0.1f) { Projectile.ai[1] = 1; }
 
-            if (projectile.ai[1] == 1)
+            if (Projectile.ai[1] == 1)
             {
                 whiteFlash = 0.25f + ((float)Math.Sin(Main.GameUpdateCount / 5f) / 8f);
             }
 
 
-            Player projOwner = Main.player[projectile.owner];
+            Player projOwner = Main.player[Projectile.owner];
             float progression = projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
 
-            projectile.direction = projOwner.direction;
-            projOwner.heldProj = projectile.whoAmI;
-            projectile.rotation = (Main.MouseWorld - projOwner.Center).ToRotation();
-            projectile.position.X = projOwner.Center.X - projectile.width / 2;
-            projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
+            Projectile.direction = projOwner.direction;
+            projOwner.heldProj = Projectile.whoAmI;
+            Projectile.rotation = (Main.MouseWorld - projOwner.Center).ToRotation();
+            Projectile.position.X = projOwner.Center.X - Projectile.width / 2;
+            Projectile.position.Y = projOwner.Center.Y - Projectile.height / 2;
             float speed = speedOfArrow;
             projOwner.bodyFrame.Y = 56 * (6 + (int)(gravAccel - minGrav));
-            if (!projOwner.controlUseItem && projectile.ai[0] == 0)
+            if (!projOwner.controlUseItem && Projectile.ai[0] == 0)
             {
-                projectile.timeLeft = 16;
-                projectile.ai[0] = 1;
+                Projectile.timeLeft = 16;
+                Projectile.ai[0] = 1;
 
-                if (projectile.frame >= 3)
+                if (Projectile.frame >= 3)
                 {
                     Vector2 comedy = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
                     for (float i = 0; i < projCount; i++)
@@ -111,12 +111,12 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
             if(projOwner.HeldItem.type != ModContent.ItemType<ShimmerShot>())
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
             
-            if(projectile.ai[0] == 1)
+            if(Projectile.ai[0] == 1)
             {
-                projectile.alpha += 16;
+                Projectile.alpha += 16;
             }
 
             if(Main.MouseWorld.X <= projOwner.Center.X)
@@ -136,7 +136,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
             if(whiteFlash > 0)
             {
                 Rectangle rect = new Rectangle(0, 0, 46, 72);
-                Main.spriteBatch.Draw(mod.GetTexture("Items/Weapons/Ranger/Longbows/ShimmerShotProjGlow"), new Rectangle((int)projectile.Center.ForDraw().X, (int)projectile.Center.ForDraw().Y, 46, 72), rect, Color.White * whiteFlash * ((255 - projectile.alpha) / 255f), projectile.rotation, rect.Size() / 2f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(mod.GetTexture("Items/Weapons/Ranger/Longbows/ShimmerShotProjGlow"), new Rectangle((int)Projectile.Center.ForDraw().X, (int)Projectile.Center.ForDraw().Y, 46, 72), rect, Color.White * whiteFlash * ((255 - Projectile.alpha) / 255f), Projectile.rotation, rect.Size() / 2f, SpriteEffects.None, 0f);
             }
         }
     }

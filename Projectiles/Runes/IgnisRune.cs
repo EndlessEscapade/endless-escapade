@@ -8,37 +8,37 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Runes
 {
-    public class IgnisRune : ModProjectile
+    public class IgnisRune : EEProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ignis Rune");
-            Main.projFrames[projectile.type] = 1;
+            Main.projFrames[Projectile.type] = 1;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 50;
-            projectile.friendly = true;
-            projectile.hostile = true;
-            projectile.ranged = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 100000;
-            projectile.ignoreWater = false;
-            projectile.tileCollide = true;
-            projectile.extraUpdates = 1;
-            projectile.aiStyle = -1;
-            projectile.damage = 0;
+            Projectile.width = 42;
+            Projectile.height = 50;
+            Projectile.friendly = true;
+            Projectile.hostile = true;
+            Projectile.ranged = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 100000;
+            Projectile.ignoreWater = false;
+            Projectile.tileCollide = true;
+            Projectile.extraUpdates = 1;
+            Projectile.aiStyle = -1;
+            Projectile.damage = 0;
         }
 
         public override void AI()
         {
-            projectile.ai[1]++;
-            if (projectile.ai[0] > 0)
-                projectile.alpha -= 4;
+            Projectile.ai[1]++;
+            if (Projectile.ai[0] > 0)
+                Projectile.alpha -= 4;
 
-            projectile.Center += new Vector2(0, (float)Math.Sin(flash * 3) / 20);
+            Projectile.Center += new Vector2(0, (float)Math.Sin(flash * 3) / 20);
         }
 
         private float flash = 0;
@@ -49,8 +49,8 @@ namespace EEMod.Projectiles.Runes
             Main.NewText(lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f);
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            if (projectile.ai[1] > 120)
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
+            if (Projectile.ai[1] > 120)
+                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f, Projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -60,13 +60,13 @@ namespace EEMod.Projectiles.Runes
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            if (projectile.ai[1] > 120)
+            if (Projectile.ai[1] > 120)
             {
-                projectile.timeLeft = 64;
-                projectile.ai[0]++;
+                Projectile.timeLeft = 64;
+                Projectile.ai[0]++;
                 flash = 0;
                 target.GetModPlayer<EEPlayer>().hasGottenRuneBefore[4] = 1;
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 

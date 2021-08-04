@@ -6,18 +6,18 @@ using Terraria.ModLoader;
 
 namespace EEMod.Seamap.SeamapAssets
 {
-    public class MerchantBoat : ModNPC
+    public class MerchantBoat : EENPC
     {
         public override void SetDefaults()
         {
-            npc.townNPC = true;
-            npc.width = 32;
-            npc.height = 32;
-            npc.friendly = true;
-            npc.lifeMax = 2000;
-            npc.aiStyle = 0;
-            npc.noGravity = true;
-            npc.spriteDirection = 1;
+            NPC.townNPC = true;
+            NPC.width = 32;
+            NPC.height = 32;
+            NPC.friendly = true;
+            NPC.lifeMax = 2000;
+            NPC.aiStyle = 0;
+            NPC.noGravity = true;
+            NPC.spriteDirection = 1;
         }
 
         public override void SetChatButtons(ref string button, ref string button2)
@@ -381,7 +381,7 @@ namespace EEMod.Seamap.SeamapAssets
             }
             else
             {
-                npc.position.X += 0.3f;
+                NPC.position.X += 0.3f;
             }
         }
     }

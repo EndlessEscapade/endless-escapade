@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Ranger.Launchers
 {
-    public class EggPistol : ModItem
+    public class EggPistol : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,21 +14,21 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
         public override void SetDefaults()
         {
-            item.melee = true;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 12;
-            item.useTime = 21;
-            item.useAnimation = 21;
-            item.width = 20;
-            item.height = 20;
-            item.shoot = ModContent.ProjectileType<CycloneStormRune>();
-            item.rare = ItemRarityID.Yellow;
-            item.knockBack = 4f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shootSpeed = 17f;
-            item.UseSound = SoundID.Item11;
+            Item.melee = true;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.damage = 12;
+            Item.useTime = 21;
+            Item.useAnimation = 21;
+            Item.width = 20;
+            Item.height = 20;
+            Item.shoot = ModContent.ProjectileType<CycloneStormRune>();
+            Item.rare = ItemRarityID.Yellow;
+            Item.knockBack = 4f;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.shootSpeed = 17f;
+            Item.UseSound = SoundID.Item11;
             //item.useAmmo = AmmoID.Rocket;
         }
     }

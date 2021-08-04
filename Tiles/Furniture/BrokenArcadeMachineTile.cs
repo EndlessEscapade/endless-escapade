@@ -11,7 +11,7 @@ using Terraria.ID;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class BrokenArcadeMachineTile : ModTile
+    public class BrokenArcadeMachineTile : EETile
     {
         public override void SetDefaults()
         {

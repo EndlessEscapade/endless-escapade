@@ -9,35 +9,35 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Corrodent Shotbow");
-            Main.projFrames[projectile.type] = 7;
+            Main.projFrames[Projectile.type] = 7;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 72;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.scale = 1f;
-            projectile.alpha = 0;
+            Projectile.width = 40;
+            Projectile.height = 72;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = -1;
+            Projectile.scale = 1f;
+            Projectile.alpha = 0;
 
-            projectile.hide = true;
-            projectile.ownerHitCheck = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.damage = 20;
-            projectile.knockBack = 4.5f;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.melee = true;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.damage = 20;
+            Projectile.knockBack = 4.5f;
         }
 
         public override void AI()
         {
             base.AI();
-            projectile.frameCounter++;
-            if (projectile.frameCounter > 8 && projectile.frame < 6)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter > 8 && Projectile.frame < 6)
             {
-                projectile.frame++;
-                projectile.frameCounter = 0;
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
             }
         }
 

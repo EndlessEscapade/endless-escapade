@@ -6,23 +6,23 @@ using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.Placeables.Banners
 {
-    public abstract class BannerItem : ModItem
+    public abstract class BannerItem : EEItem
     {
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 24;
-            item.maxStack = 99;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.consumable = true;
-            item.rare = ItemRarityID.Blue;
-            item.value = Item.buyPrice(0, 0, 10, 0);
-            item.createTile = TileType<BannerTile>();
-            item.placeStyle = 0;
+            Item.width = 10;
+            Item.height = 24;
+            Item.maxStack = 99;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.consumable = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.value = Item.buyPrice(0, 0, 10, 0);
+            Item.createTile = TileType<BannerTile>();
+            Item.placeStyle = 0;
         }
     }
 

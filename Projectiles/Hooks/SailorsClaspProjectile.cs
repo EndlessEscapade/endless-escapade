@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Hooks
 {
-    public class SailorsClaspProjectile : ModProjectile
+    public class SailorsClaspProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -25,7 +25,7 @@ namespace EEMod.Projectiles.Hooks
 				this.tileCollide = false;
 				this.timeLeft *= 10;
 			*/
-            projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
+            Projectile.CloneDefaults(ProjectileID.GemHookAmethyst);
         }
 
         // Use this hook for hooks that can have multiple hooks mid-flight: Dual Hook, Web Slinger, Fish Hook, Static Hook, Lunar Hook
@@ -34,7 +34,7 @@ namespace EEMod.Projectiles.Hooks
             int hooksOut = 0;
             for (int l = 0; l < 1000; l++)
             {
-                if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == projectile.type)
+                if (Main.projectile[l].active && Main.projectile[l].owner == Main.myPlayer && Main.projectile[l].type == Projectile.type)
                 {
                     hooksOut++;
                 }
@@ -68,9 +68,9 @@ namespace EEMod.Projectiles.Hooks
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 playerCenter = Main.player[projectile.owner].MountedCenter;
-            Vector2 center = projectile.Center;
-            Vector2 distToProj = playerCenter - projectile.Center;
+            Vector2 playerCenter = Main.player[Projectile.owner].MountedCenter;
+            Vector2 center = Projectile.Center;
+            Vector2 distToProj = playerCenter - Projectile.Center;
             float projRotation = distToProj.ToRotation() - 1.57f;
             float distanceSQ = distToProj.LengthSquared();
             while (distanceSQ > 30f && !float.IsNaN(distanceSQ))

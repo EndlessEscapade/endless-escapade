@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Hydros
 {
-    public class HydroBeam : ModProjectile // Thanks to Dan Yami for the code
+    public class HydroBeam : EEProjectile // Thanks to Dan Yami for the code
     {
         public override void SetStaticDefaults()
         {
@@ -17,19 +17,19 @@ namespace EEMod.NPCs.Bosses.Hydros
 
         public override void SetDefaults()
         {
-            projectile.width = 20;
-            projectile.height = 20;
-            projectile.aiStyle = -1;
-            projectile.friendly = false;
-            projectile.penetrate = -1;
-            projectile.alpha = 0;
-            projectile.timeLeft = 3600;
-            projectile.tileCollide = false;
-            projectile.hostile = true;
+            Projectile.width = 20;
+            Projectile.height = 20;
+            Projectile.aiStyle = -1;
+            Projectile.friendly = false;
+            Projectile.penetrate = -1;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 3600;
+            Projectile.tileCollide = false;
+            Projectile.hostile = true;
         }
 
         internal const float charge = 240;
-        public float LaserLength { get => projectile.localAI[1]; set => projectile.localAI[1] = value; }
+        public float LaserLength { get => Projectile.localAI[1]; set => Projectile.localAI[1] = value; }
         public const float LaserLengthMax = 2000f;
         private int multiplier = 1;
 
@@ -58,24 +58,24 @@ namespace EEMod.NPCs.Bosses.Hydros
             chargeCounter = reader.ReadSingle();
         }
 
-        private NPC OwnerNpc => Main.npc[(int)projectile.ai[1]];
+        private NPC OwnerNpc => Main.npc[(int)Projectile.ai[1]];
 
         public override void AI()
         {
-            projectile.Center = OwnerNpc.Center;
-            if (projectile.ai[0] == 0)
+            Projectile.Center = OwnerNpc.Center;
+            if (Projectile.ai[0] == 0)
             {
                 chargeCounter = 5;
             }
-            else if (projectile.ai[0] >= 20)
+            else if (Projectile.ai[0] >= 20)
             {
                 chargeCounter += 5f * multiplier;
             }
 
-            projectile.ai[0]++;
+            Projectile.ai[0]++;
             if (chargeCounter == charge)
             {
-                projectile.hostile = true;
+                Projectile.hostile = true;
             }
             if (chargeCounter >= charge + 60f && multiplier == 1)
             {
@@ -83,14 +83,14 @@ namespace EEMod.NPCs.Bosses.Hydros
             }
             if (multiplier == -1 && chargeCounter <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
-            projectile.rotation = projectile.velocity.ToRotation() - MathHelper.PiOver2;
-            projectile.velocity = Vector2.Normalize(projectile.velocity);
+            Projectile.rotation = Projectile.velocity.ToRotation() - MathHelper.PiOver2;
+            Projectile.velocity = Vector2.Normalize(Projectile.velocity);
 
             float[] sampleArray = new float[2];
-            Collision.LaserScan(projectile.Center, projectile.velocity, 0, LaserLengthMax, sampleArray);
+            Collision.LaserScan(Projectile.Center, Projectile.velocity, 0, LaserLengthMax, sampleArray);
             float sampledLength = 0f;
             for (int i = 0; i < sampleArray.Length; i++)
             {
@@ -105,13 +105,13 @@ namespace EEMod.NPCs.Bosses.Hydros
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
             float collisionPoint = 0f;
-            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), projectile.Center, projectile.Center + projectile.velocity * LaserLength, projHitbox.Width, ref collisionPoint);
+            return Collision.CheckAABBvLineCollision(targetHitbox.TopLeft(), targetHitbox.Size(), Projectile.Center, Projectile.Center + Projectile.velocity * LaserLength, projHitbox.Width, ref collisionPoint);
         }
 
         public override bool? CanCutTiles()
         {
             DelegateMethods.tilecut_0 = Terraria.Enums.TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(projectile.Center, projectile.Center + projectile.velocity * LaserLength, projectile.width * projectile.scale * 2, new Utils.PerLinePoint(CutTilesAndBreakWalls));
+            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * LaserLength, Projectile.width * Projectile.scale * 2, new Utils.PerLinePoint(CutTilesAndBreakWalls));
             return true;
         }
 
@@ -122,35 +122,35 @@ namespace EEMod.NPCs.Bosses.Hydros
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.velocity == Vector2.Zero)
+            if (Projectile.velocity == Vector2.Zero)
             {
                 return false;
             }
-            Texture2D projectileTexture = Main.projectileTexture[projectile.type];
+            Texture2D projectileTexture = Main.projectileTexture[Projectile.type];
             Texture2D beamTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
             Texture2D beamEndTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
             float laserLength = LaserLength;
             Color color44 = Color.White * 0.8f;
             Texture2D projectileTexture2 = projectileTexture;
-            Vector2 arg_AF99_2 = projectile.Center + new Vector2(0, projectile.gfxOffY) - Main.screenPosition;
+            Vector2 arg_AF99_2 = Projectile.Center + new Vector2(0, Projectile.gfxOffY) - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
-            spriteBatch.Draw(projectileTexture2, arg_AF99_2, sourceRectangle2, color44, projectile.rotation, projectileTexture.Size() / 2f, new Vector2(Math.Min(chargeCounter, charge) / charge, 1f), SpriteEffects.None, 0f);
-            laserLength -= (projectileTexture.Height / 2 + beamEndTexture.Height) * projectile.scale;
-            Vector2 value20 = projectile.Center + new Vector2(0, projectile.gfxOffY);
-            value20 += projectile.velocity * projectile.scale * projectileTexture.Height / 2f;
+            spriteBatch.Draw(projectileTexture2, arg_AF99_2, sourceRectangle2, color44, Projectile.rotation, projectileTexture.Size() / 2f, new Vector2(Math.Min(chargeCounter, charge) / charge, 1f), SpriteEffects.None, 0f);
+            laserLength -= (projectileTexture.Height / 2 + beamEndTexture.Height) * Projectile.scale;
+            Vector2 value20 = Projectile.Center + new Vector2(0, Projectile.gfxOffY);
+            value20 += Projectile.velocity * Projectile.scale * projectileTexture.Height / 2f;
             if (laserLength > 0f)
             {
                 float num229 = 0f;
-                Rectangle rectangle7 = new Rectangle(0, 16 * (projectile.timeLeft / 3 % 5), beamTexture.Width, 16);
+                Rectangle rectangle7 = new Rectangle(0, 16 * (Projectile.timeLeft / 3 % 5), beamTexture.Width, 16);
                 while (num229 + 1f < laserLength)
                 {
                     if (laserLength - num229 < rectangle7.Height)
                     {
                         rectangle7.Height = (int)(laserLength - num229);
                     }
-                    Main.spriteBatch.Draw(beamTexture, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), new Vector2(Math.Min(chargeCounter, charge) / charge, 1f), SpriteEffects.None, 0f);
-                    num229 += rectangle7.Height * projectile.scale;
-                    value20 += projectile.velocity * rectangle7.Height * projectile.scale;
+                    Main.spriteBatch.Draw(beamTexture, value20 - Main.screenPosition, new Rectangle?(rectangle7), color44, Projectile.rotation, new Vector2(rectangle7.Width / 2, 0f), new Vector2(Math.Min(chargeCounter, charge) / charge, 1f), SpriteEffects.None, 0f);
+                    num229 += rectangle7.Height * Projectile.scale;
+                    value20 += Projectile.velocity * rectangle7.Height * Projectile.scale;
                     rectangle7.Y += 16;
                     if (rectangle7.Y + rectangle7.Height > beamTexture.Height)
                     {
@@ -162,7 +162,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             Texture2D arg_B1FF_1 = beamEndTexture;
             Vector2 arg_B1FF_2 = value20 - Main.screenPosition;
             sourceRectangle2 = null;
-            spriteBatch2.Draw(arg_B1FF_1, arg_B1FF_2, sourceRectangle2, color44, projectile.rotation, beamEndTexture.Frame(1, 1, 0, 0).Top(), new Vector2(Math.Min(chargeCounter, charge) / charge, 1f), SpriteEffects.None, 0f);
+            spriteBatch2.Draw(arg_B1FF_1, arg_B1FF_2, sourceRectangle2, color44, Projectile.rotation, beamEndTexture.Frame(1, 1, 0, 0).Top(), new Vector2(Math.Min(chargeCounter, charge) / charge, 1f), SpriteEffects.None, 0f);
             return false;
         }
     }

@@ -4,21 +4,21 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Fish
 {
-    public class Ironfin : ModItem
+    public class Ironfin : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Ironfin");
-            ItemID.Sets.SortingPriorityMaterials[item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
+            ItemID.Sets.SortingPriorityMaterials[Item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.maxStack = 1;
-            item.value = Item.buyPrice(0, 0, 18, 0);
-            item.rare = ItemRarityID.Green;
+            Item.width = 20;
+            Item.height = 20;
+            Item.maxStack = 1;
+            Item.value = Item.buyPrice(0, 0, 18, 0);
+            Item.rare = ItemRarityID.Green;
         }
 
         public override bool IsQuestFish()

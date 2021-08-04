@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken
 {
-    public class TentacleEdgeHandler : ModNPC
+    public class TentacleEdgeHandler : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -15,16 +15,16 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void SetDefaults()
         {
-            npc.width = 1;
-            npc.height = 1;
-            npc.damage = 20;
-            npc.aiStyle = -1;
-            npc.lifeMax = 1000;
-            npc.noTileCollide = true;
-            npc.noGravity = true;
-            npc.knockBackResist = 0f;
-            npc.dontTakeDamage = true;
-            npc.damage = 0;
+            NPC.width = 1;
+            NPC.height = 1;
+            NPC.damage = 20;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 1000;
+            NPC.noTileCollide = true;
+            NPC.noGravity = true;
+            NPC.knockBackResist = 0f;
+            NPC.dontTakeDamage = true;
+            NPC.damage = 0;
         }
 
         public override bool CheckActive()
@@ -44,16 +44,16 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public override void AI()
         {
-            if (Main.npc[(int)npc.ai[0]].life <= 0)
+            if (Main.npc[(int)NPC.ai[0]].life <= 0)
             {
-                npc.life = 0;
+                NPC.life = 0;
             }
-            npc.TargetClosest(true);
-            player = Main.player[npc.target];
-            npc.Center = player.Center - new Vector2(-200, 0);
-            krakenHead = Main.npc[(int)npc.ai[0]].modNPC as KrakenHead;
-            npcBase = Main.npc[(int)npc.ai[0]];
-            npc.ai[1]++;
+            NPC.TargetClosest(true);
+            player = Main.player[NPC.target];
+            NPC.Center = player.Center - new Vector2(-200, 0);
+            krakenHead = Main.npc[(int)NPC.ai[0]].modNPC as KrakenHead;
+            npcBase = Main.npc[(int)NPC.ai[0]];
+            NPC.ai[1]++;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
@@ -62,7 +62,7 @@ namespace EEMod.NPCs.Bosses.Kraken
 
         public void DrawTentacleBeziers()
         {
-            Color drawColor = npc.GetAlpha(Lighting.GetColor((int)(npc.Center.X / 16f), (int)(npc.Center.Y / 16f)));
+            Color drawColor = NPC.GetAlpha(Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f)));
             int cooldown = 20;
             coolDownForCollision--;
             float chainsPer = 0.03f;
@@ -70,20 +70,20 @@ namespace EEMod.NPCs.Bosses.Kraken
             {
                 coolDownForCollision = 0;
             }
-            daFlop = (float)Math.Sin(krakenHead.npc.ai[2] / 20f) * 100;
-            daFlopX = (float)Math.Cos(krakenHead.npc.ai[2] / 30f) * 60;
+            daFlop = (float)Math.Sin(krakenHead.NPC.ai[2] / 20f) * 100;
+            daFlopX = (float)Math.Cos(krakenHead.NPC.ai[2] / 30f) * 60;
             if (krakenHead.hasChains)
             {
                 for (int i = 0; i < krakenHead.npcFromPositions.Length; i++)
                 {
                     if (npcBase.ai[1] != 4 || (npcBase.ai[0] > krakenHead.dashPositions.Length * 50 && npcBase.ai[1] == 4))
                     {
-                        if (npc.ai[2] == 0)
+                        if (NPC.ai[2] == 0)
                         {
                             startingPoint[i] = krakenHead.npcFromPositions[i] + (Vector2.Normalize(krakenHead.dashPositions[i] - krakenHead.npcFromPositions[i]) * 5400);
                             if (i == krakenHead.npcFromPositions.Length - 1)
                             {
-                                npc.ai[2] = 1;
+                                NPC.ai[2] = 1;
                             }
                         }
                         endingPoint[i] = krakenHead.npcFromPositions[i] + (Vector2.Normalize(krakenHead.dashPositions[i] - krakenHead.npcFromPositions[i]) * 5400);
@@ -92,17 +92,17 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }
                     else
                     {
-                        npc.ai[2] = 0;
+                        NPC.ai[2] = 0;
                         midPoint[i] = startingPoint[i] + (endingPoint[i] - startingPoint[i]) * 0.5f;
                         startingPoint[i] += (endingPoint[i] - startingPoint[i]) / 32f;
                     }
                     float gradient = (endingPoint[i].Y - startingPoint[i].Y) / (endingPoint[i].X - startingPoint[i].X);
                     if (player.Center.Y >= gradient * (player.Center.X - startingPoint[i].X) + startingPoint[i].Y - 60 && player.Center.Y <= gradient * (player.Center.X - startingPoint[i].X) + startingPoint[i].Y + 60 && coolDownForCollision == 0 && npcBase.ai[1] != 4)
                     {
-                        Main.player[npc.target].velocity += new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6));
-                        Main.player[npc.target].velocity *= -1.6f;
+                        Main.player[NPC.target].velocity += new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6));
+                        Main.player[NPC.target].velocity *= -1.6f;
                         coolDownForCollision = cooldown;
-                        npc.netUpdate = true;
+                        NPC.netUpdate = true;
                     }
                     Helpers.DrawBezier(Main.spriteBatch, ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Kraken/TentacleChain"), "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, MathHelper.PiOver2);
                     /*if (npc.ai[1] % 8 == 0)
@@ -128,12 +128,12 @@ namespace EEMod.NPCs.Bosses.Kraken
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             for (int i = -10; i < 10; i++)
             {
-                Main.spriteBatch.Draw(oil, new Vector2(krakenHead.arenaPosition.X + (i * oil.Width), 1000 - krakenHead.waterLevel + krakenHead.arenaPosition.Y + oil.Height / 2 + (float)Math.Sin(npc.ai[1] / 30) * 20) - Main.screenPosition, new Rectangle(0, 0, oil.Width, oil.Height), drawColor * 0.8f, 0, new Rectangle(0, 0, oil.Width, oil.Height).Size() / 2, 1, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                Main.spriteBatch.Draw(oil, new Vector2(krakenHead.arenaPosition.X + (i * oil.Width), 1000 - krakenHead.waterLevel + krakenHead.arenaPosition.Y + oil.Height / 2 + (float)Math.Sin(NPC.ai[1] / 30) * 20) - Main.screenPosition, new Rectangle(0, 0, oil.Width, oil.Height), drawColor * 0.8f, 0, new Rectangle(0, 0, oil.Width, oil.Height).Size() / 2, 1, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             }
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            if (player.Center.Y > 1000 - krakenHead.waterLevel + krakenHead.arenaPosition.Y + (float)Math.Sin(npc.ai[1] / 30) * 20)
+            if (player.Center.Y > 1000 - krakenHead.waterLevel + krakenHead.arenaPosition.Y + (float)Math.Sin(NPC.ai[1] / 30) * 20)
             {
                 player.velocity *= .8f;
             }

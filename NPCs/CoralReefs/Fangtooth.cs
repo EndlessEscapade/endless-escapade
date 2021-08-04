@@ -6,42 +6,42 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    internal class Fangtooth : ModNPC
+    internal class Fangtooth : EENPC
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[NPC.type] = 8;
         }
 
         private int frameNumber = 0;
 
         public override void FindFrame(int frameHeight)
         {
-            npc.frameCounter++;
-            if (npc.frameCounter >= 5)
+            NPC.frameCounter++;
+            if (NPC.frameCounter >= 5)
             {
-                npc.frameCounter = 0;
+                NPC.frameCounter = 0;
                 frameNumber++;
                 if (frameNumber >= 8)
                 {
                     frameNumber = 0;
                 }
-                npc.frame.Y = frameNumber * 118;
+                NPC.frame.Y = frameNumber * 118;
             }
         }
 
         public override void SetDefaults()
         {
-            npc.lifeMax = 50;
-            npc.defense = 6;
-            npc.damage = 20;
-            npc.width = 94;
-            npc.height = 40;
-            npc.aiStyle = 0;
-            npc.knockBackResist = 10;
-            npc.value = Item.buyPrice(0, 0, 5, 0);
-            npc.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
-            npc.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
+            NPC.lifeMax = 50;
+            NPC.defense = 6;
+            NPC.damage = 20;
+            NPC.width = 94;
+            NPC.height = 40;
+            NPC.aiStyle = 0;
+            NPC.knockBackResist = 10;
+            NPC.value = Item.buyPrice(0, 0, 5, 0);
+            NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
+            NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
         }
     }
 }

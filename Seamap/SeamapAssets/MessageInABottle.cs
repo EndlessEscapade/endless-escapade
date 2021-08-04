@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Seamap.SeamapAssets
 {
-    public class MessageInABottle : ModProjectile
+    public class MessageInABottle : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -12,12 +12,12 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 18;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1f;
+            Projectile.width = 16;
+            Projectile.height = 18;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 1f;
         }
 
         public bool sinking;
@@ -26,7 +26,7 @@ namespace EEMod.Seamap.SeamapAssets
         {
             if (!sinking)
             {
-                projectile.velocity = new Vector2(0.5f, 0);
+                Projectile.velocity = new Vector2(0.5f, 0);
             }
             else
             {
@@ -38,13 +38,13 @@ namespace EEMod.Seamap.SeamapAssets
 
         public void Sink()
         {
-            projectile.velocity.X = 0;
-            projectile.velocity.Y = 0.5f;
-            projectile.alpha += 8;
+            Projectile.velocity.X = 0;
+            Projectile.velocity.Y = 0.5f;
+            Projectile.alpha += 8;
             sinkTimer--;
             if (sinkTimer <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

@@ -7,65 +7,65 @@ using EEMod.Prim;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class Grebyser : ModNPC
+    public class Grebyser : EENPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Grebyser");
-            Main.npcFrameCount[npc.type] = 3;
+            Main.npcFrameCount[NPC.type] = 3;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.alpha = 0;
+            NPC.alpha = 0;
 
-            npc.lifeMax = 550;
-            npc.defense = 10;
+            NPC.lifeMax = 550;
+            NPC.defense = 10;
 
-            npc.width = 32;
-            npc.height = 32;
+            NPC.width = 32;
+            NPC.height = 32;
 
-            npc.noGravity = true;
-            npc.aiStyle = 67;
+            NPC.noGravity = true;
+            NPC.aiStyle = 67;
 
-            npc.lavaImmune = true;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = true;
+            NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
         int attackTimer = 0;
         public override void FindFrame(int frameHeight)
         {
-                npc.frameCounter++;
-                if (npc.frameCounter == 5)
+                NPC.frameCounter++;
+                if (NPC.frameCounter == 5)
                 {
-                    npc.frame.Y = npc.frame.Y + frameHeight;
-                    npc.frameCounter = 0;
+                    NPC.frame.Y = NPC.frame.Y + frameHeight;
+                    NPC.frameCounter = 0;
                 }
-                if (npc.frame.Y >= frameHeight * 3)
+                if (NPC.frame.Y >= frameHeight * 3)
                 {
-                    npc.frame.Y = 0;
+                    NPC.frame.Y = 0;
                     return;
                 }
         }
         public override bool PreAI()
         {
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
             attackTimer++;
             attackTimer %= 300;
 
             if (attackTimer > 250 && attackTimer < 275 && attackTimer % 5 == 0)
             {
                 Vector2 direction = Vector2.Zero - Vector2.UnitY; 
-                direction = direction.RotatedBy(npc.rotation);
+                direction = direction.RotatedBy(NPC.rotation);
                 direction = direction.RotatedBy(Main.rand.NextFloat(-0.9f, 0.9f));
                 direction *= Main.rand.NextFloat(3,5);
-                int proj = Projectile.NewProjectile(npc.Center, direction, ModContent.ProjectileType<GrebyserFlare>(), 60, 0, npc.target);
+                int proj = Projectile.NewProjectile(NPC.Center, direction, ModContent.ProjectileType<GrebyserFlare>(), 60, 0, NPC.target);
                 if (Main.netMode != NetmodeID.Server)
                 {
                     EEMod.primitives.CreateTrail(new GrebyserPrimTrail(Main.projectile[proj]));
@@ -75,10 +75,10 @@ namespace EEMod.NPCs.CoralReefs
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GrebyserGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GrebyserGlow"), NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
-    public class GrebyserFlare : ModProjectile
+    public class GrebyserFlare : EEProjectile
 	{
         public override string Texture => Helpers.EmptyTexture;
 		public override void SetStaticDefaults()
@@ -88,17 +88,17 @@ namespace EEMod.NPCs.CoralReefs
 
 		public override void SetDefaults()
 		{
-			projectile.width = 6;
-			projectile.height = 11;
-			projectile.aiStyle = 1;
-			projectile.friendly = false;
-			projectile.hostile = true;
-			projectile.penetrate = 5;
-			projectile.timeLeft = 600;
-			projectile.alpha = 255;
-			projectile.extraUpdates = 1;
+			Projectile.width = 6;
+			Projectile.height = 11;
+			Projectile.aiStyle = 1;
+			Projectile.friendly = false;
+			Projectile.hostile = true;
+			Projectile.penetrate = 5;
+			Projectile.timeLeft = 600;
+			Projectile.alpha = 255;
+			Projectile.extraUpdates = 1;
 			aiType = ProjectileID.CrystalShard;
-            projectile.ignoreWater = true;
+            Projectile.ignoreWater = true;
         }
 
 	}

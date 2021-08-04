@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee
 {
-    public class DalantiniumKusiragamaProjectile : ModProjectile
+    public class DalantiniumKusiragamaProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -13,15 +13,15 @@ namespace EEMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 60;
-            projectile.aiStyle = -1;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.extraUpdates = 2;
-            projectile.tileCollide = false;
+            Projectile.width = 44;
+            Projectile.height = 60;
+            Projectile.aiStyle = -1;
+            Projectile.melee = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.extraUpdates = 2;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()

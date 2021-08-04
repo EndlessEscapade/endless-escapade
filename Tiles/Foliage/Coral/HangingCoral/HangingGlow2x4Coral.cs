@@ -9,7 +9,7 @@ using Terraria.ID;
 
 namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 {
-    public class HangingGlow2x4Coral : ModTile
+    public class HangingGlow2x4Coral : EETile
     {
         public override void SetDefaults()
         {

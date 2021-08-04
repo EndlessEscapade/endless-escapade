@@ -11,7 +11,7 @@ using EEMod.Projectiles.CoralReefs;
 
 namespace EEMod.Tiles.Furniture.NautilusPuzzle
 {
-    public class NautilusPuzzle : ModTile
+    public class NautilusPuzzle : EETile
     {
         public override void SetDefaults()
         {

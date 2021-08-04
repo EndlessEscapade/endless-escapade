@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Buffs
 {
-    public class ClamBuff : ModBuff
+    public class ClamBuff : EEBuff
     {
         public override void SetDefaults()
         {

@@ -5,44 +5,44 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
 {
-    public class WaterSpew : ModProjectile
+    public class WaterSpew : EEProjectile
     {
         public override void SetDefaults()
         {
-            projectile.width = 12;  //Set the hitbox width
-            projectile.height = 12;
-            projectile.hostile = true;//Set the hitbox height
-            projectile.friendly = false;  //Tells the game whether it is friendly to players/friendly npcs or not
-            projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
-            projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
-            projectile.penetrate = -1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
-            projectile.timeLeft = 70;  //The amount of time the projectile is alive for
-            projectile.tileCollide = false;
+            Projectile.width = 12;  //Set the hitbox width
+            Projectile.height = 12;
+            Projectile.hostile = true;//Set the hitbox height
+            Projectile.friendly = false;  //Tells the game whether it is friendly to players/friendly npcs or not
+            Projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
+            Projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
+            Projectile.penetrate = -1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
+            Projectile.timeLeft = 70;  //The amount of time the projectile is alive for
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            if (projectile.timeLeft > 60)
+            if (Projectile.timeLeft > 60)
             {
-                projectile.timeLeft = 60;
+                Projectile.timeLeft = 60;
             }
-            if (projectile.ai[1] == 1)
+            if (Projectile.ai[1] == 1)
             {
-                Lighting.AddLight(projectile.Center, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * 0.15f / 255f, (255 - projectile.alpha) * .6f / 255f);   //this is the light colors
+                Lighting.AddLight(Projectile.Center, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * 0.15f / 255f, (255 - Projectile.alpha) * .6f / 255f);   //this is the light colors
 
-                if (projectile.ai[0] > 1f)
+                if (Projectile.ai[0] > 1f)
                 {
                     if (Main.rand.Next(4) == 0)
                     {
-                        int dust = Dust.NewDust(projectile.position, 1, 1, DustID.Clentaminator_Blue, projectile.velocity.X * 1.2f, projectile.velocity.Y, 0, Color.Black, 2);
+                        int dust = Dust.NewDust(Projectile.position, 1, 1, DustID.Clentaminator_Blue, Projectile.velocity.X * 1.2f, Projectile.velocity.Y, 0, Color.Black, 2);
                         Main.dust[dust].noGravity = true;
-                        int dust2 = Dust.NewDust(projectile.position, 1, 1, DustID.Clentaminator_Blue, projectile.velocity.X * 1.2f, projectile.velocity.Y, 9, Color.Black, 1f);
+                        int dust2 = Dust.NewDust(Projectile.position, 1, 1, DustID.Clentaminator_Blue, Projectile.velocity.X * 1.2f, Projectile.velocity.Y, 9, Color.Black, 1f);
                         Main.dust[dust2].noGravity = true;
                     }
                 }
                 else
                 {
-                    projectile.ai[0]++;
+                    Projectile.ai[0]++;
                 }
             }
             return;
@@ -54,7 +54,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.Kill();
+            Projectile.Kill();
             return false;
         }
     }

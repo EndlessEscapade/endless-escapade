@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class GlowingKelpSpider : ModNPC
+    public class GlowingKelpSpider : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -19,24 +19,24 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.lifeMax = 50000;
-            npc.damage = 13;
-            npc.defense = 3;
+            NPC.lifeMax = 50000;
+            NPC.damage = 13;
+            NPC.defense = 3;
 
-            npc.width = 84;
-            npc.height = 53;
-            npc.noGravity = false;
-            npc.knockBackResist = 0f;
+            NPC.width = 84;
+            NPC.height = 53;
+            NPC.noGravity = false;
+            NPC.knockBackResist = 0f;
 
-            npc.npcSlots = 1f;
-            npc.buffImmune[BuffID.Confused] = true;
-            npc.lavaImmune = false;
-            banner = npc.type;
-            npc.behindTiles = true;
+            NPC.npcSlots = 1f;
+            NPC.buffImmune[BuffID.Confused] = true;
+            NPC.lavaImmune = false;
+            banner = NPC.type;
+            NPC.behindTiles = true;
             //bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
-            npc.value = Item.sellPrice(0, 0, 0, 75);
+            NPC.value = Item.sellPrice(0, 0, 0, 75);
         }
 
         Vector2[] jointPoints;
@@ -52,17 +52,17 @@ namespace EEMod.NPCs.CoralReefs
         bool isCorrecting = true;
         public void DrawSpiderPort(Color drawColour)
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+            NPC.TargetClosest(true);
+            Player player = Main.player[NPC.target];
             Texture2D UpperLegTex = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderLegUpper");
             Texture2D LowerLegTex = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderLegLower");
             Texture2D KelpSpiderBody = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderBody");
             Texture2D UpperLegTexGlow = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderLegUpperGlow");
             Texture2D LowerLegTexGlow = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderLegLowerGlow");
             Texture2D KelpSpiderBodyGlow = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderBodyGlow");
-            float rotation = (player.Center - npc.Center).ToRotation() + (float)Math.PI;
+            float rotation = (player.Center - NPC.Center).ToRotation() + (float)Math.PI;
             bool cond = (rotation > 0 && rotation < Math.PI / 2f) || rotation > (float)Math.PI * 1.5f;
-            float lerpCache = Math.Abs((float)Math.Sin(npc.ai[1] / 200f));
+            float lerpCache = Math.Abs((float)Math.Sin(NPC.ai[1] / 200f));
             for (int i = 0; i < numberOfLegs; i++)
             {
 
@@ -186,7 +186,7 @@ namespace EEMod.NPCs.CoralReefs
             else
             {
                 VertVel -= 0.1f;
-                if (npc.ai[1] % ChanceToJump >= 10f)
+                if (NPC.ai[1] % ChanceToJump >= 10f)
                 {
                     OnGround = true;
                 }
@@ -216,11 +216,11 @@ namespace EEMod.NPCs.CoralReefs
         }
         void Movement()
         {
-            if (npc.Center.X < Main.player[npc.target].Center.X)
+            if (NPC.Center.X < Main.player[NPC.target].Center.X)
             {
                 velocityOfSpider += accell;
             }
-            if (npc.Center.X > Main.player[npc.target].Center.X)
+            if (NPC.Center.X > Main.player[NPC.target].Center.X)
             {
                 velocityOfSpider -= accell;
             }
@@ -241,38 +241,38 @@ namespace EEMod.NPCs.CoralReefs
         {
             for (int i = 0; i < numberOfLegs; i++)
             {
-                legPoints[i].Y += VertVel + (float)Math.Sin(npc.ai[1] / 10f) * 0.8f;
-                jointPoints[i].Y += VertVel + (float)Math.Cos(npc.ai[1] / 10f) * 0.8f;
-                legPoints[i].X += velocityOfSpider + (float)Math.Cos(npc.ai[1] / 7f + i) * 1.2f;
+                legPoints[i].Y += VertVel + (float)Math.Sin(NPC.ai[1] / 10f) * 0.8f;
+                jointPoints[i].Y += VertVel + (float)Math.Cos(NPC.ai[1] / 10f) * 0.8f;
+                legPoints[i].X += velocityOfSpider + (float)Math.Cos(NPC.ai[1] / 7f + i) * 1.2f;
                 jointPoints[i].X += velocityOfSpider;
             }
         }
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.22f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.22f);
         }
 
         public override void AI()
         {
-            if (npc.ai[0] == 0)
+            if (NPC.ai[0] == 0)
             {
-                SpiderBodyPosition = npc.Center;
-                npc.ai[0] = 1;
+                SpiderBodyPosition = NPC.Center;
+                NPC.ai[0] = 1;
             }
-            npc.ai[1]++;
+            NPC.ai[1]++;
             Movement();
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
-            Vector2 npcTilePos = npc.Center / 16;
+            NPC.TargetClosest(true);
+            Player player = Main.player[NPC.target];
+            Vector2 npcTilePos = NPC.Center / 16;
             bool ifAbove = Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).active() && Main.tileSolid[Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).type];
-            bool ifPlayerAbove = (npc.Center.Y - player.Center.Y) > 140;
+            bool ifPlayerAbove = (NPC.Center.Y - player.Center.Y) > 140;
             UpdateSpiderPort();
-            if (npc.ai[1] % ChanceToJump <= 5f && !ifAbove && ifPlayerAbove)
+            if (NPC.ai[1] % ChanceToJump <= 5f && !ifAbove && ifPlayerAbove)
             {
-                Jump(0.3f * (4 - (npc.ai[1] % ChanceToJump) / 5f), Helpers.Clamp(player.Center.X - npc.Center.X, -0.6f, 0.6f));
+                Jump(0.3f * (4 - (NPC.ai[1] % ChanceToJump) / 5f), Helpers.Clamp(player.Center.X - NPC.Center.X, -0.6f, 0.6f));
                 CanJump = false;
             }
-            else if (npc.ai[1] % ChanceToJump <= (ChanceToJump - 60) && !CanJump && npc.ai[1] % 300 >= 7)
+            else if (NPC.ai[1] % ChanceToJump <= (ChanceToJump - 60) && !CanJump && NPC.ai[1] % 300 >= 7)
             {
                 MakeJointsFollowVerticalDisplacement();
             }
@@ -281,7 +281,7 @@ namespace EEMod.NPCs.CoralReefs
                 CanJump = true;
             }
 
-            if (npc.ai[1] % ChanceToJump >= (ChanceToJump - 60) && !ifAbove && ifPlayerAbove)
+            if (NPC.ai[1] % ChanceToJump >= (ChanceToJump - 60) && !ifAbove && ifPlayerAbove)
             {
                 velocityOfSpider *= 0.98f;
                 PrepareForJump();
@@ -291,7 +291,7 @@ namespace EEMod.NPCs.CoralReefs
             {
                 PreparingForJump = false;
             }
-            npc.Center = SpiderBodyPosition;
+            NPC.Center = SpiderBodyPosition;
 
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

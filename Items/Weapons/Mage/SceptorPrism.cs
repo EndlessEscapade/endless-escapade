@@ -12,7 +12,7 @@ using EEMod.Items.Weapons.Ranger.Longbows;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class SceptorPrism : ModProjectile
+    public class SceptorPrism : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,54 +21,54 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            projectile.width = 30;
-            projectile.height = 38;
-            projectile.timeLeft = 1200;
-            projectile.ignoreWater = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
+            Projectile.width = 30;
+            Projectile.height = 38;
+            Projectile.timeLeft = 1200;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
         }
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
-            projectile.rotation = Vector2.Normalize(player.Center - projectile.Center).ToRotation() - MathHelper.PiOver2;
-            Vector2 posToBe = new Vector2(projectile.ai[0], projectile.ai[1]);
-            Vector2 direction = posToBe - projectile.position;
+            Projectile.rotation = Vector2.Normalize(player.Center - Projectile.Center).ToRotation() - MathHelper.PiOver2;
+            Vector2 posToBe = new Vector2(Projectile.ai[0], Projectile.ai[1]);
+            Vector2 direction = posToBe - Projectile.position;
             float speed = (float)Math.Sqrt(direction.Length()) / 2;
             if (speed > 0.1f)
             {
                 direction.Normalize();
                 direction *= speed;
-                projectile.velocity = direction;
+                Projectile.velocity = direction;
             }
             else
             {
-                projectile.velocity = Vector2.Zero;
+                Projectile.velocity = Vector2.Zero;
             }
 
-            if (projectile.timeLeft > 32)
+            if (Projectile.timeLeft > 32)
             {
-                var list = Main.projectile.Where(x => Vector2.Distance(projectile.Center, x.Center) <= 24);
+                var list = Main.projectile.Where(x => Vector2.Distance(Projectile.Center, x.Center) <= 24);
                 foreach (var proj in list)
                 {
                     if (proj.type == ModContent.ProjectileType<SceptorLaser>() && proj.active && proj.ai[0] == 0)
                     {
                         for (float i = -0.6f; i <= 0.6f; i += 0.4f)
                         {
-                            Projectile proj2 = Projectile.NewProjectileDirect(proj.Center - (Vector2.UnitY.RotatedBy((i + Math.PI) + projectile.rotation) * 60), 3 * Vector2.UnitY.RotatedBy((i + Math.PI) + projectile.rotation), ModContent.ProjectileType<ShimmerShotProj1>(), projectile.damage, projectile.knockBack, projectile.owner, 0, 1);
+                            Projectile proj2 = Projectile.NewProjectileDirect(proj.Center - (Vector2.UnitY.RotatedBy((i + Math.PI) + Projectile.rotation) * 60), 3 * Vector2.UnitY.RotatedBy((i + Math.PI) + Projectile.rotation), ModContent.ProjectileType<ShimmerShotProj1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, 1);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(proj2, Color.Lerp(Color.Cyan, Color.Magenta, i / ((i + 0.6f) / 1.2f)), 40));
                         }
                         proj.Kill();
-                        projectile.timeLeft = 32;
+                        Projectile.timeLeft = 32;
                     }
                 }
             }
             else
             {
-                projectile.alpha += 8;
+                Projectile.alpha += 8;
             }
         }
 
@@ -88,14 +88,14 @@ namespace EEMod.Items.Weapons.Mage
             EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
             EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/PrismLightMap"));
-            EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3() * (1 / (1 + projectile.alpha)));
-            EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3() * (1 / (1 + projectile.alpha)));
+            EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3() * (1 / (1 + Projectile.alpha)));
+            EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3() * (1 / (1 + Projectile.alpha)));
             EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.PrismShader.CurrentTechnique.Passes[0].Apply();
-            Vector2 drawOrigin = new Vector2(projectile.width / 2, projectile.height / 2);
-            Vector2 drawPos = projectile.position - Main.screenPosition;
+            Vector2 drawOrigin = new Vector2(Projectile.width / 2, Projectile.height / 2);
+            Vector2 drawPos = Projectile.position - Main.screenPosition;
             shadeColor.A = 150;
-            spriteBatch.Draw(Main.projectileTexture[projectile.type], drawPos + drawOrigin, null, shadeColor, projectile.rotation, drawOrigin, projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPos + drawOrigin, null, shadeColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return false;

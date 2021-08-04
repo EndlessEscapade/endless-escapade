@@ -6,7 +6,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 {
-    public class Hanging1x3Coral : ModTile
+    public class Hanging1x3Coral : EETile
     {
         public override void SetDefaults()
         {

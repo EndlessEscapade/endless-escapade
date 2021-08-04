@@ -15,7 +15,7 @@ using System.Linq;
 
 namespace EEMod.Tiles.Foliage.Aquamarine
 {
-    public class AquamarineLamp2 : ModTile
+    public class AquamarineLamp2 : EETile
     {
         public override void SetDefaults()
         {

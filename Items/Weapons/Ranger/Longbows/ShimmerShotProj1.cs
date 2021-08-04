@@ -10,7 +10,7 @@ using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Items.Weapons.Ranger.Longbows
 {
-    public class ShimmerShotProj1 : ModProjectile
+    public class ShimmerShotProj1 : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -19,22 +19,22 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.timeLeft = 30000;
-            projectile.ignoreWater = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 12;
-            projectile.hide = true;
-            projectile.tileCollide = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.timeLeft = 30000;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 12;
+            Projectile.hide = true;
+            Projectile.tileCollide = true;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(projectile.modProjectile, oldVelocity);
-            projectile.ai[0]++;
+            Bounce(Projectile.modProjectile, oldVelocity);
+            Projectile.ai[0]++;
             return false;
         }
 
@@ -55,9 +55,9 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
         public override void AI()
         {
-            if (projectile.ai[0] >= 3)
+            if (Projectile.ai[0] >= 3)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
     }

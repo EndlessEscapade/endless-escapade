@@ -16,7 +16,7 @@ using System.Linq;
 
 namespace EEMod.Items.Weapons.Summon.Minions
 {
-    public class PrismaticCaneProj : ModProjectile
+    public class PrismaticCaneProj : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -27,15 +27,15 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
         public override void SetDefaults()
         {
-            projectile.width = 22;
-            projectile.height = 22;
-            projectile.timeLeft = 999999999;
-            projectile.ignoreWater = true;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 12;
+            Projectile.width = 22;
+            Projectile.height = 22;
+            Projectile.timeLeft = 999999999;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 12;
         }
 
         public bool awake = false;
@@ -44,31 +44,31 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
         public override void AI()
         {
-            projectile.timeLeft = 999999999;
+            Projectile.timeLeft = 999999999;
 
-            Player owner = Main.player[projectile.owner];
+            Player owner = Main.player[Projectile.owner];
 
             Vector2 desiredVector;
 
-            projectile.ai[0] = owner.ownedProjectileCounts[projectile.type];
+            Projectile.ai[0] = owner.ownedProjectileCounts[Projectile.type];
 
             if (awake)
             {
                 desiredTarget = owner.Center;
 
-                desiredVector = desiredTarget + (Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 192);
+                desiredVector = desiredTarget + (Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / Projectile.ai[0] * Projectile.ai[1]) + Main.GameUpdateCount * 2)) * 192);
             }
             else
             {
                 desiredTarget = Main.MouseWorld;
 
-                desiredVector = desiredTarget + (Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * projectile.ai[1]) + Main.GameUpdateCount * 2)) * 192);
+                desiredVector = desiredTarget + (Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / Projectile.ai[0] * Projectile.ai[1]) + Main.GameUpdateCount * 2)) * 192);
             }
 
-            if (Vector2.Distance(projectile.Center, desiredVector) > 10)
-                projectile.Center += Vector2.Normalize(desiredVector - projectile.Center) * 3;
+            if (Vector2.Distance(Projectile.Center, desiredVector) > 10)
+                Projectile.Center += Vector2.Normalize(desiredVector - Projectile.Center) * 3;
             else
-                projectile.Center = desiredVector;
+                Projectile.Center = desiredVector;
         }
 
 
@@ -84,7 +84,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 heartBeat = 0;
             }
 
-            projectile.scale = 1f + (heartBeat / 5f);
+            Projectile.scale = 1f + (heartBeat / 5f);
 
             Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Summons/PrismaticCaneProj");
             Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
@@ -97,27 +97,27 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
             if (awake)
             {
-                desiredVector = desiredTarget + (Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * (projectile.ai[1] + 1)) + Main.GameUpdateCount * 2)) * 192);
+                desiredVector = desiredTarget + (Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / Projectile.ai[0] * (Projectile.ai[1] + 1)) + Main.GameUpdateCount * 2)) * 192);
             }
             else
             {
-                desiredVector = desiredTarget + (Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / projectile.ai[0] * (projectile.ai[1] + 1)) + Main.GameUpdateCount * 2)) * 192);
+                desiredVector = desiredTarget + (Vector2.UnitX.RotatedBy(MathHelper.ToRadians((360f / Projectile.ai[0] * (Projectile.ai[1] + 1)) + Main.GameUpdateCount * 2)) * 192);
             }
 
-            if (Vector2.Distance(projectile.Center, desiredTarget) <= 194)
+            if (Vector2.Distance(Projectile.Center, desiredTarget) <= 194)
             {
-                float n = 1 / (desiredVector - projectile.Center).Length();
+                float n = 1 / (desiredVector - Projectile.Center).Length();
 
                 for (float k = 0; k < 1; k += n)
                 {
-                    Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), projectile.Center + (desiredVector - projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f)), (desiredVector - projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), Projectile.Center + (desiredVector - Projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f)), (desiredVector - Projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
                 }
             }
 
-            Helpers.DrawAdditive(mask, projectile.Center.ForDraw(), Color.White * (0.5f + (heartBeat / 2f)), projectile.scale, projectile.rotation);
+            Helpers.DrawAdditive(mask, Projectile.Center.ForDraw(), Color.White * (0.5f + (heartBeat / 2f)), Projectile.scale, Projectile.rotation);
 
-            Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), new Rectangle(0, 0, 22, 22), lightColor, 0f, orig, projectile.scale, SpriteEffects.None, 0f);
-            Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), new Rectangle(0, 0, 22, 22), Color.White * heartBeat, 0f, orig, projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, Projectile.Center.ForDraw(), new Rectangle(0, 0, 22, 22), lightColor, 0f, orig, Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, Projectile.Center.ForDraw(), new Rectangle(0, 0, 22, 22), Color.White * heartBeat, 0f, orig, Projectile.scale, SpriteEffects.None, 0f);
 
             return false;
         }

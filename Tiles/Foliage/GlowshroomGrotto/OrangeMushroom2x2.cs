@@ -10,7 +10,7 @@ using System;
 
 namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 {
-    public class OrangeMushroom2x2 : ModTile
+    public class OrangeMushroom2x2 : EETile
     {
         public override void SetDefaults()
         {

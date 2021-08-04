@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class DruidsVine : ModProjectile
+    public class DruidsVine : EEProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
         public override void SetStaticDefaults()

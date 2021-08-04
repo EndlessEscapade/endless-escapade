@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Boomerangs
 {
-    public class FeatheredChakram : ModItem
+    public class FeatheredChakram : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,27 +15,27 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
 
         public override void SetDefaults()
         {
-            item.damage = 116;
-            item.melee = true;
-            item.noMelee = true;
-            item.width = 44;
-            item.height = 60;
-            item.useTime = 15;
-            item.useAnimation = 15;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.knockBack = 8;
-            item.value = Item.buyPrice(0, 5, 0, 0);
-            item.rare = ItemRarityID.Yellow;
-            item.UseSound = SoundID.Item1;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<FeatheredChakramProjectileAlt>();
-            item.shootSpeed = 16f;
-            item.noUseGraphic = true;
+            Item.damage = 116;
+            Item.melee = true;
+            Item.noMelee = true;
+            Item.width = 44;
+            Item.height = 60;
+            Item.useTime = 15;
+            Item.useAnimation = 15;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.knockBack = 8;
+            Item.value = Item.buyPrice(0, 5, 0, 0);
+            Item.rare = ItemRarityID.Yellow;
+            Item.UseSound = SoundID.Item1;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<FeatheredChakramProjectileAlt>();
+            Item.shootSpeed = 16f;
+            Item.noUseGraphic = true;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            return player.ownedProjectileCounts[item.shoot] < 4;
+            return player.ownedProjectileCounts[Item.shoot] < 4;
             //int no = 0;
             //for (int i = 0; i < Main.projectile.Length; i++)
             //{

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Buffs
 {
-    public class BabyHydrosBuff : ModBuff
+    public class BabyHydrosBuff : EEBuff
     {
         public override void SetDefaults()
         {

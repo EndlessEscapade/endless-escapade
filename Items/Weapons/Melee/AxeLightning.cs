@@ -8,7 +8,7 @@ using System;
 
 namespace EEMod.Items.Weapons.Melee
 {
-    public class AxeLightning : ModProjectile
+    public class AxeLightning : EEProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
 
@@ -19,18 +19,18 @@ namespace EEMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.aiStyle = -1;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.damage = 0;
-            projectile.timeLeft = 120;
-            projectile.alpha = 255;
-            projectile.extraUpdates = 3;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.aiStyle = -1;
+            Projectile.melee = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.damage = 0;
+            Projectile.timeLeft = 120;
+            Projectile.alpha = 255;
+            Projectile.extraUpdates = 3;
         }
 
         Vector2 initialVelocity = Vector2.Zero;
@@ -42,11 +42,11 @@ namespace EEMod.Items.Weapons.Melee
         {
             if (initialVelocity == Vector2.Zero)
             {
-                initialVelocity = projectile.velocity;
+                initialVelocity = Projectile.velocity;
             }
-            if (projectile.timeLeft % 10 == 0)
+            if (Projectile.timeLeft % 10 == 0)
             {
-                projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1, 1));
+                Projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1, 1));
             }
             /* if (projectile.timeLeft % 2 == 0)
              {
@@ -55,7 +55,7 @@ namespace EEMod.Items.Weapons.Melee
                  dust.scale = (float)Math.Sqrt(projectile.timeLeft) / 4;
                  dust.velocity = Vector2.Zero;
              }*/
-            DrawPos = projectile.position;
+            DrawPos = Projectile.position;
         }
     }
 }

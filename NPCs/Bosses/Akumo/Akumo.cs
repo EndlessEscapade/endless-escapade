@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Akumo
 {
-    public class Akumo : ModNPC
+    public class Akumo : EENPC
     {
         private int wingsPer = 6;
 
@@ -21,33 +21,33 @@ namespace EEMod.NPCs.Bosses.Akumo
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Akumo");
-            Main.npcFrameCount[npc.type] = 8;
+            Main.npcFrameCount[NPC.type] = 8;
         }
 
         public override void SetDefaults()
         {
-            npc.boss = true;
-            npc.lavaImmune = true;
-            npc.friendly = false;
-            npc.noGravity = true;
-            npc.aiStyle = -1;
-            npc.lifeMax = 50000;
-            npc.defense = 40;
-            npc.damage = 95;
-            npc.value = Item.buyPrice(0, 8, 0, 0);
-            npc.noTileCollide = true;
-            npc.width = 250;
-            npc.height = 230;
+            NPC.boss = true;
+            NPC.lavaImmune = true;
+            NPC.friendly = false;
+            NPC.noGravity = true;
+            NPC.aiStyle = -1;
+            NPC.lifeMax = 50000;
+            NPC.defense = 40;
+            NPC.damage = 95;
+            NPC.value = Item.buyPrice(0, 8, 0, 0);
+            NPC.noTileCollide = true;
+            NPC.width = 250;
+            NPC.height = 230;
             drawOffsetY = 40;
 
-            npc.npcSlots = 24f;
-            npc.knockBackResist = 0f;
+            NPC.npcSlots = 24f;
+            NPC.knockBackResist = 0f;
 
             musicPriority = MusicPriority.BossMedium;
 
-            for (int k = 0; k < npc.buffImmune.Length; k++)
+            for (int k = 0; k < NPC.buffImmune.Length; k++)
             {
-                npc.buffImmune[k] = true;
+                NPC.buffImmune[k] = true;
             }
 
             music = Compatibilities.EEMusic?.GetSoundSlot(SoundType.Music, "Sounds/Music/Precursors") ?? MusicID.Boss3;
@@ -60,25 +60,25 @@ namespace EEMod.NPCs.Bosses.Akumo
             frameUpdate++;
             if (frameUpdate == wingsPer)
             {
-                npc.frame.Y = npc.frame.Y + frameHeight;
+                NPC.frame.Y = NPC.frame.Y + frameHeight;
                 frameUpdate = 0;
             }
-            if (npc.frame.Y == frameHeight * 2)
+            if (NPC.frame.Y == frameHeight * 2)
             {
                 Main.PlaySound(SoundID.Item32);
             }
-            if (npc.frame.Y >= frameHeight * 8)
+            if (NPC.frame.Y >= frameHeight * 8)
             {
-                npc.frame.Y = 0;
+                NPC.frame.Y = 0;
                 return;
             }
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = 75000;
-            npc.damage = 110;
-            npc.defense = 55;
+            NPC.lifeMax = 75000;
+            NPC.damage = 110;
+            NPC.defense = 55;
         }
 
         public override void NPCLoot()
@@ -127,11 +127,11 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         public override void AI()
         {
-            if (npc.ai[2] == 0 || npc.ai[2] == 2)
+            if (NPC.ai[2] == 0 || NPC.ai[2] == 2)
             {
                 lengthOfAttack = lengthOfAttack1;
             }
-            else if (npc.ai[2] == 3)
+            else if (NPC.ai[2] == 3)
             {
                 lengthOfAttack = lengthOfAttack3;
             }
@@ -140,36 +140,36 @@ namespace EEMod.NPCs.Bosses.Akumo
                 lengthOfAttack = lengthOfAttack2;
             }
 
-            npc.TargetClosest(true);
+            NPC.TargetClosest(true);
             if (scree)
             {
                 Scree();
             }
 
-            Player player = Main.player[npc.target];
-            if (npc.ai[0] == 0)
+            Player player = Main.player[NPC.target];
+            if (NPC.ai[0] == 0)
             {
                 alpha = 1;
-                npc.position = new Vector2(player.Center.X, player.Center.Y - spawnOffset);
+                NPC.position = new Vector2(player.Center.X, player.Center.Y - spawnOffset);
             }
-            if (npc.velocity.X > 0)
+            if (NPC.velocity.X > 0)
             {
-                npc.spriteDirection = 1;
+                NPC.spriteDirection = 1;
             }
             else
             {
-                npc.spriteDirection = -1;
+                NPC.spriteDirection = -1;
             }
 
             isDashing = false;
             isVortexing = false;
             isCircling = false;
-            npc.rotation = npc.velocity.X / 40f;
+            NPC.rotation = NPC.velocity.X / 40f;
             DespawnHandler();
-            npc.ai[0]++;
-            if (npc.ai[0] >= nextAttackTime && npc.ai[0] <= nextAttackTime + lengthOfAttack + 1)
+            NPC.ai[0]++;
+            if (NPC.ai[0] >= nextAttackTime && NPC.ai[0] <= nextAttackTime + lengthOfAttack + 1)
             {
-                switch (npc.ai[2])
+                switch (NPC.ai[2])
                 {
                     case 0:
                         Dash();
@@ -189,48 +189,48 @@ namespace EEMod.NPCs.Bosses.Akumo
                 }
             }
 
-            if (!isDashing && !isVortexing && npc.ai[2] != -1 && !isCircling)
+            if (!isDashing && !isVortexing && NPC.ai[2] != -1 && !isCircling)
             {
                 switchPos(1);
                 Move(player, 8, 40);
                 wingspeed = 2;
             }
 
-            if (npc.ai[0] == nextAttackTime + lengthOfAttack + 2)
+            if (NPC.ai[0] == nextAttackTime + lengthOfAttack + 2)
             {
                 for (int i = 0; i < 20; i++)
                 {
-                    npc.ai[2] = Main.rand.Next(4);
+                    NPC.ai[2] = Main.rand.Next(4);
                 }
 
                 frameUpdate = 0;
                 alpha = 1;
                 scale = 0;
-                npc.ai[0] = 1;
-                npc.ai[1] = 0;
-                npc.ai[3]++;
-                npc.netUpdate = true;
+                NPC.ai[0] = 1;
+                NPC.ai[1] = 0;
+                NPC.ai[3]++;
+                NPC.netUpdate = true;
             }
-            if (npc.ai[3] > endurance)
+            if (NPC.ai[3] > endurance)
             {
-                npc.ai[3]++;
-                npc.ai[2] = -1;
+                NPC.ai[3]++;
+                NPC.ai[2] = -1;
             }
-            if (npc.ai[3] == lengthOfBreak)
+            if (NPC.ai[3] == lengthOfBreak)
             {
-                npc.ai[3] = 0;
-                npc.ai[2] = Main.rand.Next(2);
-                npc.ai[1] = 0;
-                npc.ai[0] = 1;
+                NPC.ai[3] = 0;
+                NPC.ai[2] = Main.rand.Next(2);
+                NPC.ai[1] = 0;
+                NPC.ai[0] = 1;
                 frameUpdate = 0;
                 alpha = 1;
                 scale = 0;
-                npc.netUpdate = true;
+                NPC.netUpdate = true;
             }
-            if (npc.ai[2] == -1)
+            if (NPC.ai[2] == -1)
             {
-                npc.velocity *= 0.994f;
-                if (npc.ai[0] == nextAttackTime + lengthOfAttack + 2)
+                NPC.velocity *= 0.994f;
+                if (NPC.ai[0] == nextAttackTime + lengthOfAttack + 2)
                 {
                     frameUpdate = 0;
                     wingspeed = 0.5f;
@@ -242,63 +242,63 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         private void Dash()
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
+            NPC.TargetClosest(true);
+            Player player = Main.player[NPC.target];
             isDashing = true;
-            if (npc.ai[0] == nextAttackTime)
+            if (NPC.ai[0] == nextAttackTime)
             {
                 akumoDirectionDescision = Main.rand.Next(3);
             }
 
             switchPos(akumoDirectionDescision);
-            if (npc.ai[0] < nextAttackTime + 80)
+            if (NPC.ai[0] < nextAttackTime + 80)
             {
                 Move(player, 30, 40);
             }
 
-            if (npc.ai[0] == nextAttackTime + 40)
+            if (NPC.ai[0] == nextAttackTime + 40)
             {
                 addOn *= 1.5f;
             }
 
-            if (npc.ai[0] >= nextAttackTime + 80)
+            if (NPC.ai[0] >= nextAttackTime + 80)
             {
-                if (npc.ai[1] == 0)
+                if (NPC.ai[1] == 0)
                 {
-                    npc.velocity = new Vector2((1 - akumoDirectionDescision) * (npc.ai[0] - (nextAttackTime + 80)) / 2, (npc.ai[0] - (nextAttackTime + 80)) / 2);
+                    NPC.velocity = new Vector2((1 - akumoDirectionDescision) * (NPC.ai[0] - (nextAttackTime + 80)) / 2, (NPC.ai[0] - (nextAttackTime + 80)) / 2);
                 }
 
-                if (npc.ai[1] == 1)
+                if (NPC.ai[1] == 1)
                 {
-                    npc.velocity *= 0.975f;
-                    if (npc.ai[0] < nextAttackTime + 90)
+                    NPC.velocity *= 0.975f;
+                    if (NPC.ai[0] < nextAttackTime + 90)
                     {
                         addOn = Vector2.Zero;
                         Move(player, 110, 20);
                     }
                 }
             }
-            if (npc.ai[0] >= nextAttackTime + lengthOfAttack && npc.ai[1] == 0)
+            if (NPC.ai[0] >= nextAttackTime + lengthOfAttack && NPC.ai[1] == 0)
             {
-                npc.ai[0] = nextAttackTime - 1;
-                npc.ai[1]++;
+                NPC.ai[0] = nextAttackTime - 1;
+                NPC.ai[1]++;
             }
         }
 
         private void Feathers()
         {
-            npc.velocity *= 0.98f;
+            NPC.velocity *= 0.98f;
             //isFeathering = true;
-            Player player = Main.player[npc.target];
-            npc.velocity.X = 0;
-            npc.velocity.Y = 0;
+            Player player = Main.player[NPC.target];
+            NPC.velocity.X = 0;
+            NPC.velocity.Y = 0;
             float Speed = 3f;
-            Vector2 vector8 = npc.Center;
+            Vector2 vector8 = NPC.Center;
             int damage = 10;
             int type = ModContent.ProjectileType<AkumoFeather>();
             float DisX = Main.rand.NextFloat(-1000f, 1000f);
             float rotation = (float)Math.Atan2(vector8.Y - (player.position.Y + (player.height * 0.5f)), vector8.X - (player.position.X + (player.width * 0.5f)));
-            if (npc.ai[0] % 5 == 0)
+            if (NPC.ai[0] % 5 == 0)
             {
                 Projectile.NewProjectile(vector8.X + DisX, vector8.Y - 1200, (float)(Math.Cos(rotation) * Speed * -1), (float)(Math.Sin(rotation) * Speed * -1), type, damage, 0f, 0);
             }
@@ -306,21 +306,21 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         private void Vortex()
         {
-            npc.velocity *= 0.98f;
+            NPC.velocity *= 0.98f;
             isVortexing = true;
-            if (npc.ai[0] == nextAttackTime)
+            if (NPC.ai[0] == nextAttackTime)
             {
                 frameUpdate = 0;
                 wingspeed = 5;
             }
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
-            Vector2 dist = new Vector2(npc.Center.X - player.Center.X, npc.Center.Y - player.Center.Y);
-            int speedReduce = 480 - (int)npc.ai[0] + 800;
+            NPC.TargetClosest(true);
+            Player player = Main.player[NPC.target];
+            Vector2 dist = new Vector2(NPC.Center.X - player.Center.X, NPC.Center.Y - player.Center.Y);
+            int speedReduce = 480 - (int)NPC.ai[0] + 800;
             dist /= speedReduce;
             int maxDistance = 1000;
             Rectangle rectangle1 = player.Hitbox;
-            Rectangle rectangle2 = new Rectangle((int)npc.position.X - maxDistance, (int)npc.position.Y - maxDistance, maxDistance * 2, maxDistance * 2);
+            Rectangle rectangle2 = new Rectangle((int)NPC.position.X - maxDistance, (int)NPC.position.Y - maxDistance, maxDistance * 2, maxDistance * 2);
 
             if (rectangle1.Intersects(rectangle2))
             {
@@ -328,22 +328,22 @@ namespace EEMod.NPCs.Bosses.Akumo
             }
             for (int i = 0; i < 20; i++)
             {
-                double deg = (double)npc.ai[1] + (i * 72);
+                double deg = (double)NPC.ai[1] + (i * 72);
                 double rad = deg * (Math.PI / 180);
 
-                int num7 = Dust.NewDust(npc.Center, npc.width, npc.height, DustID.WhiteTorch, 0f, 0f, 480 - (int)npc.ai[0], new Color(255, 255, 255, 255), (npc.ai[0] / 255) - 1);
-                Main.dust[num7].position.X = npc.Center.X - (int)(Math.Cos(rad) * (i * 30 * (1 - npc.ai[0] % 30 / 30)));
-                Main.dust[num7].position.Y = npc.Center.Y - (int)(Math.Sin(rad) * (i * 30 * (1 - npc.ai[0] % 30 / 30)));
+                int num7 = Dust.NewDust(NPC.Center, NPC.width, NPC.height, DustID.WhiteTorch, 0f, 0f, 480 - (int)NPC.ai[0], new Color(255, 255, 255, 255), (NPC.ai[0] / 255) - 1);
+                Main.dust[num7].position.X = NPC.Center.X - (int)(Math.Cos(rad) * (i * 30 * (1 - NPC.ai[0] % 30 / 30)));
+                Main.dust[num7].position.Y = NPC.Center.Y - (int)(Math.Sin(rad) * (i * 30 * (1 - NPC.ai[0] % 30 / 30)));
                 Main.dust[num7].noGravity = true;
 
-                npc.ai[1] += 0.5f;
+                NPC.ai[1] += 0.5f;
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     if (Main.rand.NextBool(2))
                     {
-                        Main.dust[num7].scale *= npc.ai[0] / 255;
+                        Main.dust[num7].scale *= NPC.ai[0] / 255;
                     }
-                    npc.netUpdate = true;
+                    NPC.netUpdate = true;
                 }
             }
         }
@@ -352,7 +352,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         {
             Vector2 moveTo = player.Center + addOn;
             float speed = sped;
-            Vector2 move = moveTo - npc.Center;
+            Vector2 move = moveTo - NPC.Center;
             float magnitude = move.Length(); // (float)Math.Sqrt(move.X * move.X + move.Y * move.Y);
             if (magnitude > speed)
             {
@@ -360,13 +360,13 @@ namespace EEMod.NPCs.Bosses.Akumo
             }
             float turnResistance = TR;
 
-            move = (npc.velocity * turnResistance + move) / (turnResistance + 1f);
+            move = (NPC.velocity * turnResistance + move) / (turnResistance + 1f);
             magnitude = move.Length();
             if (magnitude > speed)
             {
                 move *= speed / magnitude;
             }
-            npc.velocity = move;
+            NPC.velocity = move;
         }
 
         private void Scree()
@@ -382,59 +382,59 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         private void Ascend()
         {
-            npc.TargetClosest(true);
-            Player player = Main.player[npc.target];
-            if (npc.ai[0] > nextAttackTime && npc.ai[0] <= nextAttackTime + 120)
+            NPC.TargetClosest(true);
+            Player player = Main.player[NPC.target];
+            if (NPC.ai[0] > nextAttackTime && NPC.ai[0] <= nextAttackTime + 120)
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    int num7 = Dust.NewDust(npc.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, 4 - (npc.ai[0] - 240) / 90);
-                    Main.dust[num7].position = npc.Center;
+                    int num7 = Dust.NewDust(NPC.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, 4 - (NPC.ai[0] - 240) / 90);
+                    Main.dust[num7].position = NPC.Center;
                     Main.dust[num7].noGravity = true;
                 }
                 isCircling = true;
-                npc.velocity *= 0.98f;
-                double deg = ((double)npc.ai[0] - nextAttackTime) * 5;
+                NPC.velocity *= 0.98f;
+                double deg = ((double)NPC.ai[0] - nextAttackTime) * 5;
                 double rad = deg * (Math.PI / 180);
-                npc.velocity.X += (float)(Math.Cos(rad) * 1.4f);
-                npc.velocity.Y += (float)(Math.Sin(rad) * 1.4f);
+                NPC.velocity.X += (float)(Math.Cos(rad) * 1.4f);
+                NPC.velocity.Y += (float)(Math.Sin(rad) * 1.4f);
             }
-            if (npc.ai[0] >= nextAttackTime + 120 && npc.ai[0] <= nextAttackTime + 200)
+            if (NPC.ai[0] >= nextAttackTime + 120 && NPC.ai[0] <= nextAttackTime + 200)
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    int num7 = Dust.NewDust(npc.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, 2);
+                    int num7 = Dust.NewDust(NPC.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, 2);
                     Main.dust[num7].position.X = player.Center.X - 1000 + (i * 20);
                     Main.dust[num7].position.Y = player.Center.Y - 700;
                     Main.dust[num7].noGravity = false;
                 }
                 for (int i = 0; i < 2; i++)
                 {
-                    int num7 = Dust.NewDust(npc.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, (npc.ai[0] - 240) / 90);
-                    Main.dust[num7].position = npc.Center;
+                    int num7 = Dust.NewDust(NPC.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, (NPC.ai[0] - 240) / 90);
+                    Main.dust[num7].position = NPC.Center;
                     Main.dust[num7].noGravity = true;
                 }
                 isCircling = true;
-                npc.velocity.Y -= 1;
+                NPC.velocity.Y -= 1;
             }
-            if (npc.ai[0] >= nextAttackTime + 200)
+            if (NPC.ai[0] >= nextAttackTime + 200)
             {
-                if (npc.ai[0] < nextAttackTime + 230)
+                if (NPC.ai[0] < nextAttackTime + 230)
                 {
                     for (int i = 0; i < 100; i++)
                     {
-                        int num7 = Dust.NewDust(npc.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, 2);
+                        int num7 = Dust.NewDust(NPC.Center, 1, 1, DustID.Fire, 0f, 0f, 0, default, 2);
                         Main.dust[num7].position.X = player.Center.X - 1000 + (i * 20);
                         Main.dust[num7].position.Y = player.Center.Y - 700;
                         Main.dust[num7].noGravity = false;
                     }
                 }
-                if (npc.ai[0] == nextAttackTime + 200 && npc.ai[0] <= nextAttackTime + 360)
+                if (NPC.ai[0] == nextAttackTime + 200 && NPC.ai[0] <= nextAttackTime + 360)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scree").WithVolume(.7f).WithPitchVariance(4));
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BadScree").WithVolume(.8f).WithPitchVariance(3));
                 }
-                if (npc.ai[0] == nextAttackTime + 230)
+                if (NPC.ai[0] == nextAttackTime + 230)
                 {
                     Scree();
                 }
@@ -446,18 +446,18 @@ namespace EEMod.NPCs.Bosses.Akumo
 
         private void DespawnHandler()
         {
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
             if (!player.active || player.dead)
             {
-                npc.TargetClosest(false);
-                npc.dontTakeDamage = true;
-                player = Main.player[npc.target];
+                NPC.TargetClosest(false);
+                NPC.dontTakeDamage = true;
+                player = Main.player[NPC.target];
                 if (!player.active || player.dead)
                 {
-                    npc.velocity = new Vector2(0f, 10f);
-                    if (npc.timeLeft > 10)
+                    NPC.velocity = new Vector2(0f, 10f);
+                    if (NPC.timeLeft > 10)
                     {
-                        npc.timeLeft = 10;
+                        NPC.timeLeft = 10;
                     }
                 }
                 return;
@@ -465,7 +465,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         }
 
         private float alpha, scale;
-        private bool scree => npc.ai[0] < 60 && npc.ai[0] > 0;
+        private bool scree => NPC.ai[0] < 60 && NPC.ai[0] > 0;
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
@@ -478,23 +478,23 @@ namespace EEMod.NPCs.Bosses.Akumo
             //Main.spriteBatch.Begin();
             if (scree)
             {
-                if (npc.ai[0] == 1)
+                if (NPC.ai[0] == 1)
                 {
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/Scree").WithVolume(.7f).WithPitchVariance(4));
                     Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Custom/BadScree").WithVolume(.8f).WithPitchVariance(1.5f));
                 }
-                spriteBatch.Draw(texture, npc.Center - Main.screenPosition, npc.frame, drawColor * alpha, npc.rotation, npc.frame.Size() / 2, scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+                spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, NPC.frame, drawColor * alpha, NPC.rotation, NPC.frame.Size() / 2, scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             }
-            if (isDashing && npc.ai[0] >= nextAttackTime + 80)
+            if (isDashing && NPC.ai[0] >= nextAttackTime + 80)
             {
-                AfterImage.DrawAfterimage(spriteBatch, texture, 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+                AfterImage.DrawAfterimage(spriteBatch, texture, 0, NPC, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
             }
             if (isCircling)
             {
-                AfterImage.DrawAfterimage(spriteBatch, texture, 0, npc, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
-                if (npc.ai[0] >= nextAttackTime + 200)
+                AfterImage.DrawAfterimage(spriteBatch, texture, 0, NPC, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+                if (NPC.ai[0] >= nextAttackTime + 200)
                 {
-                    AfterImage.DrawAfterimage(spriteBatch, texture, 0, npc, 2, 1f, 6, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+                    AfterImage.DrawAfterimage(spriteBatch, texture, 0, NPC, 2, 1f, 6, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
                 }
             }
             return true;

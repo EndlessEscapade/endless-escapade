@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 {
-    public class GlowshroomVines : ModTile
+    public class GlowshroomVines : EETile
     {
         public override void SetDefaults()
         {

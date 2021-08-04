@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Ranger
 {
-    public class CoconutProjectile : ModProjectile
+    public class CoconutProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -12,20 +12,20 @@ namespace EEMod.Items.Weapons.Ranger
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = true;
-            projectile.ranged = true;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.friendly = true;
+            Projectile.ranged = true;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y = projectile.velocity.Y + 0.25f;
-            if (projectile.velocity.Y > 16f)
+            Projectile.velocity.Y = Projectile.velocity.Y + 0.25f;
+            if (Projectile.velocity.Y > 16f)
             {
-                projectile.velocity.Y = 16f;
+                Projectile.velocity.Y = 16f;
             }
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }
 }

@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
-    public class GreenKelpTile : ModTile
+    public class GreenKelpTile : EETile
     {
         public override void SetDefaults()
         {

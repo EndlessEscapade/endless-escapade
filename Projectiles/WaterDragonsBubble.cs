@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
-    public class WaterDragonsBubble : ModProjectile
+    public class WaterDragonsBubble : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,14 +14,14 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.timeLeft = 120;
-            projectile.penetrate = 3;
-            projectile.ranged = true;
-            projectile.damage = 5;
-            projectile.knockBack = 0;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 120;
+            Projectile.penetrate = 3;
+            Projectile.ranged = true;
+            Projectile.damage = 5;
+            Projectile.knockBack = 0;
         }
 
         public override void Kill(int timeLeft)
@@ -31,7 +31,7 @@ namespace EEMod.Projectiles
                 float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 15);
                 float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 15);
                 Vector2 offset = new Vector2(xdist, ydist);
-                Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 113, offset * 0.5f);
+                Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 113, offset * 0.5f);
                 dust.noGravity = true;
                 dust.velocity *= 0.97f;
                 dust.noLight = false;
@@ -40,14 +40,14 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            if (projectile.velocity.Y <= 2)
+            if (Projectile.velocity.Y <= 2)
             {
-                projectile.velocity.Y *= 1.02f;
+                Projectile.velocity.Y *= 1.02f;
             }
 
-            projectile.rotation = projectile.velocity.Y / 20f;
-            projectile.ai[0]++;
-            projectile.velocity.X = (float)Math.Sin(projectile.ai[0] / 10f) * 2;
+            Projectile.rotation = Projectile.velocity.Y / 20f;
+            Projectile.ai[0]++;
+            Projectile.velocity.X = (float)Math.Sin(Projectile.ai[0] / 10f) * 2;
             /*Vector2 position = projectile.Center;
             Dust dust = Dust.NewDustPerfect(position, 111,Vector2.Zero);
             dust.noGravity = true;

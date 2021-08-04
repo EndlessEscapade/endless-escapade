@@ -15,7 +15,7 @@ using EEMod;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class LunaJellyBottleTile : ModTile
+    public class LunaJellyBottleTile : EETile
     {
         public override void SetDefaults()
         {

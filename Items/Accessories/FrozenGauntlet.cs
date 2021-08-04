@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Accessories
 {
-    public class FrozenGauntlet : ModItem
+    public class FrozenGauntlet : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,10 +14,10 @@ namespace EEMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.accessory = true;
-            item.rare = ItemRarityID.Blue;
-            item.width = 32;
-            item.height = 34;
+            Item.accessory = true;
+            Item.rare = ItemRarityID.Blue;
+            Item.width = 32;
+            Item.height = 34;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

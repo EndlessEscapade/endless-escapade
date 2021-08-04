@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
-    public class EEParticle : ModProjectile
+    public class EEParticle : EEProjectile
     {
         public override void SetStaticDefaults()
         {

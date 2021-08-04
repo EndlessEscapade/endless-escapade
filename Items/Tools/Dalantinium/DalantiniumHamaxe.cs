@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Tools.Dalantinium
 {
-    public class DalantiniumHamaxe : ModItem
+    public class DalantiniumHamaxe : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,20 +14,20 @@ namespace EEMod.Items.Tools.Dalantinium
 
         public override void SetDefaults()
         {
-            item.axe = 13;
-            item.hammer = 50;
-            item.useTime = 38;
-            item.useAnimation = 38;
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Orange;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.sellPrice(0, 0, 48);
-            item.damage = 12;
-            item.melee = true;
-            item.autoReuse = true;
-            item.UseSound = SoundID.Item1;
-            item.knockBack = 3f;
+            Item.axe = 13;
+            Item.hammer = 50;
+            Item.useTime = 38;
+            Item.useAnimation = 38;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Orange;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.value = Item.sellPrice(0, 0, 48);
+            Item.damage = 12;
+            Item.melee = true;
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.Item1;
+            Item.knockBack = 3f;
         }
 
         public override void AddRecipes()

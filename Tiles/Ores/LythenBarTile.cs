@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Ores
 {
-    public class LythenBarTile : ModTile
+    public class LythenBarTile : EETile
     {
         public override void SetDefaults()
         {

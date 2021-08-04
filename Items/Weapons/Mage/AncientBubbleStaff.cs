@@ -8,7 +8,7 @@ using EEMod.Extensions;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class AncientBubbleStaff : ModItem
+    public class AncientBubbleStaff : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,28 +18,28 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            item.melee = false;
-            item.magic = true;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.value = Item.sellPrice(0, 0, 18, 0);
-            item.damage = 13;
-            item.useTime = 120;
-            item.useAnimation = 120;
-            item.width = 46;
-            item.height = 42;
-            item.mana = 12;
-            item.shootSpeed = 0f;
-            item.rare = ItemRarityID.Green;
-            item.knockBack = 5f;
-            item.useStyle = ItemUseStyleID.HoldingUp;
-            item.UseSound = SoundID.Item8;
-            item.shoot = ModContent.ProjectileType<AncientBubbleLarge>();
+            Item.melee = false;
+            Item.magic = true;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.value = Item.sellPrice(0, 0, 18, 0);
+            Item.damage = 13;
+            Item.useTime = 120;
+            Item.useAnimation = 120;
+            Item.width = 46;
+            Item.height = 42;
+            Item.mana = 12;
+            Item.shootSpeed = 0f;
+            Item.rare = ItemRarityID.Green;
+            Item.knockBack = 5f;
+            Item.useStyle = ItemUseStyleID.HoldingUp;
+            Item.UseSound = SoundID.Item8;
+            Item.shoot = ModContent.ProjectileType<AncientBubbleLarge>();
         }
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[item.shoot] < 1;
+            return player.ownedProjectileCounts[Item.shoot] < 1;
         }
 
         public override Vector2? HoldoutOffset()
@@ -50,8 +50,8 @@ namespace EEMod.Items.Weapons.Mage
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Texture2D texture;
-            texture = Main.itemTexture[item.type];
-            Vector2 vec = new Vector2(item.position.X + item.width * 0.5f, item.position.Y + item.height - texture.Height * 0.5f);
+            texture = Main.itemTexture[Item.type];
+            Vector2 vec = new Vector2(Item.position.X + Item.width * 0.5f, Item.position.Y + Item.height - texture.Height * 0.5f);
 
             spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/Weapons/Mage/AncientBubbleStaffGlow"), vec.ForDraw(), new Rectangle(0, 0, texture.Width, texture.Height), Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
         }

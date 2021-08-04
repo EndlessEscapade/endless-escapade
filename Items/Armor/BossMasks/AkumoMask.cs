@@ -6,7 +6,7 @@ using EEMod.Items.Placeables.Ores;
 namespace EEMod.Items.Armor.BossMasks
 {
     [AutoloadEquip(EquipType.Head)]
-    public class AkumoMask : ModItem
+    public class AkumoMask : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,9 +15,9 @@ namespace EEMod.Items.Armor.BossMasks
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.rare = ItemRarityID.Blue;
+            Item.width = 18;
+            Item.height = 18;
+            Item.rare = ItemRarityID.Blue;
         }
     }
 }

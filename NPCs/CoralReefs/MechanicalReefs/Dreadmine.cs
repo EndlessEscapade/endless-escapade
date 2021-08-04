@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
-    public class Dreadmine : ModProjectile
+    public class Dreadmine : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,32 +15,32 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 40;
-            projectile.penetrate = -1;
+            Projectile.width = 42;
+            Projectile.height = 40;
+            Projectile.penetrate = -1;
 
-            projectile.tileCollide = false;
-            projectile.friendly = false;
-            projectile.hostile = true;
-            projectile.damage = 200;
+            Projectile.tileCollide = false;
+            Projectile.friendly = false;
+            Projectile.hostile = true;
+            Projectile.damage = 200;
         }
 
-        private NPC OwnerNpc => Main.npc[(int)projectile.ai[0]];
+        private NPC OwnerNpc => Main.npc[(int)Projectile.ai[0]];
 
         // It appears that for this AI, only the ai0 field is used!
         public override void AI()
         {
-            projectile.Center = new Vector2(OwnerNpc.ai[2], OwnerNpc.ai[3]);
+            Projectile.Center = new Vector2(OwnerNpc.ai[2], OwnerNpc.ai[3]);
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
             for (int i = 0; i < 30; i++)
             {
-                Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Pixie);
+                Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Pixie);
             }
             Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode);
-            projectile.Kill();
+            Projectile.Kill();
             OwnerNpc.StrikeNPC(55, 0, 0);
         }
     }

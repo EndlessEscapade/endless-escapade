@@ -20,7 +20,7 @@ using EEMod.Items.Weapons.Melee.Yoyos;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
-    public class KelpFlower : ModTile
+    public class KelpFlower : EETile
     {
         public override void SetDefaults()
         {
@@ -105,7 +105,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         }
     }
 
-    public class KelpFlowerTE : ModTileEntity
+    public class KelpFlowerTE : EETileEntity
     {
         public Projectile myItem = null;
         public bool isOpen;

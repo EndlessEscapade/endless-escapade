@@ -12,7 +12,7 @@ using EEMod.Extensions;
 
 namespace EEMod.Projectiles.Enemy
 {
-    public class SpireAquamarineChunk : ModProjectile
+    public class SpireAquamarineChunk : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -21,27 +21,27 @@ namespace EEMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 36;
-            projectile.timeLeft = 30000;
-            projectile.ignoreWater = true;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 12;
-            projectile.tileCollide = true;
+            Projectile.width = 18;
+            Projectile.height = 36;
+            Projectile.timeLeft = 30000;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 12;
+            Projectile.tileCollide = true;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.Kill();
+            Projectile.Kill();
             return true;
         }
 
         public override void AI()
         {
-            projectile.velocity.Y *= 1.003f;
-            projectile.rotation += projectile.velocity.Y / 128f;
+            Projectile.velocity.Y *= 1.003f;
+            Projectile.rotation += Projectile.velocity.Y / 128f;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)

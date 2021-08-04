@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Tools.TropicalWood
 {
-    public class TropicalWoodAxe : ModItem
+    public class TropicalWoodAxe : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,19 +14,19 @@ namespace EEMod.Items.Tools.TropicalWood
 
         public override void SetDefaults()
         {
-            item.axe = 11;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Green;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 8;
-            item.melee = true;
-            item.autoReuse = true;
-            item.UseSound = SoundID.Item1;
-            item.knockBack = 2f;
+            Item.axe = 11;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.damage = 8;
+            Item.melee = true;
+            Item.autoReuse = true;
+            Item.UseSound = SoundID.Item1;
+            Item.knockBack = 2f;
         }
 
         public override void AddRecipes()

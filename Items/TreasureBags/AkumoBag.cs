@@ -9,23 +9,23 @@ using EEMod.Items.Weapons.Ranger.Launchers;
 
 namespace EEMod.Items.TreasureBags
 {
-    public class AkumoBag : ModItem
+    public class AkumoBag : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Treasure Bag");
-            ItemID.Sets.SortingPriorityMaterials[item.type] = 100;
+            ItemID.Sets.SortingPriorityMaterials[Item.type] = 100;
         }
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 34;
-            item.maxStack = 999;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Expert;
-            item.consumable = true;
-            item.UseSound = SoundID.Item2;
+            Item.width = 50;
+            Item.height = 34;
+            Item.maxStack = 999;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Expert;
+            Item.consumable = true;
+            Item.UseSound = SoundID.Item2;
         }
 
         public override void RightClick(Player player)

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class CoralsandstoneTile : ModTile
+    public class CoralsandstoneTile : EETile
     {
         public override void SetDefaults()
         {

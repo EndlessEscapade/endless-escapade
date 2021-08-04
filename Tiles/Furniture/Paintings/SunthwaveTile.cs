@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Paintings
 {
-    public class SunthwaveTile : ModTile
+    public class SunthwaveTile : EETile
     {
         public override void SetDefaults()
         {

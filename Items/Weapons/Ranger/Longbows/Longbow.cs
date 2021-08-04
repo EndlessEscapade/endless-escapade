@@ -8,7 +8,7 @@ using EEMod.Prim;
 
 namespace EEMod.Items.Weapons.Ranger.Longbows
 {
-    public abstract class Longbow : ModProjectile
+    public abstract class Longbow : EEProjectile
     {
         public virtual float speedOfArrow => 2;
         public virtual int newProj => ModContent.ProjectileType<CoralArrowProjectileLongbow>();
@@ -18,7 +18,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
         public virtual int projCount => 1;
         public virtual float projSpread => 0;
         protected float progression => projOwner.itemAnimation / (float)projOwner.itemAnimationMax;
-        protected Player projOwner => Main.player[projectile.owner];
+        protected Player projOwner => Main.player[Projectile.owner];
 
         public virtual List<int> exclude => new List<int> { };
         public float xDis;
@@ -27,16 +27,16 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
         public override void AI()
         {
-            projectile.direction = projOwner.direction;
-            projOwner.heldProj = projectile.whoAmI;
-            projectile.rotation = (Main.MouseWorld - projOwner.Center).ToRotation();
-            projectile.position.X = projOwner.Center.X - projectile.width / 2;
-            projectile.position.Y = projOwner.Center.Y - projectile.height / 2;
+            Projectile.direction = projOwner.direction;
+            projOwner.heldProj = Projectile.whoAmI;
+            Projectile.rotation = (Main.MouseWorld - projOwner.Center).ToRotation();
+            Projectile.position.X = projOwner.Center.X - Projectile.width / 2;
+            Projectile.position.Y = projOwner.Center.Y - Projectile.height / 2;
             float speed = speedOfArrow;
             projOwner.bodyFrame.Y = 56 * (6 + (int)(gravAccel - minGrav));
             if (!projOwner.controlUseItem)
             {
-                projectile.Kill();
+                Projectile.Kill();
 
                 Vector2 comedy = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
                 for (float i = 0; i < projCount; i++)
@@ -51,13 +51,13 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
                     float xdist = (int)(Math.Sin(i * (Math.PI / 180)) * 15);
                     float ydist = (int)(Math.Cos(i * (Math.PI / 180)) * 15);
                     Vector2 offset = new Vector2(xdist, ydist);
-                    Dust dust = Dust.NewDustPerfect(projectile.Center + offset, 113, offset * 0.5f);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 113, offset * 0.5f);
                     dust.noGravity = true;
                     dust.velocity *= 0.94f;
                     dust.noLight = false;
                 }
                 vanillaFlag = true;
-                projectile.ai[1] = 1;
+                Projectile.ai[1] = 1;
             }
         }
 

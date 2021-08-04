@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Runes
 {
-    public class BubblingWatersBubbleSmall : ModProjectile
+    public class BubblingWatersBubbleSmall : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,42 +14,42 @@ namespace EEMod.Projectiles.Runes
 
         public override void SetDefaults()
         {
-            projectile.width = 24;
-            projectile.height = 24;
-            projectile.friendly = true;
-            projectile.timeLeft = 900;
-            projectile.penetrate = 3;
-            projectile.ranged = true;
-            projectile.damage = 5;
-            projectile.knockBack = 0;
+            Projectile.width = 24;
+            Projectile.height = 24;
+            Projectile.friendly = true;
+            Projectile.timeLeft = 900;
+            Projectile.penetrate = 3;
+            Projectile.ranged = true;
+            Projectile.damage = 5;
+            Projectile.knockBack = 0;
         }
 
         public override void AI()
         {
-            Player owner = Main.player[projectile.owner];
-            projectile.ai[0]++;
+            Player owner = Main.player[Projectile.owner];
+            Projectile.ai[0]++;
 
-            if (projectile.ai[1] == 0)
+            if (Projectile.ai[1] == 0)
             {
-                projectile.Center = new Vector2((float)Math.Sin(projectile.ai[0] / 20) * 60 + owner.Center.X, (float)Math.Sin(projectile.ai[0] / 40) * 60 + owner.Center.Y);//(float)Math.Sin(projectile.ai[0] / 10f) * 2;
+                Projectile.Center = new Vector2((float)Math.Sin(Projectile.ai[0] / 20) * 60 + owner.Center.X, (float)Math.Sin(Projectile.ai[0] / 40) * 60 + owner.Center.Y);//(float)Math.Sin(projectile.ai[0] / 10f) * 2;
             }
 
-            if (projectile.ai[0] == 630)
+            if (Projectile.ai[0] == 630)
             {
-                projectile.ai[1] = 1;
-                projectile.velocity.Y = -1;
+                Projectile.ai[1] = 1;
+                Projectile.velocity.Y = -1;
             }
 
-            if (projectile.ai[1] == 1)
+            if (Projectile.ai[1] == 1)
             {
-                if (projectile.velocity.Y >= -8)
+                if (Projectile.velocity.Y >= -8)
                 {
-                    projectile.velocity.Y *= 1.03f;
+                    Projectile.velocity.Y *= 1.03f;
                 }
 
-                projectile.velocity.X = (float)Math.Sin(projectile.ai[0] / 20);
+                Projectile.velocity.X = (float)Math.Sin(Projectile.ai[0] / 20);
             }
-            projectile.rotation = projectile.velocity.Y / 20f;
+            Projectile.rotation = Projectile.velocity.Y / 20f;
         }
     }
 }

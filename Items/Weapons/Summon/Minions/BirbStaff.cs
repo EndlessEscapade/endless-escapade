@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Summon.Minions
 {
-    public class BirbStaff : ModItem
+    public class BirbStaff : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,21 +16,21 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
         public override void SetDefaults()
         {
-            item.summon = true;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 36;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.width = 20;
-            item.height = 20;
-            item.rare = ItemRarityID.Green;
-            item.knockBack = 5f;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.UseSound = SoundID.Item8;
-            item.shoot = ModContent.ProjectileType<AkumoMinion>();
-            item.buffType = ModContent.BuffType<AkumoBuff>();
+            Item.summon = true;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.damage = 36;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.width = 20;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Green;
+            Item.knockBack = 5f;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.UseSound = SoundID.Item8;
+            Item.shoot = ModContent.ProjectileType<AkumoMinion>();
+            Item.buffType = ModContent.BuffType<AkumoBuff>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

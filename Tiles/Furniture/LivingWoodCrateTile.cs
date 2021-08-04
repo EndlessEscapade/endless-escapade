@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class LivingWoodCrateTile : ModTile
+    public class LivingWoodCrateTile : EETile
     {
         public override void SetDefaults()
         {

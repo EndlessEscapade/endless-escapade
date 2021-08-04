@@ -9,7 +9,7 @@ using EEMod.Items.Placeables.Furniture.Paintings;
 
 namespace EEMod.Tiles.Furniture.Paintings
 {
-    public class MurdogTile : ModTile
+    public class MurdogTile : EETile
     {
         public override void SetDefaults()
         {

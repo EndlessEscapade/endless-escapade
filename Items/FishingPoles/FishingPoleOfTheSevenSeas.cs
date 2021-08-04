@@ -6,20 +6,20 @@ using EEMod.Projectiles.FishingBobbers;
 
 namespace EEMod.Items.FishingPoles
 {
-    public class FishingPoleOfTheSevenSeas : ModItem
+    public class FishingPoleOfTheSevenSeas : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Fishing Pole of the Seven Seas");
-            ItemID.Sets.CanFishInLava[item.type] = true;
+            ItemID.Sets.CanFishInLava[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.CloneDefaults(ItemID.WoodFishingPole);
-            item.fishingPole = 30;
-            item.shootSpeed = 14f;
-            item.shoot = ModContent.ProjectileType<FishingPoleOfTheSevenSeasBobber>();
+            Item.CloneDefaults(ItemID.WoodFishingPole);
+            Item.fishingPole = 30;
+            Item.shootSpeed = 14f;
+            Item.shoot = ModContent.ProjectileType<FishingPoleOfTheSevenSeasBobber>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class RustyPlatingTile : ModTile
+    public class RustyPlatingTile : EETile
     {
         /*public override void ChangeWaterfallStyle(ref int style)
         {

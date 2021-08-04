@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables
 {
-    public class LightGemsand : ModItem
+    public class LightGemsand : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,18 +14,18 @@ namespace EEMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 10;
-            item.rare = ItemRarityID.White;
-            item.value = Item.sellPrice(0, 0, 0, 0);
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 20;
-            item.useTime = 15;
-            item.consumable = true;
-            item.autoReuse = true;
-            item.maxStack = 999;
-            item.placeStyle = 10;
-            item.createTile = ModContent.TileType<LightGemsandTile>();
+            Item.width = 10;
+            Item.height = 10;
+            Item.rare = ItemRarityID.White;
+            Item.value = Item.sellPrice(0, 0, 0, 0);
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useAnimation = 20;
+            Item.useTime = 15;
+            Item.consumable = true;
+            Item.autoReuse = true;
+            Item.maxStack = 999;
+            Item.placeStyle = 10;
+            Item.createTile = ModContent.TileType<LightGemsandTile>();
         }
     }
 }

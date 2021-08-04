@@ -13,7 +13,7 @@ using Terraria.ObjectData;
 namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 {
 
-    public class GlowHangCoral2 : ModTile
+    public class GlowHangCoral2 : EETile
     {
         public override void SetDefaults()
         {

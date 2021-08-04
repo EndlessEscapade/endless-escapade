@@ -8,7 +8,7 @@ using static Terraria.ModLoader.ModContent;
 
 namespace EEMod.Items.TreasureBags
 {
-    public class KrakenBag : ModItem
+    public class KrakenBag : EEItem
     {
         public override void SetStaticDefaults()
         {

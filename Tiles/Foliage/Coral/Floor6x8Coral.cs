@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage.Coral
 {
-    public class Floor6x8Coral : ModTile
+    public class Floor6x8Coral : EETile
     {
         private bool isIntersecting;
         private int cooldown = 180;

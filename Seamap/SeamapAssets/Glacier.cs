@@ -2,7 +2,7 @@
 
 //namespace EEMod.Projectiles.OceanMap
 //{
-//    public class Glacier : ModProjectile
+//    public class Glacier : EEProjectile
 //    {
 //        public override void SetStaticDefaults()
 //        {

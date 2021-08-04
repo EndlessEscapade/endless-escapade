@@ -6,7 +6,7 @@ using EEMod.Projectiles;
 
 namespace EEMod.Items.Weapons.Summon.Whips
 {
-    public class KelpWhip : ModItem
+    public class KelpWhip : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,22 +15,22 @@ namespace EEMod.Items.Weapons.Summon.Whips
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.knockBack = 4f;
-            item.crit = 9;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 40;
-            item.useTime = 30;
-            item.width = 58;
-            item.height = 44;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/WhipUse");
-            item.noMelee = true;
-            item.summon = true;
-            item.noUseGraphic = true;
-            item.autoReuse = false;
-            item.shoot = ModContent.ProjectileType<KelpWhipProj>();
-            item.shootSpeed = 4.5f;
-            item.value = 1000;
+            Item.damage = 20;
+            Item.knockBack = 4f;
+            Item.crit = 9;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useAnimation = 40;
+            Item.useTime = 30;
+            Item.width = 58;
+            Item.height = 44;
+            Item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/WhipUse");
+            Item.noMelee = true;
+            Item.summon = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = false;
+            Item.shoot = ModContent.ProjectileType<KelpWhipProj>();
+            Item.shootSpeed = 4.5f;
+            Item.value = 1000;
         }
     }
 }

@@ -11,7 +11,7 @@ using EEMod.Extensions;
 namespace EEMod.Items.Armor.StormKnight
 {
     [AutoloadEquip(EquipType.Head)]
-    public class StormKnightCrest : ModItem
+    public class StormKnightCrest : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -21,11 +21,11 @@ namespace EEMod.Items.Armor.StormKnight
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 21);
-            item.rare = ItemRarityID.Green;
-            item.defense = 4;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 21);
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 4;
         }
 
         public override bool IsArmorSet(Item head, Item body, Item legs)

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables
 {
-    public class Coralsandstone : ModItem
+    public class Coralsandstone : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,19 +14,19 @@ namespace EEMod.Items.Placeables
 
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 10;
-            item.rare = ItemRarityID.White;
-            item.value = Item.sellPrice(0, 0, 0, 0);
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 15;
-            item.useTurn = true;
-            item.useTime = 7;
-            item.consumable = true;
-            item.autoReuse = true;
-            item.maxStack = 999;
+            Item.width = 10;
+            Item.height = 10;
+            Item.rare = ItemRarityID.White;
+            Item.value = Item.sellPrice(0, 0, 0, 0);
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useAnimation = 15;
+            Item.useTurn = true;
+            Item.useTime = 7;
+            Item.consumable = true;
+            Item.autoReuse = true;
+            Item.maxStack = 999;
             
-            item.createTile = ModContent.TileType<CoralsandstoneTile>();
+            Item.createTile = ModContent.TileType<CoralsandstoneTile>();
         }
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class KelpRockTile : ModTile
+    public class KelpRockTile : EETile
     {
         public override void SetDefaults()
         {

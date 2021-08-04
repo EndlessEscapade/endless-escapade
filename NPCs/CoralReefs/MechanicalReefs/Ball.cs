@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
-    public class Ball : ModNPC
+    public class Ball : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -16,24 +16,24 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.lifeMax = 50;
-            npc.damage = 0;
-            npc.defense = 3;
+            NPC.lifeMax = 50;
+            NPC.damage = 0;
+            NPC.defense = 3;
 
-            npc.width = 64;
-            npc.width = 64;
+            NPC.width = 64;
+            NPC.width = 64;
 
-            npc.knockBackResist = 0f;
-            npc.noGravity = true;
-            npc.npcSlots = 1f;
-            npc.buffImmune[BuffID.Confused] = true;
-            npc.lavaImmune = false;
-            npc.behindTiles = true;
-            npc.dontTakeDamage = true;
-            npc.friendly = true;
-            npc.value = Item.sellPrice(0, 0, 0, 75);
+            NPC.knockBackResist = 0f;
+            NPC.noGravity = true;
+            NPC.npcSlots = 1f;
+            NPC.buffImmune[BuffID.Confused] = true;
+            NPC.lavaImmune = false;
+            NPC.behindTiles = true;
+            NPC.dontTakeDamage = true;
+            NPC.friendly = true;
+            NPC.value = Item.sellPrice(0, 0, 0, 75);
         }
 
         private static float X(float t,
@@ -63,7 +63,7 @@ float x0, float x1, float x2, float x3)
             if (head != null && head.active && head.modNPC != null && head.modNPC is Ball)
             {
                 Texture2D neckTex2D = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/MechanicalReefs/DreadmineChain");
-                Vector2 neckOrigin = npc.Center;
+                Vector2 neckOrigin = NPC.Center;
                 Vector2 connector = ifYouReallyWantToo;
                 float chainsPerUse = 0.05f;
                 float POINT1X = (connector.X - neckOrigin.X) * 1 + neckOrigin.X;
@@ -94,7 +94,7 @@ float x0, float x1, float x2, float x3)
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.22f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.22f);
         }
 
         /* public override void NPCLoot()
@@ -104,32 +104,32 @@ float x0, float x1, float x2, float x3)
 
         public override void AI()
         {
-            if (npc.ai[0] == 0)
+            if (NPC.ai[0] == 0)
             {
-                Projectile.NewProjectile(npc.Center + new Vector2(0, -100), Vector2.Zero, ModContent.ProjectileType<Dreadmine>(), 150, 0f, Main.myPlayer, npc.whoAmI);
+                Projectile.NewProjectile(NPC.Center + new Vector2(0, -100), Vector2.Zero, ModContent.ProjectileType<Dreadmine>(), 150, 0f, Main.myPlayer, NPC.whoAmI);
             }
-            npc.ai[0]++;
-            double deg = (double)npc.ai[1] + 10;
+            NPC.ai[0]++;
+            double deg = (double)NPC.ai[1] + 10;
             double rad = deg * (Math.PI / 180) + Math.PI / 2;
             double dist = 180;
 
-            npc.ai[2] = npc.Center.X - (float)(Math.Cos(rad) * dist) - npc.width / 2;
-            npc.ai[3] = npc.Center.Y - (float)(Math.Sin(rad) * dist) - npc.height / 2;
+            NPC.ai[2] = NPC.Center.X - (float)(Math.Cos(rad) * dist) - NPC.width / 2;
+            NPC.ai[3] = NPC.Center.Y - (float)(Math.Sin(rad) * dist) - NPC.height / 2;
 
-            npc.ai[1] = (float)Math.Cos(npc.ai[0] * (Math.PI / 180)) * 10;
+            NPC.ai[1] = (float)Math.Cos(NPC.ai[0] * (Math.PI / 180)) * 10;
 
-            npc.velocity.Y = 2;
+            NPC.velocity.Y = 2;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color DrawColor)
         {
-            npc.TargetClosest(true);
+            NPC.TargetClosest(true);
             //Player player = Main.player[npc.target]; // unused
-            DrawColor = npc.GetAlpha(DrawColor);
-            DrawHead(spriteBatch, "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", npc, DrawColor, new Vector2(npc.ai[2], npc.ai[3]));
-            Texture2D texture = Main.npcTexture[npc.type];
+            DrawColor = NPC.GetAlpha(DrawColor);
+            DrawHead(spriteBatch, "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", NPC, DrawColor, new Vector2(NPC.ai[2], NPC.ai[3]));
+            Texture2D texture = Main.npcTexture[NPC.type];
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-            spriteBatch.Draw(texture, npc.Center - Main.screenPosition + new Vector2(0, 8), null, DrawColor, npc.rotation, origin, npc.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0, 8), null, DrawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
     }

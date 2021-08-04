@@ -12,7 +12,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage
 {
-    public class LilyPadSmol : ModTile
+    public class LilyPadSmol : EETile
     {
         public override void SetDefaults()
         {

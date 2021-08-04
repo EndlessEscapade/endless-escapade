@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Ranger.Guns
 {
-    public class CoconutCannon : ModItem
+    public class CoconutCannon : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,24 +14,24 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 
         public override void SetDefaults()
         {
-            item.melee = false;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.ranged = true;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 35;
-            item.useTime = 60;
-            item.useAnimation = 60;
-            item.width = 20;
-            item.height = 20;
-            item.shoot = ModContent.ProjectileType<CoconutProjectile>();
-            item.rare = ItemRarityID.Orange;
-            item.knockBack = 5f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.shootSpeed = 17f;
-            item.UseSound = SoundID.Item11;
-            item.ammo = ModContent.ItemType<Coconut>();
-            item.notAmmo = true;
+            Item.melee = false;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.ranged = true;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.damage = 35;
+            Item.useTime = 60;
+            Item.useAnimation = 60;
+            Item.width = 20;
+            Item.height = 20;
+            Item.shoot = ModContent.ProjectileType<CoconutProjectile>();
+            Item.rare = ItemRarityID.Orange;
+            Item.knockBack = 5f;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.shootSpeed = 17f;
+            Item.UseSound = SoundID.Item11;
+            Item.ammo = ModContent.ItemType<Coconut>();
+            Item.notAmmo = true;
         }
     }
 }

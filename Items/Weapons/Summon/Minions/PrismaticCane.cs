@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace EEMod.Items.Weapons.Summon.Minions
 {
-    public class PrismaticCane : ModItem
+    public class PrismaticCane : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,31 +16,31 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
         public override void SetDefaults()
         {
-            item.summon = true;
-            item.noMelee = true;
-            item.autoReuse = false;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 13;
-            item.useTime = 26;
-            item.useAnimation = 26;
-            item.width = 38;
-            item.height = 36;
-            item.rare = ItemRarityID.Pink;
-            item.knockBack = 0f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item8;
-            item.shoot = ModContent.ProjectileType<PrismaticCaneProj>();
+            Item.summon = true;
+            Item.noMelee = true;
+            Item.autoReuse = false;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.damage = 13;
+            Item.useTime = 26;
+            Item.useAnimation = 26;
+            Item.width = 38;
+            Item.height = 36;
+            Item.rare = ItemRarityID.Pink;
+            Item.knockBack = 0f;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.UseSound = SoundID.Item8;
+            Item.shoot = ModContent.ProjectileType<PrismaticCaneProj>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            if (player.altFunctionUse == 0 && Main.LocalPlayer.ownedProjectileCounts[item.shoot] < Main.LocalPlayer.maxMinions + 3)
+            if (player.altFunctionUse == 0 && Main.LocalPlayer.ownedProjectileCounts[Item.shoot] < Main.LocalPlayer.maxMinions + 3)
             {
-                item.useTime = 26;
-                item.useAnimation = 26;
-                item.useStyle = ItemUseStyleID.HoldingOut;
+                Item.useTime = 26;
+                Item.useAnimation = 26;
+                Item.useStyle = ItemUseStyleID.HoldingOut;
 
-                if (Main.LocalPlayer.ownedProjectileCounts[item.shoot] == 0)
+                if (Main.LocalPlayer.ownedProjectileCounts[Item.shoot] == 0)
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -51,7 +51,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 else
                 {
                     Projectile proj = Projectile.NewProjectileDirect(player.Center, Vector2.Zero, ModContent.ProjectileType<PrismaticCaneProj>(), 10, 0f, Main.myPlayer);
-                    proj.ai[1] = Main.LocalPlayer.ownedProjectileCounts[item.shoot];
+                    proj.ai[1] = Main.LocalPlayer.ownedProjectileCounts[Item.shoot];
                 }
             }
 

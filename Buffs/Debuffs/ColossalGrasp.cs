@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Debuffs
 {
-    public class ColossalGrasp : ModBuff
+    public class ColossalGrasp : EEBuff
     {
         public override void SetDefaults()
         {

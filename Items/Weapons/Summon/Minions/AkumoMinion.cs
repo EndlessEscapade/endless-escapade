@@ -9,31 +9,31 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Summon.Minions
 {
-    public class AkumoMinion : ModProjectile
+    public class AkumoMinion : EEProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Minikumo");
-            Main.projFrames[projectile.type] = 4;
-            Main.projPet[projectile.type] = true;
-            ProjectileID.Sets.MinionSacrificable[projectile.type] = false;
-            ProjectileID.Sets.Homing[projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[projectile.type] = true;
+            Main.projFrames[Projectile.type] = 4;
+            Main.projPet[Projectile.type] = true;
+            ProjectileID.Sets.MinionSacrificable[Projectile.type] = false;
+            ProjectileID.Sets.Homing[Projectile.type] = true;
+            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 56;
-            projectile.height = 58;
-            projectile.penetrate = -1;
-            projectile.minion = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.minionSlots = 1;
-            projectile.friendly = true;
-            projectile.damage = 50;
-            projectile.knockBack = 4f;
-            projectile.hostile = false;
+            Projectile.width = 56;
+            Projectile.height = 58;
+            Projectile.penetrate = -1;
+            Projectile.minion = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.minionSlots = 1;
+            Projectile.friendly = true;
+            Projectile.damage = 50;
+            Projectile.knockBack = 4f;
+            Projectile.hostile = false;
         }
 
         private Color minionGlow;
@@ -43,19 +43,19 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
         public override void AI()
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
             /*            if (!player.HasBuff(ModContent.BuffType<AkumoBuff>()))
                             projectile.Kill();*/
 
             //Animation
-            projectile.frameCounter++;
-            if (projectile.frameCounter >= frameSpeed)
+            Projectile.frameCounter++;
+            if (Projectile.frameCounter >= frameSpeed)
             {
-                projectile.frameCounter = 0;
-                projectile.frame++;
-                if (projectile.frame >= Main.projFrames[projectile.type])
+                Projectile.frameCounter = 0;
+                Projectile.frame++;
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
                 {
-                    projectile.frame = 0;
+                    Projectile.frame = 0;
                 }
             }
 
@@ -64,52 +64,52 @@ namespace EEMod.Items.Weapons.Summon.Minions
             int closestDist = 10000000;
             for (int i = 0; i < npcs; i++)
             {
-                if (Vector2.Distance(Main.npc[i].Center, projectile.Center) < closestDist && Main.npc[i].active && !Main.npc[i].friendly)
+                if (Vector2.Distance(Main.npc[i].Center, Projectile.Center) < closestDist && Main.npc[i].active && !Main.npc[i].friendly)
                 {
                     target = Main.npc[i];
-                    closestDist = (int)Vector2.Distance(Main.npc[i].Center, projectile.Center);
+                    closestDist = (int)Vector2.Distance(Main.npc[i].Center, Projectile.Center);
                 }
             }
             if (target != null)
             {
-                projectile.ai[1] = Main.npc[target.whoAmI].whoAmI;
+                Projectile.ai[1] = Main.npc[target.whoAmI].whoAmI;
             }
 
             projectileAiCont[4]++;
-            if (target == null || Vector2.Distance(target.Center, projectile.Center) >= 12800)
+            if (target == null || Vector2.Distance(target.Center, Projectile.Center) >= 12800)
             {
-                projectile.ai[0] = 0;
+                Projectile.ai[0] = 0;
             }
             else
             {
                 if (projectileAiCont[4] >= 300)
                 {
-                    projectile.ai[0] = Main.rand.Next(2, 4);
+                    Projectile.ai[0] = Main.rand.Next(2, 4);
                     projectileAiCont[4] = 0;
-                    projectileAiCont[1] = projectile.ai[0] == 3 || projectile.ai[0] == 2 ? 45 : 0;
+                    projectileAiCont[1] = Projectile.ai[0] == 3 || Projectile.ai[0] == 2 ? 45 : 0;
                     projectileAiCont[0] = 0;
                     projectileAiCont[2] = 0;
                     projectileAiCont[3] = 1;
                 }
             }
 
-            projectile.spriteDirection = projectile.velocity.X > 0 ? -1 : 1;
-            projectile.rotation = projectile.velocity.X / 12;
+            Projectile.spriteDirection = Projectile.velocity.X > 0 ? -1 : 1;
+            Projectile.rotation = Projectile.velocity.X / 12;
 
             #region Attacks
 
-            if (Main.player[projectile.owner].statLife <= Main.player[projectile.owner].statLifeMax && reinforcements[2] == default && target != null)
+            if (Main.player[Projectile.owner].statLife <= Main.player[Projectile.owner].statLifeMax && reinforcements[2] == default && target != null)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     if (reinforcements[i] == default)
                     {
                         Main.NewText(i + "AE");
-                        reinforcements[i] = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: MathHelper.TwoPi / 3 * i, ai1: target.whoAmI);
+                        reinforcements[i] = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: MathHelper.TwoPi / 3 * i, ai1: target.whoAmI);
                     }
                 }
             }
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
                 frameSpeed = 6;
                 if (projectileAiCont[0] > 0)
@@ -117,23 +117,23 @@ namespace EEMod.Items.Weapons.Summon.Minions
                     projectileAiCont[0] -= 0.1f;
                 }
 
-                Player owner = Main.player[projectile.owner];
-                if (!projectile.WithinRange(owner.MountedCenter, 1600)) //(Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center) >= 1600)
+                Player owner = Main.player[Projectile.owner];
+                if (!Projectile.WithinRange(owner.MountedCenter, 1600)) //(Vector2.Distance(projectile.Center, Main.player[projectile.owner].Center) >= 1600)
                 {
                     minionGlow = Color.White;
                     projectileAiCont[0] = 2.5f;
-                    projectile.velocity = Vector2.Zero;
-                    projectile.Center = owner.Center + new Vector2(Main.rand.Next(-80, 80), Main.rand.Next(-80, 80));
+                    Projectile.velocity = Vector2.Zero;
+                    Projectile.Center = owner.Center + new Vector2(Main.rand.Next(-80, 80), Main.rand.Next(-80, 80));
                 }
 
-                projectile.velocity -= Vector2.Normalize(projectile.Center - Main.player[projectile.owner].Center) / 8;
-                if ((projectile.velocity.X + projectile.velocity.Y) / 2 < 4)
+                Projectile.velocity -= Vector2.Normalize(Projectile.Center - Main.player[Projectile.owner].Center) / 8;
+                if ((Projectile.velocity.X + Projectile.velocity.Y) / 2 < 4)
                 {
-                    projectile.velocity *= 1.001f;
+                    Projectile.velocity *= 1.001f;
                 }
                 else
                 {
-                    projectile.velocity *= 0.96f;
+                    Projectile.velocity *= 0.96f;
                 }
             }
             /*if (projectile.ai[0] == 1)
@@ -180,11 +180,11 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 #endregion Fire attack
             }*/
 
-            if (projectile.ai[0] == 2)
+            if (Projectile.ai[0] == 2)
             {
                 #region Feather attack
 
-                projectile.velocity *= 0.98f;
+                Projectile.velocity *= 0.98f;
 
                 frameSpeed = 5;
                 if (projectileAiCont[0] < 5)
@@ -195,13 +195,13 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 minionGlow = Color.OrangeRed;
 
                 projectileAiCont[2] += 0.02f;
-                projectile.velocity = Vector2.Normalize(projectile.Center - new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) * -2 - projectile.velocity * 0.03f;
-                if (Vector2.DistanceSquared(projectile.Center, new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) <= 4 * 4)
+                Projectile.velocity = Vector2.Normalize(Projectile.Center - new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) * -2 - Projectile.velocity * 0.03f;
+                if (Vector2.DistanceSquared(Projectile.Center, new Vector2(target.Center.X + (float)Math.Sin(projectileAiCont[2]) * 128, target.position.Y - 120)) <= 4 * 4)
                 {
-                    projectile.spriteDirection = target.Center.X >= projectile.Center.X ? -1 : 1;
-                    projectile.rotation = 0;
+                    Projectile.spriteDirection = target.Center.X >= Projectile.Center.X ? -1 : 1;
+                    Projectile.rotation = 0;
                 }
-                projectile.velocity *= 1.005f;
+                Projectile.velocity *= 1.005f;
                 projectileAiCont[1]++;
                 if (projectileAiCont[1] >= 45)
                 {
@@ -218,7 +218,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 #endregion Feather attack
             }
 
-            if (projectile.ai[0] == 3)
+            if (Projectile.ai[0] == 3)
             {
                 #region Dash attack
 
@@ -230,11 +230,11 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 else
                 {
                     projectileAiCont[1]++;
-                    Dust dust = Dust.NewDustPerfect(projectile.Center, DustID.Fire);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Fire);
                     dust.noGravity = true;
                     if (projectileAiCont[1] >= 20 / projectileAiCont[3])
                     {
-                        projectile.velocity = Vector2.Normalize(projectile.Center - target.Center) * -8 * projectileAiCont[3];
+                        Projectile.velocity = Vector2.Normalize(Projectile.Center - target.Center) * -8 * projectileAiCont[3];
                         projectileAiCont[1] = 0;
                         projectileAiCont[0] = 0;
                     }
@@ -256,12 +256,12 @@ namespace EEMod.Items.Weapons.Summon.Minions
         {
             float funnySin = (float)Math.Sin(projectileAiCont[0]);
             Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Summons/AkumoMinionGlow");
-            Vector2 funny = projectile.Center.ForDraw();
-            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, projectile.Center, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
-            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, 10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, projectile.Center, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
-            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * -10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, projectile.Center, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
-            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, -10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f, projectile.rotation, projectile.Center, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
-            Main.spriteBatch.Draw(texture, new Rectangle((int)funny.X, (int)funny.Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.75f, projectile.rotation, projectile.Center, projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Vector2 funny = Projectile.Center.ForDraw();
+            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, Projectile.width, Projectile.height), texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), minionGlow * funnySin * 0.5f, Projectile.rotation, Projectile.Center, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, 10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, Projectile.width, Projectile.height), texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), minionGlow * funnySin * 0.5f, Projectile.rotation, Projectile.Center, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * -10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, Projectile.width, Projectile.height), texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), minionGlow * funnySin * 0.5f, Projectile.rotation, Projectile.Center, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, -10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, Projectile.width, Projectile.height), texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), minionGlow * funnySin * 0.5f, Projectile.rotation, Projectile.Center, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
+            Main.spriteBatch.Draw(texture, new Rectangle((int)funny.X, (int)funny.Y, Projectile.width, Projectile.height), texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), minionGlow * funnySin * 0.75f, Projectile.rotation, Projectile.Center, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

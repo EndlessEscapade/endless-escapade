@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class DarkGemsandTile : ModTile
+    public class DarkGemsandTile : EETile
     {
         public override void SetDefaults()
         {

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
-    public class WhiteBlock : ModProjectile
+    public class WhiteBlock : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -14,17 +14,17 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.alpha = 0;
-            projectile.timeLeft = 60000;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.scale *= 0.75f;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 60000;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.magic = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.scale *= 0.75f;
         }
 
         //private void LookToPlayer() // unused
@@ -54,18 +54,18 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            projectile.ai[0] += 5;
-            if (projectile.ai[0] >= 255)
+            Projectile.ai[0] += 5;
+            if (Projectile.ai[0] >= 255)
             {
-                projectile.ai[0] = 0;
+                Projectile.ai[0] = 0;
             }
-            projectile.alpha = (int)projectile.ai[0];
-            projectile.scale = 0.75f + projectile.ai[0] / 255;
+            Projectile.alpha = (int)Projectile.ai[0];
+            Projectile.scale = 0.75f + Projectile.ai[0] / 255;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Main.spriteBatch.Draw(itemTexture, projectile.Center - Main.screenPosition, null, Color.White, projectile.rotation, projectile.Size / 2f, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(itemTexture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, Projectile.Size / 2f, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0);
             return true;
         }
     }

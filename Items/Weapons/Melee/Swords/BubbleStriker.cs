@@ -7,7 +7,7 @@ using System;
 
 namespace EEMod.Items.Weapons.Melee.Swords
 {
-	public class BubbleStriker : ModItem
+	public class BubbleStriker : EEItem
 	{
 		public override void SetStaticDefaults()
 		{
@@ -16,32 +16,32 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
 		public override void SetDefaults()
 		{
-			item.damage = 20;
-			item.useStyle = ItemUseStyleID.SwingThrow;
-			item.useAnimation = 25;
-			item.useTime = 25;
-			item.shootSpeed = 0;
-			item.knockBack = 6.5f;
-			item.width = 46;
-			item.height = 48;
-			item.scale = 1f;
-			item.rare = ItemRarityID.Purple;
-			item.value = Item.sellPrice(silver: 10);
+			Item.damage = 20;
+			Item.useStyle = ItemUseStyleID.SwingThrow;
+			Item.useAnimation = 25;
+			Item.useTime = 25;
+			Item.shootSpeed = 0;
+			Item.knockBack = 6.5f;
+			Item.width = 46;
+			Item.height = 48;
+			Item.scale = 1f;
+			Item.rare = ItemRarityID.Purple;
+			Item.value = Item.sellPrice(silver: 10);
 
-			item.melee = true;
-			item.autoReuse = false;
+			Item.melee = true;
+			Item.autoReuse = false;
 
-			item.UseSound = SoundID.Item1;
+			Item.UseSound = SoundID.Item1;
 		}
 		public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
 		{
 			for (int i = 0; i < 5; i++)
 			{
-				Projectile.NewProjectileDirect(target.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * new Vector2(8, 0), ModContent.ProjectileType<BubbleStrikerProj>(), item.damage, item.knockBack, player.whoAmI, target.whoAmI).scale = Main.rand.NextFloat(0.85f, 1.15f);
+				Projectile.NewProjectileDirect(target.Center, Main.rand.NextFloat(6.28f).ToRotationVector2() * new Vector2(8, 0), ModContent.ProjectileType<BubbleStrikerProj>(), Item.damage, Item.knockBack, player.whoAmI, target.whoAmI).scale = Main.rand.NextFloat(0.85f, 1.15f);
 			}
 		}
 	}
-	public class BubbleStrikerProj : ModProjectile
+	public class BubbleStrikerProj : EEProjectile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -49,16 +49,16 @@ namespace EEMod.Items.Weapons.Melee.Swords
 		}
 		public override void SetDefaults()
 		{
-			projectile.penetrate = 1;
-			projectile.tileCollide = true;
-			projectile.hostile = false;
-			projectile.friendly = true;
-			projectile.width = projectile.height = 32;
-			ProjectileID.Sets.TrailCacheLength[projectile.type] = 9;
-			ProjectileID.Sets.TrailingMode[projectile.type] = 0;
-			projectile.timeLeft = 100;
-			projectile.usesLocalNPCImmunity = true;
-			projectile.ownerHitCheck = true;
+			Projectile.penetrate = 1;
+			Projectile.tileCollide = true;
+			Projectile.hostile = false;
+			Projectile.friendly = true;
+			Projectile.width = Projectile.height = 32;
+			ProjectileID.Sets.TrailCacheLength[Projectile.type] = 9;
+			ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
+			Projectile.timeLeft = 100;
+			Projectile.usesLocalNPCImmunity = true;
+			Projectile.ownerHitCheck = true;
 		}
 		int enemyID;
 		public bool stuck = false;
@@ -73,65 +73,65 @@ namespace EEMod.Items.Weapons.Melee.Swords
 			if (stuck)
 			{
 				NPC target = Main.npc[enemyID];
-				if ((!target.active || pop) && !projectile.friendly)
+				if ((!target.active || pop) && !Projectile.friendly)
 				{
 					if (Main.LocalPlayer.GetModPlayer<EEPlayer>().Shake < 20)
 						Main.LocalPlayer.GetModPlayer<EEPlayer>().Shake +=1;
 					for (int i = 0; i < 20; i++)
 					{
-						int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.FungiHit, 0f, -2f, 0, default(Color), 2f);
+						int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.FungiHit, 0f, -2f, 0, default(Color), 2f);
 						Main.dust[num].noGravity = true;
 						Main.dust[num].position.X += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].position.Y += Main.rand.Next(-50, 51) * .05f - 1.5f;
 						Main.dust[num].scale *= .4f;
-						if (Main.dust[num].position != projectile.Center)
-							Main.dust[num].velocity = projectile.DirectionTo(Main.dust[num].position) * 8f;
+						if (Main.dust[num].position != Projectile.Center)
+							Main.dust[num].velocity = Projectile.DirectionTo(Main.dust[num].position) * 8f;
 					}
-					projectile.alpha = 255;
-					if (projectile.timeLeft > 2)
-						projectile.timeLeft = 2;
-					projectile.friendly = true;
-					projectile.penetrate = -1;
+					Projectile.alpha = 255;
+					if (Projectile.timeLeft > 2)
+						Projectile.timeLeft = 2;
+					Projectile.friendly = true;
+					Projectile.penetrate = -1;
 
-					projectile.position -= new Vector2(EXPLOSIONRADIUS, EXPLOSIONRADIUS);
-					projectile.width = EXPLOSIONRADIUS * 2;
-					projectile.height = EXPLOSIONRADIUS * 2;
-					Main.PlaySound(SoundID.Item, (int)projectile.position.X, (int)projectile.position.Y, 54);
+					Projectile.position -= new Vector2(EXPLOSIONRADIUS, EXPLOSIONRADIUS);
+					Projectile.width = EXPLOSIONRADIUS * 2;
+					Projectile.height = EXPLOSIONRADIUS * 2;
+					Main.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
 					for (int i = 0; i < Main.projectile.Length; i++)
 					{
 						Projectile proj = Main.projectile[i];
-						if (proj.modProjectile is BubbleStrikerProj bubble && proj.owner == projectile.owner && bubble.stuck)
+						if (proj.modProjectile is BubbleStrikerProj bubble && proj.owner == Projectile.owner && bubble.stuck)
 							bubble.pop = true;
 					}
 				}
 				else
 				{
-					projectile.position = target.position + offset;
+					Projectile.position = target.position + offset;
 				}
 			}
 			else
 			{
-				projectile.velocity.X *= 0.99f;
-				projectile.velocity.Y -= 0.015f;
-				projectile.rotation = projectile.velocity.X / 32;
+				Projectile.velocity.X *= 0.99f;
+				Projectile.velocity.Y -= 0.015f;
+				Projectile.rotation = Projectile.velocity.X / 32;
 			}
 		}
 		public override bool? CanHitNPC(NPC target)
 		{
-			if (stuck && target.immune[projectile.owner] <= 0 && projectile.localNPCImmunity[target.whoAmI] <= 0)
+			if (stuck && target.immune[Projectile.owner] <= 0 && Projectile.localNPCImmunity[target.whoAmI] <= 0)
 				return base.CanHitNPC(target);
-			if (!stuck && target.life > 0 && !target.friendly && target.whoAmI != projectile.ai[0] && Collision.CheckAABBvAABBCollision(target.position, new Vector2(target.width, target.height), projectile.position, new Vector2(projectile.width, projectile.height)))
+			if (!stuck && target.life > 0 && !target.friendly && target.whoAmI != Projectile.ai[0] && Collision.CheckAABBvAABBCollision(target.position, new Vector2(target.width, target.height), Projectile.position, new Vector2(Projectile.width, Projectile.height)))
 			{
 				if (Main.rand.Next(Math.Max(target.GetGlobalNPC<BubbleStrikerNPC>().bubbles, 1)) == 0)
 				{
-					projectile.penetrate++;
+					Projectile.penetrate++;
 					stuck = true;
-					projectile.friendly = false;
-					projectile.tileCollide = false;
+					Projectile.friendly = false;
+					Projectile.tileCollide = false;
 					enemyID = target.whoAmI;
-					offset = projectile.position - target.position;
-					offset -= projectile.velocity;
-					projectile.timeLeft = 400;
+					offset = Projectile.position - target.position;
+					offset -= Projectile.velocity;
+					Projectile.timeLeft = 400;
 					target.GetGlobalNPC<BubbleStrikerNPC>().bubbles++;
 				}
 			}
@@ -154,8 +154,8 @@ namespace EEMod.Items.Weapons.Melee.Swords
 		public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
 		{
 			int cooldown = 20;
-			projectile.localNPCImmunity[target.whoAmI] = 20;
-			target.immune[projectile.owner] = cooldown;
+			Projectile.localNPCImmunity[target.whoAmI] = 20;
+			target.immune[Projectile.owner] = cooldown;
 		}
 	}
 	public class BubbleStrikerNPC : GlobalNPC

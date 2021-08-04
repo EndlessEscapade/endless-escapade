@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace EEMod.Items.Weapons.Melee.Warhammers
 {
-    public class ShroomSmasher : ModItem
+    public class ShroomSmasher : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,25 +16,25 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 60;
-            item.useTime = 60;
-            item.shootSpeed = 16f;
-            item.knockBack = 6.5f;
-            item.width = 32;
-            item.height = 32;
-            item.scale = 1f;
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(silver: 10);
+            Item.damage = 20;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useAnimation = 60;
+            Item.useTime = 60;
+            Item.shootSpeed = 16f;
+            Item.knockBack = 6.5f;
+            Item.width = 32;
+            Item.height = 32;
+            Item.scale = 1f;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(silver: 10);
 
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = false;
+            Item.melee = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = false;
 
-            item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
+            Item.UseSound = SoundID.Item1;
+            Item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -44,12 +44,12 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
                 type = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
                 speedX = 0;
                 speedY = 0;
-                item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
+                Item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
             }
             if (player.altFunctionUse == 2)
             {
                 type = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
-                item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
+                Item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
             }
             Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             return false;

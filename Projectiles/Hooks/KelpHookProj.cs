@@ -6,7 +6,7 @@ using System;
 
 namespace EEMod.Projectiles.Hooks
 {
-    public class KelpHookProj : ModProjectile
+    public class KelpHookProj : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,16 +15,16 @@ namespace EEMod.Projectiles.Hooks
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 10;
-            projectile.alpha = 0;
-            projectile.timeLeft = 60000;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1f;
+            Projectile.width = 16;
+            Projectile.height = 10;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 60000;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 1f;
         }
 
         private bool hooked;
@@ -32,7 +32,7 @@ namespace EEMod.Projectiles.Hooks
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
             hooked = true;
-            projectile.velocity = Vector2.Zero;
+            Projectile.velocity = Vector2.Zero;
             return false;
         }
 
@@ -41,26 +41,26 @@ namespace EEMod.Projectiles.Hooks
         {
             if (hooked)
             {
-                Player player = Main.player[projectile.owner];
+                Player player = Main.player[Projectile.owner];
 
-                projectile.rotation = Vector2.Normalize(player.Center - projectile.Center).ToRotation() - MathHelper.PiOver2;
+                Projectile.rotation = Vector2.Normalize(player.Center - Projectile.Center).ToRotation() - MathHelper.PiOver2;
 
-                if (Vector2.Distance(player.Center, projectile.Center) > 16 * tileRange)
+                if (Vector2.Distance(player.Center, Projectile.Center) > 16 * tileRange)
                 {
-                    player.velocity += Vector2.Normalize(projectile.Center - player.Center) * Helpers.Clamp((float)Math.Pow(1.2, (Vector2.Distance(player.Center, projectile.Center) - (16 * tileRange)) / 4f), 0f, 3f);
+                    player.velocity += Vector2.Normalize(Projectile.Center - player.Center) * Helpers.Clamp((float)Math.Pow(1.2, (Vector2.Distance(player.Center, Projectile.Center) - (16 * tileRange)) / 4f), 0f, 3f);
                 }
-                if (Vector2.Distance(player.Center, projectile.Center) > 16 * tileRange * 2f)
+                if (Vector2.Distance(player.Center, Projectile.Center) > 16 * tileRange * 2f)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Player player = Main.player[projectile.owner];
+            Player player = Main.player[Projectile.owner];
 
-            Vector2 vec = projectile.Center - player.Center;
+            Vector2 vec = Projectile.Center - player.Center;
 
             Texture2D vine = mod.GetTexture("Projectiles/Hooks/KelpHookVine");
 
@@ -70,7 +70,7 @@ namespace EEMod.Projectiles.Hooks
             {
                 Rectangle rect = new Rectangle(0, 0, 16, 16);
 
-                spriteBatch.Draw(vine, projectile.Center + (-Vector2.Normalize(vec) * k) - Main.screenPosition, rect, Color.White, vec.ToRotation() - MathHelper.PiOver2, rect.Size() / 2f, 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(vine, Projectile.Center + (-Vector2.Normalize(vec) * k) - Main.screenPosition, rect, Color.White, vec.ToRotation() - MathHelper.PiOver2, rect.Size() / 2f, 1f, SpriteEffects.None, 0f);
             }
 
             return true;

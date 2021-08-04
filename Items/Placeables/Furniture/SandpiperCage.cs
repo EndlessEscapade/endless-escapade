@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Furniture
 {
-    public class SandpiperCage : ModItem
+    public class SandpiperCage : EEItem
     {
         public override void SetStaticDefaults()
         {

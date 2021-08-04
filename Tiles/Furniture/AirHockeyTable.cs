@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class AirHockeyTableTile : ModTile
+    public class AirHockeyTableTile : EETile
     {
         public override void SetDefaults()
         {

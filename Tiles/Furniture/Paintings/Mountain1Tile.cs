@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Paintings
 {
-    public class Mountain1Tile : ModTile
+    public class Mountain1Tile : EETile
     {
         public override void SetDefaults()
         {

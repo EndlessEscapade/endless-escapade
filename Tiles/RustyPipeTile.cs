@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class RustyPipeTile : ModTile
+    public class RustyPipeTile : EETile
     {
         public override void SetDefaults()
         {

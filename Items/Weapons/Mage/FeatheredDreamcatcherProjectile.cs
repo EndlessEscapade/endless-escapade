@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class FeatheredDreamcatcherProjectile : ModProjectile
+    public class FeatheredDreamcatcherProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,14 +15,14 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 18;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 120;
-            projectile.rotation = (float)(Math.PI / 2);
-            projectile.penetrate = 1;
-            projectile.hostile = false;
-            projectile.friendly = true;
+            Projectile.width = 42;
+            Projectile.height = 18;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 120;
+            Projectile.rotation = (float)(Math.PI / 2);
+            Projectile.penetrate = 1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
         }
 
         private int dropTimer = 10;
@@ -42,19 +42,19 @@ namespace EEMod.Items.Weapons.Mage
                 }
                 if (closestNPCPos == Vector2.Zero || Main.npc.Length == 0)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
-                projectile.Center = new Vector2(closestNPCPos.X, closestNPCPos.Y - 80);
+                Projectile.Center = new Vector2(closestNPCPos.X, closestNPCPos.Y - 80);
                 firstFrame = false;
             }
-            Dust.NewDust(projectile.Center, 0, 0, DustID.Flare);
+            Dust.NewDust(Projectile.Center, 0, 0, DustID.Flare);
             if (dropTimer > 0)
             {
                 dropTimer--;
             }
             else
             {
-                projectile.velocity.Y = 32;
+                Projectile.velocity.Y = 32;
             }
         }
 
@@ -68,9 +68,9 @@ namespace EEMod.Items.Weapons.Mage
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(projectile.Center, 0, 0, DustID.Flare);
+                Dust.NewDust(Projectile.Center, 0, 0, DustID.Flare);
             }
-            projectile.Kill();
+            Projectile.Kill();
         }
 
         public override void Kill(int timeLeft)

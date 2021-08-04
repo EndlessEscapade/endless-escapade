@@ -9,7 +9,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class MoyaiTile : ModTile
+    public class MoyaiTile : EETile
     {
         public override void SetDefaults()
         {

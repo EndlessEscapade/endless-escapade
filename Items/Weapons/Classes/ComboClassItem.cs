@@ -8,7 +8,7 @@ using EEMod.Items.Weapons.Combo;
 
 namespace EEMod.Items.Weapons.Classes
 {
-    public abstract class ComboWeaponItem : ModItem
+    public abstract class ComboWeaponItem : EEItem
     {
         public int CurrentCombo;
         public abstract int NumberOfCombinations { get; }

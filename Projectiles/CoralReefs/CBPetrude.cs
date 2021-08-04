@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.CoralReefs
 {
-    public class CBPetrude : ModProjectile
+    public class CBPetrude : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -15,45 +15,45 @@ namespace EEMod.Projectiles.CoralReefs
 
         public override void SetDefaults()
         {
-            projectile.width = 100;
-            projectile.height = 48;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.ignoreWater = true;
-            projectile.scale = projectile.ai[0];
-            projectile.alpha = (int)projectile.ai[1];
-            projectile.tileCollide = false;
-            projectile.timeLeft = 80;
+            Projectile.width = 100;
+            Projectile.height = 48;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = Projectile.ai[0];
+            Projectile.alpha = (int)Projectile.ai[1];
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 80;
         }
 
         private int sinControl;
 
         public override void AI()
         {
-            projectile.alpha++;
-            if (projectile.alpha > 255)
+            Projectile.alpha++;
+            if (Projectile.alpha > 255)
             {
-                projectile.alpha = 255;
+                Projectile.alpha = 255;
             }
-            projectile.velocity *= .97f;
-            projectile.scale = projectile.ai[0];
-            projectile.alpha = (int)projectile.ai[1];
+            Projectile.velocity *= .97f;
+            Projectile.scale = Projectile.ai[0];
+            Projectile.alpha = (int)Projectile.ai[1];
             if (sinControl == 0)
             {
-                projectile.velocity.Y -= 8;
+                Projectile.velocity.Y -= 8;
             }
             sinControl++;
-            if (projectile.ai[1] < 140)
+            if (Projectile.ai[1] < 140)
             {
-                projectile.velocity.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 10);
+                Projectile.velocity.X += (float)Math.Sin(sinControl / (Projectile.ai[1] / 13)) / (Projectile.ai[1] / 10);
             }
-            else if (projectile.ai[1] < 160)
+            else if (Projectile.ai[1] < 160)
             {
-                projectile.position.X += (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 4);
+                Projectile.position.X += (float)Math.Sin(sinControl / (Projectile.ai[1] / 13)) / (Projectile.ai[1] / 4);
             }
             else
             {
-                projectile.velocity.X -= (float)Math.Sin(sinControl / (projectile.ai[1] / 13)) / (projectile.ai[1] / 10);
+                Projectile.velocity.X -= (float)Math.Sin(sinControl / (Projectile.ai[1] / 13)) / (Projectile.ai[1] / 10);
             }
         }
 
@@ -62,7 +62,7 @@ namespace EEMod.Projectiles.CoralReefs
             for (var a = 0; a < 5; a++)
             {
                 Vector2 vector = new Vector2(0, 10).RotatedBy(Math.PI * 0.4 * a, default);
-                int index = Dust.NewDust(projectile.Center, 22, 22, DustID.BlueCrystalShard, vector.X, vector.Y, 0, Color.Blue, 1f);
+                int index = Dust.NewDust(Projectile.Center, 22, 22, DustID.BlueCrystalShard, vector.X, vector.Y, 0, Color.Blue, 1f);
                 Main.dust[index].velocity *= .4f;
                 Main.dust[index].noGravity = true;
                 Main.dust[index].noLight = true;

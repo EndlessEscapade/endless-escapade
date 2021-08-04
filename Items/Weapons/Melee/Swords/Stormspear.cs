@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Swords
 {
-    public class Stormspear : ModItem
+    public class Stormspear : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,21 +14,21 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAnimation = 30;
-            item.useTime = 30;
-            item.shootSpeed = 24f;
-            item.knockBack = 5f;
-            item.width = 16;
-            item.height = 16;
-            item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
-            item.shoot = ModContent.ProjectileType<StormspearProj>();
-            item.rare = ItemRarityID.Purple;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = true;
-            item.melee = true;
-            item.damage = 140;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useAnimation = 30;
+            Item.useTime = 30;
+            Item.shootSpeed = 24f;
+            Item.knockBack = 5f;
+            Item.width = 16;
+            Item.height = 16;
+            Item.UseSound = SoundID.DD2_SkyDragonsFurySwing;
+            Item.shoot = ModContent.ProjectileType<StormspearProj>();
+            Item.rare = ItemRarityID.Purple;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = true;
+            Item.melee = true;
+            Item.damage = 140;
         }
     }
 }

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles
 {
-    public class Volleyball : ModProjectile
+    public class Volleyball : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,21 +16,21 @@ namespace EEMod.Projectiles
 
         public override void SetDefaults()
         {
-            projectile.width = 54;
-            projectile.height = 52;
-            projectile.alpha = 0;
-            projectile.timeLeft = 600;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.scale *= 1f;
+            Projectile.width = 54;
+            Projectile.height = 52;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale *= 1f;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(projectile.modProjectile, oldVelocity, .7f);
+            Bounce(Projectile.modProjectile, oldVelocity, .7f);
             return false;
         }
 
@@ -96,13 +96,13 @@ namespace EEMod.Projectiles
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Player chosenPlayer = Main.player[GetPlayer(projectile.Center)];
+            Player chosenPlayer = Main.player[GetPlayer(Projectile.Center)];
             Texture2D outline = mod.GetTexture("Projectiles/VolleyballArrowOutline");
             Texture2D fill = mod.GetTexture("Projectiles/VolleyballArrowFill");
 
-            Main.spriteBatch.Draw(outline, projectile.Center - Main.screenPosition, new Rectangle(0, 0, outline.Width, outline.Height), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, outline.Width, outline.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(outline, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, outline.Width, outline.Height), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, outline.Width, outline.Height).Size() / 2, 1, SpriteEffects.None, 0);
 
-            Main.spriteBatch.Draw(fill, projectile.Center - Main.screenPosition, new Rectangle(0, fill.Height / frames * (11 - frame), fill.Width, fill.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, fill.Width, fill.Height).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(fill, Projectile.Center - Main.screenPosition, new Rectangle(0, fill.Height / frames * (11 - frame), fill.Width, fill.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, fill.Width, fill.Height).Size() / 2, 1, SpriteEffects.None, 0);
             return true;
         }
 
@@ -110,39 +110,39 @@ namespace EEMod.Projectiles
 
         public override void AI()
         {
-            Player Yoda = Main.player[GetPlayer(projectile.Center)];
+            Player Yoda = Main.player[GetPlayer(Projectile.Center)];
             EEPlayer modPlayer = Yoda.GetModPlayer<EEPlayer>();
-            if (Main.myPlayer == GetPlayer(projectile.Center))
+            if (Main.myPlayer == GetPlayer(Projectile.Center))
             {
                 mouseHitBoxVec = new Vector2(Main.MouseWorld.X, Main.MouseWorld.Y);
                 frame = (int)(Yoda.GetModPlayer<EEPlayer>().powerLevel * (11f / modPlayer.maxPowerLevel));
             }
-            projectile.owner = GetPlayer(projectile.Center);
-            projectile.timeLeft = 100;
+            Projectile.owner = GetPlayer(Projectile.Center);
+            Projectile.timeLeft = 100;
             Rectangle mouseHitBox = new Rectangle((int)mouseHitBoxVec.X - 6, (int)mouseHitBoxVec.Y - 6, 12, 12);
-            Rectangle projectileHitBox = new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height);
+            Rectangle projectileHitBox = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
             Rectangle playerHitBox = new Rectangle((int)Yoda.position.X - 30, (int)Yoda.position.Y - 30, Yoda.width + 30, Yoda.height + 30);
             if (playerHitBox.Intersects(projectileHitBox))
             {
-                if (projectile.ai[0] == 1 && Yoda.controlUseItem)
+                if (Projectile.ai[0] == 1 && Yoda.controlUseItem)
                 {
                     SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y)) * 10;
-                    projectile.ai[0] = 0;
-                    projectile.netUpdate = true;
+                    Projectile.ai[0] = 0;
+                    Projectile.netUpdate = true;
                 }
             }
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
                 ree = 0;
-                projectile.velocity = SavedVel;
-                projectile.ai[0] = 1;
-                projectile.ai[1] = 0;
+                Projectile.velocity = SavedVel;
+                Projectile.ai[0] = 1;
+                Projectile.ai[1] = 0;
             }
             if (Yoda.controlUp && mouseHitBox.Intersects(projectileHitBox))
             {
-                projectile.ai[0] = 2;
+                Projectile.ai[0] = 2;
             }
-            if (projectile.ai[0] == 2)
+            if (Projectile.ai[0] == 2)
             {
                 if (Yoda.controlUseItem)
                 {
@@ -152,22 +152,22 @@ namespace EEMod.Projectiles
                         ree = 1;
                     }
                     SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y)) * modPlayer.powerLevel;
-                    projectile.ai[1] = 1;
-                    projectile.netUpdate = true;
+                    Projectile.ai[1] = 1;
+                    Projectile.netUpdate = true;
                 }
-                if (projectile.ai[1] == 1 && !Yoda.controlUseItem)
+                if (Projectile.ai[1] == 1 && !Yoda.controlUseItem)
                 {
-                    projectile.ai[0] = 0;
+                    Projectile.ai[0] = 0;
                 }
-                projectile.Center = Yoda.Center + new Vector2((Yoda.direction * 10) - 10, -30);
+                Projectile.Center = Yoda.Center + new Vector2((Yoda.direction * 10) - 10, -30);
             }
-            projectile.velocity.Y += 0.2f;
-            if (projectile.velocity.Y > 10)
+            Projectile.velocity.Y += 0.2f;
+            if (Projectile.velocity.Y > 10)
             {
-                projectile.velocity.Y = 10;
+                Projectile.velocity.Y = 10;
             }
-            projectile.velocity.X *= 0.98f;
-            projectile.rotation += projectile.velocity.X / 16f;
+            Projectile.velocity.X *= 0.98f;
+            Projectile.rotation += Projectile.velocity.X / 16f;
         }
     }
 }

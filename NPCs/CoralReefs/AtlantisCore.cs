@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class AtlantisCore : ModNPC
+    public class AtlantisCore : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -25,19 +25,19 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.friendly = true;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
-            npc.alpha = 20;
-            npc.lifeMax = 1000000;
-            npc.width = 300;
-            npc.height = 300;
-            npc.noGravity = true;
-            npc.lavaImmune = true;
-            npc.noTileCollide = true;
-            npc.dontTakeDamage = true;
-            npc.damage = 0;
+            NPC.aiStyle = -1;
+            NPC.friendly = true;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
+            NPC.alpha = 20;
+            NPC.lifeMax = 1000000;
+            NPC.width = 300;
+            NPC.height = 300;
+            NPC.noGravity = true;
+            NPC.lavaImmune = true;
+            NPC.noTileCollide = true;
+            NPC.dontTakeDamage = true;
+            NPC.damage = 0;
         }
 
         public override bool CheckActive()
@@ -47,9 +47,9 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
-            npc.ai[0] += 0.05f;
-            npc.position.Y += (float)Math.Sin(npc.ai[0]) * 2;
-            if (npc.life == 0)
+            NPC.ai[0] += 0.05f;
+            NPC.position.Y += (float)Math.Sin(NPC.ai[0]) * 2;
+            if (NPC.life == 0)
             {
                 if (Main.netMode != NetmodeID.Server && Filters.Scene["EEMod:Shockwave"].IsActive())
                 {
@@ -66,18 +66,18 @@ namespace EEMod.NPCs.CoralReefs
         {
             if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Shockwave"].IsActive())
             {
-                Filters.Scene.Activate("EEMod:Shockwave", npc.Center).GetShader().UseColor(rippleCount, rippleSize, rippleSpeed).UseTargetPosition(npc.Center);
-                npc.ai[0] = 1;
+                Filters.Scene.Activate("EEMod:Shockwave", NPC.Center).GetShader().UseColor(rippleCount, rippleSize, rippleSpeed).UseTargetPosition(NPC.Center);
+                NPC.ai[0] = 1;
             }
-            npc.ai[1] += Math.Abs((float)Math.Sin(npc.ai[0]));
-            if (npc.ai[1] >= 90)
+            NPC.ai[1] += Math.Abs((float)Math.Sin(NPC.ai[0]));
+            if (NPC.ai[1] >= 90)
             {
-                npc.ai[1] = 0;
+                NPC.ai[1] = 0;
             }
-            float progress = (90 - npc.ai[1]) / 180f;
+            float progress = (90 - NPC.ai[1]) / 180f;
             progress *= .3f;
-            distortStrength = npc.ai[1] * 2;
-            Filters.Scene["EEMod:Shockwave"].GetShader().UseTargetPosition(npc.Center).UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
+            distortStrength = NPC.ai[1] * 2;
+            Filters.Scene["EEMod:Shockwave"].GetShader().UseTargetPosition(NPC.Center).UseProgress(progress).UseOpacity(distortStrength * (1 - progress / 3f));
             //float num88 = ErosHandler.ShieldStrength / (float)NPC.ShieldStrengthTowerMax;
             if (size < 8000)
             {
@@ -86,9 +86,9 @@ namespace EEMod.NPCs.CoralReefs
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.Default, RasterizerState.CullNone);
 
-                var center = npc.Center - Main.screenPosition;
+                var center = NPC.Center - Main.screenPosition;
                 float num89 = 0f;
-                DrawData drawData = new DrawData(TextureManager.Load("Images/Misc/Perlin"), center, new Rectangle(0, 0, (int)(size * scaleX), (int)(size * scaleY)), Color.White * num88, npc.rotation, new Vector2(size / 2 * scaleX, size / 2 * scaleY), npc.scale * 1.1f, SpriteEffects.None, 0);
+                DrawData drawData = new DrawData(TextureManager.Load("Images/Misc/Perlin"), center, new Rectangle(0, 0, (int)(size * scaleX), (int)(size * scaleY)), Color.White * num88, NPC.rotation, new Vector2(size / 2 * scaleX, size / 2 * scaleY), NPC.scale * 1.1f, SpriteEffects.None, 0);
                 GameShaders.Misc["ForceField"].UseColor(new Vector3(1f - num89 * 0.5f));
                 GameShaders.Misc["ForceField"].Apply(drawData);
                 drawData.Draw(spriteBatch);

@@ -10,7 +10,7 @@ using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Projectiles.Enemy
 {
-    public class SpireLaser : ModProjectile
+    public class SpireLaser : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -19,22 +19,22 @@ namespace EEMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 12;
-            projectile.height = 12;
-            projectile.timeLeft = 1200;
-            projectile.ignoreWater = true;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.penetrate = -1;
-            projectile.extraUpdates = 12;
-            projectile.hide = true;
-            projectile.tileCollide = true;
+            Projectile.width = 12;
+            Projectile.height = 12;
+            Projectile.timeLeft = 1200;
+            Projectile.ignoreWater = true;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.penetrate = -1;
+            Projectile.extraUpdates = 12;
+            Projectile.hide = true;
+            Projectile.tileCollide = true;
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(projectile.modProjectile, oldVelocity);
-            projectile.ai[0]++;
+            Bounce(Projectile.modProjectile, oldVelocity);
+            Projectile.ai[0]++;
             return false;
         }
 
@@ -55,24 +55,24 @@ namespace EEMod.Projectiles.Enemy
 
         public override void AI()
         {
-            if (projectile.ai[1] < 5)
+            if (Projectile.ai[1] < 5)
             {
-                if (projectile.ai[0] >= 3)
+                if (Projectile.ai[0] >= 3)
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
 
-                if (Framing.GetTileSafely((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)).type == ModContent.TileType<EmptyTile>())
+                if (Framing.GetTileSafely((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16)).type == ModContent.TileType<EmptyTile>())
                 {
-                    Bounce(projectile.modProjectile, projectile.oldVelocity);
-                    projectile.ai[0]++;
+                    Bounce(Projectile.modProjectile, Projectile.oldVelocity);
+                    Projectile.ai[0]++;
                 }
             }
             else
             {
-                if (Framing.GetTileSafely((int)(projectile.Center.X / 16), (int)(projectile.Center.Y / 16)).type == ModContent.TileType<EmptyTile>())
+                if (Framing.GetTileSafely((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16)).type == ModContent.TileType<EmptyTile>())
                 {
-                    projectile.Kill();
+                    Projectile.Kill();
                 }
             }
         }

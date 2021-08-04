@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Ranger.Launchers
 {
-    public class DalantiniumBohiya : ModItem
+    public class DalantiniumBohiya : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,23 +15,23 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.useAmmo = AmmoID.Bullet;
-            item.shoot = ModContent.ProjectileType<DalantiniumSpike>();
-            item.shootSpeed = 16f;
-            item.rare = ItemRarityID.Orange;
-            item.width = 20;
-            item.height = 20;
-            item.noMelee = true;
-            item.ranged = true;
-            item.damage = 20;
-            item.useTime = 1;
-            item.useAnimation = 1;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.autoReuse = true;
-            item.knockBack = 6f;
-            item.UseSound = SoundID.Item11;
-            item.crit = 1;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useAmmo = AmmoID.Bullet;
+            Item.shoot = ModContent.ProjectileType<DalantiniumSpike>();
+            Item.shootSpeed = 16f;
+            Item.rare = ItemRarityID.Orange;
+            Item.width = 20;
+            Item.height = 20;
+            Item.noMelee = true;
+            Item.ranged = true;
+            Item.damage = 20;
+            Item.useTime = 1;
+            Item.useAnimation = 1;
+            Item.value = Item.buyPrice(0, 0, 30, 0);
+            Item.autoReuse = true;
+            Item.knockBack = 6f;
+            Item.UseSound = SoundID.Item11;
+            Item.crit = 1;
         }
 
         public override Vector2? HoldoutOffset()

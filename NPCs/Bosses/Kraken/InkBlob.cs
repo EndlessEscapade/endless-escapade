@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
 {
-    public class InkBlob : ModProjectile
+    public class InkBlob : EEProjectile
     {
         public static short customGlowMask = 0;
 
@@ -18,23 +18,23 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
 
         public override void SetDefaults()
         {
-            projectile.width = 60;
-            projectile.height = 60;
-            projectile.hostile = true;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 2000;
-            projectile.friendly = false;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
-            projectile.damage = 60;
-            projectile.light = 1f;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Projectile.width = 60;
+            Projectile.height = 60;
+            Projectile.hostile = true;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 2000;
+            Projectile.friendly = false;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
+            Projectile.damage = 60;
+            Projectile.light = 1f;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         private Vector2 start;
         private Vector2[] yeet = new Vector2[2];
-        KrakenHead krakenHead => Main.npc[(int)projectile.ai[1]].modNPC as KrakenHead;
+        KrakenHead krakenHead => Main.npc[(int)Projectile.ai[1]].modNPC as KrakenHead;
         private bool yes = false;
         private int Timer; //I will sync it I swear
 
@@ -42,14 +42,14 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
         {
             if (yes)
             {
-                projectile.timeLeft = 100;
+                Projectile.timeLeft = 100;
                 Timer++;
                 if (Timer > 120)
                 {
-                    projectile.velocity = ((yeet[0] + yeet[1]) / 2 - projectile.Center) / 32f;
-                    projectile.alpha++;
-                    projectile.alpha = Helpers.Clamp(projectile.alpha, 0, 255);
-                    if (projectile.alpha >= 255)
+                    Projectile.velocity = ((yeet[0] + yeet[1]) / 2 - Projectile.Center) / 32f;
+                    Projectile.alpha++;
+                    Projectile.alpha = Helpers.Clamp(Projectile.alpha, 0, 255);
+                    if (Projectile.alpha >= 255)
                     {
                         if (krakenHead.smolBloons[0] != Vector2.Zero)
                         {
@@ -61,7 +61,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                             krakenHead.smolBloons[1] = Vector2.Zero;
                         }
 
-                        projectile.Kill();
+                        Projectile.Kill();
                     }
                 }
             }
@@ -74,27 +74,27 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             {
                 if (Main.rand.Next(4) == 0)
                 {
-                    Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
+                    Dust.NewDust(Projectile.Center, 22, 22, DustID.Blood, (start.X - Projectile.Center.X) / 16f, (start.Y - Projectile.Center.Y) / 16f, 0, Color.Black, 2);
                 }
             }
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
                 if (Main.rand.Next(4) == 0)
                 {
-                    Dust.NewDust(projectile.Center, 22, 22, DustID.Blood, (start.X - projectile.Center.X) / 16f, (start.Y - projectile.Center.Y) / 16f, 0, Color.Black, 2);
+                    Dust.NewDust(Projectile.Center, 22, 22, DustID.Blood, (start.X - Projectile.Center.X) / 16f, (start.Y - Projectile.Center.Y) / 16f, 0, Color.Black, 2);
                 }
 
-                start = projectile.Center;
+                start = Projectile.Center;
             }
             if (Timer < 120)
             {
-                projectile.velocity = projectile.velocity.RotatedBy(Math.PI / 180) * 0.98f;
+                Projectile.velocity = Projectile.velocity.RotatedBy(Math.PI / 180) * 0.98f;
             }
-            projectile.ai[0]++;
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
-            if (Main.npc[(int)projectile.ai[1]].life <= 0)
+            Projectile.ai[0]++;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
+            if (Main.npc[(int)Projectile.ai[1]].life <= 0)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
@@ -113,10 +113,10 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 }
             }
 
-            Main.PlaySound(SoundID.Item27, projectile.position);
+            Main.PlaySound(SoundID.Item27, Projectile.position);
             for (var i = 0; i < 5; i++)
             {
-                int num = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Blood, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-4f, 4f), 6, Color.Black, 2);
+                int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-4f, 4f), 6, Color.Black, 2);
             }
         }
     }

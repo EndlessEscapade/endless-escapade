@@ -6,26 +6,26 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items
 {
-    public class Conch : ModItem
+    public class Conch : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Conch");
-            ItemID.Sets.SortingPriorityMaterials[item.type] = 100;
+            ItemID.Sets.SortingPriorityMaterials[Item.type] = 100;
         }
 
         public override void SetDefaults()
         {
-            item.width = 50;
-            item.height = 34;
-            item.maxStack = 1;
-            item.useAnimation = 12;
-            item.useTime = 12;
-            item.consumable = false;
-            item.value = Item.buyPrice(0, 1, 0, 0);
-            item.rare = ItemRarityID.Blue;
-            item.useStyle = ItemUseStyleID.EatingUsing;
-            item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/ConchBlown");
+            Item.width = 50;
+            Item.height = 34;
+            Item.maxStack = 1;
+            Item.useAnimation = 12;
+            Item.useTime = 12;
+            Item.consumable = false;
+            Item.value = Item.buyPrice(0, 1, 0, 0);
+            Item.rare = ItemRarityID.Blue;
+            Item.useStyle = ItemUseStyleID.EatingUsing;
+            Item.UseSound = mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/ConchBlown");
         }
 
         public override bool UseItem(Player player)

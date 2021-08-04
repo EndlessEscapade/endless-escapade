@@ -10,9 +10,9 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class OrbHolder : ModTile
+    public class OrbHolder : EETile
     {
-        public class OrbHolderTE : ModTileEntity
+        public class OrbHolderTE : EETileEntity
         {
             public bool hasOrb = false;
 

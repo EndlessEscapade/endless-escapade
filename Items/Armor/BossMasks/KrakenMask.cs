@@ -6,7 +6,7 @@ using EEMod.Items.Placeables.Ores;
 namespace EEMod.Items.Armor.BossMasks
 {
     [AutoloadEquip(EquipType.Head)]
-    public class KrakenMask : ModItem
+    public class KrakenMask : EEItem
     {
         public override void SetStaticDefaults()
         {

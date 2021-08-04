@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items
 {
-    public class Sandpiper : ModItem
+    public class Sandpiper : EEItem
     {
         public override void SetStaticDefaults()
         {

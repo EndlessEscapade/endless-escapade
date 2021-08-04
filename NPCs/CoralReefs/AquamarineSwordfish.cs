@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class AquamarineSwordfish : ModNPC
+    public class AquamarineSwordfish : EENPC
     {
         private bool attacking;
 
@@ -18,33 +18,33 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
             // Needs stats
-            npc.lifeMax = 50;
-            npc.damage = 10;
-            npc.defense = 2;
+            NPC.lifeMax = 50;
+            NPC.damage = 10;
+            NPC.defense = 2;
 
-            npc.width = npc.height = 32;
+            NPC.width = NPC.height = 32;
 
-            npc.knockBackResist = 0.2f;
+            NPC.knockBackResist = 0.2f;
 
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
             aiType = -1;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.direction = Main.rand.NextBool() ? -1 : 1;
+            NPC.direction = Main.rand.NextBool() ? -1 : 1;
         }
 
-        public override void FindFrame(int frameHeight) => npc.spriteDirection = npc.direction;
+        public override void FindFrame(int frameHeight) => NPC.spriteDirection = NPC.direction;
 
         public override void AI()
         {
-            npc.TargetClosest(false);
+            NPC.TargetClosest(false);
 
-            Player player = Main.player[npc.target];
+            Player player = Main.player[NPC.target];
 
             if (attacking)
             {
@@ -58,73 +58,73 @@ namespace EEMod.NPCs.CoralReefs
 
         private void Idle(Player player)
         {
-            npc.spriteDirection = npc.direction;
+            NPC.spriteDirection = NPC.direction;
 
-            npc.velocity.X += npc.direction * 0.025f;
-            npc.velocity.X = MathHelper.Clamp(npc.velocity.X, -2f, 2f);
+            NPC.velocity.X += NPC.direction * 0.025f;
+            NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -2f, 2f);
 
-            if (npc.collideX) 
+            if (NPC.collideX) 
             {
-                npc.velocity = Vector2.Zero;
-                npc.direction = -npc.direction;
+                NPC.velocity = Vector2.Zero;
+                NPC.direction = -NPC.direction;
             }
 
-            npc.ai[0]++;
+            NPC.ai[0]++;
 
-            float sine = (float)Math.Sin(npc.ai[0] / 40f);
-            npc.velocity.Y = sine;
+            float sine = (float)Math.Sin(NPC.ai[0] / 40f);
+            NPC.velocity.Y = sine;
 
-            float addon = npc.spriteDirection == -1 ? MathHelper.Pi : 0f;
-            npc.rotation = npc.velocity.ToRotation() + addon;
+            float addon = NPC.spriteDirection == -1 ? MathHelper.Pi : 0f;
+            NPC.rotation = NPC.velocity.ToRotation() + addon;
 
             const int cooldown = 180;
             const float attackRange = 16f * 16f;
 
-            if (Collision.CanHit(npc.position, npc.width, npc.height, player.position, player.width, player.height) && npc.ai[0] > cooldown && player.Distance(npc.Center) < attackRange)
+            if (Collision.CanHit(NPC.position, NPC.width, NPC.height, player.position, player.width, player.height) && NPC.ai[0] > cooldown && player.Distance(NPC.Center) < attackRange)
             {
-                npc.ai[0] = 0;
+                NPC.ai[0] = 0;
                 attacking = true;
             }
         }
 
         private void Attack(Player player)
         {
-            npc.ai[0]++;
+            NPC.ai[0]++;
 
-            if (npc.ai[0] % 60 == 0)
+            if (NPC.ai[0] % 60 == 0)
             {
                 int maxDashes = Main.rand.Next(1, 4);
 
                 if (dashes > maxDashes)
                 {
                     dashes = 0;
-                    npc.ai[0] = 0;
+                    NPC.ai[0] = 0;
 
-                    npc.direction = Main.rand.NextBool() ? -1 : 1;
+                    NPC.direction = Main.rand.NextBool() ? -1 : 1;
 
                     attacking = false;
                     return;
                 }
 
                 dashes++;
-                npc.velocity = npc.DirectionTo(player.Center) * 16f;
+                NPC.velocity = NPC.DirectionTo(player.Center) * 16f;
             }
 
-            float addon = npc.spriteDirection == -1 ? MathHelper.Pi : 0f;
-            npc.rotation = npc.velocity.ToRotation() + addon;
+            float addon = NPC.spriteDirection == -1 ? MathHelper.Pi : 0f;
+            NPC.rotation = NPC.velocity.ToRotation() + addon;
 
-            npc.velocity *= 0.98f;
+            NPC.velocity *= 0.98f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = Main.npcTexture[npc.type];
+            Texture2D texture = Main.npcTexture[NPC.type];
 
-            Vector2 drawPosition = npc.Center.ForDraw() + new Vector2(0f, npc.gfxOffY);
+            Vector2 drawPosition = NPC.Center.ForDraw() + new Vector2(0f, NPC.gfxOffY);
 
-            SpriteEffects effects = npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+            SpriteEffects effects = NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-            spriteBatch.Draw(texture, drawPosition, npc.frame, drawColor, npc.rotation, npc.frame.Size() / 2f, npc.scale, effects, 0f);
+            spriteBatch.Draw(texture, drawPosition, NPC.frame, drawColor, NPC.rotation, NPC.frame.Size() / 2f, NPC.scale, effects, 0f);
 
             return false;
         }

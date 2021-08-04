@@ -11,7 +11,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage
 {
-    public class SeagrassTile : ModTile
+    public class SeagrassTile : EETile
     {
         public override void SetDefaults()
         {

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Accessories
 {
-    public class RedVelvetCape : ModItem
+    public class RedVelvetCape : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -13,11 +13,11 @@ namespace EEMod.Items.Accessories
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 30);
-            item.rare = ItemRarityID.Orange;
-            item.accessory = true;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 30);
+            Item.rare = ItemRarityID.Orange;
+            Item.accessory = true;
         }
 
         public override void UpdateAccessory(Player player, bool hideVisual)

@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee
 {
-    public class LythenWarhammer : ModItem
+    public class LythenWarhammer : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,25 +16,25 @@ namespace EEMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 320;
-            item.useAnimation = 320;
-            item.shootSpeed = 0f;
-            item.knockBack = 6.5f;
-            item.width = 54;
-            item.height = 60;
-            item.scale = 1f;
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(silver: 10);
+            Item.damage = 20;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useTime = 320;
+            Item.useAnimation = 320;
+            Item.shootSpeed = 0f;
+            Item.knockBack = 6.5f;
+            Item.width = 54;
+            Item.height = 60;
+            Item.scale = 1f;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(silver: 10);
 
-            item.melee = true;
-            item.noMelee = true;
-            item.noUseGraphic = true;
-            item.autoReuse = false;
-            item.channel = true;
-            item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<LythenWarhammerProjectile>();
+            Item.melee = true;
+            Item.noMelee = true;
+            Item.noUseGraphic = true;
+            Item.autoReuse = false;
+            Item.channel = true;
+            Item.UseSound = SoundID.Item1;
+            Item.shoot = ModContent.ProjectileType<LythenWarhammerProjectile>();
         }
 
         public override void AddRecipes()

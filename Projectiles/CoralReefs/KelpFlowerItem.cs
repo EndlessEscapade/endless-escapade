@@ -8,7 +8,7 @@ using EEMod.Extensions;
 
 namespace EEMod.Projectiles.CoralReefs
 {
-    public class KelpFlowerItem : ModProjectile
+    public class KelpFlowerItem : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -17,16 +17,16 @@ namespace EEMod.Projectiles.CoralReefs
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.friendly = false;
-            projectile.hostile = false;
-            projectile.alpha = 0;
-            projectile.scale = 0.5f;
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
-            projectile.penetrate = -1;
-            projectile.timeLeft = 1000000000;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.friendly = false;
+            Projectile.hostile = false;
+            Projectile.alpha = 0;
+            Projectile.scale = 0.5f;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
+            Projectile.penetrate = -1;
+            Projectile.timeLeft = 1000000000;
         }
 
         public override bool? CanCutTiles() => false;
@@ -37,29 +37,29 @@ namespace EEMod.Projectiles.CoralReefs
 
         public override void AI()
         {
-            if(projectile.scale < 1f) projectile.scale += 0.075f;
+            if(Projectile.scale < 1f) Projectile.scale += 0.075f;
 
-            projectile.ai[1]++;
+            Projectile.ai[1]++;
             
-            if (projectile.ai[1] < 50)
+            if (Projectile.ai[1] < 50)
             {
-                projectile.velocity.Y += 0.08f;
+                Projectile.velocity.Y += 0.08f;
             }
             else
             {
                 if (!funi)
                 {
-                    projectile.velocity.Y *= 0.92f;
+                    Projectile.velocity.Y *= 0.92f;
             
-                    if (projectile.velocity.Y <= 0.05f)
+                    if (Projectile.velocity.Y <= 0.05f)
                     {
-                        projectile.velocity.Y = 0;
+                        Projectile.velocity.Y = 0;
                         funi = true;
                     }
                 }
                 else
                 {
-                    projectile.velocity.Y += (float)(Math.Sin(projectile.ai[1] / 60f * 3.14f) * 0.05f);
+                    Projectile.velocity.Y += (float)(Math.Sin(Projectile.ai[1] / 60f * 3.14f) * 0.05f);
                 }
 
                 if (!fadingOut)
@@ -71,9 +71,9 @@ namespace EEMod.Projectiles.CoralReefs
                             Player player = Main.player[i];
 
                             Item chungu = new Item();
-                            chungu.SetDefaults((int)projectile.ai[0]);
+                            chungu.SetDefaults((int)Projectile.ai[0]);
 
-                            if ((new Rectangle((int)projectile.Center.X - chungu.width / 2, (int)projectile.Center.Y - chungu.height / 2, chungu.width, chungu.height)).Intersects(player.Hitbox))
+                            if ((new Rectangle((int)Projectile.Center.X - chungu.width / 2, (int)Projectile.Center.Y - chungu.height / 2, chungu.width, chungu.height)).Intersects(player.Hitbox))
                             {
                                 fadingOut = true;
 
@@ -88,19 +88,19 @@ namespace EEMod.Projectiles.CoralReefs
 
             if(fadingOut)
             {
-                projectile.alpha += 16;
-                projectile.scale -= 0.0625f;
+                Projectile.alpha += 16;
+                Projectile.scale -= 0.0625f;
 
-                projectile.velocity = Vector2.Normalize(targetPlayer.Center - projectile.Center) * 3;
+                Projectile.velocity = Vector2.Normalize(targetPlayer.Center - Projectile.Center) * 3;
 
 
             }
 
-            if(projectile.alpha >= 255)
+            if(Projectile.alpha >= 255)
             {
-                targetPlayer.QuickSpawnItem((int)projectile.ai[0]);
+                targetPlayer.QuickSpawnItem((int)Projectile.ai[0]);
 
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
@@ -108,21 +108,21 @@ namespace EEMod.Projectiles.CoralReefs
         private float alpha2 = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.itemTexture[(int)projectile.ai[0]];
-            Vector2 pos = (projectile.Center - Main.screenPosition);
+            Texture2D tex = Main.itemTexture[(int)Projectile.ai[0]];
+            Vector2 pos = (Projectile.Center - Main.screenPosition);
 
             alpha += 0.06f;
 
             Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
 
-            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f), 0.9f * projectile.scale, 0.8f);
+            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), Projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f), 0.9f * Projectile.scale, 0.8f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
             EEMod.White.CurrentTechnique.Passes[0].Apply();
-            EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));
-            EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - projectile.alpha) / 255f));
+            EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
+            EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
 
             alpha2 += 0.03f;
 
@@ -130,14 +130,14 @@ namespace EEMod.Projectiles.CoralReefs
 
             for (int i = 0; i < 4; i++)
             {
-                Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha2 / 1) * ((255 - projectile.alpha) / 255f));
-                spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - projectile.alpha) / 255f), projectile.rotation, tex.Size() * 0.5f, projectile.scale, SpriteEffects.None, 0f);
+                Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha2 / 1) * ((255 - Projectile.alpha) / 255f));
+                spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - Projectile.alpha) / 255f), Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
             }
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Main.spriteBatch.Draw(tex, pos, tex.Bounds, Color.White, 0f, tex.Bounds.Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, pos, tex.Bounds, Color.White, 0f, tex.Bounds.Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
 
             return false;
         }
@@ -145,9 +145,9 @@ namespace EEMod.Projectiles.CoralReefs
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Item chungu = new Item();
-            chungu.SetDefaults((int)projectile.ai[0]);
+            chungu.SetDefaults((int)Projectile.ai[0]);
 
-            if ((new Rectangle((int)projectile.Center.X - chungu.width / 2, (int)projectile.Center.Y - chungu.height / 2, chungu.width, chungu.height)).Contains(Main.MouseWorld.ToPoint()))
+            if ((new Rectangle((int)Projectile.Center.X - chungu.width / 2, (int)Projectile.Center.Y - chungu.height / 2, chungu.width, chungu.height)).Contains(Main.MouseWorld.ToPoint()))
             {
                 Utils.DrawBorderString(Main.spriteBatch, chungu.Name, Main.MouseWorld.ForDraw() + new Vector2(16, 16), Color.Lerp(Color.Goldenrod, Color.LightYellow, (float)Math.Sin(Main.GameUpdateCount / 30f)));
             }

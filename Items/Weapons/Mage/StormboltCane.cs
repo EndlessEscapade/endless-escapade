@@ -7,32 +7,32 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class StormboltCane : ModItem
+    public class StormboltCane : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Stormbolt Cane");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 22;
-            item.width = 32;
-            item.height = 32;
-            item.useTime = 20;
-            item.useAnimation = 20;
-            item.knockBack = 0;
-            item.rare = ItemRarityID.Green;
-            item.autoReuse = true;
-            item.crit = 3;
-            item.noMelee = true;
-            item.magic = true;
-            item.shoot = ModContent.ProjectileType<LythenStaffProjectile>();
-            item.shootSpeed = 16f;
-            item.mana = 5;
-            item.UseSound = SoundID.Item8;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.damage = 22;
+            Item.width = 32;
+            Item.height = 32;
+            Item.useTime = 20;
+            Item.useAnimation = 20;
+            Item.knockBack = 0;
+            Item.rare = ItemRarityID.Green;
+            Item.autoReuse = true;
+            Item.crit = 3;
+            Item.noMelee = true;
+            Item.magic = true;
+            Item.shoot = ModContent.ProjectileType<LythenStaffProjectile>();
+            Item.shootSpeed = 16f;
+            Item.mana = 5;
+            Item.UseSound = SoundID.Item8;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
         }
 
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
@@ -62,7 +62,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override bool CanUseItem(Player player)
         {
-            return player.ownedProjectileCounts[item.shoot] < 3;
+            return player.ownedProjectileCounts[Item.shoot] < 3;
         }
     }
 }

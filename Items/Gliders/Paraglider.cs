@@ -6,26 +6,26 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Gliders
 {
-    public class Paraglider : ModItem
+    public class Paraglider : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Paraglider");
-            ItemID.Sets.SortingPriorityMaterials[item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
+            ItemID.Sets.SortingPriorityMaterials[Item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
         }
 
         public override void SetDefaults()
         {
-            item.width = 20;
-            item.height = 20;
-            item.value = 50;
+            Item.width = 20;
+            Item.height = 20;
+            Item.value = 50;
 
-            item.maxStack = 1;
+            Item.maxStack = 1;
 
-            item.holdStyle = 1;
+            Item.holdStyle = 1;
 
             //item.flame = true; needs a flame texture.
-            item.noWet = true;
+            Item.noWet = true;
         }
 
         int lerpage;

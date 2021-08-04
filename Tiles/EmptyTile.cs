@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class EmptyTile : ModTile
+    public class EmptyTile : EETile
     {
         public override void SetDefaults()
         {

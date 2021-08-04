@@ -8,7 +8,7 @@ using EEMod.Extensions;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class Jellyfish : ModNPC
+    public class Jellyfish : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -17,26 +17,26 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.friendly = false;
+            NPC.friendly = false;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
             //npc.alpha = 127;
 
-            npc.lifeMax = 300;
+            NPC.lifeMax = 300;
 
-            npc.width = 48;
-            npc.height = 32;
+            NPC.width = 48;
+            NPC.height = 32;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
 
-            npc.damage = 5;
+            NPC.damage = 5;
         }
         float counter;
         public int cap = 15;
@@ -48,16 +48,16 @@ namespace EEMod.NPCs.CoralReefs
         {
             this.drawColour = drawColor;
             counter2 += 0.1f;
-            Texture2D tex = Main.npcTexture[npc.type];
-            Vector2 pos = npc.Center.ForDraw();
-            Main.spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, tex.Width + (int)(Math.Sin(counter2) * 2) - 5, tex.Height + (int)(Math.Cos(counter2) * 5) - 2), npc.frame, Color.Lerp(drawColor, Color.MediumPurple, (float)Math.Sin(counter2) * 0.2f), npc.rotation, npc.frame.Size() / 2, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Texture2D tex = Main.npcTexture[NPC.type];
+            Vector2 pos = NPC.Center.ForDraw();
+            Main.spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, tex.Width + (int)(Math.Sin(counter2) * 2) - 5, tex.Height + (int)(Math.Cos(counter2) * 5) - 2), NPC.frame, Color.Lerp(drawColor, Color.MediumPurple, (float)Math.Sin(counter2) * 0.2f), NPC.rotation, NPC.frame.Size() / 2, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
         public void UpdateJellyfishTesting()
         {
-            npc.rotation = npc.velocity.X / 16f;
+            NPC.rotation = NPC.velocity.X / 16f;
             lol1 = new Vector2[noOfTentacles / 2, cap, 2];
-            Vector2 first = npc.Center;
+            Vector2 first = NPC.Center;
             float[] lastX = new float[noOfTentacles];
             float[] lastY = new float[noOfTentacles];
             float[] ControlY = new float[noOfTentacles];
@@ -74,7 +74,7 @@ namespace EEMod.NPCs.CoralReefs
             float tipVariation = 5;
             float accell = ((float)Math.Sin(counter) + 1.4f) / 2f;
             counter += 0.08f * accell;
-            float rot = npc.velocity.X / 10f;
+            float rot = NPC.velocity.X / 10f;
             for (int i = 0; i < noOfTentacles / 2; i++)
             {
                 Vector2 firstControl = new Vector2(-startingdiff - i * diff - (float)Math.Sin(counter + 0.35f + i / 10f) * (startingdiff + i * diff), -(float)Math.Cos(counter + 0.05f) * (tip - secondContactPoint)).RotatedBy(rot);
@@ -123,25 +123,25 @@ namespace EEMod.NPCs.CoralReefs
         public override void AI()
         {
             UpdateJellyfishTesting();
-            Lighting.AddLight(npc.Center, 0.2f, 0.4f, 1.4f);
-            npc.TargetClosest();
-            Player target = Main.player[npc.target];
+            Lighting.AddLight(NPC.Center, 0.2f, 0.4f, 1.4f);
+            NPC.TargetClosest();
+            Player target = Main.player[NPC.target];
             if (counter % ((float)Math.PI * 2) < 0.5f)
             {
-                Helpers.Move(npc, target, 18, 40, Vector2.Zero);
+                Helpers.Move(NPC, target, 18, 40, Vector2.Zero);
             }
-            npc.velocity *= 0.98f;
-            if (npc.ai[1] == 0)
+            NPC.velocity *= 0.98f;
+            if (NPC.ai[1] == 0)
             {
-                EEMod.prims.CreateTrailWithNPC(null, npc);
-                npc.ai[1] = 1;
+                EEMod.prims.CreateTrailWithNPC(null, NPC);
+                NPC.ai[1] = 1;
             }
-            npc.ai[0]++;
+            NPC.ai[0]++;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            target.velocity += Vector2.Normalize(target.Center - npc.Center) * 6;
+            target.velocity += Vector2.Normalize(target.Center - NPC.Center) * 6;
         }
     }
 }

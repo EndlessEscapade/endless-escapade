@@ -8,7 +8,7 @@ using EEMod.Items.FishingPoles;
 
 namespace EEMod.Projectiles.FishingBobbers
 {
-    public class SailorsPoleBobber : ModProjectile
+    public class SailorsPoleBobber : EEProjectile
     {
         private bool initialized = false;
         private Color fishingLineColor;
@@ -25,22 +25,22 @@ namespace EEMod.Projectiles.FishingBobbers
             //projectile.aiStyle = 61;
             //projectile.bobber = true;
             //projectile.penetrate = -1;
-            projectile.CloneDefaults(ProjectileID.BobberWooden);
-            projectile.width = 10;
-            projectile.height = 22;
+            Projectile.CloneDefaults(ProjectileID.BobberWooden);
+            Projectile.width = 10;
+            Projectile.height = 22;
         }
 
         public override bool PreDrawExtras(SpriteBatch spriteBatch)
         {
             //Create some light based on the color of the line; this could also be in the AI function
-            Lighting.AddLight(projectile.Center, fishingLineColor.R / 255, fishingLineColor.G / 255, fishingLineColor.B / 255);
+            Lighting.AddLight(Projectile.Center, fishingLineColor.R / 255, fishingLineColor.G / 255, fishingLineColor.B / 255);
 
             //Change these two values in order to change the origin of where the line is being drawn
             int xPositionAdditive = 45;
             float yPositionAdditive = 35f;
 
-            Player player = Main.player[projectile.owner];
-            if (!projectile.bobber || player.inventory[player.selectedItem].holdStyle <= 0)
+            Player player = Main.player[Projectile.owner];
+            if (!Projectile.bobber || player.inventory[player.selectedItem].holdStyle <= 0)
             {
                 return false;
             }
@@ -68,7 +68,7 @@ namespace EEMod.Projectiles.FishingBobbers
             }
             Vector2 mountedCenter = new Vector2(originX, originY);
             mountedCenter = player.RotatedRelativePoint(mountedCenter + new Vector2(8f), true) - new Vector2(8f);
-            Vector2 lineOrigin = projectile.Center - mountedCenter;
+            Vector2 lineOrigin = Projectile.Center - mountedCenter;
             bool canDraw = true;
             if (lineOrigin.X == 0f && lineOrigin.Y == 0f)
             {
@@ -80,7 +80,7 @@ namespace EEMod.Projectiles.FishingBobbers
             lineOrigin.X *= projPosMagnitude;
             lineOrigin.Y *= projPosMagnitude;
             mountedCenter -= lineOrigin;
-            lineOrigin = projectile.Center - mountedCenter;
+            lineOrigin = Projectile.Center - mountedCenter;
 
             while (canDraw)
             {
@@ -100,11 +100,11 @@ namespace EEMod.Projectiles.FishingBobbers
                 lineOrigin.X *= positionMagnitude;
                 lineOrigin.Y *= positionMagnitude;
                 mountedCenter += lineOrigin;
-                lineOrigin = projectile.Center - mountedCenter;
+                lineOrigin = Projectile.Center - mountedCenter;
                 if (positionMagnitude > 12f)
                 {
                     float positionInverseMultiplier = 0.3f;
-                    float absVelocitySum = Math.Abs(projectile.velocity.X) + Math.Abs(projectile.velocity.Y);
+                    float absVelocitySum = Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y);
                     if (absVelocitySum > 16f)
                     {
                         absVelocitySum = 16f;
@@ -121,7 +121,7 @@ namespace EEMod.Projectiles.FishingBobbers
                     {
                         positionInverseMultiplier = 0f;
                     }
-                    absVelocitySum = 1f - projectile.localAI[0] / 100f;
+                    absVelocitySum = 1f - Projectile.localAI[0] / 100f;
                     positionInverseMultiplier *= absVelocitySum;
                     if (lineOrigin.Y > 0f)
                     {
@@ -130,7 +130,7 @@ namespace EEMod.Projectiles.FishingBobbers
                     }
                     else
                     {
-                        absVelocitySum = Math.Abs(projectile.velocity.X) / 3f;
+                        absVelocitySum = Math.Abs(Projectile.velocity.X) / 3f;
                         if (absVelocitySum > 1f)
                         {
                             absVelocitySum = 1f;

@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Walls
 {
-    public class LightGemsandstoneWall : ModItem
+    public class LightGemsandstoneWall : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,18 +14,18 @@ namespace EEMod.Items.Placeables.Walls
 
         public override void SetDefaults()
         {
-            item.width = 12;
-            item.height = 12;
-            item.rare = ItemRarityID.White;
-            item.value = Item.sellPrice(0, 0, 0, 0);
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 15;
-            item.useTime = 7;
-            item.consumable = true;
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.maxStack = 999;
-            item.createWall = ModContent.WallType<LightGemsandstoneWallTile>();
+            Item.width = 12;
+            Item.height = 12;
+            Item.rare = ItemRarityID.White;
+            Item.value = Item.sellPrice(0, 0, 0, 0);
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useAnimation = 15;
+            Item.useTime = 7;
+            Item.consumable = true;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.maxStack = 999;
+            Item.createWall = ModContent.WallType<LightGemsandstoneWallTile>();
         }
     }
 }

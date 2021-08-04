@@ -6,7 +6,7 @@ using EEMod.Items.Placeables.Ores;
 namespace EEMod.Items.Armor.BossMasks
 {
     [AutoloadEquip(EquipType.Head)]
-    public class TalosMask : ModItem
+    public class TalosMask : EEItem
     {
         public override void SetStaticDefaults()
         {

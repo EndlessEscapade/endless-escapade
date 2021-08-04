@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage.Coral
 {
-    public class FloorGlow2x2Coral : ModTile
+    public class FloorGlow2x2Coral : EETile
     {
         public override void SetDefaults()
         {

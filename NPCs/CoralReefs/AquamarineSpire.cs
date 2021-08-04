@@ -20,7 +20,7 @@ using EEMod.Tiles;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class AquamarineSpire : ModNPC
+    public class AquamarineSpire : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -29,20 +29,20 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.friendly = true;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
-            npc.lifeMax = 1000000;
-            npc.width = 320;
-            npc.height = 416;
-            npc.noGravity = true;
-            npc.lavaImmune = true;
-            npc.noTileCollide = true;
-            npc.dontTakeDamage = true;
-            npc.damage = 60;
-            npc.behindTiles = true;
-            npc.ai[0] = 40;
+            NPC.aiStyle = -1;
+            NPC.friendly = true;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
+            NPC.lifeMax = 1000000;
+            NPC.width = 320;
+            NPC.height = 416;
+            NPC.noGravity = true;
+            NPC.lavaImmune = true;
+            NPC.noTileCollide = true;
+            NPC.dontTakeDamage = true;
+            NPC.damage = 60;
+            NPC.behindTiles = true;
+            NPC.ai[0] = 40;
 
             musicPriority = MusicPriority.BossLow;
         }
@@ -78,14 +78,14 @@ namespace EEMod.NPCs.CoralReefs
 
             alpha += 0.05f;
 
-            EEMod.SpireShader.Parameters["alpha"].SetValue((npc.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
-            EEMod.SpireShader.Parameters["shineSpeed"].SetValue(npc.ai[0] <= 20 ? 0.4f : 0.2f);
+            EEMod.SpireShader.Parameters["alpha"].SetValue((NPC.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
+            EEMod.SpireShader.Parameters["shineSpeed"].SetValue(NPC.ai[0] <= 20 ? 0.4f : 0.2f);
             EEMod.SpireShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/SpireLightMap"));
             EEMod.SpireShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.SpireShader.Parameters["lightColor"].SetValue(drawColor.ToVector3());
             EEMod.SpireShader.CurrentTechnique.Passes[0].Apply();
 
-            spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center - Main.screenPosition + new Vector2(0, 4), Main.npcTexture[npc.type].Bounds, drawColor, npc.rotation, Main.npcTexture[npc.type].Size() / 2f, npc.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition + new Vector2(0, 4), Main.npcTexture[NPC.type].Bounds, drawColor, NPC.rotation, Main.npcTexture[NPC.type].Size() / 2f, NPC.scale, SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -114,7 +114,7 @@ namespace EEMod.NPCs.CoralReefs
 
                 #region Setting eye color
                 Color addColor = Color.White;
-                switch (npc.ai[1])
+                switch (NPC.ai[1])
                 {
                     case 0: //Blue laser
                         addColor = Color.Blue;
@@ -140,14 +140,14 @@ namespace EEMod.NPCs.CoralReefs
 
                 #region Drawing the eye and eye particles
                 blinkTime = 0;
-                eyePos = (Vector2.Normalize(target.Center - npc.Center) * (3 * eyeRecoil)) + npc.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer1 / 20f));
+                eyePos = (Vector2.Normalize(target.Center - NPC.Center) * (3 * eyeRecoil)) + NPC.Center + new Vector2(-2, 2 + blinkTime) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * (timer1 / 20f));
 
                 Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 96);
 
                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.25f * ((timer1 - 10) / 40f), 0, 1)));
                 EEMod.MainParticles.SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, addColor, new SlowDown(0.943f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, 0.9f));
 
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 1f);
                 #endregion
 
                 timeBetween = 35;
@@ -160,11 +160,11 @@ namespace EEMod.NPCs.CoralReefs
                 if (timer1 < 300 * 60) //If recharging
                 {
                     #region Recharging eye
-                    if (npc.ai[2] == 0)
+                    if (NPC.ai[2] == 0)
                     {
-                        if (eyeAlpha > 0 && npc.ai[0] == 0) eyeAlpha -= 0.02f;
+                        if (eyeAlpha > 0 && NPC.ai[0] == 0) eyeAlpha -= 0.02f;
                         if (blinkTime < 8) blinkTime++;
-                        if (eyeAlpha <= 0) npc.ai[2] = 1;
+                        if (eyeAlpha <= 0) NPC.ai[2] = 1;
                     }
                     else
                     {
@@ -175,7 +175,7 @@ namespace EEMod.NPCs.CoralReefs
                     #endregion
 
                     strikeTime = 61;
-                    strikeColor = Lighting.GetColor((int)npc.Center.X / 16, (int)npc.Center.Y / 16);
+                    strikeColor = Lighting.GetColor((int)NPC.Center.X / 16, (int)NPC.Center.Y / 16);
                 }
                 else
                 {
@@ -190,28 +190,28 @@ namespace EEMod.NPCs.CoralReefs
                         blinkTime++;
                     #endregion
 
-                    eyeAlpha = npc.ai[0] / 5f;
+                    eyeAlpha = NPC.ai[0] / 5f;
                 }
 
                 #region Recharging particles
                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.18f));
-                Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
-                Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
-                Vector2 three = new Vector2(Main.rand.Next(-8, 8), 8).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
-                Vector2 four = new Vector2(Main.rand.Next(-8, 8), -8).RotatedBy(1.57f / 2f + npc.ai[3] / 60f);
-                Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + npc.ai[3] / 60f);
+                Vector2 one = new Vector2(-8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + NPC.ai[3] / 60f);
+                Vector2 two = new Vector2(8, Main.rand.Next(-8, 8)).RotatedBy(1.57f / 2f + NPC.ai[3] / 60f);
+                Vector2 three = new Vector2(Main.rand.Next(-8, 8), 8).RotatedBy(1.57f / 2f + NPC.ai[3] / 60f);
+                Vector2 four = new Vector2(Main.rand.Next(-8, 8), -8).RotatedBy(1.57f / 2f + NPC.ai[3] / 60f);
+                Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + NPC.ai[3] / 60f);
 
                 int scale = 4;
-                EEMod.MainParticles.SpawnParticles(npc.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(npc.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(npc.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(npc.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
                 #endregion
 
                 #region Drawing eye
-                eyePos = (new Vector2(0, 1) * 3) + npc.Center + new Vector2(-2, 2) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * npc.ai[0]);
+                eyePos = (new Vector2(0, 1) * 3) + NPC.Center + new Vector2(-2, 2) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * NPC.ai[0]);
 
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White * eyeAlpha, npc.rotation, new Vector2(4, 4), npc.scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White * eyeAlpha, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 0);
                 #endregion
 
                 timeBetween = 70;
@@ -223,136 +223,136 @@ namespace EEMod.NPCs.CoralReefs
             #region Heartbeat
             if (Main.GameUpdateCount % bigTimeBetween < timeBetween)
             {
-                npc.ai[3] = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
+                NPC.ai[3] = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
             }
             else
             {
-                npc.ai[3] = 0;
+                NPC.ai[3] = 0;
             }
 
             if (strikeTime > 0) strikeTime--;
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireGlow"), npc.Center.ForDraw() + new Vector2(0, 4), npc.frame, Color.Lerp(Color.White * npc.ai[3], strikeColor, strikeTime / 60f), npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireGlow"), NPC.Center.ForDraw() + new Vector2(0, 4), NPC.frame, Color.Lerp(Color.White * NPC.ai[3], strikeColor, strikeTime / 60f), NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             #endregion
         }
 
         public List<Projectile> shields = new List<Projectile>();
         public override void AI()
         {
-            Player target = Main.player[Helpers.GetNearestAlivePlayer(npc)];
+            Player target = Main.player[Helpers.GetNearestAlivePlayer(NPC)];
 
-            npc.velocity = Vector2.Zero;
+            NPC.velocity = Vector2.Zero;
 
             if (awake)
             {
                 #region Choosing attack cooldowns
 
-                npc.ai[2]++;
+                NPC.ai[2]++;
 
-                if (npc.ai[2] >= 1)
+                if (NPC.ai[2] >= 1)
                 {
-                    npc.ai[1] = Main.rand.Next(4);
+                    NPC.ai[1] = Main.rand.Next(4);
                     specialLaserShots = 0;
 
-                    if (npc.ai[0] > 20)
+                    if (NPC.ai[0] > 20)
                     {
-                        switch (npc.ai[1])
+                        switch (NPC.ai[1])
                         {
                             case 0: //Blue laser
-                                npc.ai[2] = -120;
+                                NPC.ai[2] = -120;
                                 break;
                             case 1: //Pink laser
-                                npc.ai[2] = -150;
+                                NPC.ai[2] = -150;
                                 break;
                             case 2: //White laser
-                                npc.ai[2] = -150;
+                                NPC.ai[2] = -150;
                                 break;
                             case 3: //Cyan laser
-                                npc.ai[2] = -150;
+                                NPC.ai[2] = -150;
                                 break;
                         }
                     }
                     else
                     {
-                        switch (npc.ai[1])
+                        switch (NPC.ai[1])
                         {
                             case 0: //Blue laser
-                                npc.ai[2] = -84;
+                                NPC.ai[2] = -84;
                                 break;
                             case 1: //Pink laser
-                                npc.ai[2] = -105;
+                                NPC.ai[2] = -105;
                                 break;
                             case 2: //White laser
-                                npc.ai[2] = -105;
+                                NPC.ai[2] = -105;
                                 break;
                             case 3: //Cyan laser
-                                npc.ai[2] = -105;
+                                NPC.ai[2] = -105;
                                 break;
                         }
                     }
-                    timer1 = -(int)npc.ai[2];
+                    timer1 = -(int)NPC.ai[2];
                 }
 
-                if (npc.ai[2] < 0)
+                if (NPC.ai[2] < 0)
                     timer1--;
 
-                if (npc.ai[2] >= 0 && npc.ai[2] < 60)
+                if (NPC.ai[2] >= 0 && NPC.ai[2] < 60)
                     timer1 += 3;
                 #endregion
 
                 #region Shooting lasers
-                if (npc.ai[2] == 0 && ((specialLaserShots < 3 && npc.ai[1] == 1) || (specialLaserShots < 2 && npc.ai[1] == 3) || (npc.ai[1] != 3 && npc.ai[1] != 1)))
+                if (NPC.ai[2] == 0 && ((specialLaserShots < 3 && NPC.ai[1] == 1) || (specialLaserShots < 2 && NPC.ai[1] == 3) || (NPC.ai[1] != 3 && NPC.ai[1] != 1)))
                 {
-                    switch (npc.ai[1])
+                    switch (NPC.ai[1])
                     {
                         case 0: //Blue laser
-                            Projectile projectile = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage, 0f, default, 0, 1);
+                            Projectile projectile = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage, 0f, default, 0, 1);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, Color.Lerp(Color.Navy, Color.LightBlue, Main.rand.NextFloat(0, 1)), 50));
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), npc.Center);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
                             eyeRecoil = -0.5f;
                             break;
 
                         case 1: //Pink laser
-                            Projectile projectile2 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage / 2, 0f, default, 0, 2);
+                            Projectile projectile2 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 2, 0f, default, 0, 2);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Purple, Color.Pink, Main.rand.NextFloat(0, 1)), 40));
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), npc.Center);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
 
-                            npc.ai[2] = -20;
+                            NPC.ai[2] = -20;
                             eyeRecoil = -0.5f;
                             timer1 = 20;
                             specialLaserShots++;
-                            if (specialLaserShots >= (npc.ai[0] <= 20 ? 4 : 3)) npc.ai[2] = 1;
+                            if (specialLaserShots >= (NPC.ai[0] <= 20 ? 4 : 3)) NPC.ai[2] = 1;
                             break;
 
                         case 2: //White laser
-                            Projectile projectile3 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 2, ModContent.ProjectileType<WideSpireLaser>(), npc.damage / 2, 0f, default, 0, 3);
+                            Projectile projectile3 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<WideSpireLaser>(), NPC.damage / 2, 0f, default, 0, 3);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile3, Color.White, 80));
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), npc.Center);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
                             eyeRecoil = -0.5f;
                             break;
 
                         case 3: //Cyan laser
                             if (specialLaserShots == 0)
                             {
-                                Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - npc.Center) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f, default, 0, 1);
+                                Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 3, 0f, default, 0, 1);
                                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.LightCyan, Color.DarkCyan, Main.rand.NextFloat(0, 1)), 30));
                                 specialLaserShots++;
-                                npc.ai[2] = -30;
+                                NPC.ai[2] = -30;
                             }
                             if (specialLaserShots == 1)
                             {
                                 for (int i = -1; i < 2; i += 2)
                                 {
-                                    Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - npc.Center)).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), npc.damage / 3, 0f, default, 0, 4);
+                                    Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - NPC.Center)).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 3, 0f, default, 0, 4);
                                     EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.LightCyan, Color.DarkCyan, Main.rand.NextFloat(0, 1)), 30));
                                 }
                                 specialLaserShots++;
-                                npc.ai[2] = 1;
+                                NPC.ai[2] = 1;
                             }
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot").WithVolume(1f).WithPitchVariance(0f), npc.Center);
+                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot").WithVolume(1f).WithPitchVariance(0f), NPC.Center);
                             eyeRecoil = -0.5f;
                             break;
                     }
@@ -366,12 +366,12 @@ namespace EEMod.NPCs.CoralReefs
                     {
                         Projectile laser = Main.projectile[i];
 
-                        if (Vector2.Distance(laser.Center, npc.Center) <= 32 && laser.ai[0] > 0 && laser.active)
+                        if (Vector2.Distance(laser.Center, NPC.Center) <= 32 && laser.ai[0] > 0 && laser.active)
                         {
                             TakeDamage(laser);
-                            Main.PlaySound(SoundID.NPCDeath56, npc.Center);
+                            Main.PlaySound(SoundID.NPCDeath56, NPC.Center);
 
-                            if (npc.ai[0] <= 0)
+                            if (NPC.ai[0] <= 0)
                             {
                                 Die();
 
@@ -400,9 +400,9 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     timer1 = 300 * 60;
 
-                    for (int i = (int)(npc.Center.X / 16) - 150; i < (int)(npc.Center.X / 16) + 150; i++)
+                    for (int i = (int)(NPC.Center.X / 16) - 150; i < (int)(NPC.Center.X / 16) + 150; i++)
                     {
-                        for (int j = (int)(npc.Center.Y / 16) - 150; j < (int)(npc.Center.Y / 16) + 150; j++)
+                        for (int j = (int)(NPC.Center.Y / 16) - 150; j < (int)(NPC.Center.Y / 16) + 150; j++)
                         {
                             if (WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).type == ModContent.TileType<AquamarineLamp1>() && Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
                             {
@@ -420,22 +420,22 @@ namespace EEMod.NPCs.CoralReefs
 
                 if (timer1 >= 300 * 60)
                 {
-                    npc.ai[1]--;
-                    if (npc.ai[1] <= -60 * 15)
+                    NPC.ai[1]--;
+                    if (NPC.ai[1] <= -60 * 15)
                     {
-                        if (npc.ai[0] > 0) npc.ai[0]--;
+                        if (NPC.ai[0] > 0) NPC.ai[0]--;
                     }
 
-                    if (target.controlUseItem && target.HeldItem.pick > 0 && npc.Hitbox.Intersects(target.Hitbox) && npc.ai[1] <= 0)
+                    if (target.controlUseItem && target.HeldItem.pick > 0 && NPC.Hitbox.Intersects(target.Hitbox) && NPC.ai[1] <= 0)
                     {
-                        npc.ai[0]++;
-                        npc.ai[1] = target.HeldItem.useTime;
-                        Main.PlaySound(SoundID.DD2_CrystalCartImpact, npc.Center);
+                        NPC.ai[0]++;
+                        NPC.ai[1] = target.HeldItem.useTime;
+                        Main.PlaySound(SoundID.DD2_CrystalCartImpact, NPC.Center);
                     }
-                    if (npc.ai[0] >= 5)
+                    if (NPC.ai[0] >= 5)
                     {
                         WakeUp();
-                        Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, npc.Center);
+                        Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, NPC.Center);
                     }
                 }
 
@@ -458,19 +458,19 @@ namespace EEMod.NPCs.CoralReefs
                     case 0:
                         break;
                     case 1: //Blue
-                        npc.ai[0] -= 3;
+                        NPC.ai[0] -= 3;
                         strikeColor = Color.Blue;
                         break;
                     case 2: //Pink
-                        npc.ai[0] -= 2;
+                        NPC.ai[0] -= 2;
                         strikeColor = Color.Magenta;
                         break;
                     case 3: //White
-                        npc.ai[0] -= 1;
+                        NPC.ai[0] -= 1;
                         strikeColor = Color.White;
                         break;
                     case 4: //Cyan
-                        npc.ai[0] -= 2;
+                        NPC.ai[0] -= 2;
                         strikeColor = Color.Cyan;
                         break;
                 }
@@ -478,7 +478,7 @@ namespace EEMod.NPCs.CoralReefs
             }
             else
             {
-                npc.ai[0] -= 3;
+                NPC.ai[0] -= 3;
                 strikeColor = Color.White;
             }
 
@@ -488,20 +488,20 @@ namespace EEMod.NPCs.CoralReefs
         private void WakeUp()
         {
             awake = true;
-            npc.ai[0] = 40;
+            NPC.ai[0] = 40;
             timer1 = 180;
-            npc.ai[1] = 0;
-            npc.ai[2] = 0;
+            NPC.ai[1] = 0;
+            NPC.ai[2] = 0;
         } //Called on spire awakening
 
         private void Die()
         {
             awake = false;
-            npc.ai[0] = 0;
-            npc.ai[0] = 0;
+            NPC.ai[0] = 0;
+            NPC.ai[0] = 0;
             timer1 = 0;
-            npc.ai[1] = 0;
-            npc.ai[2] = 0;
+            NPC.ai[1] = 0;
+            NPC.ai[2] = 0;
         } //Called on spire death
     }
 }

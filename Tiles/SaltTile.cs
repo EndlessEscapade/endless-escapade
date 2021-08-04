@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class SaltTile : ModTile
+    public class SaltTile : EETile
     {
         public override void SetDefaults()
         {

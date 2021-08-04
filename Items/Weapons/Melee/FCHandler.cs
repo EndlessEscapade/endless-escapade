@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee
 {
-    public class FCHandler : ModProjectile
+    public class FCHandler : EEProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
 
@@ -16,18 +16,18 @@ namespace EEMod.Items.Weapons.Melee
 
         public override void SetDefaults()
         {
-            projectile.width = 44;
-            projectile.height = 60;
-            projectile.aiStyle = -1;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.extraUpdates = 2;
-            projectile.tileCollide = false;
-            projectile.damage = 0;
-            projectile.alpha = 255;
-            projectile.timeLeft = 1000000000;
+            Projectile.width = 44;
+            Projectile.height = 60;
+            Projectile.aiStyle = -1;
+            Projectile.melee = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.extraUpdates = 2;
+            Projectile.tileCollide = false;
+            Projectile.damage = 0;
+            Projectile.alpha = 255;
+            Projectile.timeLeft = 1000000000;
         }
 
         public int[] projectileIndex = { -1, -1, -1, -1 };

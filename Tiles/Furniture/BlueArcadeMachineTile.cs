@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture
 {
-    public class BlueArcadeMachineTile : ModTile
+    public class BlueArcadeMachineTile : EETile
     {
         public override void SetDefaults()
         {

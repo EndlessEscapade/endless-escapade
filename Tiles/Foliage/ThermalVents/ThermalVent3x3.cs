@@ -9,7 +9,7 @@ using Terraria.Enums;
 
 namespace EEMod.Tiles.Foliage.ThermalVents
 {
-    public class ThermalVent3x3 : ModTile
+    public class ThermalVent3x3 : EETile
     {
         public override void SetDefaults()
         {

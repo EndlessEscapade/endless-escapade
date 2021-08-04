@@ -8,7 +8,7 @@ using System;
 
 namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 {
-    public class HuntressBow : ModItem
+    public class HuntressBow : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -17,29 +17,29 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 
         public override void SetDefaults()
         {
-            item.damage = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.damage = 20;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
 
-            item.useAnimation = 18;
-            item.useTime = 6;
-            item.reuseDelay = 35;
+            Item.useAnimation = 18;
+            Item.useTime = 6;
+            Item.reuseDelay = 35;
 
-            item.shootSpeed = 16f;
-            item.knockBack = 6.5f;
-            item.width = 30;
-            item.height = 58;
-            item.scale = 1f;
-            item.rare = ItemRarityID.Purple;
-            item.value = Item.sellPrice(silver: 10);
+            Item.shootSpeed = 16f;
+            Item.knockBack = 6.5f;
+            Item.width = 30;
+            Item.height = 58;
+            Item.scale = 1f;
+            Item.rare = ItemRarityID.Purple;
+            Item.value = Item.sellPrice(silver: 10);
 
-            item.noMelee = false;
-            item.autoReuse = true;
-            item.useAmmo = AmmoID.Arrow;
+            Item.noMelee = false;
+            Item.autoReuse = true;
+            Item.useAmmo = AmmoID.Arrow;
 
-            item.ranged = true;
+            Item.ranged = true;
 
-            item.UseSound = SoundID.Item1;
-            item.shoot = ModContent.ProjectileType<ShimmerShotProj>();
+            Item.UseSound = SoundID.Item1;
+            Item.shoot = ModContent.ProjectileType<ShimmerShotProj>();
         }
 
         public override bool AltFunctionUse(Player player)
@@ -52,44 +52,44 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
         {
             if (player.altFunctionUse == 2)
             {
-                item.noUseGraphic = true;
-                item.useStyle = ItemUseStyleID.SwingThrow;
+                Item.noUseGraphic = true;
+                Item.useStyle = ItemUseStyleID.SwingThrow;
 
-                item.useTime = 10;
-                item.useAnimation = 10;
-                item.reuseDelay = 60;
+                Item.useTime = 10;
+                Item.useAnimation = 10;
+                Item.reuseDelay = 60;
 
-                item.damage = 50;
+                Item.damage = 50;
 
-                item.autoReuse = false;
+                Item.autoReuse = false;
             }
             else
             {
                 if (arrowShots < 15)
                 {
-                    item.noUseGraphic = false;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
+                    Item.noUseGraphic = false;
+                    Item.useStyle = ItemUseStyleID.HoldingOut;
 
-                    item.useAnimation = 18;
-                    item.useTime = 6;
-                    item.reuseDelay = 35;
+                    Item.useAnimation = 18;
+                    Item.useTime = 6;
+                    Item.reuseDelay = 35;
 
-                    item.damage = 25;
+                    Item.damage = 25;
 
-                    item.autoReuse = true;
+                    Item.autoReuse = true;
                 }
                 else
                 {
-                    item.noUseGraphic = false;
-                    item.useStyle = ItemUseStyleID.HoldingOut;
+                    Item.noUseGraphic = false;
+                    Item.useStyle = ItemUseStyleID.HoldingOut;
 
-                    item.useAnimation = 30;
-                    item.useTime = 30;
-                    item.reuseDelay = 30;
+                    Item.useAnimation = 30;
+                    Item.useTime = 30;
+                    Item.reuseDelay = 30;
 
-                    item.damage = 60;
+                    Item.damage = 60;
 
-                    item.autoReuse = false;
+                    Item.autoReuse = false;
                 }
             }
 
@@ -104,14 +104,14 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             {
                 if (arrowShots < 15)
                 {
-                    Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -4, ModContent.ProjectileType<HuntressArrow>(), item.damage, item.knockBack, default);
+                    Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -4, ModContent.ProjectileType<HuntressArrow>(), Item.damage, Item.knockBack, default);
                     cloudSprite.ai[1] = player.GetModPlayer<HuntressBowPlayer>().targetNPC.whoAmI;
 
                     arrowShots++;
                 }
                 else
                 {
-                    Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -40, ModContent.ProjectileType<HuntressBallista>(), item.damage, item.knockBack, default);
+                    Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -40, ModContent.ProjectileType<HuntressBallista>(), Item.damage, Item.knockBack, default);
 
                     ballistaShots++;
 
@@ -124,7 +124,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             }
             if (player.altFunctionUse == 2)
             {
-                Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -4, ModContent.ProjectileType<HuntressGlaive>(), item.damage, item.knockBack, default);
+                Projectile cloudSprite = Projectile.NewProjectileDirect(player.Center, Vector2.Normalize(player.Center - Main.MouseWorld) * -4, ModContent.ProjectileType<HuntressGlaive>(), Item.damage, Item.knockBack, default);
                 cloudSprite.ai[1] = player.GetModPlayer<HuntressBowPlayer>().targetNPC.whoAmI;
             }
 
@@ -210,12 +210,12 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
         }
     }
 
-    public class HuntressBowFlair : ModProjectile
+    public class HuntressBowFlair : EEProjectile
     {
 
     }
 
-    public class HuntressArrow : ModProjectile
+    public class HuntressArrow : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -224,39 +224,39 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 30;
-            projectile.timeLeft = 600;
-            projectile.penetrate = 1;
+            Projectile.width = 6;
+            Projectile.height = 30;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = 1;
 
-            projectile.hostile = false;
-            projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
 
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
         }
 
         private NPC targetNPC;
         private float initialRot;
         public override void AI()
         {
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
-                targetNPC = Main.npc[(int)projectile.ai[1]];
+                targetNPC = Main.npc[(int)Projectile.ai[1]];
 
-                projectile.rotation = projectile.velocity.ToRotation();
-                initialRot = projectile.rotation;
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                initialRot = Projectile.rotation;
             }
             
-            projectile.ai[0]++;
+            Projectile.ai[0]++;
 
-            projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(targetNPC.Center) * 16f, (projectile.ai[0] / 500f));
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(targetNPC.Center) * 16f, (Projectile.ai[0] / 500f));
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
     }
 
-    public class HuntressCritArrow : ModProjectile
+    public class HuntressCritArrow : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -265,39 +265,39 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 30;
-            projectile.timeLeft = 600;
-            projectile.penetrate = 1;
+            Projectile.width = 6;
+            Projectile.height = 30;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = 1;
 
-            projectile.hostile = false;
-            projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
 
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
         }
 
         private NPC targetNPC;
         private float initialRot;
         public override void AI()
         {
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
-                targetNPC = Main.npc[(int)projectile.ai[1]];
+                targetNPC = Main.npc[(int)Projectile.ai[1]];
 
-                projectile.rotation = projectile.velocity.ToRotation();
-                initialRot = projectile.rotation;
+                Projectile.rotation = Projectile.velocity.ToRotation();
+                initialRot = Projectile.rotation;
             }
 
-            projectile.ai[0]++;
+            Projectile.ai[0]++;
 
-            projectile.velocity = Vector2.Lerp(projectile.velocity, projectile.DirectionTo(targetNPC.Center) * 16f, (projectile.ai[0] / 500f));
+            Projectile.velocity = Vector2.Lerp(Projectile.velocity, Projectile.DirectionTo(targetNPC.Center) * 16f, (Projectile.ai[0] / 500f));
 
-            projectile.rotation = projectile.velocity.ToRotation() + MathHelper.PiOver2;
+            Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver2;
         }
     }
 
-    public class HuntressGlaive : ModProjectile
+    public class HuntressGlaive : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -306,16 +306,16 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.timeLeft = 600;
-            projectile.penetrate = -1;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = -1;
 
-            projectile.hostile = false;
-            projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
 
-            projectile.tileCollide = false;
-            projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.ignoreWater = true;
         }
 
         private NPC targetNPC;
@@ -323,23 +323,23 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
-                targetNPC = Main.npc[(int)projectile.ai[1]];
+                targetNPC = Main.npc[(int)Projectile.ai[1]];
 
-                projectile.ai[0]++;
+                Projectile.ai[0]++;
             }
 
-            projectile.velocity = projectile.DirectionTo(targetNPC.Center) * 12f;
+            Projectile.velocity = Projectile.DirectionTo(targetNPC.Center) * 12f;
 
-            projectile.rotation += 0.15f * (kills + 1);
+            Projectile.rotation += 0.15f * (kills + 1);
 
             if(targetNPC == null)
             {
                 float dist = float.MaxValue;
                 for (int i = 0; i < Main.maxNPCs; i++)
                 {
-                    float chung = Vector2.Distance(projectile.Center, Main.npc[i].Center);
+                    float chung = Vector2.Distance(Projectile.Center, Main.npc[i].Center);
                     if (chung < dist && Main.npc[i].active)
                     {
                         dist = chung;
@@ -358,7 +358,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
             {
                 if (i == target.whoAmI) continue;
 
-                float chung = Vector2.Distance(projectile.Center, Main.npc[i].Center);
+                float chung = Vector2.Distance(Projectile.Center, Main.npc[i].Center);
                 if (chung < dist && Main.npc[i].active)
                 {
                     dist = chung;
@@ -366,13 +366,13 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
                 }
             }
 
-            if (targetNPC == target) projectile.Kill();
+            if (targetNPC == target) Projectile.Kill();
 
-            if (kills > 7) projectile.Kill();
+            if (kills > 7) Projectile.Kill();
         }
     }
 
-    public class HuntressBallista : ModProjectile
+    public class HuntressBallista : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -381,21 +381,21 @@ namespace EEMod.Items.Weapons.Ranger.Longbows.HuntressBow
 
         public override void SetDefaults()
         {
-            projectile.width = 98;
-            projectile.height = 14;
-            projectile.timeLeft = 600;
-            projectile.penetrate = 1;
+            Projectile.width = 98;
+            Projectile.height = 14;
+            Projectile.timeLeft = 600;
+            Projectile.penetrate = 1;
 
-            projectile.hostile = false;
-            projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
 
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
     }
 }

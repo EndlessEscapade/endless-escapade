@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Buffs.Buffs
 {
-    public class RechargingGauntlets : ModBuff
+    public class RechargingGauntlets : EEBuff
     {
         public override void SetDefaults()
         {

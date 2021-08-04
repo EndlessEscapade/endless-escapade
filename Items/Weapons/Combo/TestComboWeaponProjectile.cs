@@ -13,34 +13,34 @@ namespace EEMod.Items.Weapons.Combo
         }
         public void Attack1()
         {
-            projectile.Center = projOwner.Center;
-            projectile.rotation += 0.1f;
+            Projectile.Center = projOwner.Center;
+            Projectile.rotation += 0.1f;
             if (isFinished)
-                projectile.Kill();
+                Projectile.Kill();
         }
         public void Attack2()
         {
-            projectile.Center = projOwner.Center;
-            projectile.rotation -= 0.1f;
+            Projectile.Center = projOwner.Center;
+            Projectile.rotation -= 0.1f;
             if (isFinished)
-                projectile.Kill();
+                Projectile.Kill();
         }
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 50;
-            projectile.aiStyle = -1;
-            projectile.penetrate = -1;
-            projectile.scale = 1f;
-            projectile.alpha = 0;
+            Projectile.width = 42;
+            Projectile.height = 50;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = -1;
+            Projectile.scale = 1f;
+            Projectile.alpha = 0;
 
-            projectile.hide = true;
-            projectile.ownerHitCheck = true;
-            projectile.melee = true;
-            projectile.tileCollide = false;
-            projectile.friendly = true;
-            projectile.damage = 20;
-            projectile.knockBack = 4.5f;
+            Projectile.hide = true;
+            Projectile.ownerHitCheck = true;
+            Projectile.melee = true;
+            Projectile.tileCollide = false;
+            Projectile.friendly = true;
+            Projectile.damage = 20;
+            Projectile.knockBack = 4.5f;
             AddCombo(0, Attack1);
             AddCombo(1, Attack2);
         }

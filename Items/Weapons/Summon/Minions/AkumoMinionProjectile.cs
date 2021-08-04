@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Summon.Minions
 {
-    public class AkumoMinionProjectile : ModProjectile
+    public class AkumoMinionProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,19 +16,19 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
         public override void SetDefaults()
         {
-            projectile.width = 42;
-            projectile.height = 18;
-            projectile.tileCollide = false;
-            projectile.timeLeft = 120;
-            projectile.rotation = (float)(Math.PI / 2);
-            projectile.penetrate = 1;
-            projectile.hostile = false;
-            projectile.friendly = true;
+            Projectile.width = 42;
+            Projectile.height = 18;
+            Projectile.tileCollide = false;
+            Projectile.timeLeft = 120;
+            Projectile.rotation = (float)(Math.PI / 2);
+            Projectile.penetrate = 1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
         }
 
         public override void AI()
         {
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
@@ -41,14 +41,14 @@ namespace EEMod.Items.Weapons.Summon.Minions
         {
             for (int i = 0; i < 10; i++)
             {
-                Dust.NewDust(projectile.Center, 0, 0, DustID.Flare);
+                Dust.NewDust(Projectile.Center, 0, 0, DustID.Flare);
             }
-            projectile.Kill();
+            Projectile.Kill();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[projectile.type], 0, projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
+            AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[Projectile.type], 0, Projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
             return true;
         }
     }

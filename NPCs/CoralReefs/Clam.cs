@@ -7,38 +7,38 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class Clam : ModNPC
+    public class Clam : EENPC
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clam");
-            Main.npcFrameCount[npc.type] = 2;
+            Main.npcFrameCount[NPC.type] = 2;
         }
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.lifeMax = 50;
-            npc.damage = 13;
-            npc.defense = 3;
+            NPC.lifeMax = 50;
+            NPC.damage = 13;
+            NPC.defense = 3;
 
-            npc.width = 84;
-            npc.height = 53;
-            npc.noGravity = false;
-            npc.knockBackResist = 0f;
+            NPC.width = 84;
+            NPC.height = 53;
+            NPC.noGravity = false;
+            NPC.knockBackResist = 0f;
 
-            npc.npcSlots = 1f;
-            npc.buffImmune[BuffID.Confused] = true;
-            npc.lavaImmune = false;
-            banner = npc.type;
+            NPC.npcSlots = 1f;
+            NPC.buffImmune[BuffID.Confused] = true;
+            NPC.lavaImmune = false;
+            banner = NPC.type;
             //bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
-            npc.value = Item.sellPrice(0, 0, 0, 75);
+            NPC.value = Item.sellPrice(0, 0, 0, 75);
         }
 
         public override void ScaleExpertStats(int numPlayers, float bossLifeScale)
         {
-            npc.lifeMax = (int)(npc.lifeMax * 0.22f);
+            NPC.lifeMax = (int)(NPC.lifeMax * 0.22f);
         }
 
         public bool CheckIfEntityOnGround(NPC npc)
@@ -74,56 +74,56 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void AI()
         {
-            Player player = Main.player[npc.target];
-            float yChange = npc.Center.Y - player.Center.Y;
-            if (npc.WithinRange(player.Center, 200))
+            Player player = Main.player[NPC.target];
+            float yChange = NPC.Center.Y - player.Center.Y;
+            if (NPC.WithinRange(player.Center, 200))
             {
-                npc.ai[2] = 1;
+                NPC.ai[2] = 1;
             }
 
-            npc.TargetClosest(true);
-            if (npc.ai[2] == 1)
+            NPC.TargetClosest(true);
+            if (NPC.ai[2] == 1)
             {
-                if (player.Center.X - npc.Center.X > 0)
+                if (player.Center.X - NPC.Center.X > 0)
                 {
-                    npc.spriteDirection = 1;
+                    NPC.spriteDirection = 1;
                 }
                 else
                 {
-                    npc.spriteDirection = -1;
+                    NPC.spriteDirection = -1;
                 }
 
-                if (npc.ai[0] % 200 == 0 && npc.ai[1] == 0 && npc.ai[0] != 0)
+                if (NPC.ai[0] % 200 == 0 && NPC.ai[1] == 0 && NPC.ai[0] != 0)
                 {
-                    npc.velocity.X += 10 * npc.spriteDirection;
-                    npc.velocity.Y -= 10 * (1 + yChange / 500);
-                    npc.ai[1] = 1;
+                    NPC.velocity.X += 10 * NPC.spriteDirection;
+                    NPC.velocity.Y -= 10 * (1 + yChange / 500);
+                    NPC.ai[1] = 1;
                 }
-                if (CheckIfEntityOnGround(npc))
+                if (CheckIfEntityOnGround(NPC))
                 {
-                    if (npc.velocity.Y == 0)
+                    if (NPC.velocity.Y == 0)
                     {
-                        npc.velocity.X = 0;
-                        npc.ai[1] = 0;
+                        NPC.velocity.X = 0;
+                        NPC.ai[1] = 0;
                     }
-                    npc.ai[0]++;
+                    NPC.ai[0]++;
                 }
 
-                npc.velocity *= .98f;
+                NPC.velocity *= .98f;
             }
         }
 
         public override void FindFrame(int frameHeight)
         {
-            if (npc.ai[2] == 1)
+            if (NPC.ai[2] == 1)
             {
-                npc.frame.Y = frameHeight;
+                NPC.frame.Y = frameHeight;
             }
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/ClamGlow"), npc.Center - Main.screenPosition + new Vector2(0, 4), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/ClamGlow"), NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items
 {
-    public class Telescope : ModItem
+    public class Telescope : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,11 +16,11 @@ namespace EEMod.Items
 
         public override void SetDefaults()
         {
-            item.rare = ItemRarityID.Orange;
-            item.width = 40;
-            item.height = 14;
-            item.value = Item.buyPrice(0, 0, 30, 0);
-            item.holdStyle = 7;
+            Item.rare = ItemRarityID.Orange;
+            Item.width = 40;
+            Item.height = 14;
+            Item.value = Item.buyPrice(0, 0, 30, 0);
+            Item.holdStyle = 7;
         }
 
         public override bool HoldItemFrame(Player player)

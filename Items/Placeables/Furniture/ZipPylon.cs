@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Furniture
 {
-    public class ZipPylon : ModItem
+    public class ZipPylon : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -13,18 +13,18 @@ namespace EEMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            item.width = 10;
-            item.height = 10;
-            item.rare = ItemRarityID.White;
-            item.value = Item.sellPrice(0, 0, 0, 0);
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useAnimation = 15;
-            item.useTime = 7;
-            item.consumable = true;
-            item.autoReuse = true;
-            item.maxStack = 999;
-            item.placeStyle = 10;
-            item.createTile = ModContent.TileType<Tiles.Furniture.ZipPylon>();
+            Item.width = 10;
+            Item.height = 10;
+            Item.rare = ItemRarityID.White;
+            Item.value = Item.sellPrice(0, 0, 0, 0);
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useAnimation = 15;
+            Item.useTime = 7;
+            Item.consumable = true;
+            Item.autoReuse = true;
+            Item.maxStack = 999;
+            Item.placeStyle = 10;
+            Item.createTile = ModContent.TileType<Tiles.Furniture.ZipPylon>();
         }
     }
 }

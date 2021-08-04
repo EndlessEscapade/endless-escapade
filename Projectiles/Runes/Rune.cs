@@ -8,49 +8,49 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Runes
 {
-    public abstract class Rune : ModProjectile
+    public abstract class Rune : EEProjectile
     {
         public virtual int ThisRuneID => 0;
 
         public override void SetDefaults()
         {
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 10000000;
-            projectile.ignoreWater = true;
-            projectile.tileCollide = false;
-            projectile.aiStyle = -1;
-            projectile.damage = 0;
-            projectile.alpha = 255;
-            projectile.ai[1] = 0;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 10000000;
+            Projectile.ignoreWater = true;
+            Projectile.tileCollide = false;
+            Projectile.aiStyle = -1;
+            Projectile.damage = 0;
+            Projectile.alpha = 255;
+            Projectile.ai[1] = 0;
         }
 
         public override void AI()
         {
-            switch (projectile.ai[1])
+            switch (Projectile.ai[1])
             {
                 case 0:
-                    if (projectile.ai[0] == 0) projectile.alpha = 255;
-                    projectile.ai[0]++;
-                    if (projectile.alpha > 0) projectile.alpha -= 4;
+                    if (Projectile.ai[0] == 0) Projectile.alpha = 255;
+                    Projectile.ai[0]++;
+                    if (Projectile.alpha > 0) Projectile.alpha -= 4;
 
-                    projectile.velocity = new Vector2(0, (float)Math.Sin(projectile.ai[0] / 20));
+                    Projectile.velocity = new Vector2(0, (float)Math.Sin(Projectile.ai[0] / 20));
                     break;
                 case 1:
-                    projectile.alpha += 8;
+                    Projectile.alpha += 8;
                     break;
             }
 
-            if (projectile.alpha >= 255)
+            if (Projectile.alpha >= 255)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
 
-            if (Vector2.Distance(projectile.Center, Main.LocalPlayer.Center) <= 32 && projectile.alpha <= 0)
+            if (Vector2.Distance(Projectile.Center, Main.LocalPlayer.Center) <= 32 && Projectile.alpha <= 0)
             {
-                projectile.timeLeft = 32;
-                projectile.ai[1] = 1;
+                Projectile.timeLeft = 32;
+                Projectile.ai[1] = 1;
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[ThisRuneID] = 1;
             }
             CustomAI();

@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Enemy
 {
-    public class BlueRing : ModProjectile
+    public class BlueRing : EEProjectile
     {
         public override string Texture => Helpers.EmptyTexture;
 
@@ -17,27 +17,27 @@ namespace EEMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 8;
-            projectile.alpha = 0;
-            projectile.timeLeft = 1200;
-            projectile.penetrate = 1;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1f;
-            projectile.aiStyle = -1;
-            projectile.spriteDirection = -1;
+            Projectile.width = 40;
+            Projectile.height = 8;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 1200;
+            Projectile.penetrate = 1;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 1f;
+            Projectile.aiStyle = -1;
+            Projectile.spriteDirection = -1;
         }
 
         private float radius = 0;
 
         public override void AI()
         {
-            Vector2 origin = projectile.Center;
-            projectile.ai[0]++;
-            radius = 8 * (float)Math.Sin(projectile.ai[0] / 10) + 24;
+            Vector2 origin = Projectile.Center;
+            Projectile.ai[0]++;
+            radius = 8 * (float)Math.Sin(Projectile.ai[0] / 10) + 24;
             int numLocations = 40;
             for (int i = 0; i < numLocations; i++)
             {
@@ -57,7 +57,7 @@ namespace EEMod.Projectiles.Enemy
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.Kill();
+            Projectile.Kill();
             return true;
         }
     }

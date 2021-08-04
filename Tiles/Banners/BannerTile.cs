@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Banners
 {
-    public class BannerTile : ModTile
+    public class BannerTile : EETile
     {
         public override void SetDefaults()
         {

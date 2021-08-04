@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Melee.Yoyos
 {
-    public class KelpThrowBolt : ModProjectile
+    public class KelpThrowBolt : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -16,33 +16,33 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
 
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
-            projectile.hostile = false;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 200;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.extraUpdates = 1;
-            projectile.damage = 10;
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            Projectile.width = 16;
+            Projectile.height = 16;
+            Projectile.hostile = false;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 200;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.extraUpdates = 1;
+            Projectile.damage = 10;
+            ProjectileID.Sets.TrailCacheLength[Projectile.type] = 5;
+            ProjectileID.Sets.TrailingMode[Projectile.type] = 0;
         }
 
         public override void AI()
         {
-            projectile.velocity = projectile.velocity.RotatedBy(Math.PI / 180) * 0.99f;
-            projectile.ai[0]++;
-            projectile.rotation = (float)Math.Atan2(projectile.velocity.Y, projectile.velocity.X) + 1.57f;
+            Projectile.velocity = Projectile.velocity.RotatedBy(Math.PI / 180) * 0.99f;
+            Projectile.ai[0]++;
+            Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Texture2D boltTex = ModContent.GetTexture("EEMod/Particles/MediumCircle");
 
-            Helpers.DrawAdditive(boltTex, projectile.Center - Main.screenPosition, Color.Goldenrod, 0.2f);
+            Helpers.DrawAdditive(boltTex, Projectile.Center - Main.screenPosition, Color.Goldenrod, 0.2f);
             
-            Helpers.DrawAdditive(ModContent.GetTexture("EEMod/Textures/RadialGradient"), projectile.Center - Main.screenPosition, Color.Gold, 0.1f);
+            Helpers.DrawAdditive(ModContent.GetTexture("EEMod/Textures/RadialGradient"), Projectile.Center - Main.screenPosition, Color.Gold, 0.1f);
 
             return false;
         }

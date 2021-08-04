@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Enemy
 {
-    public class MechanicalLure : ModProjectile
+    public class MechanicalLure : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -13,47 +13,47 @@ namespace EEMod.Projectiles.Enemy
 
         public override void SetDefaults()
         {
-            projectile.width = 18;
-            projectile.height = 16;
-            projectile.alpha = 0;
-            projectile.timeLeft = 1200;
-            projectile.penetrate = -1;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1f;
-            projectile.aiStyle = -1;
-            projectile.spriteDirection = -1;
+            Projectile.width = 18;
+            Projectile.height = 16;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 1200;
+            Projectile.penetrate = -1;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 1f;
+            Projectile.aiStyle = -1;
+            Projectile.spriteDirection = -1;
         }
 
         public override void AI()
         {
-            if (projectile.ai[0] == 0)
+            if (Projectile.ai[0] == 0)
             {
-                projectile.velocity = new Vector2(0, 2);
+                Projectile.velocity = new Vector2(0, 2);
             }
 
-            if (projectile.ai[0] == 1)
+            if (Projectile.ai[0] == 1)
             {
-                projectile.velocity = new Vector2(0, -4);
-                Main.player[(int)projectile.ai[1]].Center = projectile.Center;
+                Projectile.velocity = new Vector2(0, -4);
+                Main.player[(int)Projectile.ai[1]].Center = Projectile.Center;
             }
-            if (projectile.Center.Y < Main.npc[projectile.owner].Center.Y)
+            if (Projectile.Center.Y < Main.npc[Projectile.owner].Center.Y)
             {
-                projectile.Kill();
+                Projectile.Kill();
             }
         }
 
         public override void Kill(int timeLeft)
         {
-            Main.npc[projectile.owner].ai[3] = 0;
+            Main.npc[Projectile.owner].ai[3] = 0;
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            projectile.ai[1] = target.whoAmI;
-            projectile.ai[0] = 1;
+            Projectile.ai[1] = target.whoAmI;
+            Projectile.ai[0] = 1;
         }
     }
 }

@@ -8,7 +8,7 @@ using System;
 
 namespace EEMod.Projectiles.CoralReefs
 {
-    public class TeslaCoralProj : ModProjectile
+    public class TeslaCoralProj : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -17,18 +17,18 @@ namespace EEMod.Projectiles.CoralReefs
 
         public override void SetDefaults()
         {
-            projectile.width = 32;
-            projectile.height = 32;
-            projectile.aiStyle = -1;
-            projectile.melee = true;
-            projectile.penetrate = -1;
-            projectile.hostile = false;
-            projectile.friendly = true;
-            projectile.tileCollide = false;
-            projectile.damage = 0;
-            projectile.timeLeft = iterations;
-            projectile.alpha = 0;
-            projectile.hide = true;
+            Projectile.width = 32;
+            Projectile.height = 32;
+            Projectile.aiStyle = -1;
+            Projectile.melee = true;
+            Projectile.penetrate = -1;
+            Projectile.hostile = false;
+            Projectile.friendly = true;
+            Projectile.tileCollide = false;
+            Projectile.damage = 0;
+            Projectile.timeLeft = iterations;
+            Projectile.alpha = 0;
+            Projectile.hide = true;
         }
 
         public Vector2 target = Vector2.Zero;
@@ -37,23 +37,23 @@ namespace EEMod.Projectiles.CoralReefs
 
         public override void AI()
         {
-            if (projectile.ai[0] < iterations)
+            if (Projectile.ai[0] < iterations)
             {
-                Vector2 dir = target - projectile.Center;
+                Vector2 dir = target - Projectile.Center;
 
                 distance = dir.Length() / 16f;
 
-                Vector2 desiredPoint = dir * (projectile.ai[0] / iterations);
+                Vector2 desiredPoint = dir * (Projectile.ai[0] / iterations);
 
-                Vector2 desiredVector = desiredPoint + (Vector2.Normalize(dir - projectile.Center).RotatedBy(Main.rand.NextFloat(-1.5f, 1.5f)) * distance);
+                Vector2 desiredVector = desiredPoint + (Vector2.Normalize(dir - Projectile.Center).RotatedBy(Main.rand.NextFloat(-1.5f, 1.5f)) * distance);
 
-                projectile.Center += desiredVector;
+                Projectile.Center += desiredVector;
 
-                projectile.ai[0]++;
+                Projectile.ai[0]++;
             }
             else
             {
-                projectile.Center = target;
+                Projectile.Center = target;
             }
         }
     }

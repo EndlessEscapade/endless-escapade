@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items
 {
-    public class GraniteGauntlets : ModItem
+    public class GraniteGauntlets : EEItem
     {
         public override void SetStaticDefaults()
         {

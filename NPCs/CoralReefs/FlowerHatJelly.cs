@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    public class FlowerHatJelly : ModNPC
+    public class FlowerHatJelly : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -14,54 +14,54 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.friendly = true;
+            NPC.friendly = true;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
             //npc.alpha = 127;
 
-            npc.lifeMax = 5;
+            NPC.lifeMax = 5;
 
-            npc.width = 18;
-            npc.height = 30;
+            NPC.width = 18;
+            NPC.height = 30;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
         }
 
         public override void AI()
         {
-            Lighting.AddLight(npc.Center, 0.2f, 0.4f, 1.4f);
-            npc.TargetClosest();
-            Player target = Main.player[npc.target];
+            Lighting.AddLight(NPC.Center, 0.2f, 0.4f, 1.4f);
+            NPC.TargetClosest();
+            Player target = Main.player[NPC.target];
 
-            npc.ai[0]++;
-            if (target.Center.Y > npc.Center.Y)
+            NPC.ai[0]++;
+            if (target.Center.Y > NPC.Center.Y)
             {
-                if (npc.velocity.Y < 2)
+                if (NPC.velocity.Y < 2)
                 {
-                    npc.velocity.Y *= 1.01f;
+                    NPC.velocity.Y *= 1.01f;
                 }
 
-                if (npc.velocity.Y <= 0)
+                if (NPC.velocity.Y <= 0)
                 {
-                    npc.velocity.Y += 0.5f;
+                    NPC.velocity.Y += 0.5f;
                 }
             }
             else
             {
-                if (npc.ai[0] >= 120)
+                if (NPC.ai[0] >= 120)
                 {
-                    npc.velocity.Y -= 2;
-                    npc.velocity.X += Helpers.Clamp((target.Center.X - npc.Center.X) / 10, -2, 2);
-                    npc.ai[0] = 0;
+                    NPC.velocity.Y -= 2;
+                    NPC.velocity.X += Helpers.Clamp((target.Center.X - NPC.Center.X) / 10, -2, 2);
+                    NPC.ai[0] = 0;
                 }
-                npc.velocity *= 0.97f;
+                NPC.velocity *= 0.97f;
             }
         }
     }

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class InkCloud : ModProjectile
+    public class InkCloud : EEProjectile
     {
         public override string Texture => "Terraria/Projectile_" + ProjectileID.ToxicCloud;
         public static Color OverrideColor = Color.Black;
@@ -16,20 +16,20 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            projectile.CloneDefaults(ProjectileID.ToxicCloud);
-            projectile.friendly = true;
-            projectile.magic = true;
-            projectile.timeLeft = 228;
-            projectile.tileCollide = false;
+            Projectile.CloneDefaults(ProjectileID.ToxicCloud);
+            Projectile.friendly = true;
+            Projectile.magic = true;
+            Projectile.timeLeft = 228;
+            Projectile.tileCollide = false;
         }
 
         public override void AI()
         {
-            projectile.velocity *= 0.98f;
-            projectile.ai[0]++;
-            if (projectile.ai[0] >= 120)
+            Projectile.velocity *= 0.98f;
+            Projectile.ai[0]++;
+            if (Projectile.ai[0] >= 120)
             {
-                projectile.alpha += 2;
+                Projectile.alpha += 2;
             }
         }
     }

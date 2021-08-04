@@ -11,7 +11,7 @@ using EEMod;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class AncientBubbleLarge : ModProjectile
+    public class AncientBubbleLarge : EEProjectile
     {
         public override void SetStaticDefaults()
         {
@@ -20,64 +20,64 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            projectile.width = 74;
-            projectile.height = 74;
-            projectile.aiStyle = -1;
-            projectile.penetrate = 1;
-            projectile.timeLeft = 120 + 128;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.friendly = true;
-            projectile.hostile = false;
-            projectile.magic = true;
+            Projectile.width = 74;
+            Projectile.height = 74;
+            Projectile.aiStyle = -1;
+            Projectile.penetrate = 1;
+            Projectile.timeLeft = 120 + 128;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.friendly = true;
+            Projectile.hostile = false;
+            Projectile.magic = true;
         }
 
         public override void AI()
         {
-            Player owner = Main.player[projectile.owner];
-            if (projectile.ai[0] < 120)
+            Player owner = Main.player[Projectile.owner];
+            if (Projectile.ai[0] < 120)
             {
                 if (owner.controlUseItem)
                 {
-                    projectile.Center = new Vector2(owner.Center.X + owner.DirectionTo(Main.MouseWorld).X * 32, owner.Center.Y - 24);
-                    projectile.ai[0]++;
+                    Projectile.Center = new Vector2(owner.Center.X + owner.DirectionTo(Main.MouseWorld).X * 32, owner.Center.Y - 24);
+                    Projectile.ai[0]++;
 
-                    owner.direction = projectile.Center.X - owner.Center.X <= 0 ? -1 : 1;
+                    owner.direction = Projectile.Center.X - owner.Center.X <= 0 ? -1 : 1;
                 }
                 else
-                    projectile.Kill();
+                    Projectile.Kill();
             }
-            else if(projectile.ai[0] == 120)
+            else if(Projectile.ai[0] == 120)
             {
-                projectile.velocity += owner.DirectionTo(Main.MouseWorld) * 12;
-                projectile.ai[0]++;
+                Projectile.velocity += owner.DirectionTo(Main.MouseWorld) * 12;
+                Projectile.ai[0]++;
 
-                owner.direction = projectile.Center.X - owner.Center.X <= 0 ? -1 : 1;
+                owner.direction = Projectile.Center.X - owner.Center.X <= 0 ? -1 : 1;
             }
             else
             {
-                if (projectile.Hitbox.Contains(Main.MouseWorld.ToPoint()) && Main.LocalPlayer.controlUseTile)
+                if (Projectile.Hitbox.Contains(Main.MouseWorld.ToPoint()) && Main.LocalPlayer.controlUseTile)
                 {
-                    CombatText.NewText(new Rectangle((int)projectile.position.X, (int)projectile.position.Y, projectile.width, projectile.height), new Color(255, 155, 0, 100), "Pop!");
+                    CombatText.NewText(new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height), new Color(255, 155, 0, 100), "Pop!");
                     Explode();
                 }
 
-                projectile.velocity.Y -= 0.05f;
+                Projectile.velocity.Y -= 0.05f;
 
-                projectile.rotation = projectile.velocity.X / 16f;
+                Projectile.rotation = Projectile.velocity.X / 16f;
 
-                projectile.alpha += 2;
+                Projectile.alpha += 2;
             }
 
-            projectile.scale = Helpers.Clamp(0.75f + (projectile.ai[0] / 480f), 0.75f, 1f);
+            Projectile.scale = Helpers.Clamp(0.75f + (Projectile.ai[0] / 480f), 0.75f, 1f);
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            if (projectile.ai[0] >= 120)
+            if (Projectile.ai[0] >= 120)
             {
                 Texture2D tex = mod.GetTexture("Projectiles/Mage/AncientBubbleLargeFlash");
-                spriteBatch.Draw(tex, projectile.Center - Main.screenPosition, tex.Frame(), Color.White * Math.Sin(Main.GameUpdateCount / 5f).PositiveSin() * (1 - (projectile.alpha / 255)), projectile.rotation, tex.Frame().Size() / 2f, projectile.scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, tex.Frame(), Color.White * Math.Sin(Main.GameUpdateCount / 5f).PositiveSin() * (1 - (Projectile.alpha / 255)), Projectile.rotation, tex.Frame().Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             }
         }
 
@@ -85,24 +85,24 @@ namespace EEMod.Items.Weapons.Mage
         {
             for (int i = 0; i < 40; i++)
             {
-                Vector2 position = projectile.position + new Vector2(Main.rand.Next(-50, 51) * .05f - 1.5f, Main.rand.Next(-50, 51) * .05f - 1.5f);
-                Dust dust = Main.dust[Dust.NewDust(position, projectile.width, projectile.height, DustID.FungiHit, 0f, -2f, 0, default(Color), 2f * .4f)];
+                Vector2 position = Projectile.position + new Vector2(Main.rand.Next(-50, 51) * .05f - 1.5f, Main.rand.Next(-50, 51) * .05f - 1.5f);
+                Dust dust = Main.dust[Dust.NewDust(position, Projectile.width, Projectile.height, DustID.FungiHit, 0f, -2f, 0, default(Color), 2f * .4f)];
                 dust.noGravity = true;
-                if (dust.position != projectile.Center)
-                    dust.velocity = projectile.DirectionTo(dust.position) * 8f;
+                if (dust.position != Projectile.Center)
+                    dust.velocity = Projectile.DirectionTo(dust.position) * 8f;
             }
         }
 
         private void Explode()
         {
-            var list = Main.npc.Where(x => Vector2.Distance(x.Center, projectile.Center) <= 144);
+            var list = Main.npc.Where(x => Vector2.Distance(x.Center, Projectile.Center) <= 144);
 
             foreach (var enemy in list)
             {
-                if (enemy.friendly == false) enemy.StrikeNPC(projectile.damage, 0f, projectile.Center.X - enemy.Center.X <= 0 ? -1 : 1);
+                if (enemy.friendly == false) enemy.StrikeNPC(Projectile.damage, 0f, Projectile.Center.X - enemy.Center.X <= 0 ? -1 : 1);
             }
 
-            projectile.Kill();
+            Projectile.Kill();
 
             Main.LocalPlayer.GetModPlayer<EEPlayer>().Shake = 10;
         }

@@ -9,27 +9,27 @@ using System.Collections.Generic;
 
 namespace EEMod.Items.Weapons.Melee.Yoyos
 {
-    public class KelpThrowProjectile : ModProjectile
+    public class KelpThrowProjectile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
-            ProjectileID.Sets.YoyosLifeTimeMultiplier[projectile.type] = -1f;
+            ProjectileID.Sets.YoyosLifeTimeMultiplier[Projectile.type] = -1f;
 
-            ProjectileID.Sets.YoyosMaximumRange[projectile.type] = 180f;
+            ProjectileID.Sets.YoyosMaximumRange[Projectile.type] = 180f;
 
-            ProjectileID.Sets.YoyosTopSpeed[projectile.type] = 12f;
+            ProjectileID.Sets.YoyosTopSpeed[Projectile.type] = 12f;
         }
 
         public override void SetDefaults()
         {
-            projectile.extraUpdates = 0;
-            projectile.width = 18;
-            projectile.height = 18;
-            projectile.aiStyle = 99;
-            projectile.friendly = true;
-            projectile.penetrate = -1;
-            projectile.melee = true;
-            projectile.scale = 1f;
+            Projectile.extraUpdates = 0;
+            Projectile.width = 18;
+            Projectile.height = 18;
+            Projectile.aiStyle = 99;
+            Projectile.friendly = true;
+            Projectile.penetrate = -1;
+            Projectile.melee = true;
+            Projectile.scale = 1f;
         }
 
         // notes for aiStyle 99:
@@ -54,31 +54,31 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
                     closestNPCPos = Main.npc[i].Center;
                 }
             }
-            if (Vector2.DistanceSquared(projectile.Center, closestNPCPos) < 200 * 200)
+            if (Vector2.DistanceSquared(Projectile.Center, closestNPCPos) < 200 * 200)
             {
-                projectile.ai[1] = 1 - Vector2.Distance(projectile.Center, closestNPCPos) / 200f;
-                if (Main.myPlayer == projectile.owner)
+                Projectile.ai[1] = 1 - Vector2.Distance(Projectile.Center, closestNPCPos) / 200f;
+                if (Main.myPlayer == Projectile.owner)
                 {
                     if (alphaCounter % 3 <= 0.04f)
                     {
                         int pieCut = Main.rand.Next(6, 8);
                         for (int m = 0; m < pieCut; m++)
                         {
-                            int projID = Projectile.NewProjectile(projectile.Center, Vector2.Zero, ModContent.ProjectileType<KelpThrowBolt>(), 15, 0, Main.myPlayer);
+                            int projID = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<KelpThrowBolt>(), 15, 0, Main.myPlayer);
                             Main.projectile[projID].velocity = new Vector2(0.5f, 0f).RotatedBy(m / (float)pieCut * Math.PI * 2);
                             Main.projectile[projID].netUpdate = true;
                         }
 
-                        rings.Add(new KelpRing(projectile.Center));
+                        rings.Add(new KelpRing(Projectile.Center));
                     }
                 }
             }
             else
             {
-                projectile.ai[1] = 0;
+                Projectile.ai[1] = 0;
                 alphaCounter = 0;
             }
-            center = projectile.Center;
+            center = Projectile.Center;
         }
 
         private float alphaCounter = 0;
@@ -86,7 +86,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), projectile.Center - Main.screenPosition, null, new Color((int)(18f * sineAdd), (int)(12f * sineAdd), (int)(2f * sineAdd), 0), 0f, new Vector2(75, 75), Math.Abs(0.33f * (sineAdd + 1)) * projectile.ai[1], SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), Projectile.Center - Main.screenPosition, null, new Color((int)(18f * sineAdd), (int)(12f * sineAdd), (int)(2f * sineAdd), 0), 0f, new Vector2(75, 75), Math.Abs(0.33f * (sineAdd + 1)) * Projectile.ai[1], SpriteEffects.None, 0f);
 
             DrawRings(spriteBatch);
 
@@ -98,7 +98,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 
             Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Items/Weapons/Melee/Yoyos/KelpThrowGlow");
-            Main.spriteBatch.Draw(tex, projectile.Center.ForDraw(), null, Color.White * sineAdd, projectile.rotation, tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, Projectile.Center.ForDraw(), null, Color.White * sineAdd, Projectile.rotation, tex.Bounds.Size() / 2, 1f, SpriteEffects.None, 0f);
         }
 
         private readonly List<KelpRing> rings = new List<KelpRing>();

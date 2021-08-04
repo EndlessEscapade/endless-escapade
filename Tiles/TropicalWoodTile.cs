@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles
 {
-    public class TropicalWoodTile : ModTile
+    public class TropicalWoodTile : EETile
     {
         public override void SetDefaults()
         {

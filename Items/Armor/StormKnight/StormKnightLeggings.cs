@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace EEMod.Items.Armor.StormKnight
 {
     [AutoloadEquip(EquipType.Legs)]
-    public class StormKnightLeggings : ModItem
+    public class StormKnightLeggings : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -16,11 +16,11 @@ namespace EEMod.Items.Armor.StormKnight
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 18;
-            item.value = Item.sellPrice(0, 0, 21);
-            item.rare = ItemRarityID.Green;
-            item.defense = 2;
+            Item.width = 18;
+            Item.height = 18;
+            Item.value = Item.sellPrice(0, 0, 21);
+            Item.rare = ItemRarityID.Green;
+            Item.defense = 2;
         }
 
         public override void UpdateEquip(Player player)

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace EEMod.Items.Weapons.Ranger.Guns
 {
-    public class BubbleBlitzer : ModItem
+    public class BubbleBlitzer : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,23 +14,23 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 
         public override void SetDefaults()
         {
-            item.melee = false;
-            item.noMelee = true;
-            item.autoReuse = true;
-            item.ranged = true;
-            item.value = Item.sellPrice(0, 0, 18);
-            item.damage = 12;
-            item.useTime = 25;
-            item.useAnimation = 25;
-            item.width = 20;
-            item.height = 20;
-            item.shoot = ProjectileID.PurificationPowder;
-			item.shootSpeed = 20f;
-			item.useAmmo = AmmoID.Bullet;
-            item.rare = ItemRarityID.Orange;
-            item.knockBack = 5f;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.UseSound = SoundID.Item11;
+            Item.melee = false;
+            Item.noMelee = true;
+            Item.autoReuse = true;
+            Item.ranged = true;
+            Item.value = Item.sellPrice(0, 0, 18);
+            Item.damage = 12;
+            Item.useTime = 25;
+            Item.useAnimation = 25;
+            Item.width = 20;
+            Item.height = 20;
+            Item.shoot = ProjectileID.PurificationPowder;
+			Item.shootSpeed = 20f;
+			Item.useAmmo = AmmoID.Bullet;
+            Item.rare = ItemRarityID.Orange;
+            Item.knockBack = 5f;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.UseSound = SoundID.Item11;
         }
         public override bool AltFunctionUse(Player player)
 		{
@@ -40,17 +40,17 @@ namespace EEMod.Items.Weapons.Ranger.Guns
 		{
 			if (player.altFunctionUse == 2)
 			{
-				item.useTime = 8;
-                item.useAnimation = 8;
-                item.autoReuse = true;
-                item.shootSpeed = 4f;
+				Item.useTime = 8;
+                Item.useAnimation = 8;
+                Item.autoReuse = true;
+                Item.shootSpeed = 4f;
 			}
 			else
 			{
-                item.useTime = 25;
-                item.useAnimation = 25;
-				item.autoReuse = false;
-                item.shootSpeed = 20f;
+                Item.useTime = 25;
+                Item.useAnimation = 25;
+				Item.autoReuse = false;
+                Item.shootSpeed = 20f;
 			}
 			return true;
 		}

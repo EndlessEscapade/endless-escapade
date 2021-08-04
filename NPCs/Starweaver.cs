@@ -14,7 +14,7 @@ using EEMod.Projectiles.Enemy;
 
 namespace EEMod.NPCs
 {
-    public class Starweaver : ModNPC
+    public class Starweaver : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -23,19 +23,19 @@ namespace EEMod.NPCs
 
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
-            npc.friendly = false;
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
-            npc.alpha = 0;
-            npc.lifeMax = 200;
-            npc.width = 32;
-            npc.height = 44;
-            npc.noGravity = true;
-            npc.lavaImmune = true;
-            npc.noTileCollide = true;
-            npc.damage = 10;
-            npc.knockBackResist = 0f;
+            NPC.aiStyle = -1;
+            NPC.friendly = false;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
+            NPC.alpha = 0;
+            NPC.lifeMax = 200;
+            NPC.width = 32;
+            NPC.height = 44;
+            NPC.noGravity = true;
+            NPC.lavaImmune = true;
+            NPC.noTileCollide = true;
+            NPC.damage = 10;
+            NPC.knockBackResist = 0f;
         }
 
         private bool spawningStars;
@@ -48,20 +48,20 @@ namespace EEMod.NPCs
 
         public override void AI()
         {
-            Player target = Main.player[npc.FindClosestPlayer()];
+            Player target = Main.player[NPC.FindClosestPlayer()];
 
-            npc.ai[0]++;
+            NPC.ai[0]++;
 
-            if(npc.ai[0] % 900 == 0)
+            if(NPC.ai[0] % 900 == 0)
             {
                 spawningStars = true;
                 chosenConstellation = Main.rand.Next(0, constellations.Length);
                 index = 0;
             }
 
-            if(spawningStars && npc.ai[0] % 60 == 0 && index < constellations[chosenConstellation].Length)
+            if(spawningStars && NPC.ai[0] % 60 == 0 && index < constellations[chosenConstellation].Length)
             {
-                Projectile.NewProjectile(npc.Center + constellations[chosenConstellation][index], Vector2.Zero, ModContent.ProjectileType<StarweaverStar>(), 40, 2f);
+                Projectile.NewProjectile(NPC.Center + constellations[chosenConstellation][index], Vector2.Zero, ModContent.ProjectileType<StarweaverStar>(), 40, 2f);
 
                 index++;
             }

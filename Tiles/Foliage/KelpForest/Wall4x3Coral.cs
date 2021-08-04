@@ -9,7 +9,7 @@ using Terraria.ID;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
-    public class Wall4x3CoralL : ModTile
+    public class Wall4x3CoralL : EETile
     {
         public override void SetDefaults()
         {
@@ -32,7 +32,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         }
     }
 
-    public class Wall4x3CoralR : ModTile
+    public class Wall4x3CoralR : EETile
     {
         public override void SetDefaults()
         {

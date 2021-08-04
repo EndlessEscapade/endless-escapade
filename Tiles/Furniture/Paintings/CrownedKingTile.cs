@@ -7,7 +7,7 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Furniture.Paintings
 {
-    public class CrownedKingTile : ModTile
+    public class CrownedKingTile : EETile
     {
         public override void SetDefaults()
         {

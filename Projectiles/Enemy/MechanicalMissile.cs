@@ -6,28 +6,28 @@ using Terraria.ModLoader;
 
 namespace EEMod.Projectiles.Enemy
 {
-    public class MechanicalMissile : ModProjectile
+    public class MechanicalMissile : EEProjectile
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Mechanical Missile");
-            Main.projFrames[projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 4;
         }
 
         public override void SetDefaults()
         {
-            projectile.width = 40;
-            projectile.height = 8;
-            projectile.alpha = 0;
-            projectile.timeLeft = 1200;
-            projectile.penetrate = 1;
-            projectile.hostile = true;
-            projectile.friendly = false;
-            projectile.tileCollide = true;
-            projectile.ignoreWater = true;
-            projectile.scale = 1f;
-            projectile.aiStyle = -1;
-            projectile.spriteDirection = -1;
+            Projectile.width = 40;
+            Projectile.height = 8;
+            Projectile.alpha = 0;
+            Projectile.timeLeft = 1200;
+            Projectile.penetrate = 1;
+            Projectile.hostile = true;
+            Projectile.friendly = false;
+            Projectile.tileCollide = true;
+            Projectile.ignoreWater = true;
+            Projectile.scale = 1f;
+            Projectile.aiStyle = -1;
+            Projectile.spriteDirection = -1;
         }
 
         public override void AI()
@@ -35,19 +35,19 @@ namespace EEMod.Projectiles.Enemy
             Vector2 closestPlayer = new Vector2();
             for (int i = 0; i < Main.player.Length; i++)
             {
-                if (Vector2.DistanceSquared(Main.player[i].Center, projectile.Center) <= Vector2.DistanceSquared(closestPlayer, projectile.Center))
+                if (Vector2.DistanceSquared(Main.player[i].Center, Projectile.Center) <= Vector2.DistanceSquared(closestPlayer, Projectile.Center))
                 {
                     closestPlayer = Main.player[i].Center;
                 }
             }
 
-            projectile.velocity = Vector2.Normalize(closestPlayer - projectile.Center) * 10;
-            projectile.rotation = projectile.velocity.ToRotation();
+            Projectile.velocity = Vector2.Normalize(closestPlayer - Projectile.Center) * 10;
+            Projectile.rotation = Projectile.velocity.ToRotation();
 
-            if (++projectile.frameCounter >= 4)
+            if (++Projectile.frameCounter >= 4)
             {
-                projectile.frameCounter = 0;
-                projectile.frame = ++projectile.frame % Main.projFrames[projectile.type];
+                Projectile.frameCounter = 0;
+                Projectile.frame = ++Projectile.frame % Main.projFrames[Projectile.type];
             }
         }
 
@@ -55,24 +55,24 @@ namespace EEMod.Projectiles.Enemy
         {
             for (int i = 0; i < 20; i++)
             {
-                int dust = Dust.NewDust(projectile.position, 0, 0, DustID.Fire);
-                Main.dust[dust].velocity = projectile.velocity + new Vector2(Main.rand.NextFloat(-1, 2), Main.rand.NextFloat(-1, 2));
+                int dust = Dust.NewDust(Projectile.position, 0, 0, DustID.Fire);
+                Main.dust[dust].velocity = Projectile.velocity + new Vector2(Main.rand.NextFloat(-1, 2), Main.rand.NextFloat(-1, 2));
             }
         }
 
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {
-            projectile.Kill();
+            Projectile.Kill();
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Enemy/MechanicalMissileGlow"), projectile.Center - Main.screenPosition, projectile.getRect(), Color.White, projectile.rotation, projectile.getRect().Size() / 2, projectile.scale, projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Enemy/MechanicalMissileGlow"), Projectile.Center - Main.screenPosition, Projectile.getRect(), Color.White, Projectile.rotation, Projectile.getRect().Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            projectile.Kill();
+            Projectile.Kill();
             return true;
         }
     }

@@ -11,32 +11,32 @@ using EEMod.Prim;
 
 namespace EEMod.Items.Weapons.Mage
 {
-    public class AquamarineSceptor : ModItem
+    public class AquamarineSceptor : EEItem
     {
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Aquamarine Sceptre");
-            Item.staff[item.type] = true;
+            Item.staff[Item.type] = true;
         }
 
         public override void SetDefaults()
         {
-            item.damage = 57;
-            item.magic = true;
-            item.noMelee = true;
-            item.knockBack = 1f;
-            item.value = Item.sellPrice(0, 0, 21);
-            item.mana = 15;
-            item.useTime = 45;
-            item.useAnimation = 45;
-            item.rare = ItemRarityID.Orange;
-            item.width = 20;
-            item.height = 20;
-            item.useStyle = ItemUseStyleID.HoldingOut;
-            item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<SceptorLaser>();
-            item.shootSpeed = 6f;
-            item.UseSound = SoundID.Item115;
+            Item.damage = 57;
+            Item.magic = true;
+            Item.noMelee = true;
+            Item.knockBack = 1f;
+            Item.value = Item.sellPrice(0, 0, 21);
+            Item.mana = 15;
+            Item.useTime = 45;
+            Item.useAnimation = 45;
+            Item.rare = ItemRarityID.Orange;
+            Item.width = 20;
+            Item.height = 20;
+            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.autoReuse = true;
+            Item.shoot = ModContent.ProjectileType<SceptorLaser>();
+            Item.shootSpeed = 6f;
+            Item.UseSound = SoundID.Item115;
         }
 
         public override Vector2? HoldoutOffset()

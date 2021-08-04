@@ -8,52 +8,52 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 {
-    internal class Squid : ModNPC
+    internal class Squid : EENPC
     {
         public override void SetStaticDefaults()
         {
-            Main.npcFrameCount[npc.type] = 1;
+            Main.npcFrameCount[NPC.type] = 1;
             DisplayName.SetDefault("Squid");
         }
         public override void SetDefaults()
         {
-            npc.aiStyle = -1;
+            NPC.aiStyle = -1;
 
-            npc.HitSound = SoundID.NPCHit25;
-            npc.DeathSound = SoundID.NPCDeath28;
+            NPC.HitSound = SoundID.NPCHit25;
+            NPC.DeathSound = SoundID.NPCDeath28;
 
-            npc.alpha = 0;
+            NPC.alpha = 0;
 
-            npc.lifeMax = 550;
-            npc.defense = 10;
+            NPC.lifeMax = 550;
+            NPC.defense = 10;
 
-            npc.width = 34;
-            npc.height = 134;
+            NPC.width = 34;
+            NPC.height = 134;
 
-            npc.noGravity = true;
+            NPC.noGravity = true;
 
-            npc.buffImmune[BuffID.Confused] = true;
+            NPC.buffImmune[BuffID.Confused] = true;
 
-            npc.lavaImmune = false;
-            npc.noTileCollide = false;
+            NPC.lavaImmune = false;
+            NPC.noTileCollide = false;
         }
 
         public override void AI()
         {
             UpdateJellyfishTesting();
-            npc.TargetClosest();
-            Player target = Main.player[npc.target];
+            NPC.TargetClosest();
+            Player target = Main.player[NPC.target];
             if (counter % ((float)Math.PI * 2) < 0.5f)
             {
-                Helpers.Move(npc, target, 18, 40, Vector2.Zero);
+                Helpers.Move(NPC, target, 18, 40, Vector2.Zero);
             }
-            npc.velocity *= 0.99f;
-            if (npc.ai[1] == 0)
+            NPC.velocity *= 0.99f;
+            if (NPC.ai[1] == 0)
             {
-                npc.ai[1] = 1;
+                NPC.ai[1] = 1;
             }
-            npc.ai[0]++;
-            npc.rotation = npc.velocity.X / 10f;
+            NPC.ai[0]++;
+            NPC.rotation = NPC.velocity.X / 10f;
         }
         float counter;
         public int cap = 35;
@@ -63,7 +63,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
         public void UpdateJellyfishTesting()
         {
             lol1 = new Vector2[noOfTentacles / 2, cap, 2];
-            Vector2 first = npc.Center;
+            Vector2 first = NPC.Center;
             float[] lastX = new float[noOfTentacles];
             float[] lastY = new float[noOfTentacles];
             float[] ControlY = new float[noOfTentacles];
@@ -80,7 +80,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             float tipVariation = 10;
             float accell = ((float)Math.Sin(counter) + 1.4f) / 2f;
             counter += 0.07f * accell;
-            float rot = npc.velocity.X / 6f;
+            float rot = NPC.velocity.X / 6f;
             for (int i = 0; i < noOfTentacles / 2; i++)
             {
                 Vector2 firstControl = new Vector2(-startingdiff - i * diff - (float)Math.Sin(counter + 0.35f + i / 10f) * (startingdiff + i * diff), -(float)Math.Cos(counter + 0.05f) * (tip - secondContactPoint)).RotatedBy(rot);
@@ -148,7 +148,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                     }
                 }
             }
-            spriteBatch.Draw(tex3,npc.Center.ForDraw(),tex3.Bounds,drawColor,npc.rotation, tex3.TextureCenter(),1f,SpriteEffects.None, 0f);
+            spriteBatch.Draw(tex3,NPC.Center.ForDraw(),tex3.Bounds,drawColor,NPC.rotation, tex3.TextureCenter(),1f,SpriteEffects.None, 0f);
             return false;
         }
     }

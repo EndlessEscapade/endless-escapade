@@ -5,7 +5,7 @@ using EEMod.Tiles.Furniture.Chests;
 
 namespace EEMod.Items.Placeables.Furniture
 {
-    public class GemsandChest : ModItem
+    public class GemsandChest : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -14,21 +14,21 @@ namespace EEMod.Items.Placeables.Furniture
 
         public override void SetDefaults()
         {
-            item.width = 32;
-            item.height = 28;
-            item.value = 500;
+            Item.width = 32;
+            Item.height = 28;
+            Item.value = 500;
 
-            item.maxStack = 99;
-            item.rare = ItemRarityID.Green;
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTime = 10;
-            item.useAnimation = 15;
+            Item.maxStack = 99;
+            Item.rare = ItemRarityID.Green;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useTime = 10;
+            Item.useAnimation = 15;
 
-            item.useTurn = true;
-            item.autoReuse = true;
-            item.consumable = true;
+            Item.useTurn = true;
+            Item.autoReuse = true;
+            Item.consumable = true;
 
-            item.createTile = ModContent.TileType<GemsandChestTile>();
+            Item.createTile = ModContent.TileType<GemsandChestTile>();
         }
     }
 }

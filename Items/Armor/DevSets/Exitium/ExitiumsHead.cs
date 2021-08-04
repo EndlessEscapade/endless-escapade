@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 namespace EEMod.Items.Armor.DevSets.Exitium
 {
     [AutoloadEquip(EquipType.Head)]
-    public class ExitiumsHead : ModItem
+    public class ExitiumsHead : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -15,10 +15,10 @@ namespace EEMod.Items.Armor.DevSets.Exitium
 
         public override void SetDefaults()
         {
-            item.width = 18;
-            item.height = 20;
-            item.rare = ItemRarityID.Cyan;
-            item.vanity = true;
+            Item.width = 18;
+            Item.height = 20;
+            Item.rare = ItemRarityID.Cyan;
+            Item.vanity = true;
         }
 
         public override void UpdateVanity(Player player, EquipType type)

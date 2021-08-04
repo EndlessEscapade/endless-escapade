@@ -4,22 +4,22 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Placeables.Furniture.Trophies
 {
-    public abstract class ThropyItem : ModItem
+    public abstract class ThropyItem : EEItem
     {
         public override void SetDefaults()
         {
-            item.useStyle = ItemUseStyleID.SwingThrow;
-            item.useTurn = true;
-            item.useAnimation = 15;
-            item.useTime = 10;
-            item.autoReuse = true;
-            item.maxStack = 1;
-            item.consumable = true;
-            item.width = 12;
-            item.height = 12;
-            item.rare = ItemRarityID.White;
-            item.createTile = ModContent.TileType<TrophiesTile>();
-            item.placeStyle = 0;
+            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useTurn = true;
+            Item.useAnimation = 15;
+            Item.useTime = 10;
+            Item.autoReuse = true;
+            Item.maxStack = 1;
+            Item.consumable = true;
+            Item.width = 12;
+            Item.height = 12;
+            Item.rare = ItemRarityID.White;
+            Item.createTile = ModContent.TileType<TrophiesTile>();
+            Item.placeStyle = 0;
         }
     }
 
