@@ -35,9 +35,27 @@ namespace EEMod
             if (ElapsedTicks % 150 == 0 && Main.worldName == KeyID.CoralReefs)
             {
                 int randInt = Main.rand.Next(0, fishflocks.Count);
-                Vector2 rand = new Vector2(Main.rand.Next(-1800, 1800), Main.rand.Next(-1800, 1800));
-                if(rand.LengthSquared() > 700 * 700)
-                fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
+                Vector2 rand = new Vector2(Main.rand.Next(-(int)(Main.screenWidth / 1.5f), (int)(Main.screenWidth / 1.5f)), Main.rand.Next(-(int)(Main.screenHeight / 1.5f), (int)(Main.screenHeight / 1.5f)));
+
+                if (!new Rectangle(-Main.screenWidth / 2, -Main.screenHeight / 2, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()))
+                {
+                    if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
+                    {
+                        
+                    }
+                    else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.AquamarineCaverns)
+                    {
+
+                    }
+                    else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.ThermalVents)
+                    {
+
+                    }
+                    else
+                    {
+                        fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
+                    }
+                }
             }
         }
 
@@ -46,8 +64,16 @@ namespace EEMod
             fishflocks.Add(new Flock("Particles/Fish", 0.5f, 10, 20));
             fishflocks.Add(new Flock("Particles/Coralfin", 1f, 5, 15));
             fishflocks.Add(new Flock("Particles/Barracuda", 0.5f, 3, 7));
-            fishflocks.Add(new Flock("Particles/LargeBubblefish", 0.75f, 10, 20));
+            fishflocks.Add(new Flock("Particles/LargeBubblefish", 0.5f, 10, 20));
             fishflocks.Add(new Flock("Particles/SmallBubblefish", 1f, 15, 25));
+
+            fishflocks.Add(new Flock("Particles/KelpEel2", 1f, 10, 20));
+            fishflocks.Add(new Flock("Particles/Kelpfin", 1f, 3, 7));
+            fishflocks.Add(new Flock("Particles/GoldenFish", 1f, 5, 10));
+
+            fishflocks.Add(new Flock("Particles/AquamarineFish1", 1f, 3, 7));
+
+            fishflocks.Add(new Flock("Particles/Thermalfin", 1f, 25, 35));
         }
 
         protected override Layer DrawLayering => Layer.BehindTiles;

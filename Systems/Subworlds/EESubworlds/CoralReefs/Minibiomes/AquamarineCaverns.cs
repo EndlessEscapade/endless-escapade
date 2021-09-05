@@ -12,6 +12,9 @@ using EEMod.Tiles.EmptyTileArrays;
 using System;
 using EEMod.ID;
 using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.Tiles.Foliage.Aquamarine;
+using EEMod.Tiles.Ores;
+using System.Collections.Generic;
 
 namespace EEMod.EEWorld
 {
@@ -40,45 +43,87 @@ namespace EEMod.EEWorld
             }
         }
 
+        public List<Vector2> geodeLocations;
         public override void StructureStep()
         {
+            geodeLocations = new List<Vector2>();
+
             Point TL = Bounds.TopLeft().ToPoint();
             Point BR = Bounds.BottomRight().ToPoint();
 
-            //Worldgen
-            CoralReefs.MakeNoiseOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
-            CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
-            CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
+            //CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
+            //CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
 
             BoundClause((int i, int j) =>
             {
-                /*if (WorldGen.genRand.Next(100) == 0)
+                if (WorldGen.genRand.Next(100) == 0)
                 {
                     WorldGen.TileRunner(i, j, Main.rand.Next(10, 20), Main.rand.Next(10, 20), ModContent.TileType<GemsandstoneTile>(), false, 0, 0, false, true);
-                }*/
+                }
             });
 
             RemoveStoneSlabs();
 
-            //Placing spire
-            if (CoralReefs.SpirePosition == Vector2.Zero)
+            //Spawning bamboo geodes
+
+            int maxIterations = 0;
+
+            Point boundTL = (TL.ToVector2() + (Vector2.One * 30)).ToPoint();
+            Point boundBR = (BR.ToVector2() + (Vector2.One * -30)).ToPoint();
+
+            Point attemptPos = new Point(WorldGen.genRand.Next(boundTL.X, boundBR.X), WorldGen.genRand.Next(boundTL.Y, boundBR.Y));
+
+            while (geodeLocations.Count < 15 && maxIterations < 4000)
             {
-                CoralReefs.SpirePosition = new Vector2(TL.X + BR.X, TL.Y + BR.Y) / 2f;
+                if (Vector2.DistanceSquared(attemptPos.ToVector2(), CoralReefs.SpirePosition + new Vector2(0, -13)) > 80 * 80 && NoAdjacentGeodes(attemptPos.ToVector2()) && Bounds.Contains(attemptPos))
+                {
+                    MakeBambooGeode(attemptPos.X, attemptPos.Y);
 
-                Vector2 pos1 = new Vector2(CoralReefs.SpirePosition.X + 10, CoralReefs.SpirePosition.Y - 150 / 2);
-                Vector2 pos2 = new Vector2(CoralReefs.SpirePosition.X + 10, CoralReefs.SpirePosition.Y + 150 / 2);
+                    geodeLocations.Add(attemptPos.ToVector2());
 
-                int tile2 = 0;
-                tile2 = CoralReefs.GetGemsandType((int)pos1.Y);
+                    attemptPos = (attemptPos.ToVector2() + new Vector2(WorldGen.genRand.Next(-50, 50), WorldGen.genRand.Next(-50, 50))).ToPoint();
+                }
+                else
+                {
+                    attemptPos = new Point(WorldGen.genRand.Next(boundTL.X, boundBR.X), WorldGen.genRand.Next(boundTL.Y, boundBR.Y));
+                }
 
-                MakeExpandingChasm(pos1, pos2, tile2, 100, -2, true, new Vector2(20, 30), .5f);
-                MakeExpandingChasm(pos2, pos1, tile2, 100, -2, true, new Vector2(20, 30), .5f);
-
-                ClearRegion(46, 26, new Vector2(CoralReefs.SpirePosition.X + 10 - 24, CoralReefs.SpirePosition.Y - 26));
-
-                MakeWavyChasm3(new Vector2(CoralReefs.SpirePosition.X - 5, CoralReefs.SpirePosition.Y - 26), new Vector2(CoralReefs.SpirePosition.X + 25, CoralReefs.SpirePosition.Y - 26), tile2, 20, -2, true, new Vector2(1, 5));
-                MakeWavyChasm3(new Vector2(CoralReefs.SpirePosition.X - 5, CoralReefs.SpirePosition.Y), new Vector2(CoralReefs.SpirePosition.X + 25, CoralReefs.SpirePosition.Y), tile2, 20, -2, true, new Vector2(1, 5));
+                maxIterations++;
             }
+
+            for (int i = 0; i < geodeLocations.Count; i++)
+            {
+                Vector2 geode = geodeLocations[i];
+
+                int junctions = 0;
+
+                for(int j = i; j < geodeLocations.Count; j++)
+                {
+                    Vector2 adjGeode = geodeLocations[j];
+
+                    if (geode == adjGeode) continue;
+
+                    if (Vector2.Distance(geode, adjGeode) > 30 && Vector2.Distance(geode, adjGeode) < 80)
+                    {
+                        MakeWavyChasm3(geode, adjGeode, TileID.StoneSlab, 20, 2, true, new Vector2(5, 5));
+
+                        junctions++;
+                    }
+
+                    if (junctions >= 2) break;
+                }
+            }
+
+            Point closestPoint = Point.Zero;
+            for (int i = 0; i < geodeLocations.Count; i++)
+            {
+                if(Vector2.Distance(geodeLocations[i], CoralReefs.SpirePosition + new Vector2(0, -13)) < Vector2.Distance(closestPoint.ToVector2(), CoralReefs.SpirePosition + new Vector2(0, -13)) && Math.Abs(CoralReefs.SpirePosition.Y - 13 - geodeLocations[i].Y) / Math.Abs(CoralReefs.SpirePosition.X - geodeLocations[i].X) <= 0.5f)
+                {
+                    closestPoint = geodeLocations[i].ToPoint();
+                }
+            }
+
+            MakeWavyChasm3(closestPoint.ToVector2(), CoralReefs.SpirePosition + new Vector2(0, -13), TileID.StoneSlab, 20, 2, true, new Vector2(6, 6));
 
             RemoveStoneSlabs();
 
@@ -102,21 +147,7 @@ namespace EEMod.EEWorld
                 }
             });
 
-            //Spawning crystal bamboo (TODO: replace with bamboo geodes)
-            BoundClause((int i, int j) =>
-            {
-                if ((TileCheck2(i, j) == 2) && Main.rand.NextBool(3))
-                {
-                    CoralReefs.ThinCrystalBambooLocations.Add(new Vector2(i, j));
-
-                    Vector2 lastPos = CoralReefs.ThinCrystalBambooLocations[CoralReefs.ThinCrystalBambooLocations.Count - 1];
-
-                    int length = Main.rand.Next(1, 6);
-                    Vector2 rotVec = new Vector2(length, 0).RotatedBy(Main.rand.NextFloat((MathHelper.PiOver2 * 3) - 0.2f, (MathHelper.PiOver2 * 3) + 0.2f));
-                    CoralReefs.ThinCrystalBambooLocations.Add(lastPos + rotVec);
-                }
-            });
-
+            /*
             //Placing ETAs
             BoundClause((int i, int j) =>
             {
@@ -193,6 +224,115 @@ namespace EEMod.EEWorld
                     }
                 }
             });
+            */
+
+            //Spawning aquamarine pillars
+            BoundClause((int i, int j) =>
+            {
+                if ((Main.tile[i, j].type == ModContent.TileType<GemsandTile>() || Main.tile[i, j].type == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].active() && WorldGen.genRand.NextBool(10))
+                {
+                    int newJ = j + 1;
+
+                    while (!Main.tile[i, newJ].active())
+                    {
+                        WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarinePillar>());
+
+                        newJ++;
+                    }
+                }
+            });
+
+            //Spawning chimes
+            BoundClause((int i, int j) =>
+            {
+                if ((Main.tile[i, j].type == ModContent.TileType<GemsandTile>() || Main.tile[i, j].type == ModContent.TileType<GemsandstoneTile>() || Main.tile[i, j].type == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].active() && WorldGen.genRand.NextBool(10))
+                {
+                    int newJ = j + 1;
+                    int length = WorldGen.genRand.Next(2, 8);
+
+                    while (!Main.tile[i, newJ].active() && newJ - j < length)
+                    {
+                        WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarineChime>());
+
+                        newJ++;
+                    }
+                }
+            });
+
+            //Spawning lamps
+            BoundClause((int i, int j) =>
+            {
+                if(TileCheck2(i, j) == 2 && WorldGen.genRand.NextBool(10))
+                {
+                    if(WorldGen.genRand.NextBool())
+                        WorldGen.PlaceTile(i, j - 3, ModContent.TileType<AquamarineLamp1>());
+                    else
+                        WorldGen.PlaceTile(i, j - 4, ModContent.TileType<AquamarineLamp2>());
+                }
+            });
+
+            //Placing spire
+            if (CoralReefs.SpirePosition == Vector2.Zero)
+            {
+                CoralReefs.SpirePosition = new Vector2(TL.X + BR.X, TL.Y + BR.Y) / 2f;
+
+                MakeOval(80, 40, CoralReefs.SpirePosition + new Vector2(0, -13) + new Vector2(-80 / 2, -40 / 2), TileID.StoneSlab, true);
+
+                ClearRegion(20, 20, CoralReefs.SpirePosition + new Vector2(-10, -23));
+
+                MakeOval(30, 14, CoralReefs.SpirePosition + new Vector2(-15, -38), ModContent.TileType<AquamarineTile>(), true);
+                MakeOval(30, 14, CoralReefs.SpirePosition + new Vector2(-15, -5), ModContent.TileType<AquamarineTile>(), true);
+            }
+        }
+
+        public void MakeBambooGeode(int i, int j)
+        {
+            MakeOval(24, 24, new Vector2(i - 12, j - 12), ModContent.TileType<AquamarineTile>(), true);
+
+            MakeOval(14, 14, new Vector2(i - 7, j - 7), TileID.StoneSlab, true);
+
+            MakeWallCircle(24, new Vector2(i - 12, j - 12), ModContent.WallType<DarkGemsandstoneWallTile>(), true);
+
+            RemoveStoneSlabs();
+
+            for(int i2 = i - 7; i2 < i + 7; i2++)
+            {
+                for (int j2 = j - 7; j2 < j + 7; j2++)
+                {
+                    if ((TileCheck2(i2, j2) == 2) && WorldGen.genRand.NextBool())
+                    {
+                        CoralReefs.ThinCrystalBambooLocations.Add(new Vector2(i2, j2));
+
+                        Vector2 lastPos = CoralReefs.ThinCrystalBambooLocations[CoralReefs.ThinCrystalBambooLocations.Count - 1];
+
+                        int length = Main.rand.Next(2, 6);
+                        Vector2 rotVec = new Vector2(length, 0).RotatedBy(Main.rand.NextFloat((MathHelper.PiOver2 * 3) - 0.2f, (MathHelper.PiOver2 * 3) + 0.2f));
+                        CoralReefs.ThinCrystalBambooLocations.Add(lastPos + rotVec);
+                    }
+
+                    if ((TileCheck2(i2, j2) == 1) && WorldGen.genRand.NextBool())
+                    {
+                        CoralReefs.ThinCrystalBambooLocations.Add(new Vector2(i2, j2));
+
+                        Vector2 lastPos = CoralReefs.ThinCrystalBambooLocations[CoralReefs.ThinCrystalBambooLocations.Count - 1];
+
+                        int length = Main.rand.Next(2, 6);
+                        Vector2 rotVec = new Vector2(length, 0).RotatedBy(Main.rand.NextFloat((MathHelper.PiOver2) - 0.2f, (MathHelper.PiOver2) + 0.2f));
+                        CoralReefs.ThinCrystalBambooLocations.Add(lastPos + rotVec);
+                    }
+                }
+            }
+        }
+
+        public bool NoAdjacentGeodes(Vector2 location)
+        {
+            foreach(Vector2 vec in geodeLocations)
+            {
+                if (Vector2.Distance(vec, location) < 30)
+                    return false;
+            }
+
+            return true;
         }
     }
 }

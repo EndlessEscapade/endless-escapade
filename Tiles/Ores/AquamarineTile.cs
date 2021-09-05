@@ -39,8 +39,8 @@ namespace EEMod.Tiles.Ores
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0025f));
-            EEMod.MainParticles.SpawnParticles(new Vector2(Main.rand.Next(i * 16, (i + 1) * 16), Main.rand.Next(j * 16, (j + 1) * 16)), new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetTexture("EEMod/Particles/Cross"), 90, 1f, Color.White, new SlowDown(0.98f), new RotateTexture(0.01f), new SetMask(Helpers.RadialMask, 0.4f));
+            //EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0025f));
+            //EEMod.MainParticles.SpawnParticles(new Vector2(Main.rand.Next(i * 16, (i + 1) * 16), Main.rand.Next(j * 16, (j + 1) * 16)), new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetTexture("EEMod/Particles/Cross"), 90, 1f, Color.White, new SlowDown(0.98f), new RotateTexture(0.01f), new SetMask(Helpers.RadialMask, 0.4f));
         }
     }
 }

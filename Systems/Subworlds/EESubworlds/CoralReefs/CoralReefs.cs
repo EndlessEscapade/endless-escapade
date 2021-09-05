@@ -138,7 +138,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             int[] biomes = Helpers.FillUniformArray(roomsPerLayer * 2, 0, 3);
 
             Vector2[] upperRoomPositions = MakeDistantLocations(roomsPerLayer, 150, new Rectangle(200, 265, Main.maxTilesX - 400, ((Main.maxTilesY / 10) * 4) - (265 + 100)), 5000);
-            Vector2[] lowerRoomPositions = MakeDistantLocations(roomsPerLayer, 150, new Rectangle(200, (Main.maxTilesY / 10) * 4, Main.maxTilesX - 400, (Main.maxTilesY / 10) * 3), 5000);
+            Vector2[] lowerRoomPositions = MakeDistantLocations((int)(roomsPerLayer * 0.75f), 150, new Rectangle(200, (Main.maxTilesY / 10) * 4, Main.maxTilesX - 400, (Main.maxTilesY / 10) * 3), 5000);
             Vector2[] depthsRoomPositions = MakeDistantLocations(roomsPerLayer / 2, 200, new Rectangle(300, (Main.maxTilesY / 10) * 7, Main.maxTilesX - 600, ((Main.maxTilesY / 10) * 3) - 300), 5000);
 
             #endregion
@@ -242,7 +242,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 if (biome > 0) biome += 2;
 
                 EEMod.progressMessage = "Generating rooms pt. 2 " + (j * 100f / lowerRoomPositions.Length) + "%";
-                MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 100, 50, biome);
+                MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 150, 100, biome);
             }
 
             /*for (int k = 0; k < depthsRoomPositions.Length; k++)

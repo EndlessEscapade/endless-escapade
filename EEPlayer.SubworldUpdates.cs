@@ -133,7 +133,7 @@ namespace EEMod
 
             if (!arrowFlag)
             {
-                NPC.NewNPC((int)CoralReefs.SpirePosition.X * 16 + 160 - 8, (int)CoralReefs.SpirePosition.Y * 16, NPCType<AquamarineSpire>());
+                NPC.NewNPC((int)(CoralReefs.SpirePosition.X * 16), (int)(CoralReefs.SpirePosition.Y * 16), NPCType<AquamarineSpire>());
                 if (Main.netMode != NetmodeID.MultiplayerClient)
                 {
                     //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);

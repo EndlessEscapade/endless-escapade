@@ -68,14 +68,22 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + 18, j * 16 - (int)Main.screenPosition.Y + 24) + zero;
                 Rectangle rect = new Rectangle(0, frame * 16, 14, 16);
 
+                Vector2 part = (new Vector2(i, j) * 16) + new Vector2(24, 32);
+
                 int bigTimeBetween = 200;
                 int timeBetween = 70;
                 float heartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
 
-                Helpers.DrawAdditiveFunky(mod.GetTexture("Textures/RadialGradient"), position + new Vector2(5, 5), Color.Lerp(Color.Cyan, Color.Magenta, Math.Sin(Main.GameUpdateCount / 20f).PositiveSin()), 1f, 0.8f);
+                Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
+
+                float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;
+                Main.spriteBatch.Draw(mask, part, null, new Color(sineAdd, sineAdd, sineAdd, 0) * 0.2f, 0f, mask.Bounds.Center() / 2f, 1f, SpriteEffects.None, 0f);
 
                 Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Lighting.GetColor(i + 1, j + 1), 0f, default, 1f, SpriteEffects.None, 0f);
                 Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Color.White * heartBeat, 0f, default, 1f, SpriteEffects.None, 0f);
+
+                EEMod.MainParticles.SetSpawningModules(new SpawnPeriodically(8, true));
+                EEMod.MainParticles.SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, -0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask, 0.75f));
             }
         }
     }

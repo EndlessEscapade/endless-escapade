@@ -78,8 +78,15 @@ namespace EEMod.NPCs.CoralReefs
 
             alpha += 0.05f;
 
-            EEMod.SpireShader.Parameters["alpha"].SetValue((NPC.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
-            EEMod.SpireShader.Parameters["shineSpeed"].SetValue(NPC.ai[0] <= 20 ? 0.4f : 0.2f);
+            //drawColor = Color.White;
+            
+            if(drawColor.ToVector3() == Vector3.Zero)
+            {
+                drawColor = new Color(0.05f, 0.05f, 0.05f, 255f);
+            }
+
+            EEMod.SpireShader.Parameters["alpha"].SetValue((npc.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
+            EEMod.SpireShader.Parameters["shineSpeed"].SetValue(npc.ai[0] <= 20 ? 0.4f : 0.2f);
             EEMod.SpireShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/SpireLightMap"));
             EEMod.SpireShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.SpireShader.Parameters["lightColor"].SetValue(drawColor.ToVector3());
@@ -88,7 +95,10 @@ namespace EEMod.NPCs.CoralReefs
             spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition + new Vector2(0, 4), Main.npcTexture[NPC.type].Bounds, drawColor, NPC.rotation, Main.npcTexture[NPC.type].Size() / 2f, NPC.scale, SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+            Lighting.AddLight(npc.Center, Color.White.ToVector3());
+
             return false;
         }
 
@@ -134,7 +144,6 @@ namespace EEMod.NPCs.CoralReefs
                 if (timer1 != 0)
                     color = Color.Lerp(Color.White, addColor, 10 / timer1);
                 #endregion
-
 
                 if (eyeRecoil <= 1) eyeRecoil += 0.05f;
 
