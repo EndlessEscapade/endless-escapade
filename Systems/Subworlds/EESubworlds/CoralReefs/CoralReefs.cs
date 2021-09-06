@@ -417,6 +417,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 PlaceShip(boatPos, watercheck, ShipTiles);
                 CoralBoatPos = new Vector2(boatPos, watercheck);
 
+                RemoveWaterFromRegionWallsOnly(ShipTiles.GetLength(1), ShipTiles.GetLength(0), new Vector2(boatPos, watercheck));
+
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
                     if (WorldGen.genRand.NextBool(4))
@@ -439,7 +441,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                 for (int i = 42; i < Main.maxTilesX - 42; i++)
                 {
-                    if (WorldGen.genRand.NextBool(6))
+                    if (WorldGen.genRand.NextBool(6) && (i < boatPos - 1 || i > boatPos + ShipTiles.GetLength(1) + 1))
                     {
                         if (!Framing.GetTileSafely(i, depth - 1).active() && !Framing.GetTileSafely(i, depth).active() && !Framing.GetTileSafely(i, depth + 1).active())
                         {
@@ -456,8 +458,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                         }
                     }
                 }
-
-                RemoveWaterFromRegion(ShipTiles.GetLength(1), ShipTiles.GetLength(0), new Vector2(boatPos, watercheck));
 
                 #endregion
             }

@@ -1213,9 +1213,12 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType() == 0 && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid > 64 && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != WallID.None)
+                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType() == 0 
+                        && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid > 64 
+                        && (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != WallID.None 
+                        || Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).active()))
                     {
-                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).ClearEverything();
+                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid = 0;
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                         {
                             NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);

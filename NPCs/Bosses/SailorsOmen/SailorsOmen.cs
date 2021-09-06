@@ -36,39 +36,114 @@ namespace EEMod.NPCs.Bosses.SailorsOmen
             npc.knockBackResist = 0f;
         }
 
-        public RenderTarget2D Target;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public List<OmenParticle> omenParticles = new List<OmenParticle>();
+
+        public override void AI()
         {
-            if(Target == default) Target = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight);
+            omenParticles.Add(new OmenParticle(npc.Center, Vector2.UnitY.RotatedByRandom(1.57f) * 2));
 
-            RenderTarget2D EffervescenceRT = new RenderTarget2D(Main.instance.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-            Main.instance.GraphicsDevice.SetRenderTarget(EffervescenceRT);
+            for (int i = 0; i < omenParticles.Count; i++)
+            {
+                if (omenParticles[i] != null) omenParticles[i].Update();
 
-            Main.spriteBatch.End();
+                if (omenParticles[i] != null && omenParticles[i].timeLeft < -60)
+                {
+                    omenParticles[i].position = Vector2.Zero;
+                    omenParticles[i].dead = true;
+                    omenParticles.RemoveAt(i);
+                }
+            }
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        {
+            Texture2D tex = ModContent.GetTexture("EEMod/NPCs/Bosses/SailorsOmen/OmenMagic2");
+
+            Color outlineColor = Color.DarkCyan;
+
+            //Layer 0, navy radial mask
+
+            foreach (OmenParticle p in omenParticles)
+            {
+                if (!p.dead)
+                {
+                    Helpers.DrawAdditive(ModContent.GetTexture("EEMod/Textures/RadialGradient"), p.position - Main.screenPosition, Color.DarkCyan * MathHelper.Clamp((p.timeLeft + 30) / 30f, 0f, 1f), 0.25f, 0f);
+                }
+            }
+
+            //Layer 1, navy outline
+            /*Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw(), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.05f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-            Main.spriteBatch.Draw(Main.npcTexture[npc.type], npc.Center.ForDraw() + new Vector2(0, -30), npc.frame, Color.White, npc.rotation, npc.frame.Size() / 2, npc.scale * 1.05f, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            EEMod.White.CurrentTechnique.Passes[0].Apply();
+            EEMod.White.Parameters["alpha"].SetValue(1f);
+            EEMod.White.Parameters["color"].SetValue(new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f);
 
+            foreach (OmenParticle p in omenParticles)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * 4;
+                    spriteBatch.Draw(tex, p.position + offsetPositon - Main.screenPosition, null, Color.White, 0f, tex.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+                }
+            }*/
+
+            //Layer 2, cyan fade inline
             Main.spriteBatch.End();
-            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
-            Main.instance.GraphicsDevice.SetRenderTarget(Target);
-            Main.instance.GraphicsDevice.Clear(Color.Transparent);
+            outlineColor = Color.Cyan;
 
-            EEMod.Effervescence.CurrentTechnique.Passes[0].Apply();
-            EEMod.Effervescence.Parameters["width"].SetValue(Main.npcTexture[npc.type].Width);
-            EEMod.Effervescence.Parameters["height"].SetValue(Main.npcTexture[npc.type].Height);
+            foreach (OmenParticle p in omenParticles)
+            {
+                if (!p.dead)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        EEMod.White.CurrentTechnique.Passes[0].Apply();
+                        EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f));
+                        EEMod.White.Parameters["alpha"].SetValue(1f);
 
-            Vector3 color = Color.Red.ToVector3() / 255f;
-            EEMod.Effervescence.Parameters["border"].SetValue(new Vector4(color.X, color.Y, color.Z, 1f));
+                        Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * 2;
+                        spriteBatch.Draw(tex, p.position + offsetPositon - Main.screenPosition, null, Color.White, 0f, tex.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+                    }
+                }
+            }
 
-            Main.spriteBatch.Draw(EffervescenceRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
-
+            //Layer 3, white ball
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            return false;
+            foreach (OmenParticle p in omenParticles)
+            {
+                if(!p.dead)
+                    spriteBatch.Draw(tex, p.position - Main.screenPosition, null, Color.White, 0f, tex.Size() * 0.5f, 1f, SpriteEffects.None, 0f);
+            }
+        }
+
+        public class OmenParticle
+        {
+            public Vector2 position;
+            public Vector2 velocity;
+
+            public float timeLeft;
+
+            public bool dead;
+
+            public OmenParticle(Vector2 _position, Vector2 _velocity)
+            {
+                position = _position;
+                velocity = _velocity;
+
+                timeLeft = 60;
+            }
+
+            public void Update()
+            {
+                position += velocity;
+
+                timeLeft--;
+            }
         }
     }
 }

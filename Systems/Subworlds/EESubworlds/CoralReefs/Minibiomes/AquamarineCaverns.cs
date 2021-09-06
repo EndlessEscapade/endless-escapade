@@ -54,6 +54,8 @@ namespace EEMod.EEWorld
             //CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
             //CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 15, 15, 0.5f);
 
+            bool hasSanctum = (CoralReefs.SpirePosition == Vector2.Zero);
+
             BoundClause((int i, int j) =>
             {
                 if (WorldGen.genRand.Next(100) == 0)
@@ -123,7 +125,7 @@ namespace EEMod.EEWorld
                 }
             }
 
-            MakeWavyChasm3(closestPoint.ToVector2(), CoralReefs.SpirePosition + new Vector2(0, -13), TileID.StoneSlab, 20, 2, true, new Vector2(6, 6));
+            if(hasSanctum) MakeWavyChasm3(closestPoint.ToVector2(), CoralReefs.SpirePosition + new Vector2(0, -13), TileID.StoneSlab, 20, 2, true, new Vector2(6, 6));
 
             RemoveStoneSlabs();
 
@@ -276,7 +278,7 @@ namespace EEMod.EEWorld
             {
                 CoralReefs.SpirePosition = new Vector2(TL.X + BR.X, TL.Y + BR.Y) / 2f;
 
-                MakeOval(80, 40, CoralReefs.SpirePosition + new Vector2(0, -13) + new Vector2(-80 / 2, -40 / 2), TileID.StoneSlab, true);
+                MakeOval(80, 30, CoralReefs.SpirePosition + new Vector2(0, -13) + new Vector2(-80 / 2, -30 / 2), TileID.StoneSlab, true);
 
                 ClearRegion(20, 20, CoralReefs.SpirePosition + new Vector2(-10, -23));
 

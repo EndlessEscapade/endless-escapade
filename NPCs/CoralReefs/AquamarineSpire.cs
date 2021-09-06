@@ -78,11 +78,9 @@ namespace EEMod.NPCs.CoralReefs
 
             alpha += 0.05f;
 
-            //drawColor = Color.White;
-            
             if(drawColor.ToVector3() == Vector3.Zero)
             {
-                drawColor = new Color(0.05f, 0.05f, 0.05f, 255f);
+                drawColor = new Color(0.1f, 0.1f, 0.1f, 255f);
             }
 
             EEMod.SpireShader.Parameters["alpha"].SetValue((npc.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));

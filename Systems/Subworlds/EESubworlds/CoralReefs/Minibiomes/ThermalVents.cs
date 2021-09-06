@@ -43,35 +43,30 @@ namespace EEMod.EEWorld
             Point TL = Bounds.TopLeft().ToPoint();
             Point BR = Bounds.BottomRight().ToPoint();
 
-            CoralReefs.MakeNoiseOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 50);
-            CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 50, 50, 0.4f);
-            CoralReefs.CreateNoise(!EnsureNoise, Position, Size, 20, 20, 0.4f);
+            CoralReefs.MakeNoiseOval(Size.X, Size.Y, new Vector2(TL.X, TL.Y), TileID.StoneSlab, true, 25);
+
             RemoveStoneSlabs();
 
             BoundClause((int i, int j) =>
             {
-                if (WorldGen.genRand.Next(100) == 0)
-                {
-                    WorldGen.TileRunner(i, j, Main.rand.Next(10, 20), Main.rand.Next(10, 20), ModContent.TileType<ScorchedGemsandTile>(), false, 0, 0, false, true);
-                }
-            });
-
-            BoundClause((int i, int j) =>
-            {
                 bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Top;
-                if (CorrectSpacing)
+                if (CorrectSpacing && WorldGen.genRand.NextBool(20) && Main.tile[i, j].type != ModContent.TileType<RustyPipeTile>())
                 {
-                    for (int a = 5; a < 5 + Main.rand.Next(1, 4); a++)
+                    int pipeHeight = WorldGen.genRand.Next(3, 7);
+
+                    for (int k = j - 1; k > j - pipeHeight; k--)
                     {
-                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<ScorchedGemsandTile>(), false, true);
-                    }
-                    for (int a = 0; a < Main.rand.Next(1, 4); a++)
-                    {
-                        WorldGen.PlaceTile(i, j + a, ModContent.TileType<ScorchedGemsandTile>(), false, true);
+                        WorldGen.PlaceTile(i, k, ModContent.TileType<RustyPipeTile>());
+
+                        if (k == j - pipeHeight + 1)
+                        {
+                            WorldGen.PlaceTile(i + WorldGen.genRand.Next(-1, 2), k, ModContent.TileType<RustyPipeTile>());
+                        }
                     }
                 }
             });
 
+            //Placing down vents
             TilePopulate(new int[] {
                     ModContent.TileType<ThermalVent1x1>(),
                     ModContent.TileType<ThermalVent2x1>(),

@@ -53,7 +53,10 @@ namespace EEMod
                     }
                     else
                     {
-                        fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
+                        Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
+
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                            fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                 }
             }
