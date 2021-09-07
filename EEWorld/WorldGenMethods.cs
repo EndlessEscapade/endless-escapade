@@ -1239,19 +1239,19 @@ namespace EEMod.EEWorld
             Tile tileLeft2 = Framing.GetTileSafely(i - 2, j);
             Tile tileRight = Framing.GetTileSafely(i + 1, j);
             Tile tileRight2 = Framing.GetTileSafely(i + 2, j);
-            if (tile.active() && tileBelow.active() && tileBelow2.active() && !tileAbove.active() && !tileAbove2.active() && tile.slope() == 0)
+            if (tile.active() && tileBelow.active() && tileBelow2.active() && !tileAbove.active() && !tileAbove2.active() && tile.slope() == 0) //If 2 tiles below are clear and 2 tiles above are solid
             {
                 return 1;
             }
-            if (tile.active() && !tileBelow.active() && !tileBelow2.active() && tileAbove.active() && tileAbove2.active() && tile.slope() == 0)
+            if (tile.active() && !tileBelow.active() && !tileBelow2.active() && tileAbove.active() && tileAbove2.active() && tile.slope() == 0) //If 2 tiles below are solid and 2 tiles above are clear
             {
                 return 2;
             }
-            if (tile.active() && TileLeft.active() && tileLeft2.active() && !tileRight.active() && !tileRight2.active())
+            if (tile.active() && TileLeft.active() && tileLeft2.active() && !tileRight.active() && !tileRight2.active()) //If 2 tiles left are solid and 2 tiles right are clear
             {
                 return 3;
             }
-            if (tile.active() && !TileLeft.active() && !tileLeft2.active() && tileRight.active() && tileRight2.active())
+            if (tile.active() && !TileLeft.active() && !tileLeft2.active() && tileRight.active() && tileRight2.active()) //If 2 tiles right are solid and 2 tiles left are clear
             {
                 return 4;
             }
