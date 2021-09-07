@@ -95,8 +95,6 @@ namespace EEMod.NPCs.CoralReefs
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-            Lighting.AddLight(npc.Center, Color.White.ToVector3());
-
             return false;
         }
 

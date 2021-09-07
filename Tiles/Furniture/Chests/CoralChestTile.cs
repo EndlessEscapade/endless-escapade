@@ -23,21 +23,22 @@ namespace EEMod.Tiles.Furniture.Chests
             Main.tileNoAttach[Type] = true;
             Main.tileValue[Type] = 500;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
-            TileObjectData.newTile.Origin = new Point16(0, 0);
+            TileObjectData.newTile.Origin = new Point16(0, 1);
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
             TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+            TileObjectData.newTile.AnchorInvalidTiles = new int[] { 127 };
             TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Chest");
-            AddMapEntry(new Color(255, 0, 0), name);
+            AddMapEntry(Color.Black, name);
             dustType = DustID.Dirt;
-            disableSmartCursor = true;
             adjTiles = new int[] { TileID.Containers };
+            TileID.Sets.BasicChest[Type] = true;
             chestDrop = ModContent.ItemType<CoralChest>();
             chest = "Coral Chest";
         }
@@ -46,7 +47,7 @@ namespace EEMod.Tiles.Furniture.Chests
         {
             int left = i;
             int top = j;
-            Tile tile = Framing.GetTileSafely(i, j);
+            Tile tile = Main.tile[i, j];
             if (tile.frameX % 36 != 0)
             {
                 left--;
@@ -80,7 +81,7 @@ namespace EEMod.Tiles.Furniture.Chests
         public override bool NewRightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
-            Tile tile = Framing.GetTileSafely(i, j);
+            Tile tile = Main.tile[i, j];
             Main.mouseRightRelease = false;
             int left = i;
             int top = j;
@@ -149,11 +150,14 @@ namespace EEMod.Tiles.Furniture.Chests
             }
             return true;
         }
-
+        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        {
+            offsetY = 2;
+        }
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
-            Tile tile = Framing.GetTileSafely(i, j);
+            Tile tile = Main.tile[i, j];
             int left = i;
             int top = j;
             if (tile.frameX % 36 != 0)
@@ -168,9 +172,7 @@ namespace EEMod.Tiles.Furniture.Chests
             player.showItemIcon2 = -1;
             if (chest < 0)
             {
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-                player.showItemIconText = Lang.chestType[0].Value; // TODO: Change to Language.GetText
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+                player.showItemIconText = Language.GetTextValue("LegacyChestType.0");
             }
             else
             {
@@ -180,9 +182,9 @@ namespace EEMod.Tiles.Furniture.Chests
                     player.showItemIcon2 = ModContent.ItemType<CoralChest>();
                     player.showItemIconText = "";
                 }
+                player.noThrow = 2;
+                player.showItemIcon = true;
             }
-            player.noThrow = 2;
-            player.showItemIcon = true;
         }
 
         public override void MouseOverFar(int i, int j)

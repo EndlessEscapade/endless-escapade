@@ -26,6 +26,9 @@ using EEMod.Tiles.Foliage.ThermalVents;
 using EEMod.Tiles.Foliage.KelpForest;
 using EEMod.Tiles.Foliage.Aquamarine;
 using EEMod.EEWorld;
+using EEMod.Tiles.Furniture.Chests;
+using System.Diagnostics;
+using EEMod.Tiles.Foliage.BulboBall;
 using static EEMod.EEWorld.EEWorld;
 
 
@@ -138,7 +141,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             int[] biomes = Helpers.FillUniformArray(roomsPerLayer * 2, 0, 3);
 
             Vector2[] upperRoomPositions = MakeDistantLocations(roomsPerLayer, 150, new Rectangle(200, 265, Main.maxTilesX - 400, ((Main.maxTilesY / 10) * 4) - (265 + 100)), 5000);
-            Vector2[] lowerRoomPositions = MakeDistantLocations((int)(roomsPerLayer * 0.75f), 150, new Rectangle(200, (Main.maxTilesY / 10) * 4, Main.maxTilesX - 400, (Main.maxTilesY / 10) * 3), 5000);
+            Vector2[] lowerRoomPositions = MakeDistantLocations((int)(roomsPerLayer * 0.75f), 170, new Rectangle(100, (Main.maxTilesY / 10) * 4, Main.maxTilesX - 200, (Main.maxTilesY / 10) * 3), 5000);
             Vector2[] depthsRoomPositions = MakeDistantLocations(roomsPerLayer / 2, 200, new Rectangle(300, (Main.maxTilesY / 10) * 7, Main.maxTilesX - 600, ((Main.maxTilesY / 10) * 3) - 300), 5000);
 
             #endregion
@@ -205,7 +208,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 ModContent.TileType<Floor7x7Coral>(),
                 ModContent.TileType<Floor8x7Coral>(),
                 ModContent.TileType<Floor8x3Coral>(),
-                ModContent.TileType<FloorGlow9x4Coral>(),
+                ModContent.TileType<BulboBall>(),
                 ModContent.TileType<Floor9x9Coral>(),
                 ModContent.TileType<Floor11x11Coral>(),
 
@@ -242,7 +245,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 if (biome > 0) biome += 2;
 
                 EEMod.progressMessage = "Generating rooms pt. 2 " + (j * 100f / lowerRoomPositions.Length) + "%";
-                MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 150, 100, biome);
+                MakeCoralRoom((int)lowerRoomPositions[j].X, (int)lowerRoomPositions[j].Y, 150, 75, biome);
             }
 
             /*for (int k = 0; k < depthsRoomPositions.Length; k++)
@@ -419,7 +422,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                 RemoveWaterFromRegionWallsOnly(ShipTiles.GetLength(1), ShipTiles.GetLength(0), new Vector2(boatPos, watercheck));
 
-                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                for (int i = 42; i < Main.maxTilesX - 84; i++)
                 {
                     if (WorldGen.genRand.NextBool(4))
                     {
@@ -439,7 +442,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     }
                 }
 
-                for (int i = 42; i < Main.maxTilesX - 42; i++)
+                /*for (int i = 42; i < Main.maxTilesX - 84; i++)
                 {
                     if (WorldGen.genRand.NextBool(6) && (i < boatPos - 1 || i > boatPos + ShipTiles.GetLength(1) + 1))
                     {
@@ -454,6 +457,26 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 case 1:
                                     WorldGen.PlaceTile(i, depth - 1, ModContent.TileType<LilyPadMedium>());
                                     break;
+                            }
+                        }
+                    }
+                }*/
+
+                for (int i = 100; i < Main.maxTilesX - 200; i++)
+                {
+                    for (int j = Main.maxTilesY / 10; j < Main.maxTilesY * 4 / 10; j++)
+                    {
+                        if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && WorldGen.genRand.NextBool(60))
+                        {
+                            int chest = WorldGen.PlaceChest(i, j - 1, (ushort)ModContent.TileType<CoralChestTile>());
+
+                            ModContent.GetInstance<EEMod>().Logger.Debug("Chest attempting to spawn at: " + new Vector2(i, j - 1));
+                            if (chest >= 0)
+                            {
+                                ModContent.GetInstance<EEMod>().Logger.Debug("Successfully spawned");
+                                Item item = new Item();
+                                item.SetDefaults(ItemID.SkiphsHelm);
+                                Main.chest[chest].item[0] = item;
                             }
                         }
                     }
