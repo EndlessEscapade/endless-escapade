@@ -29,7 +29,8 @@ namespace EEMod.NPCs.Bosses.Kraken
             NPC.npcSlots = 24f;
             NPC.knockBackResist = 0f;
             NPC.behindTiles = true;
-            musicPriority = MusicPriority.BossMedium;
+
+            //NPC.Priority = MusicPriority.BossMedium;
         }
 
         public override bool CheckActive()

@@ -66,17 +66,20 @@ namespace EEMod.Tiles.Foliage
 
             Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/SeagrassTile");
 
-            int frame = 1;
+            int frameX = 0;
+            int frameY = 1;
 
             if(tile.type == ModContent.TileType<SeagrassTile>() && (!Framing.GetTileSafely(i, j - 1).active() || Framing.GetTileSafely(i, j - 1).type != ModContent.TileType<SeagrassTile>()))
             {
-                frame = 0;
+                frameY = 0;
             }
 
             if (tile.type != ModContent.TileType<SeagrassTile>() && Framing.GetTileSafely(i, j - 1).type == ModContent.TileType<SeagrassTile>())
             {
-                frame = 2;
+                frameY = 2;
             }
+
+            frameX = ((i * j) + (int)Math.Sin((i - (j * 2)) / (i * j))) % 2;
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
@@ -86,9 +89,16 @@ namespace EEMod.Tiles.Foliage
 
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
 
-            Rectangle rect = new Rectangle(0, frame * 16, 16, 16);
+            Rectangle rect = new Rectangle(frameX * 16, frameY * 16, 16, 16);
 
             Main.spriteBatch.Draw(tex, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
+
+            if (frameX == 1)
+            {
+                Lighting.AddLight(new Vector2(i * 16, j * 16), Color.Gold.ToVector3() * 0.25f);
+
+                Main.spriteBatch.Draw(tex, position, new Rectangle(32, frameY * 16, 16, 16), Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
+            }
 
             return false;
         }

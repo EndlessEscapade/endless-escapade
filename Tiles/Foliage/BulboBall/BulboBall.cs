@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
+using Terraria.ID;
 
 namespace EEMod.Tiles.Foliage.BulboBall
 {
@@ -17,22 +18,24 @@ namespace EEMod.Tiles.Foliage.BulboBall
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
+
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
             TileObjectData.newTile.Width = 8;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-            TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.CoordinateWidth = 16;
+            TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.DrawYOffset = 2;
-            //TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<BulboBallTE>().Hook_AfterPlacement, -1, 0, true);
-            TileObjectData.newTile.StyleHorizontal = true;
             TileObjectData.newTile.LavaDeath = false;
-            TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
-            AddMapEntry(new Color(120, 85, 60));
+
+            ModTranslation name = CreateMapEntryName();
+            name.SetDefault("Bulbo Ball");
+            AddMapEntry(new Color(20, 60, 20), name);
+            disableSmartCursor = true;
+            dustType = DustID.Dirt;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

@@ -240,7 +240,7 @@ namespace EEMod
                     player.ZoneBeach = false;
                 }
 
-                bool foundBiome = false;
+                reefMinibiome = MinibiomeID.None;
 
                 for (int k = 0; k < CoralReefs.Minibiomes.Count; k++)
                 {
@@ -251,12 +251,9 @@ namespace EEMod
                     {
                         reefMinibiome = CoralReefs.Minibiomes[k].id;
 
-                        foundBiome = true;
                         break;
                     }
                 }
-
-                if (!foundBiome) reefMinibiome = MinibiomeID.None;
             }
             else
             {

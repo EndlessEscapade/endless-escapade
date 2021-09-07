@@ -34,25 +34,51 @@ namespace EEMod
 
             if (ElapsedTicks % 150 == 0 && Main.worldName == KeyID.CoralReefs)
             {
-                int randInt = Main.rand.Next(0, fishflocks.Count);
                 Vector2 rand = new Vector2(Main.rand.Next(-(int)(Main.screenWidth / 1.5f), (int)(Main.screenWidth / 1.5f)), Main.rand.Next(-(int)(Main.screenHeight / 1.5f), (int)(Main.screenHeight / 1.5f)));
+
+                while (new Rectangle(-Main.screenWidth / 2, -Main.screenHeight / 2, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()))
+                {
+                    rand = new Vector2(Main.rand.Next(-(int)(Main.screenWidth / 1.5f), (int)(Main.screenWidth / 1.5f)), Main.rand.Next(-(int)(Main.screenHeight / 1.5f), (int)(Main.screenHeight / 1.5f)));
+                }
 
                 if (!new Rectangle(-Main.screenWidth / 2, -Main.screenHeight / 2, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()))
                 {
-                    if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
+                    Main.NewText(Main.LocalPlayer?.GetModPlayer<EEPlayer>().reefMinibiome);
+                    if (Main.LocalPlayer?.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
                     {
-                        
+                        int randInt = Main.rand.Next(5, 8);
+
+                        Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
+
+                        Main.NewText("Correct!");
+
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                            fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.AquamarineCaverns)
                     {
+                        int randInt = Main.rand.Next(8, 9);
 
+                        Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
+
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                            fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.ThermalVents)
                     {
+                        int randInt = Main.rand.Next(9, 10);
 
+                        Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
+
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                            fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else
                     {
+                        int randInt = Main.rand.Next(0, 5);
+
+                        Main.NewText("Wrong!");
+
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
                         if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
@@ -64,10 +90,10 @@ namespace EEMod
 
         public override void OnLoad()
         {
-            fishflocks.Add(new Flock("Particles/Fish", 0.5f, 10, 20));
+            fishflocks.Add(new Flock("Particles/Fish", 1f, 10, 20));
             fishflocks.Add(new Flock("Particles/Coralfin", 1f, 5, 15));
-            fishflocks.Add(new Flock("Particles/Barracuda", 0.5f, 3, 7));
-            fishflocks.Add(new Flock("Particles/LargeBubblefish", 0.5f, 10, 20));
+            fishflocks.Add(new Flock("Particles/Barracuda", 1f, 3, 7));
+            fishflocks.Add(new Flock("Particles/LargeBubblefish", 1f, 5, 10));
             fishflocks.Add(new Flock("Particles/SmallBubblefish", 1f, 15, 25));
 
             fishflocks.Add(new Flock("Particles/KelpEel2", 1f, 10, 20));
@@ -247,7 +273,7 @@ namespace EEMod
             Point point = position.ParalaxX(-0f).ToTileCoordinates();
             Color lightColour = Lighting.GetColor(point.X, point.Y);
             Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture(parent.flockTex);
-            spritebatch.Draw(texture, position.ForDraw().ParalaxX(-0f), texture.Bounds, lightColour, velocity.ToRotation(), Vector2.Zero, parent.fishScale, SpriteEffects.None, 0f);
+            spritebatch.Draw(texture, position.ForDraw().ParalaxX(-0f), texture.Bounds, lightColour, velocity.ToRotation(), texture.Bounds.Size() / 2f, parent.fishScale, SpriteEffects.None, 0f);
         }
 
         public void ApplyForces()

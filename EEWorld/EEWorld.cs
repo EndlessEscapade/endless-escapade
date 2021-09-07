@@ -317,6 +317,74 @@ namespace EEMod.EEWorld
             tag.TryGetListRef("ThinCrystalBambooLocations", ref CoralReefs.ThinCrystalBambooLocations);
             tag.TryGetListRef("BulbousTreePosition", ref CoralReefs.BulbousTreePosition);
             tag.TryGetListRef("WebPositions", ref CoralReefs.WebPositions);
+
+
+            IList<Vector2> positions = new List<Vector2>();
+            IList<Vector2> sizes = new List<Vector2>();
+            IList<int> ids = new List<int>();
+
+            tag.TryGetListRef("CoralMinibiomesPositions", ref positions);
+            tag.TryGetListRef("CoralMinibiomesSizes", ref sizes);
+            tag.TryGetListRef("CoralMinibiomesIds", ref ids);
+
+            for(int i = 0; i < positions.Count; i++)
+            { 
+                if(ids[i] == (int)MinibiomeID.None)
+                {
+                    continue;
+                }
+                else if (ids[i] == (int)MinibiomeID.AquamarineCaverns)
+                {
+                    CoralReefs.Minibiomes.Add(new AquamarineCaverns()
+                    {
+                        Position = positions[i].ToPoint(),
+                        Size = sizes[i].ToPoint(),
+                        EnsureNoise = false
+                    });
+
+                    continue;
+                }
+                else if (ids[i] == (int)MinibiomeID.GlowshroomGrotto)
+                {
+                    CoralReefs.Minibiomes.Add(new GlowshroomGrotto()
+                    {
+                        Position = positions[i].ToPoint(),
+                        Size = sizes[i].ToPoint(),
+                        EnsureNoise = false
+                    });
+
+                    continue;
+                }
+                else if (ids[i] == (int)MinibiomeID.KelpForest)
+                {
+                    CoralReefs.Minibiomes.Add(new KelpForest()
+                    {
+                        Position = positions[i].ToPoint(),
+                        Size = sizes[i].ToPoint(),
+                        EnsureNoise = false
+                    });
+
+                    continue;
+                }
+                else if (ids[i] == (int)MinibiomeID.ThermalVents)
+                {
+                    CoralReefs.Minibiomes.Add(new ThermalVents()
+                    {
+                        Position = positions[i].ToPoint(),
+                        Size = sizes[i].ToPoint(),
+                        EnsureNoise = false
+                    });
+
+                    continue;
+                }
+                else
+                {
+                    Main.NewText("something went wrong");
+                }
+            }
+
+
+
             //tag.TryGetListRef("CoralReefMinibiomes", ref CoralReefs.Minibiomes);
 
             /*if (tag.TryGetListRef("WebPositions", ref EESubWorlds.WebPositions))
@@ -389,6 +457,21 @@ namespace EEMod.EEWorld
                 tag["ThinCrystalBambooLocations"] = CoralReefs.ThinCrystalBambooLocations;
                 tag["BulbousTreePosition"] = CoralReefs.BulbousTreePosition;
                 tag["WebPositions"] = CoralReefs.WebPositions;
+
+                List<Vector2> positions = new List<Vector2>();
+                List<Vector2> sizes = new List<Vector2>();
+                List<int> ids = new List<int>();
+
+                foreach (CoralReefMinibiome mb in CoralReefs.Minibiomes)
+                {
+                    positions.Add(mb.Position.ToVector2());
+                    sizes.Add(mb.Size.ToVector2());
+                    ids.Add((int)mb.id);
+                }
+
+                tag["CoralMinibiomesSize"] = positions;
+                tag["CoralMinibiomesId"] = sizes;
+                tag["CoralMinibiomesPosition"] = ids;
 
                 //tag["CoralReefMinibiomes"] = CoralReefs.Minibiomes;
 

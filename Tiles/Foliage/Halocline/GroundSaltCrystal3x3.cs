@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Foliage.Halocline
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             float shine = ((Math.Sin(Main.GameUpdateCount / 40f) + Math.Sin((Main.GameUpdateCount / 40f) * 2)) / 1.76f).PositiveSin();
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/KelpForest/GroundSaltCrystal3x3"), i, j, Color.White * shine);
+            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Halocline/GroundSaltCrystal3x3"), i, j, Color.Lerp(Color.Pink, Color.Cyan, Math.Sin((Main.GameUpdateCount) / 40f).PositiveSin()));
         }
     }
 }

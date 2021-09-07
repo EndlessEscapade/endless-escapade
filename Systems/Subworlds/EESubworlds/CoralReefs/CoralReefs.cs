@@ -30,7 +30,13 @@ using EEMod.Tiles.Furniture.Chests;
 using System.Diagnostics;
 using EEMod.Tiles.Foliage.BulboBall;
 using static EEMod.EEWorld.EEWorld;
-
+using EEMod.Items.Gliders;
+using EEMod.Items.Accessories;
+using EEMod.Items.Weapons.Melee.Swords;
+using EEMod.Items.Weapons.Ranger.Guns;
+using EEMod.Items.Weapons.Mage;
+using EEMod.Items.Weapons.Summon.Minions;
+using EEMod.Items.Weapons.Ammo;
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {
@@ -466,17 +472,113 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     for (int j = Main.maxTilesY / 10; j < Main.maxTilesY * 4 / 10; j++)
                     {
-                        if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && WorldGen.genRand.NextBool(60))
+                        if (TileCheck2(i, j) == 2 && TileCheck2(i + 1, j) == 2 && WorldGen.genRand.NextBool(30))
                         {
                             int chest = WorldGen.PlaceChest(i, j - 1, (ushort)ModContent.TileType<CoralChestTile>());
 
                             ModContent.GetInstance<EEMod>().Logger.Debug("Chest attempting to spawn at: " + new Vector2(i, j - 1));
                             if (chest >= 0)
                             {
-                                ModContent.GetInstance<EEMod>().Logger.Debug("Successfully spawned");
-                                Item item = new Item();
-                                item.SetDefaults(ItemID.SkiphsHelm);
-                                Main.chest[chest].item[0] = item;
+                                Item item1 = new Item();
+
+                                int itemRand = WorldGen.genRand.Next(6);
+
+                                int index = 0;
+
+                                switch (itemRand)
+                                {
+                                    case 0:
+                                        item1.SetDefaults(ModContent.ItemType<MantaRayGlider>());
+                                        break;
+                                    case 1:
+                                        item1.SetDefaults(ModContent.ItemType<CoralEarring>());
+                                        break;
+                                    case 2:
+                                        item1.SetDefaults(ModContent.ItemType<BubbleStriker>());
+                                        break;
+                                    case 3:
+                                        item1.SetDefaults(ModContent.ItemType<BubbleBlitzer>());
+                                        break;
+                                    case 4:
+                                        item1.SetDefaults(ModContent.ItemType<CoralRod>());
+                                        break;
+                                    case 5:
+                                        item1.SetDefaults(ModContent.ItemType<AquaticReinforcmentStaff>());
+                                        break;
+                                    default:
+                                        item1.SetDefaults(ItemID.RedPotion);
+                                        break;
+                                }
+
+                                Main.chest[chest].item[index] = item1;
+                                index++;
+
+                                if (itemRand == 3)
+                                {
+                                    Item bullet = new Item();
+                                    bullet.SetDefaults(ItemID.MusketBall);
+                                    bullet.stack = WorldGen.genRand.Next(50, 100);
+
+                                    Main.chest[chest].item[index] = bullet;
+                                    index++;
+                                }
+
+                                if(WorldGen.genRand.NextBool())
+                                {
+                                    Item item2 = new Item();
+                                    item2.SetDefaults(ModContent.ItemType<CoralArrow>());
+                                    item2.stack = WorldGen.genRand.Next(30, 51);
+
+                                    Main.chest[chest].item[index] = item2;
+                                    index++;
+                                }
+
+                                if (WorldGen.genRand.NextBool())
+                                {
+                                    Item item3 = new Item();
+                                    item3.SetDefaults(ItemID.Glowstick);
+                                    item3.stack = WorldGen.genRand.Next(10, 21);
+
+                                    Main.chest[chest].item[index] = item3;
+                                    index++;
+                                }
+
+                                if (WorldGen.genRand.NextBool())
+                                {
+                                    Item item4 = new Item();
+                                    item4.SetDefaults(ItemID.HealingPotion);
+                                    item4.stack = WorldGen.genRand.Next(5, 11);
+
+                                    Main.chest[chest].item[index] = item4;
+                                    index++;
+                                }
+
+                                if (WorldGen.genRand.NextBool())
+                                {
+                                    Item item5 = new Item();
+                                    item5.SetDefaults(ItemID.RecallPotion);
+                                    item5.stack = WorldGen.genRand.Next(3, 8);
+
+                                    Main.chest[chest].item[index] = item5;
+                                    index++;
+                                }
+
+                                if (WorldGen.genRand.NextBool())
+                                {
+                                    Item item6 = new Item();
+                                    item6.SetDefaults(ItemID.GillsPotion);
+                                    item6.stack = WorldGen.genRand.Next(1, 4);
+
+                                    Main.chest[chest].item[index] = item6;
+                                    index++;
+                                }
+
+                                Item coin = new Item();
+                                coin.SetDefaults(ItemID.GoldCoin);
+                                coin.stack = WorldGen.genRand.Next(3, 8);
+
+                                Main.chest[chest].item[index] = coin;
+                                index++;
                             }
                         }
                     }
