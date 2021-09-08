@@ -60,7 +60,14 @@ namespace EEMod.Tiles.Foliage
 
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/BigTropicalTreeLeaves"), new Vector2((i * 16) + 144, (j * 16) + 96) - Main.screenPosition, new Rectangle(0, 0, 164, 172), Lighting.GetColor(i, j));
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+
+            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
+                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/BigTropicalTreeLeaves"), new Vector2((i * 16) - 48, (j * 16) - 130) - Main.screenPosition + zero, new Rectangle(0, 0, 164, 172), Lighting.GetColor(i, j));
         }
     }
 }

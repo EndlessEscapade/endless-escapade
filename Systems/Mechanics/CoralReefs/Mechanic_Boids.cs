@@ -36,21 +36,18 @@ namespace EEMod
             {
                 Vector2 rand = new Vector2(Main.rand.Next(-(int)(Main.screenWidth / 1.5f), (int)(Main.screenWidth / 1.5f)), Main.rand.Next(-(int)(Main.screenHeight / 1.5f), (int)(Main.screenHeight / 1.5f)));
 
-                while (new Rectangle(-Main.screenWidth / 2, -Main.screenHeight / 2, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()))
+                while (new Rectangle(-Main.screenWidth / 2, -Main.screenHeight / 2, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()) && WorldGen.InWorld((int)(rand.X / 16f), (int)(rand.Y / 16f)))
                 {
                     rand = new Vector2(Main.rand.Next(-(int)(Main.screenWidth / 1.5f), (int)(Main.screenWidth / 1.5f)), Main.rand.Next(-(int)(Main.screenHeight / 1.5f), (int)(Main.screenHeight / 1.5f)));
                 }
 
                 if (!new Rectangle(-Main.screenWidth / 2, -Main.screenHeight / 2, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()))
                 {
-                    Main.NewText(Main.LocalPlayer?.GetModPlayer<EEPlayer>().reefMinibiome);
-                    if (Main.LocalPlayer?.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
+                    if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
                     {
                         int randInt = Main.rand.Next(5, 8);
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
-
-                        Main.NewText("Correct!");
 
                         if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
@@ -76,8 +73,6 @@ namespace EEMod
                     else
                     {
                         int randInt = Main.rand.Next(0, 5);
-
-                        Main.NewText("Wrong!");
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 

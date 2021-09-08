@@ -47,10 +47,29 @@ namespace EEMod.Tiles.Foliage
             Item.NewItem(new Vector2(i, j), ModContent.ItemType<Coconut>(), Main.rand.Next(3, 5));
         }
 
-        public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
+        public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
+            Tile t = Main.tile[i, j];
+            if (t.frameX == 0 && t.frameY == 0)
+            {
+                Main.specX[nextSpecialDrawIndex] = i;
+                Main.specY[nextSpecialDrawIndex] = j;
+                nextSpecialDrawIndex++;
+            }
+        }
+
+        public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            base.SpecialDraw(i, j, spriteBatch);
+
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+
             if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/TropicalTreeLeaves"), new Vector2((i * 16) + 150, (j * 16) + 120) - Main.screenPosition, new Rectangle(0, 0, 120, 100), Lighting.GetColor(i, j));
+                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/TropicalTreeLeaves"), new Vector2((i * 16) - 48, (j * 16) - 60) - Main.screenPosition + zero, new Rectangle(0, 0, 120, 100), Lighting.GetColor(i, j));
         }
     }
 }

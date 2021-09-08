@@ -27,6 +27,8 @@ namespace EEMod.NPCs.CoralReefs
             NPC.lavaImmune = false;
             NPC.noTileCollide = false;
 
+            NPC.aiStyle = 67;
+
             NPC.width = 32;
             NPC.height = 18;
         }

@@ -1864,6 +1864,20 @@ namespace EEMod.EEWorld
             return 0;
         }
 
+        public static int TileCheck(int positionX, int type, int cap)
+        {
+            for (int i = 0; i < cap; i++)
+            {
+                Tile tile = Framing.GetTileSafely(positionX, i);
+                if (tile.type == type)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+
         public static void KillWall(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)

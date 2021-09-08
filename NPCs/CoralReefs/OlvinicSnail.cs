@@ -12,6 +12,11 @@ namespace EEMod.NPCs.CoralReefs
             Main.npcFrameCount[NPC.type] = 4;
         }
 
+        public override float SpawnChance(NPCSpawnInfo spawnInfo)
+        {
+            return (spawnInfo.water ? 0 : 0.05f);
+        }
+
         private int frameNumber = 0;
         public override void FindFrame(int frameHeight)
         {
@@ -40,6 +45,8 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.width = 58;
             NPC.height = 28;
+
+            NPC.aiStyle = 67;
 
             NPC.noGravity = true;
 
