@@ -97,7 +97,7 @@ namespace EEMod.Tiles.Foliage.BulboBall
                 {
                     if (peaked) ballHeight += (float)Math.Sin((Main.GameUpdateCount / 80f) + (j - i)) * 0.5f;
 
-                    Texture2D vineTex = ModContent.GetTexture("EEMod/Textures/BigVineVert");
+                    Texture2D vineTex = ModContent.GetTexture("EEMod/Textures/VineVert");
                     Texture2D vineTexGlow = ModContent.GetTexture("EEMod/Textures/BigVineVertGlow");
                     Vector2 bezierOrig = new Vector2(i * 16, j * 16) + zero;
 
@@ -106,18 +106,30 @@ namespace EEMod.Tiles.Foliage.BulboBall
 
                     Lighting.AddLight(new Vector2(i * 16, j * 16) + new Vector2(64, 32 - ballHeight), Color.Gold.ToVector3() * ((MathHelper.Clamp(ballHeight, 0, 128) + 128) / 256f) * 0.75f);
 
-                    Helpers.DrawBezier(vineTex, Lighting.GetColor((int)bulboBallPosLight.X, (int)bulboBallPosLight.Y), bezierOrig + new Vector2(24, 32), bezierOrig + new Vector2(48, - ballHeight) + new Vector2(0, (float)Math.Sin((i - j)) * 16f), bezierOrig + new Vector2(32, -16), 1f, vineTex.Bounds);
-                    Helpers.DrawBezier(vineTex, Lighting.GetColor((int)bulboBallPosLight.X, (int)bulboBallPosLight.Y), bezierOrig + new Vector2(104, 32), bezierOrig + new Vector2(80, - ballHeight) + new Vector2(0, (float)Math.Sin((i * j)) * 16f), bezierOrig + new Vector2(96, -16), 1f, vineTex.Bounds);
+                    //Helpers.DrawBezier(vineTex, Lighting.GetColor((int)bulboBallPosLight.X, (int)bulboBallPosLight.Y), bezierOrig + new Vector2(24, 32), bezierOrig + new Vector2(48, - ballHeight) + new Vector2(0, (float)Math.Sin((i - j)) * 16f), bezierOrig + new Vector2(32, -16), 1f, vineTex.Bounds);
+                    //Helpers.DrawBezier(vineTex, Lighting.GetColor((int)bulboBallPosLight.X, (int)bulboBallPosLight.Y), bezierOrig + new Vector2(104, 32), bezierOrig + new Vector2(80, - ballHeight) + new Vector2(0, (float)Math.Sin((i * j)) * 16f), bezierOrig + new Vector2(96, -16), 1f, vineTex.Bounds);
 
-                    Helpers.DrawBezier(vineTexGlow, Color.White * (ballHeight / 256f), bezierOrig + new Vector2(24, 32), bezierOrig + new Vector2(48, - ballHeight) + new Vector2(0, (float)Math.Sin((i - j)) * 16f), bezierOrig + new Vector2(32, -16), 1f, vineTex.Bounds);
-                    Helpers.DrawBezier(vineTexGlow, Color.White * (ballHeight / 256f), bezierOrig + new Vector2(104, 32), bezierOrig + new Vector2(80, - ballHeight) + new Vector2(0, (float)Math.Sin((i + j) + 2) * 16f), bezierOrig + new Vector2(96, -16), 1f, vineTex.Bounds);
+                    //Helpers.DrawBezier(vineTexGlow, Color.White * (ballHeight / 256f), bezierOrig + new Vector2(24, 32), bezierOrig + new Vector2(48, - ballHeight) + new Vector2(0, (float)Math.Sin((i - j)) * 16f), bezierOrig + new Vector2(32, -16), 1f, vineTex.Bounds);
+                    //Helpers.DrawBezier(vineTexGlow, Color.White * (ballHeight / 256f), bezierOrig + new Vector2(104, 32), bezierOrig + new Vector2(80, - ballHeight) + new Vector2(0, (float)Math.Sin((i + j) + 2) * 16f), bezierOrig + new Vector2(96, -16), 1f, vineTex.Bounds);
+
+                    for(int k = 0; k < 5; k++)
+                    {
+                        Color color = Lighting.GetColor((int)bulboBallPosLight.X, (int)bulboBallPosLight.Y);
+
+                        Vector2 orig = bezierOrig + new Vector2((int)((float)Math.Sin((i * j) + (k * 1.4f)) * 56) + 64, 24);
+
+                        Vector2 finalPos = bezierOrig + bulboBallPos - new Vector2(i * 16, j * 16);
+
+                        Vector2 c1 = orig + new Vector2((orig.X - finalPos.X) / -2, -ballHeight / 3f) + new Vector2(0, (float)Math.Sin((i - j)) * 16f);
 
 
+                        Helpers.DrawBezier(vineTex, color, finalPos + new Vector2((orig.X - finalPos.X) / 3, 0), orig, c1, 1f, vineTex.Bounds);
+                        
+                        //Helpers.DrawBezier(vineTexGlow, Color.White * (ballHeight / 256f), bezierOrig + new Vector2(104, 32), bezierOrig + new Vector2(80, -ballHeight) + new Vector2(0, (float)Math.Sin((i + j) + 2) * 16f), bezierOrig + new Vector2(96, -16), 1f, vineTex.Bounds);
+                    }
 
                     spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/Foliage/BulboBall/GoldBulboBall"), bulboBallPos + zero - Main.screenPosition, new Rectangle(0, 0, 128, 128), Lighting.GetColor((int)bulboBallPosLight.X, (int)bulboBallPosLight.Y), (float)(Math.Sin((Main.GameUpdateCount / 65f) + i) / 13f) * (ballHeight / 256f), new Vector2(64, 64), 1f, SpriteEffects.None, 0f);
                     spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/Foliage/BulboBall/GoldBulboBallGlow"), bulboBallPos + zero - Main.screenPosition, new Rectangle(0, 0, 128, 128), Lighting.GetColor((int)bulboBallPosLight.X, (int)bulboBallPosLight.Y), (float)(Math.Sin((Main.GameUpdateCount / 65f) + i) / 13f) * (ballHeight / 256f), new Vector2(64, 64), 1f, SpriteEffects.None, 0f);
-
-
 
                     Color chosen = Color.Lerp(Color.Gold, Color.LightGoldenrodYellow, Main.rand.NextFloat(1f));
 

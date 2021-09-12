@@ -123,17 +123,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     int width = WorldGen.genRand.Next(40, 60);
                     int height = WorldGen.genRand.Next(20, 25);
 
-                    MakeOvalJaggedTop(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
+                    MakeOvalJaggedBottom(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
 
-                    MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
-
-                    for (int k = i; k < i + 25; k++)
-                    {
-                        for (int l = depth - 15; l < depth + 10; l++)
-                        {
-                            WorldGen.SpreadGrass(k, l);
-                        }
-                    }
+                    MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Sand, true);
 
                     i += 50;
                 }
