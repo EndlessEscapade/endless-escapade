@@ -526,11 +526,6 @@ namespace EEMod
 
                 Seamap.SeamapContent.SeamapPlayerShip.localship.velocity = Vector2.Zero;
                 Main.numClouds = 0;
-                TextureAssets.Logo2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Empty");
-                TextureAssets.Logo = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Empty");
-                TextureAssets.Sun2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Empty");
-                TextureAssets.Sun3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Empty");
-                TextureAssets.Sun = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Empty");
 
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null)
                 {
@@ -892,11 +887,6 @@ namespace EEMod
                         SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
                     }
 
-                    TextureAssets.Logo2 = ModContent.Request<Texture2D>("Terraria/Logo2");
-                    TextureAssets.Logo = ModContent.Request<Texture2D>("Terraria/Logo");
-                    TextureAssets.Sun2 = ModContent.Request<Texture2D>("Terraria/Sun2");
-                    TextureAssets.Sun3 = ModContent.Request<Texture2D>("Terraria/Sun3");
-                    TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Sun");
                 }
             }
         }
@@ -916,12 +906,6 @@ namespace EEMod
                 {
                     SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
                 }
-
-                TextureAssets.Logo2 = ModContent.Request<Texture2D>("Terraria/Logo2");
-                TextureAssets.Logo = ModContent.Request<Texture2D>("Terraria/Logo");
-                TextureAssets.Sun2 = ModContent.Request<Texture2D>("Terraria/Sun2");
-                TextureAssets.Sun3 = ModContent.Request<Texture2D>("Terraria/Sun3");
-                TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Sun");
             }
 
             TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Sun");

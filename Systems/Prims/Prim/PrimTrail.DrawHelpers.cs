@@ -66,12 +66,14 @@ namespace EEMod.Prim
             Vector2 zoom = Main.GameViewMatrix.Zoom;
             Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
-            effects.Parameters["WorldViewProjection"].SetValue(view * projection);
-            effects.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
-            effects.Parameters["spotTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/Spot").Value);
-            effects.Parameters["polkaTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
-            effects.Parameters["Voronoi"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/VoronoiNoise").Value);
-            _trailShader.ApplyShader(effects, this, _points, PassName, progress);
+
+            //effects.Parameters["WorldViewProjection"].SetValue(view * projection);
+            //effects.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            //effects.Parameters["spotTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/Spot").Value);
+            //effects.Parameters["polkaTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
+            //effects.Parameters["Voronoi"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/VoronoiNoise").Value);
+
+            //_trailShader.ApplyShader(effects, this, _points, PassName, progress);
         }
 
         protected void PrepareShader(Effect effects)
@@ -81,7 +83,7 @@ namespace EEMod.Prim
             Vector2 zoom = Main.GameViewMatrix.Zoom;
             Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
-            effects.Parameters["WorldViewProjection"].SetValue(view * projection);
+            //effects.Parameters["WorldViewProjection"].SetValue(view * projection);
             //_trailShader.ApplyShader(effects, this, _points, "MainPS");
         }
 
