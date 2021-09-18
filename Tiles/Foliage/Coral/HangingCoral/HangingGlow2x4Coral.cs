@@ -59,7 +59,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
                 zero = Vector2.Zero;
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/HangingCoral/HangingGlow2x4CoralGlow");
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/Coral/HangingCoral/HangingGlow2x4CoralGlow").Value;
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }

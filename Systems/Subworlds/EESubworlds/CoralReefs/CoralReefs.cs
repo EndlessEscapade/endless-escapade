@@ -17,7 +17,7 @@ using System;
 using EEMod.Systems.Noise;
 using System.Collections.Generic;
 using EEMod.Autoloading;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles.Ores;
 using EEMod.Tiles.Walls;
@@ -62,7 +62,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
         private int depth = 120;
         private int boatPos = 300;
 
-        public override Point SpawnTile => new Point(boatPos, depth - 9);
+        public override Point SpawnTile => new Point(boatPos, depth - 22);
 
         public override string Name => "CoralReefs";
 
@@ -125,7 +125,15 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                     MakeOvalJaggedTop(width, height, new Vector2(i, depth - 10), ModContent.TileType<CoralSandTile>());
 
-                    MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Sand, true);
+                    MakeOval(width - 10, 10, new Vector2(i + 5, depth - 5), TileID.Dirt, true);
+
+                    for (int k = i; k < i + 25; k++)
+                    {
+                        for (int l = depth - 15; l < depth + 10; l++)
+                        {
+                            WorldGen.SpreadGrass(k, l);
+                        }
+                    }
 
                     i += 50;
                 }
@@ -393,7 +401,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                         {
                             Tile.SmoothSlope(i, j);
                         }
-                        if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i, j - 1).active() && !Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - 1, j).active())
+                        if (!Framing.GetTileSafely(i, j + 1).IsActive && !Framing.GetTileSafely(i, j - 1).IsActive && !Framing.GetTileSafely(i + 1, j).IsActive && !Framing.GetTileSafely(i - 1, j).IsActive)
                         {
                             WorldGen.KillTile(i, j);
                         }
@@ -439,7 +447,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                             for (int j = 1; j < random; j++)
                             {
-                                if (Framing.GetTileSafely(i, ballfart - j).active() || Framing.GetTileSafely(i, ballfart - j).liquid < 64) break;
+                                if (Framing.GetTileSafely(i, ballfart - j).IsActive || Framing.GetTileSafely(i, ballfart - j).LiquidAmount < 64) break;
 
                                 WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>());
                             }
@@ -451,7 +459,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     if (WorldGen.genRand.NextBool(6) && (i < boatPos - 1 || i > boatPos + ShipTiles.GetLength(1) + 1))
                     {
-                        if (!Framing.GetTileSafely(i, depth - 1).active() && !Framing.GetTileSafely(i, depth).active() && !Framing.GetTileSafely(i, depth + 1).active())
+                        if (!Framing.GetTileSafely(i, depth - 1).IsActive && !Framing.GetTileSafely(i, depth).IsActive && !Framing.GetTileSafely(i, depth + 1).IsActive)
                         {
                             switch (WorldGen.genRand.Next(2))
                             {
@@ -595,7 +603,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             //Finishing initialization stuff
             EEMod.progressMessage = "Successful!";
-            EEMod.isSaving = false;
+            // EEMod.isSaving = false;
 
             Main.spawnTileX = boatPos;
             Main.spawnTileY = depth - 22;
@@ -866,7 +874,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     for (int j = 0; j < width; j++)
                     {
-                        if (!Framing.GetTileSafely(i, j).active())
+                        if (!Framing.GetTileSafely(i, j).IsActive)
                         {
                             WorldGen.TileRunner(i + xPos + (a * horDir), j + yPos + (a * vertDir), Main.rand.Next(2, 3), Main.rand.Next(1, 2), type, true, 0, 0, false, false);
                         }

@@ -33,7 +33,7 @@ namespace EEMod.UI.States
         public int SlideTimer = 0;
         public override void OnInitialize()
         {
-            Background = new UIImage(ModContent.GetTexture("EEMod/UI/FishermansLogUI"));
+            Background = new UIImage(ModContent.Request<Texture2D>("EEMod/UI/FishermansLogUI"));
             Background.HAlign = 0.5f;
             Background.VAlign = 2f;
 
@@ -180,7 +180,7 @@ namespace EEMod.UI.States
     public class FishElement : UIImageButton 
     {
         public FishermansLogUI LogUI;
-        public Texture2D BorderTexture = ModContent.GetTexture("EEMod/UI/FishBorder");
+        public Texture2D BorderTexture = ModContent.Request<Texture2D>("EEMod/UI/FishBorder").Value;
         public bool Caught;
         public int MaxSize;
         public int ItemType;
@@ -199,7 +199,7 @@ namespace EEMod.UI.States
         /// <param name="swimSpeed">How many frames the fish takes to swim from one end to the other).</param>
         /// <param name="animSpeed">How many frames each frame of the animation lasts.</param>
         /// <param name="swimmingAnimation">The sprite sheet used to make the fish swim in the display, if left null, the item sprite will be used instead.</param>
-        public FishElement(int itemType, string rarity, string description, string habitat, int swimSpeed = 70, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.GetTexture("EEMod/UI/FishBorder"))
+        public FishElement(int itemType, string rarity, string description, string habitat, int swimSpeed = 70, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.Request<Texture2D>("EEMod/UI/FishBorder"))
         {
             ItemType = itemType;
             Rarity = rarity;
@@ -234,7 +234,7 @@ namespace EEMod.UI.States
             Caught = Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths.ContainsKey(ItemType);
             if (Caught)
             {
-                SetImage(Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[ItemType] == MaxSize ? ModContent.GetTexture("EEMod/UI/FishBorderGold") : ModContent.GetTexture("EEMod/UI/FishBorder"));
+                SetImage(Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[ItemType] == MaxSize ? ModContent.Request<Texture2D>("EEMod/UI/FishBorderGold") : ModContent.Request<Texture2D>("EEMod/UI/FishBorder"));
             }
         }
         public override void Click(UIMouseEvent evt)
@@ -252,7 +252,7 @@ namespace EEMod.UI.States
                 LogUI.Name.SetText("???");
                 LogUI.ExtraInfo.SetText("Habitat: ???\nRarity: ???\nBiggest Catch: ???");
                 LogUI.Description.SetText("???");
-                (LogUI.Display as FishDisplay).ShouldDraw = false;
+                // (LogUI.Display as FishDisplay).ShouldDraw = false;
             }
             LogUI.SelectedFish = this;
         }
@@ -260,7 +260,7 @@ namespace EEMod.UI.States
         {
             base.DrawSelf(spriteBatch);
             CalculatedStyle dimensions = GetDimensions();
-            Texture2D texture = Main.itemTexture[ItemType];
+            Texture2D texture = Terraria.GameContent.TextureAssets.Item[ItemType].Value;
             int x = (int)(dimensions.X + (texture.Size().X + BorderTexture.Size().X) / 2);
             int y = (int)(dimensions.Y + (texture.Size().Y + BorderTexture.Size().Y) / 2);
             float transparency = IsMouseHovering || LogUI.SelectedFish == this ? 1f : 0.4f;
@@ -270,7 +270,7 @@ namespace EEMod.UI.States
     }
     public class FishDisplay : UIImage
     {
-        public Texture2D OutlineTexture = ModContent.GetTexture("EEMod/UI/DisplayBorder");
+        public Texture2D OutlineTexture = ModContent.Request<Texture2D>("EEMod/UI/DisplayBorder").Value;
         public bool ShouldDraw;
         public bool IsSpriteFacingRight;
         public string CurrentHabitat;
@@ -286,7 +286,7 @@ namespace EEMod.UI.States
         public bool IsUsingItemTexture;
         public Rectangle Frame;
         public int FrameCounter;
-        public FishDisplay() : base(ModContent.GetTexture("EEMod/UI/DisplayBorder")) { }
+        public FishDisplay() : base(ModContent.Request<Texture2D>("EEMod/UI/DisplayBorder").Value) { }
         public void UpdateDisplay(int itemType, bool isSpriteFacingRight, List<string> habitats, int swimSpeed, int animSpeed, Texture2D swimmingAnimation, int frameCount)
         {
             ShouldDraw = true;
@@ -297,7 +297,7 @@ namespace EEMod.UI.States
             if (swimmingAnimation == null)
             {
                 IsUsingItemTexture = true;
-                SwimmingAnimation = Main.itemTexture[itemType];
+                SwimmingAnimation = Terraria.GameContent.TextureAssets.Item[itemType].Value;
                 FrameCount = 1;
                 IsSpriteFacingRight = true;
             }
@@ -326,7 +326,7 @@ namespace EEMod.UI.States
 
                 var facingLeft = IsSpriteFacingRight ? !FacingLeft : FacingLeft;
                 var spriteEffects = facingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                BackgroundTexture = ModContent.GetTexture("EEMod/UI/LogDisplayBGs/" + CurrentHabitat.Replace(" ", ""));
+                BackgroundTexture = ModContent.Request<Texture2D>("EEMod/UI/LogDisplayBGs/" + CurrentHabitat.Replace(" ", "")).Value;
                 CalculatedStyle dimensions = GetDimensions();
                 if (++SwimTimer >= SwimSpeed)
                 {
@@ -361,7 +361,7 @@ namespace EEMod.UI.States
     }
     internal class FilterButton : UIImageButton
     {
-        public FilterButton() : base(ModContent.GetTexture("EEMod/UI/Filter")) { }
+        public FilterButton() : base(ModContent.Request<Texture2D>("EEMod/UI/Filter")) { }
     }
     public class ProgressBar : UIElement
     {

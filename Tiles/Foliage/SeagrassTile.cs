@@ -53,7 +53,7 @@ namespace EEMod.Tiles.Foliage
         public override void RandomUpdate(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j - 1);
-            if (!tile.active() && Main.rand.Next(4) == 0)
+            if (!tile.IsActive && Main.rand.Next(4) == 0)
             {
                 WorldGen.PlaceObject(i, j - 1, ModContent.TileType<SeagrassTile>());
                 NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<SeagrassTile>(), 0, 0, -1, -1);
@@ -64,12 +64,12 @@ namespace EEMod.Tiles.Foliage
         {
             Tile tile = Framing.GetTileSafely(i, j + 1);
 
-            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/SeagrassTile");
+            Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/SeagrassTile").Value;
 
             int frameX = 0;
             int frameY = 1;
 
-            if(tile.type == ModContent.TileType<SeagrassTile>() && (!Framing.GetTileSafely(i, j - 1).active() || Framing.GetTileSafely(i, j - 1).type != ModContent.TileType<SeagrassTile>()))
+            if(tile.type == ModContent.TileType<SeagrassTile>() && (!Framing.GetTileSafely(i, j - 1).IsActive || Framing.GetTileSafely(i, j - 1).type != ModContent.TileType<SeagrassTile>()))
             {
                 frameY = 0;
             }

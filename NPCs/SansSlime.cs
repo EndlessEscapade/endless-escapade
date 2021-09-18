@@ -25,9 +25,9 @@ namespace EEMod.NPCs
             NPC.knockBackResist = 0.3f;
             NPC.aiStyle = -1;
             NPC.alpha = 60;
-            aiType = NPCID.BlueSlime;
-            animationType = NPCID.BlueSlime;
-            NPC.noGravity = false;
+            AIType = NPCID.BlueSlime;
+            AnimationType = NPCID.BlueSlime;
+            // NPC.noGravity = false;
             NPC.dontTakeDamage = true;
         }
 

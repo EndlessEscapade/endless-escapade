@@ -9,15 +9,15 @@ namespace EEMod.EEWorld
         internal static class CastleArrayValues
         {
             internal const ushort A = TileID.BlueDungeonBrick;
-            internal const byte B = WallID.BlueDungeonUnsafe;
-            internal const byte C = WallID.BlueDungeonTileUnsafe;
+            internal const byte B = (byte)WallID.BlueDungeonUnsafe;
+            internal const byte C = (byte)WallID.BlueDungeonTileUnsafe;
             internal const ushort D = TileID.Banners;
             internal const ushort E = TileID.HangingLanterns;
             internal const ushort F = TileID.Trees;
             internal const ushort G = TileID.Plants;
             internal const ushort H = TileID.DyePlants;
             internal const ushort I = TileID.Grass;
-            internal const byte J = WallID.DirtUnsafe;
+            internal const byte J = (byte)WallID.DirtUnsafe;
             internal const ushort K = TileID.Books;
             internal const ushort L = TileID.Platforms;
             internal const ushort M = TileID.ClayBlock;

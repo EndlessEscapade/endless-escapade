@@ -15,7 +15,7 @@ namespace EEMod.Seamap.SeamapAssets
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
-            Projectile.magic = true;
+            Projectile.DamageType = DamageClass.Magic;
         }
 
         private int killTimer = 180;

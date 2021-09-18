@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Seamap.SeamapContent;
+using Terraria.Audio;
 
 namespace EEMod.Seamap.SeamapAssets
 {
@@ -18,7 +19,7 @@ namespace EEMod.Seamap.SeamapAssets
         {
             Projectile.width = 44;
             Projectile.height = 52;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.scale = 1.2f;
@@ -67,7 +68,7 @@ namespace EEMod.Seamap.SeamapAssets
                         {
                             invincTime = 60;
                             Main.projectile[j].Kill();
-                            Main.PlaySound(SoundID.NPCHit4);
+                            SoundEngine.PlaySound(SoundID.NPCHit4);
                             hp--;
                         }
                     }

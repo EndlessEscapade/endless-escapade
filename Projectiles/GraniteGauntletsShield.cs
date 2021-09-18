@@ -19,7 +19,7 @@ namespace EEMod.Projectiles
             Projectile.width = 48;
             Projectile.height = 48;
             Projectile.friendly = true;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.light = 0.3f;    // projectile light
@@ -57,7 +57,7 @@ namespace EEMod.Projectiles
         public override void Kill(int timeLeft)
         {
             Main.player[Projectile.owner].statDefense -= 12;
-            Main.player[Projectile.owner].noKnockback = false;
+            // Main.player[Projectile.owner].noKnockback = false;
         }
     }
 }

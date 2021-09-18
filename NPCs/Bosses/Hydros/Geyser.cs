@@ -19,7 +19,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             Projectile.damage = 20;
             Projectile.aiStyle = -1;
             Projectile.timeLeft = 120;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -28,18 +28,18 @@ namespace EEMod.NPCs.Bosses.Hydros
             if (Projectile.ai[0] < 90)
             {
                 int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Dirt, 0, 0, 6, default, Projectile.scale);
-                Main.dust[num].noGravity = false;
+                // Main.dust[num].noGravity = false;
                 Main.dust[num].velocity *= 1.5f;
-                Main.dust[num].noLight = false;
+                // Main.dust[num].noLight = false;
             }
             else
             {
                 for (int i = 0; i < 8; i++)
                 {
                     int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Clentaminator_Blue, 0, Main.rand.NextFloat(-2, -5), 6, Color.Blue, Projectile.scale * 1.1f);
-                    Main.dust[num].noGravity = false;
+                    // Main.dust[num].noGravity = false;
                     Main.dust[num].velocity *= 1f;
-                    Main.dust[num].noLight = false;
+                    // Main.dust[num].noLight = false;
                 }
             }
         }

@@ -17,11 +17,11 @@ namespace EEMod.Projectiles
         {
             Projectile.width = 0;
             Projectile.height = 0;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.scale = 1.2f;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.light = 0;
             Projectile.timeLeft = 900;
         }
@@ -55,7 +55,7 @@ namespace EEMod.Projectiles
             flash += 0.01f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            Main.spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Particles"), Projectile.Center - Main.screenPosition, null, lightColor * Math.Abs((float)Math.Sin(flash)) * 2, Projectile.rotation + flash, new Vector2(87), Projectile.ai[0], SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Projectiles/Particles").Value, Projectile.Center - Main.screenPosition, null, lightColor * Math.Abs((float)Math.Sin(flash)) * 2, Projectile.rotation + flash, new Vector2(87), Projectile.ai[0], SpriteEffects.None, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return false;

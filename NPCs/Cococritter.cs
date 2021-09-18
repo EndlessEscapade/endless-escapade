@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
 
 namespace EEMod.NPCs
 {
@@ -19,8 +20,8 @@ namespace EEMod.NPCs
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
             NPC.lifeMax = 5;
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
             NPC.height = 29;
             NPC.width = 24;
         }
@@ -65,23 +66,6 @@ namespace EEMod.NPCs
         public override void OnCatchNPC(Player player, Item item)
         {
             item.stack = 2;
-
-            try
-            {
-                var npcCenter = NPC.Center.ToTileCoordinates();
-                Tile tile = Framing.GetTileSafely(npcCenter.X, npcCenter.Y);
-                if (!WorldGen.SolidTile(npcCenter.X, npcCenter.Y) && tile.liquid == 0)
-                {
-                    tile.liquid = (byte)Main.rand.Next(50, 150);
-                    tile.lava(true);
-                    tile.honey(false);
-                    WorldGen.SquareTileFrame(npcCenter.X, npcCenter.Y, true);
-                }
-            }
-            catch
-            {
-                return;
-            }
         }
 
         public void Animate(int delay, bool flip)
@@ -101,9 +85,9 @@ namespace EEMod.NPCs
             if (NPC.frameCounter++ > delay)
             {
                 NPC.frameCounter = 0;
-                NPC.frame.Y = NPC.frame.Y + (Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type]);
+                NPC.frame.Y = NPC.frame.Y + (TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type]);
             }
-            if (NPC.frame.Y >= Main.npcTexture[NPC.type].Height / Main.npcFrameCount[NPC.type] * (Main.npcFrameCount[NPC.type] - 1))
+            if (NPC.frame.Y >= TextureAssets.Npc[NPC.type].Value.Height / Main.npcFrameCount[NPC.type] * (Main.npcFrameCount[NPC.type] - 1))
             {
                 NPC.frame.Y = 0;
                 return;

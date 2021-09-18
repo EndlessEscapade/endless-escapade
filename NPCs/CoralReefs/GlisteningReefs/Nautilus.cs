@@ -50,8 +50,8 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
             NPC.buffImmune[BuffID.Confused] = true;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
         }
 
         public override void AI()
@@ -129,7 +129,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
         {
             if (NPC.ai[0] % 100 > 60 || NPC.ai[1] == 1)
             {
-                AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[NPC.type], 0, NPC, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+                AfterImage.DrawAfterimage(spriteBatch, Terraria.GameContent.TextureAssets.Npc[NPC.type].Value, 0, NPC, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
             }
 
             return true;

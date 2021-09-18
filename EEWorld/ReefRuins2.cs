@@ -18,8 +18,8 @@ namespace EEMod.EEWorld
             public const ushort D = TileID.LivingMahoganyLeaves;
             public const ushort E = TileID.DyePlants;
             public const ushort F = TileID.LunarBlockStardust;
-            public const byte G = WallID.Marble;
-            public const byte H = WallID.Stone;
+            public const byte G = (byte)WallID.Marble;
+            public const byte H = (byte)WallID.Stone;
             public static int I => ModContent.TileType<GemsandTile>();
             public static int J => ModContent.TileType<DarkGemsandTile>();
             public static int K => ModContent.TileType<LightGemsandTile>();

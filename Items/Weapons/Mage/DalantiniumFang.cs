@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.height = 12;
             Projectile.timeLeft = 600;
             Projectile.ignoreWater = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             //aiType = ProjectileID.PineNeedleFriendly;
             Projectile.penetrate = 3;

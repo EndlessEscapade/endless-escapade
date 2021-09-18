@@ -16,12 +16,12 @@ namespace EEMod.Items.TennisRackets
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = 1f;
             Item.rare = ItemRarityID.Orange;
             Item.width = 20;
             Item.height = 20;
-            Item.noMelee = false;
+            // Item.noMelee = false;
             Item.damage = 20;
             Item.useTime = 10;
             Item.useAnimation = 10;
@@ -45,7 +45,7 @@ namespace EEMod.Items.TennisRackets
         {
             if (player.controlUseItem && yeet == 0 && Main.myPlayer == player.whoAmI)
             {
-                proj = Projectile.NewProjectile(player.Center, Vector2.Zero, ModContent.ProjectileType<TerracketProj>(), 0, 0f, player.whoAmI);
+                proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, Vector2.Zero, ModContent.ProjectileType<TerracketProj>(), 0, 0f, player.whoAmI);
                 yeet = 1;
                 Main.projectile[proj].netUpdate = true;
             }

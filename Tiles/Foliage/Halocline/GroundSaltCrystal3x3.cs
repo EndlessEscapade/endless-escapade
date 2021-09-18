@@ -28,7 +28,7 @@ namespace EEMod.Tiles.Foliage.Halocline
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             //TileObjectData.newTile.RandomStyleRange = 2;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Foliage.Halocline
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             float shine = ((Math.Sin(Main.GameUpdateCount / 40f) + Math.Sin((Main.GameUpdateCount / 40f) * 2)) / 1.76f).PositiveSin();
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Halocline/GroundSaltCrystal3x3"), i, j, Color.Lerp(Color.Pink, Color.Cyan, Math.Sin((Main.GameUpdateCount) / 40f).PositiveSin()));
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Halocline/GroundSaltCrystal3x3").Value, i, j, Color.Lerp(Color.Pink, Color.Cyan, Math.Sin((Main.GameUpdateCount) / 40f).PositiveSin()));
         }
     }
 }

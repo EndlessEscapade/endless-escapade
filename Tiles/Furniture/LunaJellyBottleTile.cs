@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
             ModTranslation name = CreateMapEntryName();
@@ -64,7 +64,7 @@ namespace EEMod.Tiles.Furniture
 
             Tile tile = Framing.GetTileSafely(i, j);
 
-            Texture2D tex = mod.GetTexture("Tiles/Furniture/LunaJellyBottleTile");
+            Texture2D tex = Mod.Assets.Request<Texture2D>("Tiles/Furniture/LunaJellyBottleTile").Value;
             Main.spriteBatch.Draw(tex, new Rectangle((i * 16) - (int)Main.screenPosition.X + (int)Helpers.GetTileDrawZero().X, (j * 16) - (int)Main.screenPosition.Y + (int)Helpers.GetTileDrawZero().Y, 18, 18), new Rectangle(tile.frameX, tile.frameY + (frame * 54), 18, 18), Lighting.GetColor(i, j));
 
             return false;

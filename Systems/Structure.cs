@@ -175,7 +175,7 @@ namespace EEMod.Systems
 				{
 					Tile tile = Framing.GetTileSafely(i, j);
 					tile.type = EntryToTileID[action.EntryData];
-					tile.active(true);
+					tile.IsActive = true;
 
 					i++;
 				}
@@ -185,7 +185,7 @@ namespace EEMod.Systems
 					{
 						Tile tile = Framing.GetTileSafely(z, j);
 						tile.type = EntryToTileID[action.EntryData];
-						tile.active(true);
+						tile.IsActive = true;
 					}
 
 					i += action.RepetitionData;
@@ -193,28 +193,28 @@ namespace EEMod.Systems
 				else if (action.Type == PlacementActionType.PlaceWater)
 				{
 					Tile tile = Framing.GetTileSafely(i, j);
-					tile.liquidType(0);
-					tile.liquid = action.LiquidData;
+					tile.LiquidType = 0;
+					tile.LiquidAmount = action.LiquidData;
 				}
 				else if (action.Type == PlacementActionType.PlaceLava)
 				{
 					Tile tile = Framing.GetTileSafely(i, j);
-					tile.liquidType(1);
-					tile.liquid = action.LiquidData;
+					tile.LiquidType = 1;
+					tile.LiquidAmount = action.LiquidData;
 				}
 				else if (action.Type == PlacementActionType.PlaceHoney)
 				{
 					Tile tile = Framing.GetTileSafely(i, j);
-					tile.liquidType(2);
-					tile.liquid = action.LiquidData;
+					tile.LiquidType = 2;
+					tile.LiquidAmount = action.LiquidData;
 				}
 				else if (action.Type == PlacementActionType.PlaceWaterRepeated)
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
 						Tile tile = Framing.GetTileSafely(z, j);
-						tile.liquidType(0);
-						tile.liquid = action.LiquidData;
+						tile.LiquidType = 0;;
+						tile.LiquidAmount = action.LiquidData;
 					}
 
 					i += action.RepetitionData;
@@ -224,8 +224,8 @@ namespace EEMod.Systems
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
 						Tile tile = Framing.GetTileSafely(z, j);
-						tile.liquidType(1);
-						tile.liquid = action.LiquidData;
+						tile.LiquidType = 1;;
+						tile.LiquidAmount = action.LiquidData;
 					}
 
 					i += action.RepetitionData;
@@ -235,8 +235,8 @@ namespace EEMod.Systems
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
 						Tile tile = Framing.GetTileSafely(z, j);
-						tile.liquidType(2);
-						tile.liquid = action.LiquidData;
+						tile.LiquidType = 2;;
+						tile.LiquidAmount = action.LiquidData;
 					}
 
 					i += action.RepetitionData;
@@ -271,8 +271,8 @@ namespace EEMod.Systems
 					{
 						Tile tile = Main.tile[i, j];
 						tile.type = EntryToTileID[action.EntryData];
-						tile.slope(action.SlopeData);
-						tile.active(true);
+						tile.Slope = (SlopeType)action.SlopeData;
+						tile.IsActive = true;
 					}
 
 					i++;
@@ -285,8 +285,8 @@ namespace EEMod.Systems
 						{
 							Tile tile = Main.tile[z, j];
 							tile.type = EntryToTileID[action.EntryData];
-							tile.slope(action.SlopeData);
-							tile.active(true);
+							tile.Slope = (SlopeType)action.SlopeData;
+							tile.IsActive = true;
 						}
 					}
 
@@ -298,8 +298,8 @@ namespace EEMod.Systems
 					{
 						Tile tile = Main.tile[i, j];
 						tile.type = EntryToTileID[action.EntryData];
-						tile.halfBrick(true);
-						tile.active(true);
+						tile.IsHalfBlock = true;
+						tile.IsActive = true;
 					}
 
 					i++;
@@ -312,8 +312,8 @@ namespace EEMod.Systems
 						{
 							Tile tile = Main.tile[z, j];
 							tile.type = EntryToTileID[action.EntryData];
-							tile.halfBrick(true);
-							tile.active(true);
+							tile.IsHalfBlock = true;
+							tile.IsActive = true;
 						}
 					}
 
@@ -331,7 +331,7 @@ namespace EEMod.Systems
 						tile.type = EntryToTileID[action.EntryData];
 						tile.frameX = frameX;
 						tile.frameY = frameY;
-						tile.active(true);
+						tile.IsActive = true;
 					}
 
 					i++;
@@ -339,7 +339,7 @@ namespace EEMod.Systems
 				else if (action.Type == PlacementActionType.PaintTile)
 				{
 					if (InWorld(i, j))
-						Main.tile[i, j].color((byte)action.EntryData);
+						Main.tile[i, j].Color = (byte)action.EntryData;
 
 					i++;
 				}
@@ -347,14 +347,14 @@ namespace EEMod.Systems
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
 						if (InWorld(z, j))
-							Main.tile[z, j].color((byte)action.EntryData);
+							Main.tile[z, j].Color = (byte)action.EntryData;
 
 					i += action.RepetitionData;
 				}
 				else if (action.Type == PlacementActionType.PaintWall)
 				{
 					if (InWorld(i, j))
-						Main.tile[i, j].wallColor((byte)action.EntryData);
+						Main.tile[i, j].WallColor = (byte)action.EntryData;
 
 					i++;
 				}
@@ -362,7 +362,7 @@ namespace EEMod.Systems
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
 						if (InWorld(z, j))
-							Main.tile[z, j].wallColor((byte)action.EntryData);
+							Main.tile[z, j].WallColor = (byte)action.EntryData;
 
 					i += action.RepetitionData;
 				}
@@ -414,10 +414,10 @@ namespace EEMod.Systems
 						{
 							Tile tile = Framing.GetTileSafely(i, j);
 
-							if (tile.color() != 0)
+							if (tile.Color != 0)
 								needsTilePaint = true;
 
-							if (tile.active())
+							if (tile.IsActive)
 							{
 								bool vanillaTile = tile.type < TileID.Count;
 								ushort indexInMap = vanillaTile ? vanillaTileEntryMap[tile.type] : moddedTileEntryMap[tile.type];
@@ -432,15 +432,15 @@ namespace EEMod.Systems
 									writer.Write(indexInMap);
 									writer.Write(frameData);
 								}
-								else if (tile.halfBrick())
+								else if (tile.IsHalfBlock)
 								{
 									Tile nextTile = Framing.GetTileSafely(i + 1, j);
 
-									if (i + 1 < endX && nextTile.type == tile.type && nextTile.halfBrick())
+									if (i + 1 < endX && nextTile.type == tile.type && nextTile.IsHalfBlock)
 									{
 										ushort identicalHalfBricks = 0;
 
-										while (i < endX && nextTile.type == tile.type && nextTile.halfBrick())
+										while (i < endX && nextTile.type == tile.type && nextTile.IsHalfBlock)
 										{
 											identicalHalfBricks++;
 											nextTile = Framing.GetTileSafely(++i, j);
@@ -456,16 +456,16 @@ namespace EEMod.Systems
 
 									writer.Write(indexInMap);
 								}
-								else if (tile.slope() != 0)
+								else if (tile.Slope != 0)
 								{
 									Tile nextTile = Framing.GetTileSafely(i + 1, j);
-									byte tileSlope = tile.slope();
+									byte tileSlope = (byte)tile.Slope;
 
-									if (i + 1 < endX && nextTile.type == tile.type && nextTile.active() && nextTile.slope() == tileSlope)
+									if (i + 1 < endX && nextTile.type == tile.type && nextTile.IsActive && (byte)nextTile.Slope == tileSlope)
 									{
 										ushort identicalSlopes = 0;
 
-										while (i < endX && nextTile.type == tile.type && nextTile.active() && nextTile.slope() == tileSlope)
+										while (i < endX && nextTile.type == tile.type && nextTile.IsActive && (byte)nextTile.Slope == tileSlope)
 										{
 											identicalSlopes++;
 											nextTile = Framing.GetTileSafely(++i, j);
@@ -486,11 +486,11 @@ namespace EEMod.Systems
 								{
 									Tile nextTile = Framing.GetTileSafely(i + 1, j);
 
-									if (i + 1 < endX && nextTile.type == tile.type && nextTile.slope() == 0 && !nextTile.halfBrick())
+									if (i + 1 < endX && nextTile.type == tile.type && nextTile.Slope == 0 && !nextTile.IsHalfBlock)
 									{
 										ushort identicalTiles = 0;
 
-										while (i < endX && nextTile.type == tile.type && nextTile.slope() == 0 && !nextTile.halfBrick())
+										while (i < endX && nextTile.type == tile.type && nextTile.Slope == 0 && !nextTile.IsHalfBlock)
 										{
 											identicalTiles++;
 											nextTile = Framing.GetTileSafely(++i, j);
@@ -507,15 +507,15 @@ namespace EEMod.Systems
 									writer.Write(indexInMap);
 								}
 							}
-							else if (tile.liquid > 0)
+							else if (tile.LiquidAmount > 0)
 							{
-								int liquidType = tile.liquidType();
+								int liquidType = tile.LiquidType;
 
-								if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).liquid > 0)
+								if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).LiquidAmount > 0)
 								{
 									ushort identicalLiquids = 0;
 
-									while (i < endX && !Framing.GetTileSafely(i, j).active())
+									while (i < endX && !Framing.GetTileSafely(i, j).IsActive)
 									{
 										identicalLiquids++;
 										i++;
@@ -542,15 +542,15 @@ namespace EEMod.Systems
 										writer.Write(PlaceHoneyFlag);
 								}
 
-								writer.Write(tile.liquid);
+								writer.Write(tile.LiquidAmount);
 							}
 							else
 							{
-								if (i + 1 < endX && !Framing.GetTileSafely(i + 1, j).active())
+								if (i + 1 < endX && !Framing.GetTileSafely(i + 1, j).IsActive)
 								{
 									ushort skippedTiles = 0;
 
-									while (i < endX && !Framing.GetTileSafely(i, j).active())
+									while (i < endX && !Framing.GetTileSafely(i, j).IsActive)
 									{
 										skippedTiles++;
 										i++;
@@ -578,7 +578,7 @@ namespace EEMod.Systems
 						{
 							Tile tile = Framing.GetTileSafely(i, j);
 
-							if (tile.wallColor() != 0)
+							if (tile.WallColor != 0)
 								needsWallPaint = true;
 
 							if (tile.wall == 0)
@@ -639,13 +639,13 @@ namespace EEMod.Systems
 						for (int i = x; i < x + width; i++)
 						{
 							Tile tile = Framing.GetTileSafely(i, j);
-							byte color = tile.color();
+							byte color = tile.Color;
 
-							if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).color() == color)
+							if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).Color == color)
 							{
 								ushort identicalColors = 0;
 
-								while (i < endX && Framing.GetTileSafely(i, j).color() == color)
+								while (i < endX && Framing.GetTileSafely(i, j).Color == color)
 								{
 									identicalColors++;
 									i++;
@@ -672,13 +672,13 @@ namespace EEMod.Systems
 						for (int i = x; i < x + width; i++)
 						{
 							Tile tile = Framing.GetTileSafely(i, j);
-							byte color = tile.wallColor();
+							byte color = tile.WallColor;
 
-							if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).wallColor() == color)
+							if (i + 1 < endX && Framing.GetTileSafely(i + 1, j).WallColor == color)
 							{
 								ushort identicalColors = 0;
 
-								while (i < endX && Framing.GetTileSafely(i, j).wallColor() == color)
+								while (i < endX && Framing.GetTileSafely(i, j).WallColor == color)
 								{
 									identicalColors++;
 									i++;
@@ -807,7 +807,7 @@ namespace EEMod.Systems
 				for (int i = x; i < x + width; i++)
 				{
 					Tile tile = Framing.GetTileSafely(i, j);
-					if (!tile.active())
+					if (!tile.IsActive)
 						continue;
 
 					bool vanillaTile = tile.type < TileID.Count;
@@ -865,7 +865,7 @@ namespace EEMod.Systems
 					writer.Write(moddedEntry.Value);
 
 					ModTile modTile = TileLoader.GetTile(moddedEntry.Key);
-					writer.Write(modTile.mod.Name + "." + modTile.Name);
+					writer.Write(modTile.Mod.Name + "." + modTile.Name);
 				}
 			}
 			else
@@ -875,7 +875,7 @@ namespace EEMod.Systems
 					writer.Write(moddedEntry.Value);
 
 					ModWall modWall = WallLoader.GetWall(moddedEntry.Key);
-					writer.Write(modWall.mod.Name + "." + modWall.Name);
+					writer.Write(modWall.Mod.Name + "." + modWall.Name);
 				}
 			}
 		}
@@ -890,7 +890,7 @@ namespace EEMod.Systems
 
 			ushort moddedEntryCount = reader.ReadUInt16();
 
-			if (!isWalls)
+			/*if (!isWalls)
 			{
 				for (int i = 0; i < moddedEntryCount; i++)
 				{
@@ -913,13 +913,13 @@ namespace EEMod.Systems
 					string tileName = reader.ReadString();
 					string[] parts = tileName.Split('.');
 
-					ushort? type = ModLoader.GetMod(parts[0])?.GetWall(parts[1]).Type;
+					ushort? type = ModLoader.GetMod(parts[0])?.GetContent<ModWall>().GetType();
 					if (type == null)
 						throw new System.Exception($"Attempted to generate structure that depends on modded wall '{tileName}' but it was not loaded");
 
 					entryMap[index] = type.Value;
 				}
-			}
+			}*/
 
 			return entryMap;
 		}
@@ -940,7 +940,7 @@ namespace EEMod.Systems
 						KillTile(b, a, false, noItem: true);
 					}
 
-					Framing.GetTileSafely(b, a).liquid = 0;
+					Framing.GetTileSafely(b, a).LiquidAmount = 0;
 				}
 			}
 		}

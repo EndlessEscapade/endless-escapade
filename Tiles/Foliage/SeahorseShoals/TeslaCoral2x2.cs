@@ -42,16 +42,16 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
                     {
                         for (int l = -20; l < 20; l++)
                         {
-                            if (WorldGen.InWorld(i + k, j + l) && Main.tile[i + k, j + l].active() && Main.tile[i + k, j + l].type == ModContent.TileType<TeslaCoral2x2>() && Main.tile[i + k, j + l].frameX == 0 && Main.tile[i + k, j + l].frameY == 0)
+                            if (WorldGen.InWorld(i + k, j + l) && Main.tile[i + k, j + l].IsActive && Main.tile[i + k, j + l].type == ModContent.TileType<TeslaCoral2x2>() && Main.tile[i + k, j + l].frameX == 0 && Main.tile[i + k, j + l].frameY == 0)
                             {
-                                int lightningproj = Projectile.NewProjectile(new Vector2((i * 16) + 16, (j * 16) + 16), Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
+                                int lightningproj = Projectile.NewProjectile(new ProjectileSource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) + 16, (j * 16) + 16), Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
 
                                 if (Main.netMode != NetmodeID.Server)
                                 {
                                     EEMod.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
                                 }
 
-                                TeslaCoralProj zappy = Main.projectile[lightningproj].modProjectile as TeslaCoralProj;
+                                TeslaCoralProj zappy = Main.projectile[lightningproj].ModProjectile as TeslaCoralProj;
 
                                 zappy.target = new Vector2(((i + k) * 16) + 16, ((j + l) * 16) + 16);
 

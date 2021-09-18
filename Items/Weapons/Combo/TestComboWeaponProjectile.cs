@@ -36,8 +36,8 @@ namespace EEMod.Items.Weapons.Combo
 
             Projectile.hide = true;
             Projectile.ownerHitCheck = true;
-            Projectile.melee = true;
-            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Melee;
+            // Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.damage = 20;
             Projectile.knockBack = 4.5f;

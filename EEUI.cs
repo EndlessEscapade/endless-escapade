@@ -18,7 +18,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace EEMod
 {
@@ -46,13 +46,13 @@ namespace EEMod
         {
             UI.UnLoad();
         }
-        public override void UpdateUI(GameTime gameTime)
+        /*public override void UpdateUI(GameTime gameTime)
         {
             base.UpdateUI(gameTime);
             UI.Update(gameTime);
             lastGameTime = gameTime;
             UIControls();
-        }
+        }*/
         public void UIControls()
         {
             if (RuneActivator.JustPressed && delay == 0)

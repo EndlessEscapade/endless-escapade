@@ -12,9 +12,14 @@ namespace EEMod.Items
     public class EEGlobalItem : GlobalItem
     {
         public override bool InstancePerEntity => true;
-        public override bool CloneNewInstances => true;
+        //public override bool CloneNewInstances => true;
 
         //public override bool CloneNewInstances => true;
+
+        public override GlobalItem Clone(Item item, Item itemClone)
+        {
+            return base.Clone(item, itemClone);
+        }
 
         public bool caught;
         public int fishLength = 0;

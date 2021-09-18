@@ -15,11 +15,11 @@ namespace EEMod.Projectiles.Runes
         public override void SetDefaults()
         {
             Projectile.friendly = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 10000000;
             Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.aiStyle = -1;
             Projectile.damage = 0;
             Projectile.alpha = 255;

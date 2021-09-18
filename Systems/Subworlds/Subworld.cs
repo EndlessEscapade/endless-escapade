@@ -14,7 +14,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.Social;
 using Terraria.Utilities;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace EEMod.Systems.Subworlds
 {
@@ -38,7 +38,7 @@ namespace EEMod.Systems.Subworlds
 
             WorldGeneration(seed, customProgressObject);
 
-            EEMod.Subworlds.IsSaving = false;
+            // EEMod.Subworlds.IsSaving = false;
         }
 
         internal virtual void WorldGeneration(int seed, GenerationProgress customProgressObject = null) { }

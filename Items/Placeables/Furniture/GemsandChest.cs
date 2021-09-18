@@ -20,7 +20,7 @@ namespace EEMod.Items.Placeables.Furniture
 
             Item.maxStack = 99;
             Item.rare = ItemRarityID.Green;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useTime = 10;
             Item.useAnimation = 15;
 

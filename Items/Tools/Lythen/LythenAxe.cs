@@ -20,10 +20,10 @@ namespace EEMod.Items.Tools.Lythen
             Item.width = 20;
             Item.height = 20;
             Item.rare = ItemRarityID.Green;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.value = Item.sellPrice(0, 0, 18);
             Item.damage = 8;
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.autoReuse = true;
             Item.UseSound = SoundID.Item1;
             Item.knockBack = 2f;
@@ -31,11 +31,7 @@ namespace EEMod.Items.Tools.Lythen
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 8);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LythenBar>(), 8).AddTile(TileID.Anvils).Register();
         }
     }
 }

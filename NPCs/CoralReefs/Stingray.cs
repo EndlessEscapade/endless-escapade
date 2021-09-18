@@ -39,11 +39,11 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.width = 52;
             NPC.height = 18;
-            NPC.noGravity = false;
+            // NPC.noGravity = false;
             NPC.knockBackResist = 0f;
 
-            NPC.lavaImmune = false;
-            banner = NPC.type;
+            // NPC.lavaImmune = false;
+            Banner = NPC.type;
             //bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
             NPC.value = Item.sellPrice(0, 0, 0, 75);
         }

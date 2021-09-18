@@ -3,6 +3,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace EEMod.Items.Weapons.Melee.Javelins
 {
@@ -18,12 +19,12 @@ namespace EEMod.Items.Weapons.Melee.Javelins
 
         }
 
-        public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
+        /*public override bool TileCollideStyle(ref int width, ref int height, ref bool fallThrough)
         {
             // For going through platforms and such, javelins use a tad smaller size
             width = height = 10; // notice we set the width to the height, the height to 10. so both are 10
             return true;
-        }
+        }*/
 
         public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
         {
@@ -38,7 +39,7 @@ namespace EEMod.Items.Weapons.Melee.Javelins
 
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y); // Play a death sound
+            SoundEngine.PlaySound(SoundID.Dig, (int)Projectile.position.X, (int)Projectile.position.Y); // Play a death sound
             //_ = projectile.position; // Position to use for dusts
             // Please note the usage of MathHelper, please use projectile! We subtract 90 degrees as radians to the rotation vector to offset the sprite as its default rotation in the sprite isn't aligned properly.
             // Vector2 rotVector = (projectile.rotation - MathHelper.ToRadians(90f)).ToRotationVector2();
@@ -88,7 +89,7 @@ namespace EEMod.Items.Weapons.Melee.Javelins
                 (target.Center - Projectile.Center) *
                 0.75f; // Change velocity based on delta center of targets (difference between entity centers)
             Projectile.netUpdate = true; // netUpdate projectile javelin
-            target.AddBuff(mod.BuffType("Impaled"), 900); // Adds the Impaled debuff
+            target.AddBuff(Mod.Find<ModBuff>("Impaled").Type, 900); // Adds the Impaled debuff
             Projectile.penetrate = -1;
             Projectile.damage = 0; // Makes sure the sticking javelins do not deal damage anymore
 
@@ -177,7 +178,7 @@ namespace EEMod.Items.Weapons.Melee.Javelins
             {
                 // These 2 could probably be moved to the ModifyNPCHit hook, but in vanilla they are present in the AI
                 Projectile.ignoreWater = true; // Make sure the projectile ignores water
-                Projectile.tileCollide = false; // Make sure the projectile doesn't collide with tiles anymore
+                // Projectile.tileCollide = false; // Make sure the projectile doesn't collide with tiles anymore
                 int aiFactor = 15; // Change projectile factor to change the 'lifetime' of projectile sticking javelin
                 bool killProj = false; // if true, kill projectile at the end
                 Projectile.localAI[0] += 1f;

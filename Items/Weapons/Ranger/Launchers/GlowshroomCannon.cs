@@ -16,7 +16,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
         public override void SetDefaults()
         {
-            Item.melee = false;
+            // Item.melee = false;
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.value = Item.sellPrice(0, 0, 18);
@@ -29,9 +29,9 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
             Item.knockBack = 5f;
             Item.shootSpeed = 0f;
             Item.UseSound = SoundID.Item11;
-            Item.useStyle = ItemUseStyleID.Stabbing;
+            Item.useStyle = ItemUseStyleID.Thrust;
             Item.shoot = ModContent.ProjectileType<GlowshroomCannonItemProj>();
-            Item.ranged = true;
+            Item.DamageType = DamageClass.Ranged;
             Item.crit = 3;
             Item.noUseGraphic = true;
         }
@@ -53,11 +53,11 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
         {
             Projectile.width = 90;
             Projectile.height = 52;
-            Projectile.friendly = false;
-            Projectile.ranged = true;
+            // Projectile.friendly = false;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.timeLeft = 26;
-            Projectile.hostile = false;
-            Projectile.tileCollide = false;
+            // Projectile.hostile = false;
+            // Projectile.tileCollide = false;
         }
 
         public override void AI()
@@ -72,7 +72,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
             if (Projectile.ai[0] == 0)
             {
-                Projectile.NewProjectile(owner.Center + new Vector2(owner.direction * 24, -16), new Vector2(Projectile.spriteDirection * 3, -12f) + owner.velocity, ModContent.ProjectileType<GlowshroomCannonProj>(), Projectile.damage, Projectile.knockBack);
+                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), owner.Center + new Vector2(owner.direction * 24, -16), new Vector2(Projectile.spriteDirection * 3, -12f) + owner.velocity, ModContent.ProjectileType<GlowshroomCannonProj>(), Projectile.damage, Projectile.knockBack);
                 Projectile.ai[0]++;
             }
         }
@@ -90,7 +90,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
             Projectile.width = 64;
             Projectile.height = 64;
             Projectile.friendly = true;
-            Projectile.ranged = true;
+            Projectile.DamageType = DamageClass.Ranged;
         }
 
         public override void AI()
@@ -104,8 +104,8 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
         {
             for (int i = 0; i < 4; i++)
             {
-                Gore gore = Gore.NewGorePerfect(Projectile.Center, Vector2.Zero, mod.GetGoreSlot("Gores/GlowshroomCannonGore" + (i + 1)), 1);
-                gore.velocity = new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5));
+                //Gore gore = Gore.NewGorePerfect(Projectile.Center, Vector2.Zero, Mod.GetGoreSlot("Gores/GlowshroomCannonGore" + (i + 1)), 1);
+                //gore.velocity = new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5));
             }
             return true;
         }

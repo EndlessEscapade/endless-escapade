@@ -52,7 +52,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
             NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
             NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
-            bossBag = ItemType<HydrosBag>();
+            BossBag = ItemType<HydrosBag>();
             NPC.width = 226;
             NPC.height = 120;
 
@@ -139,11 +139,11 @@ namespace EEMod.NPCs.Bosses.Hydros
                 int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
                 for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
                 {
-                    if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && Framing.GetTileSafely(tpTileX, tpY).nactive())
+                    if ((tpY < playerTileY - 4 || tpY > playerTileY + 4 || tpTileX < playerTileX - 4 || tpTileX > playerTileX + 4) && (tpY < tileY - 1 || tpY > tileY + 1 || tpTileX < tileX - 1 || tpTileX > tileX + 1) && !Framing.GetTileSafely(tpTileX, tpY).IsActive)
                     {
                         if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1))
                         {
-                            Projectile.NewProjectile(tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f, Main.myPlayer, .3f, 140);
+                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), tpTileX * 16, tpY * 16, 0, 0, ProjectileType<Geyser>(), 1, 0f, Main.myPlayer, .3f, 140);
                             hasTeleportPoint = true;
                             NPC.netUpdate = true;
                             break;

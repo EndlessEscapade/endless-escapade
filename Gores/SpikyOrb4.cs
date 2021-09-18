@@ -13,7 +13,7 @@ namespace EEMod.Gores
         {
             gore.behindTiles = true;
             gore.timeLeft = 180;
-            updateType = GoreID.CrimsonBunnyHead;
+            //updateType = GoreID.CrimsonBunnyHead;
         }
     }
 }

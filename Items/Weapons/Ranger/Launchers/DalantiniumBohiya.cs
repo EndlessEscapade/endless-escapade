@@ -15,7 +15,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAmmo = AmmoID.Bullet;
             Item.shoot = ModContent.ProjectileType<DalantiniumSpike>();
             Item.shootSpeed = 16f;
@@ -23,7 +23,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
             Item.width = 20;
             Item.height = 20;
             Item.noMelee = true;
-            Item.ranged = true;
+            Item.DamageType = DamageClass.Ranged;
             Item.damage = 20;
             Item.useTime = 1;
             Item.useAnimation = 1;
@@ -45,7 +45,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
             if (chargeTime <= 0)
             {
                 chargeTime = 120;
-                Projectile.NewProjectile(position, new Vector2(speedX, speedY), ModContent.ProjectileType<DalantiniumSpike>(), damage, knockBack);
+                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), position, new Vector2(speedX, speedY), ModContent.ProjectileType<DalantiniumSpike>(), damage, knockBack);
             }
             return false;
         }
@@ -57,11 +57,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7).AddTile(TileID.Anvils).Register();
         }
     }
 }

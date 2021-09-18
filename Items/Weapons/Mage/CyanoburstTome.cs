@@ -20,15 +20,15 @@ namespace EEMod.Items.Weapons.Mage
             Item.useAnimation = 30;
             Item.knockBack = 0;
             Item.rare = ItemRarityID.Green;
-            Item.autoReuse = false;
+            // Item.autoReuse = false;
             Item.crit = 4;
             Item.noMelee = true;
-            Item.magic = true;
+            Item.DamageType = DamageClass.Magic;
             Item.shoot = ModContent.ProjectileType<CyanoburstTomeProjectile>();
             Item.shootSpeed = 16f;
             Item.mana = 2;
             Item.UseSound = SoundID.DD2_MonkStaffSwing;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace EEMod.Tiles.Foliage.Coral
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
         }

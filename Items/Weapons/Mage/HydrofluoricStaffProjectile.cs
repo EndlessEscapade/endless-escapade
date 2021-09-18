@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.friendly = true;
-            Projectile.magic = true;
+            Projectile.DamageType = DamageClass.Magic;
             Projectile.penetrate = 2;
         }
 

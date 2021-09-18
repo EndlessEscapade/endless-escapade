@@ -31,7 +31,7 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
 
             ModTranslation name = CreateMapEntryName();
@@ -67,7 +67,7 @@ namespace EEMod.Tiles.Furniture
                     player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
                     if (Main.netMode == NetmodeID.Server)
                     {
-                        var netMessage = mod.GetPacket();
+                        var netMessage = Mod.GetPacket();
                         netMessage.Write(player.GetModPlayer<EEPlayer>().triggerSeaCutscene);
                         netMessage.Send();
                     }

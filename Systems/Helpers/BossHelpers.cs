@@ -23,7 +23,7 @@ namespace EEMod
         public static bool NoBiome(NPCSpawnInfo spawnInfo)
         {
             Player player = spawnInfo.player;
-            return !player.ZoneJungle && !player.ZoneDungeon && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHoly && !player.ZoneSnow && !player.ZoneUndergroundDesert;
+            return !player.ZoneJungle && !player.ZoneDungeon && !player.ZoneCorrupt && !player.ZoneCrimson && !player.ZoneHallow && !player.ZoneSnow && !player.ZoneUndergroundDesert;
         }
 
         public static bool NoZoneAllowWater(NPCSpawnInfo spawnInfo)
@@ -270,7 +270,7 @@ namespace EEMod
             {
                 return;
             }
-            projectile.tileCollide = false;
+            // projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.position.X = projectile.Center.X;
             projectile.position.Y = projectile.Center.Y;
@@ -295,10 +295,10 @@ namespace EEMod
                 }
                 for (int j = 0; j < 20; j++)
                 {
-                    int num2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 3.5f);
+                    int num2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Lava, 0f, 0f, 100, default, 3.5f);
                     Main.dust[num2].noGravity = true;
                     Main.dust[num2].velocity *= 7f;
-                    num2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Fire, 0f, 0f, 100, default, 1.5f);
+                    num2 = Dust.NewDust(projectile.position, projectile.width, projectile.height, DustID.Lava, 0f, 0f, 100, default, 1.5f);
                     Main.dust[num2].velocity *= 3f;
                 }
                 for (int k = 0; k < 2; k++)
@@ -341,7 +341,7 @@ namespace EEMod
         public static void DrawAroundOrigin(int index, Color lightColor)
         {
             Projectile projectile = Main.projectile[index];
-            Texture2D texture2D = Main.projectileTexture[projectile.type];
+            Texture2D texture2D = Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value;
             Vector2 origin = new Vector2(texture2D.Width * 0.5f, texture2D.Height / Main.projFrames[projectile.type] * 0.5f);
             SpriteEffects effects = projectile.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             Main.spriteBatch.Draw(texture2D, projectile.Center - Main.screenPosition, texture2D.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), lightColor, projectile.rotation, origin, projectile.scale, effects, 0f);
@@ -388,7 +388,7 @@ namespace EEMod
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    if (!tile.IsActive && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         tilePos.X = i * 16;
                         tilePos.Y = j * 16;
@@ -433,7 +433,7 @@ namespace EEMod
                 for (int j = minTilePosY; j < maxTilePosY; ++j)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    if (!tile.IsActive && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         Vector2 vector2;
                         vector2.X = i * 16;

@@ -19,10 +19,10 @@ namespace EEMod.NPCs.Bosses.Hydros
             Projectile.width = 8;
             Projectile.height = 8;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
-            Projectile.friendly = false;
+            // Projectile.hostile = false;
+            // Projectile.friendly = false;
             Projectile.ignoreWater = true;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.alpha = 0;
             Projectile.timeLeft = 120;
         }
@@ -31,7 +31,7 @@ namespace EEMod.NPCs.Bosses.Hydros
         {
             if (Projectile.localAI[0] == 0f)
             {
-                int p = Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ProjectileType<HydroBeam>(), Projectile.damage, 0f, Main.myPlayer, 0, Projectile.ai[1]);
+                int p = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center.X, Projectile.Center.Y, Projectile.velocity.X, Projectile.velocity.Y, ProjectileType<HydroBeam>(), Projectile.damage, 0f, Main.myPlayer, 0, Projectile.ai[1]);
                 Projectile.velocity = Vector2.Zero;
                 Main.projectile[p].netUpdate = true;
                 Projectile.localAI[0] = 1;

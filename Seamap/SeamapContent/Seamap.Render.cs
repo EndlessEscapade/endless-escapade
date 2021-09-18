@@ -29,7 +29,7 @@ namespace EEMod.Seamap.SeamapContent
             int frames = 12;
             Rectangle frame = SeamapPlayerShip.localship.frame;
             int frameNum = 0;
-            Texture2D playerShipTexture = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/ShipMount");
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/ShipMount").Value;
             Player player = Main.LocalPlayer;
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
@@ -105,7 +105,7 @@ namespace EEMod.Seamap.SeamapContent
             #endregion
 
             #region Drawing the ship
-            for (int i = 0; i < Main.ActivePlayersCount; i++)
+            for (int i = 0; i < Main.PlayerList.Count; i++)
             {
                 if (i == 0)
                 {
@@ -150,7 +150,7 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void RenderSeamapUI()
         {
-            Texture2D texture3 = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/ShipHelthSheet");
+            Texture2D texture3 = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/ShipHelthSheet").Value;
 
             #region Drawing the ship healthbar
             Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * SeamapPlayerShip.localship.shipHelth), texture3.Width, texture3.Height / 8);
@@ -188,7 +188,7 @@ namespace EEMod.Seamap.SeamapContent
                 var element = modPlayer.seagulls[i];
                 element.frameCounter++;
                 element.Position += new Vector2(0, -0.5f);
-                element.Draw(ModContent.GetTexture("EEMod/Seamap/SeamapAssets/Seagull"), 9, 5);
+                element.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Seagull").Value, 9, 5);
             }
             #endregion
         }
@@ -269,7 +269,7 @@ namespace EEMod.Seamap.SeamapContent
         static void RenderWater()
         {
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            Texture2D waterTexture = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/WaterBg");
+            Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/WaterBg").Value;
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -280,9 +280,9 @@ namespace EEMod.Seamap.SeamapContent
             Color colour = Lighting.GetColor((int)(Main.screenPosition.X / 16), (int)(Main.screenPosition.Y / 16));
             Color SeaColour = new Color(0.1568f, 0.6549f, 0.7607f).MultiplyRGB(colour);
 
-            WaterShader.Parameters["noise"].SetValue(ModContent.GetTexture("EEMod/Textures/Noise/WormNoisePixelated"));
-            WaterShader.Parameters["noiseN"].SetValue(ModContent.GetTexture("EEMod/Textures/Noise/WormNoisePixelated"));
-            WaterShader.Parameters["water"].SetValue(ModContent.GetTexture("EEMod/Textures/WaterShaderLightMap"));
+            WaterShader.Parameters["noise"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/WormNoisePixelated").Value);
+            WaterShader.Parameters["noiseN"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/WormNoisePixelated").Value);
+            WaterShader.Parameters["water"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/WaterShaderLightMap").Value);
             WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 3000f) * 0.2f);
             WaterShader.Parameters["Colour"].SetValue(SeaColour.ToVector3());

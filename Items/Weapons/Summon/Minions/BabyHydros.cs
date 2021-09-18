@@ -19,10 +19,10 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Projectile.height = 48;
             Projectile.aiStyle = 1;
             Projectile.friendly = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.penetrate = -1;
-            Projectile.ignoreWater = false;
-            Projectile.tileCollide = false;
+            // Projectile.ignoreWater = false;
+            // Projectile.tileCollide = false;
             Projectile.extraUpdates = 1;
             Projectile.aiStyle = 0;
             Projectile.minion = true;

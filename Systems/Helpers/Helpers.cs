@@ -112,7 +112,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -152,14 +152,14 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.BlueCrystalShard);
                                 dust.fadeIn = 1f;
                                 dust.scale = 0.1f;
                                 dust.noGravity = true;
                                 dust.velocity *= 0.25f;
-                                dust.noLight = false;
+                                // dust.noLight = false;
                             }
                         }
                     }
@@ -193,7 +193,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -232,7 +232,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -293,7 +293,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).active())
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -567,7 +567,7 @@ namespace EEMod
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
 
-                    if (Main.tile[(int)(X(i, startingPos.X, c1.X, c2.X, endPoints.X) / 16f), (int)(Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) / 16f)].active()) break;
+                    if (Main.tile[(int)(X(i, startingPos.X, c1.X, c2.X, endPoints.X) / 16f), (int)(Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) / 16f)].IsActive) break;
 
                     spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
                     new Rectangle(0, 0, headTexture.Width, headTexture.Height), drawColor, projTrueRotation,
@@ -597,7 +597,7 @@ namespace EEMod
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
 
-                    if (Main.tile[(int)(X(i, startingPos.X, c1.X, c2.X, endPoints.X) / 16f), (int)(Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) / 16f)].active()) break;
+                    if (Main.tile[(int)(X(i, startingPos.X, c1.X, c2.X, endPoints.X) / 16f), (int)(Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) / 16f)].IsActive) break;
 
                     spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
                     frames, drawColor, projTrueRotation,
@@ -641,7 +641,7 @@ namespace EEMod
                     Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() + rotDis;
-                    int proj = Projectile.NewProjectile(new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X), Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y)), Vector2.Zero, projType, 0, 0f, Main.myPlayer, 0, i);
+                    int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(projType), new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X), Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y)), Vector2.Zero, projType, 0, 0f, Main.myPlayer, 0, i);
                     Main.projectile[proj].rotation = projTrueRotation;
                     if (misckeep % 3 == 0)
                     {
@@ -654,7 +654,7 @@ namespace EEMod
 
                     if (isBridge)
                     {
-                        Bridge bridge = (Bridge)Main.projectile[proj].modProjectile;
+                        Bridge bridge = (Bridge)Main.projectile[proj].ModProjectile;
                         bridge.isSupport = misc;
                         bridge.chainsPerUse = chainsPerUse;
                         bridge.rotDis = rotDis;
@@ -673,7 +673,7 @@ namespace EEMod
             }
             else
             {
-                NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), color);
+                //NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(text), color);
             }
         }
 
@@ -683,7 +683,7 @@ namespace EEMod
                 && !player.ZoneDungeon
                 && !player.ZoneCorrupt
                 && !player.ZoneCrimson
-                && !player.ZoneHoly
+                && !player.ZoneHallow
                 && !player.ZoneSnow
                 && !player.ZoneUndergroundDesert
                 && !player.ZoneGlowshroom
@@ -696,7 +696,7 @@ namespace EEMod
             Vector2 between = p2 - p1;
             float length = between.Length();
             float rotation = (float)Math.Atan2(between.Y, between.X);
-            Main.spriteBatch.Draw(Main.magicPixel, p1, new Rectangle(0, 0, 1, 1), tint == default ? Color.White : tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, p1, new Rectangle(0, 0, 1, 1), tint == default ? Color.White : tint, rotation, new Vector2(0f, 0.5f), new Vector2(length, lineWidth), SpriteEffects.None, 0f);
         }
         public static void SpawnOre(int type, double frequency, float depth, float depthLimit)
         {

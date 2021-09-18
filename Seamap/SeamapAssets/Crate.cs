@@ -10,7 +10,7 @@ namespace EEMod.Seamap.SeamapAssets
     {
         public override void OnSpawn()
         {
-            texture = ModContent.GetTexture("EEMod/Seamap/SeamapAssets/Crate");
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Crate").Value;
 
             width = 16;
             height = 18;

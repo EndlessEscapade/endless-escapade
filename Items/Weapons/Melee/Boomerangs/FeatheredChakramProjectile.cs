@@ -16,12 +16,12 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
             Projectile.width = 44;
             Projectile.height = 60;
             Projectile.aiStyle = 3;
-            Projectile.melee = true;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.extraUpdates = 2;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
         }
 
         public override void AI()

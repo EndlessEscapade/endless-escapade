@@ -14,7 +14,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             DisplayName.SetDefault("Aqut");
             //  Main.projFrames[projectile.type] = 2;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.Homing[Projectile.type] = true;
+            ProjectileID.Sets.CountsAsHoming[Projectile.type] = true;
             Projectile.localNPCHitCooldown = 1;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
@@ -25,14 +25,14 @@ namespace EEMod.Items.Weapons.Summon.Minions
         {
             Projectile.netImportant = true;
             Projectile.CloneDefaults(533); // ID for Deadly Sphere proj
-            aiType = 533;
+            AIType = 533;
             Projectile.width = 34;
             Projectile.height = 26;
             Projectile.aiStyle = -1;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 18000;
             Projectile.minion = true;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 1;
             Projectile.friendly = true;
@@ -76,7 +76,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Vector2 projOrMinionPos = Projectile.position;
             float minDist = 3000f;
             bool zombieAboutToDie = false;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             NPC ownerMinionAttackTargetNPC = Projectile.OwnerMinionAttackTargetNPC;
             if (ownerMinionAttackTargetNPC != null && ownerMinionAttackTargetNPC.CanBeChasedBy(this, false))
             {
@@ -118,7 +118,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             }
             if (Projectile.ai[0] == 1f)
             {
-                Projectile.tileCollide = false;
+                // Projectile.tileCollide = false;
             }
             if (zombieAboutToDie && Projectile.ai[0] == 0f)
             {
@@ -280,7 +280,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
             if (player.dead)
             {
-                modPlayer.quartzCrystal = false;
+                // modPlayer.quartzCrystal = false;
             }
             if (modPlayer.quartzCrystal)
             {

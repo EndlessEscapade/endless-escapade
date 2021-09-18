@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.UI;
 using Terraria.UI.Chat;
+using Terraria.Audio;
 
 namespace CustomSlot {
     //Ported from https://github.com/abluescarab/tModLoader-CustomSlot
@@ -133,7 +134,7 @@ namespace CustomSlot {
             float itemLightScale = 1f;
 
             if(Item.stack > 0) {
-                itemTexture = Main.itemTexture[Item.type];
+                itemTexture = Terraria.GameContent.TextureAssets.Item[Item.type].Value;
                 itemRectangle = Main.itemAnimations[Item.type] != null ?
                     Main.itemAnimations[Item.type].GetFrame(itemTexture) : itemTexture.Frame();
                 color = Color.White;
@@ -185,7 +186,7 @@ namespace CustomSlot {
             if(Item.stack > 1) {
                 ChatManager.DrawColorCodedStringWithShadow(
                     spriteBatch,
-                    Main.fontItemStack,
+                    Terraria.GameContent.FontAssets.ItemStack.Value,
                     Item.stack.ToString(),
                     GetDimensions().Position() + new Vector2(10f, 26f) * Scale,
                     Color.White,
@@ -203,7 +204,7 @@ namespace CustomSlot {
         private void SwapWithPartner() {
             // modified from vanilla code
             Utils.Swap(ref Item, ref Partner.Item);
-            Main.PlaySound(SoundID.Grab);
+            SoundEngine.PlaySound(SoundID.Grab);
             Recipe.FindRecipes();
 
             if(Item.stack <= 0) return;
@@ -232,8 +233,8 @@ namespace CustomSlot {
         }
         internal class ToggleVisibilityButton : UIElement {
             internal ToggleVisibilityButton() {
-                Width.Set(Main.inventoryTickOnTexture.Width, 0f);
-                Height.Set(Main.inventoryTickOnTexture.Height, 0f);
+                Width.Set(Terraria.GameContent.TextureAssets.InventoryTickOn.Value.Width, 0f);
+                Height.Set(Terraria.GameContent.TextureAssets.InventoryTickOn.Value.Height, 0f);
             }
 
             protected override void DrawSelf(SpriteBatch spriteBatch) {
@@ -246,7 +247,7 @@ namespace CustomSlot {
                     Main.hoverItemName = Language.GetTextValue(slot.ItemVisible ? "LegacyInterface.59" : "LegacyInterface.60");
 
                     if(Main.mouseLeftRelease && Main.mouseLeft) {
-                        Main.PlaySound(SoundID.MenuTick);
+                        SoundEngine.PlaySound(SoundID.MenuTick);
                         slot.ItemVisible = !slot.ItemVisible;
                     }
                     Recalculate();
@@ -265,7 +266,7 @@ namespace CustomSlot {
             private void DoDraw(SpriteBatch spriteBatch, CustomItemSlot slot) {
                 Rectangle parentRectangle = Parent.GetDimensions().ToRectangle();
                 Texture2D tickTexture =
-                    slot.ItemVisible ? Main.inventoryTickOnTexture : Main.inventoryTickOffTexture;
+                    slot.ItemVisible ? Terraria.GameContent.TextureAssets.InventoryTickOn.Value : Terraria.GameContent.TextureAssets.InventoryTickOff.Value;
 
                 Left.Set(parentRectangle.Width - Width.Pixels + TickOffsetX, 0f);
                 Top.Set(-TickOffsetY, 0f);
@@ -292,41 +293,41 @@ namespace CustomSlot {
                 case ItemSlot.Context.EquipPet:
                 case ItemSlot.Context.EquipLight:
                     color = DefaultColors.EquipBack;
-                    texture = Main.inventoryBack3Texture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack3.Value;
                     break;
                 case ItemSlot.Context.EquipArmorVanity:
                 case ItemSlot.Context.EquipAccessoryVanity:
                     color = DefaultColors.EquipBack;
-                    texture = Main.inventoryBack8Texture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack8.Value;
                     break;
                 case ItemSlot.Context.EquipDye:
                     color = DefaultColors.EquipBack;
-                    texture = Main.inventoryBack12Texture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack12.Value;
                     break;
                 case ItemSlot.Context.ChestItem:
                     color = DefaultColors.InventoryItemBack;
-                    texture = Main.inventoryBack5Texture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack5.Value;
                     break;
                 case ItemSlot.Context.BankItem:
                     color = DefaultColors.InventoryItemBack;
-                    texture = Main.inventoryBack2Texture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack2.Value;
                     break;
                 case ItemSlot.Context.GuideItem:
                 case ItemSlot.Context.PrefixItem:
                 case ItemSlot.Context.CraftingMaterial:
                     color = DefaultColors.InventoryItemBack;
-                    texture = Main.inventoryBack4Texture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack4.Value;
                     break;
                 case ItemSlot.Context.TrashItem:
                     color = DefaultColors.InventoryItemBack;
-                    texture = Main.inventoryBack7Texture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack7.Value;
                     break;
                 case ItemSlot.Context.ShopItem:
                     color = DefaultColors.InventoryItemBack;
-                    texture = Main.inventoryBack6Texture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack6.Value;
                     break;
                 default:
-                    texture = Main.inventoryBackTexture;
+                    texture = Terraria.GameContent.TextureAssets.InventoryBack.Value;
                     break;
             }
 
@@ -397,7 +398,7 @@ namespace CustomSlot {
 
             if(frame == -1) return CroppedTexture2D.Empty;
 
-            Texture2D extraTextures = Main.extraTexture[54];
+            Texture2D extraTextures = Terraria.GameContent.TextureAssets.Extra[54].Value;
             Rectangle rectangle = extraTextures.Frame(3, 6, frame % 3, frame / 3);
             rectangle.Width -= 2;
             rectangle.Height -= 2;

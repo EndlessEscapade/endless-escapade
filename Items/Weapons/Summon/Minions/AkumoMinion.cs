@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Main.projFrames[Projectile.type] = 4;
             Main.projPet[Projectile.type] = true;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = false;
-            ProjectileID.Sets.Homing[Projectile.type] = true;
+            ProjectileID.Sets.CountsAsHoming[Projectile.type] = true;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
 
@@ -27,13 +27,13 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Projectile.height = 58;
             Projectile.penetrate = -1;
             Projectile.minion = true;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.minionSlots = 1;
             Projectile.friendly = true;
             Projectile.damage = 50;
             Projectile.knockBack = 4f;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
         }
 
         private Color minionGlow;
@@ -105,7 +105,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                     if (reinforcements[i] == default)
                     {
                         Main.NewText(i + "AE");
-                        reinforcements[i] = Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: MathHelper.TwoPi / 3 * i, ai1: target.whoAmI);
+                        reinforcements[i] = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<AkumoReinforcement>(), 50, 2f, Owner: Main.myPlayer, ai0: MathHelper.TwoPi / 3 * i, ai1: target.whoAmI);
                     }
                 }
             }
@@ -171,7 +171,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                     for (int i = 0; i < 4; i++)
                     {
                         Vector2 position = projectile.Center + new Vector2(0, 4) + Vector2.UnitX.RotatedBy(MathHelper.ToRadians(360f / 6 * i) + (j*2) - projectileAiCont[2]) * radius;
-                        Dust dust = Dust.NewDustPerfect(position, DustID.Fire);
+                        Dust dust = Dust.NewDustPerfect(position, DustID.Lava);
                         dust.noGravity = true;
                     }
                     radius += 4;
@@ -209,7 +209,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                     {
                         Vector2 newPos = new Vector2(target.Center.X + Main.rand.Next(-80, 81), target.position.Y - 80);
                         Vector2 newVel = Vector2.Normalize(newPos - target.Center) * -16;
-                        Projectile.NewProjectile(newPos, newVel, ModContent.ProjectileType<AkumoMinionProjectile>(), 50, 2f, player.whoAmI);
+                        Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), newPos, newVel, ModContent.ProjectileType<AkumoMinionProjectile>(), 50, 2f, player.whoAmI);
                     }
                     projectileAiCont[0] = 0;
                     projectileAiCont[1] = 0;
@@ -230,7 +230,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
                 else
                 {
                     projectileAiCont[1]++;
-                    Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Fire);
+                    Dust dust = Dust.NewDustPerfect(Projectile.Center, DustID.Lava);
                     dust.noGravity = true;
                     if (projectileAiCont[1] >= 20 / projectileAiCont[3])
                     {
@@ -255,7 +255,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             float funnySin = (float)Math.Sin(projectileAiCont[0]);
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Summons/AkumoMinionGlow");
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/Summons/AkumoMinionGlow").Value;
             Vector2 funny = Projectile.Center.ForDraw();
             Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 10, 0)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, Projectile.width, Projectile.height), texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), minionGlow * funnySin * 0.5f, Projectile.rotation, Projectile.Center, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
             Main.spriteBatch.Draw(texture, new Rectangle((int)(funny + new Vector2(funnySin * 0, 10)).X, (int)(funny + new Vector2(funnySin * 10, 0)).Y, Projectile.width, Projectile.height), texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), minionGlow * funnySin * 0.5f, Projectile.rotation, Projectile.Center, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
@@ -267,7 +267,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             if (projectile.ai[0] == 3)
-                AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[projectile.type], 0, projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B), overrideFrameCount: 4, overrideFrame: new Rectangle(0, projectile.frame * 56, 56, 58));
+                AfterImage.DrawAfterimage(spriteBatch, TextureAssets.Projectile[projectile.type].Value, 0, projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B), overrideFrameCount: 4, overrideFrame: new Rectangle(0, projectile.frame * 56, 56, 58));
             return true;
             spriteBatch.Draw(texture, projectile.position - Main.screenPosition + new Vector2(funnySin * 10, 0), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f);
             spriteBatch.Draw(texture, projectile.position - Main.screenPosition + new Vector2(0, funnySin * 10), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.5f);

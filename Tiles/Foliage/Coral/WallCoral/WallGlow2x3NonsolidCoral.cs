@@ -37,7 +37,7 @@ namespace EEMod.Tiles.Foliage.Coral.WallCoral
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/WallCoral/WallGlow2x3NonsolidCoralLGlow"), i, j);
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Coral/WallCoral/WallGlow2x3NonsolidCoralLGlow").Value, i, j);
         }
     }
 
@@ -70,7 +70,7 @@ namespace EEMod.Tiles.Foliage.Coral.WallCoral
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/WallCoral/WallGlow2x3NonsolidCoralRGlow"), i, j);
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Coral/WallCoral/WallGlow2x3NonsolidCoralRGlow").Value, i, j);
         }
     }
 }

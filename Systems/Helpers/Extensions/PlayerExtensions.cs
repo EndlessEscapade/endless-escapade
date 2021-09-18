@@ -7,18 +7,6 @@ namespace EEMod.Extensions
     {
         public static EEPlayer EEPlayer(this Player player) => player.GetModPlayer<EEPlayer>();
 
-        public static float MeleeDamage(this Player player) => player.allDamage + player.meleeDamage - 1f;
-
-        public static float RangedDamage(this Player player) => player.allDamage + player.rangedDamage - 1f;
-
-        public static float MagicDamage(this Player player) => player.allDamage + player.magicDamage - 1f;
-
-        public static float MinionDamage(this Player player) => player.allDamage + player.minionDamage - 1f;
-
-        public static float ThrownDamage(this Player player) => player.allDamage + player.thrownDamage - 1f;
-
-        public static float AverageDamage(this Player player) => player.allDamage + (player.meleeDamage + player.rangedDamage + player.magicDamage + player.minionDamage + player.thrownDamage - 5f) / 5f;
-
         public static bool IsAlive(this Player player) => player?.active is true && !(player.dead || player.ghost);
 
         public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);

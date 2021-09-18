@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using NVorbis;
-using Terraria.ModLoader.Audio;
+using Terraria.ModLoader;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using Terraria;
@@ -17,7 +17,7 @@ namespace EEMod.Systems
 	{
 		public override void StartDialogueRequiringNPC(int associatedNPC)
 		{
-			MainPortrait = ModContent.GetTexture("EEMod/icon");
+			MainPortrait = ModContent.Request<Texture2D>("EEMod/icon").Value;
 			Name = "Jonathan the Cool Seagull";
 			AssociatedNPC = associatedNPC;
 			ThemeColor = new Color(106, 255, 89);
@@ -55,7 +55,7 @@ namespace EEMod.Systems
 					break;
 				default:
 					CloseDialogue();
-					(Main.npc[AssociatedNPC].modNPC as JonathanSeagull).IntroductionDialogue = true;
+					(Main.npc[AssociatedNPC].ModNPC as JonathanSeagull).IntroductionDialogue = true;
 					break;
 			}
 		}

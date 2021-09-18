@@ -16,13 +16,13 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
         public override void SetDefaults()
         {
             Item.damage = 116;
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.width = 44;
             Item.height = 60;
             Item.useTime = 15;
             Item.useAnimation = 15;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.knockBack = 8;
             Item.value = Item.buyPrice(0, 5, 0, 0);
             Item.rare = ItemRarityID.Yellow;

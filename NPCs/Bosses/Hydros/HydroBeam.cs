@@ -20,11 +20,11 @@ namespace EEMod.NPCs.Bosses.Hydros
             Projectile.width = 20;
             Projectile.height = 20;
             Projectile.aiStyle = -1;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.penetrate = -1;
             Projectile.alpha = 0;
             Projectile.timeLeft = 3600;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.hostile = true;
         }
 
@@ -38,9 +38,9 @@ namespace EEMod.NPCs.Bosses.Hydros
             return false;
         }
 
-        public override void DrawBehind(int index, List<int> drawCacheProjsBehindNPCsAndTiles, List<int> drawCacheProjsBehindNPCs, List<int> drawCacheProjsBehindProjectiles, List<int> drawCacheProjsOverWiresUI)
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles, List<int> overPlayers, List<int> overWiresUI)
         {
-            drawCacheProjsBehindProjectiles.Add(index);
+            behindNPCsAndTiles.Add(index);
         }
 
         private float attackCounter = 0;
@@ -111,7 +111,7 @@ namespace EEMod.NPCs.Bosses.Hydros
         public override bool? CanCutTiles()
         {
             DelegateMethods.tilecut_0 = Terraria.Enums.TileCuttingContext.AttackProjectile;
-            Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * LaserLength, Projectile.width * Projectile.scale * 2, new Utils.PerLinePoint(CutTilesAndBreakWalls));
+            //Utils.PlotTileLine(Projectile.Center, Projectile.Center + Projectile.velocity * LaserLength, Projectile.width * Projectile.scale * 2, new Utils.PerLinePoint(CutTilesAndBreakWalls));
             return true;
         }
 
@@ -126,9 +126,9 @@ namespace EEMod.NPCs.Bosses.Hydros
             {
                 return false;
             }
-            Texture2D projectileTexture = Main.projectileTexture[Projectile.type];
-            Texture2D beamTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Hydros/HydroBeam_Beam");
-            Texture2D beamEndTexture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Hydros/HydroBeam_End");
+            Texture2D projectileTexture = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;
+            Texture2D beamTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Bosses/Hydros/HydroBeam_Beam").Value;
+            Texture2D beamEndTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Bosses/Hydros/HydroBeam_End").Value;
             float laserLength = LaserLength;
             Color color44 = Color.White * 0.8f;
             Texture2D projectileTexture2 = projectileTexture;

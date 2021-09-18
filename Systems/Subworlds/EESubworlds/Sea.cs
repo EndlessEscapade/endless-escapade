@@ -19,7 +19,7 @@ using System;
 using EEMod.Systems.Noise;
 using System.Collections.Generic;
 using EEMod.Autoloading;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {

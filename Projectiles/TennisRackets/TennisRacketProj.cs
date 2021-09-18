@@ -20,10 +20,10 @@ namespace EEMod.Projectiles.TennisRackets
             Projectile.height = 50;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.magic = true;
-            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.scale *= 1;
             Projectile.alpha = 255;
@@ -47,7 +47,7 @@ namespace EEMod.Projectiles.TennisRackets
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.projectileTexture[Projectile.type];
+            Texture2D tex = Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value;
             Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames), lightColor * (1 - (Projectile.alpha / 255f)), Projectile.rotation, new Rectangle(0, tex.Height / numOfFrames * frame, tex.Width, tex.Height / numOfFrames).Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }

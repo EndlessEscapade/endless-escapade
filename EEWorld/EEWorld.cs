@@ -8,7 +8,7 @@ using Terraria;
 using Terraria.GameContent.Generation;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using EEMod.Tiles;
 using EEMod.Tiles.Furniture;
 using Terraria.ModLoader.IO;
@@ -29,7 +29,7 @@ using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.EEWorld
 {
-    public partial class EEWorld : ModWorld
+    public partial class EEWorld : ModSystem
     {
         public int minionsKilled;
         public static EEWorld instance => ModContent.GetInstance<EEWorld>();
@@ -63,9 +63,10 @@ namespace EEMod.EEWorld
         public static Vector2[] sinDis = new Vector2[10000];
 
         //public Vector2[] sinDis = new Vector2[10000];
-        public override void Initialize()
+
+        public override void OnWorldLoad()
         {
-            ModContent.GetInstance<EEMod>().TVH.Clear();
+            //ModContent.GetInstance<EEMod>().TVH.Clear();
             if (sinDis != null)
             {
                 for (int i = 0; i < sinDis.Length; i++)
@@ -93,7 +94,7 @@ namespace EEMod.EEWorld
             int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
             if (ShiniesIndex != -1)
             {
-                tasks.Insert(ShiniesIndex + 1, new PassLegacy("Endless Escapade Ores", EEModOres));
+                //tasks.Insert(ShiniesIndex + 1, new PassLegacy("Endless Escapade Ores", EEModOres));
             }
             int MicroBiomes = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
             int LivingTreesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Living Trees"));
@@ -143,7 +144,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public override void PostUpdate()
+        public override void PostUpdateEverything()
         {
             if (NPC.downedBoss1)
             {
@@ -270,7 +271,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = ShipTilePosY; j < ShipTilePosY + ShipTiles.GetLength(0); j++)
                 {
-                    if (Framing.GetTileSafely(i, j).active() == true)
+                    if (Framing.GetTileSafely(i, j).IsActive == true)
                     {
                         numberOfTiles++;
                     }
@@ -304,7 +305,8 @@ namespace EEMod.EEWorld
         }
 
         public static IList<Vector2> Vines = new List<Vector2>();
-        public override void Load(TagCompound tag)
+
+        public override void LoadWorldData(TagCompound tag)
         {
             tag.TryGetListRef("EntracesPosses", ref EntracesPosses);
             tag.TryGetRef("CoralBoatPos", ref CoralReefs.CoralBoatPos);
@@ -446,7 +448,7 @@ namespace EEMod.EEWorld
             }
         }
 
-        public override TagCompound Save()
+        public override TagCompound SaveWorldData()
         {
             TagCompound tag = new TagCompound();
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)

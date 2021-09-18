@@ -30,7 +30,7 @@ namespace EEMod
             Main.graphics.GraphicsDevice.SetRenderTarget(playerDrawData);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);
             Main.spriteBatch.Begin();
-            for (int i = 0; i <= Main.playerDrawData.Count; i++)
+            /*for (int i = 0; i <= Main.playerDrawData.Count; i++)
             {
                 int num = -1;
                 if (num != 0)
@@ -67,7 +67,7 @@ namespace EEMod
                         Main.spriteBatch.Draw(value.texture, value.position - Main.LocalPlayer.position.ForDraw() + playerDrawData.TextureCenter() / 2, value.sourceRect, Color.White, value.rotation, value.origin, value.scale, value.effect, 0f);
                     }
                 }
-            }
+            }*/
             Main.spriteBatch.End();
             Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets2);
         }

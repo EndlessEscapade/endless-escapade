@@ -17,7 +17,7 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
         public override void SetDefaults()
         {
             Item.damage = 20;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 60;
             Item.useTime = 60;
             Item.shootSpeed = 16f;
@@ -28,10 +28,10 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(silver: 10);
 
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.noUseGraphic = true;
-            Item.autoReuse = false;
+            // Item.autoReuse = false;
 
             Item.UseSound = SoundID.Item1;
             Item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProj>();
@@ -51,7 +51,7 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
                 type = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
                 Item.shoot = ModContent.ProjectileType<HydrofluoricWarhammerProjAlt>();
             }
-            Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+            Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             return false;
         }
 

@@ -46,7 +46,7 @@ namespace EEMod
                     Vector2 SP = Main.screenPosition / 16;
                     Point p = new Point((int)SP.X + i, (int)SP.Y + j);
                     Color c = Lighting.GetColor(p.X, p.Y);
-                    Main.spriteBatch.Draw(Main.magicPixel, new Rectangle(i, j, 1, 1), c);
+                    Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, new Rectangle(i, j, 1, 1), c);
                 }
             }
             Main.spriteBatch.End();

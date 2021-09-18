@@ -289,7 +289,7 @@ namespace EEMod.VerletIntegration
             {
                 if (i == 0)
                 {
-                    // Main.spriteBatch.Draw(Main.magicPixel, Points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
+                    // Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, Points[i].point.ForDraw(), new Rectangle(0, 0, 20, 20), Color.AliceBlue, 0f, new Vector2(20, 20), 1f, SpriteEffects.None, 0f);
                 }
                 else
                 {
@@ -320,7 +320,7 @@ namespace EEMod.VerletIntegration
                             {
                                 //Vector2 Lerped = p1 + j * (p2 - p1);
 
-                                //Main.spriteBatch.Draw(Main.magicPixel, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), stickPoints[i].color, 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
+                                //Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, Lerped - Main.screenPosition, new Rectangle(0, 0, 1, 1), stickPoints[i].color, 0f, new Vector2(1, 1), 1f, SpriteEffects.None, 0f);
                             }
                         }
                         else
@@ -334,7 +334,7 @@ namespace EEMod.VerletIntegration
 
                                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0005f));
                                 EEMod.MainParticles.SpawnParticles(mid,
-                                    new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 30, 1,
+                                    new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Particles/Cross").Value, 30, 1,
                                     Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.9f), new SetMask(Helpers.RadialMask), new SetTrailLength(15));
                             }
                         }
@@ -353,7 +353,7 @@ namespace EEMod.VerletIntegration
             Points[2] = (int)point.Y / 16;
             Points[3] = (int)point.Y / 16;
 
-            while (!Framing.GetTileSafely(Points[0], (int)tileP.Y).active())
+            while (!Framing.GetTileSafely(Points[0], (int)tileP.Y).IsActive)
             {
                 Points[0]++;
 
@@ -365,7 +365,7 @@ namespace EEMod.VerletIntegration
                 }
             }
 
-            while (!Framing.GetTileSafely(Points[1], (int)tileP.Y).active())
+            while (!Framing.GetTileSafely(Points[1], (int)tileP.Y).IsActive)
             {
                 Points[1]--;
 
@@ -377,7 +377,7 @@ namespace EEMod.VerletIntegration
                 }
             }
 
-            while (!Framing.GetTileSafely((int)tileP.X, Points[2]).active())
+            while (!Framing.GetTileSafely((int)tileP.X, Points[2]).IsActive)
             {
                 Points[2]++;
 
@@ -389,7 +389,7 @@ namespace EEMod.VerletIntegration
                 }
             }
 
-            while (!Framing.GetTileSafely((int)tileP.X, Points[3]).active())
+            while (!Framing.GetTileSafely((int)tileP.X, Points[3]).IsActive)
             {
                 Points[3]--;
 

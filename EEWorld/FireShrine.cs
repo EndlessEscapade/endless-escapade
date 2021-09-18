@@ -17,7 +17,7 @@ namespace EEMod.EEWorld
             internal const ushort F = TileID.LunarBlockSolar;
             internal const ushort G = TileID.ObsidianBrick;
             internal const ushort H = TileID.LavaDrip;
-            internal const byte I = WallID.Stone;
+            internal const byte I = (byte)WallID.Stone;
             internal const int J = TileID.Ash;
             internal const int K = TileID.ObsidianBrick;
         }

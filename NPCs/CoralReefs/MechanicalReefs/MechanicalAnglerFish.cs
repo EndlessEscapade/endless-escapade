@@ -43,8 +43,8 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
             NPC.buffImmune[BuffID.Confused] = true;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
@@ -57,7 +57,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             {
                 if (NPC.ai[3] == 0)
                 {
-                    NPC.ai[3] = Projectile.NewProjectile(NPC.Center + new Vector2(-10, 0), Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), NPC.damage, 0f, Owner: NPC.whoAmI);
+                    NPC.ai[3] = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center + new Vector2(-10, 0), Vector2.Zero, ModContent.ProjectileType<MechanicalLure>(), NPC.damage, 0f, Owner: NPC.whoAmI);
                 }
 
                 NPC.velocity = Vector2.Zero;
@@ -107,7 +107,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             {
                 NPC.TargetClosest();
                 Player player = Main.player[NPC.target];
-                Texture2D LureChain = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Enemy/MechanicalLureChain");
+                Texture2D LureChain = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/Enemy/MechanicalLureChain").Value;
                 float distance = Vector2.Distance(NPC.Center, Main.projectile[(int)NPC.ai[3]].position) / LureChain.Height;
                 Vector2 pos = NPC.position - Main.screenPosition + new Vector2(x: (NPC.width / 2) - (LureChain.Width / 2) - 10, y: NPC.height / 2);
                 for (int i = 0; i < distance; i++)
@@ -115,7 +115,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                     Main.spriteBatch.Draw(LureChain, pos + new Vector2(x: 0, y: i * LureChain.Height), Color.White);
                 }
             }
-            Texture2D texture = Main.npcTexture[NPC.type];
+            Texture2D texture = Terraria.GameContent.TextureAssets.Npc[NPC.type].Value;
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0, 40), NPC.frame, DrawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
             return false;

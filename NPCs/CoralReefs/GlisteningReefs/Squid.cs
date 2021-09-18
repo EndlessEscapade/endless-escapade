@@ -34,8 +34,8 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
             NPC.buffImmune[BuffID.Confused] = true;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
         }
 
         public override void AI()
@@ -128,9 +128,9 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D tex = mod.GetTexture("NPCs/CoralReefs/GlisteningReefs/SquidChain");
-            Texture2D tex2 = mod.GetTexture("NPCs/CoralReefs/GlisteningReefs/SquidEnd");
-            Texture2D tex3 = mod.GetTexture("NPCs/CoralReefs/GlisteningReefs/SquidHead");
+            Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/SquidChain").Value;
+            Texture2D tex2 = Mod.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/SquidEnd").Value;
+            Texture2D tex3 = Mod.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/SquidHead").Value;
             for (int i = 1; i < lol1.GetLength(0); i++)
             {
                 for (int j = 1; j < lol1.GetLength(1); j++)

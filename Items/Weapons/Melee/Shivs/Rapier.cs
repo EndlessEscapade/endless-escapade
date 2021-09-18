@@ -99,20 +99,20 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                 projLerp = 0;
                 if (!flag)
                 {
-                    lightningproj = Projectile.NewProjectile(firstClickPos,Vector2.Zero, ModContent.ProjectileType<RapierProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
-                    (Main.projectile[lightningproj].modProjectile as RapierProj).mid = midPoint;
-                    (Main.projectile[lightningproj].modProjectile as RapierProj).start = firstClickPos;
-                    (Main.projectile[lightningproj].modProjectile as RapierProj).end = lastClickPos;
+                    lightningproj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), firstClickPos,Vector2.Zero, ModContent.ProjectileType<RapierProj>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                    (Main.projectile[lightningproj].ModProjectile as RapierProj).mid = midPoint;
+                    (Main.projectile[lightningproj].ModProjectile as RapierProj).start = firstClickPos;
+                    (Main.projectile[lightningproj].ModProjectile as RapierProj).end = lastClickPos;
                     flag = true;
                     EEMod.primitives.CreateTrail(new Prim.SwordPrimTrail(Projectile, lastClickPos, midPoint, firstClickPos));
                 }
                 //Helpers.DrawLine(fClickToDraw, lClickToDraw);
                 //Helpers.DrawLine(fClickToDraw, mClickToDraw);
                 //Helpers.DrawLine(mClickToDraw, lClickToDraw);
-                //Helpers.DrawBezier(Main.magicPixel, Color.White* timeForSwingSin, lastClickPos,firstClickPos, midPoint, 1f, new Rectangle(0, 0, 1, 1));
-                //Helpers.Draw(Main.magicPixel, fClickToDraw, Color.White, 1f, new Rectangle(0,0,3,3));
-                //Helpers.Draw(Main.magicPixel, mClickToDraw, Color.White, 1f, new Rectangle(0, 0, 3, 3));
-                //Helpers.Draw(Main.magicPixel, lClickToDraw, Color.White, 1f, new Rectangle(0, 0, 3, 3));
+                //Helpers.DrawBezier(Terraria.GameContent.TextureAssets.MagicPixel.Value, Color.White* timeForSwingSin, lastClickPos,firstClickPos, midPoint, 1f, new Rectangle(0, 0, 1, 1));
+                //Helpers.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, fClickToDraw, Color.White, 1f, new Rectangle(0,0,3,3));
+                //Helpers.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, mClickToDraw, Color.White, 1f, new Rectangle(0, 0, 3, 3));
+                //Helpers.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, lClickToDraw, Color.White, 1f, new Rectangle(0, 0, 3, 3));
             }
             rotations += (rotation - rotations) / 12f;
             float length = 30;

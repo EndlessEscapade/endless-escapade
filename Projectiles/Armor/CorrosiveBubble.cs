@@ -18,7 +18,7 @@ namespace EEMod.Projectiles.Armor
             Projectile.friendly = true;
             Projectile.timeLeft = 60;
             Projectile.penetrate = 1;
-            Projectile.ranged = true;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.damage = 20;
             Projectile.knockBack = 0;
         }

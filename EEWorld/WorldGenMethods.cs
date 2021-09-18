@@ -11,7 +11,7 @@ using Terraria.GameContent.Events;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using System.Diagnostics;
 //using Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
@@ -95,7 +95,7 @@ namespace EEMod.EEWorld
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.type = (ushort)type;
-                    tile.active(true);
+                    tile.IsActive = true;
                     EEMod.progressMessage = messageBefore;
                     EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
@@ -138,8 +138,8 @@ namespace EEMod.EEWorld
                     {
                         Tile tile = Framing.GetTileSafely(i + (int)TilePosition.X, j + (int)TilePosition.Y);
                         tile.type = (ushort)ModContent.TileType<EmptyTile>();
-                        tile.slope(array[j, i, 1]);
-                        tile.active(true);
+                        tile.Slope = (SlopeType)array[j, i, 1];
+                        tile.IsActive = true;
                     }
                 }
             }
@@ -155,7 +155,7 @@ namespace EEMod.EEWorld
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.type = (ushort)type;
-                    tile.active(true);
+                    tile.IsActive = true;
                     EEMod.progressMessage = messageBefore;
                     EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
@@ -172,10 +172,10 @@ namespace EEMod.EEWorld
                 for (int j = (int)PerlinStrip[i]; j < height; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    if (tile.active() == false)
+                    if (tile.IsActive == false)
                     {
                         tile.type = (ushort)type;
-                        tile.active(true);
+                        tile.IsActive = true;
                         EEMod.progressMessage = messageBefore;
                         EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
@@ -193,7 +193,7 @@ namespace EEMod.EEWorld
                 for (int j = (int)PerlinStrip[i]; j < height; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    if (tile.active())
+                    if (tile.IsActive)
                     {
                         tile.type = (ushort)type;
                         EEMod.progressMessage = messageBefore;
@@ -346,12 +346,12 @@ namespace EEMod.EEWorld
 
                             case 1:
                                 tile.type = TileID.SandstoneBrick;
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             case 2:
                                 tile.type = TileID.RubyGemspark;
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             default:
@@ -389,7 +389,7 @@ namespace EEMod.EEWorld
 
                             case 3:
                                 tile.wall = WallID.DesertFossil;
-                                tile.wallColor(29);
+                                tile.WallColor = 29;
                                 break;
 
                             default:
@@ -423,33 +423,33 @@ namespace EEMod.EEWorld
 
                             case 1:
                                 tile.type = TileID.WoodBlock;
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             case 2:
                                 tile.type = TileID.RichMahogany;
-                                tile.color(28);
-                                tile.active(true);
+                                tile.Color = 28;
+                                tile.IsActive = true;
                                 break;
 
                             case 3:
                                 tile.type = TileID.GoldCoinPile;
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             case 4:
                                 tile.type = TileID.Platforms;
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             case 5:
                                 tile.type = TileID.WoodenBeam;
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             case 6:
                                 tile.type = TileID.SilkRope;
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             default:
@@ -483,12 +483,12 @@ namespace EEMod.EEWorld
 
                             case 2:
                                 tile.wall = WallID.RichMahoganyFence;
-                                tile.wallColor(28);
+                                tile.WallColor = 28;
                                 break;
 
                             case 3:
                                 tile.wall = WallID.Cloud;
-                                tile.wallColor(29);
+                                tile.WallColor = 29;
                                 break;
 
                             case 4:
@@ -497,12 +497,12 @@ namespace EEMod.EEWorld
 
                             case 5:
                                 tile.type = TileID.WoodenBeam;
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             case 6:
                                 tile.wall = WallID.Sail;
-                                tile.wallColor(29);
+                                tile.WallColor = 29;
                                 break;
 
                             default:
@@ -552,10 +552,10 @@ namespace EEMod.EEWorld
                         tile.type = (ushort)blocks[shape[y, x]];
                         if (paints[blocks[shape[y, x]]] != default)
                         {
-                            tile.color((byte)paints[blocks[shape[y, x]]]);
+                            tile.Color = (byte)paints[blocks[shape[y, x]]];
                         }
 
-                        tile.active(true);
+                        tile.IsActive = true;
                     }
                 }
             }
@@ -573,7 +573,7 @@ namespace EEMod.EEWorld
                             tile.wall = (ushort)walls[wallShape[y, x]];
                             if (wallPaints[walls[wallShape[y, x]]] != default)
                             {
-                                tile.color((byte)wallPaints[walls[wallShape[y, x]]]);
+                                tile.Color = (byte)wallPaints[walls[wallShape[y, x]]];
                             }
                         }
                     }
@@ -585,9 +585,9 @@ namespace EEMod.EEWorld
         {
             if (water)
             {
-                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 3).liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
-                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 3).liquid = 255; // set liquid ammount
-                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 4).liquid = 255;
+                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 3).LiquidType = 0;; // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
+                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 3).LiquidAmount = 255; // set liquid ammount
+                Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y - 4).LiquidAmount = 255;
                 WorldGen.SquareTileFrame((int)startingPos.X - 1, (int)startingPos.Y - 3, true); // soemthing for astatic voiding the liquid from being static
                 if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                 {
@@ -610,8 +610,8 @@ namespace EEMod.EEWorld
             {
                 var tile = Framing.GetTileSafely((int)startingPos.X - 2, (int)startingPos.Y - 3);
                 var tile1 = Framing.GetTileSafely((int)startingPos.X - 2 + 4, (int)startingPos.Y - 3);
-                tile.halfBrick(true);
-                tile1.halfBrick(true);
+                tile.IsHalfBlock = true;
+                tile1.IsHalfBlock = true;
             }
             MakePillarWalls(new Vector2(startingPos.X + 2 - 2, startingPos.Y + 2 - 4), height);
         }
@@ -624,7 +624,7 @@ namespace EEMod.EEWorld
             var tile4 = Framing.GetTileSafely((int)startingPos.X + 1, (int)startingPos.Y + height + 1);
             var tile5 = Framing.GetTileSafely((int)startingPos.X + 0, (int)startingPos.Y + height + 1);
             var tile6 = Framing.GetTileSafely((int)startingPos.X + -1, (int)startingPos.Y + height + 1);
-            if (tile1.active() && tile2.active() && tile3.active() && tile4.active() && tile5.active() && tile6.active())
+            if (tile1.IsActive && tile2.IsActive && tile3.IsActive && tile4.IsActive && tile5.IsActive && tile6.IsActive)
             {
                 for (int i = -1; i < 2; i++)
                 {
@@ -632,7 +632,7 @@ namespace EEMod.EEWorld
                     {
                         var tile = Framing.GetTileSafely((int)startingPos.X + i, (int)startingPos.Y + j);
                         WorldGen.PlaceWall((int)startingPos.X + i, (int)startingPos.Y + j, WallID.StoneSlab);
-                        tile.wallColor(28);
+                        tile.WallColor = 28;
                     }
                 }
             }
@@ -665,7 +665,7 @@ namespace EEMod.EEWorld
             {
                 var tile = Framing.GetTileSafely((int)startingPos.X - 1, (int)startingPos.Y);
                 var tile1 = Framing.GetTileSafely((int)startingPos.X, (int)startingPos.Y);
-                if (tile.active() && !tile1.active())
+                if (tile.IsActive && !tile1.IsActive)
                 {
                     for (int i = 0; i < length; i++)
                     {
@@ -678,7 +678,7 @@ namespace EEMod.EEWorld
             {
                 var tile = Framing.GetTileSafely((int)startingPos.X + 1, (int)startingPos.Y);
                 var tile1 = Framing.GetTileSafely((int)startingPos.X, (int)startingPos.Y);
-                if (tile.active() && !tile1.active())
+                if (tile.IsActive && !tile1.IsActive)
                 {
                     for (int i = 0; i < length; i++)
                     {
@@ -710,60 +710,60 @@ namespace EEMod.EEWorld
 
                         case 1:
                             tile.type = TileID.SandstoneBrick;
-                            tile.active(true);
+                            tile.IsActive = true;
                             break;
 
                         case 2:
                             tile.type = TileID.GoldCoinPile;
-                            tile.active(true);
+                            tile.IsActive = true;
                             break;
 
                         case 3:
                             tile.type = TileID.SandStoneSlab;
-                            tile.active(true);
-                            tile.color(28);
+                            tile.IsActive = true;
+                            tile.Color = 28;
                             break;
 
                         case 4:
                             tile.type = TileID.MarbleBlock;
-                            tile.active(true);
-                            tile.color(28);
+                            tile.IsActive = true;
+                            tile.Color = 28;
                             break;
 
                         case 5:
                             tile.type = TileID.RubyGemspark;
-                            tile.active(true);
+                            tile.IsActive = true;
                             break;
 
                         case 6:
                             tile.type = TileID.PalladiumColumn;
-                            tile.active(true);
-                            tile.inActive(true);
-                            tile.color(28);
+                            tile.IsActive = true;
+                            tile.IsActive = false;
+                            tile.Color = 28;
                             break;
 
                         case 7:
                             tile.type = TileID.Lamps;
-                            tile.active(true);
-                            tile.inActive(true);
-                            tile.color(28);
+                            tile.IsActive = true;
+                            tile.IsActive = false;
+                            tile.Color = 28;
                             break;
 
                         case 8:
                             tile.type = TileID.Banners;
-                            tile.active(true);
-                            tile.inActive(true);
-                            tile.color(28);
+                            tile.IsActive = true;
+                            tile.IsActive = false;
+                            tile.Color = 28;
                             break;
 
                         case 9:
                             WorldGen.PlaceObject(RoomPosX + x, RoomPosY - y, TileID.TallGateClosed);
-                            tile.active(true);
+                            tile.IsActive = true;
                             break;
                     }
                     /*if (TowerSlopes[y, x] == 5)
                     {
-                        tile.halfBrick(true);
+                        tile.IsHalfBlock = true;
                     }
                     else
                     {
@@ -778,7 +778,7 @@ namespace EEMod.EEWorld
 
                         case 2:
                             tile.wall = WallID.StoneSlab;
-                            tile.wallColor(28);
+                            tile.WallColor = 28;
                             break;
 
                         case 3:
@@ -787,7 +787,7 @@ namespace EEMod.EEWorld
 
                         case 4:
                             tile.wall = WallID.DesertFossil;
-                            tile.wallColor(29);
+                            tile.WallColor = 29;
                             break;
 
                         case 5:
@@ -818,11 +818,11 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < Main.maxTilesY; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile.liquid > 64)
+                    if (tile.LiquidAmount > 64)
                     {
                         break;
                     }
-                    else if (tile.active())
+                    else if (tile.IsActive)
                     {
                         PlaceShipyard(i, j - 11);
                         return;
@@ -854,7 +854,7 @@ namespace EEMod.EEWorld
             for (int i = 0; i < Main.maxTilesY; i++)
             {
                 Tile tile = Framing.GetTileSafely(positionX, i);
-                if (tile.liquid > 64)
+                if (tile.LiquidAmount > 64)
                 {
                     return i;
                 }
@@ -1037,6 +1037,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static Vector2 FindClosest(Vector2 pos, Vector2[] List)
         {
             Vector2 closest = Vector2.Zero;
@@ -1109,8 +1110,8 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType(0); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
-                    Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid = 255; // set liquid ammount
+                    Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidType = 0;; // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
+                    Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidAmount = 255; // set liquid ammount
                     WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
                     if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                     {
@@ -1128,8 +1129,8 @@ namespace EEMod.EEWorld
                 {
                     if (WorldGen.InWorld(i + (int)startingPoint.X, j + (int)startingPoint.Y))
                     {
-                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType(1); // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
-                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid = 255; // set liquid ammount
+                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidType = 1;; // set liquid type 0 is water 1 lava 2 honey 3+ water iirc
+                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidAmount = 255; // set liquid ammount
                         WorldGen.SquareTileFrame(i + (int)startingPoint.X, j + (int)startingPoint.Y, true); // soemthing for astatic voiding the liquid from being static
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                         {
@@ -1195,7 +1196,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType() == 0 && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid > 64)
+                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidType == 0 && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidAmount > 64)
                     {
                         Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).ClearEverything();
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
@@ -1213,12 +1214,12 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquidType() == 0 
-                        && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid > 64 
+                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidType == 0 
+                        && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidAmount > 64 
                         && (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != WallID.None 
-                        || Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).active()))
+                        || Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).IsActive))
                     {
-                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).liquid = 0;
+                        Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidAmount = 0;
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
                         {
                             NetMessage.sendWater(i + (int)startingPoint.X, j + (int)startingPoint.Y);
@@ -1239,19 +1240,19 @@ namespace EEMod.EEWorld
             Tile tileLeft2 = Framing.GetTileSafely(i - 2, j);
             Tile tileRight = Framing.GetTileSafely(i + 1, j);
             Tile tileRight2 = Framing.GetTileSafely(i + 2, j);
-            if (tile.active() && tileBelow.active() && tileBelow2.active() && !tileAbove.active() && !tileAbove2.active() && tile.slope() == 0) //If 2 tiles below are clear and 2 tiles above are solid
+            if (tile.IsActive && tileBelow.IsActive && tileBelow2.IsActive && !tileAbove.IsActive && !tileAbove2.IsActive && tile.Slope == 0) //If 2 tiles below are clear and 2 tiles above are solid
             {
                 return 1;
             }
-            if (tile.active() && !tileBelow.active() && !tileBelow2.active() && tileAbove.active() && tileAbove2.active() && tile.slope() == 0) //If 2 tiles below are solid and 2 tiles above are clear
+            if (tile.IsActive && !tileBelow.IsActive && !tileBelow2.IsActive && tileAbove.IsActive && tileAbove2.IsActive && tile.Slope == 0) //If 2 tiles below are solid and 2 tiles above are clear
             {
                 return 2;
             }
-            if (tile.active() && TileLeft.active() && tileLeft2.active() && !tileRight.active() && !tileRight2.active()) //If 2 tiles left are solid and 2 tiles right are clear
+            if (tile.IsActive && TileLeft.IsActive && tileLeft2.IsActive && !tileRight.IsActive && !tileRight2.IsActive) //If 2 tiles left are solid and 2 tiles right are clear
             {
                 return 3;
             }
-            if (tile.active() && !TileLeft.active() && !tileLeft2.active() && tileRight.active() && tileRight2.active()) //If 2 tiles right are solid and 2 tiles left are clear
+            if (tile.IsActive && !TileLeft.IsActive && !tileLeft2.IsActive && tileRight.IsActive && tileRight2.IsActive) //If 2 tiles right are solid and 2 tiles left are clear
             {
                 return 4;
             }
@@ -1271,19 +1272,19 @@ namespace EEMod.EEWorld
                 Tile tile8 = Framing.GetTileSafely(i + 1, j);
                 Tile tile9 = Framing.GetTileSafely(i + 2, j);
 
-                if (tile1.active() && tile2.active() && tile3.active() && !tile4.active() && !tile5.active() && tile1.slope() == 0)
+                if (tile1.IsActive && tile2.IsActive && tile3.IsActive && !tile4.IsActive && !tile5.IsActive && tile1.Slope == 0)
                 {
                     return 1;
                 }
-                if (tile1.active() && !tile2.active() && !tile3.active() && tile4.active() && tile5.active() && tile1.slope() == 0)
+                if (tile1.IsActive && !tile2.IsActive && !tile3.IsActive && tile4.IsActive && tile5.IsActive && tile1.Slope == 0)
                 {
                     return 2;
                 }
-                if (tile1.active() && tile6.active() && tile7.active() && !tile8.active() && !tile9.active())
+                if (tile1.IsActive && tile6.IsActive && tile7.IsActive && !tile8.IsActive && !tile9.IsActive)
                 {
                     return 3;
                 }
-                if (tile1.active() && !tile6.active() && !tile7.active() && tile8.active() && tile9.active())
+                if (tile1.IsActive && !tile6.IsActive && !tile7.IsActive && tile8.IsActive && tile9.IsActive)
                 {
                     return 4;
                 }
@@ -1300,7 +1301,7 @@ namespace EEMod.EEWorld
             {
                 if (WorldGen.InWorld(i + (opposite ? -k : k), j, 20))
                 {
-                    if (!Framing.GetTileSafely(i + (opposite ? -k : k), j).active() || !Main.tileSolid[Framing.GetTileSafely(i + (opposite ? -k : k), j).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
+                    if (!Framing.GetTileSafely(i + (opposite ? -k : k), j).IsActive || !Main.tileSolid[Framing.GetTileSafely(i + (opposite ? -k : k), j).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
                         return false;
                 }
             }
@@ -1313,7 +1314,7 @@ namespace EEMod.EEWorld
             {
                 if (WorldGen.InWorld(i, j + (opposite ? -k : k), 20))
                 {
-                    if (!Framing.GetTileSafely(i, j + (opposite ? -k : k)).active() || !Main.tileSolid[Framing.GetTileSafely(i, j + (opposite ? -k : k)).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
+                    if (!Framing.GetTileSafely(i, j + (opposite ? -k : k)).IsActive || !Main.tileSolid[Framing.GetTileSafely(i, j + (opposite ? -k : k)).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
                         return false;
                 }
             }
@@ -1332,21 +1333,21 @@ namespace EEMod.EEWorld
             Tile tileRight2 = Framing.GetTileSafely(i + 2, j);
             bool IsSolid(Tile tile)
             {
-                return tile.active() || Main.tileSolid[tile.type];
+                return tile.IsActive || Main.tileSolid[tile.type];
             }
-            if (tile1.active() && tileBelow.active() && tileBelow2.active() && !tileAbove.active() && !tileAbove2.active())
+            if (tile1.IsActive && tileBelow.IsActive && tileBelow2.IsActive && !tileAbove.IsActive && !tileAbove2.IsActive)
             {
                 return 1;
             }
-            if (tile1.active() && !IsSolid(tileBelow) && !IsSolid(tileBelow2) && tileAbove.active() && tileAbove2.active())
+            if (tile1.IsActive && !IsSolid(tileBelow) && !IsSolid(tileBelow2) && tileAbove.IsActive && tileAbove2.IsActive)
             {
                 return 2;
             }
-            if (tile1.active() && tileLeft.active() && tileLeft2.active() && !tileRight.active() && !tileRight2.active())
+            if (tile1.IsActive && tileLeft.IsActive && tileLeft2.IsActive && !tileRight.IsActive && !tileRight2.IsActive)
             {
                 return 3;
             }
-            if (tile1.active() && !tileLeft.active() && !tileLeft2.active() && tileRight.active() && tileRight2.active())
+            if (tile1.IsActive && !tileLeft.IsActive && !tileLeft2.IsActive && tileRight.IsActive && tileRight2.IsActive)
             {
                 return 4;
             }
@@ -1462,7 +1463,7 @@ namespace EEMod.EEWorld
                         {
                             WorldGen.PlaceTile(i, j + 1, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                             for (int a = 0; a < TOD.Width; a++)
-                                Framing.GetTileSafely(i + a, j).slope(0);
+                                Framing.GetTileSafely(i + a, j).Slope = 0;
                         }
                     }
                     else if (TOD.AnchorBottom != AnchorData.Empty)
@@ -1471,7 +1472,7 @@ namespace EEMod.EEWorld
                         {
                             WorldGen.PlaceTile(i, j - TOD.Height, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                             for (int a = 0; a < TOD.Width; a++)
-                                Framing.GetTileSafely(i + a, j).slope(0);
+                                Framing.GetTileSafely(i + a, j).Slope = 0;
                         }
                     }
                     else if (TOD.AnchorLeft != AnchorData.Empty)
@@ -1510,7 +1511,7 @@ namespace EEMod.EEWorld
                             {
                                 WorldGen.PlaceTile(i, j + 1, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                                 for (int a = 0; a < TOD.Width; a++)
-                                    Framing.GetTileSafely(i + a, j).slope(0);
+                                    Framing.GetTileSafely(i + a, j).Slope = 0;
                             }
                         }
                         else if (TOD.AnchorBottom != AnchorData.Empty)
@@ -1519,7 +1520,7 @@ namespace EEMod.EEWorld
                             {
                                 WorldGen.PlaceTile(i, j - TOD.Height, tile, default, default, default, Main.rand.Next(0, TOD.RandomStyleRange));
                                 for (int a = 0; a < TOD.Width; a++)
-                                    Framing.GetTileSafely(i + a, j).slope(0);
+                                    Framing.GetTileSafely(i + a, j).Slope = 0;
                             }
                         }
                         else if (TOD.AnchorLeft != AnchorData.Empty)
@@ -1718,7 +1719,7 @@ namespace EEMod.EEWorld
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     tile.type = (ushort)type;
-                    tile.active(true);
+                    tile.IsActive = true;
                     EEMod.progressMessage = messageBefore;
                     EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
@@ -1839,7 +1840,7 @@ namespace EEMod.EEWorld
                     {
                         return 0;
                     }
-                    if (tile.active() && Main.tileSolid[tile.type])
+                    if (tile.IsActive && Main.tileSolid[tile.type])
                     {
                         return i;
                     }
@@ -1933,12 +1934,12 @@ namespace EEMod.EEWorld
                   if (layer == 1)
                   {
                       int sizeSQ = size * size + 50 * 50;
-                     // if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < (sizeSQ) && tile.active())
+                     // if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < (sizeSQ) && tile.IsActive)
                         //  WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, true, true);
                   }
                   if (layer == 2)
                   {
-                     // if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.active())
+                     // if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.IsActive)
                         //  WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<GemsandstoneTile>(), true, 1, 1, true, true);
                   }
               }*/
@@ -1987,7 +1988,7 @@ namespace EEMod.EEWorld
                 }
                 if (layer == 2)
                 {
-                    if (OvalCheck(X, midY, x, y, (size * 3) + 10, size + 10) && tile.active())
+                    if (OvalCheck(X, midY, x, y, (size * 3) + 10, size + 10) && tile.IsActive)
                     {
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<DarkGemsandTile>(), true, 1, 1, true, true);
                     }
@@ -2026,17 +2027,17 @@ namespace EEMod.EEWorld
                         {
                             case 1:
                                 WorldGen.PlaceTile(k, l, TileID.GrayBrick);
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             case 2:
                                 WorldGen.PlaceTile(k, l, TileID.Stone);
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             case 5:
                                 WorldGen.PlaceTile(k, l, TileID.HangingLanterns);
-                                tile.active(true);
+                                tile.IsActive = true;
                                 break;
 
                             default:
@@ -2069,7 +2070,7 @@ namespace EEMod.EEWorld
                                     for (int p = l; p < l + 2; p++)
                                     {
                                         tile.type = 0;
-                                        tile.active(false);
+                                        tile.IsActive =false;
                                     }
                                 }
                             }
@@ -2079,7 +2080,7 @@ namespace EEMod.EEWorld
                                 if (shape[y, x, 0] != 0)
                                 {
                                     tile.type = (ushort)shape[y, x, 0];
-                                    tile.active(true);
+                                    tile.IsActive = true;
                                 }
                                 if (shape[y, x, 1] != 0)
                                 {
@@ -2090,15 +2091,15 @@ namespace EEMod.EEWorld
                                 tile.wallColor((byte)shape[y, x, 4]);
                                 if ((byte)shape[y, x, 5] == 1)
                                 {
-                                    tile.inActive(true);
+                                    tile.IsActive = false;
                                 }
                                 else
                                 {
-                                    tile.inActive(false);
+                                    tile.IsActive = true;
                                 }
                                 if ((byte)shape[y, x, 6] > 0)
                                 {
-                                    tile.liquid = (byte)shape[y, x, 6];
+                                    tile.LiquidAmount = (byte)shape[y, x, 6];
                                     tile.liquidType((byte)shape[y, x, 7]);
                                 }
                                 tile.frameX = (byte)shape[y, x, 8];
@@ -2144,10 +2145,10 @@ namespace EEMod.EEWorld
                                 if (shape[y, x, 8] != 0 || shape[y, x, 9] != 0)
                                     continue;
 
-                                Framing.GetTileSafely(k, l).active(false);
-                                Framing.GetTileSafely(k + 1, l).active(false);
-                                Framing.GetTileSafely(k, l + 1).active(false);
-                                Framing.GetTileSafely(k + 1, l + 1).active(false);
+                                Framing.GetTileSafely(k, l).IsActive =false;
+                                Framing.GetTileSafely(k + 1, l).IsActive =false;
+                                Framing.GetTileSafely(k, l + 1).IsActive =false;
+                                Framing.GetTileSafely(k + 1, l + 1).IsActive =false;
 
                                 chestPlacements.Add((new Point(k, l), (ushort)shape[y, x, 0]));
                             }
@@ -2156,7 +2157,7 @@ namespace EEMod.EEWorld
                                 if (shape[y, x, 0] > 0)
                                 {
                                     tile.type = (ushort)shape[y, x, 0];
-                                    tile.active(true);
+                                    tile.IsActive = true;
                                     WorldGen.SquareTileFrame(k, l);
                                 }
                                 if (shape[y, x, 1] > 0)
@@ -2164,26 +2165,26 @@ namespace EEMod.EEWorld
                                     tile.wall = (ushort)shape[y, x, 1];
                                     WorldGen.SquareWallFrame(k, l);
                                 }
-                                tile.color((byte)shape[y, x, 2]);
-                                tile.slope((byte)shape[y, x, 3]);
-                                tile.wallColor((byte)shape[y, x, 4]);
+                                tile.Color = (byte)shape[y, x, 2];
+                                tile.Slope = (SlopeType)shape[y, x, 3];
+                                tile.WallColor = (byte)shape[y, x, 4];
                                 if ((byte)shape[y, x, 5] == 1)
                                 {
-                                    tile.inActive(true);
+                                    tile.IsActive = false;
                                 }
                                 else
                                 {
-                                    tile.inActive(false);
+                                    tile.IsActive = true;
                                 }
                                 if ((byte)shape[y, x, 6] > 0)
                                 {
-                                    tile.liquid = (byte)shape[y, x, 6];
-                                    tile.liquidType((byte)shape[y, x, 7]);
+                                    tile.LiquidAmount = (byte)shape[y, x, 6];
+                                    tile.LiquidType = (byte)shape[y, x, 7];
                                 }
                                 tile.frameX = (byte)shape[y, x, 8];
                                 tile.frameY = (byte)shape[y, x, 9];
-                                tile.wallFrameX((byte)shape[y, x, 10]);
-                                tile.wallFrameY((byte)shape[y, x, 11]);
+                                tile.WallFrameX = (byte)shape[y, x, 10];
+                                tile.WallFrameY = (byte)shape[y, x, 11];
                             }
                         }
                     }
@@ -2260,7 +2261,7 @@ namespace EEMod.EEWorld
                 {
                     for (int l = num5; l < num6; l++)
                     {
-                        if (overRide || !Main.tile[k, l].active())
+                        if (overRide || !Main.tile[k, l].IsActive)
                         {
                             if (Main.tileSolid[Main.tile[k, l].type] == true)
                             {
@@ -2269,9 +2270,9 @@ namespace EEMod.EEWorld
                         }
                         if (addTile)
                         {
-                            Main.tile[k, l].active(active: true);
-                            Main.tile[k, l].liquid = 0;
-                            Main.tile[k, l].lava(lava: false);
+                            Main.tile[k, l].IsActive = true;
+                            Main.tile[k, l].LiquidAmount = 0;
+                            Main.tile[k, l].LiquidType = 0;
                         }
                     }
                 }

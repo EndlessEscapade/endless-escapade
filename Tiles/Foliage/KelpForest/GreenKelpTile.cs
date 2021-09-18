@@ -32,7 +32,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<LightGemsandTile>(), ModContent.TileType<DarkGemsandTile>(),ModContent.TileType<LightGemsandstoneTile>(), ModContent.TileType<GemsandstoneTile>(), ModContent.TileType<DarkGemsandstoneTile>(), ModContent.TileType<KelpLeafTile>(), ModContent.TileType<GreenKelpTile>(), ModContent.TileType<KelpMossTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
-            animationFrameHeight = 18;
+            AnimationFrameHeight = 18;
         }
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override void RandomUpdate(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j - 1);
-            if (!tile.active() && Main.rand.Next(4) == 0)
+            if (!tile.IsActive && Main.rand.Next(4) == 0)
             {
                 WorldGen.PlaceObject(i, j - 1, ModContent.TileType<GreenKelpTile>());
                 NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<GreenKelpTile>(), 0, 0, -1, -1);
@@ -90,14 +90,14 @@ namespace EEMod.Tiles.Foliage.KelpForest
             Vector2 end = pos - sprout;
             Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
             float dist = (end - pos).Length();
-            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpForest/GreenKelpTile");
+            Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/GreenKelpTile").Value;
 
 
             int noOfFrames = 10;
             int frame = (int)((Main.time / 10f + j * i) % noOfFrames);
 
 
-            if (Main.tileSolid[tile.type] && tile.active())
+            if (Main.tileSolid[tile.type] && tile.IsActive)
             {
                 Helpers.DrawBezierBreakOnTiles(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, 0f, frame, noOfFrames, 3);
                 if (Main.rand.Next(100) == 0)

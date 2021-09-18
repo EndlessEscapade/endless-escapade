@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.GameContent.UI.States;
 using Terraria.Localization;
 using Terraria.Utilities;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 
 namespace LinuxMod.Core.Subworlds
 {
@@ -40,7 +40,7 @@ namespace LinuxMod.Core.Subworlds
 
             progress.TotalWeight = num;
             Main.menuMode = 888;
-            Main.MenuUI.SetState(new UIWorldLoad(progress));
+            Main.MenuUI.SetState(new UIWorldLoad());
 
             foreach (GenPass pass in _passes)
             {
@@ -51,7 +51,7 @@ namespace LinuxMod.Core.Subworlds
 
                 try
                 {
-                    pass.Apply(progress);
+                    pass.Apply(progress, null);
                 }
                 catch (Exception ex)
                 {

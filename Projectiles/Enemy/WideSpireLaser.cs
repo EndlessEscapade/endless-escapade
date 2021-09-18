@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using EEMod.Prim;
 using EEMod.Tiles;
 using EEMod.NPCs.CoralReefs;
+using Terraria.Audio;
 
 namespace EEMod.Projectiles.Enemy
 {
@@ -24,7 +25,7 @@ namespace EEMod.Projectiles.Enemy
             Projectile.timeLeft = 1200;
             Projectile.ignoreWater = true;
             Projectile.hostile = true;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 12;
             Projectile.hide = true;
@@ -33,17 +34,17 @@ namespace EEMod.Projectiles.Enemy
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(Projectile.modProjectile, oldVelocity);
+            Bounce(Projectile.ModProjectile, oldVelocity);
             return false;
         }
 
         public void Bounce(ModProjectile modProj, Vector2 oldVelocity)
         {
-            Main.PlaySound(SoundID.DD2_WitherBeastDeath, Projectile.Center);
+            SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, Projectile.Center);
 
             for (int i = -1; i < 2; i++)
             {
-                Projectile projectile4 = Projectile.NewProjectileDirect(Projectile.Center, Vector2.Normalize(Projectile.Center - Main.LocalPlayer.Center).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), Projectile.damage / 3, 0f, default, 1, 4);
+                Projectile projectile4 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Normalize(Projectile.Center - Main.LocalPlayer.Center).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), Projectile.damage / 3, 0f, default, 1, 4);
                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.Cyan, Color.Magenta, (i + 1) / 2f), 30));
             }
 

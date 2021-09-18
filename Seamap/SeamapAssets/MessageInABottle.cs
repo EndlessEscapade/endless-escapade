@@ -14,7 +14,7 @@ namespace EEMod.Seamap.SeamapAssets
         {
             Projectile.width = 16;
             Projectile.height = 18;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.ignoreWater = true;
             Projectile.scale = 1f;

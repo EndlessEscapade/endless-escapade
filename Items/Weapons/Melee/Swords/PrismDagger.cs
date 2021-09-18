@@ -23,9 +23,9 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Projectile.aiStyle = -1;
             Projectile.penetrate = 1;
             Projectile.scale = 1f;
-            Projectile.melee = true;
-            Projectile.tileCollide = false;
-            Projectile.friendly = false;
+            Projectile.DamageType = DamageClass.Melee;
+            // Projectile.tileCollide = false;
+            // Projectile.friendly = false;
             Projectile.damage = 20;
             Projectile.knockBack = 4.5f;
             Projectile.alpha = 100;
@@ -88,7 +88,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Color shadeColor = Main.hslToRgb((Projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f);
             EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/PrismDaggerLightMap"));
+            EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/PrismDaggerLightMap").Value);
             EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
             EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3());
             EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);
@@ -96,7 +96,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Vector2 drawOrigin = new Vector2(Projectile.width / 2, Projectile.height / 2);
             Vector2 drawPos = Projectile.position - Main.screenPosition;
             shadeColor.A = 150;
-            spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPos + drawOrigin, null, shadeColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos + drawOrigin, null, shadeColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return false;

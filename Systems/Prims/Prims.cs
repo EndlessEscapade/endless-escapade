@@ -87,7 +87,7 @@ namespace EEMod
         public Prims(Mod mod)
         {
             _trails = new List<Trail>();
-            _effect = mod.GetEffect("Effects/trailShaders");
+            _effect = mod.Assets.Request<Effect>("Effects/trailShaders").Value;
             _basicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
             _basicEffect.VertexColorEnabled = true;
         }
@@ -335,7 +335,7 @@ namespace EEMod
                 if (_projectile.type == ProjectileType<LythenStaffProjectile>())
                 {
                     lerper++;
-                    LythenStaffProjectile LR = (_projectile.modProjectile as LythenStaffProjectile);
+                    LythenStaffProjectile LR = (_projectile.ModProjectile as LythenStaffProjectile);
                     if (LR.positionOfOthers[0] != Vector2.Zero && LR.positionOfOthers[1] != Vector2.Zero)
                     {
                         _points = new List<Vector2>
@@ -356,7 +356,7 @@ namespace EEMod
                 if (_projectile.type == ProjectileType<DalantiniumFan>())
                 {
                     Cap = 10;
-                    DalantiniumFan DF = (_projectile.modProjectile as DalantiniumFan);
+                    DalantiniumFan DF = (_projectile.ModProjectile as DalantiniumFan);
                     lerper++;
                     _points.Add(DF.DrawPos);
                     active = true;
@@ -371,7 +371,7 @@ namespace EEMod
                 if (_projectile.type == ProjectileType<DalantiniumFanAlt>())
                 {
                     Cap = 20;
-                    DalantiniumFanAlt DF = (_projectile.modProjectile as DalantiniumFanAlt);
+                    DalantiniumFanAlt DF = (_projectile.ModProjectile as DalantiniumFanAlt);
                     lerper++;
                     _points.Add(_projectile.Center);
                     active = true;
@@ -386,7 +386,7 @@ namespace EEMod
                 if (_projectile.type == ProjectileType<AxeLightning>())
                 {
                     Cap = 80;
-                    AxeLightning DF = (_projectile.modProjectile as AxeLightning);
+                    AxeLightning DF = (_projectile.ModProjectile as AxeLightning);
                     lerper++;
                     _points.Add(_projectile.Center);
                     active = true;
@@ -402,7 +402,7 @@ namespace EEMod
                 if (_projectile.type == ProjectileType<PrismDagger>())
                 {
                     Cap = 15;
-                    PrismDagger DF = (_projectile.modProjectile as PrismDagger);
+                    PrismDagger DF = (_projectile.ModProjectile as PrismDagger);
                     lerper++;
                     _points.Add(_projectile.Center);
                     active = true;
@@ -418,7 +418,7 @@ namespace EEMod
                 if (_projectile.type == ProjectileType<DalantiniumSpike>())
                 {
                     Cap = 20;
-                    DalantiniumSpike DF = (_projectile.modProjectile as DalantiniumSpike);
+                    DalantiniumSpike DF = (_projectile.ModProjectile as DalantiniumSpike);
                     lerper++;
                     _points.Add(_projectile.Center);
                     active = true;
@@ -605,7 +605,7 @@ namespace EEMod
 
                 void DrawJelly(int noOfPoints)
                 {
-                    Jellyfish ja = (npc.modNPC as Jellyfish);
+                    Jellyfish ja = (npc.ModNPC as Jellyfish);
                     Cap = ja.cap;
                     List<List<List<Vector2>>> tentacle = new List<List<List<Vector2>>>();
 
@@ -922,7 +922,7 @@ namespace EEMod
                 {
                     if (npc.type == NPCType<Jellyfish>())
                     {
-                        DrawJelly(((int)Cap * 6 - 12) * (npc.modNPC as Jellyfish).noOfTentacles);
+                        DrawJelly(((int)Cap * 6 - 12) * (npc.ModNPC as Jellyfish).noOfTentacles);
                     }
                 }
                 GliderPrims.Invoke((int)Cap * 6 - 12);

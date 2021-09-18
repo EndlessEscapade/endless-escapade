@@ -127,10 +127,10 @@ namespace EEMod.Systems
         /// </summary>
         /// <param name="music"></param>
         /// <param name="priority"></param>
-        public virtual void UpdateMusic(ref int music, ref MusicPriority priority)
+        /*public virtual void UpdateMusic(ref int music, ref MusicPriority priority)
         {
 
-        }
+        }*/
 
         public Mechanic()
         {

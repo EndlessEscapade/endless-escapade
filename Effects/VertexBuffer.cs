@@ -19,13 +19,18 @@ namespace EEMod.Effects
     public class TrailManager
     {
         private readonly List<Trail> _trails = new List<Trail>();
-        private readonly Effect _effect;
+        private Effect _effect;
         private readonly BasicEffect _basicEffect;
 
         public TrailManager(Mod mod)
         {
             _trails = new List<Trail>();
-            _effect = mod.GetEffect("Effects/trailShaders");
+
+            Main.QueueMainThreadAction(() =>
+            {
+                _effect = mod.Assets.Request<Effect>("Effects/trailShaders").Value;
+            });
+
             _basicEffect = new BasicEffect(Main.graphics.GraphicsDevice)
             {
                 VertexColorEnabled = true
@@ -380,7 +385,7 @@ namespace EEMod.Effects
         {
             _xOffset -= _coordMult.X;
             effect.Parameters["imageTexture"].SetValue(_texture);
-            effect.Parameters["coordOffset"].SetValue(new Vector2(_xOffset, Main.GlobalTime * _yAnimSpeed));
+            effect.Parameters["coordOffset"].SetValue(new Vector2(_xOffset, Main.GlobalTimeWrappedHourly * _yAnimSpeed));
             effect.Parameters["coordMultiplier"].SetValue(_coordMult);
             effect.Parameters["strength"].SetValue(_strength);
             effect.CurrentTechnique.Passes[ShaderPass].Apply();
@@ -404,7 +409,7 @@ namespace EEMod.Effects
     {
         public Vector2 GetNextTrailPosition(Projectile projectile)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width * 0.5f, projectile.height * 0.5f);
+            Vector2 drawOrigin = new Vector2(Terraria.GameContent.TextureAssets.Projectile[projectile.type].Value.Width * 0.5f, projectile.height * 0.5f);
             return projectile.position + drawOrigin + Vector2.UnitY * projectile.gfxOffY;
         }
     }
@@ -452,7 +457,7 @@ namespace EEMod.Effects
         public Color GetColourAt(float distanceFromStart, float trailLength, List<Vector2> points)
         {
             float progress = distanceFromStart / trailLength;
-            float hue = (Main.GlobalTime * _speed + distanceFromStart * _distanceMultiplier) % MathHelper.TwoPi;
+            float hue = (float)(Main.time * _speed + distanceFromStart * _distanceMultiplier) % MathHelper.TwoPi;
             return ColorFromHSL(hue, _saturation, _lightness) * (1f - progress);
         }
 

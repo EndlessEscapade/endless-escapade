@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
             Projectile.width = 40;       //projectile width
             Projectile.height = 40;  //projectile height
             Projectile.friendly = true;      //make that the projectile will not damage you
-            Projectile.magic = true;     //
+            Projectile.DamageType = DamageClass.Magic;     //
             Projectile.tileCollide = true;   //make that the projectile will be destroed if it hits the terrain
             Projectile.penetrate = 1;      //how many npc will penetrate
                                            //how many time this projectile has before disepire
@@ -36,7 +36,7 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
             {
                 Projectile.velocity = Vector2.Normalize(Projectile.Center - Main.player[Projectile.owner].Center) * -16;
                 Projectile.rotation += 0.4f;
-                Projectile.tileCollide = false;
+                // Projectile.tileCollide = false;
                 if (Vector2.Distance(Projectile.Center, Main.player[Projectile.owner].Center) <= 8)
                     Projectile.Kill();
             }
@@ -67,9 +67,9 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Helpers.DrawChain(mod.GetTexture("Items/Weapons/Melee/Warhammers/HydrofluoricWarhammerChain"), Main.player[Projectile.owner].Center, Projectile.Center, 0);
+            Helpers.DrawChain(Mod.Assets.Request<Texture2D>("Items/Weapons/Melee/Warhammers/HydrofluoricWarhammerChain").Value, Main.player[Projectile.owner].Center, Projectile.Center, 0);
             if (Projectile.ai[0] >= 120)
-                AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[Projectile.type], 0, Projectile, 1.5f, 1f, 1, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 100));
+                AfterImage.DrawAfterimage(spriteBatch, Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, 0, Projectile, 1.5f, 1f, 1, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 100));
             return true;
         }
     }

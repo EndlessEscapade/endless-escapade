@@ -21,7 +21,7 @@ namespace EEMod.Items.Weapons.Ammo
             Projectile.alpha = 0;
             Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
@@ -48,7 +48,7 @@ namespace EEMod.Items.Weapons.Ammo
                     Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 113, offset * 0.5f);
                     dust.noGravity = true;
                     dust.velocity *= 0.94f;
-                    dust.noLight = false;
+                    // dust.noLight = false;
                     dust.fadeIn = 1f;
                 }
                 Projectile.damage = 1000;
@@ -57,7 +57,7 @@ namespace EEMod.Items.Weapons.Ammo
             bubol++;
             if (bubol >= 10)
             {
-                Projectile.NewProjectile(Projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: Projectile.owner);
+                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.position, new Vector2(0, -1), ModContent.ProjectileType<WaterDragonsBubble>(), 5, 0, Owner: Projectile.owner);
                 bubol = 0;
             }
         }
@@ -74,7 +74,7 @@ namespace EEMod.Items.Weapons.Ammo
                     Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 113, offset * 0.5f);
                     dust.noGravity = true;
                     dust.velocity *= 0.97f;
-                    dust.noLight = false;
+                    // dust.noLight = false;
                 }
             }
         }

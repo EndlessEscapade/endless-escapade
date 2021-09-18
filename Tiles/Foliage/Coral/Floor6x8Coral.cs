@@ -29,7 +29,7 @@ namespace EEMod.Tiles.Foliage.Coral
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Big Coral");
@@ -47,7 +47,7 @@ namespace EEMod.Tiles.Foliage.Coral
             {
                 for (int a = 0; a < 8; a++)
                 {
-                    Projectile.NewProjectile(new Vector2((i * 16) - frameX, (j * 16) - frameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) - frameX, (j * 16) - frameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
                 }
 
                 isIntersecting = true;
@@ -59,7 +59,7 @@ namespace EEMod.Tiles.Foliage.Coral
                 {
                     for (int a = 0; a < 2; a++)
                     {
-                        Projectile.NewProjectile(new Vector2((i * 16) - frameX, (j * 16) - frameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                        Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) - frameX, (j * 16) - frameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
                     }
                 }
 

@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.alpha = 0;
             Projectile.timeLeft = 600;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
@@ -40,7 +40,7 @@ namespace EEMod.Items.Weapons.Mage
                 Dust dust = Dust.NewDustPerfect(position, 111);
                 dust.noGravity = true;
                 dust.velocity = Vector2.Normalize(dust.position - Projectile.Center) * 4;
-                dust.noLight = false;
+                // dust.noLight = false;
                 dust.fadeIn = 1f;
             }
         }
@@ -89,7 +89,7 @@ namespace EEMod.Items.Weapons.Mage
             Dust dust = Dust.NewDustPerfect(position, 111);
             dust.noGravity = true;
             dust.velocity = Vector2.Normalize(dust.position - Projectile.Center) * 2;
-            dust.noLight = false;
+            // dust.noLight = false;
             dust.fadeIn = 1f;
             Projectile.velocity *= 0.95f;
             radius = 16;
@@ -102,7 +102,7 @@ namespace EEMod.Items.Weapons.Mage
                     dust = Dust.NewDustPerfect(position, 111);
                     dust.noGravity = true;
                     dust.velocity = Projectile.velocity;
-                    dust.noLight = false;
+                    // dust.noLight = false;
                     dust.fadeIn = 1f;
                 }
             }
@@ -130,7 +130,7 @@ namespace EEMod.Items.Weapons.Mage
                                 Vector2 Lerped = Projectile.Center + (Main.projectile[i].Center - Projectile.Center) * j;
                                 Dust dust2 = Dust.NewDustPerfect(Lerped, 111, Vector2.Zero);
                                 dust2.noGravity = true;
-                                dust2.noLight = false;
+                                // dust2.noLight = false;
                                 dust2.fadeIn = 1f;
                             }
                         }

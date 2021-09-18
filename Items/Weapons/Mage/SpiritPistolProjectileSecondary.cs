@@ -13,8 +13,8 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.width = 8;       //projectile width
             Projectile.height = 8;  //projectile height
             Projectile.friendly = true;      //make that the projectile will not damage you
-            Projectile.magic = true;     //
-            Projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
+            Projectile.DamageType = DamageClass.Magic;     //
+            // Projectile.tileCollide = false;   //make that the projectile will be destroed if it hits the terrain
             Projectile.penetrate = -1;      //how many npc will penetrate
                                             //how many time this projectile has before disepire
             Projectile.light = 0.3f;    // projectile light

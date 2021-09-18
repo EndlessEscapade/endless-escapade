@@ -28,7 +28,9 @@ using Terraria.ID;
 using Terraria.Localization; // :sadge:
 using Terraria.ModLoader;
 using Terraria.UI;// l a g
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
+using Microsoft.Xna.Framework.Input;
+using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
@@ -38,11 +40,11 @@ namespace EEMod
         public static int loadingChoose;
         public static int loadingChooseImage;
         public static bool loadingFlag = true;
-        public static ModHotKey RuneActivator;
-        public static ModHotKey RuneSpecial;
-        public static ModHotKey Inspect;
-        public static ModHotKey ActivateVerletEngine;
-        public static ModHotKey Train;
+        public static ModKeybind RuneActivator;
+        public static ModKeybind RuneSpecial;
+        public static ModKeybind Inspect;
+        public static ModKeybind ActivateVerletEngine;
+        public static ModKeybind Train;
         public static Noise2D Noise2D;
         public static Effect White;
         public static Effect Effervescence;
@@ -57,16 +59,18 @@ namespace EEMod
         public KelpArmorAmmoUI KelpArmorAmmoUI;
         public IndicatorsUI IndicatorsUI;
         public DialogueUI DialogueUI;
-        public ComponentManager<TileObjVisual> TVH;
+        //public ComponentManager<TileObjVisual> TVH;
 
         public override void Load()
         {
-            TVH = new ComponentManager<TileObjVisual>();
+            //TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
             Subworlds = new SubworldInstanceManager();
-            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new BigCrystalSerializer());
-            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
-            Terraria.ModLoader.IO.TagSerializer.AddSerializer(new CrystalSerializer());
+
+            //TagSerializer.AddSerializer(new BigCrystalSerializer());
+            //TagSerializer.AddSerializer(new EmptyTileEntitySerializer());
+            //TagSerializer.AddSerializer(new CrystalSerializer());
+
             if (!Main.dedServ)
             {
                 UI = new UIManager();
@@ -91,77 +95,81 @@ namespace EEMod
                 UI.AddInterface("DialogueInterface");
                 UI.AddUIState("DialogueUI", DialogueUI);
 
-                Noise2D = new Noise2D(GetEffect("Effects/Noise2D"));
                 primitives = new PrimTrailManager();
             }
             //HandwritingCNN = new Handwriting();
 
-            RuneActivator = RegisterHotKey("Rune UI", "Z");
-            RuneSpecial = RegisterHotKey("Activate Runes", "V");
-            Inspect = RegisterHotKey("Inspect", "]");
-            ActivateVerletEngine = RegisterHotKey("Activate VerletEngine", "N");
-            Train = RegisterHotKey("Train Neural Network", "P");
-
-            AutoloadingManager.LoadManager(this);
+            RuneActivator = KeybindLoader.RegisterKeybind(this, "Rune UI", Keys.Z);
+            RuneSpecial = KeybindLoader.RegisterKeybind(this, "Activate Runes", Keys.V);
+            Inspect = KeybindLoader.RegisterKeybind(this, "Inspect", Keys.OemCloseBrackets);
+            ActivateVerletEngine = KeybindLoader.RegisterKeybind(this, "Activate VerletEngine", Keys.N);
+            //Train = RegisterHotKey("Train Neural Network", "P");
 
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
-            if (!Main.dedServ)
-            {
-                Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Ripple"));
-                Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/SeaTrans"));
-                Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/SunThroughWalls"));
-                Ref<Effect> MyTestShader = new Ref<Effect>(GetEffect("Effects/MyTestShader"));
-                Filters.Scene["EEMod:Ripple"] = new Filter(new ScreenShaderData(screenRef3, "Ripple"), EffectPriority.High);
-                Filters.Scene["EEMod:Ripple"].Load();
-                Filters.Scene["EEMod:SeaTrans"] = new Filter(new ScreenShaderData(screenRef2, "SeaTrans"), EffectPriority.High);
-                Filters.Scene["EEMod:SeaTrans"].Load();
-                Filters.Scene["EEMod:SunThroughWalls"] = new Filter(new ScreenShaderData(screenRef, "SunThroughWalls"), EffectPriority.High);
-                Filters.Scene["EEMod:SunThroughWalls"].Load();
-                Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
-                Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
-                Filters.Scene["EEMod:MyTestShader"].Load();
-
-                GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(GetEffect("Effects/SpireShine")), "SpireHeartbeat").UseImage("Textures/Noise/WormNoisePixelated");
-
-                SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
-                NoiseSurfacing = GetEffect("Effects/NoiseSurfacing");
-                White = GetEffect("Effects/WhiteOutline");
-                Effervescence = GetEffect("Effects/Effervescence");
-
-
-                Ref<Effect> hydrosDye = new Ref<Effect>(GetEffect("Effects/HydrosDye"));
-                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
-                Ref<Effect> aquamarineDye = new Ref<Effect>(GetEffect("Effects/AquamarineDye"));
-                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
-
-                /*
-                  SpeedrunnTimer = new UserInterface();
-                  //RunUI.Activate();
-                  RunUI = new RunninUI();
-                  SpeedrunnTimer.SetState(RunUI);
-                */
-
-                if (Main.netMode != NetmodeID.Server)
+            Main.QueueMainThreadAction(() => {
+                if (!Main.dedServ)
                 {
-                    trailManager = new TrailManager(this);
-                    prims = new Prims(this);
-                    primitives.CreateTrail(new RainbowLightTrail(null));
-                    prims.CreateVerlet();
+                    Noise2D = new Noise2D(Assets.Request<Effect>("Effects/Noise2D", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+
+                    Ref<Effect> screenRef3 = new Ref<Effect>(Assets.Request<Effect>("Effects/Ripple", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+                    Ref<Effect> screenRef2 = new Ref<Effect>(Assets.Request<Effect>("Effects/SeaTrans", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+                    Ref<Effect> screenRef = new Ref<Effect>(Assets.Request<Effect>("Effects/SunThroughWalls", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+                    Ref<Effect> MyTestShader = new Ref<Effect>(Assets.Request<Effect>("Effects/MyTestShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+                    Filters.Scene["EEMod:Ripple"] = new Filter(new ScreenShaderData(screenRef3, "Ripple"), EffectPriority.High);
+                    Filters.Scene["EEMod:Ripple"].Load();
+                    Filters.Scene["EEMod:SeaTrans"] = new Filter(new ScreenShaderData(screenRef2, "SeaTrans"), EffectPriority.High);
+                    Filters.Scene["EEMod:SeaTrans"].Load();
+                    Filters.Scene["EEMod:SunThroughWalls"] = new Filter(new ScreenShaderData(screenRef, "SunThroughWalls"), EffectPriority.High);
+                    Filters.Scene["EEMod:SunThroughWalls"].Load();
+                    Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
+                    Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
+                    Filters.Scene["EEMod:MyTestShader"].Load();
+
+                    //GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(Assets.Request<Effect>("Effects/SpireShine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "SpireHeartbeat").UseImage0("EEMod/Textures/Noise/WormNoisePixelated");
+
+                    SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
+                    NoiseSurfacing = Assets.Request<Effect>("Effects/NoiseSurfacing", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+                    White = Assets.Request<Effect>("Effects/WhiteOutline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+                    Effervescence = Assets.Request<Effect>("Effects/Effervescence", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+
+
+                    Ref<Effect> hydrosDye = new Ref<Effect>(Assets.Request<Effect>("Effects/HydrosDye", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+                    GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
+                    Ref<Effect> aquamarineDye = new Ref<Effect>(Assets.Request<Effect>("Effects/AquamarineDye", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
+                    GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
+
+                    AutoloadingManager.LoadManager(this);
+
+                    /*
+                      SpeedrunnTimer = new UserInterface();
+                      //RunUI.Activate();
+                      RunUI = new RunninUI();
+                      SpeedrunnTimer.SetState(RunUI);
+                    */
+
+                        if (Main.netMode != NetmodeID.Server)
+                        {
+                            trailManager = new TrailManager(this);
+                            prims = new Prims(this);
+                            primitives.CreateTrail(new RainbowLightTrail(null));
+                            prims.CreateVerlet();
+                        }
+                    LoadUI();
                 }
-                LoadUI();
-            }
-            LoadIL();
-            LoadDetours();
-            if (!Main.dedServ)
-            {
-                Particles = new ParticleZoneHandler();
-                Particles.AddZone("Main", 40000);
-                MainParticles = Particles.Get("Main");
-            }
-            InitializeAmbience();
+                LoadIL();
+                LoadDetours();
+                if (!Main.dedServ)
+                {
+                    Particles = new ParticleZoneHandler();
+                    Particles.AddZone("Main", 40000);
+                    MainParticles = Particles.Get("Main");
+                }
+                //InitializeAmbience();
+            });
+
             //Example
-            LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
-            LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
+            //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
+            //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
         }
 
         public override void Unload()
@@ -188,11 +196,11 @@ namespace EEMod
             AutoloadingManager.UnloadManager(this);
             Noise2DShift = null;
             //BufferPool.ClearBuffers();
-            Main.logo2Texture = ModContent.GetTexture("Terraria/Logo2");
-            Main.logoTexture = ModContent.GetTexture("Terraria/Logo");
-            Main.sun2Texture = ModContent.GetTexture("Terraria/Sun2");
-            Main.sun3Texture = ModContent.GetTexture("Terraria/Sun3");
-            Main.sunTexture = ModContent.GetTexture("Terraria/Sun");
+            //Main.logo2Texture = ModContent.Request<Texture2D>("Terraria/Logo2").Value;
+            //Main.logoTexture = ModContent.Request<Texture2D>("Terraria/Logo").Value;
+            //Main.sun2Texture = ModContent.Request<Texture2D>("Terraria/Sun2").Value;
+            //Main.sun3Texture = ModContent.Request<Texture2D>("Terraria/Sun3").Value;
+            //Main.sunTexture = ModContent.Request<Texture2D>("Terraria/Sun").Value;
         }
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)
@@ -200,7 +208,7 @@ namespace EEMod
             EENet.ReceievePacket(reader, whoAmI);
         }
 
-        public override void MidUpdateProjectileItem()
+        /*public override void MidUpdateProjectileItem()
         {
             if (Main.netMode != NetmodeID.Server)
             {
@@ -232,9 +240,9 @@ namespace EEMod
         public override void PostUpdateEverything()
         {
             UpdateVerlet();
-        }
+        }*/
 
-        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        /*public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
             int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
             if (mouseTextIndex != -1)
@@ -297,7 +305,7 @@ namespace EEMod
 		            return true;
 		        },
 		        InterfaceScaleType.UI));
-		    }*/
+		    }
             if (Main.worldName == KeyID.Sea)
             {
                 for (int i = 0; i < layers.Count; i++)
@@ -310,7 +318,7 @@ namespace EEMod
                     }
                 }
             }
-        }
+        }*/
 
         public override void AddRecipeGroups()
         {
@@ -348,7 +356,8 @@ namespace EEMod
         }*/
 
         //mechanic port
-        public override void UpdateMusic(ref int music, ref MusicPriority priority)
+
+        /*public override void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Main.gameMenu)
                 return;
@@ -400,20 +409,20 @@ namespace EEMod
                     priority = MusicPriority.BiomeHigh;
                 }
 
-                /*if ((int)MinibiomeID.ThermalVents < length)
+                if ((int)MinibiomeID.ThermalVents < length)
                 {
                     if (eeplayer.reefMinibiome[(int)MinibiomeID.ThermalVents])
                     {
                         music = GetSoundSlot(SoundType.Music, "Sounds/Music/ThermalVents");
                         priority = MusicPriority.BiomeHigh;
                     }
-                }*/
+                }
             }
 
             for (int i = 0; i < Main.maxNPCs; i++)
             {
                 NPC npc = Main.npc[i];
-                if (npc.modNPC is AquamarineSpire spire)
+                if (npc.ModNPC is AquamarineSpire spire)
                 {
                     if (spire.awake)
                     {
@@ -431,6 +440,6 @@ namespace EEMod
             }
 
             MechanicManager.UpdateMusic(ref music, ref priority);
-        }
+        }*/
     }
 }

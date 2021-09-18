@@ -23,7 +23,7 @@ namespace EEMod.Projectiles.Enemy
             Projectile.timeLeft = 1200;
             Projectile.penetrate = 1;
             Projectile.hostile = true;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
             Projectile.scale = 1f;
@@ -45,7 +45,7 @@ namespace EEMod.Projectiles.Enemy
                 //'position' will be a point on a circle around 'origin'.  If you're using this to spawn dust, use Dust.NewDustPerfect
                 Dust dust = Dust.NewDustPerfect(position, 59);
                 dust.noGravity = true;
-                dust.noLight = false;
+                // dust.noLight = false;
                 dust.fadeIn = 1f;
             }
         }

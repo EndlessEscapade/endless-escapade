@@ -19,7 +19,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             NPC.aiStyle = -1;
 
-            NPC.friendly = false;
+            // NPC.friendly = false;
 
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
@@ -33,8 +33,8 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.noGravity = true;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
 
             NPC.damage = 5;
         }
@@ -48,7 +48,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             this.drawColour = drawColor;
             counter2 += 0.1f;
-            Texture2D tex = Main.npcTexture[NPC.type];
+            Texture2D tex = Terraria.GameContent.TextureAssets.Npc[NPC.type].Value;
             Vector2 pos = NPC.Center.ForDraw();
             Main.spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, tex.Width + (int)(Math.Sin(counter2) * 2) - 5, tex.Height + (int)(Math.Cos(counter2) * 5) - 2), NPC.frame, Color.Lerp(drawColor, Color.MediumPurple, (float)Math.Sin(counter2) * 0.2f), NPC.rotation, NPC.frame.Size() / 2, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;

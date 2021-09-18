@@ -78,7 +78,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
                                 zero = Vector2.Zero;
                             }
 
-                            Texture2D tex = ModContent.GetTexture(path + "NautilusPuzzle" + tiles[y, x]);
+                            Texture2D tex = ModContent.Request<Texture2D>(path + "NautilusPuzzle" + tiles[y, x]).Value;
                             Vector2 pos = new Vector2((i * 16) + (x * 48), (j * 16) + (y * 48));
 
                             Rectangle rect = new Rectangle((int)pos.X, (int)pos.Y, 48, 48);
@@ -160,7 +160,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
                     tiles[2, 2] == 9 && !sussy)
                 {
                     sussy = true;
-                    Projectile.NewProjectile(new Vector2((i * 16) + 72, (j * 16) + 72), new Vector2(0, -2f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_TileInteraction(Main.LocalPlayer, i, j), new Vector2((i * 16) + 72, (j * 16) + 72), new Vector2(0, -2f), ModContent.ProjectileType<KelpFlowerItem>(), 0, 0f);
                 }
             }
         }

@@ -18,9 +18,9 @@ namespace EEMod.Items.Weapons.Mage
         {
             Projectile.CloneDefaults(ProjectileID.ToxicCloud);
             Projectile.friendly = true;
-            Projectile.magic = true;
+            Projectile.DamageType = DamageClass.Magic;
             Projectile.timeLeft = 228;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
         }
 
         public override void AI()

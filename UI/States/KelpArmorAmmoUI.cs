@@ -4,6 +4,7 @@ using Terraria.UI;
 using CustomSlot;
 using Terraria;
 using Terraria.ID;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.UI.States
 {
@@ -12,7 +13,7 @@ namespace EEMod.UI.States
 		public static CustomItemSlot Slot;
         public override void OnInitialize()
 		{
-            CroppedTexture2D emptyTexture = new CroppedTexture2D(ModContent.GetTexture("EEMod/UI/MerchantBoatSlot")); //placeholder
+            CroppedTexture2D emptyTexture = new CroppedTexture2D(ModContent.Request<Texture2D>("EEMod/UI/MerchantBoatSlot").Value); //placeholder
 
             Slot = new CustomItemSlot(0, 0.6f)
             {

@@ -14,7 +14,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
 
         public override void SetDefaults()
         {
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.value = Item.sellPrice(0, 0, 18);
@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Ranger.Launchers
             Item.shoot = ModContent.ProjectileType<CycloneStormRune>();
             Item.rare = ItemRarityID.Yellow;
             Item.knockBack = 4f;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.shootSpeed = 17f;
             Item.UseSound = SoundID.Item11;
             //item.useAmmo = AmmoID.Rocket;

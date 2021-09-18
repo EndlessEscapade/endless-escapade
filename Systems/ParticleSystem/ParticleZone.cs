@@ -57,7 +57,7 @@ namespace EEMod
                         Particle particle = particles[i];
                         if (particle == null || !particle.active)
                         {
-                            particles[i] = particle = new Particle(position + Main.LocalPlayer.Center * paralax, timeLeft, texture ?? Main.magicPixel, velocity, scale, colour ?? Color.White, masks, (CustomBaseZoneModule?.Length ?? 0) > 0 ? CustomBaseZoneModule : BaseZoneModules.ToArray());
+                            particles[i] = particle = new Particle(position + Main.LocalPlayer.Center * paralax, timeLeft, texture ?? Terraria.GameContent.TextureAssets.MagicPixel.Value, velocity, scale, colour ?? Color.White, masks, (CustomBaseZoneModule?.Length ?? 0) > 0 ? CustomBaseZoneModule : BaseZoneModules.ToArray());
                             if (texture != null)
                                 particle.Frame = texture.Bounds;
                             particle.paralax = paralax;

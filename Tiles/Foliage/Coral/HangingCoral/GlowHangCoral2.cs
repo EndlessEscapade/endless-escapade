@@ -51,7 +51,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            if (tile != null && tile.active() && tile.type == Type)
+            if (tile != null && tile.IsActive && tile.type == Type)
             {
                 int frameX = tile.frameX;
                 int frameY = tile.frameY;
@@ -70,7 +70,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
                 Rectangle rect = new Rectangle(frameX, frameY, width, height);
                 color *= (float)Math.Sin(Main.GameUpdateCount / 60f + i + j) * 0.5f + 0.5f;
 
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Coral/HangingCoral/GlowHangCoral2Glow"), position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/Coral/HangingCoral/GlowHangCoral2Glow").Value, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
             }
         }
     }

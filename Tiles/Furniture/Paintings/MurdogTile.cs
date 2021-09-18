@@ -31,7 +31,7 @@ namespace EEMod.Tiles.Furniture.Paintings
             AddMapEntry(new Color(20, 60, 20), name);
             disableSmartCursor = true;
             dustType = DustID.Dirt;
-            animationFrameHeight = 90;
+            AnimationFrameHeight = 90;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

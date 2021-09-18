@@ -33,15 +33,15 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
             NPC.buffImmune[BuffID.Confused] = true;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
         }
 
         Vector2[] ChainPositions = new Vector2[ChainLength];
 
-        Texture2D tex1 => mod.GetTexture("NPCs/CoralReefs/GlisteningReefs/MantaRayC1");
-        Texture2D tex2 => mod.GetTexture("NPCs/CoralReefs/GlisteningReefs/MantaRayC2");
-        Texture2D tex3 => mod.GetTexture("NPCs/CoralReefs/GlisteningReefs/MantaRayC3");
+        Texture2D tex1 => Mod.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/MantaRayC1").Value;
+        Texture2D tex2 => Mod.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/MantaRayC2").Value;
+        Texture2D tex3 => Mod.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/MantaRayC3").Value;
 
         float FolowFactor = 0.02f;
         public override void AI()
@@ -163,7 +163,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
             bool spriterot = NPC.rotation > Math.PI / 2 && NPC.rotation < 3 * (Math.PI / 2);
 
-            Texture2D tex = Main.npcTexture[NPC.type];
+            Texture2D tex = Terraria.GameContent.TextureAssets.Npc[NPC.type].Value;
 
             spriteBatch.Draw(tex, NPC.Center.ForDraw(), tex.Bounds, drawColor, NPC.rotation, tex.TextureCenter(), NPC.scale, spriterot ? SpriteEffects.FlipVertically : SpriteEffects.None, 0f);
 

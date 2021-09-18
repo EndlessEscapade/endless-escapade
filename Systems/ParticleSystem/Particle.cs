@@ -242,7 +242,7 @@ namespace EEMod
             for (int i = 0; i < particle.PositionCache.Count; i++)
             {
                 float globalFallOff = 1 - (i / (float)(particle.PositionCache.Count - 1)) * alphaFallOff;
-                Main.spriteBatch.Draw(Main.magicPixel, particle.PositionCache[i].ForDraw().ParalaxX(particle.paralax), new Rectangle(0, particle.CurrentFrame * (particle.Frame.Height / particle.noOfFrames), particle.Frame.Width, particle.Frame.Height / particle.noOfFrames), particle.colour * particle.alpha * globalFallOff, particle.rotation, new Rectangle(0, particle.CurrentFrame * (particle.Frame.Height / particle.noOfFrames), particle.Frame.Width, particle.Frame.Height / particle.noOfFrames).Size() / 2, particle.varScale * globalFallOff, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, particle.PositionCache[i].ForDraw().ParalaxX(particle.paralax), new Rectangle(0, particle.CurrentFrame * (particle.Frame.Height / particle.noOfFrames), particle.Frame.Width, particle.Frame.Height / particle.noOfFrames), particle.colour * particle.alpha * globalFallOff, particle.rotation, new Rectangle(0, particle.CurrentFrame * (particle.Frame.Height / particle.noOfFrames), particle.Frame.Width, particle.Frame.Height / particle.noOfFrames).Size() / 2, particle.varScale * globalFallOff, SpriteEffects.None, 0f);
             }
         }
         public void Update(Particle particle) {; }

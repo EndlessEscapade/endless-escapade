@@ -39,7 +39,7 @@ namespace EEMod.Tiles.Furniture
         {
             if (isSupport)
             {
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Tiles/AshenBridgeSupport"), Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/AshenBridgeSupport").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -52,10 +52,10 @@ namespace EEMod.Tiles.Furniture
             Projectile.alpha = 0;
             Projectile.timeLeft = 10000;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.magic = true;
-            Projectile.tileCollide = false;
+            Projectile.DamageType = DamageClass.Magic;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.scale *= 1f;
         }

@@ -35,7 +35,7 @@ namespace EEMod.Items.Armor.Dalantinium
             flag = true;
         }
 
-        public override bool ConsumeAmmo(Player player)
+        public override bool CanConsumeAmmo(Player player)
         {
             if (flag)
             {
@@ -59,11 +59,7 @@ namespace EEMod.Items.Armor.Dalantinium
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 11);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumBar>(), 11).AddTile(TileID.Anvils).Register();
         }
     }
 }

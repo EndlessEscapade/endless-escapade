@@ -29,7 +29,7 @@ namespace EEMod
         {
             var mod = ModContent.GetInstance<EEMod>();
 
-            if (!Main.dedServ)
+            /*if (!Main.dedServ)
             {
                 mod.Dolphins = ModContent.GetSound("EEMod/Sounds/Ambient/SurfaceReefsAmbienceDolphins");
                 mod.DolphinsInstance = mod.Dolphins.CreateInstance();
@@ -48,7 +48,7 @@ namespace EEMod
                 mod.Waves.Name = "Waves";
 
                 mod.WavesInstance.IsLooped = true;
-            }
+            }*/
         }
 
         public static void UpdateAmbience()

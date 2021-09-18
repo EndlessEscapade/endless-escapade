@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace EEMod.Projectiles
 {
@@ -13,10 +14,10 @@ namespace EEMod.Projectiles
         {
             Projectile.width = 12;
             Projectile.height = 12;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;  //Tells the game whether it is friendly to players/friendly npcs or not
             Projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
-            Projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
+            Projectile.DamageType = DamageClass.Ranged;  //Tells the game whether it is a ranged projectile or not
             Projectile.penetrate = 1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
             Projectile.timeLeft = 125;  //The amount of time the projectile is alive for
             Projectile.tileCollide = true;
@@ -53,17 +54,17 @@ namespace EEMod.Projectiles
                 float speedY = -(Projectile.velocity.Y * Main.rand.Next(30) * 0.01f + Main.rand.NextFloat(-12f, 12.1f));
                 if (projHolder == 0 || projHolder == 1)
                 {
-                    Projectile.NewProjectile(Projectile.Center.X + speedX, Projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(Projectile.damage * 0.7), 0f, Projectile.owner, 0f, 0f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center.X + speedX, Projectile.Center.Y + speedY, speedX * 1.3f, speedY, ModContent.ProjectileType<CrystalKill>(), (int)(Projectile.damage * 0.7), 0f, Projectile.owner, 0f, 0f);
                 }
 
-                Main.PlaySound(SoundID.Item27, Projectile.position);
+                SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             }
             for (var i = 0; i < 20; i++)
             {
                 int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.YellowTorch, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 255, 153, 255), 2f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].velocity *= 1.2f;
-                Main.dust[num].noLight = false;
+                // Main.dust[num].noLight = false;
             }
         }
 

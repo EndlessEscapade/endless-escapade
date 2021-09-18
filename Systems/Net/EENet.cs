@@ -22,7 +22,7 @@ namespace EEMod.Net
 
         public static void SendMessageMultiPlayer(string yes, int exclude)
         {
-            NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(yes), new Color(0, 0, 0), exclude);
+            //NetMessage.BroadcastChatMessage(NetworkText.FromLiteral(yes), new Color(0, 0, 0), exclude);
         }
 
         public static ModPacket WriteToPacket(EEMessageType msg, params object[] param)

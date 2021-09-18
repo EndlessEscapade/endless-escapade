@@ -62,11 +62,11 @@ namespace EEMod
                 arrowFlag = true;
             }
 
-            //DesArrowProjectile desArrowProj = (DesArrowProjectile)Main.projectile[Arrow].modProjectile;
+            //DesArrowProjectile desArrowProj = (DesArrowProjectile)Main.projectile[Arrow].ModProjectile;
 
-            if (player.Center.X / 16 >= Main.spawnTileX - 5 && player.Center.X / 16 <= Main.spawnTileX + 5 && player.Center.Y / 16 >= Main.spawnTileY - 5 && player.Center.Y / 16 <= Main.spawnTileY + 5)
+            if (Player.Center.X / 16 >= Main.spawnTileX - 5 && Player.Center.X / 16 <= Main.spawnTileX + 5 && Player.Center.Y / 16 >= Main.spawnTileY - 5 && Player.Center.Y / 16 <= Main.spawnTileY + 5)
             {
-                if (player.controlUp)
+                if (Player.controlUp)
                 {
                     ReturnHome();
                 }
@@ -75,7 +75,7 @@ namespace EEMod
             }
             else
             {
-                ArrowsUIState.DesertArrowVisible = false;
+                // ArrowsUIState.DesertArrowVisible = false;
             }
 
             if (Main.netMode != NetmodeID.Server && Filters.Scene[SunThroughWallsShader].IsActive())
@@ -151,9 +151,9 @@ namespace EEMod
             {
                 //Projectile oceanarrow = Main.projectile[Arrow2];
 
-                if (Helpers.PointInRectangle(player.Center / 16, CoralReefs.CoralBoatPos.X, CoralReefs.CoralBoatPos.Y + 12, 4, 4))
+                if (Helpers.PointInRectangle(Player.Center / 16, CoralReefs.CoralBoatPos.X, CoralReefs.CoralBoatPos.Y + 12, 4, 4))
                 {
-                    if (player.controlUp)
+                    if (Player.controlUp)
                     {
                         Initialize();
 
@@ -166,7 +166,7 @@ namespace EEMod
                 }
                 else
                 {
-                    ArrowsUIState.OceanArrowVisible = false;
+                    // ArrowsUIState.OceanArrowVisible = false;
                 }
             }
             catch { }
@@ -209,11 +209,11 @@ namespace EEMod
                 SubWorldSpecificVolcanoInsidePos = new Vector2(198, 198);
             }
 
-            //VolcanoArrowProj voclanoarrow = (VolcanoArrowProj)Main.projectile[Arrow2].modProjectile;
+            //VolcanoArrowProj voclanoarrow = (VolcanoArrowProj)Main.projectile[Arrow2].ModProjectile;
 
-            if (Helpers.PointInRectangle(player.Center / 16, SubWorldSpecificVolcanoInsidePos.X - 4, SubWorldSpecificVolcanoInsidePos.Y - 4, 8, 8))
+            if (Helpers.PointInRectangle(Player.Center / 16, SubWorldSpecificVolcanoInsidePos.X - 4, SubWorldSpecificVolcanoInsidePos.Y - 4, 8, 8))
             {
-                if (player.controlUp)
+                if (Player.controlUp)
                 {
                     Initialize();
                     SubworldManager.EnterSubworld<CoralReefs>();
@@ -225,7 +225,7 @@ namespace EEMod
             else
             {
                 //voclanoarrow.visible = false;
-                ArrowsUIState.DesertArrowVisible = false;
+                // ArrowsUIState.DesertArrowVisible = false;
             }
         }
 
@@ -247,7 +247,7 @@ namespace EEMod
 
             if (seamapUpdateCount == 5)
             {
-                player.AddBuff(BuffID.Cursed, 100000);
+                Player.AddBuff(BuffID.Cursed, 100000);
                 NPC.NewNPC(193 * 16, (120 - 30) * 16, NPCType<SansSlime>());
                 NPC.NewNPC(207 * 16, (120 - 30) * 16, NPCType<GreenSlimeGoBurr>());
             }
@@ -307,8 +307,8 @@ namespace EEMod
 
                     foreach (Vector2 tile in missingShipTiles)
                     {
-                        int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8 + (-3 * 16), 8 + (-6 * 16)), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
-                        WhiteBlock newProj = Main.projectile[proj].modProjectile as WhiteBlock;
+                        int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ProjectileType<WhiteBlock>()), tile * 16 + new Vector2(8 + (-3 * 16), 8 + (-6 * 16)), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
+                        WhiteBlock newProj = Main.projectile[proj].ModProjectile as WhiteBlock;
                         newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
                     }
                 }
@@ -325,7 +325,7 @@ namespace EEMod
             {
                 if (prevKey == KeyID.Sea)
                 {
-                    player.Center = new Vector2(100 * 16, (TileCheckWater(100) - 22) * 16);
+                    Player.Center = new Vector2(100 * 16, (TileCheckWater(100) - 22) * 16);
                 }
             }
             /*if (markerPlacer == 10 && EEModConfigClient.Instance.ParticleEffects)
@@ -362,15 +362,15 @@ namespace EEMod
 
                 foreach (Vector2 tile in missingShipTiles)
                 {
-                    int proj = Projectile.NewProjectile(tile * 16 + new Vector2(8 + (-3 * 16), 8 + (-6 * 16)), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
-                    WhiteBlock newProj = (WhiteBlock)Main.projectile[proj].modProjectile;
+                    int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_TileInteraction(Main.LocalPlayer, (int)tile.X, (int)tile.Y), tile * 16 + new Vector2(8 + (-3 * 16), 8 + (-6 * 16)), Vector2.Zero, ProjectileType<WhiteBlock>(), 0, 0);  // here
+                    WhiteBlock newProj = (WhiteBlock)Main.projectile[proj].ModProjectile;
 
                     newProj.itemTexture = missingShipTilesItems[missingShipTilesRespectedPos.IndexOf(tile)];
                 }
             }
             /* if (EntracesPosses.Count > 0)
              {
-                 if (Main.projectile[Arrow].modProjectile is DesArrowProjectile arrow)
+                 if (Main.projectile[Arrow].ModProjectile is DesArrowProjectile arrow)
                  {
                      Vector2 entrace = EntracesPosses[0];
                      if (Helpers.PointInRectangle(player.Center / 16, entrace.X + 10, entrace.Y + 5, 4, 4))

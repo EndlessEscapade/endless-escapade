@@ -18,7 +18,7 @@ namespace EEMod
         }
         public override void PostDrawProjectiles()
         {
-            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, null, Main.instance.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             EEMod.Particles.Draw(Main.spriteBatch);
             Main.spriteBatch.End();
         }

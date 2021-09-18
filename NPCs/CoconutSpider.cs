@@ -124,7 +124,7 @@ namespace EEMod.NPCs
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    if (!tile?.IsActive is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         tilePos.X = i * 16;
                         tilePos.Y = j * 16;
@@ -141,7 +141,7 @@ namespace EEMod.NPCs
                 for (int j = minTilePosY; j < maxTilePosY; ++j)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    if (!tile?.IsActive is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         Vector2 vector2;
                         vector2.X = i * 16;

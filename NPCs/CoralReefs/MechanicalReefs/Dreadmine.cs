@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
@@ -19,8 +20,8 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             Projectile.height = 40;
             Projectile.penetrate = -1;
 
-            Projectile.tileCollide = false;
-            Projectile.friendly = false;
+            // Projectile.tileCollide = false;
+            // Projectile.friendly = false;
             Projectile.hostile = true;
             Projectile.damage = 200;
         }
@@ -39,7 +40,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             {
                 Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Pixie);
             }
-            Main.PlaySound(SoundID.DD2_ExplosiveTrapExplode);
+            SoundEngine.PlaySound(SoundID.DD2_ExplosiveTrapExplode);
             Projectile.Kill();
             OwnerNpc.StrikeNPC(55, 0, 0);
         }

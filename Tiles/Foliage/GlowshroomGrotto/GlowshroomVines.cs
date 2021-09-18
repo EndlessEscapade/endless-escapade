@@ -27,7 +27,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Tile tile = Framing.GetTileSafely(i, j + 1);
-            if (tile.active() && tile.type == Type)
+            if (tile.IsActive && tile.type == Type)
             {
                 WorldGen.KillTile(i, j + 1);
             }
@@ -37,7 +37,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
         {
             Tile tileAbove = Framing.GetTileSafely(i, j - 1);
             int type = -1;
-            if (tileAbove.active())
+            if (tileAbove.IsActive)
             {
                 type = tileAbove.type;
             }
@@ -48,18 +48,18 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
         public override void RandomUpdate(int i, int j)
         {
             Tile tileBelow = Framing.GetTileSafely(i, j + 1);
-            if (WorldGen.genRand.NextBool(15) && !tileBelow.active() && !tileBelow.lava())
+            if (WorldGen.genRand.NextBool(15) && !tileBelow.IsActive && !(tileBelow.LiquidType == 1))
             {
                 bool placeVine = false;
                 int yTest = j;
                 while (yTest > j - 10)
                 {
                     Tile testTile = Framing.GetTileSafely(i, yTest);
-                    if (testTile.bottomSlope())
+                    /*if (testTile.bottomSlope())
                     {
                         break;
                     }
-                    else if (!testTile.active() || testTile.type != ModContent.TileType<GemsandstoneTile>() || testTile.type == ModContent.TileType<LightGemsandstoneTile>())
+                    else */if (!testTile.IsActive || testTile.type != ModContent.TileType<GemsandstoneTile>() || testTile.type == ModContent.TileType<LightGemsandstoneTile>())
                     {
                         yTest--;
                         continue;
@@ -70,7 +70,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
                 if (placeVine)
                 {
                     tileBelow.type = Type;
-                    tileBelow.active(true);
+                    tileBelow.IsActive = true;
                     WorldGen.SquareTileFrame(i, j + 1, true);
                     if (Main.netMode == NetmodeID.Server)
                     {
@@ -98,14 +98,14 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
                 tile = Framing.GetTileSafely(i,j - step);
             }
             Vector2 position = new Vector2(i * 16 + (float)Math.Sin(Main.GameUpdateCount/(90f + i%10) + i)*(step * step * 0.1f), j * 16).ForDraw() + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/GlowshroomGrotto/GlowshroomVines");
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/GlowshroomGrotto/GlowshroomVines").Value;
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
 
                         Color chosen = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(1f));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.005f));
-            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), mod.GetTexture("Particles/SmallCircle"), 60, 0.75f, chosen, new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 60, 0.75f, chosen, new SetMask(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
 
             return false;
         }

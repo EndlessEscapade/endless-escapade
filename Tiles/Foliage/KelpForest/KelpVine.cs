@@ -27,7 +27,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Tile tile = Framing.GetTileSafely(i, j + 1);
-            if (tile.active() && tile.type == Type)
+            if (tile.IsActive && tile.type == Type)
             {
                 WorldGen.KillTile(i, j + 1);
             }
@@ -37,7 +37,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             Tile tileAbove = Framing.GetTileSafely(i, j - 1);
             int type = -1;
-            if (tileAbove.active())
+            if (tileAbove.IsActive)
             {
                 type = tileAbove.type;
             }
@@ -48,18 +48,18 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override void RandomUpdate(int i, int j)
         {
             Tile tileBelow = Framing.GetTileSafely(i, j + 1);
-            if (WorldGen.genRand.NextBool(15) && !tileBelow.active() && !tileBelow.lava())
+            if (WorldGen.genRand.NextBool(15) && !tileBelow.IsActive && !(tileBelow.LiquidType == 1))
             {
                 bool placeVine = false;
                 int yTest = j;
                 while (yTest > j - 10)
                 {
                     Tile testTile = Framing.GetTileSafely(i, yTest);
-                    if (testTile.bottomSlope())
+                    if (testTile.Slope != 0)
                     {
                         break;
                     }
-                    else if (!testTile.active() || testTile.type != ModContent.TileType<GemsandstoneTile>() || testTile.type == ModContent.TileType<LightGemsandstoneTile>())
+                    else if (!testTile.IsActive || testTile.type != ModContent.TileType<GemsandstoneTile>() || testTile.type == ModContent.TileType<LightGemsandstoneTile>())
                     {
                         yTest--;
                         continue;
@@ -70,7 +70,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 if (placeVine)
                 {
                     tileBelow.type = Type;
-                    tileBelow.active(true);
+                    tileBelow.IsActive = true;
                     WorldGen.SquareTileFrame(i, j + 1, true);
                     if (Main.netMode == NetmodeID.Server)
                     {
@@ -98,8 +98,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 tile = Framing.GetTileSafely(i,j - step);
             }
             Vector2 position = new Vector2(i * 16 + (float)Math.Sin(Main.GameUpdateCount/(90f + i%10) + i)*(step * step * 0.1f), j * 16).ForDraw() + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpForest/KelpVine");
-            Texture2D texture2 = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/KelpForest/KelpVineGlowmask");
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/KelpVine").Value;
+            Texture2D texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/KelpVineGlowmask").Value;
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(texture2, position, rect, color * (float)Math.Sin(Main.GameUpdateCount / 90f + i + j), 0f, default, 1f, SpriteEffects.None, 0f);

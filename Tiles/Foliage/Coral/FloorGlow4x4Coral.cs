@@ -26,7 +26,7 @@ namespace EEMod.Tiles.Foliage.Coral
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
@@ -46,7 +46,7 @@ namespace EEMod.Tiles.Foliage.Coral
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/Coral/FloorGlow4x4CoralGlow"), i, j);
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Coral/FloorGlow4x4CoralGlow").Value, i, j);
         }
     }
 }

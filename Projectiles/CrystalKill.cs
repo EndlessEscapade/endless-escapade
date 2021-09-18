@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace EEMod.Projectiles    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
 {
@@ -13,10 +14,10 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
         {
             Projectile.width = 12;  //Set the hitbox width
             Projectile.height = 12;
-            Projectile.hostile = false;//Set the hitbox height
+            // Projectile.hostile = false;//Set the hitbox height
             Projectile.friendly = true;  //Tells the game whether it is friendly to players/friendly npcs or not
             Projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
-            Projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
+            Projectile.DamageType = DamageClass.Ranged;  //Tells the game whether it is a ranged projectile or not
             Projectile.penetrate = -1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
             Projectile.timeLeft = 50;  //The amount of time the projectile is alive for
             Projectile.tileCollide = true;
@@ -81,9 +82,9 @@ namespace EEMod.Projectiles    //We need this to basically indicate the folder w
                 int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.YellowTorch, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(255, 255, 153, 255), 2f);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].velocity *= 1.2f;
-                Main.dust[num].noLight = false;
+                // Main.dust[num].noLight = false;
             }
-            Main.PlaySound(SoundID.Item27, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
         }
 
         public override void OnHitPlayer(Player player, int damage, bool crit)

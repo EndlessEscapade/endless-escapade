@@ -41,7 +41,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
                 Vector2 comedy = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
                 for (float i = 0; i < projCount; i++)
                 {
-                    Projectile projectile2 = Projectile.NewProjectileDirect(projOwner.Center, comedy.RotatedBy(-(projCount / 2) + i) / Max * speed, newProj, 10, 10f, Main.myPlayer);
+                    Projectile projectile2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), projOwner.Center, comedy.RotatedBy(-(projCount / 2) + i) / Max * speed, newProj, 10, 10f, Main.myPlayer);
                 }
             }
             if (Math.Abs(gravAccel - minGrav) < 0.3f && !vanillaFlag)
@@ -54,7 +54,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
                     Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 113, offset * 0.5f);
                     dust.noGravity = true;
                     dust.velocity *= 0.94f;
-                    dust.noLight = false;
+                    // dust.noLight = false;
                 }
                 vanillaFlag = true;
                 Projectile.ai[1] = 1;
@@ -85,7 +85,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
                     grav += gravAccel;
                     Vector2 intendedPath = projOwner.Center + (Main.MouseWorld - projOwner.Center + new Vector2(0, grav)) * (i / Max);
-                    spriteBatch.Draw(Main.magicPixel, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * diff, 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * diff, 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
                 }
             }
             return true;

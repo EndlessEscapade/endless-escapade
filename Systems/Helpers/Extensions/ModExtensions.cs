@@ -25,7 +25,7 @@ namespace EEMod.Extensions
             }
         }
 
-        public static int GetMusicSoundSlot(this Mod mod, string name) => mod.GetSoundSlot(SoundType.Music, "Sounds/Music" + name);
+        //public static int GetMusicSoundSlot(this Mod mod, string name) => mod.GetSoundSlot(SoundType.Music, "Sounds/Music" + name);
 
         public static TmodFile GetFile(this Mod mod) => GetFileDelegate.Invoke(mod);
     }

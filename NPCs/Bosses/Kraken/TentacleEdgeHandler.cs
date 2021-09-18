@@ -51,7 +51,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             NPC.TargetClosest(true);
             player = Main.player[NPC.target];
             NPC.Center = player.Center - new Vector2(-200, 0);
-            krakenHead = Main.npc[(int)NPC.ai[0]].modNPC as KrakenHead;
+            krakenHead = Main.npc[(int)NPC.ai[0]].ModNPC as KrakenHead;
             npcBase = Main.npc[(int)NPC.ai[0]];
             NPC.ai[1]++;
         }
@@ -104,7 +104,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                         coolDownForCollision = cooldown;
                         NPC.netUpdate = true;
                     }
-                    Helpers.DrawBezier(Main.spriteBatch, ModContent.GetInstance<EEMod>().GetTexture("NPCs/Bosses/Kraken/TentacleChain"), "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, MathHelper.PiOver2);
+                    Helpers.DrawBezier(Main.spriteBatch, ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Bosses/Kraken/TentacleChain").Value, "", drawColor, startingPoint[i], endingPoint[i], midPoint[i], midPoint[i], chainsPer, MathHelper.PiOver2);
                     /*if (npc.ai[1] % 8 == 0)
                     {
                         Rectangle playerHitBox = new Rectangle((int)Main.player[npc.target].Center.X, (int)Main.player[npc.target].Center.Y, Main.player[npc.target].width, Main.player[npc.target].height);
@@ -123,7 +123,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                     }*/
                 }
             }
-            Texture2D oil = mod.GetTexture("NPCs/Bosses/Kraken/Oil");
+            Texture2D oil = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Kraken/Oil").Value;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
             for (int i = -10; i < 10; i++)

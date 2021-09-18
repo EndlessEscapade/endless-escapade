@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.World.Generation;
+using Terraria.WorldBuilding;
 using static EEMod.EEWorld.EEWorld;
 using EEMod.Autoloading;
 using EEMod.ID;
@@ -36,7 +36,7 @@ namespace EEMod
             SubworldManager.PostReset(customProgressObject);
             FillRegion(400, 400, Vector2.Zero, TileID.SandstoneBrick);
             Pyramid(63, 42);
-            EEMod.isSaving = false;
+            // EEMod.isSaving = false;
         }
 
         public static void Island(int seed, GenerationProgress customProgressObject = null)
@@ -105,7 +105,7 @@ namespace EEMod
             PlaceAnyBuilding(400, 100, WaterShrine);
             PlaceAnyBuilding(500, 100, LeafShrine);*/
             SubworldManager.SettleLiquids();
-            EEMod.isSaving = false;
+            // EEMod.isSaving = false;
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;
         }
@@ -172,7 +172,7 @@ namespace EEMod
             WorldGen.AddTrees();
 
             SubworldManager.SettleLiquids();
-            EEMod.isSaving = false;
+            // EEMod.isSaving = false;
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;
         }
@@ -201,7 +201,7 @@ namespace EEMod
             KillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero);
             FillWall(Main.maxTilesX, Main.maxTilesY, Vector2.Zero, ModContent.WallType<MagmastoneWallTile>());*/
             SubworldManager.SettleLiquids();
-            EEMod.isSaving = false;
+            // EEMod.isSaving = false;
             Main.spawnTileX = 200;
             Main.spawnTileY = 140;
         }
@@ -231,7 +231,7 @@ namespace EEMod
             MakeVolcanoEntrance(598, 596, VolcanoEntrance);
 
             SubworldManager.SettleLiquids();
-            EEMod.isSaving = false;
+            // EEMod.isSaving = false;
             Main.spawnTileX = 200;
             Main.spawnTileY = 100;
         }

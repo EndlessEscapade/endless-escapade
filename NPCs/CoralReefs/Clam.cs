@@ -25,13 +25,13 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.width = 84;
             NPC.height = 53;
-            NPC.noGravity = false;
+            // NPC.noGravity = false;
             NPC.knockBackResist = 0f;
 
             NPC.npcSlots = 1f;
             NPC.buffImmune[BuffID.Confused] = true;
-            NPC.lavaImmune = false;
-            banner = NPC.type;
+            // NPC.lavaImmune = false;
+            BannerItem = NPC.type;
             //bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
             NPC.value = Item.sellPrice(0, 0, 0, 75);
         }
@@ -57,7 +57,7 @@ namespace EEMod.NPCs.CoralReefs
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    if (tile?.IsActive is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         tilePos.X = i * 16f;
                         tilePos.Y = j * 16f;
@@ -123,7 +123,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/ClamGlow"), NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/ClamGlow").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
 }

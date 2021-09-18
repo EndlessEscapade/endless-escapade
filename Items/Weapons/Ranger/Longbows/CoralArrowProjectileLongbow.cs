@@ -20,7 +20,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
             Projectile.alpha = 0;
             Projectile.timeLeft = 600;
             Projectile.penetrate = 1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
@@ -54,7 +54,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
                         Dust dust = Dust.NewDustPerfect(Projectile.Center, 113, offset);
                         dust.noGravity = true;
                         dust.velocity *= 0.98f;
-                        dust.noLight = false;
+                        // dust.noLight = false;
                         dust.fadeIn = 1f;
                     }
                 Projectile.damage = 1000;
@@ -73,7 +73,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
                     Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, 113, offset * 0.5f);
                     dust.noGravity = true;
                     dust.velocity *= 0.97f;
-                    dust.noLight = false;
+                    // dust.noLight = false;
                 }
             }
         }

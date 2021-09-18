@@ -19,8 +19,8 @@ namespace EEMod.NPCs
             NPC.height = 160;
             NPC.noGravity = true;
             NPC.buffImmune[BuffID.Confused] = true;
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
         }
     }
 }

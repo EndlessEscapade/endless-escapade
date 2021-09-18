@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
+using Terraria.Audio;
 
 namespace EEMod.Tiles.Furniture.Chests
 {
@@ -21,15 +22,15 @@ namespace EEMod.Tiles.Furniture.Chests
             Main.tileShine[Type] = 1200;
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
-            Main.tileValue[Type] = 500;
+            //Main.tileValue[Type] = 500;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 };
-            TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
-            TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
+            //TileObjectData.newTile.HookCheck = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.FindEmptyChest), -1, 0, true);
+            //TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(new Func<int, int, int, int, int, int>(Chest.AfterPlacement_Hook), -1, 0, false);
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
@@ -37,9 +38,8 @@ namespace EEMod.Tiles.Furniture.Chests
             AddMapEntry(new Color(255, 0, 0), name);
             dustType = DustID.Dirt;
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Containers };
-            chestDrop = ModContent.ItemType<GemsandChest>();
-            chest = "Gemsand Chest";
+            AdjTiles = new int[] { TileID.Containers };
+            ChestDrop = ModContent.ItemType<GemsandChest>();
         }
 
         public string MapChestName(string name, int i, int j)
@@ -73,15 +73,15 @@ namespace EEMod.Tiles.Furniture.Chests
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, chestDrop);
+            Item.NewItem(i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
             Tile tile = Framing.GetTileSafely(i, j);
-            Main.mouseRightRelease = false;
+            // Main.mouseRightRelease = false;
             int left = i;
             int top = j;
             if (tile.frameX % 36 != 0)
@@ -94,21 +94,21 @@ namespace EEMod.Tiles.Furniture.Chests
             }
             if (player.sign >= 0)
             {
-                Main.PlaySound(SoundID.MenuClose);
+                SoundEngine.PlaySound(SoundID.MenuClose);
                 player.sign = -1;
-                Main.editSign = false;
+                // Main.editSign = false;
                 Main.npcChatText = "";
             }
             if (Main.editChest)
             {
-                Main.PlaySound(SoundID.MenuTick);
-                Main.editChest = false;
+                SoundEngine.PlaySound(SoundID.MenuTick);
+                // Main.editChest = false;
                 Main.npcChatText = "";
             }
             if (player.editedChestName)
             {
                 NetMessage.SendData(MessageID.SyncPlayerChest, -1, -1, NetworkText.FromLiteral(Main.chest[player.chest].name), player.chest, 1f, 0f, 0f, 0, 0, 0);
-                player.editedChestName = false;
+                // player.editedChestName = false;
             }
             if (Main.netMode == NetmodeID.MultiplayerClient)
             {
@@ -116,7 +116,7 @@ namespace EEMod.Tiles.Furniture.Chests
                 {
                     player.chest = -1;
                     Recipe.FindRecipes();
-                    Main.PlaySound(SoundID.MenuClose);
+                    SoundEngine.PlaySound(SoundID.MenuClose);
                 }
                 else
                 {
@@ -133,16 +133,16 @@ namespace EEMod.Tiles.Furniture.Chests
                     if (chest == player.chest)
                     {
                         player.chest = -1;
-                        Main.PlaySound(SoundID.MenuClose);
+                        SoundEngine.PlaySound(SoundID.MenuClose);
                     }
                     else
                     {
                         player.chest = chest;
                         Main.playerInventory = true;
-                        Main.recBigList = false;
+                        // Main.recBigList = false;
                         player.chestX = left;
                         player.chestY = top;
-                        Main.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
+                        SoundEngine.PlaySound(player.chest < 0 ? SoundID.MenuOpen : SoundID.MenuTick);
                     }
                     Recipe.FindRecipes();
                 }
@@ -165,34 +165,34 @@ namespace EEMod.Tiles.Furniture.Chests
                 top--;
             }
             int chest = Chest.FindChest(left, top);
-            player.showItemIcon2 = -1;
+            player.cursorItemIconID = -1;
             if (chest < 0)
             {
-#pragma warning disable CS0618 // El tipo o el miembro están obsoletos
-                player.showItemIconText = Lang.chestType[0].Value; // TODO: Change to Language.GetText
-#pragma warning restore CS0618 // El tipo o el miembro están obsoletos
+#pragma warning disable CS0618 // El tipo o el miembro estÃ¡n obsoletos
+                player.cursorItemIconText = Lang.chestType[0].Value; // TODO: Change to Language.GetText
+#pragma warning restore CS0618 // El tipo o el miembro estÃ¡n obsoletos
             }
             else
             {
-                player.showItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Gemsand Chest";
-                if (player.showItemIconText == "Gemsand Chest")
+                player.cursorItemIconText = Main.chest[chest].name.Length > 0 ? Main.chest[chest].name : "Gemsand Chest";
+                if (player.cursorItemIconText == "Gemsand Chest")
                 {
-                    player.showItemIcon2 = ModContent.ItemType<GemsandChest>();
-                    player.showItemIconText = "";
+                    player.cursorItemIconID = ModContent.ItemType<GemsandChest>();
+                    player.cursorItemIconText = "";
                 }
             }
             player.noThrow = 2;
-            player.showItemIcon = true;
+            player.cursorItemIconEnabled = true;
         }
 
         public override void MouseOverFar(int i, int j)
         {
             MouseOver(i, j);
             Player player = Main.LocalPlayer;
-            if (player.showItemIconText == "")
+            if (player.cursorItemIconText == "")
             {
-                player.showItemIcon = false;
-                player.showItemIcon2 = 0;
+                // player.showItemIcon = false;
+                player.cursorItemIconID = 0;
             }
         }
     }

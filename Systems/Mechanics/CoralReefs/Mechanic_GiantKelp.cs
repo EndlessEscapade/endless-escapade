@@ -32,14 +32,14 @@ namespace EEMod
                         Tile LastTile = Framing.GetTileSafely((int)CoralReefs.GiantKelpRoots[i - 1].X, (int)CoralReefs.GiantKelpRoots[i - 1].Y);
                         Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.2f);
                         Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.8f);
-                        bool isValid = CurrentTile.active() && LastTile.active() && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type] &&
-                            !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).active()
-                            && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).active()
-                            && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).active()
+                        bool isValid = CurrentTile.IsActive && LastTile.IsActive && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type] &&
+                            !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).IsActive
+                            && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).IsActive
+                            && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).IsActive
                             && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1);
                         if (isValid)
                         {
-                            Texture2D GiantKelp = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/GiantKelpColumn");
+                            Texture2D GiantKelp = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/GiantKelpColumn").Value;
                             Point MP = Mid.ToTileCoordinates();
                             Helpers.DrawChain(GiantKelp, 58, ((int)(Main.GameUpdateCount / 8)) % 9, ChainConneccPos, LastChainConneccPos, 0, 1, Lighting.GetColor((int)ChainConneccPos.X, (int)ChainConneccPos.Y));
                         }

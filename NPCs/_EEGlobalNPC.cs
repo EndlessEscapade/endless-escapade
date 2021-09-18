@@ -15,7 +15,7 @@ namespace EEMod.NPCs
 {
     public class EEGlobalNPC : GlobalNPC
     {
-        public override void NPCLoot(NPC npc)
+        public override void OnKill(NPC npc)
         {
             /*if (Main.LocalPlayer.GetModPlayer<EEPlayer>().Cheese1 == false)
             {

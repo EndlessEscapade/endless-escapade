@@ -30,8 +30,8 @@ namespace EEMod
             Vector2 p4 = new Vector2((tilePos.X - spread) * 16, up2 * 16);
             Vector2 p5 = new Vector2((tilePos.X + spread) * 16, down3 * 16);
             Vector2 p6 = new Vector2((tilePos.X + spread) * 16, up3 * 16);
-            Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/LightBlue");
-            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/BigVine");
+            Texture2D BlueLight = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/LightBlue").Value;
+            Texture2D vineTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/BigVine").Value;
             float Addon = 10;
             float cockandbol = 0.8f;
             float bolandcock = 7f;
@@ -80,8 +80,8 @@ namespace EEMod
             }
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            EEMod.Noise2DShift.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/Noise/noise"));
-            EEMod.Noise2DShift.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/Noise/WormNoisePixelated"));
+            EEMod.Noise2DShift.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            EEMod.Noise2DShift.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/WormNoisePixelated").Value);
             EEMod.Noise2DShift.Parameters["yCoord"].SetValue((float)Math.Sin(sineInt) * 0.2f);
             EEMod.Noise2DShift.Parameters["xCoord"].SetValue((float)Math.Cos(sineInt) * 0.2f);
 
@@ -89,7 +89,7 @@ namespace EEMod
 
 
             EEMod.Noise2DShift.Parameters["lightColour"].SetValue(Lighting.GetColor((int)tilePos.X, (int)tilePos.Y).ToVector3());
-            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Textures/BulbousBall");
+            Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/BulbousBall").Value;
             int SineTicks = (int)(Math.Sin(sineInt * 4) * 10);
             float SineTicksF = (float)(Math.Sin(sineInt /8f + position.X) * 10);
             int CosTicks = (int)(Math.Cos(sineInt * 4) * 10);

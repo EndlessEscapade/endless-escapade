@@ -28,7 +28,7 @@ namespace EEMod
         {
             if (!InSubworld) PrimaryWorldName = Main.ActiveWorldFileData.Name;
 
-            CurrentSubworld?.PlayerUpdate(player);
+            CurrentSubworld?.PlayerUpdate(Player);
         }
     }
 }

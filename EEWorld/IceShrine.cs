@@ -15,9 +15,9 @@ namespace EEMod.EEWorld
             internal const ushort F = TileID.Torches;
             internal const ushort G = TileID.HangingLanterns;
             internal const ushort H = TileID.WoodenBeam;
-            internal const byte J = WallID.MudstoneBrick;
-            internal const byte K = WallID.SnowBrick;
-            internal const byte L = WallID.IceFloeWallpaper;
+            internal const byte J = (byte)WallID.MudstoneBrick;
+            internal const byte K = (byte)WallID.SnowBrick;
+            internal const byte L = (byte)WallID.IceFloeWallpaper;
         }
 
         public static int[,,] IceShrine => new int[,,]

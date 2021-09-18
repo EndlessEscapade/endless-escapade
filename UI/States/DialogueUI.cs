@@ -65,16 +65,16 @@ namespace EEMod.UI.States
 				}
 			}
 			var dimensions = DialoguePoint.GetDimensions();
-			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Main.fontMouseText, CurrentDialogue, new Vector2(dimensions.X, dimensions.Y), Color.White, 0f, Vector2.Zero, new Vector2(1.15f, 1.15f));
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Terraria.GameContent.FontAssets.MouseText.Value, CurrentDialogue, new Vector2(dimensions.X, dimensions.Y), Color.White, 0f, Vector2.Zero, new Vector2(1.15f, 1.15f));
 		}
 	}
 	public class DialogueBox : UIImageButton
 	{
 		public Texture2D Texture;
 		public Color ThemeColor;
-		public DialogueBox() : base(ModContent.GetTexture("EEMod/UI/DialogueBoxBackground"))
+		public DialogueBox() : base(ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxBackground"))
 		{
-			Texture = ModContent.GetTexture("EEMod/UI/DialogueBoxBackground");
+			Texture = ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxBackground").Value;
 			ThemeColor = Color.LightBlue;
 			SetVisibility(0.9f, 0.9f);
 		}

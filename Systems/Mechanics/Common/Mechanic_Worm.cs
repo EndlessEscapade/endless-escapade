@@ -38,15 +38,15 @@ namespace EEMod
         float lerp;
         public override void OnDraw()
         {
-           // Main.spriteBatch.Draw(Main.magicPixel, ControlSegment.position.ForDraw(), new Rectangle(0, 0, 8, 8), color);
+           // Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, ControlSegment.position.ForDraw(), new Rectangle(0, 0, 8, 8), color);
         }
 
         public override void SegmentDraw(SpriteBatch spriteBatch, Segment segment)
         {
            // if(segment.index % 2 == 0)
-           // Main.spriteBatch.Draw(Main.magicPixel, segment.position.ForDraw(), new Rectangle(0, 0, 5, 5), color);
+           // Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, segment.position.ForDraw(), new Rectangle(0, 0, 5, 5), color);
            // else
-           // Main.spriteBatch.Draw(Main.magicPixel, segment.position.ForDraw(), new Rectangle(0, 0, 5, 5), color);
+           // Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, segment.position.ForDraw(), new Rectangle(0, 0, 5, 5), color);
         }
         public override void OnLoad()
         {
@@ -69,7 +69,7 @@ namespace EEMod
                     {
                         Tile tile = Framing.GetTileSafely(tilePos.X + i, tilePos.Y + j);
                         float pdist = Vector2.DistanceSquared(ControlSegment.position, new Vector2(tilePos.X + i, tilePos.Y + j) * 16);
-                        if (pdist < range * range && pdist > 0 && tile.active() && Main.tileSolid[tile.type])
+                        if (pdist < range * range && pdist > 0 && tile.IsActive && Main.tileSolid[tile.type])
                         {
                             Vector2 d = ControlSegment.position - new Vector2(tilePos.X + i, tilePos.Y + j) * 16;
                             Vector2 norm = Vector2.Normalize(d);

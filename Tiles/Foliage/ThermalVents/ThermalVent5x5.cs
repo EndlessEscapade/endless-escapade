@@ -46,7 +46,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
 
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            Helpers.DrawTileGlowmask(mod.GetTexture("Tiles/Foliage/ThermalVents/ThermalVent5x5Glow"), i, j);
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/ThermalVents/ThermalVent5x5Glow").Value, i, j);
         }
     }
 }

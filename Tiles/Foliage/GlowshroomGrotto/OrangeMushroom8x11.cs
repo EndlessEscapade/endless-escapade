@@ -28,7 +28,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
@@ -85,7 +85,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
                     Vector2 prev = new Vector2(0, 18);
                     for (int k = 0; k < 4; k++)
                     {
-                        Texture2D tex = mod.GetTexture(path + tentacleTex[k]);
+                        Texture2D tex = Mod.Assets.Request<Texture2D>(path + tentacleTex[k]).Value;
 
                         Vector2 next = prev + new Vector2(0, 18).RotatedBy((-Math.Sin((Main.GameUpdateCount / 40f) + l + i + j).PositiveSin() / 5f) * (k / 2f) - (l * 0.1f));
 
@@ -101,9 +101,9 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 
                 Vector2 drawPos = new Vector2(i * 16, j * 16).ForDraw() + zero;
 
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom8x11Mushroots"), new Rectangle((int)drawPos.X, (int)drawPos.Y, 128, 176), new Rectangle(0, 0, 128, 176), Lighting.GetColor(i, j));
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom8x11Mushroots").Value, new Rectangle((int)drawPos.X, (int)drawPos.Y, 128, 176), new Rectangle(0, 0, 128, 176), Lighting.GetColor(i, j));
 
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom8x11Cap"), new Rectangle((int)drawPos.X, (int)drawPos.Y, 128, 176), new Rectangle(0, 0, 128, 176), color);
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom8x11Cap").Value, new Rectangle((int)drawPos.X, (int)drawPos.Y, 128, 176), new Rectangle(0, 0, 128, 176), color);
             }
         }
 
@@ -112,7 +112,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             Color chosen = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(1f));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.005f));
-            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), mod.GetTexture("Particles/SmallCircle"), 60, 0.75f, chosen, new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 60, 0.75f, chosen, new SetMask(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
 
             if (Framing.GetTileSafely(i, j).frameX >= 80 && Framing.GetTileSafely(i, j).frameY >= 144)
             {
@@ -131,7 +131,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 
                 Vector2 offsetOrig = new Vector2(24 - (frameX - 80), 32 - (frameY - 144));
 
-                Texture2D tex = mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom8x11Minishroom");
+                Texture2D tex = Mod.Assets.Request<Texture2D>("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom8x11Minishroom").Value;
 
                 float lerpVal = (i - (tile.frameX / 16f)) + (j - (tile.frameY / 16f));
 

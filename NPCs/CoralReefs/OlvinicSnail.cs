@@ -52,8 +52,8 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.buffImmune[BuffID.Confused] = true;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 

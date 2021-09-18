@@ -21,7 +21,7 @@ namespace EEMod.Items.Weapons.Ranger
             Projectile.height = 12;
             Projectile.timeLeft = 600;
             Projectile.ignoreWater = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
         }
@@ -50,7 +50,7 @@ namespace EEMod.Items.Weapons.Ranger
                     Dust dust = Dust.NewDustPerfect(Projectile.Center, 219, offset * 0.5f, 0, Color.Red);
                     dust.noGravity = true;
                     dust.velocity *= 0.94f;
-                    dust.noLight = false;
+                    // dust.noLight = false;
                     dust.fadeIn = 1f;
                 }
             }

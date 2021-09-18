@@ -9,9 +9,9 @@ using Terraria.ModLoader;
 
 namespace EEMod.Tiles.Foliage.Aquamarine
 {
-    public class AquamarinePillar : ModTile
+    public class AquamarinePillar : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileCut[Type] = false;
             Main.tileBlockLight[Type] = true;
@@ -29,7 +29,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             Tile tile = Framing.GetTileSafely(i, j + 1);
             Tile tile2 = Framing.GetTileSafely(i, j - 1);
 
-            if (tile.active() && tile.type == Type && tile2.active() && tile2.type == Type)
+            if (tile.IsActive && tile.type == Type && tile2.IsActive && tile2.type == Type)
             {
                 WorldGen.KillTile(i, j + 1);
                 WorldGen.KillTile(i, j - 1);
@@ -69,7 +69,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 
             Vector2 position = new Vector2(i * 16, j * 16).ForDraw() + zero;
 
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/Aquamarine/AquamarinePillar");
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarinePillar").Value;
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
 
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);

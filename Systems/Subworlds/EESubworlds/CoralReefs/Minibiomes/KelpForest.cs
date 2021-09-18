@@ -91,7 +91,7 @@ namespace EEMod.EEWorld
                 {
                     for (int a = 0; a < WorldGen.genRand.Next(8, 25); a++)
                     {
-                        if (!Framing.GetTileSafely(i, j + a).active())
+                        if (!Framing.GetTileSafely(i, j + a).IsActive)
                             WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>());
                     }
                 }
@@ -174,7 +174,7 @@ namespace EEMod.EEWorld
             BoundClause((int i, int j) =>
             {
                 Tile tile = Framing.GetTileSafely(i, j);
-                if (tile.active() && !Framing.GetTileSafely(i, j - 1).active() && (
+                if (tile.IsActive && !Framing.GetTileSafely(i, j - 1).IsActive && (
                     tile.type == ModContent.TileType<GemsandTile>()
                     || tile.type == ModContent.TileType<LightGemsandTile>()
                     || tile.type == ModContent.TileType<DarkGemsandTile>()

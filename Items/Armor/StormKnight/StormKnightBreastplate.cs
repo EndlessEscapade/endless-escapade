@@ -25,16 +25,12 @@ namespace EEMod.Items.Armor.StormKnight
 
         public override void UpdateEquip(Player player)
         {
-            player.allDamage += 0.05f;
+            //player.allDamage += 0.05f;
         }
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<LythenBar>(), 16);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<LythenBar>(), 16).AddTile(TileID.Anvils).Register();
         }
     }
 }

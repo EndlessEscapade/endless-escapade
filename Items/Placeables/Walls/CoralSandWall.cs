@@ -18,7 +18,7 @@ namespace EEMod.Items.Placeables.Walls
             Item.height = 12;
             Item.rare = ItemRarityID.White;
             Item.value = Item.sellPrice(0, 0, 0, 0);
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useAnimation = 15;
             Item.useTime = 7;
             Item.consumable = true;

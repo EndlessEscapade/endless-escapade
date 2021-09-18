@@ -24,13 +24,13 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
             NPC.width = 84;
             NPC.height = 53;
-            NPC.noGravity = false;
+            // NPC.noGravity = false;
             NPC.knockBackResist = 0f;
 
             NPC.npcSlots = 1f;
             NPC.buffImmune[BuffID.Confused] = true;
-            NPC.lavaImmune = false;
-            banner = NPC.type;
+            // NPC.lavaImmune = false;
+            Banner = NPC.type;
             //bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
             NPC.value = Item.sellPrice(0, 0, 0, 75);
         }
@@ -56,7 +56,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile?.nactive() is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    if (tile?.IsActive is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
                     {
                         tilePos.X = i * 16f;
                         tilePos.Y = j * 16f;

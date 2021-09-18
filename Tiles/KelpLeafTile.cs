@@ -30,7 +30,7 @@ namespace EEMod.Tiles
         }
         public override void RandomUpdate(int i, int j)
         {
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).active() && Framing.GetTileSafely(i, j).slope() == 0 && !Framing.GetTileSafely(i, j).halfBrick())
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j).Slope == 0 && !Framing.GetTileSafely(i, j).IsHalfBlock)
                 PlaceGroundGrass(i, j);
         }
         void PlaceGroundGrass(int i, int j)
@@ -68,12 +68,12 @@ namespace EEMod.Tiles
                         break;
                 }
                 float pos = i * 16 + (i + j * a + a * 7) % 16;
-                if ((i + j * a * 2) % 2 != 0)
-                    ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos, j * 16), Chosen, 0f, Color.Lerp(Color.LightGreen, Color.Green, ((i + j + a * 3) % 4) / 4f), false));
-                else
-                {
-                    ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos - ModContent.GetInstance<EEMod>().GetTexture(Chosen).Width, j * 16), Chosen, 0f, Color.Lerp(Color.LightGreen, Color.Green, ((i + j + a * 3) % 4) / 4f), true));
-                }
+                //if ((i + j * a * 2) % 2 != 0)
+                    //ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos, j * 16), Chosen, 0f, Color.Lerp(Color.LightGreen, Color.Green, ((i + j + a * 3) % 4) / 4f), false));
+                //else
+                //{
+                    //ModContent.GetInstance<EEMod>().TVH.AddElement(new Leaf(new Vector2(pos - ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>(Chosen).Value.Width, j * 16), Chosen, 0f, Color.Lerp(Color.LightGreen, Color.Green, ((i + j + a * 3) % 4) / 4f), true));
+                //}
             }
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
@@ -118,7 +118,7 @@ namespace EEMod.Tiles
                 zero = Vector2.Zero;
             }
             Vector2 position = new Vector2(i * 16, j * 16).ForDraw() + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("Tiles/KelpLeafTile");
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/KelpLeafTile").Value;
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Point tp = Main.LocalPlayer.position.ToTileCoordinates();
             if (tp.Y > j - 4 && tp.Y < j && tp.X > i - 1 && tp.X < i + 1)
@@ -131,7 +131,7 @@ namespace EEMod.Tiles
                 float scaleY = 1.2f;
                 Main.spriteBatch.Draw(texture, position + new Vector2(0, 16 * (1 - scaleY)), rect, color, 0f, default, new Vector2(1f, scaleY), SpriteEffects.None, 0f);
             }
-            else if(!Framing.GetTileSafely(i,j - 1).active() || !Main.tileSolid[Framing.GetTileSafely(i, j - 1).type])
+            else if(!Framing.GetTileSafely(i,j - 1).IsActive || !Main.tileSolid[Framing.GetTileSafely(i, j - 1).type])
             {
                 float scaleY = 1.35f;
                 Main.spriteBatch.Draw(texture, position + new Vector2(0, 16 * (1 - scaleY)), rect, color, 0f, default, new Vector2(1f, scaleY), SpriteEffects.None, 0f);

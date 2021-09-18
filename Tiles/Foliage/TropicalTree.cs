@@ -28,7 +28,7 @@ namespace EEMod.Tiles.Foliage
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tropical Tree");
@@ -69,7 +69,7 @@ namespace EEMod.Tiles.Foliage
             }
 
             if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/TropicalTreeLeaves"), new Vector2((i * 16) - 48, (j * 16) - 60) - Main.screenPosition + zero, new Rectangle(0, 0, 120, 100), Lighting.GetColor(i, j));
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/TropicalTreeLeaves").Value, new Vector2((i * 16) - 48, (j * 16) - 60) - Main.screenPosition + zero, new Rectangle(0, 0, 120, 100), Lighting.GetColor(i, j));
         }
     }
 }

@@ -74,8 +74,8 @@ namespace EEMod
 
 
             //Texture2D BlueLight = ModContent.GetInstance<EEMod>().GetTexture("Textures/LightBlue");
-            Texture2D vineTexture = ModContent.GetInstance<EEMod>().GetTexture("Textures/VineShorter");
-            Texture2D bigVineTexture = ModContent.GetInstance<EEMod>().GetTexture("Textures/BigVine");
+            Texture2D vineTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/VineShorter").Value;
+            Texture2D bigVineTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/BigVine").Value;
 
             float cockandbol = 0.75f;
 

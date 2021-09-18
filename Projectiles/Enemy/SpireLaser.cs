@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using EEMod.Prim;
 using EEMod.Tiles;
 using EEMod.NPCs.CoralReefs;
+using Terraria.Audio;
 
 namespace EEMod.Projectiles.Enemy
 {
@@ -24,7 +25,7 @@ namespace EEMod.Projectiles.Enemy
             Projectile.timeLeft = 1200;
             Projectile.ignoreWater = true;
             Projectile.hostile = true;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.penetrate = -1;
             Projectile.extraUpdates = 12;
             Projectile.hide = true;
@@ -33,14 +34,14 @@ namespace EEMod.Projectiles.Enemy
 
         public override bool OnTileCollide(Vector2 oldVelocity)
         {
-            Bounce(Projectile.modProjectile, oldVelocity);
+            Bounce(Projectile.ModProjectile, oldVelocity);
             Projectile.ai[0]++;
             return false;
         }
 
         public void Bounce(ModProjectile modProj, Vector2 oldVelocity, float bouncyness = 1.5f)
         {
-            Projectile projectile = modProj.projectile;
+            Projectile projectile = modProj.Projectile;
             if (projectile.velocity.X != oldVelocity.X)
             {
                 projectile.velocity.X = -oldVelocity.X * bouncyness;
@@ -50,7 +51,7 @@ namespace EEMod.Projectiles.Enemy
             {
                 projectile.velocity.Y = -oldVelocity.Y * bouncyness;
             }
-            Main.PlaySound(SoundID.DD2_WitherBeastDeath, projectile.Center);
+            SoundEngine.PlaySound(SoundID.DD2_WitherBeastDeath, projectile.Center);
         }
 
         public override void AI()
@@ -64,7 +65,7 @@ namespace EEMod.Projectiles.Enemy
 
                 if (Framing.GetTileSafely((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16)).type == ModContent.TileType<EmptyTile>())
                 {
-                    Bounce(Projectile.modProjectile, Projectile.oldVelocity);
+                    Bounce(Projectile.ModProjectile, Projectile.oldVelocity);
                     Projectile.ai[0]++;
                 }
             }

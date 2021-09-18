@@ -42,7 +42,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 case ETAAnchor.Bottom:
                     if (CheckRangeRight(i, j, width))
                     {
-                        if (!Framing.GetTileSafely(i, j - height).active() && !Framing.GetTileSafely(i + width - 1, j - 1).active())
+                        if (!Framing.GetTileSafely(i, j - height).IsActive && !Framing.GetTileSafely(i + width - 1, j - 1).IsActive)
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i, j - height), CrystalTexture, CrystalGlow), new Vector2(i, j - height), array);
                             CoralReefs.CoralCrystalPosition.Add(new Vector2(i, j - height));
@@ -52,7 +52,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 case ETAAnchor.Top:
                     if (CheckRangeRight(i, j, width))
                     {
-                        if (!Framing.GetTileSafely(i, j + 1).active() && !Framing.GetTileSafely(i + width, j + 1 + height).active())
+                        if (!Framing.GetTileSafely(i, j + 1).IsActive && !Framing.GetTileSafely(i + width, j + 1 + height).IsActive)
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i, j + 1), CrystalTexture, CrystalGlow), new Vector2(i, j + 1), array);
                             CoralReefs.CoralCrystalPosition.Add(new Vector2(i, j + 1));
@@ -62,7 +62,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 case ETAAnchor.Left:
                     if (CheckRangeDown(i, j, height))
                     {
-                        if (!Framing.GetTileSafely(i - 1, j).active() && !Framing.GetTileSafely(i + 1 + width, j + height).active())
+                        if (!Framing.GetTileSafely(i - 1, j).IsActive && !Framing.GetTileSafely(i + 1 + width, j + height).IsActive)
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i + 1, j), CrystalTexture, CrystalGlow), new Vector2(i + 1, j), array);
                             CoralReefs.CoralCrystalPosition.Add(new Vector2(i + 1, j));
@@ -72,7 +72,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 case ETAAnchor.Right:
                     if (CheckRangeDown(i, j, height))
                     {
-                        if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i - width - 1, j + height).active())
+                        if (!Framing.GetTileSafely(i + 1, j).IsActive && !Framing.GetTileSafely(i - width - 1, j + height).IsActive)
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i - width, j), CrystalTexture, CrystalGlow), new Vector2(i - width, j), array);
                             CoralReefs.CoralCrystalPosition.Add(new Vector2(i - width, j));
@@ -82,7 +82,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 case ETAAnchor.BottomLeft:
                     if (CheckRangeDown(i - height, j, height) && CheckRangeRight(i, j, width))
                     {
-                        if (!Framing.GetTileSafely(i + 1, j).active() && !Framing.GetTileSafely(i, j - 1).active())
+                        if (!Framing.GetTileSafely(i + 1, j).IsActive && !Framing.GetTileSafely(i, j - 1).IsActive)
                         {
                             EmptyTileEntities.Instance.AddPair(new Crystal(new Vector2(i, j - height), CrystalTexture, CrystalGlow), new Vector2(i, j - height), array);
                             CoralReefs.CoralCrystalPosition.Add(new Vector2(i, j - height));
@@ -110,7 +110,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                     {
                         if (array[b, a, 0] == 1)
                         {
-                            if (Main.tileSolid[Framing.GetTileSafely((int)TopLeft.X + a, (int)TopLeft.Y + b).type] && Framing.GetTileSafely((int)TopLeft.X + a, (int)TopLeft.Y + b).active())
+                            if (Main.tileSolid[Framing.GetTileSafely((int)TopLeft.X + a, (int)TopLeft.Y + b).type] && Framing.GetTileSafely((int)TopLeft.X + a, (int)TopLeft.Y + b).IsActive)
                             {
                                 check++;
                             }
@@ -119,7 +119,7 @@ namespace EEMod.Tiles.EmptyTileArrays
                 }
                 if (check <= 11)
                 {
-                    if (!Framing.GetTileSafely((int)TopLeft.X, (int)TopLeft.Y).active() && !Framing.GetTileSafely((int)TopLeft.X + width + Vert, (int)TopLeft.Y + height + Hori).active())
+                    if (!Framing.GetTileSafely((int)TopLeft.X, (int)TopLeft.Y).IsActive && !Framing.GetTileSafely((int)TopLeft.X + width + Vert, (int)TopLeft.Y + height + Hori).IsActive)
                     {
                         EmptyTileEntityCache.AddPair(new BigCrystal(TopLeft, "Tiles/EmptyTileArrays/LuminantCoralCrystalBigTopLeft", "ShaderAssets/LuminantCoralCrystalBigTopLeftLightMap"), TopLeft, EmptyTileArrays.LuminantCoralCrystalBigTopLeft);
                     }

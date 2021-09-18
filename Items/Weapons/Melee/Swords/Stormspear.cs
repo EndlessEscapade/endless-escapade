@@ -14,7 +14,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
 
         public override void SetDefaults()
         {
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 30;
             Item.useTime = 30;
             Item.shootSpeed = 24f;
@@ -27,7 +27,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.damage = 140;
         }
     }

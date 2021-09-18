@@ -54,9 +54,9 @@ namespace EEMod.Seamap.SeamapContent
             {
                 string text = "Disembark?";
                 color *= alpha;
-                Vector2 textSize = Main.fontMouseText.MeasureString(text);
+                Vector2 textSize = Terraria.GameContent.FontAssets.MouseText.Value.MeasureString(text);
                 float textPositionLeft = position.X - textSize.X / 2;
-                Main.spriteBatch.DrawString(Main.fontMouseText, text, new Vector2(textPositionLeft, position.Y + 20) - Main.screenPosition, color * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                Main.spriteBatch.DrawString(Terraria.GameContent.FontAssets.MouseText.Value, text, new Vector2(textPositionLeft, position.Y + 20) - Main.screenPosition, color * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
             }
         }
         #endregion

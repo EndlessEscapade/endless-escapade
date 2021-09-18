@@ -31,7 +31,7 @@ namespace EEMod.Items.Gliders
         int lerpage;
         public override void UpdateInventory(Player player)
         {
-            player.GetModPlayer<EEPlayer>().isHoldingGlider = false;
+            // player.GetModPlayer<EEPlayer>().isHoldingGlider = false;
         }
 
         public override void PostDrawInInventory(SpriteBatch spriteBatch, Vector2 position, Rectangle frame, Color drawColor, Color itemColor, Vector2 origin, float scale)
@@ -46,10 +46,10 @@ namespace EEMod.Items.Gliders
             player.itemLocation += new Vector2(-100 * player.direction, 0);
 
             if (Main.rand.Next(4) == 0)
-                Dust.NewDust(player.position + new Vector2(-30 * player.direction, -5), 2, 2, DustID.DiamondBolt, 0, 0, 0, default, Math.Abs(player.velocity.X) / 40f);
+                Dust.NewDust(player.position + new Vector2(-30 * player.direction, -5), 2, 2, DustID.GemDiamond, 0, 0, 0, default, Math.Abs(player.velocity.X) / 40f);
 
             Tile tile = Framing.GetTileSafely((int)player.position.X / 16, (int)player.position.Y / 16 + 3);
-            if (tile.active()
+            if (tile.IsActive
                 && Main.tileSolid[tile.type]
                 && Math.Abs(player.fullRotation) > 0.01f)
             {

@@ -153,7 +153,7 @@ namespace EEMod.NPCs.CoralReefs
                         Dust dust = Dust.NewDustPerfect(position, DustID.PurpleCrystalShard);
                         dust.noGravity = true;
                         dust.velocity = Vector2.Normalize(dust.position - NPC.Center) * 4;
-                        dust.noLight = false;
+                        // dust.noLight = false;
                         dust.fadeIn = 1f;
                     }
                     NPC.life = 0;

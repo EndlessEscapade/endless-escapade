@@ -16,10 +16,10 @@ namespace EEMod.Compatibility
         [LoadingMethod]
         public static void LoadModFields()
         {
-            EEMusic = ModLoader.GetMod("EEModMusic");
-            CalamityMod = ModLoader.GetMod("CalamityMod");
-            SpiritMod = ModLoader.GetMod("SpiritMod");
-            OrchidMod = ModLoader.GetMod("OrchidMod");
+            //EEMusic = ModLoader.GetMod("EEModMusic");
+            //CalamityMod = ModLoader.GetMod("CalamityMod");
+            //SpiritMod = ModLoader.GetMod("SpiritMod");
+            //OrchidMod = ModLoader.GetMod("OrchidMod");
         }
 
         [UnloadingMethod]

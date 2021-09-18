@@ -34,7 +34,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.aiStyle = 67;
 
             NPC.lavaImmune = true;
-            NPC.noTileCollide = false;
+            // NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
@@ -65,7 +65,7 @@ namespace EEMod.NPCs.CoralReefs
                 direction = direction.RotatedBy(NPC.rotation);
                 direction = direction.RotatedBy(Main.rand.NextFloat(-0.9f, 0.9f));
                 direction *= Main.rand.NextFloat(3,5);
-                int proj = Projectile.NewProjectile(NPC.Center, direction, ModContent.ProjectileType<GrebyserFlare>(), 60, 0, NPC.target);
+                int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, direction, ModContent.ProjectileType<GrebyserFlare>(), 60, 0, NPC.target);
                 if (Main.netMode != NetmodeID.Server)
                 {
                     EEMod.primitives.CreateTrail(new GrebyserPrimTrail(Main.projectile[proj]));
@@ -75,7 +75,7 @@ namespace EEMod.NPCs.CoralReefs
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GrebyserGlow"), NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GrebyserGlow").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
     }
     public class GrebyserFlare : EEProjectile
@@ -91,13 +91,13 @@ namespace EEMod.NPCs.CoralReefs
 			Projectile.width = 6;
 			Projectile.height = 11;
 			Projectile.aiStyle = 1;
-			Projectile.friendly = false;
+			// Projectile.friendly = false;
 			Projectile.hostile = true;
 			Projectile.penetrate = 5;
 			Projectile.timeLeft = 600;
 			Projectile.alpha = 255;
 			Projectile.extraUpdates = 1;
-			aiType = ProjectileID.CrystalShard;
+			AIType = ProjectileID.CrystalShard;
             Projectile.ignoreWater = true;
         }
 

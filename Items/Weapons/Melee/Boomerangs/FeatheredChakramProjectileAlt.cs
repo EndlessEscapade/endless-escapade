@@ -19,12 +19,12 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
             Projectile.width = 44;
             Projectile.height = 60;
             Projectile.aiStyle = -1;
-            Projectile.melee = true;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.extraUpdates = 2;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
         }
 
         private Vector2 GoTo;
@@ -112,7 +112,7 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
                                 for (float j = 0; j <= 1; j += 0.02f)
                                 {
                                     Vector2 Lerped = Projectile.Center + (Main.projectile[i].Center - Projectile.Center) * j + new Vector2((float)Math.Sin(j * 20) * 10, (float)Math.Cos(j * 20) * 10);
-                                    Dust dust = Dust.NewDustPerfect(Lerped, DustID.Fire, Vector2.Zero);
+                                    Dust dust = Dust.NewDustPerfect(Lerped, DustID.Lava, Vector2.Zero);
                                     dust.fadeIn = 1f;
                                     dust.noGravity = true;
                                     dust.color = npc == null ? Color.Green : default;
@@ -130,7 +130,7 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
             {
                 if (Main.projectile[i].active && Main.projectile[i].type == ModContent.ProjectileType<FCHandler>())
                 {
-                    FCHandler Handler = Main.projectile[i].modProjectile as FCHandler;
+                    FCHandler Handler = Main.projectile[i].ModProjectile as FCHandler;
                     for (int j = 0; j < 4; j++)
                     {
                         Handler.projectileIndex[j] = -1;
@@ -140,7 +140,7 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
             for (var a = 0; a < 50; a++)
             {
                 Vector2 vector = new Vector2(0, 20).RotatedBy(Math.PI * 0.04) * a;
-                int index = Dust.NewDust(Projectile.Center, 1, 1, DustID.Fire, vector.X, vector.Y, 0, default, 1f);
+                int index = Dust.NewDust(Projectile.Center, 1, 1, DustID.Lava, vector.X, vector.Y, 0, default, 1f);
                 Main.dust[index].velocity *= 1.1f;
                 Main.dust[index].noGravity = true;
             }
@@ -151,9 +151,9 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //    Main.spriteBatch.Draw(TextureCache.GradientEffect, projectile.Center - Main.screenPosition, new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Width, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Height), LerpColour * 0.4f, projectile.rotation, new Rectangle(0, 0, TextureCache.GradientEffect.Width, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Height).Size() / 2, projectile.ai[1] * 0.5f, SpriteEffects.None, 0);
-            //  AfterImage.DrawAfterimage(spriteBatch, Main.projectileTexture[projectile.type], 0, projectile, 1.5f, 1f, 6, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
+            //  AfterImage.DrawAfterimage(spriteBatch, TextureAssets.Projectile[projectile.type].Value, 0, projectile, 1.5f, 1f, 6, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("Textures/Extra_49"), Projectile.Center - Main.screenPosition, null, new Color(LerpColour.R, LerpColour.G, LerpColour.B, 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * Projectile.ai[1], SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Extra_49").Value, Projectile.Center - Main.screenPosition, null, new Color(LerpColour.R, LerpColour.G, LerpColour.B, 0), 0f, new Vector2(50, 50), Math.Abs(0.33f * (sineAdd + 1)) * Projectile.ai[1], SpriteEffects.None, 0f);
             return true;
         }
 

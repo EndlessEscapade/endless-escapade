@@ -28,8 +28,8 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.noGravity = true;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.ToxicPufferBanner>();
         }
 
@@ -70,11 +70,11 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/ToxicPufferSmall");
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/ToxicPufferSmall").Value;
             Vector2 offset = Vector2.Zero;
             if (big)
             {
-                texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/ToxicPuffer");
+                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/ToxicPuffer").Value;
                 Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + offset, new Rectangle(0, 0, 62, 48), drawColor, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             }
             if (!big)

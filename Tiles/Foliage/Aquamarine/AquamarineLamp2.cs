@@ -33,7 +33,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
@@ -74,13 +74,13 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 int timeBetween = 70;
                 float heartBeat = Math.Abs((float)Math.Sin((Main.GameUpdateCount % bigTimeBetween) * (6.28f / timeBetween))) * (1 - (Main.GameUpdateCount % bigTimeBetween) / (timeBetween * 1.5f));
 
-                Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
+                Texture2D mask = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SmoothFadeOut").Value;
 
                 float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;
                 Main.spriteBatch.Draw(mask, part, null, new Color(sineAdd, sineAdd, sineAdd, 0) * 0.2f, 0f, mask.Bounds.Center() / 2f, 1f, SpriteEffects.None, 0f);
 
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Lighting.GetColor(i + 1, j + 1), 0f, default, 1f, SpriteEffects.None, 0f);
-                Main.spriteBatch.Draw(mod.GetTexture("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow"), position, rect, Color.White * heartBeat, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow").Value, position, rect, Lighting.GetColor(i + 1, j + 1), 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarineLamp2Glow").Value, position, rect, Color.White * heartBeat, 0f, default, 1f, SpriteEffects.None, 0f);
 
                 EEMod.MainParticles.SetSpawningModules(new SpawnPeriodically(8, true));
                 EEMod.MainParticles.SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, -0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask, 0.75f));

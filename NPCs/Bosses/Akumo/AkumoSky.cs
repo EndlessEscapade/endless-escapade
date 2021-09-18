@@ -64,7 +64,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             if (maxDepth >= 0f && minDepth < 0f)
             {
                 float scale = GetIntensity();
-                spriteBatch.Draw(Main.blackTileTexture, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Maroon * scale);
+                spriteBatch.Draw(Terraria.GameContent.TextureAssets.BlackTile.Value, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.Maroon * scale);
             }
         }
 

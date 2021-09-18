@@ -30,7 +30,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.knockBackResist = 0.2f;
 
             NPC.aiStyle = -1;
-            aiType = -1;
+            AIType = -1;
 
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
@@ -118,7 +118,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Texture2D texture = Main.npcTexture[NPC.type];
+            Texture2D texture = Terraria.GameContent.TextureAssets.Npc[NPC.type].Value;
 
             Vector2 drawPosition = NPC.Center.ForDraw() + new Vector2(0f, NPC.gfxOffY);
 

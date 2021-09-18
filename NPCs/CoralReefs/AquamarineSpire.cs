@@ -16,7 +16,8 @@ using EEMod.Items.Weapons.Melee.Swords;
 using System.Collections.Generic;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles;
-
+using Terraria.Audio;
+using Terraria.GameContent;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -44,7 +45,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.behindTiles = true;
             NPC.ai[0] = 40;
 
-            musicPriority = MusicPriority.BossLow;
+            //musicPriority = MusicPriority.BossLow;
         }
 
         public override bool CheckActive()
@@ -83,14 +84,14 @@ namespace EEMod.NPCs.CoralReefs
                 drawColor = new Color(0.1f, 0.1f, 0.1f, 255f);
             }
 
-            EEMod.SpireShader.Parameters["alpha"].SetValue((npc.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
-            EEMod.SpireShader.Parameters["shineSpeed"].SetValue(npc.ai[0] <= 20 ? 0.4f : 0.2f);
-            EEMod.SpireShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/SpireLightMap"));
+            EEMod.SpireShader.Parameters["alpha"].SetValue((NPC.ai[0] <= 20 && awake) ? 4 - (alpha * 2 % 4) : 6 - (alpha * 2 % 6));
+            EEMod.SpireShader.Parameters["shineSpeed"].SetValue(NPC.ai[0] <= 20 ? 0.4f : 0.2f);
+            EEMod.SpireShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SpireLightMap").Value);
             EEMod.SpireShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.SpireShader.Parameters["lightColor"].SetValue(drawColor.ToVector3());
             EEMod.SpireShader.CurrentTechnique.Passes[0].Apply();
 
-            spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center - Main.screenPosition + new Vector2(0, 4), Main.npcTexture[NPC.type].Bounds, drawColor, NPC.rotation, Main.npcTexture[NPC.type].Size() / 2f, NPC.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(TextureAssets.Npc[NPC.type].Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), TextureAssets.Npc[NPC.type].Value.Bounds, drawColor, NPC.rotation, TextureAssets.Npc[NPC.type].Value.Size() / 2f, NPC.scale, SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -150,9 +151,9 @@ namespace EEMod.NPCs.CoralReefs
                 Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 96);
 
                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.25f * ((timer1 - 10) / 40f), 0, 1)));
-                EEMod.MainParticles.SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 7, 3f, addColor, new SlowDown(0.943f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, 0.9f));
+                EEMod.MainParticles.SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 7, 3f, addColor, new SlowDown(0.943f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, 0.9f));
 
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 1f);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireEye").Value, eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 1f);
                 #endregion
 
                 timeBetween = 35;
@@ -161,7 +162,7 @@ namespace EEMod.NPCs.CoralReefs
 
             else
             {
-                music = -1;
+                //music = -1;
                 if (timer1 < 300 * 60) //If recharging
                 {
                     #region Recharging eye
@@ -207,16 +208,16 @@ namespace EEMod.NPCs.CoralReefs
                 Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + NPC.ai[3] / 60f);
 
                 int scale = 4;
-                EEMod.MainParticles.SpawnParticles(NPC.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(NPC.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(NPC.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(NPC.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.GetTexture("EEMod/Particles/SmallCircle"), 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
                 #endregion
 
                 #region Drawing eye
                 eyePos = (new Vector2(0, 1) * 3) + NPC.Center + new Vector2(-2, 2) + (new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)) * NPC.ai[0]);
 
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireEye"), eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White * eyeAlpha, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireEye").Value, eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), Color.White * eyeAlpha, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 0);
                 #endregion
 
                 timeBetween = 70;
@@ -236,7 +237,7 @@ namespace EEMod.NPCs.CoralReefs
             }
 
             if (strikeTime > 0) strikeTime--;
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/AquamarineSpireGlow"), NPC.Center.ForDraw() + new Vector2(0, 4), NPC.frame, Color.Lerp(Color.White * NPC.ai[3], strikeColor, strikeTime / 60f), NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireGlow").Value, NPC.Center.ForDraw() + new Vector2(0, 4), NPC.frame, Color.Lerp(Color.White * NPC.ai[3], strikeColor, strikeTime / 60f), NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             #endregion
         }
 
@@ -310,18 +311,18 @@ namespace EEMod.NPCs.CoralReefs
                     switch (NPC.ai[1])
                     {
                         case 0: //Blue laser
-                            Projectile projectile = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage, 0f, default, 0, 1);
+                            Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage, 0f, default, 0, 1);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile, Color.Lerp(Color.Navy, Color.LightBlue, Main.rand.NextFloat(0, 1)), 50));
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
+                            //SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
                             eyeRecoil = -0.5f;
                             break;
 
                         case 1: //Pink laser
-                            Projectile projectile2 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 2, 0f, default, 0, 2);
+                            Projectile projectile2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 2, 0f, default, 0, 2);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Purple, Color.Pink, Main.rand.NextFloat(0, 1)), 40));
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
+                            //SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
 
                             NPC.ai[2] = -20;
                             eyeRecoil = -0.5f;
@@ -331,17 +332,17 @@ namespace EEMod.NPCs.CoralReefs
                             break;
 
                         case 2: //White laser
-                            Projectile projectile3 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<WideSpireLaser>(), NPC.damage / 2, 0f, default, 0, 3);
+                            Projectile projectile3 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<WideSpireLaser>(), NPC.damage / 2, 0f, default, 0, 3);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile3, Color.White, 80));
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
+                            //SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot"), NPC.Center);
                             eyeRecoil = -0.5f;
                             break;
 
                         case 3: //Cyan laser
                             if (specialLaserShots == 0)
                             {
-                                Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 3, 0f, default, 0, 1);
+                                Projectile projectile4 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), eyePos, Vector2.Normalize(target.Center - NPC.Center) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 3, 0f, default, 0, 1);
                                 EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.LightCyan, Color.DarkCyan, Main.rand.NextFloat(0, 1)), 30));
                                 specialLaserShots++;
                                 NPC.ai[2] = -30;
@@ -350,14 +351,14 @@ namespace EEMod.NPCs.CoralReefs
                             {
                                 for (int i = -1; i < 2; i += 2)
                                 {
-                                    Projectile projectile4 = Projectile.NewProjectileDirect(eyePos, (Vector2.Normalize(target.Center - NPC.Center)).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 3, 0f, default, 0, 4);
+                                    Projectile projectile4 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), eyePos, (Vector2.Normalize(target.Center - NPC.Center)).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), NPC.damage / 3, 0f, default, 0, 4);
                                     EEMod.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.LightCyan, Color.DarkCyan, Main.rand.NextFloat(0, 1)), 30));
                                 }
                                 specialLaserShots++;
                                 NPC.ai[2] = 1;
                             }
 
-                            Main.PlaySound(mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot").WithVolume(1f).WithPitchVariance(0f), NPC.Center);
+                            //SoundEngine.PlaySound(Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/SpireShoot").WithVolume(1f).WithPitchVariance(0f), NPC.Center);
                             eyeRecoil = -0.5f;
                             break;
                     }
@@ -374,7 +375,7 @@ namespace EEMod.NPCs.CoralReefs
                         if (Vector2.Distance(laser.Center, NPC.Center) <= 32 && laser.ai[0] > 0 && laser.active)
                         {
                             TakeDamage(laser);
-                            Main.PlaySound(SoundID.NPCDeath56, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.NPCDeath56, NPC.Center);
 
                             if (NPC.ai[0] <= 0)
                             {
@@ -411,7 +412,7 @@ namespace EEMod.NPCs.CoralReefs
                         {
                             if (WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).type == ModContent.TileType<AquamarineLamp1>() && Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
                             {
-                                Projectile proj = Projectile.NewProjectileDirect(new Vector2((i * 16) + 16, (j * 16) - 12), Vector2.Zero, ModContent.ProjectileType<AquamarineLamp1Glow>(), 0, 0, default, 0, 0);
+                                Projectile proj = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), new Vector2((i * 16) + 16, (j * 16) - 12), Vector2.Zero, ModContent.ProjectileType<AquamarineLamp1Glow>(), 0, 0, default, 0, 0);
                                 if (shields.Count < 10)
                                 {
                                     shields.Add(proj);
@@ -435,12 +436,12 @@ namespace EEMod.NPCs.CoralReefs
                     {
                         NPC.ai[0]++;
                         NPC.ai[1] = target.HeldItem.useTime;
-                        Main.PlaySound(SoundID.DD2_CrystalCartImpact, NPC.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_CrystalCartImpact, NPC.Center);
                     }
                     if (NPC.ai[0] >= 5)
                     {
                         WakeUp();
-                        Main.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, NPC.Center);
+                        SoundEngine.PlaySound(SoundID.DD2_WitherBeastCrystalImpact, NPC.Center);
                     }
                 }
 

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using static EEMod.EEMod;
+using Terraria.Audio;
 namespace EEMod.Seamap.SeamapContent
 {
     public partial class Seamap
@@ -41,26 +42,26 @@ namespace EEMod.Seamap.SeamapContent
                     switch (eePlayer.cannonballType)
                     {
                         case 1:
-                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
+                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
                             break;
 
                         case 2:
-                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyExplosiveCannonball>(), 0, 0);
+                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyExplosiveCannonball>(), 0, 0);
                             break;
 
                         case 3:
-                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyHallowedCannonball>(), 0, 0);
+                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyHallowedCannonball>(), 0, 0);
                             break;
 
                         case 4:
-                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyChlorophyteCannonball>(), 0, 0);
+                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyChlorophyteCannonball>(), 0, 0);
                             break;
 
                         case 5:
-                            Projectile.NewProjectile(ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyLuminiteCannonball>(), 0, 0);
+                            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), ship.position + Main.screenPosition, -Vector2.Normalize(ship.position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyLuminiteCannonball>(), 0, 0);
                             break;
                     }
-                    Main.PlaySound(SoundID.Item61);
+                    SoundEngine.PlaySound(SoundID.Item61);
                     ship.cannonDelay = 60;
                 }
                 ship.cannonDelay--;

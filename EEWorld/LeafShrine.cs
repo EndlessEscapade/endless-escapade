@@ -35,14 +35,14 @@ namespace EEMod.EEWorld
             internal const ushort AA = TileID.Candles;
             internal const ushort AB = TileID.DiamondGemspark;
             internal const ushort AC = TileID.Coralstone;
-            internal const byte AD = WallID.GreenDungeonSlab;
-            internal const byte AE = WallID.GrayBrick;
-            internal const byte AF = WallID.BlueDungeonSlab;
-            internal const byte AG = WallID.Glass;
-            internal const byte AH = WallID.Flower;
-            internal const byte AI = WallID.DiscWall;
-            internal const byte AJ = WallID.MudstoneBrick;
-            internal const byte AK = WallID.Stone;
+            internal const byte AD = (byte)WallID.GreenDungeonSlab;
+            internal const byte AE = (byte)WallID.GrayBrick;
+            internal const byte AF = (byte)WallID.BlueDungeonSlab;
+            internal const byte AG = (byte)WallID.Glass;
+            internal const byte AH = (byte)WallID.Flower;
+            internal const byte AI = (byte)WallID.DiscWall;
+            internal const byte AJ = (byte)WallID.MudstoneBrick;
+            internal const byte AK = (byte)WallID.Stone;
         }
 
         public static int[,,] LeafShrine => new int[,,]

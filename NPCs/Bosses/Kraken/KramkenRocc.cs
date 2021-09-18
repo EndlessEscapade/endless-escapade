@@ -19,7 +19,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             Projectile.hostile = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 600;
-            Projectile.friendly = false;
+            // Projectile.friendly = false;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1;
             Projectile.damage = 50;

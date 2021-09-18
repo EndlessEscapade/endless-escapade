@@ -30,12 +30,7 @@ namespace EEMod.Items.Accessories
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ItemID.HallowedBar, 8);
-            recipe.AddIngredient(ItemID.ArcticDivingGear, 1);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ItemID.HallowedBar, 8).AddIngredient(ItemID.ArcticDivingGear, 1).AddTile(TileID.Anvils).Register();
         }
     }
 }

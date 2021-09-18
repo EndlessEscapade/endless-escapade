@@ -231,11 +231,11 @@ namespace EEMod.EEWorld
             //Spawning aquamarine pillars
             BoundClause((int i, int j) =>
             {
-                if ((Main.tile[i, j].type == ModContent.TileType<GemsandTile>() || Main.tile[i, j].type == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].active() && WorldGen.genRand.NextBool(10))
+                if ((Main.tile[i, j].type == ModContent.TileType<GemsandTile>() || Main.tile[i, j].type == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].IsActive && WorldGen.genRand.NextBool(10))
                 {
                     int newJ = j + 1;
 
-                    while (!Main.tile[i, newJ].active())
+                    while (!Main.tile[i, newJ].IsActive)
                     {
                         WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarinePillar>());
 
@@ -247,12 +247,12 @@ namespace EEMod.EEWorld
             //Spawning chimes
             BoundClause((int i, int j) =>
             {
-                if ((Main.tile[i, j].type == ModContent.TileType<GemsandTile>() || Main.tile[i, j].type == ModContent.TileType<GemsandstoneTile>() || Main.tile[i, j].type == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].active() && WorldGen.genRand.NextBool(10))
+                if ((Main.tile[i, j].type == ModContent.TileType<GemsandTile>() || Main.tile[i, j].type == ModContent.TileType<GemsandstoneTile>() || Main.tile[i, j].type == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].IsActive && WorldGen.genRand.NextBool(10))
                 {
                     int newJ = j + 1;
                     int length = WorldGen.genRand.Next(2, 8);
 
-                    while (!Main.tile[i, newJ].active() && newJ - j < length)
+                    while (!Main.tile[i, newJ].IsActive && newJ - j < length)
                     {
                         WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarineChime>());
 

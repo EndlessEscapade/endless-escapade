@@ -28,8 +28,8 @@ namespace EEMod.UI.States
         public override void OnInitialize()
         {
             base.OnInitialize();
-            arrowLeft = ModContent.GetInstance<EEMod>().GetTexture("UI/ArrowLeft");
-            arrowUp = ModContent.GetInstance<EEMod>().GetTexture("UI/ArrowUp");
+            arrowLeft = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/ArrowLeft").Value;
+            arrowUp = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/ArrowUp").Value;
             oceanArrow.width = 36;
             oceanArrow.height = 46;
             oceanArrow.alpha = 255;

@@ -37,8 +37,8 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.noGravity = true;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 

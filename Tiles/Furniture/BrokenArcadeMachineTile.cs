@@ -51,8 +51,8 @@ namespace EEMod.Tiles.Furniture
                     zero = Vector2.Zero;
                 }
 
-                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Furniture/Coral/AquamarineLamp1Glow");
-                Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
+                Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Furniture/Coral/AquamarineLamp1Glow").Value;
+                Texture2D mask = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SmoothFadeOut").Value;
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, (j - 1) * 16 - (int)Main.screenPosition.Y) + zero;
 
                 Lighting.AddLight(position, new Vector3(1, 1, 1) * 4f);

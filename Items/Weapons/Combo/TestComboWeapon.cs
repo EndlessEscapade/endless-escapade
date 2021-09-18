@@ -29,7 +29,7 @@ namespace EEMod.Items.Weapons.Combo
         public override void SetDefaults()
         {
             Item.damage = 20;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.useAnimation = 40;
             Item.useTime = 40;
             Item.shootSpeed = 12f;
@@ -40,7 +40,7 @@ namespace EEMod.Items.Weapons.Combo
             Item.rare = ItemRarityID.Purple;
             Item.value = Item.sellPrice(silver: 10);
 
-            Item.melee = true;
+            Item.DamageType = DamageClass.Melee;
             Item.noMelee = true;
             Item.noUseGraphic = true;
             Item.autoReuse = true;

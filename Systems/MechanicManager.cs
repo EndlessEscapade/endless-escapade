@@ -117,15 +117,15 @@ namespace EEMod
                     mechanic.PostDrawProjectiles();
         }
 
-        public static void UpdateMusic(ref int music, ref MusicPriority priority)
+        /*public static void UpdateMusic(ref int music, ref MusicPriority priority)
         {
             if (Instances != null)
                 foreach (Mechanic mechanic in Instances)
                     mechanic.UpdateMusic(ref music, ref priority);
-        }
+        }*/
     }
 
-    class MechanicWorld : ModWorld
+    /*class MechanicWorld : ModWorld
     {
         public override void PostUpdate()
         {
@@ -142,5 +142,5 @@ namespace EEMod
 
             Main.spriteBatch.End();
         }
-    }
+    }*/
 }

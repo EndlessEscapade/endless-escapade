@@ -25,7 +25,7 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.StyleHorizontal = true;
-            TileObjectData.newTile.UsesCustomCanPlace = false;
+            // TileObjectData.newTile.UsesCustomCanPlace = false;
             TileObjectData.newTile.LavaDeath = true;
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
@@ -33,7 +33,7 @@ namespace EEMod.Tiles.Furniture
             dustType = DustID.t_LivingWood;
             drop = ModContent.ItemType<SimpleSail>();
             disableSmartCursor = true;
-            adjTiles = new int[] { TileID.Platforms };
+            AdjTiles = new int[] { TileID.Platforms };
         }
 
         public override void PostSetDefaults()
@@ -63,11 +63,11 @@ namespace EEMod.Tiles.Furniture
                     height--;
             }
 
-            Texture2D tex = mod.GetTexture("Tiles/Furniture/SimpleSailSails");
+            Texture2D tex = Mod.Assets.Request<Texture2D>("Tiles/Furniture/SimpleSailSails").Value;
             Main.spriteBatch.Draw(tex, new Rectangle((i * 16) - (int)Main.screenPosition.X + (tex.Width / 2) + 32, (j * 16) - (int)Main.screenPosition.Y + tex.Height * 2, 16, 96), new Rectangle((frame * 80) + (height * 16), 0, 16, 96), Lighting.GetColor(i, j));
         }
 
-        public override bool NewRightClick(int i, int j)
+        public override bool RightClick(int i, int j)
         {
             opening = !opening;
             return true;

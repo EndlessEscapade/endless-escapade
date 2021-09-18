@@ -11,7 +11,7 @@ namespace EEMod.Projectiles
     {
         public override bool? CanCutTiles() => false;
 
-        public override bool CanDamage() => false;
+        public override bool? CanDamage() => false;
 
         public override bool? CanHitNPC(NPC target) => false;
 

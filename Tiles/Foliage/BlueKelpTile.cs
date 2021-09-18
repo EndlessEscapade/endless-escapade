@@ -32,7 +32,7 @@ namespace EEMod.Tiles.Foliage
             TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<LightGemsandTile>() };
             TileObjectData.newTile.AnchorTop = default;
             TileObjectData.addTile(Type);
-            animationFrameHeight = 18;
+            AnimationFrameHeight = 18;
         }
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Foliage
         public override void RandomUpdate(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j - 1);
-            if (!tile.active() && Main.rand.Next(4) == 0)
+            if (!tile.IsActive && Main.rand.Next(4) == 0)
             {
                 WorldGen.PlaceObject(i, j - 1, ModContent.TileType<BlueKelpTile>());
                 NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<BlueKelpTile>(), 0, 0, -1, -1);
@@ -70,7 +70,7 @@ namespace EEMod.Tiles.Foliage
             Tile tile = Framing.GetTileSafely(i, j + 1);
             if (WorldGen.InWorld(i, j))
             {
-                if (!tile.active()
+                if (!tile.IsActive
                     || tile.type != ModContent.TileType<GemsandTile>()
                     && tile.type != ModContent.TileType<LightGemsandTile>()
                     && tile.type != ModContent.TileType<DarkGemsandTile>()
@@ -88,14 +88,14 @@ namespace EEMod.Tiles.Foliage
             Vector2 end = pos - sprout;
             Vector2 lerp = Vector2.Lerp(pos, end, 0.5f);
             float dist = (end - pos).Length();
-            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Tiles/Foliage/BlueKelpTile");
+            Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/BlueKelpTile").Value;
 
 
             int noOfFrames = 10;
             int frame = (int)((Main.time / 10f + j * i) % noOfFrames);
 
 
-            if (Main.tileSolid[tile.type] && tile.active())
+            if (Main.tileSolid[tile.type] && tile.IsActive)
             {
                 Helpers.DrawBezier(Main.spriteBatch, tex, "", Lighting.GetColor(i, j), end, pos, pos - new Vector2(0, sprout.Y - 50), pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, 0f, frame, noOfFrames, 3);
                 Helpers.DrawParticlesAlongBezier(end, pos, pos - new Vector2(0, sprout.Y - 50), (tex.Height / (noOfFrames * 2.2f)) / dist, Color.Cyan, 0.0002f, new Spew(6.14f, 1f, Vector2.One / 5f, 0.99f), new RotateVelocity(0.02f), new AfterImageTrail(.8f));

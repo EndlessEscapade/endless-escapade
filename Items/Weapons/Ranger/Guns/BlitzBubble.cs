@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using System.Linq;
 using Terraria.ID;
 using EEMod.Prim;
+using Terraria.Audio;
 
 namespace EEMod.Items.Weapons.Ranger.Guns
 {
@@ -19,10 +20,10 @@ namespace EEMod.Items.Weapons.Ranger.Guns
             Projectile.aiStyle = -1;
             Projectile.width = 32;
             Projectile.height = 32;
-            Projectile.friendly = false;
-            Projectile.tileCollide = false;
-            Projectile.hostile = false;
-            Projectile.ranged = true;
+            // Projectile.friendly = false;
+            // Projectile.tileCollide = false;
+            // Projectile.hostile = false;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 200;
             Projectile.alpha = 110;
@@ -39,7 +40,7 @@ namespace EEMod.Items.Weapons.Ranger.Guns
             var list = Helpers.ProjectileForeach.Where(x => x.Hitbox.Intersects(Projectile.Hitbox));
             foreach (var proj in list)
             {
-                if (proj.ranged && proj.active && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6))
+                if (proj.DamageType == DamageClass.Ranged && proj.active && proj.friendly && !proj.hostile && (proj.width <= 6 || proj.height <= 6))
                 {
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().Shake = 6;
                     Projectile.timeLeft = 1;
@@ -67,7 +68,7 @@ namespace EEMod.Items.Weapons.Ranger.Guns
         }
         public override void Kill(int timeLeft)
         {
-            Main.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
+            SoundEngine.PlaySound(SoundID.Item, (int)Projectile.position.X, (int)Projectile.position.Y, 54);
             for (int i = 0; i < 20; i++)
             {
                 int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.FungiHit, 0f, -2f, 0, default(Color), 2f);

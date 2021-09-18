@@ -27,13 +27,13 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.width = 84;
             NPC.height = 53;
-            NPC.noGravity = false;
+            // NPC.noGravity = false;
             NPC.knockBackResist = 0f;
 
             NPC.npcSlots = 1f;
             NPC.buffImmune[BuffID.Confused] = true;
-            NPC.lavaImmune = false;
-            banner = NPC.type;
+            // NPC.lavaImmune = false;
+            Banner = NPC.type;
             NPC.behindTiles = true;
             //bannerItem = ModContent.ItemType<Items.Banners.ClamBanner>();
             NPC.value = Item.sellPrice(0, 0, 0, 75);
@@ -54,12 +54,12 @@ namespace EEMod.NPCs.CoralReefs
         {
             NPC.TargetClosest(true);
             Player player = Main.player[NPC.target];
-            Texture2D UpperLegTex = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderLegUpper");
-            Texture2D LowerLegTex = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderLegLower");
-            Texture2D KelpSpiderBody = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderBody");
-            Texture2D UpperLegTexGlow = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderLegUpperGlow");
-            Texture2D LowerLegTexGlow = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderLegLowerGlow");
-            Texture2D KelpSpiderBodyGlow = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlowingKelpSpiderBodyGlow");
+            Texture2D UpperLegTex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlowingKelpSpiderLegUpper").Value;
+            Texture2D LowerLegTex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlowingKelpSpiderLegLower").Value;
+            Texture2D KelpSpiderBody = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlowingKelpSpiderBody").Value;
+            Texture2D UpperLegTexGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlowingKelpSpiderLegUpperGlow").Value;
+            Texture2D LowerLegTexGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlowingKelpSpiderLegLowerGlow").Value;
+            Texture2D KelpSpiderBodyGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlowingKelpSpiderBodyGlow").Value;
             float rotation = (player.Center - NPC.Center).ToRotation() + (float)Math.PI;
             bool cond = (rotation > 0 && rotation < Math.PI / 2f) || rotation > (float)Math.PI * 1.5f;
             float lerpCache = Math.Abs((float)Math.Sin(NPC.ai[1] / 200f));
@@ -129,13 +129,13 @@ namespace EEMod.NPCs.CoralReefs
 
                 if (WorldGen.InWorld((int)(TrueX / 16), (int)(TrueY / 16), 20))
                 {
-                    while (Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).active() && Pogger < 64 && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).slope() == 0)
+                    while (Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).IsActive && Pogger < 64 && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).Slope == 0)
                     {
                         SpiderBodyPosition.Y -= 0.005f;
                         TrueY--;
                         Pogger++;
                     }
-                    while ((!Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] || !Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).active()) && Pogger < 32)
+                    while ((!Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] || !Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).IsActive) && Pogger < 32)
                     {
                         if (CanJump)
                             SpiderBodyPosition.Y += 0.005f;
@@ -178,7 +178,7 @@ namespace EEMod.NPCs.CoralReefs
             float UnderSpiderY = SpiderBodyPosition.Y + legVert + 8;
             float UnderSpiderX = SpiderBodyPosition.X;
             bool OnGroundBuffer = OnGround;
-            if (!Main.tileSolid[Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).type] || !Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).active())
+            if (!Main.tileSolid[Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).type] || !Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).IsActive)
             {
                 VertVel += 0.2f;
                 OnGround = false;
@@ -264,7 +264,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.TargetClosest(true);
             Player player = Main.player[NPC.target];
             Vector2 npcTilePos = NPC.Center / 16;
-            bool ifAbove = Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).active() && Main.tileSolid[Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).type];
+            bool ifAbove = Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).IsActive && Main.tileSolid[Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).type];
             bool ifPlayerAbove = (NPC.Center.Y - player.Center.Y) > 140;
             UpdateSpiderPort();
             if (NPC.ai[1] % ChanceToJump <= 5f && !ifAbove && ifPlayerAbove)

@@ -101,7 +101,7 @@ namespace EEMod
 
             if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
             {
-                Filters.Scene.Activate("EEMod:SeaOpening", player.Center).GetShader().UseIntensity(quickOpeningFloat);
+                Filters.Scene.Activate("EEMod:SeaOpening", Player.Center).GetShader().UseIntensity(quickOpeningFloat);
             }
 
             if (noU)
@@ -122,7 +122,7 @@ namespace EEMod
 
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[SunThroughWallsShader].IsActive())
             {
-                Filters.Scene.Activate(SunThroughWallsShader, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
+                Filters.Scene.Activate(SunThroughWallsShader, Player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
             }
             #endregion
 
@@ -205,8 +205,8 @@ namespace EEMod
 
                     isCollidingWithAnyIsland = true;
 
-                    player.ClearBuff(BuffID.Cursed);
-                    player.ClearBuff(BuffID.Invisibility);
+                    Player.ClearBuff(BuffID.Cursed);
+                    Player.ClearBuff(BuffID.Invisibility);
                 }
             }
 
@@ -224,12 +224,12 @@ namespace EEMod
             #region Warp cutscene
             if (importantCutscene)
             {
-                EEMod.Noise2D.NoiseTexture = ModContent.GetTexture("EEMod/Textures/Noise/noise");
+                EEMod.Noise2D.NoiseTexture = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise").Value;
                 Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
 
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())
                 {
-                    Filters.Scene.Activate("EEMod:Noise2D", player.Center).GetShader().UseOpacity(0);
+                    Filters.Scene.Activate("EEMod:Noise2D", Player.Center).GetShader().UseOpacity(0);
                 }
 
                 cutSceneTriggerTimer++;
@@ -265,10 +265,10 @@ namespace EEMod
             #endregion
 
             #region Hiding the player
-            player.position = player.oldPosition;
-            player.invis = true;
+            Player.position = Player.oldPosition;
+            Player.invis = true;
 
-            player.AddBuff(BuffID.Cursed, 100000);
+            Player.AddBuff(BuffID.Cursed, 100000);
             #endregion
 
             //THIS NEEDS CHANGING
@@ -285,7 +285,7 @@ namespace EEMod
 
             if (seamapUpdateCount % 7200 == 0)
             {
-                Projectile.NewProjectile(Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
+                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ProjectileType<RedDutchman>()), Main.screenPosition + new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), Vector2.Zero, ProjectileType<RedDutchman>(), 0, 0f, Main.myPlayer, 0, 0);
             }
 
             if (seamapUpdateCount % 200 == 0)
@@ -321,7 +321,7 @@ namespace EEMod
                     }
                     case 1:
                     {
-                        cloud = new MCloud(GetTexture("EEMod/Seamap/SeamapAssets/Cloud6"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 144, 42, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                        cloud = new MCloud(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Cloud6").Value, new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 144, 42, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                         SeamapObjects.OceanMapElements.Add(cloud);
                         break;
                     }
@@ -331,13 +331,13 @@ namespace EEMod
                     }
                     case 3:
                     {
-                        cloud = new MCloud(GetTexture("EEMod/Seamap/SeamapAssets/Cloud4"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 100, 48, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                        cloud = new MCloud(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Cloud4").Value, new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 100, 48, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                         SeamapObjects.OceanMapElements.Add(cloud);
                         break;
                     }
                     case 4:
                     {
-                        cloud = new MCloud(GetTexture("EEMod/Seamap/SeamapAssets/Cloud5"), new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 96, 36, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
+                        cloud = new MCloud(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Cloud5").Value, new Vector2(Main.screenWidth + 200, Main.rand.Next(1000)), 96, 36, Main.rand.NextFloat(0.6f, 1f), Main.rand.Next(60, 180));
                         SeamapObjects.OceanMapElements.Add(cloud);
                         break;
                     }
@@ -347,7 +347,7 @@ namespace EEMod
 
             #region Moving screen position
 
-            player.position = player.oldPosition;
+            Player.position = Player.oldPosition;
 
             SeamapPlayerShip.localship.ModifyScreenPosition(ref Main.screenPosition);
             #endregion
@@ -376,7 +376,7 @@ namespace EEMod
 
             if (clone.EEPosition != SeamapPlayerShip.localship.position)
             {
-                var packet = mod.GetPacket();
+                var packet = Mod.GetPacket();
                 packet.Write(triggerSeaCutscene);
                 packet.WriteVector2(EEPosition);
                 packet.Send();
@@ -389,7 +389,7 @@ namespace EEMod
 
         public override void SyncPlayer(int toWho, int fromWho, bool newPlayer)
         {
-            ModPacket packet = mod.GetPacket();
+            ModPacket packet = Mod.GetPacket();
             packet.Write(triggerSeaCutscene);
             packet.WriteVector2(EEPosition);
             packet.Send(toWho, fromWho);
@@ -425,11 +425,11 @@ namespace EEMod
                     {
                         case 0:
                         case 1:
-                            cloudTexture = GetTexture("EEMod/Seamap/SeamapAssets/DarkCloud" + (CloudChoose + 1));
+                            cloudTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/DarkCloud" + (CloudChoose + 1)).Value;
                             break;
 
                         default:
-                            cloudTexture = GetTexture("EEMod/Seamap/SeamapAssets/DarkCloud3");
+                            cloudTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/DarkCloud3").Value;
                             break;
                     }
 
@@ -443,7 +443,7 @@ namespace EEMod
             Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[RippleShader].IsActive())
             {
-                Filters.Scene.Activate(RippleShader, player.Center).GetShader().UseOpacity(timerForCutscene);
+                Filters.Scene.Activate(RippleShader, Player.Center).GetShader().UseOpacity(timerForCutscene);
             }
             if (!godMode)
             {
@@ -455,7 +455,7 @@ namespace EEMod
             Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[SeaTransShader].IsActive())
             {
-                Filters.Scene.Activate(SeaTransShader, player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
+                Filters.Scene.Activate(SeaTransShader, Player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
             }
             if (!triggerSeaCutscene)
             {

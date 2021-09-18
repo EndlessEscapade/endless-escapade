@@ -55,7 +55,7 @@ namespace EEMod
                     else
                     {
                         Helpers.DrawAdditive(Helpers.RadialMask, vec.ForDraw(), Color.Green * lerp, lerp * 0.2f);
-                        Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine = false;
+                        // Main.LocalPlayer.GetModPlayer<EEPlayer>().isHangingOnVine = false;
                     }
                     if (Main.LocalPlayer.controlUseItem)
                     {

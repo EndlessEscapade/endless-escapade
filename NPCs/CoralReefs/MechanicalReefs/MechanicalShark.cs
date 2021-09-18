@@ -49,8 +49,8 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
             NPC.spriteDirection = -1;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
@@ -68,7 +68,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
                 NPC.ai[2]++;
                 if (NPC.ai[2] >= 60)
                 {
-                    Projectile.NewProjectile(NPC.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalMissile>(), 120, 5f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, Vector2.Zero, ModContent.ProjectileType<MechanicalMissile>(), 120, 5f);
                     NPC.ai[2] = 0;
                 }
                 NPC.velocity = Vector2.Normalize(Main.player[NPC.target].position - NPC.Center) * 2;
@@ -102,14 +102,14 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalSharkGlow"), NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/MechanicalReefs/MechanicalSharkGlow").Value, NPC.Center - Main.screenPosition + new Vector2(0, 4), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if (NPC.ai[0] == 2)
             {
-                AfterImage.DrawAfterimage(spriteBatch, Main.npcTexture[NPC.type], 0, NPC, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
+                AfterImage.DrawAfterimage(spriteBatch, Terraria.GameContent.TextureAssets.Npc[NPC.type].Value, 0, NPC, 1.5f, 1f, 3, false, 0f, 0f, new Color(drawColor.R, drawColor.G, drawColor.B, 150));
             }
             return true;
         }

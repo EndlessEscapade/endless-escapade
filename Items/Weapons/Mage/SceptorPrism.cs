@@ -25,7 +25,7 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.height = 38;
             Projectile.timeLeft = 1200;
             Projectile.ignoreWater = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
         }
@@ -58,7 +58,7 @@ namespace EEMod.Items.Weapons.Mage
                     {
                         for (float i = -0.6f; i <= 0.6f; i += 0.4f)
                         {
-                            Projectile proj2 = Projectile.NewProjectileDirect(proj.Center - (Vector2.UnitY.RotatedBy((i + Math.PI) + Projectile.rotation) * 60), 3 * Vector2.UnitY.RotatedBy((i + Math.PI) + Projectile.rotation), ModContent.ProjectileType<ShimmerShotProj1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, 1);
+                            Projectile proj2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), proj.Center - (Vector2.UnitY.RotatedBy((i + Math.PI) + Projectile.rotation) * 60), 3 * Vector2.UnitY.RotatedBy((i + Math.PI) + Projectile.rotation), ModContent.ProjectileType<ShimmerShotProj1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, 1);
                             EEMod.primitives.CreateTrail(new SpirePrimTrail(proj2, Color.Lerp(Color.Cyan, Color.Magenta, i / ((i + 0.6f) / 1.2f)), 40));
                         }
                         proj.Kill();
@@ -87,7 +87,7 @@ namespace EEMod.Items.Weapons.Mage
             Color shadeColor = Main.hslToRgb((colorcounter / 16.96f) + 0.46f, 1f, 0.7f);
             EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/PrismLightMap"));
+            EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/PrismLightMap").Value);
             EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3() * (1 / (1 + Projectile.alpha)));
             EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3() * (1 / (1 + Projectile.alpha)));
             EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);
@@ -95,7 +95,7 @@ namespace EEMod.Items.Weapons.Mage
             Vector2 drawOrigin = new Vector2(Projectile.width / 2, Projectile.height / 2);
             Vector2 drawPos = Projectile.position - Main.screenPosition;
             shadeColor.A = 150;
-            spriteBatch.Draw(Main.projectileTexture[Projectile.type], drawPos + drawOrigin, null, shadeColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos + drawOrigin, null, shadeColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return false;

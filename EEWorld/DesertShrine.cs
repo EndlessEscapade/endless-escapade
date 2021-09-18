@@ -20,14 +20,14 @@ namespace EEMod.EEWorld
             internal const ushort K = TileID.CrystalBlock;
             internal const ushort L = TileID.Coral;
             internal const ushort M = TileID.BeachPiles;
-            internal const byte N = WallID.SandstoneBrick;
-            internal const byte O = WallID.GoldBrick;
-            internal const byte P = WallID.EbonstoneBrick;
-            internal const byte Q = WallID.GreenDungeonSlab;
-            internal const byte R = WallID.MetalFence;
-            internal const byte S = WallID.MudstoneBrick;
-            internal const byte T = WallID.DesertFossil;
-            internal const byte U = WallID.ShadewoodFence;
+            internal const byte N = (byte)WallID.SandstoneBrick;
+            internal const byte O = (byte)WallID.GoldBrick;
+            internal const byte P = (byte)WallID.EbonstoneBrick;
+            internal const byte Q = (byte)WallID.GreenDungeonSlab;
+            internal const byte R = (byte)WallID.MetalFence;
+            internal const byte S = (byte)WallID.MudstoneBrick;
+            internal const byte T = (byte)WallID.DesertFossil;
+            internal const byte U = (byte)WallID.ShadewoodFence;
         }
 
         public static int[,,] DesertShrine => new int[,,]

@@ -26,7 +26,7 @@ namespace EEMod.Items.Materials
             Item.consumable = true;
             Item.material = true;
             Item.createTile = ModContent.TileType<TropicalWoodTile>();
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.useTurn = true;
         }
     }

@@ -16,7 +16,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
         public override void SetDefaults()
         {
-            Item.summon = true;
+            Item.DamageType = DamageClass.Summon;
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.value = Item.sellPrice(0, 0, 18);
@@ -27,7 +27,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Item.height = 20;
             Item.rare = ItemRarityID.Green;
             Item.knockBack = 5f;
-            Item.useStyle = ItemUseStyleID.SwingThrow;
+            Item.useStyle = ItemUseStyleID.Swing;
             Item.UseSound = SoundID.Item8;
             Item.shoot = ModContent.ProjectileType<AkumoMinion>();
             Item.buffType = ModContent.BuffType<AkumoBuff>();

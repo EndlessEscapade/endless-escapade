@@ -78,7 +78,7 @@ namespace EEMod.Tiles.Banners
                 default:
                     return;
             }
-            Item.NewItem(i * 16, j * 16, 16, 48, mod.ItemType(item));
+            Item.NewItem(i * 16, j * 16, 16, 48, Mod.Find<ModItem>(item).Type);
         }
 
         public override void NearbyEffects(int i, int j, bool closer)
@@ -133,8 +133,8 @@ namespace EEMod.Tiles.Banners
                     default:
                         return;
                 }
-                player.NPCBannerBuff[mod.NPCType(type)] = true;
-                player.hasBanner = true;
+                //player.Banner[Mod.Find<ModNPC>(type).Type] = true;
+                //player.hasBanner = true;
             }
         }
 

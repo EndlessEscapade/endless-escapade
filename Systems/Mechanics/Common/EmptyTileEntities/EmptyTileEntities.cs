@@ -30,7 +30,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         public virtual string Tex { get; set; }
 
         public bool CanActivate { get; set; }
-        public Texture2D texture => ModContent.GetInstance<EEMod>().GetTexture(Tex);
+        public Texture2D texture => ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>(Tex).Value;
 
         public EmptyTileEntity(Vector2 position, string text)
         {
@@ -63,7 +63,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             {
                 foreach (var item in EmptyTileEntities.Instance.EmptyTilePairsCache.Where(kvp => kvp.Value == position).ToList()) // Turning into a list is needed because if the collection is modified while it's looping an exception will be thrown
                 {
-                    if (Framing.GetTileSafely((int)item.Key.X, (int)item.Key.Y).active())
+                    if (Framing.GetTileSafely((int)item.Key.X, (int)item.Key.Y).IsActive)
                         WorldGen.KillTile((int)item.Key.X, (int)item.Key.Y);
                 }
             }
@@ -120,7 +120,7 @@ namespace EEMod.Tiles.EmptyTileArrays
     public class Crystal : EmptyTileEntity
     {
         public float speed;
-        public Texture2D glow => ModContent.GetInstance<EEMod>().GetTexture(glowPath);
+        public Texture2D glow => ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>(glowPath).Value;
         public string glowPath;
         public float shaderLerp;
         public float lerp;
@@ -148,7 +148,7 @@ namespace EEMod.Tiles.EmptyTileArrays
 
             lerp += speed;
 
-            if (tile.type != ModContent.TileType<EmptyTile>() && tile.active())
+            if (tile.type != ModContent.TileType<EmptyTile>() && tile.IsActive)
             {
                 Destroy();
             }
@@ -159,7 +159,7 @@ namespace EEMod.Tiles.EmptyTileArrays
             Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + texture.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + texture.Height));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0075f));
-            EEMod.MainParticles.SpawnParticles(rand, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), ModContent.GetTexture("EEMod/Particles/Crystal"), 60, 1.5f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), new SlowDown(0.98f), new RotateTexture(0.01f), new RotateVelocity(Main.rand.NextFloat(-.1f, .1f)), new SetMask(Helpers.RadialMask, 0.4f));
+            EEMod.MainParticles.SpawnParticles(rand, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), ModContent.Request<Texture2D>("EEMod/Particles/Crystal").Value, 60, 1.5f, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), new SlowDown(0.98f), new RotateTexture(0.01f), new RotateVelocity(Main.rand.NextFloat(-.1f, .1f)), new SetMask(Helpers.RadialMask, 0.4f));
 
             rotation = 0;
             shaderLerp = 1;
@@ -194,7 +194,7 @@ namespace EEMod.Tiles.EmptyTileArrays
     public class BigCrystal : EmptyTileEntity
     {
         public float speed;
-        public Texture2D glow => ModContent.GetInstance<EEMod>().GetTexture(glowPath);
+        public Texture2D glow => ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>(glowPath).Value;
         public string glowPath;
         public float shaderLerp;
         public float lerp;
@@ -221,7 +221,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             lerp += speed;
             Tile tile = Framing.GetTileSafely((int)position.X, (int)position.Y);
-            if (tile.type != ModContent.TileType<EmptyTile>() && tile.active())
+            if (tile.type != ModContent.TileType<EmptyTile>() && tile.IsActive)
             {
                 Destroy();
             }
@@ -231,7 +231,7 @@ namespace EEMod.Tiles.EmptyTileArrays
         {
             Vector2 rand = new Vector2(Main.rand.NextFloat(ScreenPosition.X, ScreenPosition.X + texture.Width), Main.rand.NextFloat(ScreenPosition.Y, ScreenPosition.Y + texture.Height));
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.02f));
-            EEMod.MainParticles.SpawnParticles(rand, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), ModContent.GetTexture("EEMod/Particles/Crystal"), 60, 1, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), new SlowDown(0.98f), new RotateTexture(0.01f), new RotateVelocity(Main.rand.NextFloat(-.1f, .1f)), new SetMask(Helpers.RadialMask));
+            EEMod.MainParticles.SpawnParticles(rand, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), ModContent.Request<Texture2D>("EEMod/Particles/Crystal").Value, 60, 1, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), new SlowDown(0.98f), new RotateTexture(0.01f), new RotateVelocity(Main.rand.NextFloat(-.1f, .1f)), new SetMask(Helpers.RadialMask));
             rotation = 0;
             shaderLerp = 1;
             colour = Lighting.GetColor((int)position.X, (int)position.Y);

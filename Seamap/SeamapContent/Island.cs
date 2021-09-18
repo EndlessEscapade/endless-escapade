@@ -14,7 +14,7 @@ namespace EEMod.Seamap.SeamapContent
         public virtual int framespid => 0;
         public virtual bool cancollide => false;
 
-        public virtual Texture2D islandTex => ModContent.GetTexture("EEMod/Empty");
+        public virtual Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Empty").Value;
 
         public virtual IslandID id => IslandID.Default;
 

@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Ores
         {
             TileID.Sets.Ore[Type] = true;
             Main.tileSpelunker[Type] = true;
-            Main.tileValue[Type] = 410; // Metal Detector value
+            //Main.tileValue[Type] = 410; // Metal Detector value
             Main.tileShine2[Type] = true; // Modifies the draw color slightly.
             Main.tileShine[Type] = 1100; // How often tiny dust appear off this tile. Larger is less frequently
             Main.tileMergeDirt[Type] = false;

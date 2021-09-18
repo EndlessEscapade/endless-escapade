@@ -18,7 +18,7 @@ namespace EEMod.Tiles.Foliage.Coral
             TileObjectData.newTile.CopyFrom(TileObjectData.Style2x1);
             TileObjectData.newTile.Height = 1;
             TileObjectData.newTile.Width = 2;
-            TileObjectData.newTile.StyleHorizontal = false;
+            // TileObjectData.newTile.StyleHorizontal = false;
             TileObjectData.newTile.CoordinateHeights = new int[]
             { 16 };
             TileObjectData.newTile.Origin = new Point16(0, 0);

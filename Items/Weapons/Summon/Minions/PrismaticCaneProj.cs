@@ -31,10 +31,10 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Projectile.height = 22;
             Projectile.timeLeft = 999999999;
             Projectile.ignoreWater = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.extraUpdates = 12;
         }
 
@@ -86,8 +86,8 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
             Projectile.scale = 1f + (heartBeat / 5f);
 
-            Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Summons/PrismaticCaneProj");
-            Texture2D mask = ModContent.GetInstance<EEMod>().GetTexture("Textures/SmoothFadeOut");
+            Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/Summons/PrismaticCaneProj").Value;
+            Texture2D mask = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SmoothFadeOut").Value;
 
             float sineAdd = (float)Math.Sin(Main.GameUpdateCount / 20f) + 2.5f;
 
@@ -110,7 +110,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
 
                 for (float k = 0; k < 1; k += n)
                 {
-                    Main.spriteBatch.Draw(mod.GetTexture("Particles/Square"), Projectile.Center + (desiredVector - Projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f)), (desiredVector - Projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
+                    Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Particles/Square").Value, Projectile.Center + (desiredVector - Projectile.Center) * k - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.Lerp(Color.Cyan, Color.Magenta, (float)Math.Sin(Main.GameUpdateCount / 30f)), (desiredVector - Projectile.Center).ToRotation(), Vector2.One, 2f, SpriteEffects.None, 0);
                 }
             }
 

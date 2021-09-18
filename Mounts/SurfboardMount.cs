@@ -8,39 +8,39 @@ using Terraria.ModLoader;
 
 namespace EEMod.Mounts
 {
-    public class SurfboardMount : ModMountData
+    public class SurfboardMount : ModMount
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
-            //mountData.spawnDust = DustID.Smoke;
-            mountData.buff = ModContent.BuffType<SurfboardBuff>();
-            mountData.heightBoost = 10;
-            mountData.fallDamage = 0.5f;
-            mountData.runSpeed = 11f;
-            mountData.dashSpeed = 8f;
-            mountData.flightTimeMax = 0;
-            mountData.fatigueMax = 0;
-            mountData.jumpHeight = 10;
-            mountData.acceleration = 0.19f;
-            mountData.jumpSpeed = 8f;
-            mountData.blockExtraJumps = true;
-            mountData.totalFrames = 1;
-            mountData.constantJump = true;
-            int[] array = new int[mountData.totalFrames];
+            //MountData.spawnDust = DustID.Smoke;
+            MountData.buff = ModContent.BuffType<SurfboardBuff>();
+            MountData.heightBoost = 10;
+            MountData.fallDamage = 0.5f;
+            MountData.runSpeed = 11f;
+            MountData.dashSpeed = 8f;
+            MountData.flightTimeMax = 0;
+            MountData.fatigueMax = 0;
+            MountData.jumpHeight = 10;
+            MountData.acceleration = 0.19f;
+            MountData.jumpSpeed = 8f;
+            MountData.blockExtraJumps = true;
+            MountData.totalFrames = 1;
+            MountData.constantJump = true;
+            int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 array[l] = 20;
             }
-            mountData.playerYOffsets = array;
-            mountData.xOffset = 0;
-            mountData.yOffset = 0;
-            mountData.playerHeadOffset = 22;
+            MountData.playerYOffsets = array;
+            MountData.xOffset = 0;
+            MountData.yOffset = 0;
+            MountData.playerHeadOffset = 22;
             if (Main.netMode == NetmodeID.Server)
             {
                 return;
             }
-            mountData.textureWidth = 82;
-            mountData.textureHeight = 52;
+            MountData.textureWidth = 82;
+            MountData.textureHeight = 52;
         }
 
         public override void UpdateEffects(Player player)
@@ -94,7 +94,7 @@ namespace EEMod.Mounts
             // This code bypasses the normal mount spawning dust and replaces it with our own visual.
             for (int i = 0; i < 16; i++)
             {
-                Dust.NewDustPerfect(player.Center + new Vector2(80, 0).RotatedBy(i * Math.PI * 2 / 16f), mountData.spawnDust);
+                Dust.NewDustPerfect(player.Center + new Vector2(80, 0).RotatedBy(i * Math.PI * 2 / 16f), MountData.spawnDust);
             }
             skipDust = true;
         }

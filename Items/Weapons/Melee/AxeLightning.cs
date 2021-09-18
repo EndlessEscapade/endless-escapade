@@ -22,11 +22,11 @@ namespace EEMod.Items.Weapons.Melee
             Projectile.width = 32;
             Projectile.height = 32;
             Projectile.aiStyle = -1;
-            Projectile.melee = true;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.damage = 0;
             Projectile.timeLeft = 120;
             Projectile.alpha = 255;

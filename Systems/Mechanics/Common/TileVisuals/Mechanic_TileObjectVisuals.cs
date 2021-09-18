@@ -15,12 +15,12 @@ namespace EEMod
     {
         public override void OnDraw(SpriteBatch spriteBatch)
         {
-            ModContent.GetInstance<EEMod>().TVH.Draw(spriteBatch);
+            //ModContent.GetInstance<EEMod>().TVH.Draw(spriteBatch);
         }
 
         public override void OnUpdate()
         {
-            ModContent.GetInstance<EEMod>().TVH.Update();
+            //ModContent.GetInstance<EEMod>().TVH.Update();
         }
 
         public override void OnLoad()

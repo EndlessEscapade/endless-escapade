@@ -22,10 +22,10 @@ namespace EEMod.Projectiles.Runes
             Projectile.height = 64;
             Projectile.friendly = true;
             Projectile.hostile = true;
-            Projectile.ranged = true;
+            Projectile.DamageType = DamageClass.Ranged;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 100000;
-            Projectile.ignoreWater = false;
+            // Projectile.ignoreWater = false;
             Projectile.tileCollide = true;
             Projectile.extraUpdates = 1;
             Projectile.aiStyle = -1;
@@ -38,7 +38,7 @@ namespace EEMod.Projectiles.Runes
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersRuneBubble>(), 0, 0, Projectile.whoAmI);
+                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<BubblingWatersRuneBubble>(), 0, 0, Projectile.whoAmI);
                 }
             }
 
@@ -59,7 +59,7 @@ namespace EEMod.Projectiles.Runes
 
             Main.NewText((255 - Projectile.alpha) / 255);
             if (Projectile.ai[1] > 120)
-                spriteBatch.Draw(ModContent.GetTexture("EEMod/Projectiles/Nice"), Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f * ((255 - Projectile.alpha) / 255), Projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Projectiles/Nice").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f * ((255 - Projectile.alpha) / 255), Projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

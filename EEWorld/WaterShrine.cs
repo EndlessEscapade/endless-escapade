@@ -22,14 +22,14 @@ namespace EEMod.EEWorld
             internal const ushort K = TileID.Sand;
             internal const ushort L = TileID.DyePlants;
             internal const ushort M = TileID.Coral;
-            internal const byte N = WallID.Grass;
-            internal const byte O = WallID.BlueDungeonSlab;
-            internal const byte P = WallID.SandstoneBrick;
-            internal const byte Q = WallID.TinBrick;
-            internal const byte R = WallID.MudstoneBrick;
-            internal const byte S = WallID.Flower;
-            internal const byte T = WallID.Waterfall;
-            internal const byte U = WallID.TungstenBrick;
+            internal const byte N = (byte)WallID.Grass;
+            internal const byte O = (byte)WallID.BlueDungeonSlab;
+            internal const byte P = (byte)WallID.SandstoneBrick;
+            internal const byte Q = (byte)WallID.TinBrick;
+            internal const byte R = (byte)WallID.MudstoneBrick;
+            internal const byte S = (byte)WallID.Flower;
+            internal const byte T = (byte)WallID.Waterfall;
+            internal const byte U = (byte)WallID.TungstenBrick;
             internal static int V => ModContent.TileType<GemsandTile>();
             internal static int W => ModContent.TileType<LightGemsandTile>();
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using NVorbis;
-using Terraria.ModLoader.Audio;
+using Terraria.ModLoader;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 using Terraria;

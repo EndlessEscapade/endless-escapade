@@ -20,7 +20,7 @@ namespace EEMod.Projectiles.Hooks
             Projectile.alpha = 0;
             Projectile.timeLeft = 60000;
             Projectile.penetrate = -1;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.tileCollide = true;
             Projectile.ignoreWater = true;
@@ -62,7 +62,7 @@ namespace EEMod.Projectiles.Hooks
 
             Vector2 vec = Projectile.Center - player.Center;
 
-            Texture2D vine = mod.GetTexture("Projectiles/Hooks/KelpHookVine");
+            Texture2D vine = Mod.Assets.Request<Texture2D>("Projectiles/Hooks/KelpHookVine").Value;
 
             float n = vec.Length();
 

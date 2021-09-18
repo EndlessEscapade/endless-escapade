@@ -20,7 +20,7 @@ namespace EEMod.Items
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
-            Item.useStyle = ItemUseStyleID.EatingUsing;
+            Item.useStyle = ItemUseStyleID.EatFood;
             Item.UseSound = SoundID.Item1;
             Item.consumable = true;
             Item.useTime = 15;
@@ -34,7 +34,7 @@ namespace EEMod.Items
             Main.NewText(modPlayer.boatSpeed);
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
             modPlayer.boatSpeed = 3;

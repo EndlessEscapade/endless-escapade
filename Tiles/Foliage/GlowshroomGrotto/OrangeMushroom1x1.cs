@@ -27,7 +27,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             TileObjectData.newTile.CoordinatePadding = 0;
             TileObjectData.newTile.CoordinateWidth = 16;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.newTile.RandomStyleRange = 1;
             TileObjectData.addTile(Type);
             AddMapEntry(new Color(120, 85, 60));
@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             Color chosen = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(1f));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0075f));
-            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), mod.GetTexture("Particles/SmallCircle"), 60, 0.75f, chosen, new SetMask(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradient"), 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 60, 0.75f, chosen, new SetMask(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
 
             Tile tile = Framing.GetTileSafely(i, j);
             int frameX = tile.frameX;
@@ -62,7 +62,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
 
-            Texture2D tex = mod.GetTexture("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom1x1Cap");
+            Texture2D tex = Mod.Assets.Request<Texture2D>("Tiles/Foliage/GlowshroomGrotto/OrangeMushroom1x1Cap").Value;
 
             Main.spriteBatch.Draw(tex, position + new Vector2(8, 16), rect, Lighting.GetColor(i, j), (float)Math.Sin((Main.GameUpdateCount / 35f) + lerpVal) / 3f, new Vector2(8, 16), 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(tex, position + new Vector2(8, 16), rect, color, (float)Math.Sin((Main.GameUpdateCount / 35f) + lerpVal) / 3f, new Vector2(8, 16), 1f, SpriteEffects.None, 0f);

@@ -42,7 +42,7 @@ namespace EEMod.Items.FishingPoles
             {
                 float SpeedX = speedX + Main.rand.NextFloat(-spreadAmount, spreadAmount) * 0.05f;
                 float SpeedY = speedY + Main.rand.NextFloat(-spreadAmount, spreadAmount) * 0.05f;
-                Projectile.NewProjectile(position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0f, 0f);
+                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_Item(player, Item), position.X, position.Y, SpeedX, SpeedY, type, 0, 0f, player.whoAmI, 0f, 0f);
             }
             return false;
         }

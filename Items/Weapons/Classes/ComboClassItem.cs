@@ -17,10 +17,10 @@ namespace EEMod.Items.Weapons.Classes
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             ComboChangeBehaviour();
-            Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), ComboProjectile, damage, knockBack, player.whoAmI);
+            Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), position, new Vector2(speedX, speedY), ComboProjectile, damage, knockBack, player.whoAmI);
             try
             {
-                (projectile.modProjectile as ComboWeapon).SetCombo(CurrentCombo);
+                (projectile.ModProjectile as ComboWeapon).SetCombo(CurrentCombo);
             }
             catch
             {

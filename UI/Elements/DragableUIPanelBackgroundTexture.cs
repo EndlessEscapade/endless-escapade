@@ -15,7 +15,7 @@ namespace EEMod.UI.Elements
 
         public DragableUIPanelBackgroundTexture(string Texture)
         {
-            _backgroundTexture = ModContent.GetTexture(Texture);
+            _backgroundTexture = ModContent.Request<Texture2D>(Texture).Value;
         }
 
         public string[] StringOfTextures = {
@@ -36,7 +36,7 @@ namespace EEMod.UI.Elements
             {
                 if (Main.LocalPlayer.GetModPlayer<EEPlayer>().hasGottenRuneBefore[i] == 1)
                 {
-                    if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
+                    if (_backgroundTexture == ModContent.Request<Texture2D>(StringOfTextures[i]).Value)
                     {
                         if (color[i].R < 255)
                         {
@@ -65,7 +65,7 @@ namespace EEMod.UI.Elements
             int height = (int)Math.Ceiling(dimensions.Height);
             for (int i = 0; i < 7; i++)
             {
-                if (_backgroundTexture == ModContent.GetTexture(StringOfTextures[i]))
+                if (_backgroundTexture == ModContent.Request<Texture2D>(StringOfTextures[i]).Value)
                 {
                     spriteBatch.Draw(_backgroundTexture, new Rectangle(point1.X, point1.Y, width, height), color[i]);
                 }

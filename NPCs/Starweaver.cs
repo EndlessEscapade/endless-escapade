@@ -24,7 +24,7 @@ namespace EEMod.NPCs
         public override void SetDefaults()
         {
             NPC.aiStyle = -1;
-            NPC.friendly = false;
+            // NPC.friendly = false;
             NPC.HitSound = SoundID.NPCHit25;
             NPC.DeathSound = SoundID.NPCDeath28;
             NPC.alpha = 0;
@@ -61,7 +61,7 @@ namespace EEMod.NPCs
 
             if(spawningStars && NPC.ai[0] % 60 == 0 && index < constellations[chosenConstellation].Length)
             {
-                Projectile.NewProjectile(NPC.Center + constellations[chosenConstellation][index], Vector2.Zero, ModContent.ProjectileType<StarweaverStar>(), 40, 2f);
+                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center + constellations[chosenConstellation][index], Vector2.Zero, ModContent.ProjectileType<StarweaverStar>(), 40, 2f);
 
                 index++;
             }

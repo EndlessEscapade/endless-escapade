@@ -4,6 +4,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
 
 namespace EEMod.NPCs.CoralReefs.MechanicalReefs
 {
@@ -29,7 +30,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             NPC.noGravity = true;
             NPC.npcSlots = 1f;
             NPC.buffImmune[BuffID.Confused] = true;
-            NPC.lavaImmune = false;
+            // NPC.lavaImmune = false;
             NPC.behindTiles = true;
             NPC.dontTakeDamage = true;
             NPC.friendly = true;
@@ -60,9 +61,9 @@ float x0, float x1, float x2, float x3)
 
         public void DrawHead(SpriteBatch spriteBatch, string headTexture, string glowMaskTexture, NPC head, Color drawColor, Vector2 ifYouReallyWantToo)
         {
-            if (head != null && head.active && head.modNPC != null && head.modNPC is Ball)
+            if (head != null && head.active && head.ModNPC != null && head.ModNPC is Ball)
             {
-                Texture2D neckTex2D = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/MechanicalReefs/DreadmineChain");
+                Texture2D neckTex2D = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/MechanicalReefs/DreadmineChain").Value;
                 Vector2 neckOrigin = NPC.Center;
                 Vector2 connector = ifYouReallyWantToo;
                 float chainsPerUse = 0.05f;
@@ -106,7 +107,7 @@ float x0, float x1, float x2, float x3)
         {
             if (NPC.ai[0] == 0)
             {
-                Projectile.NewProjectile(NPC.Center + new Vector2(0, -100), Vector2.Zero, ModContent.ProjectileType<Dreadmine>(), 150, 0f, Main.myPlayer, NPC.whoAmI);
+                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center + new Vector2(0, -100), Vector2.Zero, ModContent.ProjectileType<Dreadmine>(), 150, 0f, Main.myPlayer, NPC.whoAmI);
             }
             NPC.ai[0]++;
             double deg = (double)NPC.ai[1] + 10;
@@ -127,7 +128,7 @@ float x0, float x1, float x2, float x3)
             //Player player = Main.player[npc.target]; // unused
             DrawColor = NPC.GetAlpha(DrawColor);
             DrawHead(spriteBatch, "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", NPC, DrawColor, new Vector2(NPC.ai[2], NPC.ai[3]));
-            Texture2D texture = Main.npcTexture[NPC.type];
+            Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
             spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0, 8), null, DrawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
             return false;

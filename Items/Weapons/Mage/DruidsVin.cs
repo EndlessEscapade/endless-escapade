@@ -118,7 +118,7 @@ namespace EEMod.Items.Weapons.Mage
             {
                 return false;
             }
-            Texture2D projectileTexture = Main.projectileTexture[projectile.type];
+            Texture2D projectileTexture = TextureAssets.Projectile[projectile.type].Value;
             Texture2D beamTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Mage/DruidsVin_Beam");
             Texture2D beamEndTexture = ModContent.GetInstance<EEMod>().GetTexture("Projectiles/Mage/DruidsVin_End");
             float laserLength = LaserLength;

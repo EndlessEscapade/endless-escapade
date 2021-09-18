@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the folder where it is to be read from, so you the texture will load correctly
 {
@@ -21,8 +22,8 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             Projectile.hostile = true;
             Projectile.penetrate = 1;
             Projectile.timeLeft = 2000;
-            Projectile.friendly = false;
-            Projectile.tileCollide = false;
+            // Projectile.friendly = false;
+            // Projectile.tileCollide = false;
             Projectile.damage = 60;
             Projectile.light = 1f;
             Projectile.scale = 1;
@@ -31,7 +32,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
 
         private Vector2 start;
         private readonly Vector2[] yeet = new Vector2[2];
-        KrakenHead krakenHead => Main.npc[(int)Projectile.ai[1]].modNPC as KrakenHead;
+        KrakenHead krakenHead => Main.npc[(int)Projectile.ai[1]].ModNPC as KrakenHead;
 
         public override void AI()
         {
@@ -62,7 +63,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                 int projectiledamage = 40;
                 if (Main.rand.Next(4) == 0)
                 {
-                    Projectile.NewProjectile(Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<InkSpew>(), projectiledamage, projectileknockBack, Main.npc[(int)Projectile.ai[1]].target, 0f, 1);
+                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center.X, Projectile.Center.Y, speed.X, speed.Y, ModContent.ProjectileType<InkSpew>(), projectiledamage, projectileknockBack, Main.npc[(int)Projectile.ai[1]].target, 0f, 1);
                 }
             }
         }
@@ -76,7 +77,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
                     krakenHead.bigBloons[i] = Vector2.Zero;
                 }
             }
-            Main.PlaySound(SoundID.Item27, Projectile.position);
+            SoundEngine.PlaySound(SoundID.Item27, Projectile.position);
             for (var i = 0; i < 5; i++)
             {
                 int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Blood, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-4f, 4f), 6, Color.Black, 2);

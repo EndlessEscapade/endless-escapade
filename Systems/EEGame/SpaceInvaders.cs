@@ -6,12 +6,13 @@ using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.UI;
 using Terraria.ModLoader;
+using Terraria.Audio;
 
 namespace EEMod.Systems.EEGame
 {
     public class SpaceInvaders : EEGame
     {
-        public override Texture2D tex => ModContent.GetInstance<EEMod>().GetTexture("UI/EEGameAssets/ArcadeBG");
+        public override Texture2D tex => ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/EEGameAssets/ArcadeBG").Value;
         public override Vector2 sizeOfMainCanvas => new Vector2(600, 800);
         public override Vector2 centerOfMainCanvas => Main.LocalPlayer.Center;
         public override Color colourOfMainCanvas => Color.White;
@@ -62,7 +63,7 @@ namespace EEMod.Systems.EEGame
         public int[] lifeImages = new int[3];
         public override void Initialize()
         {
-            Texture2D SAPlayer = ModContent.GetInstance<EEMod>().GetTexture("UI/EEGameAssets/SAPlayer");
+            Texture2D SAPlayer = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/EEGameAssets/SAPlayer").Value;
             player = AddUIElement(new Vector2(30, 48), Color.White, centerOfMainCanvas + new Vector2(0, 300));
             //elementArray[puck].AttatchToMouse(16f, i);
             elementArray[player].BindElementToGame(this);
@@ -99,7 +100,7 @@ namespace EEMod.Systems.EEGame
 
                         elementArray[enemy].BindElementToGame(this);
                         elementArray[enemy].AttachCollisionComponents(false, true, false, 1);
-                        elementArray[enemy].BindElementToTexture(ModContent.GetInstance<EEMod>().GetTexture("UI/EEGameAssets/SAEnemy"));
+                        elementArray[enemy].BindElementToTexture(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/EEGameAssets/SAEnemy").Value);
                         elementArray[enemy].speedOfStartUp = 8;
                         elementArray[enemy].AttachTag("SAEnemy");
                         elementArray[enemy].velocity.X = 1.5f;
@@ -128,20 +129,20 @@ namespace EEMod.Systems.EEGame
         public void LoseLife()
         {
             lives--;
-            elementArray[lifeImages[lives + 1]].elementActive = false;
+            // elementArray[lifeImages[lives + 1]].elementActive = false;
             foreach (GameElement GE in elementArray)
             {
                 if (GE != null && GE.tag == "SAEnemy")
                 {
-                    GE.elementActive = false;
+                    // GE.elementActive = false;
                     time = 780;
-                    Main.PlaySound(SoundID.NPCDeath56, Main.LocalPlayer.Center);
+                    SoundEngine.PlaySound(SoundID.NPCDeath56, Main.LocalPlayer.Center);
                 }
             }
             if (lives <= -1)
             {
                 EndGame();
-                Main.LocalPlayer.GetModPlayer<EEPlayer>().playingGame = false;
+                // Main.LocalPlayer.GetModPlayer<EEPlayer>().playingGame = false;
             }
         }
 
@@ -177,14 +178,14 @@ namespace EEMod.Systems.EEGame
 
                     elementArray[bolt].BindElementToGame(this);
                     elementArray[bolt].AttachCollisionComponents(false, true, false);
-                    elementArray[bolt].BindElementToTexture(ModContent.GetInstance<EEMod>().GetTexture("UI/EEGameAssets/SABolt"));
+                    elementArray[bolt].BindElementToTexture(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/EEGameAssets/SABolt").Value);
                     elementArray[bolt].velocity = new Vector2(0, -16);
                     elementArray[bolt].lifetime = 45;
                     elementArray[bolt].friction = 1;
                     elementArray[bolt].AttachTag("SABolt");
                     elementArray[bolt].speedOfStartUp = 1;
                     shootCooldown = 20;
-                    Main.PlaySound(SoundID.Item93);
+                    SoundEngine.PlaySound(SoundID.Item93);
                 }
                 #endregion
 

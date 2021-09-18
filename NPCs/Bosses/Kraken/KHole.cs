@@ -15,7 +15,7 @@ namespace EEMod.NPCs.Bosses.Kraken
         {
             NPC.boss = true;
             NPC.lavaImmune = true;
-            NPC.friendly = false;
+            // NPC.friendly = false;
             NPC.noGravity = true;
             NPC.aiStyle = -1;
             NPC.lifeMax = 50000;

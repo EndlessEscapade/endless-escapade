@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Items.FishingPoles;
+using Terraria.GameContent;
+
 
 namespace EEMod.Projectiles.FishingBobbers
 {
@@ -30,7 +32,7 @@ namespace EEMod.Projectiles.FishingBobbers
             Projectile.height = 22;
         }
 
-        public override bool PreDrawExtras(SpriteBatch spriteBatch)
+        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             //Create some light based on the color of the line; this could also be in the AI function
             Lighting.AddLight(Projectile.Center, fishingLineColor.R / 255, fishingLineColor.G / 255, fishingLineColor.B / 255);
@@ -149,7 +151,7 @@ namespace EEMod.Projectiles.FishingBobbers
                 Color lineColor = Lighting.GetColor((int)mountedCenter.X / 16, (int)(mountedCenter.Y / 16f), fishingLineColor);
                 float rotation = (float)Math.Atan2(lineOrigin.Y, lineOrigin.X) - MathHelper.PiOver2;
 
-                Main.spriteBatch.Draw(Main.fishingLineTexture, new Vector2(mountedCenter.X - Main.screenPosition.X + Main.fishingLineTexture.Width * 0.5f, mountedCenter.Y - Main.screenPosition.Y + Main.fishingLineTexture.Height * 0.5f), new Rectangle?(new Rectangle(0, 0, Main.fishingLineTexture.Width, (int)height)), lineColor, rotation, new Vector2(Main.fishingLineTexture.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(TextureAssets.FishingLine.Value, new Vector2(mountedCenter.X - Main.screenPosition.X + TextureAssets.FishingLine.Value.Width * 0.5f, mountedCenter.Y - Main.screenPosition.Y + TextureAssets.FishingLine.Value.Height * 0.5f), new Rectangle?(new Rectangle(0, 0, TextureAssets.FishingLine.Value.Width, (int)height)), lineColor, rotation, new Vector2(TextureAssets.FishingLine.Value.Width * 0.5f, 0f), 1f, SpriteEffects.None, 0f);
             }
             return false;
         }

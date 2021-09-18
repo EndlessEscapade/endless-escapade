@@ -22,11 +22,11 @@ namespace EEMod.Items.Consumables
             Item.consumable = true;
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Blue;
-            Item.useStyle = ItemUseStyleID.EatingUsing;
+            Item.useStyle = ItemUseStyleID.EatFood;
             Item.UseSound = SoundID.Item2;
         }
 
-        public override bool UseItem(Player player)
+        public override bool? UseItem(Player player)
         {
             player.AddBuff(BuffID.Swiftness, 60 * 60);
             return true;

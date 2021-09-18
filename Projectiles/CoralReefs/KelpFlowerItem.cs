@@ -19,11 +19,11 @@ namespace EEMod.Projectiles.CoralReefs
         {
             Projectile.width = 32;
             Projectile.height = 32;
-            Projectile.friendly = false;
-            Projectile.hostile = false;
+            // Projectile.friendly = false;
+            // Projectile.hostile = false;
             Projectile.alpha = 0;
             Projectile.scale = 0.5f;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.penetrate = -1;
             Projectile.timeLeft = 1000000000;
@@ -108,14 +108,14 @@ namespace EEMod.Projectiles.CoralReefs
         private float alpha2 = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Texture2D tex = Main.itemTexture[(int)Projectile.ai[0]];
+            Texture2D tex = Terraria.GameContent.TextureAssets.Item[(int)Projectile.ai[0]].Value;
             Vector2 pos = (Projectile.Center - Main.screenPosition);
 
             alpha += 0.06f;
 
             Color outlineColor = Color.Lerp(Color.Goldenrod, Color.Gold, 0.5f);
 
-            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), Projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f), 0.9f * Projectile.scale, 0.8f);
+            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradientWide").Value, Projectile.Center.ForDraw(), outlineColor * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f), 0.9f * Projectile.scale, 0.8f);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);

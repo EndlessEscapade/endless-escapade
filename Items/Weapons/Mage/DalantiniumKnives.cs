@@ -21,7 +21,7 @@ namespace EEMod.Items.Weapons.Mage
         public override void SetDefaults()
         {
             Item.damage = 13;
-            Item.magic = true;
+            Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
             Item.knockBack = 1f;
             Item.value = Item.sellPrice(0, 0, 21);
@@ -33,7 +33,7 @@ namespace EEMod.Items.Weapons.Mage
             Item.width = 20;
             Item.height = 20;
             Item.autoReuse = true;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.shoot = ModContent.ProjectileType<DalantiniumFan>();
             Item.noUseGraphic = true;
             Item.UseSound = SoundID.Item1;
@@ -58,7 +58,7 @@ namespace EEMod.Items.Weapons.Mage
         {
             if (anim < 200)
             {
-                Texture2D tex = mod.GetTexture("Projectiles/Mage/DalantiniumFanSheet");
+                Texture2D tex = Mod.Assets.Request<Texture2D>("Projectiles/Mage/DalantiniumFanSheet").Value;
                 Rectangle rect = new Rectangle(0, 0, tex.Width, tex.Height);
                 spriteBatch.Draw(tex, Main.LocalPlayer.Center.ForDraw() + new Vector2(0, -100 + (float)Math.Sin(anim / 10f)), rect, lightColor, 0f, rect.Size() / 2, 1f, SpriteEffects.None, 0f);
             }
@@ -79,9 +79,9 @@ namespace EEMod.Items.Weapons.Mage
             {
                 type = ModContent.ProjectileType<DalantiniumFan>();
                 Item.shoot = ModContent.ProjectileType<DalantiniumFan>();
-                Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 powerUp += 200;
-                (projectile.modProjectile as DalantiniumFan).boost = powerUp;
+                (projectile.ModProjectile as DalantiniumFan).boost = powerUp;
                 if (Main.netMode != NetmodeID.Server)
                 {
                     EEMod.prims.CreateTrail(projectile);
@@ -91,7 +91,7 @@ namespace EEMod.Items.Weapons.Mage
             {
                 type = ModContent.ProjectileType<DalantiniumFanAlt>();
                 Item.shoot = ModContent.ProjectileType<DalantiniumFanAlt>();
-                Projectile projectile = Projectile.NewProjectileDirect(position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
+                Projectile projectile = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
                 powerUp = 0;
                 if (Main.netMode != NetmodeID.Server)
                 {
@@ -108,11 +108,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7);
-            recipe.SetResult(this);
-            recipe.AddTile(TileID.Anvils);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<DalantiniumBar>(), 7).AddTile(TileID.Anvils).Register();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace EEMod.Projectiles
         {
             Projectile.width = 4;
             Projectile.height = 4;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;  //Tells the game whether it is friendly to players/friendly npcs or not
             Projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
             Projectile.minion = true;  //Tells the game whether it is a ranged projectile or not

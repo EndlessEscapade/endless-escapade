@@ -18,8 +18,8 @@ namespace EEMod.Items.Weapons.Mage
 
         public override void SetDefaults()
         {
-            Item.melee = false;
-            Item.magic = true;
+            // Item.melee = false;
+            Item.DamageType = DamageClass.Magic;
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.value = Item.sellPrice(0, 0, 18, 0);
@@ -32,7 +32,7 @@ namespace EEMod.Items.Weapons.Mage
             Item.shootSpeed = 0f;
             Item.rare = ItemRarityID.Green;
             Item.knockBack = 5f;
-            Item.useStyle = ItemUseStyleID.HoldingUp;
+            Item.useStyle = ItemUseStyleID.HoldUp;
             Item.UseSound = SoundID.Item8;
             Item.shoot = ModContent.ProjectileType<AncientBubbleLarge>();
         }
@@ -50,10 +50,10 @@ namespace EEMod.Items.Weapons.Mage
         public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
         {
             Texture2D texture;
-            texture = Main.itemTexture[Item.type];
+            texture = Terraria.GameContent.TextureAssets.Item[Item.type].Value;
             Vector2 vec = new Vector2(Item.position.X + Item.width * 0.5f, Item.position.Y + Item.height - texture.Height * 0.5f);
 
-            spriteBatch.Draw(ModContent.GetTexture("EEMod/Items/Weapons/Mage/AncientBubbleStaffGlow"), vec.ForDraw(), new Rectangle(0, 0, texture.Width, texture.Height), Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/Weapons/Mage/AncientBubbleStaffGlow").Value, vec.ForDraw(), new Rectangle(0, 0, texture.Width, texture.Height), Color.White, rotation, texture.Size() * 0.5f, scale, SpriteEffects.None, 0f);
         }
     }
 }

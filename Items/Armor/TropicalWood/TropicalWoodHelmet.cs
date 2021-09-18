@@ -30,7 +30,7 @@ namespace EEMod.Items.Armor.TropicalWood
 
         public override void UpdateEquip(Player player)
         {
-            player.minionDamage += 0.02f;
+            player.GetDamage(DamageClass.Summon) += 0.02f;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -41,11 +41,7 @@ namespace EEMod.Items.Armor.TropicalWood
 
         public override void AddRecipes()
         {
-            ModRecipe recipe = new ModRecipe(mod);
-            recipe.AddIngredient(ModContent.ItemType<TropicalWoodItem>(), 20);
-            recipe.AddTile(TileID.Anvils);
-            recipe.SetResult(this);
-            recipe.AddRecipe();
+            CreateRecipe(1).AddIngredient(ModContent.ItemType<TropicalWoodItem>(), 20).AddTile(TileID.Anvils).Register();
         }
     }
 }

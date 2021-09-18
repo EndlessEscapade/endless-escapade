@@ -83,7 +83,7 @@ namespace EEMod.MachineLearning
                     }
                 }
                 UIInputs[i] = Math.Min(UIInputs[i], 1);
-                Main.spriteBatch.Draw(Main.magicPixel, box, Color.Lerp(Color.Black,Color.White, (float)UIInputs[i]));
+                Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, box, Color.Lerp(Color.Black,Color.White, (float)UIInputs[i]));
             }
             for(int i = 0; i <Vals.Count; i++)
             {
@@ -92,7 +92,7 @@ namespace EEMod.MachineLearning
                 int Length = 500;
                 Rectangle box = new Rectangle((int)StartPoint.X + IMAGEWIDTH * PixelSize, (int)StartPoint.Y + i* Seperation, (int)(Length* GotoVals[i]), 20);
                 EEMod.UIText(i.ToString(), Color.White, new Vector2((int)StartPoint.X + IMAGEWIDTH * PixelSize - 10, (int)StartPoint.Y + i * Seperation), 1);
-                Main.spriteBatch.Draw(Main.magicPixel, box, Color.Lerp(Color.Red,Color.Green, GotoVals[i]));
+                Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, box, Color.Lerp(Color.Red,Color.Green, GotoVals[i]));
             }
             try
             {

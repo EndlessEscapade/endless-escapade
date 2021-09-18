@@ -19,10 +19,10 @@ namespace EEMod.Tiles.Furniture
             public override bool ValidTile(int i, int j)
             {
                 Tile tile = Framing.GetTileSafely(i, j);
-                return tile.active();
+                return tile.IsActive;
             }
 
-            public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
+            /*public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
             {
                 if (Main.netMode == NetmodeID.MultiplayerClient)
                 {
@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Furniture
             public override void NetReceive(BinaryReader reader, bool lightReceive)
             {
                 hasOrb = reader.ReadBoolean();
-            }
+            }*/
 
             public override TagCompound Save()
             {
@@ -74,14 +74,14 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.newTile.CoordinatePadding = 2;
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             TileObjectData.newTile.HookPostPlaceMyPlayer = new PlacementHook(ModContent.GetInstance<OrbHolderTE>().Hook_AfterPlacement, -1, 0, true);
-            TileObjectData.newTile.LavaDeath = false;
+            // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Orb Holder");
             AddMapEntry(new Color(20, 60, 20), name);
             disableSmartCursor = true;
             dustType = DustID.Dirt;
-            animationFrameHeight = 180;
+            AnimationFrameHeight = 180;
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
@@ -96,11 +96,11 @@ namespace EEMod.Tiles.Furniture
             {
                 if (TE.hasOrb)
                 {
-                    frameYOffset = Main.tileFrameCounter[Type] / 3 % 7 * animationFrameHeight;
+                    frameYOffset = Main.tileFrameCounter[Type] / 3 % 7 * AnimationFrameHeight;
                 }
                 else
                 {
-                    frameYOffset = 8 * animationFrameHeight;
+                    frameYOffset = 8 * AnimationFrameHeight;
                 }
             }
         }

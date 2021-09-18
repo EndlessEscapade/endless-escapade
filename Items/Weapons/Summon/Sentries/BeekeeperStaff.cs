@@ -14,8 +14,8 @@ namespace EEMod.Items.Weapons.Summon.Sentries
 
         public override void SetDefaults()
         {
-            Item.melee = false;
-            Item.summon = true;
+            // Item.melee = false;
+            Item.DamageType = DamageClass.Summon;
             Item.noMelee = true;
             Item.autoReuse = true;
             Item.value = Item.sellPrice(0, 0, 18);
@@ -26,7 +26,7 @@ namespace EEMod.Items.Weapons.Summon.Sentries
             Item.height = 20;
             Item.rare = ItemRarityID.Green;
             Item.knockBack = 5f;
-            Item.useStyle = ItemUseStyleID.HoldingOut;
+            Item.useStyle = ItemUseStyleID.Shoot;
             Item.UseSound = SoundID.Item8;
         }
 

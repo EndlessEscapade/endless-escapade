@@ -28,7 +28,7 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().GetTexture("Textures/RadialGradientWide"), NPC.Center.ForDraw(), new Color(48, 25, 52), 1.4f, 0.8f);
+            Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradientWide").Value, NPC.Center.ForDraw(), new Color(48, 25, 52), 1.4f, 0.8f);
 
             alpha += 0.05f;
 
@@ -38,7 +38,7 @@ namespace EEMod.NPCs.CoralReefs
             EEMod.White.CurrentTechnique.Passes[0].Apply();
             EEMod.White.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
             EEMod.White.Parameters["color"].SetValue(new Vector3(1, 1, 1));
-            Main.spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center.ForDraw(), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale * 1.05f, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Npc[NPC.type].Value, NPC.Center.ForDraw(), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale * 1.05f, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -48,12 +48,12 @@ namespace EEMod.NPCs.CoralReefs
 
             EEMod.ReflectionShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.ReflectionShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().GetTexture("Textures/SpikyOrbLightMap"));
+            EEMod.ReflectionShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/SpikyOrbLightMap").Value);
             EEMod.ReflectionShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
             EEMod.ReflectionShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.ReflectionShader.CurrentTechnique.Passes[0].Apply();
 
-            Main.spriteBatch.Draw(Main.npcTexture[NPC.type], NPC.Center.ForDraw(), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Npc[NPC.type].Value, NPC.Center.ForDraw(), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
@@ -182,8 +182,8 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        Gore gore = Gore.NewGorePerfect(NPC.Center, Vector2.Zero, mod.GetGoreSlot("Gores/SpikyOrb" + (i + 1)), 1);
-                        gore.velocity = new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5));
+                        //Gore gore = Gore.NewGorePerfect(NPC.Center, Vector2.Zero, Mod.GetGoreSlot("Gores/SpikyOrb" + (i + 1)), 1);
+                        //gore.velocity = new Vector2(Main.rand.NextFloat(-5, 5), Main.rand.NextFloat(-5, 5));
                     }
                     a = true;
                 }

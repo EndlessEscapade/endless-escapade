@@ -49,7 +49,7 @@ namespace EEMod
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.AquamarineCaverns)
@@ -58,7 +58,7 @@ namespace EEMod
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.ThermalVents)
@@ -67,7 +67,7 @@ namespace EEMod
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else
@@ -76,7 +76,7 @@ namespace EEMod
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (WorldGen.InWorld((int)(vec.X), (int)(vec.Y)) && Main.tile[(int)(vec.X), (int)(vec.Y)].liquidType() == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].liquid >= 100)
+                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                 }
@@ -141,7 +141,7 @@ namespace EEMod
                     {
                         Tile tile = Framing.GetTileSafely(tilePos.X + i, tilePos.Y + j);
                         float pdist = Vector2.DistanceSquared(position, new Vector2(tilePos.X + i, tilePos.Y + j) * 16);
-                        if (pdist < range * range && pdist > 0 && tile.active() && Main.tileSolid[tile.type] || tile.liquid < 100)
+                        if (pdist < range * range && pdist > 0 && tile.IsActive && Main.tileSolid[tile.type] || tile.LiquidAmount < 100)
                         {
                             Vector2 d = position - new Vector2(tilePos.X + i, tilePos.Y + j) * 16;
                             Vector2 norm = Vector2.Normalize(d);
@@ -267,7 +267,7 @@ namespace EEMod
         {
             Point point = position.ParalaxX(-0f).ToTileCoordinates();
             Color lightColour = Lighting.GetColor(point.X, point.Y);
-            Texture2D texture = ModContent.GetInstance<EEMod>().GetTexture(parent.flockTex);
+            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>(parent.flockTex).Value;
             spritebatch.Draw(texture, position.ForDraw().ParalaxX(-0f), texture.Bounds, lightColour, velocity.ToRotation(), texture.Bounds.Size() / 2f, parent.fishScale, SpriteEffects.None, 0f);
         }
 

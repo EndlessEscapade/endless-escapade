@@ -12,9 +12,9 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             Projectile.width = 12;  //Set the hitbox width
             Projectile.height = 12;
             Projectile.hostile = true;//Set the hitbox height
-            Projectile.friendly = false;  //Tells the game whether it is friendly to players/friendly npcs or not
+            // Projectile.friendly = false;  //Tells the game whether it is friendly to players/friendly npcs or not
             Projectile.ignoreWater = true;  //Tells the game whether or not projectile will be affected by water
-            Projectile.ranged = true;  //Tells the game whether it is a ranged projectile or not
+            Projectile.DamageType = DamageClass.Ranged;  //Tells the game whether it is a ranged projectile or not
             Projectile.penetrate = -1; //Tells the game how many enemies it can hit before being destroyed, -1 infinity
             Projectile.timeLeft = 27;  //The amount of time the projectile is alive for
             Projectile.tileCollide = true;

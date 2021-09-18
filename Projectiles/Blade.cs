@@ -59,12 +59,12 @@ namespace EEMod.Projectiles
             //Vector2 Norm = Vector2.Normalize(Main.MouseWorld - projOwner.Center); //unused
             if (Direction == 0)
             {
-                spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), Projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * currentFrame, width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Mod.Assets.Request<Texture2D>($"Projectiles/Slash{SlashType}").Value, Projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * currentFrame, width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
             }
 
             if (Direction == 1)
             {
-                spriteBatch.Draw(mod.GetTexture($"Projectiles/Slash{SlashType}"), Projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * (frames - currentFrame), width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Mod.Assets.Request<Texture2D>($"Projectiles/Slash{SlashType}").Value, Projectile.Center - Main.screenPosition + offsetHoldout, new Rectangle(0, height * (frames - currentFrame), width, height), Color.White, rotation, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
             }
 
             return false;

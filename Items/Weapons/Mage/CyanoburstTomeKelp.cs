@@ -20,10 +20,10 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.height = 58;
             Projectile.timeLeft = 420;
             Projectile.ignoreWater = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.alpha = 255;
             Projectile.damage = 100;
         }
@@ -32,7 +32,7 @@ namespace EEMod.Items.Weapons.Mage
 
         public void DrawBehind()
         {
-            Main.spriteBatch.Draw(Main.projectileTexture[Projectile.type], Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.height * Projectile.frame, Projectile.width, Projectile.height), Color.White, Projectile.rotation, new Rectangle(0, Projectile.height * Projectile.frame, Projectile.width, Projectile.height).Size() / 2, 1, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, Projectile.Center - Main.screenPosition, new Rectangle(0, Projectile.height * Projectile.frame, Projectile.width, Projectile.height), Color.White, Projectile.rotation, new Rectangle(0, Projectile.height * Projectile.frame, Projectile.width, Projectile.height).Size() / 2, 1, SpriteEffects.None, 0);
         }
 
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)

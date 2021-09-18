@@ -21,11 +21,11 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Projectile.width = 16;
             Projectile.height = 16;
             Projectile.friendly = true;
-            Projectile.melee = true;
+            Projectile.DamageType = DamageClass.Melee;
             Projectile.penetrate = -1;
             Projectile.alpha = 255;
             Projectile.hide = true;
-            Projectile.tileCollide = false;
+            // Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.usesLocalNPCImmunity = true;
             Projectile.localNPCHitCooldown = 6;

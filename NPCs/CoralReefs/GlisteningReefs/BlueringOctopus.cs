@@ -49,8 +49,8 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
             NPC.spriteDirection = -1;
 
-            NPC.lavaImmune = false;
-            NPC.noTileCollide = false;
+            // NPC.lavaImmune = false;
+            // NPC.noTileCollide = false;
             //bannerItem = ModContent.ItemType<Items.Banners.GiantSquidBanner>();
         }
 
@@ -64,7 +64,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                 NPC.ai[2]++;
                 if (NPC.ai[2] >= 2)
                 {
-                    Projectile.NewProjectile(NPC.Center, Vector2.Normalize(target.Center - NPC.Center) * 6, ModContent.ProjectileType<BlueRing>(), NPC.damage, 0f);
+                    Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, Vector2.Normalize(target.Center - NPC.Center) * 6, ModContent.ProjectileType<BlueRing>(), NPC.damage, 0f);
                     NPC.ai[2] = 0;
                 }
 
@@ -84,7 +84,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
         public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            spriteBatch.Draw(ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow"), NPC.Center - Main.screenPosition + new Vector2(0, -6), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow").Value, NPC.Center - Main.screenPosition + new Vector2(0, -6), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)

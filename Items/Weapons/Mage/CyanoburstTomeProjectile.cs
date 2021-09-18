@@ -19,7 +19,7 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.height = 4;
             Projectile.timeLeft = 420;
             Projectile.ignoreWater = true;
-            Projectile.hostile = false;
+            // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.penetrate = -1;
         }
@@ -43,7 +43,7 @@ namespace EEMod.Items.Weapons.Mage
                 int num = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.GreenBlood, Main.rand.NextFloat(-6f, 6f), Main.rand.NextFloat(-1f, 1f), 6, new Color(0, 255, 0, 255), 1);
                 Main.dust[num].noGravity = true;
                 Main.dust[num].velocity *= 1.2f;
-                Main.dust[num].noLight = false;
+                // Main.dust[num].noLight = false;
             }
         }
 
@@ -56,9 +56,9 @@ namespace EEMod.Items.Weapons.Mage
                 Vector2 offset = new Vector2(xdist, ydist);
                 Dust dust = Dust.NewDustPerfect(Projectile.Center + offset, DustID.GreenBlood, offset * 0.5f);
                 dust.noGravity = true;
-                dust.noLight = false;
+                // dust.noLight = false;
             }
-            Projectile.NewProjectile(Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CyanoburstTomeKelp>(), 10, 10f, Main.myPlayer);
+            Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<CyanoburstTomeKelp>(), 10, 10f, Main.myPlayer);
         }
     }
 }
