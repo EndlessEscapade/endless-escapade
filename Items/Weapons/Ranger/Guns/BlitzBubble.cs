@@ -58,7 +58,7 @@ namespace EEMod.Items.Weapons.Ranger.Guns
                     }
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        EEMod.primitives.CreateTrail(new BubbleBlitzerPrimTrail(proj));
+                        PrimSystem.primitives.CreateTrail(new BubbleBlitzerPrimTrail(proj));
                     }
                     proj.damage = (int)(proj.damage * 1.71f);
                 }

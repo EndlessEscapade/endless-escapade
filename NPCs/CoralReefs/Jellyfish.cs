@@ -133,7 +133,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.velocity *= 0.98f;
             if (NPC.ai[1] == 0)
             {
-                EEMod.prims.CreateTrailWithNPC(null, NPC);
+                //EEMod.prims.CreateTrailWithNPC(null, NPC);
                 NPC.ai[1] = 1;
             }
             NPC.ai[0]++;

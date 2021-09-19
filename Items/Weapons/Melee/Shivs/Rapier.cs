@@ -1,5 +1,6 @@
 using EEMod.Extensions;
 using EEMod.Items.Weapons.Melee;
+using EEMod.Prim;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -33,7 +34,6 @@ namespace EEMod.Items.Weapons.Melee.Shivs
 
             if (projOwner.itemAnimation <= 1 && timeForSwing > 0.999f)
             {
-                Main.NewText("f");
                 Projectile.Kill();
             }
             if (Main.LocalPlayer.controlUseItem)
@@ -104,7 +104,7 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     (Main.projectile[lightningproj].ModProjectile as RapierProj).start = firstClickPos;
                     (Main.projectile[lightningproj].ModProjectile as RapierProj).end = lastClickPos;
                     flag = true;
-                    EEMod.primitives.CreateTrail(new Prim.SwordPrimTrail(Projectile, lastClickPos, midPoint, firstClickPos));
+                    PrimSystem.primitives.CreateTrail(new Prim.SwordPrimTrail(Projectile, lastClickPos, midPoint, firstClickPos));
                 }
                 //Helpers.DrawLine(fClickToDraw, lClickToDraw);
                 //Helpers.DrawLine(fClickToDraw, mClickToDraw);

@@ -55,10 +55,10 @@ namespace EEMod
         }*/
         public void UIControls()
         {
-            if (RuneActivator.JustPressed && delay == 0)
-            {
-                UI.SwitchBindedState("EEInterface");
-            }
+            //if (RuneActivator.JustPressed && delay == 0)
+            //{
+            //    UI.SwitchBindedState("EEInterface");
+            //}
         }
     }
 }

@@ -73,7 +73,7 @@ namespace EEMod
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             WP = new WaterPrimitive(null);
-            primitives.CreateTrail(WP);
+            PrimSystem.primitives.CreateTrail(WP);
         }
 
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
@@ -434,11 +434,10 @@ namespace EEMod
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
-            trailManager.DrawTrails(Main.spriteBatch);
-            prims.DrawProjectileTrails();
+            PrimSystem.trailManager.DrawTrails(Main.spriteBatch);
             MechanicManager.PreDrawProjectiles();
 
-            primitives.DrawTrailsAboveTiles();
+            PrimSystem.primitives.DrawTrailsAboveTiles();
             if (Main.worldName == KeyID.Sea)
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -454,7 +453,6 @@ namespace EEMod
 
         private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)
         {
-            prims.DrawTrails(Main.spriteBatch);
             MechanicManager.PreDrawNPCs();
             orig(self, iNPCTiles, behindTiles);
             MechanicManager.PostDrawNPCs();

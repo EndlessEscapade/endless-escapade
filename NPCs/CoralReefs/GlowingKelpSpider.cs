@@ -65,7 +65,6 @@ namespace EEMod.NPCs.CoralReefs
             float lerpCache = Math.Abs((float)Math.Sin(NPC.ai[1] / 200f));
             for (int i = 0; i < numberOfLegs; i++)
             {
-
                 Main.spriteBatch.Draw(UpperLegTex, ((SpiderBodyPosition + jointPoints[i]) / 2f).ForDraw(), UpperLegTex.Bounds, drawColour, (SpiderBodyPosition - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, UpperLegTex.TextureCenter(), 1f, SpriteEffects.None, 0f);
                 if (i % 2 == 0)
                     Main.spriteBatch.Draw(LowerLegTex, ((legPoints[i] + jointPoints[i]) / 2f).ForDraw(), LowerLegTex.Bounds, drawColour, (legPoints[i] - jointPoints[i]).ToRotation() + (float)Math.PI / 2f, LowerLegTex.TextureCenter(), 0.9f, SpriteEffects.None, 0f);

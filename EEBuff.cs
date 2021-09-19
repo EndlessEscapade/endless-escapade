@@ -10,9 +10,6 @@ namespace EEMod
 {
     public abstract class EEBuff : ModBuff
     {
-        public virtual void SetDefaults()
-        {
-            SetStaticDefaults();
-        }
+
     }
 }

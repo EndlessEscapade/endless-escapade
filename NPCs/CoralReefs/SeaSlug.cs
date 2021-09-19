@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Extensions;
+using EEMod.Backgrounds;
 
 namespace EEMod.NPCs.CoralReefs
 {
@@ -13,6 +14,7 @@ namespace EEMod.NPCs.CoralReefs
         {
             DisplayName.SetDefault("Sea Slug");
             Main.npcCatchable[NPC.type] = true;
+            Main.npcFrameCount[NPC.type] = 4;
         }
 
         public override void SetDefaults()
@@ -31,6 +33,8 @@ namespace EEMod.NPCs.CoralReefs
 
             NPC.width = 32;
             NPC.height = 18;
+
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<EEBestiaryBiome>().Type }; // Associates this NPC with the ExampleSurfaceBiome in Bestiary
         }
 
         public override bool? CanBeHitByItem(Player player, Item item)
@@ -50,18 +54,19 @@ namespace EEMod.NPCs.CoralReefs
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/CoralReefs/SeaSlug").Value;
-            Main.spriteBatch.Draw(tex, NPC.position.ForDraw(), new Rectangle(0, variation * 18, 32, 18), Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16)), NPC.rotation, Vector2.Zero, 1f, (NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 0f);
+            if (NPC.ai[0] == 0)
+            {
+                NPC.frame = new Rectangle(0, Main.rand.Next(4) * 18, 32, 18);
+                NPC.ai[0] = 1;
+            }
 
-            return false;
+            return true;
         }
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D glow = ModContent.Request<Texture2D>("EEMod/NPCs/CoralReefs/SeaSlugGlow").Value;
-            Main.spriteBatch.Draw(glow, NPC.position.ForDraw(), new Rectangle(0, variation * 18, 32, 18), Color.White, NPC.rotation, Vector2.Zero, 1f, (NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 0f);
+            Main.spriteBatch.Draw(glow, NPC.Center.ForDraw(), NPC.frame, Color.White, NPC.rotation, Vector2.Zero, 1f, (NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 0f);
         }
-
-        private readonly int variation = Main.rand.Next(4);
     }
 }

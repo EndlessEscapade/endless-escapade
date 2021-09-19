@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+
 namespace EEMod.Prim
 {
     public class PrimTrailManager

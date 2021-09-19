@@ -5,7 +5,7 @@ namespace EEMod.Buffs.Buffs
 {
     public class ClamBuff : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Clam");
             Description.SetDefault("The small clam fights for you");

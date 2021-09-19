@@ -76,6 +76,7 @@ namespace EEMod
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
+                        if(WorldGen.InWorld((int)vec.X, (int)vec.Y))
                         if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }

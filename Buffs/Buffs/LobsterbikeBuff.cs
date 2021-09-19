@@ -5,7 +5,7 @@ namespace EEMod.Buffs.Buffs
 {
     public class LobsterbikeBuff : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Lobsterbike");
             Description.SetDefault("Only for REAL men B)");

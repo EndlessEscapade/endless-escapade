@@ -5,7 +5,7 @@ namespace EEMod.Buffs.Buffs
 {
     public class ThermalHealing : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Thermal Healing");
             Description.SetDefault("The warmth of the thermal vents heals you");

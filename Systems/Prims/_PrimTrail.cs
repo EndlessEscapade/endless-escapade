@@ -12,6 +12,7 @@ using EEMod.Items.Weapons.Mage;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 using EEMod.NPCs.CoralReefs;
+
 namespace EEMod.Prim
 {
     public partial class PrimTrail : IUpdateable
@@ -33,8 +34,8 @@ namespace EEMod.Prim
         protected int RENDERDISTANCE => 2000;
         protected VertexPositionColorTexture[] vertices;
         protected int currentIndex;
-
         public bool ManualDraw;
+
         public PrimTrail(Projectile projectile)
         {
             _trailShader = new DefaultShader();
@@ -42,41 +43,51 @@ namespace EEMod.Prim
             _basicEffect = new BasicEffect(_device);
             _basicEffect.VertexColorEnabled = true;
             _projectile = projectile;
+
             SetDefaults();
+
             vertices = new VertexPositionColorTexture[_cap];
         }
 
-
         public void Dispose()
         {
-            EEMod.primitives._trails.Remove(this);
+            PrimSystem.primitives._trails.Remove(this);
         }
+
         public void Update()
         {
             OnUpdate();
         }
+
         public virtual void OnUpdate()
         {
 
         }
+
         public void Draw()
         {
             vertices = new VertexPositionColorTexture[_noOfPoints];
+
             currentIndex = 0;
 
             PrimStructure(Main.spriteBatch);
-            SetShaders();
+
+            SetShaders(); //applying all shaders
+
             if (_noOfPoints >= 1)
                 _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
         }
+
         public virtual void PrimStructure(SpriteBatch spriteBatch)
         {
 
         }
+
         public virtual void SetShaders()
         {
 
         }
+
         public virtual void SetDefaults()
         {
 
@@ -86,6 +97,5 @@ namespace EEMod.Prim
         {
 
         }
-        //Helper methods
     }
 }

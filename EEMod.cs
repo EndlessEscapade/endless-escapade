@@ -40,30 +40,34 @@ namespace EEMod
         public static int loadingChoose;
         public static int loadingChooseImage;
         public static bool loadingFlag = true;
+
         public static ModKeybind RuneActivator;
         public static ModKeybind RuneSpecial;
         public static ModKeybind Inspect;
         public static ModKeybind ActivateVerletEngine;
-        public static ModKeybind Train;
+
         public static Noise2D Noise2D;
-        public static Effect White;
-        public static Effect Effervescence;
-        public static Effect Colorify;
         public static ParticleZoneHandler Particles;
         public static UIManager UI;
         internal static ParticleZone MainParticles;
         public static SubworldInstanceManager Subworlds;
-        private GameTime lastGameTime;
         public UserInterface EEInterface;
         public FishermansLogUI FishermansLogUI;
         public KelpArmorAmmoUI KelpArmorAmmoUI;
         public IndicatorsUI IndicatorsUI;
         public DialogueUI DialogueUI;
-        //public ComponentManager<TileObjVisual> TVH;
+        public ComponentManager<TileObjVisual> TVH;
+
+        /*            if (Main.netMode != NetmodeID.Server)
+            {
+                trailManager.UpdateTrails();
+                //prims.UpdateTrails();
+                primitives.UpdateTrailsAboveTiles();
+            }*/
 
         public override void Load()
         {
-            //TVH = new ComponentManager<TileObjVisual>();
+            TVH = new ComponentManager<TileObjVisual>();
             verlet = new Verlet();
             Subworlds = new SubworldInstanceManager();
 
@@ -95,7 +99,7 @@ namespace EEMod
                 UI.AddInterface("DialogueInterface");
                 UI.AddUIState("DialogueUI", DialogueUI);
 
-                primitives = new PrimTrailManager();
+                PrimSystem.primitives = new PrimTrailManager();
             }
             //HandwritingCNN = new Handwriting();
 
@@ -103,7 +107,6 @@ namespace EEMod
             RuneSpecial = KeybindLoader.RegisterKeybind(this, "Activate Runes", Keys.V);
             Inspect = KeybindLoader.RegisterKeybind(this, "Inspect", Keys.OemCloseBrackets);
             ActivateVerletEngine = KeybindLoader.RegisterKeybind(this, "Activate VerletEngine", Keys.N);
-            //Train = RegisterHotKey("Train Neural Network", "P");
 
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
             Main.QueueMainThreadAction(() => {
@@ -120,10 +123,8 @@ namespace EEMod
 
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            trailManager = new TrailManager(this);
-                            prims = new Prims(this);
-                            primitives.CreateTrail(new RainbowLightTrail(null));
-                            prims.CreateVerlet();
+                            PrimSystem.trailManager = new TrailManager(this);
+                            PrimSystem.primitives.CreateTrail(new RainbowLightTrail(null));
                         }
                     LoadUI();
                 }
@@ -155,7 +156,6 @@ namespace EEMod
             RuneSpecial = null;
             simpleGame = null;
             ActivateVerletEngine = null;
-            Train = null;
             NoiseSurfacing = null;
             White = null;
             Effervescence = null;
@@ -179,19 +179,7 @@ namespace EEMod
             EENet.ReceievePacket(reader, whoAmI);
         }
 
-        /*public override void MidUpdateProjectileItem()
-        {
-            if (Main.netMode != NetmodeID.Server)
-            {
-                trailManager.UpdateTrails();
-                prims.UpdateTrails();
-                primitives.UpdateTrailsAboveTiles();
-            }
-
-            Seamap.SeamapContent.Seamap.UpdateSeamap();
-        }
-
-        public override void MidUpdateNPCGore()
+        /*public override void MidUpdateNPCGore()
         {
             MechanicManager.MidUpdateNPCGore();
         }

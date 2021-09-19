@@ -170,7 +170,7 @@ namespace EEMod
             if (Main.GameUpdateCount <= 30)
             {
                 if(Main.GameUpdateCount == 2)
-                EEMod.primitives.CreateTrail(new WormMesh(null, this));
+                PrimSystem.primitives.CreateTrail(new WormMesh(null, this));
                 ControlSegment.position = Main.LocalPlayer.Center;
                 for (int i = 0; i < l; i++)
                 {

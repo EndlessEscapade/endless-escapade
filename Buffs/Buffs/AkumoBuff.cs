@@ -6,7 +6,7 @@ namespace EEMod.Buffs.Buffs
 {
     public class AkumoBuff : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Baby Akumo");
             Description.SetDefault("The Baby Akumo fights for you");

@@ -21,12 +21,14 @@ namespace EEMod.Prim
         {
             _projectile = projectile;
         }
+
         public override void SetDefaults()
         {
             _alphaValue = 0.7f;
             _width = 1;
             _cap = 80;
         }
+
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
             /*if (_noOfPoints <= 1) return; //for easier, but less customizable, drawing
@@ -37,29 +39,37 @@ namespace EEMod.Prim
 
             if (_noOfPoints <= 1) return;
             float widthVar;
+
             float colorSin = (float)Math.Sin(_counter / 3f);
             {
                 widthVar = (float)Math.Sqrt(_points.Count) * _width;
                 Color c1 = Color.Lerp(Color.White, Color.Gold, colorSin);
+                
                 Vector2 normalAhead = CurveNormal(_points, 1);
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
                 Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
+                
                 AddVertex(_points[0], c1 * _alphaValue, v);
                 AddVertex(secondUp, c1 * _alphaValue, v);
                 AddVertex(secondDown, c1 * _alphaValue, v);
             }
+
             for (int i = 1; i < _points.Count - 1; i++)
             {
                 widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
+                
                 Color base1 = new Color(7, 86, 122);
                 Color base2 = new Color(255, 244, 173);
                 Color c = Color.Lerp(Color.White, Color.Gold, colorSin);
                 Color CBT = Color.Lerp(Color.White, Color.Gold, colorSin);
+                
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
+                
                 float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
                 widthVar *= j;
+                
                 Vector2 firstUp = _points[i] - normal * widthVar;
                 Vector2 firstDown = _points[i] + normal * widthVar;
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
@@ -74,10 +84,12 @@ namespace EEMod.Prim
                 AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
             }
         }
+
         public override void SetShaders()
         {
             PrepareBasicShader();
         }
+
         public override void OnUpdate()
         {
             _counter++;
@@ -95,6 +107,7 @@ namespace EEMod.Prim
                 _points.Add(_projectile.Center);
             }
         }
+
         public override void OnDestroy()
         {
             _destroyed = true;

@@ -41,7 +41,7 @@ namespace EEMod.Items.Weapons.Mage
 position, new Vector2(speedX, speedY), type, damage, knockBack, player.whoAmI);
             if (Main.netMode != NetmodeID.Server)
             {
-                EEMod.prims.CreateTrail(projectile);
+                //EEMod.prims.CreateTrail(projectile);
             }
 
             return false;

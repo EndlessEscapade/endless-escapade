@@ -8,6 +8,7 @@ using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using EEMod.Prim;
 
 namespace EEMod
 {
@@ -15,12 +16,12 @@ namespace EEMod
     {
         public override void OnDraw(SpriteBatch spriteBatch)
         {
-            EEMod.primitives.DrawTrailsBehindTiles();
+            PrimSystem.primitives.DrawTrailsBehindTiles();
         }
 
         public override void OnUpdate()
         {
-            EEMod.primitives.UpdateTrailsBehindTiles();
+            PrimSystem.primitives.UpdateTrailsBehindTiles();
         }
 
         public override void OnLoad()

@@ -5,7 +5,7 @@ namespace EEMod.Buffs.Debuffs
 {
     public class ColossalGrasp : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Colossal Grasp");
             Description.SetDefault("The Kraken takes hold of you");

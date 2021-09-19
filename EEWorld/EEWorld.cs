@@ -396,7 +396,7 @@ namespace EEMod.EEWorld
                     foreach (Vector2 vec in EESubWorlds.WebPositions)
                     {
                         for (int i = 0; i < 12; i++)
-                            EEMod.primitives.CreateTrail(new WebPrimTrail(null, vec * 16, i));
+                            PrimSystem.primitives.CreateTrail(new WebPrimTrail(null, vec * 16, i));
                     }
                 }
             }*/

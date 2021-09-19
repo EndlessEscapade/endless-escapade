@@ -44,20 +44,13 @@ namespace EEMod
         [FieldInit(FieldInitType.ArrayMultipleLengths, arrayLengths: new int[] { 3, 200, 2 })]
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
 
-        private int delay;
-        private float pauseShaderTImer;
         public SpaceInvaders simpleGame;
         public int lerps;
         private float alphas;
         private int delays;
         public Verlet verlet;
         private bool mode = true;
-        bool bufferVariable;
-        private float rotationBuffer;
-        private float rotGoto;
         public string text;
-        float counter;
-        bool IsTraining;
 
         //MechanicPort
         public void UpdateVerlet()
@@ -75,15 +68,20 @@ namespace EEMod
         {
             Vector2 PylonBegin = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonBegin;
             Vector2 PylonEnd = Main.LocalPlayer.GetModPlayer<EEPlayer>().PylonEnd;
+
             Main.spriteBatch.Begin();
+
             Main.spriteBatch.Draw(Assets.Request<Texture2D>("EEMod/Items/ZipCarrier2").Value, Main.LocalPlayer.position.ForDraw() + new Vector2(0, 6), new Rectangle(0, 0, 2, 16), Color.White, 0, new Vector2(2, 16) / 2, Vector2.One, SpriteEffects.None, 0);
             Main.spriteBatch.Draw(Assets.Request<Texture2D>("EEMod/Items/ZipCarrier").Value, Main.LocalPlayer.position.ForDraw(), new Rectangle(0, 0, 18, 8), Color.White, (PylonEnd - PylonBegin).ToRotation(), new Vector2(18, 8) / 2, Vector2.One, SpriteEffects.None, 0);
+            
             Main.spriteBatch.End();
         }
 
         //This needs to be fixed. 
         public void UpdateGame(GameTime gameTime)
         {
+            Seamap.SeamapContent.Seamap.UpdateSeamap();
+
             lerps++;
             if (delays > 0)
             {
@@ -166,8 +164,6 @@ namespace EEMod
         }
 
         internal void DoPostDrawTiles(SpriteBatch spriteBatch) => AfterTiles?.Invoke(spriteBatch);
-
-       
 
         public static void DrawText()
         {

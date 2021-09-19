@@ -28,6 +28,9 @@ namespace EEMod
         public static Effect RadialField;
         public static Effect SolidOutline;
         public static Effect LightingBufferEffect;
+        public static Effect White;
+        public static Effect Effervescence;
+        public static Effect Colorify;
 
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()

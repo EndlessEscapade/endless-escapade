@@ -5,7 +5,7 @@ namespace EEMod.Buffs.Debuffs
 {
     public class WaterPressure : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Water Pressure");
             Description.SetDefault("The water pressure is crushing in");

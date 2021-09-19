@@ -84,7 +84,7 @@ namespace EEMod.Items.Weapons.Mage
                 (projectile.ModProjectile as DalantiniumFan).boost = powerUp;
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    EEMod.prims.CreateTrail(projectile);
+                    //EEMod.prims.CreateTrail(projectile);
                 }
             }
             if (player.altFunctionUse == 2)
@@ -95,7 +95,7 @@ namespace EEMod.Items.Weapons.Mage
                 powerUp = 0;
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    EEMod.prims.CreateTrail(projectile);
+                    //EEMod.prims.CreateTrail(projectile);
                 }
             }
             return false;

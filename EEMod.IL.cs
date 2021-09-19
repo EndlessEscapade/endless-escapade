@@ -27,7 +27,6 @@ using Terraria.UI;
 using EEMod.Prim;
 using EEMod.Seamap.SeamapContent;
 using MonoMod.RuntimeDetour.HookGen;
-using Terraria.ModLoader;
 using EEMod.Systems;
 
 namespace EEMod
@@ -52,9 +51,6 @@ namespace EEMod
 
         public static string screenMessageText;
         public static string progressMessage;
-        public static TrailManager trailManager;
-        public static PrimTrailManager primitives;
-        public static Prims prims;
         public float seed;
         public float speed;
         /// <summary>
@@ -91,9 +87,8 @@ namespace EEMod
             hooklist?.Dispose();
             hooklist = null;
             screenMessageText = null;
-            trailManager = null;
+            PrimSystem.trailManager = null;
             progressMessage = null;
-            prims = null;
         }
 
         private void LiquidRenderer_InternalDraw1(ILContext il)

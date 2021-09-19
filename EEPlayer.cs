@@ -986,7 +986,6 @@ namespace EEMod
                         }
                         case RuneID.IceRune:
                         {
-                            Main.NewText("rune equipped");
                             for (int j = 0; j < Main.npc.Length - 1; j++)
                             {
                                 NPC npc = Main.npc[j];

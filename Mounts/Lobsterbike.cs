@@ -26,19 +26,23 @@ namespace EEMod.Mounts
             MountData.blockExtraJumps = true;
             MountData.totalFrames = 1;
             MountData.constantJump = true;
+
             int[] array = new int[MountData.totalFrames];
             for (int l = 0; l < array.Length; l++)
             {
                 array[l] = 20;
             }
+
             MountData.playerYOffsets = array;
             MountData.xOffset = 0;
             MountData.yOffset = 0;
             MountData.playerHeadOffset = 22;
+
             if (Main.netMode == NetmodeID.Server)
             {
                 return;
             }
+
             MountData.textureWidth = 82;
             MountData.textureHeight = 52;
         }

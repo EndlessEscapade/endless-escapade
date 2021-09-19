@@ -5,7 +5,7 @@ namespace EEMod.Buffs.Buffs
 {
     public class Vex : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Vex");
             Description.SetDefault("+5% damage and +5% crit chance");

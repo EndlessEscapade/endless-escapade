@@ -57,7 +57,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
                             Main.projectile[swordArray[i]].friendly = true;
                             if (Main.netMode != NetmodeID.Server)
                             {
-                                EEMod.prims.CreateTrail(Main.projectile[swordArray[i]]);
+                                //EEMod.prims.CreateTrail(Main.projectile[swordArray[i]]);
                             }
                         }
                         swordArray[i] = 0;
