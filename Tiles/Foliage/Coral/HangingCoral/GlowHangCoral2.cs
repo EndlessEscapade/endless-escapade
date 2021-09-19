@@ -15,7 +15,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
 
     public class GlowHangCoral2 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -33,7 +33,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Lamp");
             AddMapEntry(new Color(0, 100, 200), name);
-            dustType = DustID.Dirt;
+            DustType = DustID.Dirt;
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

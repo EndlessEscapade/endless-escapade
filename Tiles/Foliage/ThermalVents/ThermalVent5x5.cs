@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
 {
     public class ThermalVent5x5 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Foliage.ThermalVents
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Thermal Vent");
             AddMapEntry(new Color(255, 100, 0), name);
-            dustType = DustID.Dirt;
+            DustType = DustID.Dirt;
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

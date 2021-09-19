@@ -13,7 +13,7 @@ namespace EEMod.Tiles
             style = mod.GetWaterfallStyleSlot("Surfacebg");
         }*/
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = true;
@@ -24,11 +24,11 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(48, 115, 135));
 
-            dustType = DustID.Rain;
-            drop = ModContent.ItemType<RustyPlating>();
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Rain;
+            ItemDrop = ModContent.ItemType<RustyPlating>();
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 0;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace EEMod.Items.Placeables.Furniture
             DisplayName.SetDefault("Sandpiper Cage");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.useTurn = true;

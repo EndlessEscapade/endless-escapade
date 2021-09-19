@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class BrokenArcadeMachineTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
@@ -23,8 +23,8 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Broken Arcade Machine");
             AddMapEntry(new Color(255, 168, 28), name);
-            dustType = DustID.Silver;
-            disableSmartCursor = true;
+            DustType = DustID.Silver;
+            DisableSmartCursor = true;
         }
 
         float HeartBeat;

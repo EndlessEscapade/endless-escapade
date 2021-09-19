@@ -17,7 +17,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 {
     public class AquamarineLamp2 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;

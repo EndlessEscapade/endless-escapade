@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
 {
     public class GreenKelpTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = false;
@@ -22,11 +22,11 @@ namespace EEMod.Tiles.Foliage.KelpForest
             Main.tileNoAttach[Type] = true;
             AddMapEntry(new Color(95, 143, 65));
             //Main.tileCut[Type] = true;
-            dustType = DustID.Plantera_Green;
-            drop = ModContent.ItemType<Kelp>();
-            soundStyle = SoundID.Grass;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Plantera_Green;
+            ItemDrop = ModContent.ItemType<Kelp>();
+            SoundStyle = SoundID.Grass;
+            MineResist = 1f;
+            MinPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);
             TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<LightGemsandTile>(), ModContent.TileType<DarkGemsandTile>(),ModContent.TileType<LightGemsandstoneTile>(), ModContent.TileType<GemsandstoneTile>(), ModContent.TileType<DarkGemsandstoneTile>(), ModContent.TileType<KelpLeafTile>(), ModContent.TileType<GreenKelpTile>(), ModContent.TileType<KelpMossTile>() };

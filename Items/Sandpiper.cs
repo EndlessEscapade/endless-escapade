@@ -11,7 +11,7 @@ namespace EEMod.Items
             DisplayName.SetDefault("Sandpiper");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.width = 20;
             item.height = 20;

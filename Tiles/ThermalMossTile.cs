@@ -11,7 +11,7 @@ namespace EEMod.Tiles
 {
     public class ThermalMossTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
@@ -22,11 +22,11 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(48, 115, 135));
 
-            dustType = DustID.Rain;
-            drop = ModContent.ItemType<LightGemsand>();
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Rain;
+            ItemDrop = ModContent.ItemType<LightGemsand>();
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 0;
         }
         void PlaceGroundGrass(int i, int j)
         {

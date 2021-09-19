@@ -16,7 +16,7 @@ namespace EEMod.Items.TreasureBags
             ItemID.Sets.SortingPriorityMaterials[item.type] = 100;
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.width = 50;
             item.height = 34;

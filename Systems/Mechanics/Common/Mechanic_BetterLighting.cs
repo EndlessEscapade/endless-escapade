@@ -21,7 +21,7 @@ namespace EEMod.Systems
             DisplayName.SetDefault("WhiteBlock");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             projectile.width = 16;
             projectile.height = 16;

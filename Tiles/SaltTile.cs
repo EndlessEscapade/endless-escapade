@@ -8,7 +8,7 @@ namespace EEMod.Tiles
 {
     public class SaltTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = true;
             Main.tileSolid[Type] = true;
@@ -16,11 +16,11 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(204, 51, 0));
 
-            dustType = DustID.Rain;
-            drop = ModContent.ItemType<Salt>();
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Rain;
+            ItemDrop = ModContent.ItemType<Salt>();
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 0;
         }
     }
 }

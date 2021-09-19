@@ -16,7 +16,7 @@ namespace EEMod.Projectiles
             DisplayName.SetDefault("ParticleHandler");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             projectile.width = 0;
             projectile.height = 0;

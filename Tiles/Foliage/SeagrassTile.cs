@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Foliage
 {
     public class SeagrassTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = false;
@@ -23,11 +23,11 @@ namespace EEMod.Tiles.Foliage
 
             AddMapEntry(new Color(28, 78, 47));
             //Main.tileCut[Type] = true;
-            dustType = DustID.Grass;
-            drop = ModContent.ItemType<Kelp>();
-            soundStyle = SoundID.Grass;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Grass;
+            ItemDrop = ModContent.ItemType<Kelp>();
+            SoundStyle = SoundID.Grass;
+            MineResist = 1f;
+            MinPick = 0;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);

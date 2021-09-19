@@ -14,7 +14,7 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
 {
     public class TeslaCoral2x2 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;

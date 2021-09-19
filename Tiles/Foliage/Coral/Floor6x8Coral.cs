@@ -14,7 +14,7 @@ namespace EEMod.Tiles.Foliage.Coral
         private bool isIntersecting;
         private int cooldown = 180;
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -34,8 +34,8 @@ namespace EEMod.Tiles.Foliage.Coral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Big Coral");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.TerraBlade;
+            DisableSmartCursor = true;
+            DustType = DustID.TerraBlade;
         }
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)

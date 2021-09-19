@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class NetTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -31,8 +31,8 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Net");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)

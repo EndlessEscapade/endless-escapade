@@ -12,7 +12,7 @@ namespace EEMod.Tiles
 {
     public class KelpLeafTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = true;
@@ -23,10 +23,10 @@ namespace EEMod.Tiles
 
             AddMapEntry(new Color(40, 200, 0));
 
-            dustType = DustID.Rain;
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Rain;
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 0;
         }
         public override void RandomUpdate(int i, int j)
         {

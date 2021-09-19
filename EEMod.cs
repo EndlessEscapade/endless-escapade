@@ -109,35 +109,6 @@ namespace EEMod
             Main.QueueMainThreadAction(() => {
                 if (!Main.dedServ)
                 {
-                    Noise2D = new Noise2D(Assets.Request<Effect>("Effects/Noise2D", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-
-                    Ref<Effect> screenRef3 = new Ref<Effect>(Assets.Request<Effect>("Effects/Ripple", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-                    Ref<Effect> screenRef2 = new Ref<Effect>(Assets.Request<Effect>("Effects/SeaTrans", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-                    Ref<Effect> screenRef = new Ref<Effect>(Assets.Request<Effect>("Effects/SunThroughWalls", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-                    Ref<Effect> MyTestShader = new Ref<Effect>(Assets.Request<Effect>("Effects/MyTestShader", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-                    Filters.Scene["EEMod:Ripple"] = new Filter(new ScreenShaderData(screenRef3, "Ripple"), EffectPriority.High);
-                    Filters.Scene["EEMod:Ripple"].Load();
-                    Filters.Scene["EEMod:SeaTrans"] = new Filter(new ScreenShaderData(screenRef2, "SeaTrans"), EffectPriority.High);
-                    Filters.Scene["EEMod:SeaTrans"].Load();
-                    Filters.Scene["EEMod:SunThroughWalls"] = new Filter(new ScreenShaderData(screenRef, "SunThroughWalls"), EffectPriority.High);
-                    Filters.Scene["EEMod:SunThroughWalls"].Load();
-                    Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
-                    Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
-                    Filters.Scene["EEMod:MyTestShader"].Load();
-
-                    //GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(Assets.Request<Effect>("Effects/SpireShine", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value), "SpireHeartbeat").UseImage0("EEMod/Textures/Noise/WormNoisePixelated");
-
-                    SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
-                    NoiseSurfacing = Assets.Request<Effect>("Effects/NoiseSurfacing", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-                    White = Assets.Request<Effect>("Effects/WhiteOutline", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-                    Effervescence = Assets.Request<Effect>("Effects/Effervescence", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
-
-
-                    Ref<Effect> hydrosDye = new Ref<Effect>(Assets.Request<Effect>("Effects/HydrosDye", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-                    GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
-                    Ref<Effect> aquamarineDye = new Ref<Effect>(Assets.Request<Effect>("Effects/AquamarineDye", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value);
-                    GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
-
                     AutoloadingManager.LoadManager(this);
 
                     /*

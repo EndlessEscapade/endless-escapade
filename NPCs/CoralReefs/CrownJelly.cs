@@ -11,7 +11,7 @@ namespace EEMod.NPCs.CoralReefs
             DisplayName.SetDefault("Crown Jelly");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             npc.aiStyle = -1;
 

@@ -11,15 +11,15 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 {
     public class GlowshroomVines : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileCut[Type] = true;
             Main.tileBlockLight[Type] = true;
             Main.tileNoFail[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLighted[Type] = false;
-            soundType = SoundID.Grass;
-            dustType = DustID.Plantera_Green;
+            SoundType = SoundID.Grass;
+            DustType = DustID.Plantera_Green;
 
             AddMapEntry(new Color(95, 143, 65));
         }

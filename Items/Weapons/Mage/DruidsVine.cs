@@ -11,7 +11,7 @@ namespace EEMod.Items.Weapons.Mage
             DisplayName.SetDefault("Druid's Vine");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             projectile.width = 8;
             projectile.height = 8;

@@ -13,7 +13,7 @@ namespace EEMod.Items.Armor.BossMasks
             DisplayName.SetDefault("Sailor's Omen Mask");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.width = 18;
             item.height = 18;

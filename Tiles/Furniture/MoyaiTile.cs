@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class MoyaiTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -30,10 +30,10 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Moyai");
-            drop = ModContent.ItemType<Moyai>();
+            ItemDrop = ModContent.ItemType<Moyai>();
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
         }
 
         private bool isIntersecting;

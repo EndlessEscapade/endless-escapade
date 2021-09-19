@@ -14,7 +14,7 @@ namespace EEMod.Tiles.Foliage
 {
     public class LilyPadSmol : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -33,8 +33,8 @@ namespace EEMod.Tiles.Foliage
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Lilypad");
             AddMapEntry(new Color(28, 78, 47), name);
-            dustType = DustID.Grass;
-            soundStyle = SoundID.Grass;
+            DustType = DustID.Grass;
+            SoundStyle = SoundID.Grass;
         }
     }
 }

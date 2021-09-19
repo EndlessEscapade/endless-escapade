@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Foliage.Coral
 {
     public class FloorGlow2x1Coral : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;

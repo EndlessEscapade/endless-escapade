@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
 {
     public class NautilusPuzzle : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -33,7 +33,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
 
             name.SetDefault("Shrine of the Water Rune");
             AddMapEntry(new Color(0, 120, 255), name);
-            disableSmartCursor = true;
+            DisableSmartCursor = true;
         }
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)

@@ -13,7 +13,7 @@ namespace EEMod.Items.Armor.BossMasks
             DisplayName.SetDefault("Kraken Mask");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.width = 18;
             item.height = 18;

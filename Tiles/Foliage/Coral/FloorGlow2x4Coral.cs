@@ -9,7 +9,7 @@ namespace EEMod.Tiles.Foliage.Coral
 {
     public class FloorGlow2x4Coral : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -23,7 +23,7 @@ namespace EEMod.Tiles.Foliage.Coral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Wide Bulbous Coral");
             AddMapEntry(new Color(50, 50, 50), name);
-            disableSmartCursor = true;
+            DisableSmartCursor = true;
             AnimationFrameHeight = 38;
         }
 

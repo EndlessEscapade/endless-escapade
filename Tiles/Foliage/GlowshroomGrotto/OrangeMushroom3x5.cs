@@ -12,7 +12,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 {
     public class OrangeMushroom3x5 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;

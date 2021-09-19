@@ -9,7 +9,7 @@
 //            DisplayName.SetDefault("Glacier");
 //        }
 
-//        public override void SetDefaults()
+//        public override void SetStaticDefaults()
 //        {
 //            projectile.width = 10;
 //            projectile.height = 8;

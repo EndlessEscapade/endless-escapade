@@ -14,7 +14,7 @@ namespace EEMod.Items
             Tooltip.SetDefault("Granite Gauntlets");
         }
 
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             item.useTime = 120;
             item.useAnimation = 120;

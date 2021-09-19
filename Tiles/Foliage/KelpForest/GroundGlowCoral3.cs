@@ -15,7 +15,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
     public class GroundGlowCoral3 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -32,7 +32,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Lamp");
             AddMapEntry(new Color(95, 143, 65), name);
-            dustType = DustID.Plantera_Green;
+            DustType = DustID.Plantera_Green;
         }
 
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)

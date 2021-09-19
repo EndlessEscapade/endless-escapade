@@ -10,7 +10,7 @@ namespace EEMod.Tiles.Foliage.Coral
 {
     public class FloorGlow2x2Coral : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -31,7 +31,7 @@ namespace EEMod.Tiles.Foliage.Coral
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Lamp");
             AddMapEntry(new Color(0, 100, 200), name);
-            dustType = DustID.Dirt;
+            DustType = DustID.Dirt;
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsTorch);
         }
 

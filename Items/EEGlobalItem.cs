@@ -50,7 +50,7 @@ namespace EEMod.Items
             }
         }*/
 
-        /*public override void SetDefaults(Item item)
+        /*public override void SetStaticDefaults(Item item)
         {
             if (averageSizeFish.Contains(item.type) || smallSizeFish.Contains(item.type) || bigSizeFish.Contains(item.type))
                 item.maxStack = 1;

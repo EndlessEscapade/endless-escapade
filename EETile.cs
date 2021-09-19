@@ -13,31 +13,11 @@ namespace EEMod
 {
     public abstract class EETile : ModTile
     {
-        public virtual void SetDefaults()
-        {
-            SoundStyle = soundType;
-            SoundStyle = soundStyle;
-
-            DustType = dustType;
-            ItemDrop = drop;
-
-            MinPick = minPick;
-            MineResist = mineResist;
-
-            SetStaticDefaults();
-        }
-
-        public int soundType;
-        public int soundStyle;
-        public int dustType;
-        public int drop;
-        public int minPick;
-        public float mineResist;
-        public bool disableSmartCursor;
+        public bool DisableSmartCursor;
 
         public override bool HasSmartInteract()
         {
-            return disableSmartCursor;
+            return DisableSmartCursor;
         }
 
         public virtual void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)

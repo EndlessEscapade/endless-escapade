@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Foliage
 {
     public class BlueKelpTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileMergeDirt[Type] = false;
             Main.tileSolid[Type] = false;
@@ -22,11 +22,11 @@ namespace EEMod.Tiles.Foliage
             Main.tileNoAttach[Type] = true;
             AddMapEntry(new Color(68, 89, 195));
             //Main.tileCut[Type] = true;
-            dustType = DustID.Rain;
-            drop = ModContent.ItemType<Kelp>();
-            soundStyle = SoundID.Grass;
-            mineResist = 1f;
-            minPick = 0;
+            DustType = DustID.Rain;
+            ItemDrop = ModContent.ItemType<Kelp>();
+            SoundStyle = SoundID.Grass;
+            MineResist = 1f;
+            MinPick = 0;
             TileObjectData.newTile.CopyFrom(TileObjectData.Style1x1);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop, 0, 0);
             TileObjectData.newTile.AnchorValidTiles = new int[] { ModContent.TileType<GemsandTile>(), ModContent.TileType<LightGemsandTile>() };

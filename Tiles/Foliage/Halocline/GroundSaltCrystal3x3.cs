@@ -12,7 +12,7 @@ namespace EEMod.Tiles.Foliage.Halocline
 {
     public class GroundSaltCrystal3x3 : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;

@@ -14,7 +14,7 @@ namespace EEMod.Tiles.Furniture.Chests
 {
     public class CoralChestTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSpelunker[Type] = true;
             Main.tileContainer[Type] = true;
@@ -37,7 +37,7 @@ namespace EEMod.Tiles.Furniture.Chests
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Coral Chest");
             AddMapEntry(Color.Black, name);
-            dustType = DustID.Dirt;
+            DustType = DustID.Dirt;
             AdjTiles = new int[] { TileID.Containers };
             TileID.Sets.BasicChest[Type] = true;
             ChestDrop = ModContent.ItemType<CoralChest>();

@@ -6,6 +6,10 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using System.Diagnostics;
+using EEMod.Skies;
+using EEMod.Items.Dyes;
+using ReLogic.Content;
 
 namespace EEMod
 {
@@ -14,6 +18,7 @@ namespace EEMod
         public static int noOfPasses = 1;
         public static int startingTermination = 1;
         public static int maxNumberOfLights = 1000;
+        
         public static Effect Noise2DShift;
         public static Effect ReflectionShader;
         public static Effect WaterShader;
@@ -29,29 +34,38 @@ namespace EEMod
         {
             Main.QueueMainThreadAction(() =>
             {
-                LightingBufferEffect = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/LightingBuffer").Value;
-                SolidOutline = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/WhiteOutlineSolid").Value;
-                RadialField = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/RadialSurfacing").Value;
-                PrismShader = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/PrismShader").Value;
-                SpireShader = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/SpireShine").Value;
-                Noise2DShift = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/Noise2DShift").Value;
-                ReflectionShader = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/ReflectionShader").Value;
-                WaterShader = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/WaterShader").Value;
-                TrailPractice = ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/NonBasicEffectShader").Value;
+                EEMod instance = ModContent.GetInstance<EEMod>();
 
-                //LightingBufferEffect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
+                LightingBufferEffect = instance.Assets.Request<Effect>("Effects/LightingBuffer", AssetRequestMode.ImmediateLoad).Value;
+                SolidOutline = instance.Assets.Request<Effect>("Effects/WhiteOutlineSolid", AssetRequestMode.ImmediateLoad).Value;
+                RadialField = instance.Assets.Request<Effect>("Effects/RadialSurfacing", AssetRequestMode.ImmediateLoad).Value;
+                PrismShader = instance.Assets.Request<Effect>("Effects/PrismShader", AssetRequestMode.ImmediateLoad).Value;
+                SpireShader = instance.Assets.Request<Effect>("Effects/SpireShine", AssetRequestMode.ImmediateLoad).Value;
+                Noise2DShift = instance.Assets.Request<Effect>("Effects/Noise2DShift", AssetRequestMode.ImmediateLoad).Value;
+                ReflectionShader = instance.Assets.Request<Effect>("Effects/ReflectionShader", AssetRequestMode.ImmediateLoad).Value;
+                WaterShader = instance.Assets.Request<Effect>("Effects/WaterShader", AssetRequestMode.ImmediateLoad).Value;
+                TrailPractice = instance.Assets.Request<Effect>("Effects/NonBasicEffectShader", AssetRequestMode.ImmediateLoad).Value;
+                NoiseSurfacing = instance.Assets.Request<Effect>("Effects/NoiseSurfacing", AssetRequestMode.ImmediateLoad).Value;
+                White = instance.Assets.Request<Effect>("Effects/WhiteOutline", AssetRequestMode.ImmediateLoad).Value;
+                Effervescence = instance.Assets.Request<Effect>("Effects/Effervescence", AssetRequestMode.ImmediateLoad).Value;
 
-                Ref<Effect> screenRef = new(ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/PracticeEffect").Value);
-                Ref<Effect> screenRef2 = new(ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/Shockwave").Value);
-                Ref<Effect> screenRef3 = new(ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/Pause").Value);
-                Ref<Effect> screenRef4 = new(ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/WhiteFlash").Value);
-                Ref<Effect> screenRef5 = new(ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/Saturation").Value);
+                Debug.WriteLine(LightingBufferEffect == null);
+
+                LightingBufferEffect.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
+
+                Ref<Effect> screenRef = new(instance.Assets.Request<Effect>("Effects/PracticeEffect", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> screenRef2 = new(instance.Assets.Request<Effect>("Effects/Shockwave", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> screenRef3 = new(instance.Assets.Request<Effect>("Effects/Pause", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> screenRef4 = new(instance.Assets.Request<Effect>("Effects/WhiteFlash", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> screenRef5 = new(instance.Assets.Request<Effect>("Effects/Saturation", AssetRequestMode.ImmediateLoad).Value);
                 Ref<Effect> screenRef6 = new(Noise2D);
-                Ref<Effect> screenRef7 = new(ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/SeaOpening").Value);
-                Ref<Effect> screenRef8 = new(ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/LightSource").Value);
-                Ref<Effect> screenRef9 = new(ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/ReflectionShader").Value);
+                Ref<Effect> screenRef7 = new(instance.Assets.Request<Effect>("Effects/SeaOpening", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> screenRef8 = new(instance.Assets.Request<Effect>("Effects/LightSource", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> screenRef9 = new(instance.Assets.Request<Effect>("Effects/ReflectionShader", AssetRequestMode.ImmediateLoad).Value);
 
-                //ModContent.GetInstance<EEMod>().Assets.Request<Effect>("Effects/Noise2D").Value.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+                Ref<Effect> hydrosDye = new Ref<Effect>(instance.Assets.Request<Effect>("Effects/HydrosDye", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> MyTestShader = new Ref<Effect>(instance.Assets.Request<Effect>("Effects/MyTestShader", AssetRequestMode.ImmediateLoad).Value);
+                Ref<Effect> aquamarineDye = new Ref<Effect>(instance.Assets.Request<Effect>("Effects/AquamarineDye", AssetRequestMode.ImmediateLoad).Value);
 
                 Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
                 Filters.Scene["EEMod:Boom"] = new Filter(new ScreenShaderData(screenRef, "DeathAnimation"), EffectPriority.VeryHigh);
@@ -64,7 +78,12 @@ namespace EEMod
                 Filters.Scene["EEMod:SmoothDown2"] = new Filter(new ScreenShaderData(screenRef5, "DownPass2"), EffectPriority.VeryHigh);
                 Filters.Scene["EEMod:Noise2D"] = new Filter(new ScreenShaderData(screenRef6, "Noise2D"), EffectPriority.VeryHigh);
                 Filters.Scene["EEMod:SeaOpening"] = new Filter(new ScreenShaderData(screenRef7, "SeaOpening"), EffectPriority.VeryHigh);
-                
+                Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
+                Filters.Scene["EEMod:MyTestShader"] = new Filter(new ScreenShaderData(MyTestShader, "MyTestShaderFlot"), EffectPriority.High);
+                Filters.Scene["EEMod:SunThroughWalls"] = new Filter(new ScreenShaderData(screenRef, "SunThroughWalls"), EffectPriority.High);
+                Filters.Scene["EEMod:SeaTrans"] = new Filter(new ScreenShaderData(screenRef2, "SeaTrans"), EffectPriority.High);
+                Filters.Scene["EEMod:Ripple"] = new Filter(new ScreenShaderData(screenRef3, "Ripple"), EffectPriority.High);
+
                 Filters.Scene["EEMod:Boom"].Load();
                 Filters.Scene["EEMod:Shockwave"].Load();
                 Filters.Scene["EEMod:Pause"].Load();
@@ -75,6 +94,10 @@ namespace EEMod
                 Filters.Scene["EEMod:SmoothDown2"].Load();
                 Filters.Scene["EEMod:Noise2D"].Load();
                 Filters.Scene["EEMod:SeaOpening"].Load();
+                Filters.Scene["EEMod:Ripple"].Load();
+                Filters.Scene["EEMod:SeaTrans"].Load();
+                Filters.Scene["EEMod:SunThroughWalls"].Load();
+                Filters.Scene["EEMod:MyTestShader"].Load();
 
                 for (int i = 0; i < maxNumberOfLights; i++)
                 {
@@ -88,6 +111,14 @@ namespace EEMod
                 }
 
                 SkyManager.Instance["EEMod:Akumo"] = new AkumoSky();
+                SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
+
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
+
+                //instance.Assets.Request<Effect>("Effects/Noise2D").Value.Parameters["noiseTexture"].SetValue(instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+                
+                //GameShaders.Misc["EEMod:SpireHeartbeat"] = new MiscShaderData(new Ref<Effect>(instance.Assets.Request<Effect>("Effects/SpireShine", AssetRequestMode.ImmediateLoad).Value), "SpireHeartbeat").UseImage0("Textures/Noise/WormNoisePixelated");
             });
         }
     }

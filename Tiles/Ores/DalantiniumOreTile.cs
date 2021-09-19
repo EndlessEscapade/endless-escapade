@@ -8,7 +8,7 @@ namespace EEMod.Tiles.Ores
 {
     public class DalantiniumOreTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             TileID.Sets.Ore[Type] = true;
             Main.tileSpelunker[Type] = true;
@@ -23,12 +23,12 @@ namespace EEMod.Tiles.Ores
             name.SetDefault("Dalantinium");
             AddMapEntry(new Color(152, 171, 198), name);
 
-            dustType = DustID.Platinum;
-            drop = ModContent.ItemType<DalantiniumOre>();
-            soundType = SoundID.Tink;
-            soundStyle = 1;
-            mineResist = 1f;
-            minPick = 60;
+            DustType = DustID.Platinum;
+            ItemDrop = ModContent.ItemType<DalantiniumOre>();
+            SoundType = SoundID.Tink;
+            SoundStyle = 1;
+            MineResist = 1f;
+            MinPick = 60;
         }
 
         public override bool CanExplode(int i, int j)

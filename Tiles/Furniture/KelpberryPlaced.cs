@@ -12,7 +12,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class KelpberryPlaced : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
@@ -33,8 +33,8 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName("Kelpberries");
             AddMapEntry(new Color(200, 180, 0), name);
 
-            dustType = DustID.AmberBolt;
-            drop = ModContent.ItemType<Kelpberries>();
+            DustType = DustID.AmberBolt;
+            ItemDrop = ModContent.ItemType<Kelpberries>();
         }
 
 

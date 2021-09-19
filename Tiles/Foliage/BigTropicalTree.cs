@@ -13,7 +13,7 @@ namespace EEMod.Tiles.Foliage
 {
     public class BigTropicalTree : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -33,8 +33,8 @@ namespace EEMod.Tiles.Foliage
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Tropical Tree");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

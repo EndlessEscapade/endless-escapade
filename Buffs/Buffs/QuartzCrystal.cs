@@ -6,7 +6,7 @@ namespace EEMod.Buffs.Buffs
 {
     public class QuartzCrystal : EEBuff
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Quartz Shard");
             Description.SetDefault("The Quartz Shard fights for you");

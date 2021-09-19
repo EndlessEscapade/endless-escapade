@@ -23,7 +23,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
 {
     public class KelpFlower : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -47,8 +47,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Kelpblossom");
             AddMapEntry(Color.DarkMagenta, name);
-            dustType = DustID.PurpleTorch;
-            disableSmartCursor = true;
+            DustType = DustID.PurpleTorch;
+            DisableSmartCursor = true;
             AnimationFrameHeight = 66;
         }
 

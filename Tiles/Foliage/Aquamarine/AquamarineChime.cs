@@ -18,8 +18,8 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             Main.tileNoFail[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLighted[Type] = false;
-            soundType = SoundID.Grass;
-            dustType = DustID.PurpleCrystalShard;
+            SoundType = SoundID.Grass;
+            DustType = DustID.PurpleCrystalShard;
 
             AddMapEntry(new Color(95, 143, 65));
         }

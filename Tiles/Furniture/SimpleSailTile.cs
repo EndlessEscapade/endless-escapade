@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class SimpleSailTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileLighted[Type] = true;
             Main.tileFrameImportant[Type] = true;
@@ -30,9 +30,9 @@ namespace EEMod.Tiles.Furniture
             TileObjectData.addTile(Type);
             AddToArray(ref TileID.Sets.RoomNeeds.CountsAsDoor);
             AddMapEntry(new Color(200, 200, 200));
-            dustType = DustID.t_LivingWood;
-            drop = ModContent.ItemType<SimpleSail>();
-            disableSmartCursor = true;
+            DustType = DustID.t_LivingWood;
+            ItemDrop = ModContent.ItemType<SimpleSail>();
+            DisableSmartCursor = true;
             AdjTiles = new int[] { TileID.Platforms };
         }
 

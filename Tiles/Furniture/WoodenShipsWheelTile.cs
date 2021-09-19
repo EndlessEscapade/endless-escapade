@@ -16,7 +16,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class WoodenShipsWheelTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
             Main.tileObsidianKill[Type] = true;
@@ -37,8 +37,8 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Wooden Ship's Wheel");
             AddMapEntry(new Color(255, 168, 28), name);
-            dustType = DustID.Silver;
-            disableSmartCursor = true;
+            DustType = DustID.Silver;
+            DisableSmartCursor = true;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)

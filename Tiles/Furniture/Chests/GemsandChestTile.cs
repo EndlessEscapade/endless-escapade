@@ -14,7 +14,7 @@ namespace EEMod.Tiles.Furniture.Chests
 {
     public class GemsandChestTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSpelunker[Type] = true;
             Main.tileContainer[Type] = true;
@@ -36,8 +36,8 @@ namespace EEMod.Tiles.Furniture.Chests
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Gemsand Chest");
             AddMapEntry(new Color(255, 0, 0), name);
-            dustType = DustID.Dirt;
-            disableSmartCursor = true;
+            DustType = DustID.Dirt;
+            DisableSmartCursor = true;
             AdjTiles = new int[] { TileID.Containers };
             ChestDrop = ModContent.ItemType<GemsandChest>();
         }

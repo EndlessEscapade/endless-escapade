@@ -11,7 +11,7 @@ namespace EEMod.Tiles.Furniture.Paintings
 {
     public class MurdogTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -29,8 +29,8 @@ namespace EEMod.Tiles.Furniture.Paintings
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Murdog");
             AddMapEntry(new Color(20, 60, 20), name);
-            disableSmartCursor = true;
-            dustType = DustID.Dirt;
+            DisableSmartCursor = true;
+            DustType = DustID.Dirt;
             AnimationFrameHeight = 90;
         }
 

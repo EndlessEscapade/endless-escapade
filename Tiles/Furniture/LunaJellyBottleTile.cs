@@ -17,7 +17,7 @@ namespace EEMod.Tiles.Furniture
 {
     public class LunaJellyBottleTile : EETile
     {
-        public override void SetDefaults()
+        public override void SetStaticDefaults()
         {
             Main.tileSolidTop[Type] = false;
             Main.tileFrameImportant[Type] = true;
@@ -40,8 +40,8 @@ namespace EEMod.Tiles.Furniture
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Luna Jelly Bottle");
             AddMapEntry(new Color(255, 168, 28), name);
-            dustType = DustID.Silver;
-            disableSmartCursor = true;
+            DustType = DustID.Silver;
+            DisableSmartCursor = true;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
