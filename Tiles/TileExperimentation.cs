@@ -29,7 +29,7 @@ namespace EEMod.Tiles
             Projectile.scale *= 1f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.ai[0] >= 10 && !canspawn)
             {

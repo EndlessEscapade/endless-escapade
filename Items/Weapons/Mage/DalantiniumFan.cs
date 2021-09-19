@@ -35,7 +35,7 @@ namespace EEMod.Items.Weapons.Mage
         public Vector2 DrawPos;
         private float lerp;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             double radians = degrees.ToRadians();
             Player player = Main.player[Projectile.owner];
@@ -66,7 +66,7 @@ namespace EEMod.Items.Weapons.Mage
                     color2.G = (byte)(color2.G + (Color.HotPink.G - color2.G) * lerp);
                     color2.B = (byte)(color2.B + (Color.HotPink.B - color2.B) * lerp);
                 }
-                spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), color2 * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), color2 * 0.5f, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             }
             return false;
         }

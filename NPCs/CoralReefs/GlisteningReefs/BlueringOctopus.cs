@@ -42,8 +42,8 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             NPC.lifeMax = 550;
             NPC.defense = 10;
 
-            NPC.width = 174;
-            NPC.height = 98;
+            NPC.width = 104;
+            NPC.height = 118;
 
             NPC.noGravity = true;
 
@@ -82,12 +82,12 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             NPC.rotation = NPC.velocity.X / 18;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow").Value, NPC.Center - Main.screenPosition + new Vector2(0, -6), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow").Value, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
-        /*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        /*public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (npc.ai[0] == 2)
             {

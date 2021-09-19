@@ -27,9 +27,9 @@ namespace EEMod.Items.Weapons.Melee
             Projectile.scale = 1f;
 
             Projectile.DamageType = DamageClass.Melee;
-            // Projectile.tileCollide = false;
+            Projectile.tileCollide = false;
             Projectile.friendly = true;
-            // Projectile.hostile = false;
+            Projectile.hostile = false;
             Projectile.damage = 20;
             Projectile.knockBack = 3.5f;
         }
@@ -66,6 +66,7 @@ namespace EEMod.Items.Weapons.Melee
                 {
                     radians += 6.28;
                 }
+
                 player.itemAnimation -= (int)((Projectile.ai[0] + 50) / 6);
 
                 while (player.itemAnimation < 3)
@@ -73,6 +74,7 @@ namespace EEMod.Items.Weapons.Melee
                     SoundEngine.PlaySound(SoundID.Item1, Projectile.Center);
                     player.itemAnimation += 320;
                 }
+
                 player.itemTime = player.itemAnimation;
                 Projectile.velocity = Vector2.Zero;
 
@@ -89,13 +91,16 @@ namespace EEMod.Items.Weapons.Melee
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.1f));
                     EEMod.MainParticles.SpawnParticles(Projectile.Center, new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-1f, 1f)) * 2, 2, Color.Gold, new SlowDown(0.99f), new ZigzagMotion(10, 1.5f), new AfterImageTrail(0.99f));
                 }
+
                 Vector2 direction = Main.MouseWorld - player.position;
                 direction.Normalize();
                 double throwingAngle = direction.ToRotation() + 3.14;
+
                 if (player.direction != 1)
                 {
                     throwingAngle -= 6.28;
                 }
+
                 if (!player.channel && Math.Abs(radians - throwingAngle) < 1)
                 {
                     Projectile.ai[1] = 1;
@@ -109,8 +114,11 @@ namespace EEMod.Items.Weapons.Melee
                     direction *= 30;
                     Projectile.velocity = direction;
                 }
+
                 Projectile.position.Y = player.Center.Y - (int)(Math.Sin(radians * 0.96) * 40) - (Projectile.height / 2);
                 Projectile.position.X = player.Center.X - (int)(Math.Cos(radians * 0.96) * 40) - (Projectile.width / 2);
+
+                Projectile.rotation = (float)radians;
             }
 
 
@@ -119,7 +127,7 @@ namespace EEMod.Items.Weapons.Melee
             {
                 if (Projectile.ai[0] < chargeTime)
                 {
-                    // Projectile.active = false;
+                    Projectile.active = false;
                 }
                 else
                 {
@@ -134,14 +142,16 @@ namespace EEMod.Items.Weapons.Melee
             }
             else
             {
-                // Projectile.tileCollide = false;
+                Projectile.tileCollide = false;
                 Projectile.rotation -= 0.5f;
                 Vector2 direction = player.position - Projectile.position;
-                if (direction.Length() < 20 || player.statLife < 1)
+
+                if (direction.Length() < 48 || player.statLife < 1)
                 {
                     Main.LocalPlayer.GetModPlayer<EEPlayer>().TurnCameraFixationsOff();
-                    // Projectile.active = false;
+                    Projectile.active = false;
                 }
+
                 direction.Normalize();
                 direction *= 20;
                 Projectile.velocity = direction;
@@ -152,7 +162,7 @@ namespace EEMod.Items.Weapons.Melee
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.ai[1] == 0)
             {
@@ -180,7 +190,7 @@ namespace EEMod.Items.Weapons.Melee
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if (Projectile.ai[0] >= chargeTime)
             {

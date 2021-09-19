@@ -252,7 +252,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             #endregion Attacks
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             float funnySin = (float)Math.Sin(projectileAiCont[0]);
             Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/Summons/AkumoMinionGlow").Value;
@@ -264,7 +264,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Main.spriteBatch.Draw(texture, new Rectangle((int)funny.X, (int)funny.Y, Projectile.width, Projectile.height), texture.Frame(1, Main.projFrames[Projectile.type], 0, Projectile.frame), minionGlow * funnySin * 0.75f, Projectile.rotation, Projectile.Center, Projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
         }
 
-        /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        /*public override bool PreDraw(ref Color lightColor)
         {
             if (projectile.ai[0] == 3)
                 AfterImage.DrawAfterimage(spriteBatch, TextureAssets.Projectile[projectile.type].Value, 0, projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B), overrideFrameCount: 4, overrideFrame: new Rectangle(0, projectile.frame * 56, 56, 58));

@@ -62,7 +62,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             NPC.noTileCollide = true;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (!Main.expertMode)
             {

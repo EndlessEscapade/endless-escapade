@@ -33,7 +33,7 @@ namespace EEMod.NPCs.Bosses.Kraken    //We need this to basically indicate the f
             Projectile.rotation = Projectile.velocity.Y / 8f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             return true;
         }

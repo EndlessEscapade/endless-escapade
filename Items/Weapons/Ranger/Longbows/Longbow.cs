@@ -64,7 +64,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
         private float gravAccel = 4;
         private int yeet;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (showDots)
             {
@@ -85,7 +85,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
                     grav += gravAccel;
                     Vector2 intendedPath = projOwner.Center + (Main.MouseWorld - projOwner.Center + new Vector2(0, grav)) * (i / Max);
-                    spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * diff, 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, intendedPath - Main.screenPosition, new Rectangle(0, 0, 2, 2), Color.White * (1 - (i / Max)) * diff, 0f, new Vector2(2, 2) / 2, 1, SpriteEffects.None, 0f);
                 }
             }
             return true;

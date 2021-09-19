@@ -122,15 +122,15 @@ float x0, float x1, float x2, float x3)
             NPC.velocity.Y = 2;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color DrawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             NPC.TargetClosest(true);
             //Player player = Main.player[npc.target]; // unused
-            DrawColor = NPC.GetAlpha(DrawColor);
-            DrawHead(spriteBatch, "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", NPC, DrawColor, new Vector2(NPC.ai[2], NPC.ai[3]));
+
+            DrawHead(spriteBatch, "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", "NPCs/CoralReefs/MechanicalReefs/DreadmineChain", NPC, Color.White, new Vector2(NPC.ai[2], NPC.ai[3]));
             Texture2D texture = TextureAssets.Npc[NPC.type].Value;
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-            spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0, 8), null, DrawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0, 8), null, Color.White, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
     }

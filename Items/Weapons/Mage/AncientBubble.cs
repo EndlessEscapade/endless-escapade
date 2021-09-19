@@ -72,12 +72,12 @@ namespace EEMod.Items.Weapons.Mage
             Projectile.scale = Helpers.Clamp(0.75f + (Projectile.ai[0] / 480f), 0.75f, 1f);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if (Projectile.ai[0] >= 120)
             {
                 Texture2D tex = Mod.Assets.Request<Texture2D>("Projectiles/Mage/AncientBubbleLargeFlash").Value;
-                spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, tex.Frame(), Color.White * Math.Sin(Main.GameUpdateCount / 5f).PositiveSin() * (1 - (Projectile.alpha / 255)), Projectile.rotation, tex.Frame().Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, Projectile.Center - Main.screenPosition, tex.Frame(), Color.White * Math.Sin(Main.GameUpdateCount / 5f).PositiveSin() * (1 - (Projectile.alpha / 255)), Projectile.rotation, tex.Frame().Size() / 2f, Projectile.scale, SpriteEffects.None, 0f);
             }
         }
 

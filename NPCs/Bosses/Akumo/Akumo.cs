@@ -82,7 +82,7 @@ namespace EEMod.NPCs.Bosses.Akumo
             NPC.defense = 55;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             EEWorld.EEWorld.downedAkumo = true;
             //EEMod.ServBoolUpdate();
@@ -468,7 +468,7 @@ namespace EEMod.NPCs.Bosses.Akumo
         private float alpha, scale;
         private bool scree => NPC.ai[0] < 60 && NPC.ai[0] > 0;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Bosses/Akumo/Akumo").Value;
             //Main.spriteBatch.End();

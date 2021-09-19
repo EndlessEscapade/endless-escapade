@@ -275,7 +275,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.Center = SpiderBodyPosition;
 
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             DrawSpiderPort(drawColor);
             return false;

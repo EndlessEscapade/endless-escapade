@@ -80,7 +80,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             }
         }
         private float alpha;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             alpha += 0.05f;
             Main.spriteBatch.End();
@@ -89,14 +89,14 @@ namespace EEMod.Items.Weapons.Melee.Swords
             EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
             EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/PrismDaggerLightMap").Value);
-            EEMod.PrismShader.Parameters["lightColour"].SetValue(drawColor.ToVector3());
+            EEMod.PrismShader.Parameters["lightColour"].SetValue(Color.White.ToVector3());
             EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3());
             EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);
             EEMod.PrismShader.CurrentTechnique.Passes[0].Apply();
             Vector2 drawOrigin = new Vector2(Projectile.width / 2, Projectile.height / 2);
             Vector2 drawPos = Projectile.position - Main.screenPosition;
             shadeColor.A = 150;
-            spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos + drawOrigin, null, shadeColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos + drawOrigin, null, shadeColor, Projectile.rotation, drawOrigin, Projectile.scale, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             return false;

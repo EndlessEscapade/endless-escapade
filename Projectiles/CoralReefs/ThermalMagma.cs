@@ -37,7 +37,7 @@ namespace EEMod.Projectiles.CoralReefs
             Projectile.rotation = Projectile.velocity.ToRotation();
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Lighting.AddLight(Projectile.Center, 4f, 2f, 0f);
 

@@ -72,7 +72,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
         }
 
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             float heartBeat;
             if (Main.GameUpdateCount % 150 < 60)

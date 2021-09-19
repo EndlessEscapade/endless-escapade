@@ -112,7 +112,7 @@ namespace EEMod.Items.Weapons.Mage
             return DelegateMethods.CutTiles(x, y);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (projectile.velocity == Vector2.Zero)
             {

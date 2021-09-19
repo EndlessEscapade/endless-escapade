@@ -88,7 +88,7 @@ namespace EEMod.Items.Weapons.Melee.Shivs
         float rotation;
         float projLerp;
         Vector2 ppostodraw => projOwner.Center.ForDraw();
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             float timeForSwingSin = (float)Math.Sin(timeForSwing * 3.14f) + 0.2f;
 

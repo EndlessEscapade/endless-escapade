@@ -63,7 +63,7 @@ namespace EEMod.Projectiles
             Projectile.scale = 0.75f + Projectile.ai[0] / 255;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Main.spriteBatch.Draw(itemTexture, Projectile.Center - Main.screenPosition, null, Color.White, Projectile.rotation, Projectile.Size / 2f, new Vector2(0.5f, 0.5f), SpriteEffects.None, 0);
             return true;

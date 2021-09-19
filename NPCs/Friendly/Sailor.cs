@@ -156,7 +156,7 @@ namespace EEMod.NPCs.Friendly
             nextSlot++;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             //Item.NewItem(npc.getRect(), ModContent.ItemType<>());
 

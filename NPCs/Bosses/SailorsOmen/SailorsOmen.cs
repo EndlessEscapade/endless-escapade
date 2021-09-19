@@ -55,7 +55,7 @@ namespace EEMod.NPCs.Bosses.SailorsOmen
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/SailorsOmen/OmenMagic2").Value;
 

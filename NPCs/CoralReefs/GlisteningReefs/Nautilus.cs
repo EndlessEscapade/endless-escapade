@@ -125,7 +125,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.ai[0] % 100 > 60 || NPC.ai[1] == 1)
             {

@@ -126,7 +126,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
                 }
             }
         }
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = Mod.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/SquidChain").Value;
             Texture2D tex2 = Mod.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/SquidEnd").Value;

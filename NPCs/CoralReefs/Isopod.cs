@@ -14,7 +14,7 @@ namespace EEMod.NPCs.CoralReefs
             DisplayName.SetDefault("Isopod");
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             //spriteBatch.End();
             //spriteBatch.Begin();

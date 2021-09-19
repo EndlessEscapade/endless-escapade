@@ -52,7 +52,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Projectile.Center = target.Center + Vector2.UnitY.RotatedBy(Projectile.ai[0]) * target.width;
         }
 
-        /*public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        /*public override void PostDraw(Color lightColor)
         {
             float funnySin = (float)Math.Sin(projectileAiCont[0]);
             Texture2D texture = mod.GetTexture("Projectiles/Summons/AkumoMinionGlow");
@@ -64,7 +64,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             Main.spriteBatch.Draw(texture, new Rectangle((int)funny.X, (int)funny.Y, projectile.width, projectile.height), texture.Frame(1, Main.projFrames[projectile.type], 0, projectile.frame), minionGlow * funnySin * 0.75f, projectile.rotation, new Vector2(projectile.width / 2, projectile.height / 2), projectile.spriteDirection == -1 ? SpriteEffects.FlipHorizontally : default, default);
         }*/
 
-        /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        /*public override bool PreDraw(ref Color lightColor)
         {
             if (projectile.ai[0] == 3)
                 AfterImage.DrawAfterimage(spriteBatch, TextureAssets.Projectile[projectile.type].Value, 0, projectile, 1.5f, 1f, 3, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B), overrideFrameCount: 4, overrideFrame: new Rectangle(0, projectile.frame * 56, 56, 58));

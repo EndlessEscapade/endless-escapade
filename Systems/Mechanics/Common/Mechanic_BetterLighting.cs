@@ -37,6 +37,6 @@ namespace EEMod.Systems
             projectile.light = 0;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
         }*/

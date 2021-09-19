@@ -80,7 +80,7 @@ namespace EEMod.Projectiles
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             for (int i = 0; i < Particles.Count; i++)
             {
@@ -118,7 +118,7 @@ namespace EEMod.Projectiles
             return buffer;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             //Main.spriteBatch.Draw(GetScreenTex(), Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
         }

@@ -83,17 +83,17 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
 
         private float alphaCounter = 0;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
             Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, Projectile.Center - Main.screenPosition, null, new Color((int)(18f * sineAdd), (int)(12f * sineAdd), (int)(2f * sineAdd), 0), 0f, new Vector2(75, 75), Math.Abs(0.33f * (sineAdd + 1)) * Projectile.ai[1], SpriteEffects.None, 0f);
 
-            DrawRings(spriteBatch);
+            DrawRings(Main.spriteBatch);
 
-            return base.PreDraw(spriteBatch, lightColor);
+            return base.PreDraw(ref lightColor);
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             float sineAdd = (float)Math.Sin(alphaCounter) + 3;
 

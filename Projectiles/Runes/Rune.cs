@@ -56,7 +56,7 @@ namespace EEMod.Projectiles.Runes
             CustomAI();
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             CustomPostDraw();
         }

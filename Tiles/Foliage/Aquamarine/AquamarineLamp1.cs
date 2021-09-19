@@ -219,7 +219,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 
         private Color strikeColor;
         private int strikeTime;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (spire.active == true && Vector2.DistanceSquared(Main.LocalPlayer.Center, Projectile.Center) <= (192 * 16) * (192 * 16))
             {

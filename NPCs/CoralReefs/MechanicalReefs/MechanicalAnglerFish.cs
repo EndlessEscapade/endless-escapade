@@ -101,7 +101,7 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color DrawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (NPC.ai[3] != 0)
             {
@@ -117,11 +117,11 @@ namespace EEMod.NPCs.CoralReefs.MechanicalReefs
             }
             Texture2D texture = Terraria.GameContent.TextureAssets.Npc[NPC.type].Value;
             Vector2 origin = new Vector2(texture.Width * 0.5f, texture.Height * 0.5f);
-            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0, 40), NPC.frame, DrawColor, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
+            Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition + new Vector2(0, 40), NPC.frame, Color.White, NPC.rotation, origin, NPC.scale, SpriteEffects.None, 0);
             return false;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             Main.projectile[(int)NPC.ai[3]].Kill();
         }

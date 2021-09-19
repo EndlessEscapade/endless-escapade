@@ -105,7 +105,7 @@ namespace EEMod.Projectiles
             indexOfProjectile = reader.ReadInt32();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Player chosenPlayer = Main.player[GetPlayer(Projectile.Center)];
             Texture2D volleyArrow = Mod.Assets.Request<Texture2D>("Projectiles/VolleyballArrow").Value;
@@ -118,7 +118,7 @@ namespace EEMod.Projectiles
                 {
                     Vector2 drawPos = Projectile.oldPos[k] - Main.screenPosition + drawOrigin + new Vector2(0f, Projectile.gfxOffY);
                     Color color = Projectile.GetAlpha(lightColor) * ((Projectile.oldPos.Length - k) / (float)Projectile.oldPos.Length / 2);
-                    spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), new Color(255, 255, 255, 10), Projectile.rotation, drawOrigin, Projectile.scale * (1 - (k / (float)Projectile.oldPos.Length)) * (velocitylength * 0.06f), SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value, drawPos, new Rectangle(0, 0, Projectile.width, Projectile.height), new Color(255, 255, 255, 10), Projectile.rotation, drawOrigin, Projectile.scale * (1 - (k / (float)Projectile.oldPos.Length)) * (velocitylength * 0.06f), SpriteEffects.None, 0f);
                 }
             }
             return true;

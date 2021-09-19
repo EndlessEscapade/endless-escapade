@@ -90,7 +90,7 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
 
         private Vector2 ringOffset = new Vector2(-6, 0);
         private bool isDying = false;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.ai[0] < 120)
             {

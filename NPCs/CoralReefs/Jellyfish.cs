@@ -44,7 +44,7 @@ namespace EEMod.NPCs.CoralReefs
         public int noOfTentacles = 8;
         float counter2;
         public Color drawColour;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             this.drawColour = drawColor;
             counter2 += 0.1f;

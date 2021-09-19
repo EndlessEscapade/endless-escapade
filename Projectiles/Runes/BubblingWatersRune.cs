@@ -51,18 +51,18 @@ namespace EEMod.Projectiles.Runes
 
         private float flash = 0;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             flash += 0.01f;
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             Main.NewText((255 - Projectile.alpha) / 255);
             if (Projectile.ai[1] > 120)
-                spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Projectiles/Nice").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f * ((255 - Projectile.alpha) / 255), Projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Projectiles/Nice").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 174, 174), lightColor * Math.Abs((float)Math.Sin(flash)) * 0.5f * ((255 - Projectile.alpha) / 255), Projectile.rotation + flash, new Vector2(174, 174) / 2, 1, SpriteEffects.None, 0);
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             return true;
         }

@@ -59,7 +59,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.rotation = NPC.velocity.X / 6;
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {

@@ -50,7 +50,7 @@ namespace EEMod.Projectiles
 
         public float flash;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             flash += 0.01f;
             Main.spriteBatch.End();

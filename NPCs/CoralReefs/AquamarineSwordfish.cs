@@ -116,7 +116,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.velocity *= 0.98f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = Terraria.GameContent.TextureAssets.Npc[NPC.type].Value;
 

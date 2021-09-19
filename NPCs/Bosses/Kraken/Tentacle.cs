@@ -211,7 +211,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             }
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D chain = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Kraken/ChainSmol").Value;
             Texture2D texture2 = Mod.Assets.Request<Texture2D>("NPCs/Bosses/Kraken/EndOfSmol").Value;
@@ -222,7 +222,7 @@ namespace EEMod.NPCs.Bosses.Kraken
                   Main.spriteBatch.Draw(texture, npc.Center - new Vector2(npc.width / 2, 0) - Main.screenPosition - distance / 2 + new Vector2(70, 0), new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height), drawColor, npc.rotation, new Rectangle(texture.Width + (int)distance.X, 0, -(int)distance.X, texture.Height).Size() / 2, npc.scale, npc.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);*/
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             return false;
         }

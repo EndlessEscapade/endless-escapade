@@ -232,7 +232,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
             return targetSearchResults.RotatedRelativePoint(targetSearchResults.MountedCenter - new Vector2(20f, 42f) / 2f + value + Vector2.UnitY * targetSearchResults.gfxOffY);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             List<Vector2> controlPoints = new List<Vector2>();
             FillWhipControlPoints(Projectile, controlPoints);
@@ -278,7 +278,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
                         }
                     }
 
-                    spriteBatch.Draw(tex, playerHandPosition.ForDraw(), segmentRect, alpha, rotation, segmentOrigin, 1f, SpriteEffects.None, 0f);
+                    Main.spriteBatch.Draw(tex, playerHandPosition.ForDraw(), segmentRect, alpha, rotation, segmentOrigin, 1f, SpriteEffects.None, 0f);
 
                     handPos = new Rectangle((int)playerHandPosition.X, (int)playerHandPosition.Y, segmentRect.Width, segmentRect.Height);
 

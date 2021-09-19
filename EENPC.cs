@@ -12,21 +12,6 @@ namespace EEMod
 {
     public abstract class EENPC : ModNPC
     {
-        public virtual void PostDraw(SpriteBatch spriteBatch, Color drawColor)
-        {
-            PostDraw(spriteBatch, Main.screenPosition, drawColor);
-        }
 
-        public virtual bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            PreDraw(spriteBatch, Main.screenPosition, lightColor);
-
-            return default;
-        }
-
-        public virtual void NPCLoot()
-        {
-            OnKill();
-        }
     }
 }

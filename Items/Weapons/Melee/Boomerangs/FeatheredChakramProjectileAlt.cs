@@ -148,7 +148,7 @@ namespace EEMod.Items.Weapons.Melee.Boomerangs
 
         private float alphaCounter = 0;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //    Main.spriteBatch.Draw(TextureCache.GradientEffect, projectile.Center - Main.screenPosition, new Rectangle(0, 0, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Width, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Height), LerpColour * 0.4f, projectile.rotation, new Rectangle(0, 0, TextureCache.GradientEffect.Width, ModContent.GetInstance<EEMod>().GetTexture("Masks/Extra_49").Height).Size() / 2, projectile.ai[1] * 0.5f, SpriteEffects.None, 0);
             //  AfterImage.DrawAfterimage(spriteBatch, TextureAssets.Projectile[projectile.type].Value, 0, projectile, 1.5f, 1f, 6, false, 0f, 0f, new Color(lightColor.R, lightColor.G, lightColor.B, 150));

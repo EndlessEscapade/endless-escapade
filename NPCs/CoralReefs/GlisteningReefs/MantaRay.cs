@@ -144,7 +144,7 @@ namespace EEMod.NPCs.CoralReefs.GlisteningReefs
 
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             for (int i = 0; i < ChainLength; i++)
             {

@@ -56,7 +56,7 @@ namespace EEMod.Projectiles.Hooks
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Player player = Main.player[Projectile.owner];
 
@@ -70,7 +70,7 @@ namespace EEMod.Projectiles.Hooks
             {
                 Rectangle rect = new Rectangle(0, 0, 16, 16);
 
-                spriteBatch.Draw(vine, Projectile.Center + (-Vector2.Normalize(vec) * k) - Main.screenPosition, rect, Color.White, vec.ToRotation() - MathHelper.PiOver2, rect.Size() / 2f, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(vine, Projectile.Center + (-Vector2.Normalize(vec) * k) - Main.screenPosition, rect, Color.White, vec.ToRotation() - MathHelper.PiOver2, rect.Size() / 2f, 1f, SpriteEffects.None, 0f);
             }
 
             return true;

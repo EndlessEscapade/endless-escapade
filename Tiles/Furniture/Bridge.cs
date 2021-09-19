@@ -35,11 +35,11 @@ namespace EEMod.Tiles.Furniture
              );
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (isSupport)
             {
-                spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/BridgeSupport").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/BridgeSupport").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
                 return false;
             }
             return true;

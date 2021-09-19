@@ -62,7 +62,7 @@ namespace EEMod.NPCs.CoralReefs
         public int sizeGrowth;
         public float num88 = 1;
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Shockwave"].IsActive())
             {

@@ -72,7 +72,7 @@ namespace EEMod.NPCs.CoralReefs
         //Timer1 : Manages cooldowns - recharge time and laser shot cooldown
 
         private float alpha;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
@@ -99,7 +99,7 @@ namespace EEMod.NPCs.CoralReefs
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Player target = Main.LocalPlayer;
 

@@ -48,7 +48,7 @@ namespace EEMod.NPCs.CoralReefs
             item.stack = 2;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/NPCs/CoralReefs/SeaSlug").Value;
             Main.spriteBatch.Draw(tex, NPC.position.ForDraw(), new Rectangle(0, variation * 18, 32, 18), Lighting.GetColor((int)(NPC.Center.X / 16), (int)(NPC.Center.Y / 16)), NPC.rotation, Vector2.Zero, 1f, (NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 0f);
@@ -56,7 +56,7 @@ namespace EEMod.NPCs.CoralReefs
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D glow = ModContent.Request<Texture2D>("EEMod/NPCs/CoralReefs/SeaSlugGlow").Value;
             Main.spriteBatch.Draw(glow, NPC.position.ForDraw(), new Rectangle(0, variation * 18, 32, 18), Color.White, NPC.rotation, Vector2.Zero, 1f, (NPC.direction == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally), 0f);

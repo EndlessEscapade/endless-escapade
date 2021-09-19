@@ -708,20 +708,20 @@ namespace EEMod.NPCs.Bosses.Kraken
             return geyserPoses;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Bosses/Kraken/KrakenTentacles").Value;
             Main.spriteBatch.Draw(texture, NPC.spriteDirection == -1 ? NPC.Center - Main.screenPosition + new Vector2(texture.Width / 16, -texture.Height / 96) : NPC.Center - Main.screenPosition + new Vector2(texture.Width / 16, -texture.Height / 96), seperateFrame, drawColor * tentacleAlpha, tentaclerotation, seperateFrame.Size() / 2 + new Vector2(texture.Width / 16, -texture.Height / 96), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return true;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Bosses/Kraken/KrakenHeadGlowMask").Value;
             Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
-        public override void NPCLoot()
+        public override void OnKill()
         {
             EEWorld.EEWorld.downedKraken = true;
         }

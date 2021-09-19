@@ -68,7 +68,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.rotation = NPC.velocity.X / 5;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/ToxicPufferSmall").Value;
             Vector2 offset = Vector2.Zero;

@@ -65,7 +65,7 @@ namespace EEMod.Projectiles.Enemy
             Projectile.Kill();
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(Color lightColor)
         {
             Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/Enemy/MechanicalMissileGlow").Value, Projectile.Center - Main.screenPosition, Projectile.getRect(), Color.White, Projectile.rotation, Projectile.getRect().Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }

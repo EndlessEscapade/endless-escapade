@@ -94,7 +94,7 @@ namespace EEMod.Projectiles
             frame = reader.ReadInt32();
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Player chosenPlayer = Main.player[GetPlayer(Projectile.Center)];
             Texture2D outline = Mod.Assets.Request<Texture2D>("Projectiles/VolleyballArrowOutline").Value;

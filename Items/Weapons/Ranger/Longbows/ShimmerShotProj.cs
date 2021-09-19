@@ -132,7 +132,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
 
         private float gravAccel = 4;
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             if(whiteFlash > 0)
             {

@@ -120,7 +120,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             return DelegateMethods.CutTiles(x, y);
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             if (Projectile.velocity == Vector2.Zero)
             {
@@ -134,7 +134,7 @@ namespace EEMod.NPCs.Bosses.Hydros
             Texture2D projectileTexture2 = projectileTexture;
             Vector2 arg_AF99_2 = Projectile.Center + new Vector2(0, Projectile.gfxOffY) - Main.screenPosition;
             Rectangle? sourceRectangle2 = null;
-            spriteBatch.Draw(projectileTexture2, arg_AF99_2, sourceRectangle2, color44, Projectile.rotation, projectileTexture.Size() / 2f, new Vector2(Math.Min(chargeCounter, charge) / charge, 1f), SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(projectileTexture2, arg_AF99_2, sourceRectangle2, color44, Projectile.rotation, projectileTexture.Size() / 2f, new Vector2(Math.Min(chargeCounter, charge) / charge, 1f), SpriteEffects.None, 0f);
             laserLength -= (projectileTexture.Height / 2 + beamEndTexture.Height) * Projectile.scale;
             Vector2 value20 = Projectile.Center + new Vector2(0, Projectile.gfxOffY);
             value20 += Projectile.velocity * Projectile.scale * projectileTexture.Height / 2f;

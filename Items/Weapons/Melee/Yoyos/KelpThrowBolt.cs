@@ -36,7 +36,7 @@ namespace EEMod.Items.Weapons.Melee.Yoyos
             Projectile.rotation = (float)Math.Atan2(Projectile.velocity.Y, Projectile.velocity.X) + 1.57f;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D boltTex = ModContent.Request<Texture2D>("EEMod/Particles/MediumCircle").Value;
 

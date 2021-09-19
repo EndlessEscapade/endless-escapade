@@ -32,7 +32,7 @@ namespace EEMod.Projectiles.FishingBobbers
             Projectile.height = 22;
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             //Create some light based on the color of the line; this could also be in the AI function
             Lighting.AddLight(Projectile.Center, fishingLineColor.R / 255, fishingLineColor.G / 255, fishingLineColor.B / 255);

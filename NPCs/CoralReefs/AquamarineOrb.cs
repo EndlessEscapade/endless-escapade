@@ -26,7 +26,7 @@ namespace EEMod.NPCs.CoralReefs
         public float distortStrength = 5;
         private float alpha;
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             Helpers.DrawAdditiveFunky(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradientWide").Value, NPC.Center.ForDraw(), new Color(48, 25, 52), 1.4f, 0.8f);
             alpha += 0.05f;
@@ -188,7 +188,7 @@ namespace EEMod.NPCs.CoralReefs
             }
         }
         bool a;
-        public override void NPCLoot()
+        public override void OnKill()
         {
             Item.NewItem((int)NPC.Center.X, (int)NPC.Center.Y, NPC.width, NPC.height, ModContent.ItemType<LythenOre>(), Main.rand.Next(10, 15));
             switch (Main.rand.Next(3))

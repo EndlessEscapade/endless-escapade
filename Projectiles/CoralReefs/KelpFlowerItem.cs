@@ -106,7 +106,7 @@ namespace EEMod.Projectiles.CoralReefs
 
         private float alpha = 0;
         private float alpha2 = 0;
-        public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override bool PreDraw(ref Color lightColor)
         {
             Texture2D tex = Terraria.GameContent.TextureAssets.Item[(int)Projectile.ai[0]].Value;
             Vector2 pos = (Projectile.Center - Main.screenPosition);
@@ -131,7 +131,7 @@ namespace EEMod.Projectiles.CoralReefs
             for (int i = 0; i < 4; i++)
             {
                 Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * (2 * (alpha2 / 1) * ((255 - Projectile.alpha) / 255f));
-                spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - Projectile.alpha) / 255f), Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, pos + offsetPositon, null, Color.White * alpha2 * ((255 - Projectile.alpha) / 255f), Projectile.rotation, tex.Size() * 0.5f, Projectile.scale, SpriteEffects.None, 0f);
             }
 
             Main.spriteBatch.End();
@@ -142,7 +142,7 @@ namespace EEMod.Projectiles.CoralReefs
             return false;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
             Item chungu = new Item();
             chungu.SetDefaults((int)Projectile.ai[0]);

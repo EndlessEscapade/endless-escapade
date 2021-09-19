@@ -56,7 +56,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             NPC.ai[1]++;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
         }
 
@@ -139,7 +139,7 @@ namespace EEMod.NPCs.Bosses.Kraken
             }
         }
 
-        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             //DrawTentacleBeziers(spriteBatch, drawColor);
             return false;

@@ -44,7 +44,7 @@ namespace EEMod.Projectiles.Enemy
             Projectile.rotation += Projectile.velocity.Y / 128f;
         }
 
-        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        public override void PostDraw(Color lightColor)
         {
 
         }
