@@ -26,6 +26,7 @@ using System.Linq;
 using EEMod.VerletIntegration;
 using EEMod.Prim;
 using EEMod.Systems.Subworlds.EESubworlds;
+using Terraria.UI;
 
 namespace EEMod.EEWorld
 {
@@ -112,6 +113,92 @@ namespace EEMod.EEWorld
                     }
                 }));
             }*/
+        }
+        public override void UpdateUI(GameTime gameTime)
+        {
+            base.UpdateUI(gameTime);
+            EEMod.UI.Update(gameTime);
+            EEMod.lastGameTime = gameTime;
+        }
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        {
+            base.ModifyInterfaceLayers(layers);
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            if (mouseTextIndex != -1)
+            {
+                LegacyGameInterfaceLayer EEInterfaceLayerUI = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
+                {
+                    if (EEMod.lastGameTime != null)
+                    {
+                        EEMod.UI.DrawWithScaleUI(EEMod.lastGameTime);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI);
+                layers.Insert(mouseTextIndex, EEInterfaceLayerUI);
+                LegacyGameInterfaceLayer EEInterfaceLayerGame = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
+                {
+                    if (EEMod.lastGameTime != null)
+                    {
+                        EEMod.UI.DrawWithScaleGame(EEMod.lastGameTime);
+                        //UpdateGame(lastGameTime);
+                        if (Main.worldName == KeyID.CoralReefs)
+                        {
+                            //DrawCR();
+                        }
+                    }
+
+                    return true;
+                }, InterfaceScaleType.Game);
+                layers.Insert(mouseTextIndex, EEInterfaceLayerGame);
+            }
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            {
+                //DrawZipline();
+            }
+
+            var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+            if (textLayer != -1)
+            {
+                var computerState = new LegacyGameInterfaceLayer("EE: UI", delegate
+                {
+                    if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
+                    {
+                        //DrawText();
+                    }
+                    return true;
+                },
+                InterfaceScaleType.UI);
+                layers.Insert(textLayer, computerState);
+            }
+            /*
+            if (mouseTextIndex != -1)
+		    {
+		        layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+		        "SpeedrunTimer: SpeedrunnTimer",
+		        delegate
+		        {
+		            if (_lastUpdateUiGameTime != null && SpeedrunnTimer?.CurrentState != null)
+		            {
+			            SpeedrunnTimer.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+		            }
+		            return true;
+		        },
+		        InterfaceScaleType.UI));
+		    }
+            */
+            if (Main.worldName == KeyID.Sea)
+            {
+                for (int i = 0; i < layers.Count; i++)
+                {
+                    var layer = layers[i];
+                    //Remove Resource bars
+                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap") || layer.Name.Contains("Vanilla: Inventory"))
+                    {
+                        layers.RemoveAt(i);
+                    }
+                }
+            }
         }
 
         public override void NetSend(BinaryWriter writer)

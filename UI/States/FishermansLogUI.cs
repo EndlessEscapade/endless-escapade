@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
 using EEMod.Items;
 using EEMod.Extensions;
+using ReLogic.Content;
 
 namespace EEMod.UI.States
 {
@@ -33,7 +34,7 @@ namespace EEMod.UI.States
         public int SlideTimer = 0;
         public override void OnInitialize()
         {
-            Background = new UIImage(ModContent.Request<Texture2D>("EEMod/UI/FishermansLogUI"));
+            Background = new UIImage(ModContent.Request<Texture2D>("EEMod/UI/FishermansLogUI", AssetRequestMode.ImmediateLoad).Value);
             Background.HAlign = 0.5f;
             Background.VAlign = 2f;
 
@@ -130,44 +131,12 @@ namespace EEMod.UI.States
         }
         public void LoadAllFish()
         {
+            //TODO: Put the habitats in a decent order
+
             LoadFish(new FishElement(ItemID.Bass, "Plentiful", "Bass is a name shared by many species of fish, encompassing both freshwater and marine species, all belonging to the large order Perciformes.", 
-                "Anywhere")); //All except Desert in 1.4.
-            LoadFish(new FishElement(ItemID.ArmoredCavefish, "Uncommon", "WIP",
-                "Underground|Caverns|UG Jungle|UG Beehive|UG Corruption|UG Crimson|UG Hallow|Ice|Corrupt Ice|Crimson Ice|Hallow Ice|UG Glowing Mush|Underworld"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
-            LoadFish(new FishElement(ItemID.Ebonkoi, "Uncommon", "Mayb cat", "corruption|ug corruption"));
+                "Surface|Beach|Beehive|Caverns|Corrupt Ice|Corruption|Crimson|Crimson Ice|Glowing Mush|Hallow|Hallow Ice|Ice|Jungle|Space|Tundra|UG Beehive|UG Corruption|UG Crimson|UG Glowing Mush|UG Hallow|UG Jungle|Underground"));
+            //TODO: Check if Beehive and UG Beehive is actually possible
+            LoadFish(new FishElement(ItemID.ArmoredCavefish, "Uncommon", "WIP", "Underground|Caverns|UG Jungle|UG Beehive|UG Corruption|UG Crimson|UG Hallow|Ice|Corrupt Ice|Crimson Ice|Hallow Ice|UG Glowing Mush|Underworld"));
             //This is done so the fish are actually in the order they were loaded in since UIGrid is kinda wack.
             FishGrid._items = FullList;
         }
@@ -180,7 +149,7 @@ namespace EEMod.UI.States
     public class FishElement : UIImageButton 
     {
         public FishermansLogUI LogUI;
-        public Texture2D BorderTexture = ModContent.Request<Texture2D>("EEMod/UI/FishBorder").Value;
+        public Texture2D BorderTexture = ModContent.Request<Texture2D>("EEMod/UI/FishBorder", AssetRequestMode.ImmediateLoad).Value;
         public bool Caught;
         public int MaxSize;
         public int ItemType;
@@ -199,7 +168,7 @@ namespace EEMod.UI.States
         /// <param name="swimSpeed">How many frames the fish takes to swim from one end to the other).</param>
         /// <param name="animSpeed">How many frames each frame of the animation lasts.</param>
         /// <param name="swimmingAnimation">The sprite sheet used to make the fish swim in the display, if left null, the item sprite will be used instead.</param>
-        public FishElement(int itemType, string rarity, string description, string habitat, int swimSpeed = 70, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.Request<Texture2D>("EEMod/UI/FishBorder"))
+        public FishElement(int itemType, string rarity, string description, string habitat, int swimSpeed = 70, int animSpeed = 30, bool isSpriteFacingRight = false, Texture2D swimmingAnimation = null, int frameCount = 1) : base(ModContent.Request<Texture2D>("EEMod/UI/FishBorder", AssetRequestMode.ImmediateLoad))
         {
             ItemType = itemType;
             Rarity = rarity;
@@ -234,7 +203,7 @@ namespace EEMod.UI.States
             Caught = Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths.ContainsKey(ItemType);
             if (Caught)
             {
-                SetImage(Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[ItemType] == MaxSize ? ModContent.Request<Texture2D>("EEMod/UI/FishBorderGold") : ModContent.Request<Texture2D>("EEMod/UI/FishBorder"));
+                SetImage(Main.LocalPlayer.GetModPlayer<EEPlayer>().fishLengths[ItemType] == MaxSize ? ModContent.Request<Texture2D>("EEMod/UI/FishBorderGold", AssetRequestMode.ImmediateLoad) : ModContent.Request<Texture2D>("EEMod/UI/FishBorder", AssetRequestMode.ImmediateLoad));
             }
         }
         public override void Click(UIMouseEvent evt)
@@ -270,7 +239,7 @@ namespace EEMod.UI.States
     }
     public class FishDisplay : UIImage
     {
-        public Texture2D OutlineTexture = ModContent.Request<Texture2D>("EEMod/UI/DisplayBorder").Value;
+        public Texture2D OutlineTexture = ModContent.Request<Texture2D>("EEMod/UI/DisplayBorder", AssetRequestMode.ImmediateLoad).Value;
         public bool ShouldDraw;
         public bool IsSpriteFacingRight;
         public string CurrentHabitat;
@@ -286,7 +255,7 @@ namespace EEMod.UI.States
         public bool IsUsingItemTexture;
         public Rectangle Frame;
         public int FrameCounter;
-        public FishDisplay() : base(ModContent.Request<Texture2D>("EEMod/UI/DisplayBorder").Value) { }
+        public FishDisplay() : base(ModContent.Request<Texture2D>("EEMod/UI/DisplayBorder", AssetRequestMode.ImmediateLoad).Value) { }
         public void UpdateDisplay(int itemType, bool isSpriteFacingRight, List<string> habitats, int swimSpeed, int animSpeed, Texture2D swimmingAnimation, int frameCount)
         {
             ShouldDraw = true;
@@ -326,7 +295,7 @@ namespace EEMod.UI.States
 
                 var facingLeft = IsSpriteFacingRight ? !FacingLeft : FacingLeft;
                 var spriteEffects = facingLeft ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
-                BackgroundTexture = ModContent.Request<Texture2D>("EEMod/UI/LogDisplayBGs/" + CurrentHabitat.Replace(" ", "")).Value;
+                BackgroundTexture = ModContent.Request<Texture2D>("EEMod/UI/LogDisplayBGs/" + CurrentHabitat.Replace(" ", ""), AssetRequestMode.ImmediateLoad).Value;
                 CalculatedStyle dimensions = GetDimensions();
                 if (++SwimTimer >= SwimSpeed)
                 {
@@ -361,7 +330,7 @@ namespace EEMod.UI.States
     }
     internal class FilterButton : UIImageButton
     {
-        public FilterButton() : base(ModContent.Request<Texture2D>("EEMod/UI/Filter")) { }
+        public FilterButton() : base(ModContent.Request<Texture2D>("EEMod/UI/Filter", AssetRequestMode.ImmediateLoad)) { }
     }
     public class ProgressBar : UIElement
     {

@@ -41,6 +41,8 @@ namespace EEMod
         public static int loadingChooseImage;
         public static bool loadingFlag = true;
 
+        public static GameTime lastGameTime;
+
         public static ModKeybind RuneActivator;
         public static ModKeybind RuneSpecial;
         public static ModKeybind Inspect;
