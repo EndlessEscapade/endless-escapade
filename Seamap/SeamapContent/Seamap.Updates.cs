@@ -85,7 +85,6 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void UpdateSeamap()
         {
-            MechanicManager.MidUpdateProjectileItem();
             EEPlayer.UpdateOceanMapElements();
             UpdateShipMovement();
         }

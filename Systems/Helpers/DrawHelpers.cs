@@ -77,7 +77,7 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
-        public static Texture2D playerTexture => Mechanic.GetMechanic<PlayerClone>().playerDrawData;
+        public static Texture2D playerTexture => ModContent.GetInstance<PlayerClone>().playerDrawData;
         public static Vector2 TextureCenter(this Texture2D texture) => new Vector2(texture.Width / 2, texture.Height / 2);
         public static Vector2 Size(this Texture2D texture) => new Vector2(texture.Width, texture.Height);
 

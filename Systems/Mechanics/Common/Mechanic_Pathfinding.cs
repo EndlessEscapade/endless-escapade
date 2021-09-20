@@ -13,7 +13,7 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class Pathfinding : Mechanic
+    public class Pathfinding : ModSystem
     {
         public static Pathfinding Instance;
         public struct FNode
@@ -164,7 +164,7 @@ namespace EEMod
                 return new Point[] { a };
             }
         }
-        public override void OnLoad()
+        public override void Load()
         {
             Instance = this;
         }

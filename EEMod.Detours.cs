@@ -56,7 +56,6 @@ namespace EEMod
             On.Terraria.Main.Draw += Main_Draw;
             On.Terraria.Main.DrawBG += Main_DrawBG;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
-            On.Terraria.Main.DrawNPC += Main_DrawNPC;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DrawWalls += Main_DrawWalls;
             //On.Terraria.Main.DrawTiles += Main_DrawTiles;
@@ -147,7 +146,6 @@ namespace EEMod
             On.Terraria.Main.DrawBackground -= Main_DrawBackground1;
             On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
             //On.Terraria.Main.DoUpdate -= Main_DoUpdate;
-            On.Terraria.Main.DrawNPC -= Main_DrawNPC;
             On.Terraria.Main.Draw -= Main_Draw;
             //On.Terraria.Main.DrawPlayerChat -= Main_DrawPlayerChat;
             On.Terraria.Main.DrawBG -= Main_DrawBG;
@@ -341,7 +339,8 @@ namespace EEMod
                     Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
                     Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
                     Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
-                    LightingBuffer.Instance.Draw(Main.spriteBatch);
+
+                    ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
 
                     Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
                     Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
@@ -435,7 +434,6 @@ namespace EEMod
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
             PrimSystem.trailManager.DrawTrails(Main.spriteBatch);
-            MechanicManager.PreDrawProjectiles();
 
             PrimSystem.primitives.DrawTrailsAboveTiles();
             if (Main.worldName == KeyID.Sea)
@@ -448,14 +446,6 @@ namespace EEMod
                 Main.spriteBatch.End();
             }
             orig(self);
-            MechanicManager.PostDrawProjectiles();
-        }
-
-        private void Main_DrawNPC(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCTiles, bool behindTiles)
-        {
-            MechanicManager.PreDrawNPCs();
-            orig(self, iNPCTiles, behindTiles);
-            MechanicManager.PostDrawNPCs();
         }
 
         private void Main_DrawBG(On.Terraria.Main.orig_DrawBG orig, Main self)

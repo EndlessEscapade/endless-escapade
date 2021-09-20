@@ -6,13 +6,12 @@ using EEMod.Config;
 
 namespace EEMod.Systems
 {
-    public class BetterLighting : Mechanic
+    public class BetterLighting : ModSystem
     {
-        public override void PostDrawProjectiles()
+        public override void PostDrawTiles()
         {
             if (!EEModConfigClient.Instance.BetterLighting)
                 return;
-
         }
     }
 }

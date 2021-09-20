@@ -8,10 +8,10 @@ namespace EEMod.Compatibility
     /// </summary>
 	public static partial class Compatibilities
     {
-        public static Mod EEMusic;
-        public static Mod CalamityMod;
-        public static Mod SpiritMod;
-        public static Mod OrchidMod;
+        //public static Mod EEMusic;
+        //public static Mod CalamityMod;
+        //public static Mod SpiritMod;
+        //public static Mod OrchidMod;
 
         [LoadingMethod]
         public static void LoadModFields()
@@ -25,10 +25,14 @@ namespace EEMod.Compatibility
         [UnloadingMethod]
         public static void Unload()
         {
-            EEMusic = null;
-            CalamityMod = null;
-            SpiritMod = null;
-            OrchidMod = null;
+            //EE
+            //
+            //
+            //
+            //= null;
+            //CalamityMod = null;
+            //SpiritMod = null;
+            //OrchidMod = null;
         }
     }
 }

@@ -12,24 +12,24 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-
-
-    public class Worm : Mechanic
+    public class Worm : ModSystem
     {
-        ExampleWorm EEWorm;
-        public override void OnDraw(SpriteBatch spriteBatch)
+        //ExampleWorm EEWorm;
+
+        public override void PostDrawTiles()
         {
             //EEWorm.Draw(Main.spriteBatch);
         }
-        public override void OnUpdate()
+
+        public override void PostUpdateEverything()
         {
             //EEWorm.Update();
         }
-        public override void OnLoad()
+
+        public override void Load()
         {
-            EEWorm = new ExampleWorm();
+            //EEWorm = new ExampleWorm();
         }
-        protected override Layer DrawLayering => base.DrawLayering;
     }
 
     public class ExampleWorm : SegmentedWorm

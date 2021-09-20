@@ -12,7 +12,7 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class OrbNoiseSurfacing : Mechanic
+    public class OrbNoiseSurfacing : ModSystem
     {
         private float speed;
         private float seed;
@@ -53,20 +53,10 @@ namespace EEMod
                 }
             }
         }
-        public override void OnDraw(SpriteBatch spriteBatch)
+
+        public override void PostDrawTiles()
         {
             DrawNoiseSurfacing();
         }
-
-        public override void OnUpdate()
-        {
-
-        }
-
-        public override void OnLoad()
-        {
-           
-        }
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 }

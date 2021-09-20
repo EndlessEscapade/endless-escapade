@@ -13,17 +13,21 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class PlayerClone : Mechanic
+    public class PlayerClone : ModSystem
     {
         public RenderTarget2D playerDrawData;
 
-        public override void OnLoad()
+        public override void Load()
         {
             if (!Main.dedServ)
             {
-                playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
+                Main.QueueMainThreadAction(() =>
+                {
+                    playerDrawData = new RenderTarget2D(Main.graphics.GraphicsDevice, 500, 500);
+                });
             }
         }
+
         public override void PreUpdateEntities()
         {
             RenderTargetBinding[] oldtargets2 = Main.graphics.GraphicsDevice.GetRenderTargets();
@@ -71,7 +75,5 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets2);
         }
-
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 }

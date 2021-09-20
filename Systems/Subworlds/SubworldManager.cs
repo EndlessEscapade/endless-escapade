@@ -138,12 +138,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal static void PreSaveAndQuit()
         {
-            Mod[] mods = ModLoader.Mods;
-
-            for (int i = 0; i < mods.Length; i++)
-            {
-                //mods[i].PreSaveAndQuit();
-            }
+            SystemLoader.PreSaveAndQuit();
         }
 
         public static void EnterSubworld<T>() where T : Subworld, new()

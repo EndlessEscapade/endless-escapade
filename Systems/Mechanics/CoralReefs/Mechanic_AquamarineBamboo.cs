@@ -14,10 +14,8 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class ThinAquamarineBamboo : Mechanic
+    public class ThinAquamarineBamboo : ModSystem
     {
-        protected override Layer DrawLayering => Layer.BehindTiles;
-
         public void DrawThinCrystalBamboo()
         {
             if (CoralReefs.ThinCrystalBambooLocations.Count > 0)
@@ -63,7 +61,7 @@ namespace EEMod
             return choice == 1 ? 0 : (float)Math.PI;
         }
 
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
             if(Main.worldName == KeyID.CoralReefs) DrawThinCrystalBamboo();
         }

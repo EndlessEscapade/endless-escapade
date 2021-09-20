@@ -17,13 +17,14 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class EmptyTileEntities : Mechanic
+    public class EmptyTileEntities : ModSystem
     {
         public static EmptyTileEntities Instance;
         internal Dictionary<Vector2, Vector2> EmptyTilePairsCache = new Dictionary<Vector2, Vector2>();
         internal Dictionary<Vector2, EmptyTileEntity> EmptyTileEntityPairsCache = new Dictionary<Vector2, EmptyTileEntity>();
         //Hash set cause I wanna be a douchebag :v
         internal HashSet<EmptyTileEntity> ETES = new HashSet<EmptyTileEntity>();
+
         public void AddPair(EmptyTileEntity ETE, Vector2 position, byte[,,] array)
         {
             ETES.Add(ETE);
@@ -44,10 +45,12 @@ namespace EEMod
 
             EEWorld.EEWorld.CreateInvisibleTiles(array, position);
         }
+
         public void Remove(Vector2 position) => EmptyTileEntityPairsCache[Convert(position)].Destroy();
 
         public Vector2 Convert(Vector2 position) => EmptyTilePairsCache.TryGetValue(position, out var val) ? val : Vector2.Zero;
-        public override void OnUpdate()
+        
+        public override void PostUpdateEverything()
         {
             if (Main.worldName == KeyID.CoralReefs)
             {
@@ -58,26 +61,25 @@ namespace EEMod
                 }
             }
         }
-        public override void OnDraw(SpriteBatch spriteBatch)
+
+        public override void PostDrawTiles()
         {
             if (Main.worldName == KeyID.CoralReefs)
             {
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
                 foreach (EmptyTileEntity ETE in ETES)
                 {
                     if (ETE != null)
                         ETE.Draw();
                 }
-                spriteBatch.End();
-                spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
         }
+
         public void Invoke(Vector2 position)
         {
             EmptyTileEntityPairsCache[Convert(position)].Activiate();
         }
-        public override void OnLoad()
+
+        public override void Load()
         {
             ETES.Clear();
             List<EmptyTileEntity> emptyTileEntities = EmptyTileEntityPairsCache.Values.ToList();
@@ -87,6 +89,5 @@ namespace EEMod
             }
             Instance = this;
         }
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 }

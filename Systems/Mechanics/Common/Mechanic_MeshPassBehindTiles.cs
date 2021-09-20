@@ -12,22 +12,16 @@ using EEMod.Prim;
 
 namespace EEMod
 {
-    public class MeshBehindTiles : Mechanic
+    public class MeshBehindTiles : ModSystem
     {
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
             PrimSystem.primitives.DrawTrailsBehindTiles();
         }
 
-        public override void OnUpdate()
+        public override void PostUpdateEverything()
         {
             PrimSystem.primitives.UpdateTrailsBehindTiles();
         }
-
-        public override void OnLoad()
-        {
-           
-        }
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 }

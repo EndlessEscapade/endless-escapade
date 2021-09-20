@@ -14,9 +14,8 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class GiantKelp : Mechanic
+    public class GiantKelp : ModSystem
     {
-        protected override Layer DrawLayering => Layer.BehindTiles;
         public void DrawGiantKelp()
         {
             if (CoralReefs.GiantKelpRoots.Count > 0)
@@ -48,7 +47,7 @@ namespace EEMod
             }
         }
 
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
             if (Main.worldName == KeyID.CoralReefs) DrawGiantKelp();
         }

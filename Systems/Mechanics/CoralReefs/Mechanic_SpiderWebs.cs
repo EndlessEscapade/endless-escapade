@@ -12,9 +12,9 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class SpiderWebs : Mechanic
+    public class SpiderWebs : ModSystem
     {
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
             if (CoralReefs.WebPositions.Count > 0)
             {
@@ -26,18 +26,6 @@ namespace EEMod
                 }
             }
         }
-
-        public override void OnUpdate()
-        {
-
-        }
-
-        public override void OnLoad()
-        {
-           
-        }
-
-        protected override Layer DrawLayering => Layer.BehindTiles;
 
         float sineInt;
         void HandleWebDraw(Vector2 position)

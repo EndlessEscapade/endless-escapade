@@ -14,9 +14,8 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class CoralReefVines : Mechanic
+    public class CoralReefVines : ModSystem
     {
-        protected override Layer DrawLayering => Layer.BehindTiles;
         public void DrawVines()
         {
             if (CoralReefs.CoralReefVineLocations.Count > 0)
@@ -34,7 +33,7 @@ namespace EEMod
                         Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                         if (MidNorm.Y > 100 * 16 && Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000)
                         {
-                            Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2 + new Vector2(0, 50 + (float)(Math.Sin(ElapsedTicks / 60f + ChainConneccPos.X) * 30));
+                            Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2 + new Vector2(0, 50 + (float)(Math.Sin(Main.GameUpdateCount / 60f + ChainConneccPos.X) * 30));
                             Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.2f);
                             Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.8f);
                             if (isValid && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
@@ -50,7 +49,7 @@ namespace EEMod
                 }
             }
         }
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
             if(Main.worldName == KeyID.CoralReefs) DrawVines();
         }

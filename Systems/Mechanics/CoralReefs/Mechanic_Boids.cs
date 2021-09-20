@@ -13,26 +13,26 @@ using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public class Boids : Mechanic
+    public class Boids : ModSystem
     {
         internal List<Flock> fishflocks = new List<Flock>();
 
-        public override void OnDraw(SpriteBatch spriteBatch)
+        public override void PostDrawTiles()
         {
             foreach(Flock fishflock in fishflocks)
             {
-                fishflock.Draw(spriteBatch);
+                fishflock.Draw(Main.spriteBatch);
             }
         }
 
-        public override void OnUpdate()
+        public override void PostUpdateEverything()
         {
             foreach (Flock fishflock in fishflocks)
             {
                 fishflock.Update();
             }
 
-            if (ElapsedTicks % 150 == 0 && Main.worldName == KeyID.CoralReefs)
+            if (Main.GameUpdateCount % 150 == 0 && Main.worldName == KeyID.CoralReefs)
             {
                 Vector2 rand = new Vector2(Main.rand.Next(-(int)(Main.screenWidth / 1.5f), (int)(Main.screenWidth / 1.5f)), Main.rand.Next(-(int)(Main.screenHeight / 1.5f), (int)(Main.screenHeight / 1.5f)));
 
@@ -84,7 +84,7 @@ namespace EEMod
             }
         }
 
-        public override void OnLoad()
+        public override void Load()
         {
             fishflocks.Add(new Flock("Particles/Fish", 1f, 10, 20));
             fishflocks.Add(new Flock("Particles/Coralfin", 1f, 5, 15));
@@ -100,8 +100,6 @@ namespace EEMod
 
             fishflocks.Add(new Flock("Particles/Thermalfin", 1f, 25, 35));
         }
-
-        protected override Layer DrawLayering => Layer.BehindTiles;
     }
 
     internal class Fish : Entity,IComponent

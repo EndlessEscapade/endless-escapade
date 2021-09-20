@@ -26,7 +26,7 @@ namespace EEMod.NPCs.CoralReefs
                 {
                     frameNumber = 0;
                 }
-                NPC.frame.Y = frameNumber * 118;
+                NPC.frame.Y = frameNumber * 40;
             }
         }
 
