@@ -229,7 +229,7 @@ namespace EEMod.UI.States
         {
             base.DrawSelf(spriteBatch);
             CalculatedStyle dimensions = GetDimensions();
-            Texture2D texture = Terraria.GameContent.TextureAssets.Item[ItemType].Value;
+            Texture2D texture = ModContent.Request<Texture2D>("Terraria/Images/Item_" + ItemType, AssetRequestMode.ImmediateLoad).Value;
             int x = (int)(dimensions.X + (texture.Size().X + BorderTexture.Size().X) / 2);
             int y = (int)(dimensions.Y + (texture.Size().Y + BorderTexture.Size().Y) / 2);
             float transparency = IsMouseHovering || LogUI.SelectedFish == this ? 1f : 0.4f;

@@ -31,6 +31,7 @@ using Terraria.UI;// l a g
 using Terraria.WorldBuilding;
 using Microsoft.Xna.Framework.Input;
 using Terraria.ModLoader.IO;
+using EEMod.ModSystems;
 
 namespace EEMod
 {
@@ -48,9 +49,10 @@ namespace EEMod
         public static ModKeybind Inspect;
         public static ModKeybind ActivateVerletEngine;
 
+        public static UIManager UI;
+
         public static Noise2D Noise2D;
         public static ParticleZoneHandler Particles;
-        public static UIManager UI;
         internal static ParticleZone MainParticles;
         public static SubworldInstanceManager Subworlds;
         public UserInterface EEInterface;
@@ -80,7 +82,6 @@ namespace EEMod
             if (!Main.dedServ)
             {
                 UI = new UIManager();
-
                 FishermansLogUI = new FishermansLogUI();
                 FishermansLogUI.Activate();
                 UI.AddInterface("EEInterfacee");

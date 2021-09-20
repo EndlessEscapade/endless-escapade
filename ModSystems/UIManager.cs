@@ -1,23 +1,47 @@
+using EEMod.Autoloading;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using Terraria;
+using Terraria.GameContent.Generation;
+using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.WorldBuilding;
+using EEMod.Tiles;
+using EEMod.Tiles.Furniture;
 using Terraria.ModLoader.IO;
+using Terraria.ObjectData;
+using EEMod.ID;
+using EEMod.Tiles.Foliage.Coral;
+using EEMod.Tiles.Ores;
+using EEMod.Tiles.Walls;
+using Terraria.GameContent.Events;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using Terraria.DataStructures;
+using EEMod.Tiles.EmptyTileArrays;
+using System.Linq;
+using EEMod.VerletIntegration;
+using EEMod.Prim;
+using EEMod.Systems.Subworlds.EESubworlds;
 using Terraria.UI;
 
-namespace EEMod
+namespace EEMod.ModSystems
 {
-    public class UIManager : IUpdateableGT
+    public class UIManager : ModSystem
     {
         private readonly Dictionary<string, UserInterface> UIInterfaces = new Dictionary<string, UserInterface>();
         private readonly Dictionary<string, UIState> UIStates = new Dictionary<string, UIState>();
         private readonly Dictionary<UserInterface, UIState> Binds = new Dictionary<UserInterface, UIState>();
         private readonly Dictionary<UserInterface, bool> ScalingTypes = new Dictionary<UserInterface, bool>();
+        public override void UpdateUI(GameTime gameTime)
+        {
+            base.UpdateUI(gameTime);
+            EEMod.UI.Update(gameTime);
+            EEMod.lastGameTime = gameTime;
+        }
         public void AddUIState(string UIStateName, UIState UiState)
         {
             if (UIStates.ContainsKey(UIStateName))
@@ -124,7 +148,7 @@ namespace EEMod
             }
         }
 
-        public void Load()
+        public new void Load()
         {
             for (int i = 0; i < UIStates.Count; i++)
             {
@@ -167,6 +191,86 @@ namespace EEMod
                 if (item.CurrentState != null && ScalingTypes[item])
                 {
                     item.Draw(Main.spriteBatch, gameTime);
+                }
+            }
+        }
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        {
+            base.ModifyInterfaceLayers(layers);
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            if (mouseTextIndex != -1)
+            {
+                LegacyGameInterfaceLayer EEInterfaceLayerUI = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
+                {
+                    if (EEMod.lastGameTime != null)
+                    {
+                        EEMod.UI.DrawWithScaleUI(EEMod.lastGameTime);
+                    }
+
+                    return true;
+                }, InterfaceScaleType.UI);
+                layers.Insert(mouseTextIndex, EEInterfaceLayerUI);
+                LegacyGameInterfaceLayer EEInterfaceLayerGame = new LegacyGameInterfaceLayer("EEMod: EEInterface", delegate
+                {
+                    if (EEMod.lastGameTime != null)
+                    {
+                        EEMod.UI.DrawWithScaleGame(EEMod.lastGameTime);
+                        //UpdateGame(lastGameTime);
+                        if (Main.worldName == KeyID.CoralReefs)
+                        {
+                            //DrawCR();
+                        }
+                    }
+
+                    return true;
+                }, InterfaceScaleType.Game);
+                layers.Insert(mouseTextIndex, EEInterfaceLayerGame);
+            }
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ridingZipline)
+            {
+                //DrawZipline();
+            }
+
+            var textLayer = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Inventory"));
+            if (textLayer != -1)
+            {
+                var computerState = new LegacyGameInterfaceLayer("EE: UI", delegate
+                {
+                    if (Main.worldName == KeyID.Pyramids || Main.worldName == KeyID.Sea || Main.worldName == KeyID.CoralReefs)
+                    {
+                        //DrawText();
+                    }
+                    return true;
+                },
+                InterfaceScaleType.UI);
+                layers.Insert(textLayer, computerState);
+            }
+            /*
+            if (mouseTextIndex != -1)
+		    {
+		        layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+		        "SpeedrunTimer: SpeedrunnTimer",
+		        delegate
+		        {
+		            if (_lastUpdateUiGameTime != null && SpeedrunnTimer?.CurrentState != null)
+		            {
+			            SpeedrunnTimer.Draw(Main.spriteBatch, _lastUpdateUiGameTime);
+		            }
+		            return true;
+		        },
+		        InterfaceScaleType.UI));
+		    }
+            */
+            if (Main.worldName == KeyID.Sea)
+            {
+                for (int i = 0; i < layers.Count; i++)
+                {
+                    var layer = layers[i];
+                    //Remove Resource bars
+                    if (layer.Name.Contains("Vanilla: Resource Bars") || layer.Name.Contains("Vanilla: Info Accessories Bar") || layer.Name.Contains("Vanilla: Map / Minimap") || layer.Name.Contains("Vanilla: Inventory"))
+                    {
+                        layers.RemoveAt(i);
+                    }
                 }
             }
         }
