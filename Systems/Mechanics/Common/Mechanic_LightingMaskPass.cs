@@ -37,6 +37,8 @@ namespace EEMod
             Main.graphics.GraphicsDevice.SetRenderTarget(lightingTarget);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
 
+            Main.spriteBatch.Begin();
+
             int Width = Main.screenWidth;
             int Height = Main.screenHeight;
             for (int i = 0; i < Width / 16; i++)
@@ -53,7 +55,9 @@ namespace EEMod
             Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
             EEMod.LightingBufferEffect.Parameters["buffer"].SetValue(lightingTarget);
 
+            Main.spriteBatch.End();
         }
+
         public event Action BufferCalls;
 
         public override void PostDrawTiles()
@@ -66,11 +70,15 @@ namespace EEMod
         {
             BufferCalls += () =>
             {
+                Main.spriteBatch.Begin();
+
                 EEMod.LightingBufferEffect.Parameters["screenPosition"].SetValue(position.ForDraw());
                 EEMod.LightingBufferEffect.Parameters["texSize"].SetValue(texture.Bounds.Size());
                 EEMod.LightingBufferEffect.Parameters["alpha"].SetValue(alpha);
                 EEMod.LightingBufferEffect.CurrentTechnique.Passes[0].Apply();
                 Main.spriteBatch.Draw(texture, position.ForDraw(), Color.White);
+
+                Main.spriteBatch.End();
             };
         }
         public override void PostUpdateEverything()
