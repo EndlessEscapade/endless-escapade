@@ -200,6 +200,11 @@ namespace EEMod.Tiles.Furniture
 
                     Vector2 orig1 = new Vector2(i * 16, j * 16) + positions[l] + zero - Main.screenPosition + new Vector2(0, (float)Math.Sin((Main.GameUpdateCount / 20f) + l) * 2f);
 
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+                    ApplyIntroShader();
+
                     for (int k = 0; k < 4; k++)
                     {
                         Vector2 initRot = Vector2.UnitY * (1 - ((cutsceneTicks - 180) / 60f)) * 4f;
@@ -207,8 +212,12 @@ namespace EEMod.Tiles.Furniture
                         spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/Placeables/Ores/LythenOre").Value, orig1 + initRot.RotatedBy((Main.GameUpdateCount / 30f) + (k * 1.57f)), new Rectangle(0, 0, 24, 24), Color.Gold * 0.5f);
                     }
 
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/Placeables/Ores/LythenOre").Value, orig1, new Rectangle(0, frames[l] * 28, 28, 28), Color.Lerp(Color.White, Color.Gold, (cutsceneTicks - 150) / 30f));
 
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/Placeables/Ores/LythenOre").Value, orig1, new Rectangle(0, frames[l] * 28, 28, 28), Color.Lerp(Color.White, Color.Gold, (cutsceneTicks - 150) / 30f));
+                    
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                   
                     if (Main.rand.NextBool(10))
                     {
                         int target = 1;
@@ -235,9 +244,18 @@ namespace EEMod.Tiles.Furniture
                     Vector2 orig1 = new Vector2(i * 16, j * 16) + positions[l] + zero - Main.screenPosition + new Vector2(0, (float)Math.Sin((Main.GameUpdateCount / 20f) + l) * 2f);
 
                     Vector2 lightPoint = orig1 + new Vector2(12, 12) / 16f;
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/Hydros").Value, orig1 + new Vector2(12, 12), null, Lighting.GetColor((int)lightPoint.X, (int)lightPoint.Y, Color.White), 0f, new Vector2(157, 81), (cutsceneTicks - 240) / 60f, SpriteEffects.None, 0f);
+
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
+
+                    ApplyIntroShader();
+
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/NPCs/Bosses/Hydros/Hydros").Value, orig1 + new Vector2(12, 12), null, Color.Gold, 0f, new Vector2(157, 81), (cutsceneTicks - 240) / 60f, SpriteEffects.None, 0f);
                     
                     spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Items/Placeables/Ores/LythenOre").Value, orig1, new Rectangle(0, frames[l] * 28, 28, 28), Color.Lerp(Color.White, Color.Gold, (cutsceneTicks - 150) / 30f));
+
+                    Main.spriteBatch.End();
+                    Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
                 }
                 else if (cutsceneTicks == 300)
                 {
@@ -249,6 +267,16 @@ namespace EEMod.Tiles.Furniture
             cooldown--;
 
             return true;
+        }
+
+        public void ApplyIntroShader()
+        {
+            EEMod.hydrosIntro.Parameters["newColor"].SetValue(new Vector3(1f, 1f, 0f));
+            EEMod.hydrosIntro.Parameters["lerpVal"].SetValue(1f);
+            EEMod.hydrosIntro.Parameters["time"].SetValue(0f);
+            EEMod.hydrosIntro.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/LightningNoise").Value);
+
+            EEMod.hydrosIntro.CurrentTechnique.Passes[0].Apply();
         }
 
         public override bool RightClick(int i, int j)

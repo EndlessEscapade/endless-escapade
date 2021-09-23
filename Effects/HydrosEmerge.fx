@@ -13,13 +13,6 @@ float lerpVal;
 
 float time;
 
-float GetValue(float xCoord, float yCoord)
-{
-    float2 strip = float2(xCoord, yCoord);
-    float height = tex2D(noiseSampler, strip).r;
-    return height;
-}
-
 float4 HydrosEmergeFloat(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 nativeColor = tex2D(uImage0, coords);
@@ -33,7 +26,7 @@ float4 HydrosEmergeFloat(float2 coords : TEXCOORD0) : COLOR0
         return float4(0, 0, 0, 0);
     }
 
-    return lerp(nativeColor, (newColor.r, newColor.g, newColor.b, GetValue(coords.x, coords.y)), lerpVal);
+    return lerp(nativeColor, float4(newColor.r, newColor.g, newColor.b, 1) * noiseColor.r, lerpVal);
 }
 
 technique HydrosEmerge
