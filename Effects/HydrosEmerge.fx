@@ -19,8 +19,6 @@ float4 HydrosEmergeFloat(float2 coords : TEXCOORD0) : COLOR0
 
     float4 noiseColor = tex2D(noiseSampler, coords + float2(time, time));
 
-    float val = GetValue(coords.x, coords.y);
-
     if (nativeColor.a == 0)
     {
         return float4(0, 0, 0, 0);
