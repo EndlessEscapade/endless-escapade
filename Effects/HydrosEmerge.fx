@@ -1,16 +1,17 @@
-sampler s0 : register(s0);
-sampler uImage1 : register(s1);
+sampler uImage0 : register(s0);
 
 texture noiseTexture;
 
 sampler noiseSampler = sampler_state
 {
-	Texture = (noiseTexture);
+    Texture = (noiseTexture);
 };
 
 float4 newColor;
 
 float lerpVal;
+
+float time;
 
 float GetValue(float xCoord, float yCoord)
 {
@@ -21,22 +22,24 @@ float GetValue(float xCoord, float yCoord)
 
 float4 HydrosEmergeFloat(float2 coords : TEXCOORD0) : COLOR0
 {
-	float4 fetchColor = tex2D(noiseTexture, coords);
+    float4 nativeColor = tex2D(uImage0, coords);
 
-	float val = GetValue(coords.x, coords.y);
+    float4 noiseColor = tex2D(noiseSampler, coords + float2(time, time));
 
-	if (fetchColor.a == 0)
+    float val = GetValue(coords.x, coords.y);
+
+    if (nativeColor.a == 0)
     {
         return float4(0, 0, 0, 0);
     }
 
-	return lerp(fetchColor, (newColor.r, newColor.g, newColor.b, fetchColor.a), lerpVal);
+    return lerp(nativeColor, (newColor.r, newColor.g, newColor.b, GetValue(coords.x, coords.y)), lerpVal);
 }
 
 technique HydrosEmerge
 {
     pass P0
     {
-		PixelShader = compile ps_2_0 HydrosEmergeFloat();
-	}
+        PixelShader = compile ps_2_0 HydrosEmergeFloat();
+    }
 };
