@@ -31,6 +31,7 @@ namespace EEMod
         public static Effect White;
         public static Effect Effervescence;
         public static Effect Colorify;
+        public static Effect hydrosIntro;
 
         [LoadingMethod(LoadMode.Client)]
         internal static void ShaderLoading()
@@ -51,6 +52,7 @@ namespace EEMod
                 NoiseSurfacing = instance.Assets.Request<Effect>("Effects/NoiseSurfacing", AssetRequestMode.ImmediateLoad).Value;
                 White = instance.Assets.Request<Effect>("Effects/WhiteOutline", AssetRequestMode.ImmediateLoad).Value;
                 Effervescence = instance.Assets.Request<Effect>("Effects/Effervescence", AssetRequestMode.ImmediateLoad).Value;
+                hydrosIntro = instance.Assets.Request<Effect>("Effects/HydrosEmerge", AssetRequestMode.ImmediateLoad).Value;
 
                 Debug.WriteLine(LightingBufferEffect == null);
 

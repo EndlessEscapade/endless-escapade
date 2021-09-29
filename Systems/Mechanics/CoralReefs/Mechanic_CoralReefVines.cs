@@ -20,6 +20,8 @@ namespace EEMod
         {
             if (CoralReefs.CoralReefVineLocations.Count > 0)
             {
+                Main.spriteBatch.Begin();
+
                 for (int i = 1; i < CoralReefs.CoralReefVineLocations.Count - 2; i++)
                 {
                     Vector2 addOn = new Vector2(0, 8);
@@ -47,6 +49,8 @@ namespace EEMod
                         }
                     }
                 }
+
+                Main.spriteBatch.End();
             }
         }
         public override void PostDrawTiles()

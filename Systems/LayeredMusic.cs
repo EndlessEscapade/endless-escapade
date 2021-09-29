@@ -9,7 +9,8 @@ using System.Collections.Generic;
 namespace EEMod.Systems
 {
     /// <summary>
-    /// Simply set ShouldLayerMusic to true right before setting a music and it should start where the last left off. 
+    /// Simply set ShouldLayer
+    /// to true right before setting a music and it should start where the last left off. 
     /// </summary>
 	public static class LayeredMusic
 	{

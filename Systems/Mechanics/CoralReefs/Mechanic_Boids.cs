@@ -19,10 +19,14 @@ namespace EEMod
 
         public override void PostDrawTiles()
         {
+            Main.spriteBatch.Begin();
+
             foreach(Flock fishflock in fishflocks)
             {
                 fishflock.Draw(Main.spriteBatch);
             }
+
+            Main.spriteBatch.End();
         }
 
         public override void PostUpdateEverything()

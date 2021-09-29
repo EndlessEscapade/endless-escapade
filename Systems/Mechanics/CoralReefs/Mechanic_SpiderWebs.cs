@@ -30,6 +30,8 @@ namespace EEMod
         float sineInt;
         void HandleWebDraw(Vector2 position)
         {
+            Main.spriteBatch.Begin();
+
             Lighting.AddLight(position, new Vector3(0, 0.1f, 0.4f));
             Vector2 tilePos = position / 16;
 
@@ -109,6 +111,8 @@ namespace EEMod
             {
                 Helpers.DrawBezier(bigVineTexture, Lighting.GetColor((int)(p6.X / 16), (int)(p6.Y / 16)), p6, position, Vector2.Lerp(p6, position, 0.5f) + new Vector2(0, 50 + (float)Math.Sin(sineInt * 2.2f) * 40), cockandbol, (float)Math.PI / 2, false, 1, false);
             }
+
+            Main.spriteBatch.End();
         }
     }
 }
