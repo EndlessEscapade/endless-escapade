@@ -34,7 +34,7 @@ namespace EEMod.NPCs.CoralReefs
             NPC.width = 32;
             NPC.height = 18;
 
-            SpawnModBiomes = new int[1] { ModContent.GetInstance<EEBestiaryBiome>().Type }; // Associates this NPC with the ExampleSurfaceBiome in Bestiary
+            SpawnModBiomes = new int[1] { ModContent.GetInstance<Backgrounds.CoralReefs>().Type }; // Associates this NPC with the ExampleSurfaceBiome in Bestiary
         }
 
         public override bool? CanBeHitByItem(Player player, Item item)

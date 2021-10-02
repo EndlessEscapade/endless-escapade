@@ -120,7 +120,7 @@ namespace EEMod.Items
             }
             return base.Shoot(item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockBack);
         }*/
-        public override bool NeedsSaving(Item item)
+        /*public override bool NeedsSaving(Item item)
         {
             return true;
         }
@@ -133,7 +133,7 @@ namespace EEMod.Items
         public override void Load(Item item, TagCompound tag)
         {
             tag.TryGetRef("caught", ref caught);
-        }
+        }*/
         public override void NetSend(Item item, BinaryWriter writer)
         {
             writer.Write(caught);

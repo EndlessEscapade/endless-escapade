@@ -30,9 +30,9 @@ namespace EEMod.Items.Armor.DevSets.Exitium
             player.armorEffectDrawShadowEOCShield = true;
         }
 
-        public override bool DrawLegs()
+        /*public override bool DrawLegs()
         {
             return false;
-        }
+        }*/
     }
 }

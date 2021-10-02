@@ -44,7 +44,7 @@ namespace EEMod.Tiles.Furniture
                 hasOrb = reader.ReadBoolean();
             }*/
 
-            public override TagCompound Save()
+            /*public override TagCompound Save()
             {
                 return new TagCompound
                 {
@@ -55,7 +55,7 @@ namespace EEMod.Tiles.Furniture
             public override void Load(TagCompound tag)
             {
                 hasOrb = tag.GetBool(nameof(hasOrb));
-            }
+            }*/
         }
 
         public override void SetStaticDefaults()

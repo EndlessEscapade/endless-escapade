@@ -449,9 +449,8 @@ namespace EEMod.EEWorld
             }
         }
 
-        public override TagCompound SaveWorldData()
+        public override void SaveWorldData(TagCompound tag)
         {
-            TagCompound tag = new TagCompound();
             if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
             {
                 tag["CoralBoatPos"] = CoralReefs.CoralBoatPos;
@@ -503,7 +502,6 @@ namespace EEMod.EEWorld
             if (downedCoralGolem) flags.Add("downedCoralGolem");
             if (downedOmen) flags.Add("downedOmen");
             if (downedTalos) flags.Add("downedTalos");
-            return tag;
         }
     }
 }

@@ -80,7 +80,7 @@ namespace EEMod.Items.Armor.Kelpweaver
             }*/
         }
 
-        public override TagCompound Save()
+        /*public override TagCompound Save()
         {
             return new TagCompound
             {
@@ -91,7 +91,7 @@ namespace EEMod.Items.Armor.Kelpweaver
         public override void Load(TagCompound tag)
         {
             tag.TryGetRef("HasInteractedWithSlotBefore", ref HasInteractedWithSlotBefore);
-        }
+        }*/
     }
 
     /*public class KelpweaverLayer : PlayerDrawLayer

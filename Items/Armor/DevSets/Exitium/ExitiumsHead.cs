@@ -30,7 +30,7 @@ namespace EEMod.Items.Armor.DevSets.Exitium
             player.armorEffectDrawShadowEOCShield = true;
         }
 
-        public override bool DrawHead()
+        /*public override bool DrawHead()
         {
             return false;
         }
@@ -38,6 +38,6 @@ namespace EEMod.Items.Armor.DevSets.Exitium
         public override void DrawHair(ref bool drawHair, ref bool drawAltHair)
         {
             drawHair = false;
-        }
+        }*/
     }
 }

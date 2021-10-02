@@ -1148,10 +1148,9 @@ namespace EEMod
             return null;
         }
 
-        public override TagCompound Save()
+        public override void SaveData(TagCompound tag)
         {
-            return new TagCompound
-            {
+            tag = new TagCompound {
                 ["hasGottenRuneBefore"] = hasGottenRuneBefore,
                 ["baseworldname"] = baseWorldName,
                 ["importantCutscene"] = importantCutscene,
@@ -1168,7 +1167,7 @@ namespace EEMod
             };
         }
 
-        public override void Load(TagCompound tag)
+        public override void LoadData(TagCompound tag)
         {
             tag.TryGetByteArrayRef("hasGottenRuneBefore", ref hasGottenRuneBefore);
             tag.TryGetRef("baseworldname", ref baseWorldName);
