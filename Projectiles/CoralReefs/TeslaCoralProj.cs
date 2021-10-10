@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using System;
+using Terraria.DataStructures;
+using EEMod.Prim;
 
 namespace EEMod.Projectiles.CoralReefs
 {
@@ -50,6 +52,26 @@ namespace EEMod.Projectiles.CoralReefs
                 Projectile.Center += desiredVector;
 
                 Projectile.ai[0]++;
+
+                /*if(Main.rand.NextBool(3))
+                {
+                    int lightningproj = Projectile.NewProjectile(new ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
+
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        PrimSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 2f));
+                    }
+
+                    TeslaCoralProj zappy = Main.projectile[lightningproj].ModProjectile as TeslaCoralProj;
+
+                    int val = Main.rand.Next(1, 3);
+
+                    Main.NewText(val);
+
+                    zappy.iterations = val;
+
+                    zappy.target = ((target - Projectile.Center) / (iterations - Projectile.ai[0])).RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f)) * val;
+                }*/
             }
             else
             {

@@ -127,7 +127,7 @@ namespace EEMod
                         if (Main.netMode != NetmodeID.Server)
                         {
                             PrimSystem.trailManager = new TrailManager(this);
-                            PrimSystem.primitives.CreateTrail(new RainbowLightTrail(null));
+                            //PrimSystem.primitives.CreateTrail(new RainbowLightTrail(null));
                         }
                     LoadUI();
                 }
@@ -145,6 +145,8 @@ namespace EEMod
             //Example
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
+
+            PrimSystem.primitives.Load();
         }
 
         public override void Unload()

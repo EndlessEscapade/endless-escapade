@@ -62,6 +62,7 @@ namespace EEMod
             On.Terraria.Main.DrawWater += Main_DrawWater1;
             On.Terraria.Main.DrawBackground += Main_DrawBackground1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
+            Main.OnPreDraw += Main_OnPreDraw;
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
             //On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
             //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
@@ -155,6 +156,7 @@ namespace EEMod
             On.Terraria.Main.DrawWater -= Main_DrawWater1;
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
             On.Terraria.Main.DrawWalls -= Main_DrawWalls;
+            Main.OnPreDraw -= Main_OnPreDraw;
             //On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             //On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
             //On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
@@ -431,11 +433,27 @@ namespace EEMod
             orig(self);
         }
 
+        private void Main_OnPreDraw(GameTime obj)
+        {
+            if (Main.spriteBatch != null && PrimSystem.primitives != null)
+            {
+                PrimSystem.primitives.DrawTrailsAboveTiles();
+            }
+        }
+
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
             PrimSystem.trailManager.DrawTrails(Main.spriteBatch);
 
-            PrimSystem.primitives.DrawTrailsAboveTiles();
+            //Main.QueueMainThreadAction(() =>
+            //{
+            //    if (Main.spriteBatch != null && PrimSystem.primitives != null)
+            //    {
+            //        PrimSystem.primitives.DrawTrailsAboveTiles();
+            //        //PrimSystem.primitives.DrawTrailsBehindTiles();
+            //    }
+            //});
+
             if (Main.worldName == KeyID.Sea)
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

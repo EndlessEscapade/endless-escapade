@@ -108,6 +108,12 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
     public class KelpFlowerTE : EETileEntity
     {
+        public override bool IsTileValidForEntity(int x, int y)
+        {
+            Tile tile = Framing.GetTileSafely(x, y);
+            return tile.IsActive;
+        }
+
         public Projectile myItem = null;
         public bool isOpen;
         public bool isOpening;
@@ -117,12 +123,6 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
         public int _frame = 0;
         public int _frameCounter;
-
-        public override bool ValidTile(int i, int j)
-        {
-            Tile tile = Framing.GetTileSafely(i, j);
-            return tile.IsActive;
-        }
 
         public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction, int alternate)
         {

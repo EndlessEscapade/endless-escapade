@@ -17,16 +17,18 @@ namespace EEMod.Prim
 {
     class AxeLightningPrimTrail : PrimTrail
     {
-        public AxeLightningPrimTrail(Projectile projectile) : base(projectile)
+        public AxeLightningPrimTrail(Projectile projectile, float width = 1) : base(projectile)
         {
             _projectile = projectile;
+            _width = width;
         }
 
         public override void SetDefaults()
         {
             _alphaValue = 0.7f;
-            _width = 1;
             _cap = 80;
+            behindTiles = false;
+            ManualDraw = false;
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -36,6 +38,8 @@ namespace EEMod.Prim
             Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
             float widthVar = (float)Math.Sqrt(_points.Count) * _width;
             DrawBasicTrail(c1, widthVar);*/
+
+            //Main.NewText("Setting shaders!");
 
             if (_noOfPoints <= 1) return;
             float widthVar;
@@ -49,6 +53,8 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
                 Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
+
+                Main.NewText(_points[1]); 
                 
                 AddVertex(_points[0], c1 * _alphaValue, v);
                 AddVertex(secondUp, c1 * _alphaValue, v);
@@ -87,7 +93,21 @@ namespace EEMod.Prim
 
         public override void SetShaders()
         {
-            PrepareBasicShader();
+            int width = _device.Viewport.Width;
+            int height = _device.Viewport.Height;
+
+            Vector2 zoom = Main.GameViewMatrix.Zoom;
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+            Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+
+            //EEMod.lightningShader.View = view;
+            //EEMod.lightningShader.Projection = projection;
+
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            EEMod.lightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
+            EEMod.lightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
+            EEMod.lightningShader.CurrentTechnique.Passes[0].Apply();
         }
 
         public override void OnUpdate()
@@ -116,6 +136,11 @@ namespace EEMod.Prim
             {
                 Dispose();
             }
+        }
+
+        public override void PostDraw()
+        {
+            Main.spriteBatch.End(); Main.spriteBatch.Begin();
         }
     }
 }

@@ -138,12 +138,12 @@ namespace EEMod.NPCs.CoralReefs
                 else
                 {
                     Tile tile = Framing.GetTileSafely((int)(Holder[1].X / 16), (int)(Holder[1].Y / 16));
-                    int index = ModContent.GetInstance<OrbHolderTE>().Find((int)(Holder[1].X / 16 - tile.frameX / 16), (int)(Holder[1].Y / 16 - tile.frameY / 16));
-                    if (index != -1)
-                    {
-                        OrbHolderTE TE = (OrbHolderTE)TileEntity.ByID[index];
-                        TE.hasOrb = true;
-                    }
+                    //int index = ModContent.GetInstance<OrbHolderTE>().Find((int)(Holder[1].X / 16 - tile.frameX / 16), (int)(Holder[1].Y / 16 - tile.frameY / 16));
+                    //if (index != -1)
+                    //{
+                    //    OrbHolderTE TE = (OrbHolderTE)TileEntity.ByID[index];
+                    //    TE.hasOrb = true;
+                    //}
                     t = 0;
                     otherPhase2 = false;
                     for (int i = 0; i < 50; i++)

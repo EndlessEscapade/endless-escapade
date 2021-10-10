@@ -270,7 +270,7 @@ namespace EEMod
         public Vector2 currentAltarPos;
         public bool isInSubworld;
 
-        public override void UpdateVanityAccessories()
+        /*public override void UpdateVanityAccessories()
         {
             if (hydroGear || dragonScale)
             {
@@ -290,7 +290,7 @@ namespace EEMod
                     dur = 36;
                 }
             }
-        }
+        }*/
 
         public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType)
         {

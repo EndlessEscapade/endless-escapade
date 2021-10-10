@@ -74,8 +74,17 @@ namespace EEMod.Prim
 
             SetShaders(); //applying all shaders
 
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                //vertices[i].Position /= 2f;
+
+                //Main.NewText(vertices[i].Position);
+            }
+
             if (_noOfPoints >= 1)
                 _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
+
+            PostDraw();
         }
 
         public virtual void PrimStructure(SpriteBatch spriteBatch)
@@ -94,6 +103,11 @@ namespace EEMod.Prim
         }
 
         public virtual void OnDestroy()
+        {
+
+        }
+
+        public virtual void PostDraw()
         {
 
         }

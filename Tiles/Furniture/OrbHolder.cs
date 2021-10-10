@@ -12,11 +12,11 @@ namespace EEMod.Tiles.Furniture
 {
     public class OrbHolder : EETile
     {
-        public class OrbHolderTE : EETileEntity
+        /*public class OrbHolderTE : EETileEntity
         {
             public bool hasOrb = false;
 
-            public override bool ValidTile(int i, int j)
+            /*public override bool ValidTile(int i, int j)
             {
                 Tile tile = Framing.GetTileSafely(i, j);
                 return tile.IsActive;
@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Furniture
             public override void NetReceive(BinaryReader reader, bool lightReceive)
             {
                 hasOrb = reader.ReadBoolean();
-            }*/
+            }
 
             /*public override TagCompound Save()
             {
@@ -55,7 +55,7 @@ namespace EEMod.Tiles.Furniture
             public override void Load(TagCompound tag)
             {
                 hasOrb = tag.GetBool(nameof(hasOrb));
-            }*/
+            }
         }
 
         public override void SetStaticDefaults()
@@ -113,6 +113,6 @@ namespace EEMod.Tiles.Furniture
         public override void AnimateTile(ref int frame, ref int frameCounter)
         {
             frameCounter++;
-        }
+        }*/
     }
 }
