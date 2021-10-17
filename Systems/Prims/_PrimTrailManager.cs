@@ -49,25 +49,28 @@ namespace EEMod.Prim
             foreach (PrimTrail trail in _trails.ToArray())
             {
                 if(trail.behindTiles && !trail.ManualDraw)
-                trail.Draw();
+                    trail.Draw();
             }
         }
+
         public void UpdateTrailsBehindTiles()
         {
             foreach (PrimTrail trail in _trails.ToArray())
             {
                 if (trail.behindTiles)
-                trail.Update();
+                    trail.Update();
             }
         }
+
         public void UpdateTrailsAboveTiles()
         {
             foreach (PrimTrail trail in _trails.ToArray())
             {
                 if (!trail.behindTiles)
-                trail.Update();
+                    trail.Update();
             }
         }
+
         public void CreateTrail(PrimTrail PT) => _trails.Add(PT);
     }
 }

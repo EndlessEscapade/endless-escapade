@@ -27,6 +27,7 @@ namespace EEMod.Prim
         {
             _alphaValue = 0.7f;
             _cap = 80;
+
             behindTiles = false;
             ManualDraw = false;
         }
@@ -53,8 +54,6 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
                 Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
-
-                Main.NewText(_points[1]); 
                 
                 AddVertex(_points[0], c1 * _alphaValue, v);
                 AddVertex(secondUp, c1 * _alphaValue, v);
@@ -140,7 +139,7 @@ namespace EEMod.Prim
 
         public override void PostDraw()
         {
-            Main.spriteBatch.End(); Main.spriteBatch.Begin();
+            //Main.spriteBatch.End(); Main.spriteBatch.Begin();
         }
     }
 }

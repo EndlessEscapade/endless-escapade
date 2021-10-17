@@ -206,6 +206,10 @@ namespace EEMod.NPCs.Bosses.Hydros
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
+            else
+            {
+                NPC.life = 0;
+            }
 
             return false;
         }

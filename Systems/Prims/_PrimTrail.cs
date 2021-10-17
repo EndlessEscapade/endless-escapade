@@ -74,13 +74,6 @@ namespace EEMod.Prim
 
             SetShaders(); //applying all shaders
 
-            for (int i = 0; i < vertices.Length; i++)
-            {
-                //vertices[i].Position /= 2f;
-
-                //Main.NewText(vertices[i].Position);
-            }
-
             if (_noOfPoints >= 1)
                 _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
 

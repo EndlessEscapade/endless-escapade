@@ -16,5 +16,7 @@ namespace EEMod.Backgrounds
         public override ModWaterStyle WaterStyle => ModContent.GetInstance<CoralWaterStyle>();
 
         public override bool IsBiomeActive(Player player) => Main.ActiveWorldFileData.Name == KeyID.CoralReefs;
+
+        public override int Music => MusicLoader.GetMusicSlot("EEMod/Sounds/Music/SurfaceReefs");
     }
 }
