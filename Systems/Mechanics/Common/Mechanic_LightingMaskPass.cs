@@ -53,7 +53,7 @@ namespace EEMod
             }
 
             Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
-            EEMod.LightingBufferEffect.Parameters["buffer"].SetValue(lightingTarget);
+            EEMod.LightingBuffer.Parameters["buffer"].SetValue(lightingTarget);
 
             Main.spriteBatch.End();
         }
@@ -72,10 +72,10 @@ namespace EEMod
             {
                 Main.spriteBatch.Begin();
 
-                EEMod.LightingBufferEffect.Parameters["screenPosition"].SetValue(position.ForDraw());
-                EEMod.LightingBufferEffect.Parameters["texSize"].SetValue(texture.Bounds.Size());
-                EEMod.LightingBufferEffect.Parameters["alpha"].SetValue(alpha);
-                EEMod.LightingBufferEffect.CurrentTechnique.Passes[0].Apply();
+                EEMod.LightingBuffer.Parameters["screenPosition"].SetValue(position.ForDraw());
+                EEMod.LightingBuffer.Parameters["texSize"].SetValue(texture.Bounds.Size());
+                EEMod.LightingBuffer.Parameters["alpha"].SetValue(alpha);
+                EEMod.LightingBuffer.CurrentTechnique.Passes[0].Apply();
                 Main.spriteBatch.Draw(texture, position.ForDraw(), Color.White);
 
                 Main.spriteBatch.End();

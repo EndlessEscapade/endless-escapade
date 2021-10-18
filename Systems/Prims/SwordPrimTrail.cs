@@ -17,17 +17,17 @@ using EEMod.Items.Weapons.Melee.Shivs;
 
 namespace EEMod.Prim
 {
-    class SwordPrimTrail : PrimTrail
+    class SwordPrimTrail : Primitive
     {
         public SwordPrimTrail(Projectile projectile, Vector2 start, Vector2 mid, Vector2 end) : base(projectile)
         {
-            _projectile = projectile;
+            BindableEntity = projectile;
             for (float i = 0; i <= 1; i += 0.01f)
                 _points.Add(Helpers.TraverseBezier(end, start, mid, mid, i));
         }
         public override void SetDefaults()
         {
-            _alphaValue = 1f;
+            Alpha = 1f;
             _width = 40;
             _cap = 100;
         }
@@ -66,18 +66,18 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar2;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar2;
 
-                AddVertex(firstDown, c * _alphaValue, new Vector2((i / (float)_cap), 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / (float)_cap), 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
+                AddVertex(firstDown, c * Alpha, new Vector2((i / (float)_cap), 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / (float)_cap), 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 1));
 
-                AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / (float)_cap, 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / (float)_cap), 0));
+                AddVertex(secondUp, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / (float)_cap), 0));
             }
         }
         public override void SetShaders()
         {
-            PrepareShader(EEMod.TrailPractice, "Edge2", _counter / 15f);
+            PrepareShader(EEMod.NonBasicEffectShader, "Edge2", _counter / 15f);
         }
         public override void OnUpdate()
         {
@@ -93,7 +93,7 @@ namespace EEMod.Prim
             {
                 _points.RemoveAt(0);
             }
-            if ((_projectile.ModProjectile as Rapier).timeForSwing >= 0.99f)
+            if (((BindableEntity as Projectile).ModProjectile as Rapier).timeForSwing >= 0.99f)
             {
                 OnDestroy();
             }

@@ -6,11 +6,11 @@ using Terraria;
 
 namespace EEMod.Prim
 {
-    class WaterPrimitive : PrimTrail
+    class WaterPrimitive : Primitive
     {
         public WaterPrimitive(Projectile projectile) : base(projectile) //Constructor method
         {
-            _projectile = null; //Getting the projectile object the trail is bound to
+            BindableEntity = null; //Getting the projectile object the trail is bound to
         }
 
         private Color _color;
@@ -18,7 +18,7 @@ namespace EEMod.Prim
         {
             ManualDraw = true;
             _color = new Color(26,147,217); //Setting the color of the prims
-            _alphaValue = 0.2f; //Setting the alpha of the prims
+            Alpha = 0.2f; //Setting the alpha of the prims
             _width = 100; //The width of the prims(aka the amount the normalized vector is multiplied by)
             _cap = 10; //Max amount of points
             _points.Add(Main.LocalPlayer.Center);
@@ -38,13 +38,13 @@ namespace EEMod.Prim
             Vector2 secondDown = p + new Vector2(2000, 2000);
 
 
-            AddVertex(firstUp, _color * _alphaValue, new Vector2(0,1));
-            AddVertex(secondDown, _color * _alphaValue, new Vector2(0,0));
-            AddVertex(firstDown, _color * _alphaValue, new Vector2(1,1));
+            AddVertex(firstUp, _color * Alpha, new Vector2(0,1));
+            AddVertex(secondDown, _color * Alpha, new Vector2(0,0));
+            AddVertex(firstDown, _color * Alpha, new Vector2(1,1));
 
-            AddVertex(firstUp, _color * _alphaValue, new Vector2(0, 1));
-            AddVertex(secondUp, _color * _alphaValue, new Vector2(0, 0));
-            AddVertex(secondDown, _color * _alphaValue, new Vector2(1, 1));
+            AddVertex(firstUp, _color * Alpha, new Vector2(0, 1));
+            AddVertex(secondUp, _color * Alpha, new Vector2(0, 0));
+            AddVertex(secondDown, _color * Alpha, new Vector2(1, 1));
         }
 
         public override void SetShaders()

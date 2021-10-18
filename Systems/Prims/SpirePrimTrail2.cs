@@ -18,18 +18,18 @@ using EEMod;
 
 namespace EEMod.Prim
 {
-    class SpirePrimTrail2 : PrimTrail
+    class SpirePrimTrail2 : Primitive
     {
         public SpirePrimTrail2(Projectile projectile, Color _color, int width = 40) : base(projectile)
         {
-            _projectile = projectile;
+            BindableEntity = projectile;
             _width = width;
             color = _color;
         }
         private Color color;
         public override void SetDefaults()
         {
-            _alphaValue = 0.8f;
+            Alpha = 0.8f;
             _cap = 60;
         }
 
@@ -66,18 +66,18 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, c * _alphaValue, new Vector2((i / (float)_cap), 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / (float)_cap), 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
+                AddVertex(firstDown, c * Alpha, new Vector2((i / (float)_cap), 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / (float)_cap), 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 1));
 
-                AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / (float)_cap, 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / (float)_cap, 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / (float)_cap), 0));
+                AddVertex(secondUp, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / (float)_cap), 0));
             }
         }
         public override void SetShaders()
         {
-            PrepareShader(EEMod.TrailPractice, "Lazor", _counter);
+            PrepareShader(EEMod.NonBasicEffectShader, "Lazor", _counter);
         }
         public override void OnUpdate()
         {
@@ -87,13 +87,13 @@ namespace EEMod.Prim
             {
                 _points.RemoveAt(0);
             }
-            if ((!_projectile.active && _projectile != null) || _destroyed)
+            if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
             {
                 OnDestroy();
             }
             else
             {
-                _points.Add(_projectile.Center);
+                _points.Add(BindableEntity.Center);
             }
         }
         public override void OnDestroy()

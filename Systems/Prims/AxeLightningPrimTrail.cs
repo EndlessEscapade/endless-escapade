@@ -15,17 +15,17 @@ using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Prim
 {
-    class AxeLightningPrimTrail : PrimTrail
+    class AxeLightningPrimTrail : Primitive
     {
         public AxeLightningPrimTrail(Projectile projectile, float width = 1) : base(projectile)
         {
-            _projectile = projectile;
+            BindableEntity = projectile;
             _width = width;
         }
 
         public override void SetDefaults()
         {
-            _alphaValue = 0.7f;
+            Alpha = 0.7f;
             _cap = 80;
 
             behindTiles = false;
@@ -55,9 +55,9 @@ namespace EEMod.Prim
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
                 Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
                 
-                AddVertex(_points[0], c1 * _alphaValue, v);
-                AddVertex(secondUp, c1 * _alphaValue, v);
-                AddVertex(secondDown, c1 * _alphaValue, v);
+                AddVertex(_points[0], c1 * Alpha, v);
+                AddVertex(secondUp, c1 * Alpha, v);
+                AddVertex(secondDown, c1 * Alpha, v);
             }
 
             for (int i = 1; i < _points.Count - 1; i++)
@@ -80,13 +80,13 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, c * _alphaValue, new Vector2((i / _cap), 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstDown, c * Alpha, new Vector2((i / _cap), 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
 
-                AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / _cap, 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
+                AddVertex(secondUp, CBT * Alpha, new Vector2((i + 1) / _cap, 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
             }
         }
 
@@ -104,9 +104,9 @@ namespace EEMod.Prim
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            EEMod.lightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
-            EEMod.lightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
-            EEMod.lightningShader.CurrentTechnique.Passes[0].Apply();
+            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
+            EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
+            EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
         }
 
         public override void OnUpdate()
@@ -117,13 +117,13 @@ namespace EEMod.Prim
             {
                 _points.RemoveAt(0);
             }
-            if ((!_projectile.active && _projectile != null) || _destroyed)
+            if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
             {
                 OnDestroy();
             }
             else
             {
-                _points.Add(_projectile.Center);
+                _points.Add(BindableEntity.Center);
             }
         }
 

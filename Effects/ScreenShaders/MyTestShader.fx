@@ -35,7 +35,7 @@ float4 MyTestShaderFlot(float2 coords : TEXCOORD0) : COLOR0
 
 technique MyTestShader
 {
-	pass MyTestShaderFlot
+	pass P1
 	{
 		PixelShader = compile ps_2_0 MyTestShaderFlot();
 	}

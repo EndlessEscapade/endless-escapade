@@ -120,9 +120,9 @@ namespace EEMod.Projectiles.CoralReefs
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
-            EEMod.White.CurrentTechnique.Passes[0].Apply();
-            EEMod.White.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
-            EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
+            EEMod.WhiteOutline.CurrentTechnique.Passes[0].Apply();
+            EEMod.WhiteOutline.Parameters["alpha"].SetValue(MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
+            EEMod.WhiteOutline.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f) * MathHelper.Clamp(alpha, 0f, 1f) * ((255 - Projectile.alpha) / 255f));
 
             alpha2 += 0.03f;
 

@@ -119,7 +119,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        PrimSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 6f));
+                        PrimtiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 6f));
                     }
 
                     TeslaCoralProj zappy = Main.projectile[lightningproj].ModProjectile as TeslaCoralProj;
@@ -150,24 +150,24 @@ namespace EEMod.NPCs.Bosses.Hydros
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-                EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
-                EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
-                EEMod.RadialField.Parameters["alpha"].SetValue(0.8f);
-                EEMod.RadialField.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
-                EEMod.RadialField.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
-                EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
+                EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
+                EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+                EEMod.RadialSurfacing.Parameters["alpha"].SetValue(0.8f);
+                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
+                EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
+                EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
 
                 if(ticks >= 248) spriteBatch.Draw(tex, phase2Orig + new Vector2(NPC.position.X - 64 + 12, NPC.position.Y + 12) - Main.screenPosition, null, Color.Gold, (Main.GameUpdateCount / 20f), tex.Bounds.Size() / 2f, (MathHelper.Clamp(ticks, 248, 255) - 240) / 2.5f, SpriteEffects.None, 0f);
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-                EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
-                EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
-                EEMod.RadialField.Parameters["alpha"].SetValue(0.5f);
-                EEMod.RadialField.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
-                EEMod.RadialField.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
-                EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
+                EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
+                EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+                EEMod.RadialSurfacing.Parameters["alpha"].SetValue(0.5f);
+                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
+                EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
+                EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
 
                 if (ticks >= 248) spriteBatch.Draw(tex, phase2Orig + new Vector2(NPC.position.X - 64 + 12, NPC.position.Y + 12) - Main.screenPosition, null, Color.Gold, -(Main.GameUpdateCount / 20f), tex.Bounds.Size() / 2f, (MathHelper.Clamp(ticks, 248, 255) - 240) / 5f, SpriteEffects.None, 0f);
 
@@ -182,24 +182,24 @@ namespace EEMod.NPCs.Bosses.Hydros
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-                EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
-                EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
-                EEMod.RadialField.Parameters["alpha"].SetValue(0.8f * ((480 - ticks) / 120f));
-                EEMod.RadialField.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
-                EEMod.RadialField.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
-                EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
+                EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
+                EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+                EEMod.RadialSurfacing.Parameters["alpha"].SetValue(0.8f * ((480 - ticks) / 120f));
+                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
+                EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
+                EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
 
                 spriteBatch.Draw(tex, phase2Orig + new Vector2(NPC.position.X - 64 + 12, NPC.position.Y + 12) - Main.screenPosition, null, Color.Gold, (Main.GameUpdateCount / 20f), tex.Bounds.Size() / 2f, ((290 - ticks) / 7.5f), SpriteEffects.None, 0f);
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-                EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
-                EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
-                EEMod.RadialField.Parameters["alpha"].SetValue(0.5f * ((480 - ticks) / 120f));
-                EEMod.RadialField.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
-                EEMod.RadialField.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
-                EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
+                EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
+                EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+                EEMod.RadialSurfacing.Parameters["alpha"].SetValue(0.5f * ((480 - ticks) / 120f));
+                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
+                EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
+                EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
 
                 spriteBatch.Draw(tex, phase2Orig + new Vector2(NPC.position.X - 64 + 12, NPC.position.Y + 12) - Main.screenPosition, null, Color.Gold, -(Main.GameUpdateCount / 20f), tex.Bounds.Size() / 2f, ((290 - ticks) / 15f), SpriteEffects.None, 0f);
 

@@ -131,27 +131,27 @@ namespace EEMod.NPCs.Bosses.Hydros
         public int ticker;
         public void ApplyIntroShader(float lerpVal, Vector2 scale, Vector2 offset, Vector2 timeMultiplier, bool invert = false, float alpha = 1f)
         {
-            EEMod.hydrosIntro.Parameters["newColor"].SetValue(new Vector4(lythenGold.R / 255f, lythenGold.G / 255f, lythenGold.B / 255f, 1f));
+            EEMod.HydrosEmerge.Parameters["newColor"].SetValue(new Vector4(lythenGold.R / 255f, lythenGold.G / 255f, lythenGold.B / 255f, 1f));
 
-            EEMod.hydrosIntro.Parameters["lerpVal"].SetValue(lerpVal);
-            EEMod.hydrosIntro.Parameters["thresh"].SetValue(lerpVal);
+            EEMod.HydrosEmerge.Parameters["lerpVal"].SetValue(lerpVal);
+            EEMod.HydrosEmerge.Parameters["thresh"].SetValue(lerpVal);
 
-            EEMod.hydrosIntro.Parameters["time"].SetValue(new Vector2((((int)(ticker / 2) * 2f) / 480f) * timeMultiplier.X, (((int)(ticker / 2) * 2f) / 480f) * timeMultiplier.Y));
+            EEMod.HydrosEmerge.Parameters["time"].SetValue(new Vector2((((int)(ticker / 2) * 2f) / 480f) * timeMultiplier.X, (((int)(ticker / 2) * 2f) / 480f) * timeMultiplier.Y));
             
-            EEMod.hydrosIntro.Parameters["invert"].SetValue(invert);
+            EEMod.HydrosEmerge.Parameters["invert"].SetValue(invert);
 
-            EEMod.hydrosIntro.Parameters["alpha"].SetValue(alpha);
+            EEMod.HydrosEmerge.Parameters["alpha"].SetValue(alpha);
 
-            EEMod.hydrosIntro.Parameters["offset"].SetValue(((NPC.Center / 600f) / 2) * 2f);
+            EEMod.HydrosEmerge.Parameters["offset"].SetValue(((NPC.Center / 600f) / 2) * 2f);
 
-            EEMod.hydrosIntro.Parameters["frames"].SetValue(7);
+            EEMod.HydrosEmerge.Parameters["frames"].SetValue(7);
 
-            EEMod.hydrosIntro.Parameters["noiseBounds"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value.Bounds.Size());
-            EEMod.hydrosIntro.Parameters["imgBounds"].SetValue(scale);
+            EEMod.HydrosEmerge.Parameters["noiseBounds"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value.Bounds.Size());
+            EEMod.HydrosEmerge.Parameters["imgBounds"].SetValue(scale);
 
-            EEMod.hydrosIntro.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value);
+            EEMod.HydrosEmerge.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value);
 
-            EEMod.hydrosIntro.CurrentTechnique.Passes[0].Apply();
+            EEMod.HydrosEmerge.CurrentTechnique.Passes[0].Apply();
         }
 
         public override void OnKill()

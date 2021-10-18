@@ -259,8 +259,8 @@ namespace EEMod
                         DrawAdditiveFunky(headTexture, new Vector2(x, y).ForDraw(), Color.White, 1.1f + cDist2, cDist2 / 6f, i * 1000);
                         Main.spriteBatch.End();
                         Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                        EEMod.SolidOutline.CurrentTechnique.Passes[0].Apply();
-                        EEMod.SolidOutline.Parameters["alpha"].SetValue(cDist * 0.5f);
+                        EEMod.WhiteOutlineSolid.CurrentTechnique.Passes[0].Apply();
+                        EEMod.WhiteOutlineSolid.Parameters["alpha"].SetValue(cDist * 0.5f);
                         Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(),
                     headTexture.Bounds, ifBlack ? Color.Black : Color.White, TrueRotation ? 0 : projTrueRotation,
                     new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1) * 1.07f, SpriteEffects.None, 0);
@@ -318,8 +318,8 @@ namespace EEMod
                         DrawAdditiveFunky(headTexture, new Vector2(x, y).ForDraw(), Color.White, 1.1f + cDist2, cDist2 / 6f, i * 1000);
                         Main.spriteBatch.End();
                         Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-                        EEMod.SolidOutline.CurrentTechnique.Passes[0].Apply();
-                        EEMod.SolidOutline.Parameters["alpha"].SetValue(cDist * 0.5f);
+                        EEMod.WhiteOutlineSolid.CurrentTechnique.Passes[0].Apply();
+                        EEMod.WhiteOutlineSolid.Parameters["alpha"].SetValue(cDist * 0.5f);
                         Main.spriteBatch.Draw(headTexture, new Vector2(x, y).ForDraw(), headTexture.Bounds, ifBlack ? Color.Black : Color.White, TrueRotation ? 0 : projTrueRotation, new Vector2(headTexture.Width * 0.5f, headTexture.Height * 0.5f), scale * (fadeScale ? (i + 0.5f) : 1) * 1.07f, SpriteEffects.None, 0);
                         //Main.spriteBatch.End();
                         //Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

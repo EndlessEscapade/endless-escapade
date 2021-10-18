@@ -15,15 +15,15 @@ using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Prim
 {
-    class RainbowLightTrail : PrimTrail
+    class RainbowLightTrail : Primitive
     {
         public RainbowLightTrail(Projectile projectile) : base(projectile)
         {
-            _projectile = projectile;
+            BindableEntity = projectile;
         }
         public override void SetDefaults()
         {
-            _alphaValue = 0.7f;
+            Alpha = 0.7f;
             _width = 1;
             _cap = 100;
         }
@@ -37,7 +37,7 @@ namespace EEMod.Prim
         }
         public override void SetShaders()
         {
-            PrepareShader(EEMod.TrailPractice, "RainbowLightPass", _counter / 40f);
+            PrepareShader(EEMod.NonBasicEffectShader, "RainbowLightPass", _counter / 40f);
         }
         public override void OnUpdate()
         {

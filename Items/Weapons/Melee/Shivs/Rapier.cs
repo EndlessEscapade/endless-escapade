@@ -104,7 +104,7 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     (Main.projectile[lightningproj].ModProjectile as RapierProj).start = firstClickPos;
                     (Main.projectile[lightningproj].ModProjectile as RapierProj).end = lastClickPos;
                     flag = true;
-                    PrimSystem.primitives.CreateTrail(new Prim.SwordPrimTrail(Projectile, lastClickPos, midPoint, firstClickPos));
+                    PrimtiveSystem.primitives.CreateTrail(new Prim.SwordPrimTrail(Projectile, lastClickPos, midPoint, firstClickPos));
                 }
                 //Helpers.DrawLine(fClickToDraw, lClickToDraw);
                 //Helpers.DrawLine(fClickToDraw, mClickToDraw);

@@ -73,7 +73,7 @@ namespace EEMod
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             WP = new WaterPrimitive(null);
-            PrimSystem.primitives.CreateTrail(WP);
+            PrimtiveSystem.primitives.CreateTrail(WP);
         }
 
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
@@ -351,19 +351,19 @@ namespace EEMod
 
                     for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
                         for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
-                            LightingBuffer.Instance.DrawWithBuffer(
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
                             tex,
                             new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)), bgAlpha);
 
                     for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
                         for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
-                            LightingBuffer.Instance.DrawWithBuffer(
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
                             tex2,
                             new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)), bgAlpha);
 
                     for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
                         for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
-                            LightingBuffer.Instance.DrawWithBuffer(
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
                             tex3,
                             new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)), bgAlpha);
                 }
@@ -435,15 +435,15 @@ namespace EEMod
 
         private void Main_OnPreDraw(GameTime obj)
         {
-            if (Main.spriteBatch != null && PrimSystem.primitives != null)
+            if (Main.spriteBatch != null && PrimtiveSystem.primitives != null)
             {
-                PrimSystem.primitives.DrawTrailsAboveTiles();
+                PrimtiveSystem.primitives.DrawTrailsAboveTiles();
             }
         }
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
-            PrimSystem.trailManager.DrawTrails(Main.spriteBatch);
+            PrimtiveSystem.trailManager.DrawTrails(Main.spriteBatch);
 
             //Main.QueueMainThreadAction(() =>
             //{

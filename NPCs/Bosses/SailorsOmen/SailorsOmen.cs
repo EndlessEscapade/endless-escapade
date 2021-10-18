@@ -100,9 +100,9 @@ namespace EEMod.NPCs.Bosses.SailorsOmen
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        EEMod.White.CurrentTechnique.Passes[0].Apply();
-                        EEMod.White.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f));
-                        EEMod.White.Parameters["alpha"].SetValue(1f);
+                        EEMod.WhiteOutline.CurrentTechnique.Passes[0].Apply();
+                        EEMod.WhiteOutline.Parameters["color"].SetValue((new Vector3(outlineColor.R, outlineColor.G, outlineColor.B) / 255f));
+                        EEMod.WhiteOutline.Parameters["alpha"].SetValue(1f);
 
                         Vector2 offsetPositon = Vector2.UnitY.RotatedBy(MathHelper.PiOver2 * i) * 2;
                         spriteBatch.Draw(tex, p.position + offsetPositon - Main.screenPosition, null, Color.White, 0f, tex.Size() * 0.5f, 1f, SpriteEffects.None, 0f);

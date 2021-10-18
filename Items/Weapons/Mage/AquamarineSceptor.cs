@@ -52,7 +52,7 @@ namespace EEMod.Items.Weapons.Mage
                 Vector2 comedy = Vector2.Normalize(Main.MouseWorld - player.Center) * 2;
                 Projectile projectile2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_Item(player, Item), player.Center, comedy, ModContent.ProjectileType<SceptorLaser>(), 10, 10f, Main.myPlayer);
 
-                PrimSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 40));
+                PrimtiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 40));
             }
             if (player.altFunctionUse == 2)
             {

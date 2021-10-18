@@ -42,7 +42,7 @@ float4 White(float2 coords : TEXCOORD0) : COLOR0
 
 technique BasicColorDrawing
 {
-    pass WhiteSprite
+    pass P1
     {
         PixelShader = compile ps_2_0 White();
     }

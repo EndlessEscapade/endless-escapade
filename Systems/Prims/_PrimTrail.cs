@@ -15,34 +15,32 @@ using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Prim
 {
-    public partial class PrimTrail : IUpdateable
+    public partial class Primitive : IUpdateable
     {
-        protected Projectile _projectile;
-        protected NPC _npc;
+        protected int RENDERDISTANCE => 2000;
+
+        protected GraphicsDevice _device { get; private set; }
+        protected Effect _effect { get; set; }
+        protected Entity BindableEntity { get; set; }
+        protected ITrailShader TrailShader { get; set; }
+
         protected float _width;
-        protected float _alphaValue;
+        protected float Alpha;
         protected int _cap;
-        protected ITrailShader _trailShader;
         protected int _counter;
         protected int _noOfPoints;
         protected List<Vector2> _points = new List<Vector2>();
         protected bool _destroyed = false;
         public bool behindTiles = false;
-        protected GraphicsDevice _device;
-        protected Effect _effect;
-        protected BasicEffect _basicEffect;
-        protected int RENDERDISTANCE => 2000;
         protected VertexPositionColorTexture[] vertices;
         protected int currentIndex;
         public bool ManualDraw;
 
-        public PrimTrail(Projectile projectile)
+        public Primitive(Projectile projectile)
         {
-            _trailShader = new DefaultShader();
+            TrailShader = new DefaultShader();
             _device = Main.graphics.GraphicsDevice;
-            _basicEffect = new BasicEffect(_device);
-            _basicEffect.VertexColorEnabled = true;
-            _projectile = projectile;
+            BindableEntity = projectile;
 
             SetDefaults();
 
@@ -51,7 +49,7 @@ namespace EEMod.Prim
 
         public void Dispose()
         {
-            PrimSystem.primitives._trails.Remove(this);
+            PrimtiveSystem.primitives._trails.Remove(this);
         }
 
         public void Update()
@@ -59,10 +57,6 @@ namespace EEMod.Prim
             OnUpdate();
         }
 
-        public virtual void OnUpdate()
-        {
-
-        }
 
         public void Draw()
         {
@@ -79,30 +73,11 @@ namespace EEMod.Prim
 
             PostDraw();
         }
-
-        public virtual void PrimStructure(SpriteBatch spriteBatch)
-        {
-
-        }
-
-        public virtual void SetShaders()
-        {
-
-        }
-
-        public virtual void SetDefaults()
-        {
-
-        }
-
-        public virtual void OnDestroy()
-        {
-
-        }
-
-        public virtual void PostDraw()
-        {
-
-        }
+        public virtual void OnUpdate() { }
+        public virtual void PrimStructure(SpriteBatch spriteBatch) { }
+        public virtual void SetShaders() { }
+        public virtual void SetDefaults() { }
+        public virtual void OnDestroy() { }
+        public virtual void PostDraw() { }
     }
 }

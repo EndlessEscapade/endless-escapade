@@ -49,5 +49,5 @@ float4 A(float2 coords : TEXCOORD0, uniform int passNum) : COLOR0
 
 technique Technique1
 {
-    pass Filter1 { PixelShader = compile ps_2_0 A(0); }
+    pass P1 { PixelShader = compile ps_2_0 A(0); }
 }

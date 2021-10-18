@@ -45,7 +45,7 @@ namespace EEMod.Projectiles.Enemy
             for (int i = -1; i < 2; i++)
             {
                 Projectile projectile4 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Normalize(Projectile.Center - Main.LocalPlayer.Center).RotatedBy(i / 6f) * 2, ModContent.ProjectileType<SpireLaser>(), Projectile.damage / 3, 0f, default, 1, 4);
-                PrimSystem.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.Cyan, Color.Magenta, (i + 1) / 2f), 30));
+                PrimtiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile4, Color.Lerp(Color.Cyan, Color.Magenta, (i + 1) / 2f), 30));
             }
 
             Projectile.Kill();

@@ -32,8 +32,8 @@ namespace EEMod.NPCs.CoralReefs
             alpha += 0.05f;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
-            EEMod.White.CurrentTechnique.Passes[0].Apply();
-            EEMod.White.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
+            EEMod.WhiteOutline.CurrentTechnique.Passes[0].Apply();
+            EEMod.WhiteOutline.Parameters["alpha"].SetValue(((float)Math.Sin(alpha) + 1) * 0.5f);
             Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.Npc[NPC.type].Value, NPC.Center.ForDraw(), NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale * 1.01f, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

@@ -87,7 +87,7 @@ namespace EEMod
             hooklist?.Dispose();
             hooklist = null;
             screenMessageText = null;
-            PrimSystem.trailManager = null;
+            PrimtiveSystem.trailManager = null;
             progressMessage = null;
         }
 
@@ -422,9 +422,7 @@ namespace EEMod
                 }
             }
         }
-
-        
-        int screenLerp;
+     
         public void DrawSky()
         {
             switch (loadingChooseImage)

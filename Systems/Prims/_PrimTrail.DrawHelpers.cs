@@ -15,7 +15,7 @@ using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Prim
 {
-    public partial class PrimTrail
+    public partial class Primitive
     {
         public interface ITrailShader
         {
@@ -99,10 +99,10 @@ namespace EEMod.Prim
             Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
             
-            _basicEffect.View = view;
-            _basicEffect.Projection = projection;
+            EEMod.BasicEffect.View = view;
+            EEMod.BasicEffect.Projection = projection;
 
-            foreach (EffectPass pass in _basicEffect.CurrentTechnique.Passes)
+            foreach (EffectPass pass in EEMod.BasicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();
             }
@@ -182,9 +182,9 @@ namespace EEMod.Prim
             secondDown = _points[1] + normalAhead * widthVar;
 
             Vector2 vector = new Vector2((float)Math.Sin(_counter / 20.0));
-            AddVertex(_points[0], c1 * _alphaValue, vector);
-            AddVertex(secondUp, c1 * _alphaValue, vector);
-            AddVertex(secondDown, c1 * _alphaValue, vector);
+            AddVertex(_points[0], c1 * Alpha, vector);
+            AddVertex(secondUp, c1 * Alpha, vector);
+            AddVertex(secondDown, c1 * Alpha, vector);
 
             float sinCounterOver10 = (float)Math.Sin(_counter / 10f); // _counter doesn't seem to change within the loop so
             for (int i = 1; i < _points.Count - 1; i++)
@@ -199,13 +199,13 @@ namespace EEMod.Prim
                 secondDown = _points[i + 1] + normalAhead * widthVar;
 
                 float p = i / (float)_cap;
-                AddVertex(firstDown, c1 * _alphaValue, new Vector2(p, 1));
-                AddVertex(firstUp, c1 * _alphaValue, new Vector2(p, 0));
-                AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstDown, c1 * Alpha, new Vector2(p, 1));
+                AddVertex(firstUp, c1 * Alpha, new Vector2(p, 0));
+                AddVertex(secondDown, c1 * Alpha, new Vector2((i + 1) / _cap, 1));
 
-                AddVertex(secondUp, c1 * _alphaValue, new Vector2((i + 1) / _cap, 0));
-                AddVertex(secondDown, c1 * _alphaValue, new Vector2((i + 1) / _cap, 1));
-                AddVertex(firstUp, c1 * _alphaValue, new Vector2(p, 0));
+                AddVertex(secondUp, c1 * Alpha, new Vector2((i + 1) / _cap, 0));
+                AddVertex(secondDown, c1 * Alpha, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstUp, c1 * Alpha, new Vector2(p, 0));
             }
 
             PrepareBasicShader();

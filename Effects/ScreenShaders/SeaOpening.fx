@@ -23,16 +23,16 @@ float2 uZoom;
 float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
 {
     float4 colour = tex2D(uImage0, coords);
-    float greyEquavelant = (colour.r + colour.g + colour.b) / 3;
-    float3 greyEquavelant4 = float3(greyEquavelant, greyEquavelant, greyEquavelant);
-    float3 gradientFunction = ((greyEquavelant4 - colour.rgb)* uOpacity) / 1000;
-    colour.rgb += gradientFunction;
+    float disX = 0.5f - coords.x;
+    float disY = 0.5f - coords.y;
+    float dist = sqrt(disX * disX + disY * disY);
+    colour *= 1 - (dist * uIntensity);
     return colour;
 }
 
 technique Technique1
 {
-    pass Pauses
+    pass P1
     {
         PixelShader = compile ps_2_0 FilterMyShader();
     }

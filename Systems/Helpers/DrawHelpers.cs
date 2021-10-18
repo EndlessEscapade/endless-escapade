@@ -34,11 +34,11 @@ namespace EEMod
             Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value;
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-            EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
-            EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
-            EEMod.RadialField.Parameters["alpha"].SetValue(intensity);
-            EEMod.RadialField.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
-            EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
+            EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
+            EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+            EEMod.RadialSurfacing.Parameters["alpha"].SetValue(intensity);
+            EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
             Main.spriteBatch.Draw(tex, position, tex.Bounds, colour, 0f, tex.TextureCenter(), scale, SpriteEffects.None, 0f);
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -49,12 +49,12 @@ namespace EEMod
             Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
-            EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
-            EEMod.RadialField.Parameters["alpha"].SetValue(intensity);
-            EEMod.RadialField.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
-            EEMod.RadialField.Parameters["color"].SetValue(new Vector4(colour.R, colour.G, colour.B, colour.A) / 255f);
-            EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
+            EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
+            EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+            EEMod.RadialSurfacing.Parameters["alpha"].SetValue(intensity);
+            EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(colour.R, colour.G, colour.B, colour.A) / 255f);
+            EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
             Main.spriteBatch.Draw(tex, position, tex.Bounds, colour, 0f, tex.TextureCenter(), scale, SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
@@ -62,11 +62,11 @@ namespace EEMod
         }
         public static void DrawAdditiveFunkyNoBatch(Texture2D tex, Vector2 position, Color colour, float scale, float intensity, float offset = 0)
         {
-            EEMod.RadialField.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
-            EEMod.RadialField.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
-            EEMod.RadialField.Parameters["alpha"].SetValue(intensity);
-            EEMod.RadialField.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
-            EEMod.RadialField.CurrentTechnique.Passes[0].Apply();
+            EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
+            EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+            EEMod.RadialSurfacing.Parameters["alpha"].SetValue(intensity);
+            EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
             Main.spriteBatch.Draw(tex, position, tex.Bounds, colour, 0f, tex.TextureCenter(), scale, SpriteEffects.None, 0f);
         }
         public static void DrawAdditive(Texture2D tex, Vector2 position, Color colour, float scale, float rotation)

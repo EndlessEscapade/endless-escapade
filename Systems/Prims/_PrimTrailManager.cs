@@ -8,7 +8,7 @@ namespace EEMod.Prim
 {
     public class PrimTrailManager
     {
-        public List<PrimTrail> _trails = new List<PrimTrail>();
+        public List<Primitive> _trails = new List<Primitive>();
 
         public RenderTarget2D primTargetNPC;
 
@@ -33,7 +33,7 @@ namespace EEMod.Prim
 
             Main.spriteBatch.Begin();
 
-            foreach (PrimTrail trail in _trails.ToArray())
+            foreach (Primitive trail in _trails.ToArray())
             {
                 if (!trail.behindTiles && !trail.ManualDraw)
                     trail.Draw();
@@ -46,7 +46,7 @@ namespace EEMod.Prim
 
         public void DrawTrailsBehindTiles()
         {
-            foreach (PrimTrail trail in _trails.ToArray())
+            foreach (Primitive trail in _trails.ToArray())
             {
                 if(trail.behindTiles && !trail.ManualDraw)
                     trail.Draw();
@@ -55,7 +55,7 @@ namespace EEMod.Prim
 
         public void UpdateTrailsBehindTiles()
         {
-            foreach (PrimTrail trail in _trails.ToArray())
+            foreach (Primitive trail in _trails.ToArray())
             {
                 if (trail.behindTiles)
                     trail.Update();
@@ -64,13 +64,13 @@ namespace EEMod.Prim
 
         public void UpdateTrailsAboveTiles()
         {
-            foreach (PrimTrail trail in _trails.ToArray())
+            foreach (Primitive trail in _trails.ToArray())
             {
                 if (!trail.behindTiles)
                     trail.Update();
             }
         }
 
-        public void CreateTrail(PrimTrail PT) => _trails.Add(PT);
+        public void CreateTrail(Primitive PT) => _trails.Add(PT);
     }
 }

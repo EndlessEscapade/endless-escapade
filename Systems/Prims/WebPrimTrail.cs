@@ -19,7 +19,7 @@ using EEMod.Projectiles;
 
 namespace EEMod.Prim
 {
-    internal class WebPrimTrail : PrimTrail
+    internal class WebPrimTrail : Primitive
     {
         private Vector2 start;
 
@@ -62,7 +62,7 @@ namespace EEMod.Prim
         public WebPrimTrail(Projectile projectile, Vector2 position, int web)
             : base(projectile)
         {
-            _projectile = projectile;
+            BindableEntity = projectile;
             this.web = web;
             this.position = position;
             behindTiles = false;
@@ -74,7 +74,7 @@ namespace EEMod.Prim
 
         public override void SetDefaults()
         {
-            _alphaValue = 1f;
+            Alpha = 1f;
             _width = 3f;
             _cap = 20;
         }
@@ -90,18 +90,18 @@ namespace EEMod.Prim
                 float widthVar = 0;
                 if (web <= 5)
                     widthVar = _width;
-                Vector2 normal2 = PrimTrail.CurveNormal(_points, 0);
-                Vector2 normalAhead2 = PrimTrail.CurveNormal(_points, 1);
+                Vector2 normal2 = Primitive.CurveNormal(_points, 0);
+                Vector2 normalAhead2 = Primitive.CurveNormal(_points, 1);
                 Vector2 firstUp2 = _points[0] - normal2 * widthVar;
                 Vector2 firstDown2 = _points[0] + normal2 * widthVar;
                 Vector2 secondUp2 = _points[1] - normalAhead2 * widthVar;
                 Vector2 secondDown2 = _points[1] + normalAhead2 * widthVar;
-                AddVertex(firstDown2, _color * _alphaValue, new Vector2(0, 1f));
-                AddVertex(firstUp2, _color * _alphaValue, new Vector2(0, 0f));
-                AddVertex(secondDown2, _color * _alphaValue, new Vector2(1 / _cap, 1f));
-                AddVertex(secondUp2, _color * _alphaValue, new Vector2(1 / _cap, 0f));
-                AddVertex(secondDown2, _color * _alphaValue, new Vector2(1 / _cap, 1f));
-                AddVertex(firstUp2, _color * _alphaValue, new Vector2(0, 0f));
+                AddVertex(firstDown2, _color * Alpha, new Vector2(0, 1f));
+                AddVertex(firstUp2, _color * Alpha, new Vector2(0, 0f));
+                AddVertex(secondDown2, _color * Alpha, new Vector2(1 / _cap, 1f));
+                AddVertex(secondUp2, _color * Alpha, new Vector2(1 / _cap, 0f));
+                AddVertex(secondDown2, _color * Alpha, new Vector2(1 / _cap, 1f));
+                AddVertex(firstUp2, _color * Alpha, new Vector2(0, 0f));
             }
             for (int i = 1; i < _points.Count - 1; i++)
             {
@@ -116,12 +116,12 @@ namespace EEMod.Prim
                 Vector2 firstDown = _points[i] + normal * widthVar;
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
-                AddVertex(firstDown, _color * _alphaValue, new Vector2(i / (float)_cap, 1f));
-                AddVertex(firstUp, _color * _alphaValue, new Vector2(i / (float)_cap, 0f));
-                AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1f));
-                AddVertex(secondUp, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 0f));
-                AddVertex(secondDown, _color * _alphaValue, new Vector2((i + 1) / (float)_cap, 1f));
-                AddVertex(firstUp, _color * _alphaValue, new Vector2(i / (float)_cap, 0f));
+                AddVertex(firstDown, _color * Alpha, new Vector2(i / (float)_cap, 1f));
+                AddVertex(firstUp, _color * Alpha, new Vector2(i / (float)_cap, 0f));
+                AddVertex(secondDown, _color * Alpha, new Vector2((i + 1) / (float)_cap, 1f));
+                AddVertex(secondUp, _color * Alpha, new Vector2((i + 1) / (float)_cap, 0f));
+                AddVertex(secondDown, _color * Alpha, new Vector2((i + 1) / (float)_cap, 1f));
+                AddVertex(firstUp, _color * Alpha, new Vector2(i / (float)_cap, 0f));
 
             }
         }
@@ -130,7 +130,7 @@ namespace EEMod.Prim
         {
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, position) < (RENDERDISTANCE * RENDERDISTANCE))
             {
-                PrepareShader(EEMod.TrailPractice, "WebPass");
+                PrepareShader(EEMod.NonBasicEffectShader, "WebPass");
             }
         }
 

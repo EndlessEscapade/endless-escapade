@@ -42,7 +42,7 @@ float4 FilterMyShader(float2 coords : TEXCOORD0) : COLOR0
 
 technique Technique1
 {
-    pass DeathAnimation
+    pass P1
     {
         PixelShader = compile ps_2_0 FilterMyShader();
     }

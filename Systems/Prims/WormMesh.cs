@@ -18,7 +18,7 @@ using EEMod.Projectiles;
 
 namespace EEMod.Prim
 {
-    class WormMesh : PrimTrail
+    class WormMesh : Primitive
     {
         ExampleWorm EW;
         public WormMesh(Projectile projectile, ExampleWorm Mesh) : base(projectile)
@@ -29,7 +29,7 @@ namespace EEMod.Prim
         }
         public override void SetDefaults()
         {
-            _alphaValue = 1f;
+            Alpha = 1f;
             _width = 5;
             _cap = 50;
         }
@@ -56,13 +56,13 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar2;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar2;
 
-                AddVertex(firstDown, c * _alphaValue, new Vector2((i / _cap), 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstDown, c * Alpha, new Vector2((i / _cap), 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
 
-                AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / _cap, 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
+                AddVertex(secondUp, CBT * Alpha, new Vector2((i + 1) / _cap, 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
 
             }
         }

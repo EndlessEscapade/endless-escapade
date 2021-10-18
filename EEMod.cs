@@ -102,7 +102,7 @@ namespace EEMod
                 UI.AddInterface("DialogueInterface");
                 UI.AddUIState("DialogueUI", DialogueUI);
 
-                PrimSystem.primitives = new PrimTrailManager();
+                PrimtiveSystem.primitives = new PrimTrailManager();
             }
             //HandwritingCNN = new Handwriting();
 
@@ -126,7 +126,7 @@ namespace EEMod
 
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            PrimSystem.trailManager = new TrailManager(this);
+                            PrimtiveSystem.trailManager = new TrailManager(this);
                             //PrimSystem.primitives.CreateTrail(new RainbowLightTrail(null));
                         }
                     LoadUI();
@@ -146,7 +146,7 @@ namespace EEMod
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
 
-            PrimSystem.primitives.Load();
+            PrimtiveSystem.primitives.Load();
         }
 
         public override void Unload()
@@ -154,7 +154,7 @@ namespace EEMod
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
             //HandwritingCNN = null;
             PrismShader = null;
-            SpireShader = null;
+            SpireShine = null;
             Noise2D = null;
             RuneActivator = null;
             Inspect = null;
@@ -162,7 +162,7 @@ namespace EEMod
             simpleGame = null;
             ActivateVerletEngine = null;
             NoiseSurfacing = null;
-            White = null;
+            WhiteOutline = null;
             Effervescence = null;
             Subworlds = null;
             Colorify = null;

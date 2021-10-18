@@ -15,16 +15,16 @@ using EEMod.NPCs.CoralReefs;
 
 namespace EEMod.Prim
 {
-    class SceptorPrimTrailTwo : PrimTrail
+    class SceptorPrimTrailTwo : Primitive
     {
         public SceptorPrimTrailTwo(Projectile projectile) : base(projectile)
         {
-            _projectile = projectile;
+            BindableEntity = projectile;
         }
         private Color color;
         public override void SetDefaults()
         {
-            _alphaValue = 0.8f;
+            Alpha = 0.8f;
             _width = 2;
             _cap = 80;
             color = Main.hslToRgb(Main.rand.NextFloat(0.46f, 0.83f), 1f, 0.6f);
@@ -47,9 +47,9 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
                 Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
-                AddVertex(_points[0], c1 * _alphaValue, v);
-                AddVertex(secondUp, c1 * _alphaValue, v);
-                AddVertex(secondDown, c1 * _alphaValue, v);
+                AddVertex(_points[0], c1 * Alpha, v);
+                AddVertex(secondUp, c1 * Alpha, v);
+                AddVertex(secondDown, c1 * Alpha, v);
             }
             for (int i = 1; i < _points.Count - 1; i++)
             {
@@ -67,13 +67,13 @@ namespace EEMod.Prim
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, c * _alphaValue, new Vector2((i / _cap), 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstDown, c * Alpha, new Vector2((i / _cap), 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
 
-                AddVertex(secondUp, CBT * _alphaValue, new Vector2((i + 1) / _cap, 0));
-                AddVertex(secondDown, CBT * _alphaValue, new Vector2((i + 1) / _cap, 1));
-                AddVertex(firstUp, c * _alphaValue, new Vector2((i / _cap), 0));
+                AddVertex(secondUp, CBT * Alpha, new Vector2((i + 1) / _cap, 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
 
             }
         }
@@ -89,13 +89,13 @@ namespace EEMod.Prim
             {
                 _points.RemoveAt(0);
             }
-            if ((!_projectile.active && _projectile != null) || _destroyed)
+            if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
             {
                 OnDestroy();
             }
             else
             {
-                _points.Add(_projectile.Center);
+                _points.Add(BindableEntity.Center);
             }
         }
         public override void OnDestroy()
