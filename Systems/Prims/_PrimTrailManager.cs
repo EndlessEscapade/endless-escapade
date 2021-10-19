@@ -22,7 +22,7 @@ namespace EEMod.Prim
 
         public void DrawTrailsAboveTiles()
         {
-            bool lolxd = (bool)typeof(SpriteBatch).GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.spriteBatch);
+            /*bool lolxd = (bool)typeof(SpriteBatch).GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.spriteBatch);
 
             if (lolxd) Main.spriteBatch.End();
 
@@ -41,7 +41,16 @@ namespace EEMod.Prim
 
             Main.spriteBatch.End();
 
-            Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+            Main.graphics.GraphicsDevice.SetRenderTargets(bindings);*/
+
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+
+            if (PrimSystem.primitives.primTargetNPC != null)
+            {
+                Main.spriteBatch.Draw(PrimSystem.primitives.primTargetNPC, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+            }
+
+            Main.spriteBatch.End();
         }
 
         public void DrawTrailsBehindTiles()

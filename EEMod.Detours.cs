@@ -73,7 +73,7 @@ namespace EEMod
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             WP = new WaterPrimitive(null);
-            PrimtiveSystem.primitives.CreateTrail(WP);
+            PrimitiveSystem.primitives.CreateTrail(WP);
         }
 
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
@@ -435,15 +435,42 @@ namespace EEMod
 
         private void Main_OnPreDraw(GameTime obj)
         {
-            if (Main.spriteBatch != null && PrimtiveSystem.primitives != null)
+            if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
             {
-                PrimtiveSystem.primitives.DrawTrailsAboveTiles();
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+
+                /*bool lolxd = (bool)typeof(SpriteBatch).GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.spriteBatch);
+
+                if (lolxd) Main.spriteBatch.End();
+
+                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+                Main.graphics.GraphicsDevice.SetRenderTarget(PrimSystem.primitives.primTargetNPC);
+                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+                Main.spriteBatch.Begin();
+
+                foreach (PrimTrail trail in PrimSystem.primitives._trails.ToArray())
+                {
+                    if (!trail.behindTiles && !trail.ManualDraw)
+                        trail.Draw();
+                }
+
+                Main.spriteBatch.End();
+
+                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);*/
             }
         }
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
-            PrimtiveSystem.trailManager.DrawTrails(Main.spriteBatch);
+            PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
+
+            if (!Main.dedServ)
+            {
+                PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+            }
 
             //Main.QueueMainThreadAction(() =>
             //{
@@ -463,6 +490,7 @@ namespace EEMod
 
                 Main.spriteBatch.End();
             }
+
             orig(self);
         }
 

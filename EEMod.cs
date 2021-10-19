@@ -102,7 +102,7 @@ namespace EEMod
                 UI.AddInterface("DialogueInterface");
                 UI.AddUIState("DialogueUI", DialogueUI);
 
-                PrimtiveSystem.primitives = new PrimTrailManager();
+                PrimitiveSystem.primitives = new PrimTrailManager();
             }
             //HandwritingCNN = new Handwriting();
 
@@ -126,7 +126,7 @@ namespace EEMod
 
                         if (Main.netMode != NetmodeID.Server)
                         {
-                            PrimtiveSystem.trailManager = new TrailManager(this);
+                            PrimitiveSystem.trailManager = new TrailManager(this);
                             //PrimSystem.primitives.CreateTrail(new RainbowLightTrail(null));
                         }
                     LoadUI();
@@ -146,7 +146,7 @@ namespace EEMod
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
 
-            PrimtiveSystem.primitives.Load();
+            PrimitiveSystem.primitives.Load();
         }
 
         public override void Unload()

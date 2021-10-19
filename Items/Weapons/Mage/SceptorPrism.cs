@@ -59,7 +59,7 @@ namespace EEMod.Items.Weapons.Mage
                         for (float i = -0.6f; i <= 0.6f; i += 0.4f)
                         {
                             Projectile proj2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), proj.Center - (Vector2.UnitY.RotatedBy((i + Math.PI) + Projectile.rotation) * 60), 3 * Vector2.UnitY.RotatedBy((i + Math.PI) + Projectile.rotation), ModContent.ProjectileType<ShimmerShotProj1>(), Projectile.damage, Projectile.knockBack, Projectile.owner, 0, 1);
-                            PrimtiveSystem.primitives.CreateTrail(new SpirePrimTrail(proj2, Color.Lerp(Color.Cyan, Color.Magenta, i / ((i + 0.6f) / 1.2f)), 40));
+                            PrimitiveSystem.primitives.CreateTrail(new SpirePrimTrail(proj2, Color.Lerp(Color.Cyan, Color.Magenta, i / ((i + 0.6f) / 1.2f)), 40));
                         }
                         proj.Kill();
                         Projectile.timeLeft = 32;

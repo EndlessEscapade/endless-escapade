@@ -49,7 +49,7 @@ namespace EEMod.Prim
 
         public void Dispose()
         {
-            PrimtiveSystem.primitives._trails.Remove(this);
+            PrimitiveSystem.primitives._trails.Remove(this);
         }
 
         public void Update()

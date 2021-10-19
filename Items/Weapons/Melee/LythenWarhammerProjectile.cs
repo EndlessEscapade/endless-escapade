@@ -238,7 +238,7 @@ namespace EEMod.Items.Weapons.Melee
                     int lightningproj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        PrimtiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
+                        PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
                     }
                 }
                 Projectile.ai[1] = 2;

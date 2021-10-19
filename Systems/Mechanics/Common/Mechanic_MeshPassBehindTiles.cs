@@ -16,12 +16,12 @@ namespace EEMod
     {
         public override void PostDrawTiles()
         {
-            PrimtiveSystem.primitives.DrawTrailsBehindTiles();
+            PrimitiveSystem.primitives.DrawTrailsBehindTiles();
         }
 
         public override void PostUpdateEverything()
         {
-            PrimtiveSystem.primitives.UpdateTrailsBehindTiles();
+            PrimitiveSystem.primitives.UpdateTrailsBehindTiles();
         }
     }
 }

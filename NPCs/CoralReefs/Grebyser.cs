@@ -68,7 +68,7 @@ namespace EEMod.NPCs.CoralReefs
                 int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, direction, ModContent.ProjectileType<GrebyserFlare>(), 60, 0, NPC.target);
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    PrimtiveSystem.primitives.CreateTrail(new GrebyserPrimTrail(Main.projectile[proj]));
+                    PrimitiveSystem.primitives.CreateTrail(new GrebyserPrimTrail(Main.projectile[proj]));
                 }
             }
             return base.PreAI();

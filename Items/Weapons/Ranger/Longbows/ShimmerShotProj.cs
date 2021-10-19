@@ -98,7 +98,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
                     {
                         Projectile projectile2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), projOwner.Center, comedy.RotatedBy(-((projCount / 2) * projSpread) + (i * projSpread)) / Max * speed, newProj, 10, 10f, Main.myPlayer);
 
-                        PrimtiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, i / projCount), 40));
+                        PrimitiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, i / projCount), 40));
                     }
                 }
                 else
@@ -106,7 +106,7 @@ namespace EEMod.Items.Weapons.Ranger.Longbows
                     Vector2 comedy = Vector2.Normalize(Main.MouseWorld - projOwner.Center);
                     Projectile projectile2 = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_ProjectileParent(Projectile), projOwner.Center, comedy / Max * speed, newProj, 10, 10f, Main.myPlayer);
 
-                    PrimtiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 40));
+                    PrimitiveSystem.primitives.CreateTrail(new SpirePrimTrail(projectile2, Color.Lerp(Color.Cyan, Color.Magenta, Main.rand.NextFloat(0, 1)), 40));
                 }
             }
 

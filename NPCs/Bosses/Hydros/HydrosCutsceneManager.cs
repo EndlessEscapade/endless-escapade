@@ -119,7 +119,7 @@ namespace EEMod.NPCs.Bosses.Hydros
 
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        PrimtiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 6f));
+                        PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 6f));
                     }
 
                     TeslaCoralProj zappy = Main.projectile[lightningproj].ModProjectile as TeslaCoralProj;

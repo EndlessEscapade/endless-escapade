@@ -53,9 +53,11 @@ namespace EEMod.Projectiles.CoralReefs
 
                 Projectile.ai[0]++;
 
-                /*if(Main.rand.NextBool(3))
+                if(Main.rand.NextBool(2) && Projectile.ai[1] == 0)
                 {
-                    int lightningproj = Projectile.NewProjectile(new ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), 20, 2.5f);
+                    int lightningproj = Projectile.NewProjectile(new ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), Projectile.damage / 2, Projectile.knockBack / 2f, default);
+
+                    Main.projectile[lightningproj].ai[1] = 1;
 
                     if (Main.netMode != NetmodeID.Server)
                     {
@@ -64,14 +66,9 @@ namespace EEMod.Projectiles.CoralReefs
 
                     TeslaCoralProj zappy = Main.projectile[lightningproj].ModProjectile as TeslaCoralProj;
 
-                    int val = Main.rand.Next(1, 3);
-
-                    Main.NewText(val);
-
-                    zappy.iterations = val;
-
-                    zappy.target = ((target - Projectile.Center) / (iterations - Projectile.ai[0])).RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f)) * val;
-                }*/
+                    zappy.target = Projectile.Center + desiredVector;
+                    zappy.iterations = 2;
+                }
             }
             else
             {

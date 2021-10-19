@@ -48,7 +48,7 @@ namespace EEMod.Tiles.Foliage.SeahorseShoals
 
                                 if (Main.netMode != NetmodeID.Server)
                                 {
-                                    PrimtiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
+                                    PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj]));
                                 }
 
                                 TeslaCoralProj zappy = Main.projectile[lightningproj].ModProjectile as TeslaCoralProj;

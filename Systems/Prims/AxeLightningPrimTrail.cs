@@ -40,8 +40,6 @@ namespace EEMod.Prim
             float widthVar = (float)Math.Sqrt(_points.Count) * _width;
             DrawBasicTrail(c1, widthVar);*/
 
-            //Main.NewText("Setting shaders!");
-
             if (_noOfPoints <= 1) return;
             float widthVar;
 
@@ -49,12 +47,12 @@ namespace EEMod.Prim
             {
                 widthVar = (float)Math.Sqrt(_points.Count) * _width;
                 Color c1 = Color.Lerp(Color.White, Color.Gold, colorSin);
-                
+
                 Vector2 normalAhead = CurveNormal(_points, 1);
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[1] + normalAhead * widthVar;
                 Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
-                
+
                 AddVertex(_points[0], c1 * Alpha, v);
                 AddVertex(secondUp, c1 * Alpha, v);
                 AddVertex(secondDown, c1 * Alpha, v);
@@ -63,18 +61,18 @@ namespace EEMod.Prim
             for (int i = 1; i < _points.Count - 1; i++)
             {
                 widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
-                
+
                 Color base1 = new Color(7, 86, 122);
                 Color base2 = new Color(255, 244, 173);
                 Color c = Color.Lerp(Color.White, Color.Gold, colorSin);
                 Color CBT = Color.Lerp(Color.White, Color.Gold, colorSin);
-                
+
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
-                
+
                 float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
                 widthVar *= j;
-                
+
                 Vector2 firstUp = _points[i] - normal * widthVar;
                 Vector2 firstDown = _points[i] + normal * widthVar;
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
@@ -90,6 +88,7 @@ namespace EEMod.Prim
             }
         }
 
+
         public override void SetShaders()
         {
             int width = _device.Viewport.Width;
@@ -102,6 +101,8 @@ namespace EEMod.Prim
             //EEMod.lightningShader.View = view;
             //EEMod.lightningShader.Projection = projection;
 
+            //PrepareShader(EEMod.lightningShader);
+
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
@@ -111,6 +112,8 @@ namespace EEMod.Prim
 
         public override void OnUpdate()
         {
+            Main.NewText(_noOfPoints);
+
             _counter++;
             _noOfPoints = _points.Count() * 6;
             if (_cap < _noOfPoints / 6)
@@ -139,7 +142,7 @@ namespace EEMod.Prim
 
         public override void PostDraw()
         {
-            //Main.spriteBatch.End(); Main.spriteBatch.Begin();
+            Main.spriteBatch.End(); Main.spriteBatch.Begin();
         }
     }
 }

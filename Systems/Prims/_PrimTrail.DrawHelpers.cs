@@ -102,6 +102,9 @@ namespace EEMod.Prim
             EEMod.BasicEffect.View = view;
             EEMod.BasicEffect.Projection = projection;
 
+            //_basicEffect.View = view;
+            //_basicEffect.Projection = projection;
+
             foreach (EffectPass pass in EEMod.BasicEffect.CurrentTechnique.Passes)
             {
                 pass.Apply();

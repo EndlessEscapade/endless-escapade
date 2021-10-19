@@ -91,6 +91,13 @@ namespace EEMod.NPCs.Bosses.Hydros
             {
                 NPC.spriteDirection = -1;
             }
+
+            NPC.ai[0]++;
+
+            if(NPC.ai[0] == 60)
+            {
+                Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), NPC.Center, new Vector2(0, 0), ModContent.ProjectileType<TeslaBall>(), 0, 0f);
+            }
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

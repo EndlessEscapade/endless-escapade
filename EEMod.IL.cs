@@ -87,7 +87,7 @@ namespace EEMod
             hooklist?.Dispose();
             hooklist = null;
             screenMessageText = null;
-            PrimtiveSystem.trailManager = null;
+            PrimitiveSystem.trailManager = null;
             progressMessage = null;
         }
 

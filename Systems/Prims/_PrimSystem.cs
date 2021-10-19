@@ -16,7 +16,7 @@ using Terraria.ID;
 
 namespace EEMod.Prim
 {
-    public class PrimtiveSystem : ModSystem
+    public class PrimitiveSystem : ModSystem
     {
         public static TrailManager trailManager;
         public static PrimTrailManager primitives;
