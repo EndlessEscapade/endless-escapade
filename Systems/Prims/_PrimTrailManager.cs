@@ -45,9 +45,9 @@ namespace EEMod.Prim
 
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
 
-            if (PrimSystem.primitives.primTargetNPC != null)
+            if (PrimitiveSystem.primitives.primTargetNPC != null)
             {
-                Main.spriteBatch.Draw(PrimSystem.primitives.primTargetNPC, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetNPC, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             }
 
             Main.spriteBatch.End();

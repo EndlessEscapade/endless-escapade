@@ -85,9 +85,6 @@ namespace EEMod.EEWorld
                 }
             }
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
-
-            // TODO: initialize the rest of the structures when needed
-            InitializeShip1Structure();
         }
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)

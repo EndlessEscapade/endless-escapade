@@ -132,7 +132,7 @@ namespace EEMod
                 Helpers.DrawAdditiveFunkyNoBatch(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.4f, 0.14f);
             if (mask != null)
             {
-                Main.spriteBatch.Begin();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
                 spriteBatch.Draw(mask, positionDraw.ParalaxX(paralax), mask.Bounds, colour * varScale * MaskAlpha, 0f, mask.TextureCenter(), 0.1f * varScale, SpriteEffects.None, 0f);
 

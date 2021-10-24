@@ -58,7 +58,7 @@ namespace EEMod
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
             On.Terraria.Main.DrawWoF += Main_DrawWoF;
             On.Terraria.Main.DrawWalls += Main_DrawWalls;
-            //On.Terraria.Main.DrawTiles += Main_DrawTiles;
+            On.Terraria.Main.DrawTiles += Main_DrawTiles;
             On.Terraria.Main.DrawWater += Main_DrawWater1;
             On.Terraria.Main.DrawBackground += Main_DrawBackground1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
@@ -70,7 +70,7 @@ namespace EEMod
             //On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             //On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
-            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
+            On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             WP = new WaterPrimitive(null);
             PrimitiveSystem.primitives.CreateTrail(WP);
@@ -135,10 +135,10 @@ namespace EEMod
             orig(self, bg, Style, Main.worldName == KeyID.CoralReefs ? Alpha/3.5f : Alpha);
         }
 
-        /*private void Main_DrawTiles(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidOnly, int waterStyleOverride)
+        private void Main_DrawTiles(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidOnly, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
         {
-            orig(self, solidOnly, waterStyleOverride);
-        }*/
+            orig(self, solidOnly, forRenderTargets, intoRenderTargets, waterStyleOverride);
+        }
 
         private void UnloadDetours()
         {
@@ -165,10 +165,10 @@ namespace EEMod
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
         }
 
-        /*private void LiquidRenderer_InternalDraw(On.Terraria.GameContent.Liquid.LiquidRenderer.orig_InternalDraw orig, Terraria.GameContent.Liquid.LiquidRenderer self, SpriteBatch spriteBatch, Vector2 drawOffset, int waterStyle, float globalAlpha, bool isBackgroundDraw)
+        private void LiquidRenderer_InternalDraw(On.Terraria.GameContent.Liquid.LiquidRenderer.orig_InternalDraw orig, Terraria.GameContent.Liquid.LiquidRenderer self, SpriteBatch spriteBatch, Vector2 drawOffset, int waterStyle, float globalAlpha, bool isBackgroundDraw)
         {
             orig(self, spriteBatch, drawOffset, waterStyle, globalAlpha, isBackgroundDraw);
-        }*/
+        }
         private void Main_DrawPlayerChat(On.Terraria.Main.orig_DrawPlayerChat orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
         {
             // if(!Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
@@ -439,18 +439,18 @@ namespace EEMod
             {
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
 
-                /*bool lolxd = (bool)typeof(SpriteBatch).GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.spriteBatch);
+                bool lolxd = (bool)typeof(SpriteBatch).GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.spriteBatch);
 
                 if (lolxd) Main.spriteBatch.End();
 
                 RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
 
-                Main.graphics.GraphicsDevice.SetRenderTarget(PrimSystem.primitives.primTargetNPC);
+                Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetNPC);
                 Main.graphics.GraphicsDevice.Clear(Color.Transparent);
 
                 Main.spriteBatch.Begin();
 
-                foreach (PrimTrail trail in PrimSystem.primitives._trails.ToArray())
+                foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
                 {
                     if (!trail.behindTiles && !trail.ManualDraw)
                         trail.Draw();
@@ -458,7 +458,7 @@ namespace EEMod
 
                 Main.spriteBatch.End();
 
-                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);*/
+                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
             }
         }
 

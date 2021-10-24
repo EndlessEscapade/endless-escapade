@@ -269,7 +269,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 #region Shipwrecks
                 EEMod.progressMessage = "Wrecking ships";
 
-                int maxIt = 0;
+                /*int maxIt = 0;
                 int mlem = 0;
                 while (mlem < 2 && maxIt < 300)
                 {
@@ -324,7 +324,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     {
                         continue;
                     }
-                }
+                }*/
 
                 #endregion
                 

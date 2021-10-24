@@ -61,7 +61,7 @@ namespace EEMod.Projectiles.CoralReefs
 
                     if (Main.netMode != NetmodeID.Server)
                     {
-                        PrimSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 2f));
+                        PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 2f));
                     }
 
                     TeslaCoralProj zappy = Main.projectile[lightningproj].ModProjectile as TeslaCoralProj;

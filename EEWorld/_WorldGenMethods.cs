@@ -844,9 +844,9 @@ namespace EEMod.EEWorld
 
             //Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Shipyard.lcs")).PlaceAt(x + EndOfPier.GetLength(1), y - 13);
 
-            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Pier.lcs")).PlaceAt(x - 54, y);
+            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Pier.lcs")).PlaceAt(x - 54, /*y */ 50);
 
-            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, y - 13);
+            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, /*y - 13*/ 50 - 13);
         }
 
         public static int TileCheckWater(int positionX)
