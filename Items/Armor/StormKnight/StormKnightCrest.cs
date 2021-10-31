@@ -54,24 +54,24 @@ namespace EEMod.Items.Armor.StormKnight
         }
     }
 
-    public class StormKnightCrestLayer : ModPlayer
+    public class StormKnightCrestGlow : PlayerDrawLayer
     {
-        /*public static readonly PlayerDrawLayer StormKnightCrestGlow = new PlayerDrawLayer("EEMod", "StormKnightCrest", PlayerDrawLayer.Head, delegate (PlayerDrawInfo drawInfo)
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
+
+        public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
         {
-            Texture2D glow = ModContent.GetTexture("EEMod/Items/Armor/StormKnight/StormKnightCrestGlow");
+            return !Main.gameMenu && drawInfo.drawPlayer.armor[0].type == ModContent.ItemType<StormKnightCrest>();
+        }
+
+        protected override void Draw(ref PlayerDrawSet drawInfo)
+        {
+            Texture2D glow = ModContent.Request<Texture2D>("EEMod/Items/Armor/StormKnight/StormKnightCrestGlow").Value;
 
             Player player = drawInfo.drawPlayer;
 
-            DrawData data = new DrawData(glow, player.position - Main.screenPosition, new Rectangle(0, player.headFrame.Y, 40, 56), Color.Green, player.headRotation, Vector2.Zero, 1f, player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
+            DrawData data = new DrawData(glow, player.position - Main.screenPosition - new Vector2(10, 10), new Rectangle(0, player.headFrame.Y, 40, 56), Color.White, player.headRotation, Vector2.Zero, 1f, player.direction == -1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0);
 
-            Main.NewText("" + player.headFrameCounter);
-            Main.playerDrawData.Add(data);
-        });
-
-        public override void ModifyDrawLayers(List<PlayerLayer> layers)
-        {
-            StormKnightCrestGlow.visible = true;
-            layers.Add(StormKnightCrestGlow);
-        }*/
+            drawInfo.DrawDataCache.Add(data);
+        }
     }
 }

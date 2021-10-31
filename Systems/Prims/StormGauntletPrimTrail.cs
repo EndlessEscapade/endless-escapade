@@ -12,12 +12,13 @@ using EEMod.Items.Weapons.Mage;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 using EEMod.NPCs.CoralReefs;
+using EEMod.Items.Weapons.Melee;
 
 namespace EEMod.Prim
 {
-    class AxeLightningPrimTrail : Primitive
+    class StormGauntletPrimTrail : Primitive
     {
-        public AxeLightningPrimTrail(Projectile projectile, float width = 1, float turnoff = 0.9f) : base(projectile)
+        public StormGauntletPrimTrail(Projectile projectile, float width = 1, float turnoff = 0.9f) : base(projectile)
         {
             BindableEntity = projectile;
             _width = width;
@@ -28,8 +29,8 @@ namespace EEMod.Prim
 
         public override void SetDefaults()
         {
-            Alpha = 0.7f;
-            _cap = 80;
+            Alpha = 1f;
+            _cap = 200;
 
             behindTiles = false;
             ManualDraw = false;
@@ -37,44 +38,43 @@ namespace EEMod.Prim
 
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-            /*if (_noOfPoints <= 1) return; //for easier, but less customizable, drawing
-            float colorSin = (float)Math.Sin(_counter / 3f);
-            Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
-            float widthVar = (float)Math.Sqrt(_points.Count) * _width;
-            DrawBasicTrail(c1, widthVar);*/
+            _points.Clear();
 
-            if (_noOfPoints <= 1) return;
+            for (int i = 0; i <= 10; i++)
+            {
+                Vector2 oldCenter = BindableEntity.oldPosition + new Vector2(BindableEntity.width / 2f, BindableEntity.height / 2f);
+
+                if (i >= 1 && i < 10)
+                {
+                    Vector2 bezierPoint = Vector2.Lerp(Vector2.Lerp(BindableEntity.Center + new Vector2(Main.rand.NextFloat(-7f, 7f),
+                        Main.rand.NextFloat(-7f, 7f)), oldCenter + new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f)), (2 * i) / 10f),
+                    Vector2.Lerp(oldCenter + new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f)),
+                        Main.LocalPlayer.Center + new Vector2(Main.rand.NextFloat(-7f, 7f), Main.rand.NextFloat(-7f, 7f)), i / 10f), i / 10f);
+
+                    _points.Add(bezierPoint);
+                }
+                else if (i == 0) _points.Add(BindableEntity.Center);
+                else _points.Add(Main.LocalPlayer.Center);
+            }
+
             float widthVar;
 
             float colorSin = (float)Math.Sin(_counter / 3f);
+
+            for (int i = 0; i < _points.Count - 1; i++)
             {
-                widthVar = (float)Math.Sqrt(_points.Count) * _width;
-                Color c1 = Color.Lerp(Color.White, Color.Gold, colorSin);
-
-                Vector2 normalAhead = CurveNormal(_points, 1);
-                Vector2 secondUp = _points[1] - normalAhead * widthVar;
-                Vector2 secondDown = _points[1] + normalAhead * widthVar;
-                Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
-
-                AddVertex(_points[0], c1 * Alpha, v);
-                AddVertex(secondUp, c1 * Alpha, v);
-                AddVertex(secondDown, c1 * Alpha, v);
-            }
-
-            for (int i = 1; i < _points.Count - 1; i++)
-            {
-                widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
+                widthVar = _width + (float)(Math.Sin((i / 3f) + (Main.GameUpdateCount / 3f)) * 6f);
 
                 Color base1 = new Color(7, 86, 122);
                 Color base2 = new Color(255, 244, 173);
-                Color c = Color.Lerp(Color.White, Color.Gold, colorSin);
-                Color CBT = Color.Lerp(Color.White, Color.Gold, colorSin);
+                Color c = Color.Lerp(Color.Gold, Color.Gold, colorSin);
+                Color CBT = Color.Lerp(Color.Gold, Color.Gold, colorSin);
 
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
 
                 float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
-                widthVar *= j;
+                //widthVar *= j;
 
                 Vector2 firstUp = _points[i] - normal * widthVar;
                 Vector2 firstDown = _points[i] + normal * widthVar;
@@ -101,14 +101,9 @@ namespace EEMod.Prim
             Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
-            //EEMod.lightningShader.View = view;
-            //EEMod.lightningShader.Projection = projection;
-
-            //PrepareShader(EEMod.lightningShader);
-
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
+            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LightningTexBoosted2").Value);
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
             EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
         }
@@ -117,28 +112,19 @@ namespace EEMod.Prim
         {
             _counter++;
             _noOfPoints = _points.Count() * 6;
-            if (_cap < _noOfPoints / 6)
-            {
-                _points.RemoveAt(0);
-            }
             if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
             {
                 OnDestroy();
             }
             else
             {
-                _points.Add(BindableEntity.Center);
+
             }
         }
 
         public override void OnDestroy()
         {
-            _destroyed = true;
-            _width *= _decayRate;
-            if (_width < 0.05f)
-            {
-                Dispose();
-            }
+            Dispose();
         }
 
         public override void PostDraw()

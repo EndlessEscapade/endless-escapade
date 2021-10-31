@@ -37,10 +37,15 @@ namespace EEMod.Projectiles.CoralReefs
         public int iterations = 8;
         public float distance = 24;
 
+        public Projectile projTarget;
+
         public override void AI()
         {
+            if (projTarget != null) target = projTarget.Center;
+
             if (Projectile.ai[0] < iterations)
             {
+
                 Vector2 dir = target - Projectile.Center;
 
                 distance = dir.Length() / 16f;
@@ -53,7 +58,9 @@ namespace EEMod.Projectiles.CoralReefs
 
                 Projectile.ai[0]++;
 
-                if(Main.rand.NextBool(2) && Projectile.ai[1] == 0)
+                if (Projectile.ai[0] == iterations && projTarget != null) Projectile.Center = projTarget.Center;
+
+                /*if (Main.rand.NextBool(2) && Projectile.ai[1] == 0)
                 {
                     int lightningproj = Projectile.NewProjectile(new ProjectileSource_ProjectileParent(Projectile), Projectile.Center, Vector2.Zero, ModContent.ProjectileType<TeslaCoralProj>(), Projectile.damage / 2, Projectile.knockBack / 2f, default);
 
@@ -68,7 +75,7 @@ namespace EEMod.Projectiles.CoralReefs
 
                     zappy.target = Projectile.Center + desiredVector;
                     zappy.iterations = 2;
-                }
+                }*/
             }
             else
             {

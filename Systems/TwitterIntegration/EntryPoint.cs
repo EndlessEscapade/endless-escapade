@@ -11,11 +11,11 @@ namespace EEMod.Systems
 	{
         public override void Load()
         {
-            TwitterAPIKeys.LoadAPIKeys();
+            //TwitterAPIKeys.LoadAPIKeys();
         }
         public override void PreUpdateEntities()
         {
-            if(Main.GameUpdateCount == 1) MessageListener.ListenForUser("AbubakarTafid10");
+            //if(Main.GameUpdateCount == 1) MessageListener.ListenForUser("AbubakarTafid10");
         }
     }
 }
