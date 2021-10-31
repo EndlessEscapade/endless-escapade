@@ -255,6 +255,7 @@ namespace EEMod.UI.States
         public bool IsUsingItemTexture;
         public Rectangle Frame;
         public int FrameCounter;
+        public float uTime;
         public FishDisplay() : base(ModContent.Request<Texture2D>("EEMod/UI/DisplayBorder", AssetRequestMode.ImmediateLoad).Value) { }
         public void UpdateDisplay(int itemType, bool isSpriteFacingRight, List<string> habitats, int swimSpeed, int animSpeed, Texture2D swimmingAnimation, int frameCount)
         {
@@ -317,7 +318,22 @@ namespace EEMod.UI.States
                 }
                 FrameCounter++;
                 spriteBatch.Draw(BackgroundTexture, new Vector2(xB, yB), null, Color.White, 0f, BackgroundTexture.Size(), 1f, SpriteEffects.None, 0f);
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.UIScaleMatrix);
+
+                uTime += 0.01f;
+                if (uTime >= 1)
+                {
+                    uTime = 0;
+                }
+                EEMod.fishSwim.Parameters["uTime"].SetValue(uTime);
+                EEMod.fishSwim.CurrentTechnique.Passes[0].Apply();
+
                 spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), null, Color.White, IsUsingItemTexture ? facingLeft ? 0.6f : -0.6f : 0f, SwimmingAnimation.Size(), 1f, spriteEffects, 0f);
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.UIScaleMatrix);
                 //spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), new Rectangle(0, Frame.Y, SwimmingAnimation.Width, SwimmingAnimation.Height / FrameCount), new Color(0, 0, 0), 0, new Rectangle(0, Frame.Y, SwimmingAnimation.Width, SwimmingAnimation.Height / FrameCounter).Size() / 2, 1f, SpriteEffects.None, 0f);
             }
         }
