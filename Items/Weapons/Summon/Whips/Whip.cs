@@ -127,7 +127,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
                 _whipPointsForCollision.Clear();
                 FillWhipControlPoints(Projectile, _whipPointsForCollision);
                 Vector2 position = _whipPointsForCollision[_whipPointsForCollision.Count - 1];
-                SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Sounds/WhipCrack"));
+                //SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.ModLoader.SoundType.Custom, "Sounds/Sounds/WhipCrack"));
 
                 hasPlayedSound = true;
             }

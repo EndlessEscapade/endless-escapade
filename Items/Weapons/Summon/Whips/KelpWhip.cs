@@ -23,7 +23,7 @@ namespace EEMod.Items.Weapons.Summon.Whips
             Item.useTime = 30;
             Item.width = 58;
             Item.height = 44;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/WhipUse");
+           // Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/WhipUse");
             Item.noMelee = true;
             Item.DamageType = DamageClass.Summon;
             Item.noUseGraphic = true;

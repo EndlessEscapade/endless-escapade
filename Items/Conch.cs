@@ -25,7 +25,7 @@ namespace EEMod.Items
             Item.value = Item.buyPrice(0, 1, 0, 0);
             Item.rare = ItemRarityID.Blue;
             Item.useStyle = ItemUseStyleID.EatFood;
-            Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/ConchBlown");
+            //Item.UseSound = Mod.GetLegacySoundSlot(SoundType.Custom, "Sounds/Sounds/ConchBlown");
         }
 
         public override bool? UseItem(Player player)

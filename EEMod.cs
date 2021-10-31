@@ -147,6 +147,7 @@ namespace EEMod
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
 
             PrimitiveSystem.primitives.Load();
+            MusicLoader.AddMusic(this, "Assets/Music/SurfaceReefs");
         }
 
         public override void Unload()
@@ -178,6 +179,7 @@ namespace EEMod
             //Main.sun3Texture = ModContent.Request<Texture2D>("Terraria/Sun3").Value;
             //Main.sunTexture = ModContent.Request<Texture2D>("Terraria/Sun").Value;
         }
+
 
         public override void HandlePacket(BinaryReader reader, int whoAmI)
         {
