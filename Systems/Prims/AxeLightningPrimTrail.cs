@@ -17,7 +17,7 @@ namespace EEMod.Prim
 {
     class AxeLightningPrimTrail : Primitive
     {
-        public AxeLightningPrimTrail(Projectile projectile, float width = 1, float turnoff = 0.9f) : base(projectile)
+        public AxeLightningPrimTrail(Projectile projectile, float width = 1, float turnoff = 0.5f) : base(projectile)
         {
             BindableEntity = projectile;
             _width = width;
@@ -108,7 +108,7 @@ namespace EEMod.Prim
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
+            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/LightningTexBoosted2").Value);
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
             EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
         }

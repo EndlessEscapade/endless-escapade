@@ -173,10 +173,10 @@ namespace EEMod.Items.Weapons.Melee
         {
             for (double i = 0; i < 6.28; i += Main.rand.NextFloat(1f, 2f))
             {
-                int lightningproj = Projectile.NewProjectile(new ProjectileSource_ProjectileParent(Projectile), pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 2.5f, ModContent.ProjectileType<AxeLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
+                int lightningproj = Projectile.NewProjectile(new ProjectileSource_ProjectileParent(Projectile), pos, new Vector2((float)Math.Sin(i), (float)Math.Cos(i)) * 3f, ModContent.ProjectileType<AxeLightning>(), Projectile.damage, Projectile.knockBack, Projectile.owner);
                 if (Main.netMode != NetmodeID.Server)
                 {
-                    PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 2, 0.9f));
+                    PrimitiveSystem.primitives.CreateTrail(new AxeLightningPrimTrail(Main.projectile[lightningproj], 4, 0.5f));
                 }
             }
 

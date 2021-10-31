@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.NPCs.CoralReefs
 {
-    internal class HermitCrab : EENPC
+    public class HermitCrab : EENPC
     {
         public override void SetStaticDefaults()
         {
@@ -35,35 +35,13 @@ namespace EEMod.NPCs.CoralReefs
             NPC.lifeMax = 50;
             NPC.defense = 6;
             NPC.damage = 20;
-            NPC.width = 52;
-            NPC.height = 118;
-            NPC.aiStyle = 0;
+            NPC.width = 42;
+            NPC.height = 32;
+            NPC.aiStyle = 3;
             NPC.knockBackResist = 10;
             NPC.value = Item.buyPrice(0, 0, 5, 0);
             NPC.HitSound = new LegacySoundStyle(3, 1, Terraria.Audio.SoundType.Sound);
             NPC.DeathSound = new LegacySoundStyle(4, 1, Terraria.Audio.SoundType.Sound);
-        }
-
-        public override void AI()
-        {
-            Player target = Main.player[NPC.target];
-            if (NPC.wet)
-            {
-                if (target.WithinRange(NPC.Center, 6400))
-                {
-                    NPC.velocity = Vector2.Normalize(target.Center - NPC.Center) * 4;
-                }
-            }
-
-            NPC.rotation = NPC.velocity.X / 6;
-        }
-
-        public override void OnKill()
-        {
-            if (Main.ActiveWorldFileData.Name == KeyID.CoralReefs)
-            {
-                EEWorld.EEWorld.instance.minionsKilled++;
-            }
         }
     }
 }
