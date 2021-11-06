@@ -24,11 +24,15 @@ namespace EEMod.Prim
             _width = width;
             color = _color;
         }
+
         private Color color;
         public override void SetDefaults()
         {
             Alpha = 0.8f;
             _cap = 60;
+
+            behindTiles = false;
+            ManualDraw = false;
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -39,44 +43,76 @@ namespace EEMod.Prim
             float widthVar = (float)Math.Sqrt(_points.Count) * _width;
             DrawBasicTrail(c1, widthVar);*/
 
-            if (_noOfPoints <= 6) return;
+            if (_noOfPoints <= 1) return;
             float widthVar;
+
+            float colorSin = (float)Math.Sin(_counter / 3f);
             {
-                /*widthVar = _width;
-                Color c1 = color;
+                widthVar = (float)Math.Sqrt(_points.Count) * _width;
+                Color c1 = Color.Lerp(Color.White, color, colorSin);
+
                 Vector2 normalAhead = CurveNormal(_points, 1);
                 Vector2 secondUp = _points[1] - normalAhead * widthVar;
-                Vector2 secondDown = _points[1] + normalAhead * widthVar;*/
-                //   AddVertex(_points[i], c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                //  AddVertex(secondUp, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
-                // AddVertex(secondDown, c1 * _alphaValue, new Vector2((float)Math.Sin(_counter / 20f), (float)Math.Sin(_counter / 20f)));
+                Vector2 secondDown = _points[1] + normalAhead * widthVar;
+                Vector2 v = new Vector2((float)Math.Sin(_counter / 20f));
+
+                AddVertex(_points[0], c1 * Alpha, v);
+                AddVertex(secondUp, c1 * Alpha, v);
+                AddVertex(secondDown, c1 * Alpha, v);
             }
+
             for (int i = 1; i < _points.Count - 1; i++)
             {
-                widthVar = _width * (float)Math.Sin(i / (float)_points.Count * 3.14f);
+                widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
 
-                Color c = color;
-                Color CBT = color;
+                Color base1 = new Color(7, 86, 122);
+                Color base2 = new Color(255, 244, 173);
+                Color c = Color.Lerp(Color.White, color, colorSin);
+                Color CBT = Color.Lerp(Color.White, color, colorSin);
+
                 Vector2 normal = CurveNormal(_points, i);
                 Vector2 normalAhead = CurveNormal(_points, i + 1);
+
+                float j = (_cap + ((float)(Math.Sin(_counter / 10f)) * 1) - i * 0.1f) / _cap;
+                widthVar *= j;
+
                 Vector2 firstUp = _points[i] - normal * widthVar;
                 Vector2 firstDown = _points[i] + normal * widthVar;
                 Vector2 secondUp = _points[i + 1] - normalAhead * widthVar;
                 Vector2 secondDown = _points[i + 1] + normalAhead * widthVar;
 
-                AddVertex(firstDown, c * Alpha, new Vector2((i / (float)_cap), 1));
-                AddVertex(firstUp, c * Alpha, new Vector2((i / (float)_cap), 0));
-                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 1));
+                AddVertex(firstDown, c * Alpha, new Vector2((i / _cap), 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
 
-                AddVertex(secondUp, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 0));
-                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / (float)_cap, 1));
-                AddVertex(firstUp, c * Alpha, new Vector2((i / (float)_cap), 0));
+                AddVertex(secondUp, CBT * Alpha, new Vector2((i + 1) / _cap, 0));
+                AddVertex(secondDown, CBT * Alpha, new Vector2((i + 1) / _cap, 1));
+                AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
             }
         }
+
+
         public override void SetShaders()
         {
-            PrepareShader(EEMod.NonBasicEffectShader, "Lazor", _counter);
+            int width = _device.Viewport.Width;
+            int height = _device.Viewport.Height;
+
+            Vector2 zoom = Main.GameViewMatrix.Zoom;
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+            Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+
+            //EEMod.lightningShader.View = view;
+            //EEMod.lightningShader.Projection = projection;
+
+            //PrepareShader(EEMod.lightningShader);
+
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/EnergyTrailBoostedBg").Value);
+            EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
+            EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
         }
+
         public override void OnUpdate()
         {
             _counter++;
@@ -94,15 +130,20 @@ namespace EEMod.Prim
                 _points.Add(BindableEntity.Center);
             }
         }
+
         public override void OnDestroy()
         {
             _destroyed = true;
-            _width *= 0.4f;
+            _width *= 0.9f;
             if (_width < 0.05f)
             {
                 Dispose();
             }
         }
 
+        public override void PostDraw()
+        {
+            Main.spriteBatch.End(); Main.spriteBatch.Begin();
+        }
     }
 }

@@ -28,6 +28,7 @@ using EEMod.Prim;
 using EEMod.Seamap.SeamapContent;
 using MonoMod.RuntimeDetour.HookGen;
 using EEMod.Systems;
+using Terraria.GameContent.Liquid;
 
 namespace EEMod
 {
@@ -67,7 +68,8 @@ namespace EEMod
             //IL.Terraria.Main.oldDrawWater += Main_oldDrawWater;
             hooklist = new ILHookList();
 
-            //IL.Terraria.GameContent.LiquidAmount.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
+
             //hooklist.Add(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), LayeredMusic.ILFillBuffer);
 
             //HookEndpointManager.Modify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
@@ -80,7 +82,9 @@ namespace EEMod
             //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
             //IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
             //IL.Terraria.NPC.AI_001_Slimes -= Practice;
-            //IL.Terraria.GameContent.LiquidAmount.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
+
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
+
             //IL.Terraria.GameContent.LiquidAmount.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
             //HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
             hooklist?.UnloadAll();
@@ -95,10 +99,10 @@ namespace EEMod
         {
             ILCursor c = new ILCursor(il);
 
-            //Type t = typeof(LiquidRenderer).GetNestedType("LiquidCache", BindingFlags.NonPublic | BindingFlags.Public);
-            //FieldInfo issolid = t.GetField("IsSolid");
-            //if (!c.TryGotoNext(i => i.MatchStfld(issolid)))
-                //throw new Exception();
+            Type t = typeof(LiquidRenderer).GetNestedType("LiquidCache", BindingFlags.NonPublic | BindingFlags.Public);
+            FieldInfo issolid = t.GetField("IsSolid");
+            if (!c.TryGotoNext(i => i.MatchStfld(issolid)))
+                throw new Exception();
             // before the stfld there will be an int on the stack
             c.Emit(OpCodes.Ldloc, 3); // tile
             c.EmitDelegate<Func<bool, Tile, bool>>((orig, tile) => orig && tile.type != ModContent.TileType<EmptyTile>());

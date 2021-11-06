@@ -28,7 +28,7 @@ namespace EEMod.Items.Weapons.Melee
             Projectile.friendly = true;
             Projectile.tileCollide = false;
             Projectile.damage = 0;
-            Projectile.timeLeft = 90;
+            Projectile.timeLeft = 30;
             Projectile.alpha = 255;
             Projectile.extraUpdates = 3;
         }
@@ -43,10 +43,9 @@ namespace EEMod.Items.Weapons.Melee
             {
                 initialVelocity = Projectile.velocity;
             }
-            if (Projectile.timeLeft % 10 == 0)
-            {
-                Projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1f, 1f));
-            }
+
+            if (Projectile.timeLeft == 0) Projectile.position -= Projectile.velocity;
+            if (Projectile.timeLeft < 8) Projectile.velocity = initialVelocity.RotatedBy(Main.rand.NextFloat(-1f, 1f));
 
             DrawPos = Projectile.position;
         }

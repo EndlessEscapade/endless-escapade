@@ -327,8 +327,8 @@ namespace EEMod.UI.States
                 {
                     uTime = 0;
                 }
-                EEMod.fishSwim.Parameters["uTime"].SetValue(uTime);
-                EEMod.fishSwim.CurrentTechnique.Passes[0].Apply();
+                //EEMod.fishSwim.Parameters["uTime"].SetValue(uTime);
+                //EEMod.fishSwim.CurrentTechnique.Passes[0].Apply();
 
                 spriteBatch.Draw(SwimmingAnimation, new Vector2(x, y), null, Color.White, IsUsingItemTexture ? facingLeft ? 0.6f : -0.6f : 0f, SwimmingAnimation.Size(), 1f, spriteEffects, 0f);
 

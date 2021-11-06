@@ -52,10 +52,11 @@ namespace EEMod
                 }
             }
 
-            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
             EEMod.LightingBuffer.Parameters["buffer"].SetValue(lightingTarget);
 
             Main.spriteBatch.End();
+
+            Main.graphics.GraphicsDevice.SetRenderTargets(oldtargets1);
         }
 
         public event Action BufferCalls;

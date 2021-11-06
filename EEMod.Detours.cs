@@ -52,7 +52,7 @@ namespace EEMod
         private void LoadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float += Lighting_AddLight_int_int_float_float_float;
-            //On.Terraria.Main.DoUpdate += Main_DoUpdate;
+            On.Terraria.Main.Update += Main_Update;
             On.Terraria.Main.Draw += Main_Draw;
             On.Terraria.Main.DrawBG += Main_DrawBG;
             On.Terraria.Main.DrawProjectiles += Main_DrawProjectiles;
@@ -64,16 +64,67 @@ namespace EEMod
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             Main.OnPreDraw += Main_OnPreDraw;
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
-            //On.Terraria.Main.DrawPlayer += Main_DrawPlayer;
+            //On.Terraria.Main.DrawPlayerChat += Main_DrawPlayerChat;
             //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             //On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
             //On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
             //On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
-            On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
+            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             WP = new WaterPrimitive(null);
             PrimitiveSystem.primitives.CreateTrail(WP);
+        }
+
+        private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int orderInList, bool canBePlayed)
+        {
+            //orig(self, data, snapPointIndex);
+            string EEPath = $@"{Main.SavePath}\Worlds\{data.Name}Subworlds";
+            List<string> SubworldsUnlocked = new List<string>();
+
+            if (Directory.Exists(EEPath))
+            {
+                //TODO make this better
+                string[] Subworlds = new string[] { KeyID.CoralReefs, KeyID.Sea, KeyID.VolcanoIsland };
+                foreach (string S in Subworlds)
+                {
+                    string CRPath = $@"{EEPath}\{S}.wld";
+
+                    if (File.Exists(CRPath))
+                    {
+                        SubworldsUnlocked.Add(S);
+                    }
+                }
+            }
+
+
+            float num = 56f;
+
+            if (SocialAPI.Cloud != null)
+            {
+                num += 24f;
+            }
+
+            if (data.WorldGeneratorVersion != 0L)
+            {
+                num += 24f;
+            }
+            //foreach (string SW in SubworldsUnlocked)
+            //{
+            //    SLock += $" {SW},";
+            //}
+            //SLock = SLock.TrimEnd(',', ' ');
+            string SLock = SubworldsUnlocked.Count > 0 ? string.Join(", ", SubworldsUnlocked) : "No Unlocked Islands"; // TODO: Localization maybe?
+            UIText buttonLabel = new UIText(SLock)
+            {
+                VAlign = 1f
+            };
+            buttonLabel.Left.Set(num + 10, 0f);
+            buttonLabel.Top.Set(-3f, 0f);
+
+            DetourReflectionCache.UIWorldListItem_buttonLabel.SetValue(self, buttonLabel);
+
+            self.Append(buttonLabel);
         }
 
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
@@ -160,7 +211,7 @@ namespace EEMod
             //On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             //On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
             //On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
-            //On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
         }
@@ -254,57 +305,6 @@ namespace EEMod
                 Color drawColour = Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16).MultiplyRGB(new Color(Bubbles[i].alpha, Bubbles[i].alpha, Bubbles[i].alpha));
                 Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Particles/ForegroundParticles/Bob1").Value, pos.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
             }
-        }
-
-        private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int snapPointIndex)
-        {
-            //orig(self, data, snapPointIndex);
-            string EEPath = $@"{Main.SavePath}\Worlds\{data.Name}Subworlds";
-            List<string> SubworldsUnlocked = new List<string>();
-
-            if (Directory.Exists(EEPath))
-            {
-                //TODO make this better
-                string[] Subworlds = new string[] { KeyID.CoralReefs, KeyID.Sea, KeyID.VolcanoIsland };
-                foreach (string S in Subworlds)
-                {
-                    string CRPath = $@"{EEPath}\{S}.wld";
-
-                    if (File.Exists(CRPath))
-                    {
-                        SubworldsUnlocked.Add(S);
-                    }
-                }
-            }
-
-
-            float num = 56f;
-
-            if (SocialAPI.Cloud != null)
-            {
-                num += 24f;
-            }
-
-            if (data.WorldGeneratorVersion != 0L)
-            {
-                num += 24f;
-            }
-            //foreach (string SW in SubworldsUnlocked)
-            //{
-            //    SLock += $" {SW},";
-            //}
-            //SLock = SLock.TrimEnd(',', ' ');
-            string SLock = SubworldsUnlocked.Count > 0 ? string.Join(", ", SubworldsUnlocked) : "No Unlocked Islands"; // TODO: Localization maybe?
-            UIText buttonLabel = new UIText(SLock)
-            {
-                VAlign = 1f
-            };
-            buttonLabel.Left.Set(num + 10, 0f);
-            buttonLabel.Top.Set(-3f, 0f);
-
-            DetourReflectionCache.UIWorldListItem_buttonLabel.SetValue(self, buttonLabel);
-
-            self.Append(buttonLabel);
         }
 
         //CHAD NAME
@@ -926,7 +926,7 @@ namespace EEMod
         }
 
         public static float lerp;
-        private void Main_DoUpdate(On.Terraria.Main.orig_DoUpdate orig, Main self, GameTime gameTime)
+        private void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
         {
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
             {
@@ -944,7 +944,7 @@ namespace EEMod
 
             TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Sun");
 
-            orig(self, ref gameTime);
+            orig(self, gameTime);
         }
 
         private void Lighting_AddLight_int_int_float_float_float(On.Terraria.Lighting.orig_AddLight_int_int_float_float_float orig, int i, int j, float R, float G, float B)

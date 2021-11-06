@@ -2,7 +2,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items
+namespace EEMod.Items.Shipyard
 {
     public class SwiftSail : EEItem
     {
