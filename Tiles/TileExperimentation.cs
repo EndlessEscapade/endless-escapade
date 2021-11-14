@@ -29,12 +29,17 @@ namespace EEMod.Tiles
             Projectile.scale *= 1f;
         }
 
+        public Vector2 pos1;
+        public Vector2 pos2;
+
         public override bool PreDraw(ref Color lightColor)
         {
-            if (Projectile.ai[0] >= 10 && !canspawn)
+            if (!canspawn)
             {
                 canspawn = true;
-                Helpers.DrawBezierProj(Main.LocalPlayer.Center - new Vector2(200, 200), Main.LocalPlayer.Center, Main.LocalPlayer.Center - new Vector2(120, 100), Main.LocalPlayer.Center - new Vector2(120, 100), 0.015f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
+                Vector2 blah = ((pos1 + pos2) / 2f) + new Vector2(0, -8f + (4f * (float)Math.Sin(Main.GameUpdateCount / 60f)));
+
+                Helpers.DrawBezierProj(pos1, pos2, blah, blah, 0.015f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
             }
 
             return true;
@@ -42,7 +47,7 @@ namespace EEMod.Tiles
 
         private bool canspawn = false;
 
-        public override void AI()
+        /*public override void AI()
         {
             Projectile.ai[0] += 0.1f;
             Projectile.velocity.Y += (float)Math.Sin(Projectile.ai[0]) * 0.1f;
@@ -57,6 +62,6 @@ namespace EEMod.Tiles
                 Main.LocalPlayer.legFrame.Y = 0;
                 Main.LocalPlayer.position.Y = Projectile.position.Y - Main.LocalPlayer.height + 1;
             }
-        }
+        }*/
     }
 }

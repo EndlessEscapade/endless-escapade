@@ -33,6 +33,7 @@ using Terraria.GameContent.UI.States;
 using Terraria.UI.Chat;
 using EEMod.Systems;
 using Terraria.GameContent;
+using EEMod.NPCs.Glowshroom;
 
 namespace EEMod
 {
@@ -63,6 +64,7 @@ namespace EEMod
             On.Terraria.Main.DrawBackground += Main_DrawBackground1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             Main.OnPreDraw += Main_OnPreDraw;
+            On.Terraria.Main.DrawTiles += Main_DrawTiles1;
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
             //On.Terraria.Main.DrawPlayerChat += Main_DrawPlayerChat;
             //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
@@ -73,7 +75,63 @@ namespace EEMod
             //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
             WP = new WaterPrimitive(null);
-            PrimitiveSystem.primitives.CreateTrail(WP);
+            PrimitiveSystem.primitives.CreateTrail(WP);;
+        }
+
+        private void Main_DrawTiles1(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
+        {
+            if (Main.worldName == KeyID.CoralReefs && !Main.gameMenu)
+            {
+                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
+                {
+                    bgAlpha += 0.01f;
+                }
+                else
+                {
+                    bgAlpha -= 0.01f;
+                }
+
+                bgAlpha = MathHelper.Clamp(bgAlpha, 0, 1);
+
+                if (bgAlpha > 0)
+                {
+                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
+                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
+                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
+
+                    ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
+
+                    Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
+                    Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
+                    Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
+
+
+                    for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
+                        for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex,
+                            new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)), bgAlpha);
+
+                    for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
+                        for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex2,
+                            new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)), bgAlpha);
+
+                    for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
+                        for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
+                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
+                            tex3,
+                            new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)), bgAlpha);
+                }
+                else
+                {
+                    int a = 2;
+                    //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
+                }
+            }
+
+            orig(self, solidLayer, forRenderTargets, intoRenderTargets, waterStyleOverride);
         }
 
         private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int orderInList, bool canBePlayed)
@@ -208,6 +266,7 @@ namespace EEMod
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
             On.Terraria.Main.DrawWalls -= Main_DrawWalls;
             Main.OnPreDraw -= Main_OnPreDraw;
+            On.Terraria.Main.DrawTiles -= Main_DrawTiles1;
             //On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             //On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
             //On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
@@ -323,59 +382,6 @@ namespace EEMod
         float bgAlpha;
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
-            if (Main.worldName == KeyID.CoralReefs && !Main.gameMenu)
-            {
-                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
-                {
-                    bgAlpha += 0.01f;
-                }
-                else
-                {
-                    bgAlpha -= 0.01f;
-                }
-
-                bgAlpha = MathHelper.Clamp(bgAlpha, 0, 1);
-
-                if (bgAlpha > 0)
-                {
-                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
-                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
-                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
-
-                    ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
-
-                    Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
-                    Vector2 chunk2 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.6f, 0.3f)) / tex2.Size();
-                    Vector2 chunk3 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.4f, 0.3f)) / tex3.Size();
-
-
-                    for (int i = (int)chunk1.X - 1; i <= (int)chunk1.X + 1; i++)
-                        for (int j = (int)chunk1.Y - 1; j <= (int)chunk1.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex,
-                            new Vector2(tex.Width * i, tex.Height * j).ParalaxXY(new Vector2(-0.8f, -0.3f)), bgAlpha);
-
-                    for (int i = (int)chunk2.X - 1; i <= (int)chunk2.X + 1; i++)
-                        for (int j = (int)chunk2.Y - 1; j <= (int)chunk2.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex2,
-                            new Vector2(tex2.Width * i, tex2.Height * j).ParalaxXY(new Vector2(-0.6f, -0.3f)), bgAlpha);
-
-                    for (int i = (int)chunk3.X - 1; i <= (int)chunk3.X + 1; i++)
-                        for (int j = (int)chunk3.Y - 1; j <= (int)chunk3.Y + 1; j++)
-                            global::EEMod.LightingBuffer.Instance.DrawWithBuffer(
-                            tex3,
-                            new Vector2(tex3.Width * i, tex3.Height * j).ParalaxXY(new Vector2(-0.4f, -0.3f)), bgAlpha);
-                }
-                else
-                {
-                    int a = 2;
-                    //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
-                }
-            }
-
-
-
             foreach (IComponent Updateable in Updatables)
                 Updateable.Update();
 
@@ -387,10 +393,10 @@ namespace EEMod
             if (Main.worldName == KeyID.CoralReefs)
             {
                 DrawCR();
-                if (Main.LocalPlayer.Center.Y >= (Main.maxTilesY / 20f) * 16)
+                /*if (Main.LocalPlayer.Center.Y >= (Main.maxTilesY / 20f) * 16)
                 {
                     DrawCoralReefsBg();
-                }
+                }*/
             }
 
             //Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, ChangingPoints.ForDraw(), Color.Red);
@@ -433,15 +439,13 @@ namespace EEMod
             orig(self);
         }
 
+        public RenderTarget2D additiveRT;
+
         private void Main_OnPreDraw(GameTime obj)
         {
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
             {
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
-
-                bool lolxd = (bool)typeof(SpriteBatch).GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.spriteBatch);
-
-                if (lolxd) Main.spriteBatch.End();
 
                 RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
 
@@ -460,6 +464,37 @@ namespace EEMod
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
             }
+
+            if(Main.spriteBatch != null && additiveRT != null)
+            {
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+                if (additiveRT != null)
+                {
+                    Main.spriteBatch.Draw(additiveRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+                }
+
+                Main.spriteBatch.End();
+
+                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+                Main.graphics.GraphicsDevice.SetRenderTarget(additiveRT);
+                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+                for (int i = 0; i < Main.maxProjectiles; i++)
+                {
+                    if (Main.projectile[i] != null && Main.projectile[i].type == ModContent.ProjectileType<MushroomBall>())
+                    {
+                        (Main.projectile[i].ModProjectile as MushroomBall).DrawMushroom();
+                    }
+                }
+
+                Main.spriteBatch.End();
+
+                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+            }
         }
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
@@ -470,6 +505,15 @@ namespace EEMod
             {
                 PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);
+
+                if (additiveRT != null)
+                {
+                    Main.spriteBatch.Draw(additiveRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+                }
+
+                Main.spriteBatch.End();
             }
 
             //Main.QueueMainThreadAction(() =>
@@ -942,7 +986,7 @@ namespace EEMod
                 }
             }
 
-            TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Sun");
+            TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Images/Sun");
 
             orig(self, gameTime);
         }

@@ -1,4 +1,4 @@
-using EEMod.NPCs.CoralReefs;
+
 using EEMod.Tiles;
 using EEMod.Tiles.EmptyTileArrays;
 using EEMod.Tiles.Ores;
@@ -95,8 +95,8 @@ namespace EEMod
                 }
             }
 
-            PlaceShip(50, 150, ShipTiles);
-            PlaceShipWalls(50, 145, ShipWalls);
+            //PlaceShip(50, 150, ShipTiles);
+            //PlaceShipWalls(50, 145, ShipWalls);
             WorldGen.AddTrees();
 
             /*PlaceAnyBuilding(100, 100, IceShrine);
@@ -166,8 +166,8 @@ namespace EEMod
                 }
             }
 
-            PlaceShip(50, 150, ShipTiles);
-            PlaceShipWalls(50, 145, ShipWalls);
+            //PlaceShip(50, 150, ShipTiles);
+            //PlaceShipWalls(50, 145, ShipWalls);
 
             WorldGen.AddTrees();
 

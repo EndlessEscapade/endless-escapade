@@ -34,14 +34,6 @@ namespace EEMod.EEWorld
     {
         public int minionsKilled;
         public static EEWorld instance => ModContent.GetInstance<EEWorld>();
-        public static bool downedTalos;
-        public static bool downedCoralGolem;
-        public static bool downedAkumo;
-        public static bool downedHydros;
-        public static bool downedOmen;
-        public static bool downedKraken;
-        public static bool omenPath;
-        public static Vector2[] reefMinibiomes = new Vector2[6];
 
         // private static List<Point> BiomeCenters;
         public static Vector2 yes;
@@ -431,19 +423,6 @@ namespace EEMod.EEWorld
                 //    EmptyTileEntityCache.AddPair(new Crystal(EESubWorlds.CoralCrystalPosition[i]), EESubWorlds.CoralCrystalPosition[i], EmptyTileArrays.CoralCrystal);
             }
             tag.TryGetByteArrayRef("LightStates", ref LightStates);
-
-            
-
-            if (tag.TryGetList<string>("boolFlags", out var flags))
-            {
-                // Downed bosses
-                downedAkumo = flags.Contains("downedAkumo");
-                downedHydros = flags.Contains("downedHydros");
-                downedKraken = flags.Contains("downedKraken");
-                downedCoralGolem = flags.Contains("downedCoralGolem");
-                downedOmen = flags.Contains("downedOmen");
-                downedTalos = flags.Contains("downedTalos");
-            }
         }
 
         public override void SaveWorldData(TagCompound tag)
@@ -492,13 +471,6 @@ namespace EEMod.EEWorld
             tag["EntracesPosses"] = EntracesPosses;
             tag["yes"] = yes;
             tag["ree"] = ree;
-            IList<string> flags = new List<string>();
-            if (downedAkumo) flags.Add("downedAkumo");
-            if (downedHydros) flags.Add("downedHydros");
-            if (downedKraken) flags.Add("downedKraken");
-            if (downedCoralGolem) flags.Add("downedCoralGolem");
-            if (downedOmen) flags.Add("downedOmen");
-            if (downedTalos) flags.Add("downedTalos");
         }
     }
 }

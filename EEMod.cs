@@ -5,7 +5,6 @@ using EEMod.ID;
 using EEMod.Items.Dyes;
 using EEMod.MachineLearning;
 using EEMod.Net;
-using EEMod.NPCs.CoralReefs;
 using EEMod.Prim;
 using EEMod.Seamap.SeamapContent;
 using EEMod.Skies;
@@ -147,6 +146,13 @@ namespace EEMod
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
 
             PrimitiveSystem.primitives.Load();
+
+
+            Main.QueueMainThreadAction(() =>
+            {
+                additiveRT = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
+            });
+
             MusicLoader.AddMusic(this, "Assets/Music/SurfaceReefs");
         }
 

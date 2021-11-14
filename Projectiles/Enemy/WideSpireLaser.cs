@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Prim;
 using EEMod.Tiles;
-using EEMod.NPCs.CoralReefs;
+
 using Terraria.Audio;
 
 namespace EEMod.Projectiles.Enemy

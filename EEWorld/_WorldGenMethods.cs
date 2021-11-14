@@ -399,120 +399,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
-
-        public static void PlaceShip(int i, int j, int[,] shape)
-        {
-            for (int y = 0; y < shape.GetLength(0); y++)
-            {
-                for (int x = 0; x < shape.GetLength(1); x++)
-                {
-                    int k = i - 3 + x;
-                    int l = j - 6 + y;
-                    if (WorldGen.InWorld(k, l, 30))
-                    {
-                        Tile tile = Framing.GetTileSafely(k, l);
-                        switch (shape[y, x])
-                        {
-                            case 0:
-                                if (Main.netMode == NetmodeID.MultiplayerClient) // sync
-                                {
-                                    NetMessage.sendWater(k, l);
-                                }
-
-                                break;
-
-                            case 1:
-                                tile.type = TileID.WoodBlock;
-                                tile.IsActive = true;
-                                break;
-
-                            case 2:
-                                tile.type = TileID.RichMahogany;
-                                tile.Color = 28;
-                                tile.IsActive = true;
-                                break;
-
-                            case 3:
-                                tile.type = TileID.GoldCoinPile;
-                                tile.IsActive = true;
-                                break;
-
-                            case 4:
-                                tile.type = TileID.Platforms;
-                                tile.IsActive = true;
-                                break;
-
-                            case 5:
-                                tile.type = TileID.WoodenBeam;
-                                tile.IsActive = true;
-                                break;
-
-                            case 6:
-                                tile.type = TileID.SilkRope;
-                                tile.IsActive = true;
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
-        public static void PlaceShipWalls(int i, int j, int[,] shape)
-        {
-            for (int y = 0; y < shape.GetLength(0); y++)
-            {
-                for (int x = 0; x < shape.GetLength(1); x++)
-                {
-                    int k = i - 3 + x;
-                    int l = j - 6 + y;
-                    if (WorldGen.InWorld(k, l, 30))
-                    {
-                        Tile tile = Framing.GetTileSafely(k, l);
-                        switch (shape[y, x])
-                        {
-                            case 0:
-                                WorldGen.KillWall(y, x, false);
-                                break;
-
-                            case 1:
-                                tile.wall = WallID.Cloud;
-                                break;
-
-                            case 2:
-                                tile.wall = WallID.RichMahoganyFence;
-                                tile.WallColor = 28;
-                                break;
-
-                            case 3:
-                                tile.wall = WallID.Cloud;
-                                tile.WallColor = 29;
-                                break;
-
-                            case 4:
-                                tile.wall = WallID.Wood;
-                                break;
-
-                            case 5:
-                                tile.type = TileID.WoodenBeam;
-                                tile.IsActive = true;
-                                break;
-
-                            case 6:
-                                tile.wall = WallID.Sail;
-                                tile.WallColor = 29;
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
+        
         public static void ClearOval(int width, int height, Vector2 startingPoint)
         {
             for (int i = 0; i < width; i++)
@@ -810,9 +697,6 @@ namespace EEMod.EEWorld
 
         public static void DoAndAssignShipyardValues()
         {
-            PlaceShipWalls(100, TileCheckWater(100) - 22, ShipWalls);
-            PlaceShip(100, TileCheckWater(100) - 22, ShipTiles);
-
             for (int i = 140; i < 300; i++)
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
@@ -824,7 +708,7 @@ namespace EEMod.EEWorld
                     }
                     else if (tile.IsActive)
                     {
-                        PlaceShipyard(i, j - 11);
+                        PlaceShipyard(i, j - 13);
                         return;
                     }
                 }
@@ -833,20 +717,55 @@ namespace EEMod.EEWorld
 
         public static void PlaceShipyard(int x, int y)
         {
-            /*PlaceStructure(x + EndOfPier.GetLength(1), y - 13, SailorHouse);
-
-            PlaceStructure(x, y, EndOfPier);
-            PlaceStructure(x - MidPier1.GetLength(1), y, MidPier1);
-            PlaceStructure(x - MidPier1.GetLength(1) - MidPier2.GetLength(1), y, MidPier2);
-            PlaceStructure(x - MidPier1.GetLength(1) - MidPier2.GetLength(1) - FrontOfPier.GetLength(1), y, FrontOfPier);*/
-
             EEMod eemood = ModContent.GetInstance<EEMod>();
 
-            //Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Shipyard.lcs")).PlaceAt(x + EndOfPier.GetLength(1), y - 13);
+            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Pier.lcs")).PlaceAt(x - 52, y, true, true);
 
-            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Pier.lcs")).PlaceAt(x - 54, /*y */ 50);
+            int x2 = x - 47;
+            int y2 = y + 25;
 
-            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, /*y - 13*/ 50 - 13);
+            while (Main.tile[x2, y2 - 3].LiquidAmount > 64 || Main.tile[x2, y2].LiquidAmount > 64)
+            {
+                WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
+                WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
+
+                Main.tile[x2, y2].Slope = SlopeType.Solid;
+                Main.tile[x2 + 1, y2].Slope = SlopeType.Solid;
+
+                y2++;
+            }
+
+            x2 = x - 31;
+            y2 = y + 25;
+
+            while (Main.tile[x2, y2 - 3].LiquidAmount > 64 || Main.tile[x2, y2].LiquidAmount > 64)
+            {
+                WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
+                WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
+
+                Main.tile[x2, y2].Slope = SlopeType.Solid;
+                Main.tile[x2 + 1, y2].Slope = SlopeType.Solid;
+
+                y2++;
+            }
+
+            x2 = x - 15;
+            y2 = y + 25;
+
+            while (Main.tile[x2, y2 - 3].LiquidAmount > 64 || Main.tile[x2, y2].LiquidAmount > 64)
+            {
+                WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
+                WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
+
+                Main.tile[x2, y2].Slope = SlopeType.Solid;
+                Main.tile[x2 + 1, y2].Slope = SlopeType.Solid;
+
+                y2++;
+            }
+
+            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, y - 13, true, true);
+
+            Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/ruinedboat.lcs")).PlaceAt(x - 108, y, true, true);
         }
 
         public static int TileCheckWater(int positionX)

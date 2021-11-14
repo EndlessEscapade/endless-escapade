@@ -222,7 +222,6 @@ namespace EEMod.NPCs.Bosses.Hydros
                         break;
                 }
                 Item.NewItem((int)NPC.position.X, (int)NPC.position.Y, NPC.width, NPC.height, ItemType<HydrosScales>(), Main.rand.Next(28, 56));
-                EEWorld.EEWorld.downedHydros = true;
             }
             else
             {

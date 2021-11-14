@@ -1,5 +1,6 @@
 ﻿using EEMod.Items.Materials;
 using EEMod.NPCs;
+using EEMod.NPCs.TropicalIslands;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;

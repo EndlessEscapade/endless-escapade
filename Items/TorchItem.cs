@@ -33,11 +33,6 @@ namespace EEMod.Items
         private float alpha;
         private int proj = -1;
 
-        public override void UpdateInventory(Player player)
-        {
-            base.UpdateInventory(player);
-        }
-
         public override void HoldItem(Player player)
         {
             if(proj != -1) Main.projectile[proj].ai[0] = alpha;

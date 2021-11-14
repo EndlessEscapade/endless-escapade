@@ -31,11 +31,6 @@ namespace EEMod.Tiles.Ores
             MinPick = 30;
         }
 
-        public override bool CanExplode(int i, int j)
-        {
-            return EEWorld.EEWorld.downedHydros;
-        }
-
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.005f));

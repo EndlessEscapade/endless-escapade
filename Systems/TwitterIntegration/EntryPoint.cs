@@ -1,4 +1,4 @@
-﻿using Terraria;
+﻿/*using Terraria;
 using Terraria.ModLoader;
 using System.IO;
 using Terraria.ModLoader.IO;
@@ -18,4 +18,4 @@ namespace EEMod.Systems
             //if(Main.GameUpdateCount == 1) MessageListener.ListenForUser("AbubakarTafid10");
         }
     }
-}
+}*/

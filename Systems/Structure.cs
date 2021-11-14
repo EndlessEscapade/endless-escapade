@@ -150,7 +150,7 @@ namespace EEMod.Systems
 			PlacementActions = placementActions;
 		}
 
-		public void PlaceAt(int x, int y)
+		public void PlaceAt(int x, int y, bool keepWater = false, bool keepTiles = false)
 		{
 			int i = x;
 			int j = y;
@@ -159,16 +159,46 @@ namespace EEMod.Systems
 
 			foreach (PlacementAction action in PlacementActions)
 			{
-				if (action.Type == PlacementActionType.PlaceAirRepeated)
+				if (action.Type == PlacementActionType.PlaceAirRepeated && !keepTiles && !keepWater)
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
 						KillTile(z, j, false, noItem: true);
 
 					i += action.RepetitionData;
-				}
-				else if (action.Type == PlacementActionType.PlaceAir)
+                }
+                if (action.Type == PlacementActionType.PlaceAirRepeated && keepWater && !keepTiles)
+                {
+					for (int z = i; z < i + action.RepetitionData; z++)
+					{
+						byte liquid = Main.tile[z, j].LiquidAmount;
+
+						KillTile(z, j, false, noItem: true);
+
+						Main.tile[z, j].LiquidAmount = liquid;
+					}
+
+					i += action.RepetitionData;
+                }
+				if (action.Type == PlacementActionType.PlaceAirRepeated && keepTiles)
 				{
+					i += action.RepetitionData;
+				}
+				else if (action.Type == PlacementActionType.PlaceAir && keepTiles)
+				{
+					i++;
+				}
+				else if (action.Type == PlacementActionType.PlaceAir && keepWater && !keepTiles)
+				{
+					byte liquid = Main.tile[i, j].LiquidAmount;
+
 					KillTile(i, j, false, noItem: true);
+
+					Main.tile[i, j].LiquidAmount = liquid;
+
+					i++;
+				}
+				else if (action.Type == PlacementActionType.PlaceAir && !keepWater && !keepTiles)
+				{
 					i++;
 				}
 				else if (action.Type == PlacementActionType.PlaceTile)
@@ -940,7 +970,8 @@ namespace EEMod.Systems
 						KillTile(b, a, false, noItem: true);
 					}
 
-					Framing.GetTileSafely(b, a).LiquidAmount = 0;
+					//Framing.GetTileSafely(b, a).LiquidAmount = 0;
+					Framing.GetTileSafely(b, a).Slope = SlopeType.Solid;
 				}
 			}
 		}

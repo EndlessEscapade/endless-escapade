@@ -429,8 +429,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                 int watercheck = depth - 22;
 
-                PlaceShipWalls(boatPos, watercheck, ShipWalls);
-                PlaceShip(boatPos, watercheck, ShipTiles);
+                //PlaceShipWalls(boatPos, watercheck, ShipWalls);
+                //PlaceShip(boatPos, watercheck, ShipTiles);
                 CoralBoatPos = new Vector2(boatPos, watercheck);
 
                 RemoveWaterFromRegionWallsOnly(ShipTiles.GetLength(1), ShipTiles.GetLength(0), new Vector2(boatPos, watercheck));

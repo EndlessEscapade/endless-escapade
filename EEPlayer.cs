@@ -311,7 +311,7 @@ namespace EEMod
                     caughtType = ItemType<Spiritfish>();
                 }
 
-                if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<GlitteringPearlfish>() && downedCoralGolem)
+                /*if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<GlitteringPearlfish>() && downedCoralGolem)
                 {
                     caughtType = ItemType<GlitteringPearlfish>();
                 }
@@ -319,7 +319,7 @@ namespace EEMod
                 if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<Ironfin>() && downedTalos)
                 {
                     caughtType = ItemType<Ironfin>();
-                }
+                }*/
 
                 if (Main.rand.NextFloat() < 0.01f)
                 {

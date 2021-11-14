@@ -47,6 +47,56 @@ namespace EEMod
         public static void DrawAdditiveFunky(Texture2D tex, Vector2 position, Color colour, float scale, float intensity, float offset = 0)
         {
             Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+            EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));
+            EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
+            EEMod.RadialSurfacing.Parameters["alpha"].SetValue(intensity);
+            EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(colour.R, colour.G, colour.B, colour.A) / 255f);
+            EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
+            Main.spriteBatch.Draw(tex, position, tex.Bounds, colour, 0f, tex.TextureCenter(), scale, SpriteEffects.None, 0f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+        }
+        public static void DrawBloomed(Texture2D tex, Vector2 position, Color color, float scale, float rotation, float satVal, float radius, SpriteEffects sEffects = SpriteEffects.None)
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+            EEMod.BloomShader.Parameters["resolution"].SetValue(new Vector2(tex.Width, tex.Height));
+            EEMod.BloomShader.Parameters["satLevel"].SetValue(satVal);
+            EEMod.BloomShader.Parameters["radius"].SetValue(4f);
+            EEMod.BloomShader.Parameters["alphaMult"].SetValue(3f);
+
+            EEMod.BloomShader.CurrentTechnique.Passes[0].Apply();
+
+            Main.spriteBatch.Draw(tex, position, tex.Bounds, color, rotation, tex.TextureCenter(), scale, sEffects, 0f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+        }
+        public static void DrawBloomed(Texture2D tex, Vector2 position, Rectangle rect, Color color, float scale, float rotation, float satVal, float radius, SpriteEffects sEffects = SpriteEffects.None)
+        {
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
+
+            EEMod.BloomShader.Parameters["resolution"].SetValue(new Vector2(rect.Width, rect.Height));
+            EEMod.BloomShader.Parameters["satLevel"].SetValue(satVal);
+            EEMod.BloomShader.Parameters["radius"].SetValue(4f);
+            EEMod.BloomShader.Parameters["alphaMult"].SetValue(3f);
+
+            EEMod.BloomShader.CurrentTechnique.Passes[0].Apply();
+
+            Main.spriteBatch.Draw(tex, position, rect, color, rotation, new Vector2(rect.Width, rect.Height) / 2f, scale, sEffects, 0f);
+
+            Main.spriteBatch.End();
+            Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+        }
+        public static void DrawAdditiveFunky2(Texture2D tex, Vector2 position, Color colour, float scale, float intensity, float offset = 0)
+        {
+            Main.spriteBatch.End();
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f + offset), (float)Math.Cos(Main.GameUpdateCount / 60f - offset) * 0.1f));

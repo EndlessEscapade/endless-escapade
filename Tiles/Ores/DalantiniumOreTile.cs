@@ -30,10 +30,5 @@ namespace EEMod.Tiles.Ores
             MineResist = 1f;
             MinPick = 60;
         }
-
-        public override bool CanExplode(int i, int j)
-        {
-            return EEWorld.EEWorld.downedHydros;
-        }
     }
 }

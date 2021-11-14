@@ -6,7 +6,7 @@ using Terraria.Enums;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using System;
-using EEMod.NPCs.CoralReefs;
+using EEMod.NPCs.Aquamarine;
 using EEMod.Projectiles.Enemy;
 using EEMod.Extensions;
 using Terraria.ID;

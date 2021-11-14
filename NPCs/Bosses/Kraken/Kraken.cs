@@ -720,10 +720,5 @@ namespace EEMod.NPCs.Bosses.Kraken
             Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Bosses/Kraken/KrakenHeadGlowMask").Value;
             Main.spriteBatch.Draw(texture, NPC.Center - Main.screenPosition, NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
-
-        public override void OnKill()
-        {
-            EEWorld.EEWorld.downedKraken = true;
-        }
     }
 }

@@ -54,6 +54,10 @@ namespace EEMod
         public static Effect HydrosEmerge;
         [StaticShaderLoad]
         public static Effect LightningShader;
+        [StaticShaderLoad]
+        public static Effect PixelationShader;
+        [StaticShaderLoad]
+        public static Effect BloomShader;
 
         public static BasicEffect BasicEffect;
 

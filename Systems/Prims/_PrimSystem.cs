@@ -11,7 +11,7 @@ using EEMod.Effects;
 using EEMod.Items.Weapons.Mage;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
-using EEMod.NPCs.CoralReefs;
+
 using Terraria.ID;
 
 namespace EEMod.Prim

@@ -13,7 +13,7 @@ using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 
 using EEMod.Items.Weapons.Melee;
-using EEMod.NPCs.CoralReefs;
+
 using EEMod.Projectiles;
 
 namespace EEMod.Prim

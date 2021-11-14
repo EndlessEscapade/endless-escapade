@@ -6,7 +6,6 @@ using EEMod.Net;
 using EEMod.NPCs;
 using EEMod.NPCs.Bosses.Akumo;
 using EEMod.NPCs.Bosses.Hydros;
-using EEMod.NPCs.CoralReefs;
 using EEMod.Projectiles;
 using EEMod.Tiles;
 using EEMod.UI.States;
@@ -22,6 +21,7 @@ using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.SeamapContent;
 using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.NPCs.Aquamarine;
 
 namespace EEMod
 {

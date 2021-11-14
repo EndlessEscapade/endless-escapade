@@ -12,7 +12,7 @@ using EEMod.Items.Weapons.Mage;
 using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 using EEMod.Items.Weapons.Melee;
-using EEMod.NPCs.CoralReefs;
+
 using EEMod.Items.Weapons.Melee.Shivs;
 
 namespace EEMod.Prim

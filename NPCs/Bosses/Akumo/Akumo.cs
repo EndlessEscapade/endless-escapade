@@ -82,12 +82,6 @@ namespace EEMod.NPCs.Bosses.Akumo
             NPC.defense = 55;
         }
 
-        public override void OnKill()
-        {
-            EEWorld.EEWorld.downedAkumo = true;
-            //EEMod.ServBoolUpdate();
-        }
-
         private Vector2 addOn;
 
         private void switchPos(int mode)

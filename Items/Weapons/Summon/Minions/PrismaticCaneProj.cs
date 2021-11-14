@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.DataStructures;
 using Terraria.Enums;
 using Terraria.ObjectData;
-using EEMod.NPCs.CoralReefs;
+
 using EEMod.Projectiles.Enemy;
 using EEMod.Extensions;
 using EEMod.Prim;
