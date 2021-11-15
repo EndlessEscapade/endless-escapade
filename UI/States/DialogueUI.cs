@@ -19,7 +19,6 @@ namespace EEMod.UI.States
 		public static UIElement DialoguePoint;
 		public static string Dialogue;
 		public static DialogueBox Background;
-		public UIImage EE;
 		public string CurrentDialogue = "";
 		public int AddLetterTimer;
 		public int CurrentLetter;
