@@ -9,15 +9,17 @@ using EEMod.Extensions;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using Terraria.UI.Chat;
+using ReLogic.Content;
 
 namespace EEMod.UI.States
 {
 	public class DialogueUI : UIState
 	{
-		public static UIPanel Portrait;
+		public static UIImage Portrait;
 		public static UIElement DialoguePoint;
 		public static string Dialogue;
 		public static DialogueBox Background;
+		public UIImage EE;
 		public string CurrentDialogue = "";
 		public int AddLetterTimer;
 		public int CurrentLetter;
@@ -27,13 +29,10 @@ namespace EEMod.UI.States
 			Background.HAlign = 0.5f;
 			Background.VAlign = 1f;
 
-			Portrait = new UIPanel();
-			Portrait.Width.Set(120, 0);
-			Portrait.Height.Set(120, 0);
-			Portrait.HAlign = 0.05f;
-			Portrait.VAlign = 0.3f;
-			Portrait.BackgroundColor = Color.Red * 0.85f;
-			Background.Append(Portrait);
+			Portrait = new UIImage(ModContent.Request<Texture2D>("EEMod/icon", AssetRequestMode.ImmediateLoad).Value);
+			Portrait.HAlign = 0.9f;
+			Portrait.VAlign = 0.9f;
+;
 
 			DialoguePoint = new UIElement();
 			DialoguePoint.HAlign = 0.25f;
@@ -41,6 +40,7 @@ namespace EEMod.UI.States
 			Background.Append(DialoguePoint);
 
 			Append(Background);
+			Append(Portrait);
 		}
 		public override void Update(GameTime gameTime)
 		{
@@ -74,16 +74,15 @@ namespace EEMod.UI.States
 		public Color ThemeColor;
 		public DialogueBox() : base(ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxBackground"))
 		{
-			Texture = ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxBackground").Value;
+			Texture = ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxBackground", AssetRequestMode.ImmediateLoad).Value;
 			ThemeColor = Color.LightBlue;
-			SetVisibility(0.9f, 0.9f);
 		}
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{ 
 			var dimensions = GetDimensions();
-			int x = (int)(dimensions.X + Texture.Size().X);
-			int y = (int)(dimensions.Y + Texture.Size().Y);
-			spriteBatch.Draw(Texture, new Vector2(x, y), null, ThemeColor, 0f, Texture.Size(), 1.1f, SpriteEffects.None, 0f);
+			int x = (int)(dimensions.X + Texture.Size().X / 2);
+			int y = (int)(dimensions.Y);
+			spriteBatch.Draw(Texture, new Vector2(x, y), null, ThemeColor * 0.9f, 0f, Texture.Size(), 1f, SpriteEffects.None, 0f);
 		}
 	}
 }

@@ -15,10 +15,11 @@ namespace EEMod.Systems
 {
 	public class Dialogue
 	{
-		public List<string> DialoguePieces;
-		public Texture2D MainPortrait;
+		public List<string> DialoguePieces = new List<string>();
+		public List<Texture2D> Portraits = new List<Texture2D>();
 		public string Name;
 		public int AssociatedNPC;
+		public int CurrentPortrait;
 		public Color ThemeColor;
 		public virtual void StartDialogue()
 		{
@@ -30,6 +31,7 @@ namespace EEMod.Systems
 			EEMod.UI.SetState("DialogueInterface", "DialogueUI");
 			AssociatedNPC = associatedNPC;
 			DialogueUI.Background.ThemeColor = ThemeColor;
+			DialogueUI.Portrait.SetImage(Portraits[0]);
 			DialogueUI.Dialogue = (DialoguePieces[0].FormatString(100));
 			DialogueUI.Dialogue = DialoguePieces[0].FormatString(100);
 		}
@@ -44,9 +46,4 @@ namespace EEMod.Systems
 		}
 		public virtual void OnDialoguePieceFinished(int piece) { }
     }
-	public struct DialoguePiece
-	{
-		public string Text;
-		public int Instruction;
-	}
 }
