@@ -61,16 +61,12 @@ namespace EEMod.Tiles.Furniture
             {
                 //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 1;
 
-                if (EEMod.Inspect.Current)
+                player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
+                if (Main.netMode == NetmodeID.Server)
                 {
-
-                    player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
-                    if (Main.netMode == NetmodeID.Server)
-                    {
-                        var netMessage = Mod.GetPacket();
-                        netMessage.Write(player.GetModPlayer<EEPlayer>().triggerSeaCutscene);
-                        netMessage.Send();
-                    }
+                    var netMessage = Mod.GetPacket();
+                    netMessage.Write(player.GetModPlayer<EEPlayer>().triggerSeaCutscene);
+                    netMessage.Send();
                 }
             }
             else

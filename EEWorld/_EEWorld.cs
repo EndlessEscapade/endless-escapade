@@ -77,6 +77,8 @@ namespace EEMod.EEWorld
                 }
             }
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
+
+            //EESubWorlds.placedShipTether = false;
         }
 
         public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
@@ -280,6 +282,8 @@ namespace EEMod.EEWorld
             {
                 shipComplete = false;
             }
+
+
         }
 
         public static bool HydrosCheck()

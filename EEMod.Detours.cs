@@ -565,7 +565,7 @@ namespace EEMod
 
                 Main.spriteBatch.DrawString(FontAssets.MouseText.Value, "EEModDebug MenuMode: " + Main.menuMode.ToString(), new Vector2(50, 60), Color.AliceBlue, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
 
-                if (!Main.gameMenu)
+                if (!Main.gameMenu) 
                 {
                     Main.spriteBatch.DrawString(FontAssets.MouseText.Value, "EEModDebug Player Velocity X: " + Main.LocalPlayer.velocity.X.ToString(), new Vector2(50, 80), Color.AliceBlue, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
                     Main.spriteBatch.DrawString(FontAssets.MouseText.Value, "EEModDebug Player Velocity Y: " + Main.LocalPlayer.velocity.Y.ToString(), new Vector2(50, 100), Color.AliceBlue, 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);

@@ -34,15 +34,20 @@ namespace EEMod.Tiles
 
         public override bool PreDraw(ref Color lightColor)
         {
+            Projectile.timeLeft = 10000;
             if (!canspawn)
             {
                 canspawn = true;
-                Vector2 blah = ((pos1 + pos2) / 2f) + new Vector2(0, -8f + (4f * (float)Math.Sin(Main.GameUpdateCount / 60f)));
 
-                Helpers.DrawBezierProj(pos1, pos2, blah, blah, 0.015f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
+                Helpers.DrawBezierProj(pos1, pos2, pos1, pos2, 0.015f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
             }
 
-            return true;
+            return false;
+        }
+
+        public override void Kill(int timeLeft)
+        {
+            Projectile.timeLeft = 10000;
         }
 
         private bool canspawn = false;

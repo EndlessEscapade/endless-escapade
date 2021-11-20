@@ -37,6 +37,7 @@ namespace EEMod.EEWorld
         Right,
         Left
     }
+
     public partial class EEWorld
     {
         private static void StartSandstorm()
@@ -715,6 +716,8 @@ namespace EEMod.EEWorld
             }
         }
 
+        public static Vector2 shipCoords;
+
         public static void PlaceShipyard(int x, int y)
         {
             EEMod eemood = ModContent.GetInstance<EEMod>();
@@ -766,6 +769,8 @@ namespace EEMod.EEWorld
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, y - 13, true, true);
 
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/ruinedboat.lcs")).PlaceAt(x - 108, y, true, true);
+
+            shipCoords = new Vector2(x - 108, y);
         }
 
         public static int TileCheckWater(int positionX)

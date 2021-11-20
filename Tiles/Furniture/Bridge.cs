@@ -39,7 +39,7 @@ namespace EEMod.Tiles.Furniture
         {
             if (isSupport)
             {
-                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/BridgeSupport").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
+                Main.spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/BridgeSupport").Value, Projectile.Center - Main.screenPosition, new Rectangle(0, 0, 16, 16), lightColor, Projectile.rotation, new Vector2(16, 16) / 2, 1, SpriteEffects.None, 0);
                 return false;
             }
             return true;
@@ -79,7 +79,7 @@ namespace EEMod.Tiles.Furniture
         private float firstPosY = Main.LocalPlayer.Center.Y;
         private float secondPosY = (Main.LocalPlayer.Center - new Vector2(200, 200)).Y;
         public static float checkForLowest;
-        public static float trueControlPoint = (Main.LocalPlayer.Center.X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X) / 2;
+        //public static float trueControlPoint = (Main.LocalPlayer.Center.X + (Main.LocalPlayer.Center - new Vector2(200, 200)).X) / 2;
         public float chainsPerUse;
         public float rotDis;
         public bool isSupport;
@@ -123,61 +123,9 @@ namespace EEMod.Tiles.Furniture
                 checkForLowest = firstPosY;
             }
 
-            if (Main.LocalPlayer.controlUp)
-            {
-                firstPosX = Main.mouseX + Main.screenPosition.X;
-                firstPosY = Main.mouseY + Main.screenPosition.Y;
-                accelX = 0;
-                accelY = 0;
-                accel2 = 1;
-                amplitude = dipY;
-                if (dipY >= secondPosY)
-                {
-                    maxSpeedY = (dipY - secondPosY) / 20;
-                }
-                else
-                {
-                    maxSpeedY = (secondPosY - dipY) / 20;
-                }
-
-                if (dipX >= trueControlPoint)
-                {
-                    maxSpeedX = (dipX - trueControlPoint) / 20;
-                }
-                else
-                {
-                    maxSpeedX = (trueControlPoint - dipX) / 20;
-                }
-            }
-            if (Main.LocalPlayer.controlUseItem)
-            {
-                dipX = Main.mouseX + Main.screenPosition.X;
-                dipY = Main.mouseY + Main.screenPosition.Y;
-                accelX = 0;
-                accelY = 0;
-                accel2 = 1;
-                amplitude = dipY;
-                if (dipY >= checkForLowest)
-                {
-                    maxSpeedY = (dipY - checkForLowest) / 20;
-                }
-                else
-                {
-                    maxSpeedY = (checkForLowest - dipY) / 20;
-                }
-
-                if (dipX >= checkForLowest)
-                {
-                    maxSpeedX = (dipX - checkForLowest) / 20;
-                }
-                else
-                {
-                    maxSpeedX = (checkForLowest - dipX) / 20;
-                }
-            }
             secondPosX = endPoints.X;
             secondPosY = endPoints.Y;
-            if (dipX >= trueControlPoint)
+            /*if (dipX >= trueControlPoint)
             {
                 maxSpeedX *= 0.994f;
                 accel3 = (dipX - trueControlPoint) / 100f;
@@ -208,7 +156,7 @@ namespace EEMod.Tiles.Furniture
                 {
                     accelX = -maxSpeedX;
                 }
-            }
+            }*/
 
             //other
             if (dipY >= checkForLowest)

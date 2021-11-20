@@ -22,6 +22,7 @@ using static Terraria.ModLoader.ModContent;
 using EEMod.Seamap.SeamapContent;
 using EEMod.Systems.Subworlds.EESubworlds;
 using EEMod.NPCs.Aquamarine;
+using Terraria.DataStructures;
 
 namespace EEMod
 {
@@ -261,6 +262,8 @@ namespace EEMod
             }*/
         }
 
+        bool placedShipTether = false;
+
         public void UpdateWorld()
         {
             /*object tempLights = typeof(Lighting).GetField("tempLights", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null);
@@ -277,6 +280,20 @@ namespace EEMod
             {
                 Main.NewText("few");
             }*/
+
+            if(!placedShipTether)
+            {
+                int tetherProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TileExperimentation>()), 
+                    shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);
+
+                TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
+
+                tether.pos1 = (shipCoords * 16) + new Vector2(43 * 16, 2 * 16) + new Vector2(8, 8);
+                tether.pos2 = (shipCoords * 16) + new Vector2(56 * 16, 10 * 16) + new Vector2(8, 8);
+
+                placedShipTether = true;
+            }
+
             if (missingShipTiles != null)
             {
                 int lastNoOfShipTiles = missingShipTiles.Count;

@@ -32,7 +32,7 @@ namespace EEMod.NPCs.Friendly
             NPCID.Sets.AttackType[NPC.type] = 0;
             NPCID.Sets.AttackTime[NPC.type] = 90;
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
-            NPCID.Sets.HatOffsetY[NPC.type] = 4;
+            NPCID.Sets.HatOffsetY[NPC.type] = 0;
         }
 
         public override void SetDefaults()

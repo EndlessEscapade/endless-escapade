@@ -14,7 +14,7 @@ namespace EEMod.Items.Weapons.Summon.Minions
             DisplayName.SetDefault("Aqut");
             //  Main.projFrames[projectile.type] = 2;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.CountsAsHoming[Projectile.type] = true;
+            //ProjectileID.Sets.CountsAsHoming[Projectile.type] = true;
             Projectile.localNPCHitCooldown = 1;
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
         }
