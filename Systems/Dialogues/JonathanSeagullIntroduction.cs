@@ -7,9 +7,9 @@ using Mono.Cecil.Cil;
 using Terraria;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria.ModLoader;
 using EEMod.NPCs.Friendly;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
 
 namespace EEMod.Systems
 {
@@ -17,7 +17,7 @@ namespace EEMod.Systems
 	{
 		public override void StartDialogueRequiringNPC(int associatedNPC)
 		{
-			MainPortrait = ModContent.Request<Texture2D>("EEMod/icon").Value;
+			Portraits.Add(ModContent.Request<Texture2D>("EEMod/icon", AssetRequestMode.ImmediateLoad).Value);
 			Name = "Jonathan the Cool Seagull";
 			AssociatedNPC = associatedNPC;
 			ThemeColor = new Color(106, 255, 89);

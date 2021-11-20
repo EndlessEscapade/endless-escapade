@@ -35,7 +35,7 @@ namespace EEMod.ModSystems
         private readonly Dictionary<string, UserInterface> UIInterfaces = new Dictionary<string, UserInterface>();
         private readonly Dictionary<string, UIState> UIStates = new Dictionary<string, UIState>();
         private readonly Dictionary<UserInterface, UIState> Binds = new Dictionary<UserInterface, UIState>();
-        private readonly Dictionary<UserInterface, bool> ScalingTypes = new Dictionary<UserInterface, bool>();
+        private readonly List<UserInterface> StatesScaledWithGame = new List<UserInterface>();
         public override void UpdateUI(GameTime gameTime)
         {
             base.UpdateUI(gameTime);
@@ -59,7 +59,10 @@ namespace EEMod.ModSystems
             }
             var TheInterface = new UserInterface();
             UIInterfaces.Add(UIStateName, TheInterface);
-            ScalingTypes.Add(TheInterface, IsScaledWithGame);
+            if (IsScaledWithGame)
+            {
+                StatesScaledWithGame.Add(TheInterface);
+            }
             if (Bind != "")
             {
                 BindInterfaceToState(UIStateName, Bind);
@@ -178,7 +181,7 @@ namespace EEMod.ModSystems
         {
             foreach (UserInterface item in UIInterfaces.Values)
             {
-                if (item.CurrentState != null && !ScalingTypes[item])
+                if (item.CurrentState != null && !StatesScaledWithGame.Contains(item))
                 {
                     item.Draw(Main.spriteBatch, gameTime);
                 }
@@ -188,7 +191,7 @@ namespace EEMod.ModSystems
         {
             foreach (UserInterface item in UIInterfaces.Values)
             {
-                if (item.CurrentState != null && ScalingTypes[item])
+                if (item.CurrentState != null && StatesScaledWithGame.Contains(item))
                 {
                     item.Draw(Main.spriteBatch, gameTime);
                 }
