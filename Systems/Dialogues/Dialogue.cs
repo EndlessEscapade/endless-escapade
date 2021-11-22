@@ -43,7 +43,7 @@ namespace EEMod.Systems
 		public virtual void SayPiece(int piece) 
 		{
 			DialogueUI.Dialogue = (DialoguePieces[piece].FormatString(60));
-			DialogueUI.Piece = piece;
+			Piece = piece;
 		}
 		public virtual void PresentResponses(int[] responses) { }
 		public virtual void CloseDialogue() 
