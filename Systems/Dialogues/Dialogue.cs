@@ -21,23 +21,29 @@ namespace EEMod.Systems
 		public int AssociatedNPC;
 		public int CurrentPortrait;
 		public Color ThemeColor;
+		public bool LockPlayerMovement;
+		public int Piece;
 		public virtual void StartDialogue()
 		{
 			EEMod.UI.SetState("DialogueInterface", "DialogueUI");
+			DialogueUI.CurrentDialogueSystem = this;
 			DialogueUI.Background.ThemeColor = ThemeColor;
+			DialogueUI.Portrait.SetImage(Portraits[0]);
+			DialogueUI.Dialogue = DialoguePieces[0].FormatString(60);
 		}
 		public virtual void StartDialogueRequiringNPC(int associatedNPC)
 		{
 			EEMod.UI.SetState("DialogueInterface", "DialogueUI");
 			AssociatedNPC = associatedNPC;
+			DialogueUI.CurrentDialogueSystem = this;
 			DialogueUI.Background.ThemeColor = ThemeColor;
 			DialogueUI.Portrait.SetImage(Portraits[0]);
-			DialogueUI.Dialogue = (DialoguePieces[0].FormatString(100));
-			DialogueUI.Dialogue = DialoguePieces[0].FormatString(100);
+			DialogueUI.Dialogue = DialoguePieces[0].FormatString(60);
 		}
 		public virtual void SayPiece(int piece) 
 		{
-			DialogueUI.Dialogue = (DialoguePieces[piece].FormatString(100));
+			DialogueUI.Dialogue = (DialoguePieces[piece].FormatString(60));
+			DialogueUI.Piece = piece;
 		}
 		public virtual void PresentResponses(int[] responses) { }
 		public virtual void CloseDialogue() 

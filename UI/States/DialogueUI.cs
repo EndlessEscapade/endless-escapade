@@ -10,61 +10,85 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using Terraria.UI.Chat;
 using ReLogic.Content;
+using EEMod.Systems;
 
 namespace EEMod.UI.States
 {
 	public class DialogueUI : UIState
 	{
+		public static Dialogue CurrentDialogueSystem;
 		public static UIImage Portrait;
 		public static UIElement DialoguePoint;
-		public static string Dialogue;
 		public static DialogueBox Background;
-		public string CurrentDialogue = "";
+		public static string Dialogue;
+		public UIElement Box;
+		public string CurrentDialogueText = "";
 		public int AddLetterTimer;
 		public int CurrentLetter;
         public override void OnInitialize()
 		{
+			Box = new UIElement();
+			Box.Width.Set(780, 0f);
+			Box.Height.Set(200, 0f);
+			Box.HAlign = 0.5f;
+			Box.VAlign = 1f;
+
 			Background = new DialogueBox();
 			Background.HAlign = 0.5f;
 			Background.VAlign = 1f;
 
 			Portrait = new UIImage(ModContent.Request<Texture2D>("EEMod/icon", AssetRequestMode.ImmediateLoad).Value);
-			Portrait.HAlign = 0.9f;
-			Portrait.VAlign = 0.9f;
-;
+			Portrait.HAlign = 0.09f;
+			Portrait.VAlign = 0.5f;
 
 			DialoguePoint = new UIElement();
 			DialoguePoint.HAlign = 0.25f;
-			DialoguePoint.VAlign = 0.175f;
-			Background.Append(DialoguePoint);
+			DialoguePoint.VAlign = 0.18f;
 
-			Append(Background);
-			Append(Portrait);
+			Append(Box);
+			Box.Append(Background);
+			Box.Append(Portrait);
+			Box.Append(DialoguePoint);
 		}
 		public override void Update(GameTime gameTime)
-		{
+		{ 
             base.Update(gameTime);
-        }
+			if (CurrentLetter < Dialogue.Length && ++AddLetterTimer >= 2)
+			{
+				AddLetterTimer -= 2;
+				var letter = Dialogue[CurrentLetter];
+				CurrentLetter++;
+				CurrentDialogueText += letter;
+				if (letter == '.' || letter == '?')
+				{
+					AddLetterTimer -= 8;
+				}
+				else if (letter == ',')
+				{
+					AddLetterTimer -= 5;
+				}
+			}
+		}
 		public override void Draw(SpriteBatch spriteBatch)
 		{
 			base.Draw(spriteBatch);
-			if (CurrentLetter < Dialogue.Length && ++AddLetterTimer >= 3)
+			//Don't ask why this has to be here and not in Update I couldn't answer you
+			if (CurrentDialogueSystem.LockPlayerMovement && Main.mouseLeft && Main.mouseLeftRelease || Box.IsMouseHovering && Main.mouseLeft && Main.mouseLeftRelease)
 			{
-				AddLetterTimer -= 3;
-				var letter = Dialogue[CurrentLetter];
-				CurrentLetter++;
-				CurrentDialogue += letter;
-				if (letter == '.' || letter == '?')
-				{
-					AddLetterTimer -= 10;
-				}
-				if (letter == ',')
-				{
-					AddLetterTimer -= 7;
+				if (CurrentDialogueText == Dialogue)
+                {
+					CurrentDialogueText = "";
+					CurrentLetter = 0;
+					CurrentDialogueSystem.OnDialoguePieceFinished(CurrentDialogueSystem.Piece);
+                }
+                else
+                {
+					CurrentDialogueText = Dialogue;
+					CurrentLetter = Dialogue.Length;
 				}
 			}
 			var dimensions = DialoguePoint.GetDimensions();
-			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Terraria.GameContent.FontAssets.MouseText.Value, CurrentDialogue, new Vector2(dimensions.X, dimensions.Y), Color.White, 0f, Vector2.Zero, new Vector2(1.15f, 1.15f));
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Terraria.GameContent.FontAssets.MouseText.Value, CurrentDialogueText, new Vector2(dimensions.X, dimensions.Y), Color.White, 0f, Vector2.Zero, new Vector2(1.15f, 1.15f));
 		}
 	}
 	public class DialogueBox : UIImageButton

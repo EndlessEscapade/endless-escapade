@@ -21,6 +21,7 @@ namespace EEMod.Systems
 			Name = "Jonathan the Cool Seagull";
 			AssociatedNPC = associatedNPC;
 			ThemeColor = new Color(106, 255, 89);
+			LockPlayerMovement = true;
 			DialoguePieces = new List<string>()
 			{
 				/*0*/ "Hey bro, this place is pretty nice isn't it? The breeze is soooo cool.",
