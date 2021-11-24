@@ -3,6 +3,7 @@ using EEMod.Systems.Subworlds.EESubworlds;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Systems;
 
 namespace EEMod.Items
 {
@@ -30,8 +31,11 @@ namespace EEMod.Items
 
         public override bool? UseItem(Player player)
         {
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
-            SubworldManager.EnterSubworld<CoralReefs>(); 
+            //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
+            //SubworldManager.EnterSubworld<CoralReefs>(); 
+
+            Structure.SaveWorldStructureTo(132, 183, 45, 36, System.IO.Path.Combine(Main.SavePath, "builtboat"));
+
             return true;
         }
     }

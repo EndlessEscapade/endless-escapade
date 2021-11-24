@@ -440,7 +440,7 @@ namespace EEMod
 
         public void UpdateCutscenesAndTempShaders()
         {
-            Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
+            /*Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[RippleShader].IsActive())
             {
                 Filters.Scene.Activate(RippleShader, Player.Center).GetShader().UseOpacity(timerForCutscene);
@@ -463,7 +463,7 @@ namespace EEMod
                 {
                     Filters.Scene.Deactivate(SeaTransShader);
                 }
-            }
+            }*/
             if (timerForCutscene >= 1400)
             {
                 Initialize();

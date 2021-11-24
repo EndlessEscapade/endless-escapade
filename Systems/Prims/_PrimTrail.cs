@@ -32,15 +32,15 @@ namespace EEMod.Prim
         protected List<Vector2> _points = new List<Vector2>();
         protected bool _destroyed = false;
         public bool behindTiles = false;
-        protected VertexPositionColorTexture[] vertices;
+        public VertexPositionColorTexture[] vertices;
         protected int currentIndex;
         public bool ManualDraw;
 
-        public Primitive(Projectile projectile)
+        public Primitive(Entity entity)
         {
             TrailShader = new DefaultShader();
             _device = Main.graphics.GraphicsDevice;
-            BindableEntity = projectile;
+            BindableEntity = entity;
 
             SetDefaults();
 
@@ -57,7 +57,7 @@ namespace EEMod.Prim
             OnUpdate();
         }
 
-
+        public bool manualDraw = false;
         public void Draw()
         {
             vertices = new VertexPositionColorTexture[_noOfPoints];
@@ -68,8 +68,14 @@ namespace EEMod.Prim
 
             SetShaders(); //applying all shaders
 
-            if (_noOfPoints >= 1)
-                _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
+            if (!manualDraw)
+            {
+                if (_noOfPoints >= 1)
+                {
+                    _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
+                    Main.NewText("trollgebad");
+                }
+            }
 
             PostDraw();
         }

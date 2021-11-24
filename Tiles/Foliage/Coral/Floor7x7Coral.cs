@@ -16,6 +16,7 @@ namespace EEMod.Tiles.Foliage.Coral
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
+
             TileObjectData.newTile.Width = 7;
             TileObjectData.newTile.Height = 7;
             TileObjectData.newTile.Origin = new Point16(0, 0);
@@ -26,6 +27,7 @@ namespace EEMod.Tiles.Foliage.Coral
             TileObjectData.newTile.Direction = TileObjectDirection.None;
             // TileObjectData.newTile.LavaDeath = false;
             TileObjectData.addTile(Type);
+
             ModTranslation name = CreateMapEntryName();
             name.SetDefault("Big Coral");
             AddMapEntry(new Color(20, 60, 20), name);

@@ -50,14 +50,14 @@ namespace EEMod.Prim
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetNPC, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 
                 Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
 
-                EEMod.BloomShader.Parameters["resolution"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
-                EEMod.BloomShader.Parameters["satLevel"].SetValue(1f);
-                EEMod.BloomShader.Parameters["radius"].SetValue(4f);
-                EEMod.BloomShader.Parameters["alphaMult"].SetValue(3f);
+                //EEMod.BloomShader.Parameters["resolution"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
+                //EEMod.BloomShader.Parameters["satLevel"].SetValue(1f);
+                //EEMod.BloomShader.Parameters["radius"].SetValue(4f);
+                //EEMod.BloomShader.Parameters["alphaMult"].SetValue(3f);
 
-                EEMod.BloomShader.CurrentTechnique.Passes[0].Apply();
+                //EEMod.BloomShader.CurrentTechnique.Passes[0].Apply();
 
                 Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetNPC, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             }

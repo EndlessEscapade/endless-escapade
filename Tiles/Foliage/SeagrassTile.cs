@@ -42,9 +42,11 @@ namespace EEMod.Tiles.Foliage
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            if (Main.tile[i, j + 1].type != ModContent.TileType<SeagrassTile>() && Main.tile[i, j + 1].type != ModContent.TileType<CoralSandTile>())
+            if (Main.tile[i, j + 1].type != ModContent.TileType<SeagrassTile>() && Main.tile[i, j + 1].type != ModContent.TileType<CoralSandTile>() && Main.tile[i, j + 1].type != TileID.Sand)
             {
-                Main.tile[i, j].ClearTile();
+                //Main.tile[i, j].ClearTile();
+
+                WorldGen.KillTile(i, j);
             }
 
             return true;
@@ -87,7 +89,7 @@ namespace EEMod.Tiles.Foliage
                 zero = Vector2.Zero;
             }
 
-            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
+            Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + (int)(Math.Sin((Main.GameUpdateCount / 20f) + i - (j / 3f)) * 3f), j * 16 - (int)Main.screenPosition.Y) + zero;
 
             Rectangle rect = new Rectangle(frameX * 16, frameY * 16, 16, 16);
 
@@ -95,7 +97,7 @@ namespace EEMod.Tiles.Foliage
 
             if (frameX == 1)
             {
-                Lighting.AddLight(new Vector2(i * 16, j * 16), Color.Gold.ToVector3() * 0.25f);
+                Lighting.AddLight(new Vector2(i * 16, j * 16), Color.Yellow.ToVector3() * 0.25f);
 
                 Main.spriteBatch.Draw(tex, position, new Rectangle(32, frameY * 16, 16, 16), Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
             }

@@ -17,7 +17,7 @@ namespace EEMod.Prim
 {
     class JellyfishPrims : Primitive
     {
-        public JellyfishPrims(Projectile projectile) : base(projectile)
+        public JellyfishPrims(NPC projectile) : base(projectile)
         {
             BindableEntity = projectile;
         }
@@ -74,6 +74,71 @@ namespace EEMod.Prim
                 AddVertex(firstUp, c * Alpha, new Vector2((i / _cap), 0));
             }
         }
+
+        /*Jellyfish ja = (npc.modNPC as Jellyfish);
+        Cap = ja.cap;
+                    List<List<List<Vector2>>> tentacle = new List<List<List<Vector2>>>();
+
+                    for (int b = 0; b< 2; b++)
+                    {
+                        List<List<Vector2>> tempTentA = new List<List<Vector2>>();
+                        for (int a = 0; a<ja.noOfTentacles / 2; a++)
+                        {
+                            List<Vector2> tempTent = new List<Vector2>();
+                            for (int i = 0; i<Cap; i++)
+                            {
+                                tempTent.Add(ja.lol1[a, (int)Cap - i - 1, b]);
+                            }
+    tempTentA.Add(tempTent);
+                        }
+tentacle.Add(tempTentA);
+                    }
+
+                    List<VertexPositionColorTexture[]> vertices2 = new List<VertexPositionColorTexture[]>();
+vertices = new VertexPositionColorTexture[noOfPoints];
+
+float width = 2;
+float alphaValue = 0.8f;
+for (int b = 0; b < tentacle.Count; b++)
+{
+    for (int a = 0; a < tentacle[b].Count; a++)
+    {
+        for (int i = 1; i < tentacle[b][a].Count - 1; i++)
+        {
+
+            Color base1 = new Color(7, 86, 122);
+            Color base2 = new Color(255, 244, 173);
+
+            Color drawColour = Lighting.GetColor((int)npc.Center.X / 16, (int)npc.Center.Y / 16);
+            Color c = Color.Lerp(Color.DarkCyan, base2, i / Cap).MultiplyRGB(drawColour);
+            Color c1 = Color.Lerp(Color.DarkCyan, base2, (i + 1) / Cap).MultiplyRGB(drawColour);
+
+            Vector2 normal = CurveNormal(tentacle[b][a], i);
+            Vector2 normalAhead = CurveNormal(tentacle[b][a], i + 1);
+
+            float j = (Cap - (i * 0.9f)) / Cap;
+            width = (i / Cap) * 3;
+
+            Vector2 firstUp = tentacle[b][a][i] - normal * width;
+            Vector2 firstDown = tentacle[b][a][i] + normal * width;
+            Vector2 secondUp = tentacle[b][a][i + 1] - normalAhead * width;
+            Vector2 secondDown = tentacle[b][a][i + 1] + normalAhead * width;
+
+            AddVertex(firstDown, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+            AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+            AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f), (float)Math.Sin(lerper / 20f)));
+
+            AddVertex(secondUp, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+            AddVertex(secondDown, c1 * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+            AddVertex(firstUp, c * alphaValue, new Vector2((float)Math.Sin(lerper / 20f) * j, (float)Math.Sin(lerper / 20f) * j));
+        }
+
+        vertices2.Add(vertices);
+        PrepareBasicShader();
+        device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices2[a], 0, noOfPoints / 3);
+    }
+}
+                }*/
         public override void SetShaders()
         {
             PrepareBasicShader();

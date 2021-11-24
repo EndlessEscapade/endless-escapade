@@ -640,9 +640,12 @@ namespace EEMod
                     X(i - chainsPerUse, startingPos.X, c1.X, c2.X, endPoints.X),
                     Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) -
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
+
                     projTrueRotation = distBetween.ToRotation() + rotDis;
+
                     int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(projType), new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X), Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y)), Vector2.Zero, projType, 0, 0f, Main.myPlayer, 0, i);
                     Main.projectile[proj].rotation = projTrueRotation;
+                    
                     if (misckeep % 3 == 0)
                     {
                         misc = true;
@@ -658,6 +661,16 @@ namespace EEMod
                         bridge.isSupport = misc;
                         bridge.chainsPerUse = chainsPerUse;
                         bridge.rotDis = rotDis;
+
+                        bridge.firstPosX = startingPos.X;
+                        bridge.firstPosY = startingPos.Y;
+
+                        bridge.endPoints = endPoints;
+
+                        bridge.dipX = c1.X;
+                        bridge.dipY = c1.Y;
+
+                        bridge.c1 = c1;
                     }
                 }
             }

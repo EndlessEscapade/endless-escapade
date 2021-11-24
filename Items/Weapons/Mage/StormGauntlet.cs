@@ -7,13 +7,13 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using EEMod.Prim;
 
-namespace EEMod.Items.Weapons.Melee
+namespace EEMod.Items.Weapons.Mage
 {
-    public class Sparkstorm : EEItem
+    public class StormGauntlet : EEItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Sparkstorm");
+            DisplayName.SetDefault("Storm Gauntlet");
         }
 
         public override void SetDefaults()

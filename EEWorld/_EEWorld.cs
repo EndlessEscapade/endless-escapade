@@ -27,6 +27,7 @@ using EEMod.VerletIntegration;
 using EEMod.Prim;
 using EEMod.Systems.Subworlds.EESubworlds;
 using Terraria.UI;
+using EEMod.NPCs.Friendly;
 
 namespace EEMod.EEWorld
 {
@@ -78,6 +79,8 @@ namespace EEMod.EEWorld
             }
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
 
+            builtShip = ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/builtboat.lcs");
+
             //EESubWorlds.placedShipTether = false;
         }
 
@@ -128,8 +131,8 @@ namespace EEMod.EEWorld
 
         public override void PostWorldGen()
         {
-            DoAndAssignShrineValues();
             DoAndAssignShipyardValues();
+
             for (int i = 0; i < sinDis.Length; i++)
             {
                 sinDis[i].X = Main.rand.NextFloat(0, 0.03f);
@@ -323,7 +326,9 @@ namespace EEMod.EEWorld
             tag.TryGetListRef("CoralMinibiomesSizes", ref sizes);
             tag.TryGetListRef("CoralMinibiomesIds", ref ids);
 
-            for(int i = 0; i < positions.Count; i++)
+            tag.TryGetRef("ShipCoords", ref shipCoords);
+
+            for (int i = 0; i < positions.Count; i++)
             { 
                 if(ids[i] == (int)MinibiomeID.None)
                 {
@@ -475,6 +480,7 @@ namespace EEMod.EEWorld
             tag["EntracesPosses"] = EntracesPosses;
             tag["yes"] = yes;
             tag["ree"] = ree;
+            tag["ShipCoords"] = shipCoords;
         }
     }
 }

@@ -38,12 +38,14 @@ namespace EEMod.NPCs.LowerReefs
 
             NPC.damage = 5;
         }
+
         float counter;
         public int cap = 15;
         public Vector2[,,] lol1;
         public int noOfTentacles = 8;
         float counter2;
         public Color drawColour;
+
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             this.drawColour = drawColor;
@@ -53,6 +55,7 @@ namespace EEMod.NPCs.LowerReefs
             Main.spriteBatch.Draw(tex, new Rectangle((int)pos.X, (int)pos.Y, tex.Width + (int)(Math.Sin(counter2) * 2) - 5, tex.Height + (int)(Math.Cos(counter2) * 5) - 2), NPC.frame, Color.Lerp(drawColor, Color.MediumPurple, (float)Math.Sin(counter2) * 0.2f), NPC.rotation, NPC.frame.Size() / 2, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             return false;
         }
+
         public void UpdateJellyfishTesting()
         {
             NPC.rotation = NPC.velocity.X / 16f;
@@ -120,6 +123,7 @@ namespace EEMod.NPCs.LowerReefs
                 }
             }
         }
+
         public override void AI()
         {
             UpdateJellyfishTesting();
@@ -133,7 +137,7 @@ namespace EEMod.NPCs.LowerReefs
             NPC.velocity *= 0.98f;
             if (NPC.ai[1] == 0)
             {
-                //EEMod.prims.CreateTrailWithNPC(null, NPC);
+                //Prim.CreateTrailWithNPC(null, NPC);
                 NPC.ai[1] = 1;
             }
             NPC.ai[0]++;

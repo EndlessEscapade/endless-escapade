@@ -55,9 +55,16 @@ namespace EEMod
         [StaticShaderLoad]
         public static Effect LightningShader;
         [StaticShaderLoad]
+        public static Effect TornSailShader;
+        [StaticShaderLoad]
         public static Effect PixelationShader;
         [StaticShaderLoad]
         public static Effect BloomShader;
+
+        [StaticShaderLoad]
+        public static Effect HydrosDye;
+        [StaticShaderLoad]
+        public static Effect AquamarineDye;
 
         public static BasicEffect BasicEffect;
 
@@ -117,18 +124,14 @@ namespace EEMod
 
                 LightingBuffer.Parameters["screenSize"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
 
-                //someone auto load dyes plz im lz
-                Ref<Effect> hydrosDye = new Ref<Effect>(instance.Assets.Request<Effect>("Effects/HydrosDye", AssetRequestMode.ImmediateLoad).Value);
-                Ref<Effect> aquamarineDye = new Ref<Effect>(instance.Assets.Request<Effect>("Effects/AquamarineDye", AssetRequestMode.ImmediateLoad).Value);
-
                 Filters.Scene["EEMod:Akumo"] = new Filter(new AkumoScreenShaderData("FilterMiniTower").UseColor(0.9f, 0.5f, 0.2f).UseOpacity(0.6f), EffectPriority.VeryHigh);
                 Filters.Scene["EEMod:SavingCutscene"] = new Filter(new SavingSkyData("FilterMiniTower").UseColor(0f, 0.20f, 1f).UseOpacity(0.3f), EffectPriority.High);
 
                 SkyManager.Instance["EEMod:Akumo"] = new AkumoSky();
                 SkyManager.Instance["EEMod:SavingCutscene"] = new SavingSky();
 
-                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(hydrosDye, "HydrosDyeShader"));
-                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(aquamarineDye, "AquamarineDyeShader"));
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(HydrosDye), "HydrosDyeShader"));
+                GameShaders.Armor.BindShader(ModContent.ItemType<HydrosDye>(), new ArmorShaderData(new Ref<Effect>(AquamarineDye), "AquamarineDyeShader"));
 
                 //instance.Assets.Request<Effect>("Effects/Noise2D").Value.Parameters["noiseTexture"].SetValue(instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
 

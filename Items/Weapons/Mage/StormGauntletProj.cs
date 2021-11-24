@@ -10,8 +10,9 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using EEMod.Projectiles.CoralReefs;
 using Terraria.GameContent;
+using EEMod.Items.Weapons.Melee;
 
-namespace EEMod.Items.Weapons.Melee
+namespace EEMod.Items.Weapons.Mage
 {
     public class StormGauntletProj : EEProjectile
     {

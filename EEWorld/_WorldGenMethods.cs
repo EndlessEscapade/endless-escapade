@@ -26,6 +26,7 @@ using Microsoft.Xna.Framework.Graphics;
 using EEMod.Extensions;
 using EEMod.Systems.Noise;
 using EEMod.Systems;
+using EEMod.Tiles.Foliage;
 
 namespace EEMod.EEWorld
 {
@@ -698,16 +699,118 @@ namespace EEMod.EEWorld
 
         public static void DoAndAssignShipyardValues()
         {
-            for (int i = 140; i < 300; i++)
+            for (int i = 0; i < 300; i++)
             {
-                for (int j = 0; j < Main.maxTilesY; j++)
+                for (int j = (int)(Main.worldSurface * 0.35f); j < Main.rockLayer; j++)
                 {
+                    if (!WorldGen.InWorld(i, j)) break;
+
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile.LiquidAmount > 64)
+
+                    if (tile.LiquidAmount > 0)
                     {
+                        //Ocean surface worldgen
+
+                        /*switch (WorldGen.genRand.Next(3))
+                        {
+                            case 0:
+                                WorldGen.PlaceTile(i, j, ModContent.TileType<LilyPadSmol>());
+                                break;
+
+                            case 1:
+                                WorldGen.PlaceTile(i, j, ModContent.TileType<LilyPadMedium>());
+                                break;
+
+                            default:
+                                break;
+                        }*/
+
+                        for (int k = j; k < Main.rockLayer; k++)
+                        {
+                            Tile tile2 = Framing.GetTileSafely(i, k);
+
+                            if (tile2.IsActive && tile2.type == TileID.Sand && 
+                                !Framing.GetTileSafely(i, k - 1).IsActive && Framing.GetTileSafely(i, k - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(3))
+                            {
+                                //Ocean floor worldgen
+
+                                Main.tile[i, k].Slope = 0;
+
+                                switch(WorldGen.genRand.Next(3))
+                                {
+                                    case 0:
+                                        int rand = WorldGen.genRand.Next(7, 20);
+
+                                        for (int l = k - 1; l >= k - rand; l--)
+                                        {
+                                            Main.tile[i, l].type = (ushort)ModContent.TileType<SeagrassTile>();
+                                            Main.tile[i, l].IsActive = true;
+                                        }
+                                        break;
+                                    case 1:
+                                        int rand2 = WorldGen.genRand.Next(4, 13);
+
+                                        for (int l = k - 1; l >= k - rand2; l--)
+                                        {
+                                            Main.tile[i, l].type = TileID.Seaweed;
+                                            Main.tile[i, l].IsActive = true;
+
+                                            if(l == k - rand2)
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
+                                            }
+                                            else
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
+                                            }
+                                        }
+                                        break;
+                                    case 2:
+                                        //WorldGen.PlaceTile(i, k - 2, TileID.DyePlants, false, false, -1, 6);
+
+                                        /*Main.tile[i, k - 2].type = TileID.DyePlants;
+                                        Main.tile[i, k - 2].frameX = 11 * 16;
+                                        Main.tile[i, k - 2].IsActive = true;
+
+                                        Main.tile[i, k - 1].type = TileID.DyePlants;
+                                        Main.tile[i, k - 1].frameX = 11 * 16;
+                                        Main.tile[i, k - 1].frameY = 1 * 16;
+                                        Main.tile[i, k - 1].IsActive = true;*/
+
+                                        int rand3 = WorldGen.genRand.Next(4, 8);
+
+                                        for (int l = k - 1; l >= k - rand3; l--)
+                                        {
+                                            Main.tile[i, l].type = TileID.Bamboo;
+                                            Main.tile[i, l].IsActive = true;
+
+                                            if (l == k - 1)
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
+                                            }
+                                            else if (l == k - rand3)
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
+                                            }
+                                            else
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
+                                            }
+                                        }
+
+                                        break;
+                                }
+
+                                //WorldGen.PlaceTile(i, k - 2=, TileID.Sandcastles);
+
+                                break;
+                            }
+                        }
+
                         break;
                     }
-                    else if (tile.IsActive)
+
+                    else if (tile.IsActive && tile.type == TileID.Sand)
                     {
                         PlaceShipyard(i, j - 13);
                         return;
@@ -717,6 +820,7 @@ namespace EEMod.EEWorld
         }
 
         public static Vector2 shipCoords;
+        public static byte[] builtShip;
 
         public static void PlaceShipyard(int x, int y)
         {
@@ -726,45 +830,32 @@ namespace EEMod.EEWorld
 
             int x2 = x - 47;
             int y2 = y + 25;
-
-            while (Main.tile[x2, y2 - 3].LiquidAmount > 64 || Main.tile[x2, y2].LiquidAmount > 64)
+            
+            void DoTheThing()
             {
-                WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
-                WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
+                while (Main.tile[x2, y2 - 3].LiquidAmount > 64 || Main.tile[x2, y2].LiquidAmount > 64)
+                {
+                    WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
+                    WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
 
-                Main.tile[x2, y2].Slope = SlopeType.Solid;
-                Main.tile[x2 + 1, y2].Slope = SlopeType.Solid;
+                    Main.tile[x2, y2].Slope = SlopeType.Solid;
+                    Main.tile[x2 + 1, y2].Slope = SlopeType.Solid;
 
-                y2++;
+                    y2++;
+                }
             }
+
+            DoTheThing();
 
             x2 = x - 31;
             y2 = y + 25;
 
-            while (Main.tile[x2, y2 - 3].LiquidAmount > 64 || Main.tile[x2, y2].LiquidAmount > 64)
-            {
-                WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
-                WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
-
-                Main.tile[x2, y2].Slope = SlopeType.Solid;
-                Main.tile[x2 + 1, y2].Slope = SlopeType.Solid;
-
-                y2++;
-            }
+            DoTheThing();
 
             x2 = x - 15;
             y2 = y + 25;
 
-            while (Main.tile[x2, y2 - 3].LiquidAmount > 64 || Main.tile[x2, y2].LiquidAmount > 64)
-            {
-                WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
-                WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
-
-                Main.tile[x2, y2].Slope = SlopeType.Solid;
-                Main.tile[x2 + 1, y2].Slope = SlopeType.Solid;
-
-                y2++;
-            }
+            DoTheThing();
 
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, y - 13, true, true);
 
@@ -945,7 +1036,7 @@ namespace EEMod.EEWorld
 
         public static void ClearRegion(int width, int height, Vector2 startingPoint)
         {
-            string messageBefore = EEMod.progressMessage;
+            //string messageBefore = EEMod.progressMessage;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -953,10 +1044,13 @@ namespace EEMod.EEWorld
                     if (WorldGen.InWorld(i + (int)startingPoint.X, j + (int)startingPoint.Y, 2))
                     {
                         Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
+
                         tile.ClearTile();
-                        WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                        EEMod.progressMessage = messageBefore;
-                        EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
+                        tile.wall = WallID.None;
+                        tile.WallColor = PaintID.None;
+
+                        //EEMod.progressMessage = messageBefore;
+                        //EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
                 }
             }
@@ -1094,9 +1188,9 @@ namespace EEMod.EEWorld
                     }
                 }
             }*/
-        }
+                                }
 
-        public static void GenerateLuminite()
+                                public static void GenerateLuminite()
         {
             for (int i = 0; i < Main.maxTilesX; i++)
             {

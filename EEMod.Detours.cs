@@ -457,7 +457,9 @@ namespace EEMod
                 foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
                 {
                     if (!trail.behindTiles && !trail.ManualDraw)
+                    {
                         trail.Draw();
+                    }
                 }
 
                 Main.spriteBatch.End();
@@ -964,7 +966,6 @@ namespace EEMod
                     {
                         SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
                     }
-
                 }
             }
         }
