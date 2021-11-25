@@ -141,6 +141,9 @@ namespace EEMod.NPCs.Friendly
                         }
                     }
 
+
+                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X + 10, (int)EEWorld.EEWorld.shipCoords.Y + 7, ModContent.TileType<WoodenShipsWheelTile>());
+
                     shipBuilt = true;
                 }
 

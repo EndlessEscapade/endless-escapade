@@ -32,11 +32,5 @@ namespace EEMod.NPCs.CoralReefs
             npc.lavaImmune = false;
             npc.noTileCollide = false;
         }
-        /*         protected int cap = 15;
-        protected int noOfTentacles = 8;
-        protected Color drawColour;
-
-        public override int _cap => 15;
-        public override int _noOfTentacles => 2;
     }
 }*/

@@ -150,7 +150,7 @@ namespace EEMod.Systems
 			PlacementActions = placementActions;
 		}
 
-		public void PlaceAt(int x, int y, bool keepWater = false, bool keepTiles = false)
+		public void PlaceAt(int x, int y, bool keepWater = false, bool keepTiles = false, bool submerge = false)
 		{
 			int i = x;
 			int j = y;
@@ -159,6 +159,13 @@ namespace EEMod.Systems
 
 			foreach (PlacementAction action in PlacementActions)
 			{
+				if (submerge)
+				{
+					Tile tile = Framing.GetTileSafely(i, j);
+					tile.LiquidType = 0;
+					tile.LiquidAmount = 255;
+				}
+
 				if (action.Type == PlacementActionType.PlaceAirRepeated && !keepTiles && !keepWater)
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
@@ -207,6 +214,12 @@ namespace EEMod.Systems
 					tile.type = EntryToTileID[action.EntryData];
 					tile.IsActive = true;
 
+					if (submerge)
+					{
+						tile.LiquidType = 0;
+						tile.LiquidAmount = 255;
+					}
+
 					i++;
 				}
 				else if (action.Type == PlacementActionType.PlaceTileRepeated)
@@ -216,6 +229,12 @@ namespace EEMod.Systems
 						Tile tile = Framing.GetTileSafely(z, j);
 						tile.type = EntryToTileID[action.EntryData];
 						tile.IsActive = true;
+
+						if (submerge)
+						{
+							tile.LiquidType = 0;
+							tile.LiquidAmount = 255;
+						}
 					}
 
 					i += action.RepetitionData;
@@ -243,7 +262,7 @@ namespace EEMod.Systems
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
 						Tile tile = Framing.GetTileSafely(z, j);
-						tile.LiquidType = 0;;
+						tile.LiquidType = 0;
 						tile.LiquidAmount = action.LiquidData;
 					}
 
@@ -254,7 +273,7 @@ namespace EEMod.Systems
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
 						Tile tile = Framing.GetTileSafely(z, j);
-						tile.LiquidType = 1;;
+						tile.LiquidType = 1;
 						tile.LiquidAmount = action.LiquidData;
 					}
 
@@ -265,7 +284,7 @@ namespace EEMod.Systems
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
 						Tile tile = Framing.GetTileSafely(z, j);
-						tile.LiquidType = 2;;
+						tile.LiquidType = 2;
 						tile.LiquidAmount = action.LiquidData;
 					}
 
@@ -274,24 +293,54 @@ namespace EEMod.Systems
 				else if (action.Type == PlacementActionType.PlaceWall)
 				{
 					PlaceWall(i, j, EntryToWallID[action.EntryData], true);
+
+					if (submerge)
+					{
+						Main.tile[i, j].LiquidType = 0;
+						Main.tile[i, j].LiquidAmount = 255;
+					}
+
 					i++;
 				}
 				else if (action.Type == PlacementActionType.PlaceWallRepeated)
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
+					{
 						PlaceWall(z, j, EntryToWallID[action.EntryData], true);
+
+						if (submerge)
+						{
+							Main.tile[z, j].LiquidType = 0;
+							Main.tile[z, j].LiquidAmount = 255;
+						}
+					}
 
 					i += action.RepetitionData;
 				}
 				else if (action.Type == PlacementActionType.PlaceEmptyWall)
 				{
 					KillWall(i, j, false);
+
+					if (submerge)
+					{
+						Main.tile[i, j].LiquidType = 0;
+						Main.tile[i, j].LiquidAmount = 255;
+					}
+
 					i++;
 				}
 				else if (action.Type == PlacementActionType.PlaceEmptyWallRepeated)
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
+					{
 						KillWall(z, j, false);
+
+						if (submerge)
+						{
+							Main.tile[z, j].LiquidType = 0;
+							Main.tile[z, j].LiquidAmount = 255;
+						}
+					}
 
 					i += action.RepetitionData;
 				}
@@ -303,6 +352,12 @@ namespace EEMod.Systems
 						tile.type = EntryToTileID[action.EntryData];
 						tile.Slope = (SlopeType)action.SlopeData;
 						tile.IsActive = true;
+
+						if (submerge)
+						{
+							tile.LiquidType = 0;
+							tile.LiquidAmount = 255;
+						}
 					}
 
 					i++;
@@ -317,6 +372,12 @@ namespace EEMod.Systems
 							tile.type = EntryToTileID[action.EntryData];
 							tile.Slope = (SlopeType)action.SlopeData;
 							tile.IsActive = true;
+
+							if (submerge)
+							{
+								tile.LiquidType = 0;
+								tile.LiquidAmount = 255;
+							}
 						}
 					}
 
@@ -330,6 +391,12 @@ namespace EEMod.Systems
 						tile.type = EntryToTileID[action.EntryData];
 						tile.IsHalfBlock = true;
 						tile.IsActive = true;
+
+						if (submerge)
+						{
+							tile.LiquidType = 0;
+							tile.LiquidAmount = 255;
+						}
 					}
 
 					i++;
@@ -344,6 +411,12 @@ namespace EEMod.Systems
 							tile.type = EntryToTileID[action.EntryData];
 							tile.IsHalfBlock = true;
 							tile.IsActive = true;
+
+							if (submerge)
+							{
+								tile.LiquidType = 0;
+								tile.LiquidAmount = 255;
+							}
 						}
 					}
 
@@ -362,6 +435,12 @@ namespace EEMod.Systems
 						tile.frameX = frameX;
 						tile.frameY = frameY;
 						tile.IsActive = true;
+
+						if (submerge)
+						{
+							tile.LiquidType = 0;
+							tile.LiquidAmount = 255;
+						}
 					}
 
 					i++;
@@ -369,7 +448,15 @@ namespace EEMod.Systems
 				else if (action.Type == PlacementActionType.PaintTile)
 				{
 					if (InWorld(i, j))
+					{
 						Main.tile[i, j].Color = (byte)action.EntryData;
+
+						if (submerge)
+						{
+							Main.tile[i, j].LiquidType = 0;
+							Main.tile[i, j].LiquidAmount = 255;
+						}
+					}
 
 					i++;
 				}
@@ -377,14 +464,30 @@ namespace EEMod.Systems
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
 						if (InWorld(z, j))
+						{
 							Main.tile[z, j].Color = (byte)action.EntryData;
+
+							if (submerge)
+							{
+								Main.tile[z, j].LiquidType = 0;
+								Main.tile[z, j].LiquidAmount = 255;
+							}
+						}
 
 					i += action.RepetitionData;
 				}
 				else if (action.Type == PlacementActionType.PaintWall)
 				{
 					if (InWorld(i, j))
+					{
 						Main.tile[i, j].WallColor = (byte)action.EntryData;
+
+						if (submerge)
+						{
+							Main.tile[i, j].LiquidType = 0;
+							Main.tile[i, j].LiquidAmount = 255;
+						}
+					}
 
 					i++;
 				}
@@ -392,7 +495,15 @@ namespace EEMod.Systems
 				{
 					for (int z = i; z < i + action.RepetitionData; z++)
 						if (InWorld(z, j))
+						{
 							Main.tile[z, j].WallColor = (byte)action.EntryData;
+
+							if (submerge)
+							{
+								Main.tile[z, j].LiquidType = 0;
+								Main.tile[z, j].LiquidAmount = 255;
+							}
+						}
 
 					i += action.RepetitionData;
 				}

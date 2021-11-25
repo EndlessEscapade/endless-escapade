@@ -41,7 +41,7 @@ namespace EEMod.Items.Armor.Kelpweaver
 
         public override void UpdateArmorSet(Player player)
         {
-            //player.GetModPlayer<KelpweaverPlayer>().kelpweaverSet = true;
+            player.GetModPlayer<KelpweaverPlayer>().kelpweaverSet = true;
         }
     }
 
@@ -52,14 +52,14 @@ namespace EEMod.Items.Armor.Kelpweaver
             //kelpLayer.Draw
         }
 
-        //public KelpweaverLayer kelpLayer;
+        public KelpweaverLayer kelpLayer;
 
-        //public bool kelpweaverSet = false;
+        public bool kelpweaverSet = false;
         public bool HasInteractedWithSlotBefore;
 
         public override void PostUpdate()
         {
-            /*if (kelpweaverSet)
+            if (kelpweaverSet)
             {
                 if (Main.playerInventory)
                 {
@@ -77,7 +77,7 @@ namespace EEMod.Items.Armor.Kelpweaver
                     }
                     EEMod.UI.RemoveState("KelpArmorAmmoInterface");
                 }
-            }*/
+            }
         }
 
         /*public override TagCompound Save()
@@ -94,11 +94,11 @@ namespace EEMod.Items.Armor.Kelpweaver
         }*/
     }
 
-    /*public class KelpweaverLayer : PlayerDrawLayer
+    public class KelpweaverLayer : PlayerDrawLayer
     {
         public override Position GetDefaultPosition()
         {
-            return default;
+            return new BeforeParent(PlayerDrawLayers.Head);
         }
 
         private static float Approach(ref float val, float desiredVal, float speed)
@@ -128,7 +128,7 @@ namespace EEMod.Items.Armor.Kelpweaver
 
             KelpweaverPlayer modPlayer = player.GetModPlayer<KelpweaverPlayer>();
 
-            //if (modPlayer.kelpweaverSet)
+            if (modPlayer.kelpweaverSet)
             {
                 Texture2D arm = ModContent.Request<Texture2D>("EEMod/Items/Armor/Kelpweaver/KelpweaverArm").Value;
                 Texture2D armGlow = ModContent.Request<Texture2D>("EEMod/Items/Armor/Kelpweaver/KelpweaverArmGlow").Value;
@@ -230,5 +230,5 @@ namespace EEMod.Items.Armor.Kelpweaver
                 }
             }
         }
-    }*/
+    }
 }

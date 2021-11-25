@@ -11,6 +11,7 @@ using Terraria.ObjectData;
 using EEMod.Items.Placeables.Furniture;
 using EEMod.EEWorld;
 using EEMod.UI.States;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.Tiles.Furniture
 {
@@ -46,13 +47,14 @@ namespace EEMod.Tiles.Furniture
             Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<WoodenShipsWheel>());
         }
 
-        private bool isIntersecting;
-        public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
+        /*private bool isIntersecting;
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             //int frameX = Framing.GetTileSafely(i, j).frameX;
             //int frameY = Framing.GetTileSafely(i, j).frameY;
+
             Player player = Main.LocalPlayer;
-            if (new Rectangle((int)player.position.X / 16, (int)player.position.Y / 16, 1, 2).Intersects(new Rectangle(i, j, 1, 1)) && !isIntersecting)
+            if (new Rectangle((int)player.position.X, (int)player.position.Y, 32, 48).Intersects(new Rectangle(i * 16, j * 16, 32, 48)) && !isIntersecting)
                 isIntersecting = true;
             else
                 isIntersecting = false;
@@ -68,11 +70,31 @@ namespace EEMod.Tiles.Furniture
                     netMessage.Write(player.GetModPlayer<EEPlayer>().triggerSeaCutscene);
                     netMessage.Send();
                 }
+
+                //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
+                //SubworldManager.EnterSubworld<Sea>();
             }
             else
             {
                 //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 0;
             }
+
+            return true;
+        }*/
+
+        public override bool RightClick(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+
+            player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
+            if (Main.netMode == NetmodeID.Server)
+            {
+                var netMessage = Mod.GetPacket();
+                netMessage.Write(player.GetModPlayer<EEPlayer>().triggerSeaCutscene);
+                netMessage.Send();
+            }
+
+            return true;
         }
     }
 }
