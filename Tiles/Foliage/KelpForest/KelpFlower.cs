@@ -29,6 +29,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             Main.tileFrameImportant[Type] = true;
             Main.tileNoAttach[Type] = true;
             Main.tileLavaDeath[Type] = false;
+            TileID.Sets.HasOutlines[Type] = true;
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
 
@@ -50,6 +51,14 @@ namespace EEMod.Tiles.Foliage.KelpForest
             DustType = DustID.PurpleTorch;
             DisableSmartCursor = true;
             AnimationFrameHeight = 66;
+            AdjTiles = new int[] { TileID.Painting3X3 };
+        }
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+            player.noThrow = 2;
+            player.cursorItemIconEnabled = true;
+            player.cursorItemIconID = ModContent.ItemType<Moyai>();
         }
 
         public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
@@ -87,7 +96,6 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             ModContent.GetInstance<KelpFlowerTE>().Kill(i, j);
         }
-
         public override bool RightClick(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j);
