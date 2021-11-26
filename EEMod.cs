@@ -61,13 +61,6 @@ namespace EEMod
         public DialogueUI DialogueUI;
         public ComponentManager<TileObjVisual> TVH;
 
-        /*            if (Main.netMode != NetmodeID.Server)
-            {
-                trailManager.UpdateTrails();
-                //prims.UpdateTrails();
-                primitives.UpdateTrailsAboveTiles();
-            }*/
-
         public override void Load()
         {
             TVH = new ComponentManager<TileObjVisual>();
@@ -111,7 +104,9 @@ namespace EEMod
             ActivateVerletEngine = KeybindLoader.RegisterKeybind(this, "Activate VerletEngine", Keys.N);
 
             //IL.Terraria.IO.WorldFile.SaveWorldTiles += ILSaveWorldTiles;
-            Main.QueueMainThreadAction(() => {
+
+            Main.QueueMainThreadAction(() => 
+            {
                 if (!Main.dedServ)
                 {
                     AutoloadingManager.LoadManager(this);
@@ -123,13 +118,13 @@ namespace EEMod
                       SpeedrunnTimer.SetState(RunUI);
                     */
 
-                        if (Main.netMode != NetmodeID.Server)
-                        {
-                            PrimitiveSystem.trailManager = new TrailManager(this);
-                            //PrimSystem.primitives.CreateTrail(new RainbowLightTrail(null));
-                        }
+                    if (Main.netMode != NetmodeID.Server)
+                    {
+                        PrimitiveSystem.trailManager = new TrailManager(this);
+                    }
                     LoadUI();
                 }
+
                 LoadIL();
                 LoadDetours();
                 if (!Main.dedServ)
@@ -138,7 +133,6 @@ namespace EEMod
                     Particles.AddZone("Main", 40000);
                     MainParticles = Particles.Get("Main");
                 }
-                //InitializeAmbience();
             });
 
             //Example
@@ -147,19 +141,12 @@ namespace EEMod
 
             PrimitiveSystem.primitives.Load();
 
-
-            Main.QueueMainThreadAction(() =>
-            {
-                additiveRT = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
-            });
-
             MusicLoader.AddMusic(this, "Assets/Music/SurfaceReefs");
         }
 
         public override void Unload()
         {
             //IL.Terraria.IO.WorldFile.SaveWorldTiles -= ILSaveWorldTiles;
-            //HandwritingCNN = null;
             PrismShader = null;
             SpireShine = null;
             Noise2D = null;
@@ -304,114 +291,8 @@ namespace EEMod
                 ItemID.Sapphire,
                 ItemID.Topaz
             });
-            // Registers the new recipe group with the specified name
+
             RecipeGroup.RegisterGroup("EEMod:Gemstones", group0);
         }
-
-        /*public override void AddRecipes()
-        {
-            ModRecipe recipe = new ModRecipe(this);
-            recipe.AddIngredient(ItemType<SaharaSceptoid>(), 1);
-            recipe.AddIngredient(ItemID.CrystalShard, 8);
-            recipe.AddIngredient(ItemID.SoulofLight, 5);
-            recipe.AddTile(TileID.MythrilAnvil);
-            recipe.SetResult(ItemID.CrystalSerpent, 1);
-            recipe.AddRecipe();
-
-            recipe = new ModRecipe(this);
-            recipe.AddIngredient(ItemType<QuartzicLifeFragment>(), 1);
-            recipe.AddIngredient(ItemID.Gel, 25);
-            recipe.AddIngredient(ItemID.Wood, 10);
-            recipe.AddTile(TileID.Solidifier);
-            recipe.SetResult(ItemID.SlimeStaff, 1);
-            recipe.AddRecipe();
-        }*/
-
-        //mechanic port
-
-        /*public override void UpdateMusic(ref int music, ref MusicPriority priority)
-        {
-            if (Main.gameMenu)
-                return;
-
-            Player player = Main.LocalPlayer;
-            EEPlayer eeplayer = player?.GetModPlayer<EEPlayer>();
-
-            if (eeplayer == null)
-                return;
-
-            if (Main.worldName == KeyID.CoralReefs)
-            {
-                if (Main.LocalPlayer.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
-                {
-                    LayeredMusic.ShouldLayerMusic = true;
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/SurfaceReefs");
-                    priority = MusicPriority.Environment;
-                }
-
-                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 4 * 16)
-                {
-                    LayeredMusic.ShouldLayerMusic = true;
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs");
-                    priority = MusicPriority.Environment;
-                }
-
-                if (Main.LocalPlayer.Center.Y >= ((Main.maxTilesY / 10) * 4) * 16 && Main.LocalPlayer.Center.Y < (Main.maxTilesY / 10) * 7 * 16)
-                {
-                    LayeredMusic.ShouldLayerMusic = true;
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs");
-                    priority = MusicPriority.Environment;
-                }
-
-                if (eeplayer.reefMinibiome == MinibiomeID.KelpForest)
-                {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/KelpForest");
-                    priority = MusicPriority.BiomeHigh;
-                }
-                
-                if (eeplayer.reefMinibiome == MinibiomeID.AquamarineCaverns)
-                {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/Aquamarine");
-                    priority = MusicPriority.BiomeHigh;
-                }
-
-                if (eeplayer.reefMinibiome == MinibiomeID.GlowshroomGrotto)
-                {
-                    music = GetSoundSlot(SoundType.Music, "Sounds/Music/GlowshroomGrotto");
-                    priority = MusicPriority.BiomeHigh;
-                }
-
-                if ((int)MinibiomeID.ThermalVents < length)
-                {
-                    if (eeplayer.reefMinibiome[(int)MinibiomeID.ThermalVents])
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/ThermalVents");
-                        priority = MusicPriority.BiomeHigh;
-                    }
-                }
-            }
-
-            for (int i = 0; i < Main.maxNPCs; i++)
-            {
-                NPC npc = Main.npc[i];
-                if (npc.ModNPC is AquamarineSpire spire)
-                {
-                    if (spire.awake)
-                    {
-                        music = GetSoundSlot(SoundType.Music, "Sounds/Music/AquamarineSpire");
-                        priority = MusicPriority.BossLow;
-                    }
-                }
-            }
-
-
-            if (Main.worldName == KeyID.Sea)
-            {
-                music = GetSoundSlot(SoundType.Music, "Sounds/Music/Seamap");
-                priority = MusicPriority.BiomeHigh;
-            }
-
-            MechanicManager.UpdateMusic(ref music, ref priority);
-        }*/
     }
 }

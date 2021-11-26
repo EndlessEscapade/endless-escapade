@@ -73,7 +73,6 @@ namespace EEMod.Prim
                 if (_noOfPoints >= 1)
                 {
                     _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
-                    Main.NewText("trollgebad");
                 }
             }
 

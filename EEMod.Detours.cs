@@ -50,6 +50,16 @@ namespace EEMod
 
         WaterPrimitive WP;
 
+        float bgAlpha;
+
+        private int osSucksAtBedwars;
+        private float textPositionLeft;
+        private bool wasDoingWorldGen = false;
+
+        public RenderTarget2D additiveRT;
+
+        public static float lerp;
+
         private void LoadDetours()
         {
             On.Terraria.Lighting.AddLight_int_int_float_float_float += Lighting_AddLight_int_int_float_float_float;
@@ -65,18 +75,44 @@ namespace EEMod
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             Main.OnPreDraw += Main_OnPreDraw;
             On.Terraria.Main.DrawTiles += Main_DrawTiles1;
+            On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
+
             //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
-            //On.Terraria.Main.DrawPlayerChat += Main_DrawPlayerChat;
-            //On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
             //On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
-            //On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float += Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
-            //On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
+
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
-            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
+            On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
+
             WP = new WaterPrimitive(null);
-            PrimitiveSystem.primitives.CreateTrail(WP);;
+            PrimitiveSystem.primitives.CreateTrail(WP);
         }
+
+        private void UnloadDetours()
+        {
+            On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
+            On.Terraria.Main.Update -= Main_Update;
+            On.Terraria.Main.Draw -= Main_Draw;
+            On.Terraria.Main.DrawBG -= Main_DrawBG;
+            On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
+            On.Terraria.Main.DrawWoF -= Main_DrawWoF;
+            On.Terraria.Main.DrawWalls -= Main_DrawWalls;
+            On.Terraria.Main.DrawTiles -= Main_DrawTiles;
+            On.Terraria.Main.DrawWater -= Main_DrawWater1;
+            On.Terraria.Main.DrawBackground -= Main_DrawBackground1;
+            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
+            Main.OnPreDraw -= Main_OnPreDraw;
+            On.Terraria.Main.DrawTiles -= Main_DrawTiles1;
+            On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
+            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
+            On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
+            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
+            On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= LiquidRenderer_InternalDraw;
+            On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
+        }
+
 
         private void Main_DrawTiles1(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
         {
@@ -136,7 +172,8 @@ namespace EEMod
 
         private void UIWorldListItem_ctor(On.Terraria.GameContent.UI.Elements.UIWorldListItem.orig_ctor orig, UIWorldListItem self, WorldFileData data, int orderInList, bool canBePlayed)
         {
-            //orig(self, data, snapPointIndex);
+            orig(self, data, orderInList, canBePlayed);
+
             string EEPath = $@"{Main.SavePath}\Worlds\{data.Name}Subworlds";
             List<string> SubworldsUnlocked = new List<string>();
 
@@ -167,11 +204,13 @@ namespace EEMod
             {
                 num += 24f;
             }
+
             //foreach (string SW in SubworldsUnlocked)
             //{
             //    SLock += $" {SW},";
             //}
             //SLock = SLock.TrimEnd(',', ' ');
+
             string SLock = SubworldsUnlocked.Count > 0 ? string.Join(", ", SubworldsUnlocked) : "No Unlocked Islands"; // TODO: Localization maybe?
             UIText buttonLabel = new UIText(SLock)
             {
@@ -187,6 +226,8 @@ namespace EEMod
 
         private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
         {
+            //DrawSpiderPort();
+
             /*if (Main.worldName == KeyID.CoralReefs)
             {
                 if (Main.LocalPlayer.Center.Y > 3000)
@@ -249,68 +290,20 @@ namespace EEMod
             orig(self, solidOnly, forRenderTargets, intoRenderTargets, waterStyleOverride);
         }
 
-        private void UnloadDetours()
-        {
-            //On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= LiquidRenderer_InternalDraw;
-            //On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
-            On.Terraria.Main.DrawBackground -= Main_DrawBackground1;
-            On.Terraria.Lighting.AddLight_int_int_float_float_float -= Lighting_AddLight_int_int_float_float_float;
-            //On.Terraria.Main.DoUpdate -= Main_DoUpdate;
-            On.Terraria.Main.Draw -= Main_Draw;
-            //On.Terraria.Main.DrawPlayerChat -= Main_DrawPlayerChat;
-            On.Terraria.Main.DrawBG -= Main_DrawBG;
-            On.Terraria.Main.DrawProjectiles -= Main_DrawProjectiles;
-            On.Terraria.Main.DrawWoF -= Main_DrawWoF;
-            //On.Terraria.Main.DrawTiles -= Main_DrawTiles;
-            On.Terraria.Main.DrawWater -= Main_DrawWater1;
-            On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
-            On.Terraria.Main.DrawWalls -= Main_DrawWalls;
-            Main.OnPreDraw -= Main_OnPreDraw;
-            On.Terraria.Main.DrawTiles -= Main_DrawTiles1;
-            //On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
-            //On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
-            //On.Terraria.Projectile.NewProjectile_float_float_float_float_int_int_float_int_float_float -= Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float;
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
-            On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
-            On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
-        }
-
         private void LiquidRenderer_InternalDraw(On.Terraria.GameContent.Liquid.LiquidRenderer.orig_InternalDraw orig, Terraria.GameContent.Liquid.LiquidRenderer self, SpriteBatch spriteBatch, Vector2 drawOffset, int waterStyle, float globalAlpha, bool isBackgroundDraw)
         {
             orig(self, spriteBatch, drawOffset, waterStyle, globalAlpha, isBackgroundDraw);
         }
-        private void Main_DrawPlayerChat(On.Terraria.Main.orig_DrawPlayerChat orig, Main self, Player drawPlayer, Vector2 Position, float rotation, Vector2 rotationOrigin, float shadow)
-        {
-            // if(!Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
-            //orig(self, drawPlayer, Position, rotation, rotationOrigin, shadow);
-            if (!Main.gameMenu)
-            {
-               // if (Main.LocalPlayer.GetModPlayer<EEPlayer>().isLight)
-               // {
-                    /* Particles.Get("Main").SetSpawningModules(new SpawnRandomly(0.004f));
-                     Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 0f, 0.04f, 0.01f));
-                     Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.33f, 0.04f, 0.01f));
-                     Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, ModContent.GetInstance<EEMod>().GetTexture("Particles/Cross"), 200, 1, null, new CircularMotionSinSpin(3, 15, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));
-                     Particles.Get("Main").SpawnParticles(Main.LocalPlayer.Center, null, null, 200, 1, null, new CircularMotionSinSpin(1, 1, 0.06f, Main.LocalPlayer, 0, 6.28f * 0.66f, 0.04f, 0.01f));*/
-               // }
 
-            }
-            //Helpers.DrawAdditive(ModContent.GetInstance<EEMod>().GetTexture("Masks/RadialGradientSlit"), Main.LocalPlayer.Center.ForDraw() + Main.LocalPlayer.velocity/3f, Color.White * (0.9f * Main.LocalPlayer.velocity.Length()/5f), (0.8f * Main.LocalPlayer.velocity.Length() / 10f), Main.LocalPlayer.velocity.ToRotation() + 3.14f);
-        }
-
-        /*private void Main_CacheNPCDraws(On.Terraria.Main.orig_CacheNPCDraws orig, Main self)
-        {
-            //DrawSpiderPort();
-            orig(self);
-        }
         private void Main_DrawGoreBehind(On.Terraria.Main.orig_DrawGoreBehind orig, Main self)
         {
             orig(self);
         }
+
         private void Main_DrawNPC1(On.Terraria.Main.orig_DrawNPC orig, Main self, int iNPCIndex, bool behindTiles)
         {
             orig(self, iNPCIndex, behindTiles);
-        }*/
+        }
 
         private void WorldGen_SaveAndQuitCallBack(On.Terraria.WorldGen.orig_SaveAndQuitCallBack orig, object threadContext)
         {
@@ -354,32 +347,6 @@ namespace EEMod
             //spriteBatch.Draw(texture, new Vector2(position.X + width - 8f, position.Y), new Rectangle(16, 0, 8, texture.Height), Color.White);
         }
 
-        public void DrawCR()
-        {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            var Bubbles = modPlayer.bubbles;
-            for (int i = 0; i < Bubbles.Count; i++)
-            {
-                Vector2 pos = Bubbles[i].Position + new Vector2(Main.LocalPlayer.Center.X * Bubbles[i].paralax, 0);
-                Color drawColour = Lighting.GetColor((int)pos.X / 16, (int)pos.Y / 16).MultiplyRGB(new Color(Bubbles[i].alpha, Bubbles[i].alpha, Bubbles[i].alpha));
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Particles/ForegroundParticles/Bob1").Value, pos.ForDraw(), null, drawColour * Bubbles[i].alpha, Bubbles[i].Velocity.ToRotation() + Bubbles[i].rotation, Vector2.Zero, Bubbles[i].scale, SpriteEffects.None, 0);
-            }
-        }
-
-        //CHAD NAME
-        /*private int Projectile_NewProjectile_float_float_float_float_int_int_float_int_float_float(On.Terraria.Projectile.orig_NewProjectile_float_float_float_float_int_int_float_int_float_float orig, float X, float Y, float SpeedX, float SpeedY, int Type, int Damage, float KnockBack, int Owner, float ai0, float ai1)
-        {
-            int index = orig(X, Y, SpeedX, SpeedY, Type, Damage, KnockBack, Owner, ai0, ai1);
-
-            if (Main.netMode != NetmodeID.Server)
-            {
-                trailManager.DoTrailCreation(Main.projectile[index]);
-            }
-
-            return index;
-        }*/
-
-        float bgAlpha;
         private void Main_DrawWoF(On.Terraria.Main.orig_DrawWoF orig, Main self)
         {
             foreach (IComponent Updateable in Updatables)
@@ -392,7 +359,6 @@ namespace EEMod
 
             if (Main.worldName == KeyID.CoralReefs)
             {
-                DrawCR();
                 /*if (Main.LocalPlayer.Center.Y >= (Main.maxTilesY / 20f) * 16)
                 {
                     DrawCoralReefsBg();
@@ -438,8 +404,6 @@ namespace EEMod
             //WP.Draw();
             orig(self);
         }
-
-        public RenderTarget2D additiveRT;
 
         private void Main_OnPreDraw(GameTime obj)
         {
@@ -555,9 +519,6 @@ namespace EEMod
             orig(self);
         }
 
-        private int osSucksAtBedwars;
-        private float textPositionLeft;
-        private bool wasDoingWorldGen = false;
         private void Main_Draw(On.Terraria.Main.orig_Draw orig, Main self, GameTime gameTime)
         {
            orig(self, gameTime);
@@ -970,7 +931,6 @@ namespace EEMod
             }
         }
 
-        public static float lerp;
         private void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
         {
             if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)

@@ -801,26 +801,6 @@ namespace EEMod
                     UpdateCR();
                     break;
                 }
-                case KeyID.Island:
-                {
-                    UpdateIsland();
-                    break;
-                }
-                case KeyID.VolcanoIsland:
-                {
-                    UpdateVolcano();
-                    break;
-                }
-                case KeyID.VolcanoInside:
-                {
-                    UpdateInnerVolcano();
-                    break;
-                }
-                case KeyID.Cutscene1:
-                {
-                    UpdateCutscene();
-                    break;
-                }
                 default:
                 {
                     UpdateWorld();

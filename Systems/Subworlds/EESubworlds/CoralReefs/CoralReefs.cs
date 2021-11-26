@@ -114,9 +114,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 190), ModContent.TileType<LightGemsandTile>(), 10);
 
-            for (int i = 50; i < Main.maxTilesX - 100; i++)
+            /*for (int i = 50; i < Main.maxTilesX - 100; i++)
             {
-                if (i >= boatPos - 60 && i <= boatPos + ShipTiles.GetLength(1)) i += 50;
+                if (i >= boatPos - 60 && i <= boatPos) i += 50;
 
                 if (WorldGen.genRand.NextBool(200))
                 {
@@ -331,6 +331,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
 
                 #region Implementing dynamic objects
+
+                /*
                 EEMod.progressMessage = "Adding Dynamics";
 
                 for (int j = 42; j < ((Main.maxTilesY / 10f) * 4f); j += 2)
@@ -361,33 +363,34 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                             }
                         }*/
 
-                        /*for (int m = 0; m < BulbousTreePosition.Count; m++)
-                        {
-                            if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 20 * 20)
-                            {
-                                ifa++;
-                            }
-                        }*/
+                /*for (int m = 0; m < BulbousTreePosition.Count; m++)
+                {
+                    if (Vector2.DistanceSquared(new Vector2(i, j), BulbousTreePosition[m]) < 20 * 20)
+                    {
+                        ifa++;
+                    }
+                }
 
-                        if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(3))
+                if ((TileCheck2(i, j) == 3 || TileCheck2(i, j) == 4) && WorldGen.genRand.NextBool(3))
+                {
+                    if (CoralReefVineLocations.Count == 0)
+                    {
+                        CoralReefVineLocations.Add(new Vector2(i, j));
+                    }
+                    else
+                    {
+                        Vector2 lastPos = CoralReefVineLocations[CoralReefVineLocations.Count - 1];
+                        if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 &&
+                            Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 55 * 55 ||
+                            Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 150 * 150)
                         {
-                            if (CoralReefVineLocations.Count == 0)
-                            {
-                                CoralReefVineLocations.Add(new Vector2(i, j));
-                            }
-                            else
-                            {
-                                Vector2 lastPos = CoralReefVineLocations[CoralReefVineLocations.Count - 1];
-                                if (Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 5 * 5 &&
-                                    Vector2.DistanceSquared(lastPos, new Vector2(i, j)) < 55 * 55 ||
-                                    Vector2.DistanceSquared(lastPos, new Vector2(i, j)) > 150 * 150)
-                                {
-                                    CoralReefVineLocations.Add(new Vector2(i, j));
-                                }
-                            }
+                            CoralReefVineLocations.Add(new Vector2(i, j));
                         }
                     }
                 }
+            }
+        }*/
+
                 #endregion
 
                 #region Smoothing
@@ -432,8 +435,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 //PlaceShipWalls(boatPos, watercheck, ShipWalls);
                 //PlaceShip(boatPos, watercheck, ShipTiles);
                 CoralBoatPos = new Vector2(boatPos, watercheck);
-
-                RemoveWaterFromRegionWallsOnly(ShipTiles.GetLength(1), ShipTiles.GetLength(0), new Vector2(boatPos, watercheck));
 
                 for (int i = 42; i < Main.maxTilesX - 84; i++)
                 {
@@ -613,7 +614,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void PlayerUpdate(Player player)
         {
-           
+
         }
 
         public static PerlinNoiseFunction perlinNoise;
@@ -894,7 +895,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             else
                 return 0;
         }
-
 
         public static void CreateNoise(bool ensureN, Point position, Point size, int width, int height, float thresh)
         {

@@ -1,4 +1,4 @@
-/*using EEMod.ID;
+using EEMod.ID;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -10,8 +10,10 @@ namespace EEMod.EEWorld.ModBiomes
 	public class SurfaceReefs : ModBiome
 	{
 		public override bool IsPrimaryBiome => true;
-		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("EEmod/Waters/CoralWaterStyle"); // Sets a water style for when inside this biome
+		public override ModWaterStyle WaterStyle => ModContent.Find<ModWaterStyle>("EEMod/Waters/CoralWaterStyle"); // Sets a water style for when inside this biome
+
 		//public override ModSurfaceBackgroundStyle SurfaceBackgroundStyle => ModContent.Find<ModSurfaceBackgroundStyle>("EEMod/");
+
 		public override CaptureBiome.TileColorStyle TileColorStyle => CaptureBiome.TileColorStyle.Normal;
 		public override int Music => MusicLoader.GetMusicSlot(Mod, "Assets/Music/SurfaceReefs");
 
@@ -23,9 +25,10 @@ namespace EEMod.EEWorld.ModBiomes
 		{
 			DisplayName.SetDefault("Surface Reefs");
 		}
+
 		public override bool IsBiomeActive(Player player)
 		{
 			return Main.ActiveWorldFileData.Name == KeyID.CoralReefs;
 		}
 	}
-}*/
+}

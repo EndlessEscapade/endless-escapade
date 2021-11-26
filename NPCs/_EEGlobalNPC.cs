@@ -19,17 +19,6 @@ namespace EEMod.NPCs
     {
         public override void OnKill(NPC npc)
         {
-            /*if (Main.LocalPlayer.GetModPlayer<EEPlayer>().Cheese1 == false)
-            {
-                if (npc.type == NPCID.KingSlime)
-                {
-                    Item.NewItem(npc.getRect(), ModContent.ItemType<Cheese>(), 1);
-                }
-            }*/
-            if (npc.type == NPCID.MoonLordCore && !NPC.downedMoonlord)
-            {
-                EEWorld.EEWorld.GenerateLuminite();
-            }
             //if (npc.type == ModContent.NPCType<Seahorse>() && EEWorld.EEWorld.downedHydros && Main.rand.Next(3) == 0)
             //{
             //    Item.NewItem(npc.getRect(), ModContent.ItemType<HydrosScales>(), Main.rand.Next(1, 4));

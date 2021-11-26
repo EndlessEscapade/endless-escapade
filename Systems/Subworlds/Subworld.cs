@@ -1,4 +1,3 @@
-
 using EEMod.Systems.Subworlds.EESubworlds;
 using Microsoft.Xna.Framework;
 using System;

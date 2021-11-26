@@ -34,7 +34,7 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
-        //private delegate void D(ref VertexColors colors);
+        private delegate void D(ref VertexColors colors);
         private float _alphaBG;
         private Vector2 _sunPos;
         private float _globalAlpha;
@@ -54,6 +54,7 @@ namespace EEMod
         public static string progressMessage;
         public float seed;
         public float speed;
+
         /// <summary>
         /// Instance for adding and handling il hooks
         /// </summary>
@@ -64,11 +65,11 @@ namespace EEMod
             //IL.Terraria.Main.DrawBackground += Main_DrawBackground;
             //IL.Terraria.Main.DrawWater += Main_DrawWater;
             //IL.Terraria.Main.OldDrawBackground += Main_OldDrawBackground;
-            //IL.Terraria.NPC.AI_001_Slimes += Practice;
             //IL.Terraria.Main.oldDrawWater += Main_oldDrawWater;
-            hooklist = new ILHookList();
-
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
+
+            //hooklist = new ILHookList();
 
             //hooklist.Add(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), LayeredMusic.ILFillBuffer);
 
@@ -81,19 +82,19 @@ namespace EEMod
             //IL.Terraria.Main.DrawWater -= Main_DrawWater;
             //IL.Terraria.Main.OldDrawBackground -= Main_OldDrawBackground;
             //IL.Terraria.Main.oldDrawWater -= Main_oldDrawWater;
-            //IL.Terraria.NPC.AI_001_Slimes -= Practice;
-
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
+            //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
 
-            //IL.Terraria.GameContent.LiquidAmount.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
             //HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
+            
+            screenMessageText = null;
+            progressMessage = null;
+
             hooklist?.UnloadAll();
             hooklist?.Dispose();
             hooklist = null;
-            screenMessageText = null;
-            PrimitiveSystem.trailManager = null;
-            progressMessage = null;
         }
+
 
         private void LiquidRenderer_InternalDraw1(ILContext il)
         {
@@ -156,7 +157,7 @@ namespace EEMod
             //});
         }
 
-        /*public void DrawRef()
+        public void DrawRef()
         {
             RenderTarget2D buffer = Main.screenTarget;
 
@@ -172,13 +173,13 @@ namespace EEMod
 
             Main.spriteBatch.Draw(screenTex, Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White * 0.3f, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
             Main.graphics.GraphicsDevice.SetRenderTarget(Main.screenTarget);
-        }*/
+        }
 
-        /*private void Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb(ILContext il)
+        private void Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb(ILContext il)
         {
             ILCursor c = new ILCursor(il);
 
-            MethodInfo call = typeof(Lighting).GetMethod(nameof(Lighting.GetColor4Slice_New), new Type[]
+            MethodInfo call = typeof(Lighting).GetMethod(nameof(Lighting.GetColor4Slice), new Type[]
             {
                 typeof(int), typeof(int), typeof(VertexColors).MakeByRefType(), typeof(float)
             });
@@ -192,9 +193,9 @@ namespace EEMod
 
             c.Emit(OpCodes.Ldloca, 9);
             c.Emit(OpCodes.Call, new D(ModifyWaterColor).GetMethodInfo());
-        }*/
+        }
 
-        /*private static void ModifyWaterColor(ref VertexColors colors)
+        private static void ModifyWaterColor(ref VertexColors colors)
         {
             Color c = Color.White;
 
@@ -202,29 +203,7 @@ namespace EEMod
             colors.TopRightColor = c;
             colors.BottomLeftColor = c;
             colors.BottomRightColor = c;
-        }*/
-
-        //No. Just no.
-        /*private void Practice(ILContext il)
-        {
-            ILCursor c = new ILCursor(il);
-            if (!c.TryGotoNext(i => i.MatchLdloc(12),
-                i => i.MatchLdcR4(200),
-                i => i.MatchBneUn(out _),
-                i => i.MatchBneUn(out _),
-                i => i.MatchStfld(typeof(Vector2).GetField("X"))))
-            {
-                return;
-            }
-
-            c.Emit(OpCodes.Ldarg_0);
-            c.EmitDelegate<Action<NPC>>(npc =>
-            {
-                npc.velocity.Y = -10;
-            });
-
-            throw new Exception("Couldn't find local variable 19 loading");
-        }*/
+        }
 
         public void UnloadShaderAssets()
         {
@@ -400,7 +379,7 @@ namespace EEMod
             Filters.Scene["EEMod:Saturation"].GetShader().UseImageOffset(_sunShaderPos).UseIntensity(_intensityFunction).UseOpacity(4f).UseProgress(Main.dayTime ? 0 : 1).UseColor(Base, _nightHarshness, 0).UseSecondaryColor(_baseColor);
         }
 
-        /*public void DrawCoralReefsBg()
+        public void DrawCoralReefsBg()
         {
             return; // nothing being drawn atm
 
@@ -425,7 +404,7 @@ namespace EEMod
                     //Main.spriteBatch.Draw(CB3, Positions + Main.LocalPlayer.Center - Main.screenPosition + traverse, GlobalRectUnscaled, drawColor, 0f, GlobalRectUnscaled.Size() / 2, scale, SpriteEffects.None, 0f);
                 }
             }
-        }*/
+        }
      
         public void DrawSky()
         {
@@ -654,6 +633,7 @@ namespace EEMod
             }
             ~ILHook() => Dispose(false);
         }
+
         public class ILHookList : IDisposable
         {
             public IList<ILHook> HookList = new List<ILHook>();
