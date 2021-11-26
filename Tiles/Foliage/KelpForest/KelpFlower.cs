@@ -51,7 +51,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             DustType = DustID.PurpleTorch;
             DisableSmartCursor = true;
             AnimationFrameHeight = 66;
-            AdjTiles = new int[] { TileID.Painting3X3 };
+
         }
         public override void MouseOver(int i, int j)
         {
