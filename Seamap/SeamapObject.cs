@@ -35,7 +35,10 @@ namespace EEMod.Seamap.SeamapContent
 
         public virtual void Update()
         {
+            oldPosition = position;
+            oldVelocity = velocity;
 
+            position += velocity;
         }
 
         public virtual bool PreDraw(SpriteBatch spriteBatch) => true;

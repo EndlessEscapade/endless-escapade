@@ -114,7 +114,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             FillRegionEditWithNoise(Main.maxTilesX, Main.maxTilesY / 40, new Vector2(0, 190), ModContent.TileType<LightGemsandTile>(), 10);
 
-            /*for (int i = 50; i < Main.maxTilesX - 100; i++)
+            for (int i = 50; i < Main.maxTilesX - 100; i++)
             {
                 if (i >= boatPos - 60 && i <= boatPos) i += 50;
 
@@ -268,64 +268,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             {
                 #region Shipwrecks
                 EEMod.progressMessage = "Wrecking ships";
-
-                /*int maxIt = 0;
-                int mlem = 0;
-                while (mlem < 2 && maxIt < 300)
-                {
-                    maxIt++;
-
-                    int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 50);
-                    int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>(), 240);
-                    if (Math.Abs(TileCheck(tileX + Ship1.GetLength(1), ModContent.TileType<CoralSandTile>(), 240) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship1.GetLength(1) / 2), ModContent.TileType<CoralSandTile>(), 240) - tileY) <= 3 && tileY > depth + 10)
-                    {
-                        //PlaceStructure(tileX, tileY - Ship1.GetLength(0) + 7, Ship1);
-                        mlem++;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                maxIt = 0;
-                mlem = 0;
-                while (mlem < 2 && maxIt < 300)
-                {
-                    maxIt++;
-
-                    int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 50);
-                    int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>(), 240);
-                    if (Math.Abs(TileCheck(tileX + Ship2.GetLength(1), ModContent.TileType<CoralSandTile>(), 240) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship2.GetLength(1) / 2), ModContent.TileType<CoralSandTile>(), 240) - tileY) <= 3 && tileY > depth + 10)
-                    {
-                        //PlaceStructure(tileX, tileY - Ship2.GetLength(0) + 7, Ship2);
-                        mlem++;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                maxIt = 0;
-                mlem = 0;
-                while (mlem < 2 && maxIt < 300)
-                {
-                    maxIt++;
-
-                    int tileX = WorldGen.genRand.Next(50, Main.maxTilesX - 100);
-                    int tileY = TileCheck(tileX, ModContent.TileType<CoralSandTile>(), 240);
-                    if (Math.Abs(TileCheck(tileX + Ship3.GetLength(1), ModContent.TileType<CoralSandTile>(), 240) - tileY) <= 2 && Math.Abs(TileCheck(tileX + (Ship3.GetLength(1) / 2), ModContent.TileType<CoralSandTile>(), 240) - tileY) <= 3 && tileY > depth + 10)
-                    {
-                        //PlaceStructure(tileX, tileY - Ship3.GetLength(0) + 7, Ship3);
-                        mlem++;
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }*/
-
                 #endregion
                 
                 FillRegionWithWater(Main.maxTilesX, Main.maxTilesY - depth, new Vector2(0, depth));
@@ -387,9 +329,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                             CoralReefVineLocations.Add(new Vector2(i, j));
                         }
                     }
-                }
-            }
-        }*/
+                }*/
 
                 #endregion
 

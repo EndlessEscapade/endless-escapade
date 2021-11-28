@@ -87,7 +87,6 @@ namespace EEMod
         public int distortStrength = 100;
         public List<ParticlesClass> Particles = new List<ParticlesClass>();
         public List<Vector2> Velocity;
-        private static string prevKey = "Main";
         public float powerLevel = 0;
         public int maxPowerLevel = 11;
         public float zipMultiplier = 1;
@@ -138,15 +137,6 @@ namespace EEMod
                     opac = 100;
                 }
 
-                if (Player.Center.Y <= 3000)
-                {
-                    Player.ZoneBeach = true;
-                }
-                else
-                {
-                    // player.ZoneBeach = false;
-                }
-
                 reefMinibiome = MinibiomeID.None;
 
                 for (int k = 0; k < CoralReefs.Minibiomes.Count; k++)
@@ -170,96 +160,6 @@ namespace EEMod
                     opac = 0;
                 }
             }
-
-            /*if (player.wet)
-            {
-                if (player.fullRotation % MathHelper.ToRadians(-360f) < 1 && player.fullRotation % MathHelper.ToRadians(-360f) > -1 && !lerpingToRotation)
-                {
-                    player.fullRotation = 0;
-                    wasAirborn = false;
-                }
-
-                if (player.mount.Type == -1)
-                {
-                    player.fullRotationOrigin = new Vector2(player.width / 2, player.height / 2);
-
-                    if (player.fullRotation != 0)
-                    {
-                        currentlyRotated = true;
-                    }
-
-                    if ((player.velocity.X != 0 && player.velocity.Y != 0) || (player.velocity.Y != 0 && timeAirborne > 60))
-                    {
-                        timeAirborne++;
-
-                        if (timeAirborne > 60)
-                        {
-                            lerpingToRotation = true;
-                            player.fullRotation = player.fullRotation.AngleLerp(player.velocity.ToRotation() + (float)Math.PI / 2f, 0.05f);
-                            wasAirborn = true;
-                        }
-                        else
-                        {
-                            lerpingToRotation = false;
-                            wasAirborn = false;
-                        }
-                    }
-                    else
-                    {
-                        lerpingToRotation = false;
-
-                        if (player.direction == -1)
-                        {
-                            if (wasAirborn)
-                            {
-                                player.fullRotation = MathHelper.Lerp(player.fullRotation, 0f, -0.085f);
-                            }
-                            else
-                            {
-                                player.fullRotation = 0;
-                                timeAirborne = 0;
-                            }
-                        }
-                        else
-                        {
-                            if (wasAirborn)
-                            {
-                                player.fullRotation = MathHelper.Lerp(player.fullRotation, 0f, -0.085f);
-                            }
-                            else
-                            {
-                                player.fullRotation = 0;
-                                timeAirborne = 0;
-                            }
-                        }
-
-                        if (player.fullRotation == 0)
-                        {
-                            player.fullRotation += player.velocity.X / 7f;
-
-                            if (player.fullRotation > MathHelper.ToRadians(player.velocity.X))
-                            {
-                                player.fullRotation = MathHelper.ToRadians(player.velocity.X);
-                            }
-
-                            if (player.fullRotation < MathHelper.ToRadians(-player.velocity.X))
-                            {
-                                player.fullRotation = -MathHelper.ToRadians(-player.velocity.X);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    if (currentlyRotated)
-                    {
-                        player.fullRotation = 0f;
-                        currentlyRotated = false;
-                        wasAirborn = false;
-                        lerpingToRotation = false;
-                    }
-                }
-            }*/
         }
 
         private int bubbleTimer = 6;
@@ -409,10 +309,10 @@ namespace EEMod
                 speedOfPan = 0;
                 subTextAlpha = 0;
 
-                if (SeamapPlayerShip.localship != null)
+                if (SeamapObjects.localship != null)
                 {
-                    SeamapPlayerShip.localship.position = new Vector2(1700, 900);
-                    SeamapPlayerShip.localship.shipHelth = SeamapPlayerShip.ShipHelthMax;
+                    SeamapObjects.localship.position = new Vector2(1700, 900);
+                    SeamapObjects.localship.shipHelth = SeamapObjects.localship.ShipHelthMax;
                 }
 
                 SeamapObjects.IslandEntities.Clear();
@@ -587,7 +487,7 @@ namespace EEMod
                 if (seamapUpdateCount > 1)
                 {
                     //Main.screenPosition += new Vector2(0, offSea);
-                    SeamapPlayerShip.localship.ModifyScreenPosition(ref Main.screenPosition);
+                    //SeamapObjects.localship.ModifyScreenPosition(ref Main.screenPosition);
                 }
             }
             if (cutSceneTriggerTimer > 0 && triggerSeaCutscene)
@@ -786,11 +686,6 @@ namespace EEMod
             }
             switch (Main.worldName)
             {
-                case KeyID.Pyramids:
-                {
-                    UpdatePyramids();
-                    break;
-                }
                 case KeyID.Sea:
                 {
                     UpdateSea();

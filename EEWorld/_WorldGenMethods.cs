@@ -58,8 +58,6 @@ namespace EEMod.EEWorld
             EEMod.progressMessage = messageBefore;
         }
 
-        private static PerlinNoiseFunction PNF;
-
         public static float[] PerlinArray(int width, int seedVar, float amplitude, Vector2 res)
         {
             PNF = new PerlinNoiseFunction(width, seedVar, (int)res.X, (int)res.Y, 0.5f, WorldGen.genRand);
@@ -83,6 +81,7 @@ namespace EEMod.EEWorld
             }
             return PerlinStrip;
         }
+
         public static void CreateInvisibleTiles(byte[,,] array, Vector2 TilePosition)
         {
             for (int i = 0; i < array.GetLength(1); i++)
@@ -200,149 +199,6 @@ namespace EEMod.EEWorld
             ClearOval(width, height, startingPoint);
             FillRegionWithLava(width, (int)(height * lavaLevel), new Vector2(startingPoint.X, startingPoint.Y + (int)(height - (height * lavaLevel))));
         }
-
-        public static void DoAndAssignShipyardValues()
-        {
-            for (int i = 0; i < 300; i++)
-            {
-                for (int j = (int)(Main.worldSurface * 0.35f); j < Main.rockLayer; j++)
-                {
-                    if (!WorldGen.InWorld(i, j)) break;
-
-                    Tile tile = Framing.GetTileSafely(i, j);
-
-                    if (tile.LiquidAmount > 0)
-                    {
-                        //Ocean surface worldgen
-
-                        /*switch (WorldGen.genRand.Next(3))
-                        {
-                            case 0:
-                                WorldGen.PlaceTile(i, j, ModContent.TileType<LilyPadSmol>());
-                                break;
-
-                            case 1:
-                                WorldGen.PlaceTile(i, j, ModContent.TileType<LilyPadMedium>());
-                                break;
-
-                            default:
-                                break;
-                        }*/
-
-                        for (int k = j; k < Main.rockLayer; k++)
-                        {
-                            Tile tile2 = Framing.GetTileSafely(i, k);
-
-                            if (tile2.IsActive && tile2.type == TileID.Sand && 
-                                !Framing.GetTileSafely(i, k - 1).IsActive && Framing.GetTileSafely(i, k - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(3))
-                            {
-                                //Ocean floor worldgen
-
-                                if(WorldGen.genRand.NextBool(20) && k > j + 20/* && i < - 5*/)
-                                {
-                                    switch(WorldGen.genRand.Next(3))
-                                    {
-                                        case 0:
-                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/RockSpire1.lcs")).PlaceAt(i, k - 15, true, true, true);
-                                            break;
-                                        case 1:
-                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/RockSpire2.lcs")).PlaceAt(i, k - 15, true, true, true);
-                                            break;
-                                        case 2:
-                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/SunkRaft.lcs")).PlaceAt(i, k - 8, true, true, true);
-                                            break;
-                                    }
-
-                                    break;
-                                }
-
-                                Main.tile[i, k].Slope = 0;
-
-                                switch(WorldGen.genRand.Next(3))
-                                {
-                                    case 0:
-                                        int rand = WorldGen.genRand.Next(7, 20);
-
-                                        for (int l = k - 1; l >= k - rand; l--)
-                                        {
-                                            Main.tile[i, l].type = (ushort)ModContent.TileType<SeagrassTile>();
-                                            Main.tile[i, l].IsActive = true;
-                                        }
-                                        break;
-                                    case 1:
-                                        int rand2 = WorldGen.genRand.Next(4, 13);
-
-                                        for (int l = k - 1; l >= k - rand2; l--)
-                                        {
-                                            Main.tile[i, l].type = TileID.Seaweed;
-                                            Main.tile[i, l].IsActive = true;
-
-                                            if(l == k - rand2)
-                                            {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
-                                            }
-                                            else
-                                            {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
-                                            }
-                                        }
-                                        break;
-                                    case 2:
-                                        //WorldGen.PlaceTile(i, k - 2, TileID.DyePlants, false, false, -1, 6);
-
-                                        /*Main.tile[i, k - 2].type = TileID.DyePlants;
-                                        Main.tile[i, k - 2].frameX = 11 * 16;
-                                        Main.tile[i, k - 2].IsActive = true;
-
-                                        Main.tile[i, k - 1].type = TileID.DyePlants;
-                                        Main.tile[i, k - 1].frameX = 11 * 16;
-                                        Main.tile[i, k - 1].frameY = 1 * 16;
-                                        Main.tile[i, k - 1].IsActive = true;*/
-
-                                        int rand3 = WorldGen.genRand.Next(4, 8);
-
-                                        for (int l = k - 1; l >= k - rand3; l--)
-                                        {
-                                            Main.tile[i, l].type = TileID.Bamboo;
-                                            Main.tile[i, l].IsActive = true;
-
-                                            if (l == k - 1)
-                                            {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
-                                            }
-                                            else if (l == k - rand3)
-                                            {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
-                                            }
-                                            else
-                                            {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
-                                            }
-                                        }
-
-                                        break;
-                                }
-
-                                //WorldGen.PlaceTile(i, k - 2=, TileID.Sandcastles);
-
-                                break;
-                            }
-                        }
-
-                        break;
-                    }
-
-                    else if (tile.IsActive && tile.type == TileID.Sand)
-                    {
-                        PlaceShipyard(i, j - 13);
-                        return;
-                    }
-                }
-            }
-        }
-
-        public static Vector2 shipCoords;
-        public static byte[] builtShip;
 
         public static void PlaceShipyard(int x, int y)
         {
@@ -629,6 +485,7 @@ namespace EEMod.EEWorld
             }
             return 0;
         }
+
         public static bool CheckRangeRight(int i, int j, int length, bool opposite = false)
         {
             for (int k = 0; k < length; k++)
@@ -642,6 +499,7 @@ namespace EEMod.EEWorld
 
             return true;
         }
+
         public static bool CheckRangeDown(int i, int j, int length, bool opposite = false)
         {
             for (int k = 0; k < length; k++)
@@ -654,6 +512,7 @@ namespace EEMod.EEWorld
             }
             return true;
         }
+
         public static int WaterCheck(int i, int j)
         {
             Tile tile1 = Framing.GetTileSafely(i, j);
@@ -726,6 +585,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeIsland(int width, int height, Vector2 Middle, int type)
         {
             PerlinNoiseFunction PN = new PerlinNoiseFunction(width * 2, height * 2, 10, 10, 0.5f, WorldGen.genRand);
@@ -744,6 +604,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeOvalJaggedBottom(int width, int height, Vector2 startingPoint, int type, bool overwrite = false)
         {
             int steps = 0;
@@ -922,6 +783,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+
         public static void MakeCircleFromCenter(int size, Vector2 Center, int type, bool forced)
         {
             Vector2 startingPoint = new Vector2(Center.X - size * .5f, Center.Y - size * .5f);
@@ -1110,6 +972,7 @@ namespace EEMod.EEWorld
                 WorldGen.TileRunner(positionX + (int)(i * slant) + (int)(Math.Sin(i / (float)50) * (20 * (1 + (i * 1.5f / height)))), positionY + i, WorldGen.genRand.Next(5 + sizeAddon / 2, 10 + sizeAddon), WorldGen.genRand.Next(10, 12), type, true, 0f, 0f, true, Override);
             }
         }
+
         public static void MakeExpandingChasm(Vector2 position1, Vector2 position2, int type, int accuracy, int sizeAddon, bool Override, Vector2 stepBounds, float expansionRate)
         {
             for (int i = 0; i < accuracy; i++)
@@ -1168,6 +1031,7 @@ namespace EEMod.EEWorld
                 }
             }
         }
+        
         public static int TileCheckVertical(int positionX, int positionY, int step, int maxIterations = 100)
         {
             int a = 0;
@@ -1193,6 +1057,7 @@ namespace EEMod.EEWorld
             }
             return 0;
         }
+        
         public static int TileCheck(int positionX, int type)
         {
             for (int i = 0; i < Main.maxTilesY; i++)
@@ -1218,7 +1083,6 @@ namespace EEMod.EEWorld
             }
             return 0;
         }
-
 
         public static void KillWall(int width, int height, Vector2 startingPoint)
         {

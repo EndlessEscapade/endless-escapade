@@ -466,12 +466,12 @@ namespace EEMod
             if (_counter++ > _screenframeSpeed)
             {
                 _counter = 0;
-                SeamapPlayerShip.localship.frame.Y += _screenTexture.Height / _screenframes;
+                SeamapObjects.localship.frame.Y += _screenTexture.Height / _screenframes;
             }
 
-            if (SeamapPlayerShip.localship.frame.Y >= _screenTexture.Height / _screenframes * (_screenframes - 1))
+            if (SeamapObjects.localship.frame.Y >= _screenTexture.Height / _screenframes * (_screenframes - 1))
             {
-                SeamapPlayerShip.localship.frame.Y = 0;
+                SeamapObjects.localship.frame.Y = 0;
             }
 
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
@@ -493,7 +493,7 @@ namespace EEMod
 
             Main.spriteBatch.Draw(_texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, (int)width + 8, (int)height + 8), _texture2.Bounds, Color.Lerp(Color.Black, Color.White, lerp), 0, origin: new Vector2(_texture2.Width / 2, _texture2.Height / 2), SpriteEffects.None, 0);
 
-            Rectangle rect = new Rectangle(0, SeamapPlayerShip.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes);
+            Rectangle rect = new Rectangle(0, SeamapObjects.localship.frame.Y, _screenTexture.Width, _screenTexture.Height / _screenframes);
             Main.spriteBatch.Draw(_screenTexture, position, rect, Color.White, 0, new Vector2(rect.Width, rect.Height) / 2f, 1, SpriteEffects.None, 0);
         }
 

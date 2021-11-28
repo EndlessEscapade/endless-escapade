@@ -169,6 +169,7 @@ namespace EEMod
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             float alpha = modPlayer.titleText;
             Color color = Color.White * alpha;
+
             /*if (Main.worldName == KeyID.Sea)
             {
                 text = "The Ocean";

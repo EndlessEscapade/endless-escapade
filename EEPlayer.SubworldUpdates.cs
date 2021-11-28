@@ -36,56 +36,6 @@ namespace EEMod
 
         public bool jellyfishMigration;
 
-        public void UpdatePyramids()
-        {
-            if (noU)
-            {
-                titleText -= 0.005f;
-            }
-            else
-            {
-                titleText += 0.005f;
-            }
-
-            if (titleText >= 1)
-            {
-                noU = true;
-            }
-            else
-            {
-                titleText = 0;
-            }
-
-            titleText2 = 1;
-
-            if (!arrowFlag)
-            {
-                //Arrow = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<DesArrowProjectile>(), 0, 0, player.whoAmI);
-                arrowFlag = true;
-            }
-
-            //DesArrowProjectile desArrowProj = (DesArrowProjectile)Main.projectile[Arrow].ModProjectile;
-
-            if (Player.Center.X / 16 >= Main.spawnTileX - 5 && Player.Center.X / 16 <= Main.spawnTileX + 5 && Player.Center.Y / 16 >= Main.spawnTileY - 5 && Player.Center.Y / 16 <= Main.spawnTileY + 5)
-            {
-                if (Player.controlUp)
-                {
-                    ReturnHome();
-                }
-
-                ArrowsUIState.DesertArrowVisible = true;
-            }
-            else
-            {
-                // ArrowsUIState.DesertArrowVisible = false;
-            }
-
-            if (Main.netMode != NetmodeID.Server && Filters.Scene[SunThroughWallsShader].IsActive())
-            {
-                Filters.Scene.Deactivate(SunThroughWallsShader);
-            }
-        }
-
         int SpireCutscene;
         public void UpdateCR()
         {
@@ -94,26 +44,26 @@ namespace EEMod
                 player.AddBuff(BuffType<WaterPressure>(), 60);
             }*/
 
-            if (noU)
+            if (Player.GetModPlayer<EEPlayer>().noU)
             {
-                titleText -= 0.005f;
+                Player.GetModPlayer<EEPlayer>().titleText -= 0.005f;
             }
             else
             {
-                titleText += 0.005f;
+                Player.GetModPlayer<EEPlayer>().titleText += 0.005f;
             }
 
-            if (titleText >= 1)
+            if (Player.GetModPlayer<EEPlayer>().titleText >= 1)
             {
-                noU = true;
+                Player.GetModPlayer<EEPlayer>().noU = true;
             }
 
-            if (titleText <= 0)
+            if (Player.GetModPlayer<EEPlayer>().titleText <= 0)
             {
-                titleText = 0;
+                Player.GetModPlayer<EEPlayer>().titleText = 0;
             }
 
-            seamapUpdateCount++;
+            Player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
 
             if (Vector2.DistanceSquared(Main.LocalPlayer.Center, CoralReefs.SpirePosition * 16) < 700 * 700)
             {
@@ -133,7 +83,7 @@ namespace EEMod
                 TurnCameraFixationsOff();
             }
 
-            if (!arrowFlag)
+            if (!Player.GetModPlayer<EEPlayer>().arrowFlag)
             {
                 NPC.NewNPC((int)(CoralReefs.SpirePosition.X * 16), (int)(CoralReefs.SpirePosition.Y * 16), NPCType<AquamarineSpire>());
                 if (Main.netMode != NetmodeID.MultiplayerClient)
@@ -141,7 +91,7 @@ namespace EEMod
                     //Arrow2 = Projectile.NewProjectile(player.Center, Vector2.Zero, ProjectileType<OceanArrowProjectile>(), 0, 0, Main.myPlayer);
                 }
 
-                arrowFlag = true;
+                Player.GetModPlayer<EEPlayer>().arrowFlag = true;
             }
 
             if (CoralReefs.CoralBoatPos == Vector2.Zero)
@@ -159,7 +109,7 @@ namespace EEMod
                     {
                         Initialize();
 
-                        SeamapPlayerShip.localship.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
+                        SeamapObjects.localship.position = new Vector2(Main.screenWidth - 300, Main.screenHeight - 600);
 
                         SubworldManager.EnterSubworld<Sea>();
                     }
@@ -216,38 +166,25 @@ namespace EEMod
 
             if (EEModConfigClient.Instance.ParticleEffects)
             {
-                seamapUpdateCount++;
+                Player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
             }
             else
             {
-                seamapUpdateCount = 0;
+                Player.GetModPlayer<EEPlayer>().seamapUpdateCount = 0;
             }
-            if (seamapUpdateCount == 1)
+
+            if (Player.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
             {
-                if (prevKey == KeyID.Sea)
+                if (EEPlayer.prevKey == KeyID.Sea)
                 {
                     Player.Center = new Vector2(100 * 16, (TileCheckWater(100) - 22) * 16);
                 }
             }
-            baseWorldName = Main.ActiveWorldFileData.Name;
+
+            Player.GetModPlayer<EEPlayer>().baseWorldName = Main.ActiveWorldFileData.Name;
             if (Main.netMode != NetmodeID.Server && Filters.Scene[SunThroughWallsShader].IsActive())
             {
                 Filters.Scene.Deactivate(SunThroughWallsShader);
-            }
-            SeamapPlayerShip.localship.position = SeamapPlayerShip.start;
-            SeamapPlayerShip.localship.velocity = Vector2.Zero;
-            titleText2 = 0;
-            if (!arrowFlag)
-            {
-                arrowFlag = true;
-
-                for (int i = 0; i < 200; i++)
-                {
-                    if (Main.projectile[i].type == ProjectileType<WhiteBlock>())
-                    {
-                        Main.projectile[i].Kill();
-                    }
-                }
             }
         }
     }

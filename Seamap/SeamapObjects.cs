@@ -18,6 +18,18 @@ namespace EEMod.Seamap.SeamapContent
 
         [FieldInit] internal static SeamapObject[] SeamapEntities = new SeamapObject[400];
 
+        public static EEPlayerShip localship;
+
+        public static void InitObjects(Vector2 shipPos)
+        {
+            localship = new EEPlayerShip(shipPos, Vector2.Zero);
+
+            SeamapEntities[0] = localship;
+            SeamapEntities[0].whoAmI = 0;
+
+            localship.OnSpawn();
+        }
+
         public static void NewSeamapObject(SeamapObject obj)
         {
             for(int i = 0; i < SeamapEntities.Length; i++)

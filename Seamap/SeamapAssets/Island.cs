@@ -19,7 +19,7 @@ namespace EEMod.Seamap.SeamapContent
         public virtual IslandID id => IslandID.Default;
 
         public Vector2 posToScreen => position - Main.screenPosition;
-        public bool isCollidingWithPlayer => SeamapPlayerShip.localship.rect.Intersects(this.rect);
+        public bool isCollidingWithPlayer => SeamapObjects.localship.rect.Intersects(this.rect);
 
         public int framecounter;
         public int frame;
@@ -55,6 +55,7 @@ namespace EEMod.Seamap.SeamapContent
             Color drawColour = Helpers.GetLightingColor(position) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
             drawColour.A = 255;
             spriteBatch.Draw(texture, position.ForDraw(), new Rectangle(0, texture.Height / framecount * frame, texture.Width, texture.Height / framecount), Color.White);
+
             return true;
         }
 

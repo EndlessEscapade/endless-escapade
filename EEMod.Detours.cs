@@ -193,7 +193,7 @@ namespace EEMod
             }
 
 
-            float num = 56f;
+            float num = 56f + 24f;
 
             if (SocialAPI.Cloud != null)
             {
@@ -216,6 +216,7 @@ namespace EEMod
             {
                 VAlign = 1f
             };
+
             buttonLabel.Left.Set(num + 10, 0f);
             buttonLabel.Top.Set(-3f, 0f);
 
@@ -491,12 +492,14 @@ namespace EEMod
             //    }
             //});
 
-            if (Main.worldName == KeyID.Sea)
+            if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
             {
+                Seamap.SeamapContent.Seamap.UpdateSeamap();
+
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
                 Seamap.SeamapContent.Seamap.Render();
-                SeamapPlayerShip.localship.DrawSubText();
+                SeamapObjects.localship.DrawSubText();
 
                 Main.spriteBatch.End();
             }
@@ -565,7 +568,7 @@ namespace EEMod
                     alpha = 1;
                 }
 
-                Seamap.SeamapContent.SeamapPlayerShip.localship.velocity = Vector2.Zero;
+                Seamap.SeamapContent.SeamapObjects.localship.velocity = Vector2.Zero;
                 Main.numClouds = 0;
 
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null)

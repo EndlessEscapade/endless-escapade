@@ -28,6 +28,9 @@ using EEMod.Prim;
 using EEMod.Systems.Subworlds.EESubworlds;
 using Terraria.UI;
 using EEMod.NPCs.Friendly;
+using EEMod.Systems.Noise;
+using EEMod.Systems;
+using EEMod.Tiles.Foliage;
 
 namespace EEMod.EEWorld
 {
@@ -36,9 +39,7 @@ namespace EEMod.EEWorld
         public int minionsKilled;
         public static EEWorld instance => ModContent.GetInstance<EEWorld>();
 
-        // private static List<Point> BiomeCenters;
         public static Vector2 yes;
-
         public static Vector2 ree;
 
         [FieldInit(FieldInitType.SubType, typeof(List<Vector2>))]
@@ -53,117 +54,17 @@ namespace EEMod.EEWorld
         [FieldInit(FieldInitType.ArrayIntialization, 100)]
         public static Vector2[] PylonEnd = new Vector2[100];
 
-        [FieldInit(FieldInitType.ArrayIntialization, 10000)]
-        public static Vector2[] sinDis = new Vector2[10000];
+        private static PerlinNoiseFunction PNF;
 
-        //public Vector2[] sinDis = new Vector2[10000];
-
-        public override void OnWorldLoad()
-        {
-            //ModContent.GetInstance<EEMod>().TVH.Clear();
-            if (sinDis != null)
-            {
-                for (int i = 0; i < sinDis.Length; i++)
-                {
-                    // When an array is created all elements get initialized to the default value, and the default value of structs isn't null
-                    sinDis[i].X = WorldGen.genRand.NextFloat(0, 0.03f);
-                }
-            }
-            eocFlag = NPC.downedBoss1;
-            if (EntracesPosses != null)
-            {
-                if (EntracesPosses.Count > 0)
-                {
-                    yes = EntracesPosses[0];
-                }
-            }
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
-
-            builtShip = ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/builtboat.lcs");
-
-            //EESubWorlds.placedShipTether = false;
-        }
-
-        public override void ModifyWorldGenTasks(List<GenPass> tasks, ref float totalWeight)
-        {
-            int ShiniesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Shinies"));
-            if (ShiniesIndex != -1)
-            {
-                //tasks.Insert(ShiniesIndex + 1, new PassLegacy("Endless Escapade Ores", EEModOres));
-            }
-            int MicroBiomes = tasks.FindIndex(genpass => genpass.Name.Equals("Micro Biomes"));
-            int LivingTreesIndex = tasks.FindIndex(genpass => genpass.Name.Equals("Living Trees"));
-
-            /*if (LivingTreesIndex != -1)
-            {
-                tasks.Insert(LivingTreesIndex + 1, new PassLegacy("Post Terrain", delegate (GenerationProgress progress)
-                {
-                    progress.Message = "Generating structures";
-                    for (int l = 0; l < 30; l++)
-                    {
-                        int posX = WorldGen.genRand.Next(0, Main.maxTilesX);
-                        int posY = WorldGen.genRand.Next((int)WorldGen.rockLayerLow, Main.maxTilesY);
-                        PlaceRuins(posX, posY, ruinsShape);
-                    }
-                }));
-            }*/
-        }
-
-        public override void NetSend(BinaryWriter writer)
-        {
-            writer.WriteVector2(ree);
-            writer.WriteVector2(yes);
-            for (int i = 0; i < LightStates.Length; i++)
-            {
-                writer.Write(LightStates[i]);
-            }
-        }
-
-        public override void NetReceive(BinaryReader reader)
-        {
-            ree = reader.ReadVector2();
-            yes = reader.ReadVector2();
-            for (int i = 0; i < LightStates.Length; i++)
-            {
-                LightStates[i] = reader.ReadByte();
-            }
-        }
-
-        public override void PostWorldGen()
-        {
-            DoAndAssignShipyardValues();
-
-            for (int i = 0; i < sinDis.Length; i++)
-            {
-                sinDis[i].X = Main.rand.NextFloat(0, 0.03f);
-            }
-        }
-
-        public static Vector2 SubWorldSpecificCoralBoatPos;
-        public static Vector2 SubWorldSpecificVolcanoInsidePos = new Vector2(198, 189);
-
-        public static int customBiome = 0;
-        public static bool eocFlag;
-
-        public static bool HydrosCheck()
-        {
-            if (instance.minionsKilled >= 5)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        public static Vector2 shipCoords;
 
         public static IList<Vector2> Vines = new List<Vector2>();
+
 
         public override void LoadWorldData(TagCompound tag)
         {
             tag.TryGetListRef("EntracesPosses", ref EntracesPosses);
             tag.TryGetRef("CoralBoatPos", ref CoralReefs.CoralBoatPos);
-            tag.TryGetRef("SubWorldSpecificVolcanoInsidePos", ref SubWorldSpecificVolcanoInsidePos);
             tag.TryGetRef("yes", ref yes);
             tag.TryGetRef("ree", ref ree);
             tag.TryGetRef("SpirePosition", ref CoralReefs.SpirePosition);
@@ -185,8 +86,8 @@ namespace EEMod.EEWorld
             tag.TryGetRef("ShipCoords", ref shipCoords);
 
             for (int i = 0; i < positions.Count; i++)
-            { 
-                if(ids[i] == (int)MinibiomeID.None)
+            {
+                if (ids[i] == (int)MinibiomeID.None)
                 {
                     continue;
                 }
@@ -329,14 +230,180 @@ namespace EEMod.EEWorld
 
 
             }
-            if (Main.ActiveWorldFileData.Name == KeyID.VolcanoInside)
-            {
-                tag["SubWorldSpecificVolcanoInsidePos"] = SubWorldSpecificVolcanoInsidePos;
-            }
             tag["EntracesPosses"] = EntracesPosses;
             tag["yes"] = yes;
             tag["ree"] = ree;
             tag["ShipCoords"] = shipCoords;
+        }
+
+        public override void OnWorldLoad()
+        {
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
+        }
+
+        public override void NetSend(BinaryWriter writer)
+        {
+            writer.WriteVector2(ree);
+            writer.WriteVector2(yes);
+            for (int i = 0; i < LightStates.Length; i++)
+            {
+                writer.Write(LightStates[i]);
+            }
+        }
+
+        public override void NetReceive(BinaryReader reader)
+        {
+            ree = reader.ReadVector2();
+            yes = reader.ReadVector2();
+            for (int i = 0; i < LightStates.Length; i++)
+            {
+                LightStates[i] = reader.ReadByte();
+            }
+        }
+
+        public override void PostWorldGen()
+        {
+            GenerateShipyard();
+        }
+
+        public static void GenerateShipyard()
+        {
+            for (int i = 0; i < 300; i++)
+            {
+                for (int j = (int)(Main.worldSurface * 0.35f); j < Main.rockLayer; j++)
+                {
+                    if (!WorldGen.InWorld(i, j)) break;
+
+                    Tile tile = Framing.GetTileSafely(i, j);
+
+                    if (tile.LiquidAmount > 0)
+                    {
+                        //Ocean surface worldgen
+
+                        /*switch (WorldGen.genRand.Next(3))
+                        {
+                            case 0:
+                                WorldGen.PlaceTile(i, j, ModContent.TileType<LilyPadSmol>());
+                                break;
+
+                            case 1:
+                                WorldGen.PlaceTile(i, j, ModContent.TileType<LilyPadMedium>());
+                                break;
+
+                            default:
+                                break;
+                        }*/
+
+                        for (int k = j; k < Main.rockLayer; k++)
+                        {
+                            Tile tile2 = Framing.GetTileSafely(i, k);
+
+                            if (tile2.IsActive && tile2.type == TileID.Sand &&
+                                !Framing.GetTileSafely(i, k - 1).IsActive && Framing.GetTileSafely(i, k - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(3))
+                            {
+                                //Ocean floor worldgen
+
+                                if (WorldGen.genRand.NextBool(20) && k > j + 20/* && i < - 5*/)
+                                {
+                                    switch (WorldGen.genRand.Next(3))
+                                    {
+                                        case 0:
+                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/RockSpire1.lcs")).PlaceAt(i, k - 15, true, true, true);
+                                            break;
+                                        case 1:
+                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/RockSpire2.lcs")).PlaceAt(i, k - 15, true, true, true);
+                                            break;
+                                        case 2:
+                                            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/SunkRaft.lcs")).PlaceAt(i, k - 8, true, true, true);
+                                            break;
+                                    }
+
+                                    break;
+                                }
+
+                                Main.tile[i, k].Slope = 0;
+
+                                switch (WorldGen.genRand.Next(3))
+                                {
+                                    case 0:
+                                        int rand = WorldGen.genRand.Next(7, 20);
+
+                                        for (int l = k - 1; l >= k - rand; l--)
+                                        {
+                                            Main.tile[i, l].type = (ushort)ModContent.TileType<SeagrassTile>();
+                                            Main.tile[i, l].IsActive = true;
+                                        }
+                                        break;
+                                    case 1:
+                                        int rand2 = WorldGen.genRand.Next(4, 13);
+
+                                        for (int l = k - 1; l >= k - rand2; l--)
+                                        {
+                                            Main.tile[i, l].type = TileID.Seaweed;
+                                            Main.tile[i, l].IsActive = true;
+
+                                            if (l == k - rand2)
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
+                                            }
+                                            else
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
+                                            }
+                                        }
+                                        break;
+                                    case 2:
+                                        //WorldGen.PlaceTile(i, k - 2, TileID.DyePlants, false, false, -1, 6);
+
+                                        /*Main.tile[i, k - 2].type = TileID.DyePlants;
+                                        Main.tile[i, k - 2].frameX = 11 * 16;
+                                        Main.tile[i, k - 2].IsActive = true;
+
+                                        Main.tile[i, k - 1].type = TileID.DyePlants;
+                                        Main.tile[i, k - 1].frameX = 11 * 16;
+                                        Main.tile[i, k - 1].frameY = 1 * 16;
+                                        Main.tile[i, k - 1].IsActive = true;*/
+
+                                        int rand3 = WorldGen.genRand.Next(4, 8);
+
+                                        for (int l = k - 1; l >= k - rand3; l--)
+                                        {
+                                            Main.tile[i, l].type = TileID.Bamboo;
+                                            Main.tile[i, l].IsActive = true;
+
+                                            if (l == k - 1)
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
+                                            }
+                                            else if (l == k - rand3)
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
+                                            }
+                                            else
+                                            {
+                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
+                                            }
+                                        }
+
+                                        break;
+                                }
+
+                                //WorldGen.PlaceTile(i, k - 2=, TileID.Sandcastles);
+
+                                break;
+                            }
+                        }
+
+                        break;
+                    }
+
+                    else if (tile.IsActive && tile.type == TileID.Sand)
+                    {
+                        PlaceShipyard(i, j - 13);
+                        return;
+                    }
+                }
+            }
         }
     }
 }
