@@ -496,10 +496,9 @@ namespace EEMod
             {
                 Seamap.SeamapContent.Seamap.UpdateSeamap();
 
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
                 Seamap.SeamapContent.Seamap.Render();
-                SeamapObjects.localship.DrawSubText();
 
                 Main.spriteBatch.End();
             }
@@ -568,7 +567,6 @@ namespace EEMod
                     alpha = 1;
                 }
 
-                Seamap.SeamapContent.SeamapObjects.localship.velocity = Vector2.Zero;
                 Main.numClouds = 0;
 
                 if (SkyManager.Instance["EEMod:SavingCutscene"] != null)

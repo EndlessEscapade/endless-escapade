@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using EEMod.Extensions;
 using System;
 using Terraria.ModLoader;
+using System.Diagnostics;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -61,7 +62,7 @@ namespace EEMod.Seamap.SeamapContent
 
         public virtual void OnSpawn()
         {
-
+            
         }
 
         public virtual void Kill()

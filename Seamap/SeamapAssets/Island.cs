@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using EEMod.Extensions;
 using EEMod.ID;
 using Terraria.ModLoader;
+using System.Diagnostics;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -49,17 +50,17 @@ namespace EEMod.Seamap.SeamapContent
             AnimateIsland();
         }
 
-        public override bool CustomDraw(SpriteBatch spriteBatch)
+        public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            Vector2 currentPos = position.ForDraw();
-            Color drawColour = Helpers.GetLightingColor(position) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
-            drawColour.A = 255;
-            spriteBatch.Draw(texture, position.ForDraw(), new Rectangle(0, texture.Height / framecount * frame, texture.Width, texture.Height / framecount), Color.White);
+            //Color drawColour = Helpers.GetLightingColor(position) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
+            //drawColour.A = 255;
 
-            return true;
+            spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Color.White);
+
+            return false;
         }
 
-        public virtual void CustomDraw()
+        public virtual void IslandDraw()
         {
 
         }

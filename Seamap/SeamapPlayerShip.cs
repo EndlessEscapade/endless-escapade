@@ -12,29 +12,23 @@ using ReLogic.Graphics;
 using Terraria.Audio;
 using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
+using System.Diagnostics;
 
 namespace EEMod.Seamap.SeamapContent
 {
     public class EEPlayerShip : SeamapObject
     {
-        public static readonly Vector2 start = new Vector2(1700, 900);
-        public float[] anchorLerp = new float[12];
-        public Rectangle frame;
-        public int frames;
         public float ShipHelthMax = 7;
         public float shipHelth = 7;
         public int cannonDelay = 60;
-        public Vector2 otherBoatPos;
-        public Vector2 currentLightningPos;
-        public float intenstityLightning;
+        public Player myPlayer;
 
-        public float flash = 0;
-        public float markerPlacer = 0;
-
-        public EEPlayerShip(Vector2 pos, Vector2 vel) : base(pos, vel)
+        public EEPlayerShip(Vector2 pos, Vector2 vel, Player player) : base(pos, vel)
         {
             position = pos;
             velocity = vel;
+
+            myPlayer = player;
 
             width = 44;
             height = 52;
@@ -46,71 +40,112 @@ namespace EEMod.Seamap.SeamapContent
         {
             float boatSpeed = 1;
 
-            #region Player controls(movement and shooting)
-            if (!Main.gamePaused)
+            position += velocity;
+            if (Main.LocalPlayer.controlUp)
             {
-                position += velocity;
-                if (Main.LocalPlayer.controlUp)
-                {
-                    velocity.Y -= 0.1f * boatSpeed;
-                }
-                if (Main.LocalPlayer.controlDown)
-                {
-                    velocity.Y += 0.1f * boatSpeed;
-                }
-                if (Main.LocalPlayer.controlRight)
-                {
-                    velocity.X += 0.1f * boatSpeed;
-                }
-                if (Main.LocalPlayer.controlLeft)
-                {
-                    velocity.X -= 0.1f * boatSpeed;
-                }
-                if (Main.LocalPlayer.controlUseItem && cannonDelay <= 0)
-                {
-                    //Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
-                    
-                    SoundEngine.PlaySound(SoundID.Item61);
-                    cannonDelay = 60;
-                }
-                cannonDelay--;
+                velocity.Y -= 0.1f * boatSpeed;
             }
+            if (Main.LocalPlayer.controlDown)
+            {
+                velocity.Y += 0.1f * boatSpeed;
+            }
+            if (Main.LocalPlayer.controlRight)
+            {
+                velocity.X += 0.1f * boatSpeed;
+            }
+            if (Main.LocalPlayer.controlLeft)
+            {
+                velocity.X -= 0.1f * boatSpeed;
+            }
+            if (Main.LocalPlayer.controlUseItem && cannonDelay <= 0)
+            {
+                //Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
+                
+                SoundEngine.PlaySound(SoundID.Item61);
+                cannonDelay = 60;
+            }
+            
+            cannonDelay--;
 
             Vector2 v = new Vector2(boatSpeed * 4);
 
             velocity = Vector2.Clamp(velocity, -v, v);
 
-            if (!Main.gamePaused)
-            {
-                velocity *= 0.98f;
-            }
-            #endregion
-
-            flash += 0.01f;
-            if (flash == 2)
-            {
-                flash = 10;
-            }
+            velocity *= 0.98f;
 
             base.Update();
+
+            if (position.X < Seamap.seamapWidth - 900) position.X = Seamap.seamapWidth - 900;
+            if (position.X > Seamap.seamapWidth - width) position.X = Seamap.seamapWidth - width;
+
+            if (position.Y < Seamap.seamapHeight - 700) position.Y = Seamap.seamapHeight - 700;
+            if (position.Y > Seamap.seamapHeight - height) position.Y = Seamap.seamapHeight - height;
         }
 
-        #region Drawing "Disembark" text
-        internal void DrawSubText()
+        public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            float alpha = modPlayer.subTextAlpha;
-            Color color = Color.White;
+            int frameNum = 0;
+            EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
 
-            if (Main.worldName == KeyID.Sea)
+            if (Main.netMode == NetmodeID.SinglePlayer || (myPlayer.team == 0))
             {
-                string text = "Disembark?";
-                color *= alpha;
-                Vector2 textSize = Terraria.GameContent.FontAssets.MouseText.Value.MeasureString(text);
-                float textPositionLeft = position.X - textSize.X / 2;
-                Main.spriteBatch.DrawString(Terraria.GameContent.FontAssets.MouseText.Value, text, new Vector2(textPositionLeft, position.Y + 20) - Main.screenPosition, color * (1 - (modPlayer.cutSceneTriggerTimer / 180f)), 0f, Vector2.Zero, 1, SpriteEffects.None, 0f);
+                if (eePlayer.boatSpeed == 3)
+                {
+                    frameNum = 1;
+                }
+
+                if (eePlayer.boatSpeed == 1)
+                {
+                    frameNum = 0;
+                }
             }
+
+            if (Main.netMode != NetmodeID.SinglePlayer)
+            {
+                switch (myPlayer.team)
+                {
+                    case 1:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 3;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 2;
+                        break;
+                    case 2:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 9;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 8;
+                        break;
+                    case 3:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 5;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 4;
+                        break;
+                    case 4:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 7;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 6;
+                        break;
+                    case 5:
+                        if (eePlayer.boatSpeed == 3)
+                            frameNum = 11;
+                        if (eePlayer.boatSpeed == 1)
+                            frameNum = 10;
+                        break;
+                }
+            }
+
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/ShipMount").Value;
+
+            spriteBatch.Draw(playerShipTexture, position - Main.screenPosition,
+                new Rectangle(0, frameNum * 52, playerShipTexture.Width, playerShipTexture.Height / 12),
+                Color.White * (1 - (Main.LocalPlayer.GetModPlayer<EEPlayer>().cutSceneTriggerTimer / 180f)),
+                velocity.X / 10, new Rectangle(0, frameNum * 52, playerShipTexture.Width, playerShipTexture.Height / 12).Size() / 2,
+                1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+
+            return false;
         }
-        #endregion
     }
 }

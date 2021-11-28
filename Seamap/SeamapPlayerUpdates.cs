@@ -24,6 +24,7 @@ using EEMod.Seamap.SeamapContent;
 using EEMod.Autoloading;
 using EEMod.Systems.Subworlds.EESubworlds;
 using System.Diagnostics;
+using EEMod.Seamap.SeamapContent;
 
 namespace EEMod
 {
@@ -156,8 +157,15 @@ namespace EEMod
             }
 
             bool isCollidingWithAnyIsland = false;
-            foreach (var island in SeamapObjects.IslandEntities)
+            foreach (var obj in SeamapObjects.SeamapEntities)
             {
+                if(!(obj is Island))
+                {
+                    return;
+                }
+
+                Island island = obj as Island;
+
                 if (island.isCollidingWithPlayer)
                 {
                     subTextAlpha += 0.02f;
@@ -250,19 +258,71 @@ namespace EEMod
 
         public static void InitializeSeamap()
         {
-            SeamapObjects.InitObjects(new Vector2(1132, 1423) * 4);
+            SeamapObjects.InitObjects(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 450, Seamap.SeamapContent.Seamap.seamapWidth - 100));
 
-            SeamapObjects.IslandEntities.Add(new TropicalIsland1(new Vector2(500, 500) * 4));
+            SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 402, Seamap.SeamapContent.Seamap.seamapHeight - 118)));
 
-            SeamapObjects.IslandEntities.Add(new TropicalIsland2(new Vector2(700, 300) * 4));
+            for (int i = 0; i < 15; i++)
+            {
+                switch (Main.rand.Next(0, 6)) 
+                {
+                    case 0:
+                        SeamapObjects.NewSeamapObject(new Rock1(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
+                        break;
+                    case 1:
+                        SeamapObjects.NewSeamapObject(new Rock2(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
+                        break;
+                    case 2:
+                        SeamapObjects.NewSeamapObject(new Rock3(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
+                        break;
+                    case 3:
+                        SeamapObjects.NewSeamapObject(new Rock4(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
+                        break;
+                    case 4:
+                        SeamapObjects.NewSeamapObject(new Rock5(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
+                        break;
+                    case 5:
+                        SeamapObjects.NewSeamapObject(new Rock6(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
+                        break;
+                }
+            }
 
-            SeamapObjects.IslandEntities.Add(new VolcanoIsland(new Vector2(300, 600) * 4));
+            for (int i = 0; i < 15; i++)
+            {
+                switch (Main.rand.Next(0, 6))
+                {
+                    case 0:
+                        SeamapObjects.NewSeamapObject(new Rock1(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
+                        break;
+                    case 1:
+                        SeamapObjects.NewSeamapObject(new Rock2(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
+                        break;
+                    case 2:
+                        SeamapObjects.NewSeamapObject(new Rock3(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
+                        break;
+                    case 3:
+                        SeamapObjects.NewSeamapObject(new Rock4(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
+                        break;
+                    case 4:
+                        SeamapObjects.NewSeamapObject(new Rock5(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
+                        break;
+                    case 5:
+                        SeamapObjects.NewSeamapObject(new Rock6(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
+                        break;
+                }
+            }
 
-            SeamapObjects.IslandEntities.Add(new MoyaiIsland(new Vector2(300, 600) * 4));
+            //SeamapObjects.IslandEntities.Add(new TropicalIsland1(new Vector2(500, 500)));
 
-            SeamapObjects.IslandEntities.Add(new CoralReefsIsland(new Vector2(300, 600) * 4));
+            //SeamapObjects.IslandEntities.Add(new TropicalIsland2(new Vector2(700, 300)));
 
-            SeamapObjects.IslandEntities.Add(new MainIsland(new Vector2(1332, 1423) * 4));
+            //SeamapObjects.IslandEntities.Add(new VolcanoIsland(new Vector2(300, 600)));
+
+            //SeamapObjects.IslandEntities.Add(new MoyaiIsland(new Vector2(300, 600)));
+
+            //SeamapObjects.IslandEntities.Add(new CoralReefsIsland(new Vector2(300, 600)));
+
+            //SeamapObjects.IslandEntities.Add(new MainIsland(new Vector2(200, 200)));
         }
 
         public void UpdateCutscenesAndTempShaders()

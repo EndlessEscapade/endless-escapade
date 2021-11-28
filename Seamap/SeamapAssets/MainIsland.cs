@@ -13,7 +13,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 0;
         public override bool cancollide => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/MainIsland").Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/MainIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public override IslandID id => IslandID.MainIsland;
 

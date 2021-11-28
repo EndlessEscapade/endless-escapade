@@ -7,27 +7,21 @@ using EEMod.Autoloading;
 using EEMod.Extensions;
 using Microsoft.Xna.Framework;
 using Terraria;
+using System.Diagnostics;
 
 namespace EEMod.Seamap.SeamapContent
 {
     internal static class SeamapObjects
     {
-        [FieldInit] public static List<Island> IslandEntities = new List<Island>();
-
-        [FieldInit] internal static List<ISeamapEntity> OceanMapElements = new List<ISeamapEntity>();
-
-        [FieldInit] internal static SeamapObject[] SeamapEntities = new SeamapObject[400];
+        public static SeamapObject[] SeamapEntities = new SeamapObject[400];
 
         public static EEPlayerShip localship;
 
         public static void InitObjects(Vector2 shipPos)
         {
-            localship = new EEPlayerShip(shipPos, Vector2.Zero);
+            localship = new EEPlayerShip(shipPos, Vector2.Zero, Main.LocalPlayer);
 
-            SeamapEntities[0] = localship;
-            SeamapEntities[0].whoAmI = 0;
-
-            localship.OnSpawn();
+            NewSeamapObject(localship);
         }
 
         public static void NewSeamapObject(SeamapObject obj)
@@ -38,7 +32,9 @@ namespace EEMod.Seamap.SeamapContent
                 {
                     SeamapEntities[i] = obj;
                     SeamapEntities[i].whoAmI = i;
-                    obj.OnSpawn();
+                    SeamapEntities[i].active = true;
+                    SeamapEntities[i].OnSpawn();
+
                     break;
                 }
             }

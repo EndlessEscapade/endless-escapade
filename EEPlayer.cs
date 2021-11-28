@@ -315,12 +315,10 @@ namespace EEMod
                     SeamapObjects.localship.shipHelth = SeamapObjects.localship.ShipHelthMax;
                 }
 
-                SeamapObjects.IslandEntities.Clear();
                 displacmentX = 0;
                 displacmentY = 0;
                 startingText = false;
                 Particles.Clear();
-                SeamapObjects.OceanMapElements.Clear();
                 isCameraFixating = false;
             }
         }
