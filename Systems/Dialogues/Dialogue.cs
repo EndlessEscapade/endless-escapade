@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using EEMod.UI.States;
 using EEMod.Extensions;
 using Microsoft.Xna.Framework;
+using Terraria.GameContent.UI.Elements;
+using ReLogic.Content;
 
 namespace EEMod.Systems
 {
@@ -45,7 +47,16 @@ namespace EEMod.Systems
 			DialogueUI.Dialogue = (DialoguePieces[piece].FormatString(60));
 			Piece = piece;
 		}
-		public virtual void PresentResponses(int[] responses) { }
+		public virtual void PresentResponses(int[] responses)
+		{
+			DialogueUI.Dialogue = "";
+			DialogueUI.Portrait.Remove();
+			DialogueUI.ResponsesList.Clear();
+			for (int i = 0; i < responses.Length; i++)
+            {
+				DialogueUI.ResponsesList.Add(new Response(responses[i]));
+			}
+		}
 		public virtual void CloseDialogue() 
 		{
 			EEMod.UI.RemoveState("DialogueInterface");

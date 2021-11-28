@@ -17,11 +17,12 @@ namespace EEMod.UI.States
 	public class DialogueUI : UIState
 	{
 		public static Dialogue CurrentDialogueSystem;
+		public static UIElement Box;
 		public static UIImage Portrait;
 		public static UIElement DialoguePoint;
 		public static DialogueBox Background;
+		public static UIList ResponsesList;
 		public static string Dialogue;
-		public UIElement Box;
 		public string CurrentDialogueText = "";
 		public int AddLetterTimer;
 		public int CurrentLetter;
@@ -45,10 +46,18 @@ namespace EEMod.UI.States
 			DialoguePoint.HAlign = 0.25f;
 			DialoguePoint.VAlign = 0.18f;
 
+			ResponsesList = new UIList();
+			ResponsesList.Width.Set(756, 0f);
+			ResponsesList.Height.Set(180, 0f);
+			ResponsesList.HAlign = 0.5f;
+			ResponsesList.VAlign = 0.5f;
+			ResponsesList.ListPadding = 8f;
+
 			Append(Box);
 			Box.Append(Background);
 			Box.Append(Portrait);
 			Box.Append(DialoguePoint);
+			Box.Append(ResponsesList);
 		}
 		public override void Update(GameTime gameTime)
 		{ 
@@ -105,6 +114,32 @@ namespace EEMod.UI.States
 			var dimensions = GetDimensions();
 			int x = (int)(dimensions.X + Texture.Size().X / 2);
 			int y = (int)(dimensions.Y);
+			spriteBatch.Draw(Texture, new Vector2(x, y), null, ThemeColor * 0.9f, 0f, Texture.Size(), 1f, SpriteEffects.None, 0f);
+        }
+    }
+    public class Response : UIImageButton
+    {
+		public Texture2D Texture;
+		public Color ThemeColor;
+		public int Piece;
+		public Response(int piece) : base(ModContent.Request<Texture2D>("EEMod/UI/DialogueResponse"))
+		{
+			Piece = piece;
+			Texture = ModContent.Request<Texture2D>("EEMod/UI/DialogueResponse", AssetRequestMode.ImmediateLoad).Value;
+			ThemeColor = Color.LightBlue;
+		}
+        public override void Click(UIMouseEvent evt)
+        {
+			Main.NewText(Piece);
+			DialogueUI.CurrentDialogueSystem.OnDialoguePieceFinished(Piece);
+			DialogueUI.Box.Append(DialogueUI.Portrait);
+			DialogueUI.ResponsesList.Clear();
+		}
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			var dimensions = GetDimensions();
+			int x = (int)(dimensions.X + Texture.Size().X);
+			int y = (int)(dimensions.Y + Texture.Size().Y);
 			spriteBatch.Draw(Texture, new Vector2(x, y), null, ThemeColor * 0.9f, 0f, Texture.Size(), 1f, SpriteEffects.None, 0f);
 		}
 	}
