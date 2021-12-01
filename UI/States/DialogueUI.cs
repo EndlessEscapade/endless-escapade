@@ -57,7 +57,6 @@ namespace EEMod.UI.States
 			Box.Append(Background);
 			Box.Append(Portrait);
 			Box.Append(DialoguePoint);
-			Box.Append(ResponsesList);
 		}
 		public override void Update(GameTime gameTime)
 		{ 
@@ -82,7 +81,7 @@ namespace EEMod.UI.States
 		{
 			base.Draw(spriteBatch);
 			//Don't ask why this has to be here and not in Update I couldn't answer you
-			if (CurrentDialogueSystem.LockPlayerMovement && Main.mouseLeft && Main.mouseLeftRelease || Box.IsMouseHovering && Main.mouseLeft && Main.mouseLeftRelease)
+			if (ResponsesList.Count == 0 && CurrentDialogueSystem.LockPlayerMovement && Main.mouseLeft && Main.mouseLeftRelease || ResponsesList.Count == 0 && Box.IsMouseHovering && Main.mouseLeft && Main.mouseLeftRelease)
 			{
 				if (CurrentDialogueText == Dialogue)
                 {
@@ -122,15 +121,14 @@ namespace EEMod.UI.States
 		public Texture2D Texture;
 		public Color ThemeColor;
 		public int Piece;
-		public Response(int piece) : base(ModContent.Request<Texture2D>("EEMod/UI/DialogueResponse"))
+		public Response(int piece, Color themeColor) : base(ModContent.Request<Texture2D>("EEMod/UI/DialogueResponse"))
 		{
 			Piece = piece;
+			ThemeColor = themeColor;
 			Texture = ModContent.Request<Texture2D>("EEMod/UI/DialogueResponse", AssetRequestMode.ImmediateLoad).Value;
-			ThemeColor = Color.LightBlue;
 		}
         public override void Click(UIMouseEvent evt)
         {
-			Main.NewText(Piece);
 			DialogueUI.CurrentDialogueSystem.OnDialoguePieceFinished(Piece);
 			DialogueUI.Box.Append(DialogueUI.Portrait);
 			DialogueUI.ResponsesList.Clear();
@@ -140,7 +138,8 @@ namespace EEMod.UI.States
 			var dimensions = GetDimensions();
 			int x = (int)(dimensions.X + Texture.Size().X);
 			int y = (int)(dimensions.Y + Texture.Size().Y);
-			spriteBatch.Draw(Texture, new Vector2(x, y), null, ThemeColor * 0.9f, 0f, Texture.Size(), 1f, SpriteEffects.None, 0f);
+			float transparency = IsMouseHovering ? 0.9f : 0.4f;
+			spriteBatch.Draw(Texture, new Vector2(x, y), null, ThemeColor * transparency, 0f, Texture.Size(), 1f, SpriteEffects.None, 0f);
 		}
 	}
 }

@@ -41,6 +41,9 @@ namespace EEMod.Systems
 			DialogueUI.Background.ThemeColor = ThemeColor;
 			DialogueUI.Portrait.SetImage(Portraits[0]);
 			DialogueUI.Dialogue = DialoguePieces[0].FormatString(60);
+			//You can guess by now that I have no idea why these 2 are needed but they are
+			DialogueUI.ResponsesList.Add(new Response(0, ThemeColor));
+			DialogueUI.ResponsesList.Clear();
 		}
 		public virtual void SayPiece(int piece) 
 		{
@@ -51,11 +54,11 @@ namespace EEMod.Systems
 		{
 			DialogueUI.Dialogue = "";
 			DialogueUI.Portrait.Remove();
-			DialogueUI.ResponsesList.Clear();
 			for (int i = 0; i < responses.Length; i++)
             {
-				DialogueUI.ResponsesList.Add(new Response(responses[i]));
+				DialogueUI.ResponsesList.Add(new Response(responses[i], ThemeColor));
 			}
+			DialogueUI.Box.Append(DialogueUI.ResponsesList);
 		}
 		public virtual void CloseDialogue() 
 		{
