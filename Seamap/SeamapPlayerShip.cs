@@ -21,6 +21,9 @@ namespace EEMod.Seamap.SeamapContent
         public float ShipHelthMax = 7;
         public float shipHelth = 7;
         public int cannonDelay = 60;
+
+        public int abilityDelay = 120;
+
         public Player myPlayer;
 
         public EEPlayerShip(Vector2 pos, Vector2 vel, Player player) : base(pos, vel)
@@ -41,37 +44,45 @@ namespace EEMod.Seamap.SeamapContent
             float boatSpeed = 1;
 
             position += velocity;
-            if (Main.LocalPlayer.controlUp)
+            if (myPlayer.controlUp)
             {
                 velocity.Y -= 0.1f * boatSpeed;
             }
-            if (Main.LocalPlayer.controlDown)
+            if (myPlayer.controlDown)
             {
                 velocity.Y += 0.1f * boatSpeed;
             }
-            if (Main.LocalPlayer.controlRight)
+            if (myPlayer.controlRight)
             {
                 velocity.X += 0.1f * boatSpeed;
             }
-            if (Main.LocalPlayer.controlLeft)
+            if (myPlayer.controlLeft)
             {
                 velocity.X -= 0.1f * boatSpeed;
             }
-            if (Main.LocalPlayer.controlUseItem && cannonDelay <= 0)
+            if (myPlayer.controlUseItem && cannonDelay <= 0)
             {
                 //Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
                 
                 SoundEngine.PlaySound(SoundID.Item61);
                 cannonDelay = 60;
             }
-            
+            if (myPlayer.controlUseTile && abilityDelay <= 0)
+            {
+                //Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
+
+                SoundEngine.PlaySound(SoundID.Item37);
+                abilityDelay = 120;
+            }
+
             cannonDelay--;
+            abilityDelay--;
 
             Vector2 v = new Vector2(boatSpeed * 4);
 
             velocity = Vector2.Clamp(velocity, -v, v);
 
-            velocity *= 0.98f;
+            //velocity *= 0.98f;
 
             base.Update();
 
@@ -141,7 +152,7 @@ namespace EEMod.Seamap.SeamapContent
 
             spriteBatch.Draw(playerShipTexture, position - Main.screenPosition,
                 new Rectangle(0, frameNum * 52, playerShipTexture.Width, playerShipTexture.Height / 12),
-                Color.White * (1 - (Main.LocalPlayer.GetModPlayer<EEPlayer>().cutSceneTriggerTimer / 180f)),
+                Color.White * (1 - (eePlayer.cutSceneTriggerTimer / 180f)),
                 velocity.X / 10, new Rectangle(0, frameNum * 52, playerShipTexture.Width, playerShipTexture.Height / 12).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 

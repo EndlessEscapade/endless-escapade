@@ -175,18 +175,6 @@ namespace EEMod.NPCs.Friendly
 
             if (angler >= 0)
             {
-                int steampunker = NPC.FindFirstNPC(NPCID.Steampunker);
-                if (steampunker >= 0)
-                {
-                    chat.Add("Me and " + Main.npc[steampunker].GivenName + " have a lot in common - we both love ships!");
-                }
-
-                int pirate = NPC.FindFirstNPC(NPCID.Pirate);
-                if (pirate >= 0)
-                {
-                    chat.Add(Main.npc[pirate].GivenName + "? Oh, he's an old rival.");
-                }
-
                 if (Main.dayTime)
                 {
                     chat.Add("I always love stepping out on the pier at the crack of dawn.");
