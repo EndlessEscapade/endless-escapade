@@ -85,8 +85,6 @@ namespace EEMod
             On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
 
-            On.Terraria.Player.UpdateBuffs += EEPlayer.OverrideUpdateBuffs;
-
             WP = new WaterPrimitive(null);
             PrimitiveSystem.primitives.CreateTrail(WP);
         }
@@ -113,7 +111,6 @@ namespace EEMod
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
             On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= LiquidRenderer_InternalDraw;
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
-            On.Terraria.Player.UpdateBuffs -= EEPlayer.OverrideUpdateBuffs;
         }
 
 

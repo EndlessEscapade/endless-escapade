@@ -212,8 +212,8 @@ namespace EEMod.Items.Weapons.Mage
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
             }
 
-            Texture2D gauntlet = ModContent.Request<Texture2D>("EEMod/Items/Weapons/Melee/StormGauntletProj").Value;
-            Texture2D glow = ModContent.Request<Texture2D>("EEMod/Items/Weapons/Melee/StormGauntletProjGlow").Value;
+            Texture2D gauntlet = ModContent.Request<Texture2D>("EEMod/Items/Weapons/Mage/StormGauntletProj").Value;
+            Texture2D glow = ModContent.Request<Texture2D>("EEMod/Items/Weapons/Mage/StormGauntletProjGlow").Value;
 
             Helpers.DrawAdditive(mask, Projectile.Center.ForDraw(), Color.Gold * 0.5f, 0.5f, Projectile.rotation);
 
@@ -224,7 +224,7 @@ namespace EEMod.Items.Weapons.Mage
 
                 ApplyIntroShader(1f, new Vector2(34, 34), Vector2.Zero, Vector2.One, true, 1f);
 
-                Texture2D gauntletalt = ModContent.Request<Texture2D>("EEMod/Items/Weapons/Melee/StormGauntletProjTrim").Value;
+                Texture2D gauntletalt = ModContent.Request<Texture2D>("EEMod/Items/Weapons/Mage/StormGauntletProjTrim").Value;
 
                 for (int k = 0; k < 4; k++)
                 {

@@ -252,17 +252,6 @@ namespace EEMod
             Player.AddBuff(BuffID.Cursed, 100000);
             Main.GameZoomTarget = 1f;
         }
-
-        internal static void OverrideUpdateBuffs(On.Terraria.Player.orig_UpdateBuffs orig, Player self, int i)
-        {
-            orig(self, i);
-            if (Main.worldName == KeyID.Sea)
-            {
-                self.noItems = true;
-                self.invis = true;
-            }
-        }
-
         public override void clientClone(ModPlayer clientClone) { }
 
         public Vector2 EEPosition;
