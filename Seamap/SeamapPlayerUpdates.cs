@@ -49,6 +49,8 @@ namespace EEMod
         public Vector2 position;
         public Vector2 velocity;
 
+        public bool IncreaseStarFall;
+
         public static string prevKey = "Main";
 
         public string baseWorldName;
@@ -251,6 +253,15 @@ namespace EEMod
 
             Player.AddBuff(BuffID.Cursed, 100000);
             Main.GameZoomTarget = 1f;
+            if (Main.dayTime)
+            {
+                IncreaseStarFall = true;
+            }
+            else if (IncreaseStarFall)
+            {
+                IncreaseStarFall = false;
+                Star.starfallBoost += 1f;
+            }
         }
         public override void clientClone(ModPlayer clientClone) { }
 
