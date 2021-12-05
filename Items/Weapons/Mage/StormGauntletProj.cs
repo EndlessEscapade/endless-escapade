@@ -55,6 +55,10 @@ namespace EEMod.Items.Weapons.Mage
 
                 Projectile.ai[1] = 1;
             }
+            if (Main.player[Projectile.owner].HeldItem.type != ModContent.ItemType<StormGauntlet>())
+            {
+                Projectile.Kill();
+            }
 
             Vector2 desiredPos = Main.MouseWorld - Main.LocalPlayer.Center;
 

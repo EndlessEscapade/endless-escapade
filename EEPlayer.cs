@@ -573,7 +573,6 @@ namespace EEMod
                 }
             }
         }
-
         public override void UpdateEquips()
         {
             if (aquamarineSetBonus)

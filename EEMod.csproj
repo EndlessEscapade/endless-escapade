@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
-  <Target Name="CompileEffects" BeforeTargets="Build" WorkingDirectory="Effects">
-    <Exec Command="fxcompiler_reach.exe" />
+  <Target Name="CompileEffects" BeforeTargets="Build">
+    <Exec  WorkingDirectory="Effects" Command="fxcompiler_reach.exe" />
   </Target>
 </Project>
