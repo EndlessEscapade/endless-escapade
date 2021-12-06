@@ -494,6 +494,11 @@ namespace EEMod
 
             if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
             {
+                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
+
+                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, (Seamap.SeamapContent.Seamap.seamapWidth) - Main.screenWidth);
+                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, (Seamap.SeamapContent.Seamap.seamapHeight) - Main.screenHeight);
+
                 Seamap.SeamapContent.Seamap.UpdateSeamap();
 
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);

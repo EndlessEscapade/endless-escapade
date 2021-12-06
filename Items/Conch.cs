@@ -31,10 +31,16 @@ namespace EEMod.Items
 
         public override bool? UseItem(Player player)
         {
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
-            SubworldManager.EnterSubworld<CoralReefs>(); 
+            //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
+            //SubworldManager.EnterSubworld<CoralReefs>();
 
-            //Structure.SaveWorldStructureTo(132, 183, 45, 36, System.IO.Path.Combine(Main.SavePath, "builtboat"));
+            //Structure.SaveWorldStructureTo(306, 396, 11, 15, System.IO.Path.Combine(Main.SavePath, "RockSpire1"));
+
+            //Structure.SaveWorldStructureTo(325, 396, 11, 15, System.IO.Path.Combine(Main.SavePath, "RockSpire2"));
+
+            //Structure.SaveWorldStructureTo(340, 402, 11, 9, System.IO.Path.Combine(Main.SavePath, "SunkRaft"));
+
+            //Structure.SaveWorldStructureTo(356, 406, 9, 5, System.IO.Path.Combine(Main.SavePath, "SandChest"));
 
             return true;
         }

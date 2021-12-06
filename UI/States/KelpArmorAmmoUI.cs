@@ -13,7 +13,7 @@ namespace EEMod.UI.States
 		public static CustomItemSlot Slot;
         public override void OnInitialize()
 		{
-            CroppedTexture2D emptyTexture = new CroppedTexture2D(ModContent.Request<Texture2D>("EEMod/UI/MerchantBoatSlot").Value); //placeholder
+            CroppedTexture2D emptyTexture = new CroppedTexture2D(ModContent.Request<Texture2D>("EEMod/UI/FishBorderGold").Value); //placeholder
 
             Slot = new CustomItemSlot(0, 0.6f)
             {

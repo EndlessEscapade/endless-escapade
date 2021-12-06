@@ -303,23 +303,26 @@ namespace EEMod.EEWorld
                             {
                                 //Ocean floor worldgen
 
-                                if (WorldGen.genRand.NextBool(20) && k > j + 20/* && i < - 5*/)
+                                /*if (WorldGen.genRand.NextBool(20) && k > j + 20 && i < - 5)
                                 {
                                     switch (WorldGen.genRand.Next(3))
                                     {
                                         case 0:
                                             Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/RockSpire1.lcs")).PlaceAt(i, k - 15, true, true, true);
+                                            i += 12;
                                             break;
                                         case 1:
                                             Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/RockSpire2.lcs")).PlaceAt(i, k - 15, true, true, true);
+                                            i += 12;
                                             break;
                                         case 2:
+                                            i += 8;
                                             Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/SunkRaft.lcs")).PlaceAt(i, k - 8, true, true, true);
                                             break;
                                     }
 
                                     break;
-                                }
+                                }*/
 
                                 Main.tile[i, k].Slope = 0;
 

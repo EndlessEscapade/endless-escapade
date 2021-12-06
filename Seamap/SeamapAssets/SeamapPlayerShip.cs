@@ -36,12 +36,12 @@ namespace EEMod.Seamap.SeamapContent
             width = 44;
             height = 52;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/ShipMount").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip").Value;
         }
 
         public override void Update()
         {
-            float boatSpeed = 1;
+            float boatSpeed = 0.5f;
 
             position += velocity;
             if (myPlayer.controlUp)
@@ -62,17 +62,21 @@ namespace EEMod.Seamap.SeamapContent
             }
             if (myPlayer.controlUseItem && cannonDelay <= 0)
             {
-                //Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
-                
+                SeamapObjects.NewSeamapObject(new FriendlyCannonball(Center, Vector2.Normalize(Main.MouseWorld - Center) * 4));
+
                 SoundEngine.PlaySound(SoundID.Item61);
                 cannonDelay = 60;
             }
             if (myPlayer.controlUseTile && abilityDelay <= 0)
             {
-                //Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_BySourceId(ModContent.ProjectileType<FriendlyCannonball>()), position + Main.screenPosition, -Vector2.Normalize(position + Main.screenPosition - Main.MouseWorld) * 4, ModContent.ProjectileType<FriendlyCannonball>(), 0, 0);
-
+                //velocity = Vector2.Zero;
                 SoundEngine.PlaySound(SoundID.Item37);
                 abilityDelay = 120;
+            }
+
+            if (abilityDelay > 110)
+            {
+                velocity *= 0.2f;
             }
 
             cannonDelay--;
@@ -86,15 +90,21 @@ namespace EEMod.Seamap.SeamapContent
 
             base.Update();
 
-            if (position.X < Seamap.seamapWidth - 900) position.X = Seamap.seamapWidth - 900;
+            if (position.X < 0) position.X = 0;
             if (position.X > Seamap.seamapWidth - width) position.X = Seamap.seamapWidth - width;
 
-            if (position.Y < Seamap.seamapHeight - 700) position.Y = Seamap.seamapHeight - 700;
+            if (position.Y < 0) position.Y = 0;
             if (position.Y > Seamap.seamapHeight - height) position.Y = Seamap.seamapHeight - height;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
+            return false;
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch)
+        {
+
             int frameNum = 0;
             EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
 
@@ -148,15 +158,47 @@ namespace EEMod.Seamap.SeamapContent
                 }
             }
 
-            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/ShipMount").Value;
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip").Value;
 
-            spriteBatch.Draw(playerShipTexture, position - Main.screenPosition,
-                new Rectangle(0, frameNum * 52, playerShipTexture.Width, playerShipTexture.Height / 12),
+            spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
+                new Rectangle(0, frameNum * 52, 44, 52),
                 Color.White * (1 - (eePlayer.cutSceneTriggerTimer / 180f)),
-                velocity.X / 10, new Rectangle(0, frameNum * 52, playerShipTexture.Width, playerShipTexture.Height / 12).Size() / 2,
+                velocity.X / 10, new Rectangle(0, frameNum * 52, 44, 52).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
-            return false;
+            base.PostDraw(spriteBatch);
+        }
+
+        public static bool IsTouchingLeft(Rectangle rect1, Rectangle rect2, Vector2 vel)
+        {
+            return rect1.Right + vel.X > rect2.Left &&
+              rect1.Left < rect2.Left &&
+              rect1.Bottom > rect2.Top &&
+              rect1.Top < rect2.Bottom;
+        }
+
+        public static bool IsTouchingRight(Rectangle rect1, Rectangle rect2, Vector2 vel)
+        {
+            return rect1.Left + vel.X < rect2.Right &&
+              rect1.Right > rect2.Right &&
+              rect1.Bottom > rect2.Top &&
+              rect1.Top < rect2.Bottom;
+        }
+
+        public static bool IsTouchingTop(Rectangle rect1, Rectangle rect2, Vector2 vel)
+        {
+            return rect1.Bottom + vel.Y > rect2.Top &&
+              rect1.Top < rect2.Top &&
+              rect1.Right > rect2.Left &&
+              rect1.Left < rect2.Right;
+        }
+
+        public static bool IsTouchingBottom(Rectangle rect1, Rectangle rect2, Vector2 vel)
+        {
+            return rect1.Top + vel.Y < rect2.Bottom &&
+              rect1.Bottom > rect2.Bottom &&
+              rect1.Right > rect2.Left &&
+              rect1.Left < rect2.Right;
         }
     }
 }

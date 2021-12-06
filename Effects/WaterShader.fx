@@ -51,9 +51,9 @@ float GetNoise(float2 Coord)
     return height;
 }
 
-float2 Round(float2 num,int scale)
+float2 Round(float2 num, int scale)
 {
-    return float2((int)(num.x * scale) / (float)scale, (int)(num.y * scale) / (float)scale);
+    return float2((int) (num.x * scale) / (float) scale, (int) (num.y * scale) / (float) scale);
 }
 
 float3 Colour;

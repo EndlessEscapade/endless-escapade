@@ -20,13 +20,13 @@ namespace EEMod.Seamap.SeamapContent
 
         public float alpha = 1f;
 
-        //public int whoAmI; // from Entity
-
         public int[] ai = new int[3];
 
         public Rectangle rect => new Rectangle((int)position.X, (int)position.Y, width, height);
 
         public int spriteDirection;
+
+        public bool collides = false;
 
         public SeamapObject(Vector2 pos, Vector2 vel)
         {

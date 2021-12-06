@@ -181,7 +181,8 @@ namespace EEMod
                 }
             }
 
-            Player.GetModPlayer<EEPlayer>().baseWorldName = Main.ActiveWorldFileData.Name;
+            Player.GetModPlayer<EEPlayer>().baseWorldName = Main.ActiveWorldFileData.Name.Replace(' ', '_');
+
             if (Main.netMode != NetmodeID.Server && Filters.Scene[SunThroughWallsShader].IsActive())
             {
                 Filters.Scene.Deactivate(SunThroughWallsShader);

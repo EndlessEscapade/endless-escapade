@@ -23,24 +23,39 @@ namespace EEMod.Seamap.SeamapContent
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
 
-            Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
-
-            Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, (seamapWidth) - Main.screenWidth);
-            Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, (seamapHeight) - Main.screenHeight);
-
             RenderWater(spriteBatch); //Layer 0
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
             RenderSeamapUI(spriteBatch); //Layer 3
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
             //EEMod.DrawText();
         }
 
         public static void RenderSeamapUI(SpriteBatch spriteBatch)
         {
-            Texture2D texture3 = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/ShipHelthSheet").Value;
+            #region Rendering ship healthbar
+            Texture2D healthBar = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/HealthbarBg").Value;
+            Texture2D healthBarFill = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/HealthbarFill").Value;
 
-            Rectangle rect = new Rectangle(0, (int)(texture3.Height / 8 * SeamapObjects.localship.shipHelth), texture3.Width, texture3.Height / 8);
-            spriteBatch.Draw(texture3, new Vector2(Main.screenWidth - 200, 200), rect, Color.White, 0, texture3.TextureCenter(), 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(healthBar, new Vector2(Main.screenWidth - 200, 40), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+
+            spriteBatch.Draw(healthBarFill, new Vector2(Main.screenWidth - 200, 40), 
+                new Rectangle(0, 0, (int)(SeamapObjects.localship.shipHelth / SeamapObjects.localship.ShipHelthMax) * 116, 40), 
+                Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+
+            #endregion 
+
+            #region Rendering cannonball target
+            Texture2D targetTex = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Target").Value;
+
+            spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.Normalize(Main.MouseWorld - SeamapObjects.localship.Center) * 128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
+            #endregion
         }
 
         public static void RenderEntities(SpriteBatch spriteBatch)

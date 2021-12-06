@@ -19,7 +19,8 @@ namespace EEMod.Seamap.SeamapAssets
 
         public MainIsland(Vector2 pos): base(pos)
         {
-            
+            width = 402;
+            height = 118;
         }
     }
 }

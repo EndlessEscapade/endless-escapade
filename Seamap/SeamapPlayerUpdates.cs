@@ -158,60 +158,64 @@ namespace EEMod
                 arrowFlag = true;
             }
 
+            Main.NewText("yessir0");
+
             bool isCollidingWithAnyIsland = false;
-            foreach (var obj in SeamapObjects.SeamapEntities)
+            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
             {
-                if(!(obj is Island))
+                if (obj is Island)
                 {
-                    return;
-                }
+                    Island island = obj as Island;
 
-                Island island = obj as Island;
+                    Main.NewText("yessir1");
 
-                if (island.isCollidingWithPlayer)
-                {
-                    subTextAlpha += 0.02f;
-                    if (subTextAlpha >= 1)
+                    if (island.isCollidingWithPlayer)
                     {
-                        subTextAlpha = 1;
-                    }
-
-                    if (EEMod.Inspect.JustPressed)
-                    {
-                        switch (island.id)
+                        subTextAlpha += 0.02f;
+                        if (subTextAlpha >= 1)
                         {
-                            case IslandID.TropicalIsland1:
-                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                break;
-
-                            case IslandID.TropicalIsland2:
-                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                break;
-
-                            case IslandID.VolcanoIsland:
-                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                break;
-
-                            case IslandID.MoyaiIsland:
-                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                break;
-
-                            case IslandID.CoralReefs:
-                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                break;
-
-                            case IslandID.MainIsland:
-                                ReturnHome();
-                                break;
+                            subTextAlpha = 1;
                         }
 
-                        prevKey = KeyID.Sea;
+                        Main.NewText("yessir2");
+
+                        if (EEMod.Inspect.JustPressed)
+                        {
+                            switch (island.id)
+                            {
+                                case IslandID.TropicalIsland1:
+                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                    break;
+
+                                case IslandID.TropicalIsland2:
+                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                    break;
+
+                                case IslandID.VolcanoIsland:
+                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                    break;
+
+                                case IslandID.MoyaiIsland:
+                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                    break;
+
+                                case IslandID.CoralReefs:
+                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                    break;
+
+                                case IslandID.MainIsland:
+                                    ReturnHome();
+                                    break;
+                            }
+
+                            prevKey = KeyID.Sea;
+                        }
+
+                        isCollidingWithAnyIsland = true;
+
+                        Player.ClearBuff(BuffID.Cursed);
+                        Player.ClearBuff(BuffID.Invisibility);
                     }
-
-                    isCollidingWithAnyIsland = true;
-
-                    Player.ClearBuff(BuffID.Cursed);
-                    Player.ClearBuff(BuffID.Invisibility);
                 }
             }
 
@@ -269,71 +273,7 @@ namespace EEMod
 
         public static void InitializeSeamap()
         {
-            SeamapObjects.InitObjects(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 450, Seamap.SeamapContent.Seamap.seamapWidth - 100));
-
-            SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 402, Seamap.SeamapContent.Seamap.seamapHeight - 118)));
-
-            for (int i = 0; i < 15; i++)
-            {
-                switch (Main.rand.Next(0, 6)) 
-                {
-                    case 0:
-                        SeamapObjects.NewSeamapObject(new Rock1(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
-                        break;
-                    case 1:
-                        SeamapObjects.NewSeamapObject(new Rock2(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
-                        break;
-                    case 2:
-                        SeamapObjects.NewSeamapObject(new Rock3(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
-                        break;
-                    case 3:
-                        SeamapObjects.NewSeamapObject(new Rock4(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
-                        break;
-                    case 4:
-                        SeamapObjects.NewSeamapObject(new Rock5(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
-                        break;
-                    case 5:
-                        SeamapObjects.NewSeamapObject(new Rock6(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - (i * 67), Seamap.SeamapContent.Seamap.seamapHeight - 800)));
-                        break;
-                }
-            }
-
-            for (int i = 0; i < 15; i++)
-            {
-                switch (Main.rand.Next(0, 6))
-                {
-                    case 0:
-                        SeamapObjects.NewSeamapObject(new Rock1(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
-                        break;
-                    case 1:
-                        SeamapObjects.NewSeamapObject(new Rock2(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
-                        break;
-                    case 2:
-                        SeamapObjects.NewSeamapObject(new Rock3(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
-                        break;
-                    case 3:
-                        SeamapObjects.NewSeamapObject(new Rock4(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
-                        break;
-                    case 4:
-                        SeamapObjects.NewSeamapObject(new Rock5(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
-                        break;
-                    case 5:
-                        SeamapObjects.NewSeamapObject(new Rock6(new Vector2(Seamap.SeamapContent.Seamap.seamapWidth - 1000, Seamap.SeamapContent.Seamap.seamapHeight - (i * 53))));
-                        break;
-                }
-            }
-
-            //SeamapObjects.IslandEntities.Add(new TropicalIsland1(new Vector2(500, 500)));
-
-            //SeamapObjects.IslandEntities.Add(new TropicalIsland2(new Vector2(700, 300)));
-
-            //SeamapObjects.IslandEntities.Add(new VolcanoIsland(new Vector2(300, 600)));
-
-            //SeamapObjects.IslandEntities.Add(new MoyaiIsland(new Vector2(300, 600)));
-
-            //SeamapObjects.IslandEntities.Add(new CoralReefsIsland(new Vector2(300, 600)));
-
-            //SeamapObjects.IslandEntities.Add(new MainIsland(new Vector2(200, 200)));
+            Seamap.SeamapContent.Seamap.InitializeSeamap();
         }
 
         public void UpdateCutscenesAndTempShaders()

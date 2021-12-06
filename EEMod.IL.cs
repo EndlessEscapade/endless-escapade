@@ -433,34 +433,34 @@ namespace EEMod
                     break;
                 }
 
-                /*case 1:
+                case 1:
                 {
-                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/HermitCrab").Value;
+                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/HermitCrab").Value;
                     _screenframes = 4;
                     _screenframeSpeed = 5;
                     break;
                 }
                 case 2:
                 {
-                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/Seahorse").Value;
+                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/Seahorse").Value;
                     _screenframes = 7;
                     _screenframeSpeed = 4;
                     break;
                 }
                 case 3:
                 {
-                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/Lionfish").Value;
+                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/LowerReefs/Lionfish").Value;
                     _screenframes = 8;
                     _screenframeSpeed = 10;
                     break;
                 }
                 case 4:
                 {
-                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/MechanicalReefs/MechanicalShark").Value;
+                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/LowerReefs/MechanicalShark").Value;
                     _screenframes = 6;
                     _screenframeSpeed = 10;
                     break;
-                }*/
+                }
             }
         }
 

@@ -5,6 +5,7 @@ using EEMod.Extensions;
 using EEMod.ID;
 using Terraria.ModLoader;
 using System.Diagnostics;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -20,7 +21,7 @@ namespace EEMod.Seamap.SeamapContent
         public virtual IslandID id => IslandID.Default;
 
         public Vector2 posToScreen => position - Main.screenPosition;
-        public bool isCollidingWithPlayer => SeamapObjects.localship.rect.Intersects(this.rect);
+        public bool isCollidingWithPlayer => SeamapObjects.localship.rect.Intersects(rect);
 
         public int framecounter;
         public int frame;
