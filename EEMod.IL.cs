@@ -456,7 +456,7 @@ namespace EEMod
                 }
                 case 4:
                 {
-                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/LowerReefs/MechanicalShark").Value;
+                    _screenTexture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/ThermalVents/MechanicalShark").Value;
                     _screenframes = 6;
                     _screenframeSpeed = 10;
                     break;

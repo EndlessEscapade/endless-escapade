@@ -9,6 +9,7 @@ using Terraria.ModLoader;
 using EEMod;
 using static EEMod.EEMod;
 using System.Diagnostics;
+using EEMod.Net;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -23,7 +24,41 @@ namespace EEMod.Seamap.SeamapContent
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
 
+            #region Controlling brightness
+            /*if (Main.dayTime)
+            {
+                if (Main.time <= 200)
+                    brightness += 0.0025f;
+
+                if (Main.time >= 52000 && brightness > 0.1f)
+                    brightness -= 0.0025f;
+
+                if (Main.time > 2000 && Main.time < 52000)
+                    brightness = 0.5f;
+            }*/
+            //else
+            //{
+                brightness = 0.1f;
+            //}
+
+            if (Main.time % 1000 == 0)
+            {
+                if (Main.rand.NextBool(10)) isStorming = !isStorming;
+            }
+
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+            {
+                EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
+            }
+            #endregion
+
+            seamapDrawColor = new Color(Color.White.R * brightness, Color.White.G * brightness, Color.White.B * brightness, Color.White.A);
+
             RenderWater(spriteBatch); //Layer 0
+
+            Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, SeamapObjects.localship.Center.ForDraw(), Color.Navy * 0.4f, 3f);
+
+
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
 
             spriteBatch.End();
@@ -79,11 +114,16 @@ namespace EEMod.Seamap.SeamapContent
         public static int seamapWidth = 5000;
         public static int seamapHeight = 5000;
 
+        public static float brightness;
+        public static bool isStorming;
+
+        public static Color seamapDrawColor;
+
         #region Seamap water
         static void RenderWater(SpriteBatch spriteBatch)
         {
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/WaterBg").Value;
+            Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Particles/Square").Value;
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -91,26 +131,32 @@ namespace EEMod.Seamap.SeamapContent
             Vector2 pos = Vector2.Zero;
             Vector2 toScreen = pos.ForDraw();
 
-            Color colour = Color.White;
+            //Color colour = Lighting.GetColor((int)(SeamapObjects.localship.Center.X / 16f), (int)(SeamapObjects.localship.Center.Y / 16f));
 
-            Color SeaColour = new Color(0.1568f, 0.6549f, 0.7607f).MultiplyRGB(colour);
+            //if(colour.R < 1f)
+            //{
+            //colour = new Color(0.8f, 0.8f, 0.8f);
+            //}
 
-            WaterShader.Parameters["noise"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/WormNoisePixelated").Value);
-            WaterShader.Parameters["noiseN"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/WormNoisePixelated").Value);
-            WaterShader.Parameters["water"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/WaterShaderLightMapContrast").Value);
+            Color SeaColour = new Color(40f / 255f, 0.6549f, 0.7607f).MultiplyRGB(seamapDrawColor);
 
-            WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.time / 3000f) * 0.2f);
-            WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.time / 3000f) * 0.2f);
-            WaterShader.Parameters["Colour"].SetValue(SeaColour.ToVector3());
-            WaterShader.Parameters["LightColour"].SetValue(colour.ToVector3());
-            WaterShader.Parameters["waveSpeed"].SetValue(3);
-            WaterShader.Parameters["resolution"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
+            //WaterShader.Parameters["noise"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/WormNoisePixelated").Value);
+            //WaterShader.Parameters["noiseN"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/WormNoisePixelated").Value);
+            //WaterShader.Parameters["water"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/WaterShaderLightMap").Value);
 
-            WaterShader.Parameters["uTime"].SetValue(Main.GameUpdateCount);
+            //WaterShader.Parameters["yCoord"].SetValue((float)Math.Sin(Main.GameUpdateCount / 3000f) * 0.2f);
+            //WaterShader.Parameters["xCoord"].SetValue((float)Math.Cos(Main.GameUpdateCount / 2000f) * 0.2f);
 
-            WaterShader.CurrentTechnique.Passes[0].Apply();
+            //WaterShader.Parameters["Colour"].SetValue(SeaColour.ToVector3());
+            //WaterShader.Parameters["LightColour"].SetValue(seamapDrawColor.ToVector3());
 
-            spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, seamapWidth, seamapHeight), colour);
+            //WaterShader.Parameters["waveSpeed"].SetValue(3);
+
+            //WaterShader.Parameters["resolution"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
+
+            //WaterShader.CurrentTechnique.Passes[0].Apply();
+
+            spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, seamapWidth, seamapHeight), new Color(40, 167, 194));
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

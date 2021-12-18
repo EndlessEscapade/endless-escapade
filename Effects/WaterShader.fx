@@ -61,7 +61,7 @@ float waveSpeed;
 float3 LightColour;
 float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : COLOR0
 {
-    float2 newCoord = Round(coords * 2, resolution.y);
+    float2 newCoord = Round((coords * 2), resolution.y);
     
     float sina = abs(sin(newCoord.x * 10 + xCoord * 60 - newCoord.y * (30 + sin(newCoord.x * 20))));
     
@@ -83,7 +83,7 @@ float4 WaterShader(float4 position : SV_POSITION, float2 coords : TEXCOORD0) : C
     
     float4 target = float4(0.5f / targetAlt, 0.9f / targetAlt, targetAlt, 1);
     
-    colour = lerp(colour, target, (pix * waterMap.b) * (1 + sina / 10));
+    colour = lerp(colour, target, (pix * waterMap.b * 2) * (1 + sina / 10));
     colour.rgb *= LightColour * LightColour * LightColour;
     
     return colour;

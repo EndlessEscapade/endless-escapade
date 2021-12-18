@@ -77,9 +77,6 @@ namespace EEMod
             On.Terraria.Main.DrawTiles += Main_DrawTiles1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
 
-            //On.Terraria.Main.DrawNPC += Main_DrawNPC1;
-            //On.Terraria.Main.DrawGoreBehind += Main_DrawGoreBehind;
-
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
             On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
@@ -408,10 +405,14 @@ namespace EEMod
 
         private void Main_OnPreDraw(GameTime obj)
         {
+            if (Main.gameMenu)
+                PrimitiveSystem.primitives._trails.Clear();
+
+            if (!Main.gameMenu)
+                Main.screenPosition = Main.LocalPlayer.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
+
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
             {
-                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
-
                 RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
 
                 Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetNPC);
@@ -430,9 +431,11 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
 
-            if(Main.spriteBatch != null && additiveRT != null)
+            if (Main.spriteBatch != null && additiveRT != null)
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 

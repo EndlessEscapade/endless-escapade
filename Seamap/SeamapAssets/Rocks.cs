@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using EEMod.Seamap.SeamapContent;
 using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria;
 
 namespace EEMod.Seamap.SeamapAssets
 {
@@ -88,6 +89,13 @@ namespace EEMod.Seamap.SeamapAssets
         public Rock5(Vector2 pos) : base(pos)
         {
 
+        }
+
+        public override void PostDraw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock5Front").Value, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), SeamapContent.Seamap.seamapDrawColor);
+
+            base.PostDraw(spriteBatch);
         }
     }
 

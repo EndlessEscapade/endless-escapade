@@ -24,15 +24,12 @@ using EEMod.Seamap.SeamapContent;
 using EEMod.Autoloading;
 using EEMod.Systems.Subworlds.EESubworlds;
 using System.Diagnostics;
-using EEMod.Seamap.SeamapContent;
 
 namespace EEMod
 {
     public partial class EEPlayer : ModPlayer
     {
         public List<SeagullsClass> seagulls = new List<SeagullsClass>();
-        public float brightness;
-        public bool isStorming;
 
         public int timerForCutscene;
         public bool arrowFlag = false;
@@ -64,34 +61,6 @@ namespace EEMod
 
         public void UpdateSea()
         {
-            #region Controlling island brightness
-            if (Main.dayTime)
-            {
-                if (Main.time <= 200)
-                    brightness += 0.0025f;
-
-                if (Main.time >= 52000 && brightness > 0.1f)
-                    brightness -= 0.0025f;
-
-                if (Main.time > 2000 && Main.time < 52000)
-                    brightness = 0.5f;
-            }
-            else
-            {
-                brightness = 0.1f;
-            }
-
-            if (Main.time % 1000 == 0)
-            {
-                if (Main.rand.NextBool(10)) isStorming = !isStorming;
-            }
-
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
-            }
-            #endregion
-
             #region Opening cutscene for seamap
             if (Player.GetModPlayer<EEPlayer>().quickOpeningFloat > 0.01f)
             {
@@ -158,16 +127,12 @@ namespace EEMod
                 arrowFlag = true;
             }
 
-            Main.NewText("yessir0");
-
             bool isCollidingWithAnyIsland = false;
             foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
             {
                 if (obj is Island)
                 {
                     Island island = obj as Island;
-
-                    Main.NewText("yessir1");
 
                     if (island.isCollidingWithPlayer)
                     {
@@ -176,8 +141,6 @@ namespace EEMod
                         {
                             subTextAlpha = 1;
                         }
-
-                        Main.NewText("yessir2");
 
                         if (EEMod.Inspect.JustPressed)
                         {
@@ -233,7 +196,7 @@ namespace EEMod
             #region Warp cutscene
             if (Player.GetModPlayer<EEPlayer>().importantCutscene)
             {
-                EEMod.Noise2D.NoiseTexture = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise").Value;
+                EEMod.Noise2D.NoiseTexture = Request<Texture2D>("EEMod/Textures/Noise/noise").Value;
                 Filters.Scene["EEMod:Noise2D"].GetShader().UseOpacity(cutSceneTriggerTimer / 180f);
 
                 if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:Noise2D"].IsActive())

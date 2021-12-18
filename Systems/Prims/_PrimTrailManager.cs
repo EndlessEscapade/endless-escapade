@@ -14,6 +14,8 @@ namespace EEMod.Prim
 
         public void Load()
         {
+            _trails.Clear();
+
             Main.QueueMainThreadAction(() => 
             {
                 primTargetNPC = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);

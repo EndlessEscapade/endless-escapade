@@ -62,7 +62,7 @@ namespace EEMod.Prim
         {
             _points.Clear();
 
-            if(!Main.gameInactive) distantCenterPoint += new Vector2(0, 0.25f * (float)Math.Sin((Main.GameUpdateCount / (speed))));
+            if(!Main.gameInactive && !Main.gameMenu && !Main.gamePaused) distantCenterPoint += new Vector2(0, 0.25f * (float)Math.Sin((Main.GameUpdateCount / (speed))));
 
             for (int i = 1; i < count; i++)
             {
@@ -172,7 +172,7 @@ namespace EEMod.Prim
         {
             _counter++;
             _noOfPoints = _points.Count() * 6;
-            if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
+            if ((!BindableEntity.active && BindableEntity != null) || BindableEntity == null || _destroyed)
             {
                 OnDestroy();
             }

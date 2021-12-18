@@ -142,9 +142,9 @@ namespace EEMod
 
         public void UpdateWorld()
         {
-            if(!placedShipTether)
+            if (!placedShipTether)
             {
-                tetherProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TileExperimentation>()), 
+                tetherProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TileExperimentation>()),
                     shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);
 
                 TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
@@ -152,13 +152,13 @@ namespace EEMod
                 tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 8);
                 tether.pos2 = (shipCoords * 16) + (new Vector2(56, 9) * 16) + new Vector2(8, 8);
 
-                sailProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TornSails>()), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32), 
+                sailProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TornSails>()), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
                     Vector2.Zero, ModContent.ProjectileType<TornSails>(), 0, 0);
 
                 placedShipTether = true;
             }
 
-            if(firstLoad)
+            if (firstLoad)
             {
                 NPC.NewNPC(((int)shipCoords.X + 108 + 7) * 16, ((int)shipCoords.Y - 8) * 16, ModContent.NPCType<Sailor>());
                 firstLoad = false;

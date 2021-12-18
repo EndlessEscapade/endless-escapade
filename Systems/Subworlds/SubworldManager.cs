@@ -15,6 +15,7 @@ using Terraria.Social;
 using Terraria.Utilities;
 using Terraria.WorldBuilding;
 using Terraria.Audio;
+using EEMod.Prim;
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {

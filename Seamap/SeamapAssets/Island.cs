@@ -56,14 +56,16 @@ namespace EEMod.Seamap.SeamapContent
             //Color drawColour = Helpers.GetLightingColor(position) * Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapLightColor;
             //drawColour.A = 255;
 
-            spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Color.White);
+            if (!IslandDraw(spriteBatch)) return false;
+
+            spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Seamap.seamapDrawColor);
 
             return false;
         }
 
-        public virtual void IslandDraw()
+        public virtual bool IslandDraw(SpriteBatch spriteBatch)
         {
-
+            return true;
         }
     }
 }

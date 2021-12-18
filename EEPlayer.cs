@@ -608,7 +608,7 @@ namespace EEMod
             }
 
 
-            seamapLightColor = MathHelper.Clamp((isStorming ? 1 : 2 / 3f) + brightness, 0.333f, 2f);
+            seamapLightColor = MathHelper.Clamp((Seamap.SeamapContent.Seamap.isStorming ? 1 : 2 / 3f) + Seamap.SeamapContent.Seamap.brightness, 0.333f, 2f);
             /*
             int minibiome = 0;
             for (int k = 0; k < EESubWorlds.MinibiomeLocations.Count; k++)
@@ -1030,6 +1030,7 @@ namespace EEMod
                 ["cannonball"] = cannonballType,
                 ["fishLengthsKeys"] = fishLengths.Keys.ToList(),
                 ["fishLengthsValues"] = fishLengths.Values.ToList(),
+                ["firstLoad"] = firstLoad
                 /*
              {"Hours", Hours},
 		     {"Minutes", Minutes},
@@ -1050,6 +1051,7 @@ namespace EEMod
             var fishLengthsValues = new List<int>();
             tag.TryGetRef("fishLengthsKeys", ref fishLengthsKeys);
             tag.TryGetRef("fishLengthsValues", ref fishLengthsValues);
+            tag.TryGetRef("firstLoad", ref firstLoad);
             fishLengths = fishLengthsKeys.Zip(fishLengthsValues, (k, v) => new { fishLengthsKeys = k, fishLengthsValues = v }).ToDictionary(d => d.fishLengthsKeys, d => d.fishLengthsValues);
             /*
                 if (tag.ContainsKey("Hours"))
