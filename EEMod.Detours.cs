@@ -408,8 +408,15 @@ namespace EEMod
             if (Main.gameMenu)
                 PrimitiveSystem.primitives._trails.Clear();
 
+            Vector2 lastScreenPos = Main.screenPosition;
+
             if (!Main.gameMenu && !Main.LocalPlayer.GetModPlayer<EEPlayer>().triggerSeaCutscene)
+            {
                 Main.screenPosition = Main.LocalPlayer.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
+
+                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, 100000);
+                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, 100000);
+            }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
             {
@@ -434,6 +441,8 @@ namespace EEMod
 
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
             }
+
+            Main.screenPosition = lastScreenPos;
 
             if (Main.spriteBatch != null && additiveRT != null)
             {

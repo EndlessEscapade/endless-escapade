@@ -47,7 +47,7 @@ namespace EEMod.Seamap.SeamapContent
 
             if (age >= 30) Kill();
 
-            Main.spriteBatch.Draw(texture, position.ForDraw(), null, Color.White * alpha, 0, new Vector2(19, 9), scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, position.ForDraw(), null, Color.White * alpha, 0, new Vector2(19 / 2f, 9 / 2f), scale, SpriteEffects.None, 0f);
 
             age++;
 

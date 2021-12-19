@@ -16,6 +16,7 @@ using EEMod.Projectiles;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Audio;
+using System.Diagnostics;
 
 namespace EEMod.NPCs.Friendly
 {
@@ -165,9 +166,9 @@ namespace EEMod.NPCs.Friendly
 
                     EEWorld.EEWorld.boatPlaced = true;
 
-                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X + 10, (int)EEWorld.EEWorld.shipCoords.Y + 7, ModContent.TileType<WoodenShipsWheelTile>());
+                    Debug.WriteLine(EEWorld.EEWorld.boatPlaced);
 
-                    shipBuilt = true;
+                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X + 10, (int)EEWorld.EEWorld.shipCoords.Y + 7, ModContent.TileType<WoodenShipsWheelTile>());
                 }
 
                 if(ticker == 240)
@@ -242,7 +243,6 @@ namespace EEMod.NPCs.Friendly
         }
 
         bool shipAlreadyOpen = false;
-        bool shipBuilt = false;
         bool cutsceneActive = false;
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
@@ -255,7 +255,7 @@ namespace EEMod.NPCs.Friendly
 
             else
             {
-                if (!shipBuilt)
+                if (!EEWorld.EEWorld.boatPlaced)
                 {
                     if (shipAlreadyOpen /*check conditions for placing the boat*/)
                     {
