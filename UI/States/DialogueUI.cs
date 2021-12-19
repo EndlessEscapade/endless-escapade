@@ -24,6 +24,10 @@ namespace EEMod.UI.States
 		public static UIList ResponsesList;
 		public static string Dialogue;
 		public string CurrentDialogueText = "";
+		public string CurrentDialogueTextThatShouldBeDrawn = "";
+		public bool IsHandlingTag;
+		public bool JustStartedHandlingTag;
+		public string TagHandler;
 		public int AddLetterTimer;
 		public int CurrentLetter;
         public override void OnInitialize()
@@ -63,10 +67,42 @@ namespace EEMod.UI.States
             base.Update(gameTime);
 			if (CurrentLetter < Dialogue.Length && ++AddLetterTimer >= 2)
 			{
-				AddLetterTimer -= 2;
 				var letter = Dialogue[CurrentLetter];
+				if (letter == '[')
+                {
+					while (Dialogue[CurrentLetter - 1] != ':')
+                    {
+						TagHandler += letter;
+						CurrentLetter++;
+						CurrentDialogueText += letter;
+						letter = Dialogue[CurrentLetter];
+					}
+					IsHandlingTag = true;
+					JustStartedHandlingTag = true;
+				}
+				if (letter == ']')
+                {
+					IsHandlingTag = false;
+					JustStartedHandlingTag = false;
+					CurrentLetter++;
+					CurrentDialogueText += letter;
+					letter = Dialogue[CurrentLetter];
+					CurrentDialogueText = CurrentDialogueText.Remove(CurrentDialogueText.Length - 1);
+				}
+				if (IsHandlingTag && !JustStartedHandlingTag)
+                {
+					CurrentDialogueText = CurrentDialogueText.Remove(CurrentDialogueText.Length - 1);
+                }
 				CurrentLetter++;
 				CurrentDialogueText += letter;
+				if (JustStartedHandlingTag)
+                {
+					JustStartedHandlingTag = false;
+                }
+				if (IsHandlingTag)
+                {
+					CurrentDialogueText += ']';
+                }
 				if (letter == '.' || letter == '?')
 				{
 					AddLetterTimer -= 8;
@@ -75,6 +111,7 @@ namespace EEMod.UI.States
 				{
 					AddLetterTimer -= 5;
 				}
+				AddLetterTimer -= 2;
 			}
 		}
 		public override void Draw(SpriteBatch spriteBatch)

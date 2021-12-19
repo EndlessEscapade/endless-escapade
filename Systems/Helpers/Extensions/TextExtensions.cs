@@ -8,6 +8,7 @@ namespace EEMod.Extensions
 {
     public static class TextExtensions
     {
+        public static bool IsHandlingTag;
         /// <summary>Formats the text with automatic new lines.</summary>
         /// <param name="breakPoint">The limit of characters in a single line.</param>
         public static string FormatString(this string text, int breakPoint)
@@ -40,7 +41,18 @@ namespace EEMod.Extensions
                     }
                 }
                 formattedText.Append(text[i]);
-                lineBreakPoint++;
+                if (text[i] == '[')
+                {
+                    IsHandlingTag = true;
+                }
+                if (text[i] == ':')
+                {
+                    IsHandlingTag = false;
+                }
+                if (!IsHandlingTag && text[i] != ']')
+                {
+                    lineBreakPoint++;
+                }
             }
             return formattedText.ToString();
         }
