@@ -408,7 +408,7 @@ namespace EEMod
             if (Main.gameMenu)
                 PrimitiveSystem.primitives._trails.Clear();
 
-            if (!Main.gameMenu)
+            if (!Main.gameMenu && !Main.LocalPlayer.GetModPlayer<EEPlayer>().triggerSeaCutscene)
                 Main.screenPosition = Main.LocalPlayer.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)

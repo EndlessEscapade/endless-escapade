@@ -241,18 +241,18 @@ namespace EEMod
 
         public void UpdateCutscenesAndTempShaders()
         {
-            Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[RippleShader].IsActive())
-            {
-                Filters.Scene.Activate(RippleShader, Player.Center).GetShader().UseOpacity(timerForCutscene);
-            }
-            if (!godMode)
-            {
-                if (Main.netMode != NetmodeID.Server && Filters.Scene[RippleShader].IsActive())
-                {
-                    Filters.Scene.Deactivate(RippleShader);
-                }
-            }
+            //Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
+            //if (Main.netMode != NetmodeID.Server && !Filters.Scene[RippleShader].IsActive())
+            //{
+            //    Filters.Scene.Activate(RippleShader, Player.Center).GetShader().UseOpacity(timerForCutscene);
+            //}
+            //if (!godMode)
+            //{
+            //    if (Main.netMode != NetmodeID.Server && Filters.Scene[RippleShader].IsActive())
+            //    {
+            //        Filters.Scene.Deactivate(RippleShader);
+            //    }
+            //}
             Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
             if (Main.netMode != NetmodeID.Server && !Filters.Scene[SeaTransShader].IsActive())
             {

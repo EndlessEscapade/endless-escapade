@@ -23,15 +23,15 @@ namespace EEMod.Seamap.SeamapAssets
             
         }
 
-        public override bool IslandDraw(SpriteBatch spriteBatch)
-        {
-            Texture2D mask = ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value;
-
-            Helpers.DrawAdditive(mask, Center - Main.screenPosition, Color.White * 0.5f, 3f);
-
-            spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), SeamapContent.Seamap.seamapDrawColor);
-
-            return false;
-        }
+        //public override bool IslandDraw(SpriteBatch spriteBatch)
+        //{
+        //    Texture2D mask = ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value;
+        //
+        //    Helpers.DrawAdditive(mask, Center - Main.screenPosition, Color.White * 0.5f, 3f);
+        //
+        //    spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), SeamapContent.Seamap.seamapDrawColor);
+        //
+        //    return false;
+        //}
     }
 }

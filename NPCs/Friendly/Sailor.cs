@@ -99,15 +99,23 @@ namespace EEMod.NPCs.Friendly
 
         int ticker = 0;
 
+        public override bool PreAI()
+        {
+            if (NPC.CountNPCS(Type) > 1)
+            {
+                NPC.active = false;
+            }
+
+            return true;
+        }
+
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
             NPC.homeTileX = (int)EEWorld.EEWorld.shipCoords.X + 108 + 7;
             NPC.homeTileY = (int)EEWorld.EEWorld.shipCoords.Y - 8;
 
-            if(cutsceneActive)
+            if (cutsceneActive)
             {
-                Main.NewText(ticker);
-
                 if (ticker == 0)
                 {
                     Filters.Scene.Activate("EEMod:Ripple", Main.LocalPlayer.Center).GetShader().UseOpacity(cutsceneOpacity);
@@ -131,6 +139,17 @@ namespace EEMod.NPCs.Friendly
 
                     Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt((int)EEWorld.EEWorld.shipCoords.X - 2, (int)EEWorld.EEWorld.shipCoords.Y - 18, false, false);
 
+                    for(int i = (int)EEWorld.EEWorld.shipCoords.X - 2; i < (int)EEWorld.EEWorld.shipCoords.X - 2 + 50; i++)
+                    {
+                        for(int j = (int)EEWorld.EEWorld.shipCoords.Y - 18; j < (int)EEWorld.EEWorld.shipCoords.Y - 18 + 50; j++)
+                        {
+                            if(Main.tile[i, j].wall != WallID.None)
+                            {
+                                Main.tile[i, j].LiquidAmount = 0;
+                            }
+                        }
+                    }
+
                     for (int i = 0; i < Main.maxProjectiles; i++)
                     {
                         if (Main.projectile[i].type == ModContent.ProjectileType<TornSails>()
@@ -141,6 +160,10 @@ namespace EEMod.NPCs.Friendly
                         }
                     }
 
+                    Main.projectile[Main.LocalPlayer.GetModPlayer<EEPlayer>().tetherProj].Kill();
+                    Main.projectile[Main.LocalPlayer.GetModPlayer<EEPlayer>().sailProj].Kill();
+
+                    EEWorld.EEWorld.boatPlaced = true;
 
                     WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X + 10, (int)EEWorld.EEWorld.shipCoords.Y + 7, ModContent.TileType<WoodenShipsWheelTile>());
 

@@ -56,9 +56,6 @@ namespace EEMod.Seamap.SeamapContent
 
             RenderWater(spriteBatch); //Layer 0
 
-            Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, SeamapObjects.localship.Center.ForDraw(), Color.Navy * 0.4f, 3f);
-
-
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
 
             spriteBatch.End();

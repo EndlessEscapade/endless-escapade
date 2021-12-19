@@ -24,11 +24,30 @@ namespace EEMod.Seamap.SeamapContent
                 }
             }
 
-            if(Main.GameUpdateCount % 120 == 0 && Main.rand.NextBool(3))
+            if(Main.GameUpdateCount % 180 == 0 && Main.rand.NextBool(3))
             {
                 SpawnSeagullFlock(Main.rand.Next(4, 8));
             }
+
+            if (Main.GameUpdateCount % 180 == 0 && Main.rand.NextBool(3))
+            {
+                SpawnClouds();
+            }
+
+            if (firstOpened)
+            {
+                Seamap.SpawnClouds();
+                Seamap.SpawnClouds();
+                Seamap.SpawnClouds();
+
+                Seamap.SpawnSeagullFlock(Main.rand.Next(4, 8));
+                Seamap.SpawnSeagullFlock(Main.rand.Next(4, 8));
+
+                firstOpened = false;
+            }
         }
+
+        public static bool firstOpened = true;
 
         public static void InitializeSeamap()
         {
@@ -127,6 +146,24 @@ namespace EEMod.Seamap.SeamapContent
                     PosBuffer.Add(Pos);
                     SeamapObjects.NewSeamapObject(seagull);
                 }
+            }
+        }
+
+        public static void SpawnClouds()
+        {
+            Vector2 Pos = new Vector2(Main.screenWidth + Main.screenPosition.X + 200, Main.rand.Next(Main.screenHeight) + Main.screenPosition.Y);
+
+            switch (Main.rand.Next(3))
+            {
+                case 0:
+                    SeamapObjects.NewSeamapObject(new AirCloud1(Pos, Vector2.Zero));
+                    break;
+                case 1:
+                    SeamapObjects.NewSeamapObject(new AirCloud2(Pos, Vector2.Zero));
+                    break;
+                case 2:
+                    SeamapObjects.NewSeamapObject(new AirCloud3(Pos, Vector2.Zero));
+                    break;
             }
         }
     }

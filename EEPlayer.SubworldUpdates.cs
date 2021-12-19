@@ -142,7 +142,7 @@ namespace EEMod
 
         public void UpdateWorld()
         {
-            if (!placedShipTether)
+            if (!placedShipTether && !boatPlaced)
             {
                 tetherProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TileExperimentation>()),
                     shipCoords * 16, Vector2.Zero, ModContent.ProjectileType<TileExperimentation>(), 0, 0f);

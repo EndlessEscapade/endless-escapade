@@ -60,6 +60,8 @@ namespace EEMod.EEWorld
 
         public static IList<Vector2> Vines = new List<Vector2>();
 
+        public static bool boatPlaced = false;
+
 
         public override void LoadWorldData(TagCompound tag)
         {
@@ -73,6 +75,8 @@ namespace EEMod.EEWorld
             tag.TryGetListRef("ThinCrystalBambooLocations", ref CoralReefs.ThinCrystalBambooLocations);
             tag.TryGetListRef("BulbousTreePosition", ref CoralReefs.BulbousTreePosition);
             tag.TryGetListRef("WebPositions", ref CoralReefs.WebPositions);
+
+            tag.TryGetRef("boatPlaced", ref boatPlaced);
 
 
             IList<Vector2> positions = new List<Vector2>();
@@ -201,6 +205,8 @@ namespace EEMod.EEWorld
                 tag["ThinCrystalBambooLocations"] = CoralReefs.ThinCrystalBambooLocations;
                 tag["BulbousTreePosition"] = CoralReefs.BulbousTreePosition;
                 tag["WebPositions"] = CoralReefs.WebPositions;
+
+                tag["boatPlaced"] = boatPlaced;
 
                 List<Vector2> positions = new List<Vector2>();
                 List<Vector2> sizes = new List<Vector2>();
