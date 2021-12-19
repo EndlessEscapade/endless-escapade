@@ -24,7 +24,7 @@ namespace EEMod.Systems
 			LockPlayerMovement = true;
 			DialoguePieces = new List<string>()
 			{
-				/*0*/ "Hey bro, this place is pretty nice isn't it? The breeze is soooo cool.",
+				/*0*/ "Hey bro, [c/FF0000:this] place [i:4] is pretty nice isn't it? The breeze is soooo cool.",
 				/*1*/ "Anyways, you wouldn't happen to have seen DN around here somewhere would you?",
 				/*2*/ "Who's DN?",
 				/*3*/ "Yeah, I saw them over by that island up north.",
