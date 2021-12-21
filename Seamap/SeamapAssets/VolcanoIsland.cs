@@ -15,8 +15,6 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/VolcanoIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-        public override IslandID id => IslandID.VolcanoIsland;
-
         public VolcanoIsland(Vector2 pos): base(pos)
         {
             

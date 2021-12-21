@@ -16,8 +16,6 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/JadeIsles", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-        public override IslandID id => IslandID.Default;
-
         public JadeIsles(Vector2 pos): base(pos)
         {
             

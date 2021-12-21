@@ -18,8 +18,6 @@ namespace EEMod.Seamap.SeamapContent
 
         public virtual Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Empty").Value;
 
-        public virtual IslandID id => IslandID.Default;
-
         public Vector2 posToScreen => position - Main.screenPosition;
         public bool isCollidingWithPlayer => SeamapObjects.localship.rect.Intersects(rect);
 
@@ -66,6 +64,11 @@ namespace EEMod.Seamap.SeamapContent
         public virtual bool IslandDraw(SpriteBatch spriteBatch)
         {
             return true;
+        }
+
+        public virtual void Interact()
+        {
+
         }
     }
 }

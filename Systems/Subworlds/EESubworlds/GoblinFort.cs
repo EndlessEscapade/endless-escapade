@@ -22,17 +22,34 @@ using Terraria.WorldBuilding;
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {
-    public class Sea : Subworld
+    public class GoblinFort : Subworld
     {
-        public override Point Dimensions => new Point(400, 405);
+        public override Point Dimensions => new Point(400, 600);
 
-        public override Point SpawnTile => new Point(234, 92);
+        public override Point SpawnTile => new Point(200, 200);
 
-        public override string Name => "Sea";
+        public override string Name => "Suk-Mah Outpost";
 
         internal override void WorldGeneration(int seed, GenerationProgress customProgressObject = null)
         {
-            Main.worldSurface = 200;
+            var rand = WorldGen.genRand;
+
+            EEMod.progressMessage = "Generating Goblin Fort";
+
+            SubworldManager.Reset(seed);
+            SubworldManager.PostReset(customProgressObject);
+
+            FillRegion(400, 200, new Vector2(0, 400), TileID.Stone);
+
+
+
+            EEMod.progressMessage = "Successful!";
+            //EEMod.isSaving = false;
+
+            Main.spawnTileX = SpawnTile.X;
+            Main.spawnTileY = SpawnTile.Y;
+
+            EEMod.progressMessage = null;
         }
 
         internal override void PlayerUpdate(Player player)

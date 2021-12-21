@@ -134,51 +134,46 @@ namespace EEMod
                 {
                     Island island = obj as Island;
 
-                    if (island.isCollidingWithPlayer)
+                    prevKey = KeyID.Sea;
+
+                    island.Interact();
+
+                    /*if (EEMod.Inspect.JustPressed)
                     {
-                        subTextAlpha += 0.02f;
-                        if (subTextAlpha >= 1)
+                        /*switch (island.id)
                         {
-                            subTextAlpha = 1;
+                            case IslandID.TropicalIsland1:
+                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                break;
+
+                            case IslandID.TropicalIsland2:
+                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                break;
+
+                            case IslandID.VolcanoIsland:
+                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                break;
+
+                            case IslandID.MoyaiIsland:
+                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                break;
+
+                            case IslandID.CoralReefs:
+                                Player.GetModPlayer<EEPlayer>().importantCutscene = true;
+                                break;
+
+                            case IslandID.MainIsland:
+                                ReturnHome();
+                                break;
                         }
 
-                        if (EEMod.Inspect.JustPressed)
-                        {
-                            switch (island.id)
-                            {
-                                case IslandID.TropicalIsland1:
-                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                    break;
+                        prevKey = KeyID.Sea;
+                    }*/
 
-                                case IslandID.TropicalIsland2:
-                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                    break;
+                    Player.ClearBuff(BuffID.Cursed);
+                    Player.ClearBuff(BuffID.Invisibility);
 
-                                case IslandID.VolcanoIsland:
-                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                    break;
-
-                                case IslandID.MoyaiIsland:
-                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                    break;
-
-                                case IslandID.CoralReefs:
-                                    Player.GetModPlayer<EEPlayer>().importantCutscene = true;
-                                    break;
-
-                                case IslandID.MainIsland:
-                                    ReturnHome();
-                                    break;
-                            }
-
-                            prevKey = KeyID.Sea;
-                        }
-
-                        isCollidingWithAnyIsland = true;
-
-                        Player.ClearBuff(BuffID.Cursed);
-                        Player.ClearBuff(BuffID.Invisibility);
-                    }
+                    isCollidingWithAnyIsland = true;
                 }
             }
 
@@ -300,4 +295,4 @@ namespace EEMod
             return false;
         }
     }*/
-}
+        }

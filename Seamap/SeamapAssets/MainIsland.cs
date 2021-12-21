@@ -15,12 +15,17 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/MainIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
-        public override IslandID id => IslandID.MainIsland;
-
         public MainIsland(Vector2 pos): base(pos)
         {
             width = 402;
             height = 118;
+        }
+
+        public override void Interact()
+        {
+            
+
+            base.Interact();
         }
     }
 }

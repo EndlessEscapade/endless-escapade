@@ -44,6 +44,16 @@ namespace EEMod
                 player.AddBuff(BuffType<WaterPressure>(), 60);
             }*/
 
+            if (Main.dayTime)
+            {
+                IncreaseStarFall = true;
+            }
+            else if (IncreaseStarFall)
+            {
+                IncreaseStarFall = false;
+                Star.starfallBoost += 1f;
+            }
+
             if (Player.GetModPlayer<EEPlayer>().noU)
             {
                 Player.GetModPlayer<EEPlayer>().titleText -= 0.005f;
