@@ -25,6 +25,8 @@ namespace EEMod.Systems
 		public Color ThemeColor;
 		public bool LockPlayerMovement;
 		public int Piece;
+
+		/*
 		public virtual void StartDialogue()
 		{
 			EEMod.UI.SetState("DialogueInterface", "DialogueUI");
@@ -33,6 +35,7 @@ namespace EEMod.Systems
 			DialogueUI.Portrait.SetImage(Portraits[0]);
 			DialogueUI.Dialogue = DialoguePieces[0].FormatString(60);
 		}
+		*/
 		public virtual void StartDialogueRequiringNPC(int associatedNPC)
 		{
 			EEMod.UI.SetState("DialogueInterface", "DialogueUI");
@@ -40,20 +43,23 @@ namespace EEMod.Systems
 			DialogueUI.CurrentDialogueSystem = this;
 			DialogueUI.Background.ThemeColor = ThemeColor;
 			DialogueUI.Portrait.SetImage(Portraits[0]);
-			DialogueUI.Dialogue = DialoguePieces[0].FormatString(60);
+			DialogueUI.Name = Name.FormatString(20);
+			DialogueUI.DialogueBoxDivider.ThemeColor = ThemeColor;
+			DialogueUI.Dialogue = DialoguePieces[0].FormatString(64);
 			//You can guess by now that I have no idea why these 2 are needed but they are
 			DialogueUI.ResponsesList.Add(new Response(0, ThemeColor));
 			DialogueUI.ResponsesList.Clear();
 		}
 		public virtual void SayPiece(int piece) 
 		{
-			DialogueUI.Dialogue = (DialoguePieces[piece].FormatString(60));
+			DialogueUI.Dialogue = (DialoguePieces[piece].FormatString(64));
 			Piece = piece;
 		}
 		public virtual void PresentResponses(int[] responses)
 		{
 			DialogueUI.Dialogue = "";
 			DialogueUI.Portrait.Remove();
+			DialogueUI.DialogueBoxDivider.Remove();
 			for (int i = 0; i < responses.Length; i++)
             {
 				DialogueUI.ResponsesList.Add(new Response(responses[i], ThemeColor));

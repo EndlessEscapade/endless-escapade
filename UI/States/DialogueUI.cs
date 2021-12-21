@@ -19,6 +19,9 @@ namespace EEMod.UI.States
 		public static Dialogue CurrentDialogueSystem;
 		public static UIElement Box;
 		public static UIImage Portrait;
+		public static string Name;
+		public static DialogueBoxDivider DialogueBoxDivider;
+		public static UIElement NamePoint;
 		public static UIElement DialoguePoint;
 		public static DialogueBox Background;
 		public static UIList ResponsesList;
@@ -42,13 +45,21 @@ namespace EEMod.UI.States
 			Background.HAlign = 0.5f;
 			Background.VAlign = 1f;
 
-			Portrait = new UIImage(ModContent.Request<Texture2D>("EEMod/icon", AssetRequestMode.ImmediateLoad).Value);
-			Portrait.HAlign = 0.09f;
-			Portrait.VAlign = 0.5f;
+			Portrait = new UIImage(ModContent.Request<Texture2D>("EEMod/Systems/Dialogues/SailorPortrait", AssetRequestMode.ImmediateLoad).Value);
+			Portrait.HAlign = 0.05f;
+			Portrait.VAlign = 0.250f;
+
+			DialogueBoxDivider = new DialogueBoxDivider();
+			DialogueBoxDivider.HAlign = 0.22f;
+			DialogueBoxDivider.VAlign = 0.02125f;
 
 			DialoguePoint = new UIElement();
 			DialoguePoint.HAlign = 0.25f;
-			DialoguePoint.VAlign = 0.18f;
+			DialoguePoint.VAlign = 0.15f;
+
+			NamePoint = new UIElement();
+			NamePoint.HAlign = 0.115f;
+			NamePoint.VAlign = 0.7f;
 
 			ResponsesList = new UIList();
 			ResponsesList.Width.Set(756, 0f);
@@ -60,7 +71,9 @@ namespace EEMod.UI.States
 			Append(Box);
 			Box.Append(Background);
 			Box.Append(Portrait);
+			Box.Append(DialogueBoxDivider);
 			Box.Append(DialoguePoint);
+			Box.Append(NamePoint);
 		}
 		public override void Update(GameTime gameTime)
 		{ 
@@ -134,6 +147,10 @@ namespace EEMod.UI.States
 			}
 			var dimensions = DialoguePoint.GetDimensions();
 			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Terraria.GameContent.FontAssets.MouseText.Value, CurrentDialogueText, new Vector2(dimensions.X, dimensions.Y), Color.White, 0f, Vector2.Zero, new Vector2(1.15f, 1.15f));
+
+			var dimensions2 = NamePoint.GetDimensions();
+			Vector2 size = Terraria.GameContent.FontAssets.MouseText.Value.MeasureString(Name);
+			ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Terraria.GameContent.FontAssets.MouseText.Value, Name, new Vector2(dimensions2.X - (size.X / 2), dimensions2.Y), Color.White, 0f, Vector2.Zero, Vector2.One);
 		}
 	}
 	public class DialogueBox : UIImageButton
@@ -143,7 +160,6 @@ namespace EEMod.UI.States
 		public DialogueBox() : base(ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxBackground"))
 		{
 			Texture = ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxBackground", AssetRequestMode.ImmediateLoad).Value;
-			ThemeColor = Color.LightBlue;
 		}
 		protected override void DrawSelf(SpriteBatch spriteBatch)
 		{ 
@@ -153,7 +169,23 @@ namespace EEMod.UI.States
 			spriteBatch.Draw(Texture, new Vector2(x, y), null, ThemeColor * 0.9f, 0f, Texture.Size(), 1f, SpriteEffects.None, 0f);
         }
     }
-    public class Response : UIImageButton
+	public class DialogueBoxDivider : UIImage
+	{
+		public Texture2D Texture;
+		public Color ThemeColor;
+		public DialogueBoxDivider() : base(ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxDivider"))
+		{
+			Texture = ModContent.Request<Texture2D>("EEMod/UI/DialogueBoxDivider", AssetRequestMode.ImmediateLoad).Value;
+		}
+		protected override void DrawSelf(SpriteBatch spriteBatch)
+		{
+			var dimensions = GetDimensions();
+			int x = (int)(dimensions.X + Texture.Size().X / 2);
+			int y = (int)(dimensions.Y + Texture.Size().Y);
+			spriteBatch.Draw(Texture, new Vector2(x, y), null, ThemeColor * 0.9f, 0f, Texture.Size(), 1f, SpriteEffects.None, 0f);
+		}
+	}
+	public class Response : UIImageButton
     {
 		public Texture2D Texture;
 		public Color ThemeColor;
@@ -168,6 +200,7 @@ namespace EEMod.UI.States
         {
 			DialogueUI.CurrentDialogueSystem.OnDialoguePieceFinished(Piece);
 			DialogueUI.Box.Append(DialogueUI.Portrait);
+			DialogueUI.Box.Append(DialogueUI.DialogueBoxDivider);
 			DialogueUI.ResponsesList.Clear();
 		}
 		protected override void DrawSelf(SpriteBatch spriteBatch)
