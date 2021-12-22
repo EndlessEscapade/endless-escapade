@@ -17,7 +17,7 @@ namespace EEMod.Systems
 	{
 		public override void StartDialogueRequiringNPC(int associatedNPC)
 		{
-			Portraits.Add(ModContent.Request<Texture2D>("EEMod/icon", AssetRequestMode.ImmediateLoad).Value);
+			Portraits.Add(ModContent.Request<Texture2D>("EEMod/Systems/Dialogues/SailorPortrait", AssetRequestMode.ImmediateLoad).Value);
 			Name = "Jonathan the Cool Seagull";
 			AssociatedNPC = associatedNPC;
 			ThemeColor = new Color(106, 255, 89);
