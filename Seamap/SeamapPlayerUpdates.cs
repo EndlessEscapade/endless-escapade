@@ -136,7 +136,10 @@ namespace EEMod
 
                     prevKey = KeyID.Sea;
 
-                    island.Interact();
+                    if (island.Hitbox.Intersects(SeamapObjects.localship.Hitbox) && EEMod.Inspect.JustPressed)
+                    {
+                        island.Interact();
+                    }
 
                     /*if (EEMod.Inspect.JustPressed)
                     {

@@ -80,6 +80,8 @@ namespace EEMod.Seamap.SeamapContent
 
             SeamapObjects.NewSeamapObject(new JadeIsles(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
             #endregion
+
+            SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
         }
 
         public static void PlaceRock(Vector2 position, int type = -1)

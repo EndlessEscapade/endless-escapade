@@ -19,14 +19,15 @@ using EEMod.Systems.Noise;
 using System.Collections.Generic;
 using EEMod.Autoloading;
 using Terraria.WorldBuilding;
+using System.Diagnostics;
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {
     public class GoblinFort : Subworld
     {
-        public override Point Dimensions => new Point(400, 600);
+        public override Point Dimensions => new Point(600, 600);
 
-        public override Point SpawnTile => new Point(200, 200);
+        public override Point SpawnTile => new Point(200, 100);
 
         public override string Name => "Suk-Mah Outpost";
 
@@ -39,9 +40,13 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);
 
-            FillRegion(400, 200, new Vector2(0, 400), TileID.Stone);
+            FillRegion(400, 275, new Vector2(0, 325), TileID.Stone);
 
+            FillRegion(100, 50, new Vector2(0, 275), TileID.Sand);
+            FillRegion(400, 50, new Vector2(100, 275), TileID.Dirt);
+            FillRegion(100, 50, new Vector2(500, 275), TileID.Sand);
 
+            Main.worldSurface = 300;
 
             EEMod.progressMessage = "Successful!";
             //EEMod.isSaving = false;

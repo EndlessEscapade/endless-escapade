@@ -4,6 +4,8 @@ using EEMod.Seamap.SeamapContent;
 using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using EEMod.Systems;
+using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.Seamap.SeamapAssets
 {
@@ -23,7 +25,9 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void Interact()
         {
-
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
+            EEPlayer.prevKey = KeyID.Sea;
+            SubworldManager.EnterSubworld<Systems.Subworlds.EESubworlds.GoblinFort>();
 
             base.Interact();
         }
