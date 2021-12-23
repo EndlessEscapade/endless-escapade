@@ -39,7 +39,7 @@ namespace EEMod.NPCs.Friendly
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
         }
-
+        public override bool CanChat() => false;
         public override void SetDefaults()
         {
             NPC.townNPC = true;
@@ -105,6 +105,10 @@ namespace EEMod.NPCs.Friendly
             if (NPC.CountNPCS(Type) > 1)
             {
                 NPC.active = false;
+            }
+            if (Main.mouseRight && Main.mouseRightRelease && NPC.Hitbox.Contains(Main.MouseWorld.ToPoint()) && !EEMod.UI.IsActive("DialogueInterface"))
+            {
+                new SailorDialogue().StartDialogueRequiringNPC(NPC.whoAmI);
             }
 
             return true;

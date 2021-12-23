@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+using Terraria.ModLoader.IO;
 
 namespace EEMod
 {
-    public abstract class EENPC : ModNPC
+    public class DialoguePlayer : EEPlayer
     {
+        public bool HasTalkedToSailor;
+
+        //TODO: TagCompound this data later
     }
 }

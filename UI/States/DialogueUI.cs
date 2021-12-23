@@ -63,7 +63,7 @@ namespace EEMod.UI.States
             ResponsesList.Height.Set(160, 0f);
             ResponsesList.HAlign = 0.5f;
             ResponsesList.VAlign = 0.5f;
-            ResponsesList.ListPadding = 6f;
+            ResponsesList.ListPadding = 5f;
 
             Append(Box);
             Box.Append(Background);

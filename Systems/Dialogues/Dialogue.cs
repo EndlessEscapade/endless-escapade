@@ -1,20 +1,12 @@
-﻿using System;
-using System.Reflection;
-using NVorbis;
-using Terraria.ModLoader;
-using MonoMod.Cil;
-using Mono.Cecil.Cil;
-using Terraria;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using EEMod.UI.States;
 using EEMod.Extensions;
 using Microsoft.Xna.Framework;
-using Terraria.GameContent.UI.Elements;
-using ReLogic.Content;
 
 namespace EEMod.Systems
 {
+	//TODO: Do StartDialogue() and check whatever the hell happens with multiplayer
 	public class Dialogue
 	{
 		public List<string> DialoguePieces = new List<string>();
@@ -45,10 +37,13 @@ namespace EEMod.Systems
 			DialogueUI.Portrait.SetImage(Portraits[0]);
 			DialogueUI.Name = Name.FormatString(20);
 			DialogueUI.DialogueBoxDivider.ThemeColor = ThemeColor;
-			DialogueUI.Dialogue = DialoguePieces[0].FormatString(64);
 			//You can guess by now that I have no idea why these 2 are needed but they are
 			DialogueUI.ResponsesList.Add(new Response(0, "", ThemeColor));
 			DialogueUI.ResponsesList.Clear();
+		}
+		public virtual void FirstPiece(int piece)
+        {
+			DialogueUI.Dialogue = DialoguePieces[piece].FormatString(64);
 		}
 		public virtual void SayPiece(int piece) 
 		{
