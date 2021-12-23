@@ -16,9 +16,13 @@ namespace EEMod.Systems
 			AssociatedNPC = associatedNPC;
 			ThemeColor = new Color(125, 175, 255);
 			LockPlayerMovement = true;
+			//Placeholder dialogue for the showcase until I get back
 			DialoguePieces = new List<string>()
 			{
-				/*0*/ "Hey there lad, I don't believe I've seen you before, what brings you here?",
+				/*0*/ "Sometimes I keep thinking about me old days, always sailing 'round the world.",
+				/*1*/ "I'd like to see what you have for sale (Open Shop).",
+				/*2*/ "What made you stop?",
+				/*3*/ "(Close Dialogue)",
 			};
 			if (!Main.player[Main.myPlayer].GetModPlayer<DialoguePlayer>().HasTalkedToSailor)
             {
@@ -33,11 +37,12 @@ namespace EEMod.Systems
 		}
 		public override void OnDialoguePieceFinished(int piece)
 		{
-			switch (piece) 
-			{
-				case 0:
+			switch (piece)
+            {
+                case (0):
+					PresentResponses(new int[3] { 2, 1, 3 });
 					break;
-				default:
+                default:
 					CloseDialogue();
 					break;
 			}

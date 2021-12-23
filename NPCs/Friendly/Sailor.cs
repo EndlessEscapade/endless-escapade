@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria.Graphics.Effects;
 using Terraria.Audio;
 using System.Diagnostics;
+using ReLogic.Content;
 
 namespace EEMod.NPCs.Friendly
 {
@@ -39,7 +40,6 @@ namespace EEMod.NPCs.Friendly
             NPCID.Sets.AttackAverageChance[NPC.type] = 30;
             NPCID.Sets.HatOffsetY[NPC.type] = 4;
         }
-        public override bool CanChat() => false;
         public override void SetDefaults()
         {
             NPC.townNPC = true;
@@ -106,11 +106,15 @@ namespace EEMod.NPCs.Friendly
             {
                 NPC.active = false;
             }
-            if (Main.mouseRight && Main.mouseRightRelease && NPC.Hitbox.Contains(Main.MouseWorld.ToPoint()) && !EEMod.UI.IsActive("DialogueInterface"))
+            if (Main.npcChatText != "")
             {
+                Main.player[Main.myPlayer].sign = -1;
+                Main.editSign = false;
+                Main.player[Main.myPlayer].SetTalkNPC(-1, false);
+                Main.npcChatCornerItem = 0;
+                Main.npcChatText = "";
                 new SailorDialogue().StartDialogueRequiringNPC(NPC.whoAmI);
             }
-
             return true;
         }
 

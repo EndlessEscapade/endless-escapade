@@ -75,6 +75,18 @@ namespace EEMod.UI.States
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            if (Main.npcChatText != "")
+            {
+                Main.player[Main.myPlayer].sign = -1;
+                Main.editSign = false;
+                Main.player[Main.myPlayer].SetTalkNPC(-1, false);
+                Main.npcChatCornerItem = 0;
+                Main.npcChatText = "";
+            }
+            if (CurrentDialogueSystem.LockPlayerMovement || Box.IsMouseHovering)
+            {
+                Main.LocalPlayer.mouseInterface = true;
+            }
             if (CurrentLetter < Dialogue.Length && ++AddLetterTimer >= 2)
             {
                 var letter = Dialogue[CurrentLetter];
