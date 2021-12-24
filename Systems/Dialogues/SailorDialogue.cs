@@ -30,7 +30,8 @@ namespace EEMod.Systems
 				/*5*/ $"I'm past my days of sailing, but you look like you want to see the seven seas. ",
 				/*6*/ $"If you brought me [c/E4A214:{"150 Wood"}] [i:{ItemID.Wood}] and [c/E4A214:{"20 Silk"}] [i:{ItemID.Silk}] along with a solid payment of [c/E4A214:{"5 gold coins"}] [i:{ItemID.GoldCoin}], I'd get her fixed right up for you.",
 				/*7*/ "Here you go!",
-				/*8*/ "No, bye."
+				/*8*/ "No, bye.",
+				/*9*/ "Sorry, you don't have enough resources for me to repair the ship."
 			};
 			if (!Main.player[Main.myPlayer].GetModPlayer<DialoguePlayer>().HasTalkedToSailor)
             {
@@ -66,10 +67,48 @@ namespace EEMod.Systems
 					PresentResponses(new int[2] { 7, 8 });
 					break;
 				case (7):
-                    (Main.npc[AssociatedNPC].ModNPC as Sailor).ticker = 0;
-					(Main.npc[AssociatedNPC].ModNPC as Sailor).cutsceneOpacity = 0;
-					(Main.npc[AssociatedNPC].ModNPC as Sailor).cutsceneActive = true;
-					CloseDialogue();
+					bool goodOnWood = false;
+					bool goodOnSilk = false;
+					bool goodOnMoney = false;
+
+					for (int array = 0; array < 58; array++)
+					{
+						if (ItemID.Wood == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 150)
+						{
+							goodOnWood = true;
+							break;
+						}
+					}
+
+					for (int array = 0; array < 58; array++)
+					{
+						if (ItemID.Silk == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 20)
+						{
+							goodOnSilk = true;
+							break;
+						}
+					}
+
+					for (int array = 0; array < 58; array++)
+					{
+						if (ItemID.GoldCoin == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 5)
+						{
+							goodOnMoney = true;
+							break;
+						}
+					}
+
+					if (goodOnWood && goodOnSilk && goodOnMoney)
+					{
+						(Main.npc[AssociatedNPC].ModNPC as Sailor).ticker = 0;
+						(Main.npc[AssociatedNPC].ModNPC as Sailor).cutsceneOpacity = 0;
+						(Main.npc[AssociatedNPC].ModNPC as Sailor).cutsceneActive = true;
+						CloseDialogue();
+					}
+					else
+                    {
+						SayPiece(9);
+					}
 					break;
 				default:
 					CloseDialogue();

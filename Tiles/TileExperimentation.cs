@@ -39,7 +39,7 @@ namespace EEMod.Tiles
             {
                 canspawn = true;
 
-                Helpers.DrawBezierProj(pos1, pos2, ((pos2 + pos1) / 2f) + new Vector2(0, 10), ((pos2 + pos1) / 2f) + new Vector2(0), 0.02f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
+                Helpers.DrawBezierProj(pos1, pos2, ((pos2 + pos1) / 2f) + new Vector2(0, 2), ((pos2 + pos1) / 2f) + new Vector2(0), 0.02f, MathHelper.Pi, ModContent.ProjectileType<Bridge>(), true);
             }
 
             return false;

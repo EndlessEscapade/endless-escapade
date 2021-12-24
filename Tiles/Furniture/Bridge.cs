@@ -207,7 +207,7 @@ namespace EEMod.Tiles.Furniture
             
             Projectile.rotation = projTrueRotation;
             Projectile.ai[0] += 0.1f;
-            Projectile.velocity.Y += (float)Math.Sin(Projectile.ai[0]) * 0.1f;
+            Projectile.velocity.Y += (float)Math.Sin(Projectile.ai[0]) * 0.03f;
         }
     }
 }

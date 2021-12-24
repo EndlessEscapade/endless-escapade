@@ -159,7 +159,7 @@ namespace EEMod
 
                 TileExperimentation tether = (Main.projectile[tetherProj].ModProjectile as TileExperimentation);
 
-                tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 8);
+                tether.pos1 = (shipCoords * 16) + (new Vector2(43, 2) * 16) + new Vector2(8, 12);
                 tether.pos2 = (shipCoords * 16) + (new Vector2(56, 9) * 16) + new Vector2(8, 8);
 
                 sailProj = Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<TornSails>()), (shipCoords * 16) + new Vector2((26 * 16) + 8, 32),
