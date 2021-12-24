@@ -103,6 +103,34 @@ namespace EEMod.Systems
 						(Main.npc[AssociatedNPC].ModNPC as Sailor).ticker = 0;
 						(Main.npc[AssociatedNPC].ModNPC as Sailor).cutsceneOpacity = 0;
 						(Main.npc[AssociatedNPC].ModNPC as Sailor).cutsceneActive = true;
+
+						for (int array = 0; array < 58; array++)
+						{
+							if (ItemID.Wood == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 150)
+							{
+								Main.LocalPlayer.inventory[array].stack -= 150;
+								break;
+							}
+						}
+
+						for (int array = 0; array < 58; array++)
+						{
+							if (ItemID.Silk == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 20)
+							{
+								Main.LocalPlayer.inventory[array].stack -= 20;
+								break;
+							}
+						}
+
+						for (int array = 0; array < 58; array++)
+						{
+							if (ItemID.GoldCoin == Main.LocalPlayer.inventory[array].type && Main.LocalPlayer.inventory[array].stack >= 5)
+							{
+								Main.LocalPlayer.inventory[array].stack -= 5;
+								break;
+							}
+						}
+
 						CloseDialogue();
 					}
 					else
