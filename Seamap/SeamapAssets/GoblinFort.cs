@@ -25,8 +25,10 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void Interact()
         {
-            Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
             EEPlayer.prevKey = KeyID.Sea;
+
+            Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
+            Terraria.Graphics.Effects.Filters.Scene.Deactivate("EEMod:Noise2D");
             SubworldManager.EnterSubworld<Systems.Subworlds.EESubworlds.GoblinFort>();
 
             base.Interact();

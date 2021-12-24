@@ -683,21 +683,13 @@ namespace EEMod
             }
             switch (Main.worldName)
             {
-                case KeyID.Sea:
-                {
-                    UpdateSea();
-                    break;
-                }
                 case KeyID.CoralReefs:
-                {
-                    UpdateCR();
                     break;
-                }
+                case KeyID.Sea:
+                    break;
                 default:
-                {
                     UpdateWorld();
                     break;
-                }
             }
 
             UpdateCutscenesAndTempShaders();

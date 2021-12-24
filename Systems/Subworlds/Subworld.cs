@@ -25,12 +25,15 @@ namespace EEMod.Systems.Subworlds
 
         public virtual Point SpawnTile => Point.Zero;
 
+        public virtual int surfaceLevel => 0;
+
         internal void Generate(int seed, GenerationProgress customProgressObject = null) 
         {
             Main.maxTilesX = Dimensions.X;
             Main.maxTilesY = Dimensions.Y;
             Main.spawnTileX = SpawnTile.X;
             Main.spawnTileY = SpawnTile.Y;
+            if(surfaceLevel > 0) Main.worldSurface = surfaceLevel;
 
             SubworldManager.Reset(seed);
             SubworldManager.PostReset(customProgressObject);

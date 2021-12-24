@@ -71,12 +71,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             var rand = WorldGen.genRand;
             EEMod.progressMessage = "Generating Coral Reefs";
 
-            //Variables and Initialization stuff
-
             int roomsPerLayer = 10;
-
-            SubworldManager.Reset(seed);
-            SubworldManager.PostReset(customProgressObject);
 
             VerletHelpers.SwingableVines.Clear();
 

@@ -25,9 +25,11 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 {
     public class GoblinFort : Subworld
     {
-        public override Point Dimensions => new Point(600, 600);
+        public override Point Dimensions => new Point(600, 800);
 
         public override Point SpawnTile => new Point(200, 100);
+
+        public override int surfaceLevel => 500;
 
         public override string Name => "Suk-Mah Outpost";
 
@@ -37,22 +39,41 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             EEMod.progressMessage = "Generating Goblin Fort";
 
-            SubworldManager.Reset(seed);
-            SubworldManager.PostReset(customProgressObject);
+            Main.worldSurface = 400;
 
-            FillRegion(400, 275, new Vector2(0, 325), TileID.Stone);
+            //
 
-            FillRegion(100, 50, new Vector2(0, 275), TileID.Sand);
+            FillRegion(600, 475, new Vector2(0, 325), TileID.Stone);
+
+            for(int i = 0; i < 100; i++)
+            {
+                for(int j = 0; j < 50; j++)
+                {
+                    if(j < (((i / 15f) * (i / 15f)) + 10f))
+                    {
+                        WorldGen.PlaceTile((i) + 0, (50 - j) + 274, TileID.Sand);
+                    }
+                }
+            }
+
+            //FillRegion(100, 50, new Vector2(0, 275), TileID.Sand);
             FillRegion(400, 50, new Vector2(100, 275), TileID.Dirt);
-            FillRegion(100, 50, new Vector2(500, 275), TileID.Sand);
+            //FillRegion(100, 50, new Vector2(500, 275), TileID.Sand);
 
-            Main.worldSurface = 300;
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    if (j < (((i / 15f) * (i / 15f)) + 10f))
+                    {
+                        WorldGen.PlaceTile((599 - i) + 0, (50 - j) + 274, TileID.Sand);
+                    }
+                }
+            }
 
-            EEMod.progressMessage = "Successful!";
-            //EEMod.isSaving = false;
+            FillRegionWithWater(600, 50, new Vector2(0, 280));
 
-            Main.spawnTileX = SpawnTile.X;
-            Main.spawnTileY = SpawnTile.Y;
+            //
 
             EEMod.progressMessage = null;
         }

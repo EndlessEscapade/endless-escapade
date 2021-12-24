@@ -73,14 +73,18 @@ namespace EEMod
             On.Terraria.Main.DrawWater += Main_DrawWater1;
             On.Terraria.Main.DrawBackground += Main_DrawBackground1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
-            Main.OnPreDraw += Main_OnPreDraw;
             On.Terraria.Main.DrawTiles += Main_DrawTiles1;
             On.Terraria.Main.CacheNPCDraws += Main_CacheNPCDraws;
 
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor += UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf += UIWorldListItem_DrawSelf;
             On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += LiquidRenderer_InternalDraw;
+
             On.Terraria.WorldGen.SaveAndQuitCallBack += WorldGen_SaveAndQuitCallBack;
+
+            On.Terraria.Main.DoDraw_UpdateCameraPosition += Main_DoDraw_UpdateCameraPosition;
+
+            Main.OnPreDraw += Main_OnPreDraw;
 
             WP = new WaterPrimitive(null);
             PrimitiveSystem.primitives.CreateTrail(WP);
@@ -99,17 +103,50 @@ namespace EEMod
             On.Terraria.Main.DrawWater -= Main_DrawWater1;
             On.Terraria.Main.DrawBackground -= Main_DrawBackground1;
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
-            Main.OnPreDraw -= Main_OnPreDraw;
             On.Terraria.Main.DrawTiles -= Main_DrawTiles1;
             On.Terraria.Main.DrawNPC -= Main_DrawNPC1;
             On.Terraria.Main.CacheNPCDraws -= Main_CacheNPCDraws;
             On.Terraria.Main.DrawGoreBehind -= Main_DrawGoreBehind;
+
+            On.Terraria.Main.DoDraw_UpdateCameraPosition -= Main_DoDraw_UpdateCameraPosition;
+
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.ctor -= UIWorldListItem_ctor;
             On.Terraria.GameContent.UI.Elements.UIWorldListItem.DrawSelf -= UIWorldListItem_DrawSelf;
             On.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= LiquidRenderer_InternalDraw;
+
             On.Terraria.WorldGen.SaveAndQuitCallBack -= WorldGen_SaveAndQuitCallBack;
+
+            Main.OnPreDraw -= Main_OnPreDraw;
         }
 
+        private void Main_DoDraw_UpdateCameraPosition(On.Terraria.Main.orig_DoDraw_UpdateCameraPosition orig)
+        {
+            orig();
+
+            if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
+            {
+                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+                Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetNPC);
+                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+                Main.spriteBatch.Begin();
+
+                foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
+                {
+                    if (!trail.behindTiles && !trail.ManualDraw)
+                    {
+                        trail.Draw();
+                    }
+                }
+
+                Main.spriteBatch.End();
+
+                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+            }
+        }
 
         private void Main_DrawTiles1(On.Terraria.Main.orig_DrawTiles orig, Main self, bool solidLayer, bool forRenderTargets, bool intoRenderTargets, int waterStyleOverride)
         {
@@ -410,37 +447,18 @@ namespace EEMod
 
             Vector2 lastScreenPos = Main.screenPosition;
 
-            if (!Main.gameMenu && !Main.LocalPlayer.GetModPlayer<EEPlayer>().triggerSeaCutscene)
+            /*if (!Main.gameMenu && !Main.LocalPlayer.GetModPlayer<EEPlayer>().triggerSeaCutscene)
             {
-                Main.screenPosition = Main.LocalPlayer.Center - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
+                Main.screenPosition = Main.LocalPlayer.position + new Vector2(Main.LocalPlayer.width / 2f, Main.LocalPlayer.height / 2f) - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
 
-                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, 100000);
-                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, 100000);
-            }
-
-            if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
-            {
-                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
-
-                Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetNPC);
-                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
-
-                Main.spriteBatch.Begin();
-
-                foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
-                {
-                    if (!trail.behindTiles && !trail.ManualDraw)
-                    {
-                        trail.Draw();
-                    }
-                }
-
-                Main.spriteBatch.End();
-
-                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
-
-                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
-            }
+                Vector2 input = new Vector2(Main.leftWorld + 656f, Main.topWorld + 656f) - Main.GameViewMatrix.Translation;
+                Vector2 input2 = new Vector2(Main.rightWorld - (float)Main.screenWidth / Main.GameViewMatrix.Zoom.X - 672f, Main.bottomWorld - (float)Main.screenHeight / Main.GameViewMatrix.Zoom.Y - 672f) - Main.GameViewMatrix.Translation;
+                
+                input = Utils.Round(input);
+                input2 = Utils.Round(input2);
+                
+                Main.screenPosition = Vector2.Clamp(Main.screenPosition, input, input2);
+            }*/
 
             Main.screenPosition = lastScreenPos;
 

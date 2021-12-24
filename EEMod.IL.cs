@@ -69,6 +69,8 @@ namespace EEMod
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw += LiquidRenderer_InternalDraw1;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
 
+            IL.Terraria.IO.WorldFile.SaveWorldTiles += WorldFile_SaveWorldTiles;
+
             //hooklist = new ILHookList();
 
             //hooklist.Add(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), LayeredMusic.ILFillBuffer);
@@ -85,8 +87,10 @@ namespace EEMod
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalPrepareDraw -= LiquidRenderer_InternalDraw1;
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw -= Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
 
+            IL.Terraria.IO.WorldFile.SaveWorldTiles -= WorldFile_SaveWorldTiles;
+
             //HookEndpointManager.Unmodify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
-            
+
             screenMessageText = null;
             progressMessage = null;
 
@@ -137,6 +141,18 @@ namespace EEMod
             }
 
             c.MarkLabel(l); // point to current instr (ldloc 12)
+        }
+
+        private void WorldFile_SaveWorldTiles(ILContext il)
+        {
+            ILCursor c = new ILCursor(il);
+            if (!c.TryGotoNext(i => i.MatchLdsfld<Main>("tile")))
+                return;
+            if (!c.TryGotoNext(i => i.MatchCall(out _))) // lazy solution but hueh
+                return;
+            //c.Index++;
+            c.Remove();
+            c.EmitDelegate<Func<Tile[,], int, int, Tile>>((arrae, i, j) => Framing.GetTileSafely(i, j));
         }
 
         private void Main_DrawWater(ILContext il)

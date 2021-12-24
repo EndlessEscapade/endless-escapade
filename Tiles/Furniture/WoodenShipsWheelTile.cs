@@ -39,7 +39,7 @@ namespace EEMod.Tiles.Furniture
             name.SetDefault("Wooden Ship's Wheel");
             AddMapEntry(new Color(255, 168, 28), name);
             DustType = DustID.Silver;
-            DisableSmartCursor = true;
+            DisableSmartCursor = false;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
@@ -47,40 +47,12 @@ namespace EEMod.Tiles.Furniture
             Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<WoodenShipsWheel>());
         }
 
-        /*private bool isIntersecting;
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        public override string HighlightTexture => "EEMod/Tiles/Furniture/WoodenShipsWheelTile_Highlight";
+
+        public override bool HasSmartInteract()
         {
-            //int frameX = Framing.GetTileSafely(i, j).frameX;
-            //int frameY = Framing.GetTileSafely(i, j).frameY;
-
-            Player player = Main.LocalPlayer;
-            if (new Rectangle((int)player.position.X, (int)player.position.Y, 32, 48).Intersects(new Rectangle(i * 16, j * 16, 32, 48)) && !isIntersecting)
-                isIntersecting = true;
-            else
-                isIntersecting = false;
-
-            if (isIntersecting)
-            {
-                //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 1;
-
-                player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
-                if (Main.netMode == NetmodeID.Server)
-                {
-                    var netMessage = Mod.GetPacket();
-                    netMessage.Write(player.GetModPlayer<EEPlayer>().triggerSeaCutscene);
-                    netMessage.Send();
-                }
-
-                //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
-                //SubworldManager.EnterSubworld<Sea>();
-            }
-            else
-            {
-                //Main.projectile[player.GetModPlayer<EEPlayer>().Arrow2].ai[1] = 0;
-            }
-
             return true;
-        }*/
+        }
 
         public override bool RightClick(int i, int j)
         {
@@ -95,6 +67,24 @@ namespace EEMod.Tiles.Furniture
             }
 
             return true;
+        }
+
+        public override void MouseOver(int i, int j)
+        {
+            Player player = Main.LocalPlayer;
+
+            player.cursorItemIconText = "Wooden Ship's Wheel";
+        }
+
+        public override void MouseOverFar(int i, int j)
+        {
+            MouseOver(i, j);
+            Player player = Main.LocalPlayer;
+            if (player.cursorItemIconText == "")
+            {
+                // player.showItemIcon = false;
+                player.cursorItemIconID = 0;
+            }
         }
     }
 }

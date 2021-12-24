@@ -55,6 +55,8 @@ namespace EEMod.Seamap.SeamapContent
 
             SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402, seamapHeight - 118)));
 
+            SeamapObjects.NewSeamapObject(new RedDutchman(new Vector2(seamapWidth - 500, seamapHeight - 500), Vector2.Zero));
+
             for (int i = 0; i < 20; i++)
             {
                 PlaceRockCluster(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(300, seamapHeight - 300)));

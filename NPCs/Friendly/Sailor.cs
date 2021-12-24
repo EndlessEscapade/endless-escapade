@@ -96,9 +96,9 @@ namespace EEMod.NPCs.Friendly
             }*/
         }
 
-        float cutsceneOpacity = 0;
+        public float cutsceneOpacity = 0;
 
-        int ticker = 0;
+        public int ticker = 0;
 
         public override bool PreAI()
         {
@@ -250,8 +250,8 @@ namespace EEMod.NPCs.Friendly
             }
         }
 
-        bool shipAlreadyOpen = false;
-        bool cutsceneActive = false;
+        public bool shipAlreadyOpen = false;
+        public bool cutsceneActive = false;
 
         public override void OnChatButtonClicked(bool firstButton, ref bool shop)
         {
@@ -261,11 +261,11 @@ namespace EEMod.NPCs.Friendly
                 shipAlreadyOpen = false;
             }
 
-            else
+            /*else
             {
                 if (!EEWorld.EEWorld.boatPlaced)
                 {
-                    if (shipAlreadyOpen /*check conditions for placing the boat*/)
+                    if (shipAlreadyOpen)
                     {
                         ticker = 0;
 
@@ -287,7 +287,7 @@ namespace EEMod.NPCs.Friendly
                     Main.npcChatText = $"Before you go sailing, don't forget to make a [c/E4A214:{"Wooden Ship's Wheel"}] [i:{ModContent.ItemType<WoodenShipsWheel>()}] to steer your boat" +
                         $", and don't forget that you can always stop by and see if I've designed new sails, wheels, cannons, or other bits and bobs for sailing.";
                 }
-            }
+            }*/
         }
 
         public override void SetupShop(Chest shop, ref int nextSlot)

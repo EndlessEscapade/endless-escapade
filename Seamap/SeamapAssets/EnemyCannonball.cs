@@ -17,9 +17,9 @@ using EEMod.Extensions;
 
 namespace EEMod.Seamap.SeamapContent
 {
-    public class FriendlyCannonball : SeamapObject
+    public class EnemyCannonball : SeamapObject
     {
-        public FriendlyCannonball(Vector2 pos, Vector2 vel) : base(pos, vel)
+        public EnemyCannonball(Vector2 pos, Vector2 vel) : base(pos, vel)
         {
             position = pos;
             velocity = vel;
@@ -27,7 +27,7 @@ namespace EEMod.Seamap.SeamapContent
             width = 12;
             height = 12;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/FriendlyCannonball").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/EnemyCannonball").Value;
         }
 
         public int ticks;
