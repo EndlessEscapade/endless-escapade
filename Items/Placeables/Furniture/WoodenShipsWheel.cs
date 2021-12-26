@@ -1,4 +1,5 @@
 using EEMod.Tiles.Furniture;
+using EEMod.Tiles.Furniture.Shipyard;
 using Terraria.ID;
 using Terraria.ModLoader;
 

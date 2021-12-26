@@ -934,15 +934,89 @@ namespace EEMod
                 }
 
                 try
-                {
+                {/*
                     if (Main.MenuUI.CurrentState is UIWorldLoad worldLoadUI)
                     {
+                        Texture2D texture;
+                        Texture2D texture2;
+                        int frames;
+                        int frameSpeed;
+
+                        switch (EEMod.loadingChooseImage)
+                        {
+                            case 0:
+                                texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
+                                break;
+                            case 1:
+                                texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
+                                break;
+                            case 2:
+                                texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
+                                break;
+                            default:
+                                texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
+                                break;
+                        }
+                        switch (EEMod.loadingChooseImage)
+                        {
+                            default:
+                            {
+                                texture = ModContent.Request<Texture2D>("Terraria/Images/UI/Sunflower_Loading").Value;
+                                frames = 19;
+                                frameSpeed = 3;
+                                break;
+                            }
+
+                            case 1:
+                            {
+                                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/HermitCrab").Value;
+                                frames = 4;
+                                frameSpeed = 5;
+                                break;
+                            }
+                            case 2:
+                            {
+                                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/Seahorse").Value;
+                                frames = 7;
+                                frameSpeed = 4;
+                                break;
+                            }
+                            case 3:
+                            {
+                                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/LowerReefs/Lionfish").Value;
+                                frames = 8;
+                                frameSpeed = 10;
+                                break;
+                            }
+                            case 4:
+                            {
+                                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/ThermalVents/MechanicalShark").Value;
+                                frames = 6;
+                                frameSpeed = 10;
+                                break;
+                            }
+                        }
+                        if (ticker++ > frameSpeed)
+                        {
+                            ticker = 0;
+                            frame.Y += texture.Height / frames;
+                        }
+                        if (frame.Y >= texture.Height / frames * (frames - 1))
+                        {
+                            frame.Y = 0;
+                        }
+
+                        Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
+                        Main.spriteBatch.Draw(texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, texture2.Width, texture2.Height), texture2.Bounds, new Color(204, 204, 204), 0, origin: new Vector2(texture2.Width / 2, texture2.Height / 2), SpriteEffects.None, 0);
+                        Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames), new Color(0, 0, 0), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
+
+
                         worldLoadUI.Draw(Main.spriteBatch);
 
                         //var bar = typeof(Main).Assembly.GetType("Terraria.GameContent.UI.States").GetField("_progressBar", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(new UIGenProgressBar()) as UIGenProgressBar;
 
                         //bar.SetProgress(0.5f, 0.4f);
-                    }
+                    } */
                 }
                 catch
                 {
@@ -966,6 +1040,9 @@ namespace EEMod
                 }
             }
         }
+
+        int ticker;
+        Rectangle frame;
 
         private void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
         {

@@ -18,6 +18,7 @@ using Terraria.Graphics.Effects;
 using Terraria.Audio;
 using System.Diagnostics;
 using ReLogic.Content;
+using EEMod.Tiles.Furniture.Shipyard;
 
 namespace EEMod.NPCs.Friendly
 {

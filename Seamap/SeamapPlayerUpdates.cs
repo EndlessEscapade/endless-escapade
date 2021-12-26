@@ -24,6 +24,7 @@ using EEMod.Seamap.SeamapContent;
 using EEMod.Autoloading;
 using EEMod.Systems.Subworlds.EESubworlds;
 using System.Diagnostics;
+using EEMod.Tiles.Furniture;
 
 namespace EEMod
 {
@@ -63,11 +64,6 @@ namespace EEMod
 
         public Vector2 EEPosition;
 
-        public static void InitializeSeamap()
-        {
-            Seamap.SeamapContent.Seamap.InitializeSeamap();
-        }
-
         public void UpdateCutscenesAndTempShaders()
         {
             //Filters.Scene[RippleShader].GetShader().UseOpacity(timerForCutscene);
@@ -82,24 +78,28 @@ namespace EEMod
             //        Filters.Scene.Deactivate(RippleShader);
             //    }
             //}
+
             Filters.Scene[SeaTransShader].GetShader().UseOpacity(cutSceneTriggerTimer);
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene[SeaTransShader].IsActive())
+            if (!Filters.Scene[SeaTransShader].IsActive())
             {
                 Filters.Scene.Activate(SeaTransShader, Player.Center).GetShader().UseOpacity(cutSceneTriggerTimer);
             }
+
             if (!triggerSeaCutscene)
             {
-                if (Main.netMode != NetmodeID.Server && Filters.Scene[SeaTransShader].IsActive())
+                if (Filters.Scene[SeaTransShader].IsActive())
                 {
                     Filters.Scene.Deactivate(SeaTransShader);
                 }
             }
+
             if (timerForCutscene >= 1400)
             {
                 Initialize();
                 prevKey = KeyID.BaseWorldName;
                 SubworldManager.EnterSubworld<CoralReefs>();
             }
+
             if (cutSceneTriggerTimer >= 500)
             {
                 Initialize();
@@ -107,6 +107,12 @@ namespace EEMod
                 SubworldManager.EnterSubworld<Sea>();
             }
         }
+
+        public int WheelType;
+        public int FigureheadType;
+        public int SailType;
+        public int CannonType;
+        public int CannonballType;
     }
 
     /*public partial class EEMod : Mod
@@ -129,4 +135,4 @@ namespace EEMod
             return false;
         }
     }*/
-        }
+}

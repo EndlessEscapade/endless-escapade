@@ -105,55 +105,55 @@ namespace EEMod.Skies
 
         public override void Draw(SpriteBatch spriteBatch, float minDepth, float maxDepth)
         {
-            /*switch (Main.rand.Next(3))
+            switch (EEMod.loadingChooseImage)
             {
                 case 0:
-                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
+                    texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
                     break;
                 case 1:
-                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen2");
+                    texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
                     break;
                 case 2:
-                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen3");
+                    texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
                     break;
                 default:
-                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
+                    texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
                     break;
             }
             switch (EEMod.loadingChooseImage)
             {
-                case 0:
+                default:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/SeaDragon");
-                    frames = 4;
-                    frameSpeed = 10;
+                    texture = ModContent.Request<Texture2D>("Terraria/Images/UI/Sunflower_Loading").Value;
+                    frames = 19;
+                    frameSpeed = 3;
                     break;
                 }
 
                 case 1:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/Grebyser");
-                    frames = 3;
-                    frameSpeed = 15;
+                    texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/HermitCrab").Value;
+                    frames = 4;
+                    frameSpeed = 5;
                     break;
                 }
                 case 2:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/CrescentJelly");
-                    frames = 9;
-                    frameSpeed = 5;
+                    texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/Seahorse").Value;
+                    frames = 7;
+                    frameSpeed = 4;
                     break;
                 }
                 case 3:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/GlisteningReefs/Lionfish");
+                    texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/LowerReefs/Lionfish").Value;
                     frames = 8;
                     frameSpeed = 10;
                     break;
                 }
                 case 4:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/CoralReefs/MechanicalReefs/MechanicalShark");
+                    texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/ThermalVents/MechanicalShark").Value;
                     frames = 6;
                     frameSpeed = 10;
                     break;
@@ -171,7 +171,6 @@ namespace EEMod.Skies
             Vector2 position = new Vector2(Main.screenWidth / 2, Main.screenHeight / 2 + 30);
             Main.spriteBatch.Draw(texture2, new Rectangle(Main.screenWidth / 2, Main.screenHeight / 2, texture2.Width, texture2.Height), texture2.Bounds, new Color(204, 204, 204), 0, origin: new Vector2(texture2.Width / 2, texture2.Height / 2), SpriteEffects.None, 0);
             Main.spriteBatch.Draw(texture, position, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames), new Color(0, 0, 0), 0, new Rectangle(0, frame.Y, texture.Width, texture.Height / frames).Size() / 2, 1, SpriteEffects.None, 0);
-        */
         }
 
         public override float GetCloudAlpha()

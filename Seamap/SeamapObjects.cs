@@ -19,6 +19,7 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void InitObjects(Vector2 shipPos)
         {
+            SeamapEntities = new SeamapObject[400];
             localship = new EEPlayerShip(shipPos, Vector2.Zero, Main.LocalPlayer);
 
             NewSeamapObject(localship);

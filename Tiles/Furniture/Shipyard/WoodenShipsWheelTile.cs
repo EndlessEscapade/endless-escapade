@@ -13,7 +13,7 @@ using EEMod.EEWorld;
 using EEMod.UI.States;
 using EEMod.Systems.Subworlds.EESubworlds;
 
-namespace EEMod.Tiles.Furniture
+namespace EEMod.Tiles.Furniture.Shipyard
 {
     public class WoodenShipsWheelTile : EETile
     {
@@ -59,12 +59,8 @@ namespace EEMod.Tiles.Furniture
             Player player = Main.LocalPlayer;
 
             player.GetModPlayer<EEPlayer>().triggerSeaCutscene = true;
-            if (Main.netMode == NetmodeID.Server)
-            {
-                var netMessage = Mod.GetPacket();
-                netMessage.Write(player.GetModPlayer<EEPlayer>().triggerSeaCutscene);
-                netMessage.Send();
-            }
+
+            //player.GetModPlayer<EEPlayer>().ScanBoat();
 
             return true;
         }
