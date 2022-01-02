@@ -13,13 +13,13 @@ namespace EEMod.Seamap.SeamapContent
 {
     internal static class SeamapObjects
     {
-        public static SeamapObject[] SeamapEntities = new SeamapObject[400];
+        public static SeamapObject[] SeamapEntities = new SeamapObject[2000];
 
         public static EEPlayerShip localship;
 
         public static void InitObjects(Vector2 shipPos)
         {
-            SeamapEntities = new SeamapObject[400];
+            SeamapEntities = new SeamapObject[2000];
             localship = new EEPlayerShip(shipPos, Vector2.Zero, Main.LocalPlayer);
 
             NewSeamapObject(localship);

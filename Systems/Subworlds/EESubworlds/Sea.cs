@@ -164,8 +164,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             #endregion
         }
 
-        public List<SeagullsClass> seagulls = new List<SeagullsClass>();
-
         public void ReturnHome(Player player)
         {
             player.GetModPlayer<EEPlayer>().Initialize();

@@ -47,10 +47,6 @@ namespace EEMod.Seamap.SeamapContent
                 if (Main.rand.NextBool(10)) isStorming = !isStorming;
             }
 
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                EENet.SendPacket(EEMessageType.SyncBrightness, brightness);
-            }
             #endregion
 
             seamapDrawColor = new Color(Color.White.R * brightness, Color.White.G * brightness, Color.White.B * brightness, Color.White.A);
@@ -93,20 +89,31 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void RenderEntities(SpriteBatch spriteBatch)
         {
-            SortedSet<SeamapObject> drawObjs = new SortedSet<SeamapObject>(SeamapObjects.SeamapEntities, Comparer<SeamapObject>.Create((a, b) => (a?.Bottom.Y.CompareTo(b?.Bottom.Y ?? 0) ?? 0)));
+            int CompareSeamapEntities(SeamapObject a, SeamapObject b) => a?.Bottom.Y.CompareTo(b?.Bottom.Y ?? 0f) ?? 0;
 
-            foreach(SeamapObject drawObj in drawObjs)
-            { 
-                if (drawObj != null)
+            Array.Sort(SeamapObjects.SeamapEntities, CompareSeamapEntities);
+
+            for (int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
+            {
+                if (SeamapObjects.SeamapEntities[i] != null)
                 {
-                    drawObj.Draw(spriteBatch);
+                    SeamapObjects.SeamapEntities[i].whoAmI = i;
                 }
             }
-            foreach (SeamapObject drawObj in drawObjs)
-            {
-                if (drawObj != null)
+            
+            for (int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
+            { 
+                if (SeamapObjects.SeamapEntities[i] != null)
                 {
-                    drawObj.PostDraw(spriteBatch);
+                    SeamapObjects.SeamapEntities[i].Draw(spriteBatch);
+                }
+            }
+
+            for (int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
+            {
+                if (SeamapObjects.SeamapEntities[i] != null)
+                {
+                    SeamapObjects.SeamapEntities[i].PostDraw(spriteBatch);
                 }
             }
         }
@@ -128,7 +135,7 @@ namespace EEMod.Seamap.SeamapContent
             Color SeaColour = new Color(28 / 255f, 118 / 255f, 186 / 255f);
 
             Vector2 pos = Vector2.Zero;
-            Vector2 toScreen = pos.ForDraw();
+            Vector2 toScreen = pos - Main.screenPosition;
 
             for (int i = 0; i < 5; i++)
             {
@@ -166,9 +173,9 @@ namespace EEMod.Seamap.SeamapContent
 
             WaterShader.CurrentTechnique.Passes[0].Apply();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < seamapWidth / 1000; i++)
             {
-                for (float j = 0; j < 5; j += 0.6f)
+                for (float j = 0; j < seamapHeight / 1000; j += 0.6f)
                 {
                     spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000), 1000, 600), new Color(0.1f, 0.1f, 0.1f, 0.1f));
                 }

@@ -51,7 +51,9 @@ namespace EEMod.Seamap.SeamapContent
             if (PreDraw(spriteBatch))
             {
                 if (!CustomDraw(spriteBatch))
+                {
                     Main.spriteBatch.Draw(texture, position.ForDraw(), new Rectangle(0, 0, width, height), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                }
             }
         }
 

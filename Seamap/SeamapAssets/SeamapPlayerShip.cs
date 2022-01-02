@@ -99,12 +99,6 @@ namespace EEMod.Seamap.SeamapContent
 
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            return false;
-        }
-
-        public override void PostDraw(SpriteBatch spriteBatch)
-        {
-
             int frameNum = 0;
             EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
 
@@ -166,7 +160,7 @@ namespace EEMod.Seamap.SeamapContent
                 velocity.X / 10, new Rectangle(0, frameNum * 52, 44, 52).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
-            base.PostDraw(spriteBatch);
+            return false;
         }
 
         public static bool IsTouchingLeft(Rectangle rect1, Rectangle rect2, Vector2 vel)

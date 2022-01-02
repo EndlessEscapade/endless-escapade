@@ -55,7 +55,7 @@ namespace EEMod.Seamap.SeamapContent
 
             SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402, seamapHeight - 118)));
 
-            SeamapObjects.NewSeamapObject(new RedDutchman(new Vector2(seamapWidth - 500, seamapHeight - 500), Vector2.Zero));
+            //SeamapObjects.NewSeamapObject(new RedDutchman(new Vector2(seamapWidth - 500, seamapHeight - 500), Vector2.Zero));
 
             for (int i = 0; i < 20; i++)
             {
@@ -84,6 +84,18 @@ namespace EEMod.Seamap.SeamapContent
             #endregion
 
             SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
+
+            for (int iterations = 0; iterations < 4; iterations++)
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    BorderCloud newCloud = new BorderCloud(new Vector2(i * (seamapWidth / 50f), seamapHeight - (30 * (4 - iterations))) + new Vector2(Main.rand.Next(-16, 17), Main.rand.Next(-16, 17)), Vector2.Zero);
+
+                    newCloud.lerpToBlack = 0.33f * iterations;
+
+                    SeamapObjects.NewSeamapObject(newCloud);
+                }
+            }
         }
 
         public static void PlaceRock(Vector2 position, int type = -1)

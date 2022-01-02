@@ -55,6 +55,10 @@ namespace EEMod
         [StaticShaderLoad]
         public static Effect LightningShader;
         [StaticShaderLoad]
+        public static Effect ContinuousPrimTexShader;
+        [StaticShaderLoad]
+        public static Effect ShadowWarp;
+        [StaticShaderLoad]
         public static Effect TornSailShader;
         [StaticShaderLoad]
         public static Effect PixelationShader;

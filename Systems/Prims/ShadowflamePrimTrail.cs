@@ -16,9 +16,9 @@ using EEMod.Items.Weapons.Melee;
 
 namespace EEMod.Prim
 {
-    class SpirePrimTrail : Primitive
+    class ShadowflamePrimTrail : Primitive
     {
-        public SpirePrimTrail(Projectile projectile, Color _color, int width = 40) : base(projectile)
+        public ShadowflamePrimTrail(Projectile projectile, Color _color, int width = 40) : base(projectile)
         {
             BindableEntity = projectile;
             _width = width;
@@ -29,7 +29,7 @@ namespace EEMod.Prim
         public override void SetDefaults()
         {
             Alpha = 0.8f;
-            _cap = 60;
+            _cap = 10;
 
             behindTiles = false;
             ManualDraw = false;
@@ -37,18 +37,19 @@ namespace EEMod.Prim
 
         public override void PrimStructure(SpriteBatch spriteBatch)
         {
-            /*if (_noOfPoints <= 1) return; //for easier, but less customizable, drawing
-            float colorSin = (float)Math.Sin(_counter / 3f);
-            Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
-            float widthVar = (float)Math.Sqrt(_points.Count) * _width;
-            DrawBasicTrail(c1, widthVar);*/
+            //if (_noOfPoints <= 1) return; 
+            
+            //float colorSin = (float)Math.Sin(_counter / 3f);
+            //Color c1 = Color.Lerp(Color.White, Color.Cyan, colorSin);
+            //float widthVar = (float)Math.Sqrt(_points.Count) * _width;
+            //DrawBasicTrail(c1, widthVar);*/
 
-            if (_noOfPoints <= 1) return;
+            if (_noOfPoints <= 1 || _points.Count() <= 1) return;
             float widthVar;
 
             float colorSin = (float)Math.Sin(_counter / 3f);
             {
-                widthVar = (float)Math.Sqrt(_points.Count) * _width;
+                widthVar = 0;
                 Color c1 = Color.Lerp(Color.White, color, colorSin);
 
                 Vector2 normalAhead = CurveNormal(_points, 1);
@@ -63,10 +64,8 @@ namespace EEMod.Prim
 
             for (int i = 1; i < _points.Count - 1; i++)
             {
-                widthVar = (float)Math.Sqrt(_points.Count - i) * _width;
+                widthVar = ((i) / (float)_points.Count) * _width;
 
-                Color base1 = new Color(7, 86, 122);
-                Color base2 = new Color(255, 244, 173);
                 Color c = Color.Lerp(Color.White, color, colorSin);
                 Color CBT = Color.Lerp(Color.White, color, colorSin);
 
@@ -93,13 +92,6 @@ namespace EEMod.Prim
 
         public override void SetShaders()
         {
-            int width = _device.Viewport.Width;
-            int height = _device.Viewport.Height;
-
-            Vector2 zoom = Main.GameViewMatrix.Zoom;
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(width / 2, height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(zoom.X, zoom.Y, 1f);
-            Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
-
             //EEMod.lightningShader.View = view;
             //EEMod.lightningShader.Projection = projection;
 
@@ -107,7 +99,24 @@ namespace EEMod.Prim
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/EnergyTrailBoostedBg").Value);
+            /*int width = _device.Viewport.Width;
+            int height = _device.Viewport.Height;
+
+            Vector2 zoom = Main.GameViewMatrix.Zoom;
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) *
+                          Matrix.CreateTranslation(width / 2f, height / -2f, 0) * Matrix.CreateRotationZ(MathHelper.Pi) *
+                          Matrix.CreateScale(zoom.X, zoom.Y, 1f);
+
+            Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
+
+            EEMod.ContinuousPrimTexShader.Parameters["WorldViewProjection"].SetValue(view * projection);
+
+            EEMod.ContinuousPrimTexShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/EnergyTrailBoosted").Value);
+            EEMod.ContinuousPrimTexShader.Parameters["lightColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
+            EEMod.ContinuousPrimTexShader.Parameters["darkColor"].SetValue(new Vector4(color.R, color.G, color.B, 0) / 255f);
+            EEMod.ContinuousPrimTexShader.CurrentTechnique.Passes[0].Apply();*/
+
+            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
             EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
         }
@@ -122,7 +131,7 @@ namespace EEMod.Prim
             }
             if ((!BindableEntity.active && BindableEntity != null) || _destroyed)
             {
-                OnDestroy();
+                Dispose();
             }
             else
             {
