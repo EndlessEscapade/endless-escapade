@@ -45,10 +45,14 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
             NPC.lifeMax = 550;
             NPC.defense = 10;
 
-            NPC.width = 28;
-            NPC.height = 44;
+            NPC.width = 44;
+            NPC.height = 56;
 
             NPC.friendly = false;
+
+            NPC.damage = 20;
+
+            NPC.knockBackResist = 0.9f;
         }
 
         public override void AI()
@@ -58,9 +62,9 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
             //swing staff around in circle, plant it down, do aura thing
             //swing staff forward, summon three bolts three times, and fire at player
 
-            NPC.spriteDirection = Main.LocalPlayer.Center.X < NPC.Center.X ? -1 : 1;
+            NPC.spriteDirection = Main.LocalPlayer.Center.X < NPC.Center.X ? 1 : -1;
 
-            staffCenter = NPC.Center + new Vector2(-6 * NPC.spriteDirection, 6) + ((NPC.ai[0] % 180 >= 60 && NPC.ai[0] % 180 < 120) ? new Vector2(0, (float)Math.Sin(((NPC.ai[0] % 60) / 20f) * MathHelper.Pi * 2) * -4).RotatedBy(staffRot) : Vector2.Zero);
+            staffCenter = NPC.Center + new Vector2(12 * NPC.spriteDirection, 14) + ((NPC.ai[0] % 180 >= 60 && NPC.ai[0] % 180 < 120) ? new Vector2(0, (float)Math.Sin(((NPC.ai[0] % 60) / 20f) * MathHelper.Pi * 2) * -3).RotatedBy(staffRot) : Vector2.Zero);
             
             if (NPC.ai[0] == 0)
             {
@@ -71,7 +75,17 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
             if(NPC.ai[1] == 0) NPC.ai[0]++;
 
-            if (NPC.ai[1] > 0) NPC.ai[1]++;
+            if (NPC.ai[1] > 0)
+            {
+                NPC.ai[1]++;
+
+                for (int i = 0; i < 3; i++)
+                {
+                    int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
+                    Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
+                    Main.dust[dust].noGravity = true;
+                }
+            }
 
             if (NPC.ai[1] != 60) StaffBolt.Center = staffCenter + new Vector2(0, -22).RotatedBy(staffRot);
 
@@ -104,7 +118,7 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
                             (!Main.tile[tileTry, i - 2].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 2].type]) && 
                             (!Main.tile[tileTry, i - 3].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 3].type]))
                         {
-                            newPos = new Vector2((tileTry * 16) + 8, (i * 16) - 22);
+                            newPos = new Vector2((tileTry * 16) + 8, (i * 16) - 28);
                         }
                     }
                 }
@@ -114,13 +128,28 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
                 NPC.spriteDirection = Main.LocalPlayer.Center.X < NPC.Center.X ? -1 : 1;
                 staffCenter = NPC.Center + new Vector2(-6 * NPC.spriteDirection, 6);
 
-                StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), staffCenter + new Vector2(0, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
+                StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), staffCenter + new Vector2(1, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
 
                 PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(StaffBolt, Color.Violet, 4));
             }
 
             if (NPC.ai[1] >= 120)
             {
+                for (int i = 0; i < 20; i++)
+                {
+                    int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
+                    Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
+                    Main.dust[dust].noGravity = true;
+                }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
+                    Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6));
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].scale = 2f;
+                }
+
                 NPC.ai[1] = 0;
                 NPC.ai[0] = 1;
             }
@@ -146,7 +175,16 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
         public void ShootBolt(Vector2 pos, Vector2 addVel)
         {
-            Projectile newBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), pos, ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3), ModContent.ProjectileType<ShadowflameHexBolt>(), 10, 2);
+            for (int i = 0; i < 10; i++)
+            {
+                int dust = Dust.NewDust(pos, 0, 0, DustID.CrystalSerpent_Pink);
+                Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
+                Main.dust[dust].noGravity = true;
+            }
+
+            NPC.velocity += (((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3).X < 0 ? new Vector2(0.5f, 0) : new Vector2(-0.5f, 0));
+
+            Projectile newBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), pos, ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3), ModContent.ProjectileType<ShadowflameHexBolt>(), 20, 2, Main.myPlayer);
 
             PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(newBolt, Color.Violet, 16));
 
@@ -161,13 +199,15 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
         {
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
+            Color defaultDrawColor = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
+
             EEMod.ShadowWarp.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
             EEMod.ShadowWarp.Parameters["newColor"].SetValue(new Vector4(Color.Violet.R, Color.Violet.G, Color.Violet.B, Color.Violet.A) / 255f);
             EEMod.ShadowWarp.Parameters["lerpVal"].SetValue((float)Math.Cos((NPC.ai[1] / 120f) * MathHelper.TwoPi).PositiveSin());
+            EEMod.ShadowWarp.Parameters["baseColor"].SetValue(new Vector4(defaultDrawColor.R, defaultDrawColor.G, defaultDrawColor.B, defaultDrawColor.A) / 255f);
 
             EEMod.ShadowWarp.CurrentTechnique.Passes[0].Apply();
 
-            Color defaultDrawColor = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
             Texture2D ShamanGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/GoblinShaman").Value;
 
             Main.spriteBatch.Draw(ShamanGlow, NPC.Center - Main.screenPosition + new Vector2(0, 4), null, defaultDrawColor, NPC.rotation, ShamanGlow.Bounds.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
@@ -185,36 +225,39 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
             Color defaultDrawColor = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
 
-
-
             EEMod.ShadowWarp.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
             EEMod.ShadowWarp.Parameters["newColor"].SetValue(new Vector4(Color.Violet.R, Color.Violet.G, Color.Violet.B, Color.Violet.A) / 255f);
             EEMod.ShadowWarp.Parameters["lerpVal"].SetValue((float)Math.Cos((NPC.ai[1] / 120f) * MathHelper.TwoPi).PositiveSin());
+            EEMod.ShadowWarp.Parameters["baseColor"].SetValue(new Vector4(defaultDrawColor.R, defaultDrawColor.G, defaultDrawColor.B, defaultDrawColor.A) / 255f);
 
             EEMod.ShadowWarp.CurrentTechnique.Passes[0].Apply();
 
-
-
-            //shaman glow
-            Texture2D ShamanGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShamanGlow").Value;
-
-            Main.spriteBatch.Draw(ShamanGlow, NPC.Center - Main.screenPosition + new Vector2(0, 4), null, Color.White, NPC.rotation, ShamanGlow.Bounds.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
 
             //staff drawing
             Texture2D ShamanStaff = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShamanStaff").Value;
             //Texture2D StaffGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/StaffGlow").Value;
 
-            Main.spriteBatch.Draw(ShamanStaff, staffCenter - Main.screenPosition, null, defaultDrawColor, staffRot, ShamanStaff.Bounds.Size() / 2f, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(ShamanStaff, staffCenter - Main.screenPosition, null, defaultDrawColor, staffRot, (ShamanStaff.Bounds.Size() / 2f) + new Vector2(1, 4), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             //Main.spriteBatch.Draw(StaffGlow, NPC.Center - Main.screenPosition + new Vector2(-6 * NPC.spriteDirection, 0), null, Color.White, staffRot, StaffGlow.Bounds.Size() / 2f, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
 
             //shaman's hand
-            Texture2D ShamanHand = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShamanHand").Value;
+            //Texture2D ShamanHand = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShamanHand").Value;
 
-            Main.spriteBatch.Draw(ShamanHand, NPC.Center - Main.screenPosition + new Vector2(0, 4), null, defaultDrawColor, NPC.rotation, ShamanHand.Bounds.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            //Main.spriteBatch.Draw(ShamanHand, NPC.Center - Main.screenPosition + new Vector2(11 * NPC.spriteDirection, 4 + 11), null, defaultDrawColor, staffRot, new Vector2(11, 39), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
             Main.spriteBatch.End(); Main.spriteBatch.Begin();
+        }
+
+        public override void OnKill()
+        {
+            if (StaffBolt != null)
+            {
+                StaffBolt.Kill();
+                StaffBolt.active = false;
+                StaffBolt = null;
+            }
         }
     }
 
@@ -228,8 +271,8 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
         public override void SetDefaults()
         {
-            Projectile.width = 12;
-            Projectile.height = 12;
+            Projectile.width = 18;
+            Projectile.height = 18;
             Projectile.alpha = 0;
             Projectile.timeLeft = 300;
             Projectile.penetrate = 1;

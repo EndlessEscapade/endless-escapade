@@ -5,6 +5,8 @@ texture noise;
 
 float4 newColor;
 
+float4 baseColor;
+
 float lerpVal;
 
 sampler noiseSampler = sampler_state
@@ -19,7 +21,7 @@ float4 ShadowWarpFloat(float2 coords : TEXCOORD0) : COLOR0
     
     if (lerpVal > 0.5)
     {
-        return lerp(float4(newColor.r, newColor.g, newColor.b, texColor.r) * ogColor.a, ogColor, (lerpVal - 0.5) * 2);
+        return lerp(float4(newColor.r, newColor.g, newColor.b, texColor.r) * ogColor.a, float4(ogColor.r * baseColor.r, ogColor.g * baseColor.g, ogColor.b * baseColor.b, ogColor.a), (lerpVal - 0.5) * 2);
     }
     else
     {
