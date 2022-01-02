@@ -27,7 +27,7 @@ namespace EEMod
 
         public static void InitializeAmbience()
         {
-            var mod = ModContent.GetInstance<EEMod>();
+            var mod = EEMod.Instance;
 
             /*if (!Main.dedServ)
             {
@@ -57,7 +57,7 @@ namespace EEMod
 
             Player player = Main.LocalPlayer;
 
-            var loader = ModContent.GetInstance<EEMod>();
+            var loader = EEMod.Instance;
 
             if (player.GetModPlayer<EEPlayer>().ZoneCoralReefs && player.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
             {

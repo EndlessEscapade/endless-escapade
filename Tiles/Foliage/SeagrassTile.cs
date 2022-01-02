@@ -66,7 +66,7 @@ namespace EEMod.Tiles.Foliage
         {
             Tile tile = Framing.GetTileSafely(i, j + 1);
 
-            Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/SeagrassTile").Value;
+            Texture2D tex = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/SeagrassTile").Value;
 
             int frameX = 0;
             int frameY = 1;

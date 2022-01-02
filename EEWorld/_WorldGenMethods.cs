@@ -202,7 +202,7 @@ namespace EEMod.EEWorld
 
         public static void PlaceShipyard(int x, int y)
         {
-            EEMod eemood = ModContent.GetInstance<EEMod>();
+            EEMod eemood = EEMod.Instance;
 
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/Pier.lcs")).PlaceAt(x - 52, y, true, true);
 

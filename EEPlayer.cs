@@ -527,7 +527,7 @@ namespace EEMod
 
         public void InspectObject()
         {
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/InspectIcon").Value, (Player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
+            Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("UI/InspectIcon").Value, (Player.Center + new Vector2(0, (float)Math.Sin(inspectTimer) * 32)).ForDraw(), Color.White);
             inspectTimer += 0.5f;
         }
         public void UpdateVerletCollisions(int pRP, float velDamp, int fakeElevation, int newFeetPos, float gradientFunction)
@@ -1007,7 +1007,7 @@ namespace EEMod
         {
             if (ZoneCoralReefs)
             {
-                return ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
+                return EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
             }
             return null;
         }

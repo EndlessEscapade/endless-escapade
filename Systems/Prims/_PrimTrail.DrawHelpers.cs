@@ -71,10 +71,10 @@ namespace EEMod.Prim
             Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
 
             //effects.Parameters["WorldViewProjection"].SetValue(view * projection);
-            //effects.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
-            //effects.Parameters["spotTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/Spot").Value);
-            //effects.Parameters["polkaTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
-            //effects.Parameters["Voronoi"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/VoronoiNoise").Value);
+            //effects.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            //effects.Parameters["spotTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/Spot").Value);
+            //effects.Parameters["polkaTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/RandomPolkaDots").Value);
+            //effects.Parameters["Voronoi"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/VoronoiNoise").Value);
 
             //_trailShader.ApplyShader(effects, this, _points, PassName, progress);
         }

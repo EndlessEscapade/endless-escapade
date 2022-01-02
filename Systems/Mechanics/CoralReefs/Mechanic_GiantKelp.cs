@@ -38,7 +38,7 @@ namespace EEMod
                             && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1);
                         if (isValid)
                         {
-                            Texture2D GiantKelp = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/GiantKelpColumn").Value;
+                            Texture2D GiantKelp = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/GiantKelpColumn").Value;
                             Point MP = Mid.ToTileCoordinates();
                             Helpers.DrawChain(GiantKelp, 58, ((int)(Main.GameUpdateCount / 8)) % 9, ChainConneccPos, LastChainConneccPos, 0, 1, Lighting.GetColor((int)ChainConneccPos.X, (int)ChainConneccPos.Y));
                         }

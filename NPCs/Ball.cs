@@ -64,7 +64,7 @@ float x0, float x1, float x2, float x3)
         {
             if (head != null && head.active && head.ModNPC != null && head.ModNPC is Ball)
             {
-                Texture2D neckTex2D = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/MechanicalReefs/DreadmineChain").Value;
+                Texture2D neckTex2D = EEMod.Instance.Assets.Request<Texture2D>("NPCs/CoralReefs/MechanicalReefs/DreadmineChain").Value;
                 Vector2 neckOrigin = NPC.Center;
                 Vector2 connector = ifYouReallyWantToo;
                 float chainsPerUse = 0.05f;

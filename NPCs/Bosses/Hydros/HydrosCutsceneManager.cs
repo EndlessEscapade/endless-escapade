@@ -153,7 +153,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                 EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
                 EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
                 EEMod.RadialSurfacing.Parameters["alpha"].SetValue(0.8f);
-                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
+                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
                 EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
                 EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
 
@@ -165,7 +165,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                 EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
                 EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
                 EEMod.RadialSurfacing.Parameters["alpha"].SetValue(0.5f);
-                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
+                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
                 EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
                 EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
 
@@ -185,7 +185,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                 EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
                 EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
                 EEMod.RadialSurfacing.Parameters["alpha"].SetValue(0.8f * ((480 - ticks) / 120f));
-                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
+                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
                 EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
                 EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
 
@@ -197,7 +197,7 @@ namespace EEMod.NPCs.Bosses.Hydros
                 EEMod.RadialSurfacing.Parameters["pos"].SetValue(new Vector2((float)Math.Sin(Main.GameUpdateCount / 60f), (float)Math.Cos(Main.GameUpdateCount / 60f) * 0.1f));
                 EEMod.RadialSurfacing.Parameters["progress"].SetValue(Main.GameUpdateCount / 60f);
                 EEMod.RadialSurfacing.Parameters["alpha"].SetValue(0.5f * ((480 - ticks) / 120f));
-                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
+                EEMod.RadialSurfacing.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise2").Value);
                 EEMod.RadialSurfacing.Parameters["color"].SetValue(new Vector4(Color.Gold.R, Color.Gold.G, Color.Gold.B, Color.Gold.A) / 255f);
                 EEMod.RadialSurfacing.CurrentTechnique.Passes[0].Apply();
 

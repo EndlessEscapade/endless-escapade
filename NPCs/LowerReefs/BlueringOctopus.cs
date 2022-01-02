@@ -84,7 +84,7 @@ namespace EEMod.NPCs.LowerReefs
 
         public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow").Value, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NPCs/CoralReefs/GlisteningReefs/BlueringOctopusGlow").Value, NPC.Center - screenPos, NPC.frame, Color.White, NPC.rotation, NPC.frame.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         /*public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)

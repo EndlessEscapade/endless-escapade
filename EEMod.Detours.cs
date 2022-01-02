@@ -165,9 +165,9 @@ namespace EEMod
 
                 if (bgAlpha > 0)
                 {
-                    Texture2D tex = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
-                    Texture2D tex2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
-                    Texture2D tex3 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
+                    Texture2D tex = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceFar").Value;
+                    Texture2D tex2 = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceMid").Value;
+                    Texture2D tex3 = EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
 
                     ModContent.GetInstance<LightingBuffer>().PostDrawTiles();
 
@@ -273,9 +273,9 @@ namespace EEMod
                 {
                     bgAlpha += -bgAlpha / 32f;
                 }
-                Texture2D tex = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceFar");
-                Texture2D tex2 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceMid");
-                Texture2D tex3 = ModContent.GetInstance<EEMod>().GetTexture("Backgrounds/CoralReefsSurfaceClose");
+                Texture2D tex = EEMod.Instance.GetTexture("Backgrounds/CoralReefsSurfaceFar");
+                Texture2D tex2 = EEMod.Instance.GetTexture("Backgrounds/CoralReefsSurfaceMid");
+                Texture2D tex3 = EEMod.Instance.GetTexture("Backgrounds/CoralReefsSurfaceClose");
                 //LightingBuffer.Instance.Draw(Main.spriteBatch);
 
                 Vector2 chunk1 = Main.LocalPlayer.Center.ParalaxXY(new Vector2(0.8f, 0.3f)) / tex.Size();
@@ -945,16 +945,16 @@ namespace EEMod
                         switch (EEMod.loadingChooseImage)
                         {
                             case 0:
-                                texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
+                                texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
                                 break;
                             case 1:
-                                texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
+                                texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
                                 break;
                             case 2:
-                                texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
+                                texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
                                 break;
                             default:
-                                texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
+                                texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
                                 break;
                         }
                         switch (EEMod.loadingChooseImage)
@@ -969,28 +969,28 @@ namespace EEMod
 
                             case 1:
                             {
-                                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/HermitCrab").Value;
+                                texture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/SurfaceReefs/HermitCrab").Value;
                                 frames = 4;
                                 frameSpeed = 5;
                                 break;
                             }
                             case 2:
                             {
-                                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/Seahorse").Value;
+                                texture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/SurfaceReefs/Seahorse").Value;
                                 frames = 7;
                                 frameSpeed = 4;
                                 break;
                             }
                             case 3:
                             {
-                                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/LowerReefs/Lionfish").Value;
+                                texture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/LowerReefs/Lionfish").Value;
                                 frames = 8;
                                 frameSpeed = 10;
                                 break;
                             }
                             case 4:
                             {
-                                texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/ThermalVents/MechanicalShark").Value;
+                                texture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/ThermalVents/MechanicalShark").Value;
                                 frames = 6;
                                 frameSpeed = 10;
                                 break;

@@ -77,7 +77,7 @@ namespace EEMod
             string EffectPath = "Effects/ScreenShaders/" + Path;
             string DictEntry = "EEMod:" + Path;
 
-            Ref<Effect> Reference = new Ref<Effect>(ModContent.GetInstance<EEMod>().Assets.Request<Effect>(EffectPath, AssetRequestMode.ImmediateLoad).Value);
+            Ref<Effect> Reference = new Ref<Effect>(EEMod.Instance.Assets.Request<Effect>(EffectPath, AssetRequestMode.ImmediateLoad).Value);
 
             Filters.Scene[DictEntry] = new Filter(new ScreenShaderData(Reference, Reference.Value.Techniques[0].Passes[0].Name), EffectPriority.VeryHigh);
             Filters.Scene[DictEntry].Load();
@@ -93,7 +93,7 @@ namespace EEMod
                 {
                     //can someone like... do an effect exists check. Its 2:38am and I literally want to die
                     string ScreenShaderPath = att.ScreenShader ? "ScreenShaders/" : "";
-                    fi.SetValue(null, ModContent.GetInstance<EEMod>().Assets.Request<Effect>($"Effects/{ScreenShaderPath + fi.Name}", att.RequestMode).Value);
+                    fi.SetValue(null, EEMod.Instance.Assets.Request<Effect>($"Effects/{ScreenShaderPath + fi.Name}", att.RequestMode).Value);
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace EEMod
         {
             Main.QueueMainThreadAction(() =>
             {
-                EEMod instance = ModContent.GetInstance<EEMod>();
+                EEMod instance = EEMod.Instance;
 
                 BasicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
                 BasicEffect.VertexColorEnabled = true;

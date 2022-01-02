@@ -37,23 +37,23 @@ namespace EEMod.Skies
             /*switch (Main.rand.Next(3))
             {
                 case 0:
-                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen1");
+                    texture2 = EEMod.Instance.GetTexture("LoadingScreenImages/LoadingScreen1");
                     break;
                 case 1:
-                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen2");
+                    texture2 = EEMod.Instance.GetTexture("LoadingScreenImages/LoadingScreen2");
                     break;
                 case 2:
-                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen3");
+                    texture2 = EEMod.Instance.GetTexture("LoadingScreenImages/LoadingScreen3");
                     break;
                 default:
-                    texture2 = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/LoadingScreen4");
+                    texture2 = EEMod.Instance.GetTexture("LoadingScreenImages/LoadingScreen4");
                     break;
             }
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("NPCs/DuneShambler");
+                    texture = EEMod.Instance.GetTexture("NPCs/DuneShambler");
                     frames = 6;
                     frameSpeed = 15;
                     break;
@@ -61,28 +61,28 @@ namespace EEMod.Skies
 
                 case 1:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/GiantSquid");
+                    texture = EEMod.Instance.GetTexture("LoadingScreenImages/GiantSquid");
                     frames = 3;
                     frameSpeed = 30;
                     break;
                 }
                 case 2:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/Clam");
+                    texture = EEMod.Instance.GetTexture("LoadingScreenImages/Clam");
                     frames = 3;
                     frameSpeed = 30;
                     break;
                 }
                 case 3:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/Hydros");
+                    texture = EEMod.Instance.GetTexture("LoadingScreenImages/Hydros");
                     frames = 8;
                     frameSpeed = 25;
                     break;
                 }
                 case 4:
                 {
-                    texture = ModContent.GetInstance<EEMod>().GetTexture("LoadingScreenImages/Seahorse");
+                    texture = EEMod.Instance.GetTexture("LoadingScreenImages/Seahorse");
                     frames = 5;
                     frameSpeed = 20;
                     break;
@@ -108,16 +108,16 @@ namespace EEMod.Skies
             switch (EEMod.loadingChooseImage)
             {
                 case 0:
-                    texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
+                    texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen1").Value;
                     break;
                 case 1:
-                    texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
+                    texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen2").Value;
                     break;
                 case 2:
-                    texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
+                    texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen3").Value;
                     break;
                 default:
-                    texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
+                    texture2 = EEMod.Instance.Assets.Request<Texture2D>("UI/LoadingScreenImages/LoadingScreen4").Value;
                     break;
             }
             switch (EEMod.loadingChooseImage)
@@ -132,28 +132,28 @@ namespace EEMod.Skies
 
                 case 1:
                 {
-                    texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/HermitCrab").Value;
+                    texture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/SurfaceReefs/HermitCrab").Value;
                     frames = 4;
                     frameSpeed = 5;
                     break;
                 }
                 case 2:
                 {
-                    texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/SurfaceReefs/Seahorse").Value;
+                    texture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/SurfaceReefs/Seahorse").Value;
                     frames = 7;
                     frameSpeed = 4;
                     break;
                 }
                 case 3:
                 {
-                    texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/LowerReefs/Lionfish").Value;
+                    texture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/LowerReefs/Lionfish").Value;
                     frames = 8;
                     frameSpeed = 10;
                     break;
                 }
                 case 4:
                 {
-                    texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/ThermalVents/MechanicalShark").Value;
+                    texture = EEMod.Instance.Assets.Request<Texture2D>("NPCs/ThermalVents/MechanicalShark").Value;
                     frames = 6;
                     frameSpeed = 10;
                     break;

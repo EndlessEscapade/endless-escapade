@@ -9,7 +9,7 @@ namespace EEMod.Systems.EEGame
 {
     public class IceHockey : EEGame
     {
-        public override Texture2D tex => ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("AirHockeyTable").Value;
+        public override Texture2D tex => EEMod.Instance.Assets.Request<Texture2D>("AirHockeyTable").Value;
         public override Vector2 sizeOfMainCanvas => new Vector2(1000, 400);
         public override Vector2 centerOfMainCanvas => Main.LocalPlayer.Center;
         public override Color colourOfMainCanvas => Color.White;
@@ -26,13 +26,13 @@ namespace EEMod.Systems.EEGame
                 elementArray[puck].AttachCollisionComponents(true, false, false);
                 if (i == 0)
                 {
-                    elementArray[puck].BindElementToTexture(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("BlueAirHockeyThing").Value);
+                    elementArray[puck].BindElementToTexture(EEMod.Instance.Assets.Request<Texture2D>("BlueAirHockeyThing").Value);
                     //  if(Main.myPlayer == 1)
                     // elementArray[puck].AttachCollisionComponents(false, false, false);
                 }
                 if (i == 1)
                 {
-                    elementArray[puck].BindElementToTexture(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("RedAirHockeyThing").Value);
+                    elementArray[puck].BindElementToTexture(EEMod.Instance.Assets.Request<Texture2D>("RedAirHockeyThing").Value);
                     // if (Main.myPlayer == 0)
                     // elementArray[puck].AttachCollisionComponents(false, false, false);
                 }
@@ -40,7 +40,7 @@ namespace EEMod.Systems.EEGame
             int ball = AddUIElement(new Vector2(30, 30), Color.White, centerOfMainCanvas);
 
             elementArray[ball].BindElementToGame(this);
-            elementArray[ball].BindElementToTexture(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("AirHockeyPuck").Value);
+            elementArray[ball].BindElementToTexture(EEMod.Instance.Assets.Request<Texture2D>("AirHockeyPuck").Value);
             elementArray[ball].AttachCollisionComponents(false, true, true, 0.97f, 1.5f);
             elementArray[ball].AttachTag("ball");
         }

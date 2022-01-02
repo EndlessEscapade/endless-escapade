@@ -201,8 +201,8 @@ namespace EEMod
                 color = Color.GreenYellow * alpha;
             }*/
 
-            Texture2D Outline = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/Outline").Value;
-            Texture2D OceanScreen = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Seamap/SeamapAssets/OceanScreen").Value;
+            Texture2D Outline = EEMod.Instance.Assets.Request<Texture2D>("UI/Outline").Value;
+            Texture2D OceanScreen = EEMod.Instance.Assets.Request<Texture2D>("Seamap/SeamapAssets/OceanScreen").Value;
             if (FontAssets.MouseText.Value != null)
             {
                 if (Main.worldName == KeyID.Sea)

@@ -419,7 +419,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                         {
                             int chest = WorldGen.PlaceChest(i, j - 1, (ushort)ModContent.TileType<CoralChestTile>());
 
-                            ModContent.GetInstance<EEMod>().Logger.Debug("Chest attempting to spawn at: " + new Vector2(i, j - 1));
+                            EEMod.Instance.Logger.Debug("Chest attempting to spawn at: " + new Vector2(i, j - 1));
                             if (chest >= 0)
                             {
                                 Item item1 = new Item();

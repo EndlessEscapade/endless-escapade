@@ -250,7 +250,7 @@ namespace EEMod.Autoloading
 
                     if (field.GetCustomAttribute<UnloadIgnoreAttribute>() == null)
                     {
-                        ModContent.GetInstance<EEMod>().Logger.Debug($"Unloaded field {type.FullName}::{field.Name} - {field.FieldType.FullName}");
+                        EEMod.Instance.Logger.Debug($"Unloaded field {type.FullName}::{field.Name} - {field.FieldType.FullName}");
                         field.SetValue(null, null);
                     }
                 }

@@ -88,7 +88,7 @@ namespace EEMod.Items.Weapons.Melee.Swords
             Color shadeColor = Main.hslToRgb((Projectile.ai[0] / 16.96f) + 0.46f, 1f, 0.7f);
             EEMod.PrismShader.Parameters["alpha"].SetValue(alpha * 2 % 6);
             EEMod.PrismShader.Parameters["shineSpeed"].SetValue(0.7f);
-            EEMod.PrismShader.Parameters["tentacle"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/PrismDaggerLightMap").Value);
+            EEMod.PrismShader.Parameters["tentacle"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/PrismDaggerLightMap").Value);
             EEMod.PrismShader.Parameters["lightColour"].SetValue(Color.White.ToVector3());
             EEMod.PrismShader.Parameters["prismColor"].SetValue(shadeColor.ToVector3());
             EEMod.PrismShader.Parameters["shaderLerp"].SetValue(1f);

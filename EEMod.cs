@@ -36,6 +36,7 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
+        public static EEMod Instance => ModContent.GetInstance<EEMod>();
         public static bool isSaving = false;
         public static int loadingChoose;
         public static int loadingChooseImage;

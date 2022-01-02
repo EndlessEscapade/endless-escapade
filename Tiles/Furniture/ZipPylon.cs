@@ -69,7 +69,7 @@ namespace EEMod.Tiles.Furniture
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
-            Texture2D zipline = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Items/Zipline").Value;
+            Texture2D zipline = EEMod.Instance.Assets.Request<Texture2D>("Items/Zipline").Value;
             for (int l = 0; l < 100; l++)
             {
                 if (EEWorld.EEWorld.PylonBegin[l] != default && EEWorld.EEWorld.PylonEnd[l] != default)

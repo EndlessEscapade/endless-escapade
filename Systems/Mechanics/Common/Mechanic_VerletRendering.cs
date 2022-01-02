@@ -15,7 +15,7 @@ namespace EEMod
     {
         public override void PostDrawTiles()
         {
-            ModContent.GetInstance<EEMod>().verlet.GlobalRenderPoints();
+            EEMod.Instance.verlet.GlobalRenderPoints();
         }
     }
 }

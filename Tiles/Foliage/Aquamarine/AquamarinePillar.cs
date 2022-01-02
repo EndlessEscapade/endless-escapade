@@ -69,7 +69,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 
             Vector2 position = new Vector2(i * 16, j * 16).ForDraw() + zero;
 
-            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarinePillar").Value;
+            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/Aquamarine/AquamarinePillar").Value;
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
 
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);

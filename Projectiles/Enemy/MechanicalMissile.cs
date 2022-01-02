@@ -67,7 +67,7 @@ namespace EEMod.Projectiles.Enemy
 
         public override void PostDraw(Color lightColor)
         {
-            Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/Enemy/MechanicalMissileGlow").Value, Projectile.Center - Main.screenPosition, Projectile.getRect(), Color.White, Projectile.rotation, Projectile.getRect().Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+            Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Projectiles/Enemy/MechanicalMissileGlow").Value, Projectile.Center - Main.screenPosition, Projectile.getRect(), Color.White, Projectile.rotation, Projectile.getRect().Size() / 2, Projectile.scale, Projectile.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
         }
 
         public override bool OnTileCollide(Vector2 oldVelocity)

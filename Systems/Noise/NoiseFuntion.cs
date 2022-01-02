@@ -22,7 +22,7 @@ namespace EEMod.Systems.Noise
             middle = sampleSize * 0.5f;
             using (MemoryStream ms = new MemoryStream())
             {
-                ImageIO.RawToPng(ModContent.GetInstance<EEMod>().GetFileStream("noise2.rawimg"), ms); // tmod stores images as .rawimg
+                ImageIO.RawToPng(EEMod.Instance.GetFileStream("noise2.rawimg"), ms); // tmod stores images as .rawimg
                 _myBitmap = new Bitmap(ms);
                 ms.Close();
             }

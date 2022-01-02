@@ -48,9 +48,9 @@ namespace EEMod
                         && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).IsActive
                         && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
                     {
-                        Texture2D a = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/CrystalVineThick").Value;
-                        Texture2D b = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/CrystalVineDangleThick").Value;
-                        Texture2D d = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/CrystalVineDangleMid").Value;
+                        Texture2D a = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalVineThick").Value;
+                        Texture2D b = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalVineDangleThick").Value;
+                        Texture2D d = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalVineDangleMid").Value;
 
                         Vector2 addonB = new Vector2(0, b.Height / 2f).RotatedBy(rot);
                         Vector2 addonD = new Vector2(0, d.Height / 2f).RotatedBy(rot);

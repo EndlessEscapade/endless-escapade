@@ -334,7 +334,7 @@ namespace EEMod.VerletIntegration
 
                                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0005f));
                                 EEMod.MainParticles.SpawnParticles(mid,
-                                    new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Particles/Cross").Value, 30, 1,
+                                    new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), EEMod.Instance.Assets.Request<Texture2D>("Particles/Cross").Value, 30, 1,
                                     Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.9f), new SetMask(Helpers.RadialMask), new SetTrailLength(15));
                             }
                         }

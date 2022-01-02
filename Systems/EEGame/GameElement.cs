@@ -202,7 +202,7 @@ namespace EEMod.Systems.EEGame
                     }
                     if (centerOfElement.Y - Main.LocalPlayer.Center.Y >= 300 && collides == true)
                     {
-                        ModContent.GetInstance<EEMod>().simpleGame.LoseLife();
+                        EEMod.Instance.simpleGame.LoseLife();
                         elementActive = false;
                         collides = false;
                     }

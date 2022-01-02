@@ -83,7 +83,7 @@ namespace EEMod.Projectiles.Hooks
                 Color drawColor = lightColor;
 
                 //Draw chain
-                Main.spriteBatch.Draw(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Projectiles/Hooks/SailorsClaspChain").Value, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
+                Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Projectiles/Hooks/SailorsClaspChain").Value, new Vector2(center.X - Main.screenPosition.X, center.Y - Main.screenPosition.Y),
                     new Rectangle(0, 0, 16, 6), drawColor, projRotation,
                     new Vector2(Terraria.GameContent.TextureAssets.Chain30.Value.Width * 0.5f, Terraria.GameContent.TextureAssets.Chain30.Value.Height * 0.5f), 1f, SpriteEffects.None, 0f);
             }

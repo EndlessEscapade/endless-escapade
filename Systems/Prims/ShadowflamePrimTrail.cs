@@ -111,12 +111,12 @@ namespace EEMod.Prim
 
             EEMod.ContinuousPrimTexShader.Parameters["WorldViewProjection"].SetValue(view * projection);
 
-            EEMod.ContinuousPrimTexShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/EnergyTrailBoosted").Value);
+            EEMod.ContinuousPrimTexShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/EnergyTrailBoosted").Value);
             EEMod.ContinuousPrimTexShader.Parameters["lightColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
             EEMod.ContinuousPrimTexShader.Parameters["darkColor"].SetValue(new Vector4(color.R, color.G, color.B, 0) / 255f);
             EEMod.ContinuousPrimTexShader.CurrentTechnique.Passes[0].Apply();*/
 
-            EEMod.LightningShader.Parameters["maskTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
+            EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
             EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
         }

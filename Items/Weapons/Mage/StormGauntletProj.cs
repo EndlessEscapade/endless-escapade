@@ -260,10 +260,10 @@ namespace EEMod.Items.Weapons.Mage
 
             EEMod.HydrosEmerge.Parameters["frames"].SetValue(1);
 
-            EEMod.HydrosEmerge.Parameters["noiseBounds"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value.Bounds.Size());
+            EEMod.HydrosEmerge.Parameters["noiseBounds"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value.Bounds.Size());
             EEMod.HydrosEmerge.Parameters["imgBounds"].SetValue(scale);
 
-            EEMod.HydrosEmerge.Parameters["noiseTexture"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value);
+            EEMod.HydrosEmerge.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/LightningNoisePixelatedBloom").Value);
 
             EEMod.HydrosEmerge.CurrentTechnique.Passes[0].Apply();
         }

@@ -98,8 +98,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 tile = Framing.GetTileSafely(i,j - step);
             }
             Vector2 position = new Vector2(i * 16 + (float)Math.Sin(Main.GameUpdateCount/(90f + i%10) + i)*(step * step * 0.1f), j * 16).ForDraw() + zero;
-            Texture2D texture = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/KelpVine").Value;
-            Texture2D texture2 = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/KelpVineGlowmask").Value;
+            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/KelpVine").Value;
+            Texture2D texture2 = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/KelpVineGlowmask").Value;
             Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(texture2, position, rect, color * (float)Math.Sin(Main.GameUpdateCount / 90f + i + j), 0f, default, 1f, SpriteEffects.None, 0f);

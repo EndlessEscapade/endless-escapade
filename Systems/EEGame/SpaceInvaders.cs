@@ -12,7 +12,7 @@ namespace EEMod.Systems.EEGame
 {
     public class SpaceInvaders : EEGame
     {
-        public override Texture2D tex => ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/EEGameAssets/ArcadeBG").Value;
+        public override Texture2D tex => EEMod.Instance.Assets.Request<Texture2D>("UI/EEGameAssets/ArcadeBG").Value;
         public override Vector2 sizeOfMainCanvas => new Vector2(600, 800);
         public override Vector2 centerOfMainCanvas => Main.LocalPlayer.Center;
         public override Color colourOfMainCanvas => Color.White;
@@ -63,7 +63,7 @@ namespace EEMod.Systems.EEGame
         public int[] lifeImages = new int[3];
         public override void Initialize()
         {
-            Texture2D SAPlayer = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/EEGameAssets/SAPlayer").Value;
+            Texture2D SAPlayer = EEMod.Instance.Assets.Request<Texture2D>("UI/EEGameAssets/SAPlayer").Value;
             player = AddUIElement(new Vector2(30, 48), Color.White, centerOfMainCanvas + new Vector2(0, 300));
             //elementArray[puck].AttatchToMouse(16f, i);
             elementArray[player].BindElementToGame(this);
@@ -100,7 +100,7 @@ namespace EEMod.Systems.EEGame
 
                         elementArray[enemy].BindElementToGame(this);
                         elementArray[enemy].AttachCollisionComponents(false, true, false, 1);
-                        elementArray[enemy].BindElementToTexture(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/EEGameAssets/SAEnemy").Value);
+                        elementArray[enemy].BindElementToTexture(EEMod.Instance.Assets.Request<Texture2D>("UI/EEGameAssets/SAEnemy").Value);
                         elementArray[enemy].speedOfStartUp = 8;
                         elementArray[enemy].AttachTag("SAEnemy");
                         elementArray[enemy].velocity.X = 1.5f;
@@ -178,7 +178,7 @@ namespace EEMod.Systems.EEGame
 
                     elementArray[bolt].BindElementToGame(this);
                     elementArray[bolt].AttachCollisionComponents(false, true, false);
-                    elementArray[bolt].BindElementToTexture(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("UI/EEGameAssets/SABolt").Value);
+                    elementArray[bolt].BindElementToTexture(EEMod.Instance.Assets.Request<Texture2D>("UI/EEGameAssets/SABolt").Value);
                     elementArray[bolt].velocity = new Vector2(0, -16);
                     elementArray[bolt].lifetime = 45;
                     elementArray[bolt].friction = 1;
