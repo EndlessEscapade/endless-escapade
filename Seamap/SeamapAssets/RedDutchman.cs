@@ -14,6 +14,7 @@ using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using EEMod.Extensions;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -29,7 +30,7 @@ namespace EEMod.Seamap.SeamapContent
 
             alpha = 1f;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/RedDutchman").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/RedDutchman", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public int ticker;
@@ -51,7 +52,7 @@ namespace EEMod.Seamap.SeamapContent
         {
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
-            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/RedDutchman").Value;
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/RedDutchman", AssetRequestMode.ImmediateLoad).Value;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 null, Color.White * (1 - (eePlayer.cutSceneTriggerTimer / 180f)),

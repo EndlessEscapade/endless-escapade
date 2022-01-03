@@ -14,6 +14,7 @@ using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using EEMod.Extensions;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -29,7 +30,7 @@ namespace EEMod.Seamap.SeamapContent
 
             alpha = 0.5f;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/AirCloud2").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/AirCloud2", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void Update()

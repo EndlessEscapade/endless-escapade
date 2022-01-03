@@ -14,6 +14,7 @@ using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using EEMod.Extensions;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -27,7 +28,7 @@ namespace EEMod.Seamap.SeamapContent
             width = 24;
             height = 22;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Seagull").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Seagull", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void Update()

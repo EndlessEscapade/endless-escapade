@@ -13,6 +13,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -36,7 +37,7 @@ namespace EEMod.Seamap.SeamapContent
             width = 44;
             height = 52;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void Update()

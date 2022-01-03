@@ -14,6 +14,7 @@ using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using EEMod.Extensions;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -29,7 +30,7 @@ namespace EEMod.Seamap.SeamapContent
 
             alpha = 1f;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/BorderCloud").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/BorderCloud", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public float lerpToBlack;

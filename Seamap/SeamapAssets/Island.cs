@@ -6,6 +6,7 @@ using EEMod.ID;
 using Terraria.ModLoader;
 using System.Diagnostics;
 using EEMod.Systems.Subworlds.EESubworlds;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -16,7 +17,7 @@ namespace EEMod.Seamap.SeamapContent
         public virtual int framespid => 0;
         public virtual bool cancollide => false;
 
-        public virtual Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Empty").Value;
+        public virtual Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Empty", AssetRequestMode.ImmediateLoad).Value;
 
         public Vector2 posToScreen => position - Main.screenPosition;
         public bool isCollidingWithPlayer => SeamapObjects.localship.rect.Intersects(rect);
@@ -24,7 +25,7 @@ namespace EEMod.Seamap.SeamapContent
         public int framecounter;
         public int frame;
 
-        public Island(Vector2 pos): base(pos, Vector2.Zero)
+        public Island(Vector2 pos) : base(pos, Vector2.Zero)
         {
             texture = islandTex;
 

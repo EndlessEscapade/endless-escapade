@@ -37,5 +37,19 @@ namespace EEMod
         {
             return GetAsset<Texture2D>(path, immeidateLoad);
         }
+
+        public static bool TryGetLoadedTexture(string path, out Texture2D texture)
+        {
+            var asset = GetAsset<Texture2D>(path);
+
+            if(asset.State != AssetState.Loaded)
+            {
+                texture = null;
+                return false;
+            }
+
+            texture = asset.Value;
+            return true;
+        }
     }
 }

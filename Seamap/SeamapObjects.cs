@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +26,16 @@ namespace EEMod.Seamap.SeamapContent
             NewSeamapObject(localship);
         }
 
+        /// <summary>
+        /// Adds the seamap object to the <see cref="SeamapEntities"/> array.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public static void NewSeamapObject(SeamapObject obj)
         {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+
             for(int i = 0; i < SeamapEntities.Length; i++)
             {
                 if(SeamapEntities[i] == null || !SeamapEntities[i].active)

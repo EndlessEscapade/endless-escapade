@@ -14,6 +14,7 @@ using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using EEMod.Extensions;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -29,7 +30,7 @@ namespace EEMod.Seamap.SeamapContent
 
             alpha = 0.75f;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SplashRing").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SplashRing", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void Update()

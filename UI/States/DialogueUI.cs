@@ -87,6 +87,8 @@ namespace EEMod.UI.States
             {
                 Main.LocalPlayer.mouseInterface = true;
             }
+            if (string.IsNullOrEmpty(CurrentDialogueText))
+                return;
             if (CurrentLetter < Dialogue.Length && ++AddLetterTimer >= 2)
             {
                 var letter = Dialogue[CurrentLetter];

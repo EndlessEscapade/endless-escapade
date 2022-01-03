@@ -11,6 +11,8 @@ using static EEMod.EEMod;
 using System.Diagnostics;
 using EEMod.Net;
 using System.Collections.Generic;
+using System.Linq;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -89,32 +91,22 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void RenderEntities(SpriteBatch spriteBatch)
         {
-            int CompareSeamapEntities(SeamapObject a, SeamapObject b) => a?.Bottom.Y.CompareTo(b?.Bottom.Y ?? 0f) ?? 0;
+            static int CompareSeamapEntities(SeamapObject a, SeamapObject b) => a?.Bottom.Y.CompareTo(b?.Bottom.Y ?? 0f) ?? 0;
+            //static bool InactiveOrUnused(SeamapObject obj) => obj?.active != true;
 
-            Array.Sort(SeamapObjects.SeamapEntities, CompareSeamapEntities);
+            var source = SeamapObjects.SeamapEntities;
 
-            for (int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
-            {
-                if (SeamapObjects.SeamapEntities[i] != null)
-                {
-                    SeamapObjects.SeamapEntities[i].whoAmI = i;
-                }
-            }
+            SeamapObject[] toDraw = source.Where(p => p?.active == true).ToArray();
+            Array.Sort(toDraw, CompareSeamapEntities);
             
-            for (int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
-            { 
-                if (SeamapObjects.SeamapEntities[i] != null)
-                {
-                    SeamapObjects.SeamapEntities[i].Draw(spriteBatch);
-                }
+            foreach(SeamapObject entity in toDraw)
+            {
+                entity.Draw(spriteBatch);
             }
 
-            for (int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
+            foreach(SeamapObject entity in toDraw)
             {
-                if (SeamapObjects.SeamapEntities[i] != null)
-                {
-                    SeamapObjects.SeamapEntities[i].PostDraw(spriteBatch);
-                }
+                entity.PostDraw(spriteBatch);
             }
         }
 
@@ -129,7 +121,7 @@ namespace EEMod.Seamap.SeamapContent
         #region Seamap water
         static void RenderWater(SpriteBatch spriteBatch)
         {
-            EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
+            //EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
             Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Particles/Square").Value;
 
             Color SeaColour = new Color(28 / 255f, 118 / 255f, 186 / 255f);

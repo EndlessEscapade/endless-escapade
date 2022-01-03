@@ -14,6 +14,7 @@ using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using EEMod.Extensions;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -27,7 +28,7 @@ namespace EEMod.Seamap.SeamapContent
             width = 12;
             height = 12;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/FriendlyCannonball").Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/FriendlyCannonball", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public int ticks;

@@ -2,14 +2,16 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using EEMod.Extensions;
-using System;
 using Terraria.ModLoader;
 using System.Diagnostics;
+using ReLogic.Content;
 
 namespace EEMod.Seamap.SeamapContent
 {
-    public abstract class SeamapObject : Entity, ISeamapEntity
+    public abstract class SeamapObject : Entity
     {
+        public ComponentManager Components { get; }
+
         public Texture2D texture;
 
         public float scale = 1f;
@@ -28,7 +30,12 @@ namespace EEMod.Seamap.SeamapContent
 
         public bool collides = false;
 
-        public SeamapObject(Vector2 pos, Vector2 vel)
+        protected SeamapObject()
+        {
+            Components = new ComponentManager(this);
+        }
+
+        protected SeamapObject(Vector2 pos, Vector2 vel) : this()
         {
             position = pos;
             velocity = vel;
@@ -42,8 +49,18 @@ namespace EEMod.Seamap.SeamapContent
             position += velocity;
         }
 
+        /// <summary>
+        /// Called before anything draws.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <returns></returns>
         public virtual bool PreDraw(SpriteBatch spriteBatch) => true;
 
+        /// <summary>
+        /// Allows for custom draw.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <returns>If this method overwrites default draw.</returns>
         public virtual bool CustomDraw(SpriteBatch spriteBatch) => false;
 
         public void Draw(SpriteBatch spriteBatch)
@@ -57,18 +74,30 @@ namespace EEMod.Seamap.SeamapContent
             }
         }
 
+        /// <summary>
+        /// Called after the draw hooks.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public virtual void PostDraw(SpriteBatch spriteBatch)
         {
 
         }
 
+        /// <summary>
+        /// Called after the entity is added to the <see cref="SeamapObjects.SeamapEntities"/> array.
+        /// </summary>
         public virtual void OnSpawn()
         {
-            
+
         }
 
-        public virtual void Kill()
+        public virtual void OnKill()
         {
+        }
+
+        public void Kill()
+        {
+            OnKill();
             active = false;
             SeamapObjects.SeamapEntities[whoAmI] = null;
         }
