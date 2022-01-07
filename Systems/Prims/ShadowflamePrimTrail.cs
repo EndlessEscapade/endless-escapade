@@ -18,7 +18,7 @@ namespace EEMod.Prim
 {
     class ShadowflamePrimTrail : Primitive
     {
-        public ShadowflamePrimTrail(Projectile projectile, Color _color, int width = 40) : base(projectile)
+        public ShadowflamePrimTrail(Entity projectile, Color _color, int width = 40) : base(projectile)
         {
             BindableEntity = projectile;
             _width = width;

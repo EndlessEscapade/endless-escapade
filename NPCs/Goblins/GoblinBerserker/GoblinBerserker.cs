@@ -8,13 +8,13 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.NPCs.Goblins.GoblinShaman
+namespace EEMod.NPCs.Goblins.GoblinBerserker
 {
-    public class GoblinShaman : EENPC
+    public class GoblinBerserker : EENPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Goblin Shaman");
+            DisplayName.SetDefault("Goblin Berserker");
             //Main.npcFrameCount[npc.type] = 6;
         }
 
@@ -210,14 +210,14 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
             Color defaultDrawColor = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
 
-            EEMod.ShadowWarp.Parameters["noise"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            EEMod.ShadowWarp.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
             EEMod.ShadowWarp.Parameters["newColor"].SetValue(new Vector4(Color.Violet.R, Color.Violet.G, Color.Violet.B, Color.Violet.A) / 255f);
             EEMod.ShadowWarp.Parameters["lerpVal"].SetValue((float)Math.Cos((NPC.ai[1] / 120f) * MathHelper.TwoPi).PositiveSin());
             EEMod.ShadowWarp.Parameters["baseColor"].SetValue(new Vector4(defaultDrawColor.R, defaultDrawColor.G, defaultDrawColor.B, defaultDrawColor.A) / 255f);
 
             EEMod.ShadowWarp.CurrentTechnique.Passes[0].Apply();
 
-            Texture2D ShamanGlow = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/GoblinShaman").Value;
+            Texture2D ShamanGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/GoblinShaman").Value;
 
             Main.spriteBatch.Draw(ShamanGlow, NPC.Center - Main.screenPosition + new Vector2(0, 4), null, defaultDrawColor, NPC.rotation, ShamanGlow.Bounds.Size() / 2, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
@@ -234,7 +234,7 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
             Color defaultDrawColor = Lighting.GetColor((int)(NPC.Center.X / 16f), (int)(NPC.Center.Y / 16f));
 
-            EEMod.ShadowWarp.Parameters["noise"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/Noise/noise").Value);
+            EEMod.ShadowWarp.Parameters["noise"].SetValue(ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Noise/noise").Value);
             EEMod.ShadowWarp.Parameters["newColor"].SetValue(new Vector4(Color.Violet.R, Color.Violet.G, Color.Violet.B, Color.Violet.A) / 255f);
             EEMod.ShadowWarp.Parameters["lerpVal"].SetValue((float)Math.Cos((NPC.ai[1] / 120f) * MathHelper.TwoPi).PositiveSin());
             EEMod.ShadowWarp.Parameters["baseColor"].SetValue(new Vector4(defaultDrawColor.R, defaultDrawColor.G, defaultDrawColor.B, defaultDrawColor.A) / 255f);
@@ -244,15 +244,15 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
 
             //staff drawing
-            Texture2D ShamanStaff = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShamanStaff").Value;
-            //Texture2D StaffGlow = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/StaffGlow").Value;
+            Texture2D ShamanStaff = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShamanStaff").Value;
+            //Texture2D StaffGlow = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/StaffGlow").Value;
 
             Main.spriteBatch.Draw(ShamanStaff, staffCenter - Main.screenPosition, null, defaultDrawColor, staffRot, (ShamanStaff.Bounds.Size() / 2f) + new Vector2(1, 4), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
             //Main.spriteBatch.Draw(StaffGlow, NPC.Center - Main.screenPosition + new Vector2(-6 * NPC.spriteDirection, 0), null, Color.White, staffRot, StaffGlow.Bounds.Size() / 2f, NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
 
             //shaman's hand
-            //Texture2D ShamanHand = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShamanHand").Value;
+            //Texture2D ShamanHand = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShamanHand").Value;
 
             //Main.spriteBatch.Draw(ShamanHand, NPC.Center - Main.screenPosition + new Vector2(11 * NPC.spriteDirection, 4 + 11), null, defaultDrawColor, staffRot, new Vector2(11, 39), NPC.scale, NPC.spriteDirection == -1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
@@ -270,11 +270,11 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
         }
     }
 
-    public class ShadowflameHexBolt : EENPC
+    public class BerserkerAxe : EENPC
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Hex Bolt");
+            DisplayName.SetDefault("Berserker Axe");
         }
 
         public override void SetDefaults()
@@ -325,8 +325,8 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            //Texture2D mask = EEMod.Instance.Assets.Request<Texture2D>("Textures/Extra_49").Value;
-            Texture2D bolt = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShadowflameHexBolt").Value;
+            //Texture2D mask = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Extra_49").Value;
+            Texture2D bolt = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShadowflameHexBolt").Value;
 
             Helpers.DrawAdditive(bolt, NPC.Center - Main.screenPosition, Color.Violet, 0.75f, 0f);
 
@@ -336,45 +336,6 @@ namespace EEMod.NPCs.Goblins.GoblinShaman
 
             //lightColor = Color.White;
 
-            return false;
-        }
-    }
-
-    public class StaffBolt : EEProjectile
-    {
-        public override void SetStaticDefaults()
-        {
-            DisplayName.SetDefault("");
-            Main.projFrames[Projectile.type] = 1;
-        }
-
-        public override void SetDefaults()
-        {
-            Projectile.width = 4;
-            Projectile.height = 4;
-            Projectile.alpha = 0;
-            Projectile.timeLeft = 10000000;
-            Projectile.penetrate = -1;
-            Projectile.hostile = false;
-            Projectile.friendly = true;
-            Projectile.tileCollide = false;
-            Projectile.ignoreWater = true;
-            Projectile.scale = 1f;
-            Projectile.aiStyle = -1;
-        }
-
-
-        public override bool PreDraw(ref Color lightColor)
-        {
-            Texture2D bolt = EEMod.Instance.Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/StaffBolt").Value;
-
-            Helpers.DrawAdditive(bolt, Projectile.Center - Main.screenPosition, Color.Violet * Projectile.ai[0], 1f, 0f);
-
-            return false;
-        }
-
-        public override bool OnTileCollide(Vector2 oldVelocity)
-        {
             return false;
         }
     }

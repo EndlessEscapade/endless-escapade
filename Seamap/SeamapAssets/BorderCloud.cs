@@ -42,6 +42,7 @@ namespace EEMod.Seamap.SeamapContent
             {
                 origPos = Center;
                 ai[0] = 1;
+                scale = Main.rand.NextFloat(0.75f, 1.1f);
             }
 
             velocity = new Vector2((float)Math.Sin((Main.GameUpdateCount / 90f) + origPos.X - origPos.Y) * 0.1f, 0);

@@ -6,6 +6,7 @@ using EEMod.Tiles.Foliage.Aquamarine;
 using EEMod.Tiles.Foliage.KelpForest;
 using EEMod.Tiles.Furniture.NautilusPuzzle;
 using EEMod.Tiles.Foliage.Halocline;
+using EEMod.Tiles.Furniture.Chests;
 
 namespace EEMod.Items.Placeables.Furniture
 {
@@ -29,7 +30,7 @@ namespace EEMod.Items.Placeables.Furniture
             Item.height = 12;
             Item.rare = ItemRarityID.White;
 
-            Item.createTile = ModContent.TileType<KelpFlower>();
+            Item.createTile = ModContent.TileType<ShadowflameHexChestTile>();
         }
     }
 }
