@@ -35,7 +35,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void WorldGeneration(int seed, GenerationProgress customProgressObject = null)
         {
-            var rand = WorldGen.genRand;
+            //var rand = WorldGen.genRand;
 
             EEMod.progressMessage = "Generating Goblin Fort";
 
@@ -43,8 +43,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
 
 
-            //Base island generation
+            //Base island generation-
 
+            #region Island terrain generation
             FillRegion(800, 475, new Vector2(0, 325), TileID.Stone);
 
             for(int i = 0; i < 150; i++)
@@ -58,7 +59,143 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 }
             }
 
-            FillRegion(500, 75, new Vector2(150, 275), TileID.Dirt);
+            //FillRegion(500, 75, new Vector2(150, 275), TileID.Dirt);
+
+            int elevation = 275;
+            int thresh1 = WorldGen.genRand.Next(200, 250);
+            int thresh2 = WorldGen.genRand.Next(300, 350);
+            int slope = WorldGen.genRand.Next(8, 13);
+            bool slopingFast = false;
+            int initSlope = 0;
+
+            for (int i = 150; i <= 400; i++)
+            {
+                //if (elevation < 200) break;
+
+                if ((i == thresh1 || i == thresh2) && !slopingFast)
+                {
+                    slopingFast = true;
+                    initSlope = slope;
+                }
+
+                if (i % slope == 0 && !slopingFast)
+                {
+                    elevation--;
+                    if(WorldGen.genRand.NextBool(4)) slope++;
+                }
+                if (slopingFast) //
+                { 
+                    elevation -= (int)Math.Abs((initSlope - slope) / 3f);
+                    slope -= 2;
+                    
+                    if(slope <= 0)
+                    {
+                        slopingFast = false;
+                        slope = (i < thresh2 ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(16, 22));
+                    }
+                }
+
+                if (elevation > 275) elevation = 275;
+
+                int rockLayer = WorldGen.genRand.Next(5, 9);
+                for(int j = 275 + 75; j > elevation; j--)
+                {
+                    if (WorldGen.InWorld(i, j))
+                    {
+                        if(j - elevation < rockLayer)
+                        {
+                            if (i <= 160) WorldGen.PlaceTile(i, j, TileID.Sand);
+                            else WorldGen.PlaceTile(i, j, TileID.Dirt);
+                        }
+                        else
+                            WorldGen.PlaceTile(i, j, TileID.Stone);
+                    }
+                }
+            }
+
+            int peakElevation = elevation;
+
+            thresh1 = WorldGen.genRand.Next(200, 250);
+            thresh2 = WorldGen.genRand.Next(300, 350);
+            slope = WorldGen.genRand.Next(16, 22);
+            slopingFast = false;
+
+            for (int i = 401; i <= 650; i++)
+            {
+                //if (elevation < 200) break;
+
+                Debug.WriteLine(i);
+
+                if ((i == (800 - thresh1) || i == (800 - thresh2)) && !slopingFast)
+                {
+                    slopingFast = true;
+                    slope = WorldGen.genRand.Next(12, 15);
+                }
+
+                if (i % slope == 0 && !slopingFast)
+                {
+                    elevation++;
+                    if (WorldGen.genRand.NextBool(4)) slope++;
+                }
+                if (slopingFast)
+                {
+                    elevation += (int)Math.Abs((slope) / 2.5f);
+                    slope -= 2;
+
+                    if (slope <= 0)
+                    {
+                        slopingFast = false;
+                        slope = (i < (800 - thresh2) ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(16, 22));
+                    }
+                }
+
+                if (elevation > 275) elevation = 275;
+
+                int rockLayer = WorldGen.genRand.Next(5, 9);
+                for (int j = 275 + 75; j > elevation; j--)
+                {
+                    if (WorldGen.InWorld(i, j))
+                    {
+                        if (j - elevation < rockLayer)
+                        {
+                            if(i >= 640) WorldGen.PlaceTile(i, j, TileID.Sand);
+                            else WorldGen.PlaceTile(i, j, TileID.Dirt);
+                        }
+                        else
+                            WorldGen.PlaceTile(i, j, TileID.Stone);
+                    }
+                }
+            }
+
+            for(int i = 150; i < 650; i++)
+            {
+                for(int j = peakElevation - 1; j < peakElevation + 3; j++)
+                {
+                    Framing.GetTileSafely(i, j).IsActive = false;
+                }
+            }
+
+            PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(2000, 2000, 10, 10, 0.2f);
+            int[,] perlinNoiseFunction = perlinNoise.perlinBinary;
+
+            for (int i = 150; i < 650; i++)
+            {
+                for (int j = 100; j < 300; j++)
+                {
+                    if (i > 0 && i < Main.maxTilesX && j > 0 && j < Main.maxTilesY)
+                    {
+                        if (i - 150 < 1000 && j - 100 < 1000)
+                        {
+                            if (perlinNoiseFunction[i - 150 + 500, j - 100 + 200] == 1 && WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).type != TileID.Sand)
+                            {
+                                Framing.GetTileSafely(i, j).type = TileID.Stone;
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Base beach generation
 
             for (int i = 0; i < 150; i++)
             {
@@ -72,39 +209,36 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             }
 
             FillRegionWithWater(800, 50, new Vector2(0, 276));
+            #endregion
 
-
-
-            //Structure generation
-
-            ClearRegion(45, 36, new Vector2(710, 250));
-
-            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt(710, 245, false, false);
-
-            for (int i = 710; i < 710 + 45; i++)
-            {
-                for (int j = 250; j < 250 + 40; j++)
-                {
-                    if (Main.tile[i, j].wall != WallID.None)
-                    {
-                        Main.tile[i, j].LiquidAmount = 0;
-                    }
-                }
-            }
 
 
             //Foliage generation
 
+            #region Foliage generation
             for (int i = 150; i < 650; i++)
             {
                 for (int j = 100; j < 280; j++)
                 {
-                    if(Framing.GetTileSafely(i, j).type == TileID.Dirt &&
+                    if (Framing.GetTileSafely(i, j).type == TileID.Dirt &&
                         (!Framing.GetTileSafely(i - 1, j - 1).IsActive || !Framing.GetTileSafely(i - 1, j).IsActive || !Framing.GetTileSafely(i - 1, j + 1).IsActive ||
                          !Framing.GetTileSafely(i, j - 1).IsActive || !Framing.GetTileSafely(i, j + 1).IsActive ||
                          !Framing.GetTileSafely(i + 1, j - 1).IsActive || !Framing.GetTileSafely(i + 1, j).IsActive || !Framing.GetTileSafely(i + 1, j + 1).IsActive))
                     {
                         Framing.GetTileSafely(i, j).type = TileID.Grass;
+                        //Framing.GetTileSafely(i, j).Color = PaintID.LimePaint;
+                        Tile.SmoothSlope(i, j);
+                    }
+                }
+            }
+
+            for (int i = 150; i < 650; i++)
+            {
+                for (int j = 100; j < 280; j++)
+                {
+                    if (!Framing.GetTileSafely(i, j).IsActive && Framing.GetTileSafely(i, j + 1).IsActive && Framing.GetTileSafely(i, j + 1).type == TileID.Grass && WorldGen.genRand.NextBool())
+                    {
+                        WorldGen.PlaceTile(i, j, TileID.Plants, style: WorldGen.genRand.Next(42));
                     }
                 }
             }
@@ -118,7 +252,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     //if (tile.IsActive && tile.type == TileID.Sand &&
                     //    !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j - 1).LiquidAmount == 0 && WorldGen.genRand.NextBool(2))
                     //{
-                        //WorldGen.GrowPalmTree(i, j - 1);
+                    //WorldGen.GrowPalmTree(i, j - 1);
                     //    break;
                     //}
 
@@ -131,7 +265,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 WorldGen.PlaceTile(i, j - 1, TileID.BeachPiles);
                                 break;
                             case 1:
-                                if(Framing.GetTileSafely(i, j - 1).LiquidAmount > 0) WorldGen.PlaceTile(i, j - 1, TileID.Coral);
+                                if (Framing.GetTileSafely(i, j - 1).LiquidAmount > 0) WorldGen.PlaceTile(i, j - 1, TileID.Coral);
                                 break;
                         }
                         break;
@@ -204,6 +338,31 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     }
                 }
             }
+            #endregion
+
+
+
+            //Structure generation
+
+            #region Structure generation
+            ClearRegion(45, 36, new Vector2(710, 250));
+
+            Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt(710, 245, false, false);
+
+            for (int i = 710; i < 710 + 45; i++)
+            {
+                for (int j = 250; j < 250 + 40; j++)
+                {
+                    if (Main.tile[i, j].wall != WallID.None)
+                    {
+                        Main.tile[i, j].LiquidAmount = 0;
+                    }
+                }
+            }
+
+            #endregion
+
+
 
             EEMod.progressMessage = null;
         }

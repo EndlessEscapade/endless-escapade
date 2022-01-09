@@ -192,14 +192,14 @@ namespace EEMod
             }
         }*/
 
-        public override void CatchFish(Item fishingRod, Item bait, int power, int liquidType, int poolSize, int worldLayer, int questFish, ref int caughtType)
+        public override void CatchFish(FishingAttempt attempt, ref int itemDrop, ref int npcSpawn, ref AdvancedPopupRequest sonar, ref Vector2 sonarPosition)
         {
             /*if (junk)
             {
                 return;
             }*/
 
-            if (ZoneCoralReefs)
+            /*if (ZoneCoralReefs)
             {
                 if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<BlueTang>())
                 {
@@ -219,7 +219,7 @@ namespace EEMod
                 if (Main.rand.NextFloat() < 0.01f && questFish == ItemType<Ironfin>() && downedTalos)
                 {
                     caughtType = ItemType<Ironfin>();
-                }*/
+                }
 
                 if (Main.rand.NextFloat() < 0.01f)
                 {
@@ -240,7 +240,7 @@ namespace EEMod
                 {
                     caughtType = ItemType<Coralfin>();
                 }
-            }
+            }*/
         }
 
         /*public override bool CustomBiomesMatch(Player other)
