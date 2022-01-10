@@ -9,7 +9,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 using Terraria.Audio;
-using EEMod.NPCs.Goblins.GoblinShaman;
+using EEMod.NPCs.Goblins.Shaman;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod.Tiles.Furniture.Chests

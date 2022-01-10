@@ -15,7 +15,9 @@ namespace EEMod.NPCs.Goblins
     {
         public override void OnKill(NPC npc)
         {
-            if(npc.type == ModContent.NPCType<GoblinShaman.GoblinShaman>())
+            if(npc.type == ModContent.NPCType<Shaman.GoblinShaman>() ||
+               npc.type == ModContent.NPCType<Bard.CymbalBard>() ||
+               npc.type == ModContent.NPCType<Berserker.GoblinBerserker>())
             {
                 int proj = Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(npc), npc.Center, Vector2.Zero, ModContent.ProjectileType<GoblinDeathBolt>(), 0, 0);
 
@@ -88,7 +90,7 @@ namespace EEMod.NPCs.Goblins
         public override bool PreDraw(ref Color lightColor)
         {
             //Texture2D mask = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/Extra_49").Value;
-            Texture2D bolt = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/GoblinShaman/ShadowflameHexBolt").Value;
+            Texture2D bolt = ModContent.GetInstance<EEMod>().Assets.Request<Texture2D>("NPCs/Goblins/Shaman/ShadowflameHexBolt").Value;
 
             Helpers.DrawAdditive(bolt, Projectile.Center - Main.screenPosition, Color.Violet, 0.5f, 0f);
 

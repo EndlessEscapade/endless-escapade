@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.DataStructures;
 
-namespace EEMod.NPCs.Goblins.GoblinBerserker
+namespace EEMod.NPCs.Goblins.Berserker
 {
     public class GoblinBerserker : EENPC
     {
@@ -81,7 +81,7 @@ namespace EEMod.NPCs.Goblins.GoblinBerserker
 
             NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
 
-            NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -2f, 2f);
+            NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -3f, 3f);
 
             if(NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
             {
@@ -97,7 +97,9 @@ namespace EEMod.NPCs.Goblins.GoblinBerserker
             }
             else if (NPC.ai[1] == 2)
             {
+                NPC.ai[2]--;
 
+                if (NPC.ai[2] <= 0) NPC.ai[1] = 1;
             }
 
             oldVel = NPC.velocity;
@@ -115,10 +117,12 @@ namespace EEMod.NPCs.Goblins.GoblinBerserker
 
         public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
         {
-            if (NPC.ai[1] == 2)
-                return false;
-            else
-                return true;
+            //if (NPC.ai[1] == 2)
+            //    return false;
+            //else
+            //    return true;
+
+            return true;
         }
     }
 
@@ -167,6 +171,7 @@ namespace EEMod.NPCs.Goblins.GoblinBerserker
             if(Vector2.DistanceSquared(Projectile.Center, Main.npc[(int)Projectile.ai[1]].Center) <= 16f * 16f && Projectile.ai[0] > 60)
             {
                 Main.npc[(int)Projectile.ai[1]].ai[1] = 1;
+                Main.npc[(int)Projectile.ai[1]].ai[2] = 120;
 
                 Projectile.Kill();
             }
