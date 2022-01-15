@@ -76,7 +76,7 @@ namespace EEMod.NPCs.Goblins.Bard
                     if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
                         !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
                         (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
-                         Main.npc[i].type == ModContent.NPCType<GoblinBerserker>()))
+                         Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
                     {
                         buffedNPC = i;
 
@@ -178,7 +178,7 @@ namespace EEMod.NPCs.Goblins.Bard
                     if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
                         !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
                         (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
-                         Main.npc[i].type == ModContent.NPCType<GoblinBerserker>()))
+                         Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
                     {
                         buffedNPC = i;
 
@@ -280,7 +280,7 @@ namespace EEMod.NPCs.Goblins.Bard
                     if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
                         !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
                         (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
-                         Main.npc[i].type == ModContent.NPCType<GoblinBerserker>()))
+                         Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
                     {
                         buffedNPC = i;
 
