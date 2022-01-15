@@ -1,4 +1,5 @@
 ﻿using EEMod.Autoloading;
+using EEMod.Extensions;
 using EEMod.NPCs.Bosses.Akumo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,6 +7,7 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 using System.Diagnostics;
 using EEMod.Skies;
 using EEMod.Items.Dyes;
@@ -13,15 +15,20 @@ using ReLogic.Content;
 using System.IO;
 using System.Reflection;
 using System;
+using System.Linq;
 
 namespace EEMod
 {
+    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
     public class StaticShaderLoadAttribute : Attribute
     {
         public AssetRequestMode RequestMode { get; private set; }
         public bool ScreenShader { get; set; }
         public StaticShaderLoadAttribute(bool ScreenShader = false, AssetRequestMode RequestMode = AssetRequestMode.ImmediateLoad)
-        { this.RequestMode = RequestMode; this.ScreenShader = ScreenShader; }
+        { 
+            this.RequestMode = RequestMode; 
+            this.ScreenShader = ScreenShader; 
+        }
     }
 
     public partial class EEMod
@@ -88,7 +95,7 @@ namespace EEMod
             FieldInfo[] fieldInfo = typeof(EEMod).GetFields();
             foreach (FieldInfo fi in fieldInfo)
             {
-                StaticShaderLoadAttribute? att = fi.GetCustomAttribute(typeof(StaticShaderLoadAttribute)) as StaticShaderLoadAttribute;
+                StaticShaderLoadAttribute att = fi.GetCustomAttribute<StaticShaderLoadAttribute>();
                 if (att != null)
                 {
                     //can someone like... do an effect exists check. Its 2:38am and I literally want to die
@@ -108,7 +115,20 @@ namespace EEMod
                 BasicEffect = new BasicEffect(Main.graphics.GraphicsDevice);
                 BasicEffect.VertexColorEnabled = true;
 
-                string[] Shaders = Directory.GetFiles($@"{Main.SavePath}\Mod Sources\EEMod\Effects\ScreenShaders");
+                foreach(string name in instance.GetFile().Select(entry=>entry.Name))
+                {
+                    const string prefix = "Effects/ScreenShaders/";
+                    const string postfix = ".xnb";
+                    if (!name.Contains(prefix) || !name.EndsWith(postfix))
+                        continue;
+
+                    // Effects/ScreenShaders/a.xnb -> a
+                    int d = name.IndexOf(prefix);
+                    string alteredPath = name.Substring(d + prefix.Length, name.LastIndexOf(postfix) - d - prefix.Length); 
+                    QuickLoadScreenShader(alteredPath);
+                }
+
+                /*string[] Shaders = instance.GetFile().Select((TmodFile.FileEntry entry) => entry.Name).ToArray(); //Directory.GetFiles($@"{Main.SavePath}\Mod Sources\EEMod\Effects\ScreenShaders");
                 for (int i = 0; i < Shaders.Length; i++)
                 {
                     string filePath = Shaders[i];
@@ -122,7 +142,7 @@ namespace EEMod
                     string AlteredPath = filePath.Substring(Index);
 
                     QuickLoadScreenShader(AlteredPath.Replace(".fx", ""));
-                }
+                }*/
 
                 LoadStaticFields();
 

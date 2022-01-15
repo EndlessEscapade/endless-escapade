@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -37,18 +38,17 @@ namespace EEMod.Autoloading
             Type[] types = assembly.GetTypesSafe();
             List<MethodInfo> methods = new List<MethodInfo>();
             //List<MethodInfo> TypeListenersByReflection = new List<MethodInfo>();
-            foreach (var type in types)
+            foreach (Type type in types)
             {
                 // InitializingFields
-                foreach (var field in type.GetFields(FLAGS_STATIC))
+                foreach (FieldInfo field in type.GetFields(FLAGS_STATIC))
                 {
                     if (!field.IsInitOnly && !field.IsLiteral && field.TryGetCustomAttribute(out FieldInitAttribute attribute))
-                    {
                         DoInit(field, attribute);
-                    }
+                    
                 }
                 // Initializing methods
-                foreach (var method in type.GetMethods(FLAGS_STATIC))
+                foreach (MethodInfo method in type.GetMethods(FLAGS_STATIC))
                 {
                     methods.Add(method);
                     if (method.TryGetCustomAttribute(out FieldInitAttribute attribute))
@@ -58,6 +58,12 @@ namespace EEMod.Autoloading
                             method.Invoke(null, null);
                         }
                     }
+                }
+
+                // run static ctor
+                if (!type.IsGenericType)
+                {
+                    RuntimeHelpers.RunClassConstructor(type.TypeHandle);
                 }
             }
 

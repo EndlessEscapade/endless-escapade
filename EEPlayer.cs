@@ -270,9 +270,12 @@ namespace EEMod
 
         public bool isHangingOnVine;
 
+        public override bool CloneNewInstances => false; // just in case something doesn't reset
+
+        // TODO: move some of the logic and stop calling this as it's called during PLAYER SELECTION SCREEN
         public override void Initialize()
         {
-            if (Main.netMode != NetmodeID.MultiplayerClient)
+            if (Main.netMode == NetmodeID.MultiplayerClient)
             {
                 SpireCutscene = 0;
                 try

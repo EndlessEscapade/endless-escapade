@@ -63,6 +63,7 @@ namespace EEMod.Autoloading
         /// <summary>
         /// The provided object will be the value for initializing the field
         /// </summary>
+        [Obsolete("Use a method for initializing the field instead.")] 
         CustomValue,
 
         /// <summary>
@@ -70,6 +71,7 @@ namespace EEMod.Autoloading
         /// Note this only takes an int as parameter which indicates the capcity, <br />
         /// if you need to initialize with already existing values (e.g. new int[3] { 1, 2, 3 }), use <see cref="CustomValue"/>.
         /// </summary>
+        [Obsolete("Use a method for initializing the field instead.")] 
         ArrayIntialization,
 
         /// <summary>
@@ -80,8 +82,10 @@ namespace EEMod.Autoloading
         /// [FieldInitAttribute(FieldInitType.SubType, typeof(B), FieldInitType.DefaultConstructor)] <br />
         /// static A field;</c>
         /// </summary>
+        [Obsolete("Use a method for initializing the field instead.")] 
         SubType,
 
+        [Obsolete("Use a method for initializing the field instead.")] 
         ArrayMultipleLengths,
     }
 }
