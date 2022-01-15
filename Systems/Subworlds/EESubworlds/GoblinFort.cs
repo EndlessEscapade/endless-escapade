@@ -31,16 +31,15 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         public override int surfaceLevel => 500;
 
-        public override string Name => "Suk-Mah Outpost";
+        public override string Name => "Goblin Outpost";
 
         internal override void WorldGeneration(int seed, GenerationProgress customProgressObject = null)
         {
-            //var rand = WorldGen.genRand;
+            var rand = WorldGen.genRand;
 
             EEMod.progressMessage = "Generating Goblin Fort";
 
             Main.worldSurface = 400;
-
 
 
             //Base island generation-
@@ -62,9 +61,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             //FillRegion(500, 75, new Vector2(150, 275), TileID.Dirt);
 
             int elevation = 275;
-            int thresh1 = WorldGen.genRand.Next(200, 250);
-            int thresh2 = WorldGen.genRand.Next(300, 350);
-            int slope = WorldGen.genRand.Next(8, 13);
+            int thresh1 = rand.Next(200, 250);
+            int thresh2 = rand.Next(300, 350);
+            int slope = rand.Next(8, 13);
             bool slopingFast = false;
             int initSlope = 0;
 
@@ -81,7 +80,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 if (i % slope == 0 && !slopingFast)
                 {
                     elevation--;
-                    if(WorldGen.genRand.NextBool(4)) slope++;
+                    if(rand.NextBool(4)) slope++;
                 }
                 if (slopingFast) //
                 { 
@@ -91,13 +90,13 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     if(slope <= 0)
                     {
                         slopingFast = false;
-                        slope = (i < thresh2 ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(16, 22));
+                        slope = (i < thresh2 ? rand.Next(9, 14) : rand.Next(16, 22));
                     }
                 }
 
                 if (elevation > 275) elevation = 275;
 
-                int rockLayer = WorldGen.genRand.Next(5, 9);
+                int rockLayer = rand.Next(5, 9);
                 for(int j = 275 + 75; j > elevation; j--)
                 {
                     if (WorldGen.InWorld(i, j))
@@ -115,9 +114,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             int peakElevation = elevation;
 
-            thresh1 = WorldGen.genRand.Next(200, 250);
-            thresh2 = WorldGen.genRand.Next(300, 350);
-            slope = WorldGen.genRand.Next(16, 22);
+            thresh1 = rand.Next(200, 250);
+            thresh2 = rand.Next(300, 350);
+            slope = rand.Next(16, 22);
             slopingFast = false;
 
             for (int i = 401; i <= 650; i++)
@@ -129,13 +128,13 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 if ((i == (800 - thresh1) || i == (800 - thresh2)) && !slopingFast)
                 {
                     slopingFast = true;
-                    slope = WorldGen.genRand.Next(12, 15);
+                    slope = rand.Next(12, 15);
                 }
 
                 if (i % slope == 0 && !slopingFast)
                 {
                     elevation++;
-                    if (WorldGen.genRand.NextBool(4)) slope++;
+                    if (rand.NextBool(4)) slope++;
                 }
                 if (slopingFast)
                 {
@@ -145,13 +144,13 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     if (slope <= 0)
                     {
                         slopingFast = false;
-                        slope = (i < (800 - thresh2) ? WorldGen.genRand.Next(9, 14) : WorldGen.genRand.Next(16, 22));
+                        slope = (i < (800 - thresh2) ? rand.Next(9, 14) : rand.Next(16, 22));
                     }
                 }
 
                 if (elevation > 275) elevation = 275;
 
-                int rockLayer = WorldGen.genRand.Next(5, 9);
+                int rockLayer = rand.Next(5, 9);
                 for (int j = 275 + 75; j > elevation; j--)
                 {
                     if (WorldGen.InWorld(i, j))
@@ -236,9 +235,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             {
                 for (int j = 100; j < 280; j++)
                 {
-                    if (!Framing.GetTileSafely(i, j).IsActive && Framing.GetTileSafely(i, j + 1).IsActive && Framing.GetTileSafely(i, j + 1).type == TileID.Grass && WorldGen.genRand.NextBool())
+                    if (!Framing.GetTileSafely(i, j).IsActive && Framing.GetTileSafely(i, j + 1).IsActive && Framing.GetTileSafely(i, j + 1).type == TileID.Grass && rand.NextBool())
                     {
-                        WorldGen.PlaceTile(i, j, TileID.Plants, style: WorldGen.genRand.Next(42));
+                        WorldGen.PlaceTile(i, j, TileID.Plants, style: rand.Next(42));
                     }
                 }
             }
@@ -250,16 +249,16 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     Tile tile = Framing.GetTileSafely(i, j);
 
                     //if (tile.IsActive && tile.type == TileID.Sand &&
-                    //    !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j - 1).LiquidAmount == 0 && WorldGen.genRand.NextBool(2))
+                    //    !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j - 1).LiquidAmount == 0 && rand.NextBool(2))
                     //{
                     //WorldGen.GrowPalmTree(i, j - 1);
                     //    break;
                     //}
 
                     if (tile.IsActive && tile.type == TileID.Sand &&
-                        !Framing.GetTileSafely(i, j - 1).IsActive && WorldGen.genRand.NextBool(3))
+                        !Framing.GetTileSafely(i, j - 1).IsActive && rand.NextBool(3))
                     {
-                        switch (Main.rand.Next(2))
+                        switch (rand.Next(2))
                         {
                             case 0:
                                 WorldGen.PlaceTile(i, j - 1, TileID.BeachPiles);
@@ -272,14 +271,14 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     }
 
                     if (tile.IsActive && tile.type == TileID.Sand &&
-                        !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(2))
+                        !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j - 1).LiquidAmount > 0 && rand.NextBool(2))
                     {
                         Main.tile[i, j].Slope = 0;
 
-                        switch (WorldGen.genRand.Next(3))
+                        switch (rand.Next(3))
                         {
                             case 0:
-                                int Rand = WorldGen.genRand.Next(7, 20);
+                                int Rand = rand.Next(7, 20);
 
                                 for (int l = j - 1; l >= j - Rand; l--)
                                 {
@@ -290,7 +289,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 }
                                 break;
                             case 1:
-                                int rand2 = WorldGen.genRand.Next(4, 13);
+                                int rand2 = rand.Next(4, 13);
 
                                 for (int l = j - 1; l >= j - rand2; l--)
                                 {
@@ -301,16 +300,16 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                                     if (l == j - rand2)
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
+                                        Main.tile[i, l].frameX = (short)(rand.Next(8, 13) * 18);
                                     }
                                     else
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
+                                        Main.tile[i, l].frameX = (short)(rand.Next(1, 8) * 18);
                                     }
                                 }
                                 break;
                             case 2:
-                                int rand3 = WorldGen.genRand.Next(4, 8);
+                                int rand3 = rand.Next(4, 8);
 
                                 for (int l = j - 1; l >= j - rand3; l--)
                                 {
@@ -321,15 +320,15 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                                     if (l == j - 1)
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
+                                        Main.tile[i, l].frameX = (short)(rand.Next(1, 5) * 18);
                                     }
                                     else if (l == j - rand3)
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
+                                        Main.tile[i, l].frameX = (short)(rand.Next(15, 20) * 18);
                                     }
                                     else
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
+                                        Main.tile[i, l].frameX = (short)(rand.Next(5, 15) * 18);
                                     }
                                 }
                                 break;
@@ -340,6 +339,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             }
             #endregion
 
+            //
 
 
             //Structure generation
@@ -360,6 +360,32 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 }
             }
 
+            for(int i = 0; i < Main.maxTilesX; i++)
+            {
+                for (int j = 0; j < Main.maxTilesY; j++)
+                {
+                    if (!Framing.GetTileSafely(i, j).IsActive && Framing.GetTileSafely(i, j).LiquidAmount >= 64)
+                    {
+                        Debug.WriteLine("lalalala");
+
+                        if (rand.NextBool(24))
+                        {
+                            switch (rand.NextBool())
+                            {
+                                case true:
+                                    Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/GoblinRaft1.lcs")).PlaceAt(i, TileCheckWater(i) - 3, false, false);
+                                    break;
+                                case false:
+                                    Structure.DeserializeFromBytes(ModContent.GetInstance<EEMod>().GetFileBytes("EEWorld/Structures/GoblinRaft2.lcs")).PlaceAt(i, TileCheckWater(i) - 3, false, false);
+                                    break;
+                            }
+
+                            i += 10;
+                        }
+                    }
+                }
+            }
+
             #endregion
 
 
@@ -369,7 +395,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void PlayerUpdate(Player player)
         {
-           
+
         }
     }
 }

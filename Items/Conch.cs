@@ -34,13 +34,9 @@ namespace EEMod.Items
             //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
             //SubworldManager.EnterSubworld<CoralReefs>();
 
-            //Structure.SaveWorldStructureTo(306, 396, 11, 15, System.IO.Path.Combine(Main.SavePath, "RockSpire1"));
+            //Structure.SaveWorldStructureTo(680, 273, 9, 4, System.IO.Path.Combine(Main.SavePath, "GoblinRaft1"));
 
-            //Structure.SaveWorldStructureTo(325, 396, 11, 15, System.IO.Path.Combine(Main.SavePath, "RockSpire2"));
-
-            //Structure.SaveWorldStructureTo(340, 402, 11, 9, System.IO.Path.Combine(Main.SavePath, "SunkRaft"));
-
-            //Structure.SaveWorldStructureTo(356, 406, 9, 5, System.IO.Path.Combine(Main.SavePath, "SandChest"));
+            //Structure.SaveWorldStructureTo(690, 273, 8, 4, System.IO.Path.Combine(Main.SavePath, "GoblinRaft2"));
 
             return true;
         }
