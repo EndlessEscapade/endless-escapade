@@ -105,6 +105,7 @@ namespace EEMod
                 Initialize();
                 prevKey = KeyID.BaseWorldName;
                 SubworldManager.EnterSubworld<Sea>();
+                cutSceneTriggerTimer = 0;
             }
         }
 
