@@ -95,7 +95,7 @@ namespace EEMod.Seamap.SeamapContent
             if (position.X > Seamap.seamapWidth - width) position.X = Seamap.seamapWidth - width;
 
             if (position.Y < 0) position.Y = 0;
-            if (position.Y > Seamap.seamapHeight - height) position.Y = Seamap.seamapHeight - height;
+            if (position.Y > Seamap.seamapHeight - height - 500) position.Y = Seamap.seamapHeight - height - 500;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch)

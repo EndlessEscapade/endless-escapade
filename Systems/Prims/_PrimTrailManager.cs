@@ -10,7 +10,8 @@ namespace EEMod.Prim
     {
         public List<Primitive> _trails = new List<Primitive>();
 
-        public RenderTarget2D primTargetNPC;
+        public RenderTarget2D primTargetPixelated;
+        public RenderTarget2D primTargetUnpixelated;
 
         public void Load()
         {
@@ -18,50 +19,33 @@ namespace EEMod.Prim
 
             Main.QueueMainThreadAction(() => 
             {
-                primTargetNPC = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
+                primTargetPixelated = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 2, Main.screenHeight / 2);
+                primTargetUnpixelated = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
             });
         }
 
         public void DrawTrailsAboveTiles()
         {
-            /*bool lolxd = (bool)typeof(SpriteBatch).GetField("beginCalled", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(Main.spriteBatch);
-
-            if (lolxd) Main.spriteBatch.End();
-
-            RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
-
-            Main.graphics.GraphicsDevice.SetRenderTarget(primTargetNPC);
-            Main.graphics.GraphicsDevice.Clear(Color.Transparent);
-
-            Main.spriteBatch.Begin();
-
-            foreach (Primitive trail in _trails.ToArray())
-            {
-                if (!trail.behindTiles && !trail.ManualDraw)
-                    trail.Draw();
-            }
-
-            Main.spriteBatch.End();
-
-            Main.graphics.GraphicsDevice.SetRenderTargets(bindings);*/
-
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
 
-            if (PrimitiveSystem.primitives.primTargetNPC != null)
+            if (PrimitiveSystem.primitives.primTargetPixelated != null)
             {
-                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetNPC, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetPixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 
                 Main.spriteBatch.End();
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
 
-                //EEMod.BloomShader.Parameters["resolution"].SetValue(new Vector2(Main.screenWidth, Main.screenHeight));
-                //EEMod.BloomShader.Parameters["satLevel"].SetValue(1f);
-                //EEMod.BloomShader.Parameters["radius"].SetValue(4f);
-                //EEMod.BloomShader.Parameters["alphaMult"].SetValue(3f);
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetPixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+            }
 
-                //EEMod.BloomShader.CurrentTechnique.Passes[0].Apply();
+            if (PrimitiveSystem.primitives.primTargetUnpixelated != null)
+            {
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetUnpixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
 
-                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetNPC, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+
+                Main.spriteBatch.Draw(PrimitiveSystem.primitives.primTargetUnpixelated, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
             }
 
             Main.spriteBatch.End();

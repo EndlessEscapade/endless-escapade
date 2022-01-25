@@ -32,6 +32,7 @@ namespace EEMod.Prim
         protected List<Vector2> _points = new List<Vector2>();
         protected bool _destroyed = false;
         public bool behindTiles = false;
+        public bool pixelated = false;
         public VertexPositionColorTexture[] vertices;
         protected int currentIndex;
         public bool ManualDraw;

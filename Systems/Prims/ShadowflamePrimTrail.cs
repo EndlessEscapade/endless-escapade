@@ -13,7 +13,6 @@ using static Terraria.ModLoader.ModContent;
 using System.Reflection;
 using EEMod.Items.Weapons.Melee;
 
-
 namespace EEMod.Prim
 {
     class ShadowflamePrimTrail : Primitive
@@ -33,6 +32,7 @@ namespace EEMod.Prim
 
             behindTiles = false;
             ManualDraw = false;
+            pixelated = false;
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -92,29 +92,7 @@ namespace EEMod.Prim
 
         public override void SetShaders()
         {
-            //EEMod.lightningShader.View = view;
-            //EEMod.lightningShader.Projection = projection;
-
-            //PrepareShader(EEMod.lightningShader);
-
             Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-
-            /*int width = _device.Viewport.Width;
-            int height = _device.Viewport.Height;
-
-            Vector2 zoom = Main.GameViewMatrix.Zoom;
-            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) *
-                          Matrix.CreateTranslation(width / 2f, height / -2f, 0) * Matrix.CreateRotationZ(MathHelper.Pi) *
-                          Matrix.CreateScale(zoom.X, zoom.Y, 1f);
-
-            Matrix projection = Matrix.CreateOrthographic(width, height, 0, 1000);
-
-            EEMod.ContinuousPrimTexShader.Parameters["WorldViewProjection"].SetValue(view * projection);
-
-            EEMod.ContinuousPrimTexShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/EnergyTrailBoosted").Value);
-            EEMod.ContinuousPrimTexShader.Parameters["lightColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
-            EEMod.ContinuousPrimTexShader.Parameters["darkColor"].SetValue(new Vector4(color.R, color.G, color.B, 0) / 255f);
-            EEMod.ContinuousPrimTexShader.CurrentTechnique.Passes[0].Apply();*/
 
             EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);

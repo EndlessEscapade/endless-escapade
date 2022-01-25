@@ -59,7 +59,7 @@ namespace EEMod.Seamap.SeamapContent
 
             age++;
 
-            if (age >= 1800) alpha -= 0.05f;
+            if (position.Y >= 4450) alpha -= 0.05f;
 
             Rectangle rect = new Rectangle(0, frame * height, 24, 22);
             Color drawColour2 = Seamap.seamapDrawColor * alpha;

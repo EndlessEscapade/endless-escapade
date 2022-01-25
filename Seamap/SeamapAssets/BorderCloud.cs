@@ -54,7 +54,7 @@ namespace EEMod.Seamap.SeamapContent
         {
             //Texture2D cloudSprite = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/BorderCloudSlate").Value;
 
-            lerpToBlack = (5000 - Center.Y) / 120f;
+            //lerpToBlack = (4500 - Center.Y) / 120f;
         
             /*for (int i = 0; i < 4; i++)
             {

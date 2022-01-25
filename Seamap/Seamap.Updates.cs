@@ -53,44 +53,80 @@ namespace EEMod.Seamap.SeamapContent
         {
             SeamapObjects.InitObjects(new Vector2(seamapWidth - 450, seamapWidth - 100));
 
-            SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402, seamapHeight - 118)));
+            SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402, seamapHeight - 118 - 500)));
 
             //SeamapObjects.NewSeamapObject(new RedDutchman(new Vector2(seamapWidth - 500, seamapHeight - 500), Vector2.Zero));
 
             for (int i = 0; i < 20; i++)
             {
-                PlaceRockCluster(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(300, seamapHeight - 300)));
+                PlaceRockCluster(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(300, seamapHeight - 800)));
             }
 
             for (int i = 0; i < 40; i++)
             {
-                PlaceRock(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(300, seamapHeight - 300)));
+                PlaceRock(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(300, seamapHeight - 800)));
             }
 
             #region Tropical water generation
-            SeamapObjects.NewSeamapObject(new CoralReefsIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
+            SeamapObjects.NewSeamapObject(new CoralReefsIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 
-            SeamapObjects.NewSeamapObject(new VolcanoIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
+            SeamapObjects.NewSeamapObject(new VolcanoIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 
-            SeamapObjects.NewSeamapObject(new TropicalIsland1(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
+            SeamapObjects.NewSeamapObject(new TropicalIsland1(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
             #endregion
 
             #region Moderate water generation
-            SeamapObjects.NewSeamapObject(new TropicalIsland2(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
+            SeamapObjects.NewSeamapObject(new TropicalIsland2(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 
-            SeamapObjects.NewSeamapObject(new MoyaiIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
+            SeamapObjects.NewSeamapObject(new MoyaiIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 
-            SeamapObjects.NewSeamapObject(new JadeIsles(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
+            SeamapObjects.NewSeamapObject(new JadeIsles(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
             #endregion
 
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
             SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 500)));
 
-            for (int iterations = 0; iterations < 4; iterations++)
+            for (int iterations = 0; iterations < 5; iterations++)
             {
                 for (int i = 0; i < 50; i++)
                 {
-                    BorderCloud newCloud = new BorderCloud(new Vector2(i * (seamapWidth / 50f), seamapHeight - (30 * (4 - iterations))) + new Vector2(Main.rand.Next(-16, 17), Main.rand.Next(-16, 17)), Vector2.Zero);
+                    BorderCloud newCloud = new BorderCloud(new Vector2(i * (seamapWidth / 50f), (seamapHeight - 500) - (30 * (4 - iterations))) + new Vector2(Main.rand.Next(-8, 9), Main.rand.Next(-8, 9)), Vector2.Zero);
+
+                    newCloud.lerpToBlack = 1 - (0.33f * iterations);
+
+                    SeamapObjects.NewSeamapObject(newCloud);
+                }
+            }
+
+            for (int iterations = 0; iterations < 5; iterations++)
+            {
+                for (int i = 0; i < 50; i++)
+                {
+                    BorderCloud newCloud = new BorderCloud(new Vector2(i * (seamapWidth / 50f), -80 + (30 * (4 - iterations))) + new Vector2(Main.rand.Next(-8, 9), Main.rand.Next(-8, 9)), Vector2.Zero);
+
+                    newCloud.lerpToBlack = 1 - (0.33f * iterations);
+
+                    SeamapObjects.NewSeamapObject(newCloud);
+                }
+            }
+
+            for (int iterations = 0; iterations < 5; iterations++)
+            {
+                for (int i = 0; i < 120; i++)
+                {
+                    BorderCloud newCloud = new BorderCloud(new Vector2(-50 + (30 * (4 - iterations)), i * (seamapHeight / 120f)) + new Vector2(Main.rand.Next(-8, 9), Main.rand.Next(-8, 9)), Vector2.Zero);
+
+                    newCloud.lerpToBlack = 1 - (0.33f * iterations);
+
+                    SeamapObjects.NewSeamapObject(newCloud);
+                }
+            }
+
+            for (int iterations = 0; iterations < 5; iterations++)
+            {
+                for (int i = 0; i < 120; i++)
+                {
+                    BorderCloud newCloud = new BorderCloud(new Vector2(-80 + (30 * (4 - iterations)) + (seamapWidth - 100), i * (seamapHeight / 120f)) + new Vector2(Main.rand.Next(-8, 9), Main.rand.Next(-8, 9)), Vector2.Zero);
 
                     newCloud.lerpToBlack = 0.33f * iterations;
 

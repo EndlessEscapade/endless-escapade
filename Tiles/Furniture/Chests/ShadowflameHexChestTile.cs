@@ -11,6 +11,9 @@ using Terraria.ObjectData;
 using Terraria.Audio;
 using EEMod.NPCs.Goblins.Shaman;
 using Microsoft.Xna.Framework.Graphics;
+using EEMod.NPCs.Goblins.Bard;
+using EEMod.NPCs.Goblins.Berserker;
+using EEMod.NPCs.Goblins;
 
 namespace EEMod.Tiles.Furniture.Chests
 {
@@ -167,9 +170,20 @@ namespace EEMod.Tiles.Furniture.Chests
 
 				for (int index = 0; index < Main.maxNPCs; index++)
 				{
-					if (((Main.npc[index].type == ModContent.NPCType<GoblinShaman>()
-
+					if (((Main.npc[index].type == ModContent.NPCType<GoblinShaman>() ||
+						  Main.npc[index].type == ModContent.NPCType<CymbalBard>() ||
+						  Main.npc[index].type == ModContent.NPCType<PanfluteBard>() ||
+						  Main.npc[index].type == ModContent.NPCType<PercussionBard>() ||
+						  Main.npc[index].type == ModContent.NPCType<GoblinBerserker>()
 						) && Main.npc[index].active))
+					{
+						allGoblinsDead = false;
+					}
+				}
+
+				for (int index = 0; index < Main.maxProjectiles; index++)
+				{
+					if (((Main.projectile[index].type == ModContent.ProjectileType<GoblinDeathBolt>()) && Main.projectile[index].active))
 					{
 						allGoblinsDead = false;
 					}
@@ -255,14 +269,20 @@ namespace EEMod.Tiles.Furniture.Chests
                 zero = Vector2.Zero;
             }
 
+			Chest c = Main.chest[Chest.FindChest(i - (int)(Main.tile[i, j].frameX / 18f), j - (int)(Main.tile[i, j].frameY / 18f))];
+
 			spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Chests/ShadowflameHexChestTileGlow").Value,
-				new Vector2((i * 16), (j * 16)) - Main.screenPosition + zero, new Rectangle(Main.tile[i, j].frameX, Main.tile[i, j].frameY + (Main.tile[i, j].FrameNumber * 20), 18, 20), Color.White);
+				new Vector2((i * 16), (j * 16)) - Main.screenPosition + zero, new Rectangle(Main.tile[i, j].frameX, Main.tile[i, j].frameY + (c.frame * 38), 18, 20), Color.White);
 
 			bool allGoblinsDead = true;
 
 			for (int index = 0; index < Main.maxNPCs; index++)
 			{
-				if (((Main.npc[index].type == ModContent.NPCType<GoblinShaman>()
+				if (((Main.npc[index].type == ModContent.NPCType<GoblinShaman>() ||
+					  Main.npc[index].type == ModContent.NPCType<CymbalBard>() ||
+					  Main.npc[index].type == ModContent.NPCType<PanfluteBard>() ||
+					  Main.npc[index].type == ModContent.NPCType<PercussionBard>() ||
+					  Main.npc[index].type == ModContent.NPCType<GoblinBerserker>()
 
 					) && Main.npc[index].active))
 				{

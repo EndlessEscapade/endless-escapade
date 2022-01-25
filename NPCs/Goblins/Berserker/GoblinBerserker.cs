@@ -58,48 +58,57 @@ namespace EEMod.NPCs.Goblins.Berserker
             NPC.noGravity = false;
         }
 
+        public bool aggro;
         public override void AI()
         {
-            if(NPC.ai[0] == 0)
-            {
-                NPC.ai[1] = 1;
-                NPC.ai[0] = 1;
-            }
-
-            if(NPC.ai[0] == 2)
-            {
-                if(Main.projectile[(int)NPC.ai[2]].active == false)
-                {
-                    NPC.ai[1] = 2;
-                    NPC.ai[0] = 1;
-                }
-            }
-
             NPC.TargetClosest();
 
             Player player = Main.player[NPC.target];
 
-            NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
-
-            NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -3f, 3f);
-
-            if(NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
+            if (Vector2.DistanceSquared(player.Center, NPC.Center) <= 16 * 16 * 24 * 24 || NPC.life < NPC.lifeMax)
             {
-                NPC.spriteDirection = (NPC.velocity.X < 0) ? 1 : -1;
+                aggro = true;
             }
 
-            if (NPC.ai[1] == 1)
+            if (aggro)
             {
-                NPC.ai[1] = 0;
-                NPC.ai[0] = 2;
+                if (NPC.ai[0] == 0)
+                {
+                    NPC.ai[1] = 1;
+                    NPC.ai[0] = 1;
+                }
 
-                NPC.ai[2] = Projectile.NewProjectile(new ProjectileSource_NPC(NPC), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * 6f, ModContent.ProjectileType<BerserkerAxe>(), 20, 3f, default, ai0: 0, ai1: NPC.whoAmI);
-            }
-            else if (NPC.ai[1] == 2)
-            {
-                NPC.ai[2]--;
+                if (NPC.ai[0] == 2)
+                {
+                    if (Main.projectile[(int)NPC.ai[2]].active == false)
+                    {
+                        NPC.ai[1] = 2;
+                        NPC.ai[0] = 1;
+                    }
+                }
 
-                if (NPC.ai[2] <= 0) NPC.ai[1] = 1;
+                NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
+
+                NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -3f, 3f);
+
+                if (NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
+                {
+                    NPC.spriteDirection = (NPC.velocity.X < 0) ? 1 : -1;
+                }
+
+                if (NPC.ai[1] == 1)
+                {
+                    NPC.ai[1] = 0;
+                    NPC.ai[0] = 2;
+
+                    NPC.ai[2] = Projectile.NewProjectile(new ProjectileSource_NPC(NPC), NPC.Center, Vector2.Normalize(player.Center - NPC.Center) * 8f, ModContent.ProjectileType<BerserkerAxe>(), 20, 3f, default, ai0: 0, ai1: NPC.whoAmI);
+                }
+                else if (NPC.ai[1] == 2)
+                {
+                    NPC.ai[2]--;
+
+                    if (NPC.ai[2] <= 0) NPC.ai[1] = 1;
+                }
             }
 
             oldVel = NPC.velocity;
@@ -109,7 +118,7 @@ namespace EEMod.NPCs.Goblins.Berserker
 
         public override void PostAI()
         {
-            if(NPC.position == NPC.oldPosition)
+            if(NPC.position == NPC.oldPosition && aggro)
             {
                 NPC.velocity += new Vector2(0, -8f);
             }
@@ -157,18 +166,18 @@ namespace EEMod.NPCs.Goblins.Berserker
         {
             Projectile.rotation += (Projectile.velocity.X < 0) ? -0.5f : 0.5f;
 
-            Projectile.ai[0]++; //deez nuts
-            if(Projectile.ai[0] > 60)
+            Projectile.ai[0]++;
+            if(Projectile.ai[0] > 50)
             {
-                Projectile.velocity += Vector2.Lerp(Projectile.velocity, Vector2.Normalize(Main.npc[(int)Projectile.ai[1]].Center - Projectile.Center) * 6f, (Projectile.ai[0] - 60) / 90f);
+                Projectile.velocity += Vector2.Lerp(Projectile.velocity, Vector2.Normalize(Main.npc[(int)Projectile.ai[1]].Center - Projectile.Center) * 8f, (Projectile.ai[0] - 60) / 90f);
 
-                if(Projectile.velocity.LengthSquared() >= 36f)
+                if(Projectile.velocity.LengthSquared() >= 64f)
                 {
-                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 6f;
+                    Projectile.velocity = Vector2.Normalize(Projectile.velocity) * 8f;
                 }
             }
 
-            if(Vector2.DistanceSquared(Projectile.Center, Main.npc[(int)Projectile.ai[1]].Center) <= 16f * 16f && Projectile.ai[0] > 60)
+            if(Vector2.DistanceSquared(Projectile.Center, Main.npc[(int)Projectile.ai[1]].Center) <= 16f * 16f && Projectile.ai[0] > 50)
             {
                 Main.npc[(int)Projectile.ai[1]].ai[1] = 1;
                 Main.npc[(int)Projectile.ai[1]].ai[2] = 120;

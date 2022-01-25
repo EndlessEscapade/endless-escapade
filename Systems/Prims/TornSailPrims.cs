@@ -44,6 +44,7 @@ namespace EEMod.Prim
             behindTiles = false;
             ManualDraw = false;
             manualDraw = true;
+            pixelated = true;
         }
 
         public Vector2 myCenterPoint;

@@ -39,6 +39,7 @@ namespace EEMod.NPCs.Goblins.Scrapgunner
             NPC.knockBackResist = 0.9f;
         }
 
+        public bool aggro;
         public override void AI()
         {
             NPC.velocity.X *= 0.95f;
@@ -47,28 +48,39 @@ namespace EEMod.NPCs.Goblins.Scrapgunner
 
             staffCenter = NPC.Center + new Vector2(12 * NPC.spriteDirection, 14);
 
+            NPC.TargetClosest();
 
-            NPC.ai[0]++;
+            Player player = Main.player[NPC.target];
 
-            if(NPC.ai[0] % 120 == 0)
+            if (Vector2.DistanceSquared(player.Center, NPC.Center) <= 16 * 16 * 24 * 24 || NPC.life < NPC.lifeMax)
             {
-                if (Main.rand.NextBool(5))
-                {
-                    rocketJumping = true;
-
-                    NPC.velocity += new Vector2(0, -12f);
-                }
-                else
-                {
-                    ShootBall(NPC.Center, Vector2.Zero);
-                }
+                aggro = true;
             }
 
-            if (oldVel.Y < -0.02f && NPC.velocity.Y >= -0.02f && NPC.velocity.Y < 0 && rocketJumping)
+            if (aggro)
             {
-                ShootBall(NPC.Center, Vector2.Zero);
-                rocketJumping = false;
-                NPC.ai[0] = 0;
+                NPC.ai[0]++;
+
+                if (NPC.ai[0] % 120 == 0)
+                {
+                    if (Main.rand.NextBool(5))
+                    {
+                        rocketJumping = true;
+
+                        NPC.velocity += new Vector2(0, -12f);
+                    }
+                    else
+                    {
+                        ShootBall(NPC.Center, Vector2.Zero);
+                    }
+                }
+
+                if (oldVel.Y < -0.02f && NPC.velocity.Y >= -0.02f && NPC.velocity.Y < 0 && rocketJumping)
+                {
+                    ShootBall(NPC.Center, Vector2.Zero);
+                    rocketJumping = false;
+                    NPC.ai[0] = 0;
+                }
             }
 
             oldVel = NPC.velocity;

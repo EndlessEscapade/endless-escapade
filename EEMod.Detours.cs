@@ -127,14 +127,38 @@ namespace EEMod
             {
                 RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
 
-                Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetNPC);
+                Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetPixelated);
                 Main.graphics.GraphicsDevice.Clear(Color.Transparent);
 
                 Main.spriteBatch.Begin();
 
                 foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
                 {
-                    if (!trail.behindTiles && !trail.ManualDraw)
+                    if (!trail.behindTiles && !trail.ManualDraw && trail.pixelated)
+                    {
+                        trail.Draw();
+                    }
+                }
+
+                Main.spriteBatch.End();
+
+                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+            }
+
+            if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
+            {
+                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+                Main.graphics.GraphicsDevice.SetRenderTarget(PrimitiveSystem.primitives.primTargetUnpixelated);
+                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+                Main.spriteBatch.Begin();
+
+                foreach (Primitive trail in PrimitiveSystem.primitives._trails.ToArray())
+                {
+                    if (!trail.behindTiles && !trail.ManualDraw && !trail.pixelated)
                     {
                         trail.Draw();
                     }
@@ -527,7 +551,7 @@ namespace EEMod
                 Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
 
                 Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, (Seamap.SeamapContent.Seamap.seamapWidth) - Main.screenWidth);
-                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, (Seamap.SeamapContent.Seamap.seamapHeight) - Main.screenHeight);
+                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, (Seamap.SeamapContent.Seamap.seamapHeight - 500) - Main.screenHeight);
 
                 Seamap.SeamapContent.Seamap.UpdateSeamap();
 

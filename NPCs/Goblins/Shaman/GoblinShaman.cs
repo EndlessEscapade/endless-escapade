@@ -55,6 +55,8 @@ namespace EEMod.NPCs.Goblins.Shaman
             NPC.knockBackResist = 0.9f;
         }
 
+        public bool aggro;
+
         public override void AI()
         {
             NPC.velocity.X *= 0.9f;
@@ -64,8 +66,20 @@ namespace EEMod.NPCs.Goblins.Shaman
 
             NPC.spriteDirection = Main.LocalPlayer.Center.X < NPC.Center.X ? 1 : -1;
 
-            staffCenter = NPC.Center + new Vector2(12 * NPC.spriteDirection, 14) + ((NPC.ai[0] % 180 >= 60 && NPC.ai[0] % 180 < 120) ? new Vector2(0, (float)Math.Sin(((NPC.ai[0] % 60) / 20f) * MathHelper.Pi * 2) * -3).RotatedBy(staffRot) : Vector2.Zero);
-            
+            NPC.TargetClosest();
+
+            Player player = Main.player[NPC.target];
+
+            if (Vector2.DistanceSquared(player.Center, NPC.Center) <= 16 * 16 * 24 * 24 || NPC.life < NPC.lifeMax)
+            {
+                aggro = true;
+            }
+
+            if (aggro)
+                staffCenter = NPC.Center + new Vector2(12 * NPC.spriteDirection, 14) + ((NPC.ai[0] % 180 >= 60 && NPC.ai[0] % 180 < 120) ? new Vector2(0, (float)Math.Sin(((NPC.ai[0] % 60) / 20f) * MathHelper.Pi * 2) * -3).RotatedBy(staffRot) : Vector2.Zero);
+            else
+                staffCenter = NPC.Center + new Vector2(12 * NPC.spriteDirection, 14);
+
             if (NPC.ai[0] == 0)
             {
                 StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), staffCenter + new Vector2(0, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
@@ -73,109 +87,112 @@ namespace EEMod.NPCs.Goblins.Shaman
                 PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(StaffBolt, Color.Violet, 4));
             }
 
-            if(NPC.ai[1] == 0) NPC.ai[0]++;
+            if (NPC.ai[1] != 60 && StaffBolt != null) StaffBolt.Center = staffCenter + new Vector2(0, -22).RotatedBy(staffRot);
 
-            if (NPC.ai[1] > 0)
+            if (NPC.ai[1] == 0) NPC.ai[0]++;
+
+            if (aggro)
             {
-                NPC.ai[1]++;
-
-                for (int i = 0; i < 3; i++)
+                if (NPC.ai[1] > 0)
                 {
-                    int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
-                    Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
-                    Main.dust[dust].noGravity = true;
-                }
-            }
+                    NPC.ai[1]++;
 
-            if (NPC.ai[1] != 60) StaffBolt.Center = staffCenter + new Vector2(0, -22).RotatedBy(staffRot);
-
-            if (NPC.ai[0] == 540 && NPC.ai[1] == 0)
-            {
-                SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, style: 61);
-
-                NPC.ai[1] = 1;
-            }
-
-            if (NPC.ai[1] == 59)
-            {
-                StaffBolt.Kill();
-                StaffBolt.active = false;
-                StaffBolt = null;
-            }
-
-            if (NPC.ai[1] == 60)
-            {
-                Vector2 newPos = Vector2.Zero;
-
-                while (newPos == Vector2.Zero)
-                {
-                    int tileTry = (int)(Main.LocalPlayer.Center.X / 16f) + Main.rand.Next(30, 50) * (Main.rand.NextBool() ? 1 : -1);
-
-                    for (int i = (int)(Main.LocalPlayer.Center.Y / 16f) - 50; i < (int)(Main.LocalPlayer.Center.Y / 16f) + 50; i++)
+                    for (int i = 0; i < 3; i++)
                     {
-                        if ((Main.tile[tileTry, i].IsActive && Main.tileSolid[Main.tile[tileTry, i].type]) && 
-                            (!Main.tile[tileTry, i - 1].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 1].type]) && 
-                            ((!Main.tile[tileTry, i - 2].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 2].type]) && Main.tile[tileTry, i - 1].LiquidAmount < 16) &&
-                            ((!Main.tile[tileTry, i - 3].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 3].type]) && Main.tile[tileTry, i - 1].LiquidAmount == 0))
+                        int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
+                        Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
+                        Main.dust[dust].noGravity = true;
+                    }
+                }
+
+                if (NPC.ai[0] % 540 == 0 && NPC.ai[1] == 0)
+                {
+                    SoundEngine.PlaySound(SoundID.Zombie, NPC.Center, style: 61);
+
+                    NPC.ai[1] = 1;
+                }
+
+                if (NPC.ai[1] == 59)
+                {
+                    StaffBolt.Kill();
+                    StaffBolt.active = false;
+                    StaffBolt = null;
+                }
+
+                if (NPC.ai[1] == 60)
+                {
+                    Vector2 newPos = Vector2.Zero;
+
+                    while (newPos == Vector2.Zero)
+                    {
+                        int tileTry = (int)(Main.LocalPlayer.Center.X / 16f) + Main.rand.Next(30, 50) * (Main.rand.NextBool() ? 1 : -1);
+
+                        for (int i = (int)(Main.LocalPlayer.Center.Y / 16f) - 50; i < (int)(Main.LocalPlayer.Center.Y / 16f) + 50; i++)
                         {
-                            newPos = new Vector2((tileTry * 16) + 8, (i * 16) - 28);
+                            if ((Main.tile[tileTry, i].IsActive && Main.tileSolid[Main.tile[tileTry, i].type]) &&
+                                (!Main.tile[tileTry, i - 1].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 1].type]) &&
+                                ((!Main.tile[tileTry, i - 2].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 2].type]) && Main.tile[tileTry, i - 1].LiquidAmount < 16) &&
+                                ((!Main.tile[tileTry, i - 3].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 3].type]) && Main.tile[tileTry, i - 1].LiquidAmount == 0))
+                            {
+                                newPos = new Vector2((tileTry * 16) + 8, (i * 16) - 28);
+                            }
                         }
                     }
+
+                    NPC.Center = newPos;
+
+                    NPC.spriteDirection = Main.LocalPlayer.Center.X < NPC.Center.X ? -1 : 1;
+                    staffCenter = NPC.Center + new Vector2(-6 * NPC.spriteDirection, 6);
+
+                    StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), staffCenter + new Vector2(1, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
+
+                    PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(StaffBolt, Color.Violet, 4));
                 }
 
-                NPC.Center = newPos;
-
-                NPC.spriteDirection = Main.LocalPlayer.Center.X < NPC.Center.X ? -1 : 1;
-                staffCenter = NPC.Center + new Vector2(-6 * NPC.spriteDirection, 6);
-
-                StaffBolt = Projectile.NewProjectileDirect(new Terraria.DataStructures.ProjectileSource_NPC(NPC), staffCenter + new Vector2(1, -22), Vector2.Zero, ModContent.ProjectileType<StaffBolt>(), 0, 0, ai0: 1f);
-
-                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(StaffBolt, Color.Violet, 4));
-            }
-
-            if (NPC.ai[1] >= 120)
-            {
-                for (int i = 0; i < 20; i++)
+                if (NPC.ai[1] >= 120)
                 {
-                    int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
-                    Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
-                    Main.dust[dust].noGravity = true;
-                }
-
-                for (int i = 0; i < 10; i++)
-                {
-                    int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
-                    Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6));
-                    Main.dust[dust].noGravity = true;
-                    Main.dust[dust].scale = 2f;
-                }
-
-                NPC.ai[1] = 0;
-                NPC.ai[0] = 1;
-            }
-
-            if (NPC.ai[1] == 0)
-            {
-                if (NPC.ai[2] == 0)
-                {
-                    if (NPC.ai[0] % 180 >= 60 && NPC.ai[0] % 180 < 120)
+                    for (int i = 0; i < 20; i++)
                     {
-                        staffRot = Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center).ToRotation() + ((float)Math.Cos((((NPC.ai[0] % 180) / 60f) * Math.PI)) * 0.75f) + MathHelper.PiOver2;
+                        int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
+                        Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-4, 4), Main.rand.NextFloat(-4, 4));
+                        Main.dust[dust].noGravity = true;
+                    }
 
-                        if (NPC.ai[0] % 20 == 10) ShootBolt(staffCenter + new Vector2(0, -22).RotatedBy(staffRot) + new Vector2(-6.75f, -6.75f), Vector2.Normalize(new Vector2(0, -22).RotatedBy(staffRot)));
-                    }
-                    else if (NPC.ai[0] % 180 >= 120)
+                    for (int i = 0; i < 10; i++)
                     {
-                        staffRot -= (NPC.spriteDirection == 1 ? (staffRot / 10f) : ((staffRot - 6.28f) / 10f));
+                        int dust = Dust.NewDust(NPC.Center, 0, 0, DustID.CrystalSerpent_Pink);
+                        Main.dust[dust].velocity = new Vector2(Main.rand.NextFloat(-6, 6), Main.rand.NextFloat(-6, 6));
+                        Main.dust[dust].noGravity = true;
+                        Main.dust[dust].scale = 2f;
                     }
-                    else
-                    {
-                        staffRot += (((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center).ToRotation() + 0.75f) - staffRot) / 10f);
-                    }
+
+                    NPC.ai[1] = 0;
+                    NPC.ai[0] = 1;
                 }
-                else if (NPC.ai[2] == 1)
+
+                if (NPC.ai[1] == 0)
                 {
-                    
+                    if (NPC.ai[2] == 0)
+                    {
+                        if (NPC.ai[0] % 180 >= 60 && NPC.ai[0] % 180 < 120)
+                        {
+                            staffRot = Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center).ToRotation() + ((float)Math.Cos((((NPC.ai[0] % 180) / 60f) * Math.PI)) * 0.75f) + MathHelper.PiOver2;
+
+                            if (NPC.ai[0] % 20 == 10) ShootBolt(staffCenter + new Vector2(0, -22).RotatedBy(staffRot) + new Vector2(-6.75f, -6.75f), Vector2.Normalize(new Vector2(0, -22).RotatedBy(staffRot)));
+                        }
+                        else if (NPC.ai[0] % 180 >= 120)
+                        {
+                            staffRot -= (NPC.spriteDirection == 1 ? (staffRot / 10f) : ((staffRot - 6.28f) / 10f));
+                        }
+                        else
+                        {
+                            staffRot += (((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center).ToRotation() + 0.75f) - staffRot) / 10f);
+                        }
+                    }
+                    else if (NPC.ai[2] == 1)
+                    {
+
+                    }
                 }
             }
         }

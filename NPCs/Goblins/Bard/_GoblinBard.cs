@@ -41,6 +41,7 @@ namespace EEMod.NPCs.Goblins.Bard
             NPC.knockBackResist = 0.9f;
         }
 
+        public bool aggro;
         public int buffedNPC = -1;
         public override void AI()
         {
@@ -48,45 +49,53 @@ namespace EEMod.NPCs.Goblins.Bard
 
             Player player = Main.player[NPC.target];
 
-            NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
-
-            NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -1.5f, 1.5f);
-
-            if (NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
+            if (Vector2.DistanceSquared(player.Center, NPC.Center) <= 16 * 16 * 24 * 24 || NPC.life < NPC.lifeMax)
             {
-                NPC.spriteDirection = (NPC.velocity.X < 0) ? -1 : 1;
+                aggro = true;
             }
 
-            if (buffedNPC != -1 && (Main.npc[buffedNPC] == null || Main.npc[buffedNPC].active == false))
+            if (aggro)
             {
-                buffedNPC = -1;
-            }
+                NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
 
-            if (buffedNPC != -1 && Vector2.DistanceSquared(Main.npc[buffedNPC].Center, NPC.Center) > 16 * 16 * 16 * 16)
-            {
-                Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = false;
+                NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -1.5f, 1.5f);
 
-                buffedNPC = -1;
-            }
-
-            if (buffedNPC == -1)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
+                if (NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
                 {
-                    if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
-                        !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
-                        (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
-                         Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
+                    NPC.spriteDirection = (NPC.velocity.X < 0) ? -1 : 1;
+                }
+
+                if (buffedNPC != -1 && (Main.npc[buffedNPC] == null || Main.npc[buffedNPC].active == false))
+                {
+                    buffedNPC = -1;
+                }
+
+                if (buffedNPC != -1 && Vector2.DistanceSquared(Main.npc[buffedNPC].Center, NPC.Center) > 16 * 16 * 16 * 16)
+                {
+                    Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = false;
+
+                    buffedNPC = -1;
+                }
+
+                if (buffedNPC == -1)
+                {
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
-                        buffedNPC = i;
+                        if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
+                            !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
+                            (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
+                             Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
+                        {
+                            buffedNPC = i;
 
-                        Main.npc[buffedNPC].defense = (int)(Main.npc[buffedNPC].defense * 1.2f);
+                            Main.npc[buffedNPC].defense = (int)(Main.npc[buffedNPC].defense * 1.2f);
 
-                        Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = true;
+                            Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = true;
 
-                        SoundEngine.PlaySound(SoundID.Item144, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.Item144, NPC.Center);
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
@@ -94,7 +103,7 @@ namespace EEMod.NPCs.Goblins.Bard
 
         public override void PostAI()
         {
-            if (NPC.position == NPC.oldPosition)
+            if (NPC.position == NPC.oldPosition && aggro)
             {
                 NPC.velocity += new Vector2(0, -4f);
             }
@@ -143,6 +152,7 @@ namespace EEMod.NPCs.Goblins.Bard
             NPC.knockBackResist = 0.9f;
         }
 
+        public bool aggro;
         public int buffedNPC = -1;
         public override void AI()
         {
@@ -150,45 +160,53 @@ namespace EEMod.NPCs.Goblins.Bard
 
             Player player = Main.player[NPC.target];
 
-            NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
-
-            NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -1.5f, 1.5f);
-
-            if (NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
+            if (Vector2.DistanceSquared(player.Center, NPC.Center) <= 16 * 16 * 24 * 24 || NPC.life < NPC.lifeMax)
             {
-                NPC.spriteDirection = (NPC.velocity.X < 0) ? -1 : 1;
+                aggro = true;
             }
 
-            if (buffedNPC != -1 && (Main.npc[buffedNPC] == null || Main.npc[buffedNPC].active == false))
+            if (aggro)
             {
-                buffedNPC = -1;
-            }
+                NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
 
-            if (buffedNPC != -1 && Vector2.DistanceSquared(Main.npc[buffedNPC].Center, NPC.Center) > 16 * 16 * 16 * 16)
-            {
-                Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = false;
+                NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -1.5f, 1.5f);
 
-                buffedNPC = -1;
-            }
-
-            if (buffedNPC == -1)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
+                if (NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
                 {
-                    if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
-                        !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
-                        (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
-                         Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
+                    NPC.spriteDirection = (NPC.velocity.X < 0) ? -1 : 1;
+                }
+
+                if (buffedNPC != -1 && (Main.npc[buffedNPC] == null || Main.npc[buffedNPC].active == false))
+                {
+                    buffedNPC = -1;
+                }
+
+                if (buffedNPC != -1 && Vector2.DistanceSquared(Main.npc[buffedNPC].Center, NPC.Center) > 16 * 16 * 16 * 16)
+                {
+                    Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = false;
+
+                    buffedNPC = -1;
+                }
+
+                if (buffedNPC == -1)
+                {
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
-                        buffedNPC = i;
+                        if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
+                            !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
+                            (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
+                             Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
+                        {
+                            buffedNPC = i;
 
-                        Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = true;
+                            Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = true;
 
-                        Main.npc[buffedNPC].defense = (int)(Main.npc[buffedNPC].defense * 1.2f);
+                            Main.npc[buffedNPC].defense = (int)(Main.npc[buffedNPC].defense * 1.2f);
 
-                        SoundEngine.PlaySound(SoundID.Item142, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.Item142, NPC.Center);
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
@@ -196,7 +214,7 @@ namespace EEMod.NPCs.Goblins.Bard
 
         public override void PostAI()
         {
-            if (NPC.position == NPC.oldPosition)
+            if (NPC.position == NPC.oldPosition && aggro)
             {
                 NPC.velocity += new Vector2(0, -4f);
             }
@@ -245,6 +263,7 @@ namespace EEMod.NPCs.Goblins.Bard
             NPC.knockBackResist = 0.9f;
         }
 
+        public bool aggro;
         public int buffedNPC = -1;
         public override void AI()
         {
@@ -252,45 +271,53 @@ namespace EEMod.NPCs.Goblins.Bard
 
             Player player = Main.player[NPC.target];
 
-            NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
-
-            NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -1.5f, 1.5f);
-
-            if (NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
+            if (Vector2.DistanceSquared(player.Center, NPC.Center) <= 16 * 16 * 24 * 24 || NPC.life < NPC.lifeMax)
             {
-                NPC.spriteDirection = (NPC.velocity.X < 0) ? -1 : 1;
+                aggro = true;
             }
 
-            if (buffedNPC != -1 && (Main.npc[buffedNPC] == null || Main.npc[buffedNPC].active == false))
+            if (aggro)
             {
-                buffedNPC = -1;
-            }
+                NPC.velocity += new Vector2(Vector2.Normalize(player.Center - NPC.Center).X * 0.2f, 0);
 
-            if (buffedNPC != -1 && Vector2.DistanceSquared(Main.npc[buffedNPC].Center, NPC.Center) > 16 * 16 * 16 * 16)
-            {
-                Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = false;
+                NPC.velocity.X = MathHelper.Clamp(NPC.velocity.X, -1.5f, 1.5f);
 
-                buffedNPC = -1;
-            }
-
-            if (buffedNPC == -1)
-            {
-                for (int i = 0; i < Main.maxNPCs; i++)
+                if (NPC.velocity.X > 0.01f || NPC.velocity.X < -0.01f)
                 {
-                    if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
-                        !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
-                        (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
-                         Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
+                    NPC.spriteDirection = (NPC.velocity.X < 0) ? -1 : 1;
+                }
+
+                if (buffedNPC != -1 && (Main.npc[buffedNPC] == null || Main.npc[buffedNPC].active == false))
+                {
+                    buffedNPC = -1;
+                }
+
+                if (buffedNPC != -1 && Vector2.DistanceSquared(Main.npc[buffedNPC].Center, NPC.Center) > 16 * 16 * 16 * 16)
+                {
+                    Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = false;
+
+                    buffedNPC = -1;
+                }
+
+                if (buffedNPC == -1)
+                {
+                    for (int i = 0; i < Main.maxNPCs; i++)
                     {
-                        buffedNPC = i;
+                        if (Main.npc[i] != null && Main.npc[i].active && Vector2.DistanceSquared(Main.npc[i].Center, NPC.Center) <= 16 * 16 * 16 * 16 &&
+                            !Main.npc[i].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff &&
+                            (Main.npc[i].type == ModContent.NPCType<GoblinShaman>() ||
+                             Main.npc[i].type == ModContent.NPCType<Berserker.GoblinBerserker>()))
+                        {
+                            buffedNPC = i;
 
-                        Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = true;
+                            Main.npc[buffedNPC].GetGlobalNPC<GoblinBardGlobal>().hasBardBuff = true;
 
-                        Main.npc[buffedNPC].defense = (int)(Main.npc[buffedNPC].defense * 1.2f);
+                            Main.npc[buffedNPC].defense = (int)(Main.npc[buffedNPC].defense * 1.2f);
 
-                        SoundEngine.PlaySound(SoundID.DSTFemaleHurt, NPC.Center);
+                            SoundEngine.PlaySound(SoundID.DSTFemaleHurt, NPC.Center);
 
-                        break;
+                            break;
+                        }
                     }
                 }
             }
@@ -298,7 +325,7 @@ namespace EEMod.NPCs.Goblins.Bard
 
         public override void PostAI()
         {
-            if (NPC.position == NPC.oldPosition)
+            if (NPC.position == NPC.oldPosition && aggro)
             {
                 NPC.velocity += new Vector2(0, -4f);
             }
