@@ -14,6 +14,7 @@ namespace EEMod.Extensions
         public static string FormatString(this string text, int breakPoint)
         {
             StringBuilder formattedText = new StringBuilder();
+            StringBuilder naCat = new StringBuilder();
             int lineBreakPoint = 0;
             for (int i = 0; i < text.Length; i++)
             {
@@ -22,7 +23,7 @@ namespace EEMod.Extensions
                     if (!char.IsWhiteSpace(text[i]) && i != text.Length - 1 && !char.IsWhiteSpace(text[i + 1]))
                     {
                         int charsBehind = 1;
-                        StringBuilder naCat = new StringBuilder();
+                        naCat.Clear(); // reset the string builder
                         while (!char.IsWhiteSpace(text[i - charsBehind]) && i - charsBehind > -1)
                         {
                             naCat.Append(text[i - charsBehind]);

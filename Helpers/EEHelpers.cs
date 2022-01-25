@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Graphics.Effects;
@@ -8,6 +9,8 @@ using Terraria.Utilities;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
+using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace EEMod
 {
@@ -411,6 +414,40 @@ namespace EEMod
             return copy[0];
             
         }
+
+        static int bezierMaxStackallocMemory = 64; // 64 points max before using an array
+
+        public static Vector2 BezierCurve(float ammount, ReadOnlySpan<Vector2> controlPoints) => BezierCurve(ammount, ToSpan(controlPoints)); // does not modify the elements, its just for reading by reference
+
+        public static Vector2 BezierCurve(float ammount, Span<Vector2> controlPoints)
+        {
+            int count = controlPoints.Length - 1;
+            Vector2[] rentedArray = null;
+            Span<Vector2> buff = count < bezierMaxStackallocMemory ? stackalloc Vector2[count] : new Span<Vector2>(rentedArray = ArrayPool<Vector2>.Shared.Rent(count), 0, count);
+
+            // first iteration copy the elements to the buffer while applying the lerp
+            for (int i = 0; i < count; i++) 
+                Vector2.Lerp(ref controlPoints[i], ref controlPoints[i + 1], ammount, out buff[i]);
+
+            // -1 because the first iteration is done
+            for(int i = count - 1; i >= 0; i--)
+            {
+                for (int k = 0; k < i; k++)
+                {
+                    Vector2.Lerp(ref buff[k], ref buff[k + 1], ammount, out Vector2 q);
+                    buff[i] = q;
+                }
+            }
+
+            if (rentedArray != null)
+                ArrayPool<Vector2>.Shared.Return(rentedArray);
+
+            return buff[0];
+        }
+
+        // please be careful using this
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span<T> ToSpan<T>(ReadOnlySpan<T> readonlySpan) => MemoryMarshal.CreateSpan(ref MemoryMarshal.GetReference(readonlySpan), readonlySpan.Length);
 
         public static IEnumerable<NPC> NPCForeach
         {

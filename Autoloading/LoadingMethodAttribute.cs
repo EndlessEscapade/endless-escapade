@@ -8,12 +8,13 @@ namespace EEMod.Autoloading
     [AttributeUsage(AttributeTargets.Method)]
     internal class LoadingMethodAttribute : Attribute
     {
-        internal LoadMode mode;
-
         public LoadingMethodAttribute()
         {
         }
-
-        public LoadingMethodAttribute(LoadMode loadmode) => mode = loadmode;
+        public LoadingMethodAttribute(LoadMode loadMode)
+        {
+            LoadMode = loadMode;
+        }
+        public LoadMode LoadMode { get; set; }
     }
 }

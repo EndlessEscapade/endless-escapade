@@ -42,16 +42,12 @@ namespace EEMod.EEWorld
         public static Vector2 yes;
         public static Vector2 ree;
 
-        [FieldInit(FieldInitType.SubType, typeof(List<Vector2>))]
         public static IList<Vector2> EntracesPosses = new List<Vector2>();
 
-        [FieldInit(FieldInitType.ArrayIntialization, 6)]
         public static byte[] LightStates = new byte[6];
 
-        [FieldInit(FieldInitType.ArrayIntialization, 100)]
         public static Vector2[] PylonBegin = new Vector2[100];
 
-        [FieldInit(FieldInitType.ArrayIntialization, 100)]
         public static Vector2[] PylonEnd = new Vector2[100];
 
         private static PerlinNoiseFunction PNF;

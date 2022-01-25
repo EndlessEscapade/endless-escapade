@@ -18,8 +18,8 @@ namespace EEMod.Autoloading
 
         internal static event Action PostAutoload;
 
-        /// <summary> Event called during autoload with each known type </summary>
-        public static event Action<Type> TypeListeners;
+        ///// <summary> Event called during autoload with each known type </summary>
+        //public static event Action<Type> TypeListeners;
 
         ///// <summary>
         ///// Ecent called during autoload with each known method
@@ -53,7 +53,7 @@ namespace EEMod.Autoloading
                     methods.Add(method);
                     if (method.TryGetCustomAttribute(out FieldInitAttribute attribute))
                     {
-                        if (ValidCurrent(attribute.loadMode) && CouldBeCalled(method) && method.GetParameters().Length <= 0)
+                        if (ValidCurrent(attribute.LoadMode) && CouldBeCalled(method) && method.GetParameters().Length <= 0)
                         {
                             method.Invoke(null, null);
                         }
@@ -72,22 +72,22 @@ namespace EEMod.Autoloading
             {
                 if (method.TryGetCustomAttribute(out LoadingMethodAttribute attribute) && !(method.GetParameters().Length > 0))
                 {
-                    if (ValidCurrent(attribute.mode) && CouldBeCalled(method))
+                    if (ValidCurrent(attribute.LoadMode) && CouldBeCalled(method))
                     {
                         method.Invoke(null, null);
                     }
                 }
-                else if (method.TryGetCustomAttribute(out TypeListenerAttribute listenerattributet) && CouldBeCalled(method))
-                {
-                    if (ValidCurrent(listenerattributet.loadMode))
-                    {
-                        var parameters = method.GetParameters();
-                        if (parameters.Length == 1 && parameters[0].ParameterType == typeof(Type) && method.ReturnType == typeof(void))
-                        {
-                            TypeListeners += method.CreateDelegate<Action<Type>>();
-                        }
-                    }
-                }
+                //else if (method.TryGetCustomAttribute(out TypeListenerAttribute listenerattributet) && CouldBeCalled(method))
+                //{
+                //    if (ValidCurrent(listenerattributet.loadMode))
+                //    {
+                //        var parameters = method.GetParameters();
+                //        if (parameters.Length == 1 && parameters[0].ParameterType == typeof(Type) && method.ReturnType == typeof(void))
+                //        {
+                //            TypeListeners += method.CreateDelegate<Action<Type>>();
+                //        }
+                //    }
+                //}
                 //else if (method.TryGetCustomAttribute(out MethodListenerAttribute listenerattributem) && CouldBeCalled(method))
                 //{
                 //    if (ValidCurrent(listenerattributem.loadMode))
@@ -99,7 +99,7 @@ namespace EEMod.Autoloading
                 //}
             }
 
-            foreach (var type in types)
+            foreach (Type type in types)
             {
                 if (type.IsSubclassOf(typeof(AutoloadTypeManager)))
                 {
@@ -108,18 +108,18 @@ namespace EEMod.Autoloading
             }
 
             AutoloadTypeManagerManager.InitializeManagers();
-            foreach (var type in types)
+            foreach (Type type in types)
             {
                 AutoloadTypeManagerManager.ManagersCheck(type);
             }
 
-            if (TypeListeners != null)
-            {
-                foreach (var type in types)
-                {
-                    TypeListeners(type);
-                }
-            }
+            //if (TypeListeners != null)
+            //{
+            //    foreach (Type type in types)
+            //    {
+            //        TypeListeners(type);
+            //    }
+            //}
 
             //if (MethodListeners != null)
             //    foreach (var method in methods)
@@ -127,90 +127,17 @@ namespace EEMod.Autoloading
 
             PostAutoload?.Invoke();
 
-            TypeListeners = null;
+            //TypeListeners = null;
             //MethodListeners = null;
             PostAutoload = null;
         }
 
         private static void DoInit(FieldInfo field, FieldInitAttribute attribute)
         {
-            switch (attribute.InitType)
+            if (ValidCurrent(attribute.LoadMode))
             {
-                case FieldInitType.DefaultConstructor:
-                {
-                    if (field.FieldType.TryCreateInstance(out object instance))
-                    {
-                        field.SetValue(null, instance);
-                    }
-
-                    break;
-                }
-
-                case FieldInitType.DefaultConstructorPrivate:
-                {
-                    if (field.FieldType.TryCreateInstance(true, out object inst))
-                    {
-                        field.SetValue(null, inst);
-                    }
-
-                    break;
-                }
-
-                case FieldInitType.CustomValue:
-                {
-                    Type fieldtype = field.FieldType;
-                    object value = attribute.InitInfo1;
-                    if ((value is null && fieldtype.IsNullable()) || fieldtype.IsAssignableFrom(value.GetType()))
-                    {
-                        field.SetValue(null, value);
-                    }
-
-                    break;
-                }
-
-                case FieldInitType.ArrayIntialization:
-                {
-                    Type arraytype = field.FieldType;
-                    if (arraytype.IsArray && attribute.InitInfo1 is int elements)
-                    {
-                        field.SetValue(null, Array.CreateInstance(arraytype.GetElementType(), elements));
-                    }
-                }
-                break;
-
-                case FieldInitType.SubType:
-                {
-                    Type fieldType = field.FieldType;
-                    if (attribute.InitInfo1 is Type type)
-                    {
-                        FieldInitType subInitType = attribute.InitInfo2 is FieldInitType t ? t : FieldInitType.DefaultConstructor;
-                        if (subInitType == FieldInitType.DefaultConstructor)
-                        {
-                            if (fieldType.IsAssignableFrom(type) && type.TryCreateInstance(out object subtypeinstance))
-                            {
-                                field.SetValue(null, subtypeinstance);
-                            }
-                        }
-                        else if (subInitType == FieldInitType.DefaultConstructorPrivate)
-                        {
-                            if (fieldType.IsAssignableFrom(type) && type.TryCreateInstance(true, out object subtypeinst))
-                            {
-                                field.SetValue(null, subtypeinst);
-                            }
-                        }
-                    }
-                    break;
-                }
-
-                case FieldInitType.ArrayMultipleLengths:
-                {
-                    Type fieldtype = field.FieldType;
-                    if (fieldtype.IsArray && attribute.InitInfo1 is int[] arrayLengths)
-                    {
-                        field.SetValue(null, Array.CreateInstance(fieldtype.GetElementType(), arrayLengths));
-                    }
-                    break;
-                }
+                if (field.FieldType.TryCreateInstance(out object instance))
+                    field.SetValue(null, instance);
             }
         }
 

@@ -40,7 +40,6 @@ namespace EEMod
         public static int startingTextHandler;
         public static bool isAscending;
 
-        [FieldInit(FieldInitType.ArrayMultipleLengths, arrayLengths: new int[] { 3, 200, 2 })]
         public static Vector2[,,] lol1 = new Vector2[3, 200, 2];
 
         public SpaceInvaders simpleGame;

@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 
 namespace EEMod.Extensions
@@ -19,7 +20,7 @@ namespace EEMod.Extensions
         }
 
         /// <summary>
-        /// Creates a new delegate with the <paramref name="method"/>
+        /// Creates a new delegate with <paramref name="method"/>
         /// </summary>
         /// <typeparam name="TDelegate">The type of delegate to make</typeparam>
         /// <param name="method">The method</param>
@@ -27,7 +28,7 @@ namespace EEMod.Extensions
         public static TDelegate CreateDelegate<TDelegate>(this MethodInfo method) where TDelegate : Delegate => (TDelegate)method.CreateDelegate(typeof(TDelegate));
 
         /// <summary>
-        /// Creates a new delegate with the <paramref name="method"/> with the target <paramref name="target"/>
+        /// Creates a new delegate with <paramref name="method"/> with target <paramref name="target"/>
         /// </summary>
         /// <typeparam name="TDelegate">The type of delegate to make</typeparam>
         /// <param name="method">The method to make the delegate</param>
@@ -38,20 +39,18 @@ namespace EEMod.Extensions
         public static bool TryGetCustomAttribute<T>(this MemberInfo info, out T attribute) where T : Attribute => (attribute = info.GetCustomAttribute<T>()) != null;
 
         /// <summary>
-        /// If the type is a value type
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static bool IsStruct(this Type type) => type.IsValueType || Nullable.GetUnderlyingType(type) != null;
-
-        /// <summary>
         /// If the type can have null values
         /// </summary>
         /// <param name="type">The type</param>
         /// <returns></returns>
         public static bool IsNullable(this Type type) => !(type.IsValueType && Nullable.GetUnderlyingType(type) == null);
 
-        public static bool IsCompilerGenerated(this Type type) => type.GetCustomAttribute<System.Runtime.CompilerServices.CompilerGeneratedAttribute>() != null;
+        /// <summary>
+        /// Returns if the <paramref name="type"/> has the attribute <see cref="CompilerGeneratedAttribute"/>
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsCompilerGenerated(this Type type) => type.GetCustomAttribute<CompilerGeneratedAttribute>() != null;
 
         public static bool IsSubclassOfGeneric(this Type type, Type generictype)
         {
@@ -116,6 +115,6 @@ namespace EEMod.Extensions
 
         public static ConstructorInfo DefaultConstructor(this Type type, bool nonPublic = false) => nonPublic ? type.GetConstructor(Helpers.FlagsInstance, null, Type.EmptyTypes, null) : type.GetConstructor(Type.EmptyTypes);
 
-        public static bool CouldBeInstantiated(this Type type) => type.IsValueType || !type.IsAbstract && (type.IsGenericType == type.IsConstructedGenericType);
+        public static bool CouldBeInstantiated(this Type type) => type.IsValueType || !type.IsAbstract && (!type.IsGenericType || type.IsConstructedGenericType);
     }
 }

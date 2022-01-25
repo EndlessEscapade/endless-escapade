@@ -80,7 +80,6 @@ namespace EEMod.Mounts
 
             internal float[] rotations;
 
-            [FieldInit(FieldInitType.CustomValue, new float[] { 0, 14, -14 })]
             internal static float[] offsets = new float[] { 0, 14, -14 };
 
             public LobsterbikeSpecificData()

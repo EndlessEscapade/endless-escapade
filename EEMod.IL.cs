@@ -34,7 +34,7 @@ namespace EEMod
 {
     public partial class EEMod : Mod
     {
-        private delegate void D(ref VertexColors colors);
+        private delegate void ModifyWaterColorDelegate(ref VertexColors colors);
         private float _alphaBG;
         private Vector2 _sunPos;
         private float _globalAlpha;
@@ -208,7 +208,7 @@ namespace EEMod
             c.Index++;
 
             c.Emit(OpCodes.Ldloca, 9);
-            c.Emit(OpCodes.Call, new D(ModifyWaterColor).GetMethodInfo());
+            c.Emit(OpCodes.Call, new ModifyWaterColorDelegate(ModifyWaterColor).GetMethodInfo());
         }
 
         private static void ModifyWaterColor(ref VertexColors colors)

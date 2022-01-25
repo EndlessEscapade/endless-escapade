@@ -1,12 +1,23 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Terraria;
 
 namespace EEMod.Extensions
 {
     public static class PlayerExtensions
     {
+        /// <summary>
+        /// Shorthand for <c>player.GetModPlayer&lt;EEPlayer&gt;()</c>
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static EEPlayer EEPlayer(this Player player) => player.GetModPlayer<EEPlayer>();
 
+        /// <summary>
+        /// If the player is active and not dead or a ghost
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static bool IsAlive(this Player player) => player?.active is true && !(player.dead || player.ghost);
 
         public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
@@ -29,7 +40,7 @@ namespace EEMod.Extensions
         55,
         54
             });
-            int[] empty = new int[0];
+            int[] empty = Array.Empty<int>();
             long piggy = Utils.CoinsCount(out _, player.bank.item, empty);
             long safe = Utils.CoinsCount(out _, player.bank2.item, empty);
             long forge = Utils.CoinsCount(out _, player.bank3.item, empty);
@@ -42,7 +53,7 @@ namespace EEMod.Extensions
             });
         }
 
-        public static bool PillarZone(this Player player) => player.ZoneTowerStardust || player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula;
+        public static bool InPillarZone(this Player player) => player.ZoneTowerStardust || player.ZoneTowerSolar || player.ZoneTowerVortex || player.ZoneTowerNebula;
 
         public static bool InventoryHas(this Player player, params int[] items) => items.Any(itemType => player.HasItem(itemType));//player.inventory.Any(item => items.Contains(item.type));
     }
