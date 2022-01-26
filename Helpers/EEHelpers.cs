@@ -11,11 +11,13 @@ using Terraria.ModLoader.IO;
 using Terraria.DataStructures;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EEMod
 {
     public static partial class Helpers
     {
+        #region Clamps
         // CLAMPS - Used to keep variables between certain values, mainly used for situations where the game keeps crashing or entity goes wild
         public static byte Clamp(byte value, byte minValue, byte maxValue) => value < minValue ? minValue : value > maxValue ? maxValue : value;
 
@@ -192,6 +194,7 @@ namespace EEMod
                 value = max;
             }
         }
+        #endregion // Clamps
 
         public static float FloatLerp(float from, float to, float t, bool clamped = false)
         {
@@ -226,12 +229,18 @@ namespace EEMod
 
         public static double LerpByInverseLerp(double value1, double value2, double ammountval, double min, double max) => value1 + value2 * ((ammountval - min) / (max - min));
 
+        public static double Map(double value, double fromMin, double fromMax, double toMin, double toMax) => ((value - fromMin) * (toMax - toMin) / (fromMax - fromMin)) + toMin;
+
+        public static float MapF(double value, double fromMin, double fromMax, double toMin, double toMax) => (float)(((value - fromMin) * (toMax - toMin) / (fromMax - fromMin)) + toMin);
+
+        public static float MapF(float value, float fromMin, float fromMax, float toMin, float toMax) => ((value - fromMin) * (toMax - toMin) / (fromMax - fromMin)) + toMin;
 
         // HALF CHANCE - Basically a coin flip.
         public static T ChooseRandom<T>(T obj1, T obj2) => Main.rand.NextBool(2) ? obj1 : obj2;
 
         public static bool IsEvenNumber(int num1) => num1 % 2 == 0;
 
+        #region Range
         // RANGE - Useful for a number of things, such as getting the distance between two objects
         public static bool InRange(byte value, byte min, byte max) => value > min && value < max;
 
@@ -254,9 +263,11 @@ namespace EEMod
         public static bool InRange<T>(IComparable<T> value, T min, T max) where T : IComparable<T> => value.CompareTo(min) > 0 && value.CompareTo(max) < 0;
 
         public static bool InRange<T>(T value, T min, T max, IComparer<T> comparer) => comparer.Compare(value, min) > 0 && comparer.Compare(value, max) < 0;
+        #endregion // Range
 
         public static bool VectorInRange(Vector2 from, Vector2 to, float MaxRange) => Vector2.DistanceSquared(from, to) <= MaxRange * MaxRange;
 
+        #region PointInRectangle
         public static bool PointInRectangle(Vector2 point, Vector4 rectangle) => PointInRectangle(point.X, point.Y, rectangle.X, rectangle.Y, rectangle.W, rectangle.Z);
 
         public static bool PointInRectangle(float pointX, float pointY, Vector4 rectangle) => PointInRectangle(pointX, pointY, rectangle.X, rectangle.Y, rectangle.W, rectangle.Z);
@@ -279,6 +290,7 @@ namespace EEMod
             pointY >= rectangleY &&
             pointX >= rectangleX && pointX <= rectangleX + width &&
             pointY <= rectangleY + height;
+        #endregion // PointInRectangle
 
         public static Vector2 DirectionTowardsClampLength(Vector2 from, Vector2 to, double? min = null, double? max = null)
         {
@@ -387,12 +399,12 @@ namespace EEMod
 
             int i;
 
-            for(i = 0; i < points.Length - 1; i++)
+            for (i = 0; i < points.Length - 1; i++)
                 copy[i] = Vector2.Lerp(points[i], points[i + 1], ammount);
 
             int n = copy.Length;
 
-            while (n --> 0)
+            while (n-- > 0)
             {
                 for (i = 0; i < n - 1; i++)
                     copy[i] = Vector2.Lerp(copy[i], copy[i + 1], ammount);
@@ -408,29 +420,32 @@ namespace EEMod
                 // next one, n: 2
                 // i: 0
                 // [0] = lerp([0], [1])
-                
+
             }
 
             return copy[0];
-            
+
         }
 
         static int bezierMaxStackallocMemory = 64; // 64 points max before using an array
 
-        public static Vector2 BezierCurve(float ammount, ReadOnlySpan<Vector2> controlPoints) => BezierCurve(ammount, ToSpan(controlPoints)); // does not modify the elements, its just for reading by reference
+        public static Vector2 BezierCurve(float ammount, Span<Vector2> controlPoints) => BezierCurve(ammount, (ReadOnlySpan<Vector2>)controlPoints);
 
-        public static Vector2 BezierCurve(float ammount, Span<Vector2> controlPoints)
+        public static Vector2 BezierCurve(float ammount, ReadOnlySpan<Vector2> controlPoints)
         {
             int count = controlPoints.Length - 1;
             Vector2[] rentedArray = null;
             Span<Vector2> buff = count < bezierMaxStackallocMemory ? stackalloc Vector2[count] : new Span<Vector2>(rentedArray = ArrayPool<Vector2>.Shared.Rent(count), 0, count);
 
             // first iteration copy the elements to the buffer while applying the lerp
-            for (int i = 0; i < count; i++) 
-                Vector2.Lerp(ref controlPoints[i], ref controlPoints[i + 1], ammount, out buff[i]);
+            for (int i = 0; i < count; i++)
+            {
+                // Vector2.Lerp does not modify the elements, so its safe to convert the readonly reference to a reference 
+                Vector2.Lerp(ref Unsafe.AsRef(in controlPoints[i]), ref Unsafe.AsRef(in controlPoints[i + 1]), ammount, out buff[i]);
+            }
 
             // -1 because the first iteration is done
-            for(int i = count - 1; i >= 0; i--)
+            for (int i = count - 1; i >= 0; i--)
             {
                 for (int k = 0; k < i; k++)
                 {
@@ -807,7 +822,7 @@ namespace EEMod
             int[] numbers = new int[size];
 
             int k = min;
-            for(int i = 0; i < size; i++)
+            for (int i = 0; i < size; i++)
             {
                 if (k >= max) k = min;
 
@@ -858,6 +873,90 @@ namespace EEMod
             int currentID = 0;
             while ((percent / total) > 1f && (currentID < vectors.Length - 2)) { total += per; currentID++; }
             return Vector2.Lerp(vectors[currentID], vectors[currentID + 1], (percent - (per * currentID)) / per);
+        }
+
+        // e.g.
+        // if 4, 0100
+        // 0100 -
+        // 0001 =
+        // ----
+        // 0011 &
+        // 0100 =
+        // ----
+        // 0000
+        public static bool IsPowerOfTwo(int value) => (value & (value - 1)) == 0;
+
+        public static bool IsPowerOfTwo(long value) => (value & (value - 1)) == 0;
+
+        // 9 > 16
+        // 17 > 32
+        // 32 > 32
+        // 33 > 64
+        public static int RoundToCeilingPowerOfTwo(int value)
+        {
+            if (IsPowerOfTwo(value))
+                return value;
+
+            for (int i = 0; i < 32; i++)
+            {
+                if ((1 << i) >= value)
+                    return 1 << i;
+            }
+            return 0;
+        }
+
+        // 9 > 8
+        // 15 > 8
+        // 31 > 16
+        // 32 > 32
+        // 33 > 32
+        public static int RoundToFloorPowerOfTwo(int value)
+        {
+            if (IsPowerOfTwo(value))
+                return value;
+
+            for (int i = 0; i < 32; i++)
+            {
+                if ((1 << i) > value)
+                    return 1 << (i - 1);
+            }
+            return 0;
+        }
+
+        //int min = 0;
+        //int max = 32;
+        //int[] arr = new int[4];
+        //Array.BinarySearch(arr, 0);
+
+        //while(min != max)
+        //{
+        //    int pos = (min + max) / 2;
+        //    Console.WriteLine($"min: {min}, max: {max}, pos: {pos}");
+        //    int posVal = 1 << pos;
+        //    if (posVal > value)
+        //        max = pos + 1;
+        //    else if (posVal < value)
+        //        min = pos + 1;
+        //    else
+        //        return posVal;
+        //}
+        //for(int i = 0; i < 32; i++)
+        //{
+        //    int v = 1 << i;
+        //    if(v > value)
+        //}
+        //int r = 0;
+        //for(int i = 0; i < 32; i++)
+        //{
+        //    if ((value & (1 << i)) != 0)
+        //        r = 1 << (i + 1);
+        //}
+
+        private static Func<Type, VertexDeclaration> vertexDeclarationFromTypeDelegate = typeof(VertexDeclaration).GetMethod("FromType", FlagsStatic).CreateDelegate<Func<Type, VertexDeclaration>>();
+
+        public static VertexDeclaration VertexDeclarationFromType(Type type)
+        {
+            return vertexDeclarationFromTypeDelegate(type);
         }
     }
 }

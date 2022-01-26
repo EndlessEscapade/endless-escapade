@@ -153,7 +153,7 @@ namespace EEMod.Prim
 
             if (vertices.Length == 0) return;
 
-            VertexBuffer buffer = new VertexBuffer(Main.graphics.GraphicsDevice, typeof(VertexPositionColorTexture), vertices.Length, BufferUsage.WriteOnly);
+            DynamicVertexBuffer buffer = VertexBufferPool.Shared.RentDynamicVertexBuffer(VertexPositionColorTexture.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly); //new VertexBuffer(Main.graphics.GraphicsDevice, typeof(VertexPositionColorTexture), vertices.Length, BufferUsage.WriteOnly);
             buffer.SetData(vertices);
 
             Main.graphics.GraphicsDevice.SetVertexBuffer(buffer);
@@ -167,6 +167,7 @@ namespace EEMod.Prim
             {
                 _device.DrawPrimitives(PrimitiveType.TriangleList, 0, _noOfPoints / 3);
             }
+            VertexBufferPool.Shared.Return(buffer);
         }
 
         public override void OnUpdate()
