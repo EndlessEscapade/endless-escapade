@@ -59,7 +59,7 @@ namespace EEMod.Seamap.SeamapContent
 
             if (!IslandDraw(spriteBatch)) return false;
 
-            spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Seamap.seamapDrawColor);
+            spriteBatch.Draw(texture, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Color.White.LightSeamap());
 
             return false;
         }

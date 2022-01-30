@@ -1,7 +1,6 @@
 sampler uImage0 : register(s0);
 
 texture noiseTex;
-texture distortionMap;
 
 float4 baseWaterColor;
 float4 highlightColor;

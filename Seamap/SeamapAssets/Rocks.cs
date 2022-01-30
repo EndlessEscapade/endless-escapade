@@ -83,7 +83,7 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void PostDraw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock5Front").Value, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), SeamapContent.Seamap.seamapDrawColor);
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock5Front").Value, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Color.White.LightSeamap());
 
             base.PostDraw(spriteBatch);
         }

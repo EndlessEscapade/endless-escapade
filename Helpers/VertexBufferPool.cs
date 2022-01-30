@@ -147,7 +147,7 @@ namespace EEMod
                     throw new ObjectDisposedException(null);
             }
 
-            private record struct VertexBufferEntry(VertexDeclaration VertexDeclaration, BufferUsage BufferUsage, bool Dynamic);
+            private record VertexBufferEntry(VertexDeclaration VertexDeclaration, BufferUsage BufferUsage, bool Dynamic);
         }
     }
 }

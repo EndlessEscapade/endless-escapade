@@ -65,7 +65,15 @@ namespace EEMod.Seamap.SeamapContent
             {
                 SeamapObjects.NewSeamapObject(new FriendlyCannonball(Center, Vector2.Normalize(Main.MouseWorld - Center) * 4));
 
-                SoundEngine.PlaySound(SoundID.Item61);
+                for(int i = 0; i < 10; i++)
+                {
+                    int j = Dust.NewDust(Center, 0, 0, DustID.Smoke, (Vector2.Normalize(Main.MouseWorld - Center) * 6).X, (Vector2.Normalize(Main.MouseWorld - Center) * 6).Y);
+                    Main.dust[j].noGravity = true;
+                    Main.dust[j].noLight = false;
+                    //Main.dust[j].noLightEmittence = true;
+                }
+
+                SoundEngine.PlaySound(SoundID.Item14);
                 cannonDelay = 60;
             }
             if (myPlayer.controlUseTile && abilityDelay <= 0)
@@ -95,7 +103,7 @@ namespace EEMod.Seamap.SeamapContent
             if (position.X > Seamap.seamapWidth - width) position.X = Seamap.seamapWidth - width;
 
             if (position.Y < 0) position.Y = 0;
-            if (position.Y > Seamap.seamapHeight - height - 500) position.Y = Seamap.seamapHeight - height - 500;
+            if (position.Y > Seamap.seamapHeight - height - 200) position.Y = Seamap.seamapHeight - height - 200;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch)
@@ -156,9 +164,9 @@ namespace EEMod.Seamap.SeamapContent
             Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip").Value;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
-                new Rectangle(0, frameNum * 52, 44, 52),
-                Color.White * (1 - (eePlayer.cutSceneTriggerTimer / 180f)),
-                velocity.X / 10, new Rectangle(0, frameNum * 52, 44, 52).Size() / 2,
+                new Rectangle(0, frameNum * 48, 44, 48),
+                Color.White.LightSeamap() * (1 - (eePlayer.cutSceneTriggerTimer / 180f)),
+                velocity.X / 10, new Rectangle(0, frameNum * 48, 44, 48).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
             return false;

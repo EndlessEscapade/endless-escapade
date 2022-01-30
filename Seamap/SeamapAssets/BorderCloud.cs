@@ -69,7 +69,7 @@ namespace EEMod.Seamap.SeamapContent
         {
             Texture2D cloudSprite = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/BorderCloud").Value;
 
-            spriteBatch.Draw(cloudSprite, Center - Main.screenPosition, null, Color.Lerp(Color.White, Color.LightGray * 0.1f, lerpToBlack), 0, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(cloudSprite, Center - Main.screenPosition, null, Color.Lerp(Color.White.LightSeamap(), Color.LightGray.LightSeamap() * 0.1f, lerpToBlack), 0, new Rectangle(0, 0, width, height).Size() / 2, 1, SpriteEffects.None, 0);
         }
 
         //public override bool PreDraw(SpriteBatch spriteBatch)

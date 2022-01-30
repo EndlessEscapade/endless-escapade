@@ -9,6 +9,7 @@ namespace EEMod.Systems.Noise
     {
         public float[,] perlin;
         public float[,] perlin2;
+        public float[,] perlinValues;
         public int[,] perlinBinary;
         static Vector2 one = new Vector2(1, 1), onem1 = new Vector2(1, -1), m1m1 = new Vector2(-1, -1), m1one = new Vector2(-1, 1);
 
@@ -22,6 +23,7 @@ namespace EEMod.Systems.Noise
             perlinBinary = new int[sizeX, sizeY];
             perlin = new float[sizeX, sizeY];
             perlin2 = new float[sizeX, sizeY];
+            perlinValues = new float[sizeX, sizeY];
 
             //Vector2[] VectorTables = { new Vector2(1, 1), new Vector2(1, -1), new Vector2(-1, -1), new Vector2(-1, 1) };
             int numberOfIterationsX = sizeX / widthOfCell;
@@ -81,6 +83,9 @@ namespace EEMod.Systems.Noise
                             int y = j + (l * heightOfCell); // (int)index.Y;
 
                             perlinBinary[x, y] = (perlin[x, y] = (LerpTwo + 1) * 0.5f) < Threshold ? 1 : 0;
+
+                            perlinValues[x, y] = (perlin[x, y] = (LerpTwo + 1) * 0.5f);
+
                             perlin2[x, y] = LerpTwo;
 
                             /*if (perlin[(int)index.X, (int)index.Y] < Threshold)

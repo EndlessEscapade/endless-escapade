@@ -40,6 +40,12 @@ namespace EEMod
         [StaticShaderLoad]
         public static Effect WaterShader;
         [StaticShaderLoad]
+        public static Effect WaterShaderBase;
+        [StaticShaderLoad]
+        public static Effect SeamapBorderVignette;
+        [StaticShaderLoad]
+        public static Effect SeamapCloudShader;
+        [StaticShaderLoad]
         public static Effect PrismShader;
         [StaticShaderLoad]
         public static Effect SpireShine;

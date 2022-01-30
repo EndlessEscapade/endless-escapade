@@ -9,6 +9,7 @@ using Terraria.Audio;
 using System.Diagnostics;
 using System;
 using System.Collections.Generic;
+using EEMod.Systems.Noise;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -29,19 +30,11 @@ namespace EEMod.Seamap.SeamapContent
                 SpawnSeagullFlock(Main.rand.Next(4, 8));
             }
 
-            if (Main.GameUpdateCount % 180 == 0 && Main.rand.NextBool(3))
-            {
-                SpawnClouds();
-            }
-
             if (firstOpened)
             {
-                Seamap.SpawnClouds();
-                Seamap.SpawnClouds();
-                Seamap.SpawnClouds();
-
-                Seamap.SpawnSeagullFlock(Main.rand.Next(4, 8));
-                Seamap.SpawnSeagullFlock(Main.rand.Next(4, 8));
+                SpawnSeagullFlock(Main.rand.Next(4, 8));
+                SpawnSeagullFlock(Main.rand.Next(4, 8));
+                SpawnSeagullFlock(Main.rand.Next(4, 8));
 
                 firstOpened = false;
             }
@@ -49,13 +42,22 @@ namespace EEMod.Seamap.SeamapContent
 
         public static bool firstOpened = true;
 
+        public static float[,] climateArray;
+
         public static void InitializeSeamap()
         {
             SeamapObjects.InitObjects(new Vector2(seamapWidth - 450, seamapWidth - 100));
 
-            SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402, seamapHeight - 118 - 500)));
+            SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402, seamapHeight - 118 - 200)));
 
-            //SeamapObjects.NewSeamapObject(new RedDutchman(new Vector2(seamapWidth - 500, seamapHeight - 500), Vector2.Zero));
+
+            PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(10, 10, 2, 2, 0.5f, WorldGen.genRand);
+
+            climateArray = perlinNoise.perlinValues;
+
+
+
+
 
             for (int i = 0; i < 20; i++)
             {
@@ -86,7 +88,7 @@ namespace EEMod.Seamap.SeamapContent
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
             SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 500)));
 
-            for (int iterations = 0; iterations < 5; iterations++)
+            /*for (int iterations = 0; iterations < 5; iterations++)
             {
                 for (int i = 0; i < 50; i++)
                 {
@@ -132,7 +134,7 @@ namespace EEMod.Seamap.SeamapContent
 
                     SeamapObjects.NewSeamapObject(newCloud);
                 }
-            }
+            }*/
         }
 
         public static void PlaceRock(Vector2 position, int type = -1)
@@ -199,24 +201,6 @@ namespace EEMod.Seamap.SeamapContent
                     PosBuffer.Add(Pos);
                     SeamapObjects.NewSeamapObject(seagull);
                 }
-            }
-        }
-
-        public static void SpawnClouds()
-        {
-            Vector2 Pos = new Vector2(Main.screenWidth + Main.screenPosition.X + 200, Main.rand.Next(Main.screenHeight) + Main.screenPosition.Y);
-
-            switch (Main.rand.Next(3))
-            {
-                case 0:
-                    SeamapObjects.NewSeamapObject(new AirCloud1(Pos, Vector2.Zero));
-                    break;
-                case 1:
-                    SeamapObjects.NewSeamapObject(new AirCloud2(Pos, Vector2.Zero));
-                    break;
-                case 2:
-                    SeamapObjects.NewSeamapObject(new AirCloud3(Pos, Vector2.Zero));
-                    break;
             }
         }
     }

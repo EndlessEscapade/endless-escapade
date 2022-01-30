@@ -62,16 +62,16 @@ namespace EEMod.Seamap.SeamapContent
             if (position.Y >= 4450) alpha -= 0.05f;
 
             Rectangle rect = new Rectangle(0, frame * height, 24, 22);
-            Color drawColour2 = Seamap.seamapDrawColor * alpha;
+            Color drawColour2 = Color.White * alpha;
 
             //drawColour2.A = 255;
-            Main.spriteBatch.Draw(texture, position.ForDraw(), rect, drawColour2, 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, position.ForDraw(), rect, drawColour2.LightSeamap(), 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
 
             EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
-            Color drawColour = Color.Black * alpha * MathHelper.Clamp((0.5f * Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f)).A), 0.1f, 0.5f);
+            Color drawColour = Color.Black * alpha * 0.4f;
 
-            Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, 80), rect, drawColour, 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, 40), rect, drawColour, 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
 
             base.PostDraw(spriteBatch);
         }

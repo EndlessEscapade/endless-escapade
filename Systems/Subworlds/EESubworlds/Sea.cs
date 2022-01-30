@@ -22,6 +22,7 @@ using Terraria.WorldBuilding;
 using EEMod.Seamap.SeamapContent;
 using Terraria.Graphics.Effects;
 using System.Diagnostics;
+using Terraria.Audio;
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {
@@ -40,6 +41,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void PlayerUpdate(Player player)
         {
+            player.AddBuff(BuffID.Cursed, 600, true);
+            player.AddBuff(BuffID.Invisibility, 600, true);
+
             #region Opening cutscene for seamap
             if (player.GetModPlayer<EEPlayer>().quickOpeningFloat > 0.01f)
             {

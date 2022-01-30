@@ -212,7 +212,7 @@ namespace EEMod.NPCs.Goblins.Shaman
 
             Main.npc[newBolt].velocity = ((Vector2.Normalize(Main.LocalPlayer.Center - NPC.Center) + addVel) * 3);
 
-            PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet, 16));
+            PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(Main.npc[newBolt], Color.Violet, 50));
 
             SoundEngine.PlaySound(SoundID.Item8, NPC.Center);
         }
