@@ -14,6 +14,7 @@ using Terraria.ID;
 using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using ReLogic.Content;
+using EEMod.Prim;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -30,40 +31,45 @@ namespace EEMod.Seamap.SeamapContent
         public EEPlayerShip(Vector2 pos, Vector2 vel, Player player) : base(pos, vel)
         {
             position = pos;
+
             velocity = vel;
 
             myPlayer = player;
 
             width = 44;
-            height = 52;
+            height = 48;
 
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void Update()
         {
-            float boatSpeed = 0.5f;
+            float boatSpeed = 0.3f;
 
             position += velocity;
             if (myPlayer.controlUp)
             {
-                velocity.Y -= 0.1f * boatSpeed;
+                velocity.Y -= ((velocity.Y > 0) ? 0.2f : 0.1f) * boatSpeed;
             }
             if (myPlayer.controlDown)
             {
-                velocity.Y += 0.1f * boatSpeed;
+                velocity.Y += ((velocity.Y < 0) ? 0.2f : 0.1f) * boatSpeed;
             }
             if (myPlayer.controlRight)
             {
-                velocity.X += 0.1f * boatSpeed;
+                velocity.X += ((velocity.X < 0) ? 0.2f : 0.1f) * boatSpeed;
             }
             if (myPlayer.controlLeft)
             {
-                velocity.X -= 0.1f * boatSpeed;
+                velocity.X -= ((velocity.X > 0) ? 0.2f : 0.1f) * boatSpeed;
             }
             if (myPlayer.controlUseItem && cannonDelay <= 0)
             {
-                SeamapObjects.NewSeamapObject(new FriendlyCannonball(Center, Vector2.Normalize(Main.MouseWorld - Center) * 4));
+                FriendlyCannonball cannonball = new FriendlyCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 4);
+
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(cannonball, Color.Purple, 40));
+
+                SeamapObjects.NewSeamapObject(cannonball);
 
                 for(int i = 0; i < 10; i++)
                 {
@@ -111,62 +117,18 @@ namespace EEMod.Seamap.SeamapContent
             int frameNum = 0;
             EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
 
-            if (Main.netMode == NetmodeID.SinglePlayer || (myPlayer.team == 0))
-            {
-                if (eePlayer.boatSpeed == 3)
-                {
-                    frameNum = 1;
-                }
 
-                if (eePlayer.boatSpeed == 1)
-                {
-                    frameNum = 0;
-                }
-            }
-
-            if (Main.netMode != NetmodeID.SinglePlayer)
-            {
-                switch (myPlayer.team)
-                {
-                    case 1:
-                        if (eePlayer.boatSpeed == 3)
-                            frameNum = 3;
-                        if (eePlayer.boatSpeed == 1)
-                            frameNum = 2;
-                        break;
-                    case 2:
-                        if (eePlayer.boatSpeed == 3)
-                            frameNum = 9;
-                        if (eePlayer.boatSpeed == 1)
-                            frameNum = 8;
-                        break;
-                    case 3:
-                        if (eePlayer.boatSpeed == 3)
-                            frameNum = 5;
-                        if (eePlayer.boatSpeed == 1)
-                            frameNum = 4;
-                        break;
-                    case 4:
-                        if (eePlayer.boatSpeed == 3)
-                            frameNum = 7;
-                        if (eePlayer.boatSpeed == 1)
-                            frameNum = 6;
-                        break;
-                    case 5:
-                        if (eePlayer.boatSpeed == 3)
-                            frameNum = 11;
-                        if (eePlayer.boatSpeed == 1)
-                            frameNum = 10;
-                        break;
-                }
-            }
+            if (eePlayer.boatSpeed == 3)
+                frameNum = 1;
+            if (eePlayer.boatSpeed == 1)
+                frameNum = 0;
 
             Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip").Value;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, frameNum * 48, 44, 48),
                 Color.White.LightSeamap() * (1 - (eePlayer.cutSceneTriggerTimer / 180f)),
-                velocity.X / 10, new Rectangle(0, frameNum * 48, 44, 48).Size() / 2,
+                (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / 120f) * 0.075f), new Rectangle(0, frameNum * 48, 44, 48).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
             return false;

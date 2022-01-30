@@ -46,9 +46,12 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void InitializeSeamap()
         {
-            SeamapObjects.InitObjects(new Vector2(seamapWidth - 450, seamapWidth - 100));
+            shadowRT = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
 
-            SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402, seamapHeight - 118 - 200)));
+            SeamapObjects.InitObjects(new Vector2(seamapWidth - 450, seamapWidth - 100));
+            //SeamapObjects.InitObjects(new Vector2(500, 500));
+
+            SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402 - 30, seamapHeight - 118 - 200 - 30)));
 
 
             PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(10, 10, 2, 2, 0.5f, WorldGen.genRand);
@@ -86,7 +89,7 @@ namespace EEMod.Seamap.SeamapContent
             #endregion
 
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
-            SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 500)));
+            //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 500)));
 
             /*for (int iterations = 0; iterations < 5; iterations++)
             {
@@ -180,7 +183,7 @@ namespace EEMod.Seamap.SeamapContent
             List<Vector2> PosBuffer = new List<Vector2>();
             for (int i = 0; i < amount; i++)
             {
-                Pos += new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20));
+                Pos += new Vector2(Main.rand.Next(-30, 30), Main.rand.Next(-30, 30));
 
                 SeamapObject seagull = new Seagull(Pos, new Vector2(0, Main.rand.NextFloat(0.5f, 1)));
 
@@ -191,7 +194,7 @@ namespace EEMod.Seamap.SeamapContent
                 int boidCheck = 0;
                 for (int j = 0; j < PosBuffer.Count; j++)
                 {
-                    if (Vector2.DistanceSquared(Pos, PosBuffer[j]) < 5 * 5)
+                    if (Vector2.DistanceSquared(Pos, PosBuffer[j]) < 10 * 10)
                     {
                         boidCheck++;
                     }

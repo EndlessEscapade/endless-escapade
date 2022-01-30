@@ -44,6 +44,8 @@ namespace EEMod
         [StaticShaderLoad]
         public static Effect SeamapBorderVignette;
         [StaticShaderLoad]
+        public static Effect SeamapShadowShader;
+        [StaticShaderLoad]
         public static Effect SeamapCloudShader;
         [StaticShaderLoad]
         public static Effect PrismShader;

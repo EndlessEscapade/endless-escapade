@@ -15,6 +15,8 @@ using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using EEMod.Extensions;
 using ReLogic.Content;
+using EEMod.Effects;
+using EEMod;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -64,14 +66,14 @@ namespace EEMod.Seamap.SeamapContent
             Rectangle rect = new Rectangle(0, frame * height, 24, 22);
             Color drawColour2 = Color.White * alpha;
 
-            //drawColour2.A = 255;
-            Main.spriteBatch.Draw(texture, position.ForDraw(), rect, drawColour2.LightSeamap(), 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
-
-            EEPlayer modPlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
             Color drawColour = Color.Black * alpha * 0.4f;
 
             Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, 40), rect, drawColour, 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
+
+
+            //drawColour2.A = 255;
+            Main.spriteBatch.Draw(texture, position.ForDraw(), rect, drawColour2.LightSeamap(), 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
 
             base.PostDraw(spriteBatch);
         }

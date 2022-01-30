@@ -23,6 +23,8 @@ namespace EEMod.Seamap.SeamapContent
             get => Main.LocalPlayer.GetModPlayer<EEPlayer>();
         }
 
+        public static RenderTarget2D shadowRT;
+
         public static void Render()
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
@@ -77,6 +79,46 @@ namespace EEMod.Seamap.SeamapContent
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
 
 
+            /*if (Main.spriteBatch != null && shadowRT != null)
+            {
+                spriteBatch.End();
+
+                RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
+
+                Main.graphics.GraphicsDevice.SetRenderTarget(shadowRT);
+                Main.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+                spriteBatch.Begin();
+
+                for (int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
+                {
+                    if (SeamapObjects.SeamapEntities[i] is Seagull)
+                    {
+                        Seagull gull = SeamapObjects.SeamapEntities[i] as Seagull;
+
+                        Main.spriteBatch.Draw(gull.texture, gull.position.ForDraw() + new Vector2(0, 40), gull.rect, Color.Black, 0, gull.rect.Size() / 2, gull.scale, SpriteEffects.None, 0f);
+                    }
+                }
+
+                spriteBatch.End();
+
+                Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
+
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+
+                if (shadowRT != null)
+                {
+                    spriteBatch.Draw(shadowRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+
+                    spriteBatch.End();
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
+
+                    spriteBatch.Draw(shadowRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+                }
+            }*/
+
+            spriteBatch.End();
+
             Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Particles/Square").Value;
 
             Color SeaColour = new Color(28 / 255f, 118 / 255f, 186 / 255f);
@@ -86,7 +128,6 @@ namespace EEMod.Seamap.SeamapContent
 
             float weatherDensity = 0f;
 
-            spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             SeamapCloudShader.Parameters["cloudNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/CloudNoise").Value);
