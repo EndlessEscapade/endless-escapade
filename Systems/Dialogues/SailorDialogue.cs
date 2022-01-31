@@ -28,19 +28,19 @@ namespace EEMod.Systems
 				/*3*/ "Bye!",
 				/*4*/ $"That ship sitting broken off the pier used to be one of the best vessels in the land. ",
 				/*5*/ $"I'm past my days of sailing, but you look like you want to see the seven seas. ",
-				/*6*/ $"If you brought me [c/E4A214:{"150 Wood"}] [i:{ItemID.Wood}] and [c/E4A214:{"20 Silk"}] [i:{ItemID.Silk}] along with a solid payment of [c/E4A214:{"5 gold coins"}] [i:{ItemID.GoldCoin}], I'd get her fixed right up for you.",
+				/*6*/ $"If you brought me [c/E4A214:{"150§Wood"}] [i:{ItemID.Wood}] and [c/E4A214:{"20§Silk"}] [i:{ItemID.Silk}] along with a solid payment of [c/E4A214:{"5§gold§coins"}] [i:{ItemID.GoldCoin}], I'd get her fixed right up for you.",
 				/*7*/ "Here you go!",
 				/*8*/ "No, bye.",
 				/*9*/ "Sorry, you don't have enough resources for me to repair the ship."
 			};
 			if (!Main.player[Main.myPlayer].GetModPlayer<DialoguePlayer>().HasTalkedToSailor)
             {
-				FirstPiece(0);
+				SayPiece(0);
 				Main.player[Main.myPlayer].GetModPlayer<DialoguePlayer>().HasTalkedToSailor = true;
 			}
             else
             {
-				FirstPiece(0);
+				SayPiece(0);
 			}
 			base.StartDialogueRequiringNPC(associatedNPC);
 		}

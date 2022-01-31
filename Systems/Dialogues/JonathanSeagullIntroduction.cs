@@ -33,7 +33,7 @@ namespace EEMod.Systems
 				/*6*/ "Thanks bro, I'll go check there.",
 				/*7*/ "That's a shame, if you happen to find them please tell me."
 			};
-			FirstPiece(0);
+			SayPiece(0);
 			base.StartDialogueRequiringNPC(associatedNPC);
 		}
         public override void OnDialoguePieceFinished(int piece)

@@ -14,10 +14,32 @@ namespace EEMod.Extensions
         public static string FormatString(this string text, int breakPoint)
         {
             StringBuilder formattedText = new StringBuilder();
-            StringBuilder naCat = new StringBuilder();
-            int lineBreakPoint = 0;
-            for (int i = 0; i < text.Length; i++)
+            //StringBuilder naCat = new StringBuilder();
+            formattedText.Append(text[0]);
+            int lineBreakPoint = 1;
+            int tagHandler = 0;
+            for (int i = 1; i < text.Length; i++)
             {
+                if (char.IsWhiteSpace(text[i - 1]) && !char.IsWhiteSpace(text[i]))
+                {
+                    if (text[i] == '[')
+                    {
+                        tagHandler += text.IndexOf(':', i) - i;
+                    }
+                    if ((text.IndexOf(" ", i) == -1 ? text.Length : text.IndexOf(" ", i)) - i + lineBreakPoint + 1 - tagHandler > breakPoint && text[i + 1] != 'i')
+                    {
+                        formattedText.Append("\n");
+                        lineBreakPoint = 0;
+                    }
+                    if (tagHandler > 0)
+                    {
+                        lineBreakPoint -= tagHandler;
+                        tagHandler = 0;
+                    }
+                }
+                formattedText.Append(text[i]);
+                lineBreakPoint++;
+                /*
                 if (lineBreakPoint >= breakPoint)
                 {
                     if (!char.IsWhiteSpace(text[i]) && i != text.Length - 1 && !char.IsWhiteSpace(text[i + 1]))
@@ -54,8 +76,9 @@ namespace EEMod.Extensions
                 {
                     lineBreakPoint++;
                 }
+                */
             }
-            return formattedText.ToString();
+            return formattedText.ToString().Replace('§', ' ');
         }
     }
 }

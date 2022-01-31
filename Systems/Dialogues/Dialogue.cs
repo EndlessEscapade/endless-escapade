@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using EEMod.UI.States;
 using EEMod.Extensions;
 using Microsoft.Xna.Framework;
+using Terraria;
 
 namespace EEMod.Systems
 {
@@ -40,10 +41,6 @@ namespace EEMod.Systems
 			//You can guess by now that I have no idea why these 2 are needed but they are
 			DialogueUI.ResponsesList.Add(new Response(0, "", ThemeColor));
 			DialogueUI.ResponsesList.Clear();
-		}
-		public virtual void FirstPiece(int piece)
-        {
-			DialogueUI.Dialogue = DialoguePieces[piece].FormatString(64);
 		}
 		public virtual void SayPiece(int piece) 
 		{
