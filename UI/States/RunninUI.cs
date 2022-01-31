@@ -1,3 +1,4 @@
+using EEMod.Players;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
@@ -30,8 +31,8 @@ namespace EEMod.UI.States
 
         public override void Update(GameTime gameTime)
         {
-            EEPlayer player = Main.LocalPlayer.GetModPlayer<EEPlayer>();
-            text.SetText(player.hours + ":" + player.minutes + ":" + player.seconds + "." + player.milliseconds);
+            var modplayer = Main.LocalPlayer.GetModPlayer<SpeedrunTimerPlayer>();
+            text.SetText(modplayer.hours + ":" + modplayer.minutes + ":" + modplayer.seconds + "." + modplayer.milliseconds);
         }
     }
 }

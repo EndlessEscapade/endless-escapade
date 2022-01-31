@@ -33,6 +33,8 @@ namespace EEMod
 
         public override void PreUpdateEntities()
         {
+            if (Main.dedServ)
+                return;
             RenderTargetBinding[] oldtargets1 = Main.graphics.GraphicsDevice.GetRenderTargets();
             Main.graphics.GraphicsDevice.SetRenderTarget(lightingTarget);
             Main.graphics.GraphicsDevice.Clear(Color.Black);
@@ -89,6 +91,9 @@ namespace EEMod
 
         public override void Load()
         {
+            if (Main.dedServ)
+                return;
+
             Main.QueueMainThreadAction(() =>
             {
                 lightingTarget = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth / 16, Main.screenHeight / 16);

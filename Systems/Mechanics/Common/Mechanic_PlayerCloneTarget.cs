@@ -30,6 +30,8 @@ namespace EEMod
 
         public override void PreUpdateEntities()
         {
+            if (Main.dedServ)
+                return;
             RenderTargetBinding[] oldtargets2 = Main.graphics.GraphicsDevice.GetRenderTargets();
             Main.graphics.GraphicsDevice.SetRenderTarget(playerDrawData);
             Main.graphics.GraphicsDevice.Clear(Color.Transparent);

@@ -234,8 +234,9 @@ namespace EEMod
                 {
                     if (Main.gameMenu)
                         isInSubworld = false;
-                    else
-                        isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
+                    // TODO: Clients need to know when they're in a subworld
+                    //else
+                    //isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
                 }
                 catch
                 {
@@ -926,31 +927,19 @@ namespace EEMod
 
         public override Texture2D GetMapBackgroundImage()
         {
-            if (Player.GetModPlayer<EEZonePlayer>().ZoneCoralReefs)
-            {
-                return EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
-            }
             return null;
         }
 
         public override void SaveData(TagCompound tag)
         {
-            tag = new TagCompound {
-                ["hasGottenRuneBefore"] = hasGottenRuneBefore,
-                ["baseworldname"] = baseWorldName,
-                ["importantCutscene"] = importantCutscene,
-                ["swiftSail"] = boatSpeed,
-                ["cannonball"] = cannonballType,
-                ["fishLengthsKeys"] = fishLengths.Keys.ToList(),
-                ["fishLengthsValues"] = fishLengths.Values.ToList(),
-                ["firstLoad"] = firstLoad
-                /*
-             {"Hours", Hours},
-		     {"Minutes", Minutes},
-		     {"Seconds", Seconds},
-		     {"Milliseconds", Milliseconds},
-             */
-            };
+            tag["hasGottenRuneBefore"] = hasGottenRuneBefore;
+            tag["baseworldname"] = baseWorldName;
+            tag["importantCutscene"] = importantCutscene;
+            tag["swiftSail"] = boatSpeed;
+            tag["cannonball"] = cannonballType;
+            tag["fishLengthsKeys"] = fishLengths.Keys.ToList();
+            tag["fishLengthsValues"] = fishLengths.Values.ToList();
+            tag["firstLoad"] = firstLoad;
         }
 
         public override void LoadData(TagCompound tag)
@@ -1039,35 +1028,6 @@ namespace EEMod
         private void ResetMinionEffect()
         {
             quartzCrystal = false;
-        }
-
-        public int hours;
-        public int minutes;
-        public int seconds;
-        public int milliseconds;
-
-        public override void PreUpdate()
-        {
-            if (Main.frameRate != 0)
-            {
-                milliseconds += 1000 / Main.frameRate;
-            }
-
-            if (milliseconds >= 1000)
-            {
-                milliseconds = 0;
-                seconds++;
-            }
-            if (seconds >= 60)
-            {
-                seconds = 0;
-                minutes++;
-            }
-            if (minutes >= 60)
-            {
-                minutes = 0;
-                hours++;
-            }
         }
 
         /*public override void ModifyDrawInfo(ref PlayerDrawInfo drawInfo)

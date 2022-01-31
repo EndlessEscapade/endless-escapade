@@ -20,6 +20,8 @@ namespace EEMod
 
         public override void PostUpdatePlayers()
         {
+            if (Main.dedServ)
+                return;
             EEMod.Particles.Update();
         }
     }

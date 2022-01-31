@@ -1,6 +1,7 @@
 ﻿using EEMod.ID;
 using EEMod.Systems.Subworlds.EESubworlds;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,15 @@ namespace EEMod.Players
             base.PostUpdate();
 
             CoralReefsPostUpdate();
+        }
+
+        public override Texture2D GetMapBackgroundImage()
+        {
+            if (ZoneCoralReefs)
+            {
+                return EEMod.Instance.Assets.Request<Texture2D>("Backgrounds/CoralReefsSurfaceClose").Value;
+            }
+            return base.GetMapBackgroundImage();
         }
 
         private void CoralReefsPostUpdate()
