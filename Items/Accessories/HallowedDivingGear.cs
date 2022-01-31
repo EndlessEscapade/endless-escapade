@@ -25,12 +25,21 @@ namespace EEMod.Items.Accessories
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<EEPlayer>().hydroGear = true;
+            player.GetModPlayer<HallowedDivingGearPlayer>().hydroGear = true;
         }
 
         public override void AddRecipes()
         {
             CreateRecipe(1).AddIngredient(ItemID.HallowedBar, 8).AddIngredient(ItemID.ArcticDivingGear, 1).AddTile(TileID.Anvils).Register();
+        }
+    }
+
+    public class HallowedDivingGearPlayer : ModPlayer
+    {
+        public bool hydroGear;
+        public override void ResetEffects()
+        {
+            hydroGear = false;
         }
     }
 }

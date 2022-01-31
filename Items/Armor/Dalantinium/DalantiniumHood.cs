@@ -30,7 +30,7 @@ namespace EEMod.Items.Armor.Dalantinium
 
         public override void UpdateEquip(Player player)
         {
-            player.GetModPlayer<EEPlayer>().dalantiniumHood = true;
+            player.GetModPlayer<DalantiniumSetPlayer>().dalantiniumHood = true;
         }
 
         public override void UpdateArmorSet(Player player)
@@ -40,7 +40,7 @@ namespace EEMod.Items.Armor.Dalantinium
             {
                 player.statDefense += 8;
             }
-            player.GetModPlayer<EEPlayer>().dalantiniumSet = true;
+            player.GetModPlayer<DalantiniumSetPlayer>().dalantiniumSet = true;
         }
 
         public override void AddRecipes()

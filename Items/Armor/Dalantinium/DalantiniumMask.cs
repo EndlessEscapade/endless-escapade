@@ -54,7 +54,7 @@ namespace EEMod.Items.Armor.Dalantinium
             {
                 player.statDefense += 8;
             }
-            player.GetModPlayer<EEPlayer>().dalantiniumSet = true;
+            player.GetModPlayer<DalantiniumSetPlayer>().dalantiniumSet = true;
         }
 
         public override void AddRecipes()

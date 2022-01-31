@@ -34,6 +34,7 @@ using Terraria.UI.Chat;
 using EEMod.Systems;
 using Terraria.GameContent;
 using EEMod.NPCs.Glowshroom;
+using EEMod.Players;
 
 namespace EEMod
 {
@@ -220,7 +221,7 @@ namespace EEMod
                 }
                 else
                 {
-                    int a = 2;
+                    //int a = 2;
                     //SurfaceBackgroundStylesLoader.ChooseStyle(ref a);
                 }
             }
@@ -426,7 +427,7 @@ namespace EEMod
 
             //Main.spriteBatch.Draw(Terraria.GameContent.TextureAssets.MagicPixel.Value, ChangingPoints.ForDraw(), Color.Red);
 
-            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
+            if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().ZoneCoralReefs)
             {
                 _alphaBG += (1 - _alphaBG) / 64f;
             }

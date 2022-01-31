@@ -41,11 +41,11 @@ namespace EEMod.Items.Armor.Kelpweaver
 
         public override void UpdateArmorSet(Player player)
         {
-            player.GetModPlayer<KelpweaverPlayer>().kelpweaverSet = true;
+            player.GetModPlayer<KelpweaverSetPlayer>().kelpweaverSet = true;
         }
     }
 
-    public class KelpweaverPlayer : ModPlayer
+    public class KelpweaverSetPlayer : ModPlayer
     {
         public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
         {
@@ -126,7 +126,7 @@ namespace EEMod.Items.Armor.Kelpweaver
 
             Player player = drawInfo.drawPlayer;
 
-            KelpweaverPlayer modPlayer = player.GetModPlayer<KelpweaverPlayer>();
+            KelpweaverSetPlayer modPlayer = player.GetModPlayer<KelpweaverSetPlayer>();
 
             if (modPlayer.kelpweaverSet)
             {

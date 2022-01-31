@@ -111,11 +111,11 @@ namespace EEMod
             }
         }
 
-        public int WheelType;
-        public int FigureheadType;
-        public int SailType;
-        public int CannonType;
-        public int CannonballType;
+        //public int WheelType;
+        //public int FigureheadType;
+        //public int SailType;
+        //public int CannonType;
+        //public int CannonballType;
     }
 
     /*public partial class EEMod : Mod

@@ -44,7 +44,7 @@ namespace EEMod.UI.States
             {
                 if (KelpArmorAmmoArrow.Transparency <= 0f)
                 {
-                    Main.LocalPlayer.GetModPlayer<KelpweaverPlayer>().HasInteractedWithSlotBefore = true;
+                    Main.LocalPlayer.GetModPlayer<KelpweaverSetPlayer>().HasInteractedWithSlotBefore = true;
                     EEMod.UI.RemoveState("IndicatorsInterface");
                 }
                 KelpArmorAmmoArrow.Transparency -= 0.05f;

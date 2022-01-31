@@ -23,7 +23,18 @@ namespace EEMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<EEPlayer>().dragonScale = true;
+            player.GetModPlayer<DragonScalePlayer>().dragonScale = true;
+        }
+    }
+
+    public class DragonScalePlayer : ModPlayer
+    {
+        public bool dragonScale;
+
+        public override void ResetEffects()
+        {
+            base.ResetEffects();
+            dragonScale = false;
         }
     }
 }

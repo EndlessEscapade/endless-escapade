@@ -22,7 +22,17 @@ namespace EEMod.Items.Accessories
 
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
-            player.GetModPlayer<EEPlayer>().isWearingCape = true;
+            player.GetModPlayer<RedVelvetCapePlayer>().isWearingCape = true;
+        }
+    }
+
+    public class RedVelvetCapePlayer : ModPlayer
+    {
+        public bool isWearingCape = false;
+
+        public override void ResetEffects()
+        {
+            isWearingCape = false;
         }
     }
 }

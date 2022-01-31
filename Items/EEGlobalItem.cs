@@ -6,6 +6,7 @@ using System;
 using Terraria.ModLoader.IO;
 using System.IO;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace EEMod.Items
 {
@@ -23,21 +24,17 @@ namespace EEMod.Items
 
         public bool caught;
         public int fishLength = 0;
-        public readonly int[] averageSizeFish = { ItemID.ArmoredCavefish, ItemID.AtlanticCod, ItemID.Bass, ItemID.CrimsonTigerfish, ItemID.Ebonkoi, ItemID.Obsidifish, ItemID.SpecularFish, ItemID.Stinkfish, ItemID.Tuna };
-        public readonly int[] smallSizeFish = { ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.Hemopiranha, ItemID.NeonTetra, ItemID.PrincessFish, ItemID.RedSnapper, /*ItemID.RockLobster, */ ItemID.Salmon, ItemID.Trout };
-        public readonly int[] bigSizeFish = { ItemID.ChaosFish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FlarefinKoi, /*ItemID.Flouder, */ ItemID.Prismite, ItemID.VariegatedLardfish };
+        public List<int> averageSizeFish = new() { ItemID.ArmoredCavefish, ItemID.AtlanticCod, ItemID.Bass, ItemID.CrimsonTigerfish, ItemID.Ebonkoi, ItemID.Obsidifish, ItemID.SpecularFish, ItemID.Stinkfish, ItemID.Tuna };
+        public List<int> smallSizeFish = new() { ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.Hemopiranha, ItemID.NeonTetra, ItemID.PrincessFish, ItemID.RedSnapper, /*ItemID.RockLobster, */ ItemID.Salmon, ItemID.Trout };
+        public List<int> bigSizeFish = new() { ItemID.ChaosFish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FlarefinKoi, /*ItemID.Flouder, */ ItemID.Prismite, ItemID.VariegatedLardfish };
 
         public override void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult)
         {
-            EEPlayer eeplayer = player.GetModPlayer<EEPlayer>();
-            if (eeplayer.dalantiniumHood)
-            {
-                reduce -= 0.05f;
-            }
+            /*var eeplayer = player.GetModPlayer<EEPlayer>();
             if (eeplayer.hydriteVisage)
             {
                 reduce -= 0.1f;
-            }
+            }*/
         }
 
         /*public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
