@@ -33,6 +33,7 @@ namespace EEMod.Seamap.SeamapContent
         protected SeamapObject()
         {
             Components = new ComponentManager(this);
+            whoAmI = -1; // it will be assigned to a different value when it spawns
         }
 
         protected SeamapObject(Vector2 pos, Vector2 vel) : this()
@@ -91,15 +92,17 @@ namespace EEMod.Seamap.SeamapContent
 
         }
 
+        /// <summary>
+        /// Called when the entity is destroyed
+        /// </summary>
         public virtual void OnKill()
         {
+
         }
 
         public void Kill()
         {
-            OnKill();
-            active = false;
-            SeamapObjects.SeamapEntities[whoAmI] = null;
+            SeamapObjects.DestroyObject(this);
         }
     }
 }

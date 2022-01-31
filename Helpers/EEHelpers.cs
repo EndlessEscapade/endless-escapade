@@ -227,7 +227,7 @@ namespace EEMod
         /// <returns></returns>
         public static double InverseLerp(double value, double min, double max) => (value - min) / (max - min);
 
-        public static double LerpByInverseLerp(double value1, double value2, double ammountval, double min, double max) => value1 + value2 * ((ammountval - min) / (max - min));
+        //public static double LerpByInverseLerp(double value1, double value2, double ammountval, double min, double max) => value1 + value2 * ((ammountval - min) / (max - min));
 
         public static double Map(double value, double fromMin, double fromMax, double toMin, double toMax) => ((value - fromMin) * (toMax - toMin) / (fromMax - fromMin)) + toMin;
 
@@ -920,37 +920,25 @@ namespace EEMod
                 if ((1 << i) > value)
                     return 1 << (i - 1);
             }
+
             return 0;
         }
 
-        //int min = 0;
-        //int max = 32;
-        //int[] arr = new int[4];
-        //Array.BinarySearch(arr, 0);
-
-        //while(min != max)
-        //{
-        //    int pos = (min + max) / 2;
-        //    Console.WriteLine($"min: {min}, max: {max}, pos: {pos}");
-        //    int posVal = 1 << pos;
-        //    if (posVal > value)
-        //        max = pos + 1;
-        //    else if (posVal < value)
-        //        min = pos + 1;
-        //    else
-        //        return posVal;
-        //}
-        //for(int i = 0; i < 32; i++)
-        //{
-        //    int v = 1 << i;
-        //    if(v > value)
-        //}
-        //int r = 0;
-        //for(int i = 0; i < 32; i++)
-        //{
-        //    if ((value & (1 << i)) != 0)
-        //        r = 1 << (i + 1);
-        //}
+        public static void CopyTo(BlendState source, BlendState dest)
+        {
+            dest.AlphaBlendFunction = source.AlphaBlendFunction;
+            dest.AlphaDestinationBlend = source.AlphaDestinationBlend;
+            dest.AlphaSourceBlend = source.AlphaSourceBlend;
+            dest.BlendFactor = source.BlendFactor;
+            dest.ColorBlendFunction = source.ColorBlendFunction;
+            dest.ColorDestinationBlend = source.ColorDestinationBlend;
+            dest.ColorSourceBlend = source.ColorSourceBlend;
+            dest.ColorWriteChannels = source.ColorWriteChannels;
+            dest.ColorWriteChannels1 = source.ColorWriteChannels1;
+            dest.ColorWriteChannels2 = source.ColorWriteChannels2;
+            dest.ColorWriteChannels3 = source.ColorWriteChannels3;
+            dest.MultiSampleMask = source.MultiSampleMask;
+        }
 
         private static Func<Type, VertexDeclaration> vertexDeclarationFromTypeDelegate = typeof(VertexDeclaration).GetMethod("FromType", FlagsStatic).CreateDelegate<Func<Type, VertexDeclaration>>();
 

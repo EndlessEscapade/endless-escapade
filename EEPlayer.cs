@@ -85,8 +85,6 @@ namespace EEMod
         public int rippleSize = 5;
         public int rippleSpeed = 15;
         public int distortStrength = 100;
-        public List<ParticlesClass> Particles = new List<ParticlesClass>();
-        public List<Vector2> Velocity;
         public float powerLevel = 0;
         public int maxPowerLevel = 11;
         public float zipMultiplier = 1;
@@ -321,7 +319,6 @@ namespace EEMod
                 displacmentX = 0;
                 displacmentY = 0;
                 startingText = false;
-                Particles.Clear();
                 isCameraFixating = false;
             }
         }
@@ -383,10 +380,12 @@ namespace EEMod
 
         public override void ModifyScreenPosition()
         {
-            Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
-            Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
-            if (Shake > 0)  
-                Shake--; 
+            if (Shake > 0)
+            {
+                Main.screenPosition.Y += Main.rand.Next(-Shake, Shake);
+                Main.screenPosition.X += Main.rand.Next(-Shake, Shake);
+                Shake--;
+            }
 
             int clamp = 80;
             float disSpeed = .4f;

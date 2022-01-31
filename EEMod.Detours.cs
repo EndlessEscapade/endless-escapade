@@ -553,7 +553,6 @@ namespace EEMod
                 Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, (Seamap.SeamapContent.Seamap.seamapWidth) - Main.screenWidth);
                 Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, (Seamap.SeamapContent.Seamap.seamapHeight - 200) - Main.screenHeight);
 
-                Seamap.SeamapContent.Seamap.UpdateSeamap();
 
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 

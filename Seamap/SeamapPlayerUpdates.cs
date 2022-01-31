@@ -30,8 +30,6 @@ namespace EEMod
 {
     public partial class EEPlayer : ModPlayer
     {
-        public List<SeagullsClass> seagulls = new List<SeagullsClass>();
-
         public int timerForCutscene;
         public bool arrowFlag = false;
         public static bool isSaving;

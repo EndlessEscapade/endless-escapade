@@ -198,7 +198,7 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            if(!Main.hideUI) RenderSeamapUI(spriteBatch); //Layer 3
+            if (!Main.hideUI) RenderSeamapUI(spriteBatch); //Layer 3
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
@@ -214,8 +214,8 @@ namespace EEMod.Seamap.SeamapContent
 
             spriteBatch.Draw(healthBar, new Vector2(Main.screenWidth - 200, 40), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
-            spriteBatch.Draw(healthBarFill, new Vector2(Main.screenWidth - 200, 40), 
-                new Rectangle(0, 0, (int)(SeamapObjects.localship.shipHelth / SeamapObjects.localship.ShipHelthMax) * 116, 40), 
+            spriteBatch.Draw(healthBarFill, new Vector2(Main.screenWidth - 200, 40),
+                new Rectangle(0, 0, (int)(SeamapObjects.localship.shipHelth / SeamapObjects.localship.ShipHelthMax) * 116, 40),
                 Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
             #endregion 
@@ -236,13 +236,13 @@ namespace EEMod.Seamap.SeamapContent
 
             SeamapObject[] toDraw = source.Where(p => p?.active == true).ToArray();
             Array.Sort(toDraw, CompareSeamapEntities);
-            
-            foreach(SeamapObject entity in toDraw)
+
+            foreach (SeamapObject entity in toDraw)
             {
                 entity.Draw(spriteBatch);
             }
 
-            foreach(SeamapObject entity in toDraw)
+            foreach (SeamapObject entity in toDraw)
             {
                 entity.PostDraw(spriteBatch);
             }
@@ -253,6 +253,7 @@ namespace EEMod.Seamap.SeamapContent
 
         public static float brightness;
         public static bool isStorming;
+
 
         #region Seamap water
         static void RenderWater(SpriteBatch spriteBatch)
@@ -282,16 +283,14 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            for(int i = 0; i < SeamapObjects.SeamapEntities.Length; i++)
+            foreach (var entity in SeamapObjects.ActiveEntities)
             {
-                if(SeamapObjects.SeamapEntities[i] != null && SeamapObjects.SeamapEntities[i].active)
-                {
-                    if(SeamapObjects.SeamapEntities[i] is Island)
-                    {
-                        Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradientSquish").Value, SeamapObjects.SeamapEntities[i].Center - Main.screenPosition, new Color(64, 180, 217) * 0.4f, SeamapObjects.SeamapEntities[i].texture.Width * 2f / 150f);
-                    }
-                }
+                if (entity is not Island)
+                    continue;
+
+                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradientSquish").Value, entity.Center - Main.screenPosition, new Color(64, 180, 217) * 0.4f, entity.texture.Width * 2f / 150f);
             }
+
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
@@ -302,7 +301,7 @@ namespace EEMod.Seamap.SeamapContent
             WaterShader.Parameters["baseWaterColor"].SetValue(new Color(0, 0, 0).LightSeamap().ToVector4());
             WaterShader.Parameters["highlightColor"].SetValue(new Color(5, 5, 5).LightSeamap().ToVector4());
 
-            WaterShader.Parameters["sinVal"].SetValue(Main.GameUpdateCount / 1500f); 
+            WaterShader.Parameters["sinVal"].SetValue(Main.GameUpdateCount / 1500f);
             WaterShader.Parameters["width"].SetValue(1000);
             WaterShader.Parameters["height"].SetValue(600);
 
@@ -326,6 +325,6 @@ namespace EEMod.Seamap.SeamapContent
 
     public static class SeamapExtensions
     {
-        public static Color LightSeamap(this Color color) => Color.Lerp(color, Color.Black, 1 - Seamap.brightness);
+        public static Color LightSeamap(this Color color) => Color.Lerp(color, Color.Black, 1f - Seamap.brightness);
     }
 }

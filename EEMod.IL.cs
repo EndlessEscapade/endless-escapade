@@ -29,6 +29,7 @@ using EEMod.Seamap.SeamapContent;
 using MonoMod.RuntimeDetour.HookGen;
 using EEMod.Systems;
 using Terraria.GameContent.Liquid;
+using EEMod.Seamap;
 
 namespace EEMod
 {
@@ -77,6 +78,7 @@ namespace EEMod
 
             //HookEndpointManager.Modify(typeof(MusicStreamingOGG).GetMethod("FillBuffer", BindingFlags.NonPublic | BindingFlags.Instance), (ILContext.Manipulator)LayeredMusic.ILFillBuffer);
         }
+
 
         private void UnloadIL()
         {
@@ -155,7 +157,7 @@ namespace EEMod
             c.EmitDelegate<Func<Tile[,], int, int, Tile>>((arrae, i, j) => Framing.GetTileSafely(i, j));
         }
 
-        private void Main_DrawWater(ILContext il)
+        /*private void Main_DrawWater(ILContext il)
         {
             ILCursor c = new ILCursor(il);
             //Type liqRend = typeof(LiquidRenderer);
@@ -171,7 +173,7 @@ namespace EEMod
             //{
             //    t.Draw(spritebatch, drawOffset, Style, Alpha / 2, bg);
             //});
-        }
+        }*/
 
         public void DrawRef()
         {

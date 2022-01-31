@@ -58,10 +58,6 @@ namespace EEMod.Seamap.SeamapContent
 
             climateArray = perlinNoise.perlinValues;
 
-
-
-
-
             for (int i = 0; i < 20; i++)
             {
                 PlaceRockCluster(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(300, seamapHeight - 800)));
