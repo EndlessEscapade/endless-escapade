@@ -1,5 +1,6 @@
 using EEMod.Extensions;
 using EEMod.ID;
+using EEMod.Players;
 using EEMod.Systems;
 using EEMod.VerletIntegration;
 using Microsoft.Xna.Framework;
@@ -47,7 +48,7 @@ namespace EEMod
 
                 if (!new Rectangle(-Main.screenWidth / 2, -Main.screenHeight / 2, Main.screenWidth, Main.screenHeight).Contains(rand.ToPoint()))
                 {
-                    if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
+                    if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.KelpForest)
                     {
                         int randInt = Main.rand.Next(5, 8);
 
@@ -56,7 +57,7 @@ namespace EEMod
                         if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
-                    else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.AquamarineCaverns)
+                    else if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.AquamarineCaverns)
                     {
                         int randInt = Main.rand.Next(8, 9);
 
@@ -65,7 +66,7 @@ namespace EEMod
                         if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
-                    else if (Main.LocalPlayer.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.ThermalVents)
+                    else if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.ThermalVents)
                     {
                         int randInt = Main.rand.Next(9, 10);
 

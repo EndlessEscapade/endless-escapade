@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using EEMod.Players;
 
 namespace EEMod.NPCs
 {
@@ -23,7 +24,7 @@ namespace EEMod.NPCs
         public override void EditSpawnPool(IDictionary<int, float> pool, NPCSpawnInfo spawnInfo)
         {
             Player spawnplayer = spawnInfo.player;
-            if (spawnplayer.GetModPlayer<EEPlayer>().ZoneCoralReefs)
+            if (spawnplayer.GetModPlayer<EEZonePlayer>().ZoneCoralReefs)
             {
                 pool[0] = 0f;
                 if (spawnInfo.player.Center.Y < ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16)
@@ -45,7 +46,7 @@ namespace EEMod.NPCs
                     }
                 }
 
-                else if (spawnplayer.Center.Y <= 12800 && spawnInfo.player.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16 && spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.None)
+                else if (spawnplayer.Center.Y <= 12800 && spawnInfo.player.Center.Y >= ((Main.maxTilesY / 20) + (Main.maxTilesY / 60) + (Main.maxTilesY / 60)) * 16 && spawnInfo.player.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.None)
                 {
                     pool.Add(ModContent.NPCType<Clam>(), 5f);
                     pool.Add(ModContent.NPCType<LunaJelly>(), 5f);
@@ -53,7 +54,7 @@ namespace EEMod.NPCs
                     pool.Add(ModContent.NPCType<Seahorse>(), 5f);
                 }
 
-                else if (spawnplayer.Center.Y > 12800 && spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.None)
+                else if (spawnplayer.Center.Y > 12800 && spawnInfo.player.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.None)
                 {
                     pool.Add(ModContent.NPCType<Clam>(), 0.5f);
                     pool.Add(ModContent.NPCType<Ball>(), 0.5f);
@@ -62,7 +63,7 @@ namespace EEMod.NPCs
                     pool.Add(ModContent.NPCType<ManoWar>(), 0.5f);
                 }
 
-                if (spawnInfo.player.GetModPlayer<EEPlayer>().reefMinibiome == MinibiomeID.KelpForest)
+                if (spawnInfo.player.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.KelpForest)
                 {
                     pool[0] = 0f;
                     pool.Add(ModContent.NPCType<GlowingKelpSpider>(), 0.1f);
