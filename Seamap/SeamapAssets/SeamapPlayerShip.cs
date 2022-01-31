@@ -42,58 +42,68 @@ namespace EEMod.Seamap.SeamapContent
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
+        public float boatSpeed = 0.3f;
+
         public override void Update()
         {
-            float boatSpeed = 0.3f;
+            invFrames--;
 
             position += velocity;
-            if (myPlayer.controlUp)
-            {
-                velocity.Y -= ((velocity.Y > 0) ? 0.2f : 0.1f) * boatSpeed;
-            }
-            if (myPlayer.controlDown)
-            {
-                velocity.Y += ((velocity.Y < 0) ? 0.2f : 0.1f) * boatSpeed;
-            }
-            if (myPlayer.controlRight)
-            {
-                velocity.X += ((velocity.X < 0) ? 0.2f : 0.1f) * boatSpeed;
-            }
-            if (myPlayer.controlLeft)
-            {
-                velocity.X -= ((velocity.X > 0) ? 0.2f : 0.1f) * boatSpeed;
-            }
-            if (myPlayer.controlUseItem && cannonDelay <= 0)
-            {
-                FriendlyCannonball cannonball = new FriendlyCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 4);
 
-                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(cannonball, Color.Purple, 40));
+            CollisionChecks();
 
-                SeamapObjects.NewSeamapObject(cannonball);
-
-                SoundEngine.PlaySound(SoundID.Item38);
-                cannonDelay = 60;
-            }
-            if (myPlayer.controlUseTile && abilityDelay <= 0)
+            if (invFrames < 0)
             {
-                //velocity = Vector2.Zero;
-                SoundEngine.PlaySound(SoundID.Item37);
-                abilityDelay = 120;
-            }
+                if (myPlayer.controlUp)
+                {
+                    velocity.Y -= ((velocity.Y > 0) ? 0.2f : 0.1f) * boatSpeed;
+                }
+                if (myPlayer.controlDown)
+                {
+                    velocity.Y += ((velocity.Y < 0) ? 0.2f : 0.1f) * boatSpeed;
+                }
+                if (myPlayer.controlRight)
+                {
+                    velocity.X += ((velocity.X < 0) ? 0.2f : 0.1f) * boatSpeed;
+                }
+                if (myPlayer.controlLeft)
+                {
+                    velocity.X -= ((velocity.X > 0) ? 0.2f : 0.1f) * boatSpeed;
+                }
 
-            if (abilityDelay > 110)
-            {
-                velocity *= 0.2f;
-            }
+                if (myPlayer.controlUseItem && cannonDelay <= 0)
+                {
+                    FriendlyCannonball cannonball = new FriendlyCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 4);
 
-            cannonDelay--;
-            abilityDelay--;
+                    PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(cannonball, Color.Purple, 40));
+
+                    SeamapObjects.NewSeamapObject(cannonball);
+
+                    SoundEngine.PlaySound(SoundID.Item38);
+                    cannonDelay = 60;
+                }
+
+                if (myPlayer.controlUseTile && abilityDelay <= 0)
+                {
+                    //velocity = Vector2.Zero;
+                    SoundEngine.PlaySound(SoundID.Item37);
+                    abilityDelay = 120;
+                }
+
+                cannonDelay--;
+                abilityDelay--;
+
+                if (abilityDelay > 110)
+                {
+                    velocity *= 0.2f;
+                }
+            }
 
             Vector2 v = new Vector2(boatSpeed * 4);
 
             velocity = Vector2.Clamp(velocity, -v, v);
 
-            //velocity *= 0.98f;
+            velocity *= 0.998f;
 
             base.Update();
 
@@ -102,6 +112,8 @@ namespace EEMod.Seamap.SeamapContent
 
             if (position.Y < 0) position.Y = 0;
             if (position.Y > Seamap.seamapHeight - height - 200) position.Y = Seamap.seamapHeight - height - 200;
+
+            if (shipHelth <= 0) Main.LocalPlayer.GetModPlayer<EEPlayer>().ReturnHome();
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch)
@@ -119,11 +131,35 @@ namespace EEMod.Seamap.SeamapContent
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, frameNum * 48, 44, 48),
-                Color.White.LightSeamap(), (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / 120f) * 0.075f), 
+                Color.White.LightSeamap(), (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / (invFrames > 0 ? 40f : 120f)) * (invFrames > 0 ? 0.1f : 0.075f)), 
                 new Rectangle(0, frameNum * 48, 44, 48).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
             return false;
+        }
+
+        public int invFrames = 20;
+
+        public void CollisionChecks()
+        {
+            foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
+            {
+                if (obj == null) continue;
+
+                if (obj.collides && invFrames < 0)
+                {
+                    if(IsTouchingLeft(Hitbox, obj.Hitbox, velocity) ||
+                       IsTouchingTop(Hitbox, obj.Hitbox, velocity) ||
+                       IsTouchingRight(Hitbox, obj.Hitbox, velocity) ||
+                       IsTouchingBottom(Hitbox, obj.Hitbox, velocity))
+                    {
+                        shipHelth--;
+                        invFrames = 20;
+
+                        velocity = Vector2.Normalize(obj.Center - Center) * boatSpeed * -4;
+                    }
+                }
+            }
         }
 
         public static bool IsTouchingLeft(Rectangle rect1, Rectangle rect2, Vector2 vel)

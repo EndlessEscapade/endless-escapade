@@ -28,7 +28,7 @@ namespace EEMod.Seamap.SeamapContent
 
         public int spriteDirection;
 
-        public bool collides = false;
+        public virtual bool collides => false;
 
         protected SeamapObject()
         {

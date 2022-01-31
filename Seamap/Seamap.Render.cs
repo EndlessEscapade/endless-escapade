@@ -92,7 +92,7 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.Draw(healthBar, new Vector2(Main.screenWidth - 200, 40), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
             spriteBatch.Draw(healthBarFill, new Vector2(Main.screenWidth - 200, 40),
-                new Rectangle(0, 0, (int)(SeamapObjects.localship.shipHelth / SeamapObjects.localship.ShipHelthMax) * 116, 40),
+                new Rectangle(0, 0, (int)((SeamapObjects.localship.shipHelth / SeamapObjects.localship.ShipHelthMax) * 116), 40),
                 Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
             #endregion 
@@ -146,14 +146,15 @@ namespace EEMod.Seamap.SeamapContent
             //WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(0, 141, 161).LightSeamap().ToVector4());
             //WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(19, 216, 205).LightSeamap().ToVector4());
 
+            //Storming palette
             //WaterShaderBase.Parameters["icyWaterColor"].SetValue(new Color(34, 30, 45).LightSeamap().ToVector4());
             //WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(44, 44, 68).LightSeamap().ToVector4());
             //WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(53, 65, 77).LightSeamap().ToVector4());
 
             //Neutral water palette
-            WaterShaderBase.Parameters["icyWaterColor"].SetValue(new Color(52, 75, 136).LightSeamap().ToVector4());
-            WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(36, 119, 182).LightSeamap().ToVector4());
-            WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(96, 178, 220).LightSeamap().ToVector4());
+            WaterShaderBase.Parameters["icyWaterColor"].SetValue(Vector4.Lerp(new Color(52, 75, 136).LightSeamap().ToVector4(), new Color(34, 30, 45).LightSeamap().ToVector4(), weatherDensity));
+            WaterShaderBase.Parameters["neutralWaterColor"].SetValue(Vector4.Lerp(new Color(36, 119, 182).LightSeamap().ToVector4(), new Color(44, 44, 68).LightSeamap().ToVector4(), weatherDensity));
+            WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(Vector4.Lerp(new Color(96, 178, 220).LightSeamap().ToVector4(), new Color(53, 65, 77).LightSeamap().ToVector4(), weatherDensity));
 
             WaterShaderBase.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/SeamapNoise").Value);
 
