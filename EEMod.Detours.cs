@@ -87,6 +87,9 @@ namespace EEMod
 
             Main.OnPreDraw += Main_OnPreDraw;
 
+            if (Main.dedServ)
+                return;
+
             WP = new WaterPrimitive(null);
             PrimitiveSystem.primitives.CreateTrail(WP);
         }
@@ -1036,21 +1039,24 @@ namespace EEMod
 
         private void Main_Update(On.Terraria.Main.orig_Update orig, Main self, GameTime gameTime)
         {
-            if (!Main.gameMenu && Main.netMode != NetmodeID.MultiplayerClient && !isSaving)
+            if (Main.netMode != NetmodeID.Server)
             {
-                lerp = 0;
-                alpha = 0;
-                loadingChoose = Main.rand.Next(68);
-                loadingChooseImage = Main.rand.Next(5);
-                Main.numClouds = 10;
-
-                if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive())
+                if (!Main.gameMenu && !isSaving)
                 {
-                    SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
-                }
-            }
+                    lerp = 0;
+                    alpha = 0;
+                    loadingChoose = Main.rand.Next(68);
+                    loadingChooseImage = Main.rand.Next(5);
+                    Main.numClouds = 10;
 
-            TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Images/Sun");
+                    if (SkyManager.Instance["EEMod:SavingCutscene"].IsActive())
+                    {
+                        SkyManager.Instance.Deactivate("EEMod:SavingCutscene", new object[0]);
+                    }
+                }
+
+                TextureAssets.Sun = ModContent.Request<Texture2D>("Terraria/Images/Sun");
+            }
 
             orig(self, gameTime);
         }

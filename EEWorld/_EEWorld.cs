@@ -242,6 +242,9 @@ namespace EEMod.EEWorld
 
         public override void OnWorldLoad()
         {
+            // TODO: Clients need to know when they're in a subworld
+            if (Main.netMode == NetmodeID.MultiplayerClient)
+                return;
             Main.LocalPlayer.GetModPlayer<EEPlayer>().isInSubworld = Main.ActiveWorldFileData.Path.Contains($@"{Main.SavePath}\Worlds\{Main.LocalPlayer.GetModPlayer<EEPlayer>().baseWorldName}Subworlds");
         }
 

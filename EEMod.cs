@@ -140,6 +140,7 @@ namespace EEMod
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/UpperReefs")] = "AquamarineGroup";
             //LayeredMusic.Groups[GetSoundSlot(SoundType.Music, "Sounds/Music/LowerReefs")] = "AquamarineGroup";
 
+            if(!Main.dedServ)
             PrimitiveSystem.primitives.Load();
 
             MusicLoader.AddMusic(this, "Assets/Music/SurfaceReefs");

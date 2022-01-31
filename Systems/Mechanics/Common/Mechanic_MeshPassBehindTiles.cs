@@ -21,6 +21,8 @@ namespace EEMod
 
         public override void PostUpdateEverything()
         {
+            if (Main.dedServ)
+                return;
             PrimitiveSystem.primitives.UpdateTrailsBehindTiles();
         }
     }
