@@ -23,6 +23,7 @@ namespace EEMod.UI.States
         public static DialogueBox Background;
         public static UIList ResponsesList;
         public static string Dialogue;
+        public static bool CanClickAButton = false;
         public string CurrentDialogueText = "";
         public string CurrentDialogueTextThatShouldBeDrawn = "";
         public bool IsHandlingTag;
@@ -142,6 +143,7 @@ namespace EEMod.UI.States
         {
             base.Draw(spriteBatch);
             //Don't ask why this has to be here and not in Update I couldn't answer you
+            if (!CanClickAButton && Main.mouseLeftRelease) CanClickAButton = true;
             if (CurrentDialogueText != "" && ResponsesList.Count == 0 && CurrentDialogueSystem.LockPlayerMovement && Main.mouseLeft && Main.mouseLeftRelease || CurrentDialogueText != "" && ResponsesList.Count == 0 && Box.IsMouseHovering && Main.mouseLeft && Main.mouseLeftRelease)
             {
                 if (CurrentDialogueText == Dialogue)
@@ -149,6 +151,7 @@ namespace EEMod.UI.States
                     CurrentDialogueText = "";
                     CurrentLetter = 0;
                     CurrentDialogueSystem.OnDialoguePieceFinished(CurrentDialogueSystem.Piece);
+                    CanClickAButton = false;
                 }
                 else
                 {
@@ -222,11 +225,14 @@ namespace EEMod.UI.States
         }
         public override void Click(UIMouseEvent evt)
         {
-            DialogueUI.CurrentDialogueSystem.OnDialoguePieceFinished(Piece);
-            DialogueUI.Box.Append(DialogueUI.Portrait);
-            DialogueUI.Box.Append(DialogueUI.DialogueBoxDivider);
-            DialogueUI.Name = DialogueUI.CurrentDialogueSystem.Name.FormatString(20);
-            DialogueUI.ResponsesList.Clear();
+            if (DialogueUI.CanClickAButton)
+            {
+                DialogueUI.CurrentDialogueSystem.OnDialoguePieceFinished(Piece);
+                DialogueUI.Box.Append(DialogueUI.Portrait);
+                DialogueUI.Box.Append(DialogueUI.DialogueBoxDivider);
+                DialogueUI.Name = DialogueUI.CurrentDialogueSystem.Name.FormatString(20);
+                DialogueUI.ResponsesList.Clear();
+            }
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
         {
