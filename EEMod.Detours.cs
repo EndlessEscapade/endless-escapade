@@ -472,22 +472,9 @@ namespace EEMod
 
             Vector2 lastScreenPos = Main.screenPosition;
 
-            /*if (!Main.gameMenu && !Main.LocalPlayer.GetModPlayer<EEPlayer>().triggerSeaCutscene)
-            {
-                Main.screenPosition = Main.LocalPlayer.position + new Vector2(Main.LocalPlayer.width / 2f, Main.LocalPlayer.height / 2f) - new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f);
-
-                Vector2 input = new Vector2(Main.leftWorld + 656f, Main.topWorld + 656f) - Main.GameViewMatrix.Translation;
-                Vector2 input2 = new Vector2(Main.rightWorld - (float)Main.screenWidth / Main.GameViewMatrix.Zoom.X - 672f, Main.bottomWorld - (float)Main.screenHeight / Main.GameViewMatrix.Zoom.Y - 672f) - Main.GameViewMatrix.Translation;
-                
-                input = Utils.Round(input);
-                input2 = Utils.Round(input2);
-                
-                Main.screenPosition = Vector2.Clamp(Main.screenPosition, input, input2);
-            }*/
-
             Main.screenPosition = lastScreenPos;
 
-            if (Main.spriteBatch != null && additiveRT != null)
+            /*if (Main.spriteBatch != null && additiveRT != null)
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
@@ -500,7 +487,7 @@ namespace EEMod
 
                 RenderTargetBinding[] bindings = Main.graphics.GraphicsDevice.GetRenderTargets();
 
-                Main.graphics.GraphicsDevice.SetRenderTarget(additiveRT);
+                /*Main.graphics.GraphicsDevice.SetRenderTarget(additiveRT);
                 Main.graphics.GraphicsDevice.Clear(Color.Transparent);
 
                 Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, SamplerState.PointClamp, null, null, null, Main.GameViewMatrix.ZoomMatrix);
@@ -516,7 +503,7 @@ namespace EEMod
                 Main.spriteBatch.End();
 
                 Main.graphics.GraphicsDevice.SetRenderTargets(bindings);
-            }
+            }*/
         }
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
@@ -528,39 +515,18 @@ namespace EEMod
                 PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
 
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);
+                //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);
 
-                if (additiveRT != null)
-                {
-                    Main.spriteBatch.Draw(additiveRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
-                }
+                //if (additiveRT != null)
+                //{
+                //    Main.spriteBatch.Draw(additiveRT, new Rectangle(0, 0, Main.screenWidth, Main.screenHeight), Color.White);
+                //}
 
-                Main.spriteBatch.End();
+                //Main.spriteBatch.End();
             }
-
-            //Main.QueueMainThreadAction(() =>
-            //{
-            //    if (Main.spriteBatch != null && PrimSystem.primitives != null)
-            //    {
-            //        PrimSystem.primitives.DrawTrailsAboveTiles();
-            //        //PrimSystem.primitives.DrawTrailsBehindTiles();
-            //    }
-            //});
 
             if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
-            {
-                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
-
-                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, (Seamap.SeamapContent.Seamap.seamapWidth) - Main.screenWidth);
-                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, (Seamap.SeamapContent.Seamap.seamapHeight - 200) - Main.screenHeight);
-
-
-                Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-
                 Seamap.SeamapContent.Seamap.Render();
-
-                Main.spriteBatch.End();
-            }
 
             orig(self);
         }

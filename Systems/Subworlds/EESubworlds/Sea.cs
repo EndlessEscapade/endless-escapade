@@ -41,6 +41,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void PlayerUpdate(Player player)
         {
+            Seamap.SeamapContent.Seamap.UpdateSeamap();
 
             player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
 

@@ -33,6 +33,11 @@ namespace EEMod.Seamap.SeamapContent
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
 
+            Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
+
+            Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, seamapWidth - Main.screenWidth);
+            Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, seamapHeight - 200 - Main.screenHeight);
+
             #region Controlling brightness + weather
 
             CalculateBrightness();

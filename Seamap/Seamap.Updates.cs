@@ -29,15 +29,6 @@ namespace EEMod.Seamap.SeamapContent
             {
                 SpawnSeagullFlock(Main.rand.Next(4, 8));
             }
-
-            if (firstOpened)
-            {
-                SpawnSeagullFlock(Main.rand.Next(4, 8));
-                SpawnSeagullFlock(Main.rand.Next(4, 8));
-                SpawnSeagullFlock(Main.rand.Next(4, 8));
-
-                firstOpened = false;
-            }
         }
 
         public static bool firstOpened = true;
@@ -84,6 +75,10 @@ namespace EEMod.Seamap.SeamapContent
 
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 500)));
+
+            SpawnSeagullFlock(Main.rand.Next(4, 8));
+            SpawnSeagullFlock(Main.rand.Next(4, 8));
+            SpawnSeagullFlock(Main.rand.Next(4, 8));
         }
 
         public static void PlaceRock(Vector2 position, int type = -1)

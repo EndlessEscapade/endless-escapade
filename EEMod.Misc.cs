@@ -78,13 +78,12 @@ namespace EEMod
         //This needs to be fixed. 
         public void UpdateGame(GameTime gameTime)
         {
-            Seamap.SeamapContent.Seamap.UpdateSeamap();
-
             lerps++;
             if (delays > 0)
             {
                 delays--;
             }
+
             float lerpLol = Math.Abs((float)Math.Sin(lerps / 50f));
             for (int i = 0; i < Main.npc.Length; i++)
             {
@@ -124,7 +123,8 @@ namespace EEMod
                     }
                 }
             }
-            simpleGame = simpleGame ?? new SpaceInvaders();
+
+            /*simpleGame = simpleGame ?? new SpaceInvaders();
             simpleGame.Update(gameTime);
             for (int i = 0; i < Main.player.Length; i++)
             {
@@ -148,7 +148,7 @@ namespace EEMod
                         break;
                     }
                 }
-            }
+            }*/
         }
 
         //should be in helper class
