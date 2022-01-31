@@ -86,54 +86,6 @@ namespace EEMod.Seamap.SeamapContent
 
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(2000, seamapHeight - 300))));
             //SeamapObjects.NewSeamapObject(new GoblinFort(new Vector2(seamapWidth - 500, seamapHeight - 500)));
-
-            /*for (int iterations = 0; iterations < 5; iterations++)
-            {
-                for (int i = 0; i < 50; i++)
-                {
-                    BorderCloud newCloud = new BorderCloud(new Vector2(i * (seamapWidth / 50f), (seamapHeight - 500) - (30 * (4 - iterations))) + new Vector2(Main.rand.Next(-8, 9), Main.rand.Next(-8, 9)), Vector2.Zero);
-
-                    newCloud.lerpToBlack = 1 - (0.33f * iterations);
-
-                    SeamapObjects.NewSeamapObject(newCloud);
-                }
-            }
-
-            for (int iterations = 0; iterations < 5; iterations++)
-            {
-                for (int i = 0; i < 50; i++)
-                {
-                    BorderCloud newCloud = new BorderCloud(new Vector2(i * (seamapWidth / 50f), -80 + (30 * (4 - iterations))) + new Vector2(Main.rand.Next(-8, 9), Main.rand.Next(-8, 9)), Vector2.Zero);
-
-                    newCloud.lerpToBlack = 1 - (0.33f * iterations);
-
-                    SeamapObjects.NewSeamapObject(newCloud);
-                }
-            }
-
-            for (int iterations = 0; iterations < 5; iterations++)
-            {
-                for (int i = 0; i < 120; i++)
-                {
-                    BorderCloud newCloud = new BorderCloud(new Vector2(-50 + (30 * (4 - iterations)), i * (seamapHeight / 120f)) + new Vector2(Main.rand.Next(-8, 9), Main.rand.Next(-8, 9)), Vector2.Zero);
-
-                    newCloud.lerpToBlack = 1 - (0.33f * iterations);
-
-                    SeamapObjects.NewSeamapObject(newCloud);
-                }
-            }
-
-            for (int iterations = 0; iterations < 5; iterations++)
-            {
-                for (int i = 0; i < 120; i++)
-                {
-                    BorderCloud newCloud = new BorderCloud(new Vector2(-80 + (30 * (4 - iterations)) + (seamapWidth - 100), i * (seamapHeight / 120f)) + new Vector2(Main.rand.Next(-8, 9), Main.rand.Next(-8, 9)), Vector2.Zero);
-
-                    newCloud.lerpToBlack = 0.33f * iterations;
-
-                    SeamapObjects.NewSeamapObject(newCloud);
-                }
-            }*/
         }
 
         public static void PlaceRock(Vector2 position, int type = -1)

@@ -28,9 +28,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 {
     public class Sea : Subworld
     {
-        public override Point Dimensions => new Point(400, 405);
+        public override Point Dimensions => new Point(600, 600);
 
-        public override Point SpawnTile => new Point(234, 92);
+        public override Point SpawnTile => new Point(550, 550);
 
         public override string Name => "Sea";
 
@@ -41,9 +41,6 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void PlayerUpdate(Player player)
         {
-            player.AddBuff(BuffID.Cursed, 600, true);
-            player.AddBuff(BuffID.Invisibility, 600, true);
-
             #region Opening cutscene for seamap
             if (player.GetModPlayer<EEPlayer>().quickOpeningFloat > 0.01f)
             {
@@ -145,7 +142,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             }
             #endregion
 
-            #region Warp cutscene
+            /*#region Warp cutscene
             if (player.GetModPlayer<EEPlayer>().importantCutscene)
             {
                 EEMod.Noise2D.NoiseTexture = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise").Value;
@@ -165,7 +162,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     SubworldManager.EnterSubworld<CoralReefs>(); // coral reefs
                 }
             }
-            #endregion
+            #endregion*/
         }
 
         public void ReturnHome(Player player)
@@ -173,6 +170,17 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             player.GetModPlayer<EEPlayer>().Initialize();
 
             player.GetModPlayer<EEPlayer>().SM.Return(KeyID.BaseWorldName);
+        }
+    }
+
+    public class SeaSystem : ModSceneEffect
+    {
+        public override int Music => MusicLoader.GetMusicSlot(ModContent.GetInstance<EEMod>(), "Assets/Music/Seamap");
+        public override SceneEffectPriority Priority => SceneEffectPriority.BossHigh;
+
+        public override bool IsSceneEffectActive(Player player)
+        {
+            return Main.worldName == KeyID.Sea;
         }
     }
 }

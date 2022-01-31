@@ -30,41 +30,36 @@ namespace EEMod.Seamap.SeamapContent
             SpriteBatch spriteBatch = Main.spriteBatch;
 
             #region Controlling brightness
-            /*if (Main.dayTime)
+            if (!isStorming)
             {
-                if (Main.time <= 200)
-                    brightness += 0.0025f;
+                if (Main.dayTime)
+                {
+                    if (Main.time < 52000 && brightness < 1f)
+                        brightness += 0.0025f;
 
-                if (Main.time >= 52000 && brightness > 0.1f)
-                    brightness -= 0.0025f;
-
-                if (Main.time > 2000 && Main.time < 52000)
-                    brightness = 1f;
+                    if (Main.time >= 52000 && brightness > 0.5f)
+                        brightness -= 0.0025f;
+                }
+                else
+                {
+                    brightness = 0.5f;
+                }
             }
             else
             {
-                brightness = 0.5f;
-            }*/
+                if (Main.dayTime)
+                {
+                    if (Main.time < 52000 && brightness < 0.8f)
+                        brightness += 0.0025f;
 
-            brightness = 1f;
-
-
-            /*if (Main.dayTime && !isStorming)
-            {
-                brightness += ((1 - brightness) / 10f);
+                    if (Main.time >= 52000 && brightness > 0.8f)
+                        brightness -= 0.0025f;
+                }
+                else
+                {
+                    brightness = 0.3f;
+                }
             }
-            if (Main.dayTime && isStorming)
-            {
-                brightness += ((0.8f - brightness) / 10f);
-            }
-            if (!Main.dayTime && !isStorming)
-            {
-                brightness += ((0.7f - brightness) / 10f);
-            }
-            if (!Main.dayTime && isStorming)
-            {
-                brightness += ((0.7f - brightness) / 10f);
-            }*/
 
 
             if (Main.time % 1000 == 0)
@@ -155,15 +150,15 @@ namespace EEMod.Seamap.SeamapContent
                     SeamapCloudShader.Parameters["arrayOffset"].SetValue(arrayOffset);
                     SeamapCloudShader.CurrentTechnique.Passes[0].Apply();
 
-                    spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000) + 100, 1000, 600), Color.White);
+                    //spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000) + 100, 1000, 600), Color.White);
                 }
             }
 
 
-            SeamapCloudShader.Parameters["cloudsColor4"].SetValue((new Color(218, 221, 237).LightSeamap() * 1f).ToVector4());
-            SeamapCloudShader.Parameters["cloudsColor3"].SetValue((new Color(153, 195, 245).LightSeamap() * 0.9f).ToVector4());
-            SeamapCloudShader.Parameters["cloudsColor2"].SetValue((new Color(153, 195, 245).LightSeamap() * 0.75f).ToVector4());
-            SeamapCloudShader.Parameters["cloudsColor1"].SetValue((new Color(138, 169, 201).LightSeamap() * 0.7f).ToVector4());
+            SeamapCloudShader.Parameters["cloudsColor4"].SetValue(Vector4.Lerp((new Color(218, 221, 237).LightSeamap() * 1f).ToVector4(), (new Color(142, 143, 156).LightSeamap() * 1f).ToVector4(), weatherDensity));
+            SeamapCloudShader.Parameters["cloudsColor3"].SetValue(Vector4.Lerp((new Color(153, 195, 245).LightSeamap() * 0.9f).ToVector4(), (new Color(92, 117, 162).LightSeamap() * 0.9f).ToVector4(), weatherDensity));
+            SeamapCloudShader.Parameters["cloudsColor2"].SetValue(Vector4.Lerp((new Color(153, 195, 245).LightSeamap() * 0.75f).ToVector4(), (new Color(85, 104, 133).LightSeamap() * 0.9f).ToVector4(), weatherDensity));
+            SeamapCloudShader.Parameters["cloudsColor1"].SetValue(Vector4.Lerp((new Color(138, 169, 201).LightSeamap() * 0.7f).ToVector4(), (new Color(49, 76, 119).LightSeamap() * 0.9f).ToVector4(), weatherDensity));
 
             //SeamapCloudShader.Parameters["cloudsColor4"].SetValue((new Color(242, 243, 249) * 1f).ToVector4());
             //SeamapCloudShader.Parameters["cloudsColor3"].SetValue((new Color(218, 221, 237) * 0.9f).ToVector4());
@@ -184,12 +179,14 @@ namespace EEMod.Seamap.SeamapContent
                     SeamapCloudShader.Parameters["arrayOffset"].SetValue(arrayOffset);
                     SeamapCloudShader.CurrentTechnique.Passes[0].Apply();
 
-                    spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000), 1000, 600), Color.White);
+                    //spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000), 1000, 600), Color.White);
                 }
             }
 
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+            SeamapBorderVignette.Parameters["color"].SetValue(Vector4.Lerp(Color.White.LightSeamap().ToVector4(), Color.Gray.LightSeamap().ToVector4(), weatherDensity));
 
             SeamapBorderVignette.CurrentTechnique.Passes[0].Apply();
 
@@ -270,9 +267,19 @@ namespace EEMod.Seamap.SeamapContent
             Vector2 toScreen = pos - Main.screenPosition;
 
 
-            WaterShaderBase.Parameters["icyWaterColor"].SetValue(new Color(36, 46, 199).LightSeamap().ToVector4());
-            WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(28, 118, 186).LightSeamap().ToVector4());
-            WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(64, 180, 217).LightSeamap().ToVector4());
+            //Tropical water palette
+            //WaterShaderBase.Parameters["icyWaterColor"].SetValue(new Color(6, 90, 133).LightSeamap().ToVector4());
+            //WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(0, 141, 161).LightSeamap().ToVector4());
+            //WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(19, 216, 205).LightSeamap().ToVector4());
+
+            //WaterShaderBase.Parameters["icyWaterColor"].SetValue(new Color(34, 30, 45).LightSeamap().ToVector4());
+            //WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(44, 44, 68).LightSeamap().ToVector4());
+            //WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(53, 65, 77).LightSeamap().ToVector4());
+
+            //Neutral water palette
+            WaterShaderBase.Parameters["icyWaterColor"].SetValue(new Color(52, 75, 136).LightSeamap().ToVector4());
+            WaterShaderBase.Parameters["neutralWaterColor"].SetValue(new Color(36, 119, 182).LightSeamap().ToVector4());
+            WaterShaderBase.Parameters["tropicalWaterColor"].SetValue(new Color(96, 178, 220).LightSeamap().ToVector4());
 
             WaterShaderBase.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/SeamapNoise").Value);
 
@@ -299,9 +306,10 @@ namespace EEMod.Seamap.SeamapContent
             WaterShader.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/DotNoise2Squish").Value);
 
             WaterShader.Parameters["baseWaterColor"].SetValue(new Color(0, 0, 0).LightSeamap().ToVector4());
-            WaterShader.Parameters["highlightColor"].SetValue(new Color(5, 5, 5).LightSeamap().ToVector4());
+            WaterShader.Parameters["highlightColor"].SetValue(new Color(5, 5, 5).LightSeamap().ToVector4()); //8,8,8 for storms
 
-            WaterShader.Parameters["sinVal"].SetValue(Main.GameUpdateCount / 1500f);
+            WaterShader.Parameters["sinVal"].SetValue(Main.GameUpdateCount / 1500f); // divided by 1000 for storms
+
             WaterShader.Parameters["width"].SetValue(1000);
             WaterShader.Parameters["height"].SetValue(600);
 

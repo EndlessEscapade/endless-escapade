@@ -31,6 +31,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
         private static string EEPath;
         private static WorldGenerator _generator;
 
+        public static float time;
+
         internal static EEServerState serverState = EEServerState.None;
 
         //public static Process LinuxModServer = new Process();
@@ -144,11 +146,24 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         public static void EnterSubworld<T>() where T : Subworld, new()
         {
+            Console.WriteLine("Gazingus!");
+
+            Console.WriteLine(Main.time);
+
+
+            time = (float)Main.time;
+
             SoundEngine.PlaySound(SoundID.MenuClose);
             PreSaveAndQuit();
             ThreadPool.QueueUserWorkItem(SaveAndQuitCallBack, new T());
-        }
 
+            Console.WriteLine("Gazingus!");
+
+
+            Console.WriteLine(Main.time);
+
+            Main.time = (double)time;
+        }
 
         public static void SaveAndQuitCallBack(object threadContext)
         {
@@ -276,7 +291,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
             return existing;
         }
+
         public static string SubworldPath => Path.Combine(Main.SavePath,"Worlds","EESubworlds_Temp");
+
         private static void OnWorldNamed(object subworld)
         {
             string Name = "";
@@ -354,15 +371,16 @@ namespace EEMod.Systems.Subworlds.EESubworlds
         {
 
         }
+
         public static void EnterSub(string sub)
         {
             OnWorldNamed(sub);
         }
+
         public static void EnterSub(Subworld subworld)
         {
             OnWorldNamed(subworld);
         }
-
 
         public void Return(string baseWorldName) => ReturnOnName(baseWorldName);
     }

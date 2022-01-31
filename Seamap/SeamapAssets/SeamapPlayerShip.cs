@@ -127,8 +127,8 @@ namespace EEMod.Seamap.SeamapContent
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, frameNum * 48, 44, 48),
-                Color.White.LightSeamap() * (1 - (eePlayer.cutSceneTriggerTimer / 180f)),
-                (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / 120f) * 0.075f), new Rectangle(0, frameNum * 48, 44, 48).Size() / 2,
+                Color.White.LightSeamap(), (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / 120f) * 0.075f), 
+                new Rectangle(0, frameNum * 48, 44, 48).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
 
             return false;

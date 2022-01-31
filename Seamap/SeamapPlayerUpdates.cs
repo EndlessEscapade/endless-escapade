@@ -101,8 +101,12 @@ namespace EEMod
             if (cutSceneTriggerTimer >= 500)
             {
                 Initialize();
+
+                Console.WriteLine("i hate doodle");
+
                 prevKey = KeyID.BaseWorldName;
                 SubworldManager.EnterSubworld<Sea>();
+
                 cutSceneTriggerTimer = 0;
             }
         }
