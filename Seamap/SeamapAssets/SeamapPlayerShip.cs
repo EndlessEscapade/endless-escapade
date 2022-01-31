@@ -20,8 +20,8 @@ namespace EEMod.Seamap.SeamapContent
 {
     public class EEPlayerShip : SeamapObject
     {
-        public float ShipHelthMax = 7;
-        public float shipHelth = 7;
+        public float ShipHelthMax = 20;
+        public float shipHelth = 20;
         public int cannonDelay = 60;
 
         public int abilityDelay = 120;
@@ -71,15 +71,7 @@ namespace EEMod.Seamap.SeamapContent
 
                 SeamapObjects.NewSeamapObject(cannonball);
 
-                for(int i = 0; i < 10; i++)
-                {
-                    int j = Dust.NewDust(Center, 0, 0, DustID.Smoke, (Vector2.Normalize(Main.MouseWorld - Center) * 6).X, (Vector2.Normalize(Main.MouseWorld - Center) * 6).Y);
-                    Main.dust[j].noGravity = true;
-                    Main.dust[j].noLight = false;
-                    //Main.dust[j].noLightEmittence = true;
-                }
-
-                SoundEngine.PlaySound(SoundID.Item14);
+                SoundEngine.PlaySound(SoundID.Item38);
                 cannonDelay = 60;
             }
             if (myPlayer.controlUseTile && abilityDelay <= 0)

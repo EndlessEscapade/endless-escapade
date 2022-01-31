@@ -31,6 +31,8 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void Render()
         {
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount <= 0) return;
+
             SpriteBatch spriteBatch = Main.spriteBatch;
 
             Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
@@ -48,6 +50,9 @@ namespace EEMod.Seamap.SeamapContent
             #endregion
 
 
+            spriteBatch.Begin();
+
+
             RenderWater(spriteBatch); //Layer 0
 
 
@@ -60,13 +65,26 @@ namespace EEMod.Seamap.SeamapContent
             if (!Main.hideUI) RenderSeamapUI(spriteBatch); //Layer 4
 
 
-            //Cleaning up
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
         }
 
         public static void RenderSeamapUI(SpriteBatch spriteBatch)
         {
+            #region Rendering OCEAN screen thingy
+
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount > 10 && Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount <= 190)
+            {
+                int updateCount = Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount;
+
+                Texture2D oceanLogo = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/OceanScreen").Value;
+
+                float yOffset = (updateCount <= 70 ? ((float)Math.Sin((updateCount - 10) * 1.57f / 60f) * 240f) - 120 : (updateCount <= 130 ? 120 : ((float)Math.Sin((updateCount - 70) * 1.57f / 60f) * 240f) - 120));
+
+                spriteBatch.Draw(oceanLogo, new Vector2(Main.screenWidth / 2, yOffset), null, Color.White, 0, new Vector2(186, 92), 1, SpriteEffects.None, 0);
+            }
+
+            #endregion
+
             #region Rendering ship healthbar
             Texture2D healthBar = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/HealthbarBg").Value;
             Texture2D healthBarFill = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/HealthbarFill").Value;
@@ -85,6 +103,8 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.Normalize(Main.MouseWorld - SeamapObjects.localship.Center) * 128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
             #endregion
         }
+
+        public static float weatherDensity;
 
         public static void RenderEntities(SpriteBatch spriteBatch)
         {
@@ -194,7 +214,8 @@ namespace EEMod.Seamap.SeamapContent
             Vector2 pos = Vector2.Zero;
             Vector2 toScreen = pos - Main.screenPosition;
 
-            float weatherDensity = 0f;
+            if (isStorming && weatherDensity < 1f) weatherDensity += 0.001f;
+            if (!isStorming && weatherDensity > 0f) weatherDensity -= 0.001f;
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
@@ -223,7 +244,7 @@ namespace EEMod.Seamap.SeamapContent
                     SeamapCloudShader.Parameters["arrayOffset"].SetValue(arrayOffset);
                     SeamapCloudShader.CurrentTechnique.Passes[0].Apply();
 
-                    //spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000) + 100, 1000, 600), Color.White);
+                    spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000) + 100, 1000, 600), Color.White);
                 }
             }
 
@@ -252,7 +273,7 @@ namespace EEMod.Seamap.SeamapContent
                     SeamapCloudShader.Parameters["arrayOffset"].SetValue(arrayOffset);
                     SeamapCloudShader.CurrentTechnique.Passes[0].Apply();
 
-                    //spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000), 1000, 600), Color.White);
+                    spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X + (i * 1000), (int)toScreen.Y + (int)(j * 1000), 1000, 600), Color.White);
                 }
             }
 
@@ -271,6 +292,9 @@ namespace EEMod.Seamap.SeamapContent
 
         static void CalculateBrightness()
         {
+            if (Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
+                brightness = (Main.dayTime ? (isStorming ? 0.8f : 1f) : (isStorming ? 0.5f : 0.3f));
+
             if (!isStorming)
             {
                 if (Main.dayTime)

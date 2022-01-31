@@ -57,7 +57,7 @@ namespace EEMod
         private float textPositionLeft;
         private bool wasDoingWorldGen = false;
 
-        public RenderTarget2D additiveRT;
+        //public RenderTarget2D additiveRT;
 
         public static float lerp;
 
@@ -525,7 +525,7 @@ namespace EEMod
                 //Main.spriteBatch.End();
             }
 
-            if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
+            if (Main.worldName == KeyID.Sea)
                 Seamap.SeamapContent.Seamap.Render();
 
             orig(self);

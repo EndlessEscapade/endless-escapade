@@ -30,7 +30,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
     {
         public override Point Dimensions => new Point(600, 600);
 
-        public override Point SpawnTile => new Point(550, 550);
+        public override Point SpawnTile => new Point(550, 200);
 
         public override string Name => "Sea";
 

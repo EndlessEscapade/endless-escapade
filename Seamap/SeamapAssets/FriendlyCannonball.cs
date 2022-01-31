@@ -36,7 +36,12 @@ namespace EEMod.Seamap.SeamapContent
         {
             ticks++;
 
-            if(sinkLevel >= 12)
+            rotation = 0f;
+
+            if (ticks >= 100 && ticks % 4 == 0) explodeFrame++;
+            if (ticks == 100) SoundEngine.PlaySound(SoundID.Item14);
+
+            if (sinkLevel >= 12)
             {
                 SeamapObjects.NewSeamapObject(new SplashRing(Center + new Vector2(0, 4), Vector2.Zero));
 
@@ -47,21 +52,42 @@ namespace EEMod.Seamap.SeamapContent
         }
 
         public float sinkLevel;
+
+        public int explodeFrame;
+
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            if(ticks >= 108)
+            if (explodeFrame >= 1)
             {
-                sinkLevel += 1f;
-
                 velocity = Vector2.Zero;
 
-                Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, sinkLevel), new Rectangle(0, 0, width, (int)(height - sinkLevel)), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                Texture2D explodeSheet = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplode").Value;
+
+                Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White.LightSeamap(), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
+                if(explodeFrame - 1 >= 6)
+                {
+                    Kill();
+                }
 
                 return false;
-            } 
+            }
             else
             {
-                return true;
+                if (ticks >= 108)
+                {
+                    sinkLevel += 1f;
+
+                    velocity = Vector2.Zero;
+
+                    Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, sinkLevel), new Rectangle(0, 0, width, (int)(height - sinkLevel)), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
         }
     }
