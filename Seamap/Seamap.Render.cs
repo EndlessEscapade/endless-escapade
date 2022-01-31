@@ -23,8 +23,6 @@ namespace EEMod.Seamap.SeamapContent
             get => Main.LocalPlayer.GetModPlayer<EEPlayer>();
         }
 
-        public static RenderTarget2D shadowRT;
-
         public static int seamapWidth = 5000;
         public static int seamapHeight = 5000;
 
@@ -35,61 +33,31 @@ namespace EEMod.Seamap.SeamapContent
         {
             SpriteBatch spriteBatch = Main.spriteBatch;
 
-            #region Controlling brightness
-            if (!isStorming)
-            {
-                if (Main.dayTime)
-                {
-                    if (Main.time < 52000 && brightness < 1f)
-                        brightness += 0.0025f;
+            #region Controlling brightness + weather
 
-                    if (Main.time >= 52000 && brightness > 0.5f)
-                        brightness -= 0.0025f;
-                }
-                else
-                {
-                    brightness = 0.5f;
-                }
-            }
-            else
-            {
-                if (Main.dayTime)
-                {
-                    if (Main.time < 52000 && brightness < 0.8f)
-                        brightness += 0.0025f;
-
-                    if (Main.time >= 52000 && brightness > 0.8f)
-                        brightness -= 0.0025f;
-                }
-                else
-                {
-                    brightness = 0.3f;
-                }
-            }
-
+            CalculateBrightness();
 
             if (Main.time % 1000 == 0)
-            {
                 if (Main.rand.NextBool(10)) isStorming = !isStorming;
-            }
 
             #endregion
 
+
             RenderWater(spriteBatch); //Layer 0
+
 
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
 
-            RenderClouds(spriteBatch);
 
-            spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            RenderClouds(spriteBatch); //Layer 3
 
-            if (!Main.hideUI) RenderSeamapUI(spriteBatch); //Layer 3
 
+            if (!Main.hideUI) RenderSeamapUI(spriteBatch); //Layer 4
+
+
+            //Cleaning up
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
-
-            //EEMod.DrawText();
         }
 
         public static void RenderSeamapUI(SpriteBatch spriteBatch)
@@ -291,6 +259,43 @@ namespace EEMod.Seamap.SeamapContent
             SeamapBorderVignette.CurrentTechnique.Passes[0].Apply();
 
             spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, 5000, 4800), Color.White);
+
+            spriteBatch.End();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+        }
+
+        static void CalculateBrightness()
+        {
+            if (!isStorming)
+            {
+                if (Main.dayTime)
+                {
+                    if (Main.time < 52000 && brightness < 1f)
+                        brightness += 0.0025f;
+
+                    if (Main.time >= 52000 && brightness > 0.5f)
+                        brightness -= 0.0025f;
+                }
+                else
+                {
+                    brightness = 0.5f;
+                }
+            }
+            else
+            {
+                if (Main.dayTime)
+                {
+                    if (Main.time < 52000 && brightness < 0.8f)
+                        brightness += 0.0025f;
+
+                    if (Main.time >= 52000 && brightness > 0.8f)
+                        brightness -= 0.0025f;
+                }
+                else
+                {
+                    brightness = 0.3f;
+                }
+            }
         }
     }
 

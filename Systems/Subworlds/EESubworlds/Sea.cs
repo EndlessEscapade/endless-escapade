@@ -41,78 +41,13 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void PlayerUpdate(Player player)
         {
-            #region Opening cutscene for seamap
-            if (player.GetModPlayer<EEPlayer>().quickOpeningFloat > 0.01f)
-            {
-                player.GetModPlayer<EEPlayer>().quickOpeningFloat -= player.GetModPlayer<EEPlayer>().quickOpeningFloat / 20f;
-            }
-            else
-            {
-                player.GetModPlayer<EEPlayer>().quickOpeningFloat = 0;
-            }
-
-            Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(player.GetModPlayer<EEPlayer>().quickOpeningFloat);
-
-            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
-            {
-                Filters.Scene.Activate("EEMod:SeaOpening", player.Center).GetShader().UseIntensity(player.GetModPlayer<EEPlayer>().quickOpeningFloat);
-            }
-
-            if (player.GetModPlayer<EEPlayer>().noU)
-            {
-                player.GetModPlayer<EEPlayer>().titleText -= 0.005f;
-            }
-            else
-            {
-                player.GetModPlayer<EEPlayer>().titleText += 0.005f;
-            }
-
-            if (player.GetModPlayer<EEPlayer>().titleText >= 1)
-            {
-                player.GetModPlayer<EEPlayer>().noU = true;
-            }
-            #endregion
 
             player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
 
-            #region Placing SeamapObjects.Islands
             if (player.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
-            {
                 Seamap.SeamapContent.Seamap.InitializeSeamap();
-            }
-            #endregion
 
-            #region If ship crashes
-            if (SeamapObjects.localship.shipHelth <= 0)
-            {
-                if (EEPlayer.prevKey == player.GetModPlayer<EEPlayer>().baseWorldName || EEPlayer.prevKey == "Main")
-                {
-                    ReturnHome(player);
-                }
-                else
-                {
-                    player.GetModPlayer<EEPlayer>().Initialize();
-
-                    player.GetModPlayer<EEPlayer>().arrowFlag = false;
-
-                    player.GetModPlayer<EEPlayer>().SM.Return(EEPlayer.prevKey);
-                }
-            }
-            #endregion
-
-            #region Warping to islands
-            if (!player.GetModPlayer<EEPlayer>().arrowFlag)
-            {
-                player.GetModPlayer<EEPlayer>().arrowFlag = true;
-            }
-
-            player.position = player.oldPosition;
-            player.invis = true;
-
-            player.AddBuff(BuffID.Cursed, 100000);
-            Main.GameZoomTarget = 1f;
-
-            bool isCollidingWithAnyIsland = false;
+            #region Island Interact methods
             foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
             {
                 if (obj is Island)
@@ -130,19 +65,23 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     }
                 }
             }
-
-            if (!isCollidingWithAnyIsland)
-            {
-                player.GetModPlayer<EEPlayer>().subTextAlpha -= 0.02f;
-
-                if (player.GetModPlayer<EEPlayer>().subTextAlpha <= 0)
-                {
-                    player.GetModPlayer<EEPlayer>().subTextAlpha = 0;
-                }
-            }
             #endregion
 
-            /*#region Warp cutscene
+            #region Opening cutscene for seamap
+
+            if (player.GetModPlayer<EEPlayer>().quickOpeningFloat > 0.01f)
+                player.GetModPlayer<EEPlayer>().quickOpeningFloat -= player.GetModPlayer<EEPlayer>().quickOpeningFloat / 20f;
+            else
+                player.GetModPlayer<EEPlayer>().quickOpeningFloat = 0;
+
+            Filters.Scene["EEMod:SeaOpening"].GetShader().UseIntensity(player.GetModPlayer<EEPlayer>().quickOpeningFloat);
+
+            if (Main.netMode != NetmodeID.Server && !Filters.Scene["EEMod:SeaOpening"].IsActive())
+                Filters.Scene.Activate("EEMod:SeaOpening", player.Center).GetShader().UseIntensity(player.GetModPlayer<EEPlayer>().quickOpeningFloat);
+
+            #endregion
+
+            #region Warp cutscene
             if (player.GetModPlayer<EEPlayer>().importantCutscene)
             {
                 EEMod.Noise2D.NoiseTexture = ModContent.Request<Texture2D>("EEMod/Textures/Noise/noise").Value;
@@ -162,7 +101,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     SubworldManager.EnterSubworld<CoralReefs>(); // coral reefs
                 }
             }
-            #endregion*/
+            #endregion
         }
 
         public void ReturnHome(Player player)

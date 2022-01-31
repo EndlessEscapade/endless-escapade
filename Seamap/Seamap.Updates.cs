@@ -46,8 +46,6 @@ namespace EEMod.Seamap.SeamapContent
 
         public static void InitializeSeamap()
         {
-            shadowRT = new RenderTarget2D(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
-
             SeamapObjects.InitObjects(new Vector2(seamapWidth - 450, seamapWidth - 100));
             //SeamapObjects.InitObjects(new Vector2(500, 500));
 
