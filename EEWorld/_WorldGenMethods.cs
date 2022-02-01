@@ -211,13 +211,13 @@ namespace EEMod.EEWorld
             
             void DoTheThing()
             {
-                while (Main.tile[x2, y2 - 3].LiquidAmount > 64 || Main.tile[x2, y2].LiquidAmount > 64)
+                while (Framing.GetTileSafely(x2, y2 - 3).LiquidAmount > 64 || Framing.GetTileSafely(x2, y2).LiquidAmount > 64)
                 {
                     WorldGen.PlaceTile(x2, y2, TileID.LivingWood, false, true);
                     WorldGen.PlaceTile(x2 + 1, y2, TileID.LivingWood, false, true);
 
-                    Main.tile[x2, y2].Slope = SlopeType.Solid;
-                    Main.tile[x2 + 1, y2].Slope = SlopeType.Solid;
+                    Framing.GetTileSafely(x2, y2).Slope = SlopeType.Solid;
+                    Framing.GetTileSafely(x2 + 1, y2).Slope = SlopeType.Solid;
 
                     y2++;
                 }
@@ -1282,11 +1282,11 @@ namespace EEMod.EEWorld
                 {
                     for (int l = num5; l < num6; l++)
                     {
-                        if (overRide || !Main.tile[k, l].IsActive)
+                        if (overRide || !Framing.GetTileSafely(k, l).IsActive)
                         {
-                            if (Main.tileSolid[Main.tile[k, l].type] == true)
+                            if (Main.tileSolid[Framing.GetTileSafely(k, l).type] == true)
                             {
-                                Main.tile[k, l].type = (ushort)type;
+                                Framing.GetTileSafely(k, l).type = (ushort)type;
                             }
                         }
                         if (addTile)

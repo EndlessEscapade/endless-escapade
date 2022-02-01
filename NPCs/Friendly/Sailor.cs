@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -153,9 +153,9 @@ namespace EEMod.NPCs.Friendly
                     {
                         for(int j = (int)EEWorld.EEWorld.shipCoords.Y - 18; j < (int)EEWorld.EEWorld.shipCoords.Y - 18 + 50; j++)
                         {
-                            if(Main.tile[i, j].wall != WallID.None)
+                            if(Framing.GetTileSafely(i, j).wall != WallID.None)
                             {
-                                Main.tile[i, j].LiquidAmount = 0;
+                                Framing.GetTileSafely(i, j).LiquidAmount = 0;
                             }
                         }
                     }

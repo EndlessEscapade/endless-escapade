@@ -1,4 +1,4 @@
-using EEMod.Autoloading;
+﻿using EEMod.Autoloading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -331,7 +331,7 @@ namespace EEMod.EEWorld
                                     break;
                                 }*/
 
-                                Main.tile[i, k].Slope = 0;
+                                Framing.GetTileSafely(i, k).Slope = 0;
 
                                 switch (WorldGen.genRand.Next(3))
                                 {
@@ -340,8 +340,8 @@ namespace EEMod.EEWorld
 
                                         for (int l = k - 1; l >= k - rand; l--)
                                         {
-                                            Main.tile[i, l].type = (ushort)ModContent.TileType<SeagrassTile>();
-                                            Main.tile[i, l].IsActive = true;
+                                            Framing.GetTileSafely(i, l).type = (ushort)ModContent.TileType<SeagrassTile>();
+                                            Framing.GetTileSafely(i, l).IsActive = true;
                                         }
                                         break;
                                     case 1:
@@ -349,7 +349,7 @@ namespace EEMod.EEWorld
 
                                         for (int l = k - 1; l >= k - rand2; l--)
                                         {
-                                            Main.tile[i, l].type = TileID.Seaweed;
+                                            Framing.GetTileSafely(i, l).type = TileID.Seaweed;
                                             Main.tile[i, l].IsActive = true;
 
                                             if (l == k - rand2)

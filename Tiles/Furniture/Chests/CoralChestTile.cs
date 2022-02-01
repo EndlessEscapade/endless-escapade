@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Furniture;
+﻿using EEMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -47,7 +47,7 @@ namespace EEMod.Tiles.Furniture.Chests
         {
             int left = i;
             int top = j;
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
             if (tile.frameX % 36 != 0)
             {
                 left--;
@@ -81,7 +81,7 @@ namespace EEMod.Tiles.Furniture.Chests
         public override bool RightClick(int i, int j)
         {
             Player player = Main.LocalPlayer;
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
             // Main.mouseRightRelease = false;
             int left = i;
             int top = j;
@@ -157,7 +157,7 @@ namespace EEMod.Tiles.Furniture.Chests
         public override void MouseOver(int i, int j)
         {
             Player player = Main.LocalPlayer;
-            Tile tile = Main.tile[i, j];
+            Tile tile = Framing.GetTileSafely(i, j);
             int left = i;
             int top = j;
             if (tile.frameX % 36 != 0)

@@ -50,7 +50,7 @@ namespace EEMod.EEWorld
             BoundClause((int i, int j) =>
             {
                 bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Top;
-                if (CorrectSpacing && WorldGen.genRand.NextBool(20) && Main.tile[i, j].type != ModContent.TileType<RustyPipeTile>())
+                if (CorrectSpacing && WorldGen.genRand.NextBool(20) && Framing.GetTileSafely(i, j).type != ModContent.TileType<RustyPipeTile>())
                 {
                     int pipeHeight = WorldGen.genRand.Next(3, 7);
 

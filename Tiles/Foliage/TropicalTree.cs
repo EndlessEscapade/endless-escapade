@@ -50,7 +50,7 @@ namespace EEMod.Tiles.Foliage
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Tile t = Main.tile[i, j];
+            Tile t = Framing.GetTileSafely(i, j);
             if (t.frameX == 0 && t.frameY == 0)
             {
                 Main.specX[nextSpecialDrawIndex] = i;

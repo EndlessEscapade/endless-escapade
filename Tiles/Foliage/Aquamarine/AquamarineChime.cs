@@ -1,4 +1,4 @@
-using EEMod.Extensions;
+﻿using EEMod.Extensions;
 using EEMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -38,7 +38,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             Color color = Color.White;
 
             int frameX = 0;
-            int frameY = (Main.tile[i, j + 1].type == ModContent.TileType<AquamarineChime>() ? 0 : 18);
+            int frameY = (Framing.GetTileSafely(i, j + 1).type == ModContent.TileType<AquamarineChime>() ? 0 : 18);
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
@@ -53,7 +53,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
 
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
 
-            if (Main.tile[i, j - 1].IsActive == false) WorldGen.KillTile(i, j);
+            if (Framing.GetTileSafely(i, j - 1).IsActive == false) WorldGen.KillTile(i, j);
 
             Lighting.AddLight(new Vector2(i, j) * 16, Color.Lerp(Color.Pink, Color.Cyan, Math.Sin(((i + j) / 20f) + Main.GameUpdateCount / 60f).PositiveSin()).ToVector3() / 3f);
 

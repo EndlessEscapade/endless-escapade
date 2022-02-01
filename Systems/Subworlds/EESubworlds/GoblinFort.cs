@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Terraria;
@@ -274,7 +274,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     if (tile.IsActive && tile.type == TileID.Sand &&
                         !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(2))
                     {
-                        Main.tile[i, j].Slope = 0;
+                        Framing.GetTileSafely(i, j).Slope = 0;
 
                         switch (WorldGen.genRand.Next(3))
                         {
@@ -283,10 +283,10 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                                 for (int l = j - 1; l >= j - Rand; l--)
                                 {
-                                    if (Main.tile[i, l].LiquidAmount < 60) break;
+                                    if (Framing.GetTileSafely(i, l).LiquidAmount < 60) break;
 
-                                    Main.tile[i, l].type = (ushort)ModContent.TileType<SeagrassTile>();
-                                    Main.tile[i, l].IsActive = true;
+                                    Framing.GetTileSafely(i, l).type = (ushort)ModContent.TileType<SeagrassTile>();
+                                    Framing.GetTileSafely(i, l).IsActive = true;
                                 }
                                 break;
                             case 1:

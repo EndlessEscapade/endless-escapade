@@ -1,4 +1,4 @@
-using EEMod.Extensions;
+﻿using EEMod.Extensions;
 using EEMod.Tiles;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
             int frameX = 0;
             int frameY = 0;
 
-            if (Main.tile[i - 1, j].type != Main.tile[i, j].type && Main.tile[i + 1, j].type != Main.tile[i, j].type)
+            if (Framing.GetTileSafely(i - 1, j).type != Framing.GetTileSafely(i, j).type && Framing.GetTileSafely(i + 1, j).type != Framing.GetTileSafely(i, j).type)
             {
                 frameX = 36;
                 frameY = ((i + j) % 2) * 18;

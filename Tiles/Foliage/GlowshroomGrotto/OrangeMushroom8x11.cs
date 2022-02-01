@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
@@ -41,7 +41,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Tile t = Main.tile[i, j];
+            Tile t = Framing.GetTileSafely(i, j);
             if (t.frameX == 0 && t.frameY == 0)
             {
                 Main.specX[nextSpecialDrawIndex] = i;
@@ -69,7 +69,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
                     zero = Vector2.Zero;
                 }
 
-                Tile tile = Main.tile[i, j];
+                Tile tile = Framing.GetTileSafely(i, j);
 
                 Color color = Color.White * (float)(0.8f + (Math.Sin((i - (tile.frameX / 18f)) + (j - (tile.frameY / 18f)) + Main.GameUpdateCount / 20f) / 5f));
 

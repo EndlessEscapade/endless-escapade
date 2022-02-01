@@ -1,4 +1,4 @@
-using EEMod.Extensions;
+﻿using EEMod.Extensions;
 using EEMod.Prim;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -129,8 +129,8 @@ namespace EEMod.NPCs.Goblins.Shaman
 
                         for (int i = (int)(Main.LocalPlayer.Center.Y / 16f) - 50; i < (int)(Main.LocalPlayer.Center.Y / 16f) + 50; i++)
                         {
-                            if ((Main.tile[tileTry, i].IsActive && Main.tileSolid[Main.tile[tileTry, i].type]) &&
-                                (!Main.tile[tileTry, i - 1].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 1].type]) &&
+                            if ((Framing.GetTileSafely(tileTry, i).IsActive && Main.tileSolid[Framing.GetTileSafely(tileTry, i).type]) &&
+                                (!Framing.GetTileSafely(tileTry, i - 1).IsActive || !Main.tileSolid[Framing.GetTileSafely(tileTry, i - 1).type]) &&
                                 ((!Main.tile[tileTry, i - 2].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 2].type]) && Main.tile[tileTry, i - 1].LiquidAmount < 16) &&
                                 ((!Main.tile[tileTry, i - 3].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 3].type]) && Main.tile[tileTry, i - 1].LiquidAmount == 0))
                             {
