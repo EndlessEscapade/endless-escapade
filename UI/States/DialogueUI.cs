@@ -210,6 +210,18 @@ namespace EEMod.UI.States
                 Vector2 size = Terraria.GameContent.FontAssets.MouseText.Value.MeasureString(Name);
                 ChatManager.DrawColorCodedStringWithShadow(spriteBatch, Terraria.GameContent.FontAssets.MouseText.Value, Name, new Vector2(dimensions2.X - (size.X / 2), dimensions2.Y), Color.White, 0f, Vector2.Zero, Vector2.One);
             }
+            if (AllResponses.Count > 3)
+            {
+                Texture2D arrow = ModContent.Request<Texture2D>("EEMod/UI/ScrollArrowWarning", AssetRequestMode.ImmediateLoad).Value;
+                CalculatedStyle boxDimensions = Box.GetDimensions();
+                int x = (int)(dimensions.X + (arrow.Size().X / 2));
+                int y = (int)(dimensions.Y + (arrow.Size().Y / 2));
+                if (ScrollHandler > 0)
+                {
+                    spriteBatch.Draw(arrow, new Vector2(x + dimensions.X - 20, y - dimensions.Y + 20), null, CurrentDialogueSystem.ThemeColor, 0f, arrow.Size(), 1f, SpriteEffects.FlipHorizontally, 0f);
+                    spriteBatch.Draw(arrow, new Vector2(x - dimensions.X + 20, y - dimensions.Y + 20), null, CurrentDialogueSystem.ThemeColor, 0f, arrow.Size(), 1f, SpriteEffects.FlipHorizontally, 0f);
+                }
+            }
         }
     }
     public class DialogueBox : UIImageButton

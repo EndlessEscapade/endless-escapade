@@ -1,8 +1,9 @@
+using EEMod.Seamap.SeamapContent;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Weapons.Cannonballs
+namespace EEMod.Items.Shipyard.Cannonballs
 {
     public class ExplosiveCannonballs : EEItem
     {
@@ -30,8 +31,8 @@ namespace EEMod.Items.Weapons.Cannonballs
         public override void OnConsumeItem(Player player)
         {
             EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
-            modPlayer.cannonballType = 2;
-            Main.NewText(modPlayer.boatSpeed);
+            modPlayer.CannonballType = 2;
+            Main.NewText(SeamapObjects.localship.boatSpeed);
         }
 
         public override bool? UseItem(Player player)
