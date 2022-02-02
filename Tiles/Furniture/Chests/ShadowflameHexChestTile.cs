@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables.Furniture;
+﻿using EEMod.Items.Placeables.Furniture;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
@@ -77,7 +77,7 @@ namespace EEMod.Tiles.Furniture.Chests
 		{
 			int left = i;
 			int top = j;
-			Tile tile = Main.tile[i, j];
+			Tile tile = Framing.GetTileSafely(i, j);
 			if (tile.frameX % 36 != 0)
 			{
 				left--;
@@ -113,7 +113,7 @@ namespace EEMod.Tiles.Furniture.Chests
 		public override bool RightClick(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			Tile tile = Main.tile[i, j];
+			Tile tile = Framing.GetTileSafely(i, j);
 			Main.mouseRightRelease = false;
 			int left = i;
 			int top = j;
@@ -217,7 +217,7 @@ namespace EEMod.Tiles.Furniture.Chests
 		public override void MouseOver(int i, int j)
 		{
 			Player player = Main.LocalPlayer;
-			Tile tile = Main.tile[i, j];
+			Tile tile = Framing.GetTileSafely(i, j);
 			int left = i;
 			int top = j;
 			if (tile.frameX % 36 != 0)
@@ -269,10 +269,10 @@ namespace EEMod.Tiles.Furniture.Chests
                 zero = Vector2.Zero;
             }
 
-			Chest c = Main.chest[Chest.FindChest(i - (int)(Main.tile[i, j].frameX / 18f), j - (int)(Main.tile[i, j].frameY / 18f))];
+			Chest c = Main.chest[Chest.FindChest(i - (int)(Framing.GetTileSafely(i, j).frameX / 18f), j - (int)(Framing.GetTileSafely(i, j).frameY / 18f))];
 
 			spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Chests/ShadowflameHexChestTileGlow").Value,
-				new Vector2((i * 16), (j * 16)) - Main.screenPosition + zero, new Rectangle(Main.tile[i, j].frameX, Main.tile[i, j].frameY + (c.frame * 38), 18, 20), Color.White);
+				new Vector2((i * 16), (j * 16)) - Main.screenPosition + zero, new Rectangle(Framing.GetTileSafely(i, j).frameX, Main.tile[i, j].frameY + (c.frame * 38), 18, 20), Color.White);
 
 			bool allGoblinsDead = true;
 

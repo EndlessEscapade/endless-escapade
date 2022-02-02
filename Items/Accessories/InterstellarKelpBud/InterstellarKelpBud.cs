@@ -1,4 +1,4 @@
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
@@ -127,7 +127,7 @@ namespace EEMod.Items.Accessories.InterstellarKelpBud
                     Vector2 location = new Vector2(Main.rand.Next(0, (int)(90 * ringScale)), 0).RotatedByRandom(6.28f) + Projectile.Center + ringOffset;
                     Vector2 tileLocation = location / 16;
 
-                    if (!Main.tile[(int)tileLocation.X, (int)tileLocation.Y].IsActive)
+                    if (!Framing.GetTileSafely((int)tileLocation.X, (int)tileLocation.Y).IsActive)
                     {
                         EEMod.MainParticles.SpawnParticles(location, Vector2.Zero, Mod.Assets.Request<Texture2D>("Particles/BigPlusSign").Value, 30, Main.rand.NextFloat(1f, 1.5f), chosen, new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.6f));
                     }

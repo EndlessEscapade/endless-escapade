@@ -49,7 +49,7 @@ namespace EEMod.Systems
 			switch (piece)
             {
                 case (0):
-					PresentResponses(new int[3] { 2, 1, 3 });
+					PresentResponses(new int[5] { 2, 1, 3, 7, 8 });
 					break;
 				case (1):
 					//PresentResponses(new int[1] { 4 });

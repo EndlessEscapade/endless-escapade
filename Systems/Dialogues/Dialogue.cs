@@ -39,8 +39,8 @@ namespace EEMod.Systems
 			DialogueUI.Name = Name.FormatString(20);
 			DialogueUI.DialogueBoxDivider.ThemeColor = ThemeColor;
 			//You can guess by now that I have no idea why these 2 are needed but they are
-			DialogueUI.ResponsesList.Add(new Response(0, "", ThemeColor));
-			DialogueUI.ResponsesList.Clear();
+			DialogueUI.AllResponses.Add(new Response(0, "", ThemeColor));
+			DialogueUI.AllResponses.Clear();
 		}
 		public virtual void SayPiece(int piece) 
 		{
@@ -55,7 +55,11 @@ namespace EEMod.Systems
 			DialogueUI.Name = "";
 			for (int i = 0; i < responses.Length; i++)
             {
-				DialogueUI.ResponsesList.Add(new Response(responses[i], DialoguePieces[responses[i]], ThemeColor));
+				DialogueUI.AllResponses.Add(new Response(responses[i], DialoguePieces[responses[i]], ThemeColor));
+				if (i < 3)
+                {
+					DialogueUI.ResponsesList.Add(DialogueUI.AllResponses[i]);
+                }
 			}
 			DialogueUI.Box.Append(DialogueUI.ResponsesList);
 		}

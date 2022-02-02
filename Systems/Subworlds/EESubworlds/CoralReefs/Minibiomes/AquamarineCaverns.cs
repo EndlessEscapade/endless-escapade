@@ -231,11 +231,11 @@ namespace EEMod.EEWorld
             //Spawning aquamarine pillars
             BoundClause((int i, int j) =>
             {
-                if ((WorldGen.InWorld(i, j) && WorldGen.InWorld(i + 1, j) && Main.tile[i, j].type == ModContent.TileType<GemsandTile>() || Main.tile[i, j].type == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].IsActive && WorldGen.genRand.NextBool(10))
+                if ((WorldGen.InWorld(i, j) && WorldGen.InWorld(i + 1, j) && Framing.GetTileSafely(i, j).type == ModContent.TileType<GemsandTile>() || Framing.GetTileSafely(i, j).type == ModContent.TileType<AquamarineTile>()) && !Framing.GetTileSafely(i, j + 1).IsActive && WorldGen.genRand.NextBool(10))
                 {
                     int newJ = j + 1;
 
-                    while (!Main.tile[i, newJ].IsActive)
+                    while (!Framing.GetTileSafely(i, newJ).IsActive)
                     {
                         WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarinePillar>());
 

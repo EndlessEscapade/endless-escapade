@@ -1,4 +1,4 @@
-using EEMod.Extensions;
+﻿using EEMod.Extensions;
 using EEMod.ID;
 using EEMod.Players;
 using EEMod.Systems;
@@ -54,7 +54,7 @@ namespace EEMod
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
+                        if (Framing.GetTileSafely((int)(vec.X), (int)(vec.Y)).LiquidType == 0 && Framing.GetTileSafely((int)(vec.X), (int)(vec.Y)).LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.AquamarineCaverns)
@@ -63,7 +63,7 @@ namespace EEMod
 
                         Vector2 vec = (Main.LocalPlayer.Center + rand) / 16;
 
-                        if (Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidType == 0 && Main.tile[(int)(vec.X), (int)(vec.Y)].LiquidAmount >= 100)
+                        if (Framing.GetTileSafely((int)(vec.X), (int)(vec.Y)).LiquidType == 0 && Framing.GetTileSafely((int)(vec.X), (int)(vec.Y)).LiquidAmount >= 100)
                             fishflocks[randInt].Populate(Main.LocalPlayer.Center + rand, Main.rand.Next(fishflocks[randInt].randMin, fishflocks[randInt].randMax), 50f);
                     }
                     else if (Main.LocalPlayer.GetModPlayer<EEZonePlayer>().reefMinibiomeID == MinibiomeID.ThermalVents)

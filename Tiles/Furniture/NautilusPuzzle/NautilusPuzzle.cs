@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.Enums;
@@ -38,7 +38,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
 
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
-            Tile t = Main.tile[i, j];
+            Tile t = Framing.GetTileSafely(i, j);
             if (t.frameX % 54 == 0 && t.frameY == 0)
             {
                 Main.specX[nextSpecialDrawIndex] = i;

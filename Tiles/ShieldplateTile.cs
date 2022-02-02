@@ -1,4 +1,4 @@
-using EEMod.Extensions;
+﻿using EEMod.Extensions;
 using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,11 +36,11 @@ namespace EEMod.Tiles
             int frameX = Framing.GetTileSafely(i, j).frameX;
             int frameY = Framing.GetTileSafely(i, j).frameY;
 
-            if (!Main.tile[i - 1, j].IsActive)
+            if (!Framing.GetTileSafely(i - 1, j).IsActive)
             {
                 frameX = 18;
             }
-            if (Main.tile[i - 1, j].type == ModContent.TileType<ShieldplateTile>())
+            if (Framing.GetTileSafely(i - 1, j).type == ModContent.TileType<ShieldplateTile>())
             {
                 frameX = ((i % 3) * 18) + 36;
             }

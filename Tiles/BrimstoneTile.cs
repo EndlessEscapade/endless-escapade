@@ -1,4 +1,4 @@
-using EEMod.Items.Placeables;
+﻿using EEMod.Items.Placeables;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -41,11 +41,11 @@ namespace EEMod.Tiles
             int newFrameX = 0;
             int newFrameY = 0;
 
-            Tile tileAbove = Main.tile[i, j - 1];
-            Tile tileBelow = Main.tile[i, j + 1];
+            Tile tileAbove = Framing.GetTileSafely(i, j - 1);
+            Tile tileBelow = Framing.GetTileSafely(i, j + 1);
 
-            Tile tileLeft = Main.tile[i - 1, j];
-            Tile tileRight = Main.tile[i + 1, j];
+            Tile tileLeft = Framing.GetTileSafely(i - 1, j);
+            Tile tileRight = Framing.GetTileSafely(i + 1, j);
 
             Tile tileTopLeft = Main.tile[i - 1, j - 1];
             Tile tileTopRight = Main.tile[i + 1, j - 1];
@@ -191,7 +191,7 @@ namespace EEMod.Tiles
                 zero = Vector2.Zero;
             }
 
-            Main.spriteBatch.Draw(tex, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(Main.tile[i, j].frameX, Main.tile[i, j].frameY, 16, 16), Lighting.GetColor(i, j) * (1.5f + ((float)Math.Sin((i * j) + Main.GameUpdateCount / 20f) * 0.3f)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(Framing.GetTileSafely(i, j).frameX, Framing.GetTileSafely(i, j).frameY, 16, 16), Lighting.GetColor(i, j) * (1.5f + ((float)Math.Sin((i * j) + Main.GameUpdateCount / 20f) * 0.3f)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

@@ -1,4 +1,4 @@
-using EEMod.Items.Materials;
+﻿using EEMod.Items.Materials;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Foliage
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            if (Main.tile[i, j + 1].type != ModContent.TileType<SeagrassTile>() && Main.tile[i, j + 1].type != ModContent.TileType<CoralSandTile>() && Main.tile[i, j + 1].type != TileID.Sand)
+            if (Framing.GetTileSafely(i, j + 1).type != ModContent.TileType<SeagrassTile>() && Framing.GetTileSafely(i, j + 1).type != ModContent.TileType<CoralSandTile>() && Framing.GetTileSafely(i, j + 1).type != TileID.Sand)
             {
                 //Main.tile[i, j].ClearTile();
 

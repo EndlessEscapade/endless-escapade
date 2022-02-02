@@ -177,11 +177,11 @@ namespace EEMod.Systems
                 {
 					for (int z = i; z < i + action.RepetitionData; z++)
 					{
-						byte liquid = Main.tile[z, j].LiquidAmount;
+						byte liquid = Framing.GetTileSafely(z, j).LiquidAmount;
 
 						KillTile(z, j, false, noItem: true);
 
-						Main.tile[z, j].LiquidAmount = liquid;
+						Framing.GetTileSafely(z, j).LiquidAmount = liquid;
 					}
 
 					i += action.RepetitionData;
@@ -196,11 +196,11 @@ namespace EEMod.Systems
 				}
 				else if (action.Type == PlacementActionType.PlaceAir && keepWater && !keepTiles)
 				{
-					byte liquid = Main.tile[i, j].LiquidAmount;
+					byte liquid = Framing.GetTileSafely(i, j).LiquidAmount;
 
 					KillTile(i, j, false, noItem: true);
 
-					Main.tile[i, j].LiquidAmount = liquid;
+					Framing.GetTileSafely(i, j).LiquidAmount = liquid;
 
 					i++;
 				}
