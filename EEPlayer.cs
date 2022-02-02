@@ -333,6 +333,7 @@ namespace EEMod
                     Player.position = Player.oldPosition;
                 }
             }
+
             switch (Main.worldName)
             {
                 case KeyID.CoralReefs:

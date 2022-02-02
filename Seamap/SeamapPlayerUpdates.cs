@@ -104,8 +104,6 @@ namespace EEMod
             {
                 Initialize();
 
-                Console.WriteLine("i hate doodle");
-
                 prevKey = KeyID.BaseWorldName;
                 SubworldManager.EnterSubworld<Sea>();
 
@@ -119,25 +117,4 @@ namespace EEMod
         //public int CannonType;
         //public int CannonballType;
     }
-
-    /*public partial class EEMod : Mod
-    {
-        public static bool IsPlayerLocalServerOwner(int whoAmI)
-        {
-            if (Main.netMode == NetmodeID.MultiplayerClient)
-            {
-                return Netplay.Connection.Socket.GetRemoteAddress().IsLocalHost();
-            }
-
-            for (int i = 0; i < Main.maxPlayers; i++)
-            {
-                RemoteClient client = Netplay.Clients[i];
-                if (client.State == 10 && i == whoAmI && client.Socket.GetRemoteAddress().IsLocalHost())
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }*/
 }
