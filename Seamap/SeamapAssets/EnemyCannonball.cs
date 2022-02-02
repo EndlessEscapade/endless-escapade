@@ -31,12 +31,38 @@ namespace EEMod.Seamap.SeamapContent
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/EnemyCannonball", AssetRequestMode.ImmediateLoad).Value;
         }
 
+        public override bool collides => true;
+
         public int ticks;
         public override void Update()
         {
             ticks++;
 
-            if(sinkLevel >= 12)
+            if (explodeFrame <= 0)
+            {
+                foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
+                {
+                    if (obj == null) continue;
+
+                    if (obj.collides && obj.Hitbox.Intersects(Hitbox))
+                    {
+                        SoundEngine.PlaySound(SoundID.Item14);
+                        explodeFrame++;
+                    }
+                }
+
+                if (ticks == 100)
+                {
+                    SoundEngine.PlaySound(SoundID.Item14);
+                    explodeFrame++;
+                }
+            }
+
+            if (explodeFrame >= 1 && ticks % 4 == 0) explodeFrame++;
+
+            rotation = 0f;
+
+            if (sinkLevel >= 12)
             {
                 SeamapObjects.NewSeamapObject(new SplashRing(Center + new Vector2(0, 4), Vector2.Zero));
 
@@ -47,21 +73,47 @@ namespace EEMod.Seamap.SeamapContent
         }
 
         public float sinkLevel;
+
+        public int explodeFrame;
+
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            if(ticks >= 108)
+            if (explodeFrame >= 1)
             {
-                sinkLevel += 1f;
-
                 velocity = Vector2.Zero;
 
-                Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, sinkLevel), new Rectangle(0, 0, width, (int)(height - sinkLevel)), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+                Texture2D explodeSheet = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplode").Value;
+                Texture2D explodeSheetGlow = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplodeGlow").Value;
+
+                Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White.LightSeamap(), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
+                Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
+                if (explodeFrame - 1 >= 6)
+                {
+                    Kill();
+                }
 
                 return false;
-            } 
+            }
             else
             {
-                return true;
+                if (ticks >= 108)
+                {
+                    sinkLevel += 1f;
+
+                    velocity = Vector2.Zero;
+
+                    Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, sinkLevel), new Rectangle(0, 0, width, (int)(height - sinkLevel)), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
+
+                    return false;
+                }
+                else
+                {
+                    color = Color.White.LightSeamap();
+
+                    return true;
+                }
             }
         }
     }

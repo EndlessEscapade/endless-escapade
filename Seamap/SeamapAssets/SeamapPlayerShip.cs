@@ -48,7 +48,7 @@ namespace EEMod.Seamap.SeamapContent
         {
             invFrames--;
 
-            position += velocity;
+            position += velocity - (Seamap.windVector * 0.3f * ((120 - (abilityDelay < 0 ? 0 : abilityDelay)) / 120f));
 
             CollisionChecks();
 
@@ -127,13 +127,18 @@ namespace EEMod.Seamap.SeamapContent
             if (eePlayer.boatSpeed == 1)
                 frameNum = 0;
 
-            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip").Value;
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShipAlt").Value;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
-                new Rectangle(0, frameNum * 48, 44, 48),
+                new Rectangle(0, 0, 90, 90),
                 Color.White.LightSeamap(), (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / (invFrames > 0 ? 40f : 120f)) * (invFrames > 0 ? 0.1f : 0.075f)), 
-                new Rectangle(0, frameNum * 48, 44, 48).Size() / 2,
+                new Rectangle(0, 0, 90, 90).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
+
+            /*spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition, null,
+                Color.White.LightSeamap(), (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / (invFrames > 0 ? 40f : 120f)) * (invFrames > 0 ? 0.1f : 0.075f)),
+                new Rectangle(0, 0, 90, 90).Size() / 2,
+                1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);*/
 
             return false;
         }
@@ -148,10 +153,7 @@ namespace EEMod.Seamap.SeamapContent
 
                 if (obj.collides && invFrames < 0)
                 {
-                    if(IsTouchingLeft(Hitbox, obj.Hitbox, velocity) ||
-                       IsTouchingTop(Hitbox, obj.Hitbox, velocity) ||
-                       IsTouchingRight(Hitbox, obj.Hitbox, velocity) ||
-                       IsTouchingBottom(Hitbox, obj.Hitbox, velocity))
+                    if(Hitbox.Intersects(obj.Hitbox))
                     {
                         shipHelth--;
                         invFrames = 20;

@@ -44,8 +44,8 @@ namespace EEMod.Seamap.SeamapContent
 
             CalculateBrightness();
 
-            if (Main.time % 1000 == 0)
-                if (Main.rand.NextBool(10)) isStorming = !isStorming;
+            if (Main.time % 600 == 0)
+                if (Main.rand.NextBool(8)) isStorming = !isStorming;
 
             #endregion
 
@@ -162,7 +162,7 @@ namespace EEMod.Seamap.SeamapContent
 
             spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, seamapWidth, seamapHeight), null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
 
-            spriteBatch.End();
+            spriteBatch.End(); 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             foreach (var entity in SeamapObjects.ActiveEntities)
@@ -170,7 +170,24 @@ namespace EEMod.Seamap.SeamapContent
                 if (entity is not Island)
                     continue;
 
-                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradientSquish").Value, entity.Center - Main.screenPosition, new Color(64, 180, 217) * 0.4f, entity.texture.Width * 2f / 150f);
+                if (entity is TropicalIslandAlt)
+                {
+                    /*spriteBatch.End();
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+                    SeamapReflectionShader.Parameters["width"].SetValue(230);
+                    SeamapReflectionShader.Parameters["height"].SetValue(170);
+                    SeamapReflectionShader.Parameters["fadeThresh"].SetValue(0.5f);
+
+                    SeamapReflectionShader.Parameters["time"].SetValue(Main.GameUpdateCount / 60f);
+
+                    SeamapReflectionShader.CurrentTechnique.Passes[0].Apply();*/
+
+                    spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/TropicalIslandAltUnderwater").Value, entity.position - Main.screenPosition, Color.White * 0.5f);
+
+                }
+                
+                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradientSquish").Value, entity.Center - Main.screenPosition, Color.Lerp(new Color(96, 178, 220).LightSeamap(), new Color(53, 65, 77).LightSeamap(), weatherDensity) * 0.4f, entity.texture.Width * 2f / 150f);
             }
 
 
@@ -203,7 +220,9 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.End();
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
         }
-        
+
+        public static Vector2 permaWindVector;
+
         static void RenderClouds(SpriteBatch spriteBatch)
         {
             spriteBatch.End();
@@ -228,7 +247,14 @@ namespace EEMod.Seamap.SeamapContent
             SeamapCloudShader.Parameters["cloudsColor2"].SetValue((Color.Black * (0.1f + (weatherDensity * 0.1f))).ToVector4());
             SeamapCloudShader.Parameters["cloudsColor1"].SetValue((Color.Black * (0.1f + (weatherDensity * 0.1f))).ToVector4());
 
-            SeamapCloudShader.Parameters["wind"].SetValue(new Vector2(Main.GameUpdateCount / 4800f, (Main.GameUpdateCount / 4800f) * 0.6f));
+            permaWindVector += windVector;
+
+            Vector2 tempWindVector = permaWindVector / 4800f;
+
+            if (tempWindVector.Y < 0) tempWindVector.Y = 1 + tempWindVector.Y;
+            if (tempWindVector.X < 0) tempWindVector.X = 1 + tempWindVector.X;
+
+            SeamapCloudShader.Parameters["wind"].SetValue(tempWindVector);
 
             SeamapCloudShader.Parameters["weatherDensity"].SetValue(weatherDensity);
             SeamapCloudShader.Parameters["stepsX"].SetValue(5f);
@@ -294,37 +320,25 @@ namespace EEMod.Seamap.SeamapContent
         static void CalculateBrightness()
         {
             if (Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
-                brightness = (Main.dayTime ? (isStorming ? 0.8f : 1f) : (isStorming ? 0.5f : 0.3f));
+                brightness = (Main.dayTime ? (isStorming ? 0.5f : 1f) : (isStorming ? 0.5f : 0.2f));
 
             if (!isStorming)
             {
                 if (Main.dayTime)
-                {
-                    if (Main.time < 52000 && brightness < 1f)
+                    if (brightness < 1f)
                         brightness += 0.0025f;
-
-                    if (Main.time >= 52000 && brightness > 0.5f)
-                        brightness -= 0.0025f;
-                }
                 else
-                {
-                    brightness = 0.5f;
-                }
+                    if (brightness > 0.5f)
+                        brightness -= 0.0025f;
             }
             else
             {
                 if (Main.dayTime)
-                {
-                    if (Main.time < 52000 && brightness < 0.8f)
+                    if (brightness < 0.5f)
                         brightness += 0.0025f;
-
-                    if (Main.time >= 52000 && brightness > 0.8f)
-                        brightness -= 0.0025f;
-                }
                 else
-                {
-                    brightness = 0.3f;
-                }
+                    if (brightness > 0.2f)
+                        brightness -= 0.0025f;
             }
         }
     }

@@ -25,15 +25,23 @@ namespace EEMod.Seamap.SeamapContent
                 }
             }
 
-            if(Main.GameUpdateCount % 180 == 0 && Main.rand.NextBool(3))
+            if(Main.GameUpdateCount % 600 == 0 && SeamapObjects.localship != null)
             {
+                //SeamapObjects.NewSeamapObject(new PirateShip(SeamapObjects.localship.Center + new Vector2(-100, -100), Vector2.Zero));
+
                 SpawnSeagullFlock(Main.rand.Next(4, 8));
             }
+
+            windRot += ((float)Math.Sin(Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount / 1600f) * Main.rand.NextFloat(1f) / 120f);
+
+            windVector = Vector2.UnitY.RotatedBy(windRot);
+            windVector.Y *= 0.6f;
         }
 
-        public static bool firstOpened = true;
+        public static float windRot;
+        public static Vector2 windVector;
 
-        public static float[,] climateArray;
+        public static bool firstOpened = true;
 
         public static void InitializeSeamap()
         {
@@ -43,9 +51,9 @@ namespace EEMod.Seamap.SeamapContent
             SeamapObjects.NewSeamapObject(new MainIsland(new Vector2(seamapWidth - 402 - 30, seamapHeight - 118 - 200 - 30)));
 
 
-            PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(10, 10, 2, 2, 0.5f, WorldGen.genRand);
+            //PerlinNoiseFunction perlinNoise = new PerlinNoiseFunction(10, 10, 2, 2, 0.5f, WorldGen.genRand);
 
-            climateArray = perlinNoise.perlinValues;
+            //climateArray = perlinNoise.perlinValues;
 
             for (int i = 0; i < 20; i++)
             {
@@ -67,6 +75,8 @@ namespace EEMod.Seamap.SeamapContent
 
             #region Moderate water generation
             SeamapObjects.NewSeamapObject(new TropicalIsland2(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
+
+            SeamapObjects.NewSeamapObject(new TropicalIslandAlt(new Vector2(3500, 3500)));
 
             SeamapObjects.NewSeamapObject(new MoyaiIsland(new Vector2(Main.rand.Next(300, seamapWidth - 300), Main.rand.Next(800, seamapHeight - 800))));
 

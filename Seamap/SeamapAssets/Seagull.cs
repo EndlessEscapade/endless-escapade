@@ -69,7 +69,7 @@ namespace EEMod.Seamap.SeamapContent
 
             Color drawColour = Color.Black * alpha * 0.4f;
 
-            Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, 40), rect, drawColour, 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, 40), rect, drawColour.LightSeamap(), 0, rect.Size() / 2, scale, SpriteEffects.None, 0f);
 
 
             //drawColour2.A = 255;

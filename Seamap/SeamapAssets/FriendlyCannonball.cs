@@ -36,10 +36,29 @@ namespace EEMod.Seamap.SeamapContent
         {
             ticks++;
 
-            rotation = 0f;
+            if (explodeFrame <= 0)
+            {
+                foreach (SeamapObject obj in SeamapObjects.SeamapEntities)
+                {
+                    if (obj == null) continue;
 
-            if (ticks >= 100 && ticks % 4 == 0) explodeFrame++;
-            if (ticks == 100) SoundEngine.PlaySound(SoundID.Item14);
+                    if (obj.collides && obj.Hitbox.Intersects(Hitbox))
+                    {
+                        SoundEngine.PlaySound(SoundID.Item14);
+                        explodeFrame++;
+                    }
+                }
+
+                if (ticks == 100)
+                {
+                    SoundEngine.PlaySound(SoundID.Item14);
+                    explodeFrame++;
+                }
+            }
+
+            if (explodeFrame >= 1 && ticks % 4 == 0) explodeFrame++;
+
+            rotation = 0f;
 
             if (sinkLevel >= 12)
             {
@@ -62,10 +81,13 @@ namespace EEMod.Seamap.SeamapContent
                 velocity = Vector2.Zero;
 
                 Texture2D explodeSheet = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplode").Value;
+                Texture2D explodeSheetGlow = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplodeGlow").Value;
 
                 Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White.LightSeamap(), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-                if(explodeFrame - 1 >= 6)
+                Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+
+                if (explodeFrame - 1 >= 6)
                 {
                     Kill();
                 }
@@ -86,6 +108,8 @@ namespace EEMod.Seamap.SeamapContent
                 }
                 else
                 {
+                    color = Color.White.LightSeamap();
+
                     return true;
                 }
             }
