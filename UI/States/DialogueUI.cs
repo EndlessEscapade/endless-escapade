@@ -31,7 +31,6 @@ namespace EEMod.UI.States
         public string CurrentDialogueTextThatShouldBeDrawn = "";
         public bool IsHandlingTag;
         public bool JustStartedHandlingTag;
-        public string TagHandler;
         public int AddLetterTimer;
         public int CurrentLetter;
         public override void OnInitialize()
@@ -123,10 +122,18 @@ namespace EEMod.UI.States
                     {
                         while (Dialogue[CurrentLetter - 1] != ':')
                         {
-                            TagHandler += letter;
                             CurrentLetter++;
                             CurrentDialogueText += letter;
                             letter = Dialogue[CurrentLetter];
+                        }
+                        if (Dialogue[CurrentLetter - 2] == 'i')
+                        {
+                            while (Dialogue[CurrentLetter + 1] != ']')
+                            {
+                                CurrentLetter++;
+                                CurrentDialogueText += letter;
+                                letter = Dialogue[CurrentLetter];
+                            }
                         }
                         IsHandlingTag = true;
                         JustStartedHandlingTag = true;
