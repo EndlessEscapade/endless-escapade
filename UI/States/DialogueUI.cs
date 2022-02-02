@@ -3,6 +3,7 @@ using EEMod.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
@@ -21,7 +22,9 @@ namespace EEMod.UI.States
         public static UIElement NamePoint;
         public static UIElement DialoguePoint;
         public static DialogueBox Background;
+        public static List<Response> AllResponses;
         public static UIList ResponsesList;
+        public static int ScrollHandler;
         public static string Dialogue;
         public static bool CanClickAButton = false;
         public string CurrentDialogueText = "";
@@ -33,6 +36,8 @@ namespace EEMod.UI.States
         public int CurrentLetter;
         public override void OnInitialize()
         {
+            AllResponses = new List<Response>();
+
             Box = new UIElement();
             Box.Width.Set(780, 0f);
             Box.Height.Set(200, 0f);
@@ -60,7 +65,7 @@ namespace EEMod.UI.States
             NamePoint.VAlign = 0.7f;
 
             ResponsesList = new UIList();
-            ResponsesList.Width.Set(756, 0f);
+            ResponsesList.Width.Set(678, 0f); //756
             ResponsesList.Height.Set(160, 0f);
             ResponsesList.HAlign = 0.5f;
             ResponsesList.VAlign = 0.5f;
@@ -88,55 +93,77 @@ namespace EEMod.UI.States
             {
                 Main.LocalPlayer.mouseInterface = true;
             }
-            if (string.IsNullOrEmpty(Dialogue))
-                return;
-            if (CurrentLetter < Dialogue.Length && ++AddLetterTimer >= 2)
+            if (AllResponses.Count > 3)
             {
-                var letter = Dialogue[CurrentLetter];
-                if (letter == '[')
+                if (Terraria.GameInput.PlayerInput.ScrollWheelDelta > 0 && ScrollHandler > 0)
                 {
-                    while (Dialogue[CurrentLetter - 1] != ':')
+                    ResponsesList.Clear();
+                    ResponsesList.Add(AllResponses[ScrollHandler - 1]);
+                    ResponsesList.Add(AllResponses[ScrollHandler]);
+                    ResponsesList.Add(AllResponses[ScrollHandler + 1]);
+                    ScrollHandler--;
+                    Main.LocalPlayer.ScrollHotbar(Terraria.GameInput.PlayerInput.ScrollWheelDelta / 120);
+                }
+                if (Terraria.GameInput.PlayerInput.ScrollWheelDelta < 0 && ScrollHandler < AllResponses.Count - 3)
+                {
+                    ResponsesList.Clear();
+                    ResponsesList.Add(AllResponses[ScrollHandler + 1]);
+                    ResponsesList.Add(AllResponses[ScrollHandler + 2]);
+                    ResponsesList.Add(AllResponses[ScrollHandler + 3]);
+                    ScrollHandler++;
+                    Main.LocalPlayer.ScrollHotbar(Terraria.GameInput.PlayerInput.ScrollWheelDelta / 120);
+                }
+            }
+            if (!string.IsNullOrEmpty(Dialogue))
+            {
+                if (CurrentLetter < Dialogue.Length && ++AddLetterTimer >= 2)
+                {
+                    var letter = Dialogue[CurrentLetter];
+                    if (letter == '[')
                     {
-                        TagHandler += letter;
+                        while (Dialogue[CurrentLetter - 1] != ':')
+                        {
+                            TagHandler += letter;
+                            CurrentLetter++;
+                            CurrentDialogueText += letter;
+                            letter = Dialogue[CurrentLetter];
+                        }
+                        IsHandlingTag = true;
+                        JustStartedHandlingTag = true;
+                    }
+                    if (letter == ']')
+                    {
+                        IsHandlingTag = false;
+                        JustStartedHandlingTag = false;
                         CurrentLetter++;
                         CurrentDialogueText += letter;
                         letter = Dialogue[CurrentLetter];
+                        CurrentDialogueText = CurrentDialogueText.Remove(CurrentDialogueText.Length - 1);
                     }
-                    IsHandlingTag = true;
-                    JustStartedHandlingTag = true;
-                }
-                if (letter == ']')
-                {
-                    IsHandlingTag = false;
-                    JustStartedHandlingTag = false;
+                    if (IsHandlingTag && !JustStartedHandlingTag)
+                    {
+                        CurrentDialogueText = CurrentDialogueText.Remove(CurrentDialogueText.Length - 1);
+                    }
                     CurrentLetter++;
                     CurrentDialogueText += letter;
-                    letter = Dialogue[CurrentLetter];
-                    CurrentDialogueText = CurrentDialogueText.Remove(CurrentDialogueText.Length - 1);
+                    if (JustStartedHandlingTag)
+                    {
+                        JustStartedHandlingTag = false;
+                    }
+                    if (IsHandlingTag)
+                    {
+                        CurrentDialogueText += ']';
+                    }
+                    if (letter == '.' || letter == '?')
+                    {
+                        AddLetterTimer -= 8;
+                    }
+                    else if (letter == ',')
+                    {
+                        AddLetterTimer -= 5;
+                    }
+                    AddLetterTimer -= 2;
                 }
-                if (IsHandlingTag && !JustStartedHandlingTag)
-                {
-                    CurrentDialogueText = CurrentDialogueText.Remove(CurrentDialogueText.Length - 1);
-                }
-                CurrentLetter++;
-                CurrentDialogueText += letter;
-                if (JustStartedHandlingTag)
-                {
-                    JustStartedHandlingTag = false;
-                }
-                if (IsHandlingTag)
-                {
-                    CurrentDialogueText += ']';
-                }
-                if (letter == '.' || letter == '?')
-                {
-                    AddLetterTimer -= 8;
-                }
-                else if (letter == ',')
-                {
-                    AddLetterTimer -= 5;
-                }
-                AddLetterTimer -= 2;
             }
         }
         public override void Draw(SpriteBatch spriteBatch)
@@ -231,7 +258,9 @@ namespace EEMod.UI.States
                 DialogueUI.Box.Append(DialogueUI.Portrait);
                 DialogueUI.Box.Append(DialogueUI.DialogueBoxDivider);
                 DialogueUI.Name = DialogueUI.CurrentDialogueSystem.Name.FormatString(20);
+                DialogueUI.AllResponses.Clear();
                 DialogueUI.ResponsesList.Clear();
+                DialogueUI.ScrollHandler = 0;
             }
         }
         protected override void DrawSelf(SpriteBatch spriteBatch)
