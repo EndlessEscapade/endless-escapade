@@ -33,6 +33,8 @@ namespace EEMod.UI.States
         public bool JustStartedHandlingTag;
         public int AddLetterTimer;
         public int CurrentLetter;
+        public int MoveTimer;
+        public bool MovingUpwards;
         public override void OnInitialize()
         {
             AllResponses = new List<Response>();
@@ -214,12 +216,22 @@ namespace EEMod.UI.States
             {
                 Texture2D arrow = ModContent.Request<Texture2D>("EEMod/UI/ScrollArrowWarning", AssetRequestMode.ImmediateLoad).Value;
                 CalculatedStyle boxDimensions = Box.GetDimensions();
-                int x = (int)(dimensions.X + (arrow.Size().X / 2));
-                int y = (int)(dimensions.Y + (arrow.Size().Y / 2));
+                int x = (int)(boxDimensions.X + (Box.Width.Pixels / 2) + (arrow.Size().X / 2));
+                int y = (int)(boxDimensions.Y + (Box.Height.Pixels / 2) + (arrow.Size().Y / 2));
+                if (MoveTimer++ > 30)
+                {
+                    MovingUpwards = !MovingUpwards;
+                    MoveTimer = 0;
+                }
                 if (ScrollHandler > 0)
                 {
-                    spriteBatch.Draw(arrow, new Vector2(x + dimensions.X - 20, y - dimensions.Y + 20), null, CurrentDialogueSystem.ThemeColor, 0f, arrow.Size(), 1f, SpriteEffects.FlipHorizontally, 0f);
-                    spriteBatch.Draw(arrow, new Vector2(x - dimensions.X + 20, y - dimensions.Y + 20), null, CurrentDialogueSystem.ThemeColor, 0f, arrow.Size(), 1f, SpriteEffects.FlipHorizontally, 0f);
+                    spriteBatch.Draw(arrow, new Vector2(x - (Box.Width.Pixels / 2) + 30, y - (Box.Height.Pixels / 2) + MathHelper.SmoothStep(MovingUpwards ? 30f : 20f, MovingUpwards ? 20f : 30f, MoveTimer / 29f)), null, Color.White, 0f, arrow.Size(), 1f, SpriteEffects.FlipVertically, 0f);
+                    spriteBatch.Draw(arrow, new Vector2(x + (Box.Width.Pixels / 2) - 30, y - (Box.Height.Pixels / 2) + MathHelper.SmoothStep(MovingUpwards ? 30f : 20f, MovingUpwards ? 20f : 30f, MoveTimer / 29f)), null, Color.White, 0f, arrow.Size(), 1f, SpriteEffects.FlipVertically, 0f);
+                }
+                if (ScrollHandler < AllResponses.Count - 3)
+                {
+                    spriteBatch.Draw(arrow, new Vector2(x - (Box.Width.Pixels / 2) + 30, y + (Box.Height.Pixels / 2) - MathHelper.SmoothStep(MovingUpwards ? 30f : 20f, MovingUpwards ? 20f : 30f, MoveTimer / 29f)), null, Color.White, 0f, arrow.Size(), 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(arrow, new Vector2(x + (Box.Width.Pixels / 2) - 30, y + (Box.Height.Pixels / 2) - MathHelper.SmoothStep(MovingUpwards ? 30f : 20f, MovingUpwards ? 20f : 30f, MoveTimer / 29f)), null, Color.White, 0f, arrow.Size(), 1f, SpriteEffects.None, 0f);
                 }
             }
         }
