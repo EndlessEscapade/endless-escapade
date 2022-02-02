@@ -12,5 +12,6 @@ namespace EEMod
 {
     public abstract class EENPC : ModNPC
     {
+
     }
 }

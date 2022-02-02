@@ -118,14 +118,8 @@ namespace EEMod.Seamap.SeamapContent
 
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
-            int frameNum = 0;
             EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
 
-
-            if (eePlayer.boatSpeed == 3)
-                frameNum = 1;
-            if (eePlayer.boatSpeed == 1)
-                frameNum = 0;
 
             Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShipAlt").Value;
 

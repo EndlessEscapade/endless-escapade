@@ -29,23 +29,7 @@ namespace EEMod.Items.Shipyard
 
         public override void OnConsumeItem(Player player)
         {
-            EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
-            modPlayer.boatSpeed = 3;
-            Main.NewText(modPlayer.boatSpeed);
-        }
 
-        public override bool? UseItem(Player player)
-        {
-            EEPlayer modPlayer = player.GetModPlayer<EEPlayer>();
-            modPlayer.boatSpeed = 3;
-            if (modPlayer.boatSpeed != 3)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
     }
 }

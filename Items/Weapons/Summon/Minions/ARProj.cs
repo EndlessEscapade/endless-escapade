@@ -282,10 +282,6 @@ namespace EEMod.Items.Weapons.Summon.Minions
             {
                 // modPlayer.quartzCrystal = false;
             }
-            if (modPlayer.quartzCrystal)
-            {
-                Projectile.timeLeft = 2;
-            }
 
             return true;
         }

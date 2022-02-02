@@ -61,6 +61,8 @@ namespace EEMod
         public override void clientClone(ModPlayer clientClone) { }
 
         public Vector2 EEPosition;
+        public int powerLevel;
+        public float maxPowerLevel;
 
         public void UpdateCutscenesAndTempShaders()
         {

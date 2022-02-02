@@ -75,8 +75,6 @@ namespace EEMod.Items.Weapons.Summon.Whips
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             player.MinionAttackTargetNPC = target.whoAmI;
-            modPlayer.summonTagDamage = summonTagDamage;
-            modPlayer.summonTagCrit = summonTagCrit;
 
             if (buffGivenToPlayer != -1)
             {

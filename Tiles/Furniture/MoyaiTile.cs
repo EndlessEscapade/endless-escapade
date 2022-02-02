@@ -51,11 +51,6 @@ namespace EEMod.Tiles.Furniture
             {
                 isIntersecting = false;
             }
-
-            if (isIntersecting)
-            {
-                player.GetModPlayer<EEPlayer>().InspectObject();
-            }
         }
     }
 }

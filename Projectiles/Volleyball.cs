@@ -151,7 +151,7 @@ namespace EEMod.Projectiles
                     {
                         ree = 1;
                     }
-                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y)) * modPlayer.powerLevel;
+                    SavedVel = Vector2.Normalize(new Vector2(mouseHitBoxVec.X - Yoda.Center.X, mouseHitBoxVec.Y - Yoda.Center.Y));
                     Projectile.ai[1] = 1;
                     Projectile.netUpdate = true;
                 }
