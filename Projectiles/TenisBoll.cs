@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using EEMod.Projectiles.TennisRackets;
+using Terraria.Audio;
 
 namespace EEMod.Projectiles
 {
@@ -108,7 +109,7 @@ namespace EEMod.Projectiles
         public override bool PreDraw(ref Color lightColor)
         {
             Player chosenPlayer = Main.player[GetPlayer(Projectile.Center)];
-            Texture2D volleyArrow = Mod.Assets.Request<Texture2D>("Projectiles/VolleyballArrow").Value;
+            Texture2D volleyArrow = Mod.Assets.Request<Texture2D>("Projectiles/VolleyballArrowFill").Value;
             Main.spriteBatch.Draw(volleyArrow, Projectile.Center - Main.screenPosition, new Rectangle(0, volleyArrow.Height / frames * (11 - frame), volleyArrow.Width, volleyArrow.Height / frames), Color.White * ree, new Vector2(mouseHitBoxVec.X - chosenPlayer.Center.X, mouseHitBoxVec.Y - chosenPlayer.Center.Y).ToRotation() + MathHelper.PiOver2, new Rectangle(0, 0, volleyArrow.Width, volleyArrow.Height).Size() / 2, 1, SpriteEffects.None, 0);
             Vector2 drawOrigin = new Vector2(Terraria.GameContent.TextureAssets.Projectile[Projectile.type].Value.Width * 0.5f, Projectile.height * 0.5f);
             float velocitylength = Projectile.velocity.Length();

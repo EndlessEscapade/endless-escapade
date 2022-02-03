@@ -114,6 +114,7 @@ namespace EEMod.NPCs.Friendly
                 Main.player[Main.myPlayer].SetTalkNPC(-1, false);
                 Main.npcChatCornerItem = 0;
                 Main.npcChatText = "";
+
                 new SailorDialogue().StartDialogueRequiringNPC(NPC.whoAmI);
             }
             return true;

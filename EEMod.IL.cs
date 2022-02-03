@@ -36,6 +36,7 @@ namespace EEMod
     public partial class EEMod : Mod
     {
         private delegate void ModifyWaterColorDelegate(ref VertexColors colors);
+
         private float _alphaBG;
         private Vector2 _sunPos;
         private float _globalAlpha;

@@ -39,7 +39,7 @@ namespace EEMod
         public int figureheadType; //See above
         public int boatTier; //Saves the total upgrades of the boat - 0: ordinary, 1: ironclad?
         
-        public byte[] shipStorage; //Stores what the player has in their ship's hold, begins at 20 items, gains 20 on each upgrade
+        public int[] shipStorage; //Stores what the player has in their ship's hold, begins at 20 items, gains 20 on each upgrade
         
         
         //Seamap vars
@@ -62,32 +62,31 @@ namespace EEMod
 
         public override void LoadData(TagCompound tag)
         {
-            tag.TryGetByteArrayRef("cannonType", ref cannonType);
+            tag.TryGetRef("cannonType", ref cannonType);
             tag.TryGetRef("figureheadType", ref figureheadType);
             tag.TryGetRef("boatTier", ref boatTier);
             
-            if(boatTier == 0) shipStorage = new byte[20];
-            if(boatTier == 1) shipStorage = new byte[40];
+            if(boatTier == 0) shipStorage = new int[20];
+            if(boatTier == 1) shipStorage = new int[40];
             
-            tag.TryGetByteArrayRef("shipStorage", ref shipStorage);
+            tag.TryGetIntArray("shipStorage", out shipStorage);
         }
         
-        public void UpgradeBoat() {
+        public void UpgradeBoat() 
+        {
             boatTier++;
-            
+
             //Handling storage upgrade transfer
-            byte[] tempArray;
-            
-            //if(boatTier == 0) tempArray = new byte[20];
-            if(boatTier == 1) tempArray = new byte[40];
+            int[] tempArray = new int[20];
+
+            //if(boatTier == 0) tempArray = new int[20];
+            if (boatTier == 1) tempArray = new int[40];
             
             for(int i = 0; i < shipStorage.Length; i++) {
                 tempArray[i] = shipStorage[i];
             }
             
             shipStorage = tempArray;
-            
-            
         }
     }
 }

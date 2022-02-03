@@ -23,7 +23,7 @@ namespace EEMod.Projectiles.TennisRackets
             // Projectile.hostile = false;
             Projectile.friendly = true;
             Projectile.DamageType = DamageClass.Magic;
-            // Projectile.tileCollide = false;
+            Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
             Projectile.scale *= 1;
             Projectile.alpha = 255;

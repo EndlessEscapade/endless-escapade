@@ -30,6 +30,13 @@ namespace EEMod
                 Player.controlTorch = false;
                 Player.controlSmart = false;
                 Player.controlMount = false;
+
+                if (Player.controlInv)
+                {
+                    DialogueUI.CurrentDialogueSystem.CloseDialogue();
+                    DialogueUI.CurrentDialogueSystem.AssociatedNPC = -1;
+                    DialogueUI.CurrentDialogueSystem = null;
+                }
             }
         }
     }

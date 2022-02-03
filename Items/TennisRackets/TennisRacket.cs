@@ -53,5 +53,11 @@ namespace EEMod.Items.TennisRackets
                 yeet = 1;
             }
         }
+
+        public override bool CanUseItem(Player player)
+        {
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<TennisRacketProj>()] >= 1) return false;
+            else return true;
+        }
     }
 }

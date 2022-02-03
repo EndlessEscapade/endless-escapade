@@ -19,7 +19,6 @@ namespace EEMod.Systems
 			ThemeColor = new Color(125, 175, 255);
 			LockPlayerMovement = true;
 
-			//Placeholder dialogue for the showcase until I get back
 			DialoguePieces = new List<string>()
 			{
 				/*0*/ "Sometimes I keep thinking about me old days, always sailing 'round the world.",
@@ -42,6 +41,7 @@ namespace EEMod.Systems
             {
 				SayPiece(0);
 			}
+
 			base.StartDialogueRequiringNPC(associatedNPC);
 		}
 		public override void OnDialoguePieceFinished(int piece)
