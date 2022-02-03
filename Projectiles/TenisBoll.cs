@@ -180,6 +180,8 @@ namespace EEMod.Projectiles
                             dust.velocity *= 0.96f;
                             // dust.noLight = false;
                         }
+
+                        SoundEngine.PlaySound(SoundLoader.GetLegacySoundSlot("EEMod/Assets/Sounds/TennisBall1"));
                     }
                     Projectile.netUpdate = true;
                     chosenRacket.netUpdate = true;
