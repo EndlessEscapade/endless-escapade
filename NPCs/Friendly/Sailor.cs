@@ -296,7 +296,6 @@ namespace EEMod.NPCs.Friendly
         {
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<Telescope>());
             shop.item[nextSlot].SetDefaults(ModContent.ItemType<FishermansLog>());
-            shop.item[nextSlot].SetDefaults(ModContent.ItemType<SwiftSail>());
 
             nextSlot++;
             shipAlreadyOpen = false;

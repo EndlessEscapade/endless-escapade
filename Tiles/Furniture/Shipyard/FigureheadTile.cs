@@ -15,7 +15,7 @@ using EEMod.Systems.Subworlds.EESubworlds;
 
 namespace EEMod.Tiles.Furniture.Shipyard
 {
-    public class SteelCannon : EETile
+    public class FigureheadTile : EETile
     {
         public override void SetStaticDefaults()
         {
@@ -24,7 +24,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
 
-            TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.Width = 7;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
@@ -36,15 +36,15 @@ namespace EEMod.Tiles.Furniture.Shipyard
             TileObjectData.addTile(Type);
 
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Steel Cannon");
+            name.SetDefault("Figurehead");
             AddMapEntry(new Color(255, 168, 28), name);
             DustType = DustID.Silver;
-            DisableSmartCursor = true;
+            DisableSmartCursor = false;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 32, ItemID.DirtBlock);
+            Item.NewItem(i * 16, j * 16, 32, 112, TileID.Dirt);
         }
     }
 }

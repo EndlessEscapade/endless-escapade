@@ -1,15 +1,16 @@
+using EEMod.Seamap.SeamapContent;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace EEMod.Items.Shipyard
+namespace EEMod.Items.Shipyard.Cannons
 {
-    public class SwiftSail : EEItem
+    public class Cannon : EEItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Swift Sail");
-            Tooltip.SetDefault("Use this to make your boat sail faster.");
+            DisplayName.SetDefault("Cannon");
+            Tooltip.SetDefault("haha this shoots balls lol");
             ItemID.Sets.SortingPriorityMaterials[Item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
         }
 
@@ -17,19 +18,10 @@ namespace EEMod.Items.Shipyard
         {
             Item.width = 20;
             Item.height = 20;
-            Item.maxStack = 999;
+            Item.maxStack = 1;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
-            Item.useStyle = ItemUseStyleID.EatFood;
-            Item.UseSound = SoundID.Item1;
-            Item.consumable = true;
-            Item.useTime = 15;
-            Item.useAnimation = 15;
-        }
-
-        public override void OnConsumeItem(Player player)
-        {
-
+            Item.consumable = false;
         }
     }
 }
