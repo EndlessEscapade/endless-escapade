@@ -190,7 +190,7 @@ namespace EEMod
 
             screenTex.SetData(texdata);
 
-            Main.spriteBatch.Draw(screenTex, Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, 1980, 1017), Color.White * 0.3f, 0f, new Rectangle(0, 0, 1980, 1017).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
+            Main.spriteBatch.Draw(screenTex, Main.LocalPlayer.Center.ForDraw(), new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height), Color.White * 0.3f, 0f, new Rectangle(0, 0, Main.graphics.GraphicsDevice.Viewport.Width, Main.graphics.GraphicsDevice.Viewport.Height).Size() / 2, 1, SpriteEffects.FlipVertically, 0);
             Main.graphics.GraphicsDevice.SetRenderTarget(Main.screenTarget);
         }
 

@@ -13,6 +13,7 @@ using EEMod.Net;
 using System.Collections.Generic;
 using System.Linq;
 using ReLogic.Content;
+using EEMod.Prim;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -53,8 +54,22 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.Begin();
 
 
-            RenderWater(spriteBatch); //Layer 0
+            //RenderWater(spriteBatch); //Layer 0
 
+            //Custom rendering primitives for Seamap
+
+            spriteBatch.End();
+
+            //PrimitiveSystem.trailManager.DrawTrails(spriteBatch);
+
+            //if (!Main.dedServ)
+            //{
+            //    PrimitiveSystem.trailManager.DrawTrails(spriteBatch);
+            //    PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+            //}
+
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
 
