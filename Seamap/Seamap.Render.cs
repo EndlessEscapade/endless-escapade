@@ -60,16 +60,17 @@ namespace EEMod.Seamap.SeamapContent
 
             spriteBatch.End();
 
-            //PrimitiveSystem.trailManager.DrawTrails(spriteBatch);
 
-            //if (!Main.dedServ)
-            //{
-            //    PrimitiveSystem.trailManager.DrawTrails(spriteBatch);
-            //    PrimitiveSystem.primitives.DrawTrailsAboveTiles();
-            //}
+            PrimitiveSystem.trailManager.DrawTrails(spriteBatch);
+
+            if (!Main.dedServ)
+            {
+                PrimitiveSystem.trailManager.DrawTrails(spriteBatch);
+                PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+            }
 
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null);
 
             RenderEntities(spriteBatch); //Layer 1, postdraw layer 2
 
@@ -147,7 +148,7 @@ namespace EEMod.Seamap.SeamapContent
             //EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null);
 
 
             Texture2D waterTexture = ModContent.Request<Texture2D>("EEMod/Particles/Square").Value;
@@ -178,7 +179,7 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, seamapWidth, seamapHeight), null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
 
             spriteBatch.End(); 
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive, null, null, null, null);
 
             foreach (var entity in SeamapObjects.ActiveEntities)
             {
@@ -188,7 +189,7 @@ namespace EEMod.Seamap.SeamapContent
                 if (entity is TropicalIslandAlt)
                 {
                     /*spriteBatch.End();
-                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+                    spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.ZoomMatrix);
 
                     SeamapReflectionShader.Parameters["width"].SetValue(230);
                     SeamapReflectionShader.Parameters["height"].SetValue(170);
@@ -198,16 +199,16 @@ namespace EEMod.Seamap.SeamapContent
 
                     SeamapReflectionShader.CurrentTechnique.Passes[0].Apply();*/
 
-                    spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/TropicalIslandAltUnderwater").Value, entity.position - Main.screenPosition, Color.White * 0.5f);
+                    //spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/TropicalIslandAltUnderwater").Value, entity.position - Main.screenPosition, Color.White * 0.5f);
 
                 }
-                
+
                 Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradientSquish").Value, entity.Center - Main.screenPosition, Color.Lerp(new Color(96, 178, 220).LightSeamap(), new Color(53, 65, 77).LightSeamap(), weatherDensity) * 0.4f, entity.texture.Width * 2f / 150f);
             }
 
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null);
 
 
             WaterShader.Parameters["noiseTex"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/DotNoise2Squish").Value);
@@ -233,7 +234,7 @@ namespace EEMod.Seamap.SeamapContent
             }
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null);
         }
 
         public static Vector2 permaWindVector;
@@ -252,7 +253,7 @@ namespace EEMod.Seamap.SeamapContent
             if (isStorming && weatherDensity < 1f) weatherDensity += 0.001f;
             if (!isStorming && weatherDensity > 0f) weatherDensity -= 0.001f;
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null);
 
             SeamapCloudShader.Parameters["cloudNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/CloudNoise").Value);
             SeamapCloudShader.Parameters["densityNoisemap"].SetValue(ModContent.Request<Texture2D>("EEMod/Textures/Noise/SeamapNoise").Value);
@@ -320,7 +321,7 @@ namespace EEMod.Seamap.SeamapContent
             }
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, null, null);
 
             SeamapBorderVignette.Parameters["color"].SetValue(Vector4.Lerp(Color.White.LightSeamap().ToVector4(), Color.Gray.LightSeamap().ToVector4(), weatherDensity));
 
@@ -329,7 +330,7 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.Draw(waterTexture, new Rectangle((int)toScreen.X, (int)toScreen.Y, 5000, 4800), Color.White);
 
             spriteBatch.End();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null);
         }
 
         static void CalculateBrightness()

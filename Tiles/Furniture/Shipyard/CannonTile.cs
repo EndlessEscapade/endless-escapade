@@ -60,7 +60,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
             Vector2 position = new Vector2((i * 16) - (int)Main.screenPosition.X, (j * 16) - (int)Main.screenPosition.Y) + zero;
 
-            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Furniture/Shipyard/Cannon").Value;
+            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Furniture/Shipyard/CannonTile").Value;
 
 
 

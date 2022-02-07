@@ -11,6 +11,7 @@ using Terraria;
 using System.Diagnostics;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using EEMod.Prim;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -26,6 +27,8 @@ namespace EEMod.Seamap.SeamapContent
         {
             SeamapEntities = new SeamapObject[2000];
             localship = new EEPlayerShip(shipPos, Vector2.Zero, Main.LocalPlayer);
+
+            PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(localship, Color.Purple, 200));
 
             NewSeamapObject(localship);
         }

@@ -146,13 +146,13 @@ namespace EEMod.NPCs.Friendly
 
                 if(ticker == 150)
                 {
-                    EEWorld.EEWorld.ClearRegion(50, 50, new Vector2((int)EEWorld.EEWorld.shipCoords.X - 2, (int)EEWorld.EEWorld.shipCoords.Y - 18));
+                    EEWorld.EEWorld.ClearRegion(45, 45, new Vector2((int)EEWorld.EEWorld.shipCoords.X - 2, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2));
 
-                    Structure.DeserializeFromBytes(EEMod.Instance.GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt((int)EEWorld.EEWorld.shipCoords.X - 2, (int)EEWorld.EEWorld.shipCoords.Y - 18, false, false);
+                    Structure.DeserializeFromBytes(EEMod.Instance.GetFileBytes("EEWorld/Structures/builtboat.lcs")).PlaceAt((int)EEWorld.EEWorld.shipCoords.X - 2 + 7, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2, false, false);
 
                     for(int i = (int)EEWorld.EEWorld.shipCoords.X - 2; i < (int)EEWorld.EEWorld.shipCoords.X - 2 + 50; i++)
                     {
-                        for(int j = (int)EEWorld.EEWorld.shipCoords.Y - 18; j < (int)EEWorld.EEWorld.shipCoords.Y - 18 + 50; j++)
+                        for(int j = (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2; j < (int)EEWorld.EEWorld.shipCoords.Y - 18 + 50 - 2; j++)
                         {
                             if(Framing.GetTileSafely(i, j).wall != WallID.None)
                             {
@@ -176,9 +176,13 @@ namespace EEMod.NPCs.Friendly
 
                     EEWorld.EEWorld.boatPlaced = true;
 
-                    Debug.WriteLine(EEWorld.EEWorld.boatPlaced);
+                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25, ModContent.TileType<WoodenShipsWheelTile>());
 
-                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X + 10, (int)EEWorld.EEWorld.shipCoords.Y + 7, ModContent.TileType<WoodenShipsWheelTile>());
+                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 - 11, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 5, ModContent.TileType<FigureheadTile>());
+
+                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 + 12, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 1, ModContent.TileType<CannonTile>());
+
+                    WorldGen.PlaceTile((int)EEWorld.EEWorld.shipCoords.X - 2 + 7 + 12 + 24, (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2 + 25 + 1, ModContent.TileType<MapTable>());
                 }
 
                 if(ticker == 240)

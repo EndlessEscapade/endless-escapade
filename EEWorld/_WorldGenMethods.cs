@@ -27,6 +27,7 @@ using EEMod.Extensions;
 using EEMod.Systems.Noise;
 using EEMod.Systems;
 using EEMod.Tiles.Foliage;
+using EEMod.Tiles.Furniture.Shipyard;
 
 namespace EEMod.EEWorld
 {
@@ -237,6 +238,9 @@ namespace EEMod.EEWorld
 
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/SailorHouse.lcs")).PlaceAt(x, y - 13, true, true);
 
+            WorldGen.PlaceTile(x + 7, y - 13 + 18, ModContent.TileType<ShipbuildersWorkbench>());
+
+            //7, 18
             Structure.DeserializeFromBytes(eemood.GetFileBytes("EEWorld/Structures/ruinedboat.lcs")).PlaceAt(x - 108, y, true, true);
 
             shipCoords = new Vector2(x - 108, y);

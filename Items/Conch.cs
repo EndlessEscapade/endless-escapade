@@ -34,7 +34,7 @@ namespace EEMod.Items
             //Main.LocalPlayer.GetModPlayer<EEPlayer>().Initialize();
             //SubworldManager.EnterSubworld<CoralReefs>();
 
-            //Structure.SaveWorldStructureTo(680, 273, 9, 4, System.IO.Path.Combine(Main.SavePath, "GoblinRaft1"));
+            Structure.SaveWorldStructureTo(94, 188, 45, 36, System.IO.Path.Combine(Main.SavePath, "builtboat"));
 
             //Structure.SaveWorldStructureTo(690, 273, 8, 4, System.IO.Path.Combine(Main.SavePath, "GoblinRaft2"));
 

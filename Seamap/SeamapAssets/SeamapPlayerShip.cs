@@ -52,6 +52,8 @@ namespace EEMod.Seamap.SeamapContent
 
             CollisionChecks();
 
+            Main.LocalPlayer.Center = Center;
+
             if (invFrames < 0)
             {
                 if (myPlayer.controlUp)

@@ -212,6 +212,7 @@ namespace EEMod.Prim
             }
 
             PrepareBasicShader();
+
             _device.DrawUserPrimitives(PrimitiveType.TriangleList, vertices, 0, _noOfPoints / 3);
         }
     }

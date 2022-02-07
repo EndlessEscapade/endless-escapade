@@ -12,6 +12,7 @@ using EEMod.Items.Placeables.Furniture;
 using EEMod.EEWorld;
 using EEMod.UI.States;
 using EEMod.Systems.Subworlds.EESubworlds;
+using EEMod.Items.Shipyard.Figureheads;
 
 namespace EEMod.Tiles.Furniture.Shipyard
 {
@@ -20,18 +21,21 @@ namespace EEMod.Tiles.Furniture.Shipyard
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
-            Main.tileObsidianKill[Type] = true;
+            Main.tileNoAttach[Type] = true;
+            Main.tileLavaDeath[Type] = true;
+            Main.tileSolidTop[Type] = true;
 
-            TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
+            TileObjectData.newTile.CopyFrom(TileObjectData.Style2x2);
 
-            TileObjectData.newTile.Width = 7;
-            TileObjectData.newTile.Height = 2;
+            TileObjectData.newTile.Height = 4;
+            TileObjectData.newTile.Width = 10;
+            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16, 16, 16 };
+            TileObjectData.newTile.StyleHorizontal = false;
             TileObjectData.newTile.Origin = new Point16(0, 0);
-            TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
-            TileObjectData.newTile.CoordinateHeights = new int[] { 16, 16 };
-            TileObjectData.newTile.CoordinateWidth = 16;
-            TileObjectData.newTile.CoordinatePadding = 2;
-            TileObjectData.newTile.Direction = TileObjectDirection.None;
+
+            TileObjectData.newTile.AnchorRight = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, 4, 0);
+            //TileObjectData.newTile.AnchorTop = new AnchorData(AnchorType.SolidTile | AnchorType.SolidSide, 10, 0);
+            TileObjectData.newTile.AnchorBottom = AnchorData.Empty;
 
             TileObjectData.addTile(Type);
 
@@ -39,12 +43,71 @@ namespace EEMod.Tiles.Furniture.Shipyard
             name.SetDefault("Figurehead");
             AddMapEntry(new Color(255, 168, 28), name);
             DustType = DustID.Silver;
-            DisableSmartCursor = false;
+            DisableSmartCursor = true;
+        }
+
+        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        {
+            //if(Main.LocalPlayer.GetModPlayer<EEPlayer>().FigureheadType == ModContent.ItemType<WoodenFigurehead>())
+                Framing.GetTileSafely(i, j).frameY = (short)(0 + (short)(Framing.GetTileSafely(i, j).frameY % 90));
+            //if (Main.LocalPlayer.GetModPlayer<EEPlayer>().FigureheadType == ModContent.ItemType<TreasureFigurehead>())
+                //Framing.GetTileSafely(i, j).frameY = (short)(90 + (short)(Framing.GetTileSafely(i, j).frameY % 90));
+
+            Texture2D figurehead = ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Shipyard/FigureheadTile").Value;
+
+            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+            if (Main.drawToScreen)
+            {
+                zero = Vector2.Zero;
+            }
+
+            spriteBatch.Draw(figurehead, new Vector2(i * 16, j * 16) - Main.screenPosition + zero,
+                new Rectangle(Framing.GetTileSafely(i, j).frameX, Framing.GetTileSafely(i, j).frameY + 18, 16, 16),
+                Lighting.GetColor(i, j));
+
+            return false;
         }
 
         public override void KillMultiTile(int i, int j, int frameX, int frameY)
         {
-            Item.NewItem(i * 16, j * 16, 32, 112, TileID.Dirt);
+            Item.NewItem(i * 16, j * 16, 64, 180, TileID.Dirt);
+        }
+    }
+
+    public class FigureheadRender : GlobalTile
+    {
+        public override bool PreDraw(int i, int j, int type, SpriteBatch spriteBatch)
+        {
+            if (Framing.GetTileSafely(i, j + 1).type == ModContent.TileType<FigureheadTile>() && type != ModContent.TileType<FigureheadTile>())
+            {
+                switch (Framing.GetTileSafely(i, j + 1).frameY)
+                {
+                    case 0:
+                        Texture2D figurehead = ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Shipyard/FigureheadTile").Value;
+
+                        Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
+                        if (Main.drawToScreen)
+                        {
+                            zero = Vector2.Zero;
+                        }
+
+                        spriteBatch.Draw(figurehead, new Vector2(i * 16, j * 16) - Main.screenPosition + zero,
+                            new Rectangle(Framing.GetTileSafely(i, j + 1).frameX, Framing.GetTileSafely(i, j + 1).frameY, 16, 16),
+                            Lighting.GetColor(i, j));
+
+                        return false;
+
+                        break;
+                    default:
+                        return true;
+
+                        break;
+                }
+            }
+            else
+            {
+                return base.PreDraw(i, j, type, spriteBatch);
+            }
         }
     }
 }

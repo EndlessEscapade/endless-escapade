@@ -33,6 +33,7 @@ namespace EEMod.Prim
             behindTiles = false;
             ManualDraw = false;
             pixelated = false;
+            manualDraw = true;
         }
 
         public override void PrimStructure(SpriteBatch spriteBatch)
@@ -92,11 +93,35 @@ namespace EEMod.Prim
 
         public override void SetShaders()
         {
-            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+            Matrix view = Matrix.CreateLookAt(Vector3.Zero, Vector3.UnitZ, Vector3.Up) * Matrix.CreateTranslation(_device.Viewport.Width / 2, _device.Viewport.Height / -2, 0) * Matrix.CreateRotationZ(MathHelper.Pi) * Matrix.CreateScale(Main.GameViewMatrix.Zoom.X, Main.GameViewMatrix.Zoom.Y, 1f);
+
+            Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
+
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, default, SamplerState.PointClamp, default, default, EEMod.TornSailShader, Main.GameViewMatrix.ZoomMatrix);
 
             EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);
-            EEMod.LightningShader.CurrentTechnique.Passes[0].Apply();
+
+            EEMod.LightningShader.Parameters["transformMatrix"].SetValue(view * projection);
+
+            if (vertices.Length == 0) return;
+
+            DynamicVertexBuffer buffer = VertexBufferPool.Shared.RentDynamicVertexBuffer(VertexPositionColorTexture.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
+            buffer.SetData(vertices);
+
+            Main.graphics.GraphicsDevice.SetVertexBuffer(buffer);
+
+            foreach (EffectPass pass in EEMod.LightningShader.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+            }
+
+            if (_noOfPoints >= 1)
+            {
+                _device.DrawPrimitives(PrimitiveType.TriangleList, 0, _noOfPoints / 3);
+            }
+
+            VertexBufferPool.Shared.Return(buffer);
         }
 
         public override void OnUpdate()
