@@ -12,7 +12,6 @@ using Terraria.ObjectData;
 
 namespace EEMod.Tiles.Foliage.KelpForest
 {
-
     public class GlowHangCoral1 : EETile
     {
         public override void SetStaticDefaults()

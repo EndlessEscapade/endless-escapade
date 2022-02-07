@@ -52,7 +52,23 @@ namespace EEMod.Seamap.SeamapContent
 
             CollisionChecks();
 
-            Main.LocalPlayer.Center = Center;
+            /*EEMod.MainParticles.SetSpawningModules(new SpawnPeriodically(1));
+            EEMod.MainParticles.SpawnParticles(Center, new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f)), 
+                ModContent.Request<Texture2D>("EEMod/Textures/6PointStar").Value, 120, 1, Color.White, null, 0, 
+                new SlowDown(0.98f), 
+                new RotateTexture(0.02f), 
+                new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, 0.25f),
+                new AfterImageTrail(1f), 
+                new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)));*/
+
+            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.5f));
+            EEMod.MainParticles.SpawnParticles(Center, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), 
+                ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.Gold, 
+                new SlowDown(0.98f), 
+                new RotateTexture(0.02f), 
+                new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value), 
+                new AfterImageTrail(1f), 
+                new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)));
 
             if (invFrames < 0)
             {
@@ -75,9 +91,9 @@ namespace EEMod.Seamap.SeamapContent
 
                 if (myPlayer.controlUseItem && cannonDelay <= 0)
                 {
-                    FriendlyCannonball cannonball = new FriendlyCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 4);
+                    ShenCannonball cannonball = new ShenCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 6);
 
-                    PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(cannonball, Color.Purple, 40));
+                    velocity -= Vector2.Normalize(Main.MouseWorld - Center) * 0.5f;
 
                     SeamapObjects.NewSeamapObject(cannonball);
 

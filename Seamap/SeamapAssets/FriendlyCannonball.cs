@@ -60,13 +60,6 @@ namespace EEMod.Seamap.SeamapContent
 
             rotation = 0f;
 
-            if (sinkLevel >= 12)
-            {
-                SeamapObjects.NewSeamapObject(new SplashRing(Center + new Vector2(0, 4), Vector2.Zero));
-
-                Kill();
-            }
-
             base.Update();
         }
 
@@ -96,23 +89,10 @@ namespace EEMod.Seamap.SeamapContent
             }
             else
             {
-                if (ticks >= 108)
-                {
-                    sinkLevel += 1f;
-
-                    velocity = Vector2.Zero;
-
-                    Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, sinkLevel), new Rectangle(0, 0, width, (int)(height - sinkLevel)), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-
-                    return false;
-                }
-                else
-                {
-                    color = Color.White.LightSeamap();
-
-                    return true;
-                }
+                return true;
             }
         }
+
+        public override bool CustomDraw(SpriteBatch spriteBatch) => false;
     }
 }

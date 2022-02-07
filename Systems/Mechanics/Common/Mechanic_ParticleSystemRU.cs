@@ -13,7 +13,7 @@ namespace EEMod
 {
     public class ParticleSystemRU : ModSystem
     {
-        public override void PostDrawTiles()
+        /*public override void PostDrawTiles()
         {
             EEMod.Particles.Draw(Main.spriteBatch);
         }
@@ -23,6 +23,6 @@ namespace EEMod
             if (Main.dedServ)
                 return;
             EEMod.Particles.Update();
-        }
+        }*/
     }
 }

@@ -17,18 +17,19 @@ namespace EEMod.Prim
 {
     class ShadowflamePrimTrail : Primitive
     {
-        public ShadowflamePrimTrail(Entity projectile, Color _color, int width = 40) : base(projectile)
+        public ShadowflamePrimTrail(Entity projectile, Color _color, int width = 40, int cap = 10) : base(projectile)
         {
             BindableEntity = projectile;
             _width = width;
             color = _color;
+            _cap = cap;
+
         }
 
         private Color color;
         public override void SetDefaults()
         {
             Alpha = 0.8f;
-            _cap = 10;
 
             behindTiles = false;
             ManualDraw = false;
@@ -97,7 +98,7 @@ namespace EEMod.Prim
 
             Matrix projection = Matrix.CreateOrthographic(_device.Viewport.Width, _device.Viewport.Height, 0, 1000);
 
-            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, default, SamplerState.PointClamp, default, default, EEMod.TornSailShader, Main.GameViewMatrix.ZoomMatrix);
+            Main.spriteBatch.End(); Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, default, default, EEMod.TornSailShader, Main.GameViewMatrix.ZoomMatrix);
 
             EEMod.LightningShader.Parameters["maskTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("Textures/GlowingWeb").Value);
             EEMod.LightningShader.Parameters["newColor"].SetValue(new Vector4(color.R, color.G, color.B, color.A) / 255f);

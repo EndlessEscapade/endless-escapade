@@ -35,6 +35,7 @@ using EEMod.Systems;
 using Terraria.GameContent;
 using EEMod.NPCs.Glowshroom;
 using EEMod.Players;
+using System.Diagnostics;
 
 namespace EEMod
 {
@@ -126,6 +127,15 @@ namespace EEMod
         private void Main_DoDraw_UpdateCameraPosition(On.Terraria.Main.orig_DoDraw_UpdateCameraPosition orig)
         {
             orig();
+
+            Debug.WriteLine("grungus");
+            if (Main.worldName == KeyID.Sea && SeamapObjects.localship != null)
+            {
+                Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
+
+                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, Seamap.SeamapContent.Seamap.seamapWidth - Main.screenWidth);
+                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, Seamap.SeamapContent.Seamap.seamapHeight - 200 - Main.screenHeight);
+            }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
             {
@@ -511,12 +521,18 @@ namespace EEMod
 
         private void Main_DrawProjectiles(On.Terraria.Main.orig_DrawProjectiles orig, Main self)
         {
+            Debug.WriteLine("chungus");
+
             PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
 
             if (!Main.dedServ)
             {
                 PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
+
+                //EEMod.Particles.Update();
+
+                //EEMod.Particles.Draw(Main.spriteBatch);
 
                 //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);
 

@@ -15,6 +15,7 @@ using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using EEMod.Extensions;
 using ReLogic.Content;
+using EEMod.Prim;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -32,8 +33,32 @@ namespace EEMod.Seamap.SeamapContent
         }
 
         public int ticks;
+
+        public ShenChildTrail shenTrail1;
+        public ShenChildTrail shenTrail2;
+        public ShenChildTrail shenTrail3;
+
         public override void Update()
         {
+            if (ticks == 0 || shenTrail1 == null)
+            {
+                shenTrail1 = new ShenChildTrail(Center + (Vector2.UnitY * 4), Vector2.Zero);
+                shenTrail2 = new ShenChildTrail(Center + (Vector2.UnitY.RotatedBy(MathHelper.TwoPi / 3f) * 4), Vector2.Zero);
+                shenTrail3 = new ShenChildTrail(Center + (Vector2.UnitY.RotatedBy(MathHelper.TwoPi * 2f / 3f) * 4), Vector2.Zero);
+
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail1, Color.Red * 0.75f, 6, 15));
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail2, Color.Red * 0.75f, 6, 15));
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail3, Color.Red * 0.75f, 6, 15));
+
+                SeamapObjects.NewSeamapObject(shenTrail1);
+                SeamapObjects.NewSeamapObject(shenTrail2);
+                SeamapObjects.NewSeamapObject(shenTrail3);
+            }
+
+            shenTrail1.Center = Center + velocity + (Vector2.UnitY.RotatedBy((ticks / 10f)) * 4);
+            shenTrail2.Center = Center + velocity + (Vector2.UnitY.RotatedBy((ticks / 10f) + (MathHelper.TwoPi / 3f)) * 4);
+            shenTrail3.Center = Center + velocity + (Vector2.UnitY.RotatedBy((ticks / 10f) + (MathHelper.TwoPi * 2f / 3f)) * 4);
+
             ticks++;
 
             if (explodeFrame <= 0)
@@ -49,23 +74,24 @@ namespace EEMod.Seamap.SeamapContent
                     }
                 }
 
-                if (ticks == 100)
+                if (ticks == 180)
                 {
                     SoundEngine.PlaySound(SoundID.Item14);
                     explodeFrame++;
                 }
             }
-
-            if (explodeFrame >= 1 && ticks % 4 == 0) explodeFrame++;
-
-            rotation = 0f;
-
-            if (sinkLevel >= 12)
+            else
             {
-                SeamapObjects.NewSeamapObject(new SplashRing(Center + new Vector2(0, 4), Vector2.Zero));
+                shenTrail1.Kill();
+                shenTrail2.Kill();
+                shenTrail3.Kill();
 
                 Kill();
             }
+
+            if (explodeFrame >= 1 && ticks % 4 == 0) explodeFrame++;
+
+            rotation = Main.GameUpdateCount / 10f;
 
             base.Update();
         }
@@ -96,25 +122,33 @@ namespace EEMod.Seamap.SeamapContent
             }
             else
             {
-                if (ticks >= 108)
-                {
-                    sinkLevel += 1f;
+                //corona
+                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, Center - Main.screenPosition - (velocity), Color.Red * 0.6f, 0.5f, rotation);
 
-                    velocity = Vector2.Zero;
+                //outline
+                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, Color.Red * 0.75f, 0.6f, rotation);
+                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, Color.White, 0.4f, rotation);
 
-                    Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, Center, Color.Red, 0.2f);
-
-                    Main.spriteBatch.Draw(texture, position.ForDraw() + new Vector2(0, sinkLevel), new Rectangle(0, 0, width, (int)(height - sinkLevel)), color * alpha, rotation, texture.Bounds.Size() / 2, scale, spriteDirection == 1 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0f);
-
-                    return false;
-                }
-                else
-                {
-                    color = Color.White.LightSeamap();
-
-                    return true;
-                }
+                return true;
             }
         }
+    }
+
+    public class ShenChildTrail : SeamapObject
+    {
+        public ShenChildTrail(Vector2 pos, Vector2 vel) : base(pos, vel)
+        {
+            position = pos;
+            velocity = vel;
+
+            width = 12;
+            height = 12;
+
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/ShenCannonball", AssetRequestMode.ImmediateLoad).Value;
+        }
+
+        public override bool PreDraw(SpriteBatch spriteBatch) => false;
+
+        public override bool CustomDraw(SpriteBatch spriteBatch) => true;
     }
 }
