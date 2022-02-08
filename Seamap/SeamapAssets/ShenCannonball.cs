@@ -71,8 +71,7 @@ namespace EEMod.Seamap.SeamapContent
                 new SlowDown(0.98f),
                 new RotateTexture(0.02f),
                 new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, 1f),
-                new AfterImageTrail(0.9f),
-                new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)));
+                new AfterImageTrail(0.9f));
 
             if (explodeFrame <= 0)
             {
@@ -99,6 +98,16 @@ namespace EEMod.Seamap.SeamapContent
                 shenTrail2.Kill();
                 shenTrail3.Kill();
 
+                for (int i = 0; i < 40; i++)
+                {
+                    EEMod.MainParticles.SpawnParticles(Center, (oldVelocity.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f)) * Main.rand.NextFloat(0.65f, 0.85f)),
+                        ModContent.Request<Texture2D>("EEMod/Empty").Value, 30, 3f, Color.Lerp(color, Color.White, 0.25f) * 0.75f,
+                        new SlowDown(0.99f),
+                        new RotateTexture(0.02f),
+                        new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, 1f),
+                        new AfterImageTrail(0.99f));
+                }
+
                 Kill();
             }
 
@@ -119,12 +128,12 @@ namespace EEMod.Seamap.SeamapContent
             {
                 velocity = Vector2.Zero;
 
-                Texture2D explodeSheet = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplode").Value;
-                Texture2D explodeSheetGlow = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplodeGlow").Value;
+                //Texture2D explodeSheet = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplode").Value;
+                //Texture2D explodeSheetGlow = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplodeGlow").Value;
 
-                Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White.LightSeamap(), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                //Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White.LightSeamap(), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-                Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                //Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
                 if (explodeFrame - 1 >= 6)
                 {
