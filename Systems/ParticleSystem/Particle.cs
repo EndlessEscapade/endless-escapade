@@ -24,7 +24,7 @@ namespace EEMod
         public float alphaFade = 14f;
         public float MaskAlpha = 0.5f;
         protected int RENDERDISTANCE => 2000;
-        internal bool WithinDistance => Vector2.DistanceSquared(position, Main.LocalPlayer.position) < RENDERDISTANCE * RENDERDISTANCE;
+        //internal bool WithinDistance => Vector2.DistanceSquared(position, Main.LocalPlayer.position) < RENDERDISTANCE * RENDERDISTANCE;
         public float varScale;
         public float scale { get; set; }
         public float alpha;
@@ -114,6 +114,7 @@ namespace EEMod
             {
                 Module.Draw(this);
             }
+
             Vector2 positionDraw = position.ForDraw();
 
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);

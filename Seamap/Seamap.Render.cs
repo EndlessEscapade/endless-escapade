@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ReLogic.Content;
 using EEMod.Prim;
+using EEMod.ID;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -49,7 +50,7 @@ namespace EEMod.Seamap.SeamapContent
             spriteBatch.Begin();
 
 
-            //RenderWater(spriteBatch); //Layer 0
+            RenderWater(spriteBatch); //Layer 0
 
             //Custom rendering primitives for Seamap
 

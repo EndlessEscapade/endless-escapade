@@ -21,13 +21,15 @@ namespace EEMod.Seamap.SeamapContent
 {
     public class ShenCannonball : SeamapObject
     {
-        public ShenCannonball(Vector2 pos, Vector2 vel) : base(pos, vel)
+        public ShenCannonball(Vector2 pos, Vector2 vel, Color _color) : base(pos, vel)
         {
             position = pos;
             velocity = vel;
 
             width = 12;
             height = 12;
+
+            color = _color;
 
             texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/ShenCannonball", AssetRequestMode.ImmediateLoad).Value;
         }
@@ -38,6 +40,8 @@ namespace EEMod.Seamap.SeamapContent
         public ShenChildTrail shenTrail2;
         public ShenChildTrail shenTrail3;
 
+        public Color color;
+
         public override void Update()
         {
             if (ticks == 0 || shenTrail1 == null)
@@ -46,9 +50,9 @@ namespace EEMod.Seamap.SeamapContent
                 shenTrail2 = new ShenChildTrail(Center + (Vector2.UnitY.RotatedBy(MathHelper.TwoPi / 3f) * 4), Vector2.Zero);
                 shenTrail3 = new ShenChildTrail(Center + (Vector2.UnitY.RotatedBy(MathHelper.TwoPi * 2f / 3f) * 4), Vector2.Zero);
 
-                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail1, Color.Red * 0.75f, 6, 15));
-                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail2, Color.Red * 0.75f, 6, 15));
-                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail3, Color.Red * 0.75f, 6, 15));
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail1, color * 0.75f, 6, 15));
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail2, color * 0.75f, 6, 15));
+                PrimitiveSystem.primitives.CreateTrail(new ShadowflamePrimTrail(shenTrail3, color * 0.75f, 6, 15));
 
                 SeamapObjects.NewSeamapObject(shenTrail1);
                 SeamapObjects.NewSeamapObject(shenTrail2);
@@ -60,6 +64,15 @@ namespace EEMod.Seamap.SeamapContent
             shenTrail3.Center = Center + velocity + (Vector2.UnitY.RotatedBy((ticks / 10f) + (MathHelper.TwoPi * 2f / 3f)) * 4);
 
             ticks++;
+
+            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.5f));
+            EEMod.MainParticles.SpawnParticles(Center, (velocity.RotatedBy(Main.rand.NextFloat(-0.1f, 0.1f)) * 0.85f),
+                ModContent.Request<Texture2D>("EEMod/Empty").Value, 60, 2f, Color.Lerp(color, Color.White, ticks / 180f) * 0.5f,
+                new SlowDown(0.98f),
+                new RotateTexture(0.02f),
+                new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, 1f),
+                new AfterImageTrail(0.9f),
+                new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)));
 
             if (explodeFrame <= 0)
             {
@@ -123,10 +136,10 @@ namespace EEMod.Seamap.SeamapContent
             else
             {
                 //corona
-                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, Center - Main.screenPosition - (velocity), Color.Red * 0.6f, 0.5f, rotation);
+                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, Center - Main.screenPosition - (velocity), color * 0.6f, 0.5f, rotation);
 
                 //outline
-                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, Color.Red * 0.75f, 0.6f, rotation);
+                Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, color * 0.75f, 0.6f, rotation);
                 Helpers.DrawAdditive(ModContent.Request<Texture2D>("EEMod/Textures/SmoothFadeOut").Value, Center - Main.screenPosition, Color.White, 0.4f, rotation);
 
                 return true;

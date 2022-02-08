@@ -42,7 +42,7 @@ namespace EEMod
         {
             if (!Main.gamePaused)
             {
-                if (Vector2.DistanceSquared(position, Main.LocalPlayer.Center) < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
+                if (Vector2.DistanceSquared(position, Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f)) < MAXDRAWDISTANCE * MAXDRAWDISTANCE)
                 {
                     CanSpawn = false;
                     foreach (IParticleSpawner Module in SpawningModules)
@@ -57,7 +57,7 @@ namespace EEMod
                         Particle particle = particles[i];
                         if (particle == null || !particle.active)
                         {
-                            particles[i] = particle = new Particle(position + Main.LocalPlayer.Center * paralax, timeLeft, texture ?? Terraria.GameContent.TextureAssets.MagicPixel.Value, velocity, scale, colour ?? Color.White, masks, (CustomBaseZoneModule?.Length ?? 0) > 0 ? CustomBaseZoneModule : BaseZoneModules.ToArray());
+                            particles[i] = particle = new Particle(position + (Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f)) * paralax, timeLeft, texture ?? Terraria.GameContent.TextureAssets.MagicPixel.Value, velocity, scale, colour ?? Color.White, masks, (CustomBaseZoneModule?.Length ?? 0) > 0 ? CustomBaseZoneModule : BaseZoneModules.ToArray());
                             if (texture != null)
                                 particle.Frame = texture.Bounds;
                             particle.paralax = paralax;
@@ -70,16 +70,16 @@ namespace EEMod
         }
 
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, Texture2D mask, params IParticleModule[] modules) =>
-            SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 3, col, mask, 0.6f, modules);
+            SpawnParticles(Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f) + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 3, col, mask, 0.6f, modules);
 
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, params IParticleModule[] modules) =>
-            SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 2, col, null, 0.6f, modules);
+            SpawnParticles(Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f) + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 2, col, null, 0.6f, modules);
 
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, params IParticleModule[] modules) =>
-            SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 1, null, null, 0.6f, modules);
+            SpawnParticles(Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f) + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 1, null, null, 0.6f, modules);
 
         public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, float scale, float paralaxFactor, params IParticleModule[] modules) =>
-            SpawnParticles(player.Center + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, scale, null, null, paralaxFactor, modules);
+            SpawnParticles(Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f) + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, scale, null, null, paralaxFactor, modules);
 
         public void SetModules(params IParticleModule[] Module) 
         { 

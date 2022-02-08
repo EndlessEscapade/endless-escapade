@@ -530,9 +530,12 @@ namespace EEMod
                 PrimitiveSystem.trailManager.DrawTrails(Main.spriteBatch);
                 PrimitiveSystem.primitives.DrawTrailsAboveTiles();
 
-                //EEMod.Particles.Update();
+                if (Main.worldName != KeyID.Sea)
+                {
+                    EEMod.Particles.Update();
 
-                //EEMod.Particles.Draw(Main.spriteBatch);
+                    EEMod.Particles.Draw(Main.spriteBatch);
+                }
 
                 //Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, SamplerState.PointClamp, null, null);
 

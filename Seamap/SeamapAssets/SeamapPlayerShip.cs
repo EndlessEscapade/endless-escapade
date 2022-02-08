@@ -15,6 +15,7 @@ using EEMod.Seamap.SeamapAssets;
 using System.Diagnostics;
 using ReLogic.Content;
 using EEMod.Prim;
+using EEMod.Extensions;
 
 namespace EEMod.Seamap.SeamapContent
 {
@@ -52,24 +53,6 @@ namespace EEMod.Seamap.SeamapContent
 
             CollisionChecks();
 
-            /*EEMod.MainParticles.SetSpawningModules(new SpawnPeriodically(1));
-            EEMod.MainParticles.SpawnParticles(Center, new Vector2(Main.rand.NextFloat(-2f, 2f), Main.rand.NextFloat(-2f, 2f)), 
-                ModContent.Request<Texture2D>("EEMod/Textures/6PointStar").Value, 120, 1, Color.White, null, 0, 
-                new SlowDown(0.98f), 
-                new RotateTexture(0.02f), 
-                new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, 0.25f),
-                new AfterImageTrail(1f), 
-                new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)));*/
-
-            EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.5f));
-            EEMod.MainParticles.SpawnParticles(Center, new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), 
-                ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.Gold, 
-                new SlowDown(0.98f), 
-                new RotateTexture(0.02f), 
-                new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value), 
-                new AfterImageTrail(1f), 
-                new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)));
-
             if (invFrames < 0)
             {
                 if (myPlayer.controlUp)
@@ -91,7 +74,7 @@ namespace EEMod.Seamap.SeamapContent
 
                 if (myPlayer.controlUseItem && cannonDelay <= 0)
                 {
-                    ShenCannonball cannonball = new ShenCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 6);
+                    ShenCannonball cannonball = new ShenCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 6, Color.Lerp(Color.Red, Color.Goldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
 
                     velocity -= Vector2.Normalize(Main.MouseWorld - Center) * 0.5f;
 
