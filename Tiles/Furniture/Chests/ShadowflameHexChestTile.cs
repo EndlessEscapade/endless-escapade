@@ -62,7 +62,7 @@ namespace EEMod.Tiles.Furniture.Chests
 
 		public override bool IsLockedChest(int i, int j) => false;
 
-		public override bool UnlockChest(int i, int j, ref short frameXAdjustment, ref int dustType, ref bool manual)
+		public override bool UnlockChest(int i, int j, ref short TileFrameXAdjustment, ref int dustType, ref bool manual)
 		{
 			if (Main.dayTime)
 			{
@@ -78,12 +78,12 @@ namespace EEMod.Tiles.Furniture.Chests
 			int left = i;
 			int top = j;
 			Tile tile = Framing.GetTileSafely(i, j);
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
 
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
@@ -104,7 +104,7 @@ namespace EEMod.Tiles.Furniture.Chests
 
 		public override void NumDust(int i, int j, bool fail, ref int num) => num = 1;
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
+		public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
 		{
 			Item.NewItem(i * 16, j * 16, 32, 32, ChestDrop);
 			Chest.DestroyChest(i, j);
@@ -117,12 +117,12 @@ namespace EEMod.Tiles.Furniture.Chests
 			Main.mouseRightRelease = false;
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
 
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
@@ -220,12 +220,12 @@ namespace EEMod.Tiles.Furniture.Chests
 			Tile tile = Framing.GetTileSafely(i, j);
 			int left = i;
 			int top = j;
-			if (tile.frameX % 36 != 0)
+			if (tile.TileFrameX % 36 != 0)
 			{
 				left--;
 			}
 
-			if (tile.frameY != 0)
+			if (tile.TileFrameY != 0)
 			{
 				top--;
 			}
@@ -269,10 +269,10 @@ namespace EEMod.Tiles.Furniture.Chests
                 zero = Vector2.Zero;
             }
 
-			Chest c = Main.chest[Chest.FindChest(i - (int)(Framing.GetTileSafely(i, j).frameX / 18f), j - (int)(Framing.GetTileSafely(i, j).frameY / 18f))];
+			Chest c = Main.chest[Chest.FindChest(i - (int)(Framing.GetTileSafely(i, j).TileFrameX / 18f), j - (int)(Framing.GetTileSafely(i, j).TileFrameY / 18f))];
 
 			spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Chests/ShadowflameHexChestTileGlow").Value,
-				new Vector2((i * 16), (j * 16)) - Main.screenPosition + zero, new Rectangle(Framing.GetTileSafely(i, j).frameX, Main.tile[i, j].frameY + (c.frame * 38), 18, 20), Color.White);
+				new Vector2((i * 16), (j * 16)) - Main.screenPosition + zero, new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Main.tile[i, j].TileFrameY + (c.frame * 38), 18, 20), Color.White);
 
 			bool allGoblinsDead = true;
 
@@ -290,7 +290,7 @@ namespace EEMod.Tiles.Furniture.Chests
 				}
 			}
 
-			if (Main.tile[i, j].frameX == 0 && Main.tile[i, j].frameY == 0 && !allGoblinsDead)
+			if (Main.tile[i, j].TileFrameX == 0 && Main.tile[i, j].TileFrameY == 0 && !allGoblinsDead)
             {
                 spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Chests/ShadowflameHexChestLock").Value,
 					new Vector2((i * 16) + 16, (j * 16) - 20) - Main.screenPosition + zero, null, Color.White, 0f, new Vector2(10, 12), 1f, SpriteEffects.None, 0f);

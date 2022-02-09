@@ -113,12 +113,12 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
                     xDis += (-4 - xDis) / 16f;
                     Projectile.position.Y -= xDis;
-                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).IsActive &&
-                    (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
-                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).IsActive &&
-                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) &&
-                    tile.type != TileID.Trees &&
-                    tile2.type != TileID.Trees)
+                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).HasTile &&
+                    (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0) &&
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).HasTile &&
+                    (Main.tileSolid[tile2.TileType] || Main.tileSolidTop[tile2.TileType] && tile2.TileFrameY == 0) &&
+                    tile.TileType != TileID.Trees &&
+                    tile2.TileType != TileID.Trees)
                     {
                         Main.LocalPlayer.GetModPlayer<EEPlayer>().FixateCameraOn(Projectile.Center, 16f, true, false, (int)(shakeIntensity * damageMultiplier));
                         for (var i = 0; i < 20; i++)
@@ -185,12 +185,12 @@ namespace EEMod.Items.Weapons.Melee.Shivs
                     Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
                     projOwner.velocity.Y += 2f;
                     Projectile.rotation += (-MathHelper.Pi / 4 - Projectile.rotation) / 4f;
-                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).IsActive &&
-                    (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0) &&
-                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).IsActive &&
-                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type] && tile2.frameY == 0) &&
-                    tile.type != TileID.Trees &&
-                    tile2.type != TileID.Trees)
+                    if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).HasTile &&
+                    (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0) &&
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).HasTile &&
+                    (Main.tileSolid[tile2.TileType] || Main.tileSolidTop[tile2.TileType] && tile2.TileFrameY == 0) &&
+                    tile.TileType != TileID.Trees &&
+                    tile2.TileType != TileID.Trees)
                     {
                         if (perc < 0.3f)
                         {

@@ -38,7 +38,7 @@ namespace EEMod.Tiles.Foliage.BulboBall
             DustType = DustID.Dirt;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
 
         }
@@ -54,7 +54,7 @@ namespace EEMod.Tiles.Foliage.BulboBall
         public bool peaked;
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
+            if (Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
             {
                 Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
                 if (Main.drawToScreen)
@@ -123,10 +123,10 @@ namespace EEMod.Tiles.Foliage.BulboBall
 
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.3f));
 
-                    if(peaked) Helpers.DrawParticlesAlongBezier(bezierOrig + new Vector2(24, 32) - zero, bezierOrig + new Vector2(48, -ballHeight) - zero, bezierOrig + new Vector2(32, -16) - zero, 0.0025f, chosen, 0.0003f, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.6f), new AfterImageTrail(0.96f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
-                    if (peaked) Helpers.DrawParticlesAlongBezier(bezierOrig + new Vector2(104, 32) - zero, bezierOrig + new Vector2(80, -ballHeight) - zero, bezierOrig + new Vector2(96, -16) - zero, 0.0025f, chosen, 0.0003f, new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.6f), new AfterImageTrail(0.96f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                    if(peaked) Helpers.DrawParticlesAlongBezier(bezierOrig + new Vector2(24, 32) - zero, bezierOrig + new Vector2(48, -ballHeight) - zero, bezierOrig + new Vector2(32, -16) - zero, 0.0025f, chosen, 0.0003f, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f), new AfterImageTrail(0.96f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                    if (peaked) Helpers.DrawParticlesAlongBezier(bezierOrig + new Vector2(104, 32) - zero, bezierOrig + new Vector2(80, -ballHeight) - zero, bezierOrig + new Vector2(96, -16) - zero, 0.0025f, chosen, 0.0003f, new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f), new AfterImageTrail(0.96f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
 
-                    EEMod.MainParticles.SpawnParticles(new Vector2(((bulboBallPosLight.X - zero.X) * 16) + Main.rand.Next(-64, 64), ((bulboBallPosLight.Y - zero.Y) * 16) + Main.rand.Next(-64, 64)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.6f), new AfterImageTrail(0.96f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(((bulboBallPosLight.X - zero.X) * 16) + Main.rand.Next(-64, 64), ((bulboBallPosLight.Y - zero.Y) * 16) + Main.rand.Next(-64, 64)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f), new AfterImageTrail(0.96f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
                 }
             }
 

@@ -113,7 +113,7 @@ namespace EEMod
                 throw new Exception();
             // before the stfld there will be an int on the stack
             c.Emit(OpCodes.Ldloc, 3); // tile
-            c.EmitDelegate<Func<bool, Tile, bool>>((orig, tile) => orig && tile.type != ModContent.TileType<EmptyTile>());
+            c.EmitDelegate<Func<bool, Tile, bool>>((orig, tile) => orig && tile.TileType != ModContent.TileType<EmptyTile>());
         }
 
         private void Main_oldDrawWater(ILContext il)
@@ -122,7 +122,7 @@ namespace EEMod
             ILLabel l = c.DefineLabel(); // where Color color = Lighting.GetColor(j, i);
             MethodInfo drawcall = typeof(Lighting).GetMethod(nameof(Lighting.GetColor), new Type[] { typeof(int), typeof(int) });
             if (!c.TryGotoNext(
-                //i => i.MatchCallOrCallvirt(typeof(Tile).GetMethod(nameof(!Tile.IsActive))),
+                //i => i.MatchCallOrCallvirt(typeof(Tile).GetMethod(nameof(!Tile.HasTile))),
                 i => i.MatchBrfalse(out _)))
             {
                 throw new Exception("Could not modify draw water");

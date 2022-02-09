@@ -26,7 +26,7 @@ namespace EEMod
                 Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = Vector2.Zero;
                 if (tile != null)
                 {
-                    if (tile.IsActive && tile.type == ModContent.TileType<OrbHolder>())
+                    if (tile.HasTile && tile.TileType == ModContent.TileType<OrbHolder>())
                     {
                         speed += 0.002f;
 
@@ -43,7 +43,7 @@ namespace EEMod
                         EEMod.NoiseSurfacing.Parameters["noiseTexture"].SetValue(EEMod.Instance.Assets.Request<Texture2D>("noise").Value);
                         EEMod.NoiseSurfacing.CurrentTechnique.Passes[0].Apply();
 
-                        Vector2 position = new Vector2((int)mouseTilePos.X * 16, (int)mouseTilePos.Y * 16) - new Vector2(tile.frameX / 18 * 16, tile.frameY / 18 * 16);
+                        Vector2 position = new Vector2((int)mouseTilePos.X * 16, (int)mouseTilePos.Y * 16) - new Vector2(tile.TileFrameX / 18 * 16, tile.TileFrameY / 18 * 16);
 
                         Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NoiseSurfacingTest").Value, position.ForDraw() + new Vector2(15, -20), Color.Purple);
                         Main.LocalPlayer.GetModPlayer<EEPlayer>().currentAltarPos = position;

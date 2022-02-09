@@ -339,7 +339,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                         {
                             Tile.SmoothSlope(i, j);
                         }
-                        if (!Framing.GetTileSafely(i, j + 1).IsActive && !Framing.GetTileSafely(i, j - 1).IsActive && !Framing.GetTileSafely(i + 1, j).IsActive && !Framing.GetTileSafely(i - 1, j).IsActive)
+                        if (!Framing.GetTileSafely(i, j + 1).HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && !Framing.GetTileSafely(i + 1, j).HasTile && !Framing.GetTileSafely(i - 1, j).HasTile)
                         {
                             WorldGen.KillTile(i, j);
                         }
@@ -352,7 +352,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     for (int j = 2; j < Main.maxTilesY - 2; j++)
                     {
-                        if (Framing.GetTileSafely(i, j).wall == WallID.Dirt || Framing.GetTileSafely(i, j).wall == WallID.DirtUnsafe || Framing.GetTileSafely(i, j).wall == WallID.DirtUnsafe1 || Framing.GetTileSafely(i, j).wall == WallID.DirtUnsafe2 || Framing.GetTileSafely(i, j).wall == WallID.DirtUnsafe3 || Framing.GetTileSafely(i, j).wall == WallID.DirtUnsafe4)
+                        if (Framing.GetTileSafely(i, j).WallType == WallID.Dirt || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe1 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe2 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe3 || Framing.GetTileSafely(i, j).WallType == WallID.DirtUnsafe4)
                         {
                             WorldGen.KillWall(i, j);
                         }
@@ -383,7 +383,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
                             for (int j = 1; j < random; j++)
                             {
-                                if (Framing.GetTileSafely(i, ballfart - j).IsActive || Framing.GetTileSafely(i, ballfart - j).LiquidAmount < 64) break;
+                                if (Framing.GetTileSafely(i, ballfart - j).HasTile || Framing.GetTileSafely(i, ballfart - j).LiquidAmount < 64) break;
 
                                 WorldGen.PlaceTile(i, ballfart - j, ModContent.TileType<SeagrassTile>());
                             }
@@ -395,7 +395,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     if (WorldGen.genRand.NextBool(6) && (i < boatPos - 1 || i > boatPos + ShipTiles.GetLength(1) + 1))
                     {
-                        if (!Framing.GetTileSafely(i, depth - 1).IsActive && !Framing.GetTileSafely(i, depth).IsActive && !Framing.GetTileSafely(i, depth + 1).IsActive)
+                        if (!Framing.GetTileSafely(i, depth - 1).HasTile && !Framing.GetTileSafely(i, depth).HasTile && !Framing.GetTileSafely(i, depth + 1).HasTile)
                         {
                             switch (WorldGen.genRand.Next(2))
                             {
@@ -610,7 +610,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 if (perlinNoiseFunction[i - (int)startingPoint.X, j - (int)startingPoint.Y] == 1 && OvalCheck(xPos, yPos, i, j, sizeX, sizeY) && WorldGen.InWorld(i, j))
                                 {
                                     Tile tile = Framing.GetTileSafely(i, j);
-                                    tile.type = (ushort)GetGemsandType(j);
+                                    tile.TileType = (ushort)GetGemsandType(j);
                                 }
                             }
                         }
@@ -810,7 +810,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     for (int j = 0; j < width; j++)
                     {
-                        if (!Framing.GetTileSafely(i, j).IsActive)
+                        if (!Framing.GetTileSafely(i, j).HasTile)
                         {
                             WorldGen.TileRunner(i + xPos + (a * horDir), j + yPos + (a * vertDir), Main.rand.Next(2, 3), Main.rand.Next(1, 2), type, true, 0, 0, false, false);
                         }
@@ -849,7 +849,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 if (perlinNoiseFunction[i - position.X + width, j - position.Y + width] == 1 && OvalCheck(Center.X, Center.Y, i, j, size.X, size.Y) && WorldGen.InWorld(i, j))
                                 {
                                     Tile tile = Framing.GetTileSafely(i, j);
-                                    tile.type = (ushort)GetGemsandType(j);
+                                    tile.TileType = (ushort)GetGemsandType(j);
                                 }
                             }
                         }

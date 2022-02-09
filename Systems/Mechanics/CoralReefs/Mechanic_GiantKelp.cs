@@ -31,10 +31,10 @@ namespace EEMod
                         Tile LastTile = Framing.GetTileSafely((int)CoralReefs.GiantKelpRoots[i - 1].X, (int)CoralReefs.GiantKelpRoots[i - 1].Y);
                         Vector2 lerp1 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.2f);
                         Vector2 lerp2 = Vector2.Lerp(ChainConneccPos, LastChainConneccPos, 0.8f);
-                        bool isValid = CurrentTile.IsActive && LastTile.IsActive && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type] &&
-                            !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).IsActive
-                            && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).IsActive
-                            && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).IsActive
+                        bool isValid = CurrentTile.HasTile && LastTile.HasTile && Main.tileSolid[CurrentTile.TileType] && Main.tileSolid[LastTile.TileType] &&
+                            !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).HasTile
+                            && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).HasTile
+                            && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).HasTile
                             && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1);
                         if (isValid)
                         {

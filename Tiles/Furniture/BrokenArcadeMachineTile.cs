@@ -30,9 +30,9 @@ namespace EEMod.Tiles.Furniture
         float HeartBeat;
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
-            if (frameX == 0 && frameY == 0)
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
+            if (TileFrameX == 0 && TileFrameY == 0)
             {
                 float timeBetween = 70;
                 float bigTimeBetween = 200;

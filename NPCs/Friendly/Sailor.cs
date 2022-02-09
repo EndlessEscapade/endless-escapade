@@ -154,7 +154,7 @@ namespace EEMod.NPCs.Friendly
                     {
                         for(int j = (int)EEWorld.EEWorld.shipCoords.Y - 18 - 2; j < (int)EEWorld.EEWorld.shipCoords.Y - 18 + 50 - 2; j++)
                         {
-                            if(Framing.GetTileSafely(i, j).wall != WallID.None)
+                            if(Framing.GetTileSafely(i, j).WallType != WallID.None)
                             {
                                 Framing.GetTileSafely(i, j).LiquidAmount = 0;
                             }

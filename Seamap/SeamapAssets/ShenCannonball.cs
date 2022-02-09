@@ -70,7 +70,7 @@ namespace EEMod.Seamap.SeamapContent
                 ModContent.Request<Texture2D>("EEMod/Empty").Value, 60, 2f, Color.Lerp(color, Color.White, ticks / 180f) * 0.5f,
                 new SlowDown(0.98f),
                 new RotateTexture(0.02f),
-                new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, 1f),
+                new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, Color.White * 1f),
                 new AfterImageTrail(0.9f));
 
             if (explodeFrame <= 0)
@@ -104,7 +104,7 @@ namespace EEMod.Seamap.SeamapContent
                         ModContent.Request<Texture2D>("EEMod/Empty").Value, 30, 3f, Color.Lerp(color, Color.White, 0.25f) * 0.75f,
                         new SlowDown(0.99f),
                         new RotateTexture(0.02f),
-                        new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, 1f),
+                        new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, Color.White * 1f),
                         new AfterImageTrail(0.99f));
                 }
 

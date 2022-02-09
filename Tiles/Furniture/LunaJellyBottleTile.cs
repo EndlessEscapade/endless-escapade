@@ -44,7 +44,7 @@ namespace EEMod.Tiles.Furniture
             DisableSmartCursor = true;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 48, ModContent.ItemType<LunaJellyBottle>());
         }
@@ -65,7 +65,7 @@ namespace EEMod.Tiles.Furniture
             Tile tile = Framing.GetTileSafely(i, j);
 
             Texture2D tex = Mod.Assets.Request<Texture2D>("Tiles/Furniture/LunaJellyBottleTile").Value;
-            Main.spriteBatch.Draw(tex, new Rectangle((i * 16) - (int)Main.screenPosition.X + (int)Helpers.GetTileDrawZero().X, (j * 16) - (int)Main.screenPosition.Y + (int)Helpers.GetTileDrawZero().Y, 18, 18), new Rectangle(tile.frameX, tile.frameY + (frame * 54), 18, 18), Lighting.GetColor(i, j));
+            Main.spriteBatch.Draw(tex, new Rectangle((i * 16) - (int)Main.screenPosition.X + (int)Helpers.GetTileDrawZero().X, (j * 16) - (int)Main.screenPosition.Y + (int)Helpers.GetTileDrawZero().Y, 18, 18), new Rectangle(tile.TileFrameX, tile.TileFrameY + (frame * 54), 18, 18), Lighting.GetColor(i, j));
 
             return false;
         }

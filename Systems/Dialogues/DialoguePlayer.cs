@@ -18,7 +18,7 @@ namespace EEMod
         public override void SetControls()
         {
             base.SetControls();
-            if (EEMod.UI.IsActive("DialogueInterface") && DialogueUI.CurrentDialogueSystem.LockPlayerMovement)
+            if (EEMod.UI.HasTile("DialogueInterface") && DialogueUI.CurrentDialogueSystem.LockPlayerMovement)
             {
                 Player.controlDown = false;
                 Player.controlHook = false;

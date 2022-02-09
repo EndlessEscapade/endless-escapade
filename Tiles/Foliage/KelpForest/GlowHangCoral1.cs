@@ -38,7 +38,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Framing.GetTileSafely(i, j);
-            if (tile.frameX < 18)
+            if (tile.TileFrameX < 18)
             {
                 r = 0.25f;
                 g = 0.2f;
@@ -52,13 +52,13 @@ namespace EEMod.Tiles.Foliage.KelpForest
 
             Color chosen = Color.Lerp(Color.Yellow, Color.LightYellow, Main.rand.NextFloat(1f));
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.003f));
-            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.2f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White), new AfterImageTrail(1f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.2f));
 
 
-            if (tile != null && tile.IsActive && tile.type == Type)
+            if (tile != null && tile.HasTile && tile.TileType == Type)
             {
-                int frameX = tile.frameX;
-                int frameY = tile.frameY;
+                int TileFrameX = tile.TileFrameX;
+                int TileFrameY = tile.TileFrameY;
                 const int width = 20;
                 const int offsetY = 0;
                 const int height = 16;
@@ -68,11 +68,11 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 {
                     zero = Vector2.Zero;
                 }
-                tile.frameX = 17;
+                tile.TileFrameX = 17;
                 Color color = Color.White;
 
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero;
-                Rectangle rect = new Rectangle(frameX, frameY, width, height);
+                Rectangle rect = new Rectangle(TileFrameX, TileFrameY, width, height);
                 color *= (float)Math.Sin(Main.GameUpdateCount / 60f + i + j) * 0.5f + 0.5f;
 
                 Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/GlowHangCoral1Glow").Value, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);

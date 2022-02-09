@@ -79,19 +79,19 @@ namespace EEMod.EEWorld
             {
                 if (perlinNoiseFunction[i - TL.X, j - TL.Y] == 1 && WorldGen.InWorld(i, j))
                 {
-                    if ((Framing.GetTileSafely(i, j).type == ModContent.TileType<KelpLeafTile>()))
-                        Framing.GetTileSafely(i, j).type = (ushort)ModContent.TileType<KelpMossTile>();
+                    if ((Framing.GetTileSafely(i, j).TileType == ModContent.TileType<KelpLeafTile>()))
+                        Framing.GetTileSafely(i, j).TileType = (ushort)ModContent.TileType<KelpMossTile>();
                 }
             });
 
             BoundClause((int i, int j) =>
             {
                 bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Bottom;
-                if (CorrectSpacing && Framing.GetTileSafely(i, j).type != ModContent.TileType<KelpVine>() && WorldGen.genRand.Next(5) == 0)
+                if (CorrectSpacing && Framing.GetTileSafely(i, j).TileType != ModContent.TileType<KelpVine>() && WorldGen.genRand.Next(5) == 0)
                 {
                     for (int a = 0; a < WorldGen.genRand.Next(8, 25); a++)
                     {
-                        if (!Framing.GetTileSafely(i, j + a).IsActive)
+                        if (!Framing.GetTileSafely(i, j + a).HasTile)
                             WorldGen.PlaceTile(i, j + a, ModContent.TileType<KelpVine>());
                     }
                 }
@@ -158,14 +158,14 @@ namespace EEMod.EEWorld
             {
                 Tile tile = Framing.GetTileSafely(i, j);
                 if (TileCheck2(i, j) == 1 && Main.rand.NextBool(30) && (
-                    tile.type == ModContent.TileType<GemsandTile>()
-                    || tile.type == ModContent.TileType<LightGemsandTile>()
-                    || tile.type == ModContent.TileType<DarkGemsandTile>()
-                    || tile.type == ModContent.TileType<LightGemsandstoneTile>()
-                    || tile.type == ModContent.TileType<GemsandstoneTile>()
-                    || tile.type == ModContent.TileType<DarkGemsandstoneTile>()
-                    || tile.type == ModContent.TileType<KelpLeafTile>()
-                    || tile.type == ModContent.TileType<KelpMossTile>()))
+                    tile.TileType == ModContent.TileType<GemsandTile>()
+                    || tile.TileType == ModContent.TileType<LightGemsandTile>()
+                    || tile.TileType == ModContent.TileType<DarkGemsandTile>()
+                    || tile.TileType == ModContent.TileType<LightGemsandstoneTile>()
+                    || tile.TileType == ModContent.TileType<GemsandstoneTile>()
+                    || tile.TileType == ModContent.TileType<DarkGemsandstoneTile>()
+                    || tile.TileType == ModContent.TileType<KelpLeafTile>()
+                    || tile.TileType == ModContent.TileType<KelpMossTile>()))
                 {
                     VerletHelpers.AddStickChainNoAdd(ref EEMod.Instance.verlet, new Vector2(i * 16, j * 16), Main.rand.Next(5, 10), 27);
                 }
@@ -174,15 +174,15 @@ namespace EEMod.EEWorld
             BoundClause((int i, int j) =>
             {
                 Tile tile = Framing.GetTileSafely(i, j);
-                if (tile.IsActive && !Framing.GetTileSafely(i, j - 1).IsActive && (
-                    tile.type == ModContent.TileType<GemsandTile>()
-                    || tile.type == ModContent.TileType<LightGemsandTile>()
-                    || tile.type == ModContent.TileType<DarkGemsandTile>()
-                    || tile.type == ModContent.TileType<LightGemsandstoneTile>()
-                    || tile.type == ModContent.TileType<GemsandstoneTile>()
-                    || tile.type == ModContent.TileType<DarkGemsandstoneTile>()
-                    || tile.type == ModContent.TileType<KelpLeafTile>()
-                    || tile.type == ModContent.TileType<KelpMossTile>()))
+                if (tile.HasTile && !Framing.GetTileSafely(i, j - 1).HasTile && (
+                    tile.TileType == ModContent.TileType<GemsandTile>()
+                    || tile.TileType == ModContent.TileType<LightGemsandTile>()
+                    || tile.TileType == ModContent.TileType<DarkGemsandTile>()
+                    || tile.TileType == ModContent.TileType<LightGemsandstoneTile>()
+                    || tile.TileType == ModContent.TileType<GemsandstoneTile>()
+                    || tile.TileType == ModContent.TileType<DarkGemsandstoneTile>()
+                    || tile.TileType == ModContent.TileType<KelpLeafTile>()
+                    || tile.TileType == ModContent.TileType<KelpMossTile>()))
                 {
                         WorldGen.PlaceTile(i, j - 1, ModContent.TileType<GreenKelpTile>());
                 }

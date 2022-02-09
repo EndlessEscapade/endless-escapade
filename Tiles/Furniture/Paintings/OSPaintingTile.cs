@@ -23,7 +23,7 @@ namespace EEMod.Tiles.Furniture.Paintings
             DisableSmartCursor = true;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             Item.NewItem(i * 24, j * 24, 24, 24, ModContent.ItemType<OSPainting>());
         }

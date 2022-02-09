@@ -305,8 +305,8 @@ namespace EEMod.EEWorld
                         {
                             Tile tile2 = Framing.GetTileSafely(i, k);
 
-                            if (tile2.IsActive && tile2.type == TileID.Sand &&
-                                !Framing.GetTileSafely(i, k - 1).IsActive && Framing.GetTileSafely(i, k - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(3))
+                            if (tile2.HasTile && tile2.TileType == TileID.Sand &&
+                                !Framing.GetTileSafely(i, k - 1).HasTile && Framing.GetTileSafely(i, k - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(3))
                             {
                                 //Ocean floor worldgen
 
@@ -340,8 +340,8 @@ namespace EEMod.EEWorld
 
                                         for (int l = k - 1; l >= k - rand; l--)
                                         {
-                                            Framing.GetTileSafely(i, l).type = (ushort)ModContent.TileType<SeagrassTile>();
-                                            Framing.GetTileSafely(i, l).IsActive = true;
+                                            Framing.GetTileSafely(i, l).TileType = (ushort)ModContent.TileType<SeagrassTile>();
+                                            Framing.GetTileSafely(i, l).HasTile = true;
                                         }
                                         break;
                                     case 1:
@@ -349,16 +349,16 @@ namespace EEMod.EEWorld
 
                                         for (int l = k - 1; l >= k - rand2; l--)
                                         {
-                                            Framing.GetTileSafely(i, l).type = TileID.Seaweed;
-                                            Main.tile[i, l].IsActive = true;
+                                            Framing.GetTileSafely(i, l).TileType = TileID.Seaweed;
+                                            Framing.GetTileSafely(i, l).HasTile = true;
 
                                             if (l == k - rand2)
                                             {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
                                             }
                                             else
                                             {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
                                             }
                                         }
                                         break;
@@ -366,32 +366,32 @@ namespace EEMod.EEWorld
                                         //WorldGen.PlaceTile(i, k - 2, TileID.DyePlants, false, false, -1, 6);
 
                                         /*Main.tile[i, k - 2].type = TileID.DyePlants;
-                                        Main.tile[i, k - 2].frameX = 11 * 16;
-                                        Main.tile[i, k - 2].IsActive = true;
+                                        Main.tile[i, k - 2].TileFrameX = 11 * 16;
+                                        Main.tile[i, k - 2].HasTile = true;
 
                                         Main.tile[i, k - 1].type = TileID.DyePlants;
-                                        Main.tile[i, k - 1].frameX = 11 * 16;
-                                        Main.tile[i, k - 1].frameY = 1 * 16;
-                                        Main.tile[i, k - 1].IsActive = true;*/
+                                        Main.tile[i, k - 1].TileFrameX = 11 * 16;
+                                        Main.tile[i, k - 1].TileFrameY = 1 * 16;
+                                        Main.tile[i, k - 1].HasTile = true;*/
 
                                         int rand3 = WorldGen.genRand.Next(4, 8);
 
                                         for (int l = k - 1; l >= k - rand3; l--)
                                         {
-                                            Main.tile[i, l].type = TileID.Bamboo;
-                                            Main.tile[i, l].IsActive = true;
+                                            Main.tile[i, l].TileType = TileID.Bamboo;
+                                            Framing.GetTileSafely(i, l).HasTile = true;
 
                                             if (l == k - 1)
                                             {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
                                             }
                                             else if (l == k - rand3)
                                             {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
                                             }
                                             else
                                             {
-                                                Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
+                                                Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
                                             }
                                         }
 
@@ -407,7 +407,7 @@ namespace EEMod.EEWorld
                         break;
                     }
 
-                    else if (tile.IsActive && tile.type == TileID.Sand)
+                    else if (tile.HasTile && tile.TileType == TileID.Sand)
                     {
                         PlaceShipyard(i, j - 13);
                         return;

@@ -66,7 +66,7 @@ namespace EEMod.Tiles.Furniture
 
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0 && oresGiven < 3) 
+            if (Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0 && oresGiven < 3) 
             {
                 Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
                 if (Main.drawToScreen)
@@ -125,7 +125,7 @@ namespace EEMod.Tiles.Furniture
                     {
                         Main.StartRain();
 
-                        int manager = NPC.NewNPC((i * 16) - Framing.GetTileSafely(i, j).frameX + 64, (j * 16) - Framing.GetTileSafely(i, j).frameY, ModContent.NPCType<HydrosCutsceneManager>());
+                        int manager = NPC.NewNPC((i * 16) - Framing.GetTileSafely(i, j).TileFrameX + 64, (j * 16) - Framing.GetTileSafely(i, j).TileFrameY, ModContent.NPCType<HydrosCutsceneManager>());
                         (Main.npc[manager].ModNPC as HydrosCutsceneManager).frames = frames;
                         (Main.npc[manager].ModNPC as HydrosCutsceneManager).positions = positions;
                         (Main.npc[manager].ModNPC as HydrosCutsceneManager).frameCounter = frameCounter;

@@ -171,7 +171,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             {
                 for(int j = peakElevation - 1; j < peakElevation + 3; j++)
                 {
-                    Framing.GetTileSafely(i, j).IsActive = false;
+                    Framing.GetTileSafely(i, j).HasTile = false;
                 }
             }
 
@@ -186,9 +186,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                     {
                         if (i - 150 < 1000 && j - 100 < 1000)
                         {
-                            if (perlinNoiseFunction[i - 150 + 500, j - 100 + 200] == 1 && WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).type != TileID.Sand)
+                            if (perlinNoiseFunction[i - 150 + 500, j - 100 + 200] == 1 && WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).TileType != TileID.Sand)
                             {
-                                Framing.GetTileSafely(i, j).type = TileID.Stone;
+                                Framing.GetTileSafely(i, j).TileType = TileID.Stone;
                             }
                         }
                     }
@@ -220,12 +220,12 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             {
                 for (int j = 100; j < 280; j++)
                 {
-                    if (Framing.GetTileSafely(i, j).type == TileID.Dirt &&
-                        (!Framing.GetTileSafely(i - 1, j - 1).IsActive || !Framing.GetTileSafely(i - 1, j).IsActive || !Framing.GetTileSafely(i - 1, j + 1).IsActive ||
-                         !Framing.GetTileSafely(i, j - 1).IsActive || !Framing.GetTileSafely(i, j + 1).IsActive ||
-                         !Framing.GetTileSafely(i + 1, j - 1).IsActive || !Framing.GetTileSafely(i + 1, j).IsActive || !Framing.GetTileSafely(i + 1, j + 1).IsActive))
+                    if (Framing.GetTileSafely(i, j).TileType == TileID.Dirt &&
+                        (!Framing.GetTileSafely(i - 1, j - 1).HasTile || !Framing.GetTileSafely(i - 1, j).HasTile || !Framing.GetTileSafely(i - 1, j + 1).HasTile ||
+                         !Framing.GetTileSafely(i, j - 1).HasTile || !Framing.GetTileSafely(i, j + 1).HasTile ||
+                         !Framing.GetTileSafely(i + 1, j - 1).HasTile || !Framing.GetTileSafely(i + 1, j).HasTile || !Framing.GetTileSafely(i + 1, j + 1).HasTile))
                     {
-                        Framing.GetTileSafely(i, j).type = TileID.Grass;
+                        Framing.GetTileSafely(i, j).TileType = TileID.Grass;
                         //Framing.GetTileSafely(i, j).Color = PaintID.LimePaint;
                         Tile.SmoothSlope(i, j);
                     }
@@ -236,7 +236,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             {
                 for (int j = 100; j < 280; j++)
                 {
-                    if (!Framing.GetTileSafely(i, j).IsActive && Framing.GetTileSafely(i, j + 1).IsActive && Framing.GetTileSafely(i, j + 1).type == TileID.Grass && WorldGen.genRand.NextBool())
+                    if (!Framing.GetTileSafely(i, j).HasTile && Framing.GetTileSafely(i, j + 1).HasTile && Framing.GetTileSafely(i, j + 1).TileType == TileID.Grass && WorldGen.genRand.NextBool())
                     {
                         WorldGen.PlaceTile(i, j, TileID.Plants, style: WorldGen.genRand.Next(42));
                     }
@@ -249,15 +249,15 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
 
-                    //if (tile.IsActive && tile.type == TileID.Sand &&
-                    //    !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j - 1).LiquidAmount == 0 && WorldGen.genRand.NextBool(2))
+                    //if (tile.HasTile && tile.type == TileID.Sand &&
+                    //    !Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j - 1).LiquidAmount == 0 && WorldGen.genRand.NextBool(2))
                     //{
                     //WorldGen.GrowPalmTree(i, j - 1);
                     //    break;
                     //}
 
-                    if (tile.IsActive && tile.type == TileID.Sand &&
-                        !Framing.GetTileSafely(i, j - 1).IsActive && WorldGen.genRand.NextBool(3))
+                    if (tile.HasTile && tile.TileType == TileID.Sand &&
+                        !Framing.GetTileSafely(i, j - 1).HasTile && WorldGen.genRand.NextBool(3))
                     {
                         switch (WorldGen.genRand.Next(2))
                         {
@@ -271,8 +271,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                         break;
                     }
 
-                    if (tile.IsActive && tile.type == TileID.Sand &&
-                        !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(2))
+                    if (tile.HasTile && tile.TileType == TileID.Sand &&
+                        !Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j - 1).LiquidAmount > 0 && WorldGen.genRand.NextBool(2))
                     {
                         Framing.GetTileSafely(i, j).Slope = 0;
 
@@ -285,8 +285,8 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 {
                                     if (Framing.GetTileSafely(i, l).LiquidAmount < 60) break;
 
-                                    Framing.GetTileSafely(i, l).type = (ushort)ModContent.TileType<SeagrassTile>();
-                                    Framing.GetTileSafely(i, l).IsActive = true;
+                                    Framing.GetTileSafely(i, l).TileType = (ushort)ModContent.TileType<SeagrassTile>();
+                                    Framing.GetTileSafely(i, l).HasTile = true;
                                 }
                                 break;
                             case 1:
@@ -296,16 +296,16 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 {
                                     if (Main.tile[i, l].LiquidAmount < 60) break;
 
-                                    Main.tile[i, l].type = TileID.Seaweed;
-                                    Main.tile[i, l].IsActive = true;
+                                    Main.tile[i, l].TileType = TileID.Seaweed;
+                                    Framing.GetTileSafely(i, l).HasTile = true;
 
                                     if (l == j - rand2)
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
+                                        Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(8, 13) * 18);
                                     }
                                     else
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
+                                        Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(1, 8) * 18);
                                     }
                                 }
                                 break;
@@ -316,20 +316,20 @@ namespace EEMod.Systems.Subworlds.EESubworlds
                                 {
                                     if (Main.tile[i, l].LiquidAmount < 60) break;
 
-                                    Main.tile[i, l].type = TileID.Bamboo;
-                                    Main.tile[i, l].IsActive = true;
+                                    Main.tile[i, l].TileType = TileID.Bamboo;
+                                    Framing.GetTileSafely(i, l).HasTile = true;
 
                                     if (l == j - 1)
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
+                                        Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(1, 5) * 18);
                                     }
                                     else if (l == j - rand3)
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
+                                        Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(15, 20) * 18);
                                     }
                                     else
                                     {
-                                        Main.tile[i, l].frameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
+                                        Main.tile[i, l].TileFrameX = (short)(WorldGen.genRand.Next(5, 15) * 18);
                                     }
                                 }
                                 break;
@@ -356,7 +356,7 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             {
                 for (int j = 250; j < 250 + 40; j++)
                 {
-                    if (Main.tile[i, j].wall != WallID.None)
+                    if (Main.tile[i, j].WallType != WallID.None)
                     {
                         Main.tile[i, j].LiquidAmount = 0;
                     }
@@ -370,9 +370,9 @@ namespace EEMod.Systems.Subworlds.EESubworlds
             {
                 for (int j = 0; j < Main.maxTilesY; j++)
                 {
-                    if (Framing.GetTileSafely(i, j).IsActive) break;
+                    if (Framing.GetTileSafely(i, j).HasTile) break;
 
-                    if (!Framing.GetTileSafely(i, j).IsActive && Framing.GetTileSafely(i, j).LiquidAmount >= 64)
+                    if (!Framing.GetTileSafely(i, j).HasTile && Framing.GetTileSafely(i, j).LiquidAmount >= 64)
                     {
                         if (Main.rand.Next(80) == 0)
                         {

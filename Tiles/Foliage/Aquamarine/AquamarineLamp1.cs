@@ -301,7 +301,7 @@ namespace EEMod.Tiles.Foliage.Aquamarine
                 {
                     EEMod.MainParticles.SetSpawningModules(new SpawnPeriodically(8, true));
                     Vector2 part = Projectile.Center;
-                    EEMod.MainParticles.SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask));
+                    EEMod.MainParticles.SpawnParticles(part, default, 2, Color.White, new CircularMotionSinSpinC(15, 15, 0.1f, part), new AfterImageTrail(1), new SetMask(Helpers.RadialMask, Color.White));
 
                     Lighting.AddLight(Projectile.Center, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Math.Abs((float)Math.Sin(Main.GameUpdateCount / 100f))).ToVector3());
                 }

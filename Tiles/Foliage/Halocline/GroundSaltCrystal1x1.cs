@@ -33,7 +33,7 @@ namespace EEMod.Tiles.Foliage.Halocline
             AddMapEntry(new Color(120, 85, 60));
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
 
         }

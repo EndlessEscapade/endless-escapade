@@ -129,10 +129,10 @@ namespace EEMod.NPCs.Goblins.Shaman
 
                         for (int i = (int)(Main.LocalPlayer.Center.Y / 16f) - 50; i < (int)(Main.LocalPlayer.Center.Y / 16f) + 50; i++)
                         {
-                            if ((Framing.GetTileSafely(tileTry, i).IsActive && Main.tileSolid[Framing.GetTileSafely(tileTry, i).type]) &&
-                                (!Framing.GetTileSafely(tileTry, i - 1).IsActive || !Main.tileSolid[Framing.GetTileSafely(tileTry, i - 1).type]) &&
-                                ((!Main.tile[tileTry, i - 2].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 2].type]) && Main.tile[tileTry, i - 1].LiquidAmount < 16) &&
-                                ((!Main.tile[tileTry, i - 3].IsActive || !Main.tileSolid[Main.tile[tileTry, i - 3].type]) && Main.tile[tileTry, i - 1].LiquidAmount == 0))
+                            if ((Framing.GetTileSafely(tileTry, i).HasTile && Main.tileSolid[Framing.GetTileSafely(tileTry, i).TileType]) &&
+                                (!Framing.GetTileSafely(tileTry, i - 1).HasTile || !Main.tileSolid[Framing.GetTileSafely(tileTry, i - 1).TileType]) &&
+                                ((!Main.tile[tileTry, i - 2].HasTile || !Main.tileSolid[Main.tile[tileTry, i - 2].TileType]) && Main.tile[tileTry, i - 1].LiquidAmount < 16) &&
+                                ((!Main.tile[tileTry, i - 3].HasTile || !Main.tileSolid[Main.tile[tileTry, i - 3].TileType]) && Main.tile[tileTry, i - 1].LiquidAmount == 0))
                             {
                                 newPos = new Vector2((tileTry * 16) + 8, (i * 16) - 28);
                             }

@@ -591,16 +591,16 @@ namespace EEMod.NPCs.Bosses.Kraken
                 int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
                 for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
                 {
-                    if (!Framing.GetTileSafely(tpTileX, tpY).IsActive)
+                    if (!Framing.GetTileSafely(tpTileX, tpY).HasTile)
                     {
-                        if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
+                        if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).TileType] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
                         {
                             Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), tpTileX * 16, tpY * 16, 0, -5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
                             hasTeleportPoint = true;
                             NPC.netUpdate = true;
                             break;
                         }
-                        if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 4, tpY + 1) && !above)
+                        if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).TileType] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 4, tpY + 1) && !above)
                         {
                             Projectile.NewProjectile(new Terraria.DataStructures.ProjectileSource_NPC(NPC), tpTileX * 16, tpY * 16, 0, 5, ModContent.ProjectileType<WaterSpew>(), 1, 0f, Main.myPlayer, 0, 0);
                             hasTeleportPoint = true;
@@ -637,16 +637,16 @@ namespace EEMod.NPCs.Bosses.Kraken
                     int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
                     for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
                     {
-                        if (!Framing.GetTileSafely(tpTileX, tpY).IsActive)
+                        if (!Framing.GetTileSafely(tpTileX, tpY).HasTile)
                         {
-                            if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
+                            if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).TileType] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY - 4, tpY - 1) && above)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
                                 NPC.netUpdate = true;
                                 break;
                             }
-                            if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 1, tpY + 4) && !above)
+                            if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).TileType] && !Collision.SolidTiles(tpTileX - 1, tpTileX + 1, tpY + 1, tpY + 4) && !above)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
@@ -685,16 +685,16 @@ namespace EEMod.NPCs.Bosses.Kraken
                     int tpTileY = Main.rand.Next(playerTileY - distFromPlayer, playerTileY + distFromPlayer);
                     for (int tpY = tpTileY; tpY < playerTileY + distFromPlayer; tpY++)
                     {
-                        if (!Framing.GetTileSafely(tpTileX, tpY).IsActive)
+                        if (!Framing.GetTileSafely(tpTileX, tpY).HasTile)
                         {
-                            if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX + 1, tpTileX + 4, tpY - 1, tpY + 1) && right)
+                            if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).TileType] && !Collision.SolidTiles(tpTileX + 1, tpTileX + 4, tpY - 1, tpY + 1) && right)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);
                                 NPC.netUpdate = true;
                                 break;
                             }
-                            if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).type] && !Collision.SolidTiles(tpTileX - 4, tpTileX - 1, tpY - 1, tpY + 1) && !right)
+                            if (Main.tileSolid[Framing.GetTileSafely(tpTileX, tpY).TileType] && !Collision.SolidTiles(tpTileX - 4, tpTileX - 1, tpY - 1, tpY + 1) && !right)
                             {
                                 hasTeleportPoint = true;
                                 geyserPoses[i] = new Vector2(tpTileX * 16, tpY * 16);

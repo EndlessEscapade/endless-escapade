@@ -29,9 +29,9 @@ namespace EEMod.Tiles.Banners
             AddMapEntry(new Color(13, 88, 130), name);
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
-            int style = frameX / 18;
+            int style = TileFrameX / 18;
             string item;
             switch (style)
             {
@@ -86,7 +86,7 @@ namespace EEMod.Tiles.Banners
             if (closer)
             {
                 Player player = Main.LocalPlayer;
-                int style = Framing.GetTileSafely(i, j).frameX / 18;
+                int style = Framing.GetTileSafely(i, j).TileFrameX / 18;
                 string type;
                 switch (style)
                 {

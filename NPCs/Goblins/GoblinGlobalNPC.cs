@@ -56,7 +56,7 @@ namespace EEMod.NPCs.Goblins
                 {
                     for(int j = 0; j < Main.maxTilesY; j++)
                     {
-                        if(Framing.GetTileSafely(i, j).type == ModContent.TileType<ShadowflameHexChestTile>())
+                        if(Framing.GetTileSafely(i, j).TileType == ModContent.TileType<ShadowflameHexChestTile>())
                         {
                             tilePos = new Vector2((i * 16) + 16, (j * 16) + 16);
 

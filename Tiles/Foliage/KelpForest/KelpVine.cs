@@ -27,7 +27,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Tile tile = Framing.GetTileSafely(i, j + 1);
-            if (tile.IsActive && tile.type == Type)
+            if (tile.HasTile && tile.TileType == Type)
             {
                 WorldGen.KillTile(i, j + 1);
             }
@@ -37,9 +37,9 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             Tile tileAbove = Framing.GetTileSafely(i, j - 1);
             int type = -1;
-            if (tileAbove.IsActive)
+            if (tileAbove.HasTile)
             {
-                type = tileAbove.type;
+                type = tileAbove.TileType;
             }
 
             return true;
@@ -48,7 +48,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override void RandomUpdate(int i, int j)
         {
             Tile tileBelow = Framing.GetTileSafely(i, j + 1);
-            if (WorldGen.genRand.NextBool(15) && !tileBelow.IsActive && !(tileBelow.LiquidType == 1))
+            if (WorldGen.genRand.NextBool(15) && !tileBelow.HasTile && !(tileBelow.LiquidType == 1))
             {
                 bool placeVine = false;
                 int yTest = j;
@@ -59,7 +59,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
                     {
                         break;
                     }
-                    else if (!testTile.IsActive || testTile.type != ModContent.TileType<GemsandstoneTile>() || testTile.type == ModContent.TileType<LightGemsandstoneTile>())
+                    else if (!testTile.HasTile || testTile.TileType != ModContent.TileType<GemsandstoneTile>() || testTile.TileType == ModContent.TileType<LightGemsandstoneTile>())
                     {
                         yTest--;
                         continue;
@@ -69,8 +69,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 }
                 if (placeVine)
                 {
-                    tileBelow.type = Type;
-                    tileBelow.IsActive = true;
+                    tileBelow.TileType = Type;
+                    tileBelow.HasTile = true;
                     WorldGen.SquareTileFrame(i, j + 1, true);
                     if (Main.netMode == NetmodeID.Server)
                     {
@@ -83,8 +83,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Color color = Color.White;
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
@@ -92,7 +92,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             }
             int step = 0;
             Tile tile = Framing.GetTileSafely(i, j);
-            while(tile.type == Type)
+            while(tile.TileType == Type)
             {
                 step++;
                 tile = Framing.GetTileSafely(i,j - step);
@@ -100,7 +100,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
             Vector2 position = new Vector2(i * 16 + (float)Math.Sin(Main.GameUpdateCount/(90f + i%10) + i)*(step * step * 0.1f), j * 16).ForDraw() + zero;
             Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/KelpVine").Value;
             Texture2D texture2 = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/KelpVineGlowmask").Value;
-            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
             Main.spriteBatch.Draw(texture2, position, rect, color * (float)Math.Sin(Main.GameUpdateCount / 90f + i + j), 0f, default, 1f, SpriteEffects.None, 0f);
 

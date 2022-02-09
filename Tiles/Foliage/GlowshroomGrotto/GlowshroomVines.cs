@@ -27,7 +27,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
         public override void KillTile(int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem)
         {
             Tile tile = Framing.GetTileSafely(i, j + 1);
-            if (tile.IsActive && tile.type == Type)
+            if (tile.HasTile && tile.TileType == Type)
             {
                 WorldGen.KillTile(i, j + 1);
             }
@@ -37,9 +37,9 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
         {
             Tile tileAbove = Framing.GetTileSafely(i, j - 1);
             int type = -1;
-            if (tileAbove.IsActive)
+            if (tileAbove.HasTile)
             {
-                type = tileAbove.type;
+                type = tileAbove.TileType;
             }
 
             return true;
@@ -48,7 +48,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
         public override void RandomUpdate(int i, int j)
         {
             Tile tileBelow = Framing.GetTileSafely(i, j + 1);
-            if (WorldGen.genRand.NextBool(15) && !tileBelow.IsActive && !(tileBelow.LiquidType == 1))
+            if (WorldGen.genRand.NextBool(15) && !tileBelow.HasTile && !(tileBelow.LiquidType == 1))
             {
                 bool placeVine = false;
                 int yTest = j;
@@ -59,7 +59,7 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
                     {
                         break;
                     }
-                    else */if (!testTile.IsActive || testTile.type != ModContent.TileType<GemsandstoneTile>() || testTile.type == ModContent.TileType<LightGemsandstoneTile>())
+                    else */if (!testTile.HasTile || testTile.TileType != ModContent.TileType<GemsandstoneTile>() || testTile.TileType == ModContent.TileType<LightGemsandstoneTile>())
                     {
                         yTest--;
                         continue;
@@ -69,8 +69,8 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
                 }
                 if (placeVine)
                 {
-                    tileBelow.type = Type;
-                    tileBelow.IsActive = true;
+                    tileBelow.TileType = Type;
+                    tileBelow.HasTile = true;
                     WorldGen.SquareTileFrame(i, j + 1, true);
                     if (Main.netMode == NetmodeID.Server)
                     {
@@ -83,8 +83,8 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Color color = Color.White;
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
@@ -92,20 +92,20 @@ namespace EEMod.Tiles.Foliage.GlowshroomGrotto
             }
             int step = 0;
             Tile tile = Framing.GetTileSafely(i, j);
-            while(tile.type == Type)
+            while(tile.TileType == Type)
             {
                 step++;
                 tile = Framing.GetTileSafely(i,j - step);
             }
             Vector2 position = new Vector2(i * 16 + (float)Math.Sin(Main.GameUpdateCount/(90f + i%10) + i)*(step * step * 0.1f), j * 16).ForDraw() + zero;
             Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/GlowshroomGrotto/GlowshroomVines").Value;
-            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
 
                         Color chosen = Color.Lerp(Color.Gold, Color.Goldenrod, Main.rand.NextFloat(1f));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.005f));
-            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 60, 0.75f, chosen, new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.1f, 0.1f), Main.rand.NextFloat(-0.5f, -0.1f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 60, 0.75f, chosen, new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.8f), new AfterImageTrail(1f), new SetLighting(chosen.ToVector3(), 0.4f));
 
             return false;
         }

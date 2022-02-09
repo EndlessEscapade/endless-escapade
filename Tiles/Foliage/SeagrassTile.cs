@@ -42,7 +42,7 @@ namespace EEMod.Tiles.Foliage
 
         public override bool TileFrame(int i, int j, ref bool resetFrame, ref bool noBreak)
         {
-            if (Framing.GetTileSafely(i, j + 1).type != ModContent.TileType<SeagrassTile>() && Framing.GetTileSafely(i, j + 1).type != ModContent.TileType<CoralSandTile>() && Framing.GetTileSafely(i, j + 1).type != TileID.Sand)
+            if (Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<SeagrassTile>() && Framing.GetTileSafely(i, j + 1).TileType != ModContent.TileType<CoralSandTile>() && Framing.GetTileSafely(i, j + 1).TileType != TileID.Sand)
             {
                 //Main.tile[i, j].ClearTile();
 
@@ -55,7 +55,7 @@ namespace EEMod.Tiles.Foliage
         public override void RandomUpdate(int i, int j)
         {
             Tile tile = Framing.GetTileSafely(i, j - 1);
-            if (!tile.IsActive && Main.rand.Next(4) == 0)
+            if (!tile.HasTile && Main.rand.Next(4) == 0)
             {
                 WorldGen.PlaceObject(i, j - 1, ModContent.TileType<SeagrassTile>());
                 NetMessage.SendObjectPlacment(-1, i, j - 1, ModContent.TileType<SeagrassTile>(), 0, 0, -1, -1);
@@ -68,20 +68,20 @@ namespace EEMod.Tiles.Foliage
 
             Texture2D tex = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/SeagrassTile").Value;
 
-            int frameX = 0;
-            int frameY = 1;
+            int TileFrameX = 0;
+            int TileFrameY = 1;
 
-            if(tile.type == ModContent.TileType<SeagrassTile>() && (!Framing.GetTileSafely(i, j - 1).IsActive || Framing.GetTileSafely(i, j - 1).type != ModContent.TileType<SeagrassTile>()))
+            if(tile.TileType == ModContent.TileType<SeagrassTile>() && (!Framing.GetTileSafely(i, j - 1).HasTile || Framing.GetTileSafely(i, j - 1).TileType != ModContent.TileType<SeagrassTile>()))
             {
-                frameY = 0;
+                TileFrameY = 0;
             }
 
-            if (tile.type != ModContent.TileType<SeagrassTile>() && Framing.GetTileSafely(i, j - 1).type == ModContent.TileType<SeagrassTile>())
+            if (tile.TileType != ModContent.TileType<SeagrassTile>() && Framing.GetTileSafely(i, j - 1).TileType == ModContent.TileType<SeagrassTile>())
             {
-                frameY = 2;
+                TileFrameY = 2;
             }
 
-            frameX = ((i * j) + (int)Math.Sin((i - (j * 2)) / (i * j))) % 2;
+            TileFrameX = ((i * j) + (int)Math.Sin((i - (j * 2)) / (i * j))) % 2;
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
@@ -91,15 +91,15 @@ namespace EEMod.Tiles.Foliage
 
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + (int)(Math.Sin((Main.GameUpdateCount / 20f) + i - (j / 3f)) * 3f), j * 16 - (int)Main.screenPosition.Y) + zero;
 
-            Rectangle rect = new Rectangle(frameX * 16, frameY * 16, 16, 16);
+            Rectangle rect = new Rectangle(TileFrameX * 16, TileFrameY * 16, 16, 16);
 
             Main.spriteBatch.Draw(tex, position, rect, Lighting.GetColor(i, j), 0f, default, 1f, SpriteEffects.None, 0f);
 
-            if (frameX == 1)
+            if (TileFrameX == 1)
             {
                 Lighting.AddLight(new Vector2(i * 16, j * 16), Color.Yellow.ToVector3() * 0.25f);
 
-                Main.spriteBatch.Draw(tex, position, new Rectangle(32, frameY * 16, 16, 16), Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(tex, position, new Rectangle(32, TileFrameY * 16, 16, 16), Color.White, 0f, default, 1f, SpriteEffects.None, 0f);
             }
 
             return false;

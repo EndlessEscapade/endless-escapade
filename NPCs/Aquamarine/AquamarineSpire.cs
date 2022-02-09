@@ -151,7 +151,7 @@ namespace EEMod.NPCs.Aquamarine
                 Vector2 obesegru = eyePos + (Vector2.UnitX.RotatedByRandom(MathHelper.Pi) * 96);
 
                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(Helpers.Clamp(0.25f * ((timer1 - 10) / 40f), 0, 1)));
-                EEMod.MainParticles.SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 7, 3f, addColor, new SlowDown(0.943f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, 0.9f));
+                EEMod.MainParticles.SpawnParticles(obesegru, Vector2.Normalize(eyePos - obesegru) * 5, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 7, 3f, addColor, new SlowDown(0.943f), new AfterImageTrail(0.6f), new SetMask(Helpers.RadialMask, Color.White * 0.9f));
 
                 Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("NPCs/CoralReefs/AquamarineSpireEye").Value, eyePos.ForDraw(), new Rectangle(0, blinkTime, 8, 8 - blinkTime), color, NPC.rotation, new Vector2(4, 4), NPC.scale, SpriteEffects.None, 1f);
                 #endregion
@@ -208,10 +208,10 @@ namespace EEMod.NPCs.Aquamarine
                 Vector2 offset = new Vector2(-3, (float)Math.Sin(Main.GameUpdateCount / 60f) + 2 + NPC.ai[3] / 60f);
 
                 int scale = 4;
-                EEMod.MainParticles.SpawnParticles(NPC.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(NPC.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(NPC.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
-                EEMod.MainParticles.SpawnParticles(NPC.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + one * scale + offset, -Vector2.Normalize(one) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, Color.White * 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + two * scale + offset, -Vector2.Normalize(two) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, Color.White * 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + three * scale + offset, -Vector2.Normalize(three) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, Color.White * 0.6f));
+                EEMod.MainParticles.SpawnParticles(NPC.Center + four * scale + offset, -Vector2.Normalize(four) / 2f, ModContent.Request<Texture2D>("EEMod/Particles/SmallCircle").Value, 30, 1, Color.White, new SlowDown(0.95f), new AfterImageTrail(1f), new SetMask(Helpers.RadialMask, Color.White * 0.6f));
                 #endregion
 
                 #region Drawing eye
@@ -410,7 +410,7 @@ namespace EEMod.NPCs.Aquamarine
                     {
                         for (int j = (int)(NPC.Center.Y / 16) - 150; j < (int)(NPC.Center.Y / 16) + 150; j++)
                         {
-                            if (WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).type == ModContent.TileType<AquamarineLamp1>() && Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
+                            if (WorldGen.InWorld(i, j) && Framing.GetTileSafely(i, j).TileType == ModContent.TileType<AquamarineLamp1>() && Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
                             {
                                 Projectile proj = Projectile.NewProjectileDirect(new ProjectileSource_NPC(NPC), new Vector2((i * 16) + 16, (j * 16) - 12), Vector2.Zero, ModContent.ProjectileType<AquamarineLamp1Glow>(), 0, 0, default, 0, 0);
                                 if (shields.Count < 10)

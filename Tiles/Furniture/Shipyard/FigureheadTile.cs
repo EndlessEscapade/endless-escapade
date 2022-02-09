@@ -49,9 +49,9 @@ namespace EEMod.Tiles.Furniture.Shipyard
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
             //if(Main.LocalPlayer.GetModPlayer<EEPlayer>().FigureheadType == ModContent.ItemType<WoodenFigurehead>())
-                Framing.GetTileSafely(i, j).frameY = (short)(0 + (short)(Framing.GetTileSafely(i, j).frameY % 90));
+                Framing.GetTileSafely(i, j).TileFrameY = (short)(0 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
             //if (Main.LocalPlayer.GetModPlayer<EEPlayer>().FigureheadType == ModContent.ItemType<TreasureFigurehead>())
-                //Framing.GetTileSafely(i, j).frameY = (short)(90 + (short)(Framing.GetTileSafely(i, j).frameY % 90));
+                //Framing.GetTileSafely(i, j).TileFrameY = (short)(90 + (short)(Framing.GetTileSafely(i, j).TileFrameY % 90));
 
             Texture2D figurehead = ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Shipyard/FigureheadTile").Value;
 
@@ -62,13 +62,13 @@ namespace EEMod.Tiles.Furniture.Shipyard
             }
 
             spriteBatch.Draw(figurehead, new Vector2(i * 16, j * 16) - Main.screenPosition + zero,
-                new Rectangle(Framing.GetTileSafely(i, j).frameX, Framing.GetTileSafely(i, j).frameY + 18, 16, 16),
+                new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + 18, 16, 16),
                 Lighting.GetColor(i, j));
 
             return false;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             Item.NewItem(i * 16, j * 16, 64, 180, TileID.Dirt);
         }
@@ -78,9 +78,9 @@ namespace EEMod.Tiles.Furniture.Shipyard
     {
         public override bool PreDraw(int i, int j, int type, SpriteBatch spriteBatch)
         {
-            if (Framing.GetTileSafely(i, j + 1).type == ModContent.TileType<FigureheadTile>() && type != ModContent.TileType<FigureheadTile>())
+            if (Framing.GetTileSafely(i, j + 1).TileType == ModContent.TileType<FigureheadTile>() && type != ModContent.TileType<FigureheadTile>())
             {
-                switch (Framing.GetTileSafely(i, j + 1).frameY)
+                switch (Framing.GetTileSafely(i, j + 1).TileFrameY)
                 {
                     case 0:
                         Texture2D figurehead = ModContent.Request<Texture2D>("EEMod/Tiles/Furniture/Shipyard/FigureheadTile").Value;
@@ -92,7 +92,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
                         }
 
                         spriteBatch.Draw(figurehead, new Vector2(i * 16, j * 16) - Main.screenPosition + zero,
-                            new Rectangle(Framing.GetTileSafely(i, j + 1).frameX, Framing.GetTileSafely(i, j + 1).frameY, 16, 16),
+                            new Rectangle(Framing.GetTileSafely(i, j + 1).TileFrameX, Framing.GetTileSafely(i, j + 1).TileFrameY, 16, 16),
                             Lighting.GetColor(i, j));
 
                         return false;

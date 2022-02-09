@@ -19,7 +19,7 @@ namespace EEMod.Tiles.Furniture
             /*public override bool ValidTile(int i, int j)
             {
                 Tile tile = Framing.GetTileSafely(i, j);
-                return tile.IsActive;
+                return tile.HasTile;
             }
 
             /*public override int Hook_AfterPlacement(int i, int j, int type, int style, int direction)
@@ -84,28 +84,28 @@ namespace EEMod.Tiles.Furniture
             AnimationFrameHeight = 180;
         }
 
-        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        public override void AnimateIndividualTile(int type, int i, int j, ref int TileFrameXOffset, ref int TileFrameYOffset)
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            int x = i - tile.frameX / 18 % 9;
-            int y = j - tile.frameY / 18 % 10;
+            int x = i - tile.TileFrameX / 18 % 9;
+            int y = j - tile.TileFrameY / 18 % 10;
 
             int targetTe = ModContent.GetInstance<OrbHolderTE>().Find(x, y);
             if (targetTe > -1 && TileEntity.ByID[targetTe] is OrbHolderTE TE)
             {
                 if (TE.hasOrb)
                 {
-                    frameYOffset = Main.tileFrameCounter[Type] / 3 % 7 * AnimationFrameHeight;
+                    TileFrameYOffset = Main.tileFrameCounter[Type] / 3 % 7 * AnimationFrameHeight;
                 }
                 else
                 {
-                    frameYOffset = 8 * AnimationFrameHeight;
+                    TileFrameYOffset = 8 * AnimationFrameHeight;
                 }
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             ModContent.GetInstance<OrbHolderTE>().Kill(i, j);
         }

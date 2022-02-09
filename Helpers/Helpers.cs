@@ -112,7 +112,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).HasTile)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -152,7 +152,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).HasTile)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.BlueCrystalShard);
                                 dust.fadeIn = 1f;
@@ -193,7 +193,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).HasTile)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -232,7 +232,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).HasTile)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -293,7 +293,7 @@ namespace EEMod
                     {
                         if (Main.rand.Next(50) == 0)
                         {
-                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).IsActive)
+                            if (!Framing.GetTileSafely((int)x / 16, (int)y / 16).HasTile)
                             {
                                 Dust dust = Dust.NewDustPerfect(new Vector2(x, y), DustID.AmberBolt);
                                 dust.fadeIn = 1f;
@@ -567,7 +567,7 @@ namespace EEMod
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
 
-                    if (Framing.GetTileSafely((int)(X(i, startingPos.X, c1.X, c2.X, endPoints.X) / 16f), (int)(Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) / 16f)).IsActive) break;
+                    if (Framing.GetTileSafely((int)(X(i, startingPos.X, c1.X, c2.X, endPoints.X) / 16f), (int)(Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) / 16f)).HasTile) break;
 
                     spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
                     new Rectangle(0, 0, headTexture.Width, headTexture.Height), drawColor, projTrueRotation,
@@ -597,7 +597,7 @@ namespace EEMod
                     Y(i - chainsPerUse, startingPos.Y, c1.Y, c2.Y, endPoints.Y));
                     projTrueRotation = distBetween.ToRotation() - MathHelper.PiOver2 + rotDis;
 
-                    if (Framing.GetTileSafely((int)(X(i, startingPos.X, c1.X, c2.X, endPoints.X) / 16f), (int)(Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) / 16f)).IsActive) break;
+                    if (Framing.GetTileSafely((int)(X(i, startingPos.X, c1.X, c2.X, endPoints.X) / 16f), (int)(Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) / 16f)).HasTile) break;
 
                     spriteBatch.Draw(headTexture, new Vector2(X(i, startingPos.X, c1.X, c2.X, endPoints.X) - Main.screenPosition.X, Y(i, startingPos.Y, c1.Y, c2.Y, endPoints.Y) - Main.screenPosition.Y),
                     frames, drawColor, projTrueRotation,

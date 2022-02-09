@@ -30,7 +30,7 @@ namespace EEMod.Tiles
         }
         public override void RandomUpdate(int i, int j)
         {
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j).Slope == 0 && !Framing.GetTileSafely(i, j).IsHalfBlock)
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).TileType] || !Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j).Slope == 0 && !Framing.GetTileSafely(i, j).IsHalfBlock)
                 PlaceGroundGrass(i, j);
         }
         void PlaceGroundGrass(int i, int j)
@@ -88,7 +88,7 @@ namespace EEMod.Tiles
                     EEMod.MainParticles.SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, Main.LocalPlayer.height / 2),
                         -Main.LocalPlayer.velocity / 5f + new Vector2(0,-0.5f), null, 20, 2f,
                         chosen,
-                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.04f, .04f)), new SetMask(Helpers.RadialMask, 0.15f), new AfterImageTrail(0.96f));
+                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.04f, .04f)), new SetMask(Helpers.RadialMask, Color.White * 0.15f), new AfterImageTrail(0.96f));
                 }
                 if(Main.LocalPlayer.velocity.Y > 3f)
                 {
@@ -96,7 +96,7 @@ namespace EEMod.Tiles
                     EEMod.MainParticles.SpawnParticles(Main.LocalPlayer.Center + new Vector2(0, Main.LocalPlayer.height / 2),
                         -Main.LocalPlayer.velocity / 5f + new Vector2(0, -0.5f), null, 20, 2f,
                         chosen,
-                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.05f, .05f)), new SetMask(Helpers.RadialMask, 0.15f), new Spew(6.14f,1f,Vector2.One,0.9f)
+                        new SlowDown(0.97f), new RotateVelocity(Main.rand.NextFloat(-.05f, .05f)), new SetMask(Helpers.RadialMask, Color.White * 0.15f), new Spew(6.14f,1f,Vector2.One,0.9f)
                         , new AfterImageTrail(0.96f));
                 }
             }
@@ -110,8 +110,8 @@ namespace EEMod.Tiles
         {
             
             Color color = Lighting.GetColor(i, j);
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
@@ -119,7 +119,7 @@ namespace EEMod.Tiles
             }
             Vector2 position = new Vector2(i * 16, j * 16).ForDraw() + zero;
             Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/KelpLeafTile").Value;
-            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
             Point tp = Main.LocalPlayer.position.ToTileCoordinates();
             if (tp.Y > j - 4 && tp.Y < j && tp.X > i - 1 && tp.X < i + 1)
             {
@@ -131,7 +131,7 @@ namespace EEMod.Tiles
                 float scaleY = 1.2f;
                 Main.spriteBatch.Draw(texture, position + new Vector2(0, 16 * (1 - scaleY)), rect, color, 0f, default, new Vector2(1f, scaleY), SpriteEffects.None, 0f);
             }
-            else if(!Framing.GetTileSafely(i,j - 1).IsActive || !Main.tileSolid[Framing.GetTileSafely(i, j - 1).type])
+            else if(!Framing.GetTileSafely(i,j - 1).HasTile || !Main.tileSolid[Framing.GetTileSafely(i, j - 1).TileType])
             {
                 float scaleY = 1.35f;
                 Main.spriteBatch.Draw(texture, position + new Vector2(0, 16 * (1 - scaleY)), rect, color, 0f, default, new Vector2(1f, scaleY), SpriteEffects.None, 0f);

@@ -35,10 +35,10 @@ namespace EEMod.Tiles
 
             int tilescale = 18;
 
-            int frameXOffset = (i % 2) * 72;
-            int frameYOffset = (j % 2) * 90;
+            int TileFrameXOffset = (i % 2) * 72;
+            int TileFrameYOffset = (j % 2) * 90;
 
-            int newFrameX = 0;
+            int newTileFrameX = 0;
             int newFrameY = 0;
 
             Tile tileAbove = Framing.GetTileSafely(i, j - 1);
@@ -53,132 +53,132 @@ namespace EEMod.Tiles
             Tile tileBottomLeft = Main.tile[i - 1, j + 1];
             Tile tileBottomRight = Main.tile[i + 1, j + 1];
 
-            if (tileAbove.IsActive && tileBelow.IsActive && !tileLeft.IsActive && !tileRight.IsActive)
+            if (tileAbove.HasTile && tileBelow.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
             {
-                newFrameX = 1;
+                newTileFrameX = 1;
                 newFrameY = 3;
             }
 
-            if (!tileAbove.IsActive && !tileBelow.IsActive && tileLeft.IsActive && tileRight.IsActive)
+            if (!tileAbove.HasTile && !tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile)
             {
-                newFrameX = 0;
+                newTileFrameX = 0;
                 newFrameY = 3;
             }
 
-            if (!tileAbove.IsActive && !tileBelow.IsActive && !tileLeft.IsActive && !tileRight.IsActive)
+            if (!tileAbove.HasTile && !tileBelow.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
             {
-                newFrameX = 2;
+                newTileFrameX = 2;
                 newFrameY = 3;
             }
 
-            if (!tileAbove.IsActive && tileBelow.IsActive && tileLeft.IsActive && tileRight.IsActive)
+            if (!tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile)
             {
-                newFrameX = 1;
+                newTileFrameX = 1;
                 newFrameY = 0;
             }
 
-            if (tileAbove.IsActive && tileBelow.IsActive && !tileLeft.IsActive && tileRight.IsActive)
+            if (tileAbove.HasTile && tileBelow.HasTile && !tileLeft.HasTile && tileRight.HasTile)
             {
-                newFrameX = 0;
+                newTileFrameX = 0;
                 newFrameY = 1;
             }
 
-            if (tileAbove.IsActive && !tileBelow.IsActive && tileLeft.IsActive && tileRight.IsActive)
+            if (tileAbove.HasTile && !tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile)
             {
-                newFrameX = 1;
+                newTileFrameX = 1;
                 newFrameY = 2;
             }
 
-            if (tileAbove.IsActive && tileBelow.IsActive && tileLeft.IsActive && !tileRight.IsActive)
+            if (tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile)
             {
-                newFrameX = 2;
+                newTileFrameX = 2;
                 newFrameY = 1;
             }
 
-            if (!tileAbove.IsActive && tileBelow.IsActive && !tileLeft.IsActive && !tileRight.IsActive)
+            if (!tileAbove.HasTile && tileBelow.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
             {
-                newFrameX = 3;
+                newTileFrameX = 3;
                 newFrameY = 0;
             }
 
-            if (tileAbove.IsActive && !tileBelow.IsActive && !tileLeft.IsActive && !tileRight.IsActive)
+            if (tileAbove.HasTile && !tileBelow.HasTile && !tileLeft.HasTile && !tileRight.HasTile)
             {
-                newFrameX = 3;
+                newTileFrameX = 3;
                 newFrameY = 3;
             }
 
-            if (!tileAbove.IsActive && !tileBelow.IsActive && !tileLeft.IsActive && tileRight.IsActive)
+            if (!tileAbove.HasTile && !tileBelow.HasTile && !tileLeft.HasTile && tileRight.HasTile)
             {
-                newFrameX = 0;
+                newTileFrameX = 0;
                 newFrameY = 4;
             }
 
-            if (!tileAbove.IsActive && !tileBelow.IsActive && tileLeft.IsActive && !tileRight.IsActive)
+            if (!tileAbove.HasTile && !tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile)
             {
-                newFrameX = 3;
+                newTileFrameX = 3;
                 newFrameY = 4;
             }
 
-            if (!tileAbove.IsActive && tileBelow.IsActive && !tileLeft.IsActive && tileRight.IsActive)
+            if (!tileAbove.HasTile && tileBelow.HasTile && !tileLeft.HasTile && tileRight.HasTile)
             {
-                newFrameX = 0;
+                newTileFrameX = 0;
                 newFrameY = 0;
             }
 
 
-            if (!tileAbove.IsActive && tileBelow.IsActive && tileLeft.IsActive && !tileRight.IsActive)
+            if (!tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile)
             {
-                newFrameX = 2;
+                newTileFrameX = 2;
                 newFrameY = 0;
             }
 
-            if (tileAbove.IsActive && !tileBelow.IsActive && !tileLeft.IsActive && tileRight.IsActive)
+            if (tileAbove.HasTile && !tileBelow.HasTile && !tileLeft.HasTile && tileRight.HasTile)
             {
-                newFrameX = 0;
+                newTileFrameX = 0;
                 newFrameY = 2;
             }
 
-            if (tileAbove.IsActive && !tileBelow.IsActive && tileLeft.IsActive && !tileRight.IsActive)
+            if (tileAbove.HasTile && !tileBelow.HasTile && tileLeft.HasTile && !tileRight.HasTile)
             {
-                newFrameX = 2;
+                newTileFrameX = 2;
                 newFrameY = 2;
             }
 
 
-            if (tileAbove.IsActive && tileBelow.IsActive && tileLeft.IsActive && tileRight.IsActive)
+            if (tileAbove.HasTile && tileBelow.HasTile && tileLeft.HasTile && tileRight.HasTile)
             {
-                newFrameX = 1;
+                newTileFrameX = 1;
                 newFrameY = 1;
 
-                if (tileTopRight.IsActive && tileBottomRight.IsActive && !tileTopLeft.IsActive && !tileBottomLeft.IsActive)
+                if (tileTopRight.HasTile && tileBottomRight.HasTile && !tileTopLeft.HasTile && !tileBottomLeft.HasTile)
                 {
-                    newFrameX = 1;
+                    newTileFrameX = 1;
                     newFrameY = 4;
                 }
 
-                if (tileTopLeft.IsActive && tileBottomLeft.IsActive && !tileTopRight.IsActive && !tileBottomRight.IsActive)
+                if (tileTopLeft.HasTile && tileBottomLeft.HasTile && !tileTopRight.HasTile && !tileBottomRight.HasTile)
                 {
-                    newFrameX = 2;
+                    newTileFrameX = 2;
                     newFrameY = 4;
                 }
 
-                if (tileTopLeft.IsActive && tileTopRight.IsActive && !tileBottomLeft.IsActive && !tileBottomRight.IsActive)
+                if (tileTopLeft.HasTile && tileTopRight.HasTile && !tileBottomLeft.HasTile && !tileBottomRight.HasTile)
                 {
-                    newFrameX = 3;
+                    newTileFrameX = 3;
                     newFrameY = 2;
                 }
 
-                if (tileBottomLeft.IsActive && tileBottomRight.IsActive && !tileTopLeft.IsActive && !tileTopRight.IsActive)
+                if (tileBottomLeft.HasTile && tileBottomRight.HasTile && !tileTopLeft.HasTile && !tileTopRight.HasTile)
                 {
-                    newFrameX = 3;
+                    newTileFrameX = 3;
                     newFrameY = 1;
                 }
             }
 
             Texture2D tex = ModContent.Request<Texture2D>("EEMod/Tiles/BrimstoneTile").Value;
 
-            tile.frameX = (short)(((newFrameX * tilescale) + frameXOffset) + ((Math.Sin((i - (i % 2)) * (j - (j % 2))) >= 0) ? 144 : 0));
-            tile.frameY = (short)((newFrameY * tilescale) + frameYOffset);
+            tile.TileFrameX = (short)(((newTileFrameX * tilescale) + TileFrameXOffset) + ((Math.Sin((i - (i % 2)) * (j - (j % 2))) >= 0) ? 144 : 0));
+            tile.TileFrameY = (short)((newFrameY * tilescale) + TileFrameYOffset);
 
             return true;
         }
@@ -194,7 +194,7 @@ namespace EEMod.Tiles
                 zero = Vector2.Zero;
             }
 
-            Main.spriteBatch.Draw(tex, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(Framing.GetTileSafely(i, j).frameX, Framing.GetTileSafely(i, j).frameY, 16, 16), Lighting.GetColor(i, j) * (1.5f + ((float)Math.Sin((i * j) + Main.GameUpdateCount / 20f) * 0.3f)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            Main.spriteBatch.Draw(tex, new Vector2(i * 16, j * 16) - Main.screenPosition + zero, new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY, 16, 16), Lighting.GetColor(i, j) * (1.5f + ((float)Math.Sin((i * j) + Main.GameUpdateCount / 20f) * 0.3f)), 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

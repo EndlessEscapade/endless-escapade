@@ -306,13 +306,13 @@ namespace EEMod
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.03f));
             if (zonePlayer.reefMinibiomeID == MinibiomeID.AquamarineCaverns)
-                EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
+                EEMod.MainParticles.SpawnParticleDownUp(-Vector2.UnitY * 3, null, Color.Lerp(new Color(78, 125, 224), new Color(107, 2, 81), Main.rand.NextFloat(0, 1)), GetInstance<EEMod>().Assets.Request<Texture2D>("Textures/RadialGradient").Value, new SimpleBrownianMotion(0.2f), new AfterImageTrail(0.5f), new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new SetLightingBlend(true));
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.08f));
             if (zonePlayer.reefMinibiomeID == MinibiomeID.KelpForest)
             {
                 float gottenParalax = Main.rand.NextFloat(1, 1.5f);
-                EEMod.MainParticles.SpawnParticleDownUp(Main.LocalPlayer, -Vector2.UnitY * 3, GetInstance<EEMod>().Assets.Request<Texture2D>("Particles/ForegroundParticles/KelpLeaf").Value, gottenParalax, 1 - (gottenParalax - 1) / 1.2f, new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new RotateTexture(0.03f), new SetLightingBlend(true), new SetAnimData(6, 5));
+                EEMod.MainParticles.SpawnParticleDownUp(-Vector2.UnitY * 3, GetInstance<EEMod>().Assets.Request<Texture2D>("Particles/ForegroundParticles/KelpLeaf").Value, gottenParalax, 1 - (gottenParalax - 1) / 1.2f, new RotateVelocity(Main.rand.NextFloat(-0.002f, 0.002f)), new RotateTexture(0.03f), new SetLightingBlend(true), new SetAnimData(6, 5));
             }
 
             if (playingGame)

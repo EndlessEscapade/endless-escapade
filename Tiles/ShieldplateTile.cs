@@ -33,16 +33,16 @@ namespace EEMod.Tiles
         {
             Color color = Lighting.GetColor(i, j);
 
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
 
-            if (!Framing.GetTileSafely(i - 1, j).IsActive)
+            if (!Framing.GetTileSafely(i - 1, j).HasTile)
             {
-                frameX = 18;
+                TileFrameX = 18;
             }
-            if (Framing.GetTileSafely(i - 1, j).type == ModContent.TileType<ShieldplateTile>())
+            if (Framing.GetTileSafely(i - 1, j).TileType == ModContent.TileType<ShieldplateTile>())
             {
-                frameX = ((i % 3) * 18) + 36;
+                TileFrameX = ((i % 3) * 18) + 36;
             }
 
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
@@ -53,7 +53,7 @@ namespace EEMod.Tiles
 
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
             Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/ShieldplateTile").Value;
-            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
 
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }

@@ -50,8 +50,8 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    tile.type = (ushort)type;
-                    tile.IsActive = true;
+                    tile.TileType = (ushort)type;
+                    tile.HasTile = true;
                     EEMod.progressMessage = messageBefore;
                     EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
@@ -92,9 +92,9 @@ namespace EEMod.EEWorld
                     if (array[j, i, 0] == 1)
                     {
                         Tile tile = Framing.GetTileSafely(i + (int)TilePosition.X, j + (int)TilePosition.Y);
-                        tile.type = (ushort)ModContent.TileType<EmptyTile>();
+                        tile.TileType = (ushort)ModContent.TileType<EmptyTile>();
                         tile.Slope = (SlopeType)array[j, i, 1];
-                        tile.IsActive = true;
+                        tile.HasTile = true;
                     }
                 }
             }
@@ -109,8 +109,8 @@ namespace EEMod.EEWorld
                 for (int j = (int)PerlinStrip[i]; j < height; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    tile.type = (ushort)type;
-                    tile.IsActive = true;
+                    tile.TileType = (ushort)type;
+                    tile.HasTile = true;
                     EEMod.progressMessage = messageBefore;
                     EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
@@ -127,10 +127,10 @@ namespace EEMod.EEWorld
                 for (int j = (int)PerlinStrip[i]; j < height; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    if (tile.IsActive == false)
+                    if (tile.HasTile == false)
                     {
-                        tile.type = (ushort)type;
-                        tile.IsActive = true;
+                        tile.TileType = (ushort)type;
+                        tile.HasTile = true;
                         EEMod.progressMessage = messageBefore;
                         EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
@@ -148,9 +148,9 @@ namespace EEMod.EEWorld
                 for (int j = (int)PerlinStrip[i]; j < height; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    if (tile.IsActive)
+                    if (tile.HasTile)
                     {
-                        tile.type = (ushort)type;
+                        tile.TileType = (ushort)type;
                         EEMod.progressMessage = messageBefore;
                         EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                     }
@@ -271,7 +271,7 @@ namespace EEMod.EEWorld
                         Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
 
                         tile.ClearTile();
-                        tile.wall = WallID.None;
+                        tile.WallType = WallID.None;
                         tile.WallColor = PaintID.None;
 
                         //EEMod.progressMessage = messageBefore;
@@ -336,7 +336,7 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    if (tile.type == type && Main.tileSolid[tile.type])
+                    if (tile.TileType == type && Main.tileSolid[tile.TileType])
                     {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                         //WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
@@ -410,8 +410,8 @@ namespace EEMod.EEWorld
                 {
                     if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidType == 0 
                         && Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidAmount > 64 
-                        && (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != WallID.None 
-                        || Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).IsActive))
+                        && (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).WallType != WallID.None 
+                        || Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).HasTile))
                     {
                         Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).LiquidAmount = 0;
                         if (Main.netMode == NetmodeID.MultiplayerClient) // sync
@@ -434,19 +434,19 @@ namespace EEMod.EEWorld
             Tile tileLeft2 = Framing.GetTileSafely(i - 2, j);
             Tile tileRight = Framing.GetTileSafely(i + 1, j);
             Tile tileRight2 = Framing.GetTileSafely(i + 2, j);
-            if (tile.IsActive && tileBelow.IsActive && tileBelow2.IsActive && !tileAbove.IsActive && !tileAbove2.IsActive && tile.Slope == 0) //If 2 tiles below are clear and 2 tiles above are solid
+            if (tile.HasTile && tileBelow.HasTile && tileBelow2.HasTile && !tileAbove.HasTile && !tileAbove2.HasTile && tile.Slope == 0) //If 2 tiles below are clear and 2 tiles above are solid
             {
                 return 1;
             }
-            if (tile.IsActive && !tileBelow.IsActive && !tileBelow2.IsActive && tileAbove.IsActive && tileAbove2.IsActive && tile.Slope == 0) //If 2 tiles below are solid and 2 tiles above are clear
+            if (tile.HasTile && !tileBelow.HasTile && !tileBelow2.HasTile && tileAbove.HasTile && tileAbove2.HasTile && tile.Slope == 0) //If 2 tiles below are solid and 2 tiles above are clear
             {
                 return 2;
             }
-            if (tile.IsActive && TileLeft.IsActive && tileLeft2.IsActive && !tileRight.IsActive && !tileRight2.IsActive) //If 2 tiles left are solid and 2 tiles right are clear
+            if (tile.HasTile && TileLeft.HasTile && tileLeft2.HasTile && !tileRight.HasTile && !tileRight2.HasTile) //If 2 tiles left are solid and 2 tiles right are clear
             {
                 return 3;
             }
-            if (tile.IsActive && !TileLeft.IsActive && !tileLeft2.IsActive && tileRight.IsActive && tileRight2.IsActive) //If 2 tiles right are solid and 2 tiles left are clear
+            if (tile.HasTile && !TileLeft.HasTile && !tileLeft2.HasTile && tileRight.HasTile && tileRight2.HasTile) //If 2 tiles right are solid and 2 tiles left are clear
             {
                 return 4;
             }
@@ -466,19 +466,19 @@ namespace EEMod.EEWorld
                 Tile tile8 = Framing.GetTileSafely(i + 1, j);
                 Tile tile9 = Framing.GetTileSafely(i + 2, j);
 
-                if (tile1.IsActive && tile2.IsActive && tile3.IsActive && !tile4.IsActive && !tile5.IsActive && tile1.Slope == 0)
+                if (tile1.HasTile && tile2.HasTile && tile3.HasTile && !tile4.HasTile && !tile5.HasTile && tile1.Slope == 0)
                 {
                     return 1;
                 }
-                if (tile1.IsActive && !tile2.IsActive && !tile3.IsActive && tile4.IsActive && tile5.IsActive && tile1.Slope == 0)
+                if (tile1.HasTile && !tile2.HasTile && !tile3.HasTile && tile4.HasTile && tile5.HasTile && tile1.Slope == 0)
                 {
                     return 2;
                 }
-                if (tile1.IsActive && tile6.IsActive && tile7.IsActive && !tile8.IsActive && !tile9.IsActive)
+                if (tile1.HasTile && tile6.HasTile && tile7.HasTile && !tile8.HasTile && !tile9.HasTile)
                 {
                     return 3;
                 }
-                if (tile1.IsActive && !tile6.IsActive && !tile7.IsActive && tile8.IsActive && tile9.IsActive)
+                if (tile1.HasTile && !tile6.HasTile && !tile7.HasTile && tile8.HasTile && tile9.HasTile)
                 {
                     return 4;
                 }
@@ -496,7 +496,7 @@ namespace EEMod.EEWorld
             {
                 if (WorldGen.InWorld(i + (opposite ? -k : k), j, 20))
                 {
-                    if (!Framing.GetTileSafely(i + (opposite ? -k : k), j).IsActive || !Main.tileSolid[Framing.GetTileSafely(i + (opposite ? -k : k), j).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
+                    if (!Framing.GetTileSafely(i + (opposite ? -k : k), j).HasTile || !Main.tileSolid[Framing.GetTileSafely(i + (opposite ? -k : k), j).TileType] || Framing.GetTileSafely(i + (opposite ? -k : k), j).TileType == ModContent.TileType<EmptyTile>())
                         return false;
                 }
             }
@@ -510,7 +510,7 @@ namespace EEMod.EEWorld
             {
                 if (WorldGen.InWorld(i, j + (opposite ? -k : k), 20))
                 {
-                    if (!Framing.GetTileSafely(i, j + (opposite ? -k : k)).IsActive || !Main.tileSolid[Framing.GetTileSafely(i, j + (opposite ? -k : k)).type] || Framing.GetTileSafely(i + (opposite ? -k : k), j).type == ModContent.TileType<EmptyTile>())
+                    if (!Framing.GetTileSafely(i, j + (opposite ? -k : k)).HasTile || !Main.tileSolid[Framing.GetTileSafely(i, j + (opposite ? -k : k)).TileType] || Framing.GetTileSafely(i + (opposite ? -k : k), j).TileType == ModContent.TileType<EmptyTile>())
                         return false;
                 }
             }
@@ -530,21 +530,21 @@ namespace EEMod.EEWorld
             Tile tileRight2 = Framing.GetTileSafely(i + 2, j);
             bool IsSolid(Tile tile)
             {
-                return tile.IsActive || Main.tileSolid[tile.type];
+                return tile.HasTile || Main.tileSolid[tile.TileType];
             }
-            if (tile1.IsActive && tileBelow.IsActive && tileBelow2.IsActive && !tileAbove.IsActive && !tileAbove2.IsActive)
+            if (tile1.HasTile && tileBelow.HasTile && tileBelow2.HasTile && !tileAbove.HasTile && !tileAbove2.HasTile)
             {
                 return 1;
             }
-            if (tile1.IsActive && !IsSolid(tileBelow) && !IsSolid(tileBelow2) && tileAbove.IsActive && tileAbove2.IsActive)
+            if (tile1.HasTile && !IsSolid(tileBelow) && !IsSolid(tileBelow2) && tileAbove.HasTile && tileAbove2.HasTile)
             {
                 return 2;
             }
-            if (tile1.IsActive && tileLeft.IsActive && tileLeft2.IsActive && !tileRight.IsActive && !tileRight2.IsActive)
+            if (tile1.HasTile && tileLeft.HasTile && tileLeft2.HasTile && !tileRight.HasTile && !tileRight2.HasTile)
             {
                 return 3;
             }
-            if (tile1.IsActive && !tileLeft.IsActive && !tileLeft2.IsActive && tileRight.IsActive && tileRight2.IsActive)
+            if (tile1.HasTile && !tileLeft.HasTile && !tileLeft2.HasTile && tileRight.HasTile && tileRight2.HasTile)
             {
                 return 4;
             }
@@ -582,7 +582,7 @@ namespace EEMod.EEWorld
                 for (int j = -6; j < height / 2 - 2 + steps; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    if (tile.type == type)
+                    if (tile.TileType == type)
                     {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     }
@@ -638,7 +638,7 @@ namespace EEMod.EEWorld
                 for (int j = height / 2 - 2 + steps2; j < height + 12 + steps2; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    if (tile.type == type)
+                    if (tile.TileType == type)
                     {
                         WorldGen.KillTile(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                     }
@@ -861,7 +861,7 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < Main.maxTilesY; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile.type == TileID.StoneSlab)
+                    if (tile.TileType == TileID.StoneSlab)
                     {
                         WorldGen.KillTile(i, j);
                     }
@@ -925,8 +925,8 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < height; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y);
-                    tile.type = (ushort)type;
-                    tile.IsActive = true;
+                    tile.TileType = (ushort)type;
+                    tile.HasTile = true;
                     EEMod.progressMessage = messageBefore;
                     EEMod.progressMessage += $" {(int)((j + (i * height)) / (float)(width * height) * 100)}% done";
                 }
@@ -1049,7 +1049,7 @@ namespace EEMod.EEWorld
                     {
                         return 0;
                     }
-                    if (tile.IsActive && Main.tileSolid[tile.type])
+                    if (tile.HasTile && Main.tileSolid[tile.TileType])
                     {
                         return i;
                     }
@@ -1067,7 +1067,7 @@ namespace EEMod.EEWorld
             for (int i = 0; i < Main.maxTilesY; i++)
             {
                 Tile tile = Framing.GetTileSafely(positionX, i);
-                if (tile.type == type)
+                if (tile.TileType == type)
                 {
                     return i;
                 }
@@ -1080,7 +1080,7 @@ namespace EEMod.EEWorld
             for (int i = 0; i < cap; i++)
             {
                 Tile tile = Framing.GetTileSafely(positionX, i);
-                if (tile.type == type)
+                if (tile.TileType == type)
                 {
                     return i;
                 }
@@ -1094,7 +1094,7 @@ namespace EEMod.EEWorld
             {
                 for (int j = 0; j < height; j++)
                 {
-                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).wall != ModContent.WallType<GemsandWallTile>())
+                    if (Framing.GetTileSafely(i + (int)startingPoint.X, j + (int)startingPoint.Y).WallType != ModContent.WallType<GemsandWallTile>())
                         WorldGen.KillWall(i + (int)startingPoint.X, j + (int)startingPoint.Y);
                 }
             }
@@ -1143,12 +1143,12 @@ namespace EEMod.EEWorld
                   if (layer == 1)
                   {
                       int sizeSQ = size * size + 50 * 50;
-                     // if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < (sizeSQ) && tile.IsActive)
+                     // if (Vector2.DistanceSquared(new Vector2(x, y), new Vector2(X, midY)) < (sizeSQ) && tile.HasTile)
                         //  WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<HardenedGemsandTile>(), true, 0f, 0f, true, true);
                   }
                   if (layer == 2)
                   {
-                     // if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.IsActive)
+                     // if (OvalCheck(X, midY, x, y, (size * 3) + 10, (size) + 10) && tile.HasTile)
                         //  WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<GemsandstoneTile>(), true, 1, 1, true, true);
                   }
               }*/
@@ -1197,7 +1197,7 @@ namespace EEMod.EEWorld
                 }
                 if (layer == 2)
                 {
-                    if (OvalCheck(X, midY, x, y, (size * 3) + 10, size + 10) && tile.IsActive)
+                    if (OvalCheck(X, midY, x, y, (size * 3) + 10, size + 10) && tile.HasTile)
                     {
                         WorldGen.TileRunner(x, y, WorldGen.genRand.Next(4, 10), WorldGen.genRand.Next(5, 10), ModContent.TileType<DarkGemsandTile>(), true, 1, 1, true, true);
                     }
@@ -1208,7 +1208,7 @@ namespace EEMod.EEWorld
                 for (int j = 0; j < 2000; j++)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile.type == TileID.StoneSlab)
+                    if (tile.TileType == TileID.StoneSlab)
                     {
                         WorldGen.KillTile(i, j);
                     }
@@ -1286,18 +1286,18 @@ namespace EEMod.EEWorld
                 {
                     for (int l = num5; l < num6; l++)
                     {
-                        if (overRide || !Framing.GetTileSafely(k, l).IsActive)
+                        if (overRide || !Framing.GetTileSafely(k, l).HasTile)
                         {
-                            if (Main.tileSolid[Framing.GetTileSafely(k, l).type] == true)
+                            if (Main.tileSolid[Framing.GetTileSafely(k, l).TileType] == true)
                             {
-                                Framing.GetTileSafely(k, l).type = (ushort)type;
+                                Framing.GetTileSafely(k, l).TileType = (ushort)type;
                             }
                         }
                         if (addTile)
                         {
-                            Main.tile[k, l].IsActive = true;
+                            Framing.GetTileSafely(k, l).HasTile = true;
                             Main.tile[k, l].LiquidAmount = 0;
-                            Main.tile[k, l].LiquidType = 0;
+                            Framing.GetTileSafely(k, l).LiquidType = 0;
                         }
                     }
                 }

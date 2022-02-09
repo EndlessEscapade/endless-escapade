@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace EEMod
 {
-    public class Particle : Entity, IDrawAdditive
+    public class Particle : Entity
     {
         internal float timeLeft;
         List<IParticleModule> Modules = new List<IParticleModule>();
@@ -37,6 +37,7 @@ namespace EEMod
         public int CurrentFrame => (int)(Main.GameUpdateCount / AnimSpeedPerTick) % noOfFrames;
         public Vector2 PARALAXPOSITION => position.ParalaxX(paralax);
         public List<Vector2> PositionCache = new List<Vector2>();
+
         public void UpdatePositionCache()
         {
             PositionCache.Insert(0, position);
@@ -45,9 +46,11 @@ namespace EEMod
                 PositionCache.RemoveAt(PositionCache.Count - 1);
             }
         }
+
         public virtual void OnUpdate() { }
 
         public virtual void OnDraw(SpriteBatch spriteBatch) { }
+
         public Particle(Vector2 position, int timeLeft, Texture2D texture, Vector2 velocity = default, float scale = 1, Color? colour = null, Texture2D masks = null, params IParticleModule[] StartingModule)
         {
             this.timeLeft = timeLeft;
@@ -68,19 +71,22 @@ namespace EEMod
             AnimSpeedPerTick = 1;
             noOfFrames = 1;
             SetModules(StartingModule ?? new IParticleModule[0]);
-            AdditiveCalls.Instance.LoadObject(this);
         }
 
         public void AddModule(IParticleModule Module) => Modules.Add(Module);
+
         public void SetModules(params IParticleModule[] Module) => Modules = Module.ToList();
 
         public void Update()
         {
             position += velocity;
+
             OnUpdate();
             UpdatePositionCache();
+
             if (timeLeft > 1)
                 timeLeft--;
+
             if (timeLeft == 1)
             {
                 varScale *= shrinkSpeed;
@@ -89,19 +95,22 @@ namespace EEMod
                     timeLeft--;
                 }
             }
+
             else if (Math.Abs(scale - varScale) > 0.01f && timeLeft != 0)
             {
                 varScale += (scale - varScale) / 14f;
             }
+
             if (timeLeft == 0)
             {
                 active = false;
-                AdditiveCalls.Instance.DisposeObject(this);
             }
+
             if (lightingIntensity > 0)
             {
                 Lighting.AddLight(position, lightingColor * lightingIntensity * varScale);
             }
+
             foreach (IParticleModule Module in Modules)
             {
                 Module.Update(this);
@@ -115,40 +124,20 @@ namespace EEMod
                 Module.Draw(this);
             }
 
-            Vector2 positionDraw = position.ForDraw();
-
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-            Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), new Rectangle(0, CurrentFrame * (Frame.Height / noOfFrames), Frame.Width, Frame.Height / noOfFrames), LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X / 16, (int)PARALAXPOSITION.Y / 16) * alpha : colour * alpha, rotation, Frame.Size() / 2, varScale, SpriteEffects.None, 0f);
+            Vector2 positionDraw = position.ForDraw();
+
+            Main.spriteBatch.Draw(texture, positionDraw.ParalaxX(paralax), new Rectangle(0, CurrentFrame * (Frame.Height / noOfFrames), Frame.Width, Frame.Height / noOfFrames), 
+                LightingBlend ? Lighting.GetColor((int)PARALAXPOSITION.X / 16, (int)PARALAXPOSITION.Y / 16) * alpha : colour * alpha, 
+                rotation, Frame.Size() / 2, varScale, SpriteEffects.None, 0f);
 
             Main.spriteBatch.End();
 
             OnDraw(spriteBatch);
         }
-
-        public void AdditiveCall(SpriteBatch spriteBatch)
-        {
-            Vector2 positionDraw = position.ForDraw();
-            if (PresetNoiseMask != null)
-                Helpers.DrawAdditiveFunkyNoBatch(PresetNoiseMask, positionDraw.ParalaxX(paralax), colour * alpha, 0.4f, 0.14f);
-            if (mask != null)
-            {
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
-
-                spriteBatch.Draw(mask, positionDraw.ParalaxX(paralax), mask.Bounds, colour * varScale * MaskAlpha, 0f, mask.TextureCenter(), 0.1f * varScale, SpriteEffects.None, 0f);
-
-                Main.spriteBatch.End();
-            }
-        }
     }
-    class TestModule : IParticleModule
-    {
-        public void Update(Particle particle)
-        {
-            particle.position.X++;
-        }
-        public void Draw(Particle particle) {; }
-    }
+
     class MovementSin : IParticleModule
     {
         int counter;
@@ -163,7 +152,9 @@ namespace EEMod
             particle.velocity *= Math.Abs((float)Math.Sin(counter * frequency));
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SlowDown : IParticleModule
     {
         float slowDownFactor;
@@ -176,7 +167,9 @@ namespace EEMod
             particle.velocity *= slowDownFactor;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class RotateTexture : IParticleModule
     {
         float rotationSpeed;
@@ -189,7 +182,9 @@ namespace EEMod
             particle.rotation += rotationSpeed;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetAnimData : IParticleModule
     {
         int AnimSpeedPerTick;
@@ -205,7 +200,9 @@ namespace EEMod
             particle.noOfFrames = noOfFrames;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SimpleBrownianMotion : IParticleModule
     {
         float intensity;
@@ -219,7 +216,9 @@ namespace EEMod
             particle.velocity.Y += Main.rand.NextFloat(-1, 1) * intensity;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class AdditiveCircularMotion : IParticleModule
     {
         float width;
@@ -240,7 +239,9 @@ namespace EEMod
             particle.position.Y += rotVec.Y;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class AfterImageTrail : IParticleModule
     {
         float alphaFallOff;
@@ -262,7 +263,9 @@ namespace EEMod
             }
         }
         public void Update(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetTimeLeft : IParticleModule
     {
         float timeLeft;
@@ -280,6 +283,7 @@ namespace EEMod
             }
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
 
     class SetTrailLength : IParticleModule
@@ -294,7 +298,9 @@ namespace EEMod
             particle.TrailLength = traillength;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetLightingBlend : IParticleModule
     {
         bool LightingBlend;
@@ -312,7 +318,9 @@ namespace EEMod
             }
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetShrinkSize : IParticleModule
     {
         float shrinkSize;
@@ -330,7 +338,9 @@ namespace EEMod
             }
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetParalax : IParticleModule
     {
         float paralax;
@@ -348,7 +358,9 @@ namespace EEMod
             }
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class Spew : IParticleModule
     {
         float randomAngle;
@@ -375,7 +387,9 @@ namespace EEMod
             particle.velocity *= airResistance;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class AddVelocity : IParticleModule
     {
         Vector2 velocity;
@@ -388,7 +402,9 @@ namespace EEMod
             particle.velocity += velocity;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class RotateVelocity : IParticleModule
     {
         float rotFac;
@@ -401,7 +417,9 @@ namespace EEMod
             particle.velocity = particle.velocity.RotatedBy(rotFac);
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetLighting : IParticleModule
     {
         Vector3 color;
@@ -417,7 +435,9 @@ namespace EEMod
             particle.lightingIntensity = intensity;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetFrame : IParticleModule
     {
         Rectangle frame;
@@ -430,7 +450,9 @@ namespace EEMod
             particle.Frame = frame;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetPresetNoiseMask : IParticleModule
     {
         Texture2D tex;
@@ -443,23 +465,42 @@ namespace EEMod
             particle.PresetNoiseMask = tex;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class SetMask : IParticleModule
     {
-        Texture2D tex;
-        float MaskAlpha;
-        public SetMask(Texture2D bounds, float MaskAlpha = 0.25f)
+        Texture2D mask;
+        Color maskColor;
+
+        public SetMask(Texture2D mask, Color maskColor)
         {
-            tex = bounds;
-            this.MaskAlpha = MaskAlpha;
+            this.mask = mask;
+            this.maskColor = maskColor;
         }
+
         public void Update(Particle particle)
         {
-            particle.mask = tex;
-            particle.MaskAlpha = MaskAlpha;
+
         }
-        public void Draw(Particle particle) {; }
+
+        public void Draw(Particle particle) 
+        {
+            Vector2 positionDraw = particle.position.ForDraw();
+
+            if (mask != null)
+            {
+                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
+
+                Main.spriteBatch.Draw(mask, positionDraw.ParalaxX(particle.paralax), mask.Bounds, maskColor * particle.varScale, 0f, mask.TextureCenter(), 0.1f * particle.varScale, SpriteEffects.None, 0f);
+
+                Main.spriteBatch.End();
+            }
+        }
+
+        public void PostDraw(Particle particle) {; }
     }
+
     class CircularMotion : IParticleModule
     {
         float width;
@@ -484,7 +525,9 @@ namespace EEMod
             particle.position.Y = orbitPoint.Center.Y + rotVec.Y;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class CircularMotionSin : IParticleModule
     {
         float width;
@@ -526,7 +569,9 @@ namespace EEMod
             }
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class FollowEntity : IParticleModule
     {
         float resistance;
@@ -544,7 +589,9 @@ namespace EEMod
             particle.velocity += (orbitPoint.Center - particle.position) / resistance - particle.velocity / dampen;
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class CircularMotionSinSpinC : IParticleModule
     {
         float width;
@@ -590,7 +637,9 @@ namespace EEMod
             }
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class CircularMotionSinSpin : IParticleModule
     {
         float width;
@@ -636,7 +685,9 @@ namespace EEMod
             }
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class ZigzagMotion : IParticleModule
     {
         float interval;
@@ -657,15 +708,20 @@ namespace EEMod
             }
         }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     class BaseModule : IParticleModule
     {
         public void Update(Particle particle) {; }
         public void Draw(Particle particle) {; }
+        public void PostDraw(Particle particle) {; }
     }
+
     public interface IParticleModule
     {
         void Update(Particle particle);
         void Draw(Particle particle);
+        void PostDraw(Particle particle);
     }
 }

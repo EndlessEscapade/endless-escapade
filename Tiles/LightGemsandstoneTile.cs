@@ -72,11 +72,11 @@ namespace EEMod.Tiles
         }
         public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).IsActive && Framing.GetTileSafely(i, j).Slope == 0)
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j - 1).type] || !Framing.GetTileSafely(i, j - 1).HasTile && Framing.GetTileSafely(i, j).Slope == 0)
             {
                     PlaceGroundGrass(i, j);
             }
-            if (!Main.tileSolid[Framing.GetTileSafely(i, j + 1).type] || !Framing.GetTileSafely(i, j + 1).IsActive && Framing.GetTileSafely(i, j).Slope == 0)
+            if (!Main.tileSolid[Framing.GetTileSafely(i, j + 1).type] || !Framing.GetTileSafely(i, j + 1).HasTile && Framing.GetTileSafely(i, j).Slope == 0)
             {
 
             }

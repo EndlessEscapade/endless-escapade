@@ -43,7 +43,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
             DisableSmartCursor = true;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ItemID.DirtBlock);
         }
@@ -69,7 +69,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
             if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().cannonType == ModContent.ItemType<Cannon>()) type = 0;
             if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().cannonType == ModContent.ItemType<LythenCannon>()) type = 1;
 
-            Rectangle rect = new Rectangle(Framing.GetTileSafely(i, j).frameX, Framing.GetTileSafely(i, j).frameY + (type * 36), 16, 16);
+            Rectangle rect = new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + (type * 36), 16, 16);
 
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
 

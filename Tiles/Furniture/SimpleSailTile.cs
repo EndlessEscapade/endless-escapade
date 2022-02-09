@@ -46,11 +46,11 @@ namespace EEMod.Tiles.Furniture
         private bool opening = true;
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Framing.GetTileSafely(i + 1, j).type == ModContent.TileType<SimpleSailTile>() && Framing.GetTileSafely(i - 1, j).type != ModContent.TileType<SimpleSailTile>())
+            if (Framing.GetTileSafely(i + 1, j).TileType == ModContent.TileType<SimpleSailTile>() && Framing.GetTileSafely(i - 1, j).TileType != ModContent.TileType<SimpleSailTile>())
                 frame = 1;
-            else if (Framing.GetTileSafely(i - 1, j).type == ModContent.TileType<SimpleSailTile>() && Framing.GetTileSafely(i + 1, j).type != ModContent.TileType<SimpleSailTile>())
+            else if (Framing.GetTileSafely(i - 1, j).TileType == ModContent.TileType<SimpleSailTile>() && Framing.GetTileSafely(i + 1, j).TileType != ModContent.TileType<SimpleSailTile>())
                 frame = 2;
-            else if (Framing.GetTileSafely(i - 1, j).type == ModContent.TileType<SimpleSailTile>() && Framing.GetTileSafely(i + 1, j).type == ModContent.TileType<SimpleSailTile>())
+            else if (Framing.GetTileSafely(i - 1, j).TileType == ModContent.TileType<SimpleSailTile>() && Framing.GetTileSafely(i + 1, j).TileType == ModContent.TileType<SimpleSailTile>())
                 frame = 0;
             else
                 frame = 3;

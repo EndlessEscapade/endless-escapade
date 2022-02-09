@@ -38,7 +38,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            if ((tile.frameY == 0 || tile.frameY == 18) || (tile.frameX == 18 && tile.frameY == 36))
+            if ((tile.TileFrameY == 0 || tile.TileFrameY == 18) || (tile.TileFrameX == 18 && tile.TileFrameY == 36))
             {
                 r = 0.25f;
                 g = 0.2f;
@@ -50,10 +50,10 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             Color chosen = Color.Lerp(Color.Gold, Color.LightYellow, Main.rand.NextFloat(1f));
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.003f));
-            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.6f), new AfterImageTrail(0.96f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+            EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.75f, 0.75f), Main.rand.NextFloat(-0.75f, 0.75f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.98f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f), new AfterImageTrail(0.96f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
 
             Tile tile = Framing.GetTileSafely(i, j);
-            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/GroundGlowCoralGlow2").Value, i, j, Color.White * (float)(0.5f + (Math.Sin((i - (tile.frameX / 18f)) + (j - (tile.frameY / 18f)) + Main.GameUpdateCount / 60f) / 2f)));
+            Helpers.DrawTileGlowmask(Mod.Assets.Request<Texture2D>("Tiles/Foliage/KelpForest/GroundGlowCoralGlow2").Value, i, j, Color.White * (float)(0.5f + (Math.Sin((i - (tile.TileFrameX / 18f)) + (j - (tile.TileFrameY / 18f)) + Main.GameUpdateCount / 60f) / 2f)));
         }
     }
 }

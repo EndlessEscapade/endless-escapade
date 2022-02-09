@@ -30,7 +30,7 @@ namespace EEMod
 
                     Tile root = Framing.GetTileSafely((int)CoralReefs.ThinCrystalBambooLocations[i].X, (int)CoralReefs.ThinCrystalBambooLocations[i].Y);
 
-                    bool isValid = root.IsActive && Main.tileSolid[root.type] && root.Slope == 0;
+                    bool isValid = root.HasTile && Main.tileSolid[root.TileType] && root.Slope == 0;
 
                     if (isValid)
                     {

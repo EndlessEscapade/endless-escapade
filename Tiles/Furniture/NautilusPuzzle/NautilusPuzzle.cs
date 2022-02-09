@@ -39,7 +39,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile t = Framing.GetTileSafely(i, j);
-            if (t.frameX % 54 == 0 && t.frameY == 0)
+            if (t.TileFrameX % 54 == 0 && t.TileFrameY == 0)
             {
                 Main.specX[nextSpecialDrawIndex] = i;
                 Main.specY[nextSpecialDrawIndex] = j;
@@ -64,7 +64,7 @@ namespace EEMod.Tiles.Furniture.NautilusPuzzle
 
         public override void SpecialDraw(int i, int j, SpriteBatch spriteBatch)
         {
-            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
+            if (Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
             {
                 for (int x = 0; x < 3; x++)
                 {

@@ -69,16 +69,16 @@ namespace EEMod
             return -1;
         }
 
-        public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, Texture2D mask, params IParticleModule[] modules) =>
+        public void SpawnParticleDownUp(Vector2 vel, Texture2D tex, Color col, Texture2D mask, params IParticleModule[] modules) =>
             SpawnParticles(Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f) + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 3, col, mask, 0.6f, modules);
 
-        public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, Color col, params IParticleModule[] modules) =>
+        public void SpawnParticleDownUp(Vector2 vel, Texture2D tex, Color col, params IParticleModule[] modules) =>
             SpawnParticles(Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f) + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 2, col, null, 0.6f, modules);
 
-        public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, params IParticleModule[] modules) =>
+        public void SpawnParticleDownUp(Vector2 vel, Texture2D tex, params IParticleModule[] modules) =>
             SpawnParticles(Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f) + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, 1, null, null, 0.6f, modules);
 
-        public void SpawnParticleDownUp(Player player, Vector2 vel, Texture2D tex, float scale, float paralaxFactor, params IParticleModule[] modules) =>
+        public void SpawnParticleDownUp(Vector2 vel, Texture2D tex, float scale, float paralaxFactor, params IParticleModule[] modules) =>
             SpawnParticles(Main.screenPosition + new Vector2(Main.screenWidth / 2f, Main.screenHeight / 2f) + new Vector2(Main.rand.Next(-1000, 1000), 1000), vel, tex, 1000, scale, null, null, paralaxFactor, modules);
 
         public void SetModules(params IParticleModule[] Module) 

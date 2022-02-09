@@ -34,7 +34,7 @@ namespace EEMod.Tiles.Furniture.Paintings
             AnimationFrameHeight = 90;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             Item.NewItem(i * 40, j * 40, 40, 40, ModContent.ItemType<Murdog>());
         }

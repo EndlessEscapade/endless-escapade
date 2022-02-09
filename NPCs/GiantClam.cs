@@ -56,7 +56,7 @@ namespace EEMod.NPCs
                 for (int j = minTilePosY; j < maxTilePosY + 5; ++j)
                 {
                     Tile tile = Framing.GetTileSafely(i, j);
-                    if (tile?.IsActive is true && (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type] && tile.frameY == 0))
+                    if (tile.HasTile is true && (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType] && tile.TileFrameY == 0))
                     {
                         tilePos.X = i * 16f;
                         tilePos.Y = j * 16f;

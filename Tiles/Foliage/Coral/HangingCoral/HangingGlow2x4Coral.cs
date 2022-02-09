@@ -51,8 +51,8 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
         public override void PostDraw(int i, int j, SpriteBatch spriteBatch)
         {
             Color color = Color.White;
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
             Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
             if (Main.drawToScreen)
             {
@@ -60,7 +60,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
             }
             Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X, j * 16 - (int)Main.screenPosition.Y) + zero;
             Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/Coral/HangingCoral/HangingGlow2x4CoralGlow").Value;
-            Rectangle rect = new Rectangle(frameX, frameY, 16, 16);
+            Rectangle rect = new Rectangle(TileFrameX, TileFrameY, 16, 16);
             Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
         }
     }

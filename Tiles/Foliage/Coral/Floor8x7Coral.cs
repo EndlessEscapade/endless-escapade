@@ -39,14 +39,14 @@ namespace EEMod.Tiles.Foliage.Coral
 
         public override void SetDrawPositions(int i, int j, ref int width, ref int offsetY, ref int height)
         {
-            int frameX = Framing.GetTileSafely(i, j).frameX;
-            int frameY = Framing.GetTileSafely(i, j).frameY;
+            int TileFrameX = Framing.GetTileSafely(i, j).TileFrameX;
+            int TileFrameY = Framing.GetTileSafely(i, j).TileFrameY;
             Player player = Main.LocalPlayer;
             if (new Rectangle((int)player.position.X / 16, (int)player.position.Y / 16, 1, 2).Intersects(new Rectangle(i, j, 1, 1)) && !isIntersecting && (player.velocity.X > 7 || player.velocity.X < -7))
             {
                 for (int a = 0; a < 8; a++)
                 {
-                    Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<CBPetrude>()), new Vector2((i * 16) - frameX, (j * 16) - frameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
+                    Projectile.NewProjectile(new ProjectileSource_BySourceId(ModContent.ProjectileType<CBPetrude>()), new Vector2((i * 16) - TileFrameX, (j * 16) - TileFrameY), Vector2.Zero, ModContent.ProjectileType<CBPetrude>(), 0, 0f, Main.myPlayer, Main.rand.NextFloat(0.03f, 0.1f), Main.rand.Next(100, 180));
                 }
 
                 isIntersecting = true;

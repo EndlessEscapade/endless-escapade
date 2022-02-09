@@ -44,10 +44,10 @@ namespace EEMod.VerletIntegration
 
             Point p = position.ToTileCoordinates();
 
-            if (Framing.GetTileSafely(p).IsActive)
+            if (Framing.GetTileSafely(p).HasTile)
             {
                 Vector2 TP = (position + new Vector2(0, lengthOfChains * (numberOfChains - 1))) / 16;
-                if (!Framing.GetTileSafely((int)TP.X, (int)TP.Y).IsActive)
+                if (!Framing.GetTileSafely((int)TP.X, (int)TP.Y).HasTile)
                 {
                     for (int i = 0; i < numberOfChains; i++)
                     {
@@ -98,7 +98,7 @@ namespace EEMod.VerletIntegration
             if (SpacialTolerance > 1) return;
 
             Point p = position.ToTileCoordinates();
-            if (Framing.GetTileSafely(p).IsActive)
+            if (Framing.GetTileSafely(p).HasTile)
             {
                 for (int i = 0; i < numberOfChains; i++)
                 {

@@ -32,7 +32,7 @@ namespace EEMod
                     Tile CurrentTile = Framing.GetTileSafely((int)CoralReefs.AquamarineZiplineLocations[i].X, (int)CoralReefs.AquamarineZiplineLocations[i].Y);
                     Tile LastTile = Framing.GetTileSafely((int)CoralReefs.AquamarineZiplineLocations[i - 1].X, (int)CoralReefs.AquamarineZiplineLocations[i - 1].Y);
 
-                    bool isValid = CurrentTile.IsActive && LastTile.IsActive && Main.tileSolid[CurrentTile.type] && Main.tileSolid[LastTile.type];
+                    bool isValid = CurrentTile.HasTile && LastTile.HasTile && Main.tileSolid[CurrentTile.TileType] && Main.tileSolid[LastTile.TileType];
 
                     Vector2 MidNorm = (ChainConneccPos + LastChainConneccPos) / 2;
                     Vector2 Mid = (ChainConneccPos + LastChainConneccPos) / 2;
@@ -43,9 +43,9 @@ namespace EEMod
                     float rot = (ChainConneccPos - LastChainConneccPos).ToRotation();
 
                     if (Vector2.DistanceSquared(Main.LocalPlayer.Center, MidNorm) < 2000 * 2000 && isValid &&
-                        !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).IsActive
-                        && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).IsActive
-                        && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).IsActive
+                        !Framing.GetTileSafely((int)Mid.X / 16, (int)Mid.Y / 16).HasTile
+                        && !Framing.GetTileSafely((int)lerp1.X / 16, (int)lerp1.Y / 16).HasTile
+                        && !Framing.GetTileSafely((int)lerp2.X / 16, (int)lerp2.Y / 16).HasTile
                         && Collision.CanHit(lerp1, 1, 1, lerp2, 1, 1))
                     {
                         Texture2D a = EEMod.Instance.Assets.Request<Texture2D>("Textures/CrystalVineThick").Value;

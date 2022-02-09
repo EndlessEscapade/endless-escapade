@@ -38,7 +38,7 @@ namespace EEMod.Tiles.Foliage
             DustType = DustID.Dirt;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             if (Main.rand.Next(5) == 0)
             {
@@ -51,7 +51,7 @@ namespace EEMod.Tiles.Foliage
         public override void DrawEffects(int i, int j, SpriteBatch spriteBatch, ref Color drawColor, ref int nextSpecialDrawIndex)
         {
             Tile t = Framing.GetTileSafely(i, j);
-            if (t.frameX == 0 && t.frameY == 0)
+            if (t.TileFrameX == 0 && t.TileFrameY == 0)
             {
                 Main.specX[nextSpecialDrawIndex] = i;
                 Main.specY[nextSpecialDrawIndex] = j;
@@ -69,7 +69,7 @@ namespace EEMod.Tiles.Foliage
                 zero = Vector2.Zero;
             }
 
-            if (Framing.GetTileSafely(i, j).frameX == 0 && Framing.GetTileSafely(i, j).frameY == 0)
+            if (Framing.GetTileSafely(i, j).TileFrameX == 0 && Framing.GetTileSafely(i, j).TileFrameY == 0)
                 Main.spriteBatch.Draw(Mod.Assets.Request<Texture2D>("Tiles/Foliage/TropicalTreeLeaves").Value, new Vector2((i * 16) - 48, (j * 16) - 60) - Main.screenPosition + zero, new Rectangle(0, 0, 120, 100), Lighting.GetColor(i, j));
         }
     }

@@ -47,12 +47,12 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
             {
                 Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
                 Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
-                if ((!Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).IsActive &&
-                    (!Main.tileSolid[tile.type] || !Main.tileSolidTop[tile.type]) &&
-                    !Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).IsActive &&
-                    (!Main.tileSolid[tile2.type] || !Main.tileSolidTop[tile2.type]) ||
-                    tile.type == TileID.Trees ||
-                    tile2.type == TileID.Trees) && Projectile.ai[1] == 0)
+                if ((!Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).HasTile &&
+                    (!Main.tileSolid[tile.TileType] || !Main.tileSolidTop[tile.TileType]) &&
+                    !Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).HasTile &&
+                    (!Main.tileSolid[tile2.TileType] || !Main.tileSolidTop[tile2.TileType]) ||
+                    tile.TileType == TileID.Trees ||
+                    tile2.TileType == TileID.Trees) && Projectile.ai[1] == 0)
                 {
                     projOwner.velocity.Y += weight;
                     damageMultiplier += damageIncreaseOverTime;
@@ -106,12 +106,12 @@ namespace EEMod.Items.Weapons.Melee.Warhammers
             {
                 Tile tile = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3);
                 Tile tile2 = Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4);
-                if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).IsActive &&
-                    (Main.tileSolid[tile.type] || Main.tileSolidTop[tile.type]) ||
-                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).IsActive &&
-                    (Main.tileSolid[tile2.type] || Main.tileSolidTop[tile2.type]) &&
-                    tile.type != TileID.Trees &&
-                    tile2.type != TileID.Trees)
+                if (Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 3).HasTile &&
+                    (Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType]) ||
+                    Framing.GetTileSafely((int)tilePos.X + projOwner.direction, (int)tilePos.Y + 4).HasTile &&
+                    (Main.tileSolid[tile2.TileType] || Main.tileSolidTop[tile2.TileType]) &&
+                    tile.TileType != TileID.Trees &&
+                    tile2.TileType != TileID.Trees)
                 {
                     Projectile.ai[0]++;
                     if (Projectile.ai[0] == 1)

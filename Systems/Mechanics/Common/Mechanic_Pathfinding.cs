@@ -39,7 +39,7 @@ namespace EEMod
             try
             {
                 if(WorldGen.InWorld(a.X,a.Y,10))
-                  if (!(!Framing.GetTileSafely(a).IsActive || !Main.tileSolid[Framing.GetTileSafely(a).type]))
+                  if (!(!Framing.GetTileSafely(a).HasTile || !Main.tileSolid[Framing.GetTileSafely(a).TileType]))
                     return new Point[] { a };
                 List<Point> pointCache = new List<Point>();
                 Point CurrentTilePos = a;
@@ -61,7 +61,7 @@ namespace EEMod
                     if (WorldGen.InWorld(tile.X, tile.Y, 10))
                     {
                         Tile T = Framing.GetTileSafely(tile);
-                        return !ClosedList.ContainsKey(tile) && !T.IsActive || !Main.tileSolid[T.type] || TileID.Sets.Platforms[T.type];
+                        return !ClosedList.ContainsKey(tile) && !T.HasTile || !Main.tileSolid[T.TileType] || TileID.Sets.Platforms[T.TileType];
                     }
 
                     return false;

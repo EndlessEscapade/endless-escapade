@@ -335,7 +335,7 @@ namespace EEMod.VerletIntegration
                                 EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0005f));
                                 EEMod.MainParticles.SpawnParticles(mid,
                                     new Vector2(Main.rand.NextFloat(-0.5f, 0.5f), Main.rand.NextFloat(-0.5f, 0.5f)), EEMod.Instance.Assets.Request<Texture2D>("Particles/Cross").Value, 30, 1,
-                                    Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.9f), new SetMask(Helpers.RadialMask), new SetTrailLength(15));
+                                    Color.Lerp(Color.Goldenrod, Color.Yellow, Main.rand.NextFloat(0f, 1f)), new SlowDown(0.98f), new RotateVelocity(Main.rand.NextFloat(-.01f, .01f)), new RotateTexture(0.02f), new AfterImageTrail(0.9f), new SetMask(Helpers.RadialMask, Color.White), new SetTrailLength(15));
                             }
                         }
                     }
@@ -353,7 +353,7 @@ namespace EEMod.VerletIntegration
             Points[2] = (int)point.Y / 16;
             Points[3] = (int)point.Y / 16;
 
-            while (!Framing.GetTileSafely(Points[0], (int)tileP.Y).IsActive)
+            while (!Framing.GetTileSafely(Points[0], (int)tileP.Y).HasTile)
             {
                 Points[0]++;
 
@@ -365,7 +365,7 @@ namespace EEMod.VerletIntegration
                 }
             }
 
-            while (!Framing.GetTileSafely(Points[1], (int)tileP.Y).IsActive)
+            while (!Framing.GetTileSafely(Points[1], (int)tileP.Y).HasTile)
             {
                 Points[1]--;
 
@@ -377,7 +377,7 @@ namespace EEMod.VerletIntegration
                 }
             }
 
-            while (!Framing.GetTileSafely((int)tileP.X, Points[2]).IsActive)
+            while (!Framing.GetTileSafely((int)tileP.X, Points[2]).HasTile)
             {
                 Points[2]++;
 
@@ -389,7 +389,7 @@ namespace EEMod.VerletIntegration
                 }
             }
 
-            while (!Framing.GetTileSafely((int)tileP.X, Points[3]).IsActive)
+            while (!Framing.GetTileSafely((int)tileP.X, Points[3]).HasTile)
             {
                 Points[3]--;
 
@@ -407,14 +407,14 @@ namespace EEMod.VerletIntegration
                 {
                     if (i < 2)
                     {
-                        if (!Main.tileSolid[Framing.GetTileSafely(Points[i], (int)tileP.Y).type])
+                        if (!Main.tileSolid[Framing.GetTileSafely(Points[i], (int)tileP.Y).TileType])
                         {
                             Points[i] = -1;
                         }
                     }
                     else
                     {
-                        if (!Main.tileSolid[Framing.GetTileSafely((int)tileP.X, Points[i]).type])
+                        if (!Main.tileSolid[Framing.GetTileSafely((int)tileP.X, Points[i]).TileType])
                         {
                             Points[i] = -1;
                         }

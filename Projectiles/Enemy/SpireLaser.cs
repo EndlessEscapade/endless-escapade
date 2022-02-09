@@ -63,7 +63,7 @@ namespace EEMod.Projectiles.Enemy
                     Projectile.Kill();
                 }
 
-                if (Framing.GetTileSafely((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16)).type == ModContent.TileType<EmptyTile>())
+                if (Framing.GetTileSafely((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16)).TileType == ModContent.TileType<EmptyTile>())
                 {
                     Bounce(Projectile.ModProjectile, Projectile.oldVelocity);
                     Projectile.ai[0]++;
@@ -71,7 +71,7 @@ namespace EEMod.Projectiles.Enemy
             }
             else
             {
-                if (Framing.GetTileSafely((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16)).type == ModContent.TileType<EmptyTile>())
+                if (Framing.GetTileSafely((int)(Projectile.Center.X / 16), (int)(Projectile.Center.Y / 16)).TileType == ModContent.TileType<EmptyTile>())
                 {
                     Projectile.Kill();
                 }

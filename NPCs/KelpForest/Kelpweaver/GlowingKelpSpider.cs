@@ -145,13 +145,13 @@ namespace EEMod.NPCs.KelpForest.Kelpweaver
 
                 if (WorldGen.InWorld((int)(TrueX / 16), (int)(TrueY / 16), 20))
                 {
-                    while (Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).IsActive && Pogger < 64 && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).Slope == 0)
+                    while (Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).TileType] && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).HasTile && Pogger < 64 && Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).Slope == 0)
                     {
                         SpiderBodyPosition.Y -= 0.005f;
                         TrueY--;
                         Pogger++;
                     }
-                    while ((!Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).type] || !Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).IsActive) && Pogger < 32)
+                    while ((!Main.tileSolid[Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).TileType] || !Framing.GetTileSafely((int)(TrueX / 16), (int)(TrueY / 16)).HasTile) && Pogger < 32)
                     {
                         if (CanJump)
                             SpiderBodyPosition.Y += 0.005f;
@@ -194,7 +194,7 @@ namespace EEMod.NPCs.KelpForest.Kelpweaver
             float UnderSpiderY = SpiderBodyPosition.Y + legVert + 8;
             float UnderSpiderX = SpiderBodyPosition.X;
             bool OnGroundBuffer = OnGround;
-            if (!Main.tileSolid[Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).type] || !Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).IsActive)
+            if (!Main.tileSolid[Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).TileType] || !Framing.GetTileSafely((int)UnderSpiderX / 16, (int)UnderSpiderY / 16).HasTile)
             {
                 VertVel += 0.2f;
                 OnGround = false;
@@ -280,7 +280,7 @@ namespace EEMod.NPCs.KelpForest.Kelpweaver
             NPC.TargetClosest(true);
             Player player = Main.player[NPC.target];
             Vector2 npcTilePos = NPC.Center / 16;
-            bool ifAbove = Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).IsActive && Main.tileSolid[Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).type];
+            bool ifAbove = Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).HasTile && Main.tileSolid[Framing.GetTileSafely((int)npcTilePos.X, (int)npcTilePos.Y - 6).TileType];
             bool ifPlayerAbove = (NPC.Center.Y - player.Center.Y) > 140;
             UpdateSpiderPort();
             if (NPC.ai[1] % ChanceToJump <= 5f && !ifAbove && ifPlayerAbove)

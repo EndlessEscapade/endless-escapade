@@ -26,10 +26,10 @@ namespace EEMod.Tiles.Furniture
             AddMapEntry(new Color(120, 85, 60), name);
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             int item = 0;
-            switch (frameX / 54)
+            switch (TileFrameX / 54)
             {
                 case 0:
                     item = ModContent.ItemType<HydrosTrophy>();

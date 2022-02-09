@@ -138,7 +138,7 @@ namespace EEMod.NPCs
                 else
                 {
                     Tile tile = Framing.GetTileSafely((int)(Holder[1].X / 16), (int)(Holder[1].Y / 16));
-                    //int index = ModContent.GetInstance<OrbHolderTE>().Find((int)(Holder[1].X / 16 - tile.frameX / 16), (int)(Holder[1].Y / 16 - tile.frameY / 16));
+                    //int index = ModContent.GetInstance<OrbHolderTE>().Find((int)(Holder[1].X / 16 - tile.TileFrameX / 16), (int)(Holder[1].Y / 16 - tile.TileFrameY / 16));
                     //if (index != -1)
                     //{
                     //    OrbHolderTE TE = (OrbHolderTE)TileEntity.ByID[index];

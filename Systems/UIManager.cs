@@ -132,7 +132,7 @@ namespace EEMod.ModSystems
                 return new UIState();
             }
         }
-        public bool IsActive(string UIInterfaceName) => UIInterfaces[UIInterfaceName].CurrentState != null;
+        public bool HasTile(string UIInterfaceName) => UIInterfaces[UIInterfaceName].CurrentState != null;
 
         public bool IsBinded(string UIInterfaceName) => UIInterfaces.ContainsKey(UIInterfaceName) && Binds.ContainsKey(UIInterfaces[UIInterfaceName]);
 
@@ -140,7 +140,7 @@ namespace EEMod.ModSystems
         {
             if (IsBinded(UIInterfaceName))
             {
-                if (!IsActive(UIInterfaceName))
+                if (!HasTile(UIInterfaceName))
                 {
                     SetToBindedState(UIInterfaceName);
                 }

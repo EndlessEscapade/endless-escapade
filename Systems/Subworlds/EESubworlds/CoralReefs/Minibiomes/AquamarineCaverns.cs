@@ -231,11 +231,11 @@ namespace EEMod.EEWorld
             //Spawning aquamarine pillars
             BoundClause((int i, int j) =>
             {
-                if ((WorldGen.InWorld(i, j) && WorldGen.InWorld(i + 1, j) && Framing.GetTileSafely(i, j).type == ModContent.TileType<GemsandTile>() || Framing.GetTileSafely(i, j).type == ModContent.TileType<AquamarineTile>()) && !Framing.GetTileSafely(i, j + 1).IsActive && WorldGen.genRand.NextBool(10))
+                if ((WorldGen.InWorld(i, j) && WorldGen.InWorld(i + 1, j) && Framing.GetTileSafely(i, j).TileType == ModContent.TileType<GemsandTile>() || Framing.GetTileSafely(i, j).TileType == ModContent.TileType<AquamarineTile>()) && !Framing.GetTileSafely(i, j + 1).HasTile && WorldGen.genRand.NextBool(10))
                 {
                     int newJ = j + 1;
 
-                    while (!Framing.GetTileSafely(i, newJ).IsActive)
+                    while (!Framing.GetTileSafely(i, newJ).HasTile)
                     {
                         WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarinePillar>());
 
@@ -247,12 +247,12 @@ namespace EEMod.EEWorld
             //Spawning chimes
             BoundClause((int i, int j) =>
             {
-                if ((Main.tile[i, j].type == ModContent.TileType<GemsandTile>() || Main.tile[i, j].type == ModContent.TileType<GemsandstoneTile>() || Main.tile[i, j].type == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].IsActive && WorldGen.genRand.NextBool(10))
+                if ((Main.tile[i, j].TileType == ModContent.TileType<GemsandTile>() || Main.tile[i, j].TileType == ModContent.TileType<GemsandstoneTile>() || Main.tile[i, j].TileType == ModContent.TileType<AquamarineTile>()) && !Main.tile[i, j + 1].HasTile && WorldGen.genRand.NextBool(10))
                 {
                     int newJ = j + 1;
                     int length = WorldGen.genRand.Next(2, 8);
 
-                    while (!Main.tile[i, newJ].IsActive && newJ - j < length)
+                    while (!Main.tile[i, newJ].HasTile && newJ - j < length)
                     {
                         WorldGen.PlaceTile(i, newJ, ModContent.TileType<AquamarineChime>());
 

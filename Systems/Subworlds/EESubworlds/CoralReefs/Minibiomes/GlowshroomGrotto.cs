@@ -92,11 +92,11 @@ namespace EEMod.EEWorld
             BoundClause((int i, int j) =>
             {
                 bool CorrectSpacing = TileCheck2(i, j) == (int)TileSpacing.Bottom;
-                if (CorrectSpacing && Framing.GetTileSafely(i, j).type != ModContent.TileType<GlowshroomVines>() && WorldGen.genRand.Next(4) == 0)
+                if (CorrectSpacing && Framing.GetTileSafely(i, j).TileType != ModContent.TileType<GlowshroomVines>() && WorldGen.genRand.Next(4) == 0)
                 {
                     for (int a = 0; a < WorldGen.genRand.Next(4, 15); a++)
                     {
-                        if (!Framing.GetTileSafely(i, j + a).IsActive)
+                        if (!Framing.GetTileSafely(i, j + a).HasTile)
                             WorldGen.PlaceTile(i, j + a, ModContent.TileType<GlowshroomVines>());
                     }
                 }
@@ -104,7 +104,7 @@ namespace EEMod.EEWorld
 
             BoundClause((int i, int j) =>
             {
-                if(Framing.GetTileSafely(i, j).type != ModContent.TileType<LightGemsandTile>() && Framing.GetTileSafely(i, j).type != ModContent.TileType<VibrantMycelium>() && Framing.GetTileSafely(i, j).IsActive && !Main.tileSolid[Framing.GetTileSafely(i, j).type])
+                if(Framing.GetTileSafely(i, j).TileType != ModContent.TileType<LightGemsandTile>() && Framing.GetTileSafely(i, j).TileType != ModContent.TileType<VibrantMycelium>() && Framing.GetTileSafely(i, j).HasTile && !Main.tileSolid[Framing.GetTileSafely(i, j).TileType])
                 {
                     EEWorld.SolidTileRunner(i, j, 3, 10, ModContent.TileType<VibrantMycelium>(), false, 0, 0, false, true);
                 }

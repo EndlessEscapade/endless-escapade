@@ -47,11 +47,11 @@ namespace EEMod.Tiles.Furniture.Chests
             int left = i;
             int top = j;
             Tile tile = Framing.GetTileSafely(i, j);
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
             {
                 left--;
             }
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
             {
                 top--;
             }
@@ -71,7 +71,7 @@ namespace EEMod.Tiles.Furniture.Chests
             num = 1;
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ChestDrop);
             Chest.DestroyChest(i, j);
@@ -84,11 +84,11 @@ namespace EEMod.Tiles.Furniture.Chests
             // Main.mouseRightRelease = false;
             int left = i;
             int top = j;
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
             {
                 left--;
             }
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
             {
                 top--;
             }
@@ -156,11 +156,11 @@ namespace EEMod.Tiles.Furniture.Chests
             Tile tile = Framing.GetTileSafely(i, j);
             int left = i;
             int top = j;
-            if (tile.frameX % 36 != 0)
+            if (tile.TileFrameX % 36 != 0)
             {
                 left--;
             }
-            if (tile.frameY != 0)
+            if (tile.TileFrameY != 0)
             {
                 top--;
             }

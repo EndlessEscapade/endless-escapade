@@ -61,17 +61,17 @@ namespace EEMod.Tiles.Foliage.KelpForest
             player.cursorItemIconID = ModContent.ItemType<Moyai>();
         }
 
-        public override void AnimateIndividualTile(int type, int i, int j, ref int frameXOffset, ref int frameYOffset)
+        public override void AnimateIndividualTile(int type, int i, int j, ref int TileFrameXOffset, ref int TileFrameYOffset)
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            int x = i - tile.frameX / 16 % 5;
-            int y = j - tile.frameY / 16 % 4;
+            int x = i - tile.TileFrameX / 16 % 5;
+            int y = j - tile.TileFrameY / 16 % 4;
 
             int targetTe = ModContent.GetInstance<KelpFlowerTE>().Find(x, y);
             if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE TE)
             {
-                frameYOffset = (AnimationFrameHeight * TE._frame);
+                TileFrameYOffset = (AnimationFrameHeight * TE._frame);
             }
 
             if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE kelpFlowerEntity)
@@ -80,19 +80,19 @@ namespace EEMod.Tiles.Foliage.KelpForest
                 {
                     Color chosen = Color.Lerp(Color.Gold, Color.LightYellow, Main.rand.NextFloat(1f));
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.25f));
-                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.075f, 0.075f), Main.rand.NextFloat(-1f, -3f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.075f, 0.075f), Main.rand.NextFloat(-1f, -3f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
                 }
 
                 if (kelpFlowerEntity.isOpen)
                 {
                     Color chosen = Color.Lerp(Color.Gold, Color.LightYellow, Main.rand.NextFloat(1f));
                     EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.0075f));
-                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.05f, 0.05f), Main.rand.NextFloat(-0.5f, -1f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
+                    EEMod.MainParticles.SpawnParticles(new Vector2(i * 16 + Main.rand.Next(0, 16), j * 16 + Main.rand.Next(0, 16)), new Vector2(Main.rand.NextFloat(-0.05f, 0.05f), Main.rand.NextFloat(-0.5f, -1f)), Mod.Assets.Request<Texture2D>("Particles/SmallCircle").Value, 30, 1, chosen, new SlowDown(0.99f), new RotateTexture(0.02f), new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/RadialGradient").Value, Color.White * 0.6f), new AfterImageTrail(0.98f), new RotateVelocity(Main.rand.NextFloat(-0.01f, 0.01f)), new SetLighting(chosen.ToVector3(), 0.3f));
                 }
             }
         }
 
-        public override void KillMultiTile(int i, int j, int frameX, int frameY)
+        public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             ModContent.GetInstance<KelpFlowerTE>().Kill(i, j);
         }
@@ -100,8 +100,8 @@ namespace EEMod.Tiles.Foliage.KelpForest
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            int x = i - tile.frameX / 16 % 4;
-            int y = j - tile.frameY / 16 % 4;
+            int x = i - tile.TileFrameX / 16 % 4;
+            int y = j - tile.TileFrameY / 16 % 4;
 
             int targetTe = ModContent.GetInstance<KelpFlowerTE>().Find(x, y);
             if (targetTe > -1 && TileEntity.ByID[targetTe] is KelpFlowerTE TE)
@@ -119,7 +119,7 @@ namespace EEMod.Tiles.Foliage.KelpForest
         public override bool IsTileValidForEntity(int x, int y)
         {
             Tile tile = Framing.GetTileSafely(x, y);
-            return tile.IsActive;
+            return tile.HasTile;
         }
 
         public Projectile myItem = null;

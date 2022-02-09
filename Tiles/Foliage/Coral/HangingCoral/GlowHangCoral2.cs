@@ -39,7 +39,7 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
         public override void ModifyLight(int i, int j, ref float r, ref float g, ref float b)
         {
             Tile tile = Framing.GetTileSafely(i, j);
-            if (tile.frameX < 18)
+            if (tile.TileFrameX < 18)
             {
                 r = 0.05f;
                 g = 0.05f;
@@ -51,10 +51,10 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
         {
             Tile tile = Framing.GetTileSafely(i, j);
 
-            if (tile != null && tile.IsActive && tile.type == Type)
+            if (tile != null && tile.HasTile && tile.TileType == Type)
             {
-                int frameX = tile.frameX;
-                int frameY = tile.frameY;
+                int TileFrameX = tile.TileFrameX;
+                int TileFrameY = tile.TileFrameY;
                 const int width = 20;
                 const int offsetY = 0;
                 const int height = 16;
@@ -64,10 +64,10 @@ namespace EEMod.Tiles.Foliage.Coral.HangingCoral
                 {
                     zero = Vector2.Zero;
                 }
-                tile.frameX = 17;
+                tile.TileFrameX = 17;
                 Color color = Color.White;
                 Vector2 position = new Vector2(i * 16 - (int)Main.screenPosition.X + offsetX - (width - 16f) / 2f + 2, j * 16 - (int)Main.screenPosition.Y + offsetY) + zero;
-                Rectangle rect = new Rectangle(frameX, frameY, width, height);
+                Rectangle rect = new Rectangle(TileFrameX, TileFrameY, width, height);
                 color *= (float)Math.Sin(Main.GameUpdateCount / 60f + i + j) * 0.5f + 0.5f;
 
                 Main.spriteBatch.Draw(EEMod.Instance.Assets.Request<Texture2D>("Tiles/Foliage/Coral/HangingCoral/GlowHangCoral2Glow").Value, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
