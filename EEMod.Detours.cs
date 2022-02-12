@@ -25,8 +25,8 @@ using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.Social;
 using Terraria.UI;
-using EEMod.Seamap.SeamapContent;
-using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.Core;
+using EEMod.Seamap.Content;
 using Terraria.Graphics.Shaders;
 using Terraria.DataStructures;
 using Terraria.GameContent.UI.States;
@@ -132,8 +132,8 @@ namespace EEMod
             {
                 Main.screenPosition = SeamapObjects.localship.Center + new Vector2(-Main.screenWidth / 2f, -Main.screenHeight / 2f);
 
-                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, Seamap.SeamapContent.Seamap.seamapWidth - Main.screenWidth);
-                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, Seamap.SeamapContent.Seamap.seamapHeight - 200 - Main.screenHeight);
+                Main.screenPosition.X = MathHelper.Clamp(Main.screenPosition.X, 0, Seamap.Core.Seamap.seamapWidth - Main.screenWidth);
+                Main.screenPosition.Y = MathHelper.Clamp(Main.screenPosition.Y, 0, Seamap.Core.Seamap.seamapHeight - 200 - Main.screenHeight);
             }
 
             if (Main.spriteBatch != null && PrimitiveSystem.primitives != null)
@@ -541,7 +541,7 @@ namespace EEMod
             }
 
             if (Main.worldName == KeyID.Sea)
-                Seamap.SeamapContent.Seamap.Render();
+                Seamap.Core.Seamap.Render();
 
             orig(self);
         }

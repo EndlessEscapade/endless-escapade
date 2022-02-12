@@ -11,12 +11,13 @@ using EEMod.ID;
 using ReLogic.Graphics;
 using Terraria.Audio;
 using Terraria.ID;
-using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.Content;
 using System.Diagnostics;
 using EEMod.Extensions;
 using ReLogic.Content;
+using EEMod.Seamap.Core;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Content
 {
     public class EnemyCannonball : SeamapObject
     {
@@ -61,13 +62,6 @@ namespace EEMod.Seamap.SeamapContent
             if (explodeFrame >= 1 && ticks % 4 == 0) explodeFrame++;
 
             rotation = 0f;
-
-            if (sinkLevel >= 12)
-            {
-                SeamapObjects.NewSeamapObject(new SplashRing(Center + new Vector2(0, 4), Vector2.Zero));
-
-                Kill();
-            }
 
             base.Update();
         }

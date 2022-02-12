@@ -7,8 +7,9 @@ using Terraria.ModLoader;
 using System.Diagnostics;
 using EEMod.Systems.Subworlds.EESubworlds;
 using ReLogic.Content;
+using EEMod.Seamap.Core;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Content
 {
     public class Island : SeamapObject
     {

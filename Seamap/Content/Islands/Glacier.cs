@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 
-namespace EEMod.Seamap.SeamapAssets
+namespace EEMod.Seamap.Content
 {
     public class Glacier : Island
     {

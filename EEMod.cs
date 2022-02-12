@@ -6,7 +6,7 @@ using EEMod.Items.Dyes;
 using EEMod.MachineLearning;
 using EEMod.Net;
 using EEMod.Prim;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using EEMod.Skies;
 using EEMod.Systems;
 using EEMod.Tiles.EmptyTileArrays;

@@ -22,7 +22,7 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using Terraria.DataStructures;
 using System.Linq;
 using EEMod.Systems.Subworlds.EESubworlds;

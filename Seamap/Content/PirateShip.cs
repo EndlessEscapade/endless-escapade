@@ -11,12 +11,13 @@ using EEMod.ID;
 using ReLogic.Graphics;
 using Terraria.Audio;
 using Terraria.ID;
-using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.Content;
 using System.Diagnostics;
 using EEMod.Extensions;
 using ReLogic.Content;
+using EEMod.Seamap.Core;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Content
 {
     public class PirateShip : SeamapObject
     {
@@ -40,7 +41,7 @@ namespace EEMod.Seamap.SeamapContent
         {
             ticker++;
 
-            position += velocity - (Seamap.windVector * 0.2f);
+            position += velocity - (Seamap.Core.Seamap.windVector * 0.2f);
             velocity += (Vector2.Normalize(SeamapObjects.localship.Center - Center) * 0.1f);
 
             if (velocity.LengthSquared() >= 3f * 3f) velocity = Vector2.Normalize(velocity) * 3f;

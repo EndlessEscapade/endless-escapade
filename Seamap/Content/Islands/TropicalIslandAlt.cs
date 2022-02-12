@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.Seamap.SeamapAssets
+namespace EEMod.Seamap.Content
 {
     public class TropicalIslandAlt : Island
     {

@@ -11,13 +11,14 @@ using EEMod.ID;
 using ReLogic.Graphics;
 using Terraria.Audio;
 using Terraria.ID;
-using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.Content;
 using System.Diagnostics;
 using EEMod.Extensions;
 using ReLogic.Content;
 using EEMod.Prim;
+using EEMod.Seamap.Core;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Content
 {
     public class ShenCannonball : SeamapObject
     {

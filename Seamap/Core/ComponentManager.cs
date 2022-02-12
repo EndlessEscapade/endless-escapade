@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Terraria;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Core
 {
     public class ComponentManager // implementation might change to use static arrays
     {
@@ -140,6 +140,11 @@ namespace EEMod.Seamap.SeamapContent
         {
             return components.ContainsKey(componentType);
         }
+    }
+
+    static class RefNull<T>
+    {
+        public static T _null;
     }
 }
 

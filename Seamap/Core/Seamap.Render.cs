@@ -1,5 +1,5 @@
 using EEMod.Extensions;
-using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -16,7 +16,7 @@ using ReLogic.Content;
 using EEMod.Prim;
 using EEMod.ID;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Core
 {
     public partial class Seamap
     {

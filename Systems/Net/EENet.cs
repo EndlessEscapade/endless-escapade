@@ -62,7 +62,7 @@ namespace EEMod.Net
                     else if (Main.netMode == NetmodeID.MultiplayerClient)
                     {
                         float v = reader.Read<float>();
-                        Seamap.SeamapContent.Seamap.brightness = v;
+                        Seamap.Core.Seamap.brightness = v;
                     }
                     break;
             }

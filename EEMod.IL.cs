@@ -25,7 +25,7 @@ using Terraria.ModLoader;
 using Terraria.Social;
 using Terraria.UI;
 using EEMod.Prim;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using MonoMod.RuntimeDetour.HookGen;
 using EEMod.Systems;
 using Terraria.GameContent.Liquid;

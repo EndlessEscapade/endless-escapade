@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using System.Diagnostics;
 using ReLogic.Content;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Core
 {
     public abstract class SeamapObject : Entity
     {
