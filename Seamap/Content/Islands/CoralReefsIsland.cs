@@ -1,10 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.Seamap.SeamapAssets
+namespace EEMod.Seamap.Content.Islands
 {
     public class CoralReefsIsland : Island
     {
@@ -13,7 +13,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 10;
         public override bool cancollide => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CoralReefsIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/CoralReefsIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public CoralReefsIsland(Vector2 pos): base(pos)
         {

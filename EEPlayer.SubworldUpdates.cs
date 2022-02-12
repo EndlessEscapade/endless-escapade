@@ -19,7 +19,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using EEMod.Systems.Subworlds.EESubworlds;
 using EEMod.NPCs.Aquamarine;
 using Terraria.DataStructures;

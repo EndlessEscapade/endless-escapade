@@ -5,8 +5,9 @@ using EEMod.Extensions;
 using Terraria.ModLoader;
 using System.Diagnostics;
 using ReLogic.Content;
+using EEMod.Seamap.Core.Components;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Core
 {
     public abstract class SeamapObject : Entity
     {
@@ -48,6 +49,14 @@ namespace EEMod.Seamap.SeamapContent
             oldVelocity = velocity;
 
             position += velocity;
+        }
+
+        public virtual void UpdateComponents()
+        {
+            //foreach(Component component in this.components)
+            //{
+            //
+            //}
         }
 
         /// <summary>

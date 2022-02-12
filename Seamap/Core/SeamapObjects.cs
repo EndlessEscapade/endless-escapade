@@ -12,8 +12,9 @@ using System.Diagnostics;
 using System.Collections;
 using System.Runtime.CompilerServices;
 using EEMod.Prim;
+using EEMod.Seamap.Content;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Core
 {
     internal static class SeamapObjects
     {

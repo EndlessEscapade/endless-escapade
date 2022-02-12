@@ -19,8 +19,8 @@ using Terraria.ModLoader;
 using static EEMod.EEWorld.EEWorld;
 using static Terraria.ModLoader.ModContent;
 using ReLogic.Graphics;
-using EEMod.Seamap.SeamapAssets;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Content;
+using EEMod.Seamap.Core;
 using EEMod.Autoloading;
 using EEMod.Systems.Subworlds.EESubworlds;
 using System.Diagnostics;
@@ -50,6 +50,9 @@ namespace EEMod
 
         public bool hasLoadedIntoWorld;
 
+        public int powerLevel;
+        public float maxPowerLevel;
+
         public void ReturnHome()
         {
             Initialize();
@@ -63,9 +66,6 @@ namespace EEMod
         }
 
         public override void clientClone(ModPlayer clientClone) { }
-
-        public int powerLevel;
-        public float maxPowerLevel;
 
         public override void OnEnterWorld(Player player)
         {
@@ -126,11 +126,5 @@ namespace EEMod
                 cutSceneTriggerTimer = 0;
             }
         }
-
-        public int WheelType;
-        public int FigureheadType;
-        public int SailType;
-        public int CannonType;
-        public int CannonballType;
     }
 }

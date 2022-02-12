@@ -11,13 +11,15 @@ using EEMod.ID;
 using ReLogic.Graphics;
 using Terraria.Audio;
 using Terraria.ID;
-using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.Content;
 using System.Diagnostics;
 using ReLogic.Content;
 using EEMod.Prim;
 using EEMod.Extensions;
+using EEMod.Seamap.Core;
+using EEMod.Seamap.Content.Cannonballs;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Content
 {
     public class EEPlayerShip : SeamapObject
     {
@@ -43,18 +45,16 @@ namespace EEMod.Seamap.SeamapContent
             width = 44;
             height = 48;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public float boatSpeed = 0.3f;
 
         public override void Update()
         {
-            if (Main.worldName != KeyID.Sea) return;
-
             invFrames--;
 
-            position += velocity - (Seamap.windVector * 0.3f * ((120 - (abilityDelay < 0 ? 0 : abilityDelay)) / 120f));
+            position += velocity - (Core.Seamap.windVector * 0.3f * ((120 - (abilityDelay < 0 ? 0 : abilityDelay)) / 120f));
 
             CollisionChecks();
 
@@ -116,10 +116,10 @@ namespace EEMod.Seamap.SeamapContent
             base.Update();
 
             if (position.X < 0) position.X = 0;
-            if (position.X > Seamap.seamapWidth - width) position.X = Seamap.seamapWidth - width;
+            if (position.X > Core.Seamap.seamapWidth - width) position.X = Core.Seamap.seamapWidth - width;
 
             if (position.Y < 0) position.Y = 0;
-            if (position.Y > Seamap.seamapHeight - height - 200) position.Y = Seamap.seamapHeight - height - 200;
+            if (position.Y > Core.Seamap.seamapHeight - height - 200) position.Y = Core.Seamap.seamapHeight - height - 200;
 
             if (shipHelth <= 0)
             {
@@ -136,7 +136,7 @@ namespace EEMod.Seamap.SeamapContent
             EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
 
 
-            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShipAlt").Value;
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShipAlt").Value;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, 0, 90, 90),
@@ -150,6 +150,16 @@ namespace EEMod.Seamap.SeamapContent
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);*/
 
             return false;
+        }
+
+        public void LeftClickAbility()
+        {
+
+        }
+
+        public void RightClickAbility()
+        {
+
         }
 
         #region Collision nonsense

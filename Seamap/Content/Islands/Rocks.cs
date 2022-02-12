@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 
-namespace EEMod.Seamap.SeamapAssets
+namespace EEMod.Seamap.Content.Islands
 {
     public class Rock1 : Island
     {
@@ -14,7 +14,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 10;
         public override bool collides => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock1", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public Rock1(Vector2 pos): base(pos)
         {
@@ -30,7 +30,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 10;
         public override bool collides => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock2", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public Rock2(Vector2 pos) : base(pos)
         {
@@ -46,7 +46,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 10;
         public override bool collides => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock3", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock3", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public Rock3(Vector2 pos) : base(pos)
         {
@@ -62,7 +62,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 10;
         public override bool collides => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock4", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock4", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public Rock4(Vector2 pos) : base(pos)
         {
@@ -78,7 +78,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 10;
         public override bool collides => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock5", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock5", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public Rock5(Vector2 pos) : base(pos)
         {
@@ -88,7 +88,7 @@ namespace EEMod.Seamap.SeamapAssets
 
         public override void PostDraw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock5Front").Value, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Color.White.LightSeamap());
+            spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock5Front").Value, position - Main.screenPosition, new Rectangle(0, (texture.Height / framecount) * frame, texture.Width, (texture.Height / framecount)), Color.White.LightSeamap());
 
             base.PostDraw(spriteBatch);
         }
@@ -101,7 +101,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 10;
         public override bool collides => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Rock6", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Rock6", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public Rock6(Vector2 pos) : base(pos)
         {
@@ -117,7 +117,7 @@ namespace EEMod.Seamap.SeamapAssets
         public override int framespid => 10;
         public override bool collides => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Iceberg", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/Iceberg", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public Iceberg(Vector2 pos) : base(pos)
         {

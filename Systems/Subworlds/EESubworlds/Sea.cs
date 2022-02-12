@@ -19,10 +19,14 @@ using EEMod.Systems.Noise;
 using System.Collections.Generic;
 using EEMod.Autoloading;
 using Terraria.WorldBuilding;
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using Terraria.Graphics.Effects;
 using System.Diagnostics;
 using Terraria.Audio;
+using EEMod.Seamap.Content;
+using EEMod.Seamap.Content.Islands;
+using EEMod.Seamap;
+using EEMod;
 
 namespace EEMod.Systems.Subworlds.EESubworlds
 {
@@ -41,12 +45,12 @@ namespace EEMod.Systems.Subworlds.EESubworlds
 
         internal override void PlayerUpdate(Player player)
         {
-            Seamap.SeamapContent.Seamap.UpdateSeamap();
+            Seamap.Core.Seamap.UpdateSeamap();
 
             player.GetModPlayer<EEPlayer>().seamapUpdateCount++;
 
             if (player.GetModPlayer<EEPlayer>().seamapUpdateCount == 1)
-                Seamap.SeamapContent.Seamap.InitializeSeamap();
+                Seamap.Core.Seamap.InitializeSeamap();
 
             #region Island Interact methods
             foreach (SeamapObject obj in SeamapObjects.SeamapEntities)

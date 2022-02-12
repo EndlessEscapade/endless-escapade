@@ -1,4 +1,4 @@
-using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -10,8 +10,9 @@ using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using EEMod.Systems.Noise;
+using EEMod.Seamap.Content.Islands;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Core
 {
     public partial class Seamap
     {
@@ -22,6 +23,7 @@ namespace EEMod.Seamap.SeamapContent
                 if (SeamapObjects.SeamapEntities[i] != null)
                 {
                     SeamapObjects.SeamapEntities[i].Update();
+                    SeamapObjects.SeamapEntities[i].UpdateComponents();
                 }
             }
 

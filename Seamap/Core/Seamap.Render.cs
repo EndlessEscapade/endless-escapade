@@ -1,5 +1,5 @@
 using EEMod.Extensions;
-using EEMod.Seamap.SeamapAssets;
+using EEMod.Seamap.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -15,8 +15,9 @@ using System.Linq;
 using ReLogic.Content;
 using EEMod.Prim;
 using EEMod.ID;
+using EEMod.Seamap.Content.Islands;
 
-namespace EEMod.Seamap.SeamapContent
+namespace EEMod.Seamap.Core
 {
     public partial class Seamap
     {
@@ -95,7 +96,7 @@ namespace EEMod.Seamap.SeamapContent
             {
                 int updateCount = Main.LocalPlayer.GetModPlayer<EEPlayer>().seamapUpdateCount;
 
-                Texture2D oceanLogo = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/OceanScreen").Value;
+                Texture2D oceanLogo = ModContent.Request<Texture2D>("EEMod/Seamap/Content/UI/OceanScreen").Value;
 
                 float yOffset = (updateCount <= 70 ? ((float)Math.Sin((updateCount - 10) * 1.57f / 60f) * 240f) - 120 : (updateCount <= 130 ? 120 : ((float)Math.Sin((updateCount - 70) * 1.57f / 60f) * 240f) - 120));
 
@@ -105,8 +106,8 @@ namespace EEMod.Seamap.SeamapContent
             #endregion
 
             #region Rendering ship healthbar
-            Texture2D healthBar = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/HealthbarBg").Value;
-            Texture2D healthBarFill = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/HealthbarFill").Value;
+            Texture2D healthBar = ModContent.Request<Texture2D>("EEMod/Seamap/Content/UI/HealthbarBg").Value;
+            Texture2D healthBarFill = ModContent.Request<Texture2D>("EEMod/Seamap/Content/UI/HealthbarFill").Value;
 
             spriteBatch.Draw(healthBar, new Vector2(Main.screenWidth - 200, 40), null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
@@ -117,7 +118,7 @@ namespace EEMod.Seamap.SeamapContent
             #endregion 
 
             #region Rendering cannonball target
-            Texture2D targetTex = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Target").Value;
+            Texture2D targetTex = ModContent.Request<Texture2D>("EEMod/Seamap/Content/UI/Target").Value;
 
             spriteBatch.Draw(targetTex, SeamapObjects.localship.Center + (Vector2.Normalize(Main.MouseWorld - SeamapObjects.localship.Center) * 128) - Main.screenPosition, null, Color.White, Main.GameUpdateCount / 120f, targetTex.TextureCenter(), 1, SpriteEffects.None, 0);
             #endregion
@@ -202,7 +203,7 @@ namespace EEMod.Seamap.SeamapContent
 
                     SeamapReflectionShader.CurrentTechnique.Passes[0].Apply();*/
 
-                    //spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/TropicalIslandAltUnderwater").Value, entity.position - Main.screenPosition, Color.White * 0.5f);
+                    //spriteBatch.Draw(ModContent.Request<Texture2D>("EEMod/Seamap/Content/TropicalIslandAltUnderwater").Value, entity.position - Main.screenPosition, Color.White * 0.5f);
 
                 }
 

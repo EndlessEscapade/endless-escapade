@@ -1,4 +1,4 @@
-using EEMod.Seamap.SeamapContent;
+using EEMod.Seamap.Core;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
