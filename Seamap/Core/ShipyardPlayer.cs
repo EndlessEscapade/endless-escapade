@@ -32,7 +32,7 @@ using EEMod.Items.Accessories;
 
 namespace EEMod
 {
-    public class SeamapPlayer : ModPlayer
+    public class ShipyardPlayer : ModPlayer
     {
         //Shipyard upgrade vars
         public int cannonType; //Stores the cannon type in terms of Item IDs so the player can retrieve stuff from UI
