@@ -1,4 +1,6 @@
+using EEMod.Seamap.Content.Cannonballs;
 using EEMod.Seamap.Core;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -21,6 +23,14 @@ namespace EEMod.Items.Shipyard.Cannonballs
             Item.maxStack = 999;
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
+        }
+    }
+
+    public class IronCannonballInfo : ShipyardInfo
+    {
+        public override SeamapObject GetCannonball()
+        {
+            return new FriendlyCannonball(Vector2.Zero, Vector2.Zero);
         }
     }
 }

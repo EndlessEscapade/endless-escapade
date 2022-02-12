@@ -1,5 +1,8 @@
+using EEMod.Seamap.Content;
 using EEMod.Seamap.Core;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -22,6 +25,21 @@ namespace EEMod.Items.Shipyard.Cannons
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
             Item.consumable = false;
+        }
+    }
+
+    public class SteelCannonInfo : ShipyardInfo
+    {
+        public override void LeftClickAbility(EEPlayerShip boat, SeamapObject cannonball)
+        {
+            boat.velocity -= Vector2.Normalize(Main.MouseWorld - boat.Center) * 0.5f;
+
+            cannonball.Center = boat.Center;
+            cannonball.velocity = boat.velocity + Vector2.Normalize(Main.MouseWorld - boat.Center) * 4;
+
+            SeamapObjects.NewSeamapObject(cannonball);
+
+            SoundEngine.PlaySound(SoundID.Item38);
         }
     }
 }

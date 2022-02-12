@@ -81,13 +81,6 @@ namespace EEMod.Seamap.Content
                 {
                     LeftClickAbility();
 
-                    ShenCannonball cannonball = new ShenCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 6, Color.Lerp(Color.OrangeRed, Color.Goldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
-
-                    velocity -= Vector2.Normalize(Main.MouseWorld - Center) * 0.5f;
-
-                    SeamapObjects.NewSeamapObject(cannonball);
-
-                    SoundEngine.PlaySound(SoundID.Item38);
                     cannonDelay = 60;
                 }
 
@@ -154,12 +147,12 @@ namespace EEMod.Seamap.Content
 
         public void LeftClickAbility()
         {
-
+            myPlayer.GetModPlayer<ShipyardPlayer>().LeftClickAbility(this);
         }
 
         public void RightClickAbility()
         {
-
+            myPlayer.GetModPlayer<ShipyardPlayer>().RightClickAbility(this);
         }
 
         #region Collision nonsense

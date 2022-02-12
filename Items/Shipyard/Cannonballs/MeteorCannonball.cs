@@ -1,3 +1,4 @@
+using EEMod.Seamap.Content;
 using EEMod.Seamap.Content.Cannonballs;
 using EEMod.Seamap.Core;
 using Microsoft.Xna.Framework;
@@ -7,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Shipyard.Cannonballs
 {
-    public class LeadCannonball : EEItem
+    public class MeteorCannonball : EEItem
     {
         public override void SetStaticDefaults()
         {
@@ -26,11 +27,11 @@ namespace EEMod.Items.Shipyard.Cannonballs
         }
     }
 
-    public class LeadCannonballInfo : ShipyardInfo
+    public class MeteorCannonballInfo : ShipyardInfo
     {
         public override SeamapObject GetCannonball()
         {
-            return new FriendlyCannonball(Vector2.Zero, Vector2.Zero);
+            return new ShenCannonball(Vector2.Zero, Vector2.Zero, Color.Goldenrod);
         }
     }
 }

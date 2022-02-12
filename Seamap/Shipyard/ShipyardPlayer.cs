@@ -29,6 +29,9 @@ using EEMod.Systems.Subworlds.EESubworlds;
 using EEMod.EEWorld;
 using EEMod.Players;
 using EEMod.Items.Accessories;
+using EEMod.Seamap.Content;
+using EEMod;
+using EEMod.Items.Shipyard.Cannonballs;
 
 namespace EEMod
 {
@@ -36,12 +39,18 @@ namespace EEMod
     {
         //Shipyard upgrade vars
         public int cannonType; //Stores the cannon type in terms of Item IDs so the player can retrieve stuff from UI
+        public Dictionary<int, ShipyardInfo> cannons = new Dictionary<int, ShipyardInfo>();
+
         public int figureheadType; //See above
+        public Dictionary<int, ShipyardInfo> figureheads = new Dictionary<int, ShipyardInfo>();
+
         public int boatTier; //Saves the total upgrades of the boat - 0: ordinary, 1: ironclad?
-        
-        public int[] shipStorage; //Stores what the player has in their ship's hold, begins at 20 items, gains 20 on each upgrade
-        
-        
+
+        public Item[] shipStorage; //Stores what the player has in their ship's hold, begins at 20 items, gains 20 on each upgrade
+
+        public Dictionary<int, ShipyardInfo> cannonballs = new Dictionary<int, ShipyardInfo>();
+
+
         //Seamap vars
         public float shipSpeed;
         public float steeringSpeed;
@@ -57,7 +66,7 @@ namespace EEMod
             tag["figureheadType"] = figureheadType;
             tag["boatTier"] = boatTier;
             
-            tag["shipStorage"] = shipStorage;
+            //tag["shipStorage"] = shipStorage;
         }
 
         public override void LoadData(TagCompound tag)
@@ -66,10 +75,10 @@ namespace EEMod
             tag.TryGetRef("figureheadType", ref figureheadType);
             tag.TryGetRef("boatTier", ref boatTier);
             
-            if(boatTier == 0) shipStorage = new int[20];
-            if(boatTier == 1) shipStorage = new int[40];
+            if(boatTier == 0) shipStorage = new Item[20];
+            if(boatTier == 1) shipStorage = new Item[40];
             
-            tag.TryGetIntArray("shipStorage", out shipStorage);
+            //tag.TryGetIntArray("shipStorage", out shipStorage);
         }
         
         public void UpgradeBoat() 
@@ -77,16 +86,37 @@ namespace EEMod
             boatTier++;
 
             //Handling storage upgrade transfer
-            int[] tempArray = new int[20];
+            Item[] tempArray = new Item[20];
 
             //if(boatTier == 0) tempArray = new int[20];
-            if (boatTier == 1) tempArray = new int[40];
+            if (boatTier == 1) tempArray = new Item[40];
             
             for(int i = 0; i < shipStorage.Length; i++) {
                 tempArray[i] = shipStorage[i];
             }
             
             shipStorage = tempArray;
+        }
+        
+        public void LeftClickAbility(EEPlayerShip boat)
+        {
+            for (int i = 0; i < shipStorage.Length; i++)
+            {
+                if((shipStorage[i].type == ModContent.ItemType<MeteorCannonball>() ||
+                    shipStorage[i].type == ModContent.ItemType<IronCannonball>() ||
+                    shipStorage[i].type == ModContent.ItemType<LeadCannonball>()
+                    ) && shipStorage[i].stack > 0)
+                {
+                    shipStorage[i].stack--;
+
+                    cannons[cannonType].LeftClickAbility(boat, cannonballs[shipStorage[i].type].GetCannonball());
+                }
+            }
+        }
+
+        public void RightClickAbility(EEPlayerShip boat)
+        {
+
         }
     }
 }
