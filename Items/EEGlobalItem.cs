@@ -38,7 +38,7 @@ namespace EEMod.Items
             {
                 Tag = (int)ItemTags.Cannonball;
             }
-            if (item.type == ModContent.ItemType<Cannon>() || item.type == ModContent.ItemType<LythenCannon>())
+            if (item.type == ModContent.ItemType<SteelCannon>() || item.type == ModContent.ItemType<LythenCannon>())
             {
                 Tag = (int)ItemTags.Cannon;
             }

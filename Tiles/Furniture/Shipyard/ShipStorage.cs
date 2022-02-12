@@ -12,12 +12,12 @@ using EEMod.Items.Placeables.Furniture;
 using EEMod.EEWorld;
 using EEMod.UI.States;
 using EEMod.Systems.Subworlds.EESubworlds;
-using EEMod.Items.Shipyard.Cannons;
 
 namespace EEMod.Tiles.Furniture.Shipyard
 {
-    public class CannonTile : EETile
+    public class ShipStorage : EETile
     {
+        //TODO: Implement smart cursor interact later
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -25,7 +25,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
             TileObjectData.newTile.CopyFrom(TileObjectData.Style3x3);
 
-            TileObjectData.newTile.Width = 2;
+            TileObjectData.newTile.Width = 3;
             TileObjectData.newTile.Height = 2;
             TileObjectData.newTile.Origin = new Point16(0, 0);
             TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile | AnchorType.SolidWithTop | AnchorType.SolidSide, TileObjectData.newTile.Width, 0);
@@ -37,7 +37,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
             TileObjectData.addTile(Type);
 
             ModTranslation name = CreateMapEntryName();
-            name.SetDefault("Steel Cannon");
+            name.SetDefault("Ship Storage");
             AddMapEntry(new Color(255, 168, 28), name);
             DustType = DustID.Silver;
             DisableSmartCursor = true;
@@ -46,34 +46,19 @@ namespace EEMod.Tiles.Furniture.Shipyard
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ItemID.DirtBlock);
-        }
+		}
 
-        public override bool PreDraw(int i, int j, SpriteBatch spriteBatch)
+        public override bool RightClick(int i, int j)
         {
-            Color color = Color.White;
-
-            Vector2 zero = new Vector2(Main.offScreenRange, Main.offScreenRange);
-            if (Main.drawToScreen)
-            {
-                zero = Vector2.Zero;
-            }
-
-            Vector2 position = new Vector2((i * 16) - (int)Main.screenPosition.X, (j * 16) - (int)Main.screenPosition.Y) + zero;
-
-            Texture2D texture = EEMod.Instance.Assets.Request<Texture2D>("Tiles/Furniture/Shipyard/CannonTile").Value;
-
-
-
-            int type = 0;
-
-            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType == ModContent.ItemType<SteelCannon>()) type = 0;
-            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType == ModContent.ItemType<LythenCannon>()) type = 1;
-
-            Rectangle rect = new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + (type * 36), 16, 16);
-
-            Main.spriteBatch.Draw(texture, position, rect, color, 0f, default, 1f, SpriteEffects.None, 0f);
-
-            return false;
+            return base.RightClick(i, j);
         }
-    }
+
+        public override void MouseOver(int i, int j)
+		{
+			Player player = Main.LocalPlayer;
+			player.noThrow = 2;
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<Moyai>();
+		}
+	}
 }

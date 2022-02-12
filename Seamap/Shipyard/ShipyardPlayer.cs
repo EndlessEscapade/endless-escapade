@@ -32,6 +32,8 @@ using EEMod.Items.Accessories;
 using EEMod.Seamap.Content;
 using EEMod;
 using EEMod.Items.Shipyard.Cannonballs;
+using EEMod.Items.Shipyard.Cannons;
+using EEMod.Items.Shipyard.Figureheads;
 
 namespace EEMod
 {
@@ -39,16 +41,27 @@ namespace EEMod
     {
         //Shipyard upgrade vars
         public int cannonType; //Stores the cannon type in terms of Item IDs so the player can retrieve stuff from UI
-        public Dictionary<int, ShipyardInfo> cannons = new Dictionary<int, ShipyardInfo>();
+        public Dictionary<int, ShipyardInfo> cannons = new Dictionary<int, ShipyardInfo>()
+        {
+            {ModContent.ItemType<SteelCannon>(), new SteelCannonInfo()},
+        };
 
         public int figureheadType; //See above
-        public Dictionary<int, ShipyardInfo> figureheads = new Dictionary<int, ShipyardInfo>();
+        public Dictionary<int, ShipyardInfo> figureheads = new Dictionary<int, ShipyardInfo>()
+        {
+            {ModContent.ItemType<WoodenFigurehead>(), new WoodenFigureheadInfo()},
+        };
 
         public int boatTier; //Saves the total upgrades of the boat - 0: ordinary, 1: ironclad?
 
         public Item[] shipStorage; //Stores what the player has in their ship's hold, begins at 20 items, gains 20 on each upgrade
 
-        public Dictionary<int, ShipyardInfo> cannonballs = new Dictionary<int, ShipyardInfo>();
+        public Dictionary<int, ShipyardInfo> cannonballs = new Dictionary<int, ShipyardInfo>()
+        {
+            {ModContent.ItemType<IronCannonball>(), new IronCannonballInfo()},
+            {ModContent.ItemType<LeadCannonball>(), new LeadCannonballInfo()},
+            {ModContent.ItemType<MeteorCannonball>(), new MeteorCannonballInfo()},
+        };
 
 
         //Seamap vars

@@ -8,11 +8,11 @@ using Terraria.ModLoader;
 
 namespace EEMod.Items.Shipyard.Cannons
 {
-    public class Cannon : EEItem
+    public class SteelCannon : EEItem
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Cannon");
+            DisplayName.SetDefault("Steel Cannon");
             Tooltip.SetDefault("haha this shoots balls lol");
             ItemID.Sets.SortingPriorityMaterials[Item.type] = 59; // influences the inventory sort order. 59 is PlatinumBar, higher is more valuable.
         }
