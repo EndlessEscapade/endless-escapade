@@ -86,8 +86,8 @@ namespace EEMod.Seamap.Content
 
                 if (myPlayer.controlUseTile && abilityDelay <= 0)
                 {
-                    //velocity = Vector2.Zero;
-                    SoundEngine.PlaySound(SoundID.Item37);
+                    RightClickAbility();
+
                     abilityDelay = 120;
                 }
 
@@ -136,11 +136,6 @@ namespace EEMod.Seamap.Content
                 Color.White.LightSeamap(), (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / (invFrames > 0 ? 40f : 120f)) * (invFrames > 0 ? 0.1f : 0.075f)), 
                 new Rectangle(0, 0, 90, 90).Size() / 2,
                 1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);
-
-            /*spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition, null,
-                Color.White.LightSeamap(), (velocity.X / 10) + ((float)Math.Sin(Main.GameUpdateCount / (invFrames > 0 ? 40f : 120f)) * (invFrames > 0 ? 0.1f : 0.075f)),
-                new Rectangle(0, 0, 90, 90).Size() / 2,
-                1, velocity.X < 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally, 0);*/
 
             return false;
         }

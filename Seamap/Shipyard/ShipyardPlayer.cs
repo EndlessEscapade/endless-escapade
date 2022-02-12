@@ -116,7 +116,7 @@ namespace EEMod
 
         public void RightClickAbility(EEPlayerShip boat)
         {
-
+            figureheads[figureheadType].RightClickAbility(boat);
         }
     }
 }
