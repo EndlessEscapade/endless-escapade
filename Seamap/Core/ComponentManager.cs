@@ -6,7 +6,7 @@ namespace EEMod.Seamap.Core
 {
     public class ComponentManager // implementation might change to use static arrays
     {
-        Dictionary<Type, object> components = new();
+        public Dictionary<Type, object> components = new();
         // Ref<T> are used because struct components
         // prevents having to box/unbox (cast to object and back to T)
         // and allow to get a reference to the component
