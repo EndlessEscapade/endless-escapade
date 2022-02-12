@@ -25,6 +25,8 @@ namespace EEMod.Items.Shipyard.Figureheads
             Item.value = Item.buyPrice(0, 0, 18, 0);
             Item.rare = ItemRarityID.Green;
             Item.consumable = false;
+            Item.GetGlobalItem<EEGlobalItem>().Tag = (int)ItemTags.Figurehead;
+
         }
     }
 

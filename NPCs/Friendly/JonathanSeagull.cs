@@ -29,7 +29,7 @@ namespace EEMod.NPCs.Friendly
         }
         public override void AI()
         {
-            if (!IntroductionDialogue && !EEMod.UI.HasTile("DialogueInterface"))
+            if (!IntroductionDialogue && !EEMod.UI.IsActive("DialogueInterface"))
             {
                new JonathanSeagullIntroduction().StartDialogueRequiringNPC(NPC.whoAmI);
             }
