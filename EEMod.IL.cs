@@ -30,6 +30,8 @@ using MonoMod.RuntimeDetour.HookGen;
 using EEMod.Systems;
 using Terraria.GameContent.Liquid;
 using EEMod.Seamap;
+using MonoMod.Utils;
+using Mono.Cecil;
 
 namespace EEMod
 {
@@ -72,6 +74,10 @@ namespace EEMod
             //IL.Terraria.GameContent.Liquid.LiquidRenderer.InternalDraw += Traensperentaoiasjpdfdsgwuttttttttttttttryddddddddddtyrrrrrrrrrrrrrrrrrvvfghnmvvb;
 
             IL.Terraria.IO.WorldFile.SaveWorldTiles += WorldFile_SaveWorldTiles;
+
+            hooklist = new ILHookList();
+
+            WorldGenBeaches();
 
             //hooklist = new ILHookList();
 
@@ -481,6 +487,60 @@ namespace EEMod
                     break;
                 }
             }
+        }
+
+        private void WorldGenBeaches()
+        {
+            MethodInfo genWorld = typeof(WorldGen).GetMethod(nameof(WorldGen.GenerateWorld));
+            using (var dmd = new DynamicMethodDefinition(genWorld))
+            {
+                ILCursor c = new ILCursor(new ILContext(dmd.Definition));
+                MethodReference methodReference = null;
+
+                if (!c.TryGotoNext(i => i.MatchLdstr("Beaches"),
+                    i => i.MatchLdloc(out _),
+                    i => i.MatchLdftn(out methodReference)
+                    ))
+                    throw new Exception("Could not match beaches generation delegate");
+
+                if (methodReference == null)
+                    throw new Exception("Method reference for the delegate was null");
+
+                MethodBase delegateMethodBase = methodReference.ResolveReflection();
+                if (delegateMethodBase == null)
+                    throw new Exception("Resolved method base for beaches generation delegate was null");
+
+                hooklist.Add((MethodInfo)delegateMethodBase, new ILContext.Manipulator(IL_WorldgenPass_Beaches));
+            }
+        }
+
+        // NOTE: the indexes could break after updating
+        private static void IL_WorldgenPass_Beaches(ILContext il)
+        {
+            ILCursor c = new(il);
+
+            /*    
+                IL_002f: brtrue.s IL_0035
+
+                // floridaStyle = true;
+                IL_0031: ldc.i4.1
+                IL_0032: stloc.0
+                // floridaStyle2 = true;
+                IL_0033: br.s IL_0037
+
+                IL_0035: ldc.i4.1
+                IL_0036: stloc.1
+            */
+
+            if (!c.TryGotoNext(MoveType.After, i => i.MatchLdcI4(1),
+                i => i.MatchStloc(0)
+                ))
+                throw new Exception("Could not find Ldc.i4 1 and Stloc 0 instructions");
+
+            // after the stloc
+            c.Emit(OpCodes.Ldc_I4_0);
+            c.Emit(OpCodes.Stloc_S, (byte)0); // (_S means the operand is 1 byte)
+                                              // the statement would look like floridaStyle = false;
         }
 
         private void Main_DrawBackground(ILContext il)
