@@ -472,11 +472,13 @@ namespace EEMod
     {
         Texture2D mask;
         Color maskColor;
+        float scale;
 
-        public SetMask(Texture2D mask, Color maskColor)
+        public SetMask(Texture2D mask, Color maskColor, float scale = 1f)
         {
             this.mask = mask;
             this.maskColor = maskColor;
+            this.scale = scale;
         }
 
         public void Update(Particle particle)
@@ -492,7 +494,9 @@ namespace EEMod
             {
                 Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive, null, null, null, null, Main.GameViewMatrix.TransformationMatrix);
 
-                Main.spriteBatch.Draw(mask, positionDraw.ParalaxX(particle.paralax), mask.Bounds, maskColor * particle.varScale, 0f, mask.TextureCenter(), 0.1f * particle.varScale, SpriteEffects.None, 0f);
+                //Helpers.DrawAdditive(mask, positionDraw.ParalaxX(particle.paralax), maskColor, 0.1f * particle.varScale);
+
+                Main.spriteBatch.Draw(mask, positionDraw.ParalaxX(particle.paralax), mask.Bounds, maskColor * particle.varScale, 0f, mask.TextureCenter(), 0.1f * particle.varScale * scale, SpriteEffects.None, 0f);
 
                 Main.spriteBatch.End();
             }

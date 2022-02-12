@@ -74,7 +74,7 @@ namespace EEMod.Seamap.SeamapContent
 
                 if (myPlayer.controlUseItem && cannonDelay <= 0)
                 {
-                    ShenCannonball cannonball = new ShenCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 6, Color.Lerp(Color.Red, Color.Goldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
+                    ShenCannonball cannonball = new ShenCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 6, Color.Lerp(Color.OrangeRed, Color.Goldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
 
                     velocity -= Vector2.Normalize(Main.MouseWorld - Center) * 0.5f;
 

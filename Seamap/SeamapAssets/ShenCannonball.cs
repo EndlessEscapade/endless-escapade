@@ -67,11 +67,11 @@ namespace EEMod.Seamap.SeamapContent
 
             EEMod.MainParticles.SetSpawningModules(new SpawnRandomly(0.5f));
             EEMod.MainParticles.SpawnParticles(Center, (velocity.RotatedBy(Main.rand.NextFloat(-0.1f, 0.1f)) * 0.85f),
-                ModContent.Request<Texture2D>("EEMod/Empty").Value, 60, 2f, Color.Lerp(color, Color.White, ticks / 180f) * 0.5f,
+                ModContent.Request<Texture2D>("EEMod/Empty").Value, 60, 1f, Color.Lerp(color, Color.White, ticks / 180f) * 0.5f,
                 new SlowDown(0.98f),
-                new RotateTexture(0.02f),
-                new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, Color.White * 1f),
-                new AfterImageTrail(0.9f));
+                new RotateTexture(0.3f),
+                new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/6PointStar").Value, color * 0.5f),
+                new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, color * 0.75f, 2f));
 
             if (explodeFrame <= 0)
             {
@@ -100,12 +100,12 @@ namespace EEMod.Seamap.SeamapContent
 
                 for (int i = 0; i < 40; i++)
                 {
-                    EEMod.MainParticles.SpawnParticles(Center, (oldVelocity.RotatedBy(Main.rand.NextFloat(-0.5f, 0.5f)) * Main.rand.NextFloat(0.65f, 0.85f)),
-                        ModContent.Request<Texture2D>("EEMod/Empty").Value, 30, 3f, Color.Lerp(color, Color.White, 0.25f) * 0.75f,
+                    EEMod.MainParticles.SpawnParticles(Center, (oldVelocity * 0.5f) + (Vector2.UnitY.RotatedBy(Main.rand.NextFloat(-3.14f, 3.14f)) * Main.rand.NextFloat(0.65f, 0.85f) * 3f * 0.8f),
+                        ModContent.Request<Texture2D>("EEMod/Empty").Value, 30, 1.5f, Color.Lerp(color, Color.White, 0.25f) * 0.75f,
                         new SlowDown(0.99f),
                         new RotateTexture(0.02f),
-                        new SetMask(EEMod.Instance.Assets.Request<Texture2D>("Textures/6PointStar").Value, Color.White * 1f),
-                        new AfterImageTrail(0.99f));
+                        new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/6PointStar").Value, color * 0.75f),
+                        new SetMask(ModContent.Request<Texture2D>("EEMod/Textures/RadialGradient").Value, color * 0.75f, 2f));
                 }
 
                 Kill();
