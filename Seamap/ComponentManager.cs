@@ -3,9 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Terraria;
-using Terraria.ModLoader;
 
 #nullable enable
 
@@ -13,6 +10,7 @@ namespace EEMod.Seamap.SeamapContent
 {
     public class ComponentManager
     {
+        /// <summary> The object this component manager belongs to </summary>
         public SeamapObject Parent { get; }
 
         public Dictionary<Type, object> Components { get; } = new();
@@ -20,6 +18,16 @@ namespace EEMod.Seamap.SeamapContent
         public ComponentManager(SeamapObject parent)
         {
             Parent = parent;
+        }
+
+        /// <summary>
+        /// Sets a component
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="component"></param>
+        public void Set<T>(T component) where T : Component
+        {
+            Components[typeof(T)] = component;
         }
 
         /// <summary>
@@ -41,6 +49,12 @@ namespace EEMod.Seamap.SeamapContent
             return null!;
         }
 
+        /// <summary>
+        /// Attempts to get a component
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="component"></param>
+        /// <returns><see langword="true"/> if the component is found, <see langword="false"/> otherwise </returns>
         public bool TryGet<T>([MaybeNullWhen(false)] out T component) where T : Component
         {
             if(Components.TryGetValue(typeof(T), out var entry))
@@ -52,12 +66,27 @@ namespace EEMod.Seamap.SeamapContent
             return false;
         }
 
+        /// <summary>
+        /// If the given component is present
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns><see langword="true"/> if the component is found, <see langword="false"/> otherwise </returns>
         public bool Has<T>() where T : Component
             => Components.ContainsKey(typeof(T));
 
+        /// <summary>
+        /// Removes a component
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns><see langword="true"/> if the component was removed, <see langword="false"/> otherwise </returns>
         public bool Remove<T>() where T : Component
             => Components.Remove(typeof(T));
 
+        /// <summary>
+        /// Returns the components of the specified type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public IEnumerable<T> ComponentsOfType<T>() where T : Component
             => Components.Values.OfType<T>();
     }
