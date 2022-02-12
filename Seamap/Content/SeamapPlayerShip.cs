@@ -21,7 +21,7 @@ using EEMod.Seamap.Content.Cannonballs;
 
 namespace EEMod.Seamap.Content
 {
-    public class EEPlayerShip : SeamapObject
+    public class SeamapPlayerShip : SeamapObject
     {
         public float ShipHelthMax = 5;
         public float shipHelth = 5;
@@ -34,7 +34,7 @@ namespace EEMod.Seamap.Content
         public int invFrames = 20;
 
 
-        public EEPlayerShip(Vector2 pos, Vector2 vel, Player player) : base(pos, vel)
+        public SeamapPlayerShip(Vector2 pos, Vector2 vel, Player player) : base(pos, vel)
         {
             position = pos;
 

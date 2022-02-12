@@ -98,7 +98,7 @@ namespace EEMod
             shipStorage = tempArray;
         }
         
-        public void LeftClickAbility(EEPlayerShip boat)
+        public void LeftClickAbility(SeamapPlayerShip boat)
         {
             for (int i = 0; i < shipStorage.Length; i++)
             {
@@ -114,7 +114,7 @@ namespace EEMod
             }
         }
 
-        public void RightClickAbility(EEPlayerShip boat)
+        public void RightClickAbility(SeamapPlayerShip boat)
         {
             figureheads[figureheadType].RightClickAbility(boat);
         }

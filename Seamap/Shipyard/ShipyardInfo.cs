@@ -36,12 +36,12 @@ namespace EEMod
 {
     public class ShipyardInfo
     {
-        public virtual void LeftClickAbility(EEPlayerShip boat, SeamapObject cannonball)
+        public virtual void LeftClickAbility(SeamapPlayerShip boat, SeamapObject cannonball)
         {
 
         }
 
-        public virtual void RightClickAbility(EEPlayerShip boat)
+        public virtual void RightClickAbility(SeamapPlayerShip boat)
         {
 
         }

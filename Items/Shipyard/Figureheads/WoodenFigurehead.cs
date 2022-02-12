@@ -32,7 +32,7 @@ namespace EEMod.Items.Shipyard.Figureheads
 
     public class WoodenFigureheadInfo : ShipyardInfo
     {
-        public override void RightClickAbility(EEPlayerShip boat)
+        public override void RightClickAbility(SeamapPlayerShip boat)
         {
             SoundEngine.PlaySound(SoundID.Item37);
 

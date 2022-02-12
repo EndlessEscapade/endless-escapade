@@ -66,8 +66,8 @@ namespace EEMod.Tiles.Furniture.Shipyard
 
             int type = 0;
 
-            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().cannonType == ModContent.ItemType<Cannon>()) type = 0;
-            if (Main.LocalPlayer.GetModPlayer<SeamapPlayer>().cannonType == ModContent.ItemType<LythenCannon>()) type = 1;
+            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType == ModContent.ItemType<Cannon>()) type = 0;
+            if (Main.LocalPlayer.GetModPlayer<ShipyardPlayer>().cannonType == ModContent.ItemType<LythenCannon>()) type = 1;
 
             Rectangle rect = new Rectangle(Framing.GetTileSafely(i, j).TileFrameX, Framing.GetTileSafely(i, j).TileFrameY + (type * 36), 16, 16);
 

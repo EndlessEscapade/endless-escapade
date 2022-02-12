@@ -5,7 +5,7 @@ using EEMod.Extensions;
 using Terraria.ModLoader;
 using System.Diagnostics;
 using ReLogic.Content;
-using EEMod.Seamap.Core.Components;
+using EEMod.Seamap.Core;
 
 namespace EEMod.Seamap.Core
 {

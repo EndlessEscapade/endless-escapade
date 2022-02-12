@@ -20,14 +20,14 @@ namespace EEMod.Seamap.Core
     {
         public static SeamapObject[] SeamapEntities = new SeamapObject[2000];
 
-        public static EEPlayerShip localship;
+        public static SeamapPlayerShip localship;
 
         public static ActiveEntitiesEnumerator ActiveEntities => new ActiveEntitiesEnumerator(SeamapEntities);
 
         public static void InitObjects(Vector2 shipPos)
         {
             SeamapEntities = new SeamapObject[2000];
-            localship = new EEPlayerShip(shipPos, Vector2.Zero, Main.LocalPlayer);
+            localship = new SeamapPlayerShip(shipPos, Vector2.Zero, Main.LocalPlayer);
 
             NewSeamapObject(localship);
         }

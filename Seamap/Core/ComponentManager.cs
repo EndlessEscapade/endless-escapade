@@ -115,7 +115,3 @@ namespace EEMod.Seamap.Core
 //    success = true;
 //    return ref ((Ref<T>)obj).Value;
 //}
-
-=======
-}
->>>>>>> bfef0ed627d4cbea204b3684d880d08f3a36b5d7:Seamap/ComponentManager.cs

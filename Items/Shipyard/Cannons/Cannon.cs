@@ -31,7 +31,7 @@ namespace EEMod.Items.Shipyard.Cannons
 
     public class SteelCannonInfo : ShipyardInfo
     {
-        public override void LeftClickAbility(EEPlayerShip boat, SeamapObject cannonball)
+        public override void LeftClickAbility(SeamapPlayerShip boat, SeamapObject cannonball)
         {
             boat.velocity -= Vector2.Normalize(Main.MouseWorld - boat.Center) * 0.5f;
 
