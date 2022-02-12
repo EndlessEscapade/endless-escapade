@@ -31,7 +31,7 @@ namespace EEMod.Items.Placeables.Furniture
             Item.height = 12;
             Item.rare = ItemRarityID.White;
 
-            Item.createTile = ModContent.TileType<GlowHangCoral1>();
+            Item.createTile = ModContent.TileType<ShipbuildersWorkbench>();
         }
     }
 }

@@ -78,11 +78,18 @@ namespace CustomSlot {
             }
         }
 
-        public CustomItemSlot(int context = ItemSlot.Context.InventoryItem, float scale = 1f,
+        public CustomItemSlot(int context = ItemSlot.Context.InventoryItem, float scale = 1f, Texture2D backgroundTexture = null,
             ArmorType defaultArmorIcon = ArmorType.Head) {
             Context = context;
             _scale = scale;
-            _backgroundTexture = GetBackgroundTexture(context);
+            if (backgroundTexture == null)
+            {
+                _backgroundTexture = GetBackgroundTexture(context);
+            }
+            else
+            {
+                _backgroundTexture = new CroppedTexture2D(backgroundTexture, Color.White);
+            }
             EmptyTexture = GetEmptyTexture(context, defaultArmorIcon);
             ItemVisible = true;
             ForceToggleButton = false;

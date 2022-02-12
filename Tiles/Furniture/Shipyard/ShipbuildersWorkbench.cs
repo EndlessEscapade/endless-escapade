@@ -17,6 +17,7 @@ namespace EEMod.Tiles.Furniture.Shipyard
 {
     public class ShipbuildersWorkbench : EETile
     {
+        //TODO: Implement smart cursor interact later
         public override void SetStaticDefaults()
         {
             Main.tileFrameImportant[Type] = true;
@@ -45,6 +46,26 @@ namespace EEMod.Tiles.Furniture.Shipyard
         public override void KillMultiTile(int i, int j, int TileFrameX, int TileFrameY)
         {
             Item.NewItem(i * 16, j * 16, 32, 32, ItemID.DirtBlock);
+		}
+        public override bool RightClick(int i, int j)
+        {
+            //TODO: Add some sweet sound when opening and closing
+            if (EEMod.UI.IsActive("ShipLoadoutInterface"))
+            {
+                EEMod.UI.RemoveState("ShipLoadoutInterface");
+            }
+            else
+            {
+                EEMod.UI.SetState("ShipLoadoutInterface", "ShipLoadoutUI");
+            }
+            return base.RightClick(i, j);
         }
-    }
+        public override void MouseOver(int i, int j)
+		{
+			Player player = Main.LocalPlayer;
+			player.noThrow = 2;
+			player.cursorItemIconEnabled = true;
+			player.cursorItemIconID = ModContent.ItemType<Moyai>();
+		}
+	}
 }

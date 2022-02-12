@@ -18,7 +18,7 @@ namespace EEMod
         public override void SetControls()
         {
             base.SetControls();
-            if (EEMod.UI.HasTile("DialogueInterface") && DialogueUI.CurrentDialogueSystem.LockPlayerMovement)
+            if (EEMod.UI.IsActive("DialogueInterface") && DialogueUI.CurrentDialogueSystem.LockPlayerMovement)
             {
                 Player.controlDown = false;
                 Player.controlHook = false;
@@ -30,13 +30,6 @@ namespace EEMod
                 Player.controlTorch = false;
                 Player.controlSmart = false;
                 Player.controlMount = false;
-
-                if (Player.controlInv)
-                {
-                    DialogueUI.CurrentDialogueSystem.CloseDialogue();
-                    DialogueUI.CurrentDialogueSystem.AssociatedNPC = -1;
-                    DialogueUI.CurrentDialogueSystem = null;
-                }
             }
         }
     }

@@ -7,6 +7,9 @@ using Terraria.ModLoader.IO;
 using System.IO;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using EEMod.Items.Shipyard.Cannonballs;
+using EEMod.Items.Shipyard.Cannons;
+using EEMod.Items.Shipyard.Figureheads;
 
 namespace EEMod.Items
 {
@@ -28,6 +31,22 @@ namespace EEMod.Items
         public List<int> smallSizeFish = new() { ItemID.FrostMinnow, ItemID.GoldenCarp, ItemID.Hemopiranha, ItemID.NeonTetra, ItemID.PrincessFish, ItemID.RedSnapper, /*ItemID.RockLobster, */ ItemID.Salmon, ItemID.Trout };
         public List<int> bigSizeFish = new() { ItemID.ChaosFish, ItemID.Damselfish, ItemID.DoubleCod, ItemID.FlarefinKoi, /*ItemID.Flouder, */ ItemID.Prismite, ItemID.VariegatedLardfish };
 
+        public int Tag;
+        public override void SetDefaults(Item item)
+        {
+            if (item.type == ModContent.ItemType<IronCannonball>() || item.type == ModContent.ItemType<LeadCannonball>())
+            {
+                Tag = (int)ItemTags.Cannonball;
+            }
+            if (item.type == ModContent.ItemType<Cannon>() || item.type == ModContent.ItemType<LythenCannon>())
+            {
+                Tag = (int)ItemTags.Cannon;
+            }
+            if (item.type == ModContent.ItemType<TreasureFigurehead>() || item.type == ModContent.ItemType<WoodenFigurehead>())
+            {
+                Tag = (int)ItemTags.Figurehead;
+            }
+        }
         public override void ModifyManaCost(Item item, Player player, ref float reduce, ref float mult)
         {
             /*var eeplayer = player.GetModPlayer<EEPlayer>();
@@ -139,5 +158,11 @@ namespace EEMod.Items
         {
             caught = reader.ReadBoolean();
         }
+    }
+    public enum ItemTags
+    {
+        Cannonball = 1,
+        Cannon = 2,
+        Figurehead = 3
     }
 }

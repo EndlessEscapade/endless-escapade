@@ -27,7 +27,7 @@ namespace EEMod.Items
         }
         public override bool? UseItem(Player player)
         {
-            if (EEMod.UI.HasTile("EEInterfacee"))
+            if (EEMod.UI.IsActive("EEInterfacee"))
             {
                 //SoundEngine.PlaySound(Mod.GetLegacySoundSlot(Terraria.Audio.SoundType.Music, "Sounds/Sounds/FishermansLogClose"));
                 (EEMod.UI.GetState("EEInterfacee") as FishermansLogUI).ClosingUI = true;

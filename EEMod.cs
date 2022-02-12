@@ -60,6 +60,7 @@ namespace EEMod
         public KelpArmorAmmoUI KelpArmorAmmoUI;
         public IndicatorsUI IndicatorsUI;
         public DialogueUI DialogueUI;
+        public ShipLoadoutUI ShipLoadoutUI;
         public ComponentManager<TileObjVisual> TVH;
 
         public override void Load()
@@ -94,6 +95,11 @@ namespace EEMod
                 DialogueUI.Activate();
                 UI.AddInterface("DialogueInterface");
                 UI.AddUIState("DialogueUI", DialogueUI);
+
+                ShipLoadoutUI = new ShipLoadoutUI();
+                ShipLoadoutUI.Activate();
+                UI.AddInterface("ShipLoadoutInterface");
+                UI.AddUIState("ShipLoadoutUI", ShipLoadoutUI);
 
                 PrimitiveSystem.primitives = new PrimTrailManager();
             }

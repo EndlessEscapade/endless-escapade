@@ -79,7 +79,7 @@ namespace EEMod.Seamap.SeamapContent
 
                 if (myPlayer.controlUseItem && cannonDelay <= 0 && myPlayer == Main.LocalPlayer)
                 {
-                    LeftClickAbility();
+                    //LeftClickAbility();
 
                     ShenCannonball cannonball = new ShenCannonball(Center, velocity + Vector2.Normalize(Main.MouseWorld - Center) * 6, Color.Lerp(Color.OrangeRed, Color.Goldenrod, (float)Math.Sin(Main.GameUpdateCount / 180f).PositiveSin()));
 
