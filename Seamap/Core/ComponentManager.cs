@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EEMod.Seamap.Core;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -90,7 +91,6 @@ namespace EEMod.Seamap.Core
         public IEnumerable<T> ComponentsOfType<T>() where T : Component
             => Components.Values.OfType<T>();
     }
-<<<<<<< HEAD:Seamap/Core/ComponentManager.cs
 
     static class RefNull<T>
     {
