@@ -13,7 +13,7 @@ namespace EEMod.Seamap.Content.Islands
         public override int framespid => 10;
         public override bool cancollide => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/TropicalIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/TropicalIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public TropicalIsland1(Vector2 pos): base(pos)
         {
@@ -28,7 +28,7 @@ namespace EEMod.Seamap.Content.Islands
         public override int framespid => 10;
         public override bool cancollide => true;
         
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/TropicalIsland").Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/TropicalIsland").Value;
 
         public TropicalIsland2(Vector2 pos) : base(pos)
         {

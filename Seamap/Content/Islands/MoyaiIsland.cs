@@ -13,7 +13,7 @@ namespace EEMod.Seamap.Content.Islands
         public override int framespid => 10;
         public override bool cancollide => true;
 
-        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/MoyaiIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
+        public override Texture2D islandTex => ModContent.Request<Texture2D>("EEMod/Seamap/Content/Islands/MoyaiIsland", ReLogic.Content.AssetRequestMode.ImmediateLoad).Value;
 
         public MoyaiIsland(Vector2 pos): base(pos)
         {

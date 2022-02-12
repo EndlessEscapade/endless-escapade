@@ -29,7 +29,7 @@ namespace EEMod.Seamap.Content.Cannonballs
             width = 12;
             height = 12;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/EnemyCannonball", AssetRequestMode.ImmediateLoad).Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/Cannonballs/EnemyCannonball", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override bool collides => true;
@@ -76,8 +76,8 @@ namespace EEMod.Seamap.Content.Cannonballs
             {
                 velocity = Vector2.Zero;
 
-                Texture2D explodeSheet = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplode").Value;
-                Texture2D explodeSheetGlow = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/CannonballExplodeGlow").Value;
+                Texture2D explodeSheet = ModContent.Request<Texture2D>("EEMod/Seamap/Content/CannonballExplode").Value;
+                Texture2D explodeSheetGlow = ModContent.Request<Texture2D>("EEMod/Seamap/Content/CannonballExplodeGlow").Value;
 
                 Main.spriteBatch.Draw(explodeSheet, Center.ForDraw() + new Vector2(-32, -36), new Rectangle(0, explodeFrame * 60, 60, 60), Color.White.LightSeamap(), 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 

@@ -31,7 +31,7 @@ namespace EEMod.Seamap.Content
             width = 24;
             height = 22;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/Seagull", AssetRequestMode.ImmediateLoad).Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/Seagull", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public override void Update()

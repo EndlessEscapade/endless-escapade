@@ -18,11 +18,11 @@ using ReLogic.Content;
 using EEMod.Seamap.Core;
 using EEMod.Seamap.Content.Cannonballs;
 
-namespace EEMod.Seamap.Content
+namespace EEMod.Seamap.Content.Enemies
 {
-    public class RedDutchman : SeamapObject
+    public class PirateShip : SeamapObject
     {
-        public RedDutchman(Vector2 pos, Vector2 vel) : base(pos, vel)
+        public PirateShip(Vector2 pos, Vector2 vel) : base(pos, vel)
         {
             position = pos;
             velocity = vel;
@@ -32,29 +32,37 @@ namespace EEMod.Seamap.Content
 
             alpha = 1f;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/RedDutchman", AssetRequestMode.ImmediateLoad).Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/Enemies/PirateShip", AssetRequestMode.ImmediateLoad).Value;
         }
+
+        public override bool collides => true;
 
         public int ticker;
         public override void Update()
         {
             ticker++;
 
-            velocity = Vector2.Normalize(SeamapObjects.localship.Center - Center) * 1.5f;
+            position += velocity - (Seamap.Core.Seamap.windVector * 0.2f);
+            velocity += (Vector2.Normalize(SeamapObjects.localship.Center - Center) * 0.1f);
+
+            if (velocity.LengthSquared() >= 3f * 3f) velocity = Vector2.Normalize(velocity) * 3f;
 
             if (ticker % 120 == 0)
             {
                 SeamapObjects.NewSeamapObject(new EnemyCannonball(Center, Vector2.Normalize(SeamapObjects.localship.Center - Center) * 2.5f));
             }
 
-            base.Update();
+            //base.Update();
+
+            oldPosition = position;
+            oldVelocity = velocity;
         }
 
         public override bool PreDraw(SpriteBatch spriteBatch)
         {
             EEPlayer eePlayer = Main.LocalPlayer.GetModPlayer<EEPlayer>();
 
-            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/RedDutchman", AssetRequestMode.ImmediateLoad).Value;
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/PirateShip", AssetRequestMode.ImmediateLoad).Value;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 null, Color.White * (1 - (eePlayer.cutSceneTriggerTimer / 180f)),

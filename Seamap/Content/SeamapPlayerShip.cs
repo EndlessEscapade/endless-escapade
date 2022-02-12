@@ -45,7 +45,7 @@ namespace EEMod.Seamap.Content
             width = 44;
             height = 48;
 
-            texture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
+            texture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShip", AssetRequestMode.ImmediateLoad).Value;
         }
 
         public float boatSpeed = 0.3f;
@@ -136,7 +136,7 @@ namespace EEMod.Seamap.Content
             EEPlayer eePlayer = myPlayer.GetModPlayer<EEPlayer>();
 
 
-            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/SeamapAssets/SeamapPlayerShipAlt").Value;
+            Texture2D playerShipTexture = ModContent.Request<Texture2D>("EEMod/Seamap/Content/SeamapPlayerShipAlt").Value;
 
             spriteBatch.Draw(playerShipTexture, Center - Main.screenPosition,
                 new Rectangle(0, 0, 90, 90),
