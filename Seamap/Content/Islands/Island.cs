@@ -9,7 +9,7 @@ using EEMod.Systems.Subworlds.EESubworlds;
 using ReLogic.Content;
 using EEMod.Seamap.Core;
 
-namespace EEMod.Seamap.Content
+namespace EEMod.Seamap.Content.Islands
 {
     public class Island : SeamapObject
     {

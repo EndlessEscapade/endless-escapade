@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 using EEMod.Systems.Noise;
+using EEMod.Seamap.Content.Islands;
 
 namespace EEMod.Seamap.Core
 {

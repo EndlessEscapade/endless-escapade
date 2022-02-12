@@ -4,7 +4,7 @@ using EEMod.Seamap.Core;
 using EEMod.ID;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace EEMod.Seamap.Content
+namespace EEMod.Seamap.Content.Islands
 {
     public class CoralReefsIsland : Island
     {

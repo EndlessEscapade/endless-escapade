@@ -17,7 +17,7 @@ using EEMod.Extensions;
 using ReLogic.Content;
 using EEMod.Seamap.Core;
 
-namespace EEMod.Seamap.Content
+namespace EEMod.Seamap.Content.Cannonballs
 {
     public class EnemyCannonball : SeamapObject
     {

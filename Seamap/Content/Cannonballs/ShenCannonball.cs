@@ -18,7 +18,7 @@ using ReLogic.Content;
 using EEMod.Prim;
 using EEMod.Seamap.Core;
 
-namespace EEMod.Seamap.Content
+namespace EEMod.Seamap.Content.Cannonballs
 {
     public class ShenCannonball : SeamapObject
     {

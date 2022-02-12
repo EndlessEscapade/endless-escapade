@@ -17,6 +17,7 @@ using ReLogic.Content;
 using EEMod.Prim;
 using EEMod.Extensions;
 using EEMod.Seamap.Core;
+using EEMod.Seamap.Content.Cannonballs;
 
 namespace EEMod.Seamap.Content
 {

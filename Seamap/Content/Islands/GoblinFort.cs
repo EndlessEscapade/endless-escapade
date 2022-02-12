@@ -7,7 +7,7 @@ using Terraria;
 using EEMod.Systems;
 using EEMod.Systems.Subworlds.EESubworlds;
 
-namespace EEMod.Seamap.Content
+namespace EEMod.Seamap.Content.Islands
 {
     public class GoblinFort : Island
     {

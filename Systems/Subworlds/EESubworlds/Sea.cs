@@ -24,6 +24,7 @@ using Terraria.Graphics.Effects;
 using System.Diagnostics;
 using Terraria.Audio;
 using EEMod.Seamap.Content;
+using EEMod.Seamap.Content.Islands;
 using EEMod.Seamap;
 using EEMod;
 

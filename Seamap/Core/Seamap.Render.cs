@@ -15,6 +15,7 @@ using System.Linq;
 using ReLogic.Content;
 using EEMod.Prim;
 using EEMod.ID;
+using EEMod.Seamap.Content.Islands;
 
 namespace EEMod.Seamap.Core
 {
